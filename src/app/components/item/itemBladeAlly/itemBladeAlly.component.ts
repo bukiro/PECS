@@ -88,11 +88,11 @@ export class ItemBladeAllyComponent implements OnInit {
         //Add all runes either from the item store or from the inventories.
         if (this.get_Character().alignment.includes('Good')) {
             this.get_CleanItems().weaponrunes.filter(rune => ['Disrupting', 'Ghost Touch', 'Returning', 'Shifting'].includes(rune.name)).forEach(rune => {
-                allRunes.push({ rune: rune });
+                allRunes.push({ rune });
             });
         } else if (this.get_Character().alignment.includes('Evil')) {
             this.get_CleanItems().weaponrunes.filter(rune => ['Fearsome', 'Returning', 'Shifting'].includes(rune.name)).forEach(rune => {
-                allRunes.push({ rune: rune });
+                allRunes.push({ rune });
             });
         }
         //Set all runes to disabled that have the same name as any that is already equipped.

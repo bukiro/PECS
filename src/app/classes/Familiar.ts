@@ -68,9 +68,9 @@ export class Familiar extends Creature {
             .forEach(ability => {
                 feats.push(ability);
                 ability.hints?.forEach(hint => {
-                    hintSets.push({ hint: hint, objectName: ability.name });
+                    hintSets.push({ hint, objectName: ability.name });
                 });
             });
-        return { feats: feats, hintSets: hintSets };
+        return { feats, hintSets };
     }
 }

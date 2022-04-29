@@ -542,7 +542,7 @@ export class ItemsService {
             });
         }
 
-        return { items: items, inventories: inventories };
+        return { items, inventories };
     }
 
     get_CannotMove(creature: Creature, item: Item, target: ItemCollection) {
@@ -668,7 +668,7 @@ export class ItemsService {
                 if (including) {
                     this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
                 }
-                this.refreshService.set_ItemViewChanges(creature, movedItem, { characterService: characterService, activitiesService: this.activitiesService });
+                this.refreshService.set_ItemViewChanges(creature, movedItem, { characterService, activitiesService: this.activitiesService });
             }
         }
     }
@@ -750,8 +750,8 @@ export class ItemsService {
                     const librarySpell = spellsService.get_Spells(cast.name)[0];
                     if (librarySpell) {
                         characterService.spellsService.process_Spell(librarySpell, true,
-                            { characterService: characterService, itemsService: this, conditionsService: conditionsService },
-                            { creature: creature, target: creature.type, gain: cast.spellGain, level: cast.level },
+                            { characterService, itemsService: this, conditionsService },
+                            { creature, target: creature.type, gain: cast.spellGain, level: cast.level },
                             { manual: true }
                         );
                     }
@@ -761,7 +761,7 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length) {
                 item.gainItems.forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService: characterService, itemsService: this });
+                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService, itemsService: this });
                 });
             }
 
@@ -784,7 +784,7 @@ export class ItemsService {
             //Grant items that are granted by other items on rest.
             inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped()).forEach(item => {
                 item.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService: characterService, itemsService: this });
+                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService, itemsService: this });
                 });
             });
         });
@@ -835,7 +835,7 @@ export class ItemsService {
                 .filter(feat => feat.gainItems.some(gain => gain.on == 'rest') && feat.have(creature, characterService, creature.level))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
-                        gainItem.grant_GrantedItem(creature, { sourceName: feat.name }, { characterService: characterService, itemsService: this });
+                        gainItem.grant_GrantedItem(creature, { sourceName: feat.name }, { characterService, itemsService: this });
                     });
                 });
         }

@@ -179,8 +179,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
                 return null;
             }
             return {
-                casting: casting,
-                equipmentSpells: equipmentSpells,
+                casting,
+                equipmentSpells,
                 needSpellBook: this.get_NeedSpellbook(casting),
                 maxSpellLevel: this.get_MaxSpellLevel(casting, equipmentSpells),
             };
@@ -195,9 +195,9 @@ export class SpellsComponent implements OnInit, OnDestroy {
                 return null;
             }
             return {
-                level: level,
-                availableSpellChoices: availableSpellChoices,
-                fixedSpellSets: fixedSpellSets
+                level,
+                availableSpellChoices,
+                fixedSpellSets
             };
         }).filter(spellCastingLevelParameters => spellCastingLevelParameters);
     }
@@ -242,7 +242,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
                 return null;
             }
             return {
-                spell: spell,
+                spell,
                 choice: spellSet.choice,
                 gain: spellSet.gain
             };

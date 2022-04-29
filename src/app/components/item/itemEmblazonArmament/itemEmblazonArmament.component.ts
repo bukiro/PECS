@@ -123,7 +123,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 if (this.emblazonArmamentActivated) {
                     const character = this.get_Character();
                     const deity = this.characterService.get_CharacterDeities(character)[0];
-                    this.item.emblazonArmament = [{ type: type, choice: '', deity: deity.name, alignment: deity.alignment, emblazonDivinity: emblazonDivinity, source: this.get_Character().id }];
+                    this.item.emblazonArmament = [{ type, choice: '', deity: deity.name, alignment: deity.alignment, emblazonDivinity, source: this.get_Character().id }];
                     if (this.item instanceof Shield) {
                         coreHint.desc = 'The shield is a religious symbol of the deity whose symbol it bears and can be used as a divine focus while emblazoned.';
                         coreHint.showon = 'Emblazon Armament Shield';
@@ -142,7 +142,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 if (this.emblazonEnergyActivated) {
                     const character = this.get_Character();
                     const deity = this.characterService.get_CharacterDeities(character)[0];
-                    this.item.emblazonArmament = [{ type: type, choice: this.emblazonEnergyChoice, deity: deity.name, alignment: deity.alignment, emblazonDivinity: emblazonDivinity, source: this.get_Character().id }];
+                    this.item.emblazonArmament = [{ type, choice: this.emblazonEnergyChoice, deity: deity.name, alignment: deity.alignment, emblazonDivinity, source: this.get_Character().id }];
                     if (this.item instanceof Shield) {
                         const newActivityGain: ActivityGain = new ActivityGain();
                         newActivityGain.name = 'Shield Block';
@@ -192,7 +192,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 if (this.emblazonAntimagicActivated) {
                     const character = this.get_Character();
                     const deity = this.characterService.get_CharacterDeities(character)[0];
-                    this.item.emblazonArmament = [{ type: type, choice: this.emblazonEnergyChoice, deity: deity.name, alignment: deity.alignment, emblazonDivinity: emblazonDivinity, source: this.get_Character().id }];
+                    this.item.emblazonArmament = [{ type, choice: this.emblazonEnergyChoice, deity: deity.name, alignment: deity.alignment, emblazonDivinity, source: this.get_Character().id }];
                     if (this.item instanceof Shield) {
                         const newActivityGain: ActivityGain = new ActivityGain();
                         newActivityGain.name = 'Shield Block';

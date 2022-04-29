@@ -74,7 +74,7 @@ export class ObjectEffectsComponent {
         //Send the effect's setValue or value to the EvaluationService to get its result.
         const value = effect.setValue || effect.value || null;
         if (value) {
-            const result = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Creature(), effect: effect });
+            const result = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Creature(), effect });
             if (result) {
                 return `= ${ result }`;
             }

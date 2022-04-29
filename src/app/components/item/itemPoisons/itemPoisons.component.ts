@@ -53,10 +53,10 @@ export class ItemPoisonsComponent {
         const allPoisons: { poison: AlchemicalPoison, inv: ItemCollection }[] = [{ poison: new AlchemicalPoison(), inv: null }];
         allPoisons[0].poison.name = '';
         if (this.itemStore) {
-            allPoisons.push(...this.get_CleanItems().alchemicalpoisons.filter(poison => poison.traits.includes('Injury')).map(poison => ({ poison: poison, inv: null })));
+            allPoisons.push(...this.get_CleanItems().alchemicalpoisons.filter(poison => poison.traits.includes('Injury')).map(poison => ({ poison, inv: null })));
         } else {
             this.get_Character().inventories.forEach(inv => {
-                allPoisons.push(...inv.alchemicalpoisons.filter(poison => poison.traits.includes('Injury')).map(poison => ({ poison: poison, inv: inv })));
+                allPoisons.push(...inv.alchemicalpoisons.filter(poison => poison.traits.includes('Injury')).map(poison => ({ poison, inv })));
             });
         }
         return allPoisons;

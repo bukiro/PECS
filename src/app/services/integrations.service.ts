@@ -58,7 +58,7 @@ export class IntegrationsService {
                         }
                         const bonus = Math.abs(result.bonus);
                         if ((result.diceNum && result.diceSize) || index > 0) {
-                            rollObject.terms.push({ operator: operator });
+                            rollObject.terms.push({ operator });
                             rollObject.results.push(operator);
                         }
                         rollObject.terms.push({ number: bonus, options: { flavor: result.type.trim() } });

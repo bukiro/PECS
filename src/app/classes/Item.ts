@@ -128,7 +128,7 @@ export class Item {
     cleanup_TraitActivations() {
         this.traitActivations = this.traitActivations.filter(activation => this._traits.includes(activation.trait));
         this._traits.filter(trait => !this.traitActivations.some(activation => activation.trait == trait)).forEach(trait => {
-            this.traitActivations.push({ trait: trait, active: false, active2: false, active3: false });
+            this.traitActivations.push({ trait, active: false, active2: false, active3: false });
         });
     }
     get_ActivatedTraits() {

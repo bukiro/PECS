@@ -101,7 +101,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     on_Cast(target: string, activated: boolean, options: { expend?: boolean } = {}) {
-        this.castMessage.emit({ target: target, activated: activated, options });
+        this.castMessage.emit({ target, activated, options });
     }
 
     public get_Character(): Character {
@@ -134,7 +134,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         const canActivateWithoutTarget = this.can_Activate(true);
         const targetNumber = this.action.get_TargetNumber(this.effectiveSpellLevel, this.characterService);
         const target = this.target;
-        return { bloodMagicTrigger: bloodMagicTrigger, canActivate: canActivate, canActivateWithoutTarget: canActivateWithoutTarget, targetNumber: targetNumber, target: target };
+        return { bloodMagicTrigger, canActivate, canActivateWithoutTarget, targetNumber, target };
     }
 
     private get_BloodMagicTrigger(): string {

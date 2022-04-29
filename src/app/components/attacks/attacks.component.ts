@@ -191,7 +191,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1))
             .sort((a, b) => (a.type == b.type) ? 0 : ((a.type < b.type) ? 1 : -1))
             .map(weapon => ({
-                weapon: weapon,
+                weapon,
                 asBomb: this.weaponAsBomb(weapon),
             }));
     }
@@ -280,7 +280,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     }
                     this.characterService.spellsService.process_Spell(spell, true,
                         { characterService: this.characterService, itemsService: this.characterService.itemsService, conditionsService: this.characterService.conditionsService },
-                        { creature: this.get_Character(), target: target, gain: tempGain, level: spellChoice.level },
+                        { creature: this.get_Character(), target, gain: tempGain, level: spellChoice.level },
                         { manual: true }
                     );
                 }
@@ -301,7 +301,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_Skills(name = '', type = '') {
-        return this.characterService.get_Skills(this.get_Creature(), name, { type: type });
+        return this.characterService.get_Skills(this.get_Creature(), name, { type });
     }
 
     get_Traits(traitName = '') {

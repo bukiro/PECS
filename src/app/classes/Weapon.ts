@@ -317,7 +317,7 @@ export class Weapon extends Equipment {
             this._traits = traits;
             changed.forEach(trait => {
                 characterService.traitsService.get_Traits(trait).forEach(trait => {
-                    characterService.refreshService.set_HintsToChange(creature, trait.hints, { characterService: characterService });
+                    characterService.refreshService.set_HintsToChange(creature, trait.hints, { characterService });
                 });
             });
             characterService.refreshService.process_ToChange();
@@ -572,7 +572,7 @@ export class Weapon extends Equipment {
             if (runeSource.reason) {
                 source = `Potency (${ runeSource.reason.get_Name() })`;
             }
-            calculatedEffects.push(Object.assign(new Effect(potencyRune.toString()), { creature: creature.type, type: 'item', target: this.name, source: source, apply: true, show: false }));
+            calculatedEffects.push(Object.assign(new Effect(potencyRune.toString()), { creature: creature.type, type: 'item', target: this.name, source, apply: true, show: false }));
         }
         if (runeSource.fundamentalRunes.battleforged) {
             let source = 'Battleforged';
@@ -580,7 +580,7 @@ export class Weapon extends Equipment {
             if (runeSource.reason) {
                 source = `Battleforged (${ runeSource.reason.get_Name() })`;
             }
-            calculatedEffects.push(Object.assign(new Effect('+1'), { creature: creature.type, type: 'item', target: this.name, source: source, apply: true, show: false }));
+            calculatedEffects.push(Object.assign(new Effect('+1'), { creature: creature.type, type: 'item', target: this.name, source, apply: true, show: false }));
         }
         //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
         let hasPowerfulFist = false;
@@ -621,7 +621,7 @@ export class Weapon extends Equipment {
         //Add up all modifiers and return the attack bonus for this attack
         attackResult += effectsSum;
         explain = explain.trim();
-        return { range: range, attackResult: attackResult, explain: explain, effects: penalties.concat(bonuses).concat(absolutes), penalties: penalties, bonuses: bonuses, absolutes: absolutes };
+        return { range, attackResult, explain, effects: penalties.concat(bonuses).concat(absolutes), penalties, bonuses, absolutes };
     }
     get_ExtraDamage(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string, prof: string, traits: string[]) {
         let extraDamage = '';
@@ -770,7 +770,7 @@ export class Weapon extends Equipment {
                 if (runeSource.reason) {
                     source += ` (${ runeSource.reason.get_Name() })`;
                 }
-                calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Number`, setValue: (1 + runeSource.fundamentalRunes.get_StrikingRune()).toString(), source: source, apply: true, show: false }));
+                calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Number`, setValue: (1 + runeSource.fundamentalRunes.get_StrikingRune()).toString(), source, apply: true, show: false }));
             }
             //For any activated traits of this weapon, check if any effects on Dice Number apply. These need to be calculated in the effects service.
             const traitEffects = [];
@@ -1098,7 +1098,7 @@ export class Weapon extends Equipment {
         }
         dmgResult += ` ${ this.get_ExtraDamage(creature, characterService, effectsService, range, prof, traits) }`;
         const explain = (`${ diceExplain.trim() }\n${ bonusExplain.trim() }`).trim();
-        return { damageResult: dmgResult, explain: explain, penalties: penalties, bonuses: bonuses, absolutes: absolutes };
+        return { damageResult: dmgResult, explain, penalties, bonuses, absolutes };
     }
     get_CritSpecialization(creature: Creature, characterService: CharacterService, range: string): Specialization[] {
         const SpecializationGains: SpecializationGain[] = [];

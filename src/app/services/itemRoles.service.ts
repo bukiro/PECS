@@ -26,14 +26,14 @@ export class ItemRolesService {
         const asArmor = this.itemAsArmor(item);
         const asWeapon = this.itemAsWeapon(item);
         return {
-            item: item,
+            item,
             asConsumable: this.itemAsConsumable(item),
             asGenericConsumable: this.itemAsGenericConsumable(item),
             asDrinkableConsumable: this.itemAsDrinkableConsumable(item),
             asImmediateStoredSpellItem: this.itemAsImmediateStoredSpellItem(item),
             asEquipment: this.itemAsEquipment(item),
-            asArmor: asArmor,
-            asWeapon: asWeapon,
+            asArmor,
+            asWeapon,
             asWand: this.itemAsWand(item),
             asWornItem: this.itemAsWornItem(item),
             asShield: this.itemAsShield(item),

@@ -94,16 +94,16 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public get_ActivityParameters(): ActivityParameters {
         const creature = this.get_Creature();
-        const maxCharges = this.activity.maxCharges({ creature: creature }, { effectsService: this.effectsService });
+        const maxCharges = this.activity.maxCharges({ creature }, { effectsService: this.effectsService });
         const tooManySlottedAeonStones = (this.item instanceof WornItem && this.item.isSlottedAeonStone && this.itemsService.get_TooManySlottedAeonStones(this.get_Creature()));
         const resonantAllowed = (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !tooManySlottedAeonStones);
         return {
-            maxCharges: maxCharges,
-            cooldown: this.activity.get_Cooldown({ creature: creature }, { characterService: this.characterService, effectsService: this.effectsService }),
-            disabled: this.gain?.disabled({ creature: creature, maxCharges: maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }) || '',
+            maxCharges,
+            cooldown: this.activity.get_Cooldown({ creature }, { characterService: this.characterService, effectsService: this.effectsService }),
+            disabled: this.gain?.disabled({ creature, maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }) || '',
             activitySpell: this.get_ActivitySpell(),
-            tooManySlottedAeonStones: tooManySlottedAeonStones,
-            resonantAllowed: resonantAllowed
+            tooManySlottedAeonStones,
+            resonantAllowed
         };
     }
 
@@ -115,7 +115,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         if (this.activity.castSpells.length) {
             const spell = this.get_Spells(this.activity.castSpells[0].name)[0];
             if (spell) {
-                return { spell: spell, gain: this.activity.castSpells[0].spellGain, cast: this.activity.castSpells[0] };
+                return { spell, gain: this.activity.castSpells[0].spellGain, cast: this.activity.castSpells[0] };
             } else {
                 return null;
             }
@@ -178,7 +178,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     public get_ActivitiesShowingOn(objectName: string): { gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity }[] {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-                .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
+                .map(gain => { return { gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
                 .filter(set =>
                     set.activity?.hints
                         .some(hint =>
@@ -199,7 +199,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         if (featData) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
                 .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
-                .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) }; });
+                .map(gain => { return { gain, activity: gain.get_OriginalActivity(this.activitiesService) }; });
         }
         else {
             return [];

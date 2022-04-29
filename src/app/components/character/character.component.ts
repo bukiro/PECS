@@ -938,7 +938,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 return []
                     .concat(deity.domains.map((domain, index) => { return { title: index ? '' : 'Deity\'s Domains', type: 1, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() }; }))
                     .concat(deity.alternateDomains.map((domain, index) => { return { title: index ? '' : 'Deity\'s Alternate Domains', type: 2, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() }; }))
-                    .concat(this.deitiesService.get_Domains().filter(domain => !deity.domains.includes(domain.name) && !deity.alternateDomains.includes(domain.name)).map((domain, index) => { return { title: index ? '' : 'Other Domains', type: 3, domain: domain }; })) as
+                    .concat(this.deitiesService.get_Domains().filter(domain => !deity.domains.includes(domain.name) && !deity.alternateDomains.includes(domain.name)).map((domain, index) => { return { title: index ? '' : 'Other Domains', type: 3, domain }; })) as
                     { title: string, type: number, domain: Domain }[];
             }
         }
@@ -1084,10 +1084,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     const restricted = activity.gainConditions.some(gain => restrictedConditions.includes(gain.name));
                     if (restricted && anyRestrictedStances && !featStances.includes(activity.name)) {
                         unique.push(activity.name);
-                        availableStances.push({ activity: activity, restricted: restricted, reason: 'Incompatible restrictions.' });
+                        availableStances.push({ activity, restricted, reason: 'Incompatible restrictions.' });
                     } else {
                         unique.push(activity.name);
-                        availableStances.push({ activity: activity, restricted: restricted, reason: '' });
+                        availableStances.push({ activity, restricted, reason: '' });
                     }
                 }
             });
@@ -1479,7 +1479,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             const classboosts = this.get_Companion().class.levels[1].abilityChoices[0].boosts.filter(boost => boost.name == ability.name);
             const ancestryboosts = type.abilityChoices[0].boosts.filter(boost => boost.name == ability.name);
             modifier = ancestryboosts.concat(classboosts).filter(boost => boost.type == 'Boost').length - ancestryboosts.concat(classboosts).filter(boost => boost.type == 'Flaw').length;
-            abilities.push({ name: name, modifier: (modifier > 0 ? '+' : '') + modifier.toString() });
+            abilities.push({ name, modifier: (modifier > 0 ? '+' : '') + modifier.toString() });
         });
         abilities.shift();
         return abilities;

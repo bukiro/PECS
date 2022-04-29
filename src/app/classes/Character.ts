@@ -118,7 +118,7 @@ export class Character extends Creature {
     boost_Ability(characterService: CharacterService, abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
         const type: string = choice.infoOnly ? 'Info' : choice.type;
         if (boost) {
-            choice.boosts.push({ 'name': abilityName, 'type': type, 'source': choice.source, 'locked': locked, 'sourceId': choice.id });
+            choice.boosts.push({ 'name': abilityName, type, 'source': choice.source, locked, 'sourceId': choice.id });
         } else {
             const oldBoost = choice.boosts.filter(boost =>
                 boost.name == abilityName &&
@@ -324,7 +324,7 @@ export class Character extends Creature {
     }
     increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean) {
         if (train) {
-            choice.increases.push({ 'name': skillName, 'source': choice.source, 'maxRank': choice.maxRank, 'locked': locked, 'sourceId': choice.id });
+            choice.increases.push({ 'name': skillName, 'source': choice.source, 'maxRank': choice.maxRank, locked, 'sourceId': choice.id });
         } else {
             const oldIncrease = choice.increases.filter(
                 increase => increase.name == skillName &&
@@ -573,7 +573,7 @@ export class Character extends Creature {
         const levelNumber = parseInt(choice.id.split('-')[0]);
         const level: Level = creature instanceof Character ? creature.class.levels[levelNumber] : characterService.get_Level(levelNumber);
         if (taken) {
-            const newLength = choice.feats.push(Object.assign(new FeatTaken(), { name: (feat?.name || featName), source: choice.source, locked: locked, automatic: automatic, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || '') }));
+            const newLength = choice.feats.push(Object.assign(new FeatTaken(), { name: (feat?.name || featName), source: choice.source, locked, automatic, sourceId: choice.id, countAsFeat: (feat?.countAsFeat || feat?.superType || '') }));
             const gain = choice.feats[newLength - 1];
             characterService.process_Feat(creature, feat, gain, choice, level, taken);
         } else {
@@ -629,7 +629,7 @@ export class Character extends Creature {
                         choice.spells.filter(gain =>
                             spellMatches(casting, choice, gain)
                         ).forEach(gain => {
-                            spellsTaken.push({ choice: choice, gain: gain });
+                            spellsTaken.push({ choice, gain });
                         });
                     });
                 });
@@ -641,14 +641,14 @@ export class Character extends Creature {
         this.inventories[0].allEquipment().filter(equipment => equipment.investedOrEquipped()).forEach(equipment => {
             equipment.gainSpells.forEach(choice => {
                 choice.spells.forEach(gain => {
-                    spellsGranted.push({ choice: choice, gain: gain });
+                    spellsGranted.push({ choice, gain });
                 });
             });
             if (equipment instanceof WornItem) {
                 equipment.aeonStones.filter(stone => stone.gainSpells.length).forEach(stone => {
                     stone.gainSpells.forEach(choice => {
                         choice.spells.forEach(gain => {
-                            spellsGranted.push({ choice: choice, gain: gain });
+                            spellsGranted.push({ choice, gain });
                         });
                     });
                 });
@@ -676,10 +676,10 @@ export class Character extends Creature {
                 choice.spells.filter(gain =>
                     spellMatches(gain)
                 ).forEach(gain => {
-                    spellsGranted.push({ choice: choice, gain: gain });
+                    spellsGranted.push({ choice, gain });
                 });
                 if (options.emptyChoiceAllowed && !choice.spells.length) {
-                    spellsGranted.push({ choice: choice, gain: null });
+                    spellsGranted.push({ choice, gain: null });
                 }
             });
             if (!tooManySlottedAeonStones && equipment instanceof WornItem) {
@@ -688,10 +688,10 @@ export class Character extends Creature {
                         choice.spells.filter(gain =>
                             spellMatches(gain)
                         ).forEach(gain => {
-                            spellsGranted.push({ choice: choice, gain: gain });
+                            spellsGranted.push({ choice, gain });
                         });
                         if (options.emptyChoiceAllowed && !choice.spells.length) {
-                            spellsGranted.push({ choice: choice, gain: null });
+                            spellsGranted.push({ choice, gain: null });
                         }
                     });
                 });
@@ -701,7 +701,7 @@ export class Character extends Creature {
     }
     take_Spell(characterService: CharacterService, spellName: string, taken: boolean, choice: SpellChoice, locked: boolean, prepared = false, borrowed = false) {
         if (taken) {
-            choice.spells.push(Object.assign(new SpellGain(), { name: spellName, locked: locked, sourceId: choice.id, source: choice.source, cooldown: choice.cooldown, frequency: choice.frequency, prepared: prepared, borrowed: borrowed }));
+            choice.spells.push(Object.assign(new SpellGain(), { name: spellName, locked, sourceId: choice.id, source: choice.source, cooldown: choice.cooldown, frequency: choice.frequency, prepared, borrowed }));
         } else {
             const oldChoice = choice.spells.find(gain => gain.name == spellName);
             choice.spells.splice(choice.spells.indexOf(oldChoice), 1);
@@ -711,7 +711,7 @@ export class Character extends Creature {
     learn_Spell(spell: Spell, source: string) {
         if (!this.class?.spellBook.find(learned => learned.name == spell.name)) {
             const level: number = spell.traits.includes('Cantrip') ? 0 : spell.levelreq;
-            this.class?.spellBook.push({ name: spell.name, source: source, level: level });
+            this.class?.spellBook.push({ name: spell.name, source, level });
         }
     }
     unlearn_Spell(spell: Spell) {
@@ -725,7 +725,7 @@ export class Character extends Creature {
         );
     }
     add_SpellListSpell(spellName: string, source: string, levelNumber: number) {
-        this.class?.spellList.push({ name: spellName, source: source, level: levelNumber });
+        this.class?.spellList.push({ name: spellName, source, level: levelNumber });
     }
     remove_SpellListSpell(spellName: string, source: string, levelNumber: number) {
         this.class.spellList = this.class.spellList.filter(existingSpell => !(existingSpell.name == spellName && existingSpell.source == source && existingSpell.level == levelNumber));
@@ -739,7 +739,7 @@ export class Character extends Creature {
     }
     learn_Formula(item: Item, source: string) {
         if (!this.class?.formulaBook.find(learned => learned.id == item.id)) {
-            this.class?.formulaBook.push(Object.assign(new FormulaLearned(), { id: item.id, source: source }));
+            this.class?.formulaBook.push(Object.assign(new FormulaLearned(), { id: item.id, source }));
         }
     }
     unlearn_Formula(item: Item) {
@@ -854,10 +854,10 @@ export class Character extends Creature {
             .forEach(feat => {
                 feats.push(feat);
                 feat.hints?.forEach(hint => {
-                    hintSets.push({ hint: hint, objectName: feat.name });
+                    hintSets.push({ hint, objectName: feat.name });
                 });
             });
-        return { feats: feats, hintSets: hintSets };
+        return { feats, hintSets };
     }
     has_Feat(featName: string, services: { readonly characterService: CharacterService }, context: { readonly level?: number } = {}): number {
         context = Object.assign({

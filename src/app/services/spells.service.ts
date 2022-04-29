@@ -421,7 +421,7 @@ export class SpellsService {
                         const spell: Spell = this.get_Spells(taken.gain.name)[0];
                         if (spell) {
                             this.process_Spell(spell, false,
-                                { characterService: characterService, itemsService: itemsService, conditionsService: conditionsService },
+                                { characterService, itemsService, conditionsService },
                                 { creature: character, target: taken.gain.selectedTarget, gain: taken.gain, level: 0 }
                             );
                         }

@@ -87,7 +87,7 @@ export class DiceComponent implements OnInit {
 
     set_TempHP(creature: Creature) {
         const amount = this.get_TotalSum();
-        creature.health.temporaryHP[0] = { amount: amount, source: 'Manual', sourceId: '' };
+        creature.health.temporaryHP[0] = { amount, source: 'Manual', sourceId: '' };
         creature.health.temporaryHP.length = 1;
         this.refreshService.set_ToChange(creature.type, 'health');
         this.refreshService.set_ToChange(creature.type, 'effects');

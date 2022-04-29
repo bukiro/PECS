@@ -55,7 +55,7 @@ export class RefreshService {
     }
 
     set_ToChange(creature = 'Character', target = 'all', subtarget = ''): void {
-        this.toChange.push({ creature: creature, target: target, subtarget: subtarget });
+        this.toChange.push({ creature, target, subtarget });
     }
 
     process_ToChange() {
@@ -63,11 +63,11 @@ export class RefreshService {
             if (this.toChange.some(view => view.creature == creature && view.target == 'all')) {
                 //If "all" is updated for a creature, skip everything else.
                 this.clear_ToChange(creature);
-                this.set_ViewChanged({ creature: creature, target: 'all', subtarget: '' });
+                this.set_ViewChanged({ creature, target: 'all', subtarget: '' });
             } else if (this.toChange.some(view => view.creature == creature && view.target == 'effects')) {
                 //If "effects" is updated for a creature, keep everything else for later, as effects may stack up more of the others and will update again afterwards.
                 this.toChange = this.toChange.filter(view => !(view.creature == creature && view.target == 'effects'));
-                this.set_ViewChanged({ creature: creature, target: 'effects', subtarget: '' });
+                this.set_ViewChanged({ creature, target: 'effects', subtarget: '' });
             } else {
                 //For the rest, copy the toChange list and clear it, so we don't get a loop if set_ViewChanged() causes more calls of process_ToChange().
                 const uniqueOthersStrings = this.toChange.filter(view => view.creature.toLowerCase() == creature.toLowerCase()).map(view => JSON.stringify(view));

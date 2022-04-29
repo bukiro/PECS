@@ -196,7 +196,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     set_TempHP(amount: number) {
-        this.get_Health().temporaryHP[0] = { amount: amount, source: 'Manual', sourceId: '' };
+        this.get_Health().temporaryHP[0] = { amount, source: 'Manual', sourceId: '' };
         this.get_Health().temporaryHP.length = 1;
         this.refreshService.set_ToChange(this.creature, 'health');
         this.refreshService.set_ToChange(this.creature, 'effects');
@@ -228,7 +228,7 @@ export class HealthComponent implements OnInit, OnDestroy {
                 resistance.value += value;
                 resistance.source += `\n${ effect.source }: ${ value }`;
             } else {
-                resistances.push({ target: effect.target, value: value, source: `${ effect.source }: ${ value }` });
+                resistances.push({ target: effect.target, value, source: `${ effect.source }: ${ value }` });
             }
         });
         //Globally apply any effects on "Resistances".

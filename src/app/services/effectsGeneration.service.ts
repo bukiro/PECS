@@ -72,7 +72,7 @@ export class EffectsGenerationService {
     public get_EffectsFromObject(object: FormulaObject, services: { readonly characterService: CharacterService }, context: FormulaContext, options: FormulaOptions = {}): Effect[] {
         context = Object.assign({
             creature: null,
-            object: object,
+            object,
             parentConditionGain: null,
             parentItem: null
         }, context);
@@ -98,7 +98,7 @@ export class EffectsGenerationService {
         //This statement is evaluated by the EvaluationService and then validated here in order to build a working Effect.
         (object.effects as EffectGain[]).filter(effect => effect.resonant ? (object instanceof WornItem && object.isSlottedAeonStone) : true).forEach((effect: EffectGain) => {
             function get_ValueFromFormula(value: string) {
-                return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService: effectsService }, { ...context, effect: effect, effectSourceName: source }, options);
+                return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService }, { ...context, effect, effectSourceName: source }, options);
             }
             let show: boolean = effect.show;
             let type = 'untyped';
@@ -192,7 +192,7 @@ export class EffectsGenerationService {
                 return toggle || setValue || parseInt(value) != 0;
             }
             if (functionalEffect()) {
-                objectEffects.push(Object.assign(new Effect(value), { creature: target, type: type, target: affected, setValue: setValue, toggle: toggle, title: title, source: source, penalty: penalty, show: show, duration: effect.duration, maxDuration: effect.maxDuration, cumulative: effect.cumulative, sourceId: sourceId }));
+                objectEffects.push(Object.assign(new Effect(value), { creature: target, type, target: affected, setValue, toggle, title, source, penalty, show, duration: effect.duration, maxDuration: effect.maxDuration, cumulative: effect.cumulative, sourceId }));
             }
         });
         return objectEffects;
@@ -232,14 +232,14 @@ export class EffectsGenerationService {
             objects = objects.filter(object => !(object instanceof WornItem && object.isSlottedAeonStone));
             hintSets = hintSets.filter(set => !(set.parentItem && set.parentItem instanceof WornItem && set.parentItem.isSlottedAeonStone));
         }
-        return { objects: objects, hintSets: hintSets };
+        return { objects, hintSets };
     }
 
     private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintEffectsObject[] {
         const hintSets: HintEffectsObject[] = [];
         services.characterService.traitsService.get_Traits().filter(trait => trait.hints.length && trait.haveOn(creature).length).forEach(trait => {
             trait.hints.forEach(hint => {
-                hintSets.push({ hint: hint, objectName: trait.name });
+                hintSets.push({ hint, objectName: trait.name });
             });
         });
         return hintSets;
@@ -255,18 +255,18 @@ export class EffectsGenerationService {
                 const conditionEffectsObject: ConditionEffectsObject = Object.assign(new ConditionEffectsObject(originalCondition.effects), gain);
                 conditions.push(conditionEffectsObject);
                 originalCondition?.hints?.filter(hint => (!hint.conditionChoiceFilter.length || hint.conditionChoiceFilter.includes(gain.choice))).forEach(hint => {
-                    hintSets.push({ hint: hint, parentConditionGain: gain, objectName: originalCondition.name });
+                    hintSets.push({ hint, parentConditionGain: gain, objectName: originalCondition.name });
                 });
             }
         });
-        return { conditions: conditions, hintSets: hintSets };
+        return { conditions, hintSets };
     }
 
     private collect_ActivityEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintEffectsObject[] {
         const hintSets: HintEffectsObject[] = [];
         services.characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
             activity.get_OriginalActivity(this.activitiesService)?.hints?.forEach(hint => {
-                hintSets.push({ hint: hint, objectName: activity.name });
+                hintSets.push({ hint, objectName: activity.name });
             });
         });
         return hintSets;
@@ -303,15 +303,15 @@ export class EffectsGenerationService {
         //Create object effects from abilities and items, then add effects from conditions.
         let objectEffects: Effect[] = [];
         objects.filter(object => object.effects.length).forEach(object => {
-            objectEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { creature: creature }));
+            objectEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { creature }));
         });
         conditions.filter(object => object.effects.length).forEach(conditionEffectsObject => {
-            objectEffects = objectEffects.concat(this.get_EffectsFromObject(conditionEffectsObject, services, { creature: creature, parentConditionGain: conditionEffectsObject }));
+            objectEffects = objectEffects.concat(this.get_EffectsFromObject(conditionEffectsObject, services, { creature, parentConditionGain: conditionEffectsObject }));
         });
 
         //Create object effects the creature. All effects from the creature should be SHOWN, after which they are moved into objectEffects.
         let creatureEffects: Effect[] = [];
-        creatureEffects = creatureEffects.concat(this.get_EffectsFromObject(creature, services, { creature: creature }));
+        creatureEffects = creatureEffects.concat(this.get_EffectsFromObject(creature, services, { creature }));
         creatureEffects.forEach(effect => {
             effect.show = true;
         });
@@ -319,7 +319,7 @@ export class EffectsGenerationService {
         //Create object effects from creature feats/abilities and store them in a separate list. All effects from feats should be HIDDEN, after which they are moved into objectEffects.
         let featEffects: Effect[] = [];
         feats.filter(object => object.effects?.length).forEach(object => {
-            featEffects = featEffects.concat(this.get_EffectsFromObject(object, services, { creature: creature }));
+            featEffects = featEffects.concat(this.get_EffectsFromObject(object, services, { creature }));
         });
         featEffects.forEach(effect => {
             effect.show = false;
@@ -328,7 +328,7 @@ export class EffectsGenerationService {
         //Create object effects from active hints and store them in a separate list. All effects from hints should be SHOWN, after which they are moved into objectEffects.
         let hintEffects: Effect[] = [];
         hintSets.filter(hintSet => (hintSet.hint.active || hintSet.hint.active2 || hintSet.hint.active3 || hintSet.hint.active4 || hintSet.hint.active5) && hintSet.hint.effects?.length).forEach(hintSet => {
-            hintEffects = hintEffects.concat(this.get_EffectsFromObject(hintSet.hint, services, { creature: creature, parentItem: hintSet.parentItem, parentConditionGain: hintSet.parentConditionGain }, { name: `conditional, ${ hintSet.objectName }` }));
+            hintEffects = hintEffects.concat(this.get_EffectsFromObject(hintSet.hint, services, { creature, parentItem: hintSet.parentItem, parentConditionGain: hintSet.parentConditionGain }, { name: `conditional, ${ hintSet.objectName }` }));
         });
         hintEffects.forEach(effect => {
             effect.show = true;
@@ -477,11 +477,11 @@ export class EffectsGenerationService {
 
         const items = creature.inventories[0];
         items.armors.filter(armor => armor.equipped).forEach(armor => {
-            itemEffects = itemEffects.concat(this.generate_ArmorEffects(armor, services, { creature: creature }, options));
+            itemEffects = itemEffects.concat(this.generate_ArmorEffects(armor, services, { creature }, options));
         });
 
         items.shields.filter(shield => shield.equipped).forEach(shield => {
-            itemEffects = itemEffects.concat(this.generate_ShieldEffects(shield, services, { creature: creature }));
+            itemEffects = itemEffects.concat(this.generate_ShieldEffects(shield, services, { creature }));
         });
 
         return itemEffects;
@@ -789,7 +789,7 @@ export class EffectsGenerationService {
         const ignoreArmorPenalties = effects.some(effect => effect.creature == creature.id && effect.target == 'Ignore Armor Penalty' && effect.toggle);
         //Skip speed penalties if there is an "Ignore Armor Speed Penalty" effect.
         const ignoreArmorSpeedPenalties = effects.some(effect => effect.creature == creature.id && effect.target == 'Ignore Armor Speed Penalty' && effect.toggle);
-        effects = effects.concat(this.generate_CalculatedItemEffects(creature, services, { ignoreArmorPenalties: ignoreArmorPenalties, ignoreArmorSpeedPenalties: ignoreArmorSpeedPenalties }));
+        effects = effects.concat(this.generate_CalculatedItemEffects(creature, services, { ignoreArmorPenalties, ignoreArmorSpeedPenalties }));
 
         //Apply any lessening of speed penalties that stems from a character's Unburdened Iron feat.
         if (creature instanceof Character) {
@@ -801,10 +801,10 @@ export class EffectsGenerationService {
         effects = effects.filter(effect => effect.creature == creature.id);
 
         //Enable ignored on all effects that match the creature's ignored effects list.
-        effects = this.set_EffectsIgnored(effects, { creature: creature });
+        effects = this.set_EffectsIgnored(effects, { creature });
 
         //Enable or disable applied on all effects according to various considerations.
-        effects = this.set_EffectsApplied(effects, { creature: creature });
+        effects = this.set_EffectsApplied(effects, { creature });
 
         //Enable or disable shown on all effects depending on whether they match a list of targets.
         effects = this.set_EffectsShown(effects);
@@ -813,7 +813,7 @@ export class EffectsGenerationService {
         effects = effects.concat(effectsForOthers);
 
         //Replace the global effects and rerun if needed or finish.
-        return this.finish_EffectsGeneration(effects, services, { creature: creature }, options);
+        return this.finish_EffectsGeneration(effects, services, { creature }, options);
     }
 
     private finish_EffectsGeneration(effects: Effect[], services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly secondRun?: boolean } = {}): boolean {
@@ -893,14 +893,14 @@ export class EffectsGenerationService {
                     .subscribe((target) => {
                         if (['effects', 'all', 'Character', 'Companion', 'Familiar'].includes(target)) {
                             if (['Character', 'Companion', 'Familiar'].includes(target)) {
-                                this.update_EffectsAndConditions(target, { characterService: characterService });
+                                this.update_EffectsAndConditions(target, { characterService });
                             } else {
-                                this.update_EffectsAndConditions('Character', { characterService: characterService });
+                                this.update_EffectsAndConditions('Character', { characterService });
                                 if (characterService.get_CompanionAvailable()) {
-                                    this.update_EffectsAndConditions('Companion', { characterService: characterService });
+                                    this.update_EffectsAndConditions('Companion', { characterService });
                                 }
                                 if (characterService.get_FamiliarAvailable()) {
-                                    this.update_EffectsAndConditions('Familiar', { characterService: characterService });
+                                    this.update_EffectsAndConditions('Familiar', { characterService });
                                 }
                             }
 
@@ -909,7 +909,7 @@ export class EffectsGenerationService {
                 this.refreshService.get_ViewChanged
                     .subscribe((target) => {
                         if (['effects', 'all'].includes(target.target)) {
-                            this.update_EffectsAndConditions(target.creature, { characterService: characterService });
+                            this.update_EffectsAndConditions(target.creature, { characterService });
                         }
                     });
             }

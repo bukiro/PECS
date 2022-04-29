@@ -111,7 +111,7 @@ export class FeatsService {
                 this.$characterFeats.set(feat.name, feat);
             }
         }
-        this.$characterFeatsTaken.push({ level: level, gain: gain });
+        this.$characterFeatsTaken.push({ level, gain });
     }
 
     remove_CharacterFeat(feat: Feat, gain: FeatTaken, level: number): void {
@@ -236,7 +236,7 @@ export class FeatsService {
                 }
             }
 
-            this.refreshService.set_HintsToChange(creature, feat.hints, { characterService: characterService });
+            this.refreshService.set_HintsToChange(creature, feat.hints, { characterService });
             if (feat.effects.length) {
                 this.refreshService.set_ToChange(creature.type, 'effects');
             }
@@ -310,7 +310,7 @@ export class FeatsService {
                 this.refreshService.set_ToChange(creature.type, 'abilities');
                 feat.gainAbilityChoice.forEach(abilityChoice => {
                     abilityChoice.boosts.forEach(boost => {
-                        this.refreshService.set_AbilityToChange(creature.type, boost.name, { characterService: characterService });
+                        this.refreshService.set_AbilityToChange(creature.type, boost.name, { characterService });
                     });
                 });
 
@@ -519,12 +519,12 @@ export class FeatsService {
             if (feat.gainItems.length) {
                 if (taken) {
                     feat.gainItems.filter(freeItem => freeItem.on == 'grant').forEach(freeItem => {
-                        freeItem.grant_GrantedItem(character, {}, { characterService: characterService, itemsService: characterService.itemsService });
+                        freeItem.grant_GrantedItem(character, {}, { characterService, itemsService: characterService.itemsService });
                         freeItem.grantedItemID = '';
                     });
                 } else {
                     feat.gainItems.filter(freeItem => freeItem.on == 'grant').forEach(freeItem => {
-                        freeItem.drop_GrantedItem(character, { requireGrantedItemID: false }, { characterService: characterService });
+                        freeItem.drop_GrantedItem(character, { requireGrantedItemID: false }, { characterService });
                     });
                 }
             }

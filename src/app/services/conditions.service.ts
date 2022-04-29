@@ -136,7 +136,7 @@ export class ConditionsService {
                         depth++;
                         testGain = activeConditions.find(parent => parent.id == testGain.parentID);
                     }
-                    return { depth: depth, gain: gain };
+                    return { depth, gain };
                 })
                 .sort((a, b) => a.depth - b.depth)
                 .map(set => set.gain)
@@ -196,7 +196,7 @@ export class ConditionsService {
         if (condition.gainActivities.length) {
             this.refreshService.set_ToChange(creature.type, 'activities');
         }
-        this.refreshService.set_HintsToChange(creature, condition.hints, { characterService: characterService });
+        this.refreshService.set_HintsToChange(creature, condition.hints, { characterService });
 
         if (taken) {
             gain.maxDuration = gain.duration;
@@ -321,7 +321,7 @@ export class ConditionsService {
                             gainItem.conditionChoiceFilter.includes(gain.choice)
                         ).forEach(gainItem => {
                             conditionDidSomething = true;
-                            gainItem.grant_GrantedItem(creature, { sourceName: condition.name }, { characterService: characterService, itemsService: itemsService });
+                            gainItem.grant_GrantedItem(creature, { sourceName: condition.name }, { characterService, itemsService });
                         });
                 } else {
                     gain.gainItems
@@ -329,7 +329,7 @@ export class ConditionsService {
                             !gainItem.conditionChoiceFilter.length ||
                             gainItem.conditionChoiceFilter.includes(gain.choice)
                         ).forEach(gainItem => {
-                            gainItem.drop_GrantedItem(creature, {}, { characterService: characterService });
+                            gainItem.drop_GrantedItem(creature, {}, { characterService });
                         });
                     gain.gainItems = [];
                 }
@@ -398,8 +398,8 @@ export class ConditionsService {
                         const spell = characterService.spellsService.get_Spells(taken.gain.name)[0];
                         if (spell) {
                             characterService.spellsService.process_Spell(spell, false,
-                                { characterService: characterService, itemsService: itemsService, conditionsService: this },
-                                { creature: creature, target: taken.gain.selectedTarget, gain: taken.gain, level: 0 }
+                                { characterService, itemsService, conditionsService: this },
+                                { creature, target: taken.gain.selectedTarget, gain: taken.gain, level: 0 }
                             );
                         }
                         this.refreshService.set_ToChange('Character', 'spellbook');
@@ -476,7 +476,7 @@ export class ConditionsService {
     }
 
     remove_ConditionItem(creature, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
-        gainItem.drop_GrantedItem(creature, {}, { characterService: characterService });
+        gainItem.drop_GrantedItem(creature, {}, { characterService });
     }
 
     generate_ItemConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService }): void {
@@ -515,10 +515,10 @@ export class ConditionsService {
             return (!!services.characterService.get_AppliedConditions(creature, name, source, true).length);
         }
         function add_Condition(name: string, value: number, source: string) {
-            services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name: name, value: value, source: source, apply: true }), {}, { noReload: true });
+            services.characterService.add_Condition(creature, Object.assign(new ConditionGain, { name, value, source, apply: true }), {}, { noReload: true });
         }
         function remove_Condition(name: string, value: number, source: string) {
-            services.characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name: name, value: value, source: source, apply: true }), false);
+            services.characterService.remove_Condition(creature, Object.assign(new ConditionGain, { name, value, source, apply: true }), false);
         }
         if (creature.inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && !get_HaveCondition('Clumsy', 'Large Weapon')) {
             add_Condition('Clumsy', 1, 'Large Weapon');
@@ -563,7 +563,7 @@ export class ConditionsService {
                         services.characterService.remove_Condition(creature, gain, false);
                     } else {
                         if (gain.activationPrerequisite) {
-                            const testResult = evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature: creature, object: gain, parentItem: item });
+                            const testResult = evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature, object: gain, parentItem: item });
                             if (testResult == '0' || !(parseInt(testResult as string))) {
                                 services.characterService.remove_Condition(creature, gain, false);
                             }
@@ -788,14 +788,14 @@ export class ConditionsService {
             //Remove any items that were granted by the previous choice.
             if (oldChoice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(oldChoice)).forEach(gainItem => {
-                    gainItem.drop_GrantedItem((creature as AnimalCompanion | Character), {}, { characterService: characterService });
+                    gainItem.drop_GrantedItem((creature as AnimalCompanion | Character), {}, { characterService });
                 });
             }
             //Add any items that are granted by the new choice.
             if (gain.choice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(gain.choice)).forEach(gainItem => {
                     conditionDidSomething = true;
-                    gainItem.grant_GrantedItem(creature, { sourceName: condition.name }, { characterService: characterService, itemsService: itemsService });
+                    gainItem.grant_GrantedItem(creature, { sourceName: condition.name }, { characterService, itemsService });
                 });
             }
         }
@@ -863,7 +863,7 @@ export class ConditionsService {
             this.refreshService.set_ToChange(creature.type, 'skills');
         }
         gain.showChoices = false;
-        this.refreshService.set_HintsToChange(creature, condition.hints, { characterService: characterService });
+        this.refreshService.set_HintsToChange(creature, condition.hints, { characterService });
     }
 
     change_ConditionStage(creature: Creature, gain: ConditionGain, condition: Condition, choices: string[], change: number, characterService: CharacterService, itemsService: ItemsService) {

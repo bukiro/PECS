@@ -15,11 +15,11 @@ export class Bulk {
         const encumberedabsolutes = this.absolutes(creature, effectsService, 'Encumbered Limit');
 
         const result = {
-            maxabsolutes: maxabsolutes,
+            maxabsolutes,
             maxbonuses: this.bonuses(creature, effectsService, 'Max Bulk'),
             maxpenalties: this.penalties(creature, effectsService, 'Max Bulk'),
             max: this.max(creature, characterService, effectsService, maxabsolutes),
-            currentabsolutes: currentabsolutes,
+            currentabsolutes,
             currentbonuses: this.bonuses(creature, effectsService, 'Bulk'),
             currentpenalties: this.penalties(creature, effectsService, 'Bulk'),
             current: this.current(creature, characterService, effectsService, currentabsolutes),

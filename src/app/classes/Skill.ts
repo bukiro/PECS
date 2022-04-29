@@ -45,9 +45,9 @@ export class Skill {
         const baseValue: { result: number, explain: string, skillLevel: number, ability: string } = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel, level);
 
         const result = {
-            level: level,
-            ability: ability,
-            baseValue: baseValue,
+            level,
+            ability,
+            baseValue,
             absolutes: this.absolutes(creature, effectsService, isDC, level, ability) as Effect[],
             relatives: this.relatives(creature, effectsService, isDC, level, ability) as Effect[],
             bonuses: this.bonuses(creature, effectsService, isDC, level, ability) as boolean,
@@ -196,10 +196,10 @@ export class Skill {
             if (cachedLevel) {
                 const checkList = {
                     skills: relevantSkillList.map(name => {
-                        return { name: name, cached: cachedLevel.cached };
+                        return { name, cached: cachedLevel.cached };
                     }),
                     effects: effectTargetList.map(name => {
-                        return { name: name, cached: cachedLevel.cached };
+                        return { name, cached: cachedLevel.cached };
                     }),
                     proficiencyCopies: cachedLevel.cached,
                     level: creature instanceof AnimalCompanion ? cachedLevel.cached : 0
@@ -326,7 +326,7 @@ export class Skill {
                 result = charLevelBonus + skillLevel + abilityMod;
             }
         }
-        return { result: result, explain: explain, skillLevel: skillLevel, ability: ability };
+        return { result, explain, skillLevel, ability };
     }
     value(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC = false, baseValue: { result: number, explain: string, skillLevel: number, ability: string } = undefined) {
         //Calculates the effective bonus of the given Skill
@@ -376,6 +376,6 @@ export class Skill {
                 });
             }
         }
-        return { result: result, explain: explain.trim() };
+        return { result, explain: explain.trim() };
     }
 }

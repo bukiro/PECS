@@ -98,12 +98,12 @@ export class ActivitiesService {
         const item: Equipment | Rune = this.get_ItemFromActivityGain(creature, gain);
 
         if (activity.hints.length) {
-            this.refreshService.set_HintsToChange(creature, activity.hints, { characterService: characterService });
+            this.refreshService.set_HintsToChange(creature, activity.hints, { characterService });
         }
 
         let closePopupsAfterActivation = false;
 
-        const cooldown = activity.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService });
+        const cooldown = activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService });
         if (activated || activity.cooldownAfterEnd) {
             //Start cooldown, unless one is already in effect.
             //If the activity ends and cooldownAfterEnd is set, start the cooldown anew.
@@ -112,17 +112,17 @@ export class ActivitiesService {
             }
             if (activated) {
                 //Use charges
-                const maxCharges = activity.maxCharges({ creature: creature }, { effectsService: characterService.effectsService });
+                const maxCharges = activity.maxCharges({ creature }, { effectsService: characterService.effectsService });
                 if (maxCharges || gain.sharedChargesID) {
                     //If this activity belongs to an item and has a sharedCharges ID, spend a charge for every activity with the same sharedChargesID and start their cooldown if necessary.
                     if (item && gain.sharedChargesID) {
                         item.activities
                             .filter(itemActivity => itemActivity.sharedChargesID == gain.sharedChargesID)
                             .forEach(itemActivity => {
-                                if (itemActivity.maxCharges({ creature: creature }, { effectsService: characterService.effectsService })) {
+                                if (itemActivity.maxCharges({ creature }, { effectsService: characterService.effectsService })) {
                                     itemActivity.chargesUsed += 1;
                                 }
-                                const otherCooldown = itemActivity.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService });
+                                const otherCooldown = itemActivity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService });
                                 if (!itemActivity.activeCooldown && otherCooldown) {
                                     itemActivity.activeCooldown = otherCooldown;
                                 }
@@ -131,10 +131,10 @@ export class ActivitiesService {
                             .filter(activityGain => activityGain.sharedChargesID == gain.sharedChargesID)
                             .forEach(activityGain => {
                                 const originalActivity = this.get_Activities(activityGain.name)[0];
-                                if (originalActivity?.maxCharges({ creature: creature }, { effectsService: characterService.effectsService })) {
+                                if (originalActivity?.maxCharges({ creature }, { effectsService: characterService.effectsService })) {
                                     activityGain.chargesUsed += 1;
                                 }
-                                const otherCooldown = originalActivity?.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService }) || 0;
+                                const otherCooldown = originalActivity?.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService }) || 0;
                                 if (!activityGain.activeCooldown && otherCooldown) {
                                     activityGain.activeCooldown = otherCooldown;
                                 }
@@ -182,11 +182,11 @@ export class ActivitiesService {
                     gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem).recast());
                 }
                 gain.gainItems.forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: activity.name }, { characterService: characterService, itemsService: itemsService });
+                    gainItem.grant_GrantedItem(creature, { sourceName: activity.name }, { characterService, itemsService });
                 });
             } else {
                 gain.gainItems.forEach(gainItem => {
-                    gainItem.drop_GrantedItem(creature, {}, { characterService: characterService });
+                    gainItem.drop_GrantedItem(creature, {}, { characterService });
                 });
                 if (gain instanceof ActivityGain) {
                     gain.gainItems = [];
@@ -447,8 +447,8 @@ export class ActivitiesService {
                             cast.spellGain.selectedTarget = target;
                         }
                         characterService.spellsService.process_Spell(librarySpell, activated,
-                            { characterService: characterService, itemsService: itemsService, conditionsService: conditionsService },
-                            { creature: creature, target: cast.spellGain.selectedTarget, gain: cast.spellGain, level: cast.level, activityGain: gain },
+                            { characterService, itemsService, conditionsService },
+                            { creature, target: cast.spellGain.selectedTarget, gain: cast.spellGain, level: cast.level, activityGain: gain },
                             { manual: true }
                         );
                     }
@@ -499,7 +499,7 @@ export class ActivitiesService {
             if (gain.duration == -2 && activity) {
                 this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
             }
-            if ([144000, -2].includes(activity.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService }))) {
+            if ([144000, -2].includes(activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService }))) {
                 gain.activeCooldown = 0;
                 gain.chargesUsed = 0;
             }
@@ -518,7 +518,7 @@ export class ActivitiesService {
             if (gain.duration == -3 && activity) {
                 this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
             }
-            if ((activity.get_Cooldown({ creature: creature }, { characterService: characterService, effectsService: characterService.effectsService })) == -3) {
+            if ((activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService })) == -3) {
                 gain.activeCooldown = 0;
                 gain.chargesUsed = 0;
             }

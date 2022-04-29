@@ -216,7 +216,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             return feats.map(feat => {
                 const cannotTakeSubFeat = this.cannotTake(feat, choice);
                 const available = (!cannotTakeSubFeat.length || (this.get_FeatTakenByChoice(feat, choice) && true));
-                return { available: available, subfeat: feat, cannotTake: cannotTakeSubFeat };
+                return { available, subfeat: feat, cannotTake: cannotTakeSubFeat };
             })
                 .filter(featSet => showOtherOptions || choice.filter.length || this.get_FeatTakenByChoice(featSet.subfeat, choice))
                 .sort((a, b) => (a.subfeat.subType == b.subfeat.subType) ? 0 : ((a.subfeat.subType > b.subfeat.subType) ? 1 : -1))
@@ -343,7 +343,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             return feats.map(feat => {
                 const featCannotTake = this.cannotTake(feat, choice);
                 const featAvailable = ((this.get_FeatTakenByChoice(feat, choice) && true) || (this.subFeatTakenByThis(allSubFeats, feat, choice) && true) || !featCannotTake.length);
-                return { available: featAvailable, feat: feat, cannotTake: featCannotTake };
+                return { available: featAvailable, feat, cannotTake: featCannotTake };
             }).filter(featSet => ((this.unavailableFeats || featSet.available) && showOtherOptions) || this.get_FeatTakenByChoice(featSet.feat, choice) || this.subFeatTakenByThis(allSubFeats, featSet.feat, choice))
                 .sort(function (a, b) {
                     //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2), then cut it down to 3 digits. 0 will be 0.00.
@@ -421,7 +421,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                         // and we want to know if it would have been a valid choice in the first place.
                         const cannotTake = this.cannotTake(subFeatSet.subfeat, choice, false, true);
                         if (!cannotTake.length && !this.get_FeatTakenByChoice(subFeatSet.subfeat, choice)) {
-                            availableFeatsNotTaken.push({ available: subFeatSet.available, feat: subFeatSet.subfeat, cannotTake: cannotTake });
+                            availableFeatsNotTaken.push({ available: subFeatSet.available, feat: subFeatSet.subfeat, cannotTake });
                         }
                     });
                 }

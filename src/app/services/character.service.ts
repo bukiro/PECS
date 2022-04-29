@@ -1272,7 +1272,7 @@ export class CharacterService {
             }
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (conditionGain.activationPrerequisite) {
-                const activationValue = this.evaluationService.get_ValueFromFormula(conditionGain.activationPrerequisite, { characterService: this, effectsService: this.effectsService }, { creature: creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain });
+                const activationValue = this.evaluationService.get_ValueFromFormula(conditionGain.activationPrerequisite, { characterService: this, effectsService: this.effectsService }, { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain });
                 if (!activationValue || activationValue == '0' || (typeof activationValue == 'string' && !parseInt(activationValue))) {
                     activate = false;
                 }
@@ -1889,7 +1889,7 @@ export class CharacterService {
             //we eval the effect value by sending it to the evaluationService with some additional attributes and receive the resulting effect.
             if (effectGain.value) {
                 const testObject = { spellSource: effectGain.spellSource, value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility };
-                const validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature: creature, object: testObject, effect: effectGain });
+                const validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature, object: testObject, effect: effectGain });
                 if (validationResult && typeof validationResult == 'number') {
                     value = validationResult;
                 }
@@ -2373,7 +2373,7 @@ export class CharacterService {
     get_ActivitiesShowingOn(creature: Creature, objectName = 'all') {
         return this.get_OwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
-            .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
+            .map(gain => { return { gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
             .filter((gainAndActivity: { gain: ActivityGain | ItemActivity, activity: Activity }) => gainAndActivity.activity && (gainAndActivity.gain.active || !gainAndActivity.activity.toggle))
             //...and then keep only the activities.

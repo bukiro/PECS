@@ -191,14 +191,14 @@ export class AnimalCompanion extends Creature {
         const feats: AnimalCompanionSpecialization[] = [];
         const hintSets: { hint: Hint, objectName: string }[] = [];
         this.class?.ancestry?.hints?.forEach(hint => {
-            hintSets.push({ hint: hint, objectName: this.class.ancestry.name });
+            hintSets.push({ hint, objectName: this.class.ancestry.name });
         });
         this.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
             feats.push(spec);
             spec.hints?.forEach(hint => {
-                hintSets.push({ hint: hint, objectName: spec.name });
+                hintSets.push({ hint, objectName: spec.name });
             });
         });
-        return { feats: feats, hintSets: hintSets };
+        return { feats, hintSets };
     }
 }
