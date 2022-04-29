@@ -8,6 +8,7 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Skill } from 'src/app/classes/Skill';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatRequirements } from '../../definitions/models/featRequirements';
+import { FeatChoice } from '../../definitions/models/FeatChoice';
 
 @Injectable({
     providedIn: 'root'
@@ -27,6 +28,48 @@ export class FeatRequirementsService {
             case 8:
                 return 'Legendary in ';
         }
+    }
+
+    public createIgnoreRequirementList(feat: Feat, levelNumber: number, choice?: FeatChoice): string[] {
+        //Build the ignoreRequirements list from both the feat and the choice.
+        const ignoreRequirementsList: string[] = [];
+        function evaluateIgnoreString(ignoreReq: string, source: string): void {
+            console.warn(`${ source } has a string-based ignoreRequirements attribute. This is deprecated and will now always result in success. The ignoreRequirements attribute should be changed to be based on a complexreq evaluation`);
+            [
+                'levelreq',
+                'abilityreq',
+                'featreq',
+                'skillreq',
+                'heritagereq',
+                'complexreq',
+                'dedicationlimit'
+            ].forEach(word => {
+                if (ignoreReq.includes(word)) {
+                    ignoreRequirementsList.push(word);
+                }
+            });
+        }
+        feat.ignoreRequirements.forEach(ignoreReq => {
+            if (typeof ignoreReq === 'string') {
+                evaluateIgnoreString(ignoreReq, feat.name);
+            } else {
+                const result = this.meetsComplexReq(ignoreReq.condition, { feat, desc: ignoreReq.requirement }, { charLevel: levelNumber });
+                if (result.met) {
+                    ignoreRequirementsList.push(result.desc);
+                }
+            }
+        });
+        choice?.ignoreRequirements.forEach(ignoreReq => {
+            if (typeof ignoreReq === 'string') {
+                evaluateIgnoreString(ignoreReq, `The feat choice granted by ${ choice.source }`);
+            } else {
+                const result = this.meetsComplexReq(ignoreReq.condition, { feat, desc: ignoreReq.requirement }, { charLevel: levelNumber });
+                if (result.met) {
+                    ignoreRequirementsList.push(result.desc);
+                }
+            }
+        });
+        return ignoreRequirementsList;
     }
 
     public meetsLevelReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): FeatRequirements.FeatRequirementResult {

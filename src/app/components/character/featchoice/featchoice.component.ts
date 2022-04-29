@@ -450,30 +450,13 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         }
     }
 
-    create_IgnoreRequirementList(feat: Feat, choice: FeatChoice) {
-        //Prepare character and characterService for eval.
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        const character = this.get_Character();
-        const characterService = this.characterService;
-        /* eslint-enable @typescript-eslint/no-unused-vars */
-        //Build the ignoreRequirements list from both the feat and the choice.
-        const ignoreRequirementsList: string[] = [];
-        feat.ignoreRequirements.concat(choice?.ignoreRequirements || []).forEach(ignoreReq => {
-            const result = this.featRequirementsService.meetsComplexReq(ignoreReq.condition, { feat, desc: ignoreReq.requirement }, { charLevel: this.levelNumber });
-            if (result.met) {
-                ignoreRequirementsList.push(result.desc);
-            }
-        });
-        return ignoreRequirementsList;
-    }
-
     cannotTake(feat: Feat, choice: FeatChoice, skipLevel = false, skipSubfeatAlreadyTaken = false) {
         //Don't run the test on a blank feat - does not go well.
         if (feat?.name) {
             const creature = this.get_Creature();
             const levelNumber = this.levelNumber;
             const takenByThis: number = this.get_FeatTakenByChoice(feat, choice) ? 1 : 0;
-            const ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
+            const ignoreRequirementsList: string[] = this.featRequirementsService.createIgnoreRequirementList(feat, levelNumber, choice);
             const reasons: { reason: string, explain: string }[] = [];
             const traits: string[] = [];
             switch (choice.type) {

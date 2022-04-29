@@ -39,25 +39,8 @@ export class FeatComponent {
         return this.traitsService.get_Traits(traitName);
     }
 
-    create_IgnoreRequirementList(feat: Feat, choice: FeatChoice) {
-        //Prepare character and characterService for eval.
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        const character = this.characterService.get_Character();
-        const characterService = this.characterService;
-        /* eslint-enable @typescript-eslint/no-unused-vars */
-        //Build the ignoreRequirements list from both the feat and the choice.
-        const ignoreRequirementsList: string[] = [];
-        feat.ignoreRequirements.concat(choice?.ignoreRequirements || []).forEach(ignoreReq => {
-            const result = this.featRequirementsService.meetsComplexReq(ignoreReq.condition, { feat, desc: ignoreReq.requirement }, { charLevel: this.levelNumber });
-            if (result.met) {
-                ignoreRequirementsList.push(result.desc);
-            }
-        });
-        return ignoreRequirementsList;
-    }
-
     get_FeatRequirements(choice: FeatChoice, feat: Feat) {
-        const ignoreRequirementsList: string[] = this.create_IgnoreRequirementList(feat, choice);
+        const ignoreRequirementsList: string[] = this.featRequirementsService.createIgnoreRequirementList(feat, this.levelNumber, choice);
         const result: Array<{ met?: boolean, ignored?: boolean, desc?: string }> = [];
         if (feat.levelreq) {
             result.push(this.featRequirementsService.meetsLevelReq(feat, this.featLevel));
