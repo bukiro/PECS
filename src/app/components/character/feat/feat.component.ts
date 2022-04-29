@@ -47,11 +47,10 @@ export class FeatComponent {
         /* eslint-enable @typescript-eslint/no-unused-vars */
         //Build the ignoreRequirements list from both the feat and the choice.
         const ignoreRequirementsList: string[] = [];
-        feat.ignoreRequirements.concat((choice?.ignoreRequirements || [])).forEach(ignoreReq => {
-            try {
-                ignoreRequirementsList.push(eval(ignoreReq));
-            } catch (error) {
-                console.log(`Failed evaluating feat requirement ignore list item (${ ignoreReq }): ${ error }`);
+        feat.ignoreRequirements.concat(choice?.ignoreRequirements || []).forEach(ignoreReq => {
+            const result = this.featRequirementsService.meetsComplexReq(ignoreReq.condition, { feat, desc: ignoreReq.requirement }, { charLevel: this.levelNumber });
+            if (result.met) {
+                ignoreRequirementsList.push(result.desc);
             }
         });
         return ignoreRequirementsList;
@@ -98,7 +97,7 @@ export class FeatComponent {
         }
         if (feat.complexreqdesc) {
             result.push({ met: true, desc: ', ' });
-            result.push(this.featRequirementsService.meetsComplexReq(feat, this.levelNumber));
+            result.push(this.featRequirementsService.meetsComplexReq(feat.complexreq, { feat, desc: feat.complexreqdesc }, { charLevel: this.levelNumber }));
         }
         if (result.length > 1 && result[0].desc == ', ') {
             result.shift();

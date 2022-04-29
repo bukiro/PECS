@@ -169,15 +169,15 @@ export class FeatRequirementsService {
         return result;
     }
 
-    public meetsComplexReq(feat: Feat, _charLevel?: number): FeatRequirements.FeatRequirementResult {
-        if (!feat.complexreq.length) {
+    public meetsComplexReq(complexreqs: FeatRequirements.ComplexRequirement[], context: { feat: Feat, desc: string }, filter: { charLevel?: number } = {}): FeatRequirements.FeatRequirementResult {
+        if (!complexreqs.length) {
             return { met: true, desc: '' };
         }
         const character: Character = this.characterService.get_Character();
         //charLevel is usually the level on which you want to take the feat. If none is given, the current character level is used for calculations.
-        const charLevel = _charLevel || character.level;
+        const charLevel = filter.charLevel || character.level;
         //Split comma lists into lowercase names and replace certain codewords.
-        const subType = feat.subType.toLowerCase();
+        const subType = context.feat.subType.toLowerCase();
         function SplitNames(list: string): string[] {
             return Array.from(new Set(
                 list.toLowerCase()
@@ -246,7 +246,7 @@ export class FeatRequirementsService {
 
         }
         let success = false;
-        feat.complexreq.forEach(complexreq => {
+        complexreqs.forEach(complexreq => {
             //You can choose a creature to check this requirement on. Most checks only run on the character.
             const creatureType = complexreq.creatureToTest || 'Character';
             const creature = this.characterService.get_Creature(creatureType);
@@ -255,7 +255,7 @@ export class FeatRequirementsService {
                 let requirementFailure = false;
                 //Each singular requirement is treated as AND; The first time that any of them fails, the set fails and the remaining requirements in the set are skipped.
                 if (complexreq.hasThisFeat && !requirementFailure) {
-                    if (!feat.have({ creature }, { characterService: this.characterService }, { charLevel }, { excludeTemporary: true })) {
+                    if (!context.feat.have({ creature }, { characterService: this.characterService }, { charLevel }, { excludeTemporary: true })) {
                         requirementFailure = true;
                     }
                 }
@@ -602,9 +602,9 @@ export class FeatRequirementsService {
             }
         });
         if (success) {
-            return { met: true, desc: feat.complexreqdesc };
+            return { met: true, desc: context.desc };
         } else {
-            return { met: false, desc: feat.complexreqdesc };
+            return { met: false, desc: context.desc };
         }
     }
 
@@ -645,7 +645,7 @@ export class FeatRequirementsService {
         //If any of the previous requirements are already not fulfilled, skip the complexreq, as it is the most performance intensive.
         if (!!levelreq && !!levelreq && !!abilityreq && !!skillreq && !!featreq && !!heritagereq) {
             //Check the complex req. True if returns true.
-            const complexreq: boolean = options.ignoreRequirementsList.includes('complexreq') || this.meetsComplexReq(feat, context.charLevel).met;
+            const complexreq: boolean = options.ignoreRequirementsList.includes('complexreq') || this.meetsComplexReq(feat.complexreq, { feat, desc: feat.complexreqdesc }, { charLevel: context.charLevel }).met;
             //Return true if all are true.
             return !!complexreq;
         } else {

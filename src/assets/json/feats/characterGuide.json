@@ -2484,7 +2484,23 @@
             }
         ],
         "ignoreRequirements": [
-            "(character.class.background.name == 'Bonuwat Wavetouched') ? 'levelreq' : ''"
+            {
+                "condition": [
+                    {
+                        "countBackgrounds": [
+                            {
+                                "query": {
+                                    "anyOfNames": "Bonuwat Wavetouched"
+                                },
+                                "expected": {
+                                    "isTrue": true
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "requirement": "levelreq"
+            }
         ],
         "effects": [
             {

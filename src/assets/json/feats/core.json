@@ -33671,8 +33671,31 @@
             {
                 "available": 1,
                 "ignoreRequirements": [
-                    "'dedicationlimit'",
-                    "(character.class?.heritage?.name == 'Half-Elf' || character.class?.additionalHeritages.some(extraHeritage => extraHeritage.name = 'Half-Elf')) ? 'abilityreq' : ''"
+                    {
+                        "condition": [
+                            {
+                                "alwaysTrue": true
+                            }
+                        ],
+                        "requirement": "dedicationlimit"
+                    },
+                    {
+                        "condition": [
+                            {
+                                "countHeritages": [
+                                    {
+                                        "query": {
+                                            "anyOfNames": "Half-Elf"
+                                        },
+                                        "expected": {
+                                            "isTrue": true
+                                        }
+                                    }
+                                ]
+                            }
+                        ],
+                        "requirement": "abilityreq"
+                    }
                 ],
                 "level": 2,
                 "source": "Feat: Multitalented",

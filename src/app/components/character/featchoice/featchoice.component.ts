@@ -62,7 +62,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         private familiarsService: FamiliarsService,
         private traitsService: TraitsService,
         private effectsService: EffectsService,
-        private featRequirementService: FeatRequirementsService
+        private featRequirementsService: FeatRequirementsService
     ) { }
 
     toggle_Feat(name: string) {
@@ -458,11 +458,10 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         /* eslint-enable @typescript-eslint/no-unused-vars */
         //Build the ignoreRequirements list from both the feat and the choice.
         const ignoreRequirementsList: string[] = [];
-        feat.ignoreRequirements.concat((choice?.ignoreRequirements || [])).forEach(ignoreReq => {
-            try {
-                ignoreRequirementsList.push(eval(ignoreReq));
-            } catch (error) {
-                console.log(`Failed evaluating feat requirement ignore list item (${ ignoreReq }): ${ error }`);
+        feat.ignoreRequirements.concat(choice?.ignoreRequirements || []).forEach(ignoreReq => {
+            const result = this.featRequirementsService.meetsComplexReq(ignoreReq.condition, { feat, desc: ignoreReq.requirement }, { charLevel: this.levelNumber });
+            if (result.met) {
+                ignoreRequirementsList.push(result.desc);
             }
         });
         return ignoreRequirementsList;
@@ -555,7 +554,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             }
             //Only if no other reason is given, check if the the basic requirements (level, ability, feat etc) are not met for this feat or all of its subfeats.
             //This is the most performance-intensive step, so we skip it if the feat can't be taken anyway.
-            if (!this.featRequirementService.canChoose(feat, { choiceLevel: this.featLevel, charLevel: levelNumber }, { skipLevel, ignoreRequirementsList })) {
+            if (!this.featRequirementsService.canChoose(feat, { choiceLevel: this.featLevel, charLevel: levelNumber }, { skipLevel, ignoreRequirementsList })) {
                 reasons.push({ reason: 'Requirements unmet', explain: 'Not all requirements are met.' });
             }
             //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.

@@ -1,4 +1,5 @@
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
+import { FeatIgnoreRequirements } from './featIgnoreRequirements';
 
 export class FeatChoice {
     public available = 0;
@@ -30,8 +31,8 @@ export class FeatChoice {
     //Feats may give feat choices with a level attribute of "half your level", which can be formulated here (e.g. as "level.number / 2") and will be evaluated while taking the feat.
     //It will always be rounded down.
     public dynamicLevel = '';
-    //You can add requirements to the ignore list. These get evaluated and must result in: "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "dedicationlimit" to do anything.
-    public ignoreRequirements: string[] = [];
+    //You can add requirements to the ignore list. These get evaluated as complexreqs and must result in: "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "complexreq" or "dedicationlimit" to do anything.
+    public ignoreRequirements: FeatIgnoreRequirements.FeatIgnoreRequirement[] = [];
     public type = '';
     public bonus = false;
     public recast(): typeof this {

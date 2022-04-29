@@ -21,6 +21,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { FeatRequirements } from 'src/app/character-creation/definitions/models/featRequirements';
+import { FeatIgnoreRequirements } from './featIgnoreRequirements';
 
 export class Feat {
     public abilityreq: FeatRequirements.AbilityRequirement[] = [];
@@ -46,8 +47,8 @@ export class Feat {
     public effects: EffectGain[] = [];
     public featreq: string[] = [];
     public heritagereq = '';
-    //You can add requirements to the ignore list. These get evaluated and must result in "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "complexreq" or "dedicationlimit" to do anything.
-    public ignoreRequirements: string[] = [];
+    //You can add requirements to the ignore list. These get evaluated as complexreqs and must result in: "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "complexreq" or "dedicationlimit" to do anything.
+    public ignoreRequirements: FeatIgnoreRequirements.FeatIgnoreRequirement[] = [];
     public gainAbilityChoice: AbilityChoice[] = [];
     public gainActivities: string[] = [];
     public gainAnimalCompanion = '';
