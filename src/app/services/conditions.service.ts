@@ -391,7 +391,7 @@ export class ConditionsService {
             const character = characterService.get_Character();
             //If no other conditions have this ConditionGain's sourceGainID, find the matching Spellgain or ActivityGain and disable it.
             if (!characterService.get_AppliedConditions(character).some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID == gain.sourceGainID)) {
-                character.get_SpellsTaken(0, 20, { characterService: characterService })
+                character.get_SpellsTaken(0, 20, { characterService })
                     .concat(character.get_AllEquipmentSpellsGranted())
                     .filter(taken => taken.gain.id == gain.sourceGainID && taken.gain.active)
                     .forEach(taken => {
