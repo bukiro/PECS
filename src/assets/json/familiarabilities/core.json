@@ -8,8 +8,6 @@
             "Familiar Ability"
         ],
         "shortdesc": "The familiar gains a swim Speed of 25 feet.",
-        "specialreq": "familiar.speeds[1].name == 'Land Speed'",
-        "specialreqdesc": "land-based familiar",
         "complexreqdesc": "land-based familiar",
         "complexreq": [
             {
@@ -42,8 +40,6 @@
             "Familiar Ability"
         ],
         "shortdesc": "The familiar gains a Speed of 25 feet.",
-        "specialreq": "familiar.speeds[1].name == 'Swim Speed'",
-        "specialreqdesc": "water-based familiar",
         "complexreqdesc": "water-based familiar",
         "complexreq": [
             {
@@ -199,8 +195,6 @@
             "Familiar Ability"
         ],
         "shortdesc": "The familiar's Climb Speed increases from 25 feet to 40 feet.",
-        "specialreq": "familiar.speeds.filter(speed => speed.name == 'Climb Speed').length",
-        "specialreqdesc": "familiar with a climb speed",
         "complexreqdesc": "familiar with a climb speed",
         "complexreq": [
             {
@@ -235,8 +229,6 @@
             "Familiar Ability"
         ],
         "shortdesc": "The familiar's Fly Speed increases from 25 feet to 40 feet.",
-        "specialreq": "familiar.speeds.filter(speed => speed.name == 'Fly Speed').length",
-        "specialreqdesc": "familiar with a fly speed",
         "complexreqdesc": "familiar with a fly speed",
         "complexreq": [
             {
@@ -271,8 +263,6 @@
             "Familiar Ability"
         ],
         "shortdesc": "The familiar's Land Speed increases from 25 feet to 40 feet.",
-        "specialreq": "familiar.speeds.filter(speed => speed.name == 'Land Speed').length",
-        "specialreqdesc": "familiar with a land speed",
         "complexreqdesc": "familiar with a land speed",
         "complexreq": [
             {
@@ -307,8 +297,6 @@
             "Familiar Ability"
         ],
         "shortdesc": "The familiar's Swim Speed increases from 25 feet to 40 feet.",
-        "specialreq": "familiar.speeds.filter(speed => speed.name == 'Swim Speed').length",
-        "specialreqdesc": "familiar with a swim speed",
         "complexreqdesc": "familiar with a swim speed",
         "complexreq": [
             {
@@ -358,8 +346,6 @@
             "Familiar Ability"
         ],
         "shortdesc": "The familiar can understand and speak with animals of the same species. To select this, your familiar must be an animal, it must have the speech ability, and you must be at least 6th level.",
-        "specialreq": "!Has_Feat('Character', 'Leshy Familiar')",
-        "specialreqdesc": "animal familiar",
         "complexreqdesc": "animal familiar",
         "complexreq": [
             {
@@ -435,8 +421,6 @@
         ],
         "internalNote": "Hardcoded in feat processing",
         "shortdesc": "You can prepare an additional cantrip, or if you have a repertoire, instead designate a cantrip to add to your repertoire every time you select this ability; you can retrain it but can't otherwise change it. You must be able to prepare cantrips or add them to your repertoire to select this.",
-        "specialreq": "character.class.spellCasting.some(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.charLevelAvailable <= character.level && casting.spellChoices.some(choice => choice.level >= 0))",
-        "specialreqdesc": "can cast cantrips",
         "complexreqdesc": "can cast cantrips",
         "complexreq": [
             {
@@ -484,8 +468,6 @@
             "Master Ability"
         ],
         "shortdesc": "Once per day, your familiar can use 2 actions with the concentrate trait to regain 1 Focus Point, up to your usual maximum. You must have a focus pool to select this.",
-        "specialreq": "character.class.spellCasting.filter(casting => casting.castingType == 'Focus' && casting.charLevelAvailable <= character.level).length",
-        "specialreqdesc": "focus pool",
         "complexreqdesc": "focus pool",
         "complexreq": [
             {
@@ -531,8 +513,6 @@
         ],
         "internalNote": "Hardcoded in feat processing",
         "shortdesc": "You gain one additional spell slot at least 3 levels lower than your highest-level spell slot; you must be able to cast 4th-level spells using spell slots to select this master ability.",
-        "specialreq": "character.class.spellCasting.find(casting => ['Spontaneous','Prepared'].includes(casting.castingType) && casting.className == familiar.originClass && casting.charLevelAvailable <= character.level && casting.spellChoices.find(choice => choice.charLevelAvailable <= character.level && choice.level >= 4))",
-        "specialreqdesc": "can cast 4th-level spells with familiar's class",
         "complexreqdesc": "can cast 4th-level spells with familiar's class",
         "complexreq": [
             {

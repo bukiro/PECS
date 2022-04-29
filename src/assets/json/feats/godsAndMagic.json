@@ -18,8 +18,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.category != 'Philosophies'",
-        "specialreqdesc": "you follow a deity",
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
@@ -63,8 +61,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Chaotic')",
-        "specialreqdesc": "you follow a chaotic deity",
         "complexreqdesc": "you follow a chaotic deity",
         "complexreq": [
             {
@@ -112,8 +108,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Evil')",
-        "specialreqdesc": "you follow an evil deity",
         "complexreqdesc": "you follow an evil deity",
         "complexreq": [
             {
@@ -161,8 +155,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Good')",
-        "specialreqdesc": "you follow a good deity",
         "complexreqdesc": "you follow a good deity",
         "complexreq": [
             {
@@ -210,8 +202,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Lawful')",
-        "specialreqdesc": "you follow a lawful deity",
         "complexreqdesc": "you follow a lawful deity",
         "complexreq": [
             {
@@ -257,8 +247,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.divineFont.includes('Heal')",
-        "specialreqdesc": "deity that grants the healing divine font",
         "complexreqdesc": "deity that grants the healing divine font",
         "complexreq": [
             {
@@ -301,8 +289,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.divineFont.includes('Harm')",
-        "specialreqdesc": "deity that grants the harmful divine font",
         "complexreqdesc": "deity that grants the harmful divine font",
         "complexreq": [
             {
@@ -367,8 +353,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "Deity_Has_Domain(deity, ['Cold', 'Fire', 'Nature', 'Travel']) || Deity_Has_Domain(secondDeity, ['Cold', 'Fire', 'Nature', 'Travel'])",
-        "specialreqdesc": "deity with the cold, fire, nature, or travel domain",
         "complexreqdesc": "deity with the cold, fire, nature, or travel domain",
         "complexreq": [
             {
@@ -431,8 +415,6 @@
         "featreq": [
             "Godless Healing"
         ],
-        "specialreq": "true",
-        "specialreqdesc": "you follow the Laws of Mortality",
         "complexreqdesc": "you follow the Laws of Mortality",
         "complexreq": [
             {
@@ -469,8 +451,6 @@
         "featreq": [
             "Diehard"
         ],
-        "specialreq": "true",
-        "specialreqdesc": "you have died at least once",
         "complexreqdesc": "you have died at least once",
         "complexreq": [
             {
@@ -496,8 +476,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.category != 'Philosophies'",
-        "specialreqdesc": "you follow a deity",
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
@@ -531,8 +509,6 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity && deity.category != 'Philosophies'",
-        "specialreqdesc": "you follow a deity",
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
@@ -569,8 +545,6 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Chaotic')",
-        "specialreqdesc": "you follow a chaotic deity",
         "complexreqdesc": "you follow a chaotic deity",
         "complexreq": [
             {
@@ -608,8 +582,6 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Evil')",
-        "specialreqdesc": "you follow an evil deity",
         "complexreqdesc": "you follow an evil deity",
         "complexreq": [
             {
@@ -647,8 +619,6 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Good')",
-        "specialreqdesc": "you follow a good deity",
         "complexreqdesc": "you follow a good deity",
         "complexreq": [
             {
@@ -686,8 +656,6 @@
         "featreq": [
             "Ki Strike"
         ],
-        "specialreq": "deity && deity.category != 'Philosophies' && deity.alignment.includes('Lawful')",
-        "specialreqdesc": "you follow a lawful deity",
         "complexreqdesc": "you follow a lawful deity",
         "complexreq": [
             {
@@ -722,8 +690,6 @@
                 "value": 6
             }
         ],
-        "specialreq": "deity && deity.category != 'Philosophies' && (deity.alignment.includes('Good') || deity.alignment.includes('Evil'))",
-        "specialreqdesc": "good or evil deity",
         "complexreqdesc": "good or evil deity",
         "complexreq": [
             {
@@ -768,8 +734,6 @@
             "Sorcerer"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.category != 'Philosophies' && character.class.spellCasting.some(casting => casting.className == 'Sorcerer' && casting.tradition == 'Divine')",
-        "specialreqdesc": "bloodline that grants divine spells, you follow a deity",
         "complexreqdesc": "bloodline that grants divine spells, you follow a deity",
         "complexreq": [
             {
@@ -813,8 +777,6 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.category != 'Philosophies'",
-        "specialreqdesc": "you follow a deity",
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
@@ -850,8 +812,6 @@
             "Cleric"
         ],
         "levelreq": 1,
-        "specialreq": "deity && deity.category != 'Philosophies'",
-        "specialreqdesc": "you follow a deity",
         "complexreqdesc": "you follow a deity",
         "complexreq": [
             {
@@ -926,8 +886,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the abomination domain as an alternate domain",
         "complexreqdesc": "second deity with the abomination domain as an alternate domain",
         "complexreq": [
             {
@@ -978,8 +936,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the air domain as an alternate domain",
         "complexreqdesc": "second deity with the air domain as an alternate domain",
         "complexreq": [
             {
@@ -1030,8 +986,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the ambition domain as an alternate domain",
         "complexreqdesc": "second deity with the ambition domain as an alternate domain",
         "complexreq": [
             {
@@ -1082,8 +1036,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the change domain as an alternate domain",
         "complexreqdesc": "second deity with the change domain as an alternate domain",
         "complexreq": [
             {
@@ -1134,8 +1086,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the cities domain as an alternate domain",
         "complexreqdesc": "second deity with the cities domain as an alternate domain",
         "complexreq": [
             {
@@ -1186,8 +1136,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the cold domain as an alternate domain",
         "complexreqdesc": "second deity with the cold domain as an alternate domain",
         "complexreq": [
             {
@@ -1238,8 +1186,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the confidence domain as an alternate domain",
         "complexreqdesc": "second deity with the confidence domain as an alternate domain",
         "complexreq": [
             {
@@ -1290,8 +1236,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the creation domain as an alternate domain",
         "complexreqdesc": "second deity with the creation domain as an alternate domain",
         "complexreq": [
             {
@@ -1342,8 +1286,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the darkness domain as an alternate domain",
         "complexreqdesc": "second deity with the darkness domain as an alternate domain",
         "complexreq": [
             {
@@ -1394,8 +1336,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the death domain as an alternate domain",
         "complexreqdesc": "second deity with the death domain as an alternate domain",
         "complexreq": [
             {
@@ -1446,8 +1386,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the decay domain as an alternate domain",
         "complexreqdesc": "second deity with the decay domain as an alternate domain",
         "complexreq": [
             {
@@ -1498,8 +1436,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the delirium domain as an alternate domain",
         "complexreqdesc": "second deity with the delirium domain as an alternate domain",
         "complexreq": [
             {
@@ -1550,8 +1486,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the destruction domain as an alternate domain",
         "complexreqdesc": "second deity with the destruction domain as an alternate domain",
         "complexreq": [
             {
@@ -1602,8 +1536,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the dreams domain as an alternate domain",
         "complexreqdesc": "second deity with the dreams domain as an alternate domain",
         "complexreq": [
             {
@@ -1654,8 +1586,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the dust domain as an alternate domain",
         "complexreqdesc": "second deity with the dust domain as an alternate domain",
         "complexreq": [
             {
@@ -1706,8 +1636,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the duty domain as an alternate domain",
         "complexreqdesc": "second deity with the duty domain as an alternate domain",
         "complexreq": [
             {
@@ -1758,8 +1686,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the earth domain as an alternate domain",
         "complexreqdesc": "second deity with the earth domain as an alternate domain",
         "complexreq": [
             {
@@ -1810,8 +1736,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the family domain as an alternate domain",
         "complexreqdesc": "second deity with the family domain as an alternate domain",
         "complexreq": [
             {
@@ -1862,8 +1786,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the fate domain as an alternate domain",
         "complexreqdesc": "second deity with the fate domain as an alternate domain",
         "complexreq": [
             {
@@ -1914,8 +1836,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the fire domain as an alternate domain",
         "complexreqdesc": "second deity with the fire domain as an alternate domain",
         "complexreq": [
             {
@@ -1966,8 +1886,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the freedom domain as an alternate domain",
         "complexreqdesc": "second deity with the freedom domain as an alternate domain",
         "complexreq": [
             {
@@ -2018,8 +1936,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the glyph domain as an alternate domain",
         "complexreqdesc": "second deity with the glyph domain as an alternate domain",
         "complexreq": [
             {
@@ -2070,8 +1986,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the healing domain as an alternate domain",
         "complexreqdesc": "second deity with the healing domain as an alternate domain",
         "complexreq": [
             {
@@ -2122,8 +2036,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the indulgence domain as an alternate domain",
         "complexreqdesc": "second deity with the indulgence domain as an alternate domain",
         "complexreq": [
             {
@@ -2174,8 +2086,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the knowledge domain as an alternate domain",
         "complexreqdesc": "second deity with the knowledge domain as an alternate domain",
         "complexreq": [
             {
@@ -2226,8 +2136,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the lightning domain as an alternate domain",
         "complexreqdesc": "second deity with the lightning domain as an alternate domain",
         "complexreq": [
             {
@@ -2278,8 +2186,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the luck domain as an alternate domain",
         "complexreqdesc": "second deity with the luck domain as an alternate domain",
         "complexreq": [
             {
@@ -2330,8 +2236,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the magic domain as an alternate domain",
         "complexreqdesc": "second deity with the magic domain as an alternate domain",
         "complexreq": [
             {
@@ -2382,8 +2286,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the might domain as an alternate domain",
         "complexreqdesc": "second deity with the might domain as an alternate domain",
         "complexreq": [
             {
@@ -2434,8 +2336,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the moon domain as an alternate domain",
         "complexreqdesc": "second deity with the moon domain as an alternate domain",
         "complexreq": [
             {
@@ -2486,8 +2386,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the naga domain as an alternate domain",
         "complexreqdesc": "second deity with the naga domain as an alternate domain",
         "complexreq": [
             {
@@ -2538,8 +2436,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the nature domain as an alternate domain",
         "complexreqdesc": "second deity with the nature domain as an alternate domain",
         "complexreq": [
             {
@@ -2590,8 +2486,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the nightmares domain as an alternate domain",
         "complexreqdesc": "second deity with the nightmares domain as an alternate domain",
         "complexreq": [
             {
@@ -2642,8 +2536,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the pain domain as an alternate domain",
         "complexreqdesc": "second deity with the pain domain as an alternate domain",
         "complexreq": [
             {
@@ -2694,8 +2586,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the passion domain as an alternate domain",
         "complexreqdesc": "second deity with the passion domain as an alternate domain",
         "complexreq": [
             {
@@ -2746,8 +2636,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the perfection domain as an alternate domain",
         "complexreqdesc": "second deity with the perfection domain as an alternate domain",
         "complexreq": [
             {
@@ -2798,8 +2686,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the plague domain as an alternate domain",
         "complexreqdesc": "second deity with the plague domain as an alternate domain",
         "complexreq": [
             {
@@ -2850,8 +2736,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the protection domain as an alternate domain",
         "complexreqdesc": "second deity with the protection domain as an alternate domain",
         "complexreq": [
             {
@@ -2902,8 +2786,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the repose domain as an alternate domain",
         "complexreqdesc": "second deity with the repose domain as an alternate domain",
         "complexreq": [
             {
@@ -2954,8 +2836,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the secrecy domain as an alternate domain",
         "complexreqdesc": "second deity with the secrecy domain as an alternate domain",
         "complexreq": [
             {
@@ -3006,8 +2886,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the sorrow domain as an alternate domain",
         "complexreqdesc": "second deity with the sorrow domain as an alternate domain",
         "complexreq": [
             {
@@ -3058,8 +2936,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the soul domain as an alternate domain",
         "complexreqdesc": "second deity with the soul domain as an alternate domain",
         "complexreq": [
             {
@@ -3110,8 +2986,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the star domain as an alternate domain",
         "complexreqdesc": "second deity with the star domain as an alternate domain",
         "complexreq": [
             {
@@ -3162,8 +3036,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the sun domain as an alternate domain",
         "complexreqdesc": "second deity with the sun domain as an alternate domain",
         "complexreq": [
             {
@@ -3214,8 +3086,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the swarm domain as an alternate domain",
         "complexreqdesc": "second deity with the swarm domain as an alternate domain",
         "complexreq": [
             {
@@ -3266,8 +3136,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the time domain as an alternate domain",
         "complexreqdesc": "second deity with the time domain as an alternate domain",
         "complexreq": [
             {
@@ -3318,8 +3186,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the toil domain as an alternate domain",
         "complexreqdesc": "second deity with the toil domain as an alternate domain",
         "complexreq": [
             {
@@ -3370,8 +3236,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the travel domain as an alternate domain",
         "complexreqdesc": "second deity with the travel domain as an alternate domain",
         "complexreq": [
             {
@@ -3422,8 +3286,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the trickery domain as an alternate domain",
         "complexreqdesc": "second deity with the trickery domain as an alternate domain",
         "complexreq": [
             {
@@ -3474,8 +3336,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the truth domain as an alternate domain",
         "complexreqdesc": "second deity with the truth domain as an alternate domain",
         "complexreq": [
             {
@@ -3526,8 +3386,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the tyranny domain as an alternate domain",
         "complexreqdesc": "second deity with the tyranny domain as an alternate domain",
         "complexreq": [
             {
@@ -3578,8 +3436,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the undeath domain as an alternate domain",
         "complexreqdesc": "second deity with the undeath domain as an alternate domain",
         "complexreq": [
             {
@@ -3630,8 +3486,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the vigil domain as an alternate domain",
         "complexreqdesc": "second deity with the vigil domain as an alternate domain",
         "complexreq": [
             {
@@ -3682,8 +3536,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the void domain as an alternate domain",
         "complexreqdesc": "second deity with the void domain as an alternate domain",
         "complexreq": [
             {
@@ -3734,8 +3586,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the water domain as an alternate domain",
         "complexreqdesc": "second deity with the water domain as an alternate domain",
         "complexreq": [
             {
@@ -3786,8 +3636,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the wealth domain as an alternate domain",
         "complexreqdesc": "second deity with the wealth domain as an alternate domain",
         "complexreq": [
             {
@@ -3838,8 +3686,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the wyrmkin domain as an alternate domain",
         "complexreqdesc": "second deity with the wyrmkin domain as an alternate domain",
         "complexreq": [
             {
@@ -3890,8 +3736,6 @@
         "featreq": [
             "cloistered cleric"
         ],
-        "specialreq": "secondDeity?.alternateDomains.includes(subType)",
-        "specialreqdesc": "second deity with the zeal domain as an alternate domain",
         "complexreqdesc": "second deity with the zeal domain as an alternate domain",
         "complexreq": [
             {
@@ -3958,8 +3802,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the abomination domain as an alternate domain",
         "complexreqdesc": "deity with the abomination domain as an alternate domain",
         "complexreq": [
             {
@@ -4017,8 +3859,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the air domain as an alternate domain",
         "complexreqdesc": "deity with the air domain as an alternate domain",
         "complexreq": [
             {
@@ -4076,8 +3916,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the ambition domain as an alternate domain",
         "complexreqdesc": "deity with the ambition domain as an alternate domain",
         "complexreq": [
             {
@@ -4135,8 +3973,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the change domain as an alternate domain",
         "complexreqdesc": "deity with the change domain as an alternate domain",
         "complexreq": [
             {
@@ -4194,8 +4030,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the cities domain as an alternate domain",
         "complexreqdesc": "deity with the cities domain as an alternate domain",
         "complexreq": [
             {
@@ -4253,8 +4087,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the cold domain as an alternate domain",
         "complexreqdesc": "deity with the cold domain as an alternate domain",
         "complexreq": [
             {
@@ -4312,8 +4144,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the confidence domain as an alternate domain",
         "complexreqdesc": "deity with the confidence domain as an alternate domain",
         "complexreq": [
             {
@@ -4371,8 +4201,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the creation domain as an alternate domain",
         "complexreqdesc": "deity with the creation domain as an alternate domain",
         "complexreq": [
             {
@@ -4430,8 +4258,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the darkness domain as an alternate domain",
         "complexreqdesc": "deity with the darkness domain as an alternate domain",
         "complexreq": [
             {
@@ -4489,8 +4315,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the death domain as an alternate domain",
         "complexreqdesc": "deity with the death domain as an alternate domain",
         "complexreq": [
             {
@@ -4548,8 +4372,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the decay domain as an alternate domain",
         "complexreqdesc": "deity with the decay domain as an alternate domain",
         "complexreq": [
             {
@@ -4607,8 +4429,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the delirium domain as an alternate domain",
         "complexreqdesc": "deity with the delirium domain as an alternate domain",
         "complexreq": [
             {
@@ -4666,8 +4486,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the destruction domain as an alternate domain",
         "complexreqdesc": "deity with the destruction domain as an alternate domain",
         "complexreq": [
             {
@@ -4725,8 +4543,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the dreams domain as an alternate domain",
         "complexreqdesc": "deity with the dreams domain as an alternate domain",
         "complexreq": [
             {
@@ -4784,8 +4600,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the dust domain as an alternate domain",
         "complexreqdesc": "deity with the dust domain as an alternate domain",
         "complexreq": [
             {
@@ -4843,8 +4657,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the duty domain as an alternate domain",
         "complexreqdesc": "deity with the duty domain as an alternate domain",
         "complexreq": [
             {
@@ -4902,8 +4714,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the earth domain as an alternate domain",
         "complexreqdesc": "deity with the earth domain as an alternate domain",
         "complexreq": [
             {
@@ -4961,8 +4771,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the family domain as an alternate domain",
         "complexreqdesc": "deity with the family domain as an alternate domain",
         "complexreq": [
             {
@@ -5020,8 +4828,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the fate domain as an alternate domain",
         "complexreqdesc": "deity with the fate domain as an alternate domain",
         "complexreq": [
             {
@@ -5079,8 +4885,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the fire domain as an alternate domain",
         "complexreqdesc": "deity with the fire domain as an alternate domain",
         "complexreq": [
             {
@@ -5138,8 +4942,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the freedom domain as an alternate domain",
         "complexreqdesc": "deity with the freedom domain as an alternate domain",
         "complexreq": [
             {
@@ -5197,8 +4999,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the glyph domain as an alternate domain",
         "complexreqdesc": "deity with the glyph domain as an alternate domain",
         "complexreq": [
             {
@@ -5256,8 +5056,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the healing domain as an alternate domain",
         "complexreqdesc": "deity with the healing domain as an alternate domain",
         "complexreq": [
             {
@@ -5315,8 +5113,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the indulgence domain as an alternate domain",
         "complexreqdesc": "deity with the indulgence domain as an alternate domain",
         "complexreq": [
             {
@@ -5374,8 +5170,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the knowledge domain as an alternate domain",
         "complexreqdesc": "deity with the knowledge domain as an alternate domain",
         "complexreq": [
             {
@@ -5433,8 +5227,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the lightning domain as an alternate domain",
         "complexreqdesc": "deity with the lightning domain as an alternate domain",
         "complexreq": [
             {
@@ -5492,8 +5284,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the luck domain as an alternate domain",
         "complexreqdesc": "deity with the luck domain as an alternate domain",
         "complexreq": [
             {
@@ -5551,8 +5341,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the magic domain as an alternate domain",
         "complexreqdesc": "deity with the magic domain as an alternate domain",
         "complexreq": [
             {
@@ -5610,8 +5398,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the might domain as an alternate domain",
         "complexreqdesc": "deity with the might domain as an alternate domain",
         "complexreq": [
             {
@@ -5669,8 +5455,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the moon domain as an alternate domain",
         "complexreqdesc": "deity with the moon domain as an alternate domain",
         "complexreq": [
             {
@@ -5728,8 +5512,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the naga domain as an alternate domain",
         "complexreqdesc": "deity with the naga domain as an alternate domain",
         "complexreq": [
             {
@@ -5787,8 +5569,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the nature domain as an alternate domain",
         "complexreqdesc": "deity with the nature domain as an alternate domain",
         "complexreq": [
             {
@@ -5846,8 +5626,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the nightmares domain as an alternate domain",
         "complexreqdesc": "deity with the nightmares domain as an alternate domain",
         "complexreq": [
             {
@@ -5905,8 +5683,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the pain domain as an alternate domain",
         "complexreqdesc": "deity with the pain domain as an alternate domain",
         "complexreq": [
             {
@@ -5964,8 +5740,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the passion domain as an alternate domain",
         "complexreqdesc": "deity with the passion domain as an alternate domain",
         "complexreq": [
             {
@@ -6023,8 +5797,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the perfection domain as an alternate domain",
         "complexreqdesc": "deity with the perfection domain as an alternate domain",
         "complexreq": [
             {
@@ -6082,8 +5854,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the plague domain as an alternate domain",
         "complexreqdesc": "deity with the plague domain as an alternate domain",
         "complexreq": [
             {
@@ -6141,8 +5911,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the protection domain as an alternate domain",
         "complexreqdesc": "deity with the protection domain as an alternate domain",
         "complexreq": [
             {
@@ -6200,8 +5968,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the repose domain as an alternate domain",
         "complexreqdesc": "deity with the repose domain as an alternate domain",
         "complexreq": [
             {
@@ -6259,8 +6025,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the secrecy domain as an alternate domain",
         "complexreqdesc": "deity with the secrecy domain as an alternate domain",
         "complexreq": [
             {
@@ -6318,8 +6082,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the sorrow domain as an alternate domain",
         "complexreqdesc": "deity with the sorrow domain as an alternate domain",
         "complexreq": [
             {
@@ -6377,8 +6139,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the soul domain as an alternate domain",
         "complexreqdesc": "deity with the soul domain as an alternate domain",
         "complexreq": [
             {
@@ -6436,8 +6196,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the star domain as an alternate domain",
         "complexreqdesc": "deity with the star domain as an alternate domain",
         "complexreq": [
             {
@@ -6495,8 +6253,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the sun domain as an alternate domain",
         "complexreqdesc": "deity with the sun domain as an alternate domain",
         "complexreq": [
             {
@@ -6554,8 +6310,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the swarm domain as an alternate domain",
         "complexreqdesc": "deity with the swarm domain as an alternate domain",
         "complexreq": [
             {
@@ -6613,8 +6367,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the time domain as an alternate domain",
         "complexreqdesc": "deity with the time domain as an alternate domain",
         "complexreq": [
             {
@@ -6672,8 +6424,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the toil domain as an alternate domain",
         "complexreqdesc": "deity with the toil domain as an alternate domain",
         "complexreq": [
             {
@@ -6731,8 +6481,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the travel domain as an alternate domain",
         "complexreqdesc": "deity with the travel domain as an alternate domain",
         "complexreq": [
             {
@@ -6790,8 +6538,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the trickery domain as an alternate domain",
         "complexreqdesc": "deity with the trickery domain as an alternate domain",
         "complexreq": [
             {
@@ -6849,8 +6595,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the truth domain as an alternate domain",
         "complexreqdesc": "deity with the truth domain as an alternate domain",
         "complexreq": [
             {
@@ -6908,8 +6652,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the tyranny domain as an alternate domain",
         "complexreqdesc": "deity with the tyranny domain as an alternate domain",
         "complexreq": [
             {
@@ -6967,8 +6709,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the undeath domain as an alternate domain",
         "complexreqdesc": "deity with the undeath domain as an alternate domain",
         "complexreq": [
             {
@@ -7026,8 +6766,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the vigil domain as an alternate domain",
         "complexreqdesc": "deity with the vigil domain as an alternate domain",
         "complexreq": [
             {
@@ -7085,8 +6823,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the void domain as an alternate domain",
         "complexreqdesc": "deity with the void domain as an alternate domain",
         "complexreq": [
             {
@@ -7144,8 +6880,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the water domain as an alternate domain",
         "complexreqdesc": "deity with the water domain as an alternate domain",
         "complexreq": [
             {
@@ -7203,8 +6937,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the wealth domain as an alternate domain",
         "complexreqdesc": "deity with the wealth domain as an alternate domain",
         "complexreq": [
             {
@@ -7262,8 +6994,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the wyrmkin domain as an alternate domain",
         "complexreqdesc": "deity with the wyrmkin domain as an alternate domain",
         "complexreq": [
             {
@@ -7321,8 +7051,6 @@
         "featreq": [
             "Domain Initiate"
         ],
-        "specialreq": "Deity_Has_Alternate_Domain(deity, [subType])",
-        "specialreqdesc": "deity with the zeal domain as an alternate domain",
         "complexreqdesc": "deity with the zeal domain as an alternate domain",
         "complexreq": [
             {

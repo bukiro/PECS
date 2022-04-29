@@ -629,8 +629,6 @@
             "Goblin"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.heritage.name == 'Razortooth Goblin' || Has_Feat('Character', 'Fang Sharpener: Irongut Goblin')",
-        "specialreqdesc": "Fang Sharpener or razortooth goblin heritage",
         "complexreqdesc": "Fang Sharpener or razortooth goblin heritage",
         "complexreq": [
             {
@@ -672,8 +670,6 @@
             "Goblin"
         ],
         "levelreq": 5,
-        "specialreq": "deity?.name == 'Lamashtu' && character.class.heritage.name",
-        "specialreqdesc": "worshipper of Lamashtu, a heritage",
         "complexreqdesc": "worshipper of Lamashtu, a heritage",
         "complexreq": [
             {
@@ -1515,8 +1511,6 @@
             "Human"
         ],
         "levelreq": 1,
-        "specialreq": "true",
-        "specialreqdesc": "Tian-Dan ethnicity",
         "complexreqdesc": "Tian-Dan ethnicity",
         "complexreq": [
             {
@@ -1679,8 +1673,6 @@
             "Human"
         ],
         "levelreq": 1,
-        "specialreq": "true",
-        "specialreqdesc": "Nidalese ethnicity",
         "complexreqdesc": "Nidalese ethnicity",
         "complexreq": [
             {
@@ -2088,8 +2080,6 @@
             "Human"
         ],
         "levelreq": 1,
-        "specialreq": "character.get_DefaultSpellcasting() && ['Divine', 'Primal'].includes(character.get_DefaultSpellcasting().tradition)",
-        "specialreqdesc": "You have a spellcasting class feature with the divine or primal tradition",
         "complexreqdesc": "You have a spellcasting class feature with the divine or primal tradition",
         "complexreq": [
             {
@@ -2487,8 +2477,6 @@
             "Human"
         ],
         "levelreq": 5,
-        "specialreq": "true",
-        "specialreqdesc": "Bonuwat ethnicity",
         "complexreqdesc": "Bonuwat ethnicity",
         "complexreq": [
             {
@@ -2579,8 +2567,6 @@
             "Human"
         ],
         "levelreq": 9,
-        "specialreq": "true",
-        "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity",
         "complexreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity",
         "complexreq": [
             {
@@ -2856,8 +2842,6 @@
         ],
         "levelreq": 13,
         "heritagereq": "wintertouched human",
-        "specialreq": "true",
-        "specialreqdesc": "Jadwiga ethnicity",
         "complexreqdesc": "Jadwiga ethnicity",
         "complexreq": [
             {
@@ -2899,8 +2883,6 @@
             "Human"
         ],
         "levelreq": 13,
-        "specialreq": "true",
-        "specialreqdesc": "Nidalese ethnicity",
         "complexreqdesc": "Nidalese ethnicity",
         "complexreq": [
             {
@@ -2945,8 +2927,6 @@
             "Human"
         ],
         "levelreq": 13,
-        "specialreq": "Has_Feat('Character', 'Shory Aeromancer') || Has_Spell('Fly') || character.get_SpellsLearned('Fly').length",
-        "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly",
         "complexreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly",
         "complexreq": [
             {
@@ -3175,8 +3155,6 @@
             "Elf"
         ],
         "levelreq": 1,
-        "specialreq": "true",
-        "specialreqdesc": "Mualijae, Ilverani, or Vourinoi ethnicity",
         "complexreqdesc": "Mualijae, Ilverani, or Vourinoi ethnicity",
         "complexreq": [
             {
@@ -3408,8 +3386,6 @@
             "Elf"
         ],
         "levelreq": 13,
-        "specialreq": "character.class.ancestry.name == 'Elf' || Has_Feat('Character', 'Elf Atavism')",
-        "specialreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment",
         "complexreqdesc": "arctic elf, cavern elf, desert elf, woodland elf, or any other elf heritage based on adapting to an environment",
         "complexreq": [
             {
@@ -3501,8 +3477,6 @@
             "Lizardfolk"
         ],
         "levelreq": 1,
-        "specialreq": "Speed('Character', 'Swim Speed')",
-        "specialreqdesc": "swim Speed",
         "complexreqdesc": "swim Speed",
         "complexreq": [
             {
@@ -3551,8 +3525,6 @@
             "Lizardfolk"
         ],
         "levelreq": 1,
-        "specialreq": "charLevel == 1",
-        "specialreqdesc": "1st level only",
         "complexreqdesc": "1st level only",
         "complexreq": [
             {
@@ -3808,8 +3780,6 @@
             "Half-Elf"
         ],
         "levelreq": 1,
-        "specialreq": "charLevel == 1",
-        "specialreqdesc": "1st level only",
         "complexreqdesc": "1st level only",
         "complexreq": [
             {
@@ -3931,8 +3901,6 @@
             "Orc"
         ],
         "levelreq": 1,
-        "specialreq": "charLevel == 1",
-        "specialreqdesc": "1st level only",
         "complexreqdesc": "1st level only",
         "complexreq": [
             {
@@ -3974,8 +3942,6 @@
             "Dwarf"
         ],
         "levelreq": 1,
-        "specialreq": "Skill_Level('Character', 'Simple Weapons') >= 2 || Skill_Level('Character', 'Clan Dagger') >= 2",
-        "specialreqdesc": "trained in clan daggers",
         "complexreqdesc": "trained in clan daggers",
         "complexreq": [
             {

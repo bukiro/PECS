@@ -105,8 +105,6 @@
             "Ranger"
         ],
         "levelreq": 20,
-        "specialreq": "!Has_Sense('Character', 'Low-Light Vision') || Has_This_Feat()",
-        "specialreqdesc": "no low-light vision",
         "complexreqdesc": "no low-light vision",
         "complexreq": [
             {
@@ -156,8 +154,6 @@
             "Ranger"
         ],
         "levelreq": 20,
-        "specialreq": "Has_Sense('Character', 'Low-Light Vision')",
-        "specialreqdesc": "low-light vision",
         "complexreqdesc": "low-light vision",
         "complexreq": [
             {

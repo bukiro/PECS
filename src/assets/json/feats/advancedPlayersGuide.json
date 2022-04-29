@@ -28,8 +28,6 @@
             "General"
         ],
         "levelreq": 1,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
-        "specialreqdesc": "Any Ancestry except Orc",
         "complexreqdesc": "Any Ancestry except Orc",
         "complexreq": [
             {
@@ -69,8 +67,6 @@
             "Halfling"
         ],
         "levelreq": 5,
-        "specialreq": "character.class.ancestry.name && !character.class.ancestry.ancestries.includes(subType) || Has_This_Feat()",
-        "specialreqdesc": "Any Ancestry except Orc",
         "complexreqdesc": "Any Ancestry except Orc",
         "complexreq": [
             {
@@ -126,8 +122,6 @@
             "Orc"
         ],
         "levelreq": 1,
-        "specialreq": "charLevel == 1",
-        "specialreqdesc": "1st level only",
         "complexreqdesc": "1st level only",
         "complexreq": [
             {
