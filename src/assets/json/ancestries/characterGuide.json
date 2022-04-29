@@ -57,7 +57,7 @@
             },
             {
                 "name": "Hit Points",
-                "value": 8
+                "value": "8"
             },
             {
                 "name": "Size",
@@ -177,7 +177,7 @@
             },
             {
                 "name": "Hit Points",
-                "value": 8
+                "value": "8"
             },
             {
                 "name": "Size",
@@ -310,7 +310,7 @@
             },
             {
                 "name": "Hit Points",
-                "value": 8
+                "value": "8"
             },
             {
                 "name": "Size",

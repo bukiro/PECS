@@ -2945,7 +2945,7 @@
             "Human"
         ],
         "levelreq": 13,
-        "specialreq": "Has_Feat('Character', 'Shory Aeromancer') || character.get_SpellsTaken(this, 1, charLevel, -1, 'Fly').length || character.get_SpellsLearned('Fly').length",
+        "specialreq": "Has_Feat('Character', 'Shory Aeromancer') || Has_Spell('Fly') || character.get_SpellsLearned('Fly').length",
         "specialreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly",
         "complexreqdesc": "Garundi, Mauxi, or Tian-Yae ethnicity; Shory Aeromancer or ability to cast fly",
         "complexreq": [
@@ -3502,8 +3502,8 @@
         ],
         "levelreq": 1,
         "specialreq": "Speed('Character', 'Swim Speed')",
-        "specialreqdesc": "You have a swim Speed.",
-        "complexreqdesc": "You have a swim Speed.",
+        "specialreqdesc": "swim Speed",
+        "complexreqdesc": "swim Speed",
         "complexreq": [
             {
                 "countSpeeds": [

@@ -72,7 +72,7 @@
                                             *ngIf="get_AdaptedCantripUnlocked() && !choice.adaptedCantrip">
                                             An Adapted Cantrip spell slot has already been unlocked.
                                         </div>
-                                        <div class="newrow gridicon-fullsizebox"
+                                        <div class="newrow gridicon-fullsizebox left-aligned"
                                             *ngIf="!get_AdaptedCantripUnlocked() || choice.adaptedCantrip">
                                             <input class="character-choice" id="{{choice.id}}adaptedCantrip"
                                                 type="checkbox" [(ngModel)]="choice.adaptedCantrip"

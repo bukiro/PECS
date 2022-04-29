@@ -1808,14 +1808,9 @@
         "complexreqdesc": "no animal companion",
         "complexreq": [
             {
-                "hasAnimalCompanion": [
-                    {
-                        "query": {
-                            "any": true,
-                            "isFalse": true
-                        }
-                    }
-                ]
+                "hasAnimalCompanion": {
+                    "isFalse": true
+                }
             }
         ]
     },
@@ -23616,16 +23611,9 @@
                 "hasThisFeat": true
             },
             {
-                "hasAnimalCompanion": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isFalse": true
-                        }
-                    }
-                ]
+                "hasAnimalCompanion": {
+                    "isFalse": true
+                }
             }
         ],
         "gainAnimalCompanion": "Young"
@@ -24221,6 +24209,24 @@
         "levelreq": 6,
         "featreq": [
             "Animal Companion"
+        ],
+        "complexreqdesc": "no mature animal companion",
+        "complexreq": [
+            {
+                "hasThisFeat": true
+            },
+            {
+                "countFeats": [
+                    {
+                        "query": {
+                            "anyOfNames": "Mature Animal Companion"
+                        },
+                        "expected": {
+                            "isFalse": true
+                        }
+                    }
+                ]
+            }
         ],
         "effects": [
             {
@@ -26949,16 +26955,9 @@
                 "hasThisFeat": true
             },
             {
-                "hasFamiliar": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isFalse": true
-                        }
-                    }
-                ]
+                "hasFamiliar": {
+                    "isFalse": true
+                }
             }
         ],
         "gainFamiliar": true
@@ -27108,14 +27107,9 @@
         "complexreqdesc": "a familiar",
         "complexreq": [
             {
-                "hasFamiliar": [
-                    {
-                        "query": {
-                            "any": true,
-                            "isTrue": true
-                        }
-                    }
-                ]
+                "hasFamiliar": {
+                    "isTrue": true
+                }
             }
         ],
         "effects": [
@@ -33949,7 +33943,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Martial Weapon"
         ],
-        "specialreq": "Skill_Level('Character', 'Martial Weapons') >= 2 || Skill_Level('Character', subType) >= 2",
+        "specialreq": "Skill_Level('Character', 'Simple Weapons') >= 2 || Skill_Level('Character', 'Martial Weapons') >= 2 || Skill_Level('Character', subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Martial Weapon",
         "complexreqdesc": "trained in the Uncommon Ancestry Martial Weapon",
         "complexreq": [
@@ -33957,7 +33951,7 @@
                 "skillLevels": [
                     {
                         "query": {
-                            "anyOfNames": "Martial Weapons, subType"
+                            "anyOfNames": "Simple Weapons, Martial Weapons, subType"
                         },
                         "expected": {
                             "isTrue": true
@@ -34006,7 +34000,7 @@
         "featreq": [
             "Unconventional Weaponry: Uncommon Ancestry Advanced Weapon"
         ],
-        "specialreq": "Skill_Level('Character', 'Advanced Weapons') >= 2 || Skill_Level('Character', subType) >= 2",
+        "specialreq": "Skill_Level('Character', 'Martial Weapons') >= 2 || Skill_Level('Character', 'Advanced Weapons') >= 2 || Skill_Level('Character', subType) >= 2",
         "specialreqdesc": "trained in the Uncommon Ancestry Advanced Weapon",
         "complexreqdesc": "trained in the Uncommon Ancestry Advanced Weapon",
         "complexreq": [
@@ -34014,7 +34008,7 @@
                 "skillLevels": [
                     {
                         "query": {
-                            "anyOfNames": "Advanced Weapons, subType"
+                            "anyOfNames": "Martial Weapons, Advanced Weapons, subType"
                         },
                         "expected": {
                             "isTrue": true
@@ -38066,7 +38060,19 @@
                 "countSenses": [
                     {
                         "query": {
-                            "anyOfNames": "Acute Vision, Darkvision"
+                            "anyOfNames": "Darkvision"
+                        },
+                        "expected": {
+                            "isTrue": true
+                        }
+                    }
+                ]
+            },
+            {
+                "countFeats": [
+                    {
+                        "query": {
+                            "anyOfNames": "Acute Vision"
                         },
                         "expected": {
                             "isTrue": true
@@ -39088,16 +39094,9 @@
                 "hasThisFeat": true
             },
             {
-                "hasAnimalCompanion": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isFalse": true
-                        }
-                    }
-                ]
+                "hasAnimalCompanion": {
+                    "isFalse": true
+                }
             }
         ],
         "gainAnimalCompanion": "Young"
@@ -39145,16 +39144,9 @@
                 "hasThisFeat": true
             },
             {
-                "hasFamiliar": [
-                    {
-                        "query": {
-                            "any": true
-                        },
-                        "expected": {
-                            "isFalse": true
-                        }
-                    }
-                ]
+                "hasFamiliar": {
+                    "isFalse": true
+                }
             }
         ],
         "gainFamiliar": true
@@ -39269,7 +39261,7 @@
                 "countFeats": [
                     {
                         "query": {
-                            "anyOfNames": "Animal Order",
+                            "anyOfNames": "subType",
                             "excludeCountAs": true
                         },
                         "expected": {
@@ -39319,7 +39311,7 @@
                 "countFeats": [
                     {
                         "query": {
-                            "anyOfNames": "Animal Order",
+                            "anyOfNames": "subType",
                             "excludeCountAs": true
                         },
                         "expected": {
@@ -39369,7 +39361,7 @@
                 "countFeats": [
                     {
                         "query": {
-                            "anyOfNames": "Animal Order",
+                            "anyOfNames": "subType",
                             "excludeCountAs": true
                         },
                         "expected": {
@@ -39419,7 +39411,7 @@
                 "countFeats": [
                     {
                         "query": {
-                            "anyOfNames": "Animal Order",
+                            "anyOfNames": "subType",
                             "excludeCountAs": true
                         },
                         "expected": {
@@ -39522,6 +39514,24 @@
         "levelreq": 4,
         "featreq": [
             "Animal Companion"
+        ],
+        "complexreqdesc": "no mature animal companion",
+        "complexreq": [
+            {
+                "hasThisFeat": true
+            },
+            {
+                "countFeats": [
+                    {
+                        "query": {
+                            "anyOfNames": "Mature Animal Companion"
+                        },
+                        "expected": {
+                            "isFalse": true
+                        }
+                    }
+                ]
+            }
         ],
         "effects": [
             {

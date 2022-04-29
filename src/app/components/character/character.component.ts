@@ -567,6 +567,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 } else if (feat.name == 'Different Worlds') {
                     this.refreshService.set_ToChange('Character', 'general');
                 }
+                if (feat.senses.length) {
+                    this.refreshService.set_ToChange('Character', 'skills');
+                }
             });
         //Reload spellbook if spells were learned between the levels,
         if (character.get_SpellsLearned().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {

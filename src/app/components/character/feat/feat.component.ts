@@ -104,15 +104,8 @@ export class FeatComponent {
             result.push({ met: true, desc: ', ' });
             result.push(this.featRequirementsService.meetsComplexReq(feat, this.levelNumber));
         }
-        if (result.length > 1) {
-            if (result[0].desc == ', ') {
-                result.shift();
-            }
-            if (result[0].desc == 'requires ' && result[1].desc == ', ') {
-                result.splice(1, 1);
-            }
-        } else if (result.length == 1 && result[0].desc == 'requires ') {
-            result.length = 0;
+        if (result.length > 1 && result[0].desc == ', ') {
+            result.shift();
         }
         return result;
     }

@@ -55,7 +55,7 @@
             },
             {
                 "name": "Hit Points",
-                "value": 10
+                "value": "10"
             },
             {
                 "name": "Size",
@@ -186,7 +186,7 @@
             },
             {
                 "name": "Hit Points",
-                "value": 6
+                "value": "6"
             },
             {
                 "name": "Size",
@@ -307,7 +307,7 @@
             },
             {
                 "name": "Hit Points",
-                "value": 8
+                "value": "8"
             },
             {
                 "name": "Size",
@@ -427,7 +427,7 @@
             },
             {
                 "name": "Hit Points",
-                "value": 6
+                "value": "6"
             },
             {
                 "name": "Size",
@@ -547,7 +547,7 @@
             },
             {
                 "name": "Hit Points",
-                "value": 6
+                "value": "6"
             },
             {
                 "name": "Size",
@@ -649,7 +649,7 @@
             },
             {
                 "name": "Hit Points",
-                "value": 8
+                "value": "8"
             },
             {
                 "name": "Size",
