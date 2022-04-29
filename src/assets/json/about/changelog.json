@@ -3,8 +3,8 @@
         "version": "1.0.15",
         "changes": [
             {
-                "header": "",
-                "desc": "Feats no longer have a specialreq attribute. Its function has been taken over by the new complexreq attribute, which is less performance intensive. If your custom feats have a specialreq, it will no longer be evaluated.",
+                "header": "Breaking changes to feats",
+                "desc": "Feats no longer have a specialreq attribute. Its function has been taken over by the new complexreq attribute, which is less performance intensive. If your custom feats have a specialreq, it will no longer be evaluated and won't keep you from taking the feat.\n\nThe ignoreRequirements attribute has undergone a similar change and is now using the same mechanism as complexreq. In case a custom feat still has a string-based ignoreRequirements attribute, it will now always result in success and allow you ignore the relevant requirement.",
                 "images": []
             }
         ]
