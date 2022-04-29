@@ -6,9 +6,7 @@ import { Deity } from 'src/app/classes/Deity';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Feat } from 'src/app/classes/Feat';
 import { Skill } from 'src/app/classes/Skill';
-import { Weapon } from 'src/app/classes/Weapon';
 import { CharacterService } from 'src/app/services/character.service';
-import { Speed } from 'src/app/classes/Speed';
 import { FeatRequirements } from '../../definitions/models/featRequirements';
 
 @Injectable({
@@ -167,127 +165,6 @@ export class FeatRequirementsService {
             }
         } else {
             result.push({ met: true, desc: '' });
-        }
-        return result;
-    }
-
-    public meetsSpecialReq(feat: Feat, _charLevel?: number): FeatRequirements.FeatRequirementResult {
-        //If the feat has a specialreq, it comes as a string that contains a condition. Evaluate the condition to find out if the requirement is met.
-        //When writing the condition, take care that it only uses variables known in this method,
-        //and that it must remain true even after you take the feat (or the feat will be automatically removed.)
-        //As an example, if the requirement is:
-        //  (Skill_Level('Character', 'Athletics') < 2)
-        //instead use:
-        //  (Skill_Level('Character', 'Athletics') < 2) || Has_This_Feat()
-        //
-        //Here we prepare variables and functions to use in specialreq evaluations.
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        const characterService = this.characterService;
-        const character: Character = characterService.get_Character();
-        //charLevel is usually the level on which you take the feat. If none is given, the current character level is used for calculations.
-        //The variable is recast here so it can be used in eval().
-        const charLevel = _charLevel || character.level;
-        const familiar: Familiar = characterService.get_Familiar();
-        const deities: Deity[] = characterService.deitiesService.get_CharacterDeities(characterService, character, '', charLevel);
-        const deity = deities[0];
-        const secondDeity = deities[1];
-        const subType = feat.subType;
-        function Skill_Level(creatureType: string, name: string) {
-            if (creatureType == 'Familiar') {
-                return 0;
-            } else {
-                const creature = characterService.get_Creature(creatureType);
-                return characterService.get_Skills(creature, name)[0]?.level(creature, characterService, charLevel) || 0;
-            }
-        }
-        function Skills_Of_Type(type: string, creatureType = 'Character'): Skill[] {
-            const creature = characterService.get_Creature(creatureType);
-            return characterService.get_Skills(creature, '', { type: type });
-        }
-        function Has_Skill_Of_Level_By_Type(type: string, levels: number[], options: { mustHaveAll?: boolean } = {}, creatureType = 'Character') {
-            const creature = characterService.get_Creature(creatureType);
-            const skills = Skills_Of_Type(type, creatureType);
-            const skillLevels = new Set(skills.map(skill => skill.level(creature, characterService, charLevel)));
-            return options.mustHaveAll ? levels.every(level => skillLevels.has(level)) : levels.some(level => skillLevels.has(level));
-        }
-        function Speed(creatureType: string, name: string) {
-            const creature = characterService.get_Creature(creatureType);
-            const speeds: Speed[] = characterService.get_Speeds(creature).filter(speed => speed.name == name);
-            if (speeds.length) {
-                return speeds[0].value(creature, characterService, characterService.effectsService).result;
-            } else {
-                return 0;
-            }
-        }
-        function Feats_Taken(creatureType: string) {
-            if (creatureType == 'Familiar') {
-                return characterService.familiarsService.get_FamiliarAbilities().filter(feat => feat.have(familiar, characterService, charLevel));
-            } else if (creatureType == 'Character') {
-                return characterService.get_CharacterFeatsTaken(0, charLevel);
-            } else {
-                return null;
-            }
-        }
-        function Has_Feat(creatureType: string, name: string, includeCountAs = true) {
-            //Return whether the feat has been taken up to the current level. A number is not necessary.
-            if (creatureType == 'Familiar') {
-                return characterService.familiarsService.get_FamiliarAbilities().some(feat => feat.have(familiar, characterService, charLevel));
-            } else if (creatureType == 'Character') {
-                return !!characterService.get_CharacterFeatsTaken(0, charLevel, name, '', '', undefined, false, includeCountAs).length;
-            } else {
-                return null;
-            }
-        }
-        function Owned_Stances() {
-            return characterService.get_CharacterFeatsAndFeatures('', 'Stance').filter(feat => feat.have(character, characterService, charLevel));
-        }
-        const Has_This_Feat = (creatureType = 'Character') => {
-            return feat.have(characterService.get_Creature(creatureType), characterService, charLevel);
-        };
-        function Has_Sense(creatureType: string, name: string) {
-            return characterService.get_Senses(characterService.get_Creature(creatureType), charLevel, false).includes(name);
-        }
-        function Has_Any_Lore(): boolean {
-            return character.get_SkillIncreases(characterService, 1, charLevel).some(increase => increase.name.toLowerCase().includes('lore:'));
-        }
-        function Has_AnimalCompanion(): boolean {
-            return characterService.get_CompanionAvailable();
-        }
-        function Has_Familiar(): boolean {
-            return characterService.get_FamiliarAvailable();
-        }
-        function Deity_Has_Domain(deityObject: Deity, domainNames: string[]) {
-            domainNames = domainNames.map(name => name.toLowerCase());
-            return !!deityObject && deityObject.get_Domains(character, characterService).some(domain => domainNames.includes(domain.toLowerCase()));
-        }
-        function Deity_Has_Alternate_Domain(deityObject: Deity, domainNames: string[]) {
-            domainNames = domainNames.map(name => name.toLowerCase());
-            return !!deityObject && deityObject.get_AlternateDomains(character, characterService).some(domain => domainNames.includes(domain.toLowerCase()));
-        }
-        function Has_Spell(spellName: string, className = '', castingType = ''): boolean {
-            return !!character.get_SpellsTaken(1, charLevel, { characterService: characterService }, { spellName, classNames: [className], castingTypes: [castingType] });
-        }
-        function Favored_Weapons(deityObject: Deity): Weapon[] {
-            return deityObject && deityObject.favoredWeapon?.map(favoredWeaponName =>
-                characterService.itemsService.get_CleanItems().weapons
-                    .find(weapon => weapon.name.toLowerCase() === favoredWeaponName.toLowerCase())
-            ) || [];
-        }
-        /* eslint-enable @typescript-eslint/no-unused-vars */
-        let result: { met: boolean, desc: string };
-        if (feat.specialreq) {
-            try {
-                if (eval(feat.specialreq)) {
-                    result = { met: true, desc: feat.specialreqdesc };
-                } else {
-                    result = { met: false, desc: feat.specialreqdesc };
-                }
-            } catch (error) {
-                console.warn(`Failed evaluating feat requirement of ${ feat.name } (${ feat.specialreq }): ${ error }`);
-                result = { met: false, desc: feat.specialreqdesc };
-            }
-        } else {
-            result = { met: true, desc: '' };
         }
         return result;
     }
@@ -725,9 +602,9 @@ export class FeatRequirementsService {
             }
         });
         if (success) {
-            return { met: true, desc: feat.specialreqdesc };
+            return { met: true, desc: feat.complexreqdesc };
         } else {
-            return { met: false, desc: feat.specialreqdesc };
+            return { met: false, desc: feat.complexreqdesc };
         }
     }
 
@@ -765,14 +642,12 @@ export class FeatRequirementsService {
         //Check the heritage reqs. True if ALL are true. (There is only one.)
         const heritagereqs = this.meetsHeritageReq(feat, context.charLevel);
         const heritagereq: boolean = options.ignoreRequirementsList.includes('heritagereq') || !heritagereqs.filter(req => req.met == false).length;
-        //If any of the previous requirements are already not fulfilled, skip the specialreq, as it is the most performance intensive.
-        if (levelreq && levelreq && abilityreq && skillreq && featreq && heritagereq) {
-            //Check the special req. True if returns true.
-            const specialreq: boolean = options.ignoreRequirementsList.includes('specialreq') || this.meetsSpecialReq(feat, context.charLevel).met;
+        //If any of the previous requirements are already not fulfilled, skip the complexreq, as it is the most performance intensive.
+        if (!!levelreq && !!levelreq && !!abilityreq && !!skillreq && !!featreq && !!heritagereq) {
             //Check the complex req. True if returns true.
             const complexreq: boolean = options.ignoreRequirementsList.includes('complexreq') || this.meetsComplexReq(feat, context.charLevel).met;
-            //Return true if all are true. During the migration from eval, both specialreq and complexreq are evaluated.
-            return specialreq && complexreq;
+            //Return true if all are true.
+            return !!complexreq;
         } else {
             return false;
         }

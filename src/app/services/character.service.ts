@@ -2651,7 +2651,6 @@ export class CharacterService {
             this.grant_BasicItems();
             //Create feats that are based on all weapons in the store and in your inventory.
             this.create_WeaponFeats();
-            //Check that every feat's specialreq and complexreq makes sense. This is a debugging thing and should only run in development.
             //Set your turn state according to the saved state.
             this.timeService.set_YourTurn(this.get_Character().yourTurn);
             //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.

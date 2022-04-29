@@ -46,7 +46,7 @@ export class Feat {
     public effects: EffectGain[] = [];
     public featreq: string[] = [];
     public heritagereq = '';
-    //You can add requirements to the ignore list. These get evaluated and must result in "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "specialreq", "complexreq" or "dedicationlimit" to do anything.
+    //You can add requirements to the ignore list. These get evaluated and must result in "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "complexreq" or "dedicationlimit" to do anything.
     public ignoreRequirements: string[] = [];
     public gainAbilityChoice: AbilityChoice[] = [];
     public gainActivities: string[] = [];
@@ -69,7 +69,6 @@ export class Feat {
     public gainDomains: string[] = [];
     public hide = false;
     public hints: Hint[] = [];
-    public readonly internalNote: string = '';
     public levelreq = 0;
     public limited = 0;
     public lorebase = '';
@@ -79,8 +78,6 @@ export class Feat {
     public shortdesc = '';
     public skillreq: FeatRequirements.SkillRequirement[] = [];
     public specialdesc = '';
-    public specialreq = '';
-    public specialreqdesc = '';
     public complexreq: FeatRequirements.ComplexRequirement[] = [];
     public complexreqdesc = '';
     public subType = '';

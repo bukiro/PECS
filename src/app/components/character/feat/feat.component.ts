@@ -96,10 +96,6 @@ export class FeatComponent {
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('heritagereq');
             });
         }
-        if (feat.specialreqdesc) {
-            result.push({ met: true, desc: ', ' });
-            result.push(this.featRequirementsService.meetsSpecialReq(feat, this.levelNumber));
-        }
         if (feat.complexreqdesc) {
             result.push({ met: true, desc: ', ' });
             result.push(this.featRequirementsService.meetsComplexReq(feat, this.levelNumber));
