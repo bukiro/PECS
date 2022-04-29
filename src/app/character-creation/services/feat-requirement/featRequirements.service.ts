@@ -4,7 +4,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { Deity } from 'src/app/classes/Deity';
 import { Familiar } from 'src/app/classes/Familiar';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Skill } from 'src/app/classes/Skill';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatRequirements } from '../../definitions/models/featRequirements';
@@ -129,7 +129,7 @@ export class FeatRequirementsService {
                     requiredFeat = this.characterService.get_CharacterFeatsAndFeatures(testfeat, '', true, true);
                 }
                 if (requiredFeat.length) {
-                    if (requiredFeat.some(feat => feat.have(testcreature, this.characterService, charLevel))) {
+                    if (requiredFeat.some(feat => feat.have({ creature: testcreature }, { characterService: this.characterService }, { charLevel }, { excludeTemporary: true }))) {
                         result.push({ met: true, desc: featreq });
                     } else {
                         result.push({ met: false, desc: featreq });
@@ -255,7 +255,7 @@ export class FeatRequirementsService {
                 let requirementFailure = false;
                 //Each singular requirement is treated as AND; The first time that any of them fails, the set fails and the remaining requirements in the set are skipped.
                 if (complexreq.hasThisFeat && !requirementFailure) {
-                    if (!feat.have(creature, this.characterService, charLevel)) {
+                    if (!feat.have({ creature }, { characterService: this.characterService }, { charLevel }, { excludeTemporary: true })) {
                         requirementFailure = true;
                     }
                 }
@@ -325,7 +325,7 @@ export class FeatRequirementsService {
                                 }
                             });
                         }
-                        feats = feats.filter(feat => feat.have(creature, this.characterService, charLevel, true));
+                        feats = feats.filter(feat => feat.have({ creature }, { characterService: this.characterService }, { charLevel }, { excludeTemporary: true }));
                         const featNames = feats.map(feat => feat.name);
                         if (!featreq.query.excludeCountAs) {
                             featNames.push(...feats.map(feat => feat.superType).filter(name => name));
@@ -451,7 +451,7 @@ export class FeatRequirementsService {
                         const classNames = spellreq.query.ofSpellCasting?.havingAnyOfClassNames ? SplitNames(spellreq.query.ofSpellCasting.havingAnyOfClassNames) : [];
                         const castingTypes = spellreq.query.ofSpellCasting?.havingAnyOfCastingTypes ? SplitNames(spellreq.query.ofSpellCasting.havingAnyOfCastingTypes) : [];
                         const traditions = spellreq.query.ofSpellCasting?.havingAnyOfTraditions ? SplitNames(spellreq.query.ofSpellCasting.havingAnyOfTraditions) : [];
-                        const allSpells = character.get_SpellsTaken(1, charLevel, { characterService: this.characterService }, { classNames: classNames, traditions: traditions, castingTypes: castingTypes })
+                        const allSpells = character.get_SpellsTaken(1, charLevel, { characterService: this.characterService }, { classNames, traditions, castingTypes })
                             .map(spellSet => spellSet.gain.name);
                         const queryResult = ApplyDefaultQuery(spellreq.query, allSpells);
                         if (!DoesNumberMatchExpectation(queryResult, spellreq.expected)) {

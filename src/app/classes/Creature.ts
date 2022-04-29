@@ -10,7 +10,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { EffectsService } from 'src/app/services/effects.service';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Hint } from 'src/app/classes/Hint';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { CharacterService } from '../services/character.service';

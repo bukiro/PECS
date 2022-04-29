@@ -31,7 +31,7 @@ import { Savegame } from 'src/app/classes/Savegame';
 import { TraitsService } from 'src/app/services/traits.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { Item } from 'src/app/classes/Item';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -40,7 +40,7 @@ import { Activity } from 'src/app/classes/Activity';
 import { Domain } from 'src/app/classes/Domain';
 import { ConfigService } from 'src/app/services/config.service';
 import { default as package_json } from 'package.json';
-import { FeatData } from 'src/app/classes/FeatData';
+import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { Subscription } from 'rxjs';
@@ -502,7 +502,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const newLevel = character.level;
         //If we went up levels, prepare to repeat any onceEffects of Feats that apply inbetween, such as recovering Focus Points for a larger Focus Pool.
         if (newLevel > oldLevel) {
-            this.get_CharacterFeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have(character, this.characterService, newLevel, true, false, oldLevel + 1))
+            this.get_CharacterFeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have({ creature: character }, { characterService: this.characterService }, { charLevel: newLevel, minLevel: (oldLevel + 1) }, { excludeTemporary: true }))
                 .forEach(feat => {
                     feat.onceEffects.forEach(effect => {
                         this.characterService.prepare_OnceEffect(character, effect);
@@ -552,7 +552,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.refreshService.set_ToChange('Character', 'individualSkills', increase.name);
             this.cacheService.set_SkillChanged(increase.name, { creatureTypeId: 0, minLevel: lowerLevel });
         });
-        this.get_CharacterFeatsAndFeatures().filter(feat => feat.have(character, this.characterService, higherLevel, true, false, lowerLevel))
+        this.get_CharacterFeatsAndFeatures().filter(feat => feat.have({ creature: character }, { characterService: this.characterService }, { charLevel: higherLevel, minLevel: lowerLevel }, { excludeTemporary: true }))
             .forEach(feat => {
                 this.cacheService.set_FeatChanged(feat.name, { creatureTypeId: 0, minLevel: lowerLevel });
                 this.refreshService.set_HintsToChange(character, feat.hints, { characterService: this.characterService });
@@ -621,7 +621,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             if (levelNumber) {
                 //If level is given, check if any new languages have been added on this level. If not, don't get any languages at this point.
                 let newLanguages = 0;
-                newLanguages += this.get_CharacterFeatsAndFeatures().filter(feat => (feat.gainLanguages.length || feat.effects.some(effect => effect.affected == 'Max Languages')) && feat.have(character, this.characterService, levelNumber, false, false, levelNumber)).length;
+                newLanguages += this.get_CharacterFeatsAndFeatures().filter(feat => (feat.gainLanguages.length || feat.effects.some(effect => effect.affected == 'Max Languages')) && feat.have({ creature: character }, { characterService: this.characterService }, { charLevel: levelNumber, minLevel: levelNumber })).length;
                 newLanguages += character.get_AbilityBoosts(levelNumber, levelNumber, 'Intelligence').length;
                 if (!newLanguages) {
                     return false;
@@ -941,7 +941,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 return []
                     .concat(deity.domains.map((domain, index) => { return { title: index ? '' : 'Deity\'s Domains', type: 1, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() }; }))
                     .concat(deity.alternateDomains.map((domain, index) => { return { title: index ? '' : 'Deity\'s Alternate Domains', type: 2, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() }; }))
-                    .concat(this.deitiesService.get_Domains().filter(domain => !deity.domains.includes(domain.name) && !deity.alternateDomains.includes(domain.name)).map((domain, index) => { return { title: index ? '' : 'Other Domains', type: 3, domain: domain }; })) as
+                    .concat(this.deitiesService.get_Domains().filter(domain => !deity.domains.includes(domain.name) && !deity.alternateDomains.includes(domain.name)).map((domain, index) => { return { title: index ? '' : 'Other Domains', type: 3, domain }; })) as
                     { title: string, type: number, domain: Domain }[];
             }
         }
@@ -1087,10 +1087,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     const restricted = activity.gainConditions.some(gain => restrictedConditions.includes(gain.name));
                     if (restricted && anyRestrictedStances && !featStances.includes(activity.name)) {
                         unique.push(activity.name);
-                        availableStances.push({ activity: activity, restricted: restricted, reason: 'Incompatible restrictions.' });
+                        availableStances.push({ activity, restricted, reason: 'Incompatible restrictions.' });
                     } else {
                         unique.push(activity.name);
-                        availableStances.push({ activity: activity, restricted: restricted, reason: '' });
+                        availableStances.push({ activity, restricted, reason: '' });
                     }
                 }
             });
@@ -1483,7 +1483,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             const classboosts = this.get_Companion().class.levels[1].abilityChoices[0].boosts.filter(boost => boost.name == ability.name);
             const ancestryboosts = type.abilityChoices[0].boosts.filter(boost => boost.name == ability.name);
             modifier = ancestryboosts.concat(classboosts).filter(boost => boost.type == 'Boost').length - ancestryboosts.concat(classboosts).filter(boost => boost.type == 'Flaw').length;
-            abilities.push({ name: name, modifier: (modifier > 0 ? '+' : '') + modifier.toString() });
+            abilities.push({ name, modifier: (modifier > 0 ? '+' : '') + modifier.toString() });
         });
         abilities.shift();
         return abilities;

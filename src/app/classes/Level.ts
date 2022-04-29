@@ -1,7 +1,7 @@
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 
 export class Level {
     public abilityChoices: AbilityChoice[] = [];

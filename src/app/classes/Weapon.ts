@@ -176,7 +176,7 @@ export class Weapon extends Equipment {
     }
     get_Shoddy(creature: Creature, characterService: CharacterService): number {
         //Shoddy items have a -2 penalty to Attack, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have(creature, characterService) && this.crafted) {
+        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
             this._shoddy = 0;
             return 0;
         } else if (this.shoddy) {
@@ -317,7 +317,7 @@ export class Weapon extends Equipment {
             this._traits = traits;
             changed.forEach(trait => {
                 characterService.traitsService.get_Traits(trait).forEach(trait => {
-                    characterService.refreshService.set_HintsToChange(creature, trait.hints, { characterService: characterService });
+                    characterService.refreshService.set_HintsToChange(creature, trait.hints, { characterService });
                 });
             });
             characterService.refreshService.process_ToChange();
@@ -331,7 +331,7 @@ export class Weapon extends Equipment {
         const proficiencyChanges: ProficiencyChange[] = [];
         if (creature instanceof Character) {
             characterService.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.changeProficiency.length && feat.have(creature, characterService, charLevel))
+                .filter(feat => feat.changeProficiency.length && feat.have({ creature }, { characterService }, { charLevel }))
                 .forEach(feat => {
                     proficiencyChanges.push(...feat.changeProficiency.filter(change =>
                         (change.name ? this.name.toLowerCase() == change.name.toLowerCase() : true) &&
@@ -572,7 +572,7 @@ export class Weapon extends Equipment {
             if (runeSource.reason) {
                 source = `Potency (${ runeSource.reason.get_Name() })`;
             }
-            calculatedEffects.push(Object.assign(new Effect(potencyRune.toString()), { creature: creature.type, type: 'item', target: this.name, source: source, apply: true, show: false }));
+            calculatedEffects.push(Object.assign(new Effect(potencyRune.toString()), { creature: creature.type, type: 'item', target: this.name, source, apply: true, show: false }));
         }
         if (runeSource.fundamentalRunes.battleforged) {
             let source = 'Battleforged';
@@ -580,7 +580,7 @@ export class Weapon extends Equipment {
             if (runeSource.reason) {
                 source = `Battleforged (${ runeSource.reason.get_Name() })`;
             }
-            calculatedEffects.push(Object.assign(new Effect('+1'), { creature: creature.type, type: 'item', target: this.name, source: source, apply: true, show: false }));
+            calculatedEffects.push(Object.assign(new Effect('+1'), { creature: creature.type, type: 'item', target: this.name, source, apply: true, show: false }));
         }
         //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
         let hasPowerfulFist = false;
@@ -621,7 +621,7 @@ export class Weapon extends Equipment {
         //Add up all modifiers and return the attack bonus for this attack
         attackResult += effectsSum;
         explain = explain.trim();
-        return { range: range, attackResult: attackResult, explain: explain, effects: penalties.concat(bonuses).concat(absolutes), penalties: penalties, bonuses: bonuses, absolutes: absolutes };
+        return { range, attackResult, explain, effects: penalties.concat(bonuses).concat(absolutes), penalties, bonuses, absolutes };
     }
     get_ExtraDamage(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string, prof: string, traits: string[]) {
         let extraDamage = '';
@@ -770,7 +770,7 @@ export class Weapon extends Equipment {
                 if (runeSource.reason) {
                     source += ` (${ runeSource.reason.get_Name() })`;
                 }
-                calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Number`, setValue: (1 + runeSource.fundamentalRunes.get_StrikingRune()).toString(), source: source, apply: true, show: false }));
+                calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Number`, setValue: (1 + runeSource.fundamentalRunes.get_StrikingRune()).toString(), source, apply: true, show: false }));
             }
             //For any activated traits of this weapon, check if any effects on Dice Number apply. These need to be calculated in the effects service.
             const traitEffects = [];
@@ -811,7 +811,7 @@ export class Weapon extends Equipment {
             const calculatedEffects: Effect[] = [];
             //Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage or simple weapons as long as they are their deity's favored weapon.
             if (((dicesize == 4 && this.prof == 'Unarmed Attacks') || this.prof == 'Simple Weapons') &&
-                characterService.get_CharacterFeatsAndFeatures('Deific Weapon')[0]?.have(creature, characterService)) {
+                characterService.get_CharacterFeatsAndFeatures('Deific Weapon')[0]?.have({ creature }, { characterService })) {
                 if (this.get_IsFavoredWeapon(creature, characterService)) {
                     const newDicesize = Math.max(Math.min(dicesize + 2, 12), 6);
                     if (newDicesize > dicesize) {
@@ -821,7 +821,7 @@ export class Weapon extends Equipment {
             }
             //Clerics get increased dice size via Deadly Simplicity for unarmed attacks with less than d6 damage or simple weapons as long as they are their deity's favored weapon.
             if (((dicesize < 6 && this.prof == 'Unarmed Attacks') || this.prof == 'Simple Weapons') &&
-                characterService.get_Feats('Deadly Simplicity')[0]?.have(creature, characterService)) {
+                characterService.get_Feats('Deadly Simplicity')[0]?.have({ creature }, { characterService })) {
                 if (this.get_IsFavoredWeapon(creature, characterService)) {
                     let newDicesize = Math.max(Math.min(dicesize + 2, 12), 6);
                     if ((dicesize < 6 && this.prof == 'Unarmed Attacks')) {
@@ -1098,7 +1098,7 @@ export class Weapon extends Equipment {
         }
         dmgResult += ` ${ this.get_ExtraDamage(creature, characterService, effectsService, range, prof, traits) }`;
         const explain = (`${ diceExplain.trim() }\n${ bonusExplain.trim() }`).trim();
-        return { damageResult: dmgResult, explain: explain, penalties: penalties, bonuses: bonuses, absolutes: absolutes };
+        return { damageResult: dmgResult, explain, penalties, bonuses, absolutes };
     }
     get_CritSpecialization(creature: Creature, characterService: CharacterService, range: string): Specialization[] {
         const SpecializationGains: SpecializationGain[] = [];
@@ -1109,7 +1109,7 @@ export class Weapon extends Equipment {
             const runeSource = this.get_RuneSource(creature, range);
             const skillLevel = this.profLevel(creature, characterService, runeSource.propertyRunes);
             characterService.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level))
+                .filter(feat => feat.gainSpecialization.length && feat.have({ creature: character }, { characterService }))
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
                         (spec.minLevel ? creature.level >= spec.minLevel : true) &&
@@ -1121,7 +1121,7 @@ export class Weapon extends Equipment {
                         (spec.trait ? this.traits.some(trait => spec.trait.includes(trait)) : true) &&
                         (spec.proficiency ? (prof && spec.proficiency.includes(prof)) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
-                        (spec.featreq ? characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
+                        (spec.featreq ? characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]?.have({ creature: character }, { characterService }, { charLevel: character.level }) : true)
                     ));
                 });
             SpecializationGains.forEach(critSpec => {

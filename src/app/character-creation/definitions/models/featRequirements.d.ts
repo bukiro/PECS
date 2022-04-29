@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 export namespace FeatRequirements {
     export interface AbilityRequirement {
         ability: string;

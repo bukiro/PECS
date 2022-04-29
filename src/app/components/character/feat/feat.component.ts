@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { SpellsService } from 'src/app/services/spells.service';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { TraitsService } from 'src/app/services/traits.service';

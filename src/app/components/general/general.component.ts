@@ -4,7 +4,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { FamiliarsService } from 'src/app/services/familiars.service';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { DeitiesService } from 'src/app/services/deities.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -111,7 +111,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     get_ArchetypeFeats() {
-        return this.characterService.get_CharacterFeatsAndFeatures().filter(feat => feat.traits.includes('Dedication') && feat.have(this.get_Character(), this.characterService));
+        return this.characterService.get_CharacterFeatsAndFeatures().filter(feat => feat.traits.includes('Dedication') && feat.have({ creature: this.get_Character() }, { characterService: this.characterService }));
     }
 
     get_Domains() {
@@ -121,7 +121,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             const deity = this.characterService.get_CharacterDeities(character)[0];
             if (deity) {
                 const domainFeats = this.characterService.get_CharacterFeatsAndFeatures()
-                    .filter(feat => feat.gainDomains?.length && feat.have(character, this.characterService));
+                    .filter(feat => feat.gainDomains?.length && feat.have({ creature: character }, { characterService: this.characterService }));
                 const domains = deity.get_Domains(character, this.characterService)
                     .concat(...(domainFeats.map(feat => feat.gainDomains))
                     );
@@ -138,7 +138,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
         //Collect tenets from all feats and features you have that include them.
         return [].concat(...this.characterService.get_CharacterFeatsAndFeatures()
-            .filter(feat => feat.tenets?.length && feat.have(character, this.characterService))
+            .filter(feat => feat.tenets?.length && feat.have({ creature: character }, { characterService: this.characterService }))
             .map(feat => feat.tenets)
         );
     }
@@ -171,7 +171,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         }
         //Add anathema from all feats and features you have that include them.
         return character.class.anathema.concat(...this.characterService.get_CharacterFeatsAndFeatures()
-            .filter(feat => feat.anathema?.length && feat.have(this.get_Character(), this.characterService))
+            .filter(feat => feat.anathema?.length && feat.have({ creature: character }, { characterService: this.characterService }))
             .map(feat => feat.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1))))
             .concat((deityAnathema));
     }

@@ -22,7 +22,7 @@ import { Rune } from 'src/app/classes/Rune';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Trait } from 'src/app/classes/Trait';
 
 type ActivityParameters = {

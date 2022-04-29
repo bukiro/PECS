@@ -1,5 +1,5 @@
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { FormulaChoice } from 'src/app/classes/FormulaChoice';
@@ -90,7 +90,7 @@ export class Feat {
     public sourceBook = '';
     public allowSignatureSpells: SignatureSpellGain[] = [];
     public PFSnote = '';
-    recast() {
+    public recast(): typeof this {
         this.changeProficiency = this.changeProficiency.map(obj => Object.assign(new ProficiencyChange(), obj).recast());
         this.copyProficiency = this.copyProficiency.map(obj => Object.assign(new ProficiencyCopy(), obj).recast());
         this.bloodMagic = this.bloodMagic.map(obj => Object.assign(new BloodMagic(), obj).recast());
@@ -119,12 +119,22 @@ export class Feat {
         this.allowSignatureSpells = this.allowSignatureSpells.map(obj => Object.assign(new SignatureSpellGain(), obj).recast());
         return this;
     }
-    public have(creature: Creature, characterService: CharacterService, charLevel: number = (characterService?.get_Character().level || 0), excludeTemporary = false, includeCountAs = false, minLevel = 1): number {
-        if (characterService?.still_loading()) { return 0; }
-        if (creature instanceof Character) {
-            return characterService.get_CharacterFeatsTaken(minLevel, charLevel, this.name, '', '', undefined, excludeTemporary, includeCountAs)?.length || 0;
-        } else if (creature instanceof Familiar) {
-            return creature.abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase())?.length || 0;
+    public have(
+        context: { creature: Creature },
+        services: { characterService: CharacterService },
+        filter: { charLevel?: number, minLevel?: number } = {},
+        options: { excludeTemporary?: boolean, includeCountAs?: boolean } = {}
+    ): number {
+        if (services.characterService?.still_loading()) { return 0; }
+        filter = {
+            charLevel: services.characterService.get_Character().level,
+            minLevel: 1,
+            ...filter,
+        };
+        if (context.creature instanceof Character) {
+            return services.characterService.get_CharacterFeatsTaken(filter.minLevel, filter.charLevel, this.name, '', '', undefined, options.excludeTemporary, options.includeCountAs)?.length || 0;
+        } else if (context.creature instanceof Familiar) {
+            return context.creature.abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase())?.length || 0;
         } else {
             return 0;
         }

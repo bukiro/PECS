@@ -3,7 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ActivitiesService } from 'src/app/services/activities.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Character } from 'src/app/classes/Character';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';

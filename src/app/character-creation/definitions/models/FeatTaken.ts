@@ -5,7 +5,7 @@ export class FeatTaken {
     public automatic: boolean;
     public sourceId: string;
     public countAsFeat: string;
-    recast() {
+    public recast(): typeof this {
         return this;
     }
 }

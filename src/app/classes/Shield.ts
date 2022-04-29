@@ -72,7 +72,7 @@ export class Shield extends Equipment {
     }
     get_Shoddy(creature: Creature, characterService: CharacterService) {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have(creature, characterService) && this.crafted) {
+        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
             this._shoddy = 0;
             return 0;
         } else if (this.shoddy) {
@@ -84,7 +84,7 @@ export class Shield extends Equipment {
         }
     }
     get_ShieldAlly(creature: Creature, characterService: CharacterService) {
-        this._shieldAlly = this.equipped && (characterService.get_CharacterFeatsAndFeatures('Divine Ally: Shield Ally')[0]?.have(creature, characterService) && true);
+        this._shieldAlly = this.equipped && (characterService.get_CharacterFeatsAndFeatures('Divine Ally: Shield Ally')[0]?.have({ creature }, { characterService }) && true);
         return this._shieldAlly;
     }
     get_EmblazonArmament(creature: Creature, characterService: CharacterService) {

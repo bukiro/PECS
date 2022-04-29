@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatsService } from 'src/app/services/feats.service';
-import { Feat } from 'src/app/classes/Feat';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Character } from 'src/app/classes/Character';
@@ -218,7 +218,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             return feats.map(feat => {
                 const cannotTakeSubFeat = this.cannotTake(feat, choice);
                 const available = (!cannotTakeSubFeat.length || (this.get_FeatTakenByChoice(feat, choice) && true));
-                return { available: available, subfeat: feat, cannotTake: cannotTakeSubFeat };
+                return { available, subfeat: feat, cannotTake: cannotTakeSubFeat };
             })
                 .filter(featSet => showOtherOptions || choice.filter.length || this.get_FeatTakenByChoice(featSet.subfeat, choice))
                 .sort((a, b) => (a.subfeat.subType == b.subfeat.subType) ? 0 : ((a.subfeat.subType > b.subfeat.subType) ? 1 : -1))
@@ -333,7 +333,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                             .find(superFeat =>
                                 superFeat.archetype == feat.archetype &&
                                 superFeat.traits.includes('Dedication') &&
-                                superFeat.have(character, this.characterService, this.levelNumber)
+                                superFeat.have({ creature: character }, { characterService: this.characterService }, { charLevel: this.levelNumber })
                             )
                     )
                 );
@@ -345,7 +345,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             return feats.map(feat => {
                 const featCannotTake = this.cannotTake(feat, choice);
                 const featAvailable = ((this.get_FeatTakenByChoice(feat, choice) && true) || (this.subFeatTakenByThis(allSubFeats, feat, choice) && true) || !featCannotTake.length);
-                return { available: featAvailable, feat: feat, cannotTake: featCannotTake };
+                return { available: featAvailable, feat, cannotTake: featCannotTake };
             }).filter(featSet => ((this.unavailableFeats || featSet.available) && showOtherOptions) || this.get_FeatTakenByChoice(featSet.feat, choice) || this.subFeatTakenByThis(allSubFeats, featSet.feat, choice))
                 .sort(function (a, b) {
                     //Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2), then cut it down to 3 digits. 0 will be 0.00.
@@ -423,7 +423,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                         // and we want to know if it would have been a valid choice in the first place.
                         const cannotTake = this.cannotTake(subFeatSet.subfeat, choice, false, true);
                         if (!cannotTake.length && !this.get_FeatTakenByChoice(subFeatSet.subfeat, choice)) {
-                            availableFeatsNotTaken.push({ available: subFeatSet.available, feat: subFeatSet.subfeat, cannotTake: cannotTake });
+                            availableFeatsNotTaken.push({ available: subFeatSet.available, feat: subFeatSet.subfeat, cannotTake });
                         }
                     });
                 }
@@ -499,9 +499,9 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             if (!feat.unlimited) {
                 // (Don't count temporary choices (showOnSheet == true) unless this is also temporary.)
                 const excludeTemporary = !choice.showOnSheet;
-                const haveUpToNow: number = feat.have(creature, this.characterService, levelNumber, excludeTemporary, true);
+                const haveUpToNow: number = feat.have({ creature }, { characterService: this.characterService }, { charLevel: levelNumber }, { excludeTemporary, includeCountAs: true });
                 //Familiar abilities are independent of level. Don't check haveLater for them, because it will be the same result as haveUpToNow.
-                const haveLater: number = creature instanceof Character ? feat.have(creature, this.characterService, 20, excludeTemporary, true, levelNumber + 1) : 0;
+                const haveLater: number = creature instanceof Character ? feat.have({ creature }, { characterService: this.characterService }, { charLevel: 20, minLevel: levelNumber + 1 }, { excludeTemporary, includeCountAs: true }) : 0;
                 if (feat.limited) {
                     //Has it already been taken up to this level, excluding this FeatChoice, and more often than the limit?
                     //  Don't count temporary choices (showOnSheet == true) unless this is also temporary.
@@ -526,7 +526,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             //Dedication feats (unless the dedication limit is ignored)
             if (feat.traits.includes('Dedication') && !ignoreRequirementsList.includes('dedicationlimit')) {
                 //Get all taken dedication feats that aren't this, then check if you have taken enough to allow a new archetype.
-                const takenFeats = this.get_CharacterFeatsAndFeatures().filter(feat => feat.have(creature, this.characterService, levelNumber, true));
+                const takenFeats = this.get_CharacterFeatsAndFeatures().filter(feat => feat.have({ creature }, { characterService: this.characterService }, { charLevel: levelNumber }, { excludeTemporary: true }));
                 takenFeats
                     .filter(libraryfeat => libraryfeat?.name != feat.name && libraryfeat?.traits.includes('Dedication')).forEach(takenfeat => {
                         const archetypeFeats = takenFeats
@@ -540,7 +540,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             if (feat.superType && !skipSubfeatAlreadyTaken) {
                 const superfeat: Feat = this.get_Feats().find(superfeat => superfeat.name == feat.superType && !superfeat.hide);
                 if (!superfeat.unlimited) {
-                    const takenSubfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have(creature, this.characterService, levelNumber));
+                    const takenSubfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have({ creature }, { characterService: this.characterService }, { charLevel: levelNumber }));
                     //If another subtype has been taken, but not in this choice, and the feat is not unlimited, no other subfeat can be taken.
                     if (!superfeat.unlimited && !superfeat.limited && takenSubfeats.length) {
                         reasons.push({ reason: 'Feat already taken', explain: 'This feat cannot be taken more than once.' });

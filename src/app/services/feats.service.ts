@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Level } from 'src/app/classes/Level';
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
@@ -18,8 +18,8 @@ import * as json_feats from 'src/assets/json/feats';
 import * as json_features from 'src/assets/json/features';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { ExtensionsService } from 'src/app/services/extensions.service';
-import { FeatTaken } from 'src/app/classes/FeatTaken';
-import { FeatData } from 'src/app/classes/FeatData';
+import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
+import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { RefreshService } from 'src/app/services/refresh.service';
 
 @Injectable({
@@ -111,7 +111,7 @@ export class FeatsService {
                 this.$characterFeats.set(feat.name, feat);
             }
         }
-        this.$characterFeatsTaken.push({ level: level, gain: gain });
+        this.$characterFeatsTaken.push({ level, gain });
     }
 
     remove_CharacterFeat(feat: Feat, gain: FeatTaken, level: number): void {
@@ -236,7 +236,7 @@ export class FeatsService {
                 }
             }
 
-            this.refreshService.set_HintsToChange(creature, feat.hints, { characterService: characterService });
+            this.refreshService.set_HintsToChange(creature, feat.hints, { characterService });
             if (feat.effects.length) {
                 this.refreshService.set_ToChange(creature.type, 'effects');
             }
@@ -310,7 +310,7 @@ export class FeatsService {
                 this.refreshService.set_ToChange(creature.type, 'abilities');
                 feat.gainAbilityChoice.forEach(abilityChoice => {
                     abilityChoice.boosts.forEach(boost => {
-                        this.refreshService.set_AbilityToChange(creature.type, boost.name, { characterService: characterService });
+                        this.refreshService.set_AbilityToChange(creature.type, boost.name, { characterService });
                     });
                 });
 
@@ -519,12 +519,12 @@ export class FeatsService {
             if (feat.gainItems.length) {
                 if (taken) {
                     feat.gainItems.filter(freeItem => freeItem.on == 'grant').forEach(freeItem => {
-                        freeItem.grant_GrantedItem(character, {}, { characterService: characterService, itemsService: characterService.itemsService });
+                        freeItem.grant_GrantedItem(character, {}, { characterService, itemsService: characterService.itemsService });
                         freeItem.grantedItemID = '';
                     });
                 } else {
                     feat.gainItems.filter(freeItem => freeItem.on == 'grant').forEach(freeItem => {
-                        freeItem.drop_GrantedItem(character, { requireGrantedItemID: false }, { characterService: characterService });
+                        freeItem.drop_GrantedItem(character, { requireGrantedItemID: false }, { characterService });
                     });
                 }
             }
@@ -781,7 +781,7 @@ export class FeatsService {
                         newSpellChoice.source = `Feat: ${ feat.name }`;
 
                         const familiarLevel = characterService.get_CharacterFeatsAndFeatures()
-                            .filter(feat => feat.gainFamiliar && feat.have(character, characterService, character.level))
+                            .filter(feat => feat.gainFamiliar && feat.have({ creature: character }, { characterService }))
                             .map(feat => character.class.levels.find(level => level.featChoices
                                 .find(choice => choice.feats
                                     .find(featTaken => featTaken.name == feat.name)
@@ -809,7 +809,7 @@ export class FeatsService {
                         newSpellChoice.castingType = spellCasting.castingType;
                         newSpellChoice.source = `Feat: ${ feat.name }`;
                         const familiarLevel = characterService.get_CharacterFeatsAndFeatures()
-                            .filter(feat => feat.gainFamiliar && feat.have(character, characterService, character.level))
+                            .filter(feat => feat.gainFamiliar && feat.have({ creature: character }, { characterService }))
                             .map(feat => character.class.levels.find(level => level.featChoices
                                 .find(choice => choice.feats
                                     .find(featTaken => featTaken.name == feat.name)

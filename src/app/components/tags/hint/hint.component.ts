@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/app/services/refresh.service';

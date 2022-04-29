@@ -177,7 +177,7 @@ export class SpellsService {
                                 newConditionGain.choice = context.gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition._choices.includes(overrideChoice.choice)).choice;
                             } else if (newConditionGain.choiceBySubType) {
                                 //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
-                                const subType = (services.characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have(context.creature, services.characterService, context.creature.level, false)));
+                                const subType = (services.characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have({ creature: context.creature }, { characterService: services.characterService })));
                                 if (subType && condition.choices.some(choice => choice.name == subType.subType)) {
                                     newConditionGain.choice = subType.subType;
                                 }
@@ -366,7 +366,7 @@ export class SpellsService {
     rest(character: Character, characterService: CharacterService) {
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is exactly one day or until rest (-2), the spell gain's cooldown is reset.
-        character.get_SpellsTaken(0, 20, { characterService: characterService })
+        character.get_SpellsTaken(0, 20, { characterService })
             .concat(character.get_AllEquipmentSpellsGranted())
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
@@ -397,7 +397,7 @@ export class SpellsService {
     refocus(character: Character, characterService: CharacterService) {
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is until refocus (-3), the spell gain's cooldown is reset.
-        character.get_SpellsTaken(0, 20, { characterService: characterService })
+        character.get_SpellsTaken(0, 20, { characterService })
             .concat(character.get_AllEquipmentSpellsGranted())
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
@@ -410,7 +410,7 @@ export class SpellsService {
     }
 
     tick_Spells(character: Character, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, turns = 10) {
-        character.get_SpellsTaken(0, 20, { characterService: characterService })
+        character.get_SpellsTaken(0, 20, { characterService })
             .concat(character.get_AllEquipmentSpellsGranted())
             .filter(taken => taken.gain.activeCooldown || taken.gain.duration)
             .forEach(taken => {
@@ -421,7 +421,7 @@ export class SpellsService {
                         const spell: Spell = this.get_Spells(taken.gain.name)[0];
                         if (spell) {
                             this.process_Spell(spell, false,
-                                { characterService: characterService, itemsService: itemsService, conditionsService: conditionsService },
+                                { characterService, itemsService, conditionsService },
                                 { creature: character, target: taken.gain.selectedTarget, gain: taken.gain, level: 0 }
                             );
                         }

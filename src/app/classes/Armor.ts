@@ -135,7 +135,7 @@ export class Armor extends Equipment {
     }
     get_Shoddy(creature: Creature, characterService: CharacterService) {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have(creature, characterService) && this.crafted) {
+        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
             this._shoddy = 0;
             return 0;
         } else if (this.shoddy) {
@@ -220,7 +220,7 @@ export class Armor extends Equipment {
             const character = creature as Character;
             const skillLevel = this.profLevel(character, characterService);
             characterService.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.gainSpecialization.length && feat.have(character, characterService, character.level))
+                .filter(feat => feat.gainSpecialization.length && feat.have({ creature: character }, { characterService }))
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
                         (spec.group ? (this.group && spec.group.includes(this.group)) : true) &&
@@ -228,7 +228,7 @@ export class Armor extends Equipment {
                         (spec.trait ? this.traits.filter(trait => trait && spec.trait.includes(trait)).length : true) &&
                         (spec.proficiency ? (prof && spec.proficiency.includes(prof)) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
-                        (spec.featreq ? characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]?.have(character, characterService) : true)
+                        (spec.featreq ? characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]?.have({ creature: character }, { characterService }) : true)
                     ));
                 });
             SpecializationGains.forEach(critSpec => {

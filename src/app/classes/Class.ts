@@ -17,7 +17,7 @@ import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { TypeService } from 'src/app/services/type.service';
-import { FeatData } from 'src/app/classes/FeatData';
+import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 
 export class Class {
     public disabled = '';

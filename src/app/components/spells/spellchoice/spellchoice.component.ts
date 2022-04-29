@@ -79,7 +79,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         } else {
             this.showChoice = name;
         }
-        this.showChoiceMessage.emit({ name: name, levelNumber: this.level, choice: this.choice, casting: this.spellCasting });
+        this.showChoiceMessage.emit({ name, levelNumber: this.level, choice: this.choice, casting: this.spellCasting });
     }
 
     get_ShowSpell() {
@@ -185,7 +185,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         ) {
             const signatureSpellGains: SignatureSpellGain[] = [];
             this.characterService.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.allowSignatureSpells.length && feat.have(this.get_Character(), this.characterService)).forEach(feat => {
+                .filter(feat => feat.allowSignatureSpells.length && feat.have({ creature: this.get_Character() }, { characterService: this.characterService })).forEach(feat => {
                     signatureSpellGains.push(...feat.allowSignatureSpells.filter(gain => gain.className == this.spellCasting.className));
                 });
             if (signatureSpellGains.some(gain => gain.available == -1)) {
@@ -604,14 +604,14 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         );
         if (this.spellCasting?.spellBookOnly) {
             if (this.allowBorrow) {
-                allSpells = this.spellsService.get_Spells().map(spell => { return { spell: spell, borrowed: (!spellBookSpells.some(spellBookSpell => spellBookSpell.name == spell.name)) }; });
+                allSpells = this.spellsService.get_Spells().map(spell => { return { spell, borrowed: (!spellBookSpells.some(spellBookSpell => spellBookSpell.name == spell.name)) }; });
             } else {
-                allSpells = spellBookSpells.map(spell => { return { spell: spell, borrowed: false }; });
+                allSpells = spellBookSpells.map(spell => { return { spell, borrowed: false }; });
             }
         } else if (this.choice.spellBookOnly) {
-            allSpells = spellBookSpells.map(spell => { return { spell: spell, borrowed: false }; });
+            allSpells = spellBookSpells.map(spell => { return { spell, borrowed: false }; });
         } else {
-            allSpells = this.spellsService.get_Spells().map(spell => { return { spell: spell, borrowed: false }; });
+            allSpells = this.spellsService.get_Spells().map(spell => { return { spell, borrowed: false }; });
         }
         //Filter the list by the filter given in the choice.
         if (choice.filter.length) {
@@ -648,10 +648,10 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 } else if (choice.source.includes('Divine Font') && this.have_Feat('Versatile Font')) {
                     //With Versatile Font, you can choose both Harm and Heal in the Divine Font spell slot.
                     if (!choice.filter.includes('Harm')) {
-                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Harm').map(spell => { return { spell: spell, borrowed: false }; })));
+                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Harm').map(spell => { return { spell, borrowed: false }; })));
                     }
                     if (!choice.filter.includes('Heal')) {
-                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Heal').map(spell => { return { spell: spell, borrowed: false }; })));
+                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Heal').map(spell => { return { spell, borrowed: false }; })));
                     }
                 } else if (traditionFilter) {
                     //If the tradition filter comes from the spellcasting, also include all spells that are on the spell list regardless of their tradition.

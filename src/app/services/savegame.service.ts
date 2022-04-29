@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { Skill } from 'src/app/classes/Skill';
 import { Settings } from 'src/app/classes/Settings';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -17,7 +17,7 @@ import { default as package_json } from 'package.json';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { TypeService } from 'src/app/services/type.service';
-import { FeatData } from 'src/app/classes/FeatData';
+import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 
 @Injectable({
     providedIn: 'root'

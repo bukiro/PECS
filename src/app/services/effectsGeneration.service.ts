@@ -14,7 +14,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { Familiar } from 'src/app/classes/Familiar';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';

@@ -1,4 +1,4 @@
-import { FeatTaken } from 'src/app/classes/FeatTaken';
+import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 
 export class FeatChoice {
     public available = 0;
@@ -34,7 +34,7 @@ export class FeatChoice {
     public ignoreRequirements: string[] = [];
     public type = '';
     public bonus = false;
-    recast() {
+    public recast(): typeof this {
         this.feats = this.feats.map(obj => Object.assign(new FeatTaken(), obj).recast());
         return this;
     }

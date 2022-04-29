@@ -1,4 +1,4 @@
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { ItemGain } from 'src/app/classes/ItemGain';

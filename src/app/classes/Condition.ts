@@ -9,7 +9,7 @@ import { Character } from 'src/app/classes/Character';
 import { ConditionChoice } from 'src/app/classes/ConditionChoice';
 import { CharacterService } from 'src/app/services/character.service';
 import { Familiar } from 'src/app/classes/Familiar';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ConditionDuration } from 'src/app/classes/ConditionDuration';
 import { Creature } from 'src/app/classes/Creature';
 import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
@@ -251,18 +251,18 @@ export class Condition {
                         choice.featreq.forEach(featreq => {
                             //Allow to check for the Familiar's feats
                             let requiredFeat: Feat[];
-                            let testcreature: Character | Familiar;
-                            let testfeat = featreq;
+                            let testCreature: Character | Familiar;
+                            let testFeat = featreq;
                             if (featreq.includes('Familiar:')) {
-                                testcreature = characterService.get_Familiar();
-                                testfeat = featreq.split('Familiar:')[1].trim();
-                                requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testfeat);
+                                testCreature = characterService.get_Familiar();
+                                testFeat = featreq.split('Familiar:')[1].trim();
+                                requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testFeat);
                             } else {
-                                testcreature = character;
-                                requiredFeat = characterService.get_CharacterFeatsAndFeatures(testfeat, '', true);
+                                testCreature = character;
+                                requiredFeat = characterService.get_CharacterFeatsAndFeatures(testFeat, '', true);
                             }
                             if (requiredFeat.length) {
-                                if (!requiredFeat.find(feat => feat.have(testcreature, characterService, character.level))) {
+                                if (!requiredFeat.some(feat => feat.have({ creature: testCreature }, { characterService }))) {
                                     featNotFound = true;
                                 }
                             } else {

@@ -138,7 +138,7 @@ export class EvaluationService {
             return (Creature as AnimalCompanion | Character | Familiar).get_BaseSize();
         }
         function Size(asNumber = false) {
-            return (Creature as AnimalCompanion | Character | Familiar).get_Size(effectsService, { asNumber: asNumber });
+            return (Creature as AnimalCompanion | Character | Familiar).get_Size(effectsService, { asNumber });
         }
         function Skill(name: string) {
             return characterService.get_Skills(Creature, name)[0]?.baseValue((Creature as AnimalCompanion | Character), characterService, abilitiesService, effectsService, Level).result;
@@ -201,7 +201,7 @@ export class EvaluationService {
         }
         function Has_Feat(creature: string, name: string) {
             if (creature == 'Familiar') {
-                return familiarsService.get_FamiliarAbilities(name).filter(feat => feat.have(Familiar, characterService, Level, false)).length;
+                return familiarsService.get_FamiliarAbilities(name).filter(feat => feat.have({ creature: Familiar }, { characterService }, { charLevel: Level })).length;
             } else if (creature == 'Character') {
                 return characterService.get_CharacterFeatsTaken(1, Level, name).length;
             } else {
@@ -210,7 +210,7 @@ export class EvaluationService {
         }
         function Feats_Taken(creature: string) {
             if (creature == 'Familiar') {
-                return familiarsService.get_FamiliarAbilities().filter(feat => feat.have(Familiar, characterService, Level, false));
+                return familiarsService.get_FamiliarAbilities().filter(feat => feat.have({ creature: Familiar }, { characterService }, { charLevel: Level }));
             } else if (creature == 'Character') {
                 return characterService.get_CharacterFeatsTaken(1, Level);
             } else {

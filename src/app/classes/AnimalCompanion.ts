@@ -9,7 +9,7 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Hint } from 'src/app/classes/Hint';
-import { Feat } from './Feat';
+import { Feat } from '../character-creation/definitions/models/Feat';
 
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
@@ -70,7 +70,7 @@ export class AnimalCompanion extends Creature {
         const character = characterService.get_Character();
         let advancedOption = '';
         this.level = Math.min(3, Math.max(1, ...characterService.get_CharacterFeatsAndFeatures()
-            .filter(feat => feat.gainAnimalCompanion && feat.have(character, characterService, character.level))
+            .filter(feat => feat.gainAnimalCompanion && feat.have({ creature: character }, { characterService }))
             .map(feat => {
                 switch (feat.gainAnimalCompanion) {
                     case 'Young':
@@ -191,14 +191,14 @@ export class AnimalCompanion extends Creature {
         const feats: AnimalCompanionSpecialization[] = [];
         const hintSets: { hint: Hint, objectName: string }[] = [];
         this.class?.ancestry?.hints?.forEach(hint => {
-            hintSets.push({ hint: hint, objectName: this.class.ancestry.name });
+            hintSets.push({ hint, objectName: this.class.ancestry.name });
         });
         this.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
             feats.push(spec);
             spec.hints?.forEach(hint => {
-                hintSets.push({ hint: hint, objectName: spec.name });
+                hintSets.push({ hint, objectName: spec.name });
             });
         });
-        return { feats: feats, hintSets: hintSets };
+        return { feats, hintSets };
     }
 }

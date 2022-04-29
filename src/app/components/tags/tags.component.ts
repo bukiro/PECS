@@ -6,7 +6,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { TimeService } from 'src/app/services/time.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Condition } from 'src/app/classes/Condition';

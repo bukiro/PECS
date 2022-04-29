@@ -7,7 +7,7 @@ export class FeatData {
         }
     }
     private data: { [key: string]: FeatDataValue } = {};
-    recast() {
+    public recast(): typeof this {
         return this;
     }
     public setValue(key: string, value: FeatDataValue | Event) {

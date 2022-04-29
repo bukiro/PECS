@@ -18,7 +18,7 @@ import { HistoryService } from 'src/app/services/history.service';
 import { Heritage } from 'src/app/classes/Heritage';
 import { Background } from 'src/app/classes/Background';
 import { ItemsService } from 'src/app/services/items.service';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ActivitiesService } from 'src/app/services/activities.service';
@@ -40,7 +40,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SavegameService } from 'src/app/services/savegame.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { Oil } from 'src/app/classes/Oil';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Savegame } from 'src/app/classes/Savegame';
@@ -64,7 +64,7 @@ import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { FeatTaken } from 'src/app/classes/FeatTaken';
+import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { TypeService } from 'src/app/services/type.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
@@ -372,12 +372,12 @@ export class CharacterService {
 
     public get_CompanionAvailable(charLevel: number = this.get_Character().level): boolean {
         //Return any feat that grants an animal companion that you own.
-        return this.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 'Young' && feat.have(this.get_Character(), this, charLevel));
+        return this.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 'Young' && feat.have({ creature: this.get_Character() }, { characterService: this }, { charLevel }));
     }
 
     public get_FamiliarAvailable(charLevel: number = this.get_Character().level): boolean {
         //Return any feat that grants an animal companion that you own.
-        return this.get_CharacterFeatsAndFeatures().some(feat => feat.gainFamiliar && feat.have(this.get_Character(), this, charLevel));
+        return this.get_CharacterFeatsAndFeatures().some(feat => feat.gainFamiliar && feat.have({ creature: this.get_Character() }, { characterService: this }, { charLevel }));
     }
 
     public get_Companion(): AnimalCompanion {
@@ -1268,7 +1268,7 @@ export class CharacterService {
             }
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (conditionGain.activationPrerequisite) {
-                const activationValue = this.evaluationService.get_ValueFromFormula(conditionGain.activationPrerequisite, { characterService: this, effectsService: this.effectsService }, { creature: creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain });
+                const activationValue = this.evaluationService.get_ValueFromFormula(conditionGain.activationPrerequisite, { characterService: this, effectsService: this.effectsService }, { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain });
                 if (!activationValue || activationValue == '0' || (typeof activationValue == 'string' && !parseInt(activationValue))) {
                     activate = false;
                 }
@@ -1885,7 +1885,7 @@ export class CharacterService {
             //we eval the effect value by sending it to the evaluationService with some additional attributes and receive the resulting effect.
             if (effectGain.value) {
                 const testObject = { spellSource: effectGain.spellSource, value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility };
-                const validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature: creature, object: testObject, effect: effectGain });
+                const validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature, object: testObject, effect: effectGain });
                 if (validationResult && typeof validationResult == 'number') {
                     value = validationResult;
                 }
@@ -2103,7 +2103,7 @@ export class CharacterService {
                 senses.push(...heritageSenses);
             }
             this.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.senses?.length && feat.have(creature, this, charLevel))
+                .filter(feat => feat.senses?.length && feat.have({ creature }, { characterService: this }, { charLevel }))
                 .forEach(feat => {
                     senses.push(...feat.senses);
                 });
@@ -2157,7 +2157,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() == 'lore'
                     )
                 )
-            ) && feat.have(this.get_Character(), this, this.get_Character().level)
+            ) && feat.have({ creature: this.get_Character() }, { characterService: this })
         );
     }
 
@@ -2214,7 +2214,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() == 'lore'
                     )
                 )
-            ) && feat.have(this.get_Familiar(), this)
+            ) && feat.have({ creature: this.get_Familiar() }, { characterService: this })
             //Return any feats that include e.g. Companion:Athletics
         ).concat(this.get_FeatsShowingOn(`Familiar:${ objectName }`));
     }
@@ -2369,7 +2369,7 @@ export class CharacterService {
     get_ActivitiesShowingOn(creature: Creature, objectName = 'all') {
         return this.get_OwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
-            .map(gain => { return { gain: gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
+            .map(gain => { return { gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
             .filter((gainAndActivity: { gain: ActivityGain | ItemActivity, activity: Activity }) => gainAndActivity.activity && (gainAndActivity.gain.active || !gainAndActivity.activity.toggle))
             //...and then keep only the activities.

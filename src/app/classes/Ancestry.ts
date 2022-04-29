@@ -1,6 +1,6 @@
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { ItemGain } from 'src/app/classes/ItemGain';
-import { FeatChoice } from 'src/app/classes/FeatChoice';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 
 export class Ancestry {
     public disabled = '';

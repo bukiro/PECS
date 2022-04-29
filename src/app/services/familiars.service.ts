@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import * as json_abilities from 'src/assets/json/familiarabilities';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 

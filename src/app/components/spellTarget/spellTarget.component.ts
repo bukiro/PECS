@@ -5,7 +5,7 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConditionsService } from 'src/app/services/conditions.service';
-import { Feat } from 'src/app/classes/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SavegameService } from 'src/app/services/savegame.service';
