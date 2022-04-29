@@ -18,6 +18,6 @@ export class ArmorRune extends Rune {
         return this;
     }
     get_EffectsGenerationHints(): HintEffectsObject[] {
-        return this.hints.map(hint => { return { hint: hint, parentItem: this, objectName: this.get_Name() }; });
+        return this.hints.map(hint => { return { hint, parentItem: this, objectName: this.get_Name() }; });
     }
 }

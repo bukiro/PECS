@@ -68,7 +68,7 @@ export class Ability {
                     }
                 });
             }
-            return { result: baseValue, explain: explain };
+            return { result: baseValue, explain };
         }
     }
     value(creature: Creature, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
@@ -90,7 +90,7 @@ export class Ability {
                     explain += `\n${ effect.source }: ${ effect.value }`;
                 }
             });
-            return { result: result, explain: explain };
+            return { result, explain };
         }
     }
     mod(creature: Creature, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
@@ -113,7 +113,7 @@ export class Ability {
                     explain += `\n${ effect.source }: ${ effect.value }`;
                 }
             });
-            return { result: modifier, explain: explain };
+            return { result: modifier, explain };
         }
     }
 }

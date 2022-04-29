@@ -62,7 +62,7 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     get_TalismanCords(inv: ItemCollection) {
-        return inv.wornitems.filter(wornItem => wornItem.isTalismanCord).map(talismanCord => ({ talismanCord: talismanCord, inv: inv }));
+        return inv.wornitems.filter(wornItem => wornItem.isTalismanCord).map(talismanCord => ({ talismanCord, inv }));
     }
 
     get_TalismanCordSchools(cord: WornItem) {

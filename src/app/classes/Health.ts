@@ -22,7 +22,7 @@ export class Health {
         return result;
     }
     maxHP(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
-        const baseHP = creature.get_BaseHP({ characterService: characterService });
+        const baseHP = creature.get_BaseHP({ characterService });
         let effectsSum = 0;
         effectsService.get_AbsolutesOnThis(creature, 'Max HP').forEach(effect => {
             effectsSum = parseInt(effect.setValue);
@@ -52,7 +52,7 @@ export class Health {
             characterService.refreshService.process_ToChange();
         }
         explain += `\nDamage taken: ${ this.damage }`;
-        return { result: sum, explain: explain };
+        return { result: sum, explain };
     }
     wounded(creature: Creature, characterService: CharacterService) {
         let woundeds = 0;
@@ -128,7 +128,7 @@ export class Health {
                 });
             }
         }
-        return { dyingAdded: dyingAdded, unconsciousAdded: unconsciousAdded, wokeUp: wokeUp };
+        return { dyingAdded, unconsciousAdded, wokeUp };
     }
     heal(creature: Creature, characterService: CharacterService, effectsService: EffectsService, amount: number, wake = true, increaseWounded = true, dying: number = undefined) {
         if (dying == undefined) {
@@ -158,6 +158,6 @@ export class Health {
                 });
             }
         }
-        return { dyingRemoved: dyingRemoved, unconsciousRemoved: unconsciousRemoved };
+        return { dyingRemoved, unconsciousRemoved };
     }
 }

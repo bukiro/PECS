@@ -225,7 +225,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             const proficiency = (!(creature instanceof Familiar) && (itemRoles.asArmor || itemRoles.asWeapon))?.get_Proficiency(creature, this.characterService) || '';
             return {
                 ...itemRoles,
-                proficiency: proficiency,
+                proficiency,
                 asBattleforgedChangeable: this.itemAsBattleforgedChangeable(item),
                 asBladeAllyChangeable: this.itemAsBladeAllyChangeable(item),
                 asEmblazonArmamentChangeable: this.itemAsEmblazonArmamentChangeable(item),
@@ -468,7 +468,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             }
             effects.push(effect);
         });
-        return { value: maxInvest, explain: explain, effects: effects, penalties: penalties, bonuses: bonuses, absolutes: absolutes };
+        return { value: maxInvest, explain, effects, penalties, bonuses, absolutes };
     }
 
     get_InvestedItems() {
@@ -630,7 +630,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (type == 'snarespecialist') {
             return this.get_FormulasLearned()
                 .filter(learned => learned.snareSpecialistPrepared)
-                .map(learned => ({ learned: learned, item: this.itemsService.get_CleanItemByID(learned.id) as Snare }))
+                .map(learned => ({ learned, item: this.itemsService.get_CleanItemByID(learned.id) as Snare }))
                 .sort((a, b) => (a.item.name == b.item.name) ? 0 : ((a.item.name > b.item.name) ? 1 : -1));
         }
     }
@@ -697,7 +697,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (item.storedSpells.length && item.storedSpells[0].spells.length) {
             const spell = this.get_Spells(item.storedSpells[0].spells[0].name)[0];
             if (spell) {
-                return [{ spell: spell, gain: item.storedSpells[0].spells[0], choice: item.storedSpells[0] }];
+                return [{ spell, gain: item.storedSpells[0].spells[0], choice: item.storedSpells[0] }];
             } else {
                 return [];
             }

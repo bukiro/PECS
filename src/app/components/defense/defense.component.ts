@@ -207,7 +207,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public get_Skills(type: string): Skill[] {
-        return this.characterService.get_Skills(this.get_Creature(), '', { type: type })
+        return this.characterService.get_Skills(this.get_Creature(), '', { type })
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 

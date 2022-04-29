@@ -55,10 +55,10 @@ export class ItemOilsComponent {
         const allOils: { oil: Oil, inv: ItemCollection }[] = [{ oil: new Oil(), inv: null }];
         allOils[0].oil.name = '';
         if (this.itemStore) {
-            allOils.push(...this.get_CleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil: oil, inv: null })));
+            allOils.push(...this.get_CleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil, inv: null })));
         } else {
             this.get_Character().inventories.forEach(inv => {
-                allOils.push(...inv.oils.filter(oil => oil.targets.length && oil.amount).map(oil => ({ oil: oil, inv: inv })));
+                allOils.push(...inv.oils.filter(oil => oil.targets.length && oil.amount).map(oil => ({ oil, inv })));
             });
         }
         return allOils.filter(

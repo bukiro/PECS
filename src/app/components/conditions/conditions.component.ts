@@ -339,17 +339,17 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         let result: string | number = null;
         let penalty = false;
         if (effect.setValue) {
-            result = this.evaluationService.get_ValueFromFormula(effect.setValue, { characterService: this.characterService, effectsService: this.effectsService }, { creature: creature, effect: effect });
+            result = this.evaluationService.get_ValueFromFormula(effect.setValue, { characterService: this.characterService, effectsService: this.effectsService }, { creature, effect });
             penalty = false;
         } else if (effect.value) {
-            result = this.evaluationService.get_ValueFromFormula(effect.value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: creature, effect: effect });
+            result = this.evaluationService.get_ValueFromFormula(effect.value, { characterService: this.characterService, effectsService: this.effectsService }, { creature, effect });
             if (!isNaN(result as number)) {
                 penalty = (result < 0) == (effect.affected != 'Bulk');
             } else {
                 result = null;
             }
         }
-        return { value: result, penalty: penalty };
+        return { value: result, penalty };
     }
 
     get_Items() {

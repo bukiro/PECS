@@ -73,9 +73,9 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ potency: rune.potency, rune: rune, disabled: false });
+                    runes.push({ potency: rune.potency, rune, disabled: false });
                 } else {
-                    runes.push({ potency: rune.potency, rune: rune, disabled: true });
+                    runes.push({ potency: rune.potency, rune, disabled: true });
                 }
             });
         } else {
@@ -88,9 +88,9 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ potency: rune.potency, rune: rune, disabled: false });
+                        runes.push({ potency: rune.potency, rune, disabled: false });
                     } else {
-                        runes.push({ potency: rune.potency, rune: rune, disabled: true });
+                        runes.push({ potency: rune.potency, rune, disabled: true });
                     }
                 });
             });
@@ -113,9 +113,9 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ potency: rune.potency, rune: rune, disabled: false });
+                    runes.push({ potency: rune.potency, rune, disabled: false });
                 } else {
-                    runes.push({ potency: rune.potency, rune: rune, disabled: true });
+                    runes.push({ potency: rune.potency, rune, disabled: true });
                 }
             });
         } else {
@@ -128,9 +128,9 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ potency: rune.potency, rune: rune, disabled: false });
+                        runes.push({ potency: rune.potency, rune, disabled: false });
                     } else {
-                        runes.push({ potency: rune.potency, rune: rune, disabled: true });
+                        runes.push({ potency: rune.potency, rune, disabled: true });
                     }
                 });
             });
@@ -153,9 +153,9 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ striking: rune.striking, rune: rune, disabled: false });
+                    runes.push({ striking: rune.striking, rune, disabled: false });
                 } else {
-                    runes.push({ striking: rune.striking, rune: rune, disabled: true });
+                    runes.push({ striking: rune.striking, rune, disabled: true });
                 }
             });
         } else {
@@ -167,9 +167,9 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ striking: rune.striking, rune: rune, disabled: false });
+                        runes.push({ striking: rune.striking, rune, disabled: false });
                     } else {
-                        runes.push({ striking: rune.striking, rune: rune, disabled: true });
+                        runes.push({ striking: rune.striking, rune, disabled: true });
                     }
                 });
             });
@@ -192,9 +192,9 @@ export class ItemRunesComponent implements OnInit {
                         runeLimit >= rune.level
                         : true
                 ) {
-                    runes.push({ resilient: rune.resilient, rune: rune, disabled: false });
+                    runes.push({ resilient: rune.resilient, rune, disabled: false });
                 } else {
-                    runes.push({ resilient: rune.resilient, rune: rune, disabled: true });
+                    runes.push({ resilient: rune.resilient, rune, disabled: true });
                 }
             });
         } else {
@@ -206,9 +206,9 @@ export class ItemRunesComponent implements OnInit {
                             runeLimit >= rune.level
                             : true
                     ) {
-                        runes.push({ resilient: rune.resilient, rune: rune, disabled: false });
+                        runes.push({ resilient: rune.resilient, rune, disabled: false });
                     } else {
-                        runes.push({ resilient: rune.resilient, rune: rune, disabled: true });
+                        runes.push({ resilient: rune.resilient, rune, disabled: true });
                     }
                 });
             });
@@ -280,11 +280,11 @@ export class ItemRunesComponent implements OnInit {
         //Add all runes either from the item store or from the inventories.
         if (this.itemStore) {
             inv.weaponrunes.forEach(rune => {
-                allRunes.push({ rune: rune, inv: null });
+                allRunes.push({ rune, inv: null });
             });
         } else {
             inv.weaponrunes.forEach(rune => {
-                allRunes.push({ rune: rune, inv: inv });
+                allRunes.push({ rune, inv });
             });
         }
         //Set all runes to disabled that have the same name as any that is already equipped.
@@ -372,11 +372,11 @@ export class ItemRunesComponent implements OnInit {
         //Add all runes either from the item store or from the inventories.
         if (this.itemStore) {
             inv.armorrunes.forEach(rune => {
-                allRunes.push({ rune: rune, inv: null });
+                allRunes.push({ rune, inv: null });
             });
         } else {
             inv.armorrunes.forEach(rune => {
-                allRunes.push({ rune: rune, inv: inv });
+                allRunes.push({ rune, inv });
             });
         }
         //Set all runes to disabled that have the same name as any that is already equipped.

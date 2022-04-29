@@ -281,7 +281,7 @@ export class ItemComponent implements OnInit, OnDestroy {
                 const tempGain: SpellGain = new SpellGain();
                 this.spellsService.process_Spell(spell, true,
                     { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
-                    { creature: this.get_Creature('Character'), target: target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
+                    { creature: this.get_Creature('Character'), target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
                     { manual: true }
                 );
             }

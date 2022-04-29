@@ -73,8 +73,8 @@ export class AC {
         const relatives: Effect[] = this.relatives(creature, character, effectsService);
 
         const result = {
-            absolutes: absolutes,
-            relatives: relatives,
+            absolutes,
+            relatives,
             bonuses: this.bonuses(creature, effectsService),
             penalties: this.penalties(creature, effectsService),
             value: this.value(creature, characterService, defenseService, effectsService, absolutes, relatives)
@@ -228,6 +228,6 @@ export class AC {
             });
         //Add up the armor bonus and all active effects and return the sum
         const result: number = basicBonus + effectsSum;
-        return { result: result, explain: explain };
+        return { result, explain };
     }
 }

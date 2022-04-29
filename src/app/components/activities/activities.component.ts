@@ -141,13 +141,13 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     public get_ActivityParameters(): ActivityParameter[] {
         return this.get_OwnedActivities().map(gainSet => {
             const creature = this.get_Creature();
-            const maxCharges = gainSet.activity.maxCharges({ creature: creature }, { effectsService: this.effectsService });
+            const maxCharges = gainSet.activity.maxCharges({ creature }, { effectsService: this.effectsService });
             return {
                 name: gainSet.name,
                 gain: gainSet.gain,
                 activity: gainSet.activity,
-                maxCharges: maxCharges,
-                disabled: gainSet.gain.disabled({ creature: creature, maxCharges: maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }),
+                maxCharges,
+                disabled: gainSet.gain.disabled({ creature, maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }),
                 hostile: gainSet.activity.get_IsHostile()
             };
         });
@@ -173,7 +173,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
             activity?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
             if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
                 unique.push(gain.name);
-                activities.push({ name: activityName(gain.name), gain: gain, activity: activity });
+                activities.push({ name: activityName(gain.name), gain, activity });
             }
         });
         return activities.sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));

@@ -269,7 +269,7 @@ export class Equipment extends Item {
     }
     get_EffectsGenerationHints(): HintEffectsObject[] {
         function convert_Hints(item: Equipment | Oil | Material) {
-            return item.hints.map(hint => { return { hint: hint, parentItem: item, objectName: item.get_Name() }; });
+            return item.hints.map(hint => { return { hint, parentItem: item, objectName: item.get_Name() }; });
         }
         return convert_Hints(this)
             .concat(...this.oilsApplied.map(oil => convert_Hints(oil)))

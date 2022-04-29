@@ -415,7 +415,7 @@ export class GridIconComponent implements OnInit, OnDestroy {
                 ];
             } else {
                 return [
-                    { offset: 0, percentage: percentage, over50: 0 },
+                    { offset: 0, percentage, over50: 0 },
                     { offset: 50, percentage: 0, over50: 0 }
                 ];
             }

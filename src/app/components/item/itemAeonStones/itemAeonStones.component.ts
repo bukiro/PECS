@@ -73,9 +73,9 @@ export class ItemAeonStonesComponent implements OnInit {
 
     get_AeonStones(inv: ItemCollection) {
         if (this.itemStore) {
-            return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone: aeonStone, inv: null }));
+            return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone, inv: null }));
         } else {
-            return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone: aeonStone, inv: inv }));
+            return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone, inv }));
         }
     }
 

@@ -32,7 +32,7 @@ export class AnimalCompanionClass {
         if (this.ancestry.name) {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
-                    freeItem.grant_GrantedItem(characterService.get_Companion(), {}, { characterService: characterService, itemsService: itemsService });
+                    freeItem.grant_GrantedItem(characterService.get_Companion(), {}, { characterService, itemsService });
                 });
             }
         }

@@ -87,7 +87,7 @@ export class ItemTalismansComponent implements OnInit {
     get_Talismans(inv: ItemCollection): TalismanOption[] {
         return inv.talismans.filter(talisman => talisman.targets.length && talisman.amount)
             .map(talisman => ({
-                talisman: talisman,
+                talisman,
                 inv: (this.itemStore ? null : inv),
                 talismanCordCompatible: this.get_CompatibleWithTalismanCord(talisman)
             }))

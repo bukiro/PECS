@@ -276,7 +276,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
             if (this.have_Feat('Ubiquitous Snares')) {
                 available *= 2;
             }
-            return { available: available, prepared: prepared };
+            return { available, prepared };
         }
     }
 
