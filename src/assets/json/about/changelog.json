@@ -1,5 +1,15 @@
 [
     {
+        "version": "1.0.15",
+        "changes": [
+            {
+                "header": "",
+                "desc": "Feats no longer have a specialreq attribute. Its function has been taken over by the new complexreq attribute, which is less performance intensive. If your custom feats have a specialreq, it will no longer be evaluated.",
+                "images": []
+            }
+        ]
+    },
+    {
         "version": "1.0.14",
         "changes": [
             {
