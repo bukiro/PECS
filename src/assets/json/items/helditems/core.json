@@ -479,6 +479,56 @@
         ]
     },
     {
+        "name": "Skeleton Key (Greater)",
+        "id": "ec1a53e2-1e06-46fb-b000-fdcaf9c8e797",
+        "desc": "A grinning skull tops the bow of this macabre key. This key can be used in place of thieves' tools when attempting to Pick a Lock, and it grants a +1 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves' tools and loses its benefits until repaired.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 5,
+        "price": 12500,
+        "subType": "Greater",
+        "subTypeDesc": "The key grants a +2 item bonus, and you can activate the key once per hour.",
+        "traits": [
+            "Magical",
+            "Transmutation"
+        ],
+        "usage": "held in 1 hand",
+        "activities": [
+            {
+                "actions": "Free",
+                "activationType": "Interact",
+                "castSpells": [
+                    {
+                        "name": "Knock"
+                    }
+                ],
+                "cooldown": 6000,
+                "desc": "The key casts knock on the lock you're trying to pick.",
+                "frequency": "once per hour",
+                "name": "Skeleton Key (Greater)",
+                "source": "ec1a53e2-1e06-46fb-b000-fdcaf9c8e797",
+                "traits": [
+                    "Magical",
+                    "Transmutation"
+                ],
+                "trigger": "You attempt to Pick a Lock but haven't rolled yet"
+            }
+        ],
+        "hints": [
+            {
+                "desc": "This key can be used in place of thieves' tools when attempting to Pick a Lock, and it grants a +2 item bonus to the Thievery check. If the skeleton key becomes broken due to a critical failure on the check, it works as normal thieves' tools and loses its benefits until repaired.",
+                "effects": [
+                    {
+                        "affected": "Thievery",
+                        "type": "item",
+                        "value": "2"
+                    }
+                ],
+                "showon": "Thievery"
+            }
+        ]
+    },
+    {
         "name": "Decanter of Endless Water",
         "id": "2416b51a-3002-4227-b786-0eca68887977",
         "desc": "This item looks like an ordinary glass flask full of water. The stopper can't be removed unless you speak one of the item's three command words, each of which causes water to pour forth in a different way. Pulling the stopper straight out creates fresh water, and rotating it as you pull creates salt water. Any effect of the decanter lasts until the decanter is plugged (with its own stopper, a finger, or the like).",
