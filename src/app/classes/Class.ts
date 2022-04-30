@@ -18,6 +18,7 @@ import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { TypeService } from 'src/app/services/type.service';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
+import { AdditionalHeritage } from './AdditionalHeritage';
 
 export class Class {
     public disabled = '';
@@ -39,7 +40,7 @@ export class Class {
     public focusPointsLast = 0;
     public gainItems: ItemGain[] = [];
     public heritage: Heritage = new Heritage();
-    public additionalHeritages: Heritage[] = [];
+    public additionalHeritages: AdditionalHeritage[] = [];
     public hitPoints = 0;
     public languages: LanguageGain[] = [];
     public levels: Level[] = [];
@@ -59,7 +60,7 @@ export class Class {
         this.familiar = Object.assign(new Familiar(), this.familiar).recast(typeService, itemsService);
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.heritage = Object.assign(new Heritage(), this.heritage).recast();
-        this.additionalHeritages = this.additionalHeritages.map(obj => Object.assign(new Heritage(), obj).recast());
+        this.additionalHeritages = this.additionalHeritages.map(obj => Object.assign(new AdditionalHeritage(), obj).recast());
         this.languages = this.languages.map(obj => Object.assign(new LanguageGain(), obj).recast());
         this.levels = this.levels.map(obj => Object.assign(new Level(), obj).recast());
         this.spellCasting = this.spellCasting.map(obj => Object.assign(new SpellCasting(obj.castingType), obj).recast());

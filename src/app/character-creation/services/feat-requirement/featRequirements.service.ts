@@ -193,13 +193,25 @@ export class FeatRequirementsService {
         //Returns [requirement met, requirement description]
         const character = this.characterService.get_Character();
         const result: Array<{ met: boolean, desc: string }> = [];
+        const allHeritages: string[] = character.class?.heritage ?
+            [
+                character.class.heritage.name.toLowerCase(),
+                character.class.heritage.superType.toLowerCase()
+            ].concat(
+                ...character.class.additionalHeritages
+                    .filter(heritage => heritage.charLevelAvailable <= charLevel)
+                    .map(heritage =>
+                        [
+                            heritage.name.toLowerCase(),
+                            heritage.superType.toLowerCase()
+                        ]
+                    )
+            ) :
+            [];
         if (feat.heritagereq) {
             if (
-                feat.heritagereq.split(' or ').find(heritage =>
-                    character.class?.heritage?.name.toLowerCase() == heritage.toLowerCase() ||
-                    character.class?.heritage?.superType.toLowerCase() == heritage.toLowerCase() ||
-                    character.class?.additionalHeritages.some(extraHeritage => extraHeritage.name.toLowerCase() == heritage.toLowerCase()) ||
-                    character.class?.additionalHeritages.some(extraHeritage => extraHeritage.superType.toLowerCase() == heritage.toLowerCase())
+                feat.heritagereq.split(' or ').some(heritage =>
+                    allHeritages.includes(heritage.toLowerCase())
                 )
             ) {
                 result.push({ met: true, desc: feat.heritagereq });
@@ -410,9 +422,20 @@ export class FeatRequirementsService {
                 });
                 complexreq.countHeritages?.forEach(heritagereq => {
                     if (!requirementFailure) {
-                        const allHeritages = character.class?.heritage ?
-                            [character.class?.heritage.name.toLowerCase()]
-                                .concat(character.class.additionalHeritages.map(heritage => heritage.name.toLowerCase())) :
+                        const allHeritages: string[] = character.class?.heritage ?
+                            [
+                                character.class?.heritage.name.toLowerCase(),
+                                character.class?.heritage.superType.toLowerCase()
+                            ].concat(
+                                ...character.class.additionalHeritages
+                                    .filter(heritage => heritage.charLevelAvailable <= charLevel)
+                                    .map(heritage =>
+                                        [
+                                            heritage.name.toLowerCase(),
+                                            heritage.superType.toLowerCase()
+                                        ]
+                                    )
+                            ) :
                             [];
                         const queryResult = ApplyDefaultQuery(heritagereq.query, allHeritages);
                         if (!DoesNumberMatchExpectation(queryResult, heritagereq.expected)) {

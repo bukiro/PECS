@@ -478,7 +478,7 @@ export class SavegameService {
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
                 ['Cleric', 'Wizard'].forEach(className => {
                     if (character.class?.name === className && character.class.spellCasting) {
-                        const spellCastingName = `${className} Spellcasting`;
+                        const spellCastingName = `${ className } Spellcasting`;
                         //Sort spellcastings: Innate first, then the default class spellcasting, then the rest.
                         character.class.spellCasting = []
                             .concat(character.class.spellCasting.find(casting => casting.castingType == 'Innate' && casting.source == 'Innate'))
@@ -550,7 +550,7 @@ export class SavegameService {
                 if (firstPath) {
                     const firstPathChoice = character.class?.levels?.[7]?.featChoices?.find(choice => choice.id == '7-Path to Perfection-Monk-2') || null;
                     if (!firstPathChoice?.feats.length) {
-                        const firstPathFeat = characterService.get_Feats(`Path to Perfection: ${firstPath}`)[0];
+                        const firstPathFeat = characterService.get_Feats(`Path to Perfection: ${ firstPath }`)[0];
                         if (firstPathFeat) {
                             character.take_Feat(character, characterService, firstPathFeat, firstPathFeat.name, true, firstPathChoice, false);
                         }
@@ -559,7 +559,7 @@ export class SavegameService {
                 if (secondPath) {
                     const secondChoice = character.class?.levels?.[11]?.featChoices?.find(choice => choice.id == '11-Second Path to Perfection-Monk-0') || null;
                     if (!secondChoice?.feats.length) {
-                        const secondPathFeat = characterService.get_Feats(`Second Path to Perfection: ${secondPath}`)[0];
+                        const secondPathFeat = characterService.get_Feats(`Second Path to Perfection: ${ secondPath }`)[0];
                         if (secondPathFeat) {
                             character.take_Feat(character, characterService, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
                         }
@@ -568,7 +568,7 @@ export class SavegameService {
                 if (thirdPath) {
                     const thirdPathChoice = character.class?.levels?.[15]?.featChoices?.find(choice => choice.id == '15-Third Path to Perfection-Monk-2') || null;
                     if (!thirdPathChoice?.feats.length) {
-                        const thirdPathFeat = characterService.get_Feats(`Third Path to Perfection: ${thirdPath}`)[0];
+                        const thirdPathFeat = characterService.get_Feats(`Third Path to Perfection: ${ thirdPath }`)[0];
                         if (thirdPathFeat) {
                             character.take_Feat(character, characterService, thirdPathFeat, thirdPathFeat.name, true, thirdPathChoice, false);
                         }
@@ -722,6 +722,31 @@ export class SavegameService {
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 15) {
                 character.speeds = character.speeds.filter(speed => speed.name !== 'Ignore Armor Speed Penalty');
             }
+
+            //Additional heritages are added with a charLevelAvailable starting with 1.0.15.
+            // Additional heritages existing on the character are updated with this number here.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 15) {
+                const unsortedAdditionalHeritages = character.class.additionalHeritages.filter(extraHeritage => !extraHeritage.charLevelAvailable);
+                if (unsortedAdditionalHeritages.length) {
+                    const sources = unsortedAdditionalHeritages.map(extraHeritage => extraHeritage.source);
+                    character.class.levels.forEach(level => {
+                        level.featChoices.forEach(choice => {
+                            choice.feats.forEach(taken => {
+                                if (sources.includes(taken.name)) {
+                                    unsortedAdditionalHeritages.find(extraHeritage => extraHeritage.source == taken.name && !extraHeritage.charLevelAvailable)
+                                        .charLevelAvailable = level.number;
+                                }
+                            });
+                            if (!unsortedAdditionalHeritages.some(extraHeritage => !extraHeritage.charLevelAvailable)) {
+                                return;
+                            }
+                        });
+                        if (!unsortedAdditionalHeritages.some(extraHeritage => !extraHeritage.charLevelAvailable)) {
+                            return;
+                        }
+                    });
+                }
+            }
         }
 
         return character;
@@ -824,19 +849,19 @@ export class SavegameService {
     }
 
     load_Characters(): Observable<Partial<Character>[]> {
-        return this.http.get<Partial<Character>[]>(`${this.configService.get_DBConnectionURL()}/listCharacters`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<Partial<Character>[]>(`${ this.configService.get_DBConnectionURL() }/listCharacters`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     load_CharacterFromDB(id: string): Observable<Partial<Character>[]> {
-        return this.http.get<Partial<Character>[]>(`${this.configService.get_DBConnectionURL()}/loadCharacter/${id}`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<Partial<Character>[]>(`${ this.configService.get_DBConnectionURL() }/loadCharacter/${ id }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
-        return this.http.post<string[]>(`${this.configService.get_DBConnectionURL()}/deleteCharacter`, { id: savegame.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/deleteCharacter`, { id: savegame.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     save_CharacterToDB(savegame): Observable<string[]> {
-        return this.http.post<string[]>(`${this.configService.get_DBConnectionURL()}/saveCharacter`, savegame, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/saveCharacter`, savegame, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     still_loading() {
@@ -859,7 +884,7 @@ export class SavegameService {
                         if (error.status == 401) {
                             this.configService.on_LoggedOut('Your login is no longer valid.');
                         } else {
-                            console.log(`Error loading characters from database: ${error.message}`);
+                            console.log(`Error loading characters from database: ${ error.message }`);
                             this.savegames = [];
                             this.loadingError = true;
                             this.loading = false;

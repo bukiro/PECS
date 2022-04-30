@@ -13,7 +13,7 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { Character } from 'src/app/classes/Character';
 import { Speed } from 'src/app/classes/Speed';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
-import { Heritage } from 'src/app/classes/Heritage';
+import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
 import * as json_feats from 'src/assets/json/feats';
 import * as json_features from 'src/assets/json/features';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
@@ -589,16 +589,18 @@ export class FeatsService {
             }
 
             //Gain Additional Heritages
-            //We add an additional heritage to the character so we can work with it.
+            //We add a blank additional heritage to the character so we can work with it, replacing it as needed while keeping source and charLevelAvailable.
             if (feat.gainHeritage.length) {
                 if (taken) {
-                    feat.gainHeritage.forEach(heritageGain => {
-                        const newLength = character.class.additionalHeritages.push(new Heritage());
-                        character.class.additionalHeritages[newLength - 1].source = heritageGain.source;
+                    feat.gainHeritage.forEach(() => {
+                        const newLength = character.class.additionalHeritages.push(new AdditionalHeritage());
+                        const newHeritage = character.class.additionalHeritages[newLength - 1];
+                        newHeritage.source = feat.name;
+                        newHeritage.charLevelAvailable = level.number;
                     });
                 } else {
-                    feat.gainHeritage.forEach(heritageGain => {
-                        const oldHeritage = character.class.additionalHeritages.find(heritage => heritage.source == heritageGain.source);
+                    feat.gainHeritage.forEach(() => {
+                        const oldHeritage = character.class.additionalHeritages.find(heritage => heritage.source == feat.name && heritage.charLevelAvailable == level.number);
                         const heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
                         character.class.on_ChangeHeritage(characterService, heritageIndex);
                         character.class.additionalHeritages.splice(heritageIndex, 1);

@@ -71,6 +71,7 @@ import { EffectsGenerationService } from 'src/app/services/effectsGeneration.ser
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
+import { AdditionalHeritage } from '../classes/AdditionalHeritage';
 
 @Injectable({
     providedIn: 'root'
@@ -437,7 +438,7 @@ export class CharacterService {
             if (original.length == 4 || original.length == 7) {
                 try {
                     const rgba = hexToRgb(original);
-                    const result = `${rgba.r},${rgba.g},${rgba.b}`;
+                    const result = `${ rgba.r },${ rgba.g },${ rgba.b }`;
                     return result;
                 }
                 catch (error) {
@@ -660,16 +661,22 @@ export class CharacterService {
         this.refreshService.set_ToChange('Character', 'attacks');
     }
 
-    change_Heritage(heritage: Heritage, index = -1, source = '') {
+    change_Heritage(heritage: Heritage, index = -1) {
         const character = this.get_Character();
         character.class.on_ChangeHeritage(this, index);
         if (index == -1) {
             character.class.heritage = new Heritage();
             character.class.heritage = Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
         } else {
-            character.class.additionalHeritages[index] = new Heritage();
-            character.class.additionalHeritages[index] = Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
-            character.class.additionalHeritages[index].source = source;
+            const heritageToChange = character.class.additionalHeritages[index];
+            const source = heritageToChange.source;
+            const levelNumber = heritageToChange.charLevelAvailable;
+            character.class.additionalHeritages[index] = Object.assign<AdditionalHeritage, AdditionalHeritage>(new AdditionalHeritage(),
+                {
+                    ...JSON.parse(JSON.stringify(heritage)),
+                    source,
+                    charLevelAvailable: levelNumber,
+                }).recast();
         }
         character.class.on_NewHeritage(this, this.itemsService, index);
         this.cacheService.reset_CreatureCache(character.typeId);
@@ -1140,7 +1147,7 @@ export class CharacterService {
             });
         });
         if (found) {
-            this.toastService.show(`${found} item${found > 1 ? 's' : ''} were emptied out of <strong>${item.get_Name()}</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.`);
+            this.toastService.show(`${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.get_Name() }</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.`);
         }
     }
 
@@ -1274,10 +1281,10 @@ export class CharacterService {
                 }
             }
             //Check if any condition denies this condition, and stop processing if that is the case.
-            const denySources: string[] = this.get_AppliedConditions(creature, '', '', true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name)).map(existingGain => `<strong>${existingGain.name}</strong>`);
+            const denySources: string[] = this.get_AppliedConditions(creature, '', '', true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name)).map(existingGain => `<strong>${ existingGain.name }</strong>`);
             if (denySources.length) {
                 activate = false;
-                this.toastService.show(`The condition <strong>${conditionGain.name}</strong> was not added because it is blocked by: ${denySources.join(', ')}`);
+                this.toastService.show(`The condition <strong>${ conditionGain.name }</strong> was not added because it is blocked by: ${ denySources.join(', ') }`);
             }
             if (activate) {
                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
@@ -1486,7 +1493,7 @@ export class CharacterService {
                         message.senderId = character.id;
                         message.targetId = '';
                         const date = new Date();
-                        message.time = `${date.getHours()}:${date.getMinutes()}`;
+                        message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                         message.timeStamp = timeStamp;
                         message.turnChange = true;
                         messages.push(message);
@@ -1503,7 +1510,7 @@ export class CharacterService {
                                         this.configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
                                     } else {
                                         this.toastService.show('An error occurred while sending effects. See console for more information.');
-                                        console.log(`Error saving effect messages to database: ${error.message}`);
+                                        console.log(`Error saving effect messages to database: ${ error.message }`);
                                     }
                                 }
                             });
@@ -1514,7 +1521,7 @@ export class CharacterService {
                         this.configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
-                        console.log(`Error saving effect messages to database: ${error.message}`);
+                        console.log(`Error saving effect messages to database: ${ error.message }`);
                     }
                 }
             });
@@ -1535,7 +1542,7 @@ export class CharacterService {
                         removed = this.remove_Condition(creature, existingConditionGain, false);
                         if (removed) {
                             const senderName = this.savegameService.get_Savegames().find(savegame => savegame.id == senderId)?.name || 'Unknown';
-                            this.toastService.show(`Automatically removed <strong>${existingConditionGain.name}${existingConditionGain.choice ? `: ${existingConditionGain.choice}` : ''}</strong> condition from <strong>${creature.name || creature.type}</strong> on turn of <strong>${senderName}</strong>`);
+                            this.toastService.show(`Automatically removed <strong>${ existingConditionGain.name }${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }</strong> condition from <strong>${ creature.name || creature.type }</strong> on turn of <strong>${ senderName }</strong>`);
                             this.refreshService.set_ToChange(creature.type, 'effects');
                         }
                     });
@@ -1568,7 +1575,7 @@ export class CharacterService {
                             message.senderId = this.get_Character().id;
                             message.targetId = target.id;
                             const date = new Date();
-                            message.time = `${date.getHours()}:${date.getMinutes()}`;
+                            message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                             message.timeStamp = timeStamp;
                             message.gainCondition.push(Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast());
                             if (message.gainCondition.length) {
@@ -1583,14 +1590,14 @@ export class CharacterService {
                             .subscribe({
                                 next: () => {
                                     //If messages were sent, send a summary toast.
-                                    this.toastService.show(`Sent effects to ${messages.length} targets.`);
+                                    this.toastService.show(`Sent effects to ${ messages.length } targets.`);
                                 },
                                 error: (error) => {
                                     if (error.status == 401) {
                                         this.configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
                                     } else {
                                         this.toastService.show('An error occurred while sending effects. See console for more information.');
-                                        console.log(`Error saving effect messages to database: ${error.message}`);
+                                        console.log(`Error saving effect messages to database: ${ error.message }`);
                                     }
                                 }
                             });
@@ -1601,7 +1608,7 @@ export class CharacterService {
                         this.configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
-                        console.log(`Error saving effect messages to database: ${error.message}`);
+                        console.log(`Error saving effect messages to database: ${ error.message }`);
                     }
                 }
             });
@@ -1624,7 +1631,7 @@ export class CharacterService {
                         if (newLength) {
                             const senderName = this.get_MessageSender(message);
                             //If a condition was created, send a toast to inform the user.
-                            this.toastService.show(`Added <strong>${conditionGain.name}${conditionGain.choice ? `: ${conditionGain.choice}` : ''}</strong> condition to <strong>${targetCreature.name || targetCreature.type}</strong> (sent by <strong>${senderName.trim()}</strong>)`);
+                            this.toastService.show(`Added <strong>${ conditionGain.name }${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition to <strong>${ targetCreature.name || targetCreature.type }</strong> (sent by <strong>${ senderName.trim() }</strong>)`);
                         }
                     }
                 } else {
@@ -1639,7 +1646,7 @@ export class CharacterService {
                         if (removed) {
                             const senderName = this.get_MessageSender(message);
                             //If a condition was removed, send a toast to inform the user.
-                            this.toastService.show(`Removed <strong>${conditionGain.name}${conditionGain.choice ? `: ${conditionGain.choice}` : ''}</strong> condition from <strong>${targetCreature.name || targetCreature.type}</strong> (added by <strong>${senderName.trim()}</strong>)`);
+                            this.toastService.show(`Removed <strong>${ conditionGain.name }${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition from <strong>${ targetCreature.name || targetCreature.type }</strong> (added by <strong>${ senderName.trim() }</strong>)`);
                         }
                     }
                 }
@@ -1668,7 +1675,7 @@ export class CharacterService {
                     message.senderId = this.get_Character().id;
                     message.targetId = target.id;
                     const date = new Date();
-                    message.time = `${date.getHours()}:${date.getMinutes()}`;
+                    message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     message.timeStamp = timeStamp;
                     message.offeredItem.push(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(item))).recast(this.typeService, this.itemsService));
                     message.itemAmount = amount;
@@ -1678,14 +1685,14 @@ export class CharacterService {
                         .subscribe({
                             next: () => {
                                 //If the message was sent, send a summary toast.
-                                this.toastService.show(`Sent item offer to <strong>${target.name}</strong>.`);
+                                this.toastService.show(`Sent item offer to <strong>${ target.name }</strong>.`);
                             },
                             error: (error) => {
                                 if (error.status == 401) {
                                     this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
                                 } else {
                                     this.toastService.show('An error occurred while sending item. See console for more information.');
-                                    console.log(`Error saving item message to database: ${error.message}`);
+                                    console.log(`Error saving item message to database: ${ error.message }`);
                                 }
                             }
                         });
@@ -1695,7 +1702,7 @@ export class CharacterService {
                         this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
                     } else {
                         this.toastService.show('An error occurred while sending item. See console for more information.');
-                        console.log(`Error saving item message to database: ${error.message}`);
+                        console.log(`Error saving item message to database: ${ error.message }`);
                     }
                 }
             });
@@ -1755,20 +1762,20 @@ export class CharacterService {
                             //Build a toast message and send it.
                             let text = 'Received <strong>';
                             if (message.itemAmount > 1) {
-                                text += `${message.itemAmount} `;
+                                text += `${ message.itemAmount } `;
                             }
                             text += addedPrimaryItem.get_Name();
                             if (sender) {
-                                text += `</strong> from <strong>${sender}</strong>`;
+                                text += `</strong> from <strong>${ sender }</strong>`;
                             }
                             if (message.includedItems.length || message.includedInventories.length) {
                                 text += ', including ';
                                 const includedText: string[] = [];
                                 if (message.includedItems.length) {
-                                    includedText.push(`${message.includedItems.length} extra items`);
+                                    includedText.push(`${ message.includedItems.length } extra items`);
                                 }
                                 if (message.includedInventories.length) {
-                                    includedText.push(`${message.includedInventories.length} containers`);
+                                    includedText.push(`${ message.includedInventories.length } containers`);
                                 }
                                 text += includedText.join(' and ');
                             }
@@ -1803,7 +1810,7 @@ export class CharacterService {
                     response.targetId = message.senderId;
                     const target = this.get_MessageSender(message) || 'sender';
                     const date = new Date();
-                    response.time = `${date.getHours()}:${date.getMinutes()}`;
+                    response.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     response.timeStamp = timeStamp;
                     response.itemAmount = message.itemAmount;
                     if (accepted) {
@@ -1816,9 +1823,9 @@ export class CharacterService {
                             next: () => {
                                 //If the message was sent, send a summary toast.
                                 if (accepted) {
-                                    this.toastService.show(`Sent acceptance response to <strong>${target}</strong>.`);
+                                    this.toastService.show(`Sent acceptance response to <strong>${ target }</strong>.`);
                                 } else {
-                                    this.toastService.show(`Sent rejection response to <strong>${target}</strong>.`);
+                                    this.toastService.show(`Sent rejection response to <strong>${ target }</strong>.`);
                                 }
                             },
                             error: (error) => {
@@ -1826,7 +1833,7 @@ export class CharacterService {
                                     this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
                                 } else {
                                     this.toastService.show('An error occurred while sending response. See console for more information.');
-                                    console.log(`Error saving response message to database: ${error.message}`);
+                                    console.log(`Error saving response message to database: ${ error.message }`);
                                 }
                             }
                         });
@@ -1836,7 +1843,7 @@ export class CharacterService {
                         this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
                     } else {
                         this.toastService.show('An error occurred while sending response. See console for more information.');
-                        console.log(`Error saving response message to database: ${error.message}`);
+                        console.log(`Error saving response message to database: ${ error.message }`);
                     }
                 }
             });
@@ -1868,12 +1875,12 @@ export class CharacterService {
                     itemName = foundItem.get_Name();
                 }
                 if (message.acceptedItem) {
-                    this.toastService.show(`<strong>${sender}</strong> has accepted the <strong>${itemName}</strong>. The item is dropped from your inventory.`);
+                    this.toastService.show(`<strong>${ sender }</strong> has accepted the <strong>${ itemName }</strong>. The item is dropped from your inventory.`);
                     if (foundItem) {
                         this.drop_InventoryItem(foundCreature, foundInventory, foundItem, false, true, true, message.itemAmount);
                     }
                 } else if (message.rejectedItem) {
-                    this.toastService.show(`<strong>${sender}</strong> has rejected the <strong>${itemName}</strong>. The item will remain in your inventory.`);
+                    this.toastService.show(`<strong>${ sender }</strong> has rejected the <strong>${ itemName }</strong>. The item will remain in your inventory.`);
                 }
             }
             this.messageService.mark_MessageAsIgnored(this, message);
@@ -1940,9 +1947,9 @@ export class CharacterService {
                     // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
                     (creature as Character).class.focusPoints += value;
                     if (value >= 0) {
-                        this.toastService.show(`You gained ${value} focus point${value == 1 ? '' : 's'}.`);
+                        this.toastService.show(`You gained ${ value } focus point${ value == 1 ? '' : 's' }.`);
                     } else {
-                        this.toastService.show(`You lost ${value * -1} focus point${value == 1 ? '' : 's'}.`);
+                        this.toastService.show(`You lost ${ value * -1 } focus point${ value == 1 ? '' : 's' }.`);
                     }
                     this.refreshService.set_ToChange('Character', 'spellbook');
                 }
@@ -1959,14 +1966,14 @@ export class CharacterService {
                     if (effectGain.source == 'Manual') {
                         creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: '' };
                         creature.health.temporaryHP.length = 1;
-                        this.toastService.show(`${recipientName} gained ${value} temporary HP.`);
+                        this.toastService.show(`${ recipientName } gained ${ value } temporary HP.`);
                     } else if (creature.health.temporaryHP[0].amount == 0) {
                         creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: effectGain.sourceId };
                         creature.health.temporaryHP.length = 1;
-                        this.toastService.show(`${recipientName} gained ${value} temporary HP from ${effectGain.source}.`);
+                        this.toastService.show(`${ recipientName } gained ${ value } temporary HP from ${ effectGain.source }.`);
                     } else {
                         creature.health.temporaryHP.push({ amount: value, source: effectGain.source, sourceId: effectGain.sourceId });
-                        this.toastService.show(`${recipientName} gained ${value} temporary HP from ${effectGain.source}. ${recipientName2} already had temporary HP and must choose which amount to keep.`);
+                        this.toastService.show(`${ recipientName } gained ${ value } temporary HP from ${ effectGain.source }. ${ recipientName2 } already had temporary HP and must choose which amount to keep.`);
                     }
                 } else if (value < 0) {
                     const targetTempHPSet = creature.health.temporaryHP.find(tempHPSet => ((tempHPSet.source == 'Manual') && (effectGain.source == 'Manual')) || tempHPSet.sourceId == effectGain.sourceId);
@@ -1977,12 +1984,12 @@ export class CharacterService {
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
                             }
-                            this.toastService.show(`${recipientName} lost ${value * -1} temporary HP.`);
+                            this.toastService.show(`${ recipientName } lost ${ value * -1 } temporary HP.`);
                         } else {
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
                             }
-                            this.toastService.show(`${recipientName} lost ${value * -1} of the temporary HP gained from ${effectGain.source}. This is not the set of temporary HP that ${recipientName3} ${recipientIs} currently using.`);
+                            this.toastService.show(`${ recipientName } lost ${ value * -1 } of the temporary HP gained from ${ effectGain.source }. This is not the set of temporary HP that ${ recipientName3 } ${ recipientIs } currently using.`);
                         }
                     }
                 }
@@ -1996,25 +2003,25 @@ export class CharacterService {
                     const result = creature.health.heal(creature, this, this.effectsService, value, true);
                     let results = '';
                     if (result.unconsciousRemoved) {
-                        results = ` This removed ${recipientGenitive} Unconscious condition.`;
+                        results = ` This removed ${ recipientGenitive } Unconscious condition.`;
                     }
                     if (result.dyingRemoved) {
-                        results = ` This removed ${recipientGenitive} Dying condition.`;
+                        results = ` This removed ${ recipientGenitive } Dying condition.`;
                     }
-                    this.toastService.show(`${recipientName} gained ${value} HP from ${effectGain.source}.${results}`);
+                    this.toastService.show(`${ recipientName } gained ${ value } HP from ${ effectGain.source }.${ results }`);
                 } else if (value < 0) {
                     const result = creature.health.takeDamage(creature, this, this.effectsService, -value, false);
                     let results = '';
                     if (result.unconsciousAdded) {
-                        results = ` ${recipientName} ${recipientIs} now Unconscious.`;
+                        results = ` ${ recipientName } ${ recipientIs } now Unconscious.`;
                     }
                     if (result.dyingAdded && effectGain.source != 'Dead') {
-                        results = ` ${recipientName2} ${recipientIs} now Dying ${result.dyingAdded}.`;
+                        results = ` ${ recipientName2 } ${ recipientIs } now Dying ${ result.dyingAdded }.`;
                     }
                     if (result.wokeUp) {
-                        results = ` This removed ${recipientGenitive} Unconscious condition.`;
+                        results = ` This removed ${ recipientGenitive } Unconscious condition.`;
                     }
-                    this.toastService.show(`${recipientName} lost ${value * -1} HP from ${effectGain.source}.${results}`);
+                    this.toastService.show(`${ recipientName } lost ${ value * -1 } HP from ${ effectGain.source }.${ results }`);
                 }
                 this.refreshService.set_ToChange(creature.type, 'health');
                 this.refreshService.set_ToChange(creature.type, 'effects');
@@ -2038,16 +2045,16 @@ export class CharacterService {
                 this.defenseService.get_AC().set_Cover(creature, value, null, this, this.conditionsService);
                 switch (value) {
                     case 0:
-                        this.toastService.show(`${recipientName} ${recipientIs} no longer taking cover.`);
+                        this.toastService.show(`${ recipientName } ${ recipientIs } no longer taking cover.`);
                         break;
                     case 1:
-                        this.toastService.show(`${recipientName} now ${recipientHas} lesser cover.`);
+                        this.toastService.show(`${ recipientName } now ${ recipientHas } lesser cover.`);
                         break;
                     case 2:
-                        this.toastService.show(`${recipientName} now ${recipientHas} standard cover.`);
+                        this.toastService.show(`${ recipientName } now ${ recipientHas } standard cover.`);
                         break;
                     case 4:
-                        this.toastService.show(`${recipientName} now ${recipientHas} greater cover.`);
+                        this.toastService.show(`${ recipientName } now ${ recipientHas } greater cover.`);
                         break;
                 }
                 break;
@@ -2210,7 +2217,7 @@ export class CharacterService {
             )
             //Return any feats that include e.g. Companion:Athletics
             .concat(
-                this.get_FeatsShowingOn(`Companion:${objectName}`)
+                this.get_FeatsShowingOn(`Companion:${ objectName }`)
             ) as (AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat)[];
     }
 
@@ -2232,7 +2239,7 @@ export class CharacterService {
                 )
             ) && feat.have({ creature: this.get_Familiar() }, { characterService: this })
             //Return any feats that include e.g. Companion:Athletics
-        ).concat(this.get_FeatsShowingOn(`Familiar:${objectName}`));
+        ).concat(this.get_FeatsShowingOn(`Familiar:${ objectName }`));
     }
 
     get_ConditionsShowingOn(creature: Creature, objectName = 'all') {
@@ -2601,7 +2608,7 @@ export class CharacterService {
                                 this.cancel_Loading();
                             } else {
                                 this.toastService.show('An error occurred while loading the character. See console for more information.');
-                                console.log(`Error loading character from database: ${error.message}`);
+                                console.log(`Error loading character from database: ${ error.message }`);
                                 this.cancel_Loading();
                             }
                         }
@@ -2621,7 +2628,7 @@ export class CharacterService {
         this.savegameService.delete_CharacterFromDB(savegame)
             .subscribe({
                 next: () => {
-                    this.toastService.show(`Deleted ${savegame.name || 'character'} from database.`);
+                    this.toastService.show(`Deleted ${ savegame.name || 'character' } from database.`);
                     this.savegameService.initialize();
                 },
                 error: (error) => {
@@ -2629,7 +2636,7 @@ export class CharacterService {
                         this.configService.on_LoggedOut('Your login is no longer valid. The character could not be deleted. Please try again after logging in.');
                     } else {
                         this.toastService.show('An error occurred while deleting the character. See console for more information.');
-                        console.log(`Error deleting from database: ${error.message}`);
+                        console.log(`Error deleting from database: ${ error.message }`);
                     }
                 }
             });
@@ -2717,9 +2724,9 @@ export class CharacterService {
             .subscribe({
                 next: (result) => {
                     if (result['lastErrorObject'] && result['lastErrorObject'].updatedExisting) {
-                        this.toastService.show(`Saved ${this.get_Character().name || 'character'}.`);
+                        this.toastService.show(`Saved ${ this.get_Character().name || 'character' }.`);
                     } else {
-                        this.toastService.show(`Created ${this.get_Character().name || 'character'}.`);
+                        this.toastService.show(`Created ${ this.get_Character().name || 'character' }.`);
                     }
                     this.savegameService.initialize();
                 }, error: (error) => {
@@ -2727,7 +2734,7 @@ export class CharacterService {
                         this.configService.on_LoggedOut('Your login is no longer valid. The character could not be saved. Please try saving the character again after logging in.');
                     } else {
                         this.toastService.show('An error occurred while saving the character. See console for more information.');
-                        console.log(`Error saving to database: ${error.message}`);
+                        console.log(`Error saving to database: ${ error.message }`);
                     }
                 }
             });

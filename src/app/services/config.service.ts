@@ -68,7 +68,7 @@ export class ConfigService {
     }
 
     login(password = '') {
-        return this.httpClient.post<{ token: string | false }>(`${this.get_DBConnectionURL()}/login`, { password: Md5.hashStr(password) });
+        return this.httpClient.post<{ token: string | false }>(`${ this.get_DBConnectionURL() }/login`, { password: Md5.hashStr(password) });
     }
 
     get_Login(password = '', characterService: CharacterService, savegameService: SavegameService) {
@@ -102,7 +102,7 @@ export class ConfigService {
                     }
                     this.loading = false;
                 }, error: (error) => {
-                    console.log(`Error logging in: ${error.message}`);
+                    console.log(`Error logging in: ${ error.message }`);
                     if (error.status == 0) {
                         characterService.toastService.show('The configured database is not available. Characters can\'t be saved or loaded.');
                     }

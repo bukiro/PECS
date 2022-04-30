@@ -225,8 +225,21 @@ export class EvaluationService {
             }
         }
         function Has_Heritage(name: string) {
-            return characterService.get_Character().class?.heritage?.name.toLowerCase() == name.toLowerCase() ||
-                characterService.get_Character().class?.additionalHeritages.find(extraHeritage => extraHeritage.name.toLowerCase() == name.toLowerCase());
+            const allHeritages: string[] = Character.class?.heritage ?
+                [
+                    Character.class.heritage.name.toLowerCase(),
+                    Character.class.heritage.superType.toLowerCase()
+                ].concat(
+                    ...Character.class.additionalHeritages
+                        .map(heritage =>
+                            [
+                                heritage.name.toLowerCase(),
+                                heritage.superType.toLowerCase()
+                            ]
+                        )
+                ) :
+                [];
+            return allHeritages.includes(name);
         }
         function Deities() {
             return characterService.get_CharacterDeities(Character);

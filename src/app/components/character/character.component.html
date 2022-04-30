@@ -1060,7 +1060,7 @@
                                     <ng-container
                                         *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(level.number); trackBy:trackByIndex">
                                         <ng-container
-                                            *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source); trackBy:trackByIndex">
+                                            *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source, level.number); trackBy:trackByIndex">
                                             <ng-container
                                                 *ngFor="let finished of [!!get_Character().class.additionalHeritages[heritageIndex].name]; trackBy:trackByIndex">
                                                 <div class="list-item" *ngIf="!get_TileMode()"
@@ -2944,7 +2944,7 @@
                 <ng-container
                     *ngFor="let heritageGain of get_AdditionalHeritagesAvailable(additionalHeritagesContent.levelNumber); trackBy:trackByIndex">
                     <ng-container
-                        *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source); trackBy:trackByIndex">
+                        *ngFor="let heritageIndex of get_AdditionalHeritageIndex(heritageGain.source, additionalHeritagesContent.levelNumber); trackBy:trackByIndex">
                         <ng-container *ngIf="heritageGain.source == additionalHeritagesContent.choice.source">
                             <div class="newrow list-item padding-8 center-aligned">
                                 <header class="box-header sectionHeader">
@@ -2969,7 +2969,7 @@
                                                         [ngClass]="{'fancy-button':selected, 'disabled':disabled}">
                                                         <label>
                                                             <input type="checkbox"
-                                                                (change)="onAdditionalHeritageChange(heritage, $event, heritageIndex, heritageGain.source)"
+                                                                (change)="onAdditionalHeritageChange(heritage, $event, heritageIndex)"
                                                                 [checked]="checked" [disabled]="disabled"
                                                                 hidden>{{checked ? "Remove" : "Choose"}}
                                                         </label>
@@ -3022,7 +3022,7 @@
                                                                         <div class="gridicon-fullsizebox lower">
                                                                             <input id="{{subheritage.name}}"
                                                                                 type="checkbox" class="character-choice"
-                                                                                (change)="onAdditionalHeritageChange(subheritage, $event, heritageIndex, heritageGain.source)"
+                                                                                (change)="onAdditionalHeritageChange(subheritage, $event, heritageIndex)"
                                                                                 [checked]="subheritageChecked"
                                                                                 [disabled]="subheritageDisabled">
                                                                             <label for="{{subheritage.name}}">
@@ -3040,7 +3040,7 @@
                                                     [ngClass]="{'selected':selected}">
                                                     <input *ngIf="!heritage.subTypes.length" id="{{heritage.name}}"
                                                         type="checkbox" class="character-choice"
-                                                        (change)="onAdditionalHeritageChange(heritage, $event, heritageIndex, heritageGain.source)"
+                                                        (change)="onAdditionalHeritageChange(heritage, $event, heritageIndex)"
                                                         [checked]="checked" [disabled]="disabled">
                                                     <button class="character-choice" *ngIf="heritage.subTypes.length"
                                                         (click)="HeritageChoiceDetailsPopover.toggle()">+</button>

@@ -12,8 +12,6 @@ export class Heritage {
     public name = '';
     public senses: string[] = [];
     public skillChoices: SkillChoice[] = [];
-    //Some feats may add additional heritages. We use the source here so we can identify and remove them.
-    public source = '';
     public sourceBook = '';
     public spellChoices: SpellChoice[] = [];
     public subType = '';

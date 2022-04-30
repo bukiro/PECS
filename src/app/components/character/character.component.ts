@@ -996,8 +996,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
             );
     }
 
-    get_AdditionalHeritageIndex(source: string) {
-        const oldHeritage = this.get_Character().class.additionalHeritages.find(heritage => heritage.source == source);
+    get_AdditionalHeritageIndex(source: string, level: number) {
+        const oldHeritage = this.get_Character().class.additionalHeritages.find(heritage => heritage.source == source && heritage.charLevelAvailable == level);
         if (oldHeritage) {
             return [this.get_Character().class.additionalHeritages.indexOf(oldHeritage)];
         } else {
@@ -1005,13 +1005,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    onAdditionalHeritageChange(heritage: Heritage, checkedEvent: Event, index: number, source: string) {
+    onAdditionalHeritageChange(heritage: Heritage, checkedEvent: Event, index: number) {
         const checked = (<HTMLInputElement>checkedEvent.target).checked;
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(''); }
-            this.characterService.change_Heritage(heritage, index, source);
+            this.characterService.change_Heritage(heritage, index);
         } else {
-            this.characterService.change_Heritage(new Heritage(), index, source);
+            this.characterService.change_Heritage(new Heritage(), index);
         }
         this.refreshService.set_ToChange('Character', 'all');
         this.refreshService.process_ToChange();

@@ -46,23 +46,23 @@ export class MessageService {
     }
 
     load_Messages(recipientId: string): Observable<string[]> {
-        return this.http.get<string[]>(`${this.configService.get_DBConnectionURL()}/loadMessages/${recipientId}`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/loadMessages/${ recipientId }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     cleanup_OldMessages() {
-        return this.http.get<string[]>(`${this.configService.get_DBConnectionURL()}/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     load_TimeFromConnector(): Observable<string[]> {
-        return this.http.get<string[]>(`${this.configService.get_DBConnectionURL()}/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     delete_MessageFromDB(message: PlayerMessage): Observable<string[]> {
-        return this.http.post<string[]>(`${this.configService.get_DBConnectionURL()}/deleteMessage`, { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/deleteMessage`, { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     save_MessagesToDB(messages: PlayerMessage[]): Observable<string[]> {
-        return this.http.post<string[]>(`${this.configService.get_DBConnectionURL()}/saveMessages/`, messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/saveMessages/`, messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     finish_loading(loader: string[]) {
@@ -96,7 +96,7 @@ export class MessageService {
                         this.refreshService.set_Changed('top-bar');
                     } else if (newMessages.length) {
                         this.add_NewMessages(newMessages);
-                        this.toastService.show(`<strong>${newMessages.length}</strong> new message${newMessages.length != 1 ? 's are' : ' is'} available.`,
+                        this.toastService.show(`<strong>${ newMessages.length }</strong> new message${ newMessages.length != 1 ? 's are' : ' is' } available.`,
                             { onClickCreature: 'character', onClickAction: 'check-messages-manually' });
                         this.refreshService.set_Changed('top-bar');
                     }
@@ -113,7 +113,7 @@ export class MessageService {
                             characterService.get_Character().settings.checkMessagesAutomatically = false;
                         }
                         this.toastService.show(text);
-                        console.log(`Error loading messages from database: ${error.message}`);
+                        console.log(`Error loading messages from database: ${ error.message }`);
                     }
                 }
             });
@@ -214,7 +214,7 @@ export class MessageService {
                                     errorMessage = true;
                                     const text = 'An error occurred while deleting messages. See console for more information.';
                                     this.toastService.show(text);
-                                    console.log(`Error deleting messages: ${error.message}`);
+                                    console.log(`Error deleting messages: ${ error.message }`);
                                 }
                             }
                         });
@@ -258,7 +258,7 @@ export class MessageService {
                                 //No need to process anything if the connector does its work properly.
                             }, error: error => {
                                 this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
-                                console.log(`Error cleaning up messages: ${error.message}`);
+                                console.log(`Error cleaning up messages: ${ error.message }`);
                             }
                         });
                     minuteTimer = 60;
