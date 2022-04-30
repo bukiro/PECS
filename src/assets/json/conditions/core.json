@@ -11228,6 +11228,26 @@
         ]
     },
     {
+        "name": "Dust of Disappearance",
+        "desc": "Activating the dust of disappearance has cast a 4th-level invisibility spell on you. This invisibility can't be negated or seen through by any spell of 3rd level or lower or any item of 5th level or lower.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "type": "otherconsumables",
+        "sortLevel": 0,
+        "buff": true,
+        "defaultDurations": [
+            {
+                "duration": 100
+            }
+        ],
+        "gainConditions": [
+            {
+                "heightened": 4,
+                "name": "Invisibility"
+            }
+        ]
+    },
+    {
         "name": "Fire Seed Burst",
         "desc": "You have tossed a fire seed, dealing |dice=var Fire| <var>var1</var> fire damage in a 5-foot burst. Flames continue to burn on the ground in the burst for 1 minute, dealing |dice=var2 Fire| <var>var2</var> fire damage to any creature that enters the flames or ends its turn within them. A creature can take damage from the continuing flames only once per round, even if it's in overlapping areas of fire created by different acorns.",
         "sourceBook": "Core Rulebook",

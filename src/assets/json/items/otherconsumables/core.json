@@ -39,6 +39,28 @@
         ]
     },
     {
+        "name": "Dust of Disappearance",
+        "id": "c2ce9baf-c307-4c74-a057-07897314a0af",
+        "desc": "This powder shimmers like a thousand tiny motes of light. Activating the dust by sprinkling it on yourself or a creature within reach casts a 4th-level invisibility spell with a duration of 1 minute on that creature. This invisibility can’t be negated or seen through by any spell of 3rd level or lower or any item of 5th level or lower.",
+        "sourceBook": "Core Rulebook",
+        "_extensionFileName": "core",
+        "level": 9,
+        "price": 13500,
+        "traits": [
+            "Consumable",
+            "Illusion",
+            "Magical"
+        ],
+        "activationType": "Interact",
+        "gainConditions": [
+            {
+                "duration": 100,
+                "name": "Dust of Disappearance",
+                "source": "Dust of Disappearance"
+            }
+        ]
+    },
+    {
         "name": "Elemental Gem (Transparent)",
         "id": "3d4a42d4-6a76-4b1e-b5fb-8a1c50503cd0",
         "desc": "You shout the name of an elemental lord and dash this glassy gem against a hard surface to activate it. It cracks open, casting a 5th-level summon elemental spell to summon forth an elemental you control as long as you spend an action each round to Sustain the Activation.\n\nThis gem comes in four varieties: transparent for a living whirlwind, light brown for a living landslide, reddish orange for a living wildfire, and blue-green for a living waterfall.",
