@@ -1,12 +1,20 @@
 This is a standalone executable to host PECS for you and your fellow players. It is intended to save you the effort of installing and using node.js to build and serve PECS.
-However, it still requires some input:
+However, it still requires some input.
 
-1. If you want to save any of your created characters, you will need a MongoDB database. If you prefer a different database, you need a database API connector instead.
+===== Configuration =====
 
-MongoDB can be downloaded for free at https://www.mongodb.com/. You can also host a free database on the MongoDB Atlas servers and connect to that.
-To develop your own database connector, you can reference my standalone MongoDB connector on https://github.com/bukiro/PECS-MongoDB-Connector, or see the documentation on https://github.com/bukiro/PECS/blob/4f8bffcfeabab0320469bef3e4d0ec7697b10931/Database.md
+Before the executable can start, you need a config.json file. You can copy and rename config.json.example to see all the possible options.
+PECS has three different ways to save your characters and communication between players:
+----- Local -----
+This is the default option. PECS saves your characters in a local database and takes care of the player communication.
 
-2. Before the executable can start, you need a config.json file. You can copy and rename config.json.examble to see all the possible options:
+----- External database -----
+You can configure an external MongoDB database to save your characters. To connect to it, PECS needs to be configured with MongoDB parameters described below. PECS still takes care of the player communication.
+
+----- External data service -----
+In this option, an external data service provides an API for player communication and character management. To connect to it, PECS needs to be configured with a DataServiceConnectionURL parameter as described below.
+
+===== Configuration parameters =====
 
 HTTPPort
 (optional, default 4200)
@@ -29,26 +37,26 @@ Password
 If you set a password, PECS will require players to enter it before they can use the tool and access your data.
 
 DataServiceConnectionURL
-(not needed with MongoDBConnectionURL)
-If you are running an external database connector (likely because you are not using MongoDB for your database), you need to configure its URL here. This URL needs to work for everybody who is using your PECS server. If you have a dynamic IP address, you may need to update this value before starting the server.
+(optional, not needed with MongoDBConnectionURL)
+If you are running an external database connector, you need to configure its URL here. This URL needs to work for everybody who is using your PECS server. If you have a dynamic IP address, you may need to update this value before starting the server.
 
 MongoDBConnectionURL
-(not needed with externaldbConnectionURL)
+(optional, not needed with externaldbConnectionURL)
 If you are not running an external database connector, this is the connection URL for your MongoDB database server. Both MongoDB Atlas and MongoDB Compass can show you the exact url to use for your server. If the server requires an authenticated user for the connection, you must enter the user and password here. MongoDB Atlas always requires authenticated users.
 
 MongoDBDatabase
-(not needed with externaldbConnectionURL)
+(optional, not needed with externaldbConnectionURL)
 If you are not running an external database connector, name the MongoDB database that you will connect to.
 
 MongoDBCharacterCollection
-(not needed with externaldbConnectionURL, default characters)
+(optional, not needed with externaldbConnectionURL, default characters)
 The name of the collection in the database where the character are stored.
 
 ConvertMongoDBToLocal
 (optional, default false)
 ONLY if you have previously connected to a MongoDB and wish to switch to the local database, set this value to true and keep the MongoDB parameters. The next time you start the application, the characters stored in your MongoDB database will be converted to the local database. After that process has finished, you can remove the MongoDB parameters and this parameter from the config file and restart the application.
 
-3. When the above points are taken care of, you can start PECS simply by running the executable: On Windows, run pecs.exe, and on Linux, run pecs.
+When the above points are taken care of, you can start PECS simply by running the executable: On Windows, run pecs.exe, and on Linux, run pecs.
 
 ===== CUSTOM CONTENT =====
 
