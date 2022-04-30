@@ -25,7 +25,6 @@ export class ItemActivity extends Activity {
     public showonSkill = '';
     //Resonant item activities are only available when the item is slotted into a wayfinder.
     public resonant = false;
-    public data: { name: string, value: string }[] = [];
     //If the activity causes a condition, in order to select a choice from the activity beforehand, the choice is saved here for each condition.
     public effectChoices: { condition: string, choice: string }[] = [];
     //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each condition for each spell, recursively.

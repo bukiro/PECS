@@ -25,7 +25,7 @@ export class Item {
     public crafted = false;
     //Some items need certain requirements to be crafted.
     public craftRequirement = '';
-    //Some items need to store data - selected runes, spells, etc...
+    //Some items need to store data, usually via a hardcoded select box.
     public data: { name: string, value: string | boolean, show: boolean, type: 'string' | 'boolean' }[] = [];
     //Full description of the item, ideally unchanged from the source material
     public desc = '';
