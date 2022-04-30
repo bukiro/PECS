@@ -68,7 +68,7 @@ export class ConfigService {
     }
 
     login(password = '') {
-        return this.httpClient.post<{ token: string | false }>(`${ this.get_DBConnectionURL() }/login`, { password: Md5.hashStr(password) });
+        return this.httpClient.post<{ token: string | false }>(`${this.get_DBConnectionURL()}/login`, { password: Md5.hashStr(password) });
     }
 
     get_Login(password = '', characterService: CharacterService, savegameService: SavegameService) {
@@ -78,41 +78,42 @@ export class ConfigService {
         this.refreshService.set_ToChange('Character', 'charactersheet');
         this.refreshService.process_ToChange();
         //Try logging in. You will receive false if the password was wrong, a random token if it was correct, or a token of "no-login-required" if no password is needed.
-        const loginSubscription = this.login(password).subscribe((result: { token: string | false }) => {
-            this.cannotLogin = false;
-            if (result.token != false) {
-                this.xAccessToken = result.token;
-                this.loggedIn = true;
-                this.loggingIn = false;
-                this.loggedOutMessage = '';
-                this.refreshService.set_ToChange('Character', 'charactersheet');
-                this.refreshService.set_ToChange('Character', 'top-bar');
-                this.refreshService.process_ToChange();
-                savegameService.initialize();
-            } else {
-                this.loggedIn = false;
-                if (password) {
-                    this.refreshService.set_ToChange('Character', 'password-failed');
-                } else {
-                    this.refreshService.set_ToChange('Character', 'logged-out');
+        this.login(password)
+            .subscribe({
+                next: (result: { token: string | false }) => {
+                    this.cannotLogin = false;
+                    if (result.token != false) {
+                        this.xAccessToken = result.token;
+                        this.loggedIn = true;
+                        this.loggingIn = false;
+                        this.loggedOutMessage = '';
+                        this.refreshService.set_ToChange('Character', 'charactersheet');
+                        this.refreshService.set_ToChange('Character', 'top-bar');
+                        this.refreshService.process_ToChange();
+                        savegameService.initialize();
+                    } else {
+                        this.loggedIn = false;
+                        if (password) {
+                            this.refreshService.set_ToChange('Character', 'password-failed');
+                        } else {
+                            this.refreshService.set_ToChange('Character', 'logged-out');
+                        }
+                        this.refreshService.process_ToChange();
+                    }
+                    this.loading = false;
+                }, error: (error) => {
+                    console.log(`Error logging in: ${error.message}`);
+                    if (error.status == 0) {
+                        characterService.toastService.show('The configured database is not available. Characters can\'t be saved or loaded.');
+                    }
+                    this.cannotLogin = true;
+                    this.loggingIn = false;
+                    this.loading = false;
+                    this.refreshService.set_ToChange('Character', 'charactersheet');
+                    this.refreshService.set_ToChange('Character', 'top-bar');
+                    this.refreshService.process_ToChange();
                 }
-                this.refreshService.process_ToChange();
-            }
-            this.loading = false;
-        }, (error) => {
-            console.log(`Error logging in: ${ error.message }`);
-            if (error.status == 0) {
-                characterService.toastService.show('The configured database is not available. Characters can\'t be saved or loaded.');
-            }
-            this.cannotLogin = true;
-            this.loggingIn = false;
-            this.loading = false;
-            this.refreshService.set_ToChange('Character', 'charactersheet');
-            this.refreshService.set_ToChange('Character', 'top-bar');
-            this.refreshService.process_ToChange();
-        }, () => {
-            loginSubscription.unsubscribe();
-        });
+            });
     }
 
     on_LoggedOut(notification = '') {

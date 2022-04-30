@@ -202,33 +202,38 @@ export class TopBarComponent implements OnInit, OnDestroy {
             }
         } else {
             //Clean up old messages, then check for new messages, then open the dialog if any are found.
-            const cleanupSubscription = this.messageService.cleanup_OldMessages().subscribe(() => {
-                this.messageService.load_Messages(this.characterService.get_Character().id)
-                    .subscribe((results: string[]) => {
-                        //Get any new messages.
-                        const newMessages = this.messageService.process_Messages(this.characterService, results);
-                        //Add them to the list of new messages.
-                        this.messageService.add_NewMessages(newMessages);
-                        //If any exist, start the dialog. Otherwise give an appropriate response.
-                        if (this.messageService.get_NewMessages(this.characterService).length) {
-                            this.open_NewMessagesModal();
+            this.messageService.cleanup_OldMessages()
+                .subscribe({
+                    next: () => {
+                        this.messageService.load_Messages(this.characterService.get_Character().id)
+                            .subscribe({
+                                next: (results: string[]) => {
+                                    //Get any new messages.
+                                    const newMessages = this.messageService.process_Messages(this.characterService, results);
+                                    //Add them to the list of new messages.
+                                    this.messageService.add_NewMessages(newMessages);
+                                    //If any exist, start the dialog. Otherwise give an appropriate response.
+                                    if (this.messageService.get_NewMessages(this.characterService).length) {
+                                        this.open_NewMessagesModal();
+                                    } else {
+                                        this.toastService.show('No new effects are available.');
+                                    }
+                                },
+                                error: (error) => {
+                                    this.toastService.show('An error occurred while searching for new effects. See console for more information.');
+                                    console.log(`Error loading messages from database: ${error.message}`);
+                                },
+                            });
+                    },
+                    error: error => {
+                        if (error.status == 401) {
+                            this.configService.on_LoggedOut('Your login is no longer valid. New effects could not be checked. Please try again after logging in.');
                         } else {
-                            this.toastService.show('No new effects are available.');
+                            this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
+                            console.log(`Error cleaning up messages: ${error.message}`);
                         }
-                    }, (error) => {
-                        this.toastService.show('An error occurred while searching for new effects. See console for more information.');
-                        console.log(`Error loading messages from database: ${ error.message }`);
-                    });
-            }, error => {
-                if (error.status == 401) {
-                    this.configService.on_LoggedOut('Your login is no longer valid. New effects could not be checked. Please try again after logging in.');
-                } else {
-                    this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
-                    console.log(`Error cleaning up messages: ${ error.message }`);
-                }
-            }, () => {
-                cleanupSubscription.unsubscribe();
-            });
+                    },
+                });
         }
     }
 
@@ -243,13 +248,13 @@ export class TopBarComponent implements OnInit, OnDestroy {
     get_ItemMessageIncluded(message: PlayerMessage) {
         const included: string[] = [];
         if (message.includedItems.length) {
-            included.push(`${ message.includedItems.length } extra items`);
+            included.push(`${message.includedItems.length} extra items`);
         }
         if (message.includedInventories.length) {
-            included.push(`${ message.includedInventories.length } containers`);
+            included.push(`${message.includedInventories.length} containers`);
         }
         if (included.length) {
-            return `Includes ${ included.join(' and ') }`;
+            return `Includes ${included.join(' and ')}`;
         }
         return '';
     }

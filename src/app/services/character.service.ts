@@ -437,7 +437,7 @@ export class CharacterService {
             if (original.length == 4 || original.length == 7) {
                 try {
                     const rgba = hexToRgb(original);
-                    const result = `${ rgba.r },${ rgba.g },${ rgba.b }`;
+                    const result = `${rgba.r},${rgba.g},${rgba.b}`;
                     return result;
                 }
                 catch (error) {
@@ -1140,7 +1140,7 @@ export class CharacterService {
             });
         });
         if (found) {
-            this.toastService.show(`${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.get_Name() }</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.`);
+            this.toastService.show(`${found} item${found > 1 ? 's' : ''} were emptied out of <strong>${item.get_Name()}</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.`);
         }
     }
 
@@ -1274,10 +1274,10 @@ export class CharacterService {
                 }
             }
             //Check if any condition denies this condition, and stop processing if that is the case.
-            const denySources: string[] = this.get_AppliedConditions(creature, '', '', true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name)).map(existingGain => `<strong>${ existingGain.name }</strong>`);
+            const denySources: string[] = this.get_AppliedConditions(creature, '', '', true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name)).map(existingGain => `<strong>${existingGain.name}</strong>`);
             if (denySources.length) {
                 activate = false;
-                this.toastService.show(`The condition <strong>${ conditionGain.name }</strong> was not added because it is blocked by: ${ denySources.join(', ') }`);
+                this.toastService.show(`The condition <strong>${conditionGain.name}</strong> was not added because it is blocked by: ${denySources.join(', ')}`);
             }
             if (activate) {
                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
@@ -1473,47 +1473,51 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
-        const timeSubscription = this.messageService.get_Time().subscribe((result: string[]) => {
-            const timeStamp = result['time'];
-            const character = this.get_Character();
-            const targets = this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
-            const messages: PlayerMessage[] = [];
-            targets.forEach(target => {
-                const message = new PlayerMessage();
-                message.recipientId = target.id;
-                message.senderId = character.id;
-                message.targetId = '';
-                const date = new Date();
-                message.time = `${ date.getHours() }:${ date.getMinutes() }`;
-                message.timeStamp = timeStamp;
-                message.turnChange = true;
-                messages.push(message);
-            });
-            if (messages.length) {
-                const messagesSubscription = this.messageService.send_Messages(messages).subscribe(() => {
-                    //Don't notify the user that a turn change was sent. It proved more annoying than useful.
-                    //this.toastService.show("Sent turn change to " + (messages.length) + " targets.");
-                }, (error) => {
+        this.messageService.get_Time()
+            .subscribe({
+                next: (result: string[]) => {
+                    const timeStamp = result['time'];
+                    const character = this.get_Character();
+                    const targets = this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
+                    const messages: PlayerMessage[] = [];
+                    targets.forEach(target => {
+                        const message = new PlayerMessage();
+                        message.recipientId = target.id;
+                        message.senderId = character.id;
+                        message.targetId = '';
+                        const date = new Date();
+                        message.time = `${date.getHours()}:${date.getMinutes()}`;
+                        message.timeStamp = timeStamp;
+                        message.turnChange = true;
+                        messages.push(message);
+                    });
+                    if (messages.length) {
+                        this.messageService.send_Messages(messages)
+                            .subscribe({
+                                next: () => {
+                                    //Don't notify the user that a turn change was sent. It proved more annoying than useful.
+                                    //this.toastService.show("Sent turn change to " + (messages.length) + " targets.");
+                                },
+                                error: (error) => {
+                                    if (error.status == 401) {
+                                        this.configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
+                                    } else {
+                                        this.toastService.show('An error occurred while sending effects. See console for more information.');
+                                        console.log(`Error saving effect messages to database: ${error.message}`);
+                                    }
+                                }
+                            });
+                    }
+                },
+                error: (error) => {
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
-                        console.log(`Error saving effect messages to database: ${ error.message }`);
+                        console.log(`Error saving effect messages to database: ${error.message}`);
                     }
-                }, () => {
-                    messagesSubscription.unsubscribe();
-                });
-            }
-        }, (error) => {
-            if (error.status == 401) {
-                this.configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
-            } else {
-                this.toastService.show('An error occurred while sending effects. See console for more information.');
-                console.log(`Error saving effect messages to database: ${ error.message }`);
-            }
-        }, () => {
-            timeSubscription.unsubscribe();
-        });
+                }
+            });
     }
 
     apply_TurnChangeMessage(messages: PlayerMessage[]) {
@@ -1531,7 +1535,7 @@ export class CharacterService {
                         removed = this.remove_Condition(creature, existingConditionGain, false);
                         if (removed) {
                             const senderName = this.savegameService.get_Savegames().find(savegame => savegame.id == senderId)?.name || 'Unknown';
-                            this.toastService.show(`Automatically removed <strong>${ existingConditionGain.name }${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }</strong> condition from <strong>${ creature.name || creature.type }</strong> on turn of <strong>${ senderName }</strong>`);
+                            this.toastService.show(`Automatically removed <strong>${existingConditionGain.name}${existingConditionGain.choice ? `: ${existingConditionGain.choice}` : ''}</strong> condition from <strong>${creature.name || creature.type}</strong> on turn of <strong>${senderName}</strong>`);
                             this.refreshService.set_ToChange(creature.type, 'effects');
                         }
                     });
@@ -1547,56 +1551,60 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
-        const timeSubscription = this.messageService.get_Time().subscribe((result: string[]) => {
-            const timeStamp = result['time'];
-            const creatures = this.get_Creatures();
-            const messages: PlayerMessage[] = [];
-            targets.forEach(target => {
-                if (creatures.some(creature => creature.id == target.id)) {
-                    //Catch any messages that go to your own creatures
-                    this.add_Condition(this.get_Creature(target.type), conditionGain);
-                } else {
-                    //Build a message to the correct player and creature, with the timestamp just received from the database connector.
-                    const message = new PlayerMessage();
-                    message.recipientId = target.playerId;
-                    message.senderId = this.get_Character().id;
-                    message.targetId = target.id;
-                    const date = new Date();
-                    message.time = `${ date.getHours() }:${ date.getMinutes() }`;
-                    message.timeStamp = timeStamp;
-                    message.gainCondition.push(Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast());
-                    if (message.gainCondition.length) {
-                        message.gainCondition[0].foreignPlayerId = message.senderId;
+        this.messageService.get_Time()
+            .subscribe({
+                next: (result: string[]) => {
+                    const timeStamp = result['time'];
+                    const creatures = this.get_Creatures();
+                    const messages: PlayerMessage[] = [];
+                    targets.forEach(target => {
+                        if (creatures.some(creature => creature.id == target.id)) {
+                            //Catch any messages that go to your own creatures
+                            this.add_Condition(this.get_Creature(target.type), conditionGain);
+                        } else {
+                            //Build a message to the correct player and creature, with the timestamp just received from the database connector.
+                            const message = new PlayerMessage();
+                            message.recipientId = target.playerId;
+                            message.senderId = this.get_Character().id;
+                            message.targetId = target.id;
+                            const date = new Date();
+                            message.time = `${date.getHours()}:${date.getMinutes()}`;
+                            message.timeStamp = timeStamp;
+                            message.gainCondition.push(Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast());
+                            if (message.gainCondition.length) {
+                                message.gainCondition[0].foreignPlayerId = message.senderId;
+                            }
+                            message.activateCondition = activate;
+                            messages.push(message);
+                        }
+                    });
+                    if (messages.length) {
+                        this.messageService.send_Messages(messages)
+                            .subscribe({
+                                next: () => {
+                                    //If messages were sent, send a summary toast.
+                                    this.toastService.show(`Sent effects to ${messages.length} targets.`);
+                                },
+                                error: (error) => {
+                                    if (error.status == 401) {
+                                        this.configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
+                                    } else {
+                                        this.toastService.show('An error occurred while sending effects. See console for more information.');
+                                        console.log(`Error saving effect messages to database: ${error.message}`);
+                                    }
+                                }
+                            });
                     }
-                    message.activateCondition = activate;
-                    messages.push(message);
-                }
-            });
-            if (messages.length) {
-                const messagesSubscription = this.messageService.send_Messages(messages).subscribe(() => {
-                    //If messages were sent, send a summary toast.
-                    this.toastService.show(`Sent effects to ${ messages.length } targets.`);
-                }, (error) => {
+                },
+                error: (error) => {
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
-                        console.log(`Error saving effect messages to database: ${ error.message }`);
+                        console.log(`Error saving effect messages to database: ${error.message}`);
                     }
-                }, () => {
-                    messagesSubscription.unsubscribe();
-                });
-            }
-        }, (error) => {
-            if (error.status == 401) {
-                this.configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
-            } else {
-                this.toastService.show('An error occurred while sending effects. See console for more information.');
-                console.log(`Error saving effect messages to database: ${ error.message }`);
-            }
-        }, () => {
-            timeSubscription.unsubscribe();
-        });
+                }
+            });
     }
 
     apply_MessageConditions(messages: PlayerMessage[]) {
@@ -1616,7 +1624,7 @@ export class CharacterService {
                         if (newLength) {
                             const senderName = this.get_MessageSender(message);
                             //If a condition was created, send a toast to inform the user.
-                            this.toastService.show(`Added <strong>${ conditionGain.name }${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition to <strong>${ targetCreature.name || targetCreature.type }</strong> (sent by <strong>${ senderName.trim() }</strong>)`);
+                            this.toastService.show(`Added <strong>${conditionGain.name}${conditionGain.choice ? `: ${conditionGain.choice}` : ''}</strong> condition to <strong>${targetCreature.name || targetCreature.type}</strong> (sent by <strong>${senderName.trim()}</strong>)`);
                         }
                     }
                 } else {
@@ -1631,7 +1639,7 @@ export class CharacterService {
                         if (removed) {
                             const senderName = this.get_MessageSender(message);
                             //If a condition was removed, send a toast to inform the user.
-                            this.toastService.show(`Removed <strong>${ conditionGain.name }${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition from <strong>${ targetCreature.name || targetCreature.type }</strong> (added by <strong>${ senderName.trim() }</strong>)`);
+                            this.toastService.show(`Removed <strong>${conditionGain.name}${conditionGain.choice ? `: ${conditionGain.choice}` : ''}</strong> condition from <strong>${targetCreature.name || targetCreature.type}</strong> (added by <strong>${senderName.trim()}</strong>)`);
                         }
                     }
                 }
@@ -1645,48 +1653,52 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
-        const timeSubscription = this.messageService.get_Time().subscribe((result: string[]) => {
-            const timeStamp = result['time'];
-            if (!amount) {
-                amount == item.amount;
-            }
-            item = this.itemsService.update_GrantingItem(sender, item);
-            const included: { items: Item[], inventories: ItemCollection[] } = this.itemsService.pack_GrantingItem(sender, item);
-            //Build a message to the correct player and creature, with the timestamp just received from the database connector.
-            const message = new PlayerMessage();
-            message.recipientId = target.playerId;
-            message.senderId = this.get_Character().id;
-            message.targetId = target.id;
-            const date = new Date();
-            message.time = `${ date.getHours() }:${ date.getMinutes() }`;
-            message.timeStamp = timeStamp;
-            message.offeredItem.push(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(item))).recast(this.typeService, this.itemsService));
-            message.itemAmount = amount;
-            message.includedItems = included.items;
-            message.includedInventories = included.inventories;
-            const messageSubscription = this.messageService.send_Messages([message]).subscribe(() => {
-                //If the message was sent, send a summary toast.
-                this.toastService.show(`Sent item offer to <strong>${ target.name }</strong>.`);
-            }, (error) => {
-                if (error.status == 401) {
-                    this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
-                } else {
-                    this.toastService.show('An error occurred while sending item. See console for more information.');
-                    console.log(`Error saving item message to database: ${ error.message }`);
+        this.messageService.get_Time()
+            .subscribe({
+                next: (result: string[]) => {
+                    const timeStamp = result['time'];
+                    if (!amount) {
+                        amount == item.amount;
+                    }
+                    item = this.itemsService.update_GrantingItem(sender, item);
+                    const included: { items: Item[], inventories: ItemCollection[] } = this.itemsService.pack_GrantingItem(sender, item);
+                    //Build a message to the correct player and creature, with the timestamp just received from the database connector.
+                    const message = new PlayerMessage();
+                    message.recipientId = target.playerId;
+                    message.senderId = this.get_Character().id;
+                    message.targetId = target.id;
+                    const date = new Date();
+                    message.time = `${date.getHours()}:${date.getMinutes()}`;
+                    message.timeStamp = timeStamp;
+                    message.offeredItem.push(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(item))).recast(this.typeService, this.itemsService));
+                    message.itemAmount = amount;
+                    message.includedItems = included.items;
+                    message.includedInventories = included.inventories;
+                    this.messageService.send_Messages([message])
+                        .subscribe({
+                            next: () => {
+                                //If the message was sent, send a summary toast.
+                                this.toastService.show(`Sent item offer to <strong>${target.name}</strong>.`);
+                            },
+                            error: (error) => {
+                                if (error.status == 401) {
+                                    this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
+                                } else {
+                                    this.toastService.show('An error occurred while sending item. See console for more information.');
+                                    console.log(`Error saving item message to database: ${error.message}`);
+                                }
+                            }
+                        });
+                },
+                error: (error) => {
+                    if (error.status == 401) {
+                        this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
+                    } else {
+                        this.toastService.show('An error occurred while sending item. See console for more information.');
+                        console.log(`Error saving item message to database: ${error.message}`);
+                    }
                 }
-            }, () => {
-                messageSubscription.unsubscribe();
             });
-        }, (error) => {
-            if (error.status == 401) {
-                this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
-            } else {
-                this.toastService.show('An error occurred while sending item. See console for more information.');
-                console.log(`Error saving item message to database: ${ error.message }`);
-            }
-        }, () => {
-            timeSubscription.unsubscribe();
-        });
     }
 
     apply_MessageItems(messages: PlayerMessage[]) {
@@ -1743,20 +1755,20 @@ export class CharacterService {
                             //Build a toast message and send it.
                             let text = 'Received <strong>';
                             if (message.itemAmount > 1) {
-                                text += `${ message.itemAmount } `;
+                                text += `${message.itemAmount} `;
                             }
                             text += addedPrimaryItem.get_Name();
                             if (sender) {
-                                text += `</strong> from <strong>${ sender }</strong>`;
+                                text += `</strong> from <strong>${sender}</strong>`;
                             }
                             if (message.includedItems.length || message.includedInventories.length) {
                                 text += ', including ';
                                 const includedText: string[] = [];
                                 if (message.includedItems.length) {
-                                    includedText.push(`${ message.includedItems.length } extra items`);
+                                    includedText.push(`${message.includedItems.length} extra items`);
                                 }
                                 if (message.includedInventories.length) {
-                                    includedText.push(`${ message.includedInventories.length } containers`);
+                                    includedText.push(`${message.includedInventories.length} containers`);
                                 }
                                 text += includedText.join(' and ');
                             }
@@ -1780,50 +1792,54 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
-        const timeSubscription = this.messageService.get_Time().subscribe((result: string[]) => {
-            const timeStamp = result['time'];
-            //Build a message to the correct player and creature, with the timestamp just received from the database connector.
-            const response = new PlayerMessage();
-            response.recipientId = message.senderId;
-            response.senderId = this.get_Character().id;
-            response.targetId = message.senderId;
-            const target = this.get_MessageSender(message) || 'sender';
-            const date = new Date();
-            response.time = `${ date.getHours() }:${ date.getMinutes() }`;
-            response.timeStamp = timeStamp;
-            response.itemAmount = message.itemAmount;
-            if (accepted) {
-                response.acceptedItem = message.offeredItem[0].id;
-            } else {
-                response.rejectedItem = message.offeredItem[0].id;
-            }
-            const messageSubscription = this.messageService.send_Messages([response]).subscribe(() => {
-                //If the message was sent, send a summary toast.
-                if (accepted) {
-                    this.toastService.show(`Sent acceptance response to <strong>${ target }</strong>.`);
-                } else {
-                    this.toastService.show(`Sent rejection response to <strong>${ target }</strong>.`);
+        this.messageService.get_Time()
+            .subscribe({
+                next: (result: string[]) => {
+                    const timeStamp = result['time'];
+                    //Build a message to the correct player and creature, with the timestamp just received from the database connector.
+                    const response = new PlayerMessage();
+                    response.recipientId = message.senderId;
+                    response.senderId = this.get_Character().id;
+                    response.targetId = message.senderId;
+                    const target = this.get_MessageSender(message) || 'sender';
+                    const date = new Date();
+                    response.time = `${date.getHours()}:${date.getMinutes()}`;
+                    response.timeStamp = timeStamp;
+                    response.itemAmount = message.itemAmount;
+                    if (accepted) {
+                        response.acceptedItem = message.offeredItem[0].id;
+                    } else {
+                        response.rejectedItem = message.offeredItem[0].id;
+                    }
+                    this.messageService.send_Messages([response])
+                        .subscribe({
+                            next: () => {
+                                //If the message was sent, send a summary toast.
+                                if (accepted) {
+                                    this.toastService.show(`Sent acceptance response to <strong>${target}</strong>.`);
+                                } else {
+                                    this.toastService.show(`Sent rejection response to <strong>${target}</strong>.`);
+                                }
+                            },
+                            error: (error) => {
+                                if (error.status == 401) {
+                                    this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
+                                } else {
+                                    this.toastService.show('An error occurred while sending response. See console for more information.');
+                                    console.log(`Error saving response message to database: ${error.message}`);
+                                }
+                            }
+                        });
+                },
+                error: (error) => {
+                    if (error.status == 401) {
+                        this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
+                    } else {
+                        this.toastService.show('An error occurred while sending response. See console for more information.');
+                        console.log(`Error saving response message to database: ${error.message}`);
+                    }
                 }
-            }, (error) => {
-                if (error.status == 401) {
-                    this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
-                } else {
-                    this.toastService.show('An error occurred while sending response. See console for more information.');
-                    console.log(`Error saving response message to database: ${ error.message }`);
-                }
-            }, () => {
-                messageSubscription.unsubscribe();
             });
-        }, (error) => {
-            if (error.status == 401) {
-                this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
-            } else {
-                this.toastService.show('An error occurred while sending response. See console for more information.');
-                console.log(`Error saving response message to database: ${ error.message }`);
-            }
-        }, () => {
-            timeSubscription.unsubscribe();
-        });
     }
 
     apply_ItemAcceptedMessages(messages: PlayerMessage[]) {
@@ -1852,12 +1868,12 @@ export class CharacterService {
                     itemName = foundItem.get_Name();
                 }
                 if (message.acceptedItem) {
-                    this.toastService.show(`<strong>${ sender }</strong> has accepted the <strong>${ itemName }</strong>. The item is dropped from your inventory.`);
+                    this.toastService.show(`<strong>${sender}</strong> has accepted the <strong>${itemName}</strong>. The item is dropped from your inventory.`);
                     if (foundItem) {
                         this.drop_InventoryItem(foundCreature, foundInventory, foundItem, false, true, true, message.itemAmount);
                     }
                 } else if (message.rejectedItem) {
-                    this.toastService.show(`<strong>${ sender }</strong> has rejected the <strong>${ itemName }</strong>. The item will remain in your inventory.`);
+                    this.toastService.show(`<strong>${sender}</strong> has rejected the <strong>${itemName}</strong>. The item will remain in your inventory.`);
                 }
             }
             this.messageService.mark_MessageAsIgnored(this, message);
@@ -1924,9 +1940,9 @@ export class CharacterService {
                     // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
                     (creature as Character).class.focusPoints += value;
                     if (value >= 0) {
-                        this.toastService.show(`You gained ${ value } focus point${ value == 1 ? '' : 's' }.`);
+                        this.toastService.show(`You gained ${value} focus point${value == 1 ? '' : 's'}.`);
                     } else {
-                        this.toastService.show(`You lost ${ value * -1 } focus point${ value == 1 ? '' : 's' }.`);
+                        this.toastService.show(`You lost ${value * -1} focus point${value == 1 ? '' : 's'}.`);
                     }
                     this.refreshService.set_ToChange('Character', 'spellbook');
                 }
@@ -1943,14 +1959,14 @@ export class CharacterService {
                     if (effectGain.source == 'Manual') {
                         creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: '' };
                         creature.health.temporaryHP.length = 1;
-                        this.toastService.show(`${ recipientName } gained ${ value } temporary HP.`);
+                        this.toastService.show(`${recipientName} gained ${value} temporary HP.`);
                     } else if (creature.health.temporaryHP[0].amount == 0) {
                         creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: effectGain.sourceId };
                         creature.health.temporaryHP.length = 1;
-                        this.toastService.show(`${ recipientName } gained ${ value } temporary HP from ${ effectGain.source }.`);
+                        this.toastService.show(`${recipientName} gained ${value} temporary HP from ${effectGain.source}.`);
                     } else {
                         creature.health.temporaryHP.push({ amount: value, source: effectGain.source, sourceId: effectGain.sourceId });
-                        this.toastService.show(`${ recipientName } gained ${ value } temporary HP from ${ effectGain.source }. ${ recipientName2 } already had temporary HP and must choose which amount to keep.`);
+                        this.toastService.show(`${recipientName} gained ${value} temporary HP from ${effectGain.source}. ${recipientName2} already had temporary HP and must choose which amount to keep.`);
                     }
                 } else if (value < 0) {
                     const targetTempHPSet = creature.health.temporaryHP.find(tempHPSet => ((tempHPSet.source == 'Manual') && (effectGain.source == 'Manual')) || tempHPSet.sourceId == effectGain.sourceId);
@@ -1961,12 +1977,12 @@ export class CharacterService {
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
                             }
-                            this.toastService.show(`${ recipientName } lost ${ value * -1 } temporary HP.`);
+                            this.toastService.show(`${recipientName} lost ${value * -1} temporary HP.`);
                         } else {
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
                             }
-                            this.toastService.show(`${ recipientName } lost ${ value * -1 } of the temporary HP gained from ${ effectGain.source }. This is not the set of temporary HP that ${ recipientName3 } ${ recipientIs } currently using.`);
+                            this.toastService.show(`${recipientName} lost ${value * -1} of the temporary HP gained from ${effectGain.source}. This is not the set of temporary HP that ${recipientName3} ${recipientIs} currently using.`);
                         }
                     }
                 }
@@ -1980,25 +1996,25 @@ export class CharacterService {
                     const result = creature.health.heal(creature, this, this.effectsService, value, true);
                     let results = '';
                     if (result.unconsciousRemoved) {
-                        results = ` This removed ${ recipientGenitive } Unconscious condition.`;
+                        results = ` This removed ${recipientGenitive} Unconscious condition.`;
                     }
                     if (result.dyingRemoved) {
-                        results = ` This removed ${ recipientGenitive } Dying condition.`;
+                        results = ` This removed ${recipientGenitive} Dying condition.`;
                     }
-                    this.toastService.show(`${ recipientName } gained ${ value } HP from ${ effectGain.source }.${ results }`);
+                    this.toastService.show(`${recipientName} gained ${value} HP from ${effectGain.source}.${results}`);
                 } else if (value < 0) {
                     const result = creature.health.takeDamage(creature, this, this.effectsService, -value, false);
                     let results = '';
                     if (result.unconsciousAdded) {
-                        results = ` ${ recipientName } ${ recipientIs } now Unconscious.`;
+                        results = ` ${recipientName} ${recipientIs} now Unconscious.`;
                     }
                     if (result.dyingAdded && effectGain.source != 'Dead') {
-                        results = ` ${ recipientName2 } ${ recipientIs } now Dying ${ result.dyingAdded }.`;
+                        results = ` ${recipientName2} ${recipientIs} now Dying ${result.dyingAdded}.`;
                     }
                     if (result.wokeUp) {
-                        results = ` This removed ${ recipientGenitive } Unconscious condition.`;
+                        results = ` This removed ${recipientGenitive} Unconscious condition.`;
                     }
-                    this.toastService.show(`${ recipientName } lost ${ value * -1 } HP from ${ effectGain.source }.${ results }`);
+                    this.toastService.show(`${recipientName} lost ${value * -1} HP from ${effectGain.source}.${results}`);
                 }
                 this.refreshService.set_ToChange(creature.type, 'health');
                 this.refreshService.set_ToChange(creature.type, 'effects');
@@ -2022,16 +2038,16 @@ export class CharacterService {
                 this.defenseService.get_AC().set_Cover(creature, value, null, this, this.conditionsService);
                 switch (value) {
                     case 0:
-                        this.toastService.show(`${ recipientName } ${ recipientIs } no longer taking cover.`);
+                        this.toastService.show(`${recipientName} ${recipientIs} no longer taking cover.`);
                         break;
                     case 1:
-                        this.toastService.show(`${ recipientName } now ${ recipientHas } lesser cover.`);
+                        this.toastService.show(`${recipientName} now ${recipientHas} lesser cover.`);
                         break;
                     case 2:
-                        this.toastService.show(`${ recipientName } now ${ recipientHas } standard cover.`);
+                        this.toastService.show(`${recipientName} now ${recipientHas} standard cover.`);
                         break;
                     case 4:
-                        this.toastService.show(`${ recipientName } now ${ recipientHas } greater cover.`);
+                        this.toastService.show(`${recipientName} now ${recipientHas} greater cover.`);
                         break;
                 }
                 break;
@@ -2194,7 +2210,7 @@ export class CharacterService {
             )
             //Return any feats that include e.g. Companion:Athletics
             .concat(
-                this.get_FeatsShowingOn(`Companion:${ objectName }`)
+                this.get_FeatsShowingOn(`Companion:${objectName}`)
             ) as (AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat)[];
     }
 
@@ -2216,7 +2232,7 @@ export class CharacterService {
                 )
             ) && feat.have({ creature: this.get_Familiar() }, { characterService: this })
             //Return any feats that include e.g. Companion:Athletics
-        ).concat(this.get_FeatsShowingOn(`Familiar:${ objectName }`));
+        ).concat(this.get_FeatsShowingOn(`Familiar:${objectName}`));
     }
 
     get_ConditionsShowingOn(creature: Creature, objectName = 'all') {
@@ -2585,7 +2601,7 @@ export class CharacterService {
                                 this.cancel_Loading();
                             } else {
                                 this.toastService.show('An error occurred while loading the character. See console for more information.');
-                                console.log(`Error loading character from database: ${ error.message }`);
+                                console.log(`Error loading character from database: ${error.message}`);
                                 this.cancel_Loading();
                             }
                         }
@@ -2602,19 +2618,21 @@ export class CharacterService {
     }
 
     delete_Character(savegame: Savegame) {
-        const deleteSubscription = this.savegameService.delete_CharacterFromDB(savegame).subscribe(() => {
-            this.toastService.show(`Deleted ${ savegame.name || 'character' } from database.`);
-            this.savegameService.initialize();
-        }, (error) => {
-            if (error.status == 401) {
-                this.configService.on_LoggedOut('Your login is no longer valid. The character could not be deleted. Please try again after logging in.');
-            } else {
-                this.toastService.show('An error occurred while deleting the character. See console for more information.');
-                console.log(`Error deleting from database: ${ error.message }`);
-            }
-        }, () => {
-            deleteSubscription.unsubscribe();
-        });
+        this.savegameService.delete_CharacterFromDB(savegame)
+            .subscribe({
+                next: () => {
+                    this.toastService.show(`Deleted ${savegame.name || 'character'} from database.`);
+                    this.savegameService.initialize();
+                },
+                error: (error) => {
+                    if (error.status == 401) {
+                        this.configService.on_LoggedOut('Your login is no longer valid. The character could not be deleted. Please try again after logging in.');
+                    } else {
+                        this.toastService.show('An error occurred while deleting the character. See console for more information.');
+                        console.log(`Error deleting from database: ${error.message}`);
+                    }
+                }
+            });
     }
 
     finish_Loading(loadAsGM = false) {
@@ -2695,24 +2713,24 @@ export class CharacterService {
     save_Character() {
         this.get_Character().yourTurn = this.timeService.get_YourTurn();
         this.toastService.show('Saving...');
-        const saveSubscription = this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService).subscribe((result) => {
-            if (result['lastErrorObject'] && result['lastErrorObject'].updatedExisting) {
-                this.toastService.show(`Saved ${ this.get_Character().name || 'character' }.`);
-            } else {
-                this.toastService.show(`Created ${ this.get_Character().name || 'character' }.`);
-            }
-            this.savegameService.initialize();
-        }, (error) => {
-            if (error.status == 401) {
-                this.configService.on_LoggedOut('Your login is no longer valid. The character could not be saved. Please try saving the character again after logging in.');
-            } else {
-                this.toastService.show('An error occurred while saving the character. See console for more information.');
-                console.log(`Error saving to database: ${ error.message }`);
-            }
-        }, () => {
-            saveSubscription.unsubscribe();
-        });
-
+        this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
+            .subscribe({
+                next: (result) => {
+                    if (result['lastErrorObject'] && result['lastErrorObject'].updatedExisting) {
+                        this.toastService.show(`Saved ${this.get_Character().name || 'character'}.`);
+                    } else {
+                        this.toastService.show(`Created ${this.get_Character().name || 'character'}.`);
+                    }
+                    this.savegameService.initialize();
+                }, error: (error) => {
+                    if (error.status == 401) {
+                        this.configService.on_LoggedOut('Your login is no longer valid. The character could not be saved. Please try saving the character again after logging in.');
+                    } else {
+                        this.toastService.show('An error occurred while saving the character. See console for more information.');
+                        console.log(`Error saving to database: ${error.message}`);
+                    }
+                }
+            });
     }
 
 }

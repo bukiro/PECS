@@ -46,23 +46,23 @@ export class MessageService {
     }
 
     load_Messages(recipientId: string): Observable<string[]> {
-        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/loadMessages/${ recipientId }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<string[]>(`${this.configService.get_DBConnectionURL()}/loadMessages/${recipientId}`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     cleanup_OldMessages() {
-        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<string[]>(`${this.configService.get_DBConnectionURL()}/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     load_TimeFromConnector(): Observable<string[]> {
-        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<string[]>(`${this.configService.get_DBConnectionURL()}/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     delete_MessageFromDB(message: PlayerMessage): Observable<string[]> {
-        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/deleteMessage`, { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<string[]>(`${this.configService.get_DBConnectionURL()}/deleteMessage`, { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     save_MessagesToDB(messages: PlayerMessage[]): Observable<string[]> {
-        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/saveMessages/`, messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<string[]>(`${this.configService.get_DBConnectionURL()}/saveMessages/`, messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     finish_loading(loader: string[]) {
@@ -85,36 +85,37 @@ export class MessageService {
             return false;
         }
         this.checkingMessages = true;
-        const messagesSubscription = this.load_Messages(characterService.get_Character().id)
-            .subscribe((results: string[]) => {
-                const newMessages = this.process_Messages(characterService, results);
-                //If the check was automatic, and any messages are left, apply them automatically if applyMessagesAutomatically is set,
-                // otherwise only announce that new messages are available, then update the component to show the number on the button.
-                if (newMessages.length && characterService.get_Character().settings.applyMessagesAutomatically) {
-                    this.on_ApplyMessagesAutomatically(characterService, newMessages);
-                    this.refreshService.set_Changed('top-bar');
-                } else if (newMessages.length) {
-                    this.add_NewMessages(newMessages);
-                    this.toastService.show(`<strong>${ newMessages.length }</strong> new message${ newMessages.length != 1 ? 's are' : ' is' } available.`,
-                        { onClickCreature: 'character', onClickAction: 'check-messages-manually' });
-                    this.refreshService.set_Changed('top-bar');
-                }
-                this.checkingMessages = false;
-            }, (error) => {
-                this.checkingMessages = false;
-                if (error.status == 401) {
-                    this.configService.on_LoggedOut('Your login is no longer valid; Messages have not been loaded.');
-                } else {
-                    let text = 'An error occurred while searching for new messages. See console for more information.';
-                    if (characterService.get_Character().settings.checkMessagesAutomatically) {
-                        text += ' Automatic checks have been disabled.';
-                        characterService.get_Character().settings.checkMessagesAutomatically = false;
+        this.load_Messages(characterService.get_Character().id)
+            .subscribe({
+                next: (results: string[]) => {
+                    const newMessages = this.process_Messages(characterService, results);
+                    //If the check was automatic, and any messages are left, apply them automatically if applyMessagesAutomatically is set,
+                    // otherwise only announce that new messages are available, then update the component to show the number on the button.
+                    if (newMessages.length && characterService.get_Character().settings.applyMessagesAutomatically) {
+                        this.on_ApplyMessagesAutomatically(characterService, newMessages);
+                        this.refreshService.set_Changed('top-bar');
+                    } else if (newMessages.length) {
+                        this.add_NewMessages(newMessages);
+                        this.toastService.show(`<strong>${newMessages.length}</strong> new message${newMessages.length != 1 ? 's are' : ' is'} available.`,
+                            { onClickCreature: 'character', onClickAction: 'check-messages-manually' });
+                        this.refreshService.set_Changed('top-bar');
                     }
-                    this.toastService.show(text);
-                    console.log(`Error loading messages from database: ${ error.message }`);
+                    this.checkingMessages = false;
+                },
+                error: (error) => {
+                    this.checkingMessages = false;
+                    if (error.status == 401) {
+                        this.configService.on_LoggedOut('Your login is no longer valid; Messages have not been loaded.');
+                    } else {
+                        let text = 'An error occurred while searching for new messages. See console for more information.';
+                        if (characterService.get_Character().settings.checkMessagesAutomatically) {
+                            text += ' Automatic checks have been disabled.';
+                            characterService.get_Character().settings.checkMessagesAutomatically = false;
+                        }
+                        this.toastService.show(text);
+                        console.log(`Error loading messages from database: ${error.message}`);
+                    }
                 }
-            }, () => {
-                messagesSubscription.unsubscribe();
             });
     }
 
@@ -192,29 +193,31 @@ export class MessageService {
                 message.ttl--;
                 if (message.ttl == 0 && characterService.get_LoggedIn()) {
                     messagesToDelete++;
-                    const deleteSubscription = this.delete_MessageFromDB(Object.assign(new PlayerMessage(), { id: message.id })).subscribe(() => {
-                        messagesToDelete--;
-                        if (!messagesToDelete) {
-                            this.cleaningUpIgnoredMessages = false;
-                        }
-                    }, error => {
-                        //Restore a point of ttl so the app will attempt to delete the message again next time.
-                        message.ttl++;
-                        messagesToDelete--;
-                        if (!messagesToDelete) {
-                            this.cleaningUpIgnoredMessages = false;
-                        }
-                        if (error.status == 401) {
-                            this.configService.on_LoggedOut('Your login is no longer valid.');
-                        } else if (!errorMessage) {
-                            errorMessage = true;
-                            const text = 'An error occurred while deleting messages. See console for more information.';
-                            this.toastService.show(text);
-                            console.log(`Error deleting messages: ${ error.message }`);
-                        }
-                    }, () => {
-                        deleteSubscription.unsubscribe();
-                    });
+                    this.delete_MessageFromDB(Object.assign(new PlayerMessage(), { id: message.id }))
+                        .subscribe({
+                            next: () => {
+                                messagesToDelete--;
+                                if (!messagesToDelete) {
+                                    this.cleaningUpIgnoredMessages = false;
+                                }
+                            },
+                            error: error => {
+                                //Restore a point of ttl so the app will attempt to delete the message again next time.
+                                message.ttl++;
+                                messagesToDelete--;
+                                if (!messagesToDelete) {
+                                    this.cleaningUpIgnoredMessages = false;
+                                }
+                                if (error.status == 401) {
+                                    this.configService.on_LoggedOut('Your login is no longer valid.');
+                                } else if (!errorMessage) {
+                                    errorMessage = true;
+                                    const text = 'An error occurred while deleting messages. See console for more information.';
+                                    this.toastService.show(text);
+                                    console.log(`Error deleting messages: ${error.message}`);
+                                }
+                            }
+                        });
                 }
             });
         }
@@ -249,14 +252,15 @@ export class MessageService {
                 if (minuteTimer <= 0) {
                     //Every minute, let the database connector clean up messages that are older than 10 minutes.
                     //The timer starts at 0 so this happens immediately upon activating automatic checking (or loading a character with it.)
-                    const cleanupSubscription = this.cleanup_OldMessages().subscribe(() => {
-                        //No need to process anything if the connector does its work properly.
-                    }, error => {
-                        this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
-                        console.log(`Error cleaning up messages: ${ error.message }`);
-                    }, () => {
-                        cleanupSubscription.unsubscribe();
-                    });
+                    this.cleanup_OldMessages()
+                        .subscribe({
+                            next: () => {
+                                //No need to process anything if the connector does its work properly.
+                            }, error: error => {
+                                this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
+                                console.log(`Error cleaning up messages: ${error.message}`);
+                            }
+                        });
                     minuteTimer = 60;
                 }
 
