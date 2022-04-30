@@ -20,4 +20,15 @@ export class AdventuringGear extends Equipment {
         super.recast(typeService, itemsService);
         return this;
     }
+    can_Stack() {
+        //Some AdventuringGear can stack. This is an expanded version of Item.can_Stack().
+        return (
+            !this.equippable &&
+            !this.can_Invest() &&
+            !this.gainItems.filter(gain => gain.on != 'use').length &&
+            !this.storedSpells.length &&
+            !this.activities.length &&
+            !this.gainActivities.length
+        );
+    }
 }
