@@ -37,12 +37,6 @@
         {{activity.trigger}}
     </span>
 </div>
-<ng-container *ngIf="allowActivate && gain?.data">
-    <div class="newrow left-aligned" *ngFor="let data of gain.data; trackBy:trackByIndex">
-        <strong>{{data.name}}</strong>
-        <input class="newrow" type="text" [(ngModel)]="data.value">
-    </div>
-</ng-container>
 <div class="newrow left-aligned" *ngIf="activity.requirements">
     <span>
         <strong>Requirements</strong>
