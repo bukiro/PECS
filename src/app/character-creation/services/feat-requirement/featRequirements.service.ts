@@ -602,8 +602,15 @@ export class FeatRequirementsService {
                         if (favoredweaponreq.query.havingAnyOfProficiencies) {
                             const proficiencies = SplitNames(favoredweaponreq.query.havingAnyOfProficiencies);
                             favoredWeapons = favoredWeapons.filter(weaponName => {
-                                const weapon = this.characterService.itemsService.get_CleanItems().weapons.find(weapon => weapon.name.toLowerCase() === weaponName.toLowerCase());
-                                return proficiencies.includes(weapon.prof.toLowerCase());
+                                let weapon = this.characterService.itemsService.get_CleanItems().weapons.find(weapon => weapon.name.toLowerCase() === weaponName.toLowerCase());
+                                if (!weapon) {
+                                    weapon = this.characterService.itemsService.get_CleanItems().weapons.find(weapon => weapon.weaponBase.toLowerCase() === weaponName.toLowerCase());
+                                }
+                                if (weapon) {
+                                    return proficiencies.includes(weapon.prof.toLowerCase());
+                                } else {
+                                    return false;
+                                }
                             });
                         }
                         const queryResult = ApplyDefaultQuery(favoredweaponreq.query, favoredWeapons);
