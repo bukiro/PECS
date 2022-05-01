@@ -581,6 +581,13 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
+    remove_CustomFeat(feat: Feat) {
+        this.characterService.remove_CustomFeat(feat);
+        this.refreshService.set_ToChange('Character', 'charactersheet');
+        this.refreshService.set_ToChange('Character', 'featchoices');
+        this.refreshService.process_ToChange();
+    }
+
     remove_BonusFeatChoice(choice: FeatChoice) {
         const level = this.get_Character().class.levels[this.levelNumber];
         const oldChoice: FeatChoice = level.featChoices.find(existingChoice => existingChoice.id == choice.id);

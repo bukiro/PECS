@@ -18,6 +18,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { TypeService } from 'src/app/services/type.service';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
+import { FeatsService } from './feats.service';
 
 @Injectable({
     providedIn: 'root'
@@ -33,7 +34,8 @@ export class SavegameService {
         private http: HttpClient,
         private configService: ConfigService,
         private typeService: TypeService,
-        private refreshService: RefreshService
+        private refreshService: RefreshService,
+        private featsService: FeatsService,
     ) {
 
     }
@@ -746,6 +748,30 @@ export class SavegameService {
                         }
                     });
                 }
+            }
+
+            //Feats that are generated based on item store weapons are stored in the featsService starting in 1.0.16.
+            // These feats can be removed from the character's customfeats.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 16) {
+                const weaponFeats = this.featsService.get_Feats([]).filter(feat => feat.generatedWeaponFeat);
+                character.customFeats.forEach(characterFeat => {
+                    if (weaponFeats.some(feat => feat.name === characterFeat.name)) {
+                        characterFeat.name = 'DELETE';
+                    }
+                });
+                character.customFeats = character.customFeats.filter(characterFeat => characterFeat.name !== 'DELETE');
+            }
+
+            //Generated feats are tagged as such starting in 1.0.16. This is patched on the character's custom feats.
+            // At this point, there are only generated lore feats and weapon feats, so they are easy to distinguish.
+            if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 16) {
+                character.customFeats.forEach(customFeat => {
+                    if (customFeat.lorebase) {
+                        customFeat.generatedLoreFeat = true;
+                    } else {
+                        customFeat.generatedWeaponFeat = true;
+                    }
+                });
             }
         }
 

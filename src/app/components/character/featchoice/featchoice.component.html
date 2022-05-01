@@ -157,6 +157,11 @@
                                                                                 </span>
                                                                             </span>
                                                                         </span>
+                                                                        <button *ngIf="subfeatSet.subfeat.canDelete"
+                                                                            [disabled]="subFeatChecked"
+                                                                            (click)="remove_CustomFeat(subfeatSet.subfeat)">
+                                                                            Delete
+                                                                        </button>
                                                                         <button (click)="toggle_SubFeat(subItemID)"
                                                                             [ngClass]="{'fancy-button':get_ShowSubFeat()==subItemID}">
                                                                             {{get_ShowSubFeat()==subItemID ? "Hide" :

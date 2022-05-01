@@ -845,8 +845,7 @@ export class Character extends Creature {
     add_LoreFeats(characterService: CharacterService, loreName: string) {
         //There are particular feats that need to be cloned for every individual lore skill (mainly Assurance). They are marked as lorebase==true.
         characterService.get_Feats().filter(feat => feat.lorebase == 'Lore').forEach(lorebaseFeat => {
-            const newLength = characterService.add_CustomFeat(lorebaseFeat);
-            const newFeat = characterService.get_Character().customFeats[newLength - 1];
+            const newFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(JSON.stringify(lorebaseFeat))).recast();
             newFeat.name = newFeat.name.replace('Lore', `Lore: ${ loreName }`);
             newFeat.subType = newFeat.subType.replace('Lore', `Lore: ${ loreName }`);
             newFeat.skillreq.forEach(requirement => {
@@ -858,6 +857,8 @@ export class Character extends Creature {
             newFeat.featreq = newFeat.featreq.map(featreq => featreq.replace('Lore', `Lore: ${ loreName }`));
             newFeat.lorebase = `Lore: ${ loreName }`;
             newFeat.hide = false;
+            newFeat.generatedLoreFeat = true;
+            characterService.add_CustomFeat(newFeat);
             characterService.refreshService.set_ToChange('Character', 'skills');
             characterService.refreshService.set_ToChange('Character', 'charactersheet');
         });

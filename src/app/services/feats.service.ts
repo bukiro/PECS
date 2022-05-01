@@ -21,6 +21,9 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { ItemsService } from './items.service';
+import { Weapon } from '../classes/Weapon';
+import { HistoryService } from './history.service';
 
 @Injectable({
     providedIn: 'root'
@@ -38,6 +41,8 @@ export class FeatsService {
 
     constructor(
         private extensionsService: ExtensionsService,
+        private itemsService: ItemsService,
+        private historyService: HistoryService,
         private refreshService: RefreshService
     ) { }
 
@@ -45,22 +50,22 @@ export class FeatsService {
         return Object.assign(new Feat(), { name: 'Feat not found', 'desc': `${ name ? name : 'The requested feat or feature' } does not exist in the feat and features lists.` });
     }
 
-    get_FeatFromName(customFeats: Feat[], name: string): Feat {
+    private get_FeatFromName(customFeats: Feat[], name: string): Feat {
         //Returns either a feat from the given custom feats, or a named feat from the map.
         return customFeats.find(feat => feat.name.toLowerCase() == name.toLowerCase()) || this.featsMap.get(name.toLowerCase()) || this.get_ReplacementFeat(name);
     }
 
-    get_FeatureFromName(name: string): Feat {
+    private get_FeatureFromName(name: string): Feat {
         //Returns a named feat from the features map;
         return this.featuresMap.get(name.toLowerCase()) || this.get_ReplacementFeat(name);
     }
 
-    get_AllFromName(customFeats: Feat[], name: string): Feat {
+    private get_AllFromName(customFeats: Feat[], name: string): Feat {
         //Returns either a feat from the given custom feats, or a named feature from the map, or a named feat from the map.
         return customFeats.find(feat => feat.name.toLowerCase() == name.toLowerCase()) || this.featuresMap.get(name.toLowerCase()) || this.featsMap.get(name.toLowerCase()) || this.get_ReplacementFeat(name);
     }
 
-    get_Feats(customFeats: Feat[], name = '', type = ''): Feat[] {
+    public get_Feats(customFeats: Feat[], name = '', type = ''): Feat[] {
         if (!this.still_loading()) {
             //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
             if (name && !type) {
@@ -80,7 +85,7 @@ export class FeatsService {
         return [this.get_ReplacementFeat()];
     }
 
-    get_Features(name = ''): Feat[] {
+    public get_Features(name = ''): Feat[] {
         if (!this.still_loading()) {
             //If a name is given, try to find a feat by that name in the index map. This should be much quicker.
             if (name) {
@@ -131,6 +136,45 @@ export class FeatsService {
                 }
             }
         }
+    }
+
+    create_WeaponFeats(weapons: Weapon[] = []): Feat[] {
+        if (!weapons.length) {
+            weapons = this.itemsService.get_ItemsOfType('weapons');
+        }
+        const weaponFeats = this.feats.filter(feat => feat.weaponfeatbase);
+        const resultingFeats: Feat[] = [];
+        weaponFeats.forEach(feat => {
+            let featweapons = weapons;
+            //These filters are hardcoded according to the needs of the weaponfeatbase feats.
+            // Certain codewords are replaced with matching names, such as in
+            // "Advanced Weapon", "Uncommon Ancestry Weapon" or "Uncommon Ancestry Advanced Weapon"
+            if (feat.subType.includes('Uncommon')) {
+                featweapons = featweapons.filter(weapon => weapon.traits.includes('Uncommon'));
+            }
+            if (feat.subType.includes('Simple')) {
+                featweapons = featweapons.filter(weapon => weapon.prof == 'Simple Weapons');
+            } else if (feat.subType.includes('Martial')) {
+                featweapons = featweapons.filter(weapon => weapon.prof == 'Martial Weapons');
+            } else if (feat.subType.includes('Advanced')) {
+                featweapons = featweapons.filter(weapon => weapon.prof == 'Advanced Weapons');
+            }
+            if (feat.subType.includes('Ancestry')) {
+                const ancestries: string[] = this.historyService.get_Ancestries().map(ancestry => ancestry.name);
+                featweapons = featweapons.filter(weapon => weapon.traits.some(trait => ancestries.includes(trait)));
+            }
+            featweapons.forEach(weapon => {
+                const regex = new RegExp(feat.subType, 'g');
+                let featString = JSON.stringify(feat);
+                featString = featString.replace(regex, weapon.name);
+                const newFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(featString)).recast();
+                newFeat.hide = false;
+                newFeat.weaponfeatbase = false;
+                newFeat.generatedWeaponFeat = true;
+                resultingFeats.push(newFeat);
+            });
+        });
+        return resultingFeats;
     }
 
     filter_Feats(feats: Feat[], name = '', type = '', includeSubTypes = false, includeCountAs = false): Feat[] {
@@ -1100,42 +1144,50 @@ export class FeatsService {
     }
 
     initialize() {
-        //Clear the character feats whenever a character is loaded.
-        this.$characterFeats.clear();
-        this.$characterFeatsTaken.length = 0;
-        //Initialize feats only once, but cleanup their active hints everytime thereafter.
-        if (!this.feats.length) {
-            this.loading_feats = true;
-            this.load(json_feats, 'feats');
-            this.featsMap.clear();
-            this.feats.forEach(feat => {
-                this.featsMap.set(feat.name.toLowerCase(), feat);
-            });
-            this.loading_feats = false;
-        } else {
-            //Disable any active hint effects when loading a character.
-            this.feats.forEach(feat => {
-                feat.hints.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                });
-            });
-        }
-        if (!this.features.length) {
-            this.loading_features = true;
-            this.load(json_features, 'features');
-            this.featuresMap.clear();
-            this.features.forEach(feature => {
-                this.featuresMap.set(feature.name.toLowerCase(), feature);
-            });
-            this.loading_features = false;
-        } else {
-            //Disable any active hint effects when loading a character.
-            this.features.forEach(feat => {
-                feat.hints.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                });
-            });
-        }
+        const waitForItemsService = setInterval(() => {
+            if (!this.itemsService.still_loading()) {
+                clearInterval(waitForItemsService);
+                //Clear the character feats whenever a character is loaded.
+                this.$characterFeats.clear();
+                this.$characterFeatsTaken.length = 0;
+                //Initialize feats only once, but cleanup their active hints everytime thereafter.
+                if (!this.feats.length) {
+                    this.loading_feats = true;
+                    this.load(json_feats, 'feats');
+                    //Create feats that are based on weapons in the store.
+                    const customFeats = this.create_WeaponFeats();
+                    this.feats = this.feats.concat(customFeats);
+                    this.featsMap.clear();
+                    this.feats.forEach(feat => {
+                        this.featsMap.set(feat.name.toLowerCase(), feat);
+                    });
+                    this.loading_feats = false;
+                } else {
+                    //Disable any active hint effects when loading a character.
+                    this.feats.forEach(feat => {
+                        feat.hints.forEach(hint => {
+                            hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+                        });
+                    });
+                }
+                if (!this.features.length) {
+                    this.loading_features = true;
+                    this.load(json_features, 'features');
+                    this.featuresMap.clear();
+                    this.features.forEach(feature => {
+                        this.featuresMap.set(feature.name.toLowerCase(), feature);
+                    });
+                    this.loading_features = false;
+                } else {
+                    //Disable any active hint effects when loading a character.
+                    this.features.forEach(feat => {
+                        feat.hints.forEach(hint => {
+                            hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+                        });
+                    });
+                }
+            }
+        }, 100);
     }
 
     load(source, target: string) {

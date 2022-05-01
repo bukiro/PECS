@@ -42,6 +42,10 @@ export class Feat {
     //The customData property causes the feat to be copied into a custom feat, and the data property to gain the listed fields.
     // This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields.
     public customData: { name: string, type: 'string' | 'number' | 'stringArray' | 'numberArray' }[] = [];
+    public generatedLoreFeat = false;
+    public generatedWeaponFeat = false;
+    //A custom character feat with canDelete: true can be manually deleted by the user.
+    public canDelete = false;
     public displayName = '';
     public desc = '';
     public effects: EffectGain[] = [];

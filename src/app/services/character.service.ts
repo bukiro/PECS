@@ -703,55 +703,6 @@ export class CharacterService {
         return creature.inventories[0]?.allEquipment().filter(item => item.invested && item.traits.includes('Invested')) || [];
     }
 
-    create_WeaponFeats(weapons: Weapon[] = []) {
-        //This function depends on the feats and items being loaded, and it will wait forever for them!
-        // They should usually be running at this time, but just in case...
-        if (this.featsService.still_loading() || this.itemsService.still_loading()) {
-            setTimeout(() => {
-                this.create_WeaponFeats(weapons);
-            }, 500);
-        } else {
-            if (!weapons.length) {
-                weapons = this.itemsService.get_ItemsOfType('weapons');
-            }
-            const weaponFeats = this.get_Feats().filter(feat => feat.weaponfeatbase);
-            weaponFeats.forEach(feat => {
-                let featweapons = weapons;
-                //These filters are hardcoded according to the needs of the weaponfeatbase feats. There is "Advanced Weapon", "Uncommon Ancestry Weapon" and "Uncommon Ancestry Advanced Weapon" so far.
-                if (feat.subType.includes('Uncommon')) {
-                    featweapons = featweapons.filter(weapon => weapon.traits.includes('Uncommon'));
-                }
-                if (feat.subType.includes('Simple')) {
-                    featweapons = featweapons.filter(weapon => weapon.prof == 'Simple Weapons');
-                } else if (feat.subType.includes('Martial')) {
-                    featweapons = featweapons.filter(weapon => weapon.prof == 'Martial Weapons');
-                } else if (feat.subType.includes('Advanced')) {
-                    featweapons = featweapons.filter(weapon => weapon.prof == 'Advanced Weapons');
-                }
-                if (feat.subType.includes('Ancestry')) {
-                    const ancestries: string[] = this.historyService.get_Ancestries().map(ancestry => ancestry.name);
-                    featweapons = featweapons.filter(weapon => weapon.traits.some(trait => ancestries.includes(trait)));
-                }
-                featweapons.forEach(weapon => {
-                    const replacementString = feat.subType;
-                    const oldFeat = this.get_Feats().find(libraryFeat => libraryFeat.name == feat.name.replace(replacementString, weapon.name));
-                    if (oldFeat) {
-                        this.remove_CustomFeat(oldFeat);
-                    }
-                    const regex = new RegExp(replacementString, 'g');
-                    let featString = JSON.stringify(feat);
-                    featString = featString.replace(regex, weapon.name);
-                    const replacedFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(featString)).recast();
-                    replacedFeat.hide = false;
-                    replacedFeat.weaponfeatbase = false;
-                    this.add_CustomFeat(replacedFeat);
-                });
-            });
-        }
-    }
-
-
-
     grant_InventoryItem(item: Item, context: { creature: Creature, inventory: ItemCollection, amount?: number, }, options: { resetRunes?: boolean, changeAfter?: boolean, equipAfter?: boolean, newId?: boolean, expiration?: number, newPropertyRunes?: Partial<Rune>[] } = {}) {
         context = {
             amount: 1,
@@ -833,8 +784,15 @@ export class CharacterService {
             if (equip && Object.prototype.hasOwnProperty.call(item, 'equipped') && item.equippable) {
                 this.on_Equip(creature, inventory, item, true, false);
             }
-            if (item instanceof Weapon && item.prof == 'Advanced Weapons') {
-                this.create_WeaponFeats([item]);
+            if (item instanceof Weapon) {
+                const customFeats = this.featsService.create_WeaponFeats([item]);
+                customFeats.forEach(customFeat => {
+                    const oldFeat = this.get_Character().customFeats.find(existingFeat => existingFeat.name === customFeat.name);
+                    if (oldFeat) {
+                        this.remove_CustomFeat(oldFeat);
+                    }
+                    this.add_CustomFeat(customFeat);
+                });
             }
             if (resetRunes && item.moddable) {
                 item.potencyRune = item.strikingRune = item.resilientRune = item.propertyRunes.length = 0;
@@ -934,8 +892,11 @@ export class CharacterService {
             item.oilsApplied.filter((oil: Oil) => oil.runeEffect.loreChoices.length).forEach((oil: Oil) => {
                 this.remove_RuneLore(oil.runeEffect);
             });
-
-            inventory[item.type] = inventory[item.type].filter((any_item: Item) => any_item !== item);
+            if (item instanceof Weapon) {
+                this.mark_UnneededWeaponFeatsForDeletion(item);
+            }
+            //The item is deleted here.
+            inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item);
             if (equipBasicItems) {
                 this.equip_BasicItems(creature);
             }
@@ -949,6 +910,32 @@ export class CharacterService {
             this.refreshService.process_ToChange();
         }
         this.refreshService.set_Changed(item.id);
+    }
+
+    mark_UnneededWeaponFeatsForDeletion(weapon: Weapon) {
+        //If there are no weapons left of this name in any inventory, find any custom feat that has it as its subType.
+        //These feats are not useful anymore, but the player may wish to keep them.
+        //They are marked with canDelete, and the player can decide whether to delete them.
+        const character = this.get_Character();
+        const remainingWeapons: string[] = []
+            .concat(
+                ...character.inventories
+                    .concat(
+                        character.class?.animalCompanion?.inventories || [],
+                        character.class?.familiar?.inventories || []
+                    )
+                    .map(inventory => inventory.weapons))
+            .filter(inventoryWeapon =>
+                inventoryWeapon.name.toLowerCase() === weapon.name.toLowerCase() &&
+                inventoryWeapon !== weapon
+            );
+        if (!remainingWeapons.length) {
+            character.customFeats
+                .filter(customFeat => customFeat.generatedWeaponFeat && customFeat.subType === weapon.name)
+                .forEach(customFeat => {
+                    customFeat.canDelete = true;
+                });
+        }
     }
 
     add_RuneLore(rune: Rune) {
@@ -1243,14 +1230,14 @@ export class CharacterService {
         this.get_Character().customSkills = this.get_Character().customSkills.filter(skill => skill !== oldSkill);
     }
 
-    add_CustomFeat(newFeat: Feat) {
-        const newLength = this.get_Character().customFeats.push(Object.assign<Feat, Feat>(new Feat(), JSON.parse(JSON.stringify(newFeat))).recast());
+    public add_CustomFeat(feat: Feat): void {
+        this.get_Character().customFeats.push(feat);
         this.refreshService.set_ToChange('Character', 'charactersheet');
-        return newLength;
     }
 
-    remove_CustomFeat(oldFeat: Feat) {
-        this.get_Character().customFeats = this.get_Character().customFeats.filter(skill => skill !== oldFeat);
+    public remove_CustomFeat(feat: Feat): void {
+        const character = this.get_Character();
+        character.customFeats = character.customFeats.filter(oldFeat => oldFeat !== feat);
     }
 
     get_Conditions(name = '', type = '') {
@@ -2657,33 +2644,30 @@ export class CharacterService {
     }
 
     finalize_Character() {
-        if (this.itemsService.still_loading() || this.animalCompanionsService.still_loading() || this.featsService.still_loading()) {
-            setTimeout(() => {
-                this.finalize_Character();
-            }, 500);
-        } else {
-            //Use this.me here instead of this.get_Character() because we're still_loading().
-            this.me = this.savegameService.load_Character(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
-            if (this.loading) { this.loading = false; }
-            this.set_LoadingStatus('Finalizing');
-            //Now that the character is loaded, do some things that require everything to be in working order:
-            //Give the character a Fist and an Unarmored™ if they have nothing else, and keep those ready if they should drop their last weapon or armor.
-            this.grant_BasicItems();
-            //Create feats that are based on all weapons in the store and in your inventory.
-            this.create_WeaponFeats();
-            //Set your turn state according to the saved state.
-            this.timeService.set_YourTurn(this.get_Character().yourTurn);
-            //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
-            this.featsService.build_CharacterFeats(this.get_Character());
-            //Reset deities because they depend on feats.
-            this.deitiesService.clear_CharacterDeities();
-            //Reset cache for all creatures.
-            this.cacheService.initialize();
-            //Set accent color and dark mode according to the settings.
-            this.set_Accent();
-            this.set_Darkmode();
-            this.trigger_FinalChange();
-        }
+        const waitForServices = setInterval(() => {
+            if (!this.itemsService.still_loading() && !this.animalCompanionsService.still_loading() && !this.featsService.still_loading()) {
+                clearInterval(waitForServices);
+                //Use this.me here instead of this.get_Character() because we're still_loading().
+                this.me = this.savegameService.load_Character(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
+                if (this.loading) { this.loading = false; }
+                this.set_LoadingStatus('Finalizing');
+                //Now that the character is loaded, do some things that require everything to be in working order:
+                //Give the character a Fist and an Unarmored™ if they have nothing else, and keep those ready if they should drop their last weapon or armor.
+                this.grant_BasicItems();
+                //Set your turn state according to the saved state.
+                this.timeService.set_YourTurn(this.get_Character().yourTurn);
+                //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
+                this.featsService.build_CharacterFeats(this.get_Character());
+                //Reset deities because they depend on feats.
+                this.deitiesService.clear_CharacterDeities();
+                //Reset cache for all creatures.
+                this.cacheService.initialize();
+                //Set accent color and dark mode according to the settings.
+                this.set_Accent();
+                this.set_Darkmode();
+                this.trigger_FinalChange();
+            }
+        }, 100);
     }
 
     trigger_FinalChange() {
