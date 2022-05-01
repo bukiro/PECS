@@ -2562,62 +2562,57 @@ export class CharacterService {
         this.set_LoadingStatus('Loading extensions');
         this.extensionsService.initialize();
         this.configService.initialize(this, this.savegameService);
-        this.continue_Initialize(id, loadAsGM);
-    }
-
-    continue_Initialize(id?: string, loadAsGM?: boolean) {
-        if (this.extensionsService.still_loading() || this.configService.still_loading()) {
-            setTimeout(() => {
-                this.continue_Initialize(id, loadAsGM);
-            }, 500);
-        } else {
-            this.set_LoadingStatus('Initializing content');
-            this.traitsService.initialize();
-            this.abilitiesService.initialize();
-            this.activitiesService.initialize();
-            this.featsService.initialize();
-            this.historyService.initialize();
-            this.classesService.initialize();
-            this.conditionsService.initialize();
-            this.spellsService.initialize();
-            this.skillsService.initialize();
-            this.itemsService.initialize();
-            this.deitiesService.initialize();
-            this.animalCompanionsService.initialize();
-            this.familiarsService.initialize();
-            this.messageService.initialize(this);
-            this.customEffectsService.initialize();
-            //EffectsGenerationService will wait for the character to be loaded before initializing.
-            this.effectsGenerationService.initialize(this);
-            if (id) {
-                this.set_LoadingStatus('Loading character');
-                this.load_CharacterFromDB(id)
-                    .subscribe({
-                        next: (results: Partial<Character>[]) => {
-                            this.loader = results;
-                            if (this.loader) {
-                                this.finish_Loading(loadAsGM);
-                            } else {
-                                this.toastService.show('The character could not be found in the database.');
-                                this.cancel_Loading();
+        const waitForFileServices = setInterval(() => {
+            if (!this.extensionsService.still_loading() && !this.configService.still_loading()) {
+                clearInterval(waitForFileServices);
+                this.set_LoadingStatus('Initializing content');
+                this.traitsService.initialize();
+                this.abilitiesService.initialize();
+                this.activitiesService.initialize();
+                this.featsService.initialize();
+                this.historyService.initialize();
+                this.classesService.initialize();
+                this.conditionsService.initialize();
+                this.spellsService.initialize();
+                this.skillsService.initialize();
+                this.itemsService.initialize();
+                this.deitiesService.initialize();
+                this.animalCompanionsService.initialize();
+                this.familiarsService.initialize();
+                this.messageService.initialize(this);
+                this.customEffectsService.initialize();
+                //EffectsGenerationService will wait for the character to be loaded before initializing.
+                this.effectsGenerationService.initialize(this);
+                if (id) {
+                    this.set_LoadingStatus('Loading character');
+                    this.load_CharacterFromDB(id)
+                        .subscribe({
+                            next: (results: Partial<Character>[]) => {
+                                this.loader = results;
+                                if (this.loader) {
+                                    this.finish_Loading(loadAsGM);
+                                } else {
+                                    this.toastService.show('The character could not be found in the database.');
+                                    this.cancel_Loading();
+                                }
+                            },
+                            error: (error) => {
+                                if (error.status == 401) {
+                                    this.configService.on_LoggedOut('Your login is no longer valid. The character could not be loaded. Please try again after logging in.');
+                                    this.cancel_Loading();
+                                } else {
+                                    this.toastService.show('An error occurred while loading the character. See console for more information.');
+                                    console.log(`Error loading character from database: ${ error.message }`);
+                                    this.cancel_Loading();
+                                }
                             }
-                        },
-                        error: (error) => {
-                            if (error.status == 401) {
-                                this.configService.on_LoggedOut('Your login is no longer valid. The character could not be loaded. Please try again after logging in.');
-                                this.cancel_Loading();
-                            } else {
-                                this.toastService.show('An error occurred while loading the character. See console for more information.');
-                                console.log(`Error loading character from database: ${ error.message }`);
-                                this.cancel_Loading();
-                            }
-                        }
-                    });
-            } else {
-                this.me = new Character();
-                this.finish_Loading();
+                        });
+                } else {
+                    this.me = new Character();
+                    this.finish_Loading();
+                }
             }
-        }
+        }, 100);
     }
 
     load_CharacterFromDB(id: string): Observable<Partial<Character>[]> {
