@@ -579,14 +579,16 @@ export class ActivitiesService {
                 this.activitiesMap.set(activity.name.toLowerCase(), activity);
             });
             this.loading = false;
-        } else {
-            //Disable any active hint effects when loading a character.
-            this.activities.forEach(activity => {
-                activity.hints.forEach(hint => {
-                    hint.active = false;
-                });
-            });
         }
+    }
+
+    reset() {
+        //Disable any active hint effects when loading a character.
+        this.activities.forEach(activity => {
+            activity.hints.forEach(hint => {
+                hint.active = false;
+            });
+        });
     }
 
     load_Activities() {

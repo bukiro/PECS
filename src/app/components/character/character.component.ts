@@ -284,7 +284,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     onRetryDatabaseConnection() {
-        this.savegameService.initialize();
+        this.savegameService.reset();
     }
 
     onRetryLogin() {

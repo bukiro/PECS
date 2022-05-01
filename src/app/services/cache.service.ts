@@ -161,7 +161,7 @@ export class CacheService {
         this.changed[creatureTypeId] = new ChangeTracker();
     }
 
-    public initialize() {
+    public reset() {
         this.changed = [new ChangeTracker(), new ChangeTracker(), new ChangeTracker()];
     }
 

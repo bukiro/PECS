@@ -122,7 +122,6 @@ export class CharacterService {
         private typeService: TypeService,
         private evaluationService: EvaluationService,
         private effectsGenerationService: EffectsGenerationService,
-        private customEffectsService: CustomEffectsService,
         public refreshService: RefreshService,
         public cacheService: CacheService,
         popoverConfig: NgbPopoverConfig,
@@ -411,7 +410,7 @@ export class CharacterService {
 
     reset_Character(id = '', loadAsGM = false) {
         this.loading = true;
-        this.initialize(id, loadAsGM);
+        this.reset(id, loadAsGM);
     }
 
     get_Accent() {
@@ -2542,64 +2541,59 @@ export class CharacterService {
         }
     }
 
-    initialize(id?: string, loadAsGM?: boolean) {
+    initialize() {
         this.loading = true;
-        this.cacheService.initialize();
-        this.refreshService.initialize();
         this.set_LoadingStatus('Loading extensions');
-        this.extensionsService.initialize();
-        this.configService.initialize(this, this.savegameService);
         const waitForFileServices = setInterval(() => {
             if (!this.extensionsService.still_loading() && !this.configService.still_loading()) {
                 clearInterval(waitForFileServices);
                 this.set_LoadingStatus('Initializing content');
-                this.traitsService.initialize();
-                this.abilitiesService.initialize();
-                this.activitiesService.initialize();
-                this.featsService.initialize();
-                this.historyService.initialize();
-                this.classesService.initialize();
-                this.conditionsService.initialize();
-                this.spellsService.initialize();
-                this.skillsService.initialize();
-                this.itemsService.initialize();
-                this.deitiesService.initialize();
-                this.animalCompanionsService.initialize();
-                this.familiarsService.initialize();
-                this.messageService.initialize(this);
-                this.customEffectsService.initialize();
-                //EffectsGenerationService will wait for the character to be loaded before initializing.
-                this.effectsGenerationService.initialize(this);
-                if (id) {
-                    this.set_LoadingStatus('Loading character');
-                    this.load_CharacterFromDB(id)
-                        .subscribe({
-                            next: (results: Partial<Character>[]) => {
-                                this.loader = results;
-                                if (this.loader) {
-                                    this.finish_Loading(loadAsGM);
-                                } else {
-                                    this.toastService.show('The character could not be found in the database.');
-                                    this.cancel_Loading();
-                                }
-                            },
-                            error: (error) => {
-                                if (error.status == 401) {
-                                    this.configService.on_LoggedOut('Your login is no longer valid. The character could not be loaded. Please try again after logging in.');
-                                    this.cancel_Loading();
-                                } else {
-                                    this.toastService.show('An error occurred while loading the character. See console for more information.');
-                                    console.log(`Error loading character from database: ${ error.message }`);
-                                    this.cancel_Loading();
-                                }
-                            }
-                        });
-                } else {
-                    this.me = new Character();
-                    this.finish_Loading();
-                }
+                this.me = new Character();
             }
         }, 100);
+    }
+
+    reset(id?: string, loadAsGM?: boolean) {
+        this.loading = true;
+        this.cacheService.reset();
+        this.traitsService.reset();
+        this.activitiesService.reset();
+        this.featsService.reset();
+        this.conditionsService.reset();
+        this.skillsService.reset();
+        this.itemsService.reset();
+        this.deitiesService.reset();
+        this.animalCompanionsService.reset();
+        this.familiarsService.reset();
+        this.messageService.reset();
+        if (id) {
+            this.set_LoadingStatus('Loading character');
+            this.load_CharacterFromDB(id)
+                .subscribe({
+                    next: (results: Partial<Character>[]) => {
+                        this.loader = results;
+                        if (this.loader) {
+                            this.finish_Loading(loadAsGM);
+                        } else {
+                            this.toastService.show('The character could not be found in the database.');
+                            this.cancel_Loading();
+                        }
+                    },
+                    error: (error) => {
+                        if (error.status == 401) {
+                            this.configService.on_LoggedOut('Your login is no longer valid. The character could not be loaded. Please try again after logging in.');
+                            this.cancel_Loading();
+                        } else {
+                            this.toastService.show('An error occurred while loading the character. See console for more information.');
+                            console.log(`Error loading character from database: ${ error.message }`);
+                            this.cancel_Loading();
+                        }
+                    }
+                });
+        } else {
+            this.me = new Character();
+            this.finish_Loading();
+        }
     }
 
     load_CharacterFromDB(id: string): Observable<Partial<Character>[]> {
@@ -2611,7 +2605,7 @@ export class CharacterService {
             .subscribe({
                 next: () => {
                     this.toastService.show(`Deleted ${ savegame.name || 'character' } from database.`);
-                    this.savegameService.initialize();
+                    this.savegameService.reset();
                 },
                 error: (error) => {
                     if (error.status == 401) {
@@ -2625,75 +2619,47 @@ export class CharacterService {
     }
 
     finish_Loading(loadAsGM = false) {
-        if (this.loader) {
-            this.set_LoadingStatus('Initializing character');
-            //We assign the character, but don't recast it yet. This is done in finalize_Character().
-            this.me = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this.loader)));
-            this.me.GMMode = loadAsGM;
-            this.loader = [];
-            this.finalize_Character();
-        }
+        this.set_LoadingStatus('Initializing character');
+        //We assign the character, but recast it in the savegameService.
+        this.me = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this.loader)));
+        //Use this.me here instead of this.get_Character() because we're still_loading().
+        this.me = this.savegameService.load_Character(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
+        this.me.GMMode = loadAsGM;
+        this.loader = [];
+        //Set loading to false. The last steps need the characterService to not be loading.
+        this.loading = false;
+        //Set your turn state according to the saved state.
+        this.timeService.set_YourTurn(this.get_Character().yourTurn);
+        //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
+        this.featsService.build_CharacterFeats(this.get_Character());
+        //Reset cache for all creatures.
+        this.cacheService.reset();
+        //Set accent color and dark mode according to the settings.
+        this.set_Accent();
+        this.set_Darkmode();
+        //Now that the character is loaded, do some things that require everything to be in working order:
+        //Give the character a Fist and an Unarmored™ if they have nothing else, and keep those ready if they should drop their last weapon or armor.
+        this.grant_BasicItems();
+        this.trigger_FinalChange();
     }
 
     cancel_Loading() {
         this.loader = [];
-        if (this.loading) { this.loading = false; }
+        this.loading = false;
         //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken. These were cleared when trying to load.
         this.featsService.build_CharacterFeats(this.get_Character());
         this.trigger_FinalChange();
     }
 
-    finalize_Character() {
-        const waitForServices = setInterval(() => {
-            if (!this.itemsService.still_loading() && !this.animalCompanionsService.still_loading() && !this.featsService.still_loading()) {
-                clearInterval(waitForServices);
-                //Use this.me here instead of this.get_Character() because we're still_loading().
-                this.me = this.savegameService.load_Character(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
-                if (this.loading) { this.loading = false; }
-                this.set_LoadingStatus('Finalizing');
-                //Now that the character is loaded, do some things that require everything to be in working order:
-                //Give the character a Fist and an Unarmored™ if they have nothing else, and keep those ready if they should drop their last weapon or armor.
-                this.grant_BasicItems();
-                //Set your turn state according to the saved state.
-                this.timeService.set_YourTurn(this.get_Character().yourTurn);
-                //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
-                this.featsService.build_CharacterFeats(this.get_Character());
-                //Reset deities because they depend on feats.
-                this.deitiesService.clear_CharacterDeities();
-                //Reset cache for all creatures.
-                this.cacheService.initialize();
-                //Set accent color and dark mode according to the settings.
-                this.set_Accent();
-                this.set_Darkmode();
-                this.trigger_FinalChange();
-            }
-        }, 100);
-    }
-
     trigger_FinalChange() {
-        //Wait for the important services to finish loading.
-        if (
-            this.traitsService.still_loading() ||
-            this.featsService.still_loading() ||
-            this.historyService.still_loading() ||
-            this.classesService.still_loading() ||
-            this.conditionsService.still_loading() ||
-            this.spellsService.still_loading() ||
-            this.itemsService.still_loading()
-        ) {
-            setTimeout(() => {
-                this.trigger_FinalChange();
-            }, 500);
-        } else {
-            //Update everything once, then effects, and then the player can take over.
-            this.refreshService.set_Changed();
-            this.set_LoadingStatus('Loading', false);
-            this.refreshService.set_ToChange('Character', 'effects');
-            if (!this.configService.get_LoggedIn() && !this.configService.get_CannotLogin()) {
-                this.refreshService.set_ToChange('Character', 'logged-out');
-            }
-            this.refreshService.process_ToChange();
+        //Update everything once, then effects, and then the player can take over.
+        this.refreshService.set_Changed();
+        this.set_LoadingStatus('Loading', false);
+        this.refreshService.set_ToChange('Character', 'effects');
+        if (!this.configService.get_LoggedIn() && !this.configService.get_CannotLogin()) {
+            this.refreshService.set_ToChange('Character', 'logged-out');
         }
+        this.refreshService.process_ToChange();
     }
 
     save_Character() {
@@ -2707,7 +2673,7 @@ export class CharacterService {
                     } else {
                         this.toastService.show(`Created ${ this.get_Character().name || 'character' }.`);
                     }
-                    this.savegameService.initialize();
+                    this.savegameService.reset();
                 }, error: (error) => {
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid. The character could not be saved. Please try saving the character again after logging in.');

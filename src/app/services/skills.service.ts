@@ -95,6 +95,9 @@ export class SkillsService {
             this.load_Skills();
             this.loading = false;
         }
+    }
+
+    reset() {
         this.tempSkills.length = 0;
     }
 

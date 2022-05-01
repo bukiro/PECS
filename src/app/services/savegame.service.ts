@@ -894,7 +894,7 @@ export class SavegameService {
         return this.loading;
     }
 
-    initialize() {
+    reset() {
         this.loading = true;
         //At this time, the save and load buttons are disabled, and we refresh the character builder and the menu bar so that the browser knows.
         this.refreshService.set_Changed('charactersheet');

@@ -1147,9 +1147,6 @@ export class FeatsService {
         const waitForItemsService = setInterval(() => {
             if (!this.itemsService.still_loading()) {
                 clearInterval(waitForItemsService);
-                //Clear the character feats whenever a character is loaded.
-                this.$characterFeats.clear();
-                this.$characterFeatsTaken.length = 0;
                 //Initialize feats only once, but cleanup their active hints everytime thereafter.
                 if (!this.feats.length) {
                     this.loading_feats = true;
@@ -1162,13 +1159,6 @@ export class FeatsService {
                         this.featsMap.set(feat.name.toLowerCase(), feat);
                     });
                     this.loading_feats = false;
-                } else {
-                    //Disable any active hint effects when loading a character.
-                    this.feats.forEach(feat => {
-                        feat.hints.forEach(hint => {
-                            hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                        });
-                    });
                 }
                 if (!this.features.length) {
                     this.loading_features = true;
@@ -1178,16 +1168,27 @@ export class FeatsService {
                         this.featuresMap.set(feature.name.toLowerCase(), feature);
                     });
                     this.loading_features = false;
-                } else {
-                    //Disable any active hint effects when loading a character.
-                    this.features.forEach(feat => {
-                        feat.hints.forEach(hint => {
-                            hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                        });
-                    });
                 }
             }
         }, 100);
+    }
+
+    reset() {
+        //Clear the character feats whenever a character is loaded.
+        this.$characterFeats.clear();
+        this.$characterFeatsTaken.length = 0;
+        //Disable any active hint effects when loading a character.
+        this.feats.forEach(feat => {
+            feat.hints.forEach(hint => {
+                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+            });
+        });
+        //Disable any active hint effects when loading a character.
+        this.features.forEach(feat => {
+            feat.hints.forEach(hint => {
+                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+            });
+        });
     }
 
     load(source, target: string) {

@@ -90,7 +90,7 @@ export class ConfigService {
                         this.refreshService.set_ToChange('Character', 'charactersheet');
                         this.refreshService.set_ToChange('Character', 'top-bar');
                         this.refreshService.process_ToChange();
-                        savegameService.initialize();
+                        savegameService.reset();
                     } else {
                         this.loggedIn = false;
                         if (password) {

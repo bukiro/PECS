@@ -922,72 +922,71 @@ export class ItemsService {
     }
 
     initialize() {
+        this.loading = true;
         //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
-        if (!this.items) {
-            this.loading = true;
-            this.load(json_itemproperties, 'itemProperties', ItemProperty, 'meta');
-            this.itemProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.itemProperties, ['group', 'parent', 'key'], 'custom item properties') as ItemProperty[];
-            this.load(json_armormaterials, 'armorMaterials', ArmorMaterial, 'meta');
-            this.armorMaterials = this.extensionsService.cleanup_Duplicates(this.armorMaterials, 'name', 'armor materials') as ArmorMaterial[];
-            this.load(json_shieldmaterials, 'shieldMaterials', ShieldMaterial, 'meta');
-            this.shieldMaterials = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.shieldMaterials, ['name', 'itemFilter'], 'shield materials') as ShieldMaterial[];
-            this.load(json_weaponmaterials, 'weaponMaterials', WeaponMaterial, 'meta');
-            this.weaponMaterials = this.extensionsService.cleanup_Duplicates(this.weaponMaterials, 'name', 'weapon materials') as WeaponMaterial[];
-            this.load(json_specializations, 'specializations', Specialization, 'meta');
-            this.specializations = this.extensionsService.cleanup_Duplicates(this.specializations, 'name', 'armor and weapon specializations') as Specialization[];
+        this.load(json_itemproperties, 'itemProperties', ItemProperty, 'meta');
+        this.itemProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.itemProperties, ['group', 'parent', 'key'], 'custom item properties') as ItemProperty[];
+        this.load(json_armormaterials, 'armorMaterials', ArmorMaterial, 'meta');
+        this.armorMaterials = this.extensionsService.cleanup_Duplicates(this.armorMaterials, 'name', 'armor materials') as ArmorMaterial[];
+        this.load(json_shieldmaterials, 'shieldMaterials', ShieldMaterial, 'meta');
+        this.shieldMaterials = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.shieldMaterials, ['name', 'itemFilter'], 'shield materials') as ShieldMaterial[];
+        this.load(json_weaponmaterials, 'weaponMaterials', WeaponMaterial, 'meta');
+        this.weaponMaterials = this.extensionsService.cleanup_Duplicates(this.weaponMaterials, 'name', 'weapon materials') as WeaponMaterial[];
+        this.load(json_specializations, 'specializations', Specialization, 'meta');
+        this.specializations = this.extensionsService.cleanup_Duplicates(this.specializations, 'name', 'armor and weapon specializations') as Specialization[];
 
-            this.items = new ItemCollection();
-            this.cleanItems = new ItemCollection();
-            this.craftingItems = new ItemCollection();
+        this.items = new ItemCollection();
+        this.cleanItems = new ItemCollection();
+        this.craftingItems = new ItemCollection();
 
-            //Runes need to load before other items, because their content is copied into items that bear them.
-            this.load(json_armorrunes, 'armorrunes', ArmorRune, 'item', 'armor runes');
-            this.load(json_weaponrunes, 'weaponrunes', WeaponRune, 'item', 'weapon runes');
-            //Oils need to load after WeaponRunes, because they have to copy some of them.
-            this.load(json_oils, 'oils', Oil, 'item', 'oils');
+        //Runes need to load before other items, because their content is copied into items that bear them.
+        this.load(json_armorrunes, 'armorrunes', ArmorRune, 'item', 'armor runes');
+        this.load(json_weaponrunes, 'weaponrunes', WeaponRune, 'item', 'weapon runes');
+        //Oils need to load after WeaponRunes, because they have to copy some of them.
+        this.load(json_oils, 'oils', Oil, 'item', 'oils');
 
-            this.load(json_adventuringgear, 'adventuringgear', AdventuringGear, 'item', 'adventuring gear');
-            this.load(json_alchemicalbombs, 'alchemicalbombs', AlchemicalBomb, 'item', 'alchemical bombs');
-            this.load(json_alchemicalelixirs, 'alchemicalelixirs', AlchemicalElixir, 'item', 'alchemical elixirs');
-            this.load(json_alchemicalpoisons, 'alchemicalpoisons', AlchemicalPoison, 'item', 'alchemical poisons');
-            this.load(json_alchemicaltools, 'alchemicaltools', AlchemicalTool, 'item', 'alchemical tools');
-            this.load(json_ammunition, 'ammunition', Ammunition, 'item', 'ammunition');
-            this.load(json_armors, 'armors', Armor, 'item', 'armors');
-            this.load(json_helditems, 'helditems', HeldItem, 'item', 'held items');
-            this.load(json_materialitems, 'materialitems', MaterialItem, 'item', 'materials');
-            this.load(json_otherconsumables, 'otherconsumables', OtherConsumable, 'item', 'other consumables');
-            this.load(json_otherconsumablesbombs, 'otherconsumablesbombs', OtherConsumableBomb, 'item', 'other consumables (bombs)');
-            this.load(json_potions, 'potions', Potion, 'item', 'potions');
-            this.load(json_scrolls, 'scrolls', Scroll, 'item', 'scrolls');
-            this.load(json_shields, 'shields', Shield, 'item', 'shields');
-            this.load(json_snares, 'snares', Snare, 'item', 'snares');
-            this.load(json_talismans, 'talismans', Talisman, 'item', 'talismans');
-            this.load(json_wands, 'wands', Wand, 'item', 'wands');
-            this.load(json_weapons, 'weapons', Weapon, 'item', 'weapons');
-            this.load(json_wornitems, 'wornitems', WornItem, 'item', 'worn items');
+        this.load(json_adventuringgear, 'adventuringgear', AdventuringGear, 'item', 'adventuring gear');
+        this.load(json_alchemicalbombs, 'alchemicalbombs', AlchemicalBomb, 'item', 'alchemical bombs');
+        this.load(json_alchemicalelixirs, 'alchemicalelixirs', AlchemicalElixir, 'item', 'alchemical elixirs');
+        this.load(json_alchemicalpoisons, 'alchemicalpoisons', AlchemicalPoison, 'item', 'alchemical poisons');
+        this.load(json_alchemicaltools, 'alchemicaltools', AlchemicalTool, 'item', 'alchemical tools');
+        this.load(json_ammunition, 'ammunition', Ammunition, 'item', 'ammunition');
+        this.load(json_armors, 'armors', Armor, 'item', 'armors');
+        this.load(json_helditems, 'helditems', HeldItem, 'item', 'held items');
+        this.load(json_materialitems, 'materialitems', MaterialItem, 'item', 'materials');
+        this.load(json_otherconsumables, 'otherconsumables', OtherConsumable, 'item', 'other consumables');
+        this.load(json_otherconsumablesbombs, 'otherconsumablesbombs', OtherConsumableBomb, 'item', 'other consumables (bombs)');
+        this.load(json_potions, 'potions', Potion, 'item', 'potions');
+        this.load(json_scrolls, 'scrolls', Scroll, 'item', 'scrolls');
+        this.load(json_shields, 'shields', Shield, 'item', 'shields');
+        this.load(json_snares, 'snares', Snare, 'item', 'snares');
+        this.load(json_talismans, 'talismans', Talisman, 'item', 'talismans');
+        this.load(json_wands, 'wands', Wand, 'item', 'wands');
+        this.load(json_weapons, 'weapons', Weapon, 'item', 'weapons');
+        this.load(json_wornitems, 'wornitems', WornItem, 'item', 'worn items');
 
-            /*
-            this.load(json_REPLACE0, "REPLACE0", REPLACE1, "item");
-            */
+        /*
+        this.load(json_REPLACE0, "REPLACE0", REPLACE1, "item");
+        */
 
-            //Make a copy of clean items for shop items and crafting items.
-            this.items = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
-            this.craftingItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+        //Make a copy of clean items for shop items and crafting items.
+        this.items = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+        this.craftingItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
 
-            this.loading = false;
+        this.loading = false;
+    }
 
-        } else {
-            //Reset items and crafting items from clean items.
-            this.items = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
-            this.craftingItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
-            //Disable any active hint effects when loading a character, and reinitialize the hints.
-            this.specializations.forEach(spec => {
-                spec = spec.recast();
-                spec.hints?.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                });
+    reset() {
+        //Reset items and crafting items from clean items.
+        this.items = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+        this.craftingItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
+        //Disable any active hint effects when loading a character, and reinitialize the hints.
+        this.specializations.forEach(spec => {
+            spec = spec.recast();
+            spec.hints?.forEach(hint => {
+                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
             });
-        }
+        });
     }
 
     load(source, target: string, type, category: 'item' | 'meta', listName = '') {

@@ -174,13 +174,6 @@ export class AnimalCompanionsService {
             this.loading_ancestries = true;
             this.load(json_ancestries, 'companionAncestries', 'AnimalCompanionAncestry');
             this.loading_ancestries = false;
-        } else {
-            //Disable any active hint effects when loading a character.
-            this.companionAncestries.forEach(ancestry => {
-                ancestry.hints?.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                });
-            });
         }
         if (!this.companionLevels.length) {
             this.loading_levels = true;
@@ -193,14 +186,22 @@ export class AnimalCompanionsService {
             this.loading_specializations = true;
             this.load(json_specializations, 'companionSpecializations', 'AnimalCompanionSpecialization');
             this.loading_specializations = false;
-        } else {
-            //Disable any active hint effects when loading a character.
-            this.companionSpecializations.forEach(spec => {
-                spec.hints?.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                });
-            });
         }
+    }
+
+    reset() {
+        //Disable any active hint effects when loading a character.
+        this.companionAncestries.forEach(ancestry => {
+            ancestry.hints?.forEach(hint => {
+                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+            });
+        });
+        //Disable any active hint effects when loading a character.
+        this.companionSpecializations.forEach(spec => {
+            spec.hints?.forEach(hint => {
+                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+            });
+        });
     }
 
     load(source, target: string, type: string) {

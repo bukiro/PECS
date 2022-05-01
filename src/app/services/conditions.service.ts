@@ -909,14 +909,16 @@ export class ConditionsService {
                 this.conditionsMap.set(condition.name.toLowerCase(), condition);
             });
             this.loading = false;
-        } else {
-            //Disable any active hint effects when loading a character.
-            this.conditions.forEach(condition => {
-                condition.hints.forEach(hint => {
-                    hint.active = false;
-                });
-            });
         }
+    }
+
+    reset() {
+        //Disable any active hint effects when loading a character.
+        this.conditions.forEach(condition => {
+            condition.hints.forEach(hint => {
+                hint.active = false;
+            });
+        });
     }
 
     load_Conditions() {

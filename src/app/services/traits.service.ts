@@ -88,13 +88,15 @@ export class TraitsService {
                 this.traitsMap.set(trait.name.toLowerCase(), trait);
             });
             this.loading = false;
-        } else {
-            this.traits.forEach(trait => {
-                trait.hints?.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                });
-            });
         }
+    }
+
+    reset(): void {
+        this.traits.forEach(trait => {
+            trait.hints?.forEach(hint => {
+                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
+            });
+        });
     }
 
     load_Traits(): void {

@@ -437,10 +437,8 @@ export class RefreshService {
 
     initialize() {
         //Prepare the update variables that everything subscribes to.
-        if (!this.characterChanged$) {
-            this.characterChanged$ = this.changed.asObservable();
-            this.viewChanged$ = this.viewChanged.asObservable();
-        }
+        this.characterChanged$ = this.changed.asObservable();
+        this.viewChanged$ = this.viewChanged.asObservable();
     }
 
 }

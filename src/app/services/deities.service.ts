@@ -81,18 +81,18 @@ export class DeitiesService {
     }
 
     initialize() {
-        //Initialize only once, but clear the character deities list when the character changes.
-        this.$characterDeities.length = 0;
-        if (!this.deities.length) {
-            this.loading = true;
-            this.load_Deities();
-            this.load_Domains();
-            this.deitiesMap.clear();
-            this.deities.forEach(deity => {
-                this.deitiesMap.set(deity.name.toLowerCase(), deity);
-            });
-            this.loading = false;
-        }
+        this.loading = true;
+        this.load_Deities();
+        this.load_Domains();
+        this.deitiesMap.clear();
+        this.deities.forEach(deity => {
+            this.deitiesMap.set(deity.name.toLowerCase(), deity);
+        });
+        this.loading = false;
+    }
+
+    reset() {
+        this.clear_CharacterDeities();
     }
 
     load_Deities() {

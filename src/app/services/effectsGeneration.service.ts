@@ -883,37 +883,38 @@ export class EffectsGenerationService {
 
     initialize(characterService: CharacterService): void {
         //Only start subscribing to effects refreshing commands after the character has finished loading.
-        if (characterService.still_loading()) {
-            setTimeout(() => this.initialize(characterService), 500);
-        } else {
-            //Subscribe to updates only once.
-            if (!this.checkingActive) {
-                this.checkingActive = true;
-                this.refreshService.get_Changed
-                    .subscribe((target) => {
-                        if (['effects', 'all', 'Character', 'Companion', 'Familiar'].includes(target)) {
-                            if (['Character', 'Companion', 'Familiar'].includes(target)) {
-                                this.update_EffectsAndConditions(target, { characterService });
-                            } else {
-                                this.update_EffectsAndConditions('Character', { characterService });
-                                if (characterService.get_CompanionAvailable()) {
-                                    this.update_EffectsAndConditions('Companion', { characterService });
+        const waitForCharacterService = setInterval(() => {
+            if (!characterService.still_loading()) {
+                clearInterval(waitForCharacterService);
+                //Subscribe to updates only once.
+                if (!this.checkingActive) {
+                    this.checkingActive = true;
+                    this.refreshService.get_Changed
+                        .subscribe((target) => {
+                            if (['effects', 'all', 'Character', 'Companion', 'Familiar'].includes(target)) {
+                                if (['Character', 'Companion', 'Familiar'].includes(target)) {
+                                    this.update_EffectsAndConditions(target, { characterService });
+                                } else {
+                                    this.update_EffectsAndConditions('Character', { characterService });
+                                    if (characterService.get_CompanionAvailable()) {
+                                        this.update_EffectsAndConditions('Companion', { characterService });
+                                    }
+                                    if (characterService.get_FamiliarAvailable()) {
+                                        this.update_EffectsAndConditions('Familiar', { characterService });
+                                    }
                                 }
-                                if (characterService.get_FamiliarAvailable()) {
-                                    this.update_EffectsAndConditions('Familiar', { characterService });
-                                }
-                            }
 
-                        }
-                    });
-                this.refreshService.get_ViewChanged
-                    .subscribe((target) => {
-                        if (['effects', 'all'].includes(target.target)) {
-                            this.update_EffectsAndConditions(target.creature, { characterService });
-                        }
-                    });
+                            }
+                        });
+                    this.refreshService.get_ViewChanged
+                        .subscribe((target) => {
+                            if (['effects', 'all'].includes(target.target)) {
+                                this.update_EffectsAndConditions(target.creature, { characterService });
+                            }
+                        });
+                }
             }
-        }
+        }, 100);
     }
 
 }
