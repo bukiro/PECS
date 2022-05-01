@@ -54,6 +54,9 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     @Input()
     spellbook = false;
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -939,39 +942,23 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         }
     }
 
-    still_loading() {
-        return this.characterService.still_loading();
-    }
-
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['spellchoices', 'all', 'Character'].includes(target)) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature == 'Character' && ['spellchoices', 'all'].includes(view.target)) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
-    }
-
-    ngOnInit() {
+    public ngOnInit(): void {
         if (!this.level) {
             this.level = this.choice.level;
         }
-        this.finish_Loading();
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['spellchoices', 'all', 'Character'].includes(target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature == 'Character' && ['spellchoices', 'all'].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

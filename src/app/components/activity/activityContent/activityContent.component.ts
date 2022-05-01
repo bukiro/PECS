@@ -150,7 +150,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
             });
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         if (this.activity.displayOnly) {
             this.allowActivate = false;
         } else {

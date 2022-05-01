@@ -27,6 +27,9 @@ export class GeneralComponent implements OnInit, OnDestroy {
     @Input()
     public sheetSide = 'left';
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -54,7 +57,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         }
     }
 
-    still_loading() {
+    public still_loading(): boolean {
         return this.characterService.still_loading();
     }
 
@@ -260,32 +263,20 @@ export class GeneralComponent implements OnInit, OnDestroy {
         return this.traitsService.get_Traits(name);
     }
 
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['general', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['general', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
+    public ngOnInit(): void {
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['general', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['general', 'all'].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    ngOnInit() {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

@@ -711,7 +711,7 @@ export class ItemRunesComponent implements OnInit {
         this.refreshService.set_Changed(this.item.id);
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.set_PropertyRuneNames();
     }
 

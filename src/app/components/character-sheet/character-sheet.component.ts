@@ -65,7 +65,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         return this.showMode;
     }
 
-    still_loading() {
+    public still_loading(): boolean {
         return this.characterService.still_loading();
     }
 
@@ -232,7 +232,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.set_Mobile();
         this.finish_Loading();
     }

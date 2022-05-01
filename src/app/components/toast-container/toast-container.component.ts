@@ -57,7 +57,7 @@ export class ToastContainerComponent {
         }
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.finish_Loading();
     }
 

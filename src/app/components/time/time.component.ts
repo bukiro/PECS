@@ -23,6 +23,9 @@ export class TimeComponent implements OnInit, OnDestroy {
     @Input()
     public sheetSide = 'center';
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -54,7 +57,7 @@ export class TimeComponent implements OnInit, OnDestroy {
         return this.timeService.get_Waiting(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: false });
     }
 
-    still_loading() {
+    public still_loading(): boolean {
         return this.characterService.still_loading();
     }
 
@@ -74,32 +77,20 @@ export class TimeComponent implements OnInit, OnDestroy {
         this.timeService.tick(this.characterService, this.conditionsService, this.itemsService, this.spellsService, amount);
     }
 
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['time', 'all', 'character'].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature.toLowerCase() == 'character' && ['time', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
+    public ngOnInit(): void {
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['time', 'all', 'character'].includes(target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == 'character' && ['time', 'all'].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    ngOnInit() {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

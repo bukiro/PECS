@@ -37,6 +37,9 @@ export class SkillComponent implements OnInit, OnDestroy {
     @Output()
     showActionMessage = new EventEmitter<string>();
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -112,60 +115,44 @@ export class SkillComponent implements OnInit, OnDestroy {
         }
     }
 
-    still_loading() {
-        return this.skillsService.still_loading() || this.characterService.still_loading();
-    }
-
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['individualskills', 'all', this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature == this.creature &&
-                        (
-                            view.target == 'all' ||
-                            (view.target == 'individualskills' &&
+    public ngOnInit(): void {
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['individualskills', 'all', this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature == this.creature &&
+                    (
+                        view.target == 'all' ||
+                        (view.target == 'individualskills' &&
+                            (
+                                [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase()) ||
                                 (
-                                    [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase()) ||
-                                    (
-                                        this.get_Name(this.skill).toLowerCase().includes('attack') &&
-                                        view.subtarget.toLowerCase() == 'attacks'
-                                    ) ||
-                                    (
-                                        this.get_Name(this.skill).toLowerCase().includes('spell attack') &&
-                                        view.subtarget.toLowerCase().includes('spell attack')
-                                    ) ||
-                                    (
-                                        this.get_Name(this.skill).toLowerCase().includes('spell dc') &&
-                                        view.subtarget.toLowerCase().includes('spell dc')
-                                    ) ||
-                                    (
-                                        this.get_Name(this.skill).toLowerCase().includes('class dc') &&
-                                        view.subtarget.toLowerCase().includes('class dc')
-                                    )
+                                    this.get_Name(this.skill).toLowerCase().includes('attack') &&
+                                    view.subtarget.toLowerCase() == 'attacks'
+                                ) ||
+                                (
+                                    this.get_Name(this.skill).toLowerCase().includes('spell attack') &&
+                                    view.subtarget.toLowerCase().includes('spell attack')
+                                ) ||
+                                (
+                                    this.get_Name(this.skill).toLowerCase().includes('spell dc') &&
+                                    view.subtarget.toLowerCase().includes('spell dc')
+                                ) ||
+                                (
+                                    this.get_Name(this.skill).toLowerCase().includes('class dc') &&
+                                    view.subtarget.toLowerCase().includes('class dc')
                                 )
                             )
-                        )) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
+                        )
+                    )) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    ngOnInit() {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

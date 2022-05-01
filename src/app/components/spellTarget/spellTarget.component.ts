@@ -373,7 +373,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
             });
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.finish_Loading();
     }
 

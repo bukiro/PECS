@@ -214,7 +214,7 @@ export class ItemTalismansComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.set_TalismanNames();
     }
 

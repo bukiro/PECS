@@ -44,6 +44,9 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     private showItem = '';
     private showFeatChoice = '';
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -198,31 +201,20 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         return choices;
     }
 
-    private finish_Loading(): void {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (target == 'activities' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-        }
-    }
-
     public ngOnInit(): void {
-        this.finish_Loading();
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (target == 'activities' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     public ngOnDestroy(): void {
         this.changeSubscription?.unsubscribe();

@@ -186,7 +186,7 @@ export class ItemBladeAllyComponent implements OnInit {
         }
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.set_PropertyRuneNames();
     }
 

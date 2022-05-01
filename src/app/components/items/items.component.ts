@@ -53,6 +53,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
     public purpose: 'items' | 'formulas' | 'scrollsavant' | 'createcustomitem' = 'items';
     public range = 0;
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private itemsService: ItemsService,
@@ -593,36 +596,24 @@ export class ItemsComponent implements OnInit, OnDestroy {
         casting.scrollSavant = casting.scrollSavant.filter(oldScroll => oldScroll !== scroll);
     }
 
-    still_loading() {
+    public still_loading(): boolean {
         return this.itemsService.still_loading() || this.characterService.still_loading();
     }
 
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['items', 'all'].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (['items', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
+    public ngOnInit(): void {
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['items', 'all'].includes(target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (['items', 'all'].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    ngOnInit() {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

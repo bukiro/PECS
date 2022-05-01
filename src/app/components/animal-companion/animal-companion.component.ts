@@ -16,6 +16,9 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     private showMode = '';
     public mobile = false;
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -34,7 +37,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character().settings.companionMinimized;
     }
 
-    still_loading() {
+    public still_loading(): boolean {
         return (this.characterService.still_loading() || this.animalCompanionsService.still_loading());
     }
 
@@ -75,37 +78,25 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
         return this.showMode;
     }
 
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['companion', 'all'].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature.toLowerCase() == 'companion' && ['companion', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
-    }
-
     set_Mobile() {
         this.mobile = this.characterService.get_Mobile();
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.set_Mobile();
-        this.finish_Loading();
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['companion', 'all'].includes(target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == 'companion' && ['companion', 'all'].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

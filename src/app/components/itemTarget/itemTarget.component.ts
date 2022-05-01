@@ -221,7 +221,7 @@ export class ItemTargetComponent implements OnInit {
         this.selectedAmount = Math.min(this.selectedAmount, this.item.amount);
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.selectedAmount = this.item.amount;
     }
 

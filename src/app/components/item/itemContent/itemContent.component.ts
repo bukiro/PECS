@@ -114,7 +114,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.finish_Loading();
     }
 

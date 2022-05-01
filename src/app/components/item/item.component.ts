@@ -319,7 +319,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         if (['weaponrunes', 'armorrunes', 'oils'].includes(this.item.type) && !this.isSubItem) {
             this.allowActivate = false;
         }

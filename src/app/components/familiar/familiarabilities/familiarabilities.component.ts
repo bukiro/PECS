@@ -14,15 +14,14 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
     @Input()
     public sheetSide = 'left';
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
         private refreshService: RefreshService
     ) { }
-
-    still_loading() {
-        return (this.characterService.still_loading());
-    }
 
     trackByIndex(index: number): number {
         return index;
@@ -40,32 +39,20 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
         return this.characterService.get_Familiar();
     }
 
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['familiarabilities', 'all', 'Familiar'].includes(target)) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature == 'Familiar' && ['familiarabilities', 'all'].includes(view.target)) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
+    public ngOnInit(): void {
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['familiarabilities', 'all', 'Familiar'].includes(target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature == 'Familiar' && ['familiarabilities', 'all'].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    ngOnInit() {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

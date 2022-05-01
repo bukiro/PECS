@@ -43,6 +43,9 @@ export class TagsComponent implements OnInit, OnDestroy {
     @Input()
     specialEffects: Effect[] = [];
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     public parseInt = parseInt;
 
     constructor(
@@ -53,10 +56,6 @@ export class TagsComponent implements OnInit, OnDestroy {
         private effectsService: EffectsService,
         private timeService: TimeService
     ) { }
-
-    still_loading() {
-        return this.characterService.still_loading();
-    }
 
     trackByIndex(index: number): number {
         return index;
@@ -192,36 +191,24 @@ export class TagsComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['tags', 'all', this.creature, this.objectName].includes(target)) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature == this.creature &&
-                        (
-                            view.target == 'all' ||
-                            (view.target == 'tags' && [this.objectName, ...this.specialNames, 'all'].includes(view.subtarget))
-                        )) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
+    public ngOnInit(): void {
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['tags', 'all', this.creature, this.objectName].includes(target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature == this.creature &&
+                    (
+                        view.target == 'all' ||
+                        (view.target == 'tags' && [this.objectName, ...this.specialNames, 'all'].includes(view.subtarget))
+                    )) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    ngOnInit() {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

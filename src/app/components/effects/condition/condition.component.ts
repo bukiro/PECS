@@ -35,6 +35,9 @@ export class ConditionComponent implements OnInit, OnDestroy {
     @Output()
     showItemMessage = new EventEmitter<string>();
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -210,36 +213,20 @@ export class ConditionComponent implements OnInit, OnDestroy {
         }
     }
 
-    still_loading() {
-        return this.characterService.still_loading();
+    public ngOnInit(): void {
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (target == 'effects' || target == 'all' || target == this.creature) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature == this.creature && ['effects', 'all'].includes(view.target)) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (target == 'effects' || target == 'all' || target == this.creature) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature == this.creature && ['effects', 'all'].includes(view.target)) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
-    }
-
-    ngOnInit() {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

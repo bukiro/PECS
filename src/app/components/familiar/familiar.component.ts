@@ -16,6 +16,9 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     private showMode = '';
     public mobile = false;
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -33,7 +36,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character().settings.familiarMinimized;
     }
 
-    still_loading() {
+    public still_loading(): boolean {
         return (this.characterService.still_loading() || this.familiarsService.still_loading());
     }
 
@@ -93,33 +96,21 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         this.mobile = this.characterService.get_Mobile();
     }
 
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['familiar', 'all'].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature.toLowerCase() == 'familiar' && ['familiar', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
-    }
-
-    ngOnInit() {
+    public ngOnInit(): void {
         this.set_Mobile();
-        this.finish_Loading();
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['familiar', 'all'].includes(target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == 'familiar' && ['familiar', 'all'].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

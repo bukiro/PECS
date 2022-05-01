@@ -30,6 +30,9 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     @Input()
     tileMode = false;
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
@@ -254,39 +257,23 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    still_loading() {
-        return this.characterService.still_loading();
-    }
-
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['skillchoices', 'all', 'character'].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature.toLowerCase() == 'character' && ['skillchoices', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
-    }
-
-    ngOnInit() {
+    public ngOnInit(): void {
         if (!this.levelNumber) {
             this.levelNumber = this.get_Character().level;
         }
-        this.finish_Loading();
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['skillchoices', 'all', 'character'].includes(target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == 'character' && ['skillchoices', 'all'].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

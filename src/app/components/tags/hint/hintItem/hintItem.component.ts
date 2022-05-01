@@ -63,7 +63,7 @@ export class HintItemComponent implements OnInit {
         }
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.finish_Loading();
     }
 

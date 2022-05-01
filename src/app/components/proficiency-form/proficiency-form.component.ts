@@ -68,7 +68,7 @@ export class ProficiencyFormComponent implements OnInit {
             });
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.finish_loading();
     }
 

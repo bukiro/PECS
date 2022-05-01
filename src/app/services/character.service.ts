@@ -68,7 +68,6 @@ import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTak
 import { TypeService } from 'src/app/services/type.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
-import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { AdditionalHeritage } from '../classes/AdditionalHeritage';

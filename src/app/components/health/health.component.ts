@@ -34,6 +34,9 @@ export class HealthComponent implements OnInit, OnDestroy {
     public selectedTempHP: { amount: number, source: string, sourceId: string };
     public Math = Math;
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private timeService: TimeService,
@@ -60,7 +63,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         }
     }
 
-    still_loading() {
+    public still_loading(): boolean {
         return this.characterService.still_loading();
     }
 
@@ -275,32 +278,20 @@ export class HealthComponent implements OnInit, OnDestroy {
         return this.effectsService.show_PenaltiesOnThis(this.get_Creature(), name);
     }
 
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['health', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['health', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
+    public ngOnInit(): void {
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['health', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['health', 'all'].includes(view.target.toLowerCase())) {
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    ngOnInit() {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

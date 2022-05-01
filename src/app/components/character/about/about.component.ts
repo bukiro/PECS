@@ -40,7 +40,7 @@ export class AboutComponent implements OnInit {
         }
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.version = changelog[0]?.version || '';
     }
 

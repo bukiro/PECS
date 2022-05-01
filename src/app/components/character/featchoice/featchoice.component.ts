@@ -54,6 +54,9 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     // It can change with the character level or other factors and will be re-calculated when the component refreshes.
     public featLevel = 0;
 
+    private changeSubscription: Subscription;
+    private viewChangeSubscription: Subscription;
+
     constructor(
         private changeDetector: ChangeDetectorRef,
         private characterService: CharacterService,
@@ -602,39 +605,23 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    still_loading() {
-        return this.characterService.still_loading();
-    }
-
-    finish_Loading() {
-        if (this.still_loading()) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
-                    if (['featchoices', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                        this.featLevel = this.get_ChoiceLevel(this.choice);
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['featchoices', 'all'].includes(view.target.toLowerCase())) {
-                        this.featLevel = this.get_ChoiceLevel(this.choice);
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            return true;
-        }
-    }
-
-    ngOnInit() {
+    public ngOnInit(): void {
         this.featLevel = this.get_ChoiceLevel(this.choice);
-        this.finish_Loading();
+        this.changeSubscription = this.refreshService.get_Changed
+            .subscribe((target) => {
+                if (['featchoices', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                    this.featLevel = this.get_ChoiceLevel(this.choice);
+                    this.changeDetector.detectChanges();
+                }
+            });
+        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            .subscribe((view) => {
+                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['featchoices', 'all'].includes(view.target.toLowerCase())) {
+                    this.featLevel = this.get_ChoiceLevel(this.choice);
+                    this.changeDetector.detectChanges();
+                }
+            });
     }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
 
     ngOnDestroy() {
         this.changeSubscription?.unsubscribe();

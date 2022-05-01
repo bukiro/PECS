@@ -167,7 +167,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         return this.characterService.get_Familiar();
     }
 
-    still_loading() {
+    public still_loading(): boolean {
         return this.characterService.still_loading();
     }
 
@@ -221,7 +221,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                                 },
                                 error: (error) => {
                                     this.toastService.show('An error occurred while searching for new effects. See console for more information.');
-                                    console.log(`Error loading messages from database: ${error.message}`);
+                                    console.log(`Error loading messages from database: ${ error.message }`);
                                 },
                             });
                     },
@@ -230,7 +230,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                             this.configService.on_LoggedOut('Your login is no longer valid. New effects could not be checked. Please try again after logging in.');
                         } else {
                             this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
-                            console.log(`Error cleaning up messages: ${error.message}`);
+                            console.log(`Error cleaning up messages: ${ error.message }`);
                         }
                     },
                 });
@@ -248,13 +248,13 @@ export class TopBarComponent implements OnInit, OnDestroy {
     get_ItemMessageIncluded(message: PlayerMessage) {
         const included: string[] = [];
         if (message.includedItems.length) {
-            included.push(`${message.includedItems.length} extra items`);
+            included.push(`${ message.includedItems.length } extra items`);
         }
         if (message.includedInventories.length) {
-            included.push(`${message.includedInventories.length} containers`);
+            included.push(`${ message.includedInventories.length } containers`);
         }
         if (included.length) {
-            return `Includes ${included.join(' and ')}`;
+            return `Includes ${ included.join(' and ') }`;
         }
         return '';
     }
@@ -347,10 +347,9 @@ export class TopBarComponent implements OnInit, OnDestroy {
                     this.open_LoginModal(true);
                 }
             });
-        return true;
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         const waitUntilReady = setInterval(() => {
             if (this.get_Database() || this.configService.still_loading()) {
                 clearInterval(waitUntilReady);

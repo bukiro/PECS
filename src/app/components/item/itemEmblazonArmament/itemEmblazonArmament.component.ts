@@ -258,7 +258,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         return this.item.emblazonArmament.find(ea => ea.type == type)?.alignment || '';
     }
 
-    ngOnInit() {
+    public ngOnInit(): void {
         this.emblazonArmamentActivated = this.item.emblazonArmament.some(ea => ea.type == 'emblazonArmament');
         this.emblazonEnergyActivated = this.item.emblazonArmament.some(ea => ea.type == 'emblazonEnergy');
         this.emblazonEnergyChoice = this.item.emblazonArmament.find(ea => ea.type == 'emblazonEnergy')?.choice || 'Acid';
