@@ -5,10 +5,10 @@
         <select [(ngModel)]="newPropertyRune" (ngModelChange)="add_BladeAllyRune()">
             <ng-container
                 *ngFor="let rune of get_InitialPropertyRunes(); let initialRuneIndex = index; trackBy:trackByIndex;">
-                <option [ngValue]="rune" *ngIf="initialRuneIndex == 0" [selected]=!item.propertyRunes[0]>
+                <option [ngValue]="rune" *ngIf="initialRuneIndex === 0" [selected]=!item.propertyRunes[0]>
                     <!--Blank option to deselect-->
                 </option>
-                <optgroup *ngIf="initialRuneIndex == 1" label="Current rune">
+                <optgroup *ngIf="initialRuneIndex === 1" label="Current rune">
                     <option [ngValue]="rune">
                         {{rune.rune.name}}
                     </option>

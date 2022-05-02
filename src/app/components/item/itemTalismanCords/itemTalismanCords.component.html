@@ -1,16 +1,16 @@
 <!--Changing Talisman Cords-->
 <div class="list-item">
     <div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
-        <strong *ngIf="index == 0">Attach Talisman Cord</strong>
-        <span *ngIf="index != 0">&nbsp;</span>
+        <strong *ngIf="index === 0">Attach Talisman Cord</strong>
+        <span *ngIf="index !== 0">&nbsp;</span>
         <select [(ngModel)]="newTalismanCord[index]" (change)="add_TalismanCord(index)"
             [disabled]="!item.talismanCords[index-1] && index > 0">
             <ng-container
                 *ngFor="let cord of get_InitialTalismanCords(index); let initialCordIndex = index; trackBy:trackByIndex;">
-                <option [ngValue]="cord" *ngIf="initialCordIndex == 0">
+                <option [ngValue]="cord" *ngIf="initialCordIndex === 0">
 
                 </option>
-                <optgroup *ngIf="initialCordIndex == 1" label="Current cord">
+                <optgroup *ngIf="initialCordIndex === 1" label="Current cord">
                     <option [ngValue]="cord">
                         {{cord.talismanCord.name}}
                         ({{get_TalismanCordSchools(cord.talismanCord)}})

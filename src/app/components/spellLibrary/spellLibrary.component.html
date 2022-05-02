@@ -15,7 +15,7 @@
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="get_SpellLibraryMenuState()=='in'">
+    <ng-container *ngIf="get_SpellLibraryMenuState()==='in'">
         <div class="charactersheet-column-container">
             <div class="charactersheet-column">
                 <div class="list-item">
@@ -43,33 +43,33 @@
                         <select [(ngModel)]="showLevel">
                             <option *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
                                 [ngValue]="levelOption">
-                                {{levelOption == 0 ? "Default" : levelOption}}
+                                {{levelOption === 0 ? "Default" : levelOption}}
                             </option>
                         </select>
                     </span>
                 </div>
                 <div class="list-item">
-                    <button (click)="toggle_Tradition('')" [ngClass]="{'fancy-button':(get_ShowTradition()=='')}">
+                    <button (click)="toggle_Tradition('')" [ngClass]="{'fancy-button':(get_ShowTradition()==='')}">
                         All except Focus
                     </button>
                     <button (click)="toggle_Tradition('Arcane')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()=='Arcane')}">
+                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Arcane')}">
                         Arcane
                     </button>
                     <button (click)="toggle_Tradition('Divine')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()=='Divine')}">
+                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Divine')}">
                         Divine
                     </button>
                     <button (click)="toggle_Tradition('Occult')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()=='Occult')}">
+                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Occult')}">
                         Occult
                     </button>
                     <button (click)="toggle_Tradition('Primal')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()=='Primal')}">
+                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Primal')}">
                         Primal
                     </button>
                     <button (click)="toggle_Tradition('Focus')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()=='Focus')}">
+                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Focus')}">
                         Focus
                     </button>
                 </div>
@@ -101,15 +101,15 @@
                                     <ng-container
                                         *ngFor="let visibleSpells of [get_VisibleSpells(level)]; trackBy:trackByIndex;">
                                         <button class="list-item" (click)="toggle_List(level)"
-                                            [ngClass]="{'fancy-button':get_ShowList()==level||get_ShowList()==-2}"
+                                            [ngClass]="{'fancy-button':get_ShowList()===level||get_ShowList()===-2}"
                                             *ngIf="visibleSpells.length">
-                                            <header class="sectionHeader" *ngIf="level == 0">Cantrips</header>
+                                            <header class="sectionHeader" *ngIf="level === 0">Cantrips</header>
                                             <header class="sectionHeader" *ngIf="level > 0">{{"Level "+level}}</header>
                                         </button>
                                         <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'list-item':!get_TileMode()}"
-                                            *ngIf="visibleSpells.length && get_ShowList()==level||get_ShowList()==-2">
+                                            *ngIf="visibleSpells.length && get_ShowList()===level||get_ShowList()===-2">
                                             <div class="newrow list-item"
-                                                *ngIf="visibleSpells.length >= 80 && get_ShowList()!=-2"
+                                                *ngIf="visibleSpells.length >= 80 && get_ShowList()!==-2"
                                                 (click)="set_Range(-1)">
                                                 <button class="center-aligned" [disabled]="range <= 0">
                                                     Previous 40
@@ -124,7 +124,7 @@
                                             <ng-container
                                                 *ngFor="let spell of visibleSpells; let spellIndex = index; trackBy:trackByIndex;">
                                                 <ng-container
-                                                    *ngIf="visibleSpells.length < 80 || get_ShowList()==-2 || (spellIndex >= (range * 40) && spellIndex < ((range + 1) * 40 ))">
+                                                    *ngIf="visibleSpells.length < 80 || get_ShowList()===-2 || (spellIndex >= (range * 40) && spellIndex < ((range + 1) * 40 ))">
                                                     <ng-template #SpellTemplate>
                                                         <header class="spellHeader" *ngIf="get_TileMode()">
                                                             {{spell.name}}
@@ -202,7 +202,8 @@
                                                                         *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
                                                                         [disabled]="levelOption && spell.levelreq > levelOption"
                                                                         [ngValue]="levelOption">
-                                                                        {{levelOption == 0 ? "Default (" + spell.levelreq + ")" : levelOption}}
+                                                                        {{levelOption === 0 ? "Default (" +
+                                                                        spell.levelreq + ")" : levelOption}}
                                                                     </option>
                                                                 </select>
                                                             </span>
@@ -241,15 +242,17 @@
                                                                     <ng-container
                                                                         *ngTemplateOutlet="SpellTitleTemplate">
                                                                     </ng-container>
-                                                                    <ng-container *ngFor="let trait of ['Rare', 'Uncommon']">
-                                                                        <app-trait *ngIf="spell.traits.includes(trait)" [name]="trait"
+                                                                    <ng-container
+                                                                        *ngFor="let trait of ['Rare', 'Uncommon']">
+                                                                        <app-trait *ngIf="spell.traits.includes(trait)"
+                                                                            [name]="trait"
                                                                             [trait]="get_Traits(trait)[0]">
                                                                         </app-trait>
                                                                     </ng-container>
                                                                 </span>
                                                             </button>
                                                             <div class="list-item sublist"
-                                                                *ngIf="get_ShowItem()==spell.id"
+                                                                *ngIf="get_ShowItem()===spell.id"
                                                                 [ngClass]="{'fancy-list':get_SpellsLearned(spell.name).length}">
                                                                 <ng-container *ngTemplateOutlet="SpellTemplate">
                                                                 </ng-container>
@@ -273,7 +276,7 @@
                                                 </ng-container>
                                             </ng-container>
                                             <div class="newrow list-item"
-                                                *ngIf="visibleSpells.length >= 80 && get_ShowList()!=-2">
+                                                *ngIf="visibleSpells.length >= 80 && get_ShowList()!==-2">
                                                 <button class="center-aligned"
                                                     [disabled]="(range + 1) * 40 >= visibleSpells.length"
                                                     (click)="set_Range(1)">

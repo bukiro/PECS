@@ -9,15 +9,18 @@
     <ng-container *ngIf="!still_loading()">
         <div *ngIf="showTurn" class="list-item center-aligned">
             <div [ngbTooltip]="get_Waiting(5)">
-                <button (click)="start_Turn()" [disabled]="get_YourTurn()==5 || get_Waiting(5).length">Start
-                    Turn</button>
+                <button (click)="start_Turn()" [disabled]="get_YourTurn() === 5 || get_Waiting(5).length">
+                    Start Turn
+                </button>
             </div>
             <div class="turn-indicator">
-                <strong *ngIf="get_YourTurn() == 0">Not your Turn</strong>
-                <strong class="yourTurn" *ngIf="get_YourTurn() == 5">Your Turn</strong>
+                <strong *ngIf="get_YourTurn() === 0">Not your Turn</strong>
+                <strong class="yourTurn" *ngIf="get_YourTurn() === 5">Your Turn</strong>
             </div>
             <div [ngbTooltip]="get_Waiting(5)">
-                <button (click)="end_Turn()" [disabled]="get_YourTurn()==0 || get_Waiting(5).length">End Turn</button>
+                <button (click)="end_Turn()" [disabled]="get_YourTurn() === 0 || get_Waiting(5).length">
+                    End Turn
+                </button>
             </div>
         </div>
         <div *ngIf="showTime" class="list-item" [ngClass]="{'fullsize-only':showTime && showTurn}">
@@ -30,7 +33,6 @@
                         <span class="mobile-hide">{{get_Duration(duration, false)}}</span>
                         <span class="desktop-hide">{{get_Duration(duration, false, true)}}</span>
                     </span>
-                    
                 </button>
             </div>
         </div>

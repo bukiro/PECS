@@ -2,22 +2,22 @@
     <ng-container *ngFor="let maxAvailable of [get_Available()]; trackBy:trackByIndex;">
         <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(maxAvailable)]; trackBy:trackByIndex;">
             <div *ngIf="maxAvailable" class="featchoice-container"
-                [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist': !showTitle, 'problem':(choice.increases.length > maxAvailable || someIllegal(choice)), 'fullsize-only':(choice.increases.length == maxAvailable)}">
+                [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist': !showTitle, 'problem':(choice.increases.length > maxAvailable || someIllegal(choice)), 'fullsize-only':(choice.increases.length === maxAvailable)}">
                 <!--Choice button shows in title mode-->
                 <!--List mode button-->
                 <button class="newrow left-aligned sublist-toggle skillincrease"
-                    [ngClass]="{'fancy-button choicecleared':(choice.increases.length == maxAvailable), 'activechoice':get_ShowChoice()==listID && !choice.showOnSheet}"
+                    [ngClass]="{'fancy-button choicecleared':(choice.increases.length === maxAvailable), 'activechoice':get_ShowChoice()===listID && !choice.showOnSheet}"
                     (click)="toggle_List(listID)" *ngIf="showTitle && (!get_TileMode() || choice.showOnSheet)">
                     {{buttonTitle}}
                 </button>
                 <!--Tile mode button-->
                 <button class="skillincrease" (click)="toggle_List(listID)"
                     *ngIf="showTitle && get_TileMode() && !choice.showOnSheet"
-                    [ngClass]="{'fancy-button choicecleared':(choice.increases.length == maxAvailable), 'activechoice':get_ShowChoice()==listID && !choice.showOnSheet}">
+                    [ngClass]="{'fancy-button choicecleared':(choice.increases.length === maxAvailable), 'activechoice':get_ShowChoice()===listID && !choice.showOnSheet}">
                     <app-gridIcon class="skillincrease" [ngbTooltip]="buttonTitle"
                         [superTitle]="maxAvailable.toString()"
-                        [title]="(maxAvailable == 1 && choice.increases.length) ? choice.increases[0].name : ((maxAvailable > 1 && !!choice.increases.length) ? choice.increases.length.toString() : '')"
-                        [ngClass]="{'fancy-button':(choice.increases.length == maxAvailable)}">
+                        [title]="(maxAvailable === 1 && choice.increases.length) ? choice.increases[0].name : ((maxAvailable > 1 && !!choice.increases.length) ? choice.increases.length.toString() : '')"
+                        [ngClass]="{'fancy-button':(choice.increases.length === maxAvailable)}">
                     </app-gridIcon>
                 </button>
                 <!--Choice title shows above content in content only mode-->
@@ -36,8 +36,8 @@
                 </div>
                 <!--Choice content shows in content mode-->
                 <div id="{{!showTitle ? 'choiceArea' : ''}}" class="list-item"
-                    [ngClass]="{'sublist skillincrease':showTitle, 'fancy-list':showTitle && (choice.increases.length == maxAvailable)}"
-                    *ngIf="showContent && get_ShowChoice()==listID">
+                    [ngClass]="{'sublist skillincrease':showTitle, 'fancy-list':showTitle && (choice.increases.length === maxAvailable)}"
+                    *ngIf="showContent && get_ShowChoice()===listID">
                     <ng-container
                         *ngFor="let skill of get_AvailableSkills(choice, levelNumber, maxAvailable); trackBy:trackByIndex;">
                         <ng-container

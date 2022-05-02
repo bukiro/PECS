@@ -1,6 +1,6 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature==='Character'">
     <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
     <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
 </button>
@@ -50,25 +50,25 @@
                 <ng-container *ngFor="let cover of [get_Cover()]; trackBy:trackByIndex;">
                     <strong>Cover</strong>
                     <span class="hlist right-aligned">
-                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': cover == 1}"
-                            [ngbTooltip]="cover == 1 ? 'End Lesser Cover' : 'Lesser Cover'"
-                            (click)="set_Cover(cover == 1 ? 0 : 1)">
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': cover === 1}"
+                            [ngbTooltip]="cover === 1 ? 'End Lesser Cover' : 'Lesser Cover'"
+                            (click)="set_Cover(cover === 1 ? 0 : 1)">
                             <i class="ra ra-player"></i>
                         </button>
-                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': cover == 2}"
-                            [ngbTooltip]="cover == 2 ? 'End Standard Cover' : 'Standard Cover'"
-                            (click)="set_Cover(cover == 2 ? 0 : 2)">
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': cover === 2}"
+                            [ngbTooltip]="cover === 2 ? 'End Standard Cover' : 'Standard Cover'"
+                            (click)="set_Cover(cover === 2 ? 0 : 2)">
                             <i class="ra ra-metal-gate"></i>
                         </button>
-                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': cover == 4}"
-                            [ngbTooltip]="cover == 4 ? 'End Greater Cover' : 'Greater Cover'"
-                            (click)="set_Cover(cover == 4 ? 0 : 4)">
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': cover === 4}"
+                            [ngbTooltip]="cover === 4 ? 'End Greater Cover' : 'Greater Cover'"
+                            (click)="set_Cover(cover === 4 ? 0 : 4)">
                             <i class="ra ra-tower"></i>
                         </button>
                     </span>
                 </ng-container>
             </div>
-            <ng-container *ngIf="creature != 'Familiar'">
+            <ng-container *ngIf="creature !== 'Familiar'">
                 <header class="subsectionHeader fullsize-only">Armor</header>
                 <div class="fullsize-only list-item"
                     *ngFor="let armor of get_EquippedArmor(); let armorIndex = index; trackBy:trackByIndex;">
@@ -82,7 +82,7 @@
                     </div>
                     <app-tags [creature]="creature" [objectName]="'Armor'" [showTraits]=true [showFeats]=true
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true
-                        *ngIf="armorIndex == 0"></app-tags>
+                        *ngIf="armorIndex === 0"></app-tags>
                     <app-tags [creature]="creature" [objectName]="armor.name" [showItems]=true></app-tags>
                     <div class="fullsize-only newrow left-aligned"
                         *ngFor="let runes of [get_HintRunes(armor)]; trackBy:trackByIndex;" style="margin-top:initial">
@@ -217,7 +217,7 @@
                                 </div>
                             </ng-template>
                             <span>
-                                <button [disabled]="shieldDamage == 0"
+                                <button [disabled]="shieldDamage === 0"
                                     (click)="on_ShieldHPChange(shield, shieldDamage)">Damage</button>
                             </span>
                             <span class="hlist center-aligned">
@@ -227,7 +227,7 @@
                                     (keypress)="positiveNumbersOnly($event)">
                             </span>
                             <span class="right-aligned">
-                                <button [disabled]="shieldDamage == 0"
+                                <button [disabled]="shieldDamage === 0"
                                     (click)="on_ShieldHPChange(shield, -shieldDamage)">Repair</button>
                             </span>
                         </div>
@@ -297,7 +297,7 @@
                     </ng-container>
                 </ng-container>
             </ng-container>
-            <ng-container *ngIf="creature == 'Familiar'">
+            <ng-container *ngIf="creature === 'Familiar'">
                 <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</header>
                 <ng-container *ngFor="let skill of get_Skills('Save'); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>

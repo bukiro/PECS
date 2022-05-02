@@ -1,12 +1,13 @@
 <!--Adding Poisons-->
 <div class="list-item" *ngIf="get_Poisons().length > 1 || item.poisonsApplied.length">
     <div class="newrow">
-        <strong title="{{item.poisonsApplied.length ? 'Applying a new poison will waste the currently applied poison.' : ''}}">
+        <strong
+            title="{{item.poisonsApplied.length ? 'Applying a new poison will waste the currently applied poison.' : ''}}">
             {{item.poisonsApplied.length ? 'Replace' : 'Apply'}} poison
         </strong>
         <select [(ngModel)]="newPoison" (ngModelChange)="add_Poison()">
             <option *ngFor="let poison of get_Poisons(); trackBy:trackByIndex;" [ngValue]="poison">
-                {{poison.poison.amount != 1 ? poison.poison.amount + " " : ""}}{{poison.poison.get_Name()}}
+                {{poison.poison.amount !== 1 ? poison.poison.amount + " " : ""}}{{poison.poison.get_Name()}}
             </option>
         </select>
     </div>

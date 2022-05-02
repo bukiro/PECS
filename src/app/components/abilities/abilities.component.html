@@ -1,6 +1,6 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature==='Character'">
     <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
     <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
 </button>
@@ -50,7 +50,7 @@
         <ng-container *ngIf="get_Minimized()">
             <div class="list-item newrow" *ngFor="let subset of [1,2]; trackBy:trackByIndex;">
                 <span class="hlist"
-                    [ngClass]="{'left-aligned':index == 0, 'center-aligned':index == 1, 'right-aligned':index == 2}"
+                    [ngClass]="{'left-aligned':index === 0, 'center-aligned':index === 1, 'right-aligned':index === 2}"
                     *ngFor="let ability of get_Abilities(subset); let index = index; trackBy:trackByIndex;">
                     <ng-container
                         *ngFor="let calculatedAbility of [ability.calculate(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">

@@ -33,7 +33,7 @@
             </div>
         </ng-template>
         <ng-container *ngFor="let skill of get_SpellDCs(); let index = index; trackBy:trackByIndex;">
-            <header class="sectionHeader fullsize-only" *ngIf="index == 0">
+            <header class="sectionHeader fullsize-only" *ngIf="index === 0">
                 <span class="fullsize-only" [ngbPopover]="SpellAttacksEffectsPopoverContent"
                     #SpellAttacksEffectsPopover="ngbPopover" triggers="click">
                     <i [ngbTooltip]="!SpellAttacksEffectsPopover.isOpen() ? 'Edit effects' : ''"
@@ -52,7 +52,7 @@
                     {{(spellCastingParameters.casting.className + (spellCastingParameters.casting.castingType !=
                     "Innate"
                     ? " " + spellCastingParameters.casting.tradition : "") +
-                    ((spellCastingParameters.casting.castingType == "Focus") ? (" " +
+                    ((spellCastingParameters.casting.castingType === "Focus") ? (" " +
                     spellCastingParameters.casting.source) : " Spells")).trim()}}
                     <span class="lower"
                         *ngIf="['Prepared', 'Spontaneous'].includes(spellCastingParameters.casting.castingType)">
@@ -63,7 +63,7 @@
                     <div class="newrow lower left-aligned" *ngIf="spellCastingParameters.casting.bondedItemCharges[0]">
                         <span>
                             {{spellCastingParameters.casting.bondedItemCharges[0]}}{{componentParameters.hasSuperiorBond
-                            ? "*" : ""}} bonded item charge{{spellCastingParameters.casting.bondedItemCharges[0] != 1 ?
+                            ? "*" : ""}} bonded item charge{{spellCastingParameters.casting.bondedItemCharges[0] !== 1 ?
                             "s" : ""}} available
                         </span>
                         <i class="bi-question-circle" *ngIf="componentParameters.hasSuperiorBond"
@@ -83,7 +83,7 @@
                             {{spellCastingParameters.maxStudiousCapacitySlots -
                             spellCastingParameters.usedStudiousCapacitySlots}} extra spell
                             casting{{spellCastingParameters.maxStudiousCapacitySlots -
-                            spellCastingParameters.usedStudiousCapacitySlots != 1 ? "s" : ""}} available
+                            spellCastingParameters.usedStudiousCapacitySlots !== 1 ? "s" : ""}} available
                         </span>
                         <i class="bi-question-circle" [ngbPopover]="StudiousCapacity"></i>
                         <ng-template #StudiousCapacity>
@@ -100,10 +100,11 @@
                     <div class="newrow lower left-aligned"
                         *ngIf="spellCastingParameters.maxFirstGreaterVitalEvolutionSlot || spellCastingParameters.maxSecondGreaterVitalEvolutionSlot">
                         <span>
-                            {{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0 ? 1 : 0) +
-                            (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot == 0 ? 1 : 0)}} extra spell
-                            casting{{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot == 0 ? 1 : 0) +
-                            (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot == 0 ? 1 : 0) != 1 ? "s" : ""}}
+                            {{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot === 0 ? 1 : 0) +
+                            (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot === 0 ? 1 : 0)}} extra spell
+                            casting{{(spellCastingParameters.usedFirstGreaterVitalEvolutionSlot === 0 ? 1 : 0) +
+                            (spellCastingParameters.usedSecondGreaterVitalEvolutionSlot === 0 ? 1 : 0) !== 1 ? "s" :
+                            ""}}
                             available
                         </span>
                         <i class="bi-question-circle" [ngbPopover]="GreaterVitalEvolution"></i>
@@ -124,12 +125,12 @@
                     <div class="list-item newrow" style="background-color:transparent"
                         *ngIf="(spellCastingLevelParameters.spellTakenList.length || spellCastingLevelParameters.temporaryChoiceList.length)">
                         <strong>
-                            {{spellCastingLevelParameters.level == -1 ? "Focus Spells" :
-                            (spellCastingLevelParameters.level == 0 ? "Cantrips" : "Level
+                            {{spellCastingLevelParameters.level === -1 ? "Focus Spells" :
+                            (spellCastingLevelParameters.level === 0 ? "Cantrips" : "Level
                             "+spellCastingLevelParameters.level)}}
                         </strong>
                         <span class="hlist right-aligned"
-                            *ngIf="spellCastingLevelParameters.maxSpellSlots && spellCastingLevelParameters.level != 0">
+                            *ngIf="spellCastingLevelParameters.maxSpellSlots && spellCastingLevelParameters.level !== 0">
                             <strong>
                                 {{(spellCastingLevelParameters.maxSpellSlots -
                                 spellCastingLevelParameters.usedSpellSlots)}}{{spellCastingLevelParameters.extraSpellSlots}}
@@ -149,13 +150,13 @@
                             </ng-container>
                         </span>
                         <strong
-                            *ngIf="spellCastingParameters.casting.bondedItemCharges[spellCastingLevelParameters.level] && spellCastingLevelParameters.level != 0">
+                            *ngIf="spellCastingParameters.casting.bondedItemCharges[spellCastingLevelParameters.level] && spellCastingLevelParameters.level !== 0">
                             {{spellCastingParameters.casting.bondedItemCharges[spellCastingLevelParameters.level]}}
                             bonded item charge available
                         </strong>
                     </div>
                     <div class="list-item"
-                        *ngIf="spellCastingParameters.casting.castingType == 'Focus' && spellCastingLevelParameters.level == -1 && (spellCastingLevelParameters.spellTakenList.length || componentParameters.focusPoints.max)">
+                        *ngIf="spellCastingParameters.casting.castingType === 'Focus' && spellCastingLevelParameters.level === -1 && (spellCastingLevelParameters.spellTakenList.length || componentParameters.focusPoints.max)">
                         <div class="newrow">
                             <strong>Focus Points</strong>
                             <span class="hlist center-aligned">
@@ -197,7 +198,7 @@
                                 [spellCasting]="spellCastingParameters.casting" [choice]="choice"
                                 [showHeightened]="true" [allowBorrow]="false" [showChoice]="get_ShowList()"
                                 [showSpell]="get_ShowSpell()" [level]="spellCastingLevelParameters.level"
-                                [prepared]="choice.source == 'Infinite Possibilities'" [spellbook]="true">
+                                [prepared]="choice.source === 'Infinite Possibilities'" [spellbook]="true">
                             </app-spellchoice>
                         </div>
                     </div>
@@ -237,7 +238,7 @@
                                     </app-actionIcons>
                                     {{spellParameters.spell.castType}}
                                 </ng-container>
-                                {{(spellCastingParameters.casting.tradition != spellParameters.choice.tradition &&
+                                {{(spellCastingParameters.casting.tradition !== spellParameters.choice.tradition &&
                                 spellParameters.choice.tradition) ? "(" + spellParameters.choice.tradition + ")" : ""}}
                                 {{spellParameters.choice.frequency ? spellParameters.choice.frequency : ""}}
                             </ng-template>
@@ -264,7 +265,7 @@
                                     </app-actionIcons>
                                     {{spellParameters.spell.castType}}
                                 </ng-container>
-                                {{(spellCastingParameters.casting.tradition != spellParameters.choice.tradition &&
+                                {{(spellCastingParameters.casting.tradition !== spellParameters.choice.tradition &&
                                 spellParameters.choice.tradition) ? "(" + spellParameters.choice.tradition + ")" : ""}}
                                 {{spellParameters.choice.frequency ? spellParameters.choice.frequency : ""}}
                             </ng-template>
@@ -274,7 +275,7 @@
                                     </ng-container>
                                 </header>
                                 <div class="newrow list-item left-aligned"
-                                    *ngIf="spellParameters.effectiveSpellLevel != spellCastingLevelParameters.level">
+                                    *ngIf="spellParameters.effectiveSpellLevel !== spellCastingLevelParameters.level">
                                     Effective spell level: {{spellParameters.effectiveSpellLevel}}
                                 </div>
                                 <app-spellTarget class="newrow vlist" [creature]="'Character'"
@@ -287,7 +288,7 @@
                                     (castMessage)="on_Cast($event.target, $event.activated, { spellParameters: spellParameters, spellCastingLevelParameters: spellCastingLevelParameters, spellCastingParameters: spellCastingParameters, componentParameters: componentParameters }, $event.options)">
                                 </app-spellTarget>
                                 <div class="newrow"
-                                    *ngIf="spellCastingParameters.casting.castingType == 'Focus' && spellParameters.spell.allowReturnFocusPoint"
+                                    *ngIf="spellCastingParameters.casting.castingType === 'Focus' && spellParameters.spell.allowReturnFocusPoint"
                                     [ngbTooltip]="componentParameters.focusPoints.now >= componentParameters.focusPoints.max ? 'Focus points are full.' : ''">
                                     <button class="newrow center-aligned" (click)="on_RestoreFocusPoint()"
                                         [disabled]="componentParameters.focusPoints.now >= componentParameters.focusPoints.max">
@@ -297,7 +298,7 @@
                                     </button>
                                 </div>
                                 <div class="newrow"
-                                    *ngIf="spellCastingParameters.casting.castingType == 'Prepared' && spellCastingParameters.casting.className == 'Wizard' && !spellParameters.gain.prepared && spellCastingLevelParameters.level > 0 && !spellParameters.gain.duration"
+                                    *ngIf="spellCastingParameters.casting.castingType === 'Prepared' && spellCastingParameters.casting.className === 'Wizard' && !spellParameters.gain.prepared && spellCastingLevelParameters.level > 0 && !spellParameters.gain.duration"
                                     [ngbTooltip]="!spellCastingLevelParameters.canRestore ? 'No bonded item charges remaining.' : ''">
                                     <button class="newrow center-aligned"
                                         (click)="on_Restore(spellParameters.gain, spellCastingParameters.casting, spellCastingLevelParameters.level)"
@@ -310,7 +311,7 @@
                                     </button>
                                 </div>
                                 <div class="newrow"
-                                    *ngIf="spellCastingParameters.casting.castingType == 'Prepared' && !spellParameters.gain.prepared && spellCastingLevelParameters.level > 0 && spellParameters.canReprepare">
+                                    *ngIf="spellCastingParameters.casting.castingType === 'Prepared' && !spellParameters.gain.prepared && spellCastingLevelParameters.level > 0 && spellParameters.canReprepare">
                                     <button class="newrow center-aligned" (click)="on_Reprepare(spellParameters.gain)">
                                         <span class="center-aligned">
                                             Reprepare
@@ -424,7 +425,7 @@
                                     </button>
                                     <div class="list-item sublist lower"
                                         [ngClass]="{'inactive-list': spellParameters.cannotCast}"
-                                        *ngIf="get_ShowSpell()==spellCastingLevelParameters.level+spellCastingParameters.casting.castingType+spellCastingParameters.casting.className+spellParameters.gain.name+spellIndex">
+                                        *ngIf="get_ShowSpell()===spellCastingLevelParameters.level+spellCastingParameters.casting.castingType+spellCastingParameters.casting.className+spellParameters.gain.name+spellIndex">
                                         <ng-container *ngTemplateOutlet="SpellTemplate">
                                         </ng-container>
                                     </div>

@@ -2,7 +2,7 @@
     <ng-container *ngFor="let timeStopped of [get_TimeStopped()]; trackBy: trackByIndex">
         <ng-template #conditionTemplate let-conditionGain="conditionGain">
             <div style="display:flex"
-                [ngClass]="{'attention':(conditionGain.durationIsInstant) || (conditionGain.nextStage == -1)}"
+                [ngClass]="{'attention':(conditionGain.durationIsInstant) || (conditionGain.nextStage === -1)}"
                 *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
                 <ng-container
                     *ngFor="let stoppedInTime of [timeStopped && !condition.get_IsStoppingTime(conditionGain)]; trackBy:trackByIndex">
@@ -48,7 +48,7 @@
                         This effect doesn't apply while it is ignored.
                     </span>
                 </div>
-                <div class="newrow" *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">
+                <div class="newrow" *ngIf="effect.type !== 'untyped' && !effect.toggle && !effect.setValue">
                     <span>
                         <strong>Type</strong>
                         {{effect.type + " " + (effect.penalty ? 'penalty' : 'bonus')}}

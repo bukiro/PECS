@@ -1,7 +1,7 @@
 <div class="window-button-container">
     <button class="minimizebutton lower"
         [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-        [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">
+        [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature==='Character'">
         <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
         <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
     </button>
@@ -35,7 +35,7 @@
             </div>
             <app-tags [creature]="creature" [objectName]="'Senses'" [showTraits]=true [showFeats]=true [showItems]=true
                 [showActivities]=true [showConditions]=true></app-tags>
-            <ng-container *ngIf="creature=='Familiar'">
+            <ng-container *ngIf="creature==='Familiar'">
                 <header class="sectionHeader box-header">Attack Rolls</header>
                 <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
@@ -74,7 +74,7 @@
                     *ngFor="let calculatedSpeed of [speed.value(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
                     <div class="newrow">
                         <span>
-                            <strong>{{(speed.name=="Speed") ? "All Speeds" : speed.name}}</strong>
+                            <strong>{{(speed.name==="Speed") ? "All Speeds" : speed.name}}</strong>
                         </span>
                         <span>
                             <div class="value" [ngbPopover]="calculatedSpeed.explain" [ngClass]="{'penalty':speed.penalties(get_Creature(), effectsService, speed.name, true),

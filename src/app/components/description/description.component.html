@@ -10,7 +10,7 @@
     </ng-container>
 </ng-container>
 <ng-container *ngIf="!oneLiner && text">
-    <p *ngIf="text.split('\n').length == 1">
+    <p *ngIf="text.split('\n').length === 1">
         <ng-container *ngFor="let split of text.split('|'); trackBy:trackByIndex;">
             <ng-container *ngTemplateOutlet="Split;context:{split:split}"></ng-container>
         </ng-container>

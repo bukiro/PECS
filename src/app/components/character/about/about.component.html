@@ -6,9 +6,9 @@
 </div>
 <ng-container *ngFor="let updateAvailable of get_UpdateAvailable(); trackBy:trackByIndex">
     <div class="list-item newrow center-aligned" *ngIf="updateAvailable.available">
-        <a *ngIf="updateAvailable.desc != 'n/a'" href='https://github.com/bukiro/PECS/releases/latest' target="_blank"
+        <a *ngIf="updateAvailable.desc !== 'n/a'" href='https://github.com/bukiro/PECS/releases/latest' target="_blank"
             rel="noreferrer noopener">{{updateAvailable.desc}}</a>
-        <span *ngIf="updateAvailable.desc == 'n/a'">{{updateAvailable.desc}}</span>
+        <span *ngIf="updateAvailable.desc === 'n/a'">{{updateAvailable.desc}}</span>
     </div>
 </ng-container>
 <div class="newrow list-item left-aligned lower" *ngIf="version">

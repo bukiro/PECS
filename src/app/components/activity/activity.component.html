@@ -123,7 +123,7 @@
                     [allowActivate]=true>
                 </app-activity>
             </div>
-            <ng-container *ngIf="gain.name == 'Fused Stance'">
+            <ng-container *ngIf="gain.name === 'Fused Stance'">
                 <div class="list-item newrow left-aligned"
                     *ngFor="let fusedSet of get_FusedStances(); trackBy:trackByIndex;">
                     <header class="spellHeader">

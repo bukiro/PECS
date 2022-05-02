@@ -4,7 +4,7 @@
         <strong>Apply oil</strong>
         <select [(ngModel)]="newOil" (ngModelChange)="add_Oil()">
             <option *ngFor="let oil of get_Oils(); trackBy:trackByIndex;" [ngValue]="oil">
-                {{oil.oil.amount != 1 ? oil.oil.amount + " " : ""}}{{oil.oil.get_Name()}}
+                {{oil.oil.amount !== 1 ? oil.oil.amount + " " : ""}}{{oil.oil.get_Name()}}
             </option>
         </select>
     </div>

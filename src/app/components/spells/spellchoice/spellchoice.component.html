@@ -8,7 +8,7 @@
                     *ngFor="let signatureSpellsAllowed of [get_SignatureSpellsAllowed()]; trackBy:trackByIndex;">
                     <div *ngIf="available || get_SpellBlendingUsed() || get_InfinitePossibilitiesUsed() || get_AdaptedCantripUsed() || get_AdaptiveAdeptUsed()"
                         class="featchoice-container"
-                        [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist':!showTitle, 'problem':(choice.spells.length > available || cannotTakeSome()), 'fullsize-only':(available == choice.spells.length)}">
+                        [ngClass]="{'list-item': showTitle && !get_TileMode(), 'vlist':!showTitle, 'problem':(choice.spells.length > available || cannotTakeSome()), 'fullsize-only':(available === choice.spells.length)}">
                         <ng-template #ButtonTitleTemplate>
                             <span [ngbTooltip]="'Combination spell'" *ngIf="choice.spellCombinationAllowed">
                                 <i class='ra ra-frostfire'></i>
@@ -28,17 +28,17 @@
                         <!--List mode button-->
                         <button class="newrow left-aligned sublist-toggle"
                             *ngIf="showTitle && (!get_TileMode() || showContent)"
-                            [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length), 'activechoice': get_ShowChoice()==listID && (!choice.showOnSheet && !itemSpell)}"
+                            [ngClass]="{'fancy-button choicecleared':(available === choice.spells.length), 'activechoice': get_ShowChoice()===listID && (!choice.showOnSheet && !itemSpell)}"
                             (click)="toggle_Choice(listID)">
                             <ng-container *ngTemplateOutlet="ButtonTitleTemplate"></ng-container>
                         </button>
                         <!--Tile mode button-->
                         <button (click)="toggle_Choice(listID)" *ngIf="showTitle && !showContent && get_TileMode()"
-                            [ngClass]="{'fancy-button choicecleared':(available == choice.spells.length), 'activechoice':get_ShowChoice()==listID}">
+                            [ngClass]="{'fancy-button choicecleared':(available === choice.spells.length), 'activechoice':get_ShowChoice()===listID}">
                             <app-gridIcon [ngbTooltip]="ButtonTitleTemplate" [superTitle]="available.toString()"
-                                [title]="(available == 1 && choice.spells.length) ? choice.spells[0].name : ((available > 1 && !!choice.spells.length) ? choice.spells.length.toString() : '')"
+                                [title]="(available === 1 && choice.spells.length) ? choice.spells[0].name : ((available > 1 && !!choice.spells.length) ? choice.spells.length.toString() : '')"
                                 [subTitle]="(choice.spellCombinationAllowed ? 'icon-ra ra-frostfire' : '') + '|' + (is_InfinitePossibilitiesSpell() ? 'icon-ra ra-kaleidoscope' : '') + '|' + (has_SignatureSpell(signatureSpellsAllowed) ? 'icon-bi-stars' : '') + '|' + (choice.crossbloodedEvolution ? 'icon-ra ra-zigzag-leaf' : '')"
-                                [ngClass]="{'fancy-button':(available == choice.spells.length)}">
+                                [ngClass]="{'fancy-button':(available === choice.spells.length)}">
                             </app-gridIcon>
                         </button>
                         <!--Choice title shows above content in content only mode-->
@@ -49,12 +49,12 @@
                         </div>
                         <!--Choice content shows in content mode-->
                         <div id="{{!showTitle ? 'choiceArea' : ''}}" class="list-item"
-                            [ngClass]="{'sublist': showTitle, 'fancy-list':showTitle && (available == choice.spells.length)}"
-                            *ngIf="showContent && get_ShowChoice()==listID">
+                            [ngClass]="{'sublist': showTitle, 'fancy-list':showTitle && (available === choice.spells.length)}"
+                            *ngIf="showContent && get_ShowChoice()===listID">
                             <div class="list-item lower">
                                 <!-- Heightened -->
                                 <div class="list-item gridicon-fullsizebox"
-                                    *ngIf="spellbook && choice.level != 0 && !choice.alwaysShowHeightened">
+                                    *ngIf="spellbook && choice.level !== 0 && !choice.alwaysShowHeightened">
                                     <input class="character-choice" id="{{choice.id}}showHeightened" type="checkbox"
                                         [(ngModel)]="showHeightened">
                                     <label for="{{choice.id}}showHeightened">
@@ -117,7 +117,7 @@
                                     <div class="list-item">
                                         <strong>Spell Blending</strong>
                                         <div class="newrow"
-                                            *ngIf="get_SpellBlendingUnlocked(0) && get_SpellBlendingUnlocked(choice.level + 1) && get_SpellBlendingUnlocked(choice.level + 2) && choice.spellBlending.toString() == '0,0,0'">
+                                            *ngIf="get_SpellBlendingUnlocked(0) && get_SpellBlendingUnlocked(choice.level + 1) && get_SpellBlendingUnlocked(choice.level + 2) && choice.spellBlending.toString() === '0,0,0'">
                                             No bonus spell slots can currently be unlocked by trading in this spell
                                             slot.
                                         </div>
@@ -145,7 +145,7 @@
                                                     (click)="on_SpellBlending(1, 1)">+</button>
                                             </span>
                                             <strong>
-                                                {{choice.spellBlending[1]}} spell slot{{choice.spellBlending[1] != 1 ?
+                                                {{choice.spellBlending[1]}} spell slot{{choice.spellBlending[1] !== 1 ?
                                                 "s" : ""}} traded in for level {{choice.level + 1}} spell slot (2 needed
                                                 for 1)
                                             </strong>
@@ -160,7 +160,7 @@
                                                     (click)="on_SpellBlending(2, 1)">+</button>
                                             </span>
                                             <strong>
-                                                {{choice.spellBlending[2]}} spell slot{{choice.spellBlending[2] != 1 ?
+                                                {{choice.spellBlending[2]}} spell slot{{choice.spellBlending[2] !== 1 ?
                                                 "s" : ""}} traded in for level {{choice.level + 2}} spell slot (2 needed
                                                 for 1)
                                             </strong>
@@ -311,7 +311,7 @@
                                                 Evolution spells has already been assigned.
                                             </div>
                                             <div class="newrow"
-                                                *ngIf="crossbloodedEvolutionAllowed == 1 && get_CrossbloodedEvolutionUnlocked() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution">
+                                                *ngIf="crossbloodedEvolutionAllowed === 1 && get_CrossbloodedEvolutionUnlocked() >= crossbloodedEvolutionAllowed && !choice.crossbloodedEvolution">
                                                 The Crossblooded Evolution spell has already been assigned.
                                             </div>
                                             <div class="newrow gridicon-fullsizebox"
@@ -363,7 +363,7 @@
                                                                 </div>
                                                                 <!--Spontaneous: Choose/Remove button-->
                                                                 <div class="button newrow no-animation"
-                                                                    *ngIf="spellCasting?.castingType!='Prepared'"
+                                                                    *ngIf="spellCasting?.castingType!=='Prepared'"
                                                                     [ngClass]="{'fancy-button':taken, 'disabled':spontaneousDisabled}">
                                                                     <label>
                                                                         <input type="checkbox"
@@ -376,34 +376,34 @@
                                                                 </div>
                                                                 <!--Prepared and no spell combination or first spell of spell combination: plus/minus buttons-->
                                                                 <div class="newrow left-aligned"
-                                                                    *ngIf="spellCasting?.castingType == 'Prepared' && (!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)))">
+                                                                    *ngIf="spellCasting?.castingType === 'Prepared' && (!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name === spell.name)))">
                                                                     <button class="character-choice"
                                                                         (click)="on_SpellTaken(spell.name, false, false, spellSet.borrowed)"
                                                                         [disabled]="!taken"
-                                                                        *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                                                                        *ngIf="spellCasting?.castingType==='Prepared'">-</button>
                                                                     <button class="character-choice"
                                                                         (click)="on_SpellTaken(spell.name, true, false, spellSet.borrowed)"
-                                                                        [disabled]="cannotTake.length || choice.spells.length >= available || (taken && choice.level == 0 && !choice.dynamicLevel)"
-                                                                        *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                                                                        [disabled]="cannotTake.length || choice.spells.length >= available || (taken && choice.level === 0 && !choice.dynamicLevel)"
+                                                                        *ngIf="spellCasting?.castingType==='Prepared'">+</button>
                                                                     <strong>
                                                                         {{taken}} prepared
                                                                         <span
-                                                                            *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)">
+                                                                            *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name === spell.name)">
                                                                             &nbsp;as first spell combination spell
                                                                         </span>
                                                                     </strong>
                                                                 </div>
                                                                 <!--Prepared and spell combination: plus/minus buttons-->
                                                                 <div class="newrow left-aligned"
-                                                                    *ngIf="spellCasting?.castingType == 'Prepared' && choice.spellCombination && choice.spells.length && choice.spells[0].name != spell.name && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">
+                                                                    *ngIf="spellCasting?.castingType === 'Prepared' && choice.spellCombination && choice.spells.length && choice.spells[0].name !== spell.name && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName === spell.name)">
                                                                     <button class="character-choice"
                                                                         (click)="on_SpellCombinationTaken(spell.name, false)"
                                                                         [disabled]="!taken"
-                                                                        *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                                                                        *ngIf="spellCasting?.castingType==='Prepared'">-</button>
                                                                     <button class="character-choice"
                                                                         (click)="on_SpellCombinationTaken(spell.name, true)"
                                                                         [disabled]="cannotTake.length || (choice.spells.length >= available && choice.spells[0]?.combinationSpellName)"
-                                                                        *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                                                                        *ngIf="spellCasting?.castingType==='Prepared'">+</button>
                                                                     <strong>
                                                                         {{taken}} prepared as second spell combination
                                                                         spell
@@ -428,38 +428,38 @@
                                                                 <!--Spontaneous: Checkbox-->
                                                                 <input class="character-choice"
                                                                     id="{{choice.id+spell.name}}"
-                                                                    *ngIf="spellCasting?.castingType!='Prepared'"
+                                                                    *ngIf="spellCasting?.castingType!=='Prepared'"
                                                                     type="checkbox"
                                                                     (change)="on_SpellTaken(spell.name, $event, false, spellSet.borrowed)"
                                                                     [checked]="checked"
                                                                     [disabled]="spontaneousDisabled || get_LockedSpellTakenByThis(spell.name) || (checked && !taken)">
                                                                 <!--Prepared and no spell combination or spell combination 1: plus/minus buttons-->
                                                                 <span
-                                                                    *ngIf="spellCasting?.castingType == 'Prepared' && (!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)))">
+                                                                    *ngIf="spellCasting?.castingType === 'Prepared' && (!choice.spellCombination || (choice.spellCombination && (!choice.spells.length || choice.spells[0].name === spell.name)))">
                                                                     <span
-                                                                        *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name == spell.name)">1&nbsp;</span>
+                                                                        *ngIf="choice.spellCombination && (!choice.spells.length || choice.spells[0].name === spell.name)">1&nbsp;</span>
                                                                     <button class="character-choice"
                                                                         (click)="on_SpellTaken(spell.name, false, false, spellSet.borrowed)"
                                                                         [disabled]="!taken"
-                                                                        *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                                                                        *ngIf="spellCasting?.castingType==='Prepared'">-</button>
                                                                     <button class="character-choice"
                                                                         (click)="on_SpellTaken(spell.name, true, false, spellSet.borrowed)"
-                                                                        [disabled]="cannotTake.length || choice.spells.length >= available || (taken && choice.level == 0 && !choice.dynamicLevel)"
-                                                                        *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                                                                        [disabled]="cannotTake.length || choice.spells.length >= available || (taken && choice.level === 0 && !choice.dynamicLevel)"
+                                                                        *ngIf="spellCasting?.castingType==='Prepared'">+</button>
                                                                 </span>
                                                                 <!--Prepared and spell combination 2: plus/minus buttons-->
                                                                 <span
-                                                                    *ngIf="spellCasting?.castingType == 'Prepared' && choice.spellCombination && choice.spells.length && choice.spells[0].name != spell.name && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">
+                                                                    *ngIf="spellCasting?.castingType === 'Prepared' && choice.spellCombination && choice.spells.length && choice.spells[0].name !== spell.name && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName === spell.name)">
                                                                     <span
-                                                                        *ngIf="choice.spellCombination && choice.spells.length && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName == spell.name)">2&nbsp;</span>
+                                                                        *ngIf="choice.spellCombination && choice.spells.length && (!choice.spells[0].combinationSpellName || choice.spells[0].combinationSpellName === spell.name)">2&nbsp;</span>
                                                                     <button class="character-choice"
                                                                         (click)="on_SpellCombinationTaken(spell.name, false)"
                                                                         [disabled]="!taken"
-                                                                        *ngIf="spellCasting?.castingType=='Prepared'">-</button>
+                                                                        *ngIf="spellCasting?.castingType==='Prepared'">-</button>
                                                                     <button class="character-choice"
                                                                         (click)="on_SpellCombinationTaken(spell.name, true)"
                                                                         [disabled]="cannotTake.length || (choice.spells.length >= available && choice.spells[0]?.combinationSpellName)"
-                                                                        *ngIf="spellCasting?.castingType=='Prepared'">+</button>
+                                                                        *ngIf="spellCasting?.castingType==='Prepared'">+</button>
                                                                 </span>
                                                             </span>
                                                             <div class="gridicon-fullsizebox"
@@ -482,7 +482,7 @@
                                                                                     type="checkbox"
                                                                                     [(ngModel)]="takenSpell.signatureSpell"
                                                                                     (ngModelChange)="on_SignatureSpell()"
-                                                                                    [disabled]="reason != ''">
+                                                                                    [disabled]="reason !== ''">
                                                                                 <label
                                                                                     for="{{choice.id+spell.name}}signaturespell">
                                                                                     <i class='bi-stars'></i>
@@ -496,7 +496,7 @@
                                                                     <span
                                                                         [ngbTooltip]="(!SpellChoiceDetailPopover.isOpen()) ? spell.shortDesc : ''"
                                                                         triggers="hover" [openDelay]=100>
-                                                                        {{(spellCasting?.castingType == 'Prepared' &&
+                                                                        {{(spellCasting?.castingType === 'Prepared' &&
                                                                         taken)
                                                                         ? " " + taken + " " : ""}}{{spell.name}}
                                                                     </span>

@@ -47,11 +47,11 @@
                 <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
                     <div class="list-item newrow">
                         <span class="hlist" style="font-size: 1.5em;">
-                            <i class="ra ra-hive-emblem" *ngIf="get_TargetType(target)=='Inventory'"
+                            <i class="ra ra-hive-emblem" *ngIf="get_TargetType(target)==='Inventory'"
                                 style="line-height: 1.5;"></i>
-                            <i class="ra ra-wolf-howl" *ngIf="get_TargetType(target)=='Companion'"
+                            <i class="ra ra-wolf-howl" *ngIf="get_TargetType(target)==='Companion'"
                                 style="line-height: 1.5;"></i>
-                            <i class="ra ra-raven" *ngIf="get_TargetType(target)=='Familiar'"
+                            <i class="ra ra-raven" *ngIf="get_TargetType(target)==='Familiar'"
                                 style="line-height: 1.5;"></i>
                             <i class="ra ra-player" *ngIf="['Character','Player'].includes(get_TargetType(target))"
                                 style="line-height: 1.5;"></i>
@@ -67,9 +67,9 @@
                                 style="background-color: rgb(var(--accent))"
                                 (click)="set_Target(target); modal.close('Move click')"
                                 [disabled]="cannotMove || (item.amount && !selectedAmount)">
-                                <span *ngIf="get_TargetType(target)=='Inventory'">Move</span>
+                                <span *ngIf="get_TargetType(target)==='Inventory'">Move</span>
                                 <span *ngIf="!['Inventory','Player'].includes(get_TargetType(target))">Give</span>
-                                <span *ngIf="get_TargetType(target)=='Player'">Offer</span>
+                                <span *ngIf="get_TargetType(target)==='Player'">Offer</span>
                             </button>
                         </span>
                     </div>

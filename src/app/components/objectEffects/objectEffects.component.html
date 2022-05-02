@@ -26,7 +26,7 @@
             <ng-container *ngIf="effect.setValue || (effect.value && get_IsFormula(effect.value))">
                 <span>
                     <span class="value" *ngFor="let value of [get_EffectValue(effect)]; trackBy:trackByIndex;"
-                        [ngClass]="{'absolute':value[0]=='=', 'bonus':value[0]=='+', 'penalty':value[0]=='-'}">
+                        [ngClass]="{'absolute':value[0]==='=', 'bonus':value[0]==='+', 'penalty':value[0]==='-'}">
                         {{value}}
                     </span>
                     <i [ngbPopover]="FormulaTemplate"

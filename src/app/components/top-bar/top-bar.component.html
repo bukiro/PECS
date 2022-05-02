@@ -2,37 +2,37 @@
     <header class="mainHeader mobile-hide" [ngbTooltip]="'Pathfinder Excessive Character Sheet'">P.E.C.S.</header>
     <button class="fancy-button loading" *ngIf="still_loading()">{{get_LoadingButtonTitle()}}</button>
     <ng-container *ngIf="!still_loading()">
-        <button [ngClass]="{'fancy-button':get_CharacterMenuState()=='out'}" (click)="toggle_Menu('character')">
+        <button [ngClass]="{'fancy-button':get_CharacterMenuState()==='out'}" (click)="toggle_Menu('character')">
             <i class="ra ra-player"></i>
             <div class="mobile-hide">
                 {{get_Character().name || "Character"}}&nbsp;
             </div>
             <i class="bi-gear"></i>
         </button>
-        <button [ngClass]="{'fancy-button':get_CompanionMenuState()=='out'}" (click)="toggle_Menu('companion')"
+        <button [ngClass]="{'fancy-button':get_CompanionMenuState()==='out'}" (click)="toggle_Menu('companion')"
             *ngIf="get_CompanionAvailable()">
             <i class="ra ra-wolf-howl"></i>
             <div class="mobile-hide">
                 {{get_Companion().name || "Animal Companion"}}
             </div>
         </button>
-        <button [ngClass]="{'fancy-button':get_FamiliarMenuState()=='out'}" (click)="toggle_Menu('familiar')"
+        <button [ngClass]="{'fancy-button':get_FamiliarMenuState()==='out'}" (click)="toggle_Menu('familiar')"
             *ngIf="get_FamiliarAvailable()">
             <i class="ra ra-raven"></i>
             <div class="mobile-hide">
                 {{get_Familiar().name || "Familiar"}}
             </div>
         </button>
-        <button [ngClass]="{'fancy-button':get_ItemsMenuState()=='out'}" (click)="toggle_Menu('items')">Items</button>
-        <button [ngClass]="{'fancy-button':get_CraftingMenuState()=='out'}"
+        <button [ngClass]="{'fancy-button':get_ItemsMenuState()==='out'}" (click)="toggle_Menu('items')">Items</button>
+        <button [ngClass]="{'fancy-button':get_CraftingMenuState()==='out'}"
             (click)="toggle_Menu('crafting')">Crafting</button>
-        <button [ngClass]="{'fancy-button':get_SpellsMenuState()=='out'}" (click)="toggle_Menu('spells')"
+        <button [ngClass]="{'fancy-button':get_SpellsMenuState()==='out'}" (click)="toggle_Menu('spells')"
             *ngIf="get_HasSpells()">Spellbook</button>
-        <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()=='out'}"
+        <button [ngClass]="{'fancy-button':get_SpellLibraryMenuState()==='out'}"
             (click)="toggle_Menu('spelllibrary')">Spell Library</button>
-        <button [ngClass]="{'fancy-button':get_ConditionsMenuState()=='out'}"
+        <button [ngClass]="{'fancy-button':get_ConditionsMenuState()==='out'}"
             (click)="toggle_Menu('conditions')">Conditions</button>
-        <button [ngClass]="{'fancy-button':get_DiceMenuState()=='out'}" [ngbTooltip]="'Dice'"
+        <button [ngClass]="{'fancy-button':get_DiceMenuState()==='out'}" [ngbTooltip]="'Dice'"
             (click)="toggle_Menu('dice')">
             <app-diceIcons_D20></app-diceIcons_D20>
         </button>
@@ -125,22 +125,22 @@
                                             *ngIf="message.gainCondition.length && message.activateCondition"></i>
                                         <i class="bi-stop-circle"
                                             *ngIf="message.gainCondition.length && !message.activateCondition"></i>
-                                        <i class="ra ra-player" *ngIf="creature.type=='Character'"
+                                        <i class="ra ra-player" *ngIf="creature.type==='Character'"
                                             style="line-height: 1.5;"></i>
-                                        <i class="ra ra-wolf-howl" *ngIf="creature.type=='Companion'"
+                                        <i class="ra ra-wolf-howl" *ngIf="creature.type==='Companion'"
                                             style="line-height: 1.5;"></i>
-                                        <i class="ra ra-raven" *ngIf="creature.type=='Familiar'"
+                                        <i class="ra ra-raven" *ngIf="creature.type==='Familiar'"
                                             style="line-height: 1.5;"></i>
                                         <ng-container *ngIf="message.gainCondition.length">
                                             <strong>
-                                                {{message.gainCondition[0].name}}{{message.gainCondition[0].choice ? ":
-                                                " + message.gainCondition[0].choice : ""}}
+                                                {{message.gainCondition[0].name}}{{message.gainCondition[0].choice ?
+                                                ": " + message.gainCondition[0].choice : ""}}
                                             </strong>
                                             {{[get_Duration(message.gainCondition[0].duration)]}}
                                         </ng-container>
                                         <ng-container *ngIf="message.offeredItem.length">
                                             <strong>
-                                                {{message.itemAmount != 1 ? message.itemAmount + " " :
+                                                {{message.itemAmount !== 1 ? message.itemAmount + " " :
                                                 ""}}{{message.offeredItem[0].name}}
                                             </strong>
                                             {{get_ItemMessageIncluded(message)}}

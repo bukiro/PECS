@@ -12,20 +12,20 @@
                         {{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
                         <input id="{{conditionGain.id+'choice'}}" class="invisible" type="checkbox"
                             [(ngModel)]="conditionGain.showChoices"
-                            *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && !conditionGain.choiceLocked">
+                            *ngIf="(choices.length || conditionGain.name === 'Persistent Damage') && !conditionGain.choiceLocked">
                         <label for="{{conditionGain.id+'choice'}}" [ngbTooltip]="'Change effect choice'"
                             style="text-shadow: none"
-                            *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && !conditionGain.choiceLocked">
+                            *ngIf="(choices.length || conditionGain.name === 'Persistent Damage') && !conditionGain.choiceLocked">
                             <i class='bi-list-stars'></i>
                             <span *ngIf="conditionGain.choice && !conditionGain.showChoices">
                                 {{conditionGain.choice}}
                             </span>
                         </label>
                         <span
-                            *ngIf="(choices.length || conditionGain.name == 'Persistent Damage') && conditionGain.choiceLocked && conditionGain.choice && !conditionGain.showChoices">
+                            *ngIf="(choices.length || conditionGain.name === 'Persistent Damage') && conditionGain.choiceLocked && conditionGain.choice && !conditionGain.showChoices">
                             {{conditionGain.choice}}
                         </span>
-                        <app-quickdice *ngIf="conditionGain.name == 'Persistent Damage' && conditionGain.choice"
+                        <app-quickdice *ngIf="conditionGain.name === 'Persistent Damage' && conditionGain.choice"
                             [diceString]="conditionGain.choice"></app-quickdice>
                         <ng-container
                             *ngIf="conditionGain.showChoices && choices.length && !conditionGain.choiceLocked">
@@ -43,7 +43,7 @@
                             {{conditionGain.value}}
                         </span>
                         <span
-                            *ngIf="conditionGain.value && !(conditionGain.valueLockedByParent && conditionGain.parentID) && !(conditionGain.name == 'Stunned' && conditionGain.duration != -1)">
+                            *ngIf="conditionGain.value && !(conditionGain.valueLockedByParent && conditionGain.parentID) && !(conditionGain.name === 'Stunned' && conditionGain.duration !== -1)">
                             <input id="{{conditionGain.id+'value'}}" class="invisible" type="checkbox"
                                 [(ngModel)]="conditionGain.showValue">
                             <label for="{{conditionGain.id+'value'}}" [ngbTooltip]="'Change value'"
@@ -54,13 +54,13 @@
                             <ng-container *ngIf="conditionGain.showValue">
                                 <span *ngFor="let oldValue of [conditionGain.value]; trackBy:trackByIndex;">
                                     <span><button (click)="change_ConditionValue(conditionGain, oldValue, -1)"
-                                            [disabled]="oldValue == 1 && conditionGain.lockedByParent && conditionGain.parentID">-1</button></span>
+                                            [disabled]="oldValue === 1 && conditionGain.lockedByParent && conditionGain.parentID">-1</button></span>
                                     <select [(ngModel)]="conditionGain.value"
                                         (ngModelChange)="change_ConditionValue(conditionGain, oldValue)">
                                         <option
                                             *ngFor="let valueOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
                                             [ngValue]="valueOption"
-                                            [disabled]="valueOption == 0 && conditionGain.lockedByParent && conditionGain.parentID">
+                                            [disabled]="valueOption === 0 && conditionGain.lockedByParent && conditionGain.parentID">
                                             {{valueOption}}
                                         </option>
                                     </select>
@@ -90,7 +90,7 @@
             </span>
         </div>
         <div class="newrow list-item left-aligned"
-            *ngIf="conditionGain.showChoices && condition.name == 'Persistent Damage'">
+            *ngIf="conditionGain.showChoices && condition.name === 'Persistent Damage'">
             <span class="gap-text">
                 Damage type and amount:
                 <input type="text" id="persistentDamage" [(ngModel)]="conditionGain.choice" maxLength="30">
@@ -210,7 +210,7 @@
                     {{get_Duration(conditionGain.nextStage)}}
                 </span>
             </div>
-            <div class="newrow" *ngIf="conditionGain.nextStage == -1 && conditionGain.choice && choices.length">
+            <div class="newrow" *ngIf="conditionGain.nextStage === -1 && conditionGain.choice && choices.length">
                 <div class="list-item lower newrow problem">
                     <strong class="no-shadow">
                         Affliction onset reached
@@ -224,27 +224,27 @@
                 </div>
             </div>
             <div class="newrow left-aligned"
-                *ngIf="conditionGain.nextStage != 0 && conditionGain.choice && choices.length">
+                *ngIf="conditionGain.nextStage !== 0 && conditionGain.choice && choices.length">
                 <span
-                    *ngIf="choices.indexOf(conditionGain.choice) < 1 || choices[choices.indexOf(conditionGain.choice) - 1] == 'Onset'">
+                    *ngIf="choices.indexOf(conditionGain.choice) < 1 || choices[choices.indexOf(conditionGain.choice) - 1] === 'Onset'">
                     <button (click)="remove_Condition(conditionGain)">
-                        {{conditionGain.nextStage == -1 ? "Success: " : ""}}Recover
+                        {{conditionGain.nextStage === -1 ? "Success: " : ""}}Recover
                     </button>
                 </span>
                 <span
-                    *ngIf="choices.indexOf(conditionGain.choice) > 0 && choices[choices.indexOf(conditionGain.choice) - 1] != 'Onset'">
+                    *ngIf="choices.indexOf(conditionGain.choice) > 0 && choices[choices.indexOf(conditionGain.choice) - 1] !== 'Onset'">
                     <button (click)="change_ConditionStage(conditionGain, condition, choices, -1)">
-                        {{conditionGain.nextStage == -1 ? "Success: " : ""}}Previous stage
+                        {{conditionGain.nextStage === -1 ? "Success: " : ""}}Previous stage
                     </button>
                 </span>
                 <span *ngIf="choices.indexOf(conditionGain.choice) < choices.length - 1">
                     <button (click)="change_ConditionStage(conditionGain, condition, choices, 1)">
-                        {{conditionGain.nextStage == -1 ? "Failure: " : ""}}Next stage
+                        {{conditionGain.nextStage === -1 ? "Failure: " : ""}}Next stage
                     </button>
                 </span>
-                <span *ngIf="choices.indexOf(conditionGain.choice) == choices.length - 1">
+                <span *ngIf="choices.indexOf(conditionGain.choice) === choices.length - 1">
                     <button (click)="change_ConditionStage(conditionGain, condition, choices, 0)">
-                        {{conditionGain.nextStage == -1 ? "Failure: " : ""}}Remain at this stage
+                        {{conditionGain.nextStage === -1 ? "Failure: " : ""}}Remain at this stage
                     </button>
                 </span>
             </div>
@@ -283,14 +283,14 @@
         <div class="newrow" *ngIf="fullDisplay">
             <span>
                 <button (click)="toggle_Item(conditionGain.id+'description')"
-                    [ngClass]="{'fancy-button':get_ShowItem()==conditionGain.id+'description'}">
-                    {{get_ShowItem()==conditionGain.id+'description' ? "Hide" : "Show"}} Description
+                    [ngClass]="{'fancy-button':get_ShowItem()===conditionGain.id+'description'}">
+                    {{get_ShowItem()===conditionGain.id+'description' ? "Hide" : "Show"}} Description
                 </button>
             </span>
         </div>
     </ng-container>
 </ng-container>
-<div [ngbCollapse]="fullDisplay && get_ShowItem()!=conditionGain.id+'description'">
+<div [ngbCollapse]="fullDisplay && get_ShowItem()!==conditionGain.id+'description'">
     <div class="newrow lower left-aligned" *ngIf="condition.sourceBook">
         <strong>Source</strong>
         <i>{{condition.sourceBook}}</i>
@@ -307,7 +307,7 @@
                 <ng-container
                     *ngFor="let maxCharges of [activity.maxCharges({ creature: get_Creature() }, { effectsService: this.effectsService })]; trackBy:trackByIndex;">
                     <ng-container
-                        *ngFor="let cannotActivate of [((gain.activeCooldown ? (maxCharges == gain.chargesUsed) : false) && !gain.active)]; trackBy:trackByIndex;">
+                        *ngFor="let cannotActivate of [((gain.activeCooldown ? (maxCharges === gain.chargesUsed) : false) && !gain.active)]; trackBy:trackByIndex;">
                         <ng-template #ActivityTitleTemplate>
                             <span>{{activity.name}}</span>
                             <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">

@@ -15,7 +15,7 @@
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading() && get_CraftingMenuState()=='in'">
+    <ng-container *ngIf="!still_loading() && get_CraftingMenuState()==='in'">
         <div class="charactersheet-column-container">
             <div class="charactersheet-column">
                 <div class="list-item">
@@ -29,9 +29,9 @@
                 <div class="list-item">
                     <strong>Sort by</strong>
                     <div class="newrow">
-                        <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowSorting()=='name'}"
+                        <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowSorting()==='name'}"
                             (click)="toggle_Sorting('name')">Name</button>
-                        <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowSorting()=='level'}"
+                        <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowSorting()==='level'}"
                             (click)="toggle_Sorting('level')">Level</button>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                                         </button>
                                         <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
                                             [ngClass]="{'invisible':!snares.length}"
-                                            *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
+                                            *ngIf="get_ShowList()===listID||get_ShowList()==='All'">
                                             <ng-container *ngFor="let item of snares; trackBy:trackByIndex;">
                                                 <ng-container
                                                     *ngFor="let preparedAmount of [get_PreparedForQuickCrafting(item)]; trackBy:trackByIndex">
@@ -122,7 +122,7 @@
                                                             </button>
                                                             <div class="list-item sublist lower"
                                                                 [ngClass]="{'fancy-list':preparedAmount}"
-                                                                *ngIf=" get_ShowItem()==inventoryID">
+                                                                *ngIf=" get_ShowItem()===inventoryID">
                                                                 <ng-container *ngTemplateOutlet="SnareTemplate">
                                                                 </ng-container>
                                                             </div>
@@ -176,9 +176,9 @@
                                     </button>
                                     <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
                                         [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
-                                        *ngIf="get_ShowList()==listID||get_ShowList()=='All'">
+                                        *ngIf="get_ShowList()===listID||get_ShowList()==='All'">
                                         <div class="newrow list-item"
-                                            *ngIf="visibleItems.length >= 80 && get_ShowList()!='All'"
+                                            *ngIf="visibleItems.length >= 80 && get_ShowList()!=='All'"
                                             (click)="set_Range(-1)">
                                             <button class="center-aligned" [disabled]="range <= 0">
                                                 Previous 40
@@ -192,11 +192,11 @@
                                         <ng-container
                                             *ngFor="let itemParameters of get_ItemParameters(visibleItems); let itemIndex = index; trackBy:trackByIndex;">
                                             <ng-container
-                                                *ngIf="visibleItems.length < 80 || get_ShowList()=='All' || (itemIndex >= (range * 40) && itemIndex < ((range + 1) * 40 ))">
+                                                *ngIf="visibleItems.length < 80 || get_ShowList()==='All' || (itemIndex >= (range * 40) && itemIndex < ((range + 1) * 40 ))">
                                                 <ng-template #ItemTitleTemplate>
                                                     <span>
                                                         <i class="value bi-x penalty"
-                                                            *ngIf="!get_TileMode() && itemParameters.canUse == false"
+                                                            *ngIf="!get_TileMode() && itemParameters.canUse === false"
                                                             [ngbTooltip]="'You are not trained with this item.'">
                                                         </i>
                                                         <i class="value bi-check2 bonus"
@@ -278,7 +278,7 @@
                                                             </ng-container>
                                                         </button>
                                                         <div class="list-item sublist lower"
-                                                            *ngIf="get_ShowItem()==inventoryID">
+                                                            *ngIf="get_ShowItem()===inventoryID">
                                                             <ng-container *ngTemplateOutlet="ItemTemplate">
                                                             </ng-container>
                                                         </div>
@@ -286,22 +286,21 @@
                                                 </ng-container>
                                                 <ng-container *ngIf="get_TileMode()">
                                                     <button [ngbPopover]="ItemTemplate" triggers="click"
-                                                        [ngClass]="{'penalty': itemParameters.canUse == false, 'bonus': itemParameters.canUse}"
+                                                        [ngClass]="{'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
                                                         (click)="toggle_Item()">
                                                         <app-gridIcon [updateId]="itemParameters.item.id"
-                                                            [ngClass]="{'penalty': itemParameters.canUse == false, 'bonus': itemParameters.canUse}"
+                                                            [ngClass]="{'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
                                                             [ngbTooltip]="ItemTooltipTemplate"
                                                             [title]="itemParameters.item.get_IconTitle()"
                                                             [detail]="(itemParameters.item.traits.includes('Rare') ? 'R' : (itemParameters.item.traits.includes('Uncommon') ? 'U' : (itemParameters.item.traits.includes('Unique') ? 'Q' : ''))) + (itemParameters.item.level || '')"
-                                                            [item]="itemParameters.item"
-                                                            [itemStore]="true">
+                                                            [item]="itemParameters.item" [itemStore]="true">
                                                         </app-gridIcon>
                                                     </button>
                                                 </ng-container>
                                             </ng-container>
                                         </ng-container>
                                         <div class="newrow list-item"
-                                            *ngIf="visibleItems.length >= 80 && get_ShowList()!='All'">
+                                            *ngIf="visibleItems.length >= 80 && get_ShowList()!=='All'">
                                             <button class="center-aligned"
                                                 [disabled]="(range + 1) * 40 >= visibleItems.length"
                                                 (click)="set_Range(1)">

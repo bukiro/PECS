@@ -1,5 +1,5 @@
 <cite class="trait"
-    [ngClass]="{'trait-rare': trait.name == 'Rare', 'trait-uncommon': trait.name == 'Uncommon', 'extra-trait': extraDescription}">
+    [ngClass]="{'trait-rare': trait.name === 'Rare', 'trait-uncommon': trait.name === 'Uncommon', 'extra-trait': extraDescription}">
     <ng-template #TraitContent>
         <div class="newrow left-aligned" *ngIf="trait.sourceBook">
             <strong>Source</strong>

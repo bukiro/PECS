@@ -25,7 +25,7 @@
                     <span [ngbPopover]="disabled">
                         <input id="{{item.id}}emblazonArmament" type="checkbox" [(ngModel)]="emblazonArmamentActivated"
                             (ngModelChange)="on_Change('emblazonArmament', emblazonDivinity)"
-                            [disabled]="disabled != ''">
+                            [disabled]="disabled !== ''">
                         <label for="{{item.id}}emblazonArmament">
                             <i class='ra ra-fire-shield'></i>
                             Emblazon Armament
@@ -63,7 +63,7 @@
                 <div class="newrow left-aligned">
                     <span [ngbPopover]="disabled">
                         <input id="{{item.id}}emblazonEnergy" type="checkbox" [(ngModel)]="emblazonEnergyActivated"
-                            (ngModelChange)="on_Change('emblazonEnergy', emblazonDivinity)" [disabled]="disabled != ''">
+                            (ngModelChange)="on_Change('emblazonEnergy', emblazonDivinity)" [disabled]="disabled !== ''">
                         <label for="{{item.id}}emblazonEnergy">
                             <i class='ra ra-bolt-shield'></i>
                             Emblazon Energy
@@ -107,7 +107,7 @@
                         <input id="{{item.id}}emblazonAntimagic" type="checkbox"
                             [(ngModel)]="emblazonAntimagicActivated"
                             (ngModelChange)="on_Change('emblazonAntimagic', emblazonDivinity)"
-                            [disabled]="disabled != ''">
+                            [disabled]="disabled !== ''">
                         <label for="{{item.id}}emblazonAntimagic">
                             <i class='ra ra-eye-shield'></i>
                             Emblazon Antimagic

@@ -28,7 +28,7 @@
             </span>
         </ng-container>
     </span>
-    <span *ngIf="(item.type == 'armors' && (item.get_DexCap ? item.get_DexCap() : item.dexcap) != -1)">
+    <span *ngIf="(item.type === 'armors' && (item.get_DexCap ? item.get_DexCap() : item.dexcap) !== -1)">
         <strong>Dex Cap</strong>
         <ng-container *ngFor="let dexCap of [item.get_DexCap ? item.get_DexCap() : item.dexcap]; trackBy:trackByIndex;">
             <span
@@ -129,7 +129,7 @@
 </div>
 <!--Activation text for activated standalone items, such as wands (identified by not having a trigger or requirements)-->
 <div class="newrow gap-text left-aligned"
-    *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (!item.trigger && !item.requirements)">
+    *ngIf="(item.activationType || (item.actions && item.actions !== ' ')) && (!item.trigger && !item.requirements)">
     <strong>Activate</strong>
     <app-actionIcons *ngIf="item.actions" [actionString]="item.actions"></app-actionIcons>
     <span>{{item.activationType}}</span>
@@ -155,8 +155,7 @@
     </ng-container>
     <ng-container *ngFor="let languageGains of [get_LanguageGains()]; trackBy:trackByIndex;">
         <div class="newrow list-item" *ngIf="languageGains.length">
-            <ng-container
-                *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackByIndex;">
+            <ng-container *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackByIndex;">
                 <div class="newrow">
                     <strong>{{gainLanguage.title}}</strong>
                     <input id="{{item.id}}language{{languageIndex}}name" type="text" [(ngModel)]="gainLanguage.name"
@@ -173,9 +172,9 @@
             <div class="newrow" *ngIf="data.show">
                 <strong>{{data.name}}</strong>
                 <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value"
-                    *ngIf="data.type == 'string'">
+                    *ngIf="data.type === 'string'">
                 <input id="{{item.id}}data{{dataIndex}}value" type="checkbox" [(ngModel)]="data.value"
-                    *ngIf="data.type == 'boolean'">
+                    *ngIf="data.type === 'boolean'">
             </div>
         </ng-container>
     </div>
@@ -209,7 +208,7 @@
     </p>
     <!--Activation text for talismans (identified by having a trigger or requirements, but no effect)-->
     <div class="newrow left-aligned"
-        *ngIf="(item.activationType || (item.actions && item.actions != ' ')) && (item.trigger || item.requirements)">
+        *ngIf="(item.activationType || (item.actions && item.actions !== ' ')) && (item.trigger || item.requirements)">
         <strong>Activate</strong>
         <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
         </app-actionIcons>

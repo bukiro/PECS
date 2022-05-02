@@ -21,7 +21,7 @@
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
     <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()=='in'">
+    <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()==='in'">
         <ng-container *ngFor="let componentParameters of [get_ComponentParameters()]; trackBy:trackByIndex;">
             <div class="charactersheet-column-container">
                 <div class="charactersheet-column">
@@ -42,7 +42,7 @@
                             <header class="sectionHeader">
                                 {{(spellCastingParameters.casting.className + " " +
                                 spellCastingParameters.casting.tradition + ((spellCastingParameters.casting.castingType
-                                == "Focus") ? (" " + spellCastingParameters.casting.source) : " Spells")).trim()}}
+                                === "Focus") ? (" " + spellCastingParameters.casting.source) : " Spells")).trim()}}
                                 <span class="lower"
                                     *ngIf="['Prepared', 'Spontaneous'].includes(spellCastingParameters.casting.castingType)">
                                     <span class="lower">
@@ -70,16 +70,16 @@
                             <ng-container
                                 *ngFor="let spellCastingLevelParameters of get_SpellCastingLevelParameters(spellCastingParameters); trackBy:trackByIndex;">
                                 <header class="subsectionHeader"
-                                    *ngIf="spellCastingLevelParameters.level == -1 && spellCastingParameters.casting.castingType == 'Focus'">
+                                    *ngIf="spellCastingLevelParameters.level === -1 && spellCastingParameters.casting.castingType === 'Focus'">
                                     Focus Spells</header>
                                 <header class="subsectionHeader"
-                                    *ngIf="spellCastingLevelParameters.level == 0 && spellCastingParameters.casting.castingType == 'Focus'">
+                                    *ngIf="spellCastingLevelParameters.level === 0 && spellCastingParameters.casting.castingType === 'Focus'">
                                     Focus Cantrips</header>
                                 <header class="subsectionHeader"
-                                    *ngIf="spellCastingLevelParameters.level == 0 && spellCastingParameters.casting.castingType != 'Focus'">
+                                    *ngIf="spellCastingLevelParameters.level === 0 && spellCastingParameters.casting.castingType !== 'Focus'">
                                     Cantrips</header>
                                 <header class="subsectionHeader"
-                                    *ngIf="spellCastingLevelParameters.level > 0 && spellCastingParameters.casting.castingType != 'Focus'">
+                                    *ngIf="spellCastingLevelParameters.level > 0 && spellCastingParameters.casting.castingType !== 'Focus'">
                                     {{"Level "+spellCastingLevelParameters.level}}</header>
                                 <div [ngClass]="{'icon-list':get_TileMode(), 'vlist':!get_TileMode()}"
                                     style="min-height: auto">
@@ -149,7 +149,7 @@
                         </ng-container>
                     </div>
                 </div>
-                <div class="charactersheet-column" [ngClass]="{'mobile-hide':get_ShowContent()==null}">
+                <div class="charactersheet-column" [ngClass]="{'mobile-hide': get_ShowContent() === null}">
                     <div id="spells-choiceArea-top" style="margin-top:-.3em;"></div>
                     <button (click)="toggle_Choice('')" class="choiceclosebutton"
                         *ngIf="get_ShowContent()">Close</button>

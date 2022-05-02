@@ -1,7 +1,7 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
     [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()"
-    *ngIf="creature=='Character' && showMinimizeButton">
+    *ngIf="creature==='Character' && showMinimizeButton">
     <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
     <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
 </button>
@@ -9,7 +9,7 @@
     <header class="sectionHeader box-header">General Information</header>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading()">
-        <ng-container *ngIf="creature=='Character'">
+        <ng-container *ngIf="creature==='Character'">
             <div class="list-item">
                 <span>
                     <strong>Level</strong>
@@ -130,7 +130,7 @@
                 </span>
             </div>
         </ng-container>
-        <ng-container *ngIf="creature=='Companion'">
+        <ng-container *ngIf="creature==='Companion'">
             <div class="newrow left-aligned tags" *ngIf="get_Companion().class.ancestry.name">
                 <app-trait *ngFor="let trait of get_Companion().class.ancestry.traits; trackBy:trackByIndex;"
                     [name]="trait" [trait]="get_Traits(trait)[0]">
@@ -161,7 +161,7 @@
                 <p>{{get_Companion().class.ancestry.supportBenefit}}</p>
             </div>
         </ng-container>
-        <ng-container *ngIf="creature=='Familiar'">
+        <ng-container *ngIf="creature==='Familiar'">
             <div class="newrow left-aligned tags">
                 <app-trait *ngFor="let trait of get_Familiar().traits; trackBy:trackByIndex;" [name]="trait"
                     [trait]="get_Traits(trait)[0]">

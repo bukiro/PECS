@@ -51,7 +51,7 @@
                         </strong>
                     </span>
                 </div>
-                <div class="newrow" *ngIf="effect.type != 'untyped' && !effect.toggle && !effect.setValue">
+                <div class="newrow" *ngIf="effect.type !== 'untyped' && !effect.toggle && !effect.setValue">
                     <span>
                         <strong>Type</strong>
                         {{effect.type + " " + (effect.penalty ? 'penalty' : 'bonus')}}

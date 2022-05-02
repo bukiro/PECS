@@ -1,16 +1,15 @@
 <!--Changing Weapon Material-->
 <div class="list-item" *ngIf="(item.moddable && !get_IsUnarmored(item)) || customItemStore">
-    <ng-container
-        *ngIf="item.material && item.constructor.name == 'Armor'">
+    <ng-container *ngIf="item.material && item.constructor.name === 'Armor'">
         <div class="newrow">
             <strong>Material</strong>
             <select [(ngModel)]="newArmorMaterial[0]" (ngModelChange)="add_ArmorMaterial()">
                 <ng-container
                     *ngFor="let material of get_InitialArmorMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
-                    <option [ngValue]="material" *ngIf="initialRuneIndex == 0" [selected]=!item.material[0]>
+                    <option [ngValue]="material" *ngIf="initialRuneIndex === 0" [selected]=!item.material[0]>
                         <!--Blank option to deselect-->
                     </option>
-                    <optgroup *ngIf="initialRuneIndex == 1" label="Current material">
+                    <optgroup *ngIf="initialRuneIndex === 1" label="Current material">
                         <option [ngValue]="material">
                             {{material.material.name}}
                         </option>
@@ -35,17 +34,16 @@
             </ng-container>
         </ng-container>
     </ng-container>
-    <ng-container
-        *ngIf="item.material && item.constructor.name == 'Shield'">
+    <ng-container *ngIf="item.material && item.constructor.name === 'Shield'">
         <div class="newrow">
             <strong>Material</strong>
             <select [(ngModel)]="newShieldMaterial[0]" (ngModelChange)="add_ShieldMaterial()">
                 <ng-container
                     *ngFor="let material of get_InitialShieldMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
-                    <option [ngValue]="material" *ngIf="initialRuneIndex == 0" [selected]=!item.material[0]>
+                    <option [ngValue]="material" *ngIf="initialRuneIndex === 0" [selected]=!item.material[0]>
                         <!--Blank option to deselect-->
                     </option>
-                    <optgroup *ngIf="initialRuneIndex == 1" label="Current material">
+                    <optgroup *ngIf="initialRuneIndex === 1" label="Current material">
                         <option [ngValue]="material">
                             {{material.material.name}}
                         </option>
@@ -70,17 +68,16 @@
             </ng-container>
         </ng-container>
     </ng-container>
-    <ng-container
-        *ngIf="item.material && item.constructor.name == 'Weapon'">
+    <ng-container *ngIf="item.material && item.constructor.name === 'Weapon'">
         <div class="newrow">
             <strong>Material</strong>
             <select [(ngModel)]="newWeaponMaterial[0]" (ngModelChange)="add_WeaponMaterial()">
                 <ng-container
                     *ngFor="let material of get_InitialWeaponMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
-                    <option [ngValue]="material" *ngIf="initialRuneIndex == 0" [selected]=!item.material[0]>
+                    <option [ngValue]="material" *ngIf="initialRuneIndex === 0" [selected]=!item.material[0]>
                         <!--Blank option to deselect-->
                     </option>
-                    <optgroup *ngIf="initialRuneIndex == 1" label="Current material">
+                    <optgroup *ngIf="initialRuneIndex === 1" label="Current material">
                         <option [ngValue]="material">
                             {{material.material.name}}
                         </option>

@@ -1,4 +1,4 @@
-<header class="sectionHeader" *ngIf="propertyData.priority == '00' && propertyData.group">
+<header class="sectionHeader" *ngIf="propertyData.priority === '00' && propertyData.group">
     {{propertyData.group.split("-")[1]}}</header>
 <div class="list-item">
     <ng-container *ngIf="!noTitle">
@@ -6,7 +6,7 @@
             <strong [ngbPopover]="propertyData.desc">{{propertyData.name}}</strong>
         </div>
     </ng-container>
-    <ng-container *ngIf="get_IsObject(get_Parent()[propertyKey]) && get_Parent()[propertyKey]!=null">
+    <ng-container *ngIf="get_IsObject(get_Parent()[propertyKey]) && get_Parent()[propertyKey]!==null">
         <button (click)="add_NewItemObject()">
             Add
         </button>
@@ -33,16 +33,16 @@
             </ng-container>
         </div>
     </ng-container>
-    <ng-container *ngIf="!get_IsObject(get_Parent()[propertyKey]) || get_Parent()[propertyKey]==null">
+    <ng-container *ngIf="!get_IsObject(get_Parent()[propertyKey]) || get_Parent()[propertyKey]===null">
         <div class="newrow">
             <input id="{{propertyKey}}" class="newrow" type="text" [(ngModel)]="get_Parent()[propertyKey]"
                 (blur)="validate()" *ngIf="!propertyData.type && !propertyData.locked">
             <textarea class="newrow" rows=3 [(ngModel)]="get_Parent()[propertyKey]"
-                *ngIf="propertyData.type=='textarea'">
+                *ngIf="propertyData.type==='textarea'">
             </textarea>
-            <input type="checkbox" [(ngModel)]="get_Parent()[propertyKey]" *ngIf="propertyData.type=='checkbox'">
+            <input type="checkbox" [(ngModel)]="get_Parent()[propertyKey]" *ngIf="propertyData.type==='checkbox'">
             <input type="number" [(ngModel)]="get_Parent()[propertyKey]" (blur)="validate()"
-                *ngIf="propertyData.type=='number'">
+                *ngIf="propertyData.type==='number'">
         </div>
         <div class="newrow" *ngIf="validationError.length">
             <span class="problem">
@@ -54,8 +54,8 @@
                 Current result: {{validationResult}}
             </span>
         </div>
-        <div class="list-item" style="margin: initial 0" *ngIf="propertyData.type!='textarea' && propertyData.type!='checkbox' &&
-        !(propertyData.parent == 'gainItems' && propertyData.key == 'type')">
+        <div class="list-item" style="margin: initial 0" *ngIf="propertyData.type!=='textarea' && propertyData.type!=='checkbox' &&
+        !(propertyData.parent === 'gainItems' && propertyData.key === 'type')">
             <select class="newrow left-aligned" [(ngModel)]="get_Parent()[propertyKey]"
                 [disabled]="!get_Examples().length" (ngModelChange)="validate()">
                 <option *ngFor="let example of get_Examples(); trackBy:trackByIndex;" [ngValue]="example">
@@ -64,7 +64,7 @@
             </select>
         </div>
         <div class="list-item" style="margin: initial 0"
-            *ngIf="propertyData.parent == 'gainItems' && propertyData.key == 'type'">
+            *ngIf="propertyData.parent === 'gainItems' && propertyData.key === 'type'">
             <select class="newrow left-aligned" [(ngModel)]="get_Parent()[propertyKey]"
                 (ngModelChange)="set_ItemType()">
                 <option *ngFor="let itemset of get_ItemSets(); trackBy:trackByIndex;" [ngValue]="itemset.key">

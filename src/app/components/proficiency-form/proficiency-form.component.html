@@ -1,3 +1,4 @@
 <div *ngFor="let proficiency of [get_ProficiencyLevel()]; trackBy:trackByIndex;">
-    <span class="proficiency" [ngbTooltip]="level.title" *ngFor="let level of get_Levels(); trackBy:trackByIndex;" [ngClass]="{'checked':proficiency == level.value}">{{level.key}}</span>
+    <span class="proficiency" [ngbTooltip]="level.title" *ngFor="let level of get_Levels(); trackBy:trackByIndex;"
+        [ngClass]="{'checked':proficiency === level.value}">{{level.key}}</span>
 </div>

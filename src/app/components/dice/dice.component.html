@@ -2,7 +2,7 @@
     <button class="list-item center-aligned" (click)="toggleDiceMenu()">
         <header class="sectionHeader">Close</header>
     </button>
-    <div *ngIf="get_DiceMenuState()=='in'" class="list-item" style="gap:8px;">
+    <div *ngIf="get_DiceMenuState()==='in'" class="list-item" style="gap:8px;">
         <div>
             <button class="center-aligned" (click)="roll(1, 4)" [ngbTooltip]="'Roll 1d4'">
                 <app-diceIcons_D4></app-diceIcons_D4>
@@ -92,9 +92,9 @@
                         <button *ngFor="let creature of get_Creature(creatureType); trackBy:trackByIndex"
                             [ngbTooltip]="'Send as ' + (creature.name || creature.type) + '.'"
                             (click)="on_SendToFoundry(creatureType)">
-                            <i class="ra ra-player" *ngIf="creature.type == 'Character'"></i>
-                            <i class="ra ra-wolf-howl" *ngIf="creature.type == 'Companion'"></i>
-                            <i class="ra ra-raven" *ngIf="creature.type == 'Familiar'"></i>
+                            <i class="ra ra-player" *ngIf="creature.type === 'Character'"></i>
+                            <i class="ra ra-wolf-howl" *ngIf="creature.type === 'Companion'"></i>
+                            <i class="ra ra-raven" *ngIf="creature.type === 'Familiar'"></i>
                         </button>
                     </ng-container>
                 </span>
@@ -111,9 +111,9 @@
                     </strong>
                     <span>
                         <span *ngFor="let roll of result.rolls; let index = index; trackBy:trackByIndex">
-                            {{index != 0 ? "+" : ""}}
+                            {{index !== 0 ? "+" : ""}}
                             <span class="value" style="padding: 0 .25em"
-                                [ngClass]="{'penalty': roll == 1, 'bonus': roll == result.diceSize}">
+                                [ngClass]="{'penalty': roll === 1, 'bonus': roll === result.diceSize}">
                                 {{roll}}
                             </span>
                         </span>
@@ -140,23 +140,23 @@
                     <button class="center-aligned" (click)="on_Heal(creature)">
                         <span class="mobile-hide">Heal {{creature.name || creatureType}}</span>
                         <i class="ra ra-health desktop-hide"></i>
-                        <i class="ra ra-player desktop-hide" *ngIf="creatureType=='Character'"></i>
-                        <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType=='Companion'"></i>
-                        <i class="ra ra-raven desktop-hide" *ngIf="creatureType=='Familiar'"></i>
+                        <i class="ra ra-player desktop-hide" *ngIf="creatureType==='Character'"></i>
+                        <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType==='Companion'"></i>
+                        <i class="ra ra-raven desktop-hide" *ngIf="creatureType==='Familiar'"></i>
                     </button>
                     <button class="center-aligned" (click)="on_TakeDamage(creature)">
                         <span class="mobile-hide">Damage {{creature.name || creatureType}}</span>
                         <i class="ra ra-axe-swing desktop-hide"></i>
-                        <i class="ra ra-player desktop-hide" *ngIf="creatureType=='Character'"></i>
-                        <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType=='Companion'"></i>
-                        <i class="ra ra-raven desktop-hide" *ngIf="creatureType=='Familiar'"></i>
+                        <i class="ra ra-player desktop-hide" *ngIf="creatureType==='Character'"></i>
+                        <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType==='Companion'"></i>
+                        <i class="ra ra-raven desktop-hide" *ngIf="creatureType==='Familiar'"></i>
                     </button>
                     <button class="center-aligned" (click)="set_TempHP(creature)">
                         <span class="mobile-hide">Set as Temp HP for {{creature.name || creatureType}}</span>
                         <i class="ra ra-health-increase desktop-hide"></i>
-                        <i class="ra ra-player desktop-hide" *ngIf="creatureType=='Character'"></i>
-                        <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType=='Companion'"></i>
-                        <i class="ra ra-raven desktop-hide" *ngIf="creatureType=='Familiar'"></i>
+                        <i class="ra ra-player desktop-hide" *ngIf="creatureType==='Character'"></i>
+                        <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType==='Companion'"></i>
+                        <i class="ra ra-raven desktop-hide" *ngIf="creatureType==='Familiar'"></i>
                     </button>
                 </div>
             </ng-container>

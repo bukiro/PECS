@@ -8,7 +8,7 @@
             <strong *ngIf="paragraph.title">{{paragraph.title}}&nbsp;</strong>
             <span *ngIf="paragraph.desc">{{paragraph.desc}}</span>
         </p>
-        <ng-container *ngIf="index == ogl.length - 1">
+        <ng-container *ngIf="index === ogl.length - 1">
             <ng-container *ngFor="let block of ogl15; trackBy: trackByIndex;">
                 <div class="newrow left-aligned">
                     <header class="spellHeader" *ngIf="block.header">

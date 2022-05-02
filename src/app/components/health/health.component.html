@@ -1,7 +1,7 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
     [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()"
-    *ngIf="creature=='Character' && showMinimizeButton">
+    *ngIf="creature==='Character' && showMinimizeButton">
     <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
     <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
 </button>
@@ -32,7 +32,7 @@
         <ng-container *ngIf="!still_loading()">
             <div [ngbTooltip]="get_Waiting(48000) || 'Rest for 8 hours and make your daily preparations.'">
                 <button class="list-item center-aligned" (click)="rest()" [disabled]="get_Waiting(48000).length"
-                    *ngIf="creature=='Character'">
+                    *ngIf="creature==='Character'">
                     Rest
                 </button>
             </div>
@@ -56,7 +56,7 @@
                             </option>
                         </select>
                     </span>
-                    <span class="gap-text" *ngIf="get_Health().temporaryHP.length == 1">
+                    <span class="gap-text" *ngIf="get_Health().temporaryHP.length === 1">
                         <button *ngIf="get_Health().temporaryHP[0].amount > 0" (click)="set_TempHP(0)">
                             Remove
                         </button>
@@ -111,7 +111,7 @@
                         </button>
                     </span>
                 </div>
-                <div class="newrow" *ngIf="calculatedHealth.dying > 0 && creature == 'Character'"
+                <div class="newrow" *ngIf="calculatedHealth.dying > 0 && creature === 'Character'"
                     [ngbTooltip]="get_Character().heroPoints ? 'Use all your hero points to stabilize with 0 HP, without raising your wounded value.' : 'You don\'t have any hero points to use for a heroic recovery.'">
                     <button class="center-aligned" (click)="on_HeroPointRecover()"
                         [disabled]="!get_Character().heroPoints">

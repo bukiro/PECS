@@ -27,11 +27,12 @@
                 <button class="center-aligned" (click)="on_Cast('self', true)" [disabled]="cannotCast"
                     [ngbTooltip]="bloodMagicApplied ? 'Casting this spell will trigger ' + parameters.bloodMagicTrigger + '.' : (!parameters.canActivate ? 'The ' + (spell ? 'spell' : 'activity') + ' has no automatic effects.' : '')">
                     <ng-container
-                        *ngTemplateOutlet="buttonText;context:{target:parameters.target != 'self' ? ' on yourself' : '', canActivate:parameters.canActivate}">
+                        *ngTemplateOutlet="buttonText;context:{target:parameters.target !== 'self' ? ' on yourself' : '', canActivate:parameters.canActivate}">
                     </ng-container>
                 </button>
                 <button class="center-aligned" (click)="on_Cast('', true, {expend: true})" [disabled]="cannotExpend"
-                    [ngbTooltip]="(spell ? 'Cast' : 'Activate') + ' with no effect.'" *ngIf="showExpend && !active && !['ally', 'area', 'minion', 'object', 'other'].includes(parameters.target)">
+                    [ngbTooltip]="(spell ? 'Cast' : 'Activate') + ' with no effect.'"
+                    *ngIf="showExpend && !active && !['ally', 'area', 'minion', 'object', 'other'].includes(parameters.target)">
                     <ng-container *ngTemplateOutlet="buttonText;context:{target:'', canActivate:false, expend:true}">
                     </ng-container>
                 </button>
@@ -77,17 +78,17 @@
                             </button>
                         </div>
                         <div class="modal-body vlist">
-                            <p *ngIf="parameters.targetNumber == 1">Select a target for this
+                            <p *ngIf="parameters.targetNumber === 1">Select a target for this
                                 {{spell ? "spell" : "activity"}}.</p>
                             <p *ngIf="parameters.targetNumber > 1">Select up to {{parameters.targetNumber}} targets for
                                 this
                                 {{spell ? "spell" : "activity"}}.</p>
-                            <p *ngIf="parameters.targetNumber == -1">Select any number of targets for this {{spell ?
+                            <p *ngIf="parameters.targetNumber === -1">Select any number of targets for this {{spell ?
                                 "spell"
                                 :
                                 "activity"}}.</p>
                             <div class="gridicon-fullsizebox"
-                                *ngIf="parameters.targetNumber == -1 || parameters.targetNumber >= targets.length">
+                                *ngIf="parameters.targetNumber === -1 || parameters.targetNumber >= targets.length">
                                 <input id="spelltargetSelectAll" class="character-choice" type="checkbox"
                                     (change)="on_SelectAllTargets($event)"
                                     [checked]="get_AllTargetsSelected(parameters.targetNumber)">
@@ -106,11 +107,11 @@
                                             *ngIf="target.isPlayer && (spell || activity).cannotTargetCaster"
                                             type="checkbox" disabled checked>
                                         <label for="spelltarget{{target.name}}" style="font-size: 1.5em;">
-                                            <i class="ra ra-player" *ngIf="target.type=='Character'"
+                                            <i class="ra ra-player" *ngIf="target.type==='Character'"
                                                 style="line-height: 1.5;"></i>
-                                            <i class="ra ra-wolf-howl" *ngIf="target.type=='Companion'"
+                                            <i class="ra ra-wolf-howl" *ngIf="target.type==='Companion'"
                                                 style="line-height: 1.5; margin-left: 1em;"></i>
-                                            <i class="ra ra-raven" *ngIf="target.type=='Familiar'"
+                                            <i class="ra ra-raven" *ngIf="target.type==='Familiar'"
                                                 style="line-height: 1.5; margin-left: 1em;"></i>
                                             <strong>{{target.name}}</strong>
                                         </label>

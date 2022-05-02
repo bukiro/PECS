@@ -3,22 +3,22 @@
     <!--Desktop-only views-->
     <div class="charactersheet-app charactersheet-row mobile-hide" id="desktop-tabs" *ngIf="!mobile">
         <button
-            [ngClass]="{'fancy-button':get_ShowMode()=='' || !['Encounter','Exploration','Downtime','Inventory','ConditionsEffects'].includes(get_ShowMode())}"
+            [ngClass]="{'fancy-button':get_ShowMode()==='' || !['Encounter','Exploration','Downtime','Inventory','ConditionsEffects'].includes(get_ShowMode())}"
             (click)="toggle_Mode('')">Show All</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Encounter'}"
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Encounter'}"
             (click)="toggle_Mode('Encounter')">Encounter</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Exploration'}"
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Exploration'}"
             (click)="toggle_Mode('Exploration')">Exploration</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Downtime'}"
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Downtime'}"
             (click)="toggle_Mode('Downtime')">Downtime</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Inventory'}"
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Inventory'}"
             (click)="toggle_Mode('Inventory')">Inventory</button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='ConditionsEffects'}"
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='ConditionsEffects'}"
             (click)="toggle_Mode('ConditionsEffects')">Conditions & Effects</button>
     </div>
-    <ng-container *ngIf="!still_loading() && get_ShowMode() != 'ConditionsEffects' && !mobile">
+    <ng-container *ngIf="!still_loading() && get_ShowMode() !== 'ConditionsEffects' && !mobile">
         <app-time class="charactersheet-app charactersheet-row mobile-hide" [sheetSide]="'center'"
-            [showTurn]="(['','Encounter'].includes(get_ShowMode()))" [showTime]="(get_ShowMode() != 'Encounter')"
+            [showTurn]="(['','Encounter'].includes(get_ShowMode()))" [showTime]="(get_ShowMode() !== 'Encounter')"
             [ngClass]="{'minimized':(get_TimeMinimized())}"></app-time>
         <app-effects id="Character-effects" class="charactersheet-app charactersheet-row mobile-hide"
             [sheetSide]="'center'">
@@ -30,18 +30,18 @@
                     *ngIf="!['Encounter', 'Inventory'].includes(get_ShowMode())">
                 </app-general>
                 <app-defense id="Character-defense" class="charactersheet-app" [sheetSide]="'left'"
-                    [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="get_ShowMode()=='Encounter'">
+                    [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="get_ShowMode()==='Encounter'">
                 </app-defense>
                 <app-health id="Character-health" class="charactersheet-app" [sheetSide]="'left'"
-                    [showMinimizeButton]="(get_ShowMode() != 'Downtime')"
-                    [ngClass]="{'minimized':(get_HealthMinimized() || (get_ShowMode() == 'Downtime'))}"
-                    *ngIf="get_ShowMode()!='Inventory'">
+                    [showMinimizeButton]="(get_ShowMode() !== 'Downtime')"
+                    [ngClass]="{'minimized':(get_HealthMinimized() || (get_ShowMode() === 'Downtime'))}"
+                    *ngIf="get_ShowMode()!=='Inventory'">
                 </app-health>
                 <app-general id="Character-general" class="charactersheet-app" [sheetSide]="'left'"
-                    [ngClass]="{'minimized':(get_GeneralMinimized())}" *ngIf="(get_ShowMode() == 'Encounter')">
+                    [ngClass]="{'minimized':(get_GeneralMinimized())}" *ngIf="(get_ShowMode() === 'Encounter')">
                 </app-general>
                 <app-abilities id="Character-abilities" class="charactersheet-app" [sheetSide]="'left'"
-                    [ngClass]="{'minimized':(get_AbilitiesMinimized())}" *ngIf="get_ShowMode()!='Inventory'">
+                    [ngClass]="{'minimized':(get_AbilitiesMinimized())}" *ngIf="get_ShowMode()!=='Inventory'">
                 </app-abilities>
                 <app-skills id="Character-skills" class="charactersheet-app" [sheetSide]="'left'"
                     [ngClass]="{'minimized':(get_SkillsMinimized())}"
@@ -52,10 +52,10 @@
                     *ngIf="['', 'Encounter'].includes(get_ShowMode()) || !['Exploration','Downtime','Inventory'].includes(get_ShowMode())">
                 </app-activities>
                 <app-spellbook id="spellbook" class="charactersheet-app" [sheetSide]="'left'"
-                    [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="(get_ShowMode() == 'Downtime')">
+                    [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="(get_ShowMode() === 'Downtime')">
                 </app-spellbook>
                 <app-inventory id="Character-inventory" class="charactersheet-app" [sheetSide]="'right'"
-                    [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="get_ShowMode()=='Inventory'">
+                    [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="get_ShowMode()==='Inventory'">
                 </app-inventory>
             </div>
             <div class="charactersheet-column">
@@ -66,11 +66,11 @@
                 <ng-container *ngFor="let index of [0,1]; trackBy:trackByIndex;">
                     <app-attacks id="Character-attacks" class="charactersheet-app" [sheetSide]="'right'"
                         [ngClass]="{'minimized':(get_AttacksMinimized())}"
-                        *ngIf="(['','Encounter','Inventory'].includes(get_ShowMode()) || !['Exploration','Downtime'].includes(get_ShowMode())) && get_ClassOrder('attacks') == index">
+                        *ngIf="(['','Encounter','Inventory'].includes(get_ShowMode()) || !['Exploration','Downtime'].includes(get_ShowMode())) && get_ClassOrder('attacks') === index">
                     </app-attacks>
                     <app-spellbook id="spellbook" class="charactersheet-app" [sheetSide]="'right'"
                         [ngClass]="{'minimized':(get_SpellbookMinimized())}"
-                        *ngIf="(['','Encounter'].includes(get_ShowMode()) || !['Exploration','Downtime','Inventory'].includes(get_ShowMode())) && get_ClassOrder('spells') == index">
+                        *ngIf="(['','Encounter'].includes(get_ShowMode()) || !['Exploration','Downtime','Inventory'].includes(get_ShowMode())) && get_ClassOrder('spells') === index">
                     </app-spellbook>
                 </ng-container>
                 <app-skills id="Character-skills" class="charactersheet-app" [sheetSide]="'right'"
@@ -81,48 +81,48 @@
                     *ngIf="['Exploration','Downtime'].includes(get_ShowMode())">
                 </app-activities>
                 <app-spellbook id="spellbook" class="charactersheet-app" [sheetSide]="'right'"
-                    [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="(get_ShowMode() == 'Exploration')">
+                    [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="(get_ShowMode() === 'Exploration')">
                 </app-spellbook>
                 <app-inventory id="Character-inventory" class="charactersheet-app" [sheetSide]="'right'"
-                    [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="get_ShowMode()==''"></app-inventory>
+                    [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="get_ShowMode()===''"></app-inventory>
             </div>
         </div>
     </ng-container>
     <!--Mobile-Only buttons and views-->
     <div class="charactersheet-app charactersheet-row desktop-hide" id="mobile-tabs" *ngIf="mobile">
         <button
-            [ngClass]="{'fancy-button':get_ShowMode()=='' || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(get_ShowMode())}"
+            [ngClass]="{'fancy-button':get_ShowMode()==='' || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(get_ShowMode())}"
             (click)="toggle_Mode('')">
             <i class="bi-info-circle-fill"></i>
         </button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Health'}" (click)="toggle_Mode('Health')">
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Health'}" (click)="toggle_Mode('Health')">
             <i class="ra ra-health"></i>
         </button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Defense'}" (click)="toggle_Mode('Defense')">
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Defense'}" (click)="toggle_Mode('Defense')">
             <i class="ra ra-shield"></i>
         </button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Attacks'}" (click)="toggle_Mode('Attacks')">
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Attacks'}" (click)="toggle_Mode('Attacks')">
             <i class="ra ra-sword"></i>
         </button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Spells'}" (click)="toggle_Mode('Spells')">
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Spells'}" (click)="toggle_Mode('Spells')">
             <i class="ra ra-doubled"></i>
         </button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Skills'}" (click)="toggle_Mode('Skills')">
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Skills'}" (click)="toggle_Mode('Skills')">
             <i class="ra ra-muscle-up"></i>
         </button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Actions'}" (click)="toggle_Mode('Actions')">
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Actions'}" (click)="toggle_Mode('Actions')">
             <app-actionIcons [actionString]="'1A'" style="margin:.12rem -.16rem -.14rem -.16rem"></app-actionIcons>
         </button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='Inventory'}" (click)="toggle_Mode('Inventory')">
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='Inventory'}" (click)="toggle_Mode('Inventory')">
             <i class="bi-box"></i>
         </button>
-        <button [ngClass]="{'fancy-button':get_ShowMode()=='ConditionsEffects'}"
+        <button [ngClass]="{'fancy-button':get_ShowMode()==='ConditionsEffects'}"
             (click)="toggle_Mode('ConditionsEffects')">
             <i class="ra ra-lightning-bolt"></i>
             <i class="bi-clock"></i>
         </button>
     </div>
-    <ng-container *ngIf="!still_loading() && get_ShowMode() != 'ConditionsEffects' && mobile">
+    <ng-container *ngIf="!still_loading() && get_ShowMode() !== 'ConditionsEffects' && mobile">
         <div class="charactersheet-column-container desktop-hide">
             <div class="charactersheet-column">
                 <app-general id="Character-general" class="charactersheet-app" [sheetSide]="'center'"
@@ -133,33 +133,33 @@
                     [ngClass]="{'minimized':(get_AbilitiesMinimized())}" *ngIf="!get_ShowMode()">
                 </app-abilities>
                 <app-health id="Character-health" class="charactersheet-app" [sheetSide]="'center'"
-                    [showMinimizeButton]="(get_ShowMode() != 'Downtime')"
-                    [ngClass]="{'minimized':(get_HealthMinimized() || (get_ShowMode() == 'Downtime'))}"
-                    *ngIf="get_ShowMode()=='Health'">
+                    [showMinimizeButton]="(get_ShowMode() !== 'Downtime')"
+                    [ngClass]="{'minimized':(get_HealthMinimized() || (get_ShowMode() === 'Downtime'))}"
+                    *ngIf="get_ShowMode()==='Health'">
                 </app-health>
                 <app-defense id="Character-defense" class="charactersheet-app" [sheetSide]="'center'"
-                    [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="get_ShowMode()=='Defense'">
+                    [ngClass]="{'minimized':(get_DefenseMinimized())}" *ngIf="get_ShowMode()==='Defense'">
                 </app-defense>
                 <app-attacks id="Character-attacks" class="charactersheet-app" [sheetSide]="'center'"
-                    [ngClass]="{'minimized':(get_AttacksMinimized())}" *ngIf="get_ShowMode()=='Attacks'">
+                    [ngClass]="{'minimized':(get_AttacksMinimized())}" *ngIf="get_ShowMode()==='Attacks'">
                 </app-attacks>
                 <app-spellbook id="spellbook" class="charactersheet-app" [sheetSide]="'center'"
-                    [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="get_ShowMode()=='Spells'">
+                    [ngClass]="{'minimized':(get_SpellbookMinimized())}" *ngIf="get_ShowMode()==='Spells'">
                 </app-spellbook>
                 <app-skills id="Character-skills" class="charactersheet-app" [sheetSide]="'center'"
-                    [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="get_ShowMode()=='Skills'">
+                    [ngClass]="{'minimized':(get_SkillsMinimized())}" *ngIf="get_ShowMode()==='Skills'">
                 </app-skills>
                 <app-activities id="Character-activities" class="charactersheet-app" [sheetSide]="'center'"
-                    [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="get_ShowMode()=='Actions'">
+                    [ngClass]="{'minimized':(get_ActivitiesMinimized())}" *ngIf="get_ShowMode()==='Actions'">
                 </app-activities>
                 <app-inventory id="Character-inventory" class="charactersheet-app" [sheetSide]="'center'"
-                    [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="get_ShowMode()=='Inventory'">
+                    [ngClass]="{'minimized':(get_InventoryMinimized())}" *ngIf="get_ShowMode()==='Inventory'">
                 </app-inventory>
             </div>
         </div>
     </ng-container>
     <!--Conditions and Effects are the same on mobile and desktop-->
-    <ng-container *ngIf="(get_ShowMode() == 'ConditionsEffects')">
+    <ng-container *ngIf="(get_ShowMode() === 'ConditionsEffects')">
         <app-time class="charactersheet-app charactersheet-row" [sheetSide]="'center'"
             [ngClass]="{'minimized':(get_TimeMinimized())}"></app-time>
         <div class="charactersheet-column charactersheet-row">

@@ -1,6 +1,6 @@
 <button class="minimizebutton lower"
     [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature=='Character'">
+    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature==='Character'">
     <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
     <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
 </button>
@@ -27,28 +27,28 @@
             <strong>Multiple Attack Penalty</strong>
             <ng-container *ngFor="let map of [get_MultipleAttackPenalty()]; trackBy:trackByIndex;">
                 <span class="hlist left-aligned">
-                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': map == '2'}"
-                        [ngbTooltip]="map == '2' ? 'End Multiple Attack Penalty' : 'Second Attack'"
-                        (click)="set_MultipleAttackPenalty(map == '2' ? '1' : '2')">
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': map === '2'}"
+                        [ngbTooltip]="map === '2' ? 'End Multiple Attack Penalty' : 'Second Attack'"
+                        (click)="set_MultipleAttackPenalty(map === '2' ? '1' : '2')">
                         <i class="ra ra-level-two"></i>
                     </button>
-                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': map == '3'}"
-                        [ngbTooltip]="map == '3' ? 'End Multiple Attack Penalty' : 'Third Attack'"
-                        (click)="set_MultipleAttackPenalty(map == '3' ? '1' : '3')">
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': map === '3'}"
+                        [ngbTooltip]="map === '3' ? 'End Multiple Attack Penalty' : 'Third Attack'"
+                        (click)="set_MultipleAttackPenalty(map === '3' ? '1' : '3')">
                         <i class="ra ra-level-three"></i>
                     </button>
                 </span>
                 <ng-container *ngIf="get_FlurryAllowed()">
                     <strong>Flurry MAP</strong>
                     <span class="hlist right-aligned">
-                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': map == '2f'}"
-                            [ngbTooltip]="map == '2f' ? 'End Multiple Attack Penalty' : 'Second Attack (Flurry)'"
-                            (click)="set_MultipleAttackPenalty(map == '2f' ? '1' : '2f')">
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': map === '2f'}"
+                            [ngbTooltip]="map === '2f' ? 'End Multiple Attack Penalty' : 'Second Attack (Flurry)'"
+                            (click)="set_MultipleAttackPenalty(map === '2f' ? '1' : '2f')">
                             <i class="ra ra-crossed-swords"></i>
                         </button>
-                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': map == '3f'}"
-                            [ngbTooltip]="map == '3f' ? 'End Multiple Attack Penalty' : 'Third Attack (Flurry)'"
-                            (click)="set_MultipleAttackPenalty(map == '3f' ? '1' : '3f')">
+                        <button class="center-aligned bigger" [ngClass]="{'fancy-button': map === '3f'}"
+                            [ngbTooltip]="map === '3f' ? 'End Multiple Attack Penalty' : 'Third Attack (Flurry)'"
+                            (click)="set_MultipleAttackPenalty(map === '3f' ? '1' : '3f')">
                             <i class="ra ra-daggers"></i>
                         </button>
                     </span>
@@ -59,29 +59,29 @@
             <strong>Range Penalty</strong>
             <ng-container *ngFor="let rap of [get_RangePenalty()]; trackBy:trackByIndex;">
                 <span class="hlist left-aligned">
-                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '2'}"
-                        [ngbTooltip]="rap == '2' ? 'End Range Penalty' : 'Second Range Increment'"
-                        (click)="set_RangePenalty(rap == '2' ? '1' : '2')">
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap === '2'}"
+                        [ngbTooltip]="rap === '2' ? 'End Range Penalty' : 'Second Range Increment'"
+                        (click)="set_RangePenalty(rap === '2' ? '1' : '2')">
                         <i class="ra ra-dice-two"></i>
                     </button>
-                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '3'}"
-                        [ngbTooltip]="rap == '3' ? 'End Range Penalty' : 'Third Range Increment'"
-                        (click)="set_RangePenalty(rap == '3' ? '1' : '3')">
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap === '3'}"
+                        [ngbTooltip]="rap === '3' ? 'End Range Penalty' : 'Third Range Increment'"
+                        (click)="set_RangePenalty(rap === '3' ? '1' : '3')">
                         <i class="ra ra-dice-three"></i>
                     </button>
-                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '4'}"
-                        [ngbTooltip]="rap == '4' ? 'End Range Penalty' : 'Fourth Range Increment'"
-                        (click)="set_RangePenalty(rap == '4' ? '1' : '4')">
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap === '4'}"
+                        [ngbTooltip]="rap === '4' ? 'End Range Penalty' : 'Fourth Range Increment'"
+                        (click)="set_RangePenalty(rap === '4' ? '1' : '4')">
                         <i class="ra ra-dice-four"></i>
                     </button>
-                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '5'}"
-                        [ngbTooltip]="rap == '5' ? 'End Range Penalty' : 'Fifth Range Increment'"
-                        (click)="set_RangePenalty(rap == '5' ? '1' : '5')">
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap === '5'}"
+                        [ngbTooltip]="rap === '5' ? 'End Range Penalty' : 'Fifth Range Increment'"
+                        (click)="set_RangePenalty(rap === '5' ? '1' : '5')">
                         <i class="ra ra-dice-five"></i>
                     </button>
-                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap == '6'}"
-                        [ngbTooltip]="rap == '6' ? 'End Range Penalty' : 'Sixth Range Increment'"
-                        (click)="set_RangePenalty(rap == '6' ? '1' : '6')">
+                    <button class="center-aligned bigger" [ngClass]="{'fancy-button': rap === '6'}"
+                        [ngbTooltip]="rap === '6' ? 'End Range Penalty' : 'Sixth Range Increment'"
+                        (click)="set_RangePenalty(rap === '6' ? '1' : '6')">
                         <i class="ra ra-dice-six"></i>
                     </button>
                 </span>
@@ -90,7 +90,7 @@
         <ng-container
             *ngFor="let weaponParameters of get_EquippedWeaponsParameters(); let weaponIndex = index; trackBy:trackByIndex;">
             <div class="fullsize-only list-item"
-                *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex == 0">
+                *ngIf="(onlyAttacks.length || forbiddenAttacks.length) && weaponIndex === 0">
                 <strong class="gap-text">
                     <input id="showRestricted" type="checkbox" [(ngModel)]="showRestricted">
                     <label for="showRestricted">Show restricted attacks</label>
@@ -103,10 +103,10 @@
                     <span style="flex-basis:auto">
                         <strong
                             *ngIf="!['alchemicalbombs', 'otherconsumablesbombs'].includes(weaponParameters.weapon.type)">
-                            <span [ngbTooltip]="'Melee'" *ngIf="attack.range == 'melee'"><i
+                            <span [ngbTooltip]="'Melee'" *ngIf="attack.range === 'melee'"><i
                                     class='ra ra-sword'></i></span>
                             <span [ngbTooltip]="'Ranged ' + weaponParameters.weapon.ranged + ' feet'"
-                                *ngIf="attack.range == 'ranged'"><i class='ra ra-target-arrows'></i></span>
+                                *ngIf="attack.range === 'ranged'"><i class='ra ra-target-arrows'></i></span>
                             {{weaponParameters.weapon.get_Name()}}
                         </strong>
                         <strong
@@ -115,12 +115,13 @@
                         </strong>
                         <button style="flex-basis:auto" [disabled]="!weaponParameters.asBomb.amount"
                             (click)="onConsumableUse(weaponParameters.asBomb, null)" *ngIf="weaponParameters.asBomb">
-                            <span [ngbTooltip]="'Melee'" *ngIf="attack.range == 'melee'"><i
+                            <span [ngbTooltip]="'Melee'" *ngIf="attack.range === 'melee'"><i
                                     class='ra ra-sword'></i>&nbsp;</span>
                             <span [ngbTooltip]="'Ranged ' + weaponParameters.asBomb.ranged + ' feet'"
-                                *ngIf="attack.range == 'ranged'"><i class='ra ra-target-arrows'></i>&nbsp;</span>
+                                *ngIf="attack.range === 'ranged'"><i class='ra ra-target-arrows'></i>&nbsp;</span>
                             <span>
-                                {{(weaponParameters.asBomb.amount != undefined && weaponParameters.asBomb.amount != 1) ?
+                                {{(weaponParameters.asBomb.amount !== undefined && weaponParameters.asBomb.amount !== 1)
+                                ?
                                 weaponParameters.asBomb.amount+" " :
                                 ""}}{{weaponParameters.asBomb.get_Name()}}
                                 <app-actionIcons *ngIf="weaponParameters.asBomb.actions"
@@ -265,7 +266,7 @@
                         Hit effects
                     </button>
                     <div class="list-item sublist fancy-list"
-                        *ngIf="get_ShowItem()==weaponParameters.weapon.id+attack.range+'hiteffects'">
+                        *ngIf="get_ShowItem()===weaponParameters.weapon.id+attack.range+'hiteffects'">
                         <div class="list-item lower newrow left-aligned">
                             <app-description [text]="weaponParameters.asBomb.hitEffect" [oneLiner]="true">
                             </app-description>
@@ -280,7 +281,7 @@
                             Critical hit effects
                         </button>
                         <div class="list-item sublist fancy-list"
-                            *ngIf="get_ShowItem()==weaponParameters.weapon.id+attack.range+'criticalHints'">
+                            *ngIf="get_ShowItem()===weaponParameters.weapon.id+attack.range+'criticalHints'">
                             <div class="list-item lower newrow left-aligned"
                                 *ngFor="let critEffect of critEffects; trackBy:trackByIndex">
                                 <app-description [text]="critEffect" [oneLiner]="true"></app-description>
@@ -296,7 +297,7 @@
                             Critical specialization effects
                         </button>
                         <div class="list-item sublist fancy-list"
-                            *ngIf="get_ShowItem()==weaponParameters.weapon.id+attack.range+'criteffects'">
+                            *ngIf="get_ShowItem()===weaponParameters.weapon.id+attack.range+'criteffects'">
                             <div class="list-item lower newrow left-aligned"
                                 *ngFor="let spec of specs; trackBy:trackByIndex;">
                                 <app-description [text]="spec.desc" [oneLiner]="true"></app-description>
@@ -313,10 +314,10 @@
                             {{rune.name}} critical hit effects
                         </button>
                         <div class="list-item sublist fancy-list left-aligned"
-                            *ngIf="get_ShowItem()==weaponParameters.weapon.id+attack.range+'criticalHint'">
+                            *ngIf="get_ShowItem()===weaponParameters.weapon.id+attack.range+'criticalHint'">
                             <div class="list-item lower newrow left-aligned">
                                 <app-description [text]="rune.criticalHint" [oneLiner]="true"></app-description>
-                                <app-description *ngIf="rune.name=='Grievous'"
+                                <app-description *ngIf="rune.name==='Grievous'"
                                     [text]="get_GrievousData(weaponParameters.weapon, rune)" [oneLiner]="true">
                                 </app-description>
                                 <div class="newrow gap-text left-aligned" *ngIf="rune.critsuccess">
@@ -342,14 +343,14 @@
             </div>
         </ng-container>
         <ng-container *ngFor="let ammoType of get_AmmoTypes(); let index = index; trackBy:trackByIndex;">
-            <header class="sectionHeader box-header" *ngIf="index == 0">Ammunition</header>
+            <header class="sectionHeader box-header" *ngIf="index === 0">Ammunition</header>
             <app-tags [creature]="creature" [objectName]="'Ammunition'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
             <div class="vlist">
                 <header class="subsectionHeader fullsize-only">{{ammoType}}</header>
                 <div class="list-item"
                     *ngFor="let ammo of get_Ammo(ammoType); let ammoIndex = index; trackBy:trackByIndex;">
-                    <strong>{{(ammo.item.amount != undefined && ammo.item.amount != 1) ? ammo.item.amount+" " : ""}}
+                    <strong>{{(ammo.item.amount !== undefined && ammo.item.amount !== 1) ? ammo.item.amount+" " : ""}}
                         {{ammo.item.get_Name()}}</strong>
                     <div
                         [ngbTooltip]="ammo.item.storedSpells.length ? 'Cast spell on any target. To choose a specific target (if applicable), use the item in the inventory instead.' : ''">
@@ -392,7 +393,7 @@
                                 <ng-container *ngTemplateOutlet="SnareTitleTemplate">
                                 </ng-container>
                             </button>
-                            <div class="list-item sublist lower" *ngIf="get_ShowItem()==snare.item.id+snareIndex">
+                            <div class="list-item sublist lower" *ngIf="get_ShowItem()===snare.item.id+snareIndex">
                                 <ng-container *ngTemplateOutlet="SnareTemplate">
                                 </ng-container>
                             </div>
