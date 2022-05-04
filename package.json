@@ -61,6 +61,8 @@
     "@angular/cli": "^13.0.3",
     "@angular/compiler-cli": "~13.1.1",
     "@angular/language-service": "^13.1.1",
+    "@team23/eslint-config-team23-angular": "^2.0.0",
+    "@team23/eslint-config-team23-ts": "^2.0.3",
     "@types/jasmine": "^3.10.2",
     "@types/jasminewd2": "^2.0.10",
     "@types/node": "^16.11.10",

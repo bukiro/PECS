@@ -1,5 +1,10 @@
 {
     "root": true,
+    "parserOptions": {
+        "project": [
+            "./tsconfig.base.json"
+        ]
+    },
     "overrides": [
         {
             "files": [
@@ -10,8 +15,8 @@
                 "sourceType": "module"
             },
             "extends": [
-                "eslint:recommended",
-                "plugin:@typescript-eslint/recommended"
+                "@team23/eslint-config-team23-angular",
+                "@team23/eslint-config-team23-ts"
             ],
             "parser": "@typescript-eslint/parser",
             "plugins": [
@@ -32,14 +37,6 @@
                     "error",
                     "windows"
                 ],
-                "quotes": [
-                    "error",
-                    "single"
-                ],
-                "semi": [
-                    "error",
-                    "always"
-                ],
                 "prefer-template": "error",
                 "object-curly-spacing": [
                     "error",
@@ -55,7 +52,7 @@
         {
             "files": "*.html",
             "extends": [
-                "plugin:@angular-eslint/template/recommended"
+                "@team23/eslint-config-team23-angular"
             ]
         }
     ],
