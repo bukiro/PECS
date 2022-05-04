@@ -9,22 +9,22 @@ interface Toast {
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
-    toasts: Array<Toast> = [];
+    public toasts: Array<Toast> = [];
 
     constructor(
-        private readonly refreshService: RefreshService
+        private readonly _refreshService: RefreshService
     ) { }
 
-    show(text: string, options: { onClickCreature?: string; onClickAction?: string } = {}) {
+    public show(text: string, options: { onClickCreature?: string; onClickAction?: string } = {}): void {
         options = Object.assign({
             onClickCreature: '',
             onClickAction: ''
         }, options);
         this.toasts.push({ text, ...options });
-        this.refreshService.set_Changed('toasts');
+        this._refreshService.set_Changed('toasts');
     }
 
-    remove(toast: Toast) {
+    public remove(toast: Toast): void {
         this.toasts = this.toasts.filter(t => t !== toast);
     }
 }
