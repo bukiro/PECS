@@ -489,7 +489,7 @@ export class EffectsGenerationService {
 
     private apply_UnburdenedIron(effects: Effect[], services: { readonly characterService: CharacterService }, context: { readonly character: Character }): Effect[] {
         //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
-        function lessen_SpeedPenaltyEffect(effect: Effect) {
+        function lessen_SpeedPenaltyEffect(effect: Effect): void {
             effect.value = (parseInt(effect.value) + 5).toString();
             if (effect.value == '0' || effect.value == '') {
                 effect.apply = false;
@@ -497,25 +497,20 @@ export class EffectsGenerationService {
             } else {
                 effect.source = `${ effect.source } (Lessened by Unburdened Iron)`;
             }
-            return effect;
         }
         if (context.character.has_Feat('Unburdened Iron', services)) {
             let done = false;
             //Try global speed penalties first (this is more beneficial to the character).
-            effects = effects.map(effect => {
+            effects.forEach(effect => {
                 if (!done && effect.target == 'Speed' && effect.penalty && !effect.toggle) {
                     done = true;
-                    return lessen_SpeedPenaltyEffect(effect);
-                } else {
-                    return effect;
+                    lessen_SpeedPenaltyEffect(effect);
                 }
             });
-            effects = effects.map(effect => {
+            effects.forEach(effect => {
                 if (!done && effect.target == 'Land Speed' && effect.penalty && !effect.toggle) {
                     done = true;
-                    return lessen_SpeedPenaltyEffect(effect);
-                } else {
-                    return effect;
+                    lessen_SpeedPenaltyEffect(effect);
                 }
             });
         }

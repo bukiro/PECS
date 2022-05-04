@@ -81,13 +81,7 @@ export class Health {
         });
         return defaultMaxDying + effectsSum;
     }
-    takeDamage(creature: Creature, characterService: CharacterService, effectsService: EffectsService, amount: number, nonlethal = false, wounded: number = undefined, dying: number = undefined) {
-        if (wounded == undefined) {
-            wounded = this.wounded(creature, characterService);
-        }
-        if (dying == undefined) {
-            dying = this.dying(creature, characterService);
-        }
+    takeDamage(creature: Creature, characterService: CharacterService, effectsService: EffectsService, amount: number, nonlethal = false, wounded: number = this.wounded(creature, characterService), dying: number = this.dying(creature, characterService)) {
         //First, absorb damage with temporary HP and add the rest to this.damage.
         //Reset temp HP if it has reached 0, and remove other options if you are starting to use up your first amount of temp HP.
         const diff = Math.min(this.temporaryHP[0].amount, amount);
@@ -96,8 +90,8 @@ export class Health {
         if (this.temporaryHP[0].amount <= 0) {
             this.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
         }
-        amount -= diff;
-        this.damage += amount;
+        const remainingAmount = amount - diff;
+        this.damage += remainingAmount;
         const currentHP = this.currentHP(creature, characterService, effectsService).result;
         let dyingAdded = 0;
         let unconsciousAdded = false;
@@ -130,10 +124,7 @@ export class Health {
         }
         return { dyingAdded, unconsciousAdded, wokeUp };
     }
-    heal(creature: Creature, characterService: CharacterService, effectsService: EffectsService, amount: number, wake = true, increaseWounded = true, dying: number = undefined) {
-        if (dying == undefined) {
-            dying = this.dying(creature, characterService);
-        }
+    heal(creature: Creature, characterService: CharacterService, effectsService: EffectsService, amount: number, wake = true, increaseWounded = true, dying: number = this.dying(creature, characterService)) {
         this.damage = Math.max(0, this.damage - amount);
         let dyingRemoved = false;
         let unconsciousRemoved = false;

@@ -55,18 +55,19 @@ export class HistoryService {
     }
 
     restore_AncestryFromSave(ancestry: Ancestry) {
+        let restoredAncestry: Ancestry;
         if (ancestry.name) {
             const libraryObject = this.get_Ancestries(ancestry.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    ancestry = this.typeService.merge(libraryObject, ancestry);
+                    restoredAncestry = this.typeService.merge(libraryObject, ancestry);
                 } catch (e) {
-                    console.log(`Failed reassigning: ${ e }`);
+                    console.log(`Failed restoring ancestry: ${ e }`);
                 }
             }
         }
-        return ancestry;
+        return restoredAncestry || ancestry;
     }
 
     clean_AncestryForSave(ancestry: Ancestry) {
@@ -88,18 +89,19 @@ export class HistoryService {
     }
 
     restore_HeritageFromSave(heritage: Heritage) {
+        let restoredHeritage: Heritage;
         if (heritage.name) {
             const libraryObject = this.get_HeritagesAndSubtypes(heritage.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    heritage = this.typeService.merge(libraryObject, heritage);
+                    restoredHeritage = this.typeService.merge(libraryObject, heritage);
                 } catch (e) {
                     console.log(`Failed reassigning: ${ e }`);
                 }
             }
         }
-        return heritage;
+        return restoredHeritage || heritage;
     }
 
     clean_HeritageForSave(heritage: Heritage) {
@@ -121,18 +123,19 @@ export class HistoryService {
     }
 
     restore_BackgroundFromSave(background: Background) {
+        let mergedBackground: Background;
         if (background.name) {
             const libraryObject = this.get_Backgrounds(background.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    background = this.typeService.merge(libraryObject, background);
+                    mergedBackground = this.typeService.merge(libraryObject, background);
                 } catch (e) {
                     console.log(`Failed reassigning: ${ e }`);
                 }
             }
         }
-        return background;
+        return mergedBackground || background;
     }
 
     clean_BackgroundForSave(background: Background) {

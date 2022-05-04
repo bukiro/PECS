@@ -269,7 +269,7 @@ export class Skill {
             return skillLevel;
         }
     }
-    baseValue(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, skillLevel: number = undefined) {
+    baseValue(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, skillLevel: number = this.level((creature as AnimalCompanion | Character), characterService, charLevel)) {
         let result = 0;
         let explain = '';
         let ability = '';
@@ -303,9 +303,6 @@ export class Skill {
                 //Add character level if the character is trained or better with the Skill
                 //Add half the level if the skill is unlearned and the character has the Untrained Improvisation feat (full level from 7 on).
                 //Gets applied to saves and perception, but they are never untrained
-                if (skillLevel == undefined) {
-                    skillLevel = this.level((creature as AnimalCompanion | Character), characterService, charLevel);
-                }
                 let charLevelBonus = 0;
                 if (skillLevel) {
                     charLevelBonus = charLevel;
@@ -328,14 +325,11 @@ export class Skill {
         }
         return { result, explain, skillLevel, ability };
     }
-    value(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC = false, baseValue: { result: number, explain: string, skillLevel: number, ability: string } = undefined) {
+    value(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC = false, baseValue: { result: number, explain: string, skillLevel: number, ability: string } = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel)) {
         //Calculates the effective bonus of the given Skill
         let result = 0;
         let explain = '';
         if (!characterService.still_loading()) {
-            if (baseValue == undefined) {
-                baseValue = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel);
-            }
             result = baseValue.result;
             explain = baseValue.explain;
             const skillLevel = baseValue.skillLevel;
@@ -356,9 +350,6 @@ export class Skill {
             if (creature instanceof Familiar) {
                 const character = characterService.get_Character();
                 if (['Fortitude', 'Reflex', 'Will'].includes(this.name)) {
-                    if (baseValue == undefined) {
-                        baseValue = this.baseValue(character, characterService, abilitiesService, effectsService, charLevel);
-                    }
                     this.absolutes(character, effectsService, isDC, baseValue.skillLevel, baseValue.ability).forEach(effect => {
                         baseValue.result = parseInt(effect.setValue);
                         baseValue.explain = `${ effect.source }: ${ effect.setValue }`;

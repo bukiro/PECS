@@ -85,28 +85,26 @@ export class ItemEmblazonArmamentComponent implements OnInit {
 
     get_Description(emblazonDivinity: boolean) {
         const foreignEA = this.item.emblazonArmament.find(ea => ea.source != this.get_Character().id);
-        if (foreignEA) {
-            emblazonDivinity = foreignEA.emblazonDivinity;
-        }
+        const validEmblazonDivinity = foreignEA ? foreignEA.emblazonDivinity : emblazonDivinity;
         let desc = '';
         if (foreignEA) {
             desc += 'This item is a religious symbol of the signified deity and can be used as a divine focus while emblazoned, and it gains another benefit determined by the type of item. <var>';
         } else {
             desc += 'You can spend <var>';
-            if (emblazonDivinity) {
+            if (validEmblazonDivinity) {
                 desc += '1 minute';
             } else {
                 desc += '10 minutes';
             }
             desc += '</var> emblazoning a symbol of your deity upon a weapon or shield. The symbol doesn\'t fade until 1 year has passed, ';
-            if (emblazonDivinity) {
+            if (validEmblazonDivinity) {
                 desc += '<var>and you can have up to four symbols emblazoned at a time. Each item can have only one symbol emblazoned upon it, and if you exceed the limit of four, the oldest symbol disappears.</var>';
             } else {
                 desc += '<var>but if you Emblazon an Armament, any symbol you previously emblazoned and any symbol already emblazoned on that item instantly disappears.</var>';
             }
             desc += 'The item becomes a religious symbol of your deity and can be used as a divine focus while emblazoned, and it gains another benefit determined by the type of item. <var>';
         }
-        if (emblazonDivinity) {
+        if (validEmblazonDivinity) {
             desc += 'These symbols can benefit even those who don\'t follow the deity the symbol represents, provided they aren\'t directly opposed (as determined by the GM).</var>';
         } else {
             desc += 'This benefit applies only to followers of the deity the symbol represents.</var>';

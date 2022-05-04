@@ -454,7 +454,7 @@ export class ItemsService {
         return itemBulk;
     }
 
-    update_GrantingItem(creature: Creature, item: Item) {
+    update_GrantingItem(creature: Creature, item: Item): void {
         //If this item has granted other items, check how many of those still exist, and update the item's granting list.
         item.gainItems?.forEach(itemGain => {
             let found = 0;
@@ -471,13 +471,9 @@ export class ItemsService {
                 itemGain.amount = found;
             }
         });
-        return item;
     }
 
-    pack_GrantingItem(creature: Creature, item: Item, primaryItem: Item = null) {
-        if (!primaryItem) {
-            primaryItem = item;
-        }
+    pack_GrantingItem(creature: Creature, item: Item, primaryItem: Item = item) {
         //Collect all items and inventories granted by an item, including inventories contained in its granted items.
         //Does NOT and should not include the primary item itself.
         let items: Item[] = [];
@@ -495,7 +491,7 @@ export class ItemsService {
                         const newItem = this.cast_ItemByType(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(invItem)))).recast(this.typeService, this);
                         newItem.amount = moved;
                         items.push(newItem);
-                        const included = this.pack_GrantingItem(creature, invItem, primaryItem);
+                        const included = this.pack_GrantingItem(creature, invItem);
                         items.push(...included.items);
                         inventories.push(...included.inventories);
                     }
@@ -627,13 +623,10 @@ export class ItemsService {
         });
     }
 
-    move_InventoryItemLocally(creature: Creature, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount = 0, including = true) {
+    move_InventoryItemLocally(creature: Creature, item: Item, targetInventory: ItemCollection, inventory: ItemCollection, characterService: CharacterService, amount = item.amount, including = true) {
         if (targetInventory && targetInventory != inventory && targetInventory.itemId != item.id) {
-            item = this.update_GrantingItem(creature, item);
+            this.update_GrantingItem(creature, item);
             this.refreshService.set_ToChange('Character', item.id);
-            if (!amount) {
-                amount = item.amount;
-            }
             //Only move the item locally if the item still exists in the inventory.
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
@@ -673,12 +666,9 @@ export class ItemsService {
         }
     }
 
-    move_InventoryItemToCreature(creature: Creature, targetCreature: SpellTarget, item: Item, inventory: ItemCollection, characterService: CharacterService, amount = 0) {
+    move_InventoryItemToCreature(creature: Creature, targetCreature: SpellTarget, item: Item, inventory: ItemCollection, characterService: CharacterService, amount = item.amount) {
         if (creature.type != targetCreature.type) {
-            item = this.update_GrantingItem(creature, item);
-            if (!amount) {
-                amount = item.amount;
-            }
+            this.update_GrantingItem(creature, item);
             const included = this.pack_GrantingItem(creature, item);
             const toCreature = characterService.get_Creature(targetCreature.type);
             const targetInventory = toCreature.inventories[0];
@@ -697,8 +687,8 @@ export class ItemsService {
                 } else {
                     const movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this.typeService, this);
                     const newLength = targetInventory[includedItem.type].push(movedItem);
-                    let newItem = targetInventory[includedItem.type][newLength - 1];
-                    newItem = characterService.process_GrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
+                    const newItem = targetInventory[includedItem.type][newLength - 1];
+                    targetInventory[includedItem.type][newLength - 1] = characterService.process_GrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
                 }
             });
             //Add included inventories and process all items inside them.
@@ -706,7 +696,7 @@ export class ItemsService {
                 const newLength = toCreature.inventories.push(inventory);
                 const newInventory = toCreature.inventories[newLength - 1];
                 newInventory.allItems().forEach(invItem => {
-                    invItem = characterService.process_GrantedItem(toCreature, invItem, newInventory, true, false, true, true);
+                    characterService.process_GrantedItem(toCreature, invItem, newInventory, true, false, true, true);
                 });
             });
             //If the item still exists on the inventory, drop it with all its contents.
@@ -982,7 +972,7 @@ export class ItemsService {
         this.craftingItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this.cleanItems))).recast(this.typeService, this);
         //Disable any active hint effects when loading a character, and reinitialize the hints.
         this.specializations.forEach(spec => {
-            spec = spec.recast();
+            spec.recast();
             spec.hints?.forEach(hint => {
                 hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
             });

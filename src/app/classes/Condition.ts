@@ -391,9 +391,10 @@ export class Condition {
         //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.
         if (this.heightenedDescs.length) {
-            for (levelNumber; levelNumber > 0; levelNumber--) {
-                if (this.heightenedDescs.some(descSet => descSet.level == levelNumber)) {
-                    return this.heightenedDescs.find(descSet => descSet.level == levelNumber);
+            let remainingLevelNumber = levelNumber;
+            for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
+                if (this.heightenedDescs.some(descSet => descSet.level == remainingLevelNumber)) {
+                    return this.heightenedDescs.find(descSet => descSet.level == remainingLevelNumber);
                 }
             }
         }
@@ -401,10 +402,11 @@ export class Condition {
     }
     get_Heightened(text: string, levelNumber: number) {
         //For an arbitrary text (usually the condition description), retrieve the appropriate description set for this level and replace the variables with the included strings.
+        let heightenedText = text;
         this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             const regex = new RegExp(descVar.variable, 'g');
-            text = text.replace(regex, (descVar.value || ''));
+            heightenedText = heightenedText.replace(regex, (descVar.value || ''));
         });
-        return text;
+        return heightenedText;
     }
 }

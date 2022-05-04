@@ -47,18 +47,19 @@ export class AnimalCompanionsService {
     }
 
     restore_AncestryFromSave(ancestry: AnimalCompanionAncestry) {
+        let restoredAncestry: AnimalCompanionAncestry;
         if (ancestry.name) {
             const libraryObject = this.get_CompanionTypes(ancestry.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    ancestry = this.typeService.merge(libraryObject, ancestry);
+                    restoredAncestry = this.typeService.merge(libraryObject, ancestry);
                 } catch (e) {
                     console.log(`Failed reassigning: ${ e }`);
                 }
             }
         }
-        return ancestry;
+        return restoredAncestry || ancestry;
     }
 
     clean_AncestryForSave(ancestry: AnimalCompanionAncestry) {
@@ -118,18 +119,19 @@ export class AnimalCompanionsService {
     }
 
     restore_SpecializationFromSave(spec: AnimalCompanionSpecialization) {
+        let restoredSpecialization: AnimalCompanionSpecialization;
         if (spec.name) {
             const libraryObject = this.get_CompanionSpecializations(spec.name)[0];
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    spec = this.typeService.merge(libraryObject, spec);
+                    restoredSpecialization = this.typeService.merge(libraryObject, spec);
                 } catch (e) {
                     console.log(`Failed reassigning: ${ e }`);
                 }
             }
         }
-        return spec;
+        return restoredSpecialization || spec;
     }
 
     clean_SpecializationForSave(spec: AnimalCompanionSpecialization) {

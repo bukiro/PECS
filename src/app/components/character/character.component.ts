@@ -1193,9 +1193,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    get_AvailableDeities(name = '', syncretism = false, charLevel?: number) {
+    get_AvailableDeities(name = '', syncretism = false, charLevel: number = this.get_Character().level) {
         const character = this.get_Character();
-        charLevel = charLevel || character.level;
         const currentDeities = this.characterService.get_CharacterDeities(character, '', charLevel);
         const showOtherOptions = this.get_Character().settings.showOtherOptions;
         const wordFilter = this.deityWordFilter.toLowerCase();

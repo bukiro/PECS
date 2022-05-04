@@ -43,20 +43,21 @@ export class ClassesService {
         return (this.loading);
     }
 
-    restore_ClassFromSave($class: Class) {
-        if ($class.name) {
-            const libraryObject = this.get_Classes($class.name)[0];
+    restore_ClassFromSave(classObj: Class) {
+        let restoredClass: Class;
+        if (classObj.name) {
+            const libraryObject = this.get_Classes(classObj.name)[0];
             if (libraryObject) {
                 //Make a safe copy of the library object.
                 //Then map the restored object onto the copy and keep that.
                 try {
-                    $class = this.typeService.merge(libraryObject, $class);
+                    restoredClass = this.typeService.merge(libraryObject, classObj);
                 } catch (e) {
                     console.log(`Failed reassigning: ${ e }`);
                 }
             }
         }
-        return $class;
+        return restoredClass || classObj;
     }
 
     clean_ClassForSave($class: Class) {

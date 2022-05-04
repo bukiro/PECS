@@ -101,9 +101,10 @@ export class Spell {
         //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.
         if (this.heightenedDescs.length) {
-            for (levelNumber; levelNumber > 0; levelNumber--) {
-                if (this.heightenedDescs.some(descSet => descSet.level == levelNumber)) {
-                    return this.heightenedDescs.find(descSet => descSet.level == levelNumber);
+            let remainingLevelNumber = levelNumber;
+            for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
+                if (this.heightenedDescs.some(descSet => descSet.level == remainingLevelNumber)) {
+                    return this.heightenedDescs.find(descSet => descSet.level == remainingLevelNumber);
                 }
             }
         }
@@ -111,11 +112,12 @@ export class Spell {
     }
     get_Heightened(text: string, levelNumber: number) {
         //For an arbitrary text (usually the spell description or the saving throw result descriptions), retrieve the appropriate description set for this spell level and replace the variables with the included strings.
+        let heightenedText = text;
         this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             const regex = new RegExp(descVar.variable, 'g');
-            text = text.replace(regex, (descVar.value || ''));
+            heightenedText = heightenedText.replace(regex, (descVar.value || ''));
         });
-        return text;
+        return heightenedText;
     }
     get_TargetNumber(levelNumber: number, characterService: CharacterService) {
         //You can select any number of targets for an area spell.
@@ -128,11 +130,12 @@ export class Spell {
         // If no targetNumbers are configured, return 1 for an ally spell and 0 for any other, and if none have a minLevel, return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
         if (this.targetNumbers.length) {
             if (this.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
-                for (levelNumber; levelNumber > 0; levelNumber--) {
-                    if (this.targetNumbers.some(targetNumber => targetNumber.minLevel == levelNumber)) {
-                        targetNumber = this.targetNumbers.find(targetNumber => (targetNumber.minLevel == levelNumber) && (targetNumber.featreq && characterService.get_CharacterFeatsTaken(1, character.level, targetNumber.featreq).length));
+                let remainingLevelNumber = levelNumber;
+                for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
+                    if (this.targetNumbers.some(targetNumber => targetNumber.minLevel == remainingLevelNumber)) {
+                        targetNumber = this.targetNumbers.find(targetNumber => (targetNumber.minLevel == remainingLevelNumber) && (targetNumber.featreq && characterService.get_CharacterFeatsTaken(1, character.level, targetNumber.featreq).length));
                         if (!targetNumber) {
-                            targetNumber = this.targetNumbers.find(targetNumber => targetNumber.minLevel == levelNumber);
+                            targetNumber = this.targetNumbers.find(targetNumber => targetNumber.minLevel == remainingLevelNumber);
                         }
                         if (targetNumber) {
                             return targetNumber.number;

@@ -10,8 +10,8 @@ export class FeatData {
     public recast(): typeof this {
         return this;
     }
-    public setValue(key: string, value: FeatDataValue | Event) {
-        value = value instanceof Event ? (<HTMLInputElement>value.target).value : value;
+    public setValue(key: string, input: FeatDataValue | Event) {
+        const value = input instanceof Event ? (<HTMLInputElement>input.target).value : input;
         this.data[key] = value;
     }
     public getValue(key: string): FeatDataValue {

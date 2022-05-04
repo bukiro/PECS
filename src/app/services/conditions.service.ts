@@ -651,7 +651,8 @@ export class ConditionsService {
                 }
             });
         }
-        while (turns > 0) {
+        let remainingTurns = turns;
+        while (remainingTurns > 0) {
             if (includedConditions.some(gain => (gain.duration > 0 && gain.choice != 'Onset') || gain.nextStage > 0) || includedConditions.some(gain => gain.decreasingValue && !gain.valueLockedByParent && !(gain.value == 1 && gain.lockedByParent))) {
                 //Get the first condition that will run out.
                 let first: number;
@@ -673,7 +674,7 @@ export class ConditionsService {
                     }
                 }
                 //Either step to the next condition to run out or decrease their value or step the given turns, whichever comes first.
-                const step = Math.min(first, turns);
+                const step = Math.min(first, remainingTurns);
                 includedConditions.filter(gain => gain.duration > 0 && gain.choice != 'Onset').forEach(gain => {
                     gain.duration -= step;
                 });
@@ -697,9 +698,9 @@ export class ConditionsService {
                         gain.value--;
                     });
                 }
-                turns -= step;
+                remainingTurns -= step;
             } else {
-                turns = 0;
+                remainingTurns = 0;
             }
         }
     }

@@ -138,10 +138,7 @@ export class FeatsService {
         }
     }
 
-    create_WeaponFeats(weapons: Weapon[] = []): Feat[] {
-        if (!weapons.length) {
-            weapons = this.itemsService.get_ItemsOfType('weapons');
-        }
+    create_WeaponFeats(weapons: Weapon[] = this.itemsService.get_ItemsOfType('weapons')): Feat[] {
         const weaponFeats = this.feats.filter(feat => feat.weaponfeatbase);
         const resultingFeats: Feat[] = [];
         weaponFeats.forEach(feat => {

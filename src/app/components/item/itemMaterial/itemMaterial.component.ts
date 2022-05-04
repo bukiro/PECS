@@ -341,19 +341,20 @@ export class ItemMaterialComponent implements OnInit {
         if (price == 0) {
             return '';
         } else {
+            let workingPrice = price;
             let priceString = '';
-            if (price >= 100) {
-                priceString += `${ Math.floor(price / 100) }gp`;
-                price %= 100;
-                if (price >= 10) { priceString += ' '; }
+            if (workingPrice >= 100) {
+                priceString += `${ Math.floor(workingPrice / 100) }gp`;
+                workingPrice %= 100;
+                if (workingPrice >= 10) { priceString += ' '; }
             }
-            if (price >= 10) {
-                priceString += `${ Math.floor(price / 10) }sp`;
-                price %= 10;
-                if (price >= 1) { priceString += ' '; }
+            if (workingPrice >= 10) {
+                priceString += `${ Math.floor(workingPrice / 10) }sp`;
+                workingPrice %= 10;
+                if (workingPrice >= 1) { priceString += ' '; }
             }
-            if (price >= 1) {
-                priceString += `${ price }cp`;
+            if (workingPrice >= 1) {
+                priceString += `${ workingPrice }cp`;
             }
             return priceString;
         }

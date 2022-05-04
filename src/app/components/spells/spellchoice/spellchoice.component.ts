@@ -870,13 +870,10 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         return choice.spells.filter(takenSpell => !takenSpell.locked && takenSpell.name == spellName || takenSpell.combinationSpellName == spellName).length;
     }
 
-    get_SpellTakenThisLevel(spell: Spell, spellLevel = 0) {
+    get_SpellTakenThisLevel(spell: Spell, spellLevel = (this.choice.dynamicLevel ? this.get_DynamicLevel(this.choice) : this.choice.level)) {
         //Returns whether this spell has been taken in this spellcasting at this level at all (only for spontaneous spellcasters.)
         //Returns false for spontaneous spell choices that draw from your spellbook (i.e. Esoteric Polymath and Arcane Evolution) and for spell choices with a cooldown.
         const choice = this.choice;
-        if (!spellLevel) {
-            spellLevel = choice.dynamicLevel ? this.get_DynamicLevel(choice) : choice.level;
-        }
         return (
             !choice.spellBookOnly &&
             !choice.cooldown &&

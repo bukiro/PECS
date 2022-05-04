@@ -249,17 +249,17 @@ export class FeatRequirementsService {
             ));
         }
         function ApplyDefaultQuery(query: FeatRequirements.RequirementBasicQuery, list: string[]) {
-            list = list.map(name => name.toLowerCase());
+            const lowercaseList = list.map(name => name.toLowerCase());
             if (query.any) {
-                return list.length;
+                return lowercaseList.length;
             } else if (query.allOfNames) {
                 const names = SplitNames(query.allOfNames);
-                return names.every(name => list.includes(name)) && list.length;
+                return names.every(name => lowercaseList.includes(name)) && lowercaseList.length;
             } else if (query.anyOfNames) {
                 const names = SplitNames(query.anyOfNames);
-                return names.filter(name => list.includes(name)).length;
+                return names.filter(name => lowercaseList.includes(name)).length;
             } else {
-                return list.length;
+                return lowercaseList.length;
             }
         }
         function DoesNumberMatchExpectation(number: number, expectation: FeatRequirements.RequirementExpectation): boolean {

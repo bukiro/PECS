@@ -387,14 +387,8 @@ export class CharacterService {
         return this.get_Character().class?.familiar || new Familiar();
     }
 
-    get_Creatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined) {
+    get_Creatures(companionAvailable: boolean = this.get_CompanionAvailable(), familiarAvailable: boolean = this.get_FamiliarAvailable()) {
         if (!this.still_loading()) {
-            if (companionAvailable == undefined) {
-                companionAvailable = this.get_CompanionAvailable();
-            }
-            if (familiarAvailable == undefined) {
-                familiarAvailable = this.get_FamiliarAvailable();
-            }
             if (companionAvailable && familiarAvailable) {
                 return ([] as (Creature)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
             } else if (companionAvailable) {
@@ -1652,7 +1646,7 @@ export class CharacterService {
                     if (!amount) {
                         amount == item.amount;
                     }
-                    item = this.itemsService.update_GrantingItem(sender, item);
+                    this.itemsService.update_GrantingItem(sender, item);
                     const included: { items: Item[], inventories: ItemCollection[] } = this.itemsService.pack_GrantingItem(sender, item);
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const message = new PlayerMessage();
@@ -1713,26 +1707,26 @@ export class CharacterService {
                             if (item === message.offeredItem[0]) {
                                 item.amount = message.itemAmount;
                             }
-                            item = this.itemsService.cast_ItemByType(item);
-                            const existingItems = targetInventory[item.type].filter((existing: Item) => existing.name == item.name && existing.can_Stack() && !item.expiration);
+                            const typedItem = this.itemsService.cast_ItemByType(item);
+                            const existingItems = targetInventory[typedItem.type].filter((existing: Item) => existing.name == typedItem.name && existing.can_Stack() && !typedItem.expiration);
                             //If any existing, stackable items are found, add this item's amount on top and finish.
                             //If no items are found, add the new item to the inventory and process it as a new item (skipping gained items and gained inventories).
                             if (existingItems.length) {
-                                existingItems[0].amount += item.amount;
-                                if (item.id === message.offeredItem[0].id) {
+                                existingItems[0].amount += typedItem.amount;
+                                if (typedItem.id === message.offeredItem[0].id) {
                                     addedPrimaryItem = existingItems[0];
                                 }
                                 this.refreshService.set_ToChange(targetCreature.type, 'inventory');
                                 this.refreshService.set_Changed(existingItems[0].id);
                             } else {
-                                item = item.recast(this.typeService, this.itemsService);
-                                const newLength = targetInventory[item.type].push(item);
-                                let addedItem = targetInventory[item.type][newLength - 1];
+                                typedItem.recast(this.typeService, this.itemsService);
+                                const newLength = targetInventory[typedItem.type].push(typedItem);
+                                const addedItem = targetInventory[typedItem.type][newLength - 1];
                                 this.refreshService.set_ToChange(targetCreature.type, 'inventory');
                                 if (item.id === message.offeredItem[0].id) {
                                     addedPrimaryItem = addedItem;
                                 }
-                                addedItem = this.process_GrantedItem((targetCreature), addedItem, targetInventory, true, false, true, true);
+                                this.process_GrantedItem((targetCreature), addedItem, targetInventory, true, false, true, true);
                             }
                         });
                         //Add included inventories and process all items inside them.
@@ -1740,7 +1734,7 @@ export class CharacterService {
                             const newLength = targetCreature.inventories.push(inventory);
                             const newInventory = targetCreature.inventories[newLength - 1];
                             newInventory.allItems().forEach(invItem => {
-                                invItem = this.process_GrantedItem((targetCreature), invItem, newInventory, true, false, true, true);
+                                this.process_GrantedItem((targetCreature), invItem, newInventory, true, false, true, true);
                             });
                         });
                         if (addedPrimaryItem) {

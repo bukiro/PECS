@@ -166,18 +166,19 @@ export class TimeService {
 
         const focusPoints = character.class.focusPoints;
         const focusPointsLast = character.class.focusPointsLast;
-        if (recoverPoints < 3) {
+        let finalRecoverPoints = recoverPoints;
+        if (finalRecoverPoints < 3) {
             //Several feats recover more focus points if you spent at least that amount since the last time refocusing. Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
             characterService.effectsService.get_AbsolutesOnThis(character, 'Refocus Bonus Points').forEach(effect => {
                 const points = parseInt(effect.setValue);
                 if (focusPointsLast - focusPoints >= points) {
-                    recoverPoints = Math.max(recoverPoints, points);
+                    finalRecoverPoints = Math.max(finalRecoverPoints, points);
                 }
             });
         }
 
         //Regenerate Focus Points by calling a onceEffect (so we don't have the code twice).
-        characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: `+${ recoverPoints }` }));
+        characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: `+${ finalRecoverPoints }` }));
 
         character.class.focusPointsLast = character.class.focusPoints;
         if (reload) {
@@ -245,10 +246,11 @@ export class TimeService {
             return inASentence ? 'until resolved' : 'Until resolved';
         } else {
             let returnString = '';
+            let workingDuration = duration;
             //Cut off anything that isn't divisible by 5
-            const remainder: number = duration % 5;
-            duration -= remainder;
-            if (duration == 5) {
+            const remainder: number = workingDuration % 5;
+            workingDuration -= remainder;
+            if (workingDuration == 5) {
                 if (this.get_YourTurn() == 5) {
                     return inASentence ? 'for rest of turn' : 'Rest of turn';
                 }
@@ -257,30 +259,30 @@ export class TimeService {
                 }
             }
             returnString += inASentence ? 'for ' : '';
-            if (duration >= 144000) {
-                returnString += Math.floor(duration / 144000) + (short ? 'd' : ' day');
-                if (!short && duration / 144000 >= 2) { returnString += 's'; }
-                duration %= 144000;
+            if (workingDuration >= 144000) {
+                returnString += Math.floor(workingDuration / 144000) + (short ? 'd' : ' day');
+                if (!short && workingDuration / 144000 >= 2) { returnString += 's'; }
+                workingDuration %= 144000;
             }
-            if (duration >= 6000) {
-                returnString += ` ${ Math.floor(duration / 6000) }${ short ? 'h' : ' hour' }`;
-                if (!short && duration / 6000 >= 2) { returnString += 's'; }
-                duration %= 6000;
+            if (workingDuration >= 6000) {
+                returnString += ` ${ Math.floor(workingDuration / 6000) }${ short ? 'h' : ' hour' }`;
+                if (!short && workingDuration / 6000 >= 2) { returnString += 's'; }
+                workingDuration %= 6000;
             }
-            if (duration >= 100) {
-                returnString += ` ${ Math.floor(duration / 100) }${ short ? 'm' : ' minute' }`;
-                if (!short && duration / 100 >= 2) { returnString += 's'; }
-                duration %= 100;
+            if (workingDuration >= 100) {
+                returnString += ` ${ Math.floor(workingDuration / 100) }${ short ? 'm' : ' minute' }`;
+                if (!short && workingDuration / 100 >= 2) { returnString += 's'; }
+                workingDuration %= 100;
             }
-            if (duration >= 10) {
-                returnString += ` ${ Math.floor(duration / 10) }${ short ? 't' : ' turn' }`;
-                if (!short && duration / 10 >= 2) { returnString += 's'; }
-                duration %= 10;
+            if (workingDuration >= 10) {
+                returnString += ` ${ Math.floor(workingDuration / 10) }${ short ? 't' : ' turn' }`;
+                if (!short && workingDuration / 10 >= 2) { returnString += 's'; }
+                workingDuration %= 10;
             }
-            if (includeTurnState && duration == 5 && this.get_YourTurn() == 5) {
+            if (includeTurnState && workingDuration == 5 && this.get_YourTurn() == 5) {
                 returnString += ' to end of turn';
             }
-            if (includeTurnState && duration == 5 && this.get_YourTurn() == 0) {
+            if (includeTurnState && workingDuration == 5 && this.get_YourTurn() == 0) {
                 returnString += ' to start of turn';
             }
             if (!returnString || returnString == 'for ') {

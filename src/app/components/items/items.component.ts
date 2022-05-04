@@ -234,11 +234,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return item.get_Price(this.itemsService);
     }
 
-    have_Funds(sum = 0) {
+    have_Funds(sum = ((this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC))) {
         const character = this.characterService.get_Character();
-        if (!sum) {
-            sum = (this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC);
-        }
         const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
         if (sum <= funds) {
             return true;

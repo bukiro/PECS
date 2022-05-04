@@ -42,7 +42,7 @@ export class Bulk {
     penalties(creature: Creature, effectsService: EffectsService, name: string) {
         return effectsService.show_PenaltiesOnThis(creature, name);
     }
-    current(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Effect[] = undefined) {
+    current(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Effect[] = this.absolutes(creature, effectsService, 'Bulk')) {
         const inventories = creature.inventories;
         const result: { value: number, explain: string } = { value: 0, explain: '' };
         if (characterService.still_loading()) { return result; }
@@ -52,9 +52,6 @@ export class Bulk {
             result.value += bulk;
             result.explain += `\n${ inventory.get_Name(characterService) }: ${ bulk }`;
         });
-        if (absolutes == undefined) {
-            absolutes = this.absolutes(creature, effectsService, 'Bulk');
-        }
         absolutes.forEach(effect => {
             result.value = parseInt(effect.setValue);
             result.explain = `${ effect.source }: ${ effect.setValue }`;
@@ -67,7 +64,7 @@ export class Bulk {
         result.explain = result.explain.trim();
         return result;
     }
-    encumbered(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Effect[] = undefined) {
+    encumbered(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Effect[] = this.absolutes(creature, effectsService, 'Encumbered Limit')) {
         //Gets the basic bulk and adds all effects
         const result: { value: number, explain: string } = { value: 5, explain: 'Base limit: 5' };
         if (characterService.still_loading()) { return result; }
@@ -75,9 +72,6 @@ export class Bulk {
         if (str != 0) {
             result.value += str;
             result.explain += `\nStrength Modifier: ${ str }`;
-        }
-        if (absolutes == undefined) {
-            absolutes = this.absolutes(creature, effectsService, 'Encumbered Limit');
         }
         absolutes.forEach(effect => {
             result.value = parseInt(effect.setValue);
@@ -90,13 +84,10 @@ export class Bulk {
         result.explain = result.explain.trim();
         return result;
     }
-    max(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Effect[] = undefined) {
+    max(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Effect[] = this.absolutes(creature, effectsService, 'Max Bulk')) {
         //Gets the basic bulk and adds all effects
         const result: { value: number, explain: string } = { value: 10, explain: 'Base limit: 10' };
         if (characterService.still_loading()) { return result; }
-        if (absolutes == undefined) {
-            absolutes = this.absolutes(creature, effectsService, 'Max Bulk');
-        }
         if (absolutes.length) {
             absolutes.forEach(effect => {
                 result.value = parseInt(effect.setValue);

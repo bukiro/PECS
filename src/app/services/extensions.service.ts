@@ -135,7 +135,7 @@ export class ExtensionsService {
                     .map(item => item['overridePriority'] || 0)
             ) || 0;
             const highestItem = data.find(item => item[identifier] == duplicate && (item['overridePriority'] || 0) == highestPriority);
-            data = data.filter(item => !(item[identifier] == duplicate && item !== highestItem));
+            data.filter(item => (item[identifier] == duplicate && item !== highestItem)).forEach(item => { item[identifier] = 'DELETE'; });
             winners.push({ object: duplicate, winner: highestItem['_extensionFileName'] || 'core' });
         });
         const newcount = data.length;
@@ -143,7 +143,7 @@ export class ExtensionsService {
             console.log(`Resolved ${ oldcount - newcount } duplicate${ (oldcount - newcount > 1) ? 's' : '' } in ${ listName }:`);
             console.log(winners);
         }
-        return data;
+        return data.filter(item => item[identifier] !== 'DELETE');
     }
 
     cleanup_DuplicatesWithMultipleIdentifiers(data: unknown[], identifiers: string[], listName: string) {
@@ -165,7 +165,7 @@ export class ExtensionsService {
                     .map(item => item['overridePriority'] || 0)
             ) || 0;
             const highestItem = data.find(item => !identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && (item['overridePriority'] || 0) == highestPriority);
-            data = data.filter(item => !(!identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && item !== highestItem));
+            data.filter(item => (!identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && item !== highestItem)).forEach(item => { item[identifiers[0]] = 'DELETE'; });
             winners.push({ identifiers: identifiers.join('; '), object: identifiers.map(identifier => highestItem[identifier]).join('; '), winner: highestItem['_extensionFileName'] || 'core' });
         });
         const newcount = data.length;
@@ -173,7 +173,7 @@ export class ExtensionsService {
             console.log(`Resolved ${ oldcount - newcount } duplicate${ (oldcount - newcount > 1) ? 's' : '' } in ${ listName } (with multiple identifiers):`);
             console.log(winners);
         }
-        return data;
+        return data.filter(item => item[identifiers[0]] !== 'DELETE');
     }
 
     load_File(path: string, filename: string, target: string, key: string) {

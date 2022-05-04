@@ -140,21 +140,27 @@ export class AC {
         //Familiars calculate their AC based on the character.
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         const armorCreature: AnimalCompanion | Character = creature instanceof Familiar ? character : (creature as AnimalCompanion | Character);
+        let clonedRelatives: Effect[];
         if (relatives == undefined) {
-            relatives = this.relatives(creature, character, effectsService);
+            clonedRelatives = this.relatives(creature, character, effectsService)
+                .map(relative => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(relative))).recast());
         } else {
             //Reassign the effects to unchain them from the calling function.
-            relatives = relatives.map(relative => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(relative))).recast());
+            clonedRelatives = relatives
+                .map(relative => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(relative))).recast());
         }
         let armorSet = false;
         //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
+        let clonedAbsolutes: Effect[];
         if (absolutes == undefined) {
-            absolutes = this.absolutes(armorCreature, effectsService);
+            clonedAbsolutes = this.absolutes(armorCreature, effectsService)
+                .map(absolute => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(absolute))).recast());
         } else {
             //Reassign the effects to unchain them from the calling function.
-            absolutes = absolutes.map(absolute => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(absolute))).recast());
+            clonedAbsolutes = absolutes
+                .map(absolute => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(absolute))).recast());
         }
-        absolutes.forEach(effect => {
+        clonedAbsolutes.forEach(effect => {
             armorSet = true;
             basicBonus = parseInt(effect.setValue);
             explain = `${ effect.source }: ${ effect.setValue }`;
@@ -206,22 +212,22 @@ export class AC {
                 if (potency) {
                     armorItemBonus += potency;
                 }
-                relatives.push(Object.assign(new Effect(armorItemBonus.toString()), { creature: armorCreature.type, type: 'item', target: this.name, source: `Armor bonus${ potency ? ` (+${ potency } Potency)` : '' }`, apply: true, show: true }));
+                clonedRelatives.push(Object.assign(new Effect(armorItemBonus.toString()), { creature: armorCreature.type, type: 'item', target: this.name, source: `Armor bonus${ potency ? ` (+${ potency } Potency)` : '' }`, apply: true, show: true }));
             }
             if (armor.battleforged) {
-                relatives.push(Object.assign(new Effect('+1'), { creature: armorCreature.type, type: 'item', target: this.name, source: 'Battleforged', apply: true, show: true }));
+                clonedRelatives.push(Object.assign(new Effect('+1'), { creature: armorCreature.type, type: 'item', target: this.name, source: 'Battleforged', apply: true, show: true }));
             }
             //Shoddy items have a -2 item penalty to ac, unless you have the Junk Tinker feat and have crafted the item yourself.
             //This is considered when _shoddy is calculated.
             if (armor._shoddy) {
-                relatives.push(Object.assign(new Effect('-2'), { creature: armorCreature.type, type: 'item', target: this.name, source: 'Shoddy Armor', penalty: true, apply: true, show: true }));
+                clonedRelatives.push(Object.assign(new Effect('-2'), { creature: armorCreature.type, type: 'item', target: this.name, source: 'Shoddy Armor', penalty: true, apply: true, show: true }));
             }
             //Add up all modifiers and return the AC gained from this armor.
             basicBonus += skillLevel + charLevelBonus + dexBonus;
         }
         //Sum up the effects
         let effectsSum = 0;
-        characterService.effectsService.get_TypeFilteredEffects(relatives)
+        characterService.effectsService.get_TypeFilteredEffects(clonedRelatives)
             .forEach(effect => {
                 effectsSum += parseInt(effect.value);
                 explain += `\n${ effect.source }: ${ effect.value }`;

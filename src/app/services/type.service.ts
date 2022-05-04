@@ -222,22 +222,24 @@ export class TypeService {
     restore_Item(object: Item, itemsService: ItemsService = null) {
         if (itemsService && object.refId && !object.restoredFromSave) {
             const libraryItem = itemsService.get_CleanItemByID(object.refId);
+            let mergedObject = object;
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    object = this.merge(libraryItem, object);
-                    object = itemsService.cast_ItemByType(object, libraryItem.type);
+                    mergedObject = this.merge(libraryItem, mergedObject);
+                    mergedObject = itemsService.cast_ItemByType(mergedObject, libraryItem.type);
                     //Disable any active hint effects when loading an item.
-                    if (object instanceof Equipment) {
-                        object.hints.forEach(hint => {
+                    if (mergedObject instanceof Equipment) {
+                        mergedObject.hints.forEach(hint => {
                             hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                         });
                     }
-                    object.restoredFromSave = true;
+                    mergedObject.restoredFromSave = true;
                 } catch (e) {
-                    console.log(`Failed reassigning item ${ object.id }: ${ e }`);
+                    console.log(`Failed reassigning item ${ mergedObject.id }: ${ e }`);
                 }
             }
+            return mergedObject;
         }
         return object;
     }

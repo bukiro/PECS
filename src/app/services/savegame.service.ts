@@ -62,7 +62,7 @@ export class SavegameService {
 
         //Apply patches that need to be done before the class is restored.
         //This is usually removing skill increases and feat choices, which can cause issues if the class doesn't have them at the same index as the character.
-        character = this.patch(savedCharacter, character, 1, characterService);
+        this.patch(savedCharacter, character, 1, characterService);
 
         //Restore a lot of data from reference objects.
         //This allows us to save a lot of traffic at saving by removing all data from certain objects that is the unchanged from in their original template.
@@ -92,18 +92,18 @@ export class SavegameService {
             character.class = classesService.restore_ClassFromSave(character.class);
         }
 
-        character = character.recast(this.typeService, itemsService);
+        character.recast(this.typeService, itemsService);
         if (character['_id']) {
             delete character['_id'];
         }
 
         //Apply any patches that need to be done after the class is restored.
-        character = this.patch(savedCharacter, character, 2, characterService);
+        this.patch(savedCharacter, character, 2, characterService);
 
         return character;
     }
 
-    patch(savedCharacter: Character, character: Character, stage: number, characterService: CharacterService) {
+    private patch(savedCharacter: Character, character: Character, stage: number, characterService: CharacterService): void {
 
         // STAGE 1
         //Before restoring data from class, ancestry etc.
@@ -775,16 +775,14 @@ export class SavegameService {
             }
         }
 
-        return character;
-
     }
 
-    clean(object: unknown, itemsService: ItemsService) {
+    clean(object: unknown, itemsService: ItemsService): void {
         //Only cleanup objects that have Classes (= aren't object Object)
         if (typeof object == 'object' && object.constructor !== Object) {
             //If the object is an array, iterate over its elements
             if (Array.isArray(object)) {
-                object = object.map((obj: unknown) => this.clean(obj, itemsService));
+                object.forEach((obj: unknown) => this.clean(obj, itemsService));
             } else {
                 let blank;
                 //For items with a refId, don't compare them with blank items, but with their reference item if it exists.
@@ -806,10 +804,10 @@ export class SavegameService {
                         if (JSON.stringify(object[key]) == JSON.stringify(blank[key])) {
                             delete object[key];
                         } else {
-                            object[key] = this.clean(object[key], itemsService);
+                            this.clean(object[key], itemsService);
                         }
                         //Cleanup attributes that start with _.
-                    } else if (key.substr(0, 1) == '_') {
+                    } else if (key.substring(0, 1) == '_') {
                         delete object[key];
                     }
                 });
@@ -822,13 +820,12 @@ export class SavegameService {
                 }
             }
         }
-        return object;
     }
 
     save_Character(character: Character, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService) {
 
         //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
-        let savegame: Character = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(character))).recast(this.typeService, itemsService);
+        const savegame: Character = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(character))).recast(this.typeService, itemsService);
 
         const versionString: string = package_json.version;
 
@@ -868,7 +865,7 @@ export class SavegameService {
         savegame.GMMode = false;
 
         //Then go through the whole thing again and compare every object to its Class's default, deleting everything that has the same value as the default.
-        savegame = this.clean(savegame, itemsService) as Character;
+        this.clean(savegame, itemsService);
 
         return this.save_CharacterToDB(savegame);
 

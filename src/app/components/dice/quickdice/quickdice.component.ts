@@ -45,11 +45,11 @@ export class QuickdiceComponent {
     }
 
     cleanup_DiceString(diceString: string) {
-        diceString = this.space_ArithmeticSymbols(diceString);
-        diceString = this.expand_DamageTypes(diceString);
-        diceString = this.replace_Modifiers(diceString);
-        diceString = this.replace_AbilityModifiers(diceString);
-        return diceString;
+        let cleanedUpDiceString = this.space_ArithmeticSymbols(diceString);
+        cleanedUpDiceString = this.expand_DamageTypes(cleanedUpDiceString);
+        cleanedUpDiceString = this.replace_Modifiers(cleanedUpDiceString);
+        cleanedUpDiceString = this.replace_AbilityModifiers(cleanedUpDiceString);
+        return cleanedUpDiceString;
     }
 
     space_ArithmeticSymbols(text: string) {
