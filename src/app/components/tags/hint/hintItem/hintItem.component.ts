@@ -39,7 +39,7 @@ export class HintItemComponent implements OnInit {
     }
 
     get_Traits(name = '') {
-        return this.traitsService.get_Traits(name);
+        return this.traitsService.getTraits(name);
     }
 
     get_Activities(name = '') {

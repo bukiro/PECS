@@ -81,7 +81,7 @@ export class AppInitService {
         const waitForLoadServices = setInterval(() => {
             if (
                 !(
-                    this.traitsService.still_loading() ||
+                    this.traitsService.stillLoading() ||
                     this.abilitiesService.still_loading() ||
                     this.activitiesService.still_loading() ||
                     this.featsService.still_loading() ||

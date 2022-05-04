@@ -2304,7 +2304,7 @@ export class CharacterService {
                             });
                         }
                         item.traits
-                            .map(trait => this.traitsService.get_Traits(trait)[0])
+                            .map(trait => this.traitsService.getTraits(trait)[0])
                             .filter(trait => trait?.gainActivities.length)
                             .forEach(trait => {
                                 activities.push(...trait.gainActivities);
@@ -2356,7 +2356,7 @@ export class CharacterService {
                             });
                         }
                         item.traits
-                            .map(trait => this.traitsService.get_Traits(trait)[0])
+                            .map(trait => this.traitsService.getTraits(trait)[0])
                             .filter(trait => trait?.gainActivities.length)
                             .forEach(trait => {
                                 activities.push(...trait.gainActivities);

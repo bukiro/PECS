@@ -155,7 +155,7 @@ export class RefreshService {
 
     public set_ItemViewChanges(creature: Creature, item: Item, services: { characterService: CharacterService; activitiesService: ActivitiesService }): void {
         this.set_ToChange(creature.type, item.id);
-        item.traits.map(trait => this.traitsService.get_TraitFromName(trait)).forEach(trait => {
+        item.traits.map(trait => this.traitsService.getTraitFromName(trait)).forEach(trait => {
             this.set_HintsToChange(creature, trait.hints, services);
         });
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof AlchemicalPoison || item instanceof Ammunition || item instanceof Snare) {

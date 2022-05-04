@@ -326,7 +326,7 @@ export class NewItemPropertyComponent {
                 examples.push(...this.get_Items().weapons.map(item => item.weaponBase));
                 break;
             case 'traits':
-                examples = this.traitsService.get_Traits().map(trait => trait.name);
+                examples = this.traitsService.getTraits().map(trait => trait.name);
                 break;
             case 'isdoublingrings':
                 examples = ['', 'Doubling Rings', 'Doubling Rings (Greater)'];

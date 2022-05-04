@@ -486,7 +486,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(traitName = '') {
-        return this.traitsService.get_Traits(traitName);
+        return this.traitsService.getTraits(traitName);
     }
 
     onLevelUp() {

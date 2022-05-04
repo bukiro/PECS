@@ -111,7 +111,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     get_TraitsForThis(name: string) {
         if (this.showTraits && name) {
-            return this.traitsService.get_TraitsForThis(this.get_Creature(), name)
+            return this.traitsService.getTraitsForThis(this.get_Creature(), name)
                 .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
         } else {
             return [];

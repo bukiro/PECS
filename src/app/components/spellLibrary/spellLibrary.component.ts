@@ -64,7 +64,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(name = '') {
-        return this.traitsService.get_Traits(name);
+        return this.traitsService.getTraits(name);
     }
 
     trackByIndex(index: number): number {

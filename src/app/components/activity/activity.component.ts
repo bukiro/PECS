@@ -154,7 +154,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     public get_Traits(traitName = ''): Array<Trait> {
-        return this.traitsService.get_Traits(traitName);
+        return this.traitsService.getTraits(traitName);
     }
 
     public get_FeatsShowingOn(activityName: string): Array<Feat> {

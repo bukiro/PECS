@@ -237,7 +237,7 @@ export class EffectsGenerationService {
 
     private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): Array<HintEffectsObject> {
         const hintSets: Array<HintEffectsObject> = [];
-        services.characterService.traitsService.get_Traits().filter(trait => trait.hints.length && trait.haveOn(creature).length).forEach(trait => {
+        services.characterService.traitsService.getTraits().filter(trait => trait.hints.length && trait.haveOn(creature).length).forEach(trait => {
             trait.hints.forEach(hint => {
                 hintSets.push({ hint, objectName: trait.name });
             });

@@ -260,7 +260,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(name = '') {
-        return this.traitsService.get_Traits(name);
+        return this.traitsService.getTraits(name);
     }
 
     public ngOnInit(): void {

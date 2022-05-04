@@ -36,7 +36,7 @@ export class FeatComponent {
     }
 
     get_Traits(traitName = '') {
-        return this.traitsService.get_Traits(traitName);
+        return this.traitsService.getTraits(traitName);
     }
 
     get_FeatRequirements(choice: FeatChoice, feat: Feat) {

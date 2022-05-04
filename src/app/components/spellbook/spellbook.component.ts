@@ -160,7 +160,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(name = '') {
-        return this.traitsService.get_Traits(name);
+        return this.traitsService.getTraits(name);
     }
 
     get_HasSpells() {

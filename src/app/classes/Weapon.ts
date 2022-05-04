@@ -316,7 +316,7 @@ export class Weapon extends Equipment {
             const changed: Array<string> = this._traits.filter(trait => !traits.includes(trait)).concat(traits.filter(trait => !this._traits.includes(trait)));
             this._traits = traits;
             changed.forEach(trait => {
-                characterService.traitsService.get_Traits(trait).forEach(trait => {
+                characterService.traitsService.getTraits(trait).forEach(trait => {
                     characterService.refreshService.set_HintsToChange(creature, trait.hints, { characterService });
                 });
             });
@@ -546,7 +546,7 @@ export class Weapon extends Equipment {
         //For any activated traits of this weapon, check if any effects on Attack apply. These need to be evaluated in the Trait class.
         const traitEffects: Array<Effect> = [];
         this.get_ActivatedTraits().forEach(activation => {
-            const realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
+            const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
             traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Attack']));
         });
         //Add absolute effects
@@ -775,7 +775,7 @@ export class Weapon extends Equipment {
             //For any activated traits of this weapon, check if any effects on Dice Number apply. These need to be calculated in the effects service.
             const traitEffects = [];
             this.get_ActivatedTraits().forEach(activation => {
-                const realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
+                const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
                 traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Dice Number']));
             });
             effectsService.get_TypeFilteredEffects(
@@ -835,7 +835,7 @@ export class Weapon extends Equipment {
             //For any activated traits of this weapon, check if any effects on Dice Size apply. These need to be calculated in the effects service.
             const traitEffects = [];
             this.get_ActivatedTraits().forEach(activation => {
-                const realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
+                const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
                 traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Dice Size']));
             });
             //Apply dice size effects.
@@ -1028,7 +1028,7 @@ export class Weapon extends Equipment {
             //For any activated traits of this weapon, check if any effects on Dice Size apply. These need to be calculated in the effects service.
             const traitEffects = [];
             this.get_ActivatedTraits().forEach(activation => {
-                const realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
+                const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
                 traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Damage per Die']));
             });
             const perDieList: Array<string> = [];
