@@ -434,7 +434,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_Duration(turns: number) {
-        return this.timeService.get_Duration(turns);
+        return this.timeService.getDurationDescription(turns);
     }
 
     get_CalculatedBulk() {

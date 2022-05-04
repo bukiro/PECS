@@ -355,7 +355,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     get_Duration(turns: number, includeTurnState = true, inASentence = false) {
-        return this.timeService.get_Duration(turns, includeTurnState, inASentence);
+        return this.timeService.getDurationDescription(turns, includeTurnState, inASentence);
     }
 
     finish_Loading() {

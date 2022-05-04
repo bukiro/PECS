@@ -2622,7 +2622,7 @@ export class CharacterService {
         //Set loading to false. The last steps need the characterService to not be loading.
         this.loading = false;
         //Set your turn state according to the saved state.
-        this.timeService.set_YourTurn(this.get_Character().yourTurn);
+        this.timeService.setYourTurn(this.get_Character().yourTurn);
         //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
         this.featsService.build_CharacterFeats(this.get_Character());
         //Reset cache for all creatures.
@@ -2656,7 +2656,7 @@ export class CharacterService {
     }
 
     save_Character() {
-        this.get_Character().yourTurn = this.timeService.get_YourTurn();
+        this.get_Character().yourTurn = this.timeService.getYourTurn();
         this.toastService.show('Saving...');
         this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
             .subscribe({

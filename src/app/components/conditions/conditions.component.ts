@@ -302,7 +302,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
             this.hours * 6000 +
             this.minutes * 100 +
             this.turns * 10 +
-            (includeTurn ? (this.endOn == this.timeService.get_YourTurn() ? 0 : 5) : 0)
+            (includeTurn ? (this.endOn == this.timeService.getYourTurn() ? 0 : 5) : 0)
         );
     }
 
@@ -311,7 +311,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_Duration(duration: number = this.get_ConditionDuration(), inASentence = false) {
-        return this.timeService.get_Duration(duration, true, inASentence);
+        return this.timeService.getDurationDescription(duration, true, inASentence);
     }
 
     add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false), includeTurnState = true) {
@@ -320,7 +320,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         if (duration < 0 || duration == 1 || !includeTurnState) {
             newGain.duration = duration;
         } else {
-            newGain.duration = duration + (this.endOn == this.timeService.get_YourTurn() ? 0 : 5);
+            newGain.duration = duration + (this.endOn == this.timeService.getYourTurn() ? 0 : 5);
         }
         newGain.choice = condition.choice;
         if (condition.hasValue) {
@@ -385,7 +385,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         if (duration == -1) {
             newEffect.maxDuration = newEffect.duration = duration;
         } else {
-            newEffect.maxDuration = newEffect.duration = duration + (this.endOn == this.timeService.get_YourTurn() ? 0 : 5);
+            newEffect.maxDuration = newEffect.duration = duration + (this.endOn == this.timeService.getYourTurn() ? 0 : 5);
         }
         this.refreshService.set_ToChange(creature.type, 'effects');
         this.refreshService.set_ToChange(creature.type, 'conditions');

@@ -14,32 +14,49 @@ import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Creature } from 'src/app/classes/Creature';
 
+enum TimePeriods {
+    UntilRefocus = -3,
+    UntilRest = -2,
+    Permanent = -1,
+    NoTurn = 0,
+    UntilResolved = 1,
+    OtherCharacterTurn = 2,
+    UntilResolvedOnOtherCharacterTurn = 3,
+    HalfTurn = 5,
+    Turn = 10,
+    Minute = 100,
+    TenMinutes = 1000,
+    Hour = 6000,
+    EightHours = 48000,
+    Day = 144000,
+}
+
 @Injectable({
     providedIn: 'root'
 })
 export class TimeService {
 
     //yourTurn is 5 if it is your turn or 0 if not.
-    private yourTurn = 0;
+    private _yourTurn: TimePeriods.NoTurn | TimePeriods.HalfTurn = TimePeriods.NoTurn;
 
     constructor(
-        private readonly activitiesService: ActivitiesService,
-        private readonly customEffectsService: CustomEffectsService,
-        private readonly effectsService: EffectsService,
-        private readonly toastService: ToastService,
-        private readonly refreshService: RefreshService
+        private readonly _activitiesService: ActivitiesService,
+        private readonly _customEffectsService: CustomEffectsService,
+        private readonly _effectsService: EffectsService,
+        private readonly _toastService: ToastService,
+        private readonly _refreshService: RefreshService
     ) { }
 
-    get_YourTurn() {
-        return this.yourTurn;
+    public getYourTurn(): number {
+        return this._yourTurn;
     }
 
-    set_YourTurn(yourTurn: number) {
+    public setYourTurn(yourTurn: number): void {
         //Only used when loading a character
-        this.yourTurn = yourTurn;
+        this._yourTurn = yourTurn;
     }
 
-    start_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService) {
+    public startTurn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService): void {
         //Apply Fast Healing.
         let fastHealing = 0;
         if (!characterService.get_Character().settings.manualMode) {
@@ -51,18 +68,18 @@ export class TimeService {
                 effectsService.get_RelativesOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
                     fastHealing += parseInt(effect.value);
                 });
-                if (!this.effectsService.get_EffectsOnThis(creature, 'Time Stop').length) {
+                if (!this._effectsService.get_EffectsOnThis(creature, 'Time Stop').length) {
                     if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
-                        this.refreshService.set_ToChange(creature.type, 'health');
+                        this._refreshService.set_ToChange(creature.type, 'health');
                         creature.health.heal(creature, characterService, effectsService, fastHealing);
-                        this.toastService.show(`${ creature instanceof Character ? 'You' : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`) } gained ${ (fastHealing).toString() } HP from fast healing.`);
+                        this._toastService.show(`${ creature instanceof Character ? 'You' : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`) } gained ${ (fastHealing).toString() } HP from fast healing.`);
                     }
                 }
 
             });
         }
 
-        this.tick(characterService, conditionsService, itemsService, spellsService, 5);
+        this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
         const character = characterService.get_Character();
@@ -70,11 +87,11 @@ export class TimeService {
             characterService.send_TurnChangeToPlayers();
         }
 
-        this.refreshService.process_ToChange();
+        this._refreshService.process_ToChange();
     }
 
-    end_Turn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService) {
-        this.tick(characterService, conditionsService, itemsService, spellsService, 5);
+    public endTurn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService): void {
+        this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
         const character = characterService.get_Character();
@@ -83,33 +100,33 @@ export class TimeService {
         }
     }
 
-    rest(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService,) {
+    public rest(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService): void {
         const charLevel: number = characterService.get_Character().level;
-        this.tick(characterService, conditionsService, itemsService, spellsService, 48000, false);
+        this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.EightHours, false);
         characterService.get_Creatures().forEach(creature => {
-            this.refreshService.set_ToChange(creature.type, 'health');
-            this.refreshService.set_ToChange(creature.type, 'effects');
+            this._refreshService.set_ToChange(creature.type, 'health');
+            this._refreshService.set_ToChange(creature.type, 'effects');
             let con = 1;
             con = Math.max(characterService.abilitiesService.get_Abilities('Constitution')[0].mod(creature, characterService, characterService.effectsService).result, 1);
             let heal: number = con * charLevel;
-            this.effectsService.get_AbsolutesOnThis(creature, 'Resting HP Gain').forEach(effect => {
+            this._effectsService.get_AbsolutesOnThis(creature, 'Resting HP Gain').forEach(effect => {
                 heal = parseInt(effect.setValue);
             });
-            this.effectsService.get_RelativesOnThis(creature, 'Resting HP Gain').forEach(effect => {
+            this._effectsService.get_RelativesOnThis(creature, 'Resting HP Gain').forEach(effect => {
                 heal += parseInt(effect.value);
             });
             let multiplier = 1;
-            this.effectsService.get_AbsolutesOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
+            this._effectsService.get_AbsolutesOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
                 multiplier = parseInt(effect.setValue);
             });
-            this.effectsService.get_RelativesOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
+            this._effectsService.get_RelativesOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
                 multiplier += parseInt(effect.value);
             });
             multiplier = Math.max(1, multiplier);
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
-            this.toastService.show(`${ creature instanceof Character ? 'You' : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`) } gained ${ (heal * multiplier).toString() } HP from resting.`);
+            this._toastService.show(`${ creature instanceof Character ? 'You' : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`) } gained ${ (heal * multiplier).toString() } HP from resting.`);
             //Reset all "once per day" activity cooldowns.
-            this.activitiesService.rest(creature, characterService);
+            this._activitiesService.rest(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".
             conditionsService.rest(creature, characterService);
             //Remove all items that expire when you make your daily preparations.
@@ -130,7 +147,7 @@ export class TimeService {
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
                 });
-                this.refreshService.set_ToChange('Character', 'inventory');
+                this._refreshService.set_ToChange('Character', 'inventory');
                 //Regenerate bonded item charges.
                 character.class.spellCasting.filter(casting => casting.castingType == 'Prepared' && casting.className == 'Wizard').forEach(casting => {
                     const superiorBond = character.has_Feat('Superior Bond', { characterService });
@@ -143,18 +160,19 @@ export class TimeService {
             }
         });
 
-        this.refreshService.process_ToChange();
+        this._refreshService.process_ToChange();
     }
 
-    refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, recoverPoints = 1, reload = true, tick = true) {
+    public refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, recoverPoints = 1, reload = true, tick = true): void {
         if (tick) {
-            this.tick(characterService, conditionsService, itemsService, spellsService, 1000, false);
+            this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.TenMinutes, false);
         }
         const character = characterService.get_Character();
+        const maximumFocusPoints = 3;
 
         characterService.get_Creatures().forEach(creature => {
             //Reset all "until you refocus" activity cooldowns.
-            this.activitiesService.refocus(creature, characterService);
+            this._activitiesService.refocus(creature, characterService);
             //Reset all conditions that are "until you refocus".
             conditionsService.refocus(creature);
             //Remove all items that expire when you refocus.
@@ -167,7 +185,7 @@ export class TimeService {
         const focusPoints = character.class.focusPoints;
         const focusPointsLast = character.class.focusPointsLast;
         let finalRecoverPoints = recoverPoints;
-        if (finalRecoverPoints < 3) {
+        if (finalRecoverPoints < maximumFocusPoints) {
             //Several feats recover more focus points if you spent at least that amount since the last time refocusing. Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
             characterService.effectsService.get_AbsolutesOnThis(character, 'Refocus Bonus Points').forEach(effect => {
                 const points = parseInt(effect.setValue);
@@ -182,11 +200,11 @@ export class TimeService {
 
         character.class.focusPointsLast = character.class.focusPoints;
         if (reload) {
-            this.refreshService.process_ToChange();
+            this._refreshService.process_ToChange();
         }
     }
 
-    tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns = 10, reload = true) {
+    public tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns = 10, reload = true): void {
         characterService.get_Creatures().forEach(creature => {
             //If any conditions are currently stopping time, process these first before continuing with the rest.
             const timeStopDurations: Array<number> = creature.conditions.filter(gain => gain.apply && conditionsService.get_ConditionFromName(gain.name).get_IsStoppingTime(gain)).map(gain => gain.duration);
@@ -194,95 +212,95 @@ export class TimeService {
             if (!timeStopDurations.includes(-1)) {
                 let timeStopDuration: number = Math.max(0, ...timeStopDurations);
                 //Round the duration up to half turns, but no longer than the entered amount of turns.
-                timeStopDuration = Math.min(Math.ceil(timeStopDuration / 5) * 5, turns);
+                timeStopDuration = Math.min(Math.ceil(timeStopDuration / TimePeriods.HalfTurn) * TimePeriods.HalfTurn, turns);
                 if (timeStopDuration) {
                     if (creature.conditions.filter(gain => gain.nextStage > 0)) {
-                        this.refreshService.set_ToChange(creature.type, 'time');
-                        this.refreshService.set_ToChange(creature.type, 'health');
+                        this._refreshService.set_ToChange(creature.type, 'time');
+                        this._refreshService.set_ToChange(creature.type, 'health');
                     }
-                    conditionsService.tick_Conditions(creature, timeStopDuration, this.yourTurn, characterService, itemsService);
-                    this.refreshService.set_ToChange(creature.type, 'effects');
+                    conditionsService.tick_Conditions(creature, timeStopDuration, this._yourTurn, characterService, itemsService);
+                    this._refreshService.set_ToChange(creature.type, 'effects');
                 }
                 const creatureTurns = turns - timeStopDuration;
                 if (creatureTurns > 0) {
                     //Tick activities before conditions because activities can end conditions, which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
-                    this.activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, creatureTurns);
+                    this._activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, creatureTurns);
                     if (creature.conditions.length) {
                         if (creature.conditions.filter(gain => gain.nextStage > 0)) {
-                            this.refreshService.set_ToChange(creature.type, 'time');
-                            this.refreshService.set_ToChange(creature.type, 'health');
+                            this._refreshService.set_ToChange(creature.type, 'time');
+                            this._refreshService.set_ToChange(creature.type, 'health');
                         }
-                        conditionsService.tick_Conditions(creature, creatureTurns, this.yourTurn, characterService, itemsService);
-                        this.refreshService.set_ToChange(creature.type, 'effects');
+                        conditionsService.tick_Conditions(creature, creatureTurns, this._yourTurn, characterService, itemsService);
+                        this._refreshService.set_ToChange(creature.type, 'effects');
                     }
-                    this.customEffectsService.tick_CustomEffects(creature, creatureTurns);
+                    this._customEffectsService.tick_CustomEffects(creature, creatureTurns);
                     itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, creatureTurns);
                     if (creature instanceof Character) {
                         spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, creatureTurns);
                     }
                     //If you are at full health and rest for 10 minutes, you lose the wounded condition.
-                    if (creatureTurns >= 1000 && characterService.get_Health(creature).damage == 0) {
+                    if (creatureTurns >= TimePeriods.TenMinutes && characterService.get_Health(creature).damage == 0) {
                         characterService.get_AppliedConditions(creature, 'Wounded').forEach(gain => characterService.remove_Condition(creature, gain, false));
                     }
                 }
             }
         });
-        this.yourTurn = (this.yourTurn + turns) % 10;
+        this._yourTurn = (this._yourTurn + turns) % TimePeriods.Turn;
         if (reload) {
-            this.refreshService.process_ToChange();
+            this._refreshService.process_ToChange();
         }
     }
 
-    get_Duration(duration: number, includeTurnState = true, inASentence = false, short = false) {
-        if (duration == -3) {
+    public getDurationDescription(duration: number, includeTurnState = true, inASentence = false, short = false): string {
+        if (duration == TimePeriods.UntilRefocus) {
             return inASentence ? 'until you refocus' : 'Until you refocus';
-        } else if (duration == -2) {
+        } else if (duration == TimePeriods.UntilRest) {
             return inASentence ? 'until the next time you make your daily preparations' : 'Until the next time you make your daily preparations';
-        } else if (duration == -1) {
+        } else if (duration == TimePeriods.Permanent) {
             return inASentence ? 'permanently' : 'Permanent';
-        } else if (duration == 2) {
+        } else if (duration == TimePeriods.OtherCharacterTurn) {
             return inASentence ? 'until another character\'s turn' : 'Ends on another character\'s turn';
-        } else if ([1, 3].includes(duration)) {
+        } else if ([TimePeriods.UntilResolved, TimePeriods.UntilResolvedOnOtherCharacterTurn].includes(duration)) {
             return inASentence ? 'until resolved' : 'Until resolved';
         } else {
             let returnString = '';
             let workingDuration = duration;
             //Cut off anything that isn't divisible by 5
-            const remainder: number = workingDuration % 5;
+            const remainder: number = workingDuration % TimePeriods.HalfTurn;
             workingDuration -= remainder;
-            if (workingDuration == 5) {
-                if (this.get_YourTurn() == 5) {
+            if (workingDuration == TimePeriods.HalfTurn) {
+                if (this.getYourTurn() == TimePeriods.HalfTurn) {
                     return inASentence ? 'for rest of turn' : 'Rest of turn';
                 }
-                if (this.get_YourTurn() == 0) {
+                if (this.getYourTurn() == TimePeriods.NoTurn) {
                     return inASentence ? 'until start of next turn' : 'To start of next turn';
                 }
             }
             returnString += inASentence ? 'for ' : '';
-            if (workingDuration >= 144000) {
-                returnString += Math.floor(workingDuration / 144000) + (short ? 'd' : ' day');
-                if (!short && workingDuration / 144000 >= 2) { returnString += 's'; }
-                workingDuration %= 144000;
+            if (workingDuration >= TimePeriods.Day) {
+                returnString += Math.floor(workingDuration / TimePeriods.Day) + (short ? 'd' : ' day');
+                if (!short && workingDuration / TimePeriods.Day > 1) { returnString += 's'; }
+                workingDuration %= TimePeriods.Day;
             }
-            if (workingDuration >= 6000) {
-                returnString += ` ${ Math.floor(workingDuration / 6000) }${ short ? 'h' : ' hour' }`;
-                if (!short && workingDuration / 6000 >= 2) { returnString += 's'; }
-                workingDuration %= 6000;
+            if (workingDuration >= TimePeriods.Hour) {
+                returnString += ` ${ Math.floor(workingDuration / TimePeriods.Hour) }${ short ? 'h' : ' hour' }`;
+                if (!short && workingDuration / TimePeriods.Hour > 1) { returnString += 's'; }
+                workingDuration %= TimePeriods.Hour;
             }
-            if (workingDuration >= 100) {
-                returnString += ` ${ Math.floor(workingDuration / 100) }${ short ? 'm' : ' minute' }`;
-                if (!short && workingDuration / 100 >= 2) { returnString += 's'; }
-                workingDuration %= 100;
+            if (workingDuration >= TimePeriods.Minute) {
+                returnString += ` ${ Math.floor(workingDuration / TimePeriods.Minute) }${ short ? 'm' : ' minute' }`;
+                if (!short && workingDuration / TimePeriods.Minute > 1) { returnString += 's'; }
+                workingDuration %= TimePeriods.Minute;
             }
-            if (workingDuration >= 10) {
-                returnString += ` ${ Math.floor(workingDuration / 10) }${ short ? 't' : ' turn' }`;
-                if (!short && workingDuration / 10 >= 2) { returnString += 's'; }
-                workingDuration %= 10;
+            if (workingDuration >= TimePeriods.Turn) {
+                returnString += ` ${ Math.floor(workingDuration / TimePeriods.Turn) }${ short ? 't' : ' turn' }`;
+                if (!short && workingDuration / TimePeriods.Turn > 1) { returnString += 's'; }
+                workingDuration %= TimePeriods.Turn;
             }
-            if (includeTurnState && workingDuration == 5 && this.get_YourTurn() == 5) {
+            if (includeTurnState && workingDuration == TimePeriods.HalfTurn && this.getYourTurn() == TimePeriods.HalfTurn) {
                 returnString += ' to end of turn';
             }
-            if (includeTurnState && workingDuration == 5 && this.get_YourTurn() == 0) {
+            if (includeTurnState && workingDuration == TimePeriods.HalfTurn && this.getYourTurn() == TimePeriods.NoTurn) {
                 returnString += ' to start of turn';
             }
             if (!returnString || returnString == 'for ') {
@@ -295,11 +313,11 @@ export class TimeService {
         }
     }
 
-    get_Waiting(duration: number, services: { characterService: CharacterService; conditionsService: ConditionsService }, options: { includeResting: boolean }) {
+    public getWaitingDescription(duration: number, services: { characterService: CharacterService; conditionsService: ConditionsService }, options: { includeResting: boolean }): string {
         let result = '';
         const characterService = services.characterService;
         const conditionsService = services.conditionsService;
-        const effectsService = this.effectsService;
+        const effectsService = this._effectsService;
         function AfflictionOnsetsWithinDuration(creature: Creature): boolean {
             return characterService.get_AppliedConditions(creature, '', '', true).some(gain => (!conditionsService.get_ConditionFromName(gain.name).automaticStages && !gain.paused && gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.durationIsInstant);
         }

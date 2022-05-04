@@ -72,7 +72,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     }
 
     get_Duration(duration: number, includeTurnState = true, inASentence = false) {
-        return this.timeService.get_Duration(duration, includeTurnState, inASentence);
+        return this.timeService.getDurationDescription(duration, includeTurnState, inASentence);
     }
 
     public get_Activities(name: string): Array<Activity> {

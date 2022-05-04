@@ -84,7 +84,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     get_Waiting(duration: number): string {
-        return this.timeService.get_Waiting(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: true });
+        return this.timeService.getWaitingDescription(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: true });
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {

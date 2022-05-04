@@ -53,7 +53,7 @@ export class ActivityGain {
         }
         if (this.chargesUsed >= context.maxCharges) {
             if (this.activeCooldown) {
-                return (context.maxCharges ? 'Recharged in: ' : 'Cooldown: ') + services.timeService.get_Duration(this.activeCooldown, true, false);
+                return (context.maxCharges ? 'Recharged in: ' : 'Cooldown: ') + services.timeService.getDurationDescription(this.activeCooldown, true, false);
             } else if (context.maxCharges) {
                 return 'No activations left.';
             }

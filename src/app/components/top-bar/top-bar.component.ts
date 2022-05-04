@@ -299,7 +299,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         if (duration == -5) {
             return '(Default duration)';
         } else {
-            return this.timeService.get_Duration(duration, false, true);
+            return this.timeService.getDurationDescription(duration, false, true);
         }
     }
 

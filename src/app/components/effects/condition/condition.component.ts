@@ -76,7 +76,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     get_Duration(duration: number) {
-        return this.timeService.get_Duration(duration);
+        return this.timeService.getDurationDescription(duration);
     }
 
     get_IsInformationalCondition() {

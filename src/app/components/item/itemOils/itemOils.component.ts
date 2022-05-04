@@ -47,7 +47,7 @@ export class ItemOilsComponent {
     }
 
     get_Duration(turns: number) {
-        return this.timeService.get_Duration(turns);
+        return this.timeService.getDurationDescription(turns);
     }
 
     get_Oils() {

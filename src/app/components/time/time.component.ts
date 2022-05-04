@@ -50,11 +50,11 @@ export class TimeComponent implements OnInit, OnDestroy {
     }
 
     get_Duration(duration: number, includeTurnState = true, short = false) {
-        return this.timeService.get_Duration(duration, includeTurnState, false, short);
+        return this.timeService.getDurationDescription(duration, includeTurnState, false, short);
     }
 
     get_Waiting(duration: number) {
-        return this.timeService.get_Waiting(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: false });
+        return this.timeService.getWaitingDescription(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: false });
     }
 
     public still_loading(): boolean {
@@ -62,15 +62,15 @@ export class TimeComponent implements OnInit, OnDestroy {
     }
 
     get_YourTurn() {
-        return this.timeService.get_YourTurn();
+        return this.timeService.getYourTurn();
     }
 
     start_Turn() {
-        this.timeService.start_Turn(this.characterService, this.conditionsService, this.itemsService, this.spellsService, this.effectsService);
+        this.timeService.startTurn(this.characterService, this.conditionsService, this.itemsService, this.spellsService, this.effectsService);
     }
 
     end_Turn() {
-        this.timeService.end_Turn(this.characterService, this.conditionsService, this.itemsService, this.spellsService);
+        this.timeService.endTurn(this.characterService, this.conditionsService, this.itemsService, this.spellsService);
     }
 
     tick(amount: number) {
