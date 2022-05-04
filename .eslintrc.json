@@ -46,7 +46,21 @@
                 "@typescript-eslint/no-invalid-this": [
                     "error"
                 ],
-                "object-shorthand": "warn"
+                "object-shorthand": "warn",
+                "@typescript-eslint/no-magic-numbers": [
+                    "error",
+                    {
+                        "ignoreDefaultValues": true,
+                        "detectObjects": true,
+                        "ignore": [
+                            -1,
+                            1,
+                            0
+                        ],
+                        "ignoreReadonlyClassProperties": true,
+                        "ignoreEnums": true
+                    }
+                ]
             }
         },
         {
