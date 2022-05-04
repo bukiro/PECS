@@ -5,21 +5,21 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Hint } from 'src/app/classes/Hint';
 
 export class AnimalCompanionAncestry {
-    public abilityChoices: AbilityChoice[] = [];
-    public activities: ActivityGain[] = [];
+    public abilityChoices: Array<AbilityChoice> = [];
+    public activities: Array<ActivityGain> = [];
     public desc = '';
-    public gainItems: ItemGain[] = [];
+    public gainItems: Array<ItemGain> = [];
     public hitPoints = 0;
     public name = '';
-    public senses: string[] = [];
-    public hints: Hint[] = [];
+    public senses: Array<string> = [];
+    public hints: Array<Hint> = [];
     public size = 0;
-    public skillChoices: SkillChoice[] = [];
+    public skillChoices: Array<SkillChoice> = [];
     public sourceBook = '';
     public specialdesc = '';
-    public speeds: { name: string, value: number }[] = [];
+    public speeds: Array<{ name: string; value: number }> = [];
     public supportBenefit = '';
-    public traits: string[] = [];
+    public traits: Array<string> = [];
     recast() {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.activities = this.activities.map(obj => Object.assign(new ActivityGain(), obj).recast());

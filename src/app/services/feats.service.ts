@@ -29,28 +29,28 @@ import { HistoryService } from './history.service';
     providedIn: 'root'
 })
 export class FeatsService {
-    private feats: Feat[] = [];
-    private features: Feat[] = [];
+    private feats: Array<Feat> = [];
+    private readonly features: Array<Feat> = [];
     private loading_feats = false;
     private loading_features = false;
-    private featsMap = new Map<string, Feat>();
-    private featuresMap = new Map<string, Feat>();
+    private readonly featsMap = new Map<string, Feat>();
+    private readonly featuresMap = new Map<string, Feat>();
     //Load all feats that you have into $characterFeats, so they are faster to retrieve.
-    private $characterFeats = new Map<string, Feat>();
-    private $characterFeatsTaken: { level: number, gain: FeatTaken }[] = [];
+    private readonly $characterFeats = new Map<string, Feat>();
+    private $characterFeatsTaken: Array<{ level: number; gain: FeatTaken }> = [];
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private itemsService: ItemsService,
-        private historyService: HistoryService,
-        private refreshService: RefreshService
+        private readonly extensionsService: ExtensionsService,
+        private readonly itemsService: ItemsService,
+        private readonly historyService: HistoryService,
+        private readonly refreshService: RefreshService
     ) { }
 
     get_ReplacementFeat(name?: string): Feat {
         return Object.assign(new Feat(), { name: 'Feat not found', 'desc': `${ name ? name : 'The requested feat or feature' } does not exist in the feat and features lists.` });
     }
 
-    private get_FeatFromName(customFeats: Feat[], name: string): Feat {
+    private get_FeatFromName(customFeats: Array<Feat>, name: string): Feat {
         //Returns either a feat from the given custom feats, or a named feat from the map.
         return customFeats.find(feat => feat.name.toLowerCase() == name.toLowerCase()) || this.featsMap.get(name.toLowerCase()) || this.get_ReplacementFeat(name);
     }
@@ -60,12 +60,12 @@ export class FeatsService {
         return this.featuresMap.get(name.toLowerCase()) || this.get_ReplacementFeat(name);
     }
 
-    private get_AllFromName(customFeats: Feat[], name: string): Feat {
+    private get_AllFromName(customFeats: Array<Feat>, name: string): Feat {
         //Returns either a feat from the given custom feats, or a named feature from the map, or a named feat from the map.
         return customFeats.find(feat => feat.name.toLowerCase() == name.toLowerCase()) || this.featuresMap.get(name.toLowerCase()) || this.featsMap.get(name.toLowerCase()) || this.get_ReplacementFeat(name);
     }
 
-    public get_Feats(customFeats: Feat[], name = '', type = ''): Feat[] {
+    public get_Feats(customFeats: Array<Feat>, name = '', type = ''): Array<Feat> {
         if (!this.still_loading()) {
             //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
             if (name && !type) {
@@ -85,7 +85,7 @@ export class FeatsService {
         return [this.get_ReplacementFeat()];
     }
 
-    public get_Features(name = ''): Feat[] {
+    public get_Features(name = ''): Array<Feat> {
         if (!this.still_loading()) {
             //If a name is given, try to find a feat by that name in the index map. This should be much quicker.
             if (name) {
@@ -138,9 +138,9 @@ export class FeatsService {
         }
     }
 
-    create_WeaponFeats(weapons: Weapon[] = this.itemsService.get_ItemsOfType('weapons')): Feat[] {
+    create_WeaponFeats(weapons: Array<Weapon> = this.itemsService.get_ItemsOfType('weapons')): Array<Feat> {
         const weaponFeats = this.feats.filter(feat => feat.weaponfeatbase);
-        const resultingFeats: Feat[] = [];
+        const resultingFeats: Array<Feat> = [];
         weaponFeats.forEach(feat => {
             let featweapons = weapons;
             //These filters are hardcoded according to the needs of the weaponfeatbase feats.
@@ -157,7 +157,7 @@ export class FeatsService {
                 featweapons = featweapons.filter(weapon => weapon.prof == 'Advanced Weapons');
             }
             if (feat.subType.includes('Ancestry')) {
-                const ancestries: string[] = this.historyService.get_Ancestries().map(ancestry => ancestry.name);
+                const ancestries: Array<string> = this.historyService.get_Ancestries().map(ancestry => ancestry.name);
                 featweapons = featweapons.filter(weapon => weapon.traits.some(trait => ancestries.includes(trait)));
             }
             featweapons.forEach(weapon => {
@@ -174,7 +174,7 @@ export class FeatsService {
         return resultingFeats;
     }
 
-    filter_Feats(feats: Feat[], name = '', type = '', includeSubTypes = false, includeCountAs = false): Feat[] {
+    filter_Feats(feats: Array<Feat>, name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
         return feats.filter(feat =>
             name == '' ||
             //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
@@ -197,7 +197,7 @@ export class FeatsService {
         );
     }
 
-    get_CharacterFeats(customFeats: Feat[], name = '', type = '', includeSubTypes = false, includeCountAs = false): Feat[] {
+    get_CharacterFeats(customFeats: Array<Feat>, name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
         if (!this.still_loading()) {
             //If a name is given and includeSubTypes and includeCountAs are false, we can get the feat or feature from the customFeats or the map more quickly.
             if (name && !includeSubTypes && !includeCountAs) {
@@ -218,7 +218,7 @@ export class FeatsService {
         return [this.get_ReplacementFeat()];
     }
 
-    get_CharacterFeatsTakenWithLevel(minLevel = 0, maxLevel = 0, name = '', source = '', sourceId = '', locked: boolean = undefined, includeCountAs = false, automatic: boolean = undefined): { level: number, gain: FeatTaken }[] {
+    get_CharacterFeatsTakenWithLevel(minLevel = 0, maxLevel = 0, name = '', source = '', sourceId = '', locked: boolean = undefined, includeCountAs = false, automatic: boolean = undefined): Array<{ level: number; gain: FeatTaken }> {
         return this.$characterFeatsTaken.filter(taken =>
             (!minLevel || (taken.level >= minLevel)) &&
             (!maxLevel || (taken.level <= maxLevel)) &&
@@ -233,11 +233,11 @@ export class FeatsService {
         );
     }
 
-    get_CharacterFeatsTaken(minLevel = 0, maxLevel = 0, name = '', source = '', sourceId = '', locked: boolean = undefined, includeCountAs = false, automatic: boolean = undefined): FeatTaken[] {
+    get_CharacterFeatsTaken(minLevel = 0, maxLevel = 0, name = '', source = '', sourceId = '', locked: boolean = undefined, includeCountAs = false, automatic: boolean = undefined): Array<FeatTaken> {
         return this.get_CharacterFeatsTakenWithLevel(minLevel, maxLevel, name, source, sourceId, locked, includeCountAs, automatic).map(taken => taken.gain);
     }
 
-    get_All(customFeats: Feat[], name = '', type = '', includeSubTypes = false, includeCountAs = false): Feat[] {
+    get_All(customFeats: Array<Feat>, name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
         //ATTENTION: Use this function sparingly!
         //There are thousands of feats. Particularly if you need to find out if you have a feat with an attribute, use get_CharacterFeats instead:
         // DON'T: iterate through all taken feats, do get_All([], name)[0] and check the attribute
@@ -313,7 +313,7 @@ export class FeatsService {
                             if (oldFeatChoice.showOnSheet) {
                                 this.refreshService.set_ToChange(creature.type, 'activities');
                             }
-                            const levelChoices: FeatChoice[] =
+                            const levelChoices: Array<FeatChoice> =
                                 //If the feat choice got applied on a certain level, it needs to be removed from that level.
                                 (oldFeatChoice.insertLevel && character.class.levels[oldFeatChoice.insertLevel]) ?
                                     character.class.levels[oldFeatChoice.insertLevel].featChoices :
@@ -408,7 +408,7 @@ export class FeatsService {
                     feat.gainSkillChoice.forEach(oldSkillChoice => {
                         //Skip if you don't have the required Class for this granted feat choice, since you didn't get the choice in the first place.
                         if (oldSkillChoice.insertClass ? (character.class.name == oldSkillChoice.insertClass) : true) {
-                            const levelChoices: SkillChoice[] =
+                            const levelChoices: Array<SkillChoice> =
                                 //If the feat choice got applied on a certain level, it needs to be removed from that level, too.
                                 (oldSkillChoice.insertLevel && character.class.levels[oldSkillChoice.insertLevel]) ?
                                     character.class.levels[oldSkillChoice.insertLevel].skillChoices :
@@ -460,7 +460,7 @@ export class FeatsService {
                             //Allow adding Spellchoices without a class to automatically add the correct class.
                             // This finds the correct class either from the choice (if its type is a class name) or from the character's main class.
                             if (!insertSpellChoice.className) {
-                                const classNames: string[] = characterService.classesService.get_Classes().map(characterclass => characterclass.name);
+                                const classNames: Array<string> = characterService.classesService.get_Classes().map(characterclass => characterclass.name);
                                 if (classNames.includes(choice.type)) {
                                     insertSpellChoice.className = choice.type;
                                 } else {
@@ -612,10 +612,10 @@ export class FeatsService {
                                 newData.setValue(customData.name, 0);
                                 break;
                             case 'stringArray':
-                                newData.setValue(customData.name, [] as string[]);
+                                newData.setValue(customData.name, [] as Array<string>);
                                 break;
                             case 'numberArray':
-                                newData.setValue(customData.name, [] as number[]);
+                                newData.setValue(customData.name, [] as Array<number>);
                                 break;
                             default:
                                 newData.setValue(customData.name, null);
@@ -793,7 +793,7 @@ export class FeatsService {
             //Remove the lore choice that was customized when processing Different Worlds.
             if (feat.name == 'Different Worlds') {
                 if (!taken) {
-                    const oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == 'Different Worlds');
+                    const oldChoices: Array<LoreChoice> = level.loreChoices.filter(choice => choice.source == 'Different Worlds');
                     const oldChoice = oldChoices[oldChoices.length - 1];
                     if (oldChoice?.increases.length) {
                         character.remove_Lore(characterService, oldChoice);
@@ -804,7 +804,7 @@ export class FeatsService {
             //Remove spells that were granted by Blessed Blood.
             if (feat.name == 'Blessed Blood') {
                 if (!taken) {
-                    const removeList: { name: string, levelNumber: number }[] = character.class.spellList.filter(listSpell => listSpell.source == 'Feat: Blessed Blood').map(listSpell => { return { name: listSpell.name, levelNumber: listSpell.level }; });
+                    const removeList: Array<{ name: string; levelNumber: number }> = character.class.spellList.filter(listSpell => listSpell.source == 'Feat: Blessed Blood').map(listSpell => { return { name: listSpell.name, levelNumber: listSpell.level }; });
                     removeList.forEach(spell => {
                         character.remove_SpellListSpell(spell.name, `Feat: ${ feat.name }`, spell.levelNumber);
                     });

@@ -8,9 +8,9 @@ import { Creature } from 'src/app/classes/Creature';
 })
 export class EffectsService {
 
-    private effects: EffectCollection[] = [new EffectCollection(), new EffectCollection(), new EffectCollection()];
+    private effects: Array<EffectCollection> = [new EffectCollection(), new EffectCollection(), new EffectCollection()];
     //The bonus types are hardcoded. If Paizo ever adds a new bonus type, this is where we need to change them.
-    public readonly bonusTypes: string[] = ['untyped', 'item', 'circumstance', 'status', 'proficiency'];
+    public readonly bonusTypes: Array<string> = ['untyped', 'item', 'circumstance', 'status', 'proficiency'];
 
     private get_CreatureEffectsIndex(creatureType: string): number {
         switch (creatureType) {
@@ -28,7 +28,7 @@ export class EffectsService {
         return this.effects[creatureIndex];
     }
 
-    public replace_Effects(creatureType: string, effects: Effect[]): void {
+    public replace_Effects(creatureType: string, effects: Array<Effect>): void {
         const creatureIndex = this.get_CreatureEffectsIndex(creatureType);
         this.effects[creatureIndex] = new EffectCollection();
         this.effects[creatureIndex].all = effects.map(effect => Object.assign(new Effect(), effect).recast());
@@ -39,23 +39,23 @@ export class EffectsService {
         this.effects[creatureIndex].bonuses = this.effects[creatureIndex].all.filter(effect => parseInt(effect.value) > 0);
     }
 
-    public get_EffectsOnThis(creature: Creature, ObjectName: string): Effect[] {
+    public get_EffectsOnThis(creature: Creature, ObjectName: string): Array<Effect> {
         return this.effects[creature.typeId].all.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
-    public get_ToggledOnThis(creature: Creature, ObjectName: string): Effect[] {
+    public get_ToggledOnThis(creature: Creature, ObjectName: string): Array<Effect> {
         return this.effects[creature.typeId].all.filter(effect => effect.toggle && effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
-    public get_ToggledOnThese(creature: Creature, ObjectNames: string[]): Effect[] {
+    public get_ToggledOnThese(creature: Creature, ObjectNames: Array<string>): Array<Effect> {
         return this.effects[creature.typeId].all.filter(effect => effect.toggle && effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored);
     }
 
-    public get_RelativesOnThis(creature: Creature, ObjectName: string): Effect[] {
+    public get_RelativesOnThis(creature: Creature, ObjectName: string): Array<Effect> {
         return this.effects[creature.typeId].relatives.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
-    public get_RelativesOnThese(creature: Creature, ObjectNames: string[], options: { readonly lowerIsBetter?: boolean } = {}): Effect[] {
+    public get_RelativesOnThese(creature: Creature, ObjectNames: Array<string>, options: { readonly lowerIsBetter?: boolean } = {}): Array<Effect> {
         options = Object.assign({
             lowerIsBetter: false
         }, options);
@@ -65,11 +65,11 @@ export class EffectsService {
             , options);
     }
 
-    public get_AbsolutesOnThis(creature: Creature, ObjectName: string): Effect[] {
+    public get_AbsolutesOnThis(creature: Creature, ObjectName: string): Array<Effect> {
         return this.effects[creature.typeId].absolutes.filter(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored);
     }
 
-    public get_AbsolutesOnThese(creature: Creature, ObjectNames: string[], options: { readonly lowerIsBetter?: boolean } = {}): Effect[] {
+    public get_AbsolutesOnThese(creature: Creature, ObjectNames: Array<string>, options: { readonly lowerIsBetter?: boolean } = {}): Array<Effect> {
         options = Object.assign({
             lowerIsBetter: false
         }, options);
@@ -84,7 +84,7 @@ export class EffectsService {
         return this.effects[creature.typeId].bonuses.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored && effect.show);
     }
 
-    public show_BonusesOnThese(creature: Creature, ObjectNames: string[]): boolean {
+    public show_BonusesOnThese(creature: Creature, ObjectNames: Array<string>): boolean {
         //This function is usually only used to determine if a value should be highlighted as a bonus. Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
         return this.effects[creature.typeId].bonuses.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored && effect.show);
     }
@@ -94,12 +94,12 @@ export class EffectsService {
         return this.effects[creature.typeId].penalties.some(effect => effect.creature == creature.id && effect.target.toLowerCase() == ObjectName.toLowerCase() && effect.apply && !effect.ignored && effect.show);
     }
 
-    public show_PenaltiesOnThese(creature: Creature, ObjectNames: string[]): boolean {
+    public show_PenaltiesOnThese(creature: Creature, ObjectNames: Array<string>): boolean {
         //This function is usually only used to determine if a value should be highlighted as a penalty. Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
         return this.effects[creature.typeId].penalties.some(effect => effect.creature == creature.id && ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) && effect.apply && !effect.ignored && effect.show);
     }
 
-    public get_TypeFilteredEffects(effects: Effect[], options: { readonly absolutes?: boolean, readonly lowerIsBetter?: boolean } = {}): Effect[] {
+    public get_TypeFilteredEffects(effects: Array<Effect>, options: { readonly absolutes?: boolean; readonly lowerIsBetter?: boolean } = {}): Array<Effect> {
         options = Object.assign({
             absolutes: false,
             lowerIsBetter: false
@@ -108,13 +108,13 @@ export class EffectsService {
         //Explicitly cumulative effects are added together before comparing.
         //It assumes that these effects come pre-filtered to apply to one specific calculation, i.e. passing this.effects[0] would not be beneficial.
         //It also disables certain relative effect if absolute effects are active.
-        const returnedEffects: Effect[] = [];
-        let filteredEffects: Effect[] = effects;
+        const returnedEffects: Array<Effect> = [];
+        let filteredEffects: Array<Effect> = effects;
         //If any effects with a setValue exist for this target, all item, proficiency and untyped effects for the same target are ignored.
         if (effects.find(effect => effect.target == effect.setValue)) {
             filteredEffects = effects.filter(effect => effect.setValue || !['item', 'proficiency', 'untyped'].includes(effect.type));
         }
-        function groupSum(effectGroup: Effect[]) {
+        function groupSum(effectGroup: Array<Effect>) {
             return effectGroup.reduce((prev, current) => prev + parseInt(current.value), 0);
         }
         this.bonusTypes.forEach(type => {
@@ -123,7 +123,7 @@ export class EffectsService {
                 returnedEffects.push(...filteredEffects.filter(effect => effect.type == type));
             } else {
                 //For all bonus types except untyped, check all and get the highest bonus and the lowest penalty.
-                const bonusEffects: Effect[] = filteredEffects.filter(effect => effect.type == type && effect.penalty == false);
+                const bonusEffects: Array<Effect> = filteredEffects.filter(effect => effect.type == type && effect.penalty == false);
                 if (bonusEffects.length) {
                     //If we have any bonuses for this type, figure out which one is the largest and only get that one.
                     // Multiple effects might have the same value, but it doesn't matter so long as one of them applies.
@@ -139,7 +139,7 @@ export class EffectsService {
                         // Every effect is grouped with all effects that includes its source in their cumulative list.
                         // Then we add all those groups up and keep the effects from the one with the highest sum.
                         if (bonusEffects.some(effect => effect.cumulative.length) && bonusEffects.some(effect => bonusEffects.some(otherEffect => otherEffect.cumulative.includes(effect.source)))) {
-                            const effectGroups: Effect[][] = [];
+                            const effectGroups: Array<Array<Effect>> = [];
                             bonusEffects.forEach(effect => {
                                 effectGroups.push([effect].concat(bonusEffects.filter(otherEffect => otherEffect !== effect && otherEffect.cumulative.includes(effect.source))));
                             });
@@ -160,7 +160,7 @@ export class EffectsService {
                         }
                     }
                 }
-                const penaltyEffects: Effect[] = filteredEffects.filter(effect => effect.type == type && effect.penalty == true);
+                const penaltyEffects: Array<Effect> = filteredEffects.filter(effect => effect.type == type && effect.penalty == true);
                 if (penaltyEffects.length) {
                     //If we have any PENALTIES for this type, we proceed as with bonuses,
                     // only we pick the lowest number (that is, the worst penalty).
@@ -168,7 +168,7 @@ export class EffectsService {
                         returnedEffects.push(penaltyEffects.reduce((prev, current) => (parseInt(prev.setValue) < parseInt(current.setValue) ? prev : current)));
                     } else if (penaltyEffects.some(effect => effect.value)) {
                         if (penaltyEffects.some(effect => effect.cumulative.length) && penaltyEffects.some(effect => penaltyEffects.some(otherEffect => otherEffect.cumulative.includes(effect.source)))) {
-                            const effectGroups: Effect[][] = [];
+                            const effectGroups: Array<Array<Effect>> = [];
                             penaltyEffects.forEach(effect => {
                                 effectGroups.push([effect].concat(penaltyEffects.filter(otherEffect => otherEffect !== effect && otherEffect.cumulative.includes(effect.source))));
                             });

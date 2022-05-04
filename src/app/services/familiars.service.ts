@@ -8,11 +8,11 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 })
 export class FamiliarsService {
 
-    private familiarAbilities: Feat[] = [];
+    private familiarAbilities: Array<Feat> = [];
     private loading_familiarAbilities = false;
 
     constructor(
-        private extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService
     ) { }
 
     still_loading() {
@@ -49,7 +49,7 @@ export class FamiliarsService {
         Object.keys(data).forEach(key => {
             this.familiarAbilities.push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
         });
-        this.familiarAbilities = this.extensionsService.cleanup_Duplicates(this.familiarAbilities, 'name', 'familiar abilities') as Feat[];
+        this.familiarAbilities = this.extensionsService.cleanup_Duplicates(this.familiarAbilities, 'name', 'familiar abilities') as Array<Feat>;
     }
 
 }

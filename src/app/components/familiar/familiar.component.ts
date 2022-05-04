@@ -20,11 +20,11 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private familiarsService: FamiliarsService,
-        private effectsService: EffectsService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly familiarsService: FamiliarsService,
+        private readonly effectsService: EffectsService
     ) { }
 
     minimize() {

@@ -1,8 +1,8 @@
 export class BloodMagic {
     public condition = '';
     public duration = 10;
-    public sourceTrigger: string[] = [];
-    public trigger: string[] = [];
+    public sourceTrigger: Array<string> = [];
+    public trigger: Array<string> = [];
     public neutralPhrase = false;
     recast() {
         return this;

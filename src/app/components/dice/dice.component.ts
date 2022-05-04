@@ -22,11 +22,11 @@ export class DiceComponent implements OnInit {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private diceService: DiceService,
-        private integrationsService: IntegrationsService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly diceService: DiceService,
+        private readonly integrationsService: IntegrationsService
     ) { }
 
     toggleDiceMenu() {

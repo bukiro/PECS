@@ -21,17 +21,17 @@ export class ItemOilsComponent {
     item: Item;
     @Input()
     itemStore = false;
-    newOil: { oil: Oil, inv: ItemCollection } = { oil: new Oil(), inv: null };
+    newOil: { oil: Oil; inv: ItemCollection } = { oil: new Oil(), inv: null };
 
-    public newPropertyRuneName: string[] = ['', '', ''];
+    public newPropertyRuneName: Array<string> = ['', '', ''];
 
     constructor(
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService,
-        private activitiesService: ActivitiesService,
-        private timeService: TimeService,
-        private typeService: TypeService
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly timeService: TimeService,
+        private readonly typeService: TypeService
     ) { }
 
     trackByIndex(index: number): number {
@@ -52,7 +52,7 @@ export class ItemOilsComponent {
 
     get_Oils() {
         const item = this.item;
-        const allOils: { oil: Oil, inv: ItemCollection }[] = [{ oil: new Oil(), inv: null }];
+        const allOils: Array<{ oil: Oil; inv: ItemCollection }> = [{ oil: new Oil(), inv: null }];
         allOils[0].oil.name = '';
         if (this.itemStore) {
             allOils.push(...this.get_CleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil, inv: null })));
@@ -62,7 +62,7 @@ export class ItemOilsComponent {
             });
         }
         return allOils.filter(
-            (oil: { oil: Oil, inv: ItemCollection }, index) =>
+            (oil: { oil: Oil; inv: ItemCollection }, index) =>
                 index == 0 ||
                 (
                     oil.oil.targets.length && (

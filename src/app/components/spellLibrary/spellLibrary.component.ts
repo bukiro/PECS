@@ -31,11 +31,11 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private spellsService: SpellsService,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private traitsService: TraitsService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly spellsService: SpellsService,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly traitsService: TraitsService
     ) { }
 
     set_Range(amount: number) {
@@ -427,7 +427,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         if (casting.className == 'Wizard' && casting.castingType == 'Prepared' && (this.traditionFilter == '' || this.traditionFilter == 'Arcane')) {
             if (this.have_Feat('Spell Mastery')) {
                 const available = 4;
-                const selected: SpellChoice[] = this.get_SpellMasterySpells(casting);
+                const selected: Array<SpellChoice> = this.get_SpellMasterySpells(casting);
                 let result = `You can select ${ available - selected.length } of ${ available } spells of different levels up to 9th level to automatically prepare via Spell Mastery.`;
                 if (selected.length) {
                     result += ' You have already selected the following spells:\n';

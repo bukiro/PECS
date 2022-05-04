@@ -18,7 +18,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     @Input()
     showChoice = '';
     @Output()
-    showSkillChoiceMessage = new EventEmitter<{ name: string, levelNumber: number, choice: SkillChoice }>();
+    showSkillChoiceMessage = new EventEmitter<{ name: string; levelNumber: number; choice: SkillChoice }>();
     @Input()
     levelNumber = 0;
     @Input()
@@ -34,9 +34,9 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService
+        private readonly refreshService: RefreshService
     ) { }
 
     toggle_List(name = '') {
@@ -87,7 +87,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         return this.characterService.get_Abilities(name);
     }
 
-    get_Skills(name = '', filter: { type?: string, locked?: boolean } = {}) {
+    get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}) {
         filter = Object.assign({
             type: '',
             locked: undefined
@@ -180,7 +180,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     cannotIncrease(skill: Skill, levelNumber: number, choice: SkillChoice) {
         //Returns a string of reasons why the skill cannot be increased, or []. Test the length of the return if you need a boolean.
         const maxRank: number = choice.maxRank;
-        const reasons: string[] = [];
+        const reasons: Array<string> = [];
         //The skill may have been increased by the same source, but as a fixed rule.
         if (choice.increases.some(increase => increase.name == skill.name && increase.locked)) {
             const locked = 'Fixed increase.';

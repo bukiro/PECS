@@ -10,15 +10,15 @@ export class ChangeTracker {
     public proficiencyCopies: Map<string, number> = new Map<string, number>();
     public proficiencyChanges: Map<string, number> = new Map<string, number>();
 }
-type ChangeCheckList = {
-    feats?: { name: string, cached: number }[],
-    abilities?: { name: string, cached: number }[],
-    skills?: { name: string, cached: number }[],
-    effects?: { name: string, cached: number }[],
-    level?: number,
-    languages?: number,
-    proficiencyCopies?: number,
-    proficiencyChanges?: number
+interface ChangeCheckList {
+    feats?: Array<{ name: string; cached: number }>;
+    abilities?: Array<{ name: string; cached: number }>;
+    skills?: Array<{ name: string; cached: number }>;
+    effects?: Array<{ name: string; cached: number }>;
+    level?: number;
+    languages?: number;
+    proficiencyCopies?: number;
+    proficiencyChanges?: number;
 }
 
 @Injectable({
@@ -26,23 +26,23 @@ type ChangeCheckList = {
 })
 export class CacheService {
 
-    private changed: ChangeTracker[] = [new ChangeTracker(), new ChangeTracker(), new ChangeTracker()];
+    private changed: Array<ChangeTracker> = [new ChangeTracker(), new ChangeTracker(), new ChangeTracker()];
 
-    private set_ListChanged(list: Map<string, number>, name: string, context: { minLevel: number, maxLevel?: number }) {
+    private set_ListChanged(list: Map<string, number>, name: string, context: { minLevel: number; maxLevel?: number }) {
         for (let level = context.minLevel; level <= (context.maxLevel == undefined ? 20 : context.maxLevel); level++) {
             list.set(`${ name }-${ level }`, Date.now());
         }
     }
 
-    public set_FeatChanged(name: string, context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
+    public set_FeatChanged(name: string, context: { creatureTypeId: number; minLevel: number; maxLevel?: number }): void {
         this.set_ListChanged(this.changed[context.creatureTypeId].feats, name, { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
-    public set_AbilityChanged(name: string, context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
+    public set_AbilityChanged(name: string, context: { creatureTypeId: number; minLevel: number; maxLevel?: number }): void {
         this.set_ListChanged(this.changed[context.creatureTypeId].abilities, name, { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
-    public set_SkillChanged(name: string, context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
+    public set_SkillChanged(name: string, context: { creatureTypeId: number; minLevel: number; maxLevel?: number }): void {
         this.set_ListChanged(this.changed[context.creatureTypeId].skills, name, { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
@@ -50,23 +50,23 @@ export class CacheService {
         this.set_ListChanged(this.changed[context.creatureTypeId].effects, name, { minLevel: 0, maxLevel: 0 });
     }
 
-    public set_LevelChanged(context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
+    public set_LevelChanged(context: { creatureTypeId: number; minLevel: number; maxLevel?: number }): void {
         this.set_ListChanged(this.changed[context.creatureTypeId].level, '', { minLevel: 0, maxLevel: 0 });
     }
 
-    public set_LanguagesChanged(context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
+    public set_LanguagesChanged(context: { creatureTypeId: number; minLevel: number; maxLevel?: number }): void {
         this.set_ListChanged(this.changed[context.creatureTypeId].languages, '', { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
-    public set_ProficiencyCopiesChanged(context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
+    public set_ProficiencyCopiesChanged(context: { creatureTypeId: number; minLevel: number; maxLevel?: number }): void {
         this.set_ListChanged(this.changed[context.creatureTypeId].proficiencyCopies, '', { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
-    public set_ProficiencyChangesChanged(context: { creatureTypeId: number, minLevel: number, maxLevel?: number }): void {
+    public set_ProficiencyChangesChanged(context: { creatureTypeId: number; minLevel: number; maxLevel?: number }): void {
         this.set_ListChanged(this.changed[context.creatureTypeId].proficiencyChanges, '', { minLevel: context.minLevel, maxLevel: context.maxLevel });
     }
 
-    public get_HasChanged(checkList: ChangeCheckList, context: { creatureTypeId: number, level: number, name?: string } = { creatureTypeId: 0, level: 0 }): boolean {
+    public get_HasChanged(checkList: ChangeCheckList, context: { creatureTypeId: number; level: number; name?: string } = { creatureTypeId: 0, level: 0 }): boolean {
         checkList = Object.assign(
             {
                 feats: [],
@@ -79,7 +79,7 @@ export class CacheService {
                 proficiencyChanges: 0
             }, checkList
         );
-        let checkStrings: string[] = [];
+        let checkStrings: Array<string> = [];
         if (context.level) {
             checkStrings = [
                 '0', context.level.toString()
@@ -98,7 +98,7 @@ export class CacheService {
         //This method should prevent re-calculating everything multiple times at the beginnung, but still save checking performance later.
         let noLastChange = false;
         function subListHasChanged(key: string): boolean {
-            const subList: { name: string, cached: number }[] = checkList[key];
+            const subList: Array<{ name: string; cached: number }> = checkList[key];
             const changedList: Map<string, number> = changed[key];
             return subList.some(checkListItem => {
                 return checkStrings.some((checkString, index) => {

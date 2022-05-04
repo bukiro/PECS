@@ -10,14 +10,14 @@ import { ItemsService } from 'src/app/services/items.service';
 })
 export class ClassesService {
 
-    classes: Class[] = [];
+    classes: Array<Class> = [];
     private loading = false;
-    private classesMap = new Map<string, Class>();
+    private readonly classesMap = new Map<string, Class>();
 
     constructor(
-        private typeService: TypeService,
-        private itemsService: ItemsService,
-        private extensionsService: ExtensionsService
+        private readonly typeService: TypeService,
+        private readonly itemsService: ItemsService,
+        private readonly extensionsService: ExtensionsService
     ) { }
 
     private get_ReplacementClass(name?: string): Class {
@@ -109,7 +109,7 @@ export class ClassesService {
         Object.keys(data).forEach(key => {
             this.classes.push(...data[key].map((obj: Class) => Object.assign(new Class(), obj).recast(this.typeService, this.itemsService)));
         });
-        this.classes = this.extensionsService.cleanup_Duplicates(this.classes, 'name', 'classes') as Class[];
+        this.classes = this.extensionsService.cleanup_Duplicates(this.classes, 'name', 'classes') as Array<Class>;
     }
 
 }

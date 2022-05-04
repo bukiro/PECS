@@ -31,21 +31,21 @@ export class HealthComponent implements OnInit, OnDestroy {
     public damage = 0;
     public nonlethal = false;
     public setTempHP = 0;
-    public selectedTempHP: { amount: number, source: string, sourceId: string };
+    public selectedTempHP: { amount: number; source: string; sourceId: string };
     public Math = Math;
 
     private changeSubscription: Subscription;
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private timeService: TimeService,
-        private itemsService: ItemsService,
-        private spellsService: SpellsService,
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly timeService: TimeService,
+        private readonly itemsService: ItemsService,
+        private readonly spellsService: SpellsService,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
+        private readonly refreshService: RefreshService,
         public effectsService: EffectsService,
-        private conditionsService: ConditionsService
+        private readonly conditionsService: ConditionsService
     ) { }
 
     minimize() {
@@ -206,7 +206,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    on_TempHPSelected(tempSet: { amount: number, source: string, sourceId: string }) {
+    on_TempHPSelected(tempSet: { amount: number; source: string; sourceId: string }) {
         this.get_Health().temporaryHP[0] = tempSet;
         this.get_Health().temporaryHP.length = 1;
         this.refreshService.set_ToChange(this.creature, 'health');
@@ -222,7 +222,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         const effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
             effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes('resistance') ||
                 effect.target.toLowerCase().includes('hardness')) && effect.apply && !effect.ignored);
-        const resistances: { target: string, value: number, source: string }[] = [];
+        const resistances: Array<{ target: string; value: number; source: string }> = [];
         //Build a list of all resistances other than "Resistances" and add up their respective value.
         effects.filter(effect => effect.target.toLowerCase() != 'resistances').forEach(effect => {
             const value = parseInt(effect.value) || parseInt(effect.setValue);
@@ -242,7 +242,7 @@ export class HealthComponent implements OnInit, OnDestroy {
                 resistance.source += `\n${ effect.source }: ${ value }`;
             });
         });
-        resistances.forEach((res: { target: string, value: number, source: string }) => {
+        resistances.forEach((res: { target: string; value: number; source: string }) => {
             if (res.value < 0) {
                 res.target = res.target.toLowerCase().replace('resistance', 'weakness');
             }
@@ -254,7 +254,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     get_Immunities() {
         const effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
             effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes('immunity')));
-        const immunities: { target: string, source: string }[] = [];
+        const immunities: Array<{ target: string; source: string }> = [];
         effects.forEach(effect => {
             if (!immunities.some(immunity => immunity.target == effect.target)) {
                 immunities.push({ target: effect.target, source: effect.source });

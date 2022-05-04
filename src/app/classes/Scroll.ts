@@ -11,7 +11,7 @@ export class Scroll extends Consumable {
         super.recast(typeService, itemsService);
         return this;
     }
-    get_Name() {
+    getName() {
         if (this.displayName) {
             return this.displayName;
         } else if (this.storedSpells.length && this.storedSpells[0].spells.length) {
@@ -24,7 +24,7 @@ export class Scroll extends Consumable {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     get_Traits(characterService: CharacterService, creature: Creature) {
         //creature is not needed for scrolls, but for other types of item.
-        let traits: string[] = [];
+        let traits: Array<string> = [];
         if (this.storedSpells[0]?.spells.length) {
             const spell = characterService.spellsService.get_Spells(this.storedSpells[0].spells[0].name)[0];
             if (spell) {

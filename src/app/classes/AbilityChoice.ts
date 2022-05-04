@@ -5,8 +5,8 @@ export class AbilityChoice {
     public available = 0;
     //How many of the available ability boosts are lost if you rolled your own ability scores?
     public baseValuesLost = 0;
-    public boosts: AbilityBoost[] = [];
-    public filter: string[] = [];
+    public boosts: Array<AbilityBoost> = [];
+    public filter: Array<string> = [];
     public id = '';
     public infoOnly = false;
     public source = '';

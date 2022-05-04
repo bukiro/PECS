@@ -24,13 +24,13 @@ import * as json_activities from 'src/assets/json/activities';
 })
 export class ActivitiesService {
 
-    private activities: Activity[] = [];
+    private activities: Array<Activity> = [];
     private loading = false;
-    private activitiesMap = new Map<string, Activity>();
+    private readonly activitiesMap = new Map<string, Activity>();
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private refreshService: RefreshService
+        private readonly extensionsService: ExtensionsService,
+        private readonly refreshService: RefreshService
     ) { }
 
     private get_ReplacementActivity(name?: string): Activity {
@@ -42,7 +42,7 @@ export class ActivitiesService {
         return this.activitiesMap.get(name.toLowerCase()) || this.get_ReplacementActivity(name);
     }
 
-    get_Activities(name = ''): Activity[] {
+    get_Activities(name = ''): Array<Activity> {
         if (!this.still_loading()) {
             //If only a name is given, try to find an activity by that name in the index map. This should be much quicker.
             if (name) {
@@ -147,7 +147,7 @@ export class ActivitiesService {
         }
 
         //The conditions listed in conditionsToRemove will be removed after the activity is processed.
-        const conditionsToRemove: string[] = [];
+        const conditionsToRemove: Array<string> = [];
 
         if (activated && activity.toggle) {
             gain.active = true;
@@ -199,7 +199,7 @@ export class ActivitiesService {
 
             //Find out if target was given. If no target is set, conditions will not be applied.
             //Everything else (one time effects and gained items) automatically applies to the activating creature.
-            const targets: (Creature | SpellTarget)[] = [];
+            const targets: Array<Creature | SpellTarget> = [];
             switch (target) {
                 case 'self':
                     targets.push(creature);
@@ -235,7 +235,7 @@ export class ActivitiesService {
             if (activity.gainConditions) {
                 if (activated) {
                     const isSlottedAeonStone = (item && item instanceof WornItem && item.isSlottedAeonStone);
-                    const conditions: ConditionGain[] = activity.gainConditions.filter(conditionGain => conditionGain.resonant ? isSlottedAeonStone : true);
+                    const conditions: Array<ConditionGain> = activity.gainConditions.filter(conditionGain => conditionGain.resonant ? isSlottedAeonStone : true);
                     const hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != 'caster');
                     const hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == 'caster');
                     const casterIsTarget: boolean = targets.some(target => target.id == creature.id);
@@ -377,7 +377,7 @@ export class ActivitiesService {
                             //      newConditionGain.casterData = characterService.effectsService.get_ValueFromFormula(conditionGain.casterDataFormula, creature, characterService, conditionGain);
                             //  }
                             //#
-                            let conditionTargets: (Creature | SpellTarget)[] = targets;
+                            let conditionTargets: Array<Creature | SpellTarget> = targets;
                             //Caster conditions are applied to the caster creature only. If the spell is durationDependsOnTarget, there are any foreign targets (whose turns don't end when the caster's turn ends)
                             // and it doesn't have a duration of X+1, add 2 for "until another character's turn".
                             // This allows the condition to persist until after the caster's last turn, simulating that it hasn't been the target's last turn yet.
@@ -403,13 +403,13 @@ export class ActivitiesService {
                                 if (!activity.durationDependsOnTarget && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
-                                characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as SpellTarget[], newConditionGain);
+                                characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as Array<SpellTarget>, newConditionGain);
                             }
                         }
                     });
                 } else {
                     activity.gainConditions.forEach(conditionGain => {
-                        const conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == 'caster' ? [creature] : targets);
+                        const conditionTargets: Array<Creature | SpellTarget> = (conditionGain.targetFilter == 'caster' ? [creature] : targets);
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
                             characterService.get_AppliedConditions(target as Creature, conditionGain.name)
                                 .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (gain?.id || ''))
@@ -417,7 +417,7 @@ export class ActivitiesService {
                                     characterService.remove_Condition(target as Creature, existingConditionGain, false);
                                 });
                         });
-                        characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as SpellTarget[], conditionGain, false);
+                        characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>, conditionGain, false);
                     });
                 }
             }
@@ -597,7 +597,7 @@ export class ActivitiesService {
         Object.keys(data).forEach(key => {
             this.activities.push(...data[key].map((obj: Activity) => Object.assign(new Activity(), obj).recast()));
         });
-        this.activities = this.extensionsService.cleanup_Duplicates(this.activities, 'name', 'activities') as Activity[];
+        this.activities = this.extensionsService.cleanup_Duplicates(this.activities, 'name', 'activities') as Array<Activity>;
     }
 
 }

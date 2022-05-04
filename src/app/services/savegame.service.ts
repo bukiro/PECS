@@ -25,17 +25,17 @@ import { FeatsService } from './feats.service';
 })
 export class SavegameService {
 
-    private savegames: Savegame[] = [];
+    private savegames: Array<Savegame> = [];
     private loadingError = false;
     private loading = false;
-    private loader: Partial<Character>[];
+    private loader: Array<Partial<Character>>;
 
     constructor(
-        private http: HttpClient,
-        private configService: ConfigService,
-        private typeService: TypeService,
-        private refreshService: RefreshService,
-        private featsService: FeatsService,
+        private readonly http: HttpClient,
+        private readonly configService: ConfigService,
+        private readonly typeService: TypeService,
+        private readonly refreshService: RefreshService,
+        private readonly featsService: FeatsService,
     ) {
 
     }
@@ -93,8 +93,8 @@ export class SavegameService {
         }
 
         character.recast(this.typeService, itemsService);
-        if (character['_id']) {
-            delete character['_id'];
+        if (character._id) {
+            delete character._id;
         }
 
         //Apply any patches that need to be done after the class is restored.
@@ -632,10 +632,10 @@ export class SavegameService {
                 const baseFeats = characterService.get_Feats().filter(feat => feat.lorebase || feat.weaponfeatbase).map(feat => feat.name.toLowerCase());
                 characterService.featsService.build_CharacterFeats(character);
                 //Only proceed with feats that were not generated from lore or weapon feat bases, and that have data.
-                character.customFeats.filter(feat => !baseFeats.includes(feat.name.toLowerCase()) && feat['data'] && Object.keys(feat['data']).length).forEach(feat => {
+                character.customFeats.filter(feat => !baseFeats.includes(feat.name.toLowerCase()) && feat.data && Object.keys(feat.data).length).forEach(feat => {
                     //For each time you have this feat (should be exactly one), add its data to the class object.
                     characterService.featsService.get_CharacterFeatsTakenWithLevel(0, 0, feat.name, '', '', undefined, false, false).forEach(taken => {
-                        const newFeatData = new FeatData(taken.level, feat.name, taken.gain.sourceId, JSON.parse(JSON.stringify(feat['data'])));
+                        const newFeatData = new FeatData(taken.level, feat.name, taken.gain.sourceId, JSON.parse(JSON.stringify(feat.data)));
                         character.class.featData.push(newFeatData);
                     });
                     //Mark the feat to delete.
@@ -656,14 +656,14 @@ export class SavegameService {
 
             //Mage Armor and Shield no longer grant items in 1.0.14. Currently existing Mage Armor and Shield items need to be removed.
             if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
-                const mageArmorIDs: string[] = [
+                const mageArmorIDs: Array<string> = [
                     'b936f378-1fcb-4d29-a4b8-57cbe0dab245',
                     '5571d980-072e-40df-8228-bbce52245fe5',
                     'b2838fa8-a5b4-11ea-bb37-0242ac130002',
                     'b2839412-a5b4-11ea-bb37-0242ac130002',
                     'b2839548-a5b4-11ea-bb37-0242ac130002'
                 ];
-                const shieldIDs: string[] = [
+                const shieldIDs: Array<string> = [
                     '5dd7c22d-fc9f-4bae-b5ca-258856007a77',
                     '87f26afe-736c-4b5b-abcf-19da9014940d',
                     'e0caa889-6183-4b31-b78f-49d33c7fcbb1',
@@ -787,8 +787,8 @@ export class SavegameService {
                 let blank;
                 //For items with a refId, don't compare them with blank items, but with their reference item if it exists.
                 //If none can be found, the reference item is a blank item of the same class.
-                if (object['refId']) {
-                    blank = itemsService.get_CleanItemByID(object['refId']);
+                if (object.refId) {
+                    blank = itemsService.get_CleanItemByID(object.refId);
                 }
                 if (!blank) {
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -796,10 +796,10 @@ export class SavegameService {
                 }
                 Object.keys(object).forEach(key => {
                     //Delete attributes that are in the "neversave" list, if it exists.
-                    if (object['neversave']?.includes(key)) {
+                    if (object.neversave?.includes(key)) {
                         delete object[key];
                         //Don't cleanup the neversave list, the save list, any attributes that are in the save list, or any that start with "_" (which is done further down).
-                    } else if (key != 'save' && key != 'neversave' && !object['save']?.includes(key) && (key.substr(0, 1) != '_')) {
+                    } else if (key != 'save' && key != 'neversave' && !object.save?.includes(key) && (key.substr(0, 1) != '_')) {
                         //If the attribute has the same value as the default, delete it from the object.
                         if (JSON.stringify(object[key]) == JSON.stringify(blank[key])) {
                             delete object[key];
@@ -812,11 +812,11 @@ export class SavegameService {
                     }
                 });
                 //Delete the "save" and "neversave" lists last so they can be referenced during the cleanup, but still updated when loading.
-                if (object['save']) {
-                    delete object['save'];
+                if (object.save) {
+                    delete object.save;
                 }
-                if (object['neversave']) {
-                    delete object['neversave'];
+                if (object.neversave) {
+                    delete object.neversave;
                 }
             }
         }
@@ -871,20 +871,20 @@ export class SavegameService {
 
     }
 
-    load_Characters(): Observable<Partial<Character>[]> {
-        return this.http.get<Partial<Character>[]>(`${ this.configService.get_DBConnectionURL() }/listCharacters`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+    load_Characters(): Observable<Array<Partial<Character>>> {
+        return this.http.get<Array<Partial<Character>>>(`${ this.configService.get_DBConnectionURL() }/listCharacters`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
-    load_CharacterFromDB(id: string): Observable<Partial<Character>[]> {
-        return this.http.get<Partial<Character>[]>(`${ this.configService.get_DBConnectionURL() }/loadCharacter/${ id }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+    load_CharacterFromDB(id: string): Observable<Array<Partial<Character>>> {
+        return this.http.get<Array<Partial<Character>>>(`${ this.configService.get_DBConnectionURL() }/loadCharacter/${ id }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
-    delete_CharacterFromDB(savegame: Savegame): Observable<string[]> {
-        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/deleteCharacter`, { id: savegame.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+    delete_CharacterFromDB(savegame: Savegame): Observable<Array<string>> {
+        return this.http.post<Array<string>>(`${ this.configService.get_DBConnectionURL() }/deleteCharacter`, { id: savegame.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
-    save_CharacterToDB(savegame): Observable<string[]> {
-        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/saveCharacter`, savegame, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+    save_CharacterToDB(savegame): Observable<Array<string>> {
+        return this.http.post<Array<string>>(`${ this.configService.get_DBConnectionURL() }/saveCharacter`, savegame, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     still_loading() {
@@ -899,7 +899,7 @@ export class SavegameService {
         if (this.configService.get_HasDBConnectionURL() && this.configService.get_LoggedIn()) {
             this.load_Characters()
                 .subscribe({
-                    next: (results: Partial<Character>[]) => {
+                    next: (results: Array<Partial<Character>>) => {
                         this.loader = results;
                         this.finish_loading();
                     },
@@ -934,7 +934,7 @@ export class SavegameService {
                 const newLength = this.savegames.push(new Savegame());
                 const newSavegame = this.savegames[newLength - 1];
                 newSavegame.id = savegame.id;
-                newSavegame.dbId = savegame['_id'] || '';
+                newSavegame.dbId = savegame._id || '';
                 newSavegame.level = savegame.level || 1;
                 newSavegame.name = savegame.name || 'Unnamed';
                 newSavegame.partyName = savegame.partyName || 'No Party';

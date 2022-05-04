@@ -4,7 +4,7 @@ import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 
 export class Hint {
     //We want the active hints to be reset when loading characters. Everything listed in neversave gets deleted during saving.
-    public readonly neversave: string[] = [
+    public readonly neversave: Array<string> = [
         'active',
         'active2',
         'active3',
@@ -13,9 +13,9 @@ export class Hint {
     ];
     public desc = '';
     public minLevel = 0;
-    public heightenedDescs: HeightenedDescSet[] = [];
+    public heightenedDescs: Array<HeightenedDescSet> = [];
     public showon = '';
-    public effects: EffectGain[] = [];
+    public effects: Array<EffectGain> = [];
     public active = false;
     public active2 = false;
     public active3 = false;
@@ -25,11 +25,11 @@ export class Hint {
     // Their state can be accessed in effect calculations with object.active2 through object.active5.
     public extraActivations = 0;
     //If conditionChoiceFilter is set, only show this hint if the condition that the hint comes from has a matching choice active.
-    public conditionChoiceFilter: string[] = [];
+    public conditionChoiceFilter: Array<string> = [];
     //On an aeon stone, hints can be resonant powers. These only get shown if the aeon stone is slotted in a wayfinder.
     public resonant = false;
     //Replace the object that is loaded when more information is shown. Does not replace the title.
-    public replaceSource: { source: string, type: 'feat' }[] = [];
+    public replaceSource: Array<{ source: string; type: 'feat' }> = [];
     //Replace the title of the hint.
     public replaceTitle = '';
     public displayOnly = false;

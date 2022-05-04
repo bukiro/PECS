@@ -11,25 +11,25 @@ import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
 import { ItemsService } from 'src/app/services/items.service';
 
-type ComponentParameters = {
-    allowSwitchingPreparedSpells: boolean,
-    hasSpellChoices: boolean
+interface ComponentParameters {
+    allowSwitchingPreparedSpells: boolean;
+    hasSpellChoices: boolean;
 }
-type SpellCastingParameters = {
-    casting: SpellCasting
-    equipmentSpells: { choice: SpellChoice, gain: SpellGain }[],
-    maxSpellLevel: number,
-    needSpellBook: boolean
+interface SpellCastingParameters {
+    casting: SpellCasting;
+    equipmentSpells: Array<{ choice: SpellChoice; gain: SpellGain }>;
+    maxSpellLevel: number;
+    needSpellBook: boolean;
 }
-type SpellCastingLevelParameters = {
-    level: number,
-    availableSpellChoices: SpellChoice[],
-    fixedSpellSets: { choice: SpellChoice, gain: SpellGain }[]
+interface SpellCastingLevelParameters {
+    level: number;
+    availableSpellChoices: Array<SpellChoice>;
+    fixedSpellSets: Array<{ choice: SpellChoice; gain: SpellGain }>;
 }
-type SpellParameters = {
-    spell: Spell,
-    choice: SpellChoice,
-    gain: SpellGain
+interface SpellParameters {
+    spell: Spell;
+    choice: SpellChoice;
+    gain: SpellGain;
 }
 
 @Component({
@@ -51,12 +51,12 @@ export class SpellsComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private itemsService: ItemsService,
-        private refreshService: RefreshService,
-        private spellsService: SpellsService,
-        private effectsService: EffectsService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly itemsService: ItemsService,
+        private readonly refreshService: RefreshService,
+        private readonly spellsService: SpellsService,
+        private readonly effectsService: EffectsService
     ) { }
 
     public minimize(): void {
@@ -119,7 +119,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }
     }
 
-    public receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }): void {
+    public receive_ChoiceMessage(message: { name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }): void {
         this.toggle_Choice(message.name, message.levelNumber, message.choice, message.casting);
     }
 
@@ -139,7 +139,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         return this.showContent;
     }
 
-    public get_ActiveChoiceContent(): { name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }[] {
+    public get_ActiveChoiceContent(): Array<{ name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }> {
         //Get the currently shown spell choice with levelNumber and spellcasting.
         //Also get the currently shown list name for compatibility.
         if (this.get_ShowContent()) {
@@ -153,7 +153,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    public trackByID(index: number, obj: { name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }): string {
+    public trackByID(index: number, obj: { name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }): string {
         //Track spell choices by id, so that when the selected choice changes, the choice area content is updated.
         // The choice area content is only ever one choice, so the index would always be 0.
         return obj.choice.id;
@@ -170,7 +170,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         };
     }
 
-    public get_SpellCastingParameters(): SpellCastingParameters[] {
+    public get_SpellCastingParameters(): Array<SpellCastingParameters> {
         return this.get_SpellCastings().map(casting => {
             const equipmentSpells = this.get_Character().get_EquipmentSpellsGranted(casting, { characterService: this.characterService, itemsService: this.itemsService }, { cantripAllowed: true, emptyChoiceAllowed: true });
             //Don't list castings that have no spells available.
@@ -190,7 +190,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }).filter(castingParameters => castingParameters);
     }
 
-    public get_SpellCastingLevelParameters(spellCastingParameters: SpellCastingParameters): SpellCastingLevelParameters[] {
+    public get_SpellCastingLevelParameters(spellCastingParameters: SpellCastingParameters): Array<SpellCastingLevelParameters> {
         return [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(level => level <= spellCastingParameters.maxSpellLevel).map(level => {
             const availableSpellChoices = this.get_AvailableSpellChoices(spellCastingParameters, level);
             const fixedSpellSets = this.get_FixedSpellsByLevel(spellCastingParameters, level);
@@ -205,7 +205,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }).filter(spellCastingLevelParameters => spellCastingLevelParameters);
     }
 
-    private get_AvailableSpellChoices(spellCastingParameters: SpellCastingParameters, levelNumber: number): SpellChoice[] {
+    private get_AvailableSpellChoices(spellCastingParameters: SpellCastingParameters, levelNumber: number): Array<SpellChoice> {
         //Get all spellchoices that have this spell level and are available at this character level.
         const character = this.get_Character();
         return spellCastingParameters.casting.spellChoices
@@ -216,7 +216,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
             );
     }
 
-    private get_FixedSpellsByLevel(spellCastingParameters: SpellCastingParameters, levelNumber: number): { choice: SpellChoice, gain: SpellGain }[] {
+    private get_FixedSpellsByLevel(spellCastingParameters: SpellCastingParameters, levelNumber: number): Array<{ choice: SpellChoice; gain: SpellGain }> {
         const character = this.get_Character();
         if (levelNumber == -1) {
             if (spellCastingParameters.casting.castingType == 'Focus') {
@@ -238,7 +238,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }
     }
 
-    public get_FixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): SpellParameters[] {
+    public get_FixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
         return spellCastingLevelParameters.fixedSpellSets.map(spellSet => {
             const spell = this.spellsService.get_Spells(spellSet.gain.name)[0];
             if (!spell) {
@@ -252,7 +252,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }).filter(spellParameter => spellParameter);
     }
 
-    private get_MaxSpellLevel(casting: SpellCasting, equipmentSpells: { choice: SpellChoice, gain: SpellGain }[]): number {
+    private get_MaxSpellLevel(casting: SpellCasting, equipmentSpells: Array<{ choice: SpellChoice; gain: SpellGain }>): number {
         //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level.
         //Focus spells are heightened to half your level rounded up.
         //Dynamic spell levels need to be evaluated.
@@ -283,7 +283,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         return !!this.effectsService.get_ToggledOnThis(this.get_Character(), 'Allow Switching Prepared Spells').length;
     }
 
-    private get_SpellCastings(): SpellCasting[] {
+    private get_SpellCastings(): Array<SpellCasting> {
         const character = this.get_Character();
         enum CastingTypeSort {
             Innate,

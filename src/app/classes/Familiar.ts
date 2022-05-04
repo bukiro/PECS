@@ -18,13 +18,13 @@ export class Familiar extends Creature {
         source: 'Familiar',
         type: 'Familiar'
     });
-    public customSkills: Skill[] = [
+    public customSkills: Array<Skill> = [
         new Skill('', 'Attack Rolls', 'Familiar Proficiency')
     ];
     public originClass = '';
-    public senses: string[] = ['Low-Light Vision'];
+    public senses: Array<string> = ['Low-Light Vision'];
     public species = '';
-    public traits: string[] = ['Minion'];
+    public traits: Array<string> = ['Minion'];
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
@@ -33,7 +33,7 @@ export class Familiar extends Creature {
     get_BaseSize() {
         return -2;
     }
-    get_BaseHP(services: { characterService: CharacterService }): { result: number, explain: string } {
+    get_BaseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
         const charLevel = services.characterService.get_Character().level;
@@ -42,7 +42,7 @@ export class Familiar extends Creature {
         explain = `Familiar base HP: ${ classHP }`;
         return { result: classHP, explain: explain.trim() };
     }
-    get_BaseSpeed(speedName: string): { result: number, explain: string } {
+    get_BaseSpeed(speedName: string): { result: number; explain: string } {
         let explain = '';
         let sum = 0;
         if (speedName == this.speeds[1].name) {
@@ -52,17 +52,17 @@ export class Familiar extends Creature {
         return { result: sum, explain: explain.trim() };
     }
     get_FeatsTaken(featName = '') {
-        const featsTaken: string[] = [];
+        const featsTaken: Array<string> = [];
         this.abilities.feats.filter((feat: FeatTaken) => feat.name.toLowerCase() == featName.toLowerCase() || featName == '')
             .forEach(feat => {
                 featsTaken.push(feat.name);
             });
         return featsTaken;
     }
-    get_EffectsGenerationObjects(characterService: CharacterService): { feats: (Feat | AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
+    get_EffectsGenerationObjects(characterService: CharacterService): { feats: Array<Feat | AnimalCompanionSpecialization>; hintSets: Array<{ hint: Hint; objectName: string }> } {
         //Return the Familiar, its Feats and their hints for effect generation.
-        const feats: Feat[] = [];
-        const hintSets: { hint: Hint, objectName: string }[] = [];
+        const feats: Array<Feat> = [];
+        const hintSets: Array<{ hint: Hint; objectName: string }> = [];
         characterService.familiarsService.get_FamiliarAbilities().filter(ability => ability.have({ creature: this }, { characterService }))
             .filter(ability => ability.effects?.length || ability.hints?.length)
             .forEach(ability => {

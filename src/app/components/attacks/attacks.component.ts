@@ -43,8 +43,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public creature = 'Character';
     @Input()
     public sheetSide = 'left';
-    public onlyAttacks: AttackRestriction[] = [];
-    public forbiddenAttacks: AttackRestriction[] = [];
+    public onlyAttacks: Array<AttackRestriction> = [];
+    public forbiddenAttacks: Array<AttackRestriction> = [];
     public showRestricted = false;
     private showItem = '';
     private showList = '';
@@ -53,12 +53,12 @@ export class AttacksComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private traitsService: TraitsService,
-        private deitiesService: DeitiesService,
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly traitsService: TraitsService,
+        private readonly deitiesService: DeitiesService,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private activitiesService: ActivitiesService,
+        private readonly refreshService: RefreshService,
+        private readonly activitiesService: ActivitiesService,
         public effectsService: EffectsService,
         public conditionsService: ConditionsService
     ) { }
@@ -129,7 +129,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_CriticalHints(weapon: Weapon) {
-        const hints: string[] = [];
+        const hints: Array<string> = [];
         if (weapon.criticalHint) {
             hints.push(weapon.criticalHint);
         }
@@ -166,7 +166,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     get_IsAllowed(weapon: Weapon) {
         const creature = this.get_Creature();
         const characterService = this.characterService;
-        function doesListMatchWeapon(list: AttackRestriction[], weapon: Weapon) {
+        function doesListMatchWeapon(list: Array<AttackRestriction>, weapon: Weapon) {
             return list.some(restriction => {
                 if (restriction.name) {
                     return restriction.name == weapon.name;
@@ -186,7 +186,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         );
     }
 
-    get_EquippedWeaponsParameters(): WeaponParameters[] {
+    get_EquippedWeaponsParameters(): Array<WeaponParameters> {
         this.get_AttackRestrictions();
         return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken)
             .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
@@ -233,7 +233,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    get_AmmoTypes(): string[] {
+    get_AmmoTypes(): Array<string> {
         return Array.from(new Set(
             this.get_EquippedWeaponsParameters()
                 .map(weaponParameters => weaponParameters.weapon.ammunition)
@@ -241,13 +241,13 @@ export class AttacksComponent implements OnInit, OnDestroy {
         ));
     }
 
-    public get_Ammo(type: string): { item: Ammunition, name: string, inventory: ItemCollection }[] {
+    public get_Ammo(type: string): Array<{ item: Ammunition; name: string; inventory: ItemCollection }> {
         //Return all ammo from all inventories that has this type in its group
         //We need the inventory for using up items and the name just for sorting
-        const ammoList: { item: Ammunition, name: string, inventory: ItemCollection }[] = [];
+        const ammoList: Array<{ item: Ammunition; name: string; inventory: ItemCollection }> = [];
         this.get_Creature().inventories.forEach(inv => {
             inv.ammunition.filter(ammo => [type, 'Any'].includes(ammo.ammunition)).forEach(ammo => {
-                ammoList.push({ item: ammo, name: ammo.get_Name(), inventory: inv });
+                ammoList.push({ item: ammo, name: ammo.getName(), inventory: inv });
             });
         });
         return ammoList
@@ -255,10 +255,10 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_Snares() {
-        const snares: { item: Snare, name: string, inventory: ItemCollection }[] = [];
+        const snares: Array<{ item: Snare; name: string; inventory: ItemCollection }> = [];
         this.get_Creature().inventories.forEach(inv => {
             inv.snares.forEach(snare => {
-                snares.push({ item: snare, name: snare.get_Name(), inventory: inv });
+                snares.push({ item: snare, name: snare.getName(), inventory: inv });
             });
         });
         return snares
@@ -291,7 +291,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             }
         }
         this.characterService.on_ConsumableUse(this.get_Creature(), item as Consumable);
-        if (item.can_Stack()) {
+        if (item.canStack()) {
             this.refreshService.set_ToChange(this.creature, 'attacks');
             this.refreshService.process_ToChange();
         } else {
@@ -311,26 +311,26 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return this.traitsService.get_Traits(traitName);
     }
 
-    get_HintRunes(weapon: Weapon, range: string): WeaponRune[] {
+    get_HintRunes(weapon: Weapon, range: string): Array<WeaponRune> {
         //Return all runes and rune-emulating effects that have a hint to show.
         const runeSource = weapon.get_RuneSource(this.get_Creature(), range);
-        return (runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as WeaponRune[])
+        return (runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as Array<WeaponRune>)
             .concat(weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hints.length).map(oil => oil.runeEffect))
             .concat(
                 runeSource.propertyRunes.bladeAlly ?
-                    runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) as WeaponRune[] :
+                    runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) as Array<WeaponRune> :
                     []
             );
     }
 
     get_Runes(weapon: Weapon, range: string) {
         //Return all runes and rune-emulating oil effects.
-        const runes: WeaponRune[] = [];
+        const runes: Array<WeaponRune> = [];
         const runeSource = weapon.get_RuneSource(this.get_Creature(), range);
-        runes.push(...weapon.get_RuneSource(this.get_Creature(), range).propertyRunes.propertyRunes as WeaponRune[]);
+        runes.push(...weapon.get_RuneSource(this.get_Creature(), range).propertyRunes.propertyRunes as Array<WeaponRune>);
         runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect).map(oil => oil.runeEffect));
         if (runeSource.propertyRunes.bladeAlly) {
-            runes.push(...runeSource.propertyRunes.bladeAllyRunes as WeaponRune[]);
+            runes.push(...runeSource.propertyRunes.bladeAllyRunes as Array<WeaponRune>);
         }
         return runes;
     }
@@ -356,7 +356,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     get_SpecialShowon(weapon: Weapon, range: string) {
         //Under certain circumstances, some Feats apply to Weapons independently of their name.
         //Return names that get_FeatsShowingOn should run on.
-        const specialNames: string[] = [];
+        const specialNames: Array<string> = [];
         //Monks with Monastic Weaponry can apply Unarmed effects to Monk weapons.
         if (weapon.traits.includes('Monk') && this.characterService.get_Feats('Monastic Weaponry')[0].have({ creature: this.get_Creature() }, { characterService: this.characterService })) {
             specialNames.push('Unarmed Attacks');
@@ -427,7 +427,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     get_MultipleAttackPenalty() {
         const creature = this.get_Creature();
-        const conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => ['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'].includes(gain.name) && gain.source == 'Quick Status');
         for (const gain of conditions) {
             if (gain.name == 'Multiple Attack Penalty (Flurry)') {
@@ -448,7 +448,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     set_MultipleAttackPenalty(map: '1' | '2' | '3' | '2f' | '3f') {
         const creature = this.get_Creature();
-        const conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => ['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'].includes(gain.name) && gain.source == 'Quick Status');
         const map2 = conditions.find(gain => gain.name == 'Multiple Attack Penalty' && gain.choice == 'Second Attack');
         const map3 = conditions.find(gain => gain.name == 'Multiple Attack Penalty' && gain.choice == 'Third Attack');
@@ -503,7 +503,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     get_RangePenalty() {
         const creature = this.get_Creature();
-        const conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => gain.name == 'Range Penalty' && gain.source == 'Quick Status');
         for (const gain of conditions) {
             switch (gain.choice) {
@@ -519,7 +519,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     set_RangePenalty(rap: '1' | '2' | '3' | '4' | '5' | '6') {
         const creature = this.get_Creature();
-        const conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => gain.name == 'Range Penalty' && gain.source == 'Quick Status');
         const rap2 = conditions.find(gain => gain.choice == 'Second Range Increment');
         const rap3 = conditions.find(gain => gain.choice == 'Third Range Increment');
@@ -580,7 +580,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const creature = this.get_Creature();
         if (creature instanceof Character && creature.class?.deity && creature.class.deityFocused) {
             const deity = this.deitiesService.get_CharacterDeities(this.characterService, creature)[0];
-            const favoredWeapons: string[] = [];
+            const favoredWeapons: Array<string> = [];
             if (deity && deity.favoredWeapon.length) {
                 favoredWeapons.push(...deity.favoredWeapon);
             }

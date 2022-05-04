@@ -16,7 +16,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { WornItem } from 'src/app/classes/WornItem';
 
 interface ItemParameters extends ItemRoles {
-    canUse: boolean,
+    canUse: boolean;
 }
 
 @Component({
@@ -43,11 +43,11 @@ export class CraftingComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private itemsService: ItemsService,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemRolesService: ItemRolesService,
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly itemsService: ItemsService,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly itemRolesService: ItemRolesService,
     ) { }
 
     set_Range(amount: number) {
@@ -133,7 +133,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         return InputValidationService.positiveNumbersOnly(event);
     }
 
-    get_ItemParameters(itemList: Item[]): ItemParameters[] {
+    get_ItemParameters(itemList: Array<Item>): Array<ItemParameters> {
         const character = this.get_Character();
         return itemList.map(item => {
             const itemRoles = this.itemRolesService.getItemRoles(item);
@@ -193,7 +193,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character().inventories.map(inventory => inventory[type]);
     }
 
-    get_VisibleItems(items: Item[]) {
+    get_VisibleItems(items: Array<Item>) {
         const have_CraftingBook = this.get_Character().inventories.find(inv => inv.adventuringgear.find(gear => gear.name == 'Basic Crafter\'s Book'));
         return items
             .filter((item: Item) =>
@@ -220,7 +220,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     cannot_Craft(item: Item) {
         //Return any reasons why you cannot craft an item.
         const character: Character = this.get_Character();
-        const reasons: string[] = [];
+        const reasons: Array<string> = [];
         if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Alchemical Crafting').length) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }

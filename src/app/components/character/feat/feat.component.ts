@@ -25,10 +25,10 @@ export class FeatComponent {
 
     constructor(
         public characterService: CharacterService,
-        private spellsService: SpellsService,
-        private activitiesService: ActivitiesService,
-        private traitsService: TraitsService,
-        private featRequirementsService: FeatRequirementsService
+        private readonly spellsService: SpellsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly traitsService: TraitsService,
+        private readonly featRequirementsService: FeatRequirementsService
     ) { }
 
     trackByIndex(index: number): number {
@@ -40,8 +40,8 @@ export class FeatComponent {
     }
 
     get_FeatRequirements(choice: FeatChoice, feat: Feat) {
-        const ignoreRequirementsList: string[] = this.featRequirementsService.createIgnoreRequirementList(feat, this.levelNumber, choice);
-        const result: Array<{ met?: boolean, ignored?: boolean, desc?: string }> = [];
+        const ignoreRequirementsList: Array<string> = this.featRequirementsService.createIgnoreRequirementList(feat, this.levelNumber, choice);
+        const result: Array<{ met?: boolean; ignored?: boolean; desc?: string }> = [];
         if (feat.levelreq) {
             result.push(this.featRequirementsService.meetsLevelReq(feat, this.featLevel));
             result[result.length - 1].ignored = ignoreRequirementsList.includes('levelreq');

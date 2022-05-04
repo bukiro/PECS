@@ -22,16 +22,16 @@ export class Creature {
     public type: 'Character' | 'Companion' | 'Familiar' = 'Character';
     public typeId = 0;
     public level = 1;
-    public customSkills: Skill[] = [];
+    public customSkills: Array<Skill> = [];
     public health: Health = new Health();
-    public conditions: ConditionGain[] = [];
-    public effects: EffectGain[] = [];
-    public ignoredEffects: Effect[] = [];
-    public inventories: ItemCollection[] = [new ItemCollection()];
-    public speeds: Speed[] = [new Speed('Speed'), new Speed('Land Speed')];
+    public conditions: Array<ConditionGain> = [];
+    public effects: Array<EffectGain> = [];
+    public ignoredEffects: Array<Effect> = [];
+    public inventories: Array<ItemCollection> = [new ItemCollection()];
+    public speeds: Array<Speed> = [new Speed('Speed'), new Speed('Land Speed')];
     public bulk: Bulk = new Bulk();
     public notes = '';
-    public skillNotes: { name: string, showNotes: boolean, notes: string }[] = [];
+    public skillNotes: Array<{ name: string; showNotes: boolean; notes: string }> = [];
     recast(typeService: TypeService, itemsService: ItemsService) {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.health = Object.assign(new Health(), this.health).recast();
@@ -80,17 +80,17 @@ export class Creature {
     }
     //Other implementations require characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_BaseHP(services: { characterService?: CharacterService }): { result: number, explain: string } {
+    get_BaseHP(services: { characterService?: CharacterService }): { result: number; explain: string } {
         return { result: 0, explain: '' };
     }
     //Other implementations require speedName.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_BaseSpeed(speedName: string): { result: number, explain: string } {
+    get_BaseSpeed(speedName: string): { result: number; explain: string } {
         return { result: 0, explain: '' };
     }
     //Other implementations require characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_EffectsGenerationObjects(characterService?: CharacterService): { feats: (Feat | AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
+    get_EffectsGenerationObjects(characterService?: CharacterService): { feats: Array<Feat | AnimalCompanionSpecialization>; hintSets: Array<{ hint: Hint; objectName: string }> } {
         //Each kind of creature provides its own version of this.
         return { feats: [], hintSets: [] };
     }

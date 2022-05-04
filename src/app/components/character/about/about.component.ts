@@ -13,12 +13,12 @@ export class AboutComponent implements OnInit {
 
     public version = '';
 
-    welcome: { header: string, desc: string }[] = welcome;
-    hints: { header: string, desc: string, images: { file: string, title: string }[] }[] = hints;
-    changelog: { version: string, changes: { header: string, desc: string, images: { file: string, title: string }[] }[] }[] = changelog;
+    welcome: Array<{ header: string; desc: string }> = welcome;
+    hints: Array<{ header: string; desc: string; images: Array<{ file: string; title: string }> }> = hints;
+    changelog: Array<{ version: string; changes: Array<{ header: string; desc: string; images: Array<{ file: string; title: string }> }> }> = changelog;
 
     constructor(
-        private configService: ConfigService
+        private readonly configService: ConfigService
     ) { }
 
     trackByIndex(index: number): number {

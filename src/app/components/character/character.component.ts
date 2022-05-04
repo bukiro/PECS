@@ -47,7 +47,7 @@ import { Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
 
-type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string, source?: string };
+type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
 @Component({
     selector: 'app-character',
@@ -73,26 +73,26 @@ export class CharacterComponent implements OnInit, OnDestroy {
     public versionString: string = package_json.version;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
+        private readonly refreshService: RefreshService,
         public configService: ConfigService,
         public classesService: ClassesService,
         public abilitiesService: AbilitiesService,
         public effectsService: EffectsService,
         public featsService: FeatsService,
         public historyService: HistoryService,
-        private itemsService: ItemsService,
-        private activitiesService: ActivitiesService,
-        private deitiesService: DeitiesService,
-        private spellsService: SpellsService,
-        private animalCompanionsService: AnimalCompanionsService,
-        private conditionsService: ConditionsService,
-        private savegameService: SavegameService,
-        private traitsService: TraitsService,
-        private familiarsService: FamiliarsService,
-        private cacheService: CacheService,
-        private modalService: NgbModal,
+        private readonly itemsService: ItemsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly deitiesService: DeitiesService,
+        private readonly spellsService: SpellsService,
+        private readonly animalCompanionsService: AnimalCompanionsService,
+        private readonly conditionsService: ConditionsService,
+        private readonly savegameService: SavegameService,
+        private readonly traitsService: TraitsService,
+        private readonly familiarsService: FamiliarsService,
+        private readonly cacheService: CacheService,
+        private readonly modalService: NgbModal,
         public modal: NgbActiveModal
     ) { }
 
@@ -157,7 +157,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice | FeatChoice }) {
+    receive_ChoiceMessage(message: { name: string; levelNumber: number; choice: SkillChoice | FeatChoice }) {
         this.toggle_List(message.name, message.levelNumber, message.choice);
     }
 
@@ -187,19 +187,19 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_ActiveAbilityChoiceContent() {
-        return this.get_ActiveChoiceContent('AbilityChoice') as { name: string, levelNumber: number, choice: AbilityChoice }[];
+        return this.get_ActiveChoiceContent('AbilityChoice') as Array<{ name: string; levelNumber: number; choice: AbilityChoice }>;
     }
 
     get_ActiveSkillChoiceContent() {
-        return this.get_ActiveChoiceContent('SkillChoice') as { name: string, levelNumber: number, choice: SkillChoice }[];
+        return this.get_ActiveChoiceContent('SkillChoice') as Array<{ name: string; levelNumber: number; choice: SkillChoice }>;
     }
 
     get_ActiveFeatChoiceContent() {
-        return this.get_ActiveChoiceContent('FeatChoice') as { name: string, levelNumber: number, choice: FeatChoice }[];
+        return this.get_ActiveChoiceContent('FeatChoice') as Array<{ name: string; levelNumber: number; choice: FeatChoice }>;
     }
 
     get_ActiveLoreChoiceContent() {
-        return this.get_ActiveChoiceContent('LoreChoice') as { name: string, levelNumber: number, choice: LoreChoice }[];
+        return this.get_ActiveChoiceContent('LoreChoice') as Array<{ name: string; levelNumber: number; choice: LoreChoice }>;
     }
 
     get_ActiveSpecialChoiceShown(choiceType = '') {
@@ -209,7 +209,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             return [{
                 name: choiceType,
                 levelNumber: this.get_ShowContentLevelNumber(),
-                choice: this.get_ShowContent()?.['id'] ? this.get_ShowContent() : { id: choiceType + this.get_ShowContentLevelNumber().toString() }
+                choice: this.get_ShowContent()?.id ? this.get_ShowContent() : { id: choiceType + this.get_ShowContentLevelNumber().toString() }
             }];
         }
     }
@@ -729,7 +729,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         //Returns a string of reasons why the ability cannot be boosted, or "". Test the length of the return if you need a boolean.
         //Info only choices that don't grant a boost (like for the key ability for archetypes) don't need to be checked.
         if (choice.infoOnly) { return []; }
-        const reasons: string[] = [];
+        const reasons: Array<string> = [];
         const sameBoostsThisLevel = this.get_AbilityBoosts(levelNumber, levelNumber, ability.name, choice.type, choice.source).filter(boost => boost.source == choice.source);
         if (sameBoostsThisLevel.length) {
             //The ability may have been boosted by the same source, but as a fixed rule (e.g. fixed ancestry boosts vs. free ancestry boosts).
@@ -775,7 +775,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.get_Character().get_SkillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
     }
 
-    get_Skills(name = '', filter: { type?: string, locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}) {
+    get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}) {
         filter = Object.assign({
             type: '',
             locked: undefined
@@ -831,7 +831,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     get_FeatChoicesShownOnCurrentLevel(level: Level, specialChoices: boolean = undefined) {
         const ancestry = this.get_Character().class.ancestry?.name || '';
         if (this.get_Character().level == level.number) {
-            const choices: FeatChoice[] = [];
+            const choices: Array<FeatChoice> = [];
             this.get_Character().class.levels.forEach(level => {
                 choices.push(...level.featChoices
                     .filter(choice =>
@@ -884,7 +884,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return Math.ceil(levelNumber / 2);
     }
 
-    get_DifferentWorldsData(levelNumber: number): FeatData[] {
+    get_DifferentWorldsData(levelNumber: number): Array<FeatData> {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, 'Different Worlds').length) {
             return this.get_Character().class.get_FeatData(levelNumber, levelNumber, 'Different Worlds');
         }
@@ -929,7 +929,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.get_Character().class.get_FeatData(0, 0, 'Splinter Faith')[0]?.valueAsStringArray('domains') || [];
     }
 
-    set_SplinterFaithDomains(domains: string[]) {
+    set_SplinterFaithDomains(domains: Array<string>) {
         this.get_Character().class.get_FeatData(0, 0, 'Splinter Faith')[0].setValue('domains', domains);
     }
 
@@ -942,13 +942,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     .concat(deity.domains.map((domain, index) => { return { title: index ? '' : 'Deity\'s Domains', type: 1, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() }; }))
                     .concat(deity.alternateDomains.map((domain, index) => { return { title: index ? '' : 'Deity\'s Alternate Domains', type: 2, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() }; }))
                     .concat(this.deitiesService.get_Domains().filter(domain => !deity.domains.includes(domain.name) && !deity.alternateDomains.includes(domain.name)).map((domain, index) => { return { title: index ? '' : 'Other Domains', type: 3, domain }; })) as
-                    { title: string, type: number, domain: Domain }[];
+                    Array<{ title: string; type: number; domain: Domain }>;
             }
         }
         return [];
     }
 
-    get_SplinterFaithThirdDomainTaken(availableDomains: { title: string, type: number, domain: Domain }[], takenDomains: string[]) {
+    get_SplinterFaithThirdDomainTaken(availableDomains: Array<{ title: string; type: number; domain: Domain }>, takenDomains: Array<string>) {
         //Check if any domain with type 3 is among the taken domains.
         return availableDomains.some(availableDomain => availableDomain.type == 3 && takenDomains.includes(availableDomain.domain.name));
     }
@@ -982,7 +982,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_AdditionalHeritagesAvailable(levelNumber: number): HeritageGain[] {
+    get_AdditionalHeritagesAvailable(levelNumber: number): Array<HeritageGain> {
         //Return all heritages you have gained on this specific level.
         return []
             .concat(
@@ -1045,7 +1045,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             });
         } else {
             data.setValue('background', '');
-            const oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == 'Different Worlds');
+            const oldChoices: Array<LoreChoice> = level.loreChoices.filter(choice => choice.source == 'Different Worlds');
             //Remove the lore granted by Different Worlds.
             if (oldChoices.length) {
                 const oldChoice = oldChoices[0];
@@ -1058,22 +1058,22 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    get_FuseStanceData(levelNumber: number): FeatData[] {
+    get_FuseStanceData(levelNumber: number): Array<FeatData> {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, 'Fuse Stance').length) {
             return this.get_Character().class.get_FeatData(levelNumber, levelNumber, 'Fuse Stance');
         }
     }
 
-    get_StancesToFuse(levelNumber: number, fuseStanceData: FeatData): { activity: Activity, restricted: boolean, reason: string }[] {
+    get_StancesToFuse(levelNumber: number, fuseStanceData: FeatData): Array<{ activity: Activity; restricted: boolean; reason: string }> {
         //Return all stances that you own.
         //Since Fuse Stance can't use two stances that only allow one type of attack each, we check if one of the previously selected stances does that,
         // and if so, make a note for each available stance with a restriction that it isn't available.
         const showOtherOptions = this.get_Character().settings.showOtherOptions;
-        const unique: string[] = [];
-        const availableStances: { activity: Activity, restricted: boolean, reason: string }[] = [];
+        const unique: Array<string> = [];
+        const availableStances: Array<{ activity: Activity; restricted: boolean; reason: string }> = [];
         const restrictedConditions = this.get_Conditions().filter(condition => condition.attackRestrictions.length).map(condition => condition.name);
         const activities = this.activitiesService.get_Activities().filter(activity => activity.traits.includes('Stance'));
-        const existingStances: Activity[] = [];
+        const existingStances: Array<Activity> = [];
         const featStances = fuseStanceData.valueAsStringArray('stances');
         featStances.forEach(stance => {
             existingStances.push(activities.find(example => example.name == stance));
@@ -1153,7 +1153,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.characterService.get_Classes(name);
     }
 
-    get_AvailableClasses(): Class[] {
+    get_AvailableClasses(): Array<Class> {
         const showOtherOptions = this.get_Character().settings.showOtherOptions;
         return this.get_Classes()
             .filter($class => showOtherOptions || !this.get_Character().class?.name || $class.name == this.get_Character().class.name)
@@ -1346,7 +1346,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             const character = this.characterService.get_Character();
             //Keep the specializations and ID; When the animal companion is reset, any later feats and specializations still remain, and foreign effects still need to apply.
             const id = character.class.animalCompanion.id;
-            const specializations: AnimalCompanionSpecialization[] = character.class.animalCompanion.class.specializations;
+            const specializations: Array<AnimalCompanionSpecialization> = character.class.animalCompanion.class.specializations;
             character.class.animalCompanion = new AnimalCompanion();
             character.class.animalCompanion.class = new AnimalCompanionClass();
             if (id) { character.class.animalCompanion.id = id; }
@@ -1406,7 +1406,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_AvailableCompanionSpecializations(levelNumber: number) {
-        const existingCompanionSpecs: AnimalCompanionSpecialization[] = this.get_Companion().class.specializations;
+        const existingCompanionSpecs: Array<AnimalCompanionSpecialization> = this.get_Companion().class.specializations;
         const available = this.get_CompanionSpecializationsAvailable(levelNumber);
         const showOtherOptions = this.get_Character().settings.showOtherOptions;
         //Get all specializations that were either taken on this level (so they can be deselected) or that were not yet taken if the choice is not exhausted.
@@ -1475,7 +1475,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_AnimalCompanionAbilities(type: AnimalCompanionAncestry) {
-        const abilities: [{ name: string, modifier: string }] = [{ name: '', modifier: '' }];
+        const abilities: [{ name: string; modifier: string }] = [{ name: '', modifier: '' }];
         this.characterService.get_Abilities().forEach(ability => {
             const name = ability.name.substr(0, 3);
             let modifier = 0;

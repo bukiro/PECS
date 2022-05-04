@@ -29,7 +29,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     showSubFeat = '';
     uncollapseSubFeat = '';
     @Output()
-    showFeatChoiceMessage = new EventEmitter<{ name: string, levelNumber: number, choice: FeatChoice }>();
+    showFeatChoiceMessage = new EventEmitter<{ name: string; levelNumber: number; choice: FeatChoice }>();
     @Output()
     showFeatMessage = new EventEmitter<string>();
     @Input()
@@ -58,14 +58,14 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private featsService: FeatsService,
-        private familiarsService: FamiliarsService,
-        private traitsService: TraitsService,
-        private effectsService: EffectsService,
-        private featRequirementsService: FeatRequirementsService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly featsService: FeatsService,
+        private readonly familiarsService: FamiliarsService,
+        private readonly traitsService: TraitsService,
+        private readonly effectsService: EffectsService,
+        private readonly featRequirementsService: FeatRequirementsService
     ) { }
 
     toggle_Feat(name: string) {
@@ -124,7 +124,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    trackByFeat(index: number, featSet: { available: boolean, feat: Feat, cannotTake: { reason: string, explain: string }[] }) {
+    trackByFeat(index: number, featSet: { available: boolean; feat: Feat; cannotTake: Array<{ reason: string; explain: string }> }) {
         //Feat options are sorted by whether they are available or not. When you take one, you might no longer meet the prerequisites
         // for another feat that gets pushed to the "unavailable" section and may change the order of options.
         // This can lead to another option now being checked in the position of the taken option.
@@ -132,7 +132,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         return featSet.feat.name;
     }
 
-    trackBySubType(index: number, subfeatSet: { available: boolean, subfeat: Feat, cannotTake: { reason: string, explain: string }[] }) {
+    trackBySubType(index: number, subfeatSet: { available: boolean; subfeat: Feat; cannotTake: Array<{ reason: string; explain: string }> }) {
         //Subfeat options are sorted by whether they are available or not. When you take one, you might now meet the prerequisites
         // for another subfeat that gets pushed to the "available" section and may change the order of options.
         // This can lead to another option now being checked in the position of the taken option.
@@ -210,7 +210,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     get_SubFeats(feat: Feat, choice: FeatChoice) {
         if (feat.subTypes) {
             const available = this.get_Available(choice);
-            let feats: Feat[] = this.get_Feats().filter((subFeat: Feat) => subFeat.superType == feat.name && !subFeat.hide);
+            let feats: Array<Feat> = this.get_Feats().filter((subFeat: Feat) => subFeat.superType == feat.name && !subFeat.hide);
             if (choice.filter.length) {
                 feats = feats.filter(subFeat => choice.filter.includes(subFeat.name) || choice.filter.includes(subFeat.superType));
             }
@@ -269,9 +269,9 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     get_AvailableFeats(choice: FeatChoice, available: number) {
         const character = this.get_Character();
         //Get all feats, but no subtype Feats (those that have the supertype attribute set) - those get built within their supertype
-        let allFeats: Feat[] = this.get_Feats().filter(feat => !feat.superType);
+        let allFeats: Array<Feat> = this.get_Feats().filter(feat => !feat.superType);
         //Get subfeats for later use
-        let allSubFeats: Feat[] = this.get_Feats().filter(feat => feat.superType);
+        let allSubFeats: Array<Feat> = this.get_Feats().filter(feat => feat.superType);
         //If feats are filtered, get them whether they are hidden or not. Otherwise, filter all hidden feats.
         if (choice.filter.length) {
             allFeats = allFeats.filter(feat =>
@@ -285,7 +285,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             allFeats = allFeats.filter(feat => !feat.hide);
             allSubFeats = allSubFeats.filter(feat => !feat.hide);
         }
-        let feats: Feat[] = [];
+        let feats: Array<Feat> = [];
         if (choice.specialChoice) {
             //For special choices, we don't really use true feats, but make choices that can best be represented by the extensive feat structure.
             //In this case, we don't go looking for feats with a certain trait, but rely completely on the filter.
@@ -304,7 +304,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                     feats.push(...allFeats.filter(feat => feat.traits.includes('Familiar Ability') || feat.traits.includes('Master Ability')));
                     break;
                 default: {
-                    const traits: string[] = choice.type.split(',');
+                    const traits: Array<string> = choice.type.split(',');
                     feats.push(...allFeats.filter((feat: Feat) => traits.filter(trait => feat.traits.includes(trait)).length == traits.length));
                     break;
                 }
@@ -384,7 +384,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_AvailableFeatsCount(featSets: { available: boolean, feat: Feat, cannotTake: { reason: string, explain: string }[] }[], available = true) {
+    get_AvailableFeatsCount(featSets: Array<{ available: boolean; feat: Feat; cannotTake: Array<{ reason: string; explain: string }> }>, available = true) {
         return featSets.filter(featSet => featSet.available == available).length;
     }
 
@@ -412,7 +412,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         this.cannotTakeSome(choice);
         //Check if there are more feats available as can be taken. If so, automatically take all feats that can be taken.
         const availableFeats = this.get_AvailableFeats(choice, available);
-        const availableFeatsNotTaken: { available: boolean, feat: Feat, cannotTake: { reason: string, explain: string }[] }[] = [];
+        const availableFeatsNotTaken: Array<{ available: boolean; feat: Feat; cannotTake: Array<{ reason: string; explain: string }> }> = [];
         //Collect all available feats that haven't been taken. If a feat has subfeats, collect its subfeats that haven't been taken instead.
         //This collection includes subfeats that exclude each other, in order to determine if the choice could be changed, and the choice should not be hidden.
         availableFeats.filter(featSet => featSet.available).forEach(featSet => {
@@ -459,9 +459,9 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             const creature = this.get_Creature();
             const levelNumber = this.levelNumber;
             const takenByThis: number = this.get_FeatTakenByChoice(feat, choice) ? 1 : 0;
-            const ignoreRequirementsList: string[] = this.featRequirementsService.createIgnoreRequirementList(feat, levelNumber, choice);
-            const reasons: { reason: string, explain: string }[] = [];
-            const traits: string[] = [];
+            const ignoreRequirementsList: Array<string> = this.featRequirementsService.createIgnoreRequirementList(feat, levelNumber, choice);
+            const reasons: Array<{ reason: string; explain: string }> = [];
+            const traits: Array<string> = [];
             switch (choice.type) {
                 case 'Class':
                     traits.push(this.get_Character().class?.name, 'Archetype');
@@ -525,7 +525,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             if (feat.superType && !skipSubfeatAlreadyTaken) {
                 const superfeat: Feat = this.get_Feats().find(superfeat => superfeat.name == feat.superType && !superfeat.hide);
                 if (!superfeat.unlimited) {
-                    const takenSubfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have({ creature }, { characterService: this.characterService }, { charLevel: levelNumber }));
+                    const takenSubfeats: Array<Feat> = this.get_Feats().filter(subfeat => subfeat.superType == feat.superType && subfeat.name != feat.name && !subfeat.hide && subfeat.have({ creature }, { characterService: this.characterService }, { charLevel: levelNumber }));
                     //If another subtype has been taken, but not in this choice, and the feat is not unlimited, no other subfeat can be taken.
                     if (!superfeat.unlimited && !superfeat.limited && takenSubfeats.length) {
                         reasons.push({ reason: 'Feat already taken', explain: 'This feat cannot be taken more than once.' });
@@ -545,7 +545,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             }
             //If this feat has any subtypes, check if any of them can be taken. If not, this cannot be taken either.
             if (feat.subTypes) {
-                const subfeats: Feat[] = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
+                const subfeats: Array<Feat> = this.get_Feats().filter(subfeat => subfeat.superType == feat.name && !subfeat.hide);
                 const subfeatsAvailable = subfeats.some(subfeat =>
                     this.get_FeatTakenByChoice(subfeat, choice) || !this.cannotTake(subfeat, choice, skipLevel).length
                 );
@@ -567,7 +567,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         return choice.feats.find(gain => gain.name == feat.name || gain.countAsFeat == feat.name);
     }
 
-    subFeatTakenByThis(subfeats: Feat[] = this.get_Feats(), feat: Feat, choice: FeatChoice) {
+    subFeatTakenByThis(subfeats: Array<Feat> = this.get_Feats(), feat: Feat, choice: FeatChoice) {
         return choice.feats.find(gain => subfeats.some(subfeat => gain.name == subfeat.name && subfeat.superType == feat.name));
     }
 

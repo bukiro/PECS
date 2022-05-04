@@ -10,14 +10,14 @@ import { RefreshService } from 'src/app/services/refresh.service';
 })
 export class CustomEffectsService {
 
-    private effectProperties: ItemProperty[] = [];
+    private effectProperties: Array<ItemProperty> = [];
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private refreshService: RefreshService
+        private readonly extensionsService: ExtensionsService,
+        private readonly refreshService: RefreshService
     ) { }
 
-    public get get_EffectProperties(): ItemProperty[] {
+    public get get_EffectProperties(): Array<ItemProperty> {
         return this.effectProperties;
     }
 
@@ -48,7 +48,7 @@ export class CustomEffectsService {
         Object.keys(data).forEach(key => {
             this.effectProperties.push(...data[key].map((obj: ItemProperty) => Object.assign(new ItemProperty(), obj).recast()));
         });
-        this.effectProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.effectProperties, ['parent', 'key'], 'custom effect properties') as ItemProperty[];
+        this.effectProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.effectProperties, ['parent', 'key'], 'custom effect properties') as Array<ItemProperty>;
     }
 
 }

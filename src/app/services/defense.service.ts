@@ -16,15 +16,15 @@ export class DefenseService {
         return this.AC;
     }
 
-    public get_EquippedArmor(creature: Creature): Armor[] {
+    public get_EquippedArmor(creature: Creature): Array<Armor> {
         return creature.inventories[0].armors.filter(armor => armor.equipped);
     }
 
-    public get_EquippedBracersOfArmor(creature: Creature): WornItem[] {
+    public get_EquippedBracersOfArmor(creature: Creature): Array<WornItem> {
         return creature.inventories[0].wornitems.filter(wornItem => wornItem.isBracersOfArmor && wornItem.investedOrEquipped());
     }
 
-    public get_EquippedShield(creature: Creature): Shield[] {
+    public get_EquippedShield(creature: Creature): Array<Shield> {
         return creature.inventories[0].shields.filter(shield => shield.equipped && !shield.broken);
     }
 

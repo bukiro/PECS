@@ -42,7 +42,7 @@ export class ConditionGain {
     //Only activate this condition if this string evaluates to a numeral nonzero value (so use "<evaluation> ? 1 : null"). This is tested at the add_condition stage, so it can be combined with conditionChoiceFilter.
     public activationPrerequisite = '';
     //For conditions within conditions, activate this condition only if this choice was made on the original condition.
-    public conditionChoiceFilter: string[] = [];
+    public conditionChoiceFilter: Array<string> = [];
     //Spells choose from multiple conditions those that match their level.
     //For example, if a spell has a ConditionGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ConditionGain is used.
     public heightenedFilter = 0;
@@ -59,9 +59,9 @@ export class ConditionGain {
     //Save the id of the SpellGain or ActivityGain so that the Spellgain or ActivityGain can be deactivated when the condition ends.
     public sourceGainID = '';
     //A condition's gainActivities gets copied here to track.
-    public gainActivities: ActivityGain[] = [];
+    public gainActivities: Array<ActivityGain> = [];
     //A condition's gainItems gets copied here to track.
-    public gainItems: ItemGain[] = [];
+    public gainItems: Array<ItemGain> = [];
     //If the gain is persistent, it does not get removed when its source is deactivated.
     public persistent = false;
     //If the gain is ignorePersistent, it gets removed when its source is deactivated, even when the condition is usually persistent.
@@ -90,7 +90,7 @@ export class ConditionGain {
     //Aeon stones and their activities can have resonant condition gains. These only get apply if the stone is slotted in a wayfinder (or activated while slotted in a wayfinder, respectively).
     public resonant = false;
     //Some conditions allow you to select other conditions to override. These are saved here.
-    public selectedOtherConditions: string[] = [];
+    public selectedOtherConditions: Array<string> = [];
     //Permanent conditions from feats and items cannot be removed.
     public fromFeat = false;
     public fromItem = false;

@@ -31,15 +31,15 @@ export class GeneralComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
+        private readonly refreshService: RefreshService,
         public effectsService: EffectsService,
         public traitsService: TraitsService,
-        private familiarsService: FamiliarsService,
-        private deitiesService: DeitiesService,
-        private classesService: ClassesService,
-        private itemsService: ItemsService
+        private readonly familiarsService: FamiliarsService,
+        private readonly deitiesService: DeitiesService,
+        private readonly classesService: ClassesService,
+        private readonly itemsService: ItemsService
     ) { }
 
     minimize() {
@@ -151,7 +151,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         const archetypesShowDeityEdicts = this.get_ArchetypeFeats().some(feat => this.classesService.get_ClassFromName(feat.archetype).showDeityEdicts);
         if (character.class.showDeityEdicts || archetypesShowDeityEdicts) {
             //Collect edicts from all deities you have (usually one);
-            const deityEdicts: string[] = [];
+            const deityEdicts: Array<string> = [];
             this.characterService.get_CharacterDeities(character).forEach(deity => {
                 deityEdicts.push(...deity.edicts.map(edict => edict[0].toUpperCase() + edict.substr(1)));
             });
@@ -164,7 +164,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     get_Anathema() {
         const character = this.get_Character();
 
-        const deityAnathema: string[] = [];
+        const deityAnathema: Array<string> = [];
         const archetypesShowDeityAnathema = this.get_ArchetypeFeats().some(feat => this.classesService.get_ClassFromName(feat.archetype).showDeityAnathema);
         if (character.class.showDeityAnathema || archetypesShowDeityAnathema) {
             //If your Collect anathema from all deities you have (usually one);
@@ -189,7 +189,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     get_EquipmentLanguages() {
-        let languages: string[] = [];
+        let languages: Array<string> = [];
         const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(this.get_Character());
         this.get_Character().inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped()).forEach(wornItem => {
             languages = languages.concat(wornItem.gainLanguages.filter(language => language.name).map(language => language.name));
@@ -212,9 +212,9 @@ export class GeneralComponent implements OnInit, OnDestroy {
     get_ClassChoices() {
         //Get the basic decisions for your class and all archetypes.
         // These decisions are feat choices identified by being .specialChoice==true, having exactly one feat, and having the class name (or the dedication feat name) as its source.
-        const results: { name: string, choice: string, subChoice: boolean }[] = [];
+        const results: Array<{ name: string; choice: string; subChoice: boolean }> = [];
         const character = this.get_Character();
-        const featChoices: FeatChoice[] = [];
+        const featChoices: Array<FeatChoice> = [];
         const className = character.class?.name || '';
         if (className) {
             results.push({ name: 'Class', choice: className, subChoice: false });
@@ -244,7 +244,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     get_CharacterTraits() {
         const character = this.get_Character();
-        let traits: string[] = JSON.parse(JSON.stringify(character.class.ancestry.traits));
+        let traits: Array<string> = JSON.parse(JSON.stringify(character.class.ancestry.traits));
         //Verdant Metamorphosis adds the Plant trait and removes the Humanoid, Animal or Fungus trait.
         if (this.characterService.get_CharacterFeatsTaken(1, character.level, 'Verdant Metamorphosis').length) {
             traits = ['Plant'].concat(traits.filter(trait => !['Humanoid', 'Animal', 'Fungus'].includes(trait)));

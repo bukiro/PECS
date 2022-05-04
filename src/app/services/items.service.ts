@@ -82,20 +82,20 @@ export class ItemsService {
     private items: ItemCollection;
     private cleanItems: ItemCollection;
     private craftingItems: ItemCollection;
-    private itemProperties: ItemProperty[] = [];
-    private armorMaterials: ArmorMaterial[] = [];
-    private shieldMaterials: ShieldMaterial[] = [];
-    private weaponMaterials: WeaponMaterial[] = [];
-    private specializations: Specialization[] = [];
+    private itemProperties: Array<ItemProperty> = [];
+    private armorMaterials: Array<ArmorMaterial> = [];
+    private shieldMaterials: Array<ShieldMaterial> = [];
+    private weaponMaterials: Array<WeaponMaterial> = [];
+    private specializations: Array<Specialization> = [];
     private loading = false;
 
     itemsMenuState = 'out';
 
     constructor(
-        private typeService: TypeService,
-        private extensionsService: ExtensionsService,
-        private activitiesService: ActivitiesService,
-        private refreshService: RefreshService
+        private readonly typeService: TypeService,
+        private readonly extensionsService: ExtensionsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly refreshService: RefreshService
     ) { }
 
     toggleItemsMenu(position = '') {
@@ -240,7 +240,7 @@ export class ItemsService {
             return item;
         }
     }
-    initialize_Item(item: Partial<Item>, options: { preassigned?: boolean, newId?: boolean, resetPropertyRunes?: boolean, newPropertyRunes?: Partial<Rune>[] } = {}) {
+    initialize_Item(item: Partial<Item>, options: { preassigned?: boolean; newId?: boolean; resetPropertyRunes?: boolean; newPropertyRunes?: Array<Partial<Rune>> } = {}) {
         options = {
             preassigned: false,
             newId: true,
@@ -299,7 +299,7 @@ export class ItemsService {
         }
         //For base items that come with property Runes with name only, load the rune into the item here.
         if (options.resetPropertyRunes && (newItem instanceof Weapon || (newItem instanceof WornItem && newItem.isHandwrapsOfMightyBlows)) && newItem.propertyRunes?.length) {
-            const newRunes: WeaponRune[] = [];
+            const newRunes: Array<WeaponRune> = [];
             newItem.propertyRunes.forEach((rune: WeaponRune) => {
                 const libraryItem = this.cleanItems.weaponrunes.find(newrune => newrune.name == rune.name);
                 if (libraryItem) {
@@ -309,7 +309,7 @@ export class ItemsService {
             newItem.propertyRunes = newRunes;
         }
         if (options.resetPropertyRunes && newItem instanceof Armor && newItem.propertyRunes?.length) {
-            const newRunes: ArmorRune[] = [];
+            const newRunes: Array<ArmorRune> = [];
             newItem.propertyRunes.forEach((rune: ArmorRune) => {
                 const libraryItem = this.cleanItems.armorrunes.find(newrune => newrune.name == rune.name);
                 if (libraryItem) {
@@ -320,7 +320,7 @@ export class ItemsService {
         }
         //For base items that come with material with name only, load the material into the item here.
         if (options.resetPropertyRunes && newItem instanceof Weapon && newItem.material?.length) {
-            const newMaterials: WeaponMaterial[] = [];
+            const newMaterials: Array<WeaponMaterial> = [];
             newItem.material.forEach((material: WeaponMaterial) => {
                 const libraryItem = this.weaponMaterials.find(newMaterial => newMaterial.name == material.name);
                 if (libraryItem) {
@@ -330,7 +330,7 @@ export class ItemsService {
             newItem.material = newMaterials;
         }
         if (options.resetPropertyRunes && newItem instanceof Armor && newItem.material?.length) {
-            const newMaterials: ArmorMaterial[] = [];
+            const newMaterials: Array<ArmorMaterial> = [];
             newItem.material.forEach((material: ArmorMaterial) => {
                 const libraryItem = this.armorMaterials.find(newMaterial => newMaterial.name == material.name);
                 if (libraryItem) {
@@ -340,7 +340,7 @@ export class ItemsService {
             newItem.material = newMaterials;
         }
         if (options.resetPropertyRunes && newItem instanceof Shield && newItem.material?.length) {
-            const newMaterials: ShieldMaterial[] = [];
+            const newMaterials: Array<ShieldMaterial> = [];
             newItem.material.forEach((material: ShieldMaterial) => {
                 const libraryItem = this.armorMaterials.find(newMaterial => newMaterial.name == material.name);
                 if (libraryItem) {
@@ -390,7 +390,7 @@ export class ItemsService {
                 creature.inventories.filter(inventory => !targetInventory || inventory !== targetInventory).forEach(inventory => {
                     //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
                     inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
-                        if (invItem.can_Stack()) {
+                        if (invItem.canStack()) {
                             found += invItem.amount;
                             stackBulk = (invItem as Equipment).carryingBulk || invItem.bulk;
                             stackSize = (invItem as Consumable).stack || 1;
@@ -420,7 +420,7 @@ export class ItemsService {
         return bulk;
     }
 
-    get_RealBulk(item: Item, options: { carrying?: boolean, amount?: number }) {
+    get_RealBulk(item: Item, options: { carrying?: boolean; amount?: number }) {
         options = Object.assign({
             carrying: false,
             amount: item.amount
@@ -429,7 +429,7 @@ export class ItemsService {
         //Then returned at /10
         let itemBulk = 0;
         //Use the item's carrying bulk if carrying is true.
-        const bulkString = (options.carrying && (item as Equipment).carryingBulk) ? (item as Equipment).carryingBulk : item.get_Bulk();
+        const bulkString = (options.carrying && (item as Equipment).carryingBulk) ? (item as Equipment).carryingBulk : item.getBulk();
         switch (bulkString) {
             case '':
                 break;
@@ -476,8 +476,8 @@ export class ItemsService {
     pack_GrantingItem(creature: Creature, item: Item, primaryItem: Item = item) {
         //Collect all items and inventories granted by an item, including inventories contained in its granted items.
         //Does NOT and should not include the primary item itself.
-        let items: Item[] = [];
-        const inventories: ItemCollection[] = [];
+        let items: Array<Item> = [];
+        const inventories: Array<ItemCollection> = [];
 
         item.gainItems?.forEach(itemGain => {
             let toPack: number = itemGain.amount;
@@ -554,7 +554,7 @@ export class ItemsService {
         return '';
     }
 
-    get_CannotFit(creature: Creature, item: Item, target: ItemCollection, options: { amount?: number, including?: boolean } = {}) {
+    get_CannotFit(creature: Creature, item: Item, target: ItemCollection, options: { amount?: number; including?: boolean } = {}) {
         //All bulk results are multiplied by 10 to avoid decimal addition bugs.
         options = Object.assign({
             amount: 0,
@@ -634,7 +634,7 @@ export class ItemsService {
                 //The item does need to be copied so we don't just move a reference.
                 const movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item))).recast(this.typeService, this);
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
-                if (movedItem.can_Stack()) {
+                if (movedItem.canStack()) {
                     const targetItem = targetInventory[item.type].find((inventoryItem: Item) => inventoryItem.name == movedItem.name);
                     if (targetItem) {
                         targetItem.amount += amount;
@@ -676,9 +676,9 @@ export class ItemsService {
             [item].concat(included.items).forEach(includedItem => {
                 //If any existing, stackable items are found, add this item's amount on top and finish.
                 //If no items are found, add the new item and its included items to the inventory.
-                let existingItems: Item[] = [];
-                if (!includedItem.expiration && includedItem.can_Stack()) {
-                    existingItems = targetInventory[includedItem.type].filter((existing: Item) => existing.name == includedItem.name && existing.can_Stack() && !includedItem.expiration);
+                let existingItems: Array<Item> = [];
+                if (!includedItem.expiration && includedItem.canStack()) {
+                    existingItems = targetInventory[includedItem.type].filter((existing: Item) => existing.name == includedItem.name && existing.canStack() && !includedItem.expiration);
                 }
                 if (existingItems.length) {
                     existingItems[0].amount += includedItem.amount;
@@ -751,7 +751,7 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length) {
                 item.gainItems.forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService, itemsService: this });
+                    gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
                 });
             }
 
@@ -774,7 +774,7 @@ export class ItemsService {
             //Grant items that are granted by other items on rest.
             inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped()).forEach(item => {
                 item.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService, itemsService: this });
+                    gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
                 });
             });
         });
@@ -915,15 +915,15 @@ export class ItemsService {
         this.loading = true;
         //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
         this.load(json_itemproperties, 'itemProperties', ItemProperty, 'meta');
-        this.itemProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.itemProperties, ['group', 'parent', 'key'], 'custom item properties') as ItemProperty[];
+        this.itemProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.itemProperties, ['group', 'parent', 'key'], 'custom item properties') as Array<ItemProperty>;
         this.load(json_armormaterials, 'armorMaterials', ArmorMaterial, 'meta');
-        this.armorMaterials = this.extensionsService.cleanup_Duplicates(this.armorMaterials, 'name', 'armor materials') as ArmorMaterial[];
+        this.armorMaterials = this.extensionsService.cleanup_Duplicates(this.armorMaterials, 'name', 'armor materials') as Array<ArmorMaterial>;
         this.load(json_shieldmaterials, 'shieldMaterials', ShieldMaterial, 'meta');
-        this.shieldMaterials = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.shieldMaterials, ['name', 'itemFilter'], 'shield materials') as ShieldMaterial[];
+        this.shieldMaterials = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.shieldMaterials, ['name', 'itemFilter'], 'shield materials') as Array<ShieldMaterial>;
         this.load(json_weaponmaterials, 'weaponMaterials', WeaponMaterial, 'meta');
-        this.weaponMaterials = this.extensionsService.cleanup_Duplicates(this.weaponMaterials, 'name', 'weapon materials') as WeaponMaterial[];
+        this.weaponMaterials = this.extensionsService.cleanup_Duplicates(this.weaponMaterials, 'name', 'weapon materials') as Array<WeaponMaterial>;
         this.load(json_specializations, 'specializations', Specialization, 'meta');
-        this.specializations = this.extensionsService.cleanup_Duplicates(this.specializations, 'name', 'armor and weapon specializations') as Specialization[];
+        this.specializations = this.extensionsService.cleanup_Duplicates(this.specializations, 'name', 'armor and weapon specializations') as Array<Specialization>;
 
         this.items = new ItemCollection();
         this.cleanItems = new ItemCollection();

@@ -18,7 +18,7 @@ import { Oil } from 'src/app/classes/Oil';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Condition } from 'src/app/classes/Condition';
 
-type HintObject = Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string, hints: Hint[]; }
+type HintObject = Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string; hints: Array<Hint> };
 
 @Component({
     selector: 'app-hint',
@@ -45,8 +45,8 @@ export class HintComponent {
     constructor(
         public characterService: CharacterService,
         public effectsService: EffectsService,
-        private refreshService: RefreshService,
-        private traitsService: TraitsService
+        private readonly refreshService: RefreshService,
+        private readonly traitsService: TraitsService
     ) { }
 
     trackByIndex(index: number): number {
@@ -65,7 +65,7 @@ export class HintComponent {
         return this.characterService.get_Character().level;
     }
 
-    get_Hints(): Hint[] {
+    get_Hints(): Array<Hint> {
         if (this.noFilter) {
             return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints);
         }

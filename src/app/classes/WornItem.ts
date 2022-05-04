@@ -11,9 +11,9 @@ import { Item } from './Item';
 import { LanguageGain } from './LanguageGain';
 import { Talisman } from './Talisman';
 
-export type RingOfWizardrySlot = {
-    tradition: string,
-    level: number
+export interface RingOfWizardrySlot {
+    tradition: string;
+    level: number;
 }
 
 export class WornItem extends Equipment {
@@ -24,7 +24,7 @@ export class WornItem extends Equipment {
     //Worn Items should be type "wornitems" to be found in the database.
     readonly type = 'wornitems';
     //List any Aeon Stones equipped in this item (only for Wayfinders).
-    public aeonStones: WornItem[] = [];
+    public aeonStones: Array<WornItem> = [];
     //Does this item use the Doubling Rings functionality, and on which level?
     public isDoublingRings: '' | 'Doubling Rings' | 'Doubling Rings (Greater)' = '';
     //Does this item count for the "Handwraps of Mighty Blows" functionality? This will make it able to store runes.
@@ -44,15 +44,15 @@ export class WornItem extends Equipment {
     //A Dwarf with the Battleforger feat can sharpen a weapon to grant the effect of a +1 potency rune. This applies to Handwraps of Mighty Blows only.
     public battleforged = false;
     //A worn item can grant you languages while invested, which can be listed here. If the language is not locked, a text box will be available on the item to enter one.
-    public gainLanguages: LanguageGain[] = [];
+    public gainLanguages: Array<LanguageGain> = [];
     //Is this a Ring of Wizardry and lets you pick a spellcasting to add one or more spells?
-    public isRingOfWizardry: RingOfWizardrySlot[] = [];
+    public isRingOfWizardry: Array<RingOfWizardrySlot> = [];
     //Is this a pair of Bracers of Armor and lets you attach talismans like a light armor?
     public isBracersOfArmor = false;
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
-        this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
         if (this.isDoublingRings) {
             if (!this.data[0]) {
                 this.data.push({ name: 'gold', show: false, type: 'string', value: '' });
@@ -83,8 +83,8 @@ export class WornItem extends Equipment {
         }
         return this;
     }
-    protected get_SecondaryRuneName(): string {
-        return this.get_Striking(this.get_StrikingRune());
+    protected _getSecondaryRuneName(): string {
+        return this.getStriking(this.getStrikingRune());
     }
     get_Price(itemsService: ItemsService) {
         let price = this.price;
@@ -98,7 +98,7 @@ export class WornItem extends Equipment {
         price += this.aeonStones.reduce((prev, next) => prev + next.price, 0);
         return price;
     }
-    get_Traits(characterService: CharacterService, creature: Creature): string[] {
+    get_Traits(characterService: CharacterService, creature: Creature): Array<string> {
         return super.get_Traits(characterService, creature)
             .concat(
                 this.isTalismanCord ?
@@ -120,16 +120,16 @@ export class WornItem extends Equipment {
             ) :
             false;
     }
-    get_EffectsGenerationObjects(creature: Creature, characterService: CharacterService): (Equipment | Specialization | Rune)[] {
-        return super.get_EffectsGenerationObjects(creature, characterService)
+    getEffectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
+        return super.getEffectsGenerationObjects(creature, characterService)
             .concat(...this.aeonStones);
     }
-    get_EffectsGenerationHints(): HintEffectsObject[] {
+    getEffectsGenerationHints(): Array<HintEffectsObject> {
         //Aeon Stones have hints that can be resonant, meaning they are only displayed if the stone is slotted.
         //After collecting the hints, we keep the resonant ones only if the item is slotted.
         //Then we add the hints of any slotted aeon stones of this item, with the same rules.
-        return super.get_EffectsGenerationHints()
+        return super.getEffectsGenerationHints()
             .filter(hintSet => hintSet.hint.resonant ? this.isSlottedAeonStone : true)
-            .concat(...this.aeonStones.map(stone => stone.get_EffectsGenerationHints()));
+            .concat(...this.aeonStones.map(stone => stone.getEffectsGenerationHints()));
     }
 }

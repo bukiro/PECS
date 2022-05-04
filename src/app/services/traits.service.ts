@@ -9,12 +9,12 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 })
 export class TraitsService {
 
-    private traits: Trait[] = [];
+    private traits: Array<Trait> = [];
     private loading = false;
-    private traitsMap = new Map<string, Trait>();
+    private readonly traitsMap = new Map<string, Trait>();
 
     constructor(
-        private extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService
     ) { }
 
     get_ReplacementTrait(name?: string): Trait {
@@ -26,7 +26,7 @@ export class TraitsService {
         return this.traitsMap.get(name.toLowerCase()) || this.get_ReplacementTrait(name);
     }
 
-    get_Traits(traitName = ''): Trait[] {
+    get_Traits(traitName = ''): Array<Trait> {
         if (!this.still_loading()) {
             //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
             //If no trait is found with that exact name, continue the search, considering composite trait names.
@@ -53,7 +53,7 @@ export class TraitsService {
         return [this.get_ReplacementTrait()];
     }
 
-    get_TraitsForThis(creature: Creature, name: string): Trait[] {
+    get_TraitsForThis(creature: Creature, name: string): Array<Trait> {
         if (!this.still_loading()) {
             //Return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory
             //uses the haveOn() method of Trait that returns any equipment that has this trait
@@ -105,7 +105,7 @@ export class TraitsService {
         Object.keys(data).forEach(key => {
             this.traits.push(...data[key].map((obj: Trait) => Object.assign(new Trait(), obj).recast()));
         });
-        this.traits = this.extensionsService.cleanup_Duplicates(this.traits, 'name', 'traits') as Trait[];
+        this.traits = this.extensionsService.cleanup_Duplicates(this.traits, 'name', 'traits') as Array<Trait>;
     }
 
 }

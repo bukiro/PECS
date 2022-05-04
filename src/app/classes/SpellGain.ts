@@ -10,13 +10,13 @@ export class SpellGain {
     public prepared = false;
     public borrowed = false;
     //Copied from SpellCast, these choices can override the spell condition choices. This applies only if the choice exists on the condition.
-    public overrideChoices: { condition: string, choice: string }[] = [];
+    public overrideChoices: Array<{ condition: string; choice: string }> = [];
     //In order to select a choice from the spell before casting it, the choice is saved here for each condition.
-    public effectChoices: { condition: string, choice: string }[] = [];
+    public effectChoices: Array<{ condition: string; choice: string }> = [];
     //Set to spell's duration when activated, and automatically deactivate if it runs out by ticking time
     public duration = 0;
     //Any items granted by this spell are stored here with their id so they can be removed when the spell ends.
-    public gainItems: ItemGain[] = [];
+    public gainItems: Array<ItemGain> = [];
     public locked = false;
     public name = '';
     public combinationSpellName = '';
@@ -26,7 +26,7 @@ export class SpellGain {
     //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the spell service.
     public selectedTarget = '';
     //The selected targets are saved here for applying conditions.
-    public targets: SpellTarget[] = [];
+    public targets: Array<SpellTarget> = [];
     //Don't trigger blood magic poweres when the spell is cast. Is set by the player.
     public ignoreBloodMagicTrigger = false;
     //If dynamic effective spell level is set, its formula gets evaluated when calculating effective spell level (before effects).

@@ -13,7 +13,7 @@ import { Feat } from '../character-creation/definitions/models/Feat';
 
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
-    public customSkills: Skill[] = [
+    public customSkills: Array<Skill> = [
         new Skill('', 'Light Barding', 'Armor Proficiency'),
         new Skill('', 'Heavy Barding', 'Armor Proficiency')
     ];
@@ -34,7 +34,7 @@ export class AnimalCompanion extends Creature {
         });
         return size;
     }
-    get_BaseHP(services: { characterService: CharacterService }): { result: number, explain: string } {
+    get_BaseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
         let ancestryHP = 0;
@@ -51,7 +51,7 @@ export class AnimalCompanion extends Creature {
         }
         return { result: classHP + ancestryHP, explain: explain.trim() };
     }
-    get_BaseSpeed(speedName: string): { result: number, explain: string } {
+    get_BaseSpeed(speedName: string): { result: number; explain: string } {
         let explain = '';
         let sum = 0;
         if (this.class.ancestry.name) {
@@ -98,7 +98,7 @@ export class AnimalCompanion extends Creature {
         if (this.class) {
             const boosts = [];
             //When animal companion levels are checked for ability boosts, we don't care about the character level - so we use the companion's level here.
-            const levels: (AnimalCompanionLevel | AnimalCompanionAncestry)[] = this.class.levels.filter(level => level.number >= 0 && level.number <= this.level);
+            const levels: Array<AnimalCompanionLevel | AnimalCompanionAncestry> = this.class.levels.filter(level => level.number >= 0 && level.number <= this.level);
             levels.push(this.class.ancestry);
             levels.forEach((level: AnimalCompanionLevel | AnimalCompanionAncestry) => {
                 level.abilityChoices.forEach(choice => {
@@ -114,7 +114,7 @@ export class AnimalCompanion extends Creature {
                 });
             });
             //When specializations are checked for ability boosts, we want to be certain we don't get a specialization that is taken on a higher character level
-            const specializations: (AnimalCompanionSpecialization)[] = this.class.specializations.filter(spec => spec.level >= minLevelNumber && spec.level <= maxLevelNumber);
+            const specializations: Array<AnimalCompanionSpecialization> = this.class.specializations.filter(spec => spec.level >= minLevelNumber && spec.level <= maxLevelNumber);
             //Only the first specialization may add the "First specialization" boosts.
             specializations.forEach((spec: AnimalCompanionSpecialization, index) => {
                 spec.abilityChoices.forEach(choice => {
@@ -131,7 +131,7 @@ export class AnimalCompanion extends Creature {
                     }
                 });
             });
-            return boosts as AbilityBoost[];
+            return boosts as Array<AbilityBoost>;
         }
     }
     get_SkillIncreases(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, skillName = '', source = '', sourceId = '', locked: boolean = undefined) {
@@ -165,7 +165,7 @@ export class AnimalCompanion extends Creature {
                 });
             }
             //When specializations are checked for skill increases, we want to be certain we don't get a specialization that is taken on a higher character level (maxLevelNumber).
-            const specializations: (AnimalCompanionSpecialization)[] = this.class.specializations.filter(spec => spec.level >= minLevelNumber && spec.level <= maxLevelNumber);
+            const specializations: Array<AnimalCompanionSpecialization> = this.class.specializations.filter(spec => spec.level >= minLevelNumber && spec.level <= maxLevelNumber);
             //Only the first specialization may add the "First specialization" increases.
             specializations.forEach((spec: AnimalCompanionSpecialization, index) => {
                 spec.skillChoices.forEach(choice => {
@@ -186,10 +186,10 @@ export class AnimalCompanion extends Creature {
     }
     //Other implementations require characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_EffectsGenerationObjects(characterService: CharacterService): { feats: (Feat | AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
+    get_EffectsGenerationObjects(characterService: CharacterService): { feats: Array<Feat | AnimalCompanionSpecialization>; hintSets: Array<{ hint: Hint; objectName: string }> } {
         //Return the Companion, its Ancestry's Hints and its Specializations and their Hints for effect generation.
-        const feats: AnimalCompanionSpecialization[] = [];
-        const hintSets: { hint: Hint, objectName: string }[] = [];
+        const feats: Array<AnimalCompanionSpecialization> = [];
+        const hintSets: Array<{ hint: Hint; objectName: string }> = [];
         this.class?.ancestry?.hints?.forEach(hint => {
             hintSets.push({ hint, objectName: this.class.ancestry.name });
         });

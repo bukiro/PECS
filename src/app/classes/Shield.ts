@@ -32,7 +32,7 @@ export class Shield extends Equipment {
     public _shieldAlly = false;
     //A Cleric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
     // Subsequent feats can change options and restrictions of the functionality.
-    public emblazonArmament: { type: string, choice: string, deity: string, alignment: string, emblazonDivinity: boolean, source: string }[] = [];
+    public emblazonArmament: Array<{ type: string; choice: string; deity: string; alignment: string; emblazonDivinity: boolean; source: string }> = [];
     public _emblazonArmament = false;
     public _emblazonEnergy = false;
     public _emblazonAntimagic = false;
@@ -56,7 +56,7 @@ export class Shield extends Equipment {
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }
-    update_Modifiers(creature: Creature, services: { characterService: CharacterService, refreshService: RefreshService }) {
+    update_Modifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }) {
         //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
         //Set components to update if these values have changed from before.
         const oldValues = [this._shoddy, this._shieldAlly, this._emblazonArmament, this._emblazonEnergy, this._emblazonAntimagic];
@@ -143,8 +143,8 @@ export class Shield extends Equipment {
         //The function is needed for compatibility with other equipment.
         return this.speedpenalty;
     }
-    get_EffectsGenerationHints(): HintEffectsObject[] {
-        return super.get_EffectsGenerationHints()
-            .concat(...this.propertyRunes.map(rune => rune.get_EffectsGenerationHints()));
+    getEffectsGenerationHints(): Array<HintEffectsObject> {
+        return super.getEffectsGenerationHints()
+            .concat(...this.propertyRunes.map(rune => rune.getEffectsGenerationHints()));
     }
 }

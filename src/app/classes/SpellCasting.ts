@@ -10,21 +10,21 @@ export class SpellCasting {
     public charLevelAvailable = 0;
     public tradition: '' | 'Arcane' | 'Divine' | 'Occult' | 'Primal' = '';
     public traditionAvailable: 0;
-    public traditionFilter: string[] = [];
-    public spellChoices: SpellChoice[] = [];
+    public traditionFilter: Array<string> = [];
+    public spellChoices: Array<SpellChoice> = [];
     public spellBookOnly = false;
     //SpellSlotsUsed is for spontaneous casters and counts the spells cast on each spell level, where the index is the spell level.
     //Index 0 is for Studious Capacity, which allows a single more casting each day,
     // and index 11 and 12 are for Greater Vital Evolution, which allows two more.
-    public spellSlotsUsed: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    public spellSlotsUsed: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     //SpellBookSlots is for Wizards and describes how many spells you can learn per level, where the index is the level.
     //Index 0 is for cantrips. Regular wizards get 2 new spells per level and 5 on the first, and the spell level can be up to index/2 (rounded up).
-    public spellBookSlots: number[] = [10, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
+    public spellBookSlots: Array<number> = [10, 5, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
     //BondedItemCharges is for Wizards and contains charges to restore a used spell. The index is the spell level, and 0 is for all spell levels.
     //Universalists get 1 for each level per rest, and all other schools get 1 for all. These are added at Rest.
-    public bondedItemCharges: number[] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    public bondedItemCharges: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     public source = '';
-    public scrollSavant: Scroll[] = [];
+    public scrollSavant: Array<Scroll> = [];
     constructor(public castingType: 'Focus' | 'Innate' | 'Prepared' | 'Spontaneous') {
     }
     recast() {

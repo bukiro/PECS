@@ -39,15 +39,15 @@ export class ConditionComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         public effectsService: EffectsService,
-        private refreshService: RefreshService,
-        private timeService: TimeService,
-        private itemsService: ItemsService,
-        private conditionsService: ConditionsService,
-        private traitsService: TraitsService,
-        private activitiesService: ActivitiesService
+        private readonly refreshService: RefreshService,
+        private readonly timeService: TimeService,
+        private readonly itemsService: ItemsService,
+        private readonly conditionsService: ConditionsService,
+        private readonly traitsService: TraitsService,
+        private readonly activitiesService: ActivitiesService
     ) { }
 
     toggle_Item(name: string) {
@@ -131,7 +131,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         this.update_Condition();
     }
 
-    public prepare_SelectOtherConditions(gain: ConditionGain, condition: Condition): OtherConditionSelection[] {
+    public prepare_SelectOtherConditions(gain: ConditionGain, condition: Condition): Array<OtherConditionSelection> {
         condition.selectOtherConditions.forEach((selection, index) => {
             //Ensure that the condition gain has a place for each selection in its array.
             if (gain.selectedOtherConditions.length <= index) {
@@ -141,7 +141,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         return condition.selectOtherConditions;
     }
 
-    public get_SelectOtherConditionOptions(selection: OtherConditionSelection, gain: ConditionGain, index: number): string[] {
+    public get_SelectOtherConditionOptions(selection: OtherConditionSelection, gain: ConditionGain, index: number): Array<string> {
         const creature = this.get_Creature();
         const typeFilter = selection.typeFilter.map(filter => filter.toLowerCase());
         const nameFilter = selection.nameFilter.map(filter => filter.toLowerCase());
@@ -161,7 +161,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         )).sort();
     }
 
-    change_ConditionStage(gain: ConditionGain, condition: Condition, choices: string[], change: number) {
+    change_ConditionStage(gain: ConditionGain, condition: Condition, choices: Array<string>, change: number) {
         this.conditionsService.change_ConditionStage(this.get_Creature(), gain, condition, choices, change, this.characterService, this.itemsService);
         this.refreshService.process_ToChange();
         this.update_Condition();
@@ -186,7 +186,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         this.refreshService.set_Changed('close-popovers');
     }
 
-    public get_Activities(name = ''): Activity[] {
+    public get_Activities(name = ''): Array<Activity> {
         //Don't show all existing activities if a name is missing.
         if (!name) {
             return [];
@@ -194,7 +194,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         return this.activitiesService.get_Activities(name);
     }
 
-    public get_ConditionActivities(): ActivityGain[] {
+    public get_ConditionActivities(): Array<ActivityGain> {
         if (this.conditionGain) {
             this.conditionGain.gainActivities.forEach(activityGain => {
                 activityGain.heightened = this.conditionGain.heightened;

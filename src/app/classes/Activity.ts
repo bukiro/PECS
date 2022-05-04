@@ -17,7 +17,7 @@ export class Activity {
     public actions = '';
     public activationType = '';
     //When activated, the activity will cast this spell. Multiple spells must have the same target or targets.
-    public castSpells: SpellCast[] = [];
+    public castSpells: Array<SpellCast> = [];
     public cooldown = 0;
     //For Conditions that are toggled, if cooldownAfterEnd is set, the cooldown starts only after the active duration is finished.
     // This is relevant for activities that cannot be used for X time after finishing.
@@ -34,27 +34,27 @@ export class Activity {
     //This is ensured automatically in the recast method.
     public sustained = false;
     //How often can you activate the activity? 0 is one activation per cooldown, or infinite activations if no cooldown is given. Use maxCharges() to read.
-    private charges = 0;
+    private readonly charges = 0;
     public critfailure = '';
     public critsuccess = '';
-    public heightenedDescs: HeightenedDescSet[] = [];
+    public heightenedDescs: Array<HeightenedDescSet> = [];
     public desc = '';
     public failure = '';
     public frequency = '';
-    public gainConditions: ConditionGain[] = [];
-    public gainItems: ItemGain[] = [];
-    public hints: Hint[] = [];
+    public gainConditions: Array<ConditionGain> = [];
+    public gainItems: Array<ItemGain> = [];
+    public hints: Array<Hint> = [];
     public inputRequired = '';
     public name = '';
     public iconTitleOverride = '';
     public iconValueOverride = '';
-    public onceEffects: EffectGain[] = [];
+    public onceEffects: Array<EffectGain> = [];
     //overrideHostile allows you to declare a spell as hostile or friendly regardless of other indicators. This will only change the display color of the spell, but not whether you can target allies.
     public overrideHostile: 'hostile' | 'friendly' | '' = '';
     public requirements = '';
-    public showActivities: string[] = [];
+    public showActivities: Array<string> = [];
     public showonSkill = '';
-    public showSpells: SpellCast[] = [];
+    public showSpells: Array<SpellCast> = [];
     public specialdesc = '';
     public success = '';
     //target is used internally to determine whether you can cast this spell on yourself, your companion/familiar or any ally
@@ -69,9 +69,9 @@ export class Activity {
     public target = 'self';
     //The target number determines how many allies you can target with a non-hostile activity, or how many enemies you can target with a hostile one (not actually implemented).
     //The activity can have multiple target numbers that are dependent on the character level and whether you have a feat.
-    public targetNumbers: SpellTargetNumber[] = [];
+    public targetNumbers: Array<SpellTargetNumber> = [];
     public toggle = false;
-    public traits: string[] = [];
+    public traits: Array<string> = [];
     public trigger = '';
     //If cannotTargetCaster is set, you can't apply the conditions of the activity on yourself, and you can't select yourself as one of the targets of an ally or area activity.
     //This is needed for emanations (where the activity should give the caster the correct condition in the first place)
@@ -103,7 +103,7 @@ export class Activity {
         }
         return this;
     }
-    get_ActivationTraits(): string[] {
+    get_ActivationTraits(): Array<string> {
         return Array.from(new Set([].concat(...this.activationType.split(',')
             .map(activationType => {
                 const trimmedType = activationType.trim().toLowerCase();
@@ -209,7 +209,7 @@ export class Activity {
             return charges;
         }
     }
-    get_Cooldown(context: { creature: Creature }, services: { characterService: CharacterService, effectsService: EffectsService }) {
+    get_Cooldown(context: { creature: Creature }, services: { characterService: CharacterService; effectsService: EffectsService }) {
         //Add any effects to the activity's cooldown.
         let cooldown = this.cooldown;
         //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.

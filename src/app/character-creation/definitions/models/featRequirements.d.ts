@@ -14,23 +14,23 @@ export namespace FeatRequirements {
         creatureToTest?: string;
         hasThisFeat?: boolean;
         isOnLevel?: RequirementExpectation;
-        countLores?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
-        countAncestries?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
-        countBackgrounds?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
-        countHeritages?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
-        countSpells?: { query: RequirementQueryCountSpells, expected?: RequirementExpectation }[];
-        skillLevels?: { query: RequirementQuerySkillLevel, expected?: RequirementExpectation }[];
-        countDeities?: { query: RequirementQueryCountDeities, expected?: RequirementExpectation }[];
+        countLores?: Array<{ query: RequirementBasicQuery; expected?: RequirementExpectation }>;
+        countAncestries?: Array<{ query: RequirementBasicQuery; expected?: RequirementExpectation }>;
+        countBackgrounds?: Array<{ query: RequirementBasicQuery; expected?: RequirementExpectation }>;
+        countHeritages?: Array<{ query: RequirementBasicQuery; expected?: RequirementExpectation }>;
+        countSpells?: Array<{ query: RequirementQueryCountSpells; expected?: RequirementExpectation }>;
+        skillLevels?: Array<{ query: RequirementQuerySkillLevel; expected?: RequirementExpectation }>;
+        countDeities?: Array<{ query: RequirementQueryCountDeities; expected?: RequirementExpectation }>;
         hasAnimalCompanion: RequirementExpectation;
         hasFamiliar: RequirementExpectation;
-        countFeats?: { query: RequirementQueryCountFeats, expected?: RequirementExpectation }[];
-        matchesAnyOfAligments?: { query: string, expected?: RequirementExpectation }[];
-        countClasses?: { query: RequirementQueryClass, expected?: RequirementExpectation }[];
-        countSenses?: { query: RequirementBasicQuery, expected?: RequirementExpectation }[];
-        countClassSpellcastings?: { query: RequirementQueryClassSpellCasting, expected?: RequirementExpectation }[];
-        countLearnedSpells?: { query: RequirementBasicQuery, expected: RequirementExpectation }[];
-        countSpeeds?: { query: RequirementBasicQuery, expected: RequirementExpectation }[];
-        countFavoredWeapons?: { query: RequirementQueryFavoredWeapon, expected: RequirementExpectation }[];
+        countFeats?: Array<{ query: RequirementQueryCountFeats; expected?: RequirementExpectation }>;
+        matchesAnyOfAligments?: Array<{ query: string; expected?: RequirementExpectation }>;
+        countClasses?: Array<{ query: RequirementQueryClass; expected?: RequirementExpectation }>;
+        countSenses?: Array<{ query: RequirementBasicQuery; expected?: RequirementExpectation }>;
+        countClassSpellcastings?: Array<{ query: RequirementQueryClassSpellCasting; expected?: RequirementExpectation }>;
+        countLearnedSpells?: Array<{ query: RequirementBasicQuery; expected: RequirementExpectation }>;
+        countSpeeds?: Array<{ query: RequirementBasicQuery; expected: RequirementExpectation }>;
+        countFavoredWeapons?: Array<{ query: RequirementQueryFavoredWeapon; expected: RequirementExpectation }>;
     }
 
     export interface RequirementBasicQuery {
@@ -97,7 +97,7 @@ export namespace FeatRequirements {
     }
 
     export interface FeatRequirementResult {
-        met: boolean,
+        met: boolean;
         desc: string;
     }
 }

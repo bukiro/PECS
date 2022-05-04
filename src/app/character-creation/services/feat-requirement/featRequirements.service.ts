@@ -15,7 +15,7 @@ import { FeatChoice } from '../../definitions/models/FeatChoice';
 })
 export class FeatRequirementsService {
 
-    constructor(private characterService: CharacterService) { }
+    constructor(private readonly characterService: CharacterService) { }
 
     public static prof(skillLevel: number): string {
         switch (skillLevel) {
@@ -30,9 +30,9 @@ export class FeatRequirementsService {
         }
     }
 
-    public createIgnoreRequirementList(feat: Feat, levelNumber: number, choice?: FeatChoice): string[] {
+    public createIgnoreRequirementList(feat: Feat, levelNumber: number, choice?: FeatChoice): Array<string> {
         //Build the ignoreRequirements list from both the feat and the choice.
-        const ignoreRequirementsList: string[] = [];
+        const ignoreRequirementsList: Array<string> = [];
         function evaluateIgnoreString(ignoreReq: string, source: string): void {
             console.warn(`${ source } has a string-based ignoreRequirements attribute. This is deprecated and will now always result in success. The ignoreRequirements attribute should be changed to be based on a complexreq evaluation`);
             [
@@ -75,7 +75,7 @@ export class FeatRequirementsService {
     public meetsLevelReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): FeatRequirements.FeatRequirementResult {
         //If the feat has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
-        let result: { met: boolean, desc: string };
+        let result: { met: boolean; desc: string };
         if (feat.levelreq) {
             if (charLevel >= feat.levelreq) {
                 result = { met: true, desc: `Level ${ feat.levelreq }` };
@@ -88,15 +88,15 @@ export class FeatRequirementsService {
         return result;
     }
 
-    public meetsAbilityReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): FeatRequirements.FeatRequirementResult[] {
+    public meetsAbilityReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): Array<FeatRequirements.FeatRequirementResult> {
         //If the feat has an abilityreq, split it into the ability and the requirement (they come in objects {ability, value}), then check if that ability's baseValue() meets the requirement.
         //Ability requirements are checked without temporary bonuses or penalties
         //Returns an array of [requirement met, requirement description]
         const character = this.characterService.get_Character();
-        const result: Array<{ met: boolean, desc: string }> = [];
+        const result: Array<{ met: boolean; desc: string }> = [];
         if (feat.abilityreq.length) {
             feat.abilityreq.forEach(requirement => {
-                const requiredAbility: Ability[] = this.characterService.get_Abilities(requirement.ability);
+                const requiredAbility: Array<Ability> = this.characterService.get_Abilities(requirement.ability);
                 const expected: number = requirement.value;
                 if (requiredAbility.length) {
                     requiredAbility.forEach(ability => {
@@ -114,13 +114,13 @@ export class FeatRequirementsService {
         return result;
     }
 
-    public meetsSkillReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): FeatRequirements.FeatRequirementResult[] {
+    public meetsSkillReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): Array<FeatRequirements.FeatRequirementResult> {
         //If the feat has a skillreq, first split it into all different requirements,
         //Then check if each one of these requirements {skill, value} are met by the skill's level
         //When evaluating the result, these should be treated as OR requirements - you never need two skillreqs for a feat.
         //Returns an array of [requirement met, requirement description]
         const character = this.characterService.get_Character();
-        const result: Array<{ met: boolean, desc: string }> = [];
+        const result: Array<{ met: boolean; desc: string }> = [];
         const skillreq = JSON.parse(JSON.stringify(feat.skillreq));
         //The Versatile Performance feat allows to use Performance instead of Deception, Diplomacy or Intimidation to meet skill requirements for feats.
         //If you have the feat and any of these skills are required, add Performance to the requirements with the lowest required value.
@@ -132,7 +132,7 @@ export class FeatRequirementsService {
         if (skillreq.length) {
             skillreq.forEach(requirement => {
                 const requiredSkillName: string = requirement.skill;
-                const requiredSkill: Skill[] = this.characterService.get_Skills(character, requiredSkillName, {}, { noSubstitutions: true });
+                const requiredSkill: Array<Skill> = this.characterService.get_Skills(character, requiredSkillName, {}, { noSubstitutions: true });
                 const expected: number = requirement.value;
                 if (requiredSkill.length) {
                     if (requiredSkill
@@ -152,15 +152,15 @@ export class FeatRequirementsService {
         return result;
     }
 
-    public meetsFeatReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): FeatRequirements.FeatRequirementResult[] {
+    public meetsFeatReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): Array<FeatRequirements.FeatRequirementResult> {
         //If the feat has a featreq, check if you meet that (or a feat that has this supertype).
         //Returns [requirement met, requirement description]
         //Requirements like "Aggressive Block or Brutish Shove" are split in get_CharacterFeatsAndFeatures().
-        const result: Array<{ met: boolean, desc: string }> = [];
+        const result: Array<{ met: boolean; desc: string }> = [];
         if (feat.featreq.length) {
             feat.featreq.forEach(featreq => {
                 //Use testcreature and testfeat to allow to check for the Familiar's feats
-                let requiredFeat: Feat[];
+                let requiredFeat: Array<Feat>;
                 let testcreature: Character | Familiar;
                 let testfeat = featreq;
                 if (featreq.includes('Familiar:')) {
@@ -187,13 +187,13 @@ export class FeatRequirementsService {
         return result;
     }
 
-    public meetsHeritageReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): FeatRequirements.FeatRequirementResult[] {
+    public meetsHeritageReq(feat: Feat, charLevel: number = this.characterService.get_Character().level): Array<FeatRequirements.FeatRequirementResult> {
         //If the feat has a heritagereq, check if your heritage matches that.
         //Requirements like "irongut goblin heritage or razortooth goblin heritage" are split into each heritage and succeed if either matches your heritage.
         //Returns [requirement met, requirement description]
         const character = this.characterService.get_Character();
-        const result: Array<{ met: boolean, desc: string }> = [];
-        const allHeritages: string[] = character.class?.heritage ?
+        const result: Array<{ met: boolean; desc: string }> = [];
+        const allHeritages: Array<string> = character.class?.heritage ?
             [
                 character.class.heritage.name.toLowerCase(),
                 character.class.heritage.superType.toLowerCase()
@@ -224,7 +224,7 @@ export class FeatRequirementsService {
         return result;
     }
 
-    public meetsComplexReq(complexreqs: FeatRequirements.ComplexRequirement[], context: { feat: Feat, desc: string }, filter: { charLevel?: number } = {}): FeatRequirements.FeatRequirementResult {
+    public meetsComplexReq(complexreqs: Array<FeatRequirements.ComplexRequirement>, context: { feat: Feat; desc: string }, filter: { charLevel?: number } = {}): FeatRequirements.FeatRequirementResult {
         if (!complexreqs.length) {
             return { met: true, desc: '' };
         }
@@ -233,7 +233,7 @@ export class FeatRequirementsService {
         const charLevel = filter.charLevel || character.level;
         //Split comma lists into lowercase names and replace certain codewords.
         const subType = context.feat.subType.toLowerCase();
-        function SplitNames(list: string): string[] {
+        function SplitNames(list: string): Array<string> {
             return Array.from(new Set(
                 list.toLowerCase()
                     .split(',')
@@ -248,7 +248,7 @@ export class FeatRequirementsService {
                     })
             ));
         }
-        function ApplyDefaultQuery(query: FeatRequirements.RequirementBasicQuery, list: string[]) {
+        function ApplyDefaultQuery(query: FeatRequirements.RequirementBasicQuery, list: Array<string>) {
             const lowercaseList = list.map(name => name.toLowerCase());
             if (query.any) {
                 return lowercaseList.length;
@@ -274,7 +274,7 @@ export class FeatRequirementsService {
                 (expectation.isLesserThan ? (number < expectation.isLesserThan) : true)
             );
         }
-        function DoesNumberListMatchExpectation(numberList: number[], query: FeatRequirements.RequirementBasicQuery, expectation?: FeatRequirements.RequirementExpectation): boolean {
+        function DoesNumberListMatchExpectation(numberList: Array<number>, query: FeatRequirements.RequirementBasicQuery, expectation?: FeatRequirements.RequirementExpectation): boolean {
             if (query.allOfNames) {
                 if (!expectation) {
                     return numberList.every(number => !!number);
@@ -332,7 +332,7 @@ export class FeatRequirementsService {
                 });
                 complexreq.countFeats?.forEach(featreq => {
                     if (!requirementFailure) {
-                        let feats: Feat[] = this.characterService.get_CharacterFeatsAndFeatures();
+                        let feats: Array<Feat> = this.characterService.get_CharacterFeatsAndFeatures();
                         if (featreq.query.havingAllOfTraits) {
                             const traits = SplitNames(featreq.query.havingAllOfTraits);
                             feats = feats.filter(feat => {
@@ -422,7 +422,7 @@ export class FeatRequirementsService {
                 });
                 complexreq.countHeritages?.forEach(heritagereq => {
                     if (!requirementFailure) {
-                        const allHeritages: string[] = character.class?.heritage ?
+                        const allHeritages: Array<string> = character.class?.heritage ?
                             [
                                 character.class?.heritage.name.toLowerCase(),
                                 character.class?.heritage.superType.toLowerCase()
@@ -536,8 +536,8 @@ export class FeatRequirementsService {
                 });
                 complexreq.countDeities?.forEach(deityreq => {
                     if (!requirementFailure) {
-                        const allDeities: Deity[] = this.characterService.deitiesService.get_CharacterDeities(this.characterService, character, '', charLevel);
-                        let deities: Deity[] = (!deityreq.query.secondOnly ? [allDeities[0]] : [])
+                        const allDeities: Array<Deity> = this.characterService.deitiesService.get_CharacterDeities(this.characterService, character, '', charLevel);
+                        let deities: Array<Deity> = (!deityreq.query.secondOnly ? [allDeities[0]] : [])
                             .concat(!deityreq.query.firstOnly ? [allDeities[1]] : [])
                             .filter(deity => !!deity);
                         if (!deityreq.query.allowPhilosophies) {
@@ -597,8 +597,8 @@ export class FeatRequirementsService {
                 });
                 complexreq.countFavoredWeapons?.forEach(favoredweaponreq => {
                     if (!requirementFailure) {
-                        const allDeities: Deity[] = this.characterService.deitiesService.get_CharacterDeities(this.characterService, character, '', charLevel);
-                        let favoredWeapons: string[] = [].concat(...allDeities.map(deity => deity.favoredWeapon));
+                        const allDeities: Array<Deity> = this.characterService.deitiesService.get_CharacterDeities(this.characterService, character, '', charLevel);
+                        let favoredWeapons: Array<string> = [].concat(...allDeities.map(deity => deity.favoredWeapon));
                         if (favoredweaponreq.query.havingAnyOfProficiencies) {
                             const proficiencies = SplitNames(favoredweaponreq.query.havingAnyOfProficiencies);
                             favoredWeapons = favoredWeapons.filter(weaponName => {
@@ -622,7 +622,7 @@ export class FeatRequirementsService {
                 complexreq.skillLevels?.forEach(skillreq => {
                     if (!requirementFailure) {
                         const types = skillreq.query.anyOfTypes ? SplitNames(skillreq.query.anyOfTypes) : [];
-                        let allSkills: Skill[] = [];
+                        let allSkills: Array<Skill> = [];
                         if (types.length) {
                             types.forEach(type => {
                                 allSkills.push(...this.characterService.get_Skills(creature, '', { type }));
@@ -656,14 +656,14 @@ export class FeatRequirementsService {
                     }
                 });
                 if (complexreq.hasAnimalCompanion && !requirementFailure) {
-                    const companions: AnimalCompanion[] = this.characterService.get_CompanionAvailable() ? [this.characterService.get_Companion()] : [];
+                    const companions: Array<AnimalCompanion> = this.characterService.get_CompanionAvailable() ? [this.characterService.get_Companion()] : [];
                     const queryResult = companions.length;
                     if (!DoesNumberMatchExpectation(queryResult, complexreq.hasAnimalCompanion)) {
                         requirementFailure = true;
                     }
                 }
                 if (complexreq.hasFamiliar && !requirementFailure) {
-                    const familiars: Familiar[] = this.characterService.get_FamiliarAvailable() ? [this.characterService.get_Familiar()] : [];
+                    const familiars: Array<Familiar> = this.characterService.get_FamiliarAvailable() ? [this.characterService.get_Familiar()] : [];
                     const queryResult = familiars.length;
                     if (!DoesNumberMatchExpectation(queryResult, complexreq.hasFamiliar)) {
                         requirementFailure = true;
@@ -681,7 +681,7 @@ export class FeatRequirementsService {
         }
     }
 
-    public canChoose(feat: Feat, context: { choiceLevel?: number, charLevel?: number } = {}, options: { skipLevel?: boolean, ignoreRequirementsList?: string[] } = {}): boolean {
+    public canChoose(feat: Feat, context: { choiceLevel?: number; charLevel?: number } = {}, options: { skipLevel?: boolean; ignoreRequirementsList?: Array<string> } = {}): boolean {
         const characterLevel = this.characterService.get_Character().level;
         context = {
             choiceLevel: characterLevel,

@@ -26,7 +26,7 @@ import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
 
 interface ItemParameters extends ItemRoles {
-    canUse: boolean,
+    canUse: boolean;
 }
 
 @Component({
@@ -57,11 +57,11 @@ export class ItemsComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private itemsService: ItemsService,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemRolesService: ItemRolesService,
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly itemsService: ItemsService,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly itemRolesService: ItemRolesService,
     ) { }
 
     set_Range(amount: number) {
@@ -194,12 +194,12 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return InputValidationService.positiveNumbersOnly(event);
     }
 
-    get_SortByName(obj: Item[]) {
+    get_SortByName(obj: Array<Item>) {
         return obj
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    get_ItemParameters(itemList: Item[]): ItemParameters[] {
+    get_ItemParameters(itemList: Array<Item>): Array<ItemParameters> {
         const character = this.get_Character();
         return itemList.map(item => {
             const itemRoles = this.itemRolesService.getItemRoles(item);
@@ -279,7 +279,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    get_VisibleItems(items: Item[], creatureType = '') {
+    get_VisibleItems(items: Array<Item>, creatureType = '') {
         let casting: SpellCasting;
         const character = this.get_Character();
         if (this.purpose == 'scrollsavant') {
@@ -408,15 +408,15 @@ export class ItemsComponent implements OnInit, OnDestroy {
         if (this.newItem != null) {
             this.newItem.id = '';
             if (Object.keys(this.newItem).includes('equipped')) {
-                this.newItem['equipped'] = false;
+                this.newItem.equipped = false;
             }
             if (Object.keys(this.newItem).includes('invested')) {
-                this.newItem['invested'] = false;
+                this.newItem.invested = false;
             }
             if (Object.keys(this.newItem).includes('choice')) {
-                if (this.newItem['choices']?.length) {
-                    this.newItem['choice'] = this.newItem['choices'][0] || '';
-                    this.newItem['showChoicesInInventory'] = true;
+                if (this.newItem.choices?.length) {
+                    this.newItem.choice = this.newItem.choices[0] || '';
+                    this.newItem.showChoicesInInventory = true;
                 }
 
             }

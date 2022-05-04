@@ -20,10 +20,10 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private animalCompanionsService: AnimalCompanionsService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly animalCompanionsService: AnimalCompanionsService
     ) { }
 
     minimize() {

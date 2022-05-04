@@ -3,8 +3,8 @@ import { EffectGain } from './EffectGain';
 
 export class Specialization {
     public desc = '';
-    public effects: EffectGain[] = [];
-    public hints: Hint[] = [];
+    public effects: Array<EffectGain> = [];
+    public hints: Array<Hint> = [];
     public name = '';
     public type = '';
     recast() {

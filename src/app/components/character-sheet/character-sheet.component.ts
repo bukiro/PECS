@@ -48,9 +48,9 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     public mobile = false;
 
     constructor(
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private changeDetector: ChangeDetectorRef
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly changeDetector: ChangeDetectorRef
     ) { }
 
     toggle_Mode(type: string) {

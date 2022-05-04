@@ -3,8 +3,8 @@ import { FeatIgnoreRequirements } from './featIgnoreRequirements';
 
 export class FeatChoice {
     public available = 0;
-    public feats: FeatTaken[] = [];
-    public filter: string[] = [];
+    public feats: Array<FeatTaken> = [];
+    public filter: Array<string> = [];
     public id = '';
     //If insertLevel is set, this featChoice is placed at the designated class level when granted by a feat.
     // I.e. if a feat contains a FeatChoice with insertLevel = 5, the choice is added to level 5 regardless of when the feat was taken.
@@ -32,7 +32,7 @@ export class FeatChoice {
     //It will always be rounded down.
     public dynamicLevel = '';
     //You can add requirements to the ignore list. These get evaluated as complexreqs and must result in: "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "complexreq" or "dedicationlimit" to do anything.
-    public ignoreRequirements: FeatIgnoreRequirements.FeatIgnoreRequirement[] = [];
+    public ignoreRequirements: Array<FeatIgnoreRequirements.FeatIgnoreRequirement> = [];
     public type = '';
     public bonus = false;
     public recast(): typeof this {

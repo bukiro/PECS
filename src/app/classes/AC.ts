@@ -10,18 +10,18 @@ import { ConditionsService } from 'src/app/services/conditions.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Familiar } from './Familiar';
 
-export type CalculatedAC = {
-    absolutes: Effect[],
-    relatives: Effect[],
-    bonuses: boolean,
-    penalties: boolean,
-    value: { result: number, explain: string }
+export interface CalculatedAC {
+    absolutes: Array<Effect>;
+    relatives: Array<Effect>;
+    bonuses: boolean;
+    penalties: boolean;
+    value: { result: number; explain: string };
 }
 
 export class AC {
     public name = 'AC';
     public set_Cover(creature: Creature, cover: number, shield: Shield = null, characterService: CharacterService, conditionsService: ConditionsService): void {
-        const conditions: ConditionGain[] = conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true)
             .filter(gain => gain.name == 'Cover' && gain.source == 'Quick Status');
         const lesserCover = conditions.find(gain => gain.name == 'Cover' && gain.choice == 'Lesser');
         const standardCover = conditions.find(gain => gain.name == 'Cover' && gain.choice == 'Standard');
@@ -69,8 +69,8 @@ export class AC {
     }
     public calculate(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService): CalculatedAC {
         const character = characterService.get_Character();
-        const absolutes: Effect[] = this.absolutes(creature, effectsService);
-        const relatives: Effect[] = this.relatives(creature, character, effectsService);
+        const absolutes: Array<Effect> = this.absolutes(creature, effectsService);
+        const relatives: Array<Effect> = this.relatives(creature, character, effectsService);
 
         const result = {
             absolutes,
@@ -81,17 +81,17 @@ export class AC {
         };
         return result;
     }
-    private get_NamesList(): string[] {
+    private get_NamesList(): Array<string> {
         return [
             'AC',
             'All Checks and DCs',
             'Dexterity-based Checks and DCs'
         ];
     }
-    private absolutes(creature: Creature, effectsService: EffectsService): Effect[] {
+    private absolutes(creature: Creature, effectsService: EffectsService): Array<Effect> {
         return effectsService.get_AbsolutesOnThese(creature, this.get_NamesList());
     }
-    private relatives(creature: Creature, character: Character, effectsService: EffectsService): Effect[] {
+    private relatives(creature: Creature, character: Character, effectsService: EffectsService): Array<Effect> {
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         if (creature instanceof Familiar) {
             const effects = effectsService.get_RelativesOnThese(character, this.get_NamesList()).filter(effect => effect.type != 'circumstance' && effect.type != 'status');
@@ -131,7 +131,7 @@ export class AC {
             return effectsService.show_PenaltiesOnThese(creature, this.get_NamesList());
         }
     }
-    private value(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService, absolutes: Effect[] = undefined, relatives: Effect[] = undefined): { result: number, explain: string } {
+    private value(creature: Creature, characterService: CharacterService, defenseService: DefenseService, effectsService: EffectsService, absolutes: Array<Effect> = undefined, relatives: Array<Effect> = undefined): { result: number; explain: string } {
         if (characterService.still_loading()) { return { result: 0, explain: '' }; }
         //Get the bonus from the worn armor. This includes the basic 10
         let basicBonus = 10;
@@ -140,7 +140,7 @@ export class AC {
         //Familiars calculate their AC based on the character.
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         const armorCreature: AnimalCompanion | Character = creature instanceof Familiar ? character : (creature as AnimalCompanion | Character);
-        let clonedRelatives: Effect[];
+        let clonedRelatives: Array<Effect>;
         if (relatives == undefined) {
             clonedRelatives = this.relatives(creature, character, effectsService)
                 .map(relative => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(relative))).recast());
@@ -151,7 +151,7 @@ export class AC {
         }
         let armorSet = false;
         //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
-        let clonedAbsolutes: Effect[];
+        let clonedAbsolutes: Array<Effect>;
         if (absolutes == undefined) {
             clonedAbsolutes = this.absolutes(armorCreature, effectsService)
                 .map(absolute => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(absolute))).recast());
@@ -208,7 +208,7 @@ export class AC {
             let armorItemBonus = armor.get_ACBonus();
             if (armorItemBonus) {
                 //Potency increases the armor bonus; it does not add a separate bonus on armors.
-                const potency = armor.get_PotencyRune();
+                const potency = armor.getPotencyRune();
                 if (potency) {
                     armorItemBonus += potency;
                 }

@@ -23,33 +23,33 @@ import { AdditionalHeritage } from './AdditionalHeritage';
 export class Class {
     public disabled = '';
     public warning = '';
-    public activities: ActivityGain[] = [];
+    public activities: Array<ActivityGain> = [];
     public ancestry: Ancestry = new Ancestry();
-    public anathema: string[] = [];
+    public anathema: Array<string> = [];
     public deityFocused = false;
-    public featData: FeatData[] = [];
+    public featData: Array<FeatData> = [];
     public showDeityEdicts = false;
     public showDeityAnathema = false;
     public animalCompanion: AnimalCompanion = new AnimalCompanion();
     public background: Background = new Background();
-    public customSkills: Skill[] = [];
+    public customSkills: Array<Skill> = [];
     public deity = '';
-    public desc: { name: string, value: string }[] = [];
+    public desc: Array<{ name: string; value: string }> = [];
     public familiar: Familiar = new Familiar();
     public focusPoints = 0;
     public focusPointsLast = 0;
-    public gainItems: ItemGain[] = [];
+    public gainItems: Array<ItemGain> = [];
     public heritage: Heritage = new Heritage();
-    public additionalHeritages: AdditionalHeritage[] = [];
+    public additionalHeritages: Array<AdditionalHeritage> = [];
     public hitPoints = 0;
-    public languages: LanguageGain[] = [];
-    public levels: Level[] = [];
+    public languages: Array<LanguageGain> = [];
+    public levels: Array<Level> = [];
     public name = '';
     public sourceBook = '';
-    public spellCasting: SpellCasting[] = [];
-    public spellBook: SpellLearned[] = [];
-    public spellList: SpellLearned[] = [];
-    public formulaBook: FormulaLearned[] = [];
+    public spellCasting: Array<SpellCasting> = [];
+    public spellBook: Array<SpellLearned> = [];
+    public spellList: Array<SpellLearned> = [];
+    public formulaBook: Array<FormulaLearned> = [];
     recast(typeService: TypeService, itemsService: ItemsService) {
         this.activities = this.activities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.ancestry = Object.assign(new Ancestry(), this.ancestry).recast();
@@ -209,7 +209,7 @@ export class Class {
             //Undo all Wellspring Gnome changes, where we turned Primal spells into other traditions.
             //We collect all Gnome feats that grant a primal spell, and for all of those spells that you own, set the spell tradition to Primal on the character:
             if (heritage.name.includes('Wellspring Gnome')) {
-                const feats: string[] = characterService.get_Feats('', 'Gnome')
+                const feats: Array<string> = characterService.get_Feats('', 'Gnome')
                     .filter(feat =>
                         feat.gainSpellChoice.filter(choice =>
                             choice.castingType == 'Innate' &&
@@ -283,7 +283,7 @@ export class Class {
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
             if (heritage.name.includes('Wellspring Gnome')) {
-                const feats: string[] = characterService.get_Feats('', 'Gnome')
+                const feats: Array<string> = characterService.get_Feats('', 'Gnome')
                     .filter(feat => feat.gainSpellChoice.some(choice => choice.castingType == 'Innate' && choice.tradition == 'Primal')).map(feat => feat.name);
                 this.spellCasting.find(casting => casting.castingType == 'Innate')
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
@@ -310,7 +310,7 @@ export class Class {
             });
             level.featChoices = level.featChoices.filter(availableBoost => availableBoost.source != 'Background');
             //Remove all Lores
-            const oldChoices: LoreChoice[] = level.loreChoices.filter(choice => choice.source == 'Background');
+            const oldChoices: Array<LoreChoice> = level.loreChoices.filter(choice => choice.source == 'Background');
             const oldChoice = oldChoices[oldChoices.length - 1];
             if (oldChoice.increases.length) {
                 character.remove_Lore(characterService, oldChoice);
@@ -384,7 +384,7 @@ export class Class {
             }
         }
     }
-    public get_FeatData(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): FeatData[] {
+    public get_FeatData(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): Array<FeatData> {
         return this.featData.filter(data =>
             (data.featName.toLowerCase() == featName.toLowerCase()) &&
             (!minLevel || data.level >= minLevel) &&

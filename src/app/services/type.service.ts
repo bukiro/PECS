@@ -94,7 +94,8 @@ import { WornItem } from 'src/app/classes/WornItem';
 })
 export class TypeService {
 
-    classCast(obj: unknown, className: string) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public classCast(obj: any, className: string): any {
         //This function tries to cast an object according to the given class name.
         switch (className) {
             case 'AbilityChoice': return Object.assign(new AbilityChoice(), obj);
@@ -174,7 +175,7 @@ export class TypeService {
             case 'Speed': return Object.assign(new Speed(), obj);
             case 'Spell': return Object.assign(new Spell(), obj);
             case 'SpellCast': return Object.assign(new SpellCast(), obj);
-            case 'SpellCasting': return Object.assign(new SpellCasting(obj['castingType']), obj);
+            case 'SpellCasting': return Object.assign(new SpellCasting(obj.castingType), obj);
             case 'SpellChoice': return Object.assign(new SpellChoice(), obj);
             case 'SpellGain': return Object.assign(new SpellGain(), obj);
             case 'SpellTargetNumber': return Object.assign(new SpellTargetNumber(), obj);
@@ -189,10 +190,10 @@ export class TypeService {
         }
     }
 
-    merge(target: unknown, source: unknown) {
+    public merge(target: unknown, source: unknown): unknown {
         if (typeof source == 'object' && source) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const output = Object.assign(new (<any>target.constructor), JSON.parse(JSON.stringify(target)));
+            const output = Object.assign(new (target.constructor as any), JSON.parse(JSON.stringify(target)));
             if (Array.isArray(source)) {
                 source.forEach((obj: unknown, index) => {
                     if (!output[index]) {
@@ -219,14 +220,14 @@ export class TypeService {
         }
     }
 
-    restore_Item(object: Item, itemsService: ItemsService = null) {
+    public restoreItem(object: Item, itemsService: ItemsService = null): Item {
         if (itemsService && object.refId && !object.restoredFromSave) {
             const libraryItem = itemsService.get_CleanItemByID(object.refId);
             let mergedObject = object;
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    mergedObject = this.merge(libraryItem, mergedObject);
+                    mergedObject = this.merge(libraryItem, mergedObject) as typeof libraryItem;
                     mergedObject = itemsService.cast_ItemByType(mergedObject, libraryItem.type);
                     //Disable any active hint effects when loading an item.
                     if (mergedObject instanceof Equipment) {

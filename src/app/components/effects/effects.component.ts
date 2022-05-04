@@ -32,13 +32,13 @@ export class EffectsComponent implements OnInit, OnDestroy {
     public parseInt = parseInt;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private traitsService: TraitsService,
-        private effectsService: EffectsService,
-        private characterService: CharacterService,
-        private conditionsService: ConditionsService,
-        private refreshService: RefreshService,
-        private timeService: TimeService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly traitsService: TraitsService,
+        private readonly effectsService: EffectsService,
+        private readonly characterService: CharacterService,
+        private readonly conditionsService: ConditionsService,
+        private readonly refreshService: RefreshService,
+        private readonly timeService: TimeService
     ) { }
 
     minimize() {

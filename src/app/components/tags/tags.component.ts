@@ -39,9 +39,9 @@ export class TagsComponent implements OnInit, OnDestroy {
     @Input()
     showEffects = false;
     @Input()
-    specialNames: string[] = [];
+    specialNames: Array<string> = [];
     @Input()
-    specialEffects: Effect[] = [];
+    specialEffects: Array<Effect> = [];
 
     private changeSubscription: Subscription;
     private viewChangeSubscription: Subscription;
@@ -49,12 +49,12 @@ export class TagsComponent implements OnInit, OnDestroy {
     public parseInt = parseInt;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private traitsService: TraitsService,
-        private effectsService: EffectsService,
-        private timeService: TimeService
+        private readonly refreshService: RefreshService,
+        private readonly traitsService: TraitsService,
+        private readonly effectsService: EffectsService,
+        private readonly timeService: TimeService
     ) { }
 
     trackByIndex(index: number): number {
@@ -125,7 +125,7 @@ export class TagsComponent implements OnInit, OnDestroy {
         return (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1);
     }
 
-    get_FeatsShowingOn(name: string, show: boolean): (AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat)[] {
+    get_FeatsShowingOn(name: string, show: boolean): Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat> {
         if (show && name && this.creature == 'Character') {
             return this.characterService.get_FeatsShowingOn(name)
                 .sort((a, b) => this.nameSort(a, b));

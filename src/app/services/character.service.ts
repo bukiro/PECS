@@ -78,12 +78,12 @@ import { AdditionalHeritage } from '../classes/AdditionalHeritage';
 export class CharacterService {
 
     private me: Character = new Character();
-    private loader: Partial<Character>[] = [];
+    private loader: Array<Partial<Character>> = [];
     private loading = false;
-    private basicItems: { weapon: Weapon, armor: Armor } = { weapon: null, armor: null };
+    private basicItems: { weapon: Weapon; armor: Armor } = { weapon: null, armor: null };
     private firstTime = true;
     private loadingStatus = 'Loading';
-    private preparedOnceEffects: { creatureType: string, effectGain: EffectGain, conditionValue: number, conditionHeightened: number, conditionChoice: string, conditionSpellCastingAbility: string }[] = [];
+    private preparedOnceEffects: Array<{ creatureType: string; effectGain: EffectGain; conditionValue: number; conditionHeightened: number; conditionChoice: string; conditionSpellCastingAbility: string }> = [];
 
     itemsMenuState = 'out';
     itemsMenuTarget = 'Character';
@@ -97,15 +97,15 @@ export class CharacterService {
     diceMenuState = 'out';
 
     constructor(
-        private configService: ConfigService,
-        private extensionsService: ExtensionsService,
-        private savegameService: SavegameService,
+        private readonly configService: ConfigService,
+        private readonly extensionsService: ExtensionsService,
+        private readonly savegameService: SavegameService,
         public abilitiesService: AbilitiesService,
         public skillsService: SkillsService,
         public classesService: ClassesService,
         public featsService: FeatsService,
         public traitsService: TraitsService,
-        private historyService: HistoryService,
+        private readonly historyService: HistoryService,
         public conditionsService: ConditionsService,
         public activitiesService: ActivitiesService,
         public itemsService: ItemsService,
@@ -116,11 +116,11 @@ export class CharacterService {
         public deitiesService: DeitiesService,
         public animalCompanionsService: AnimalCompanionsService,
         public familiarsService: FamiliarsService,
-        private messageService: MessageService,
+        private readonly messageService: MessageService,
         public toastService: ToastService,
-        private typeService: TypeService,
-        private evaluationService: EvaluationService,
-        private effectsGenerationService: EffectsGenerationService,
+        private readonly typeService: TypeService,
+        private readonly evaluationService: EvaluationService,
+        private readonly effectsGenerationService: EffectsGenerationService,
         public refreshService: RefreshService,
         public cacheService: CacheService,
         popoverConfig: NgbPopoverConfig,
@@ -390,13 +390,13 @@ export class CharacterService {
     get_Creatures(companionAvailable: boolean = this.get_CompanionAvailable(), familiarAvailable: boolean = this.get_FamiliarAvailable()) {
         if (!this.still_loading()) {
             if (companionAvailable && familiarAvailable) {
-                return ([] as (Creature)[]).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
+                return ([] as Array<Creature>).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
             } else if (companionAvailable) {
-                return ([] as (Creature)[]).concat(this.get_Character()).concat(this.get_Companion());
+                return ([] as Array<Creature>).concat(this.get_Character()).concat(this.get_Companion());
             } else if (familiarAvailable) {
-                return ([] as (Creature)[]).concat(this.get_Character()).concat(this.get_Familiar());
+                return ([] as Array<Creature>).concat(this.get_Character()).concat(this.get_Familiar());
             } else {
-                return ([] as (Creature)[]).concat(this.get_Character());
+                return ([] as Array<Creature>).concat(this.get_Character());
             }
         } else { return [new Character()]; }
     }
@@ -481,7 +481,7 @@ export class CharacterService {
         const character = this.get_Character();
         if (character.class.name) {
             //Collect everything that gives you free languages, and the level on which it happens. This will allow us to mark languages as available depending on their level.
-            const languageSources: { name: string, level: number, amount: number }[] = [];
+            const languageSources: Array<{ name: string; level: number; amount: number }> = [];
 
             //Free languages from your ancestry
             const ancestryLanguages: number = character.class.ancestry.baseLanguages - character.class.ancestry.languages.length;
@@ -496,7 +496,7 @@ export class CharacterService {
                 languageSources.push({ name: 'Intelligence', level: 0, amount: baseInt });
             }
             //Build an array of int per level for comparison between the levels, starting with the base at 0.
-            const int: number[] = [baseInt];
+            const int: Array<number> = [baseInt];
 
             character.class.levels.filter(level => level.number > 0).forEach(level => {
                 //Collect all feats you have that grant extra free languages, then note on which level you have them.
@@ -545,7 +545,7 @@ export class CharacterService {
             //Remove all free languages that have not been filled.
             character.class.languages = character.class.languages.sort().filter(language => !(language.name == '' && !language.locked));
             //Make a new list of all the free languages. We will pick and sort the free languages from here into the character language list.
-            const tempLanguages: LanguageGain[] = character.class.languages.filter(language => !language.locked).map(language => Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(language))));
+            const tempLanguages: Array<LanguageGain> = character.class.languages.filter(language => !language.locked).map(language => Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(language))));
             //Reduce the character language list to only the locked ones.
             character.class.languages = character.class.languages.filter(language => language.locked);
 
@@ -695,7 +695,7 @@ export class CharacterService {
         return creature.inventories[0]?.allEquipment().filter(item => item.invested && item.traits.includes('Invested')) || [];
     }
 
-    grant_InventoryItem(item: Item, context: { creature: Creature, inventory: ItemCollection, amount?: number, }, options: { resetRunes?: boolean, changeAfter?: boolean, equipAfter?: boolean, newId?: boolean, expiration?: number, newPropertyRunes?: Partial<Rune>[] } = {}) {
+    grant_InventoryItem(item: Item, context: { creature: Creature; inventory: ItemCollection; amount?: number }, options: { resetRunes?: boolean; changeAfter?: boolean; equipAfter?: boolean; newId?: boolean; expiration?: number; newPropertyRunes?: Array<Partial<Rune>> } = {}) {
         context = {
             amount: 1,
             ...context,
@@ -715,10 +715,10 @@ export class CharacterService {
         const newInventoryItem = this.itemsService.initialize_Item(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
         let returnedItem: Item;
         //Check if this item already exists in the inventory, and if it is stackable and doesn't expire. Don't make that check if this item expires.
-        let existingItems: Item[] = [];
-        if (!options.expiration && newInventoryItem.can_Stack()) {
+        let existingItems: Array<Item> = [];
+        if (!options.expiration && newInventoryItem.canStack()) {
             existingItems = context.inventory[item.type].filter((existing: Item) =>
-                existing.name == newInventoryItem.name && newInventoryItem.can_Stack() && !item.expiration
+                existing.name == newInventoryItem.name && newInventoryItem.canStack() && !item.expiration
             );
         }
         //If any existing, stackable items are found, try parsing the amount (set it to 1 if failed), then raise the amount on the first of the existing items.
@@ -808,7 +808,7 @@ export class CharacterService {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
                     item.gainItems.filter(gainItem => gainItem.on == 'grant' && gainItem.amount > 0).forEach(gainItem => {
-                        gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
+                        gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
                     });
                 }
             }
@@ -846,9 +846,9 @@ export class CharacterService {
             if (item instanceof Equipment) {
                 if (item.equipped) {
                     this.on_Equip(creature, inventory, item as Equipment, false, false);
-                } else if (item.invested && item.can_Invest()) {
+                } else if (item.invested && item.canInvest()) {
                     this.on_Invest(creature, inventory, item as Equipment, false, false);
-                } else if (!item.equippable && !item.can_Invest()) {
+                } else if (!item.equippable && !item.canInvest()) {
                     this.conditionsService.remove_GainedItemConditions(creature, item, this);
                 }
                 if (item.propertyRunes) {
@@ -909,7 +909,7 @@ export class CharacterService {
         //These feats are not useful anymore, but the player may wish to keep them.
         //They are marked with canDelete, and the player can decide whether to delete them.
         const character = this.get_Character();
-        const remainingWeapons: string[] = []
+        const remainingWeapons: Array<string> = []
             .concat(
                 ...character.inventories
                     .concat(
@@ -1068,13 +1068,13 @@ export class CharacterService {
                 });
             }
             //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
-            if ((item.gainActivities || item.activities) && !item.can_Invest()) {
+            if ((item.gainActivities || item.activities) && !item.canInvest()) {
                 this.on_Invest(creature, inventory, item, true, false);
             }
             //Add all Items that you get from equipping this one
             if (item.gainItems && item.gainItems.length) {
                 item.gainItems.filter(gainItem => gainItem.on == 'equip').forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: item.get_Name(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
+                    gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
                 });
             }
         } else if (oldequipped && !item.equipped) {
@@ -1099,7 +1099,7 @@ export class CharacterService {
                 });
             }
             //If the item can't be un-invested, make sure you lose the conditions you gained from equipping it.
-            if (!item.can_Invest()) {
+            if (!item.canInvest()) {
                 this.conditionsService.remove_GainedItemConditions(creature, item, this);
             }
             item.propertyRunes?.forEach(rune => {
@@ -1126,7 +1126,7 @@ export class CharacterService {
             });
         });
         if (found) {
-            this.toastService.show(`${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.get_Name() }</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.`);
+            this.toastService.show(`${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.getName() }</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.`);
         }
     }
 
@@ -1244,7 +1244,7 @@ export class CharacterService {
         );
     }
 
-    add_Condition(creature: Creature, gain: ConditionGain, context: { parentItem?: Item, parentConditionGain?: ConditionGain } = {}, options: { noReload?: boolean } = {}) {
+    add_Condition(creature: Creature, gain: ConditionGain, context: { parentItem?: Item; parentConditionGain?: ConditionGain } = {}, options: { noReload?: boolean } = {}) {
         let activate = true;
         const conditionGain: ConditionGain = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast();
         const originalCondition = this.get_Conditions(conditionGain.name)[0];
@@ -1260,7 +1260,7 @@ export class CharacterService {
                 }
             }
             //Check if any condition denies this condition, and stop processing if that is the case.
-            const denySources: string[] = this.get_AppliedConditions(creature, '', '', true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name)).map(existingGain => `<strong>${ existingGain.name }</strong>`);
+            const denySources: Array<string> = this.get_AppliedConditions(creature, '', '', true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name)).map(existingGain => `<strong>${ existingGain.name }</strong>`);
             if (denySources.length) {
                 activate = false;
                 this.toastService.show(`The condition <strong>${ conditionGain.name }</strong> was not added because it is blocked by: ${ denySources.join(', ') }`);
@@ -1368,7 +1368,7 @@ export class CharacterService {
         //- If none is found or the list has only one, take the first.
         let oldConditionGain: ConditionGain = creature.conditions.find(gain => gain === conditionGain);
         if (!oldConditionGain) {
-            const oldConditionGains: ConditionGain[] = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.value == conditionGain.value && gain.source == conditionGain.source);
+            const oldConditionGains: Array<ConditionGain> = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.value == conditionGain.value && gain.source == conditionGain.source);
             if (oldConditionGains.length > 1) {
                 oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) == JSON.stringify(conditionGain));
                 if (!oldConditionGain) {
@@ -1423,7 +1423,7 @@ export class CharacterService {
         //-- If none is found, find one that has the same duration.
         //- If none is found or the list has only one, take the first.
         let oldConditionGain: ConditionGain;
-        const oldConditionGains: ConditionGain[] = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.source == conditionGain.source && gain.persistent);
+        const oldConditionGains: Array<ConditionGain> = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.source == conditionGain.source && gain.persistent);
         if (oldConditionGains.length > 1) {
             oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) == JSON.stringify(conditionGain));
             if (!oldConditionGain) {
@@ -1461,11 +1461,11 @@ export class CharacterService {
         }
         this.messageService.get_Time()
             .subscribe({
-                next: (result: string[]) => {
-                    const timeStamp = result['time'];
+                next: (result: Array<string>) => {
+                    const timeStamp = result.time;
                     const character = this.get_Character();
                     const targets = this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
-                    const messages: PlayerMessage[] = [];
+                    const messages: Array<PlayerMessage> = [];
                     targets.forEach(target => {
                         const message = new PlayerMessage();
                         message.recipientId = target.id;
@@ -1506,7 +1506,7 @@ export class CharacterService {
             });
     }
 
-    apply_TurnChangeMessage(messages: PlayerMessage[]) {
+    apply_TurnChangeMessage(messages: Array<PlayerMessage>) {
         //Don't receive messages in manual mode.
         if (this.get_ManualMode()) {
             return false;
@@ -1532,17 +1532,17 @@ export class CharacterService {
         });
     }
 
-    send_ConditionToPlayers(targets: SpellTarget[], conditionGain: ConditionGain, activate = true) {
+    send_ConditionToPlayers(targets: Array<SpellTarget>, conditionGain: ConditionGain, activate = true) {
         //Don't send messages in GM mode or manual mode, or if not logged in.
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
         this.messageService.get_Time()
             .subscribe({
-                next: (result: string[]) => {
-                    const timeStamp = result['time'];
+                next: (result: Array<string>) => {
+                    const timeStamp = result.time;
                     const creatures = this.get_Creatures();
-                    const messages: PlayerMessage[] = [];
+                    const messages: Array<PlayerMessage> = [];
                     targets.forEach(target => {
                         if (creatures.some(creature => creature.id == target.id)) {
                             //Catch any messages that go to your own creatures
@@ -1593,7 +1593,7 @@ export class CharacterService {
             });
     }
 
-    apply_MessageConditions(messages: PlayerMessage[]) {
+    apply_MessageConditions(messages: Array<PlayerMessage>) {
         //Don't receive messages in manual mode.
         if (this.get_ManualMode()) {
             return false;
@@ -1641,13 +1641,13 @@ export class CharacterService {
         }
         this.messageService.get_Time()
             .subscribe({
-                next: (result: string[]) => {
-                    const timeStamp = result['time'];
+                next: (result: Array<string>) => {
+                    const timeStamp = result.time;
                     if (!amount) {
                         amount == item.amount;
                     }
                     this.itemsService.update_GrantingItem(sender, item);
-                    const included: { items: Item[], inventories: ItemCollection[] } = this.itemsService.pack_GrantingItem(sender, item);
+                    const included: { items: Array<Item>; inventories: Array<ItemCollection> } = this.itemsService.pack_GrantingItem(sender, item);
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const message = new PlayerMessage();
                     message.recipientId = target.playerId;
@@ -1687,7 +1687,7 @@ export class CharacterService {
             });
     }
 
-    apply_MessageItems(messages: PlayerMessage[]) {
+    apply_MessageItems(messages: Array<PlayerMessage>) {
         //Don't receive messages in manual mode.
         if (this.get_ManualMode()) {
             return false;
@@ -1708,7 +1708,7 @@ export class CharacterService {
                                 item.amount = message.itemAmount;
                             }
                             const typedItem = this.itemsService.cast_ItemByType(item);
-                            const existingItems = targetInventory[typedItem.type].filter((existing: Item) => existing.name == typedItem.name && existing.can_Stack() && !typedItem.expiration);
+                            const existingItems = targetInventory[typedItem.type].filter((existing: Item) => existing.name == typedItem.name && existing.canStack() && !typedItem.expiration);
                             //If any existing, stackable items are found, add this item's amount on top and finish.
                             //If no items are found, add the new item to the inventory and process it as a new item (skipping gained items and gained inventories).
                             if (existingItems.length) {
@@ -1743,13 +1743,13 @@ export class CharacterService {
                             if (message.itemAmount > 1) {
                                 text += `${ message.itemAmount } `;
                             }
-                            text += addedPrimaryItem.get_Name();
+                            text += addedPrimaryItem.getName();
                             if (sender) {
                                 text += `</strong> from <strong>${ sender }</strong>`;
                             }
                             if (message.includedItems.length || message.includedInventories.length) {
                                 text += ', including ';
-                                const includedText: string[] = [];
+                                const includedText: Array<string> = [];
                                 if (message.includedItems.length) {
                                     includedText.push(`${ message.includedItems.length } extra items`);
                                 }
@@ -1780,8 +1780,8 @@ export class CharacterService {
         }
         this.messageService.get_Time()
             .subscribe({
-                next: (result: string[]) => {
-                    const timeStamp = result['time'];
+                next: (result: Array<string>) => {
+                    const timeStamp = result.time;
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const response = new PlayerMessage();
                     response.recipientId = message.senderId;
@@ -1828,7 +1828,7 @@ export class CharacterService {
             });
     }
 
-    apply_ItemAcceptedMessages(messages: PlayerMessage[]) {
+    apply_ItemAcceptedMessages(messages: Array<PlayerMessage>) {
         //Don't receive messages in manual mode.
         if (this.get_ManualMode()) {
             return false;
@@ -1851,7 +1851,7 @@ export class CharacterService {
                     });
                 });
                 if (foundItem) {
-                    itemName = foundItem.get_Name();
+                    itemName = foundItem.getName();
                 }
                 if (message.acceptedItem) {
                     this.toastService.show(`<strong>${ sender }</strong> has accepted the <strong>${ itemName }</strong>. The item is dropped from your inventory.`);
@@ -2044,7 +2044,7 @@ export class CharacterService {
         return this.abilitiesService.get_Abilities(name);
     }
 
-    public get_Skills(creature: Creature, name = '', filter: { type?: string, locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}): Skill[] {
+    public get_Skills(creature: Creature, name = '', filter: { type?: string; locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}): Array<Skill> {
         return this.skillsService.get_Skills(creature.customSkills, name, filter, options);
     }
 
@@ -2088,9 +2088,9 @@ export class CharacterService {
     }
 
     get_Senses(creature: Creature, charLevel: number = this.get_Character().level, allowTemporary = false) {
-        let senses: string[] = [];
+        let senses: Array<string> = [];
 
-        let ancestrySenses: string[];
+        let ancestrySenses: Array<string>;
         if (creature instanceof Familiar) {
             ancestrySenses = creature.senses;
         } else {
@@ -2132,8 +2132,8 @@ export class CharacterService {
         return Array.from(new Set(senses));
     }
 
-    get_EquipmentSenses(creature: Creature): string[] {
-        const senses: string[] = [];
+    get_EquipmentSenses(creature: Creature): Array<string> {
+        const senses: Array<string> = [];
         creature.inventories[0].allEquipment().filter(equipment => equipment.gainSenses.length && equipment.investedOrEquipped()).forEach(equipment => {
             senses.push(...equipment.gainSenses);
         });
@@ -2197,7 +2197,7 @@ export class CharacterService {
             //Return any feats that include e.g. Companion:Athletics
             .concat(
                 this.get_FeatsShowingOn(`Companion:${ objectName }`)
-            ) as (AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat)[];
+            ) as Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat>;
     }
 
     get_FamiliarShowingOn(objectName = 'all') {
@@ -2243,8 +2243,8 @@ export class CharacterService {
             );
     }
 
-    get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): ActivityGain[] {
-        const activities: (ActivityGain | ItemActivity)[] = [];
+    get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): Array<ActivityGain> {
+        const activities: Array<ActivityGain | ItemActivity> = [];
         if (!this.still_loading()) {
             if (creature instanceof Character) {
                 activities.push(...creature.class.activities.filter(gain => gain.level <= levelNumber));
@@ -2373,9 +2373,9 @@ export class CharacterService {
             //Conflate ActivityGains and their respective Activities into one object...
             .map(gain => { return { gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
-            .filter((gainAndActivity: { gain: ActivityGain | ItemActivity, activity: Activity }) => gainAndActivity.activity && (gainAndActivity.gain.active || !gainAndActivity.activity.toggle))
+            .filter((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) => gainAndActivity.activity && (gainAndActivity.gain.active || !gainAndActivity.activity.toggle))
             //...and then keep only the activities.
-            .map((gainAndActivity: { gain: ActivityGain | ItemActivity, activity: Activity }) => gainAndActivity.activity)
+            .map((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) => gainAndActivity.activity)
             .filter(activity =>
                 activity?.hints.find(hint =>
                     hint.showon?.split(',').find(showon =>
@@ -2394,7 +2394,7 @@ export class CharacterService {
     }
 
     get_ItemsShowingOn(creature: Creature, objectName = 'all') {
-        const returnedItems: (Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material)[] = [];
+        const returnedItems: Array<Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material> = [];
         //Prepare function to add items whose hints match the objectName.
         function get_Hints(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material, allowResonant: boolean) {
             if (item.hints
@@ -2430,7 +2430,7 @@ export class CharacterService {
         }
         const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(creature);
         creature.inventories.forEach(inventory => {
-            inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.can_Invest() ? item.invested : true)).forEach(item => {
+            inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.canInvest() ? item.invested : true)).forEach(item => {
                 get_Hints(item, false);
                 item.oilsApplied.forEach(oil => {
                     get_Hints(oil, false);
@@ -2504,7 +2504,7 @@ export class CharacterService {
         return (window.innerWidth < 992);
     }
 
-    set_ToChangeByEffectTargets(creature: Creature, targets: string[]) {
+    set_ToChangeByEffectTargets(creature: Creature, targets: Array<string>) {
         this.refreshService.set_ToChangeByEffectTargets(targets, { creature });
     }
 
@@ -2563,7 +2563,7 @@ export class CharacterService {
             this.set_LoadingStatus('Loading character');
             this.load_CharacterFromDB(id)
                 .subscribe({
-                    next: (results: Partial<Character>[]) => {
+                    next: (results: Array<Partial<Character>>) => {
                         this.loader = results;
                         if (this.loader) {
                             this.finish_Loading(loadAsGM);
@@ -2589,7 +2589,7 @@ export class CharacterService {
         }
     }
 
-    load_CharacterFromDB(id: string): Observable<Partial<Character>[]> {
+    load_CharacterFromDB(id: string): Observable<Array<Partial<Character>>> {
         return this.savegameService.load_CharacterFromDB(id);
     }
 
@@ -2661,7 +2661,7 @@ export class CharacterService {
         this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
             .subscribe({
                 next: (result) => {
-                    if (result['lastErrorObject'] && result['lastErrorObject'].updatedExisting) {
+                    if (result.lastErrorObject && result.lastErrorObject.updatedExisting) {
                         this.toastService.show(`Saved ${ this.get_Character().name || 'character' }.`);
                     } else {
                         this.toastService.show(`Created ${ this.get_Character().name || 'character' }.`);

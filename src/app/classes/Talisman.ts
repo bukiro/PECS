@@ -10,9 +10,9 @@ export class Talisman extends Consumable {
     public failure = '';
     public success = '';
     public requirements = '';
-    public showActivities: string[] = [];
+    public showActivities: Array<string> = [];
     //You can only choose this talisman for an item if its type is in the targets list (with a hardcoded exception for "melee weapons")
-    public targets: string[] = [];
+    public targets: Array<string> = [];
     public trigger = '';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);

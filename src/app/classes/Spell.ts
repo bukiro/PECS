@@ -17,7 +17,7 @@ export class Spell {
     public cost = '';
     public critfailure = '';
     public critsuccess = '';
-    public heightenedDescs: HeightenedDescSet[] = [];
+    public heightenedDescs: Array<HeightenedDescSet> = [];
     public desc = '';
     //desc2 is displayed after the success levels.
     public desc2 = '';
@@ -26,9 +26,9 @@ export class Spell {
     // Spells with a duration like "until the end of the target's turn" instead give the caster half a turn longer. This is activated by durationDependsOnTarget.
     public durationDependsOnTarget = false;
     public failure = '';
-    public gainConditions: ConditionGain[] = [];
-    public gainItems: ItemGain[] = [];
-    public heightened: { desc: string, level: string }[] = [];
+    public gainConditions: Array<ConditionGain> = [];
+    public gainItems: Array<ItemGain> = [];
+    public heightened: Array<{ desc: string; level: string }> = [];
     public id = '';
     public inputRequired = '';
     public levelreq = 1;
@@ -39,7 +39,7 @@ export class Spell {
     public range = '';
     public savingThrow = '';
     public shortDesc = '';
-    public showSpells: SpellCast[] = [];
+    public showSpells: Array<SpellCast> = [];
     public sourceBook = '';
     public success = '';
     //Sustained spells are deactivated after this time (or permanent with -1, or when resting with -2)
@@ -61,13 +61,13 @@ export class Spell {
     // and spells that exclusively target a different creature (in case of "you and [...]", the caster condition should take care of the caster's part.).
     public cannotTargetCaster = false;
     public singleTarget = false;
-    public traditions: string[] = [];
-    public traits: string[] = [];
+    public traditions: Array<string> = [];
+    public traits: Array<string> = [];
     public trigger = '';
     public requirements = '';
     //The target number determines how many allies you can target with a non-hostile activity, or how many enemies you can target with a hostile one (not actually implemented).
     //The spell can have multiple target numbers that are dependent on the character level and whether you have a feat.
-    public targetNumbers: SpellTargetNumber[] = [];
+    public targetNumbers: Array<SpellTargetNumber> = [];
     recast() {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
@@ -79,7 +79,7 @@ export class Spell {
         this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
         return this;
     }
-    get_ActivationTraits(): string[] {
+    get_ActivationTraits(): Array<string> {
         return Array.from(new Set([].concat(...this.castType.split(',')
             .map(castType => {
                 const trimmedType = castType.trim().toLowerCase();
@@ -223,7 +223,7 @@ export class Spell {
     meetsLevelReq(characterService: CharacterService, spellLevel: number = Math.ceil(characterService.get_Character().level / 2)) {
         //If the spell has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
-        let result: { met: boolean, desc: string };
+        let result: { met: boolean; desc: string };
         if (this.levelreq && !this.traits.includes('Cantrip')) {
             if (spellLevel >= this.levelreq) {
                 result = { met: true, desc: `Level ${ this.levelreq }` };
@@ -267,7 +267,7 @@ export class Spell {
     hasTargetConditions() {
         return this.gainConditions.some(gain => gain.targetFilter != 'caster');
     }
-    public get_EffectiveSpellLevel(context: { baseLevel: number, creature: Creature, gain: SpellGain }, services: { characterService: CharacterService, effectsService: EffectsService }, options: { noEffects?: boolean } = {}): number {
+    public get_EffectiveSpellLevel(context: { baseLevel: number; creature: Creature; gain: SpellGain }, services: { characterService: CharacterService; effectsService: EffectsService }, options: { noEffects?: boolean } = {}): number {
         //Focus spells are automatically heightened to your maximum available spell level.
         let level = context.baseLevel;
 

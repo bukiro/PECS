@@ -45,8 +45,8 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     public turns = 0;
     private purpose: 'conditions' | 'customeffects' = 'conditions';
     public newEffect: EffectGain = new EffectGain();
-    public validationError: string[] = [];
-    public validationResult: string[] = [];
+    public validationError: Array<string> = [];
+    public validationResult: Array<string> = [];
     public parseInt = parseInt;
     public range = 0;
 
@@ -54,17 +54,17 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private activitiesService: ActivitiesService,
-        private conditionsService: ConditionsService,
-        private effectsService: EffectsService,
-        private itemsService: ItemsService,
-        private timeService: TimeService,
-        private traitsService: TraitsService,
-        private evaluationService: EvaluationService,
-        private customEffectsService: CustomEffectsService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly conditionsService: ConditionsService,
+        private readonly effectsService: EffectsService,
+        private readonly itemsService: ItemsService,
+        private readonly timeService: TimeService,
+        private readonly traitsService: TraitsService,
+        private readonly evaluationService: EvaluationService,
+        private readonly customEffectsService: CustomEffectsService
     ) { }
 
     set_Range(amount: number) {
@@ -491,7 +491,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_Examples(propertyData: ItemProperty) {
-        let examples: string[] = [''];
+        let examples: Array<string> = [''];
 
         switch (propertyData.examples) {
             case 'effects affected':

@@ -20,15 +20,15 @@ export class ItemAeonStonesComponent implements OnInit {
     @Input()
     itemStore = false;
 
-    public newAeonStone: { aeonStone: WornItem, inv: ItemCollection }[];
+    public newAeonStone: Array<{ aeonStone: WornItem; inv: ItemCollection }>;
 
     constructor(
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService,
-        private activitiesService: ActivitiesService,
-        private timeService: TimeService,
-        private typeService: TypeService
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly timeService: TimeService,
+        private readonly typeService: TypeService
     ) { }
 
     trackByIndex(index: number): number {
@@ -44,7 +44,7 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     get_Slots() {
-        const indexes: number[] = [];
+        const indexes: Array<number> = [];
         for (let index = 0; index < this.item.isWayfinder; index++) {
             indexes.push(index);
         }
@@ -62,11 +62,11 @@ export class ItemAeonStonesComponent implements OnInit {
     get_InitialAeonStones(index: number) {
         const item = this.item;
         //Start with one empty stone to select nothing.
-        const allStones: { aeonStone: WornItem, inv: ItemCollection }[] = [{ aeonStone: new WornItem(), inv: null }];
+        const allStones: Array<{ aeonStone: WornItem; inv: ItemCollection }> = [{ aeonStone: new WornItem(), inv: null }];
         allStones[0].aeonStone.name = '';
         //Add the current choice, if the item has a stone at that index.
         if (item.aeonStones[index]) {
-            allStones.push(this.newAeonStone[index] as { aeonStone: WornItem, inv: ItemCollection });
+            allStones.push(this.newAeonStone[index] as { aeonStone: WornItem; inv: ItemCollection });
         }
         return allStones;
     }

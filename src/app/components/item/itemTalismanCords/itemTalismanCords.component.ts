@@ -20,13 +20,13 @@ export class ItemTalismanCordsComponent implements OnInit {
     @Input()
     item: Equipment;
 
-    public newTalismanCord: { talismanCord: WornItem, inv: ItemCollection }[];
+    public newTalismanCord: Array<{ talismanCord: WornItem; inv: ItemCollection }>;
 
     constructor(
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService,
-        private typeService: TypeService
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService,
+        private readonly typeService: TypeService
     ) { }
 
     trackByIndex(index: number): number {
@@ -52,11 +52,11 @@ export class ItemTalismanCordsComponent implements OnInit {
     get_InitialTalismanCords(index: number) {
         const item = this.item;
         //Start with one empty cord to select nothing.
-        const allCords: { talismanCord: WornItem, inv: ItemCollection }[] = [{ talismanCord: new WornItem(), inv: null }];
+        const allCords: Array<{ talismanCord: WornItem; inv: ItemCollection }> = [{ talismanCord: new WornItem(), inv: null }];
         allCords[0].talismanCord.name = '';
         //Add the current choice, if the item has a cord at that index.
         if (item.talismanCords[index]) {
-            allCords.push(this.newTalismanCord[index] as { talismanCord: WornItem, inv: ItemCollection });
+            allCords.push(this.newTalismanCord[index] as { talismanCord: WornItem; inv: ItemCollection });
         }
         return allCords;
     }

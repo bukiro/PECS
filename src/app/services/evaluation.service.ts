@@ -16,22 +16,22 @@ import { Equipment } from '../classes/Equipment';
 import { ActivityGain } from '../classes/ActivityGain';
 import { Skill } from '../classes/Skill';
 
-type FormulaObject = {
-    effects: EffectGain[],
-    get_Name?: () => string,
-    name?: string
+interface FormulaObject {
+    effects: Array<EffectGain>;
+    get_Name?: () => string;
+    name?: string;
 }
-type FormulaContext = {
-    readonly creature: Creature,
-    readonly object?: FormulaObject | Partial<ConditionGain>,
-    readonly parentConditionGain?: ConditionGain,
-    readonly parentItem?: Item | Material,
-    readonly effect?: EffectGain,
-    readonly effectSourceName?: string
+interface FormulaContext {
+    readonly creature: Creature;
+    readonly object?: FormulaObject | Partial<ConditionGain>;
+    readonly parentConditionGain?: ConditionGain;
+    readonly parentItem?: Item | Material;
+    readonly effect?: EffectGain;
+    readonly effectSourceName?: string;
 }
-type FormulaOptions = {
-    readonly name?: string,
-    readonly pretendCharacterLevel?: number
+interface FormulaOptions {
+    readonly name?: string;
+    readonly pretendCharacterLevel?: number;
 }
 
 @Injectable({
@@ -40,15 +40,15 @@ type FormulaOptions = {
 export class EvaluationService {
 
     constructor(
-        private abilitiesService: AbilitiesService,
-        private familiarsService: FamiliarsService
+        private readonly abilitiesService: AbilitiesService,
+        private readonly familiarsService: FamiliarsService
     ) { }
 
     private get_TestSpeed(name: string): Speed {
         return (new Speed(name));
     }
 
-    public get_ValueFromFormula(formula: string, services: { readonly characterService: CharacterService, readonly effectsService: EffectsService }, context: FormulaContext, options: FormulaOptions = {}): number | string | null {
+    public get_ValueFromFormula(formula: string, services: { readonly characterService: CharacterService; readonly effectsService: EffectsService }, context: FormulaContext, options: FormulaOptions = {}): number | string | null {
         context = Object.assign({
             creature: context.creature,
             object: null,
@@ -150,7 +150,7 @@ export class EvaluationService {
                 return characterService.get_Skills(Creature, name)[0]?.level((Creature as AnimalCompanion | Character), characterService, Level);
             }
         }
-        function Skills_Of_Type(name: string): Skill[] {
+        function Skills_Of_Type(name: string): Array<Skill> {
             return characterService.get_Skills(Creature, '', { type: name });
         }
         function Has_Speed(name: string): boolean {
@@ -165,10 +165,10 @@ export class EvaluationService {
         function Has_Condition(name: string): boolean {
             return !!characterService.get_AppliedConditions(Creature, name, '', true).length;
         }
-        function Owned_Conditions(name: string): ConditionGain[] {
+        function Owned_Conditions(name: string): Array<ConditionGain> {
             return characterService.get_AppliedConditions(Creature, name, '', true);
         }
-        function Owned_Activities(name: string): ActivityGain[] {
+        function Owned_Activities(name: string): Array<ActivityGain> {
             return characterService.get_OwnedActivities(Creature).filter(gain => gain.name === name);
         }
         function Armor() {
@@ -225,7 +225,7 @@ export class EvaluationService {
             }
         }
         function Has_Heritage(name: string) {
-            const allHeritages: string[] = Character.class?.heritage ?
+            const allHeritages: Array<string> = Character.class?.heritage ?
                 [
                     Character.class.heritage.name.toLowerCase(),
                     Character.class.heritage.superType.toLowerCase()

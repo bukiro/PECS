@@ -23,7 +23,7 @@ export class Armor extends Equipment {
     //Shoddy armors give a penalty of -2 unless you have the Junk Tinker feat.
     public _shoddy: -2 | 0 = 0;
     //The armor's inherent bonus to AC.
-    private acbonus = 0;
+    private readonly acbonus = 0;
     //What kind of armor is this based on? Needed for armor proficiencies for specific magical items.
     public armorBase = '';
     //The highest dex bonus to AC you can get while wearing this armor.
@@ -37,22 +37,22 @@ export class Armor extends Equipment {
     public prof = 'Light Armor';
     //The penalty to certain skills if your strength is lower than the armors requirement.
     //Should be a negative number
-    private skillpenalty = 0;
+    private readonly skillpenalty = 0;
     //The penalty to all speeds if your strength is lower than the armors requirement.
     //Should be a negative number and a multiple of -5.
     public speedpenalty = 0;
     //The strength requirement (strength, not STR) to overcome skill and speed penalties.
-    private strength = 0;
+    private readonly strength = 0;
     //A Dwarf with the Battleforger feat can polish armor to grant the effect of a +1 potency rune.
     public battleforged = false;
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<ArmorRune, Item>(new ArmorRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<ArmorRune, Item>(new ArmorRune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
         this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
         return this;
     }
-    protected get_SecondaryRuneName(): string {
-        return this.get_Resilient(this.get_ResilientRune());
+    protected _getSecondaryRuneName(): string {
+        return this.getResilient(this.getResilientRune());
     }
     public get_Title(options: { itemStore?: boolean } = {}): string {
         const proficiency = options.itemStore ? this.prof : this.get_Proficiency();
@@ -81,7 +81,7 @@ export class Armor extends Equipment {
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }
-    get_Bulk() {
+    getBulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk = '';
         this.oilsApplied.forEach(oil => {
@@ -98,7 +98,7 @@ export class Armor extends Equipment {
         }
 
     }
-    update_Modifiers(creature: Creature, services: { characterService: CharacterService, refreshService: RefreshService }) {
+    update_Modifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }) {
         //Initialize shoddy values and armored skirt.
         //Set components to update if these values have changed from before.
         const oldValues = [this._affectedByArmoredSkirt, this._shoddy];
@@ -212,9 +212,9 @@ export class Armor extends Equipment {
         skillLevel = Math.min(Math.max(armorLevel, proficiencyLevel), 8);
         return skillLevel;
     }
-    get_ArmorSpecialization(creature: Creature, characterService: CharacterService): Specialization[] {
-        const SpecializationGains: SpecializationGain[] = [];
-        const specializations: Specialization[] = [];
+    get_ArmorSpecialization(creature: Creature, characterService: CharacterService): Array<Specialization> {
+        const SpecializationGains: Array<SpecializationGain> = [];
+        const specializations: Array<Specialization> = [];
         const prof = this.get_Proficiency(creature, characterService);
         if (creature instanceof Character && this.group) {
             const character = creature as Character;
@@ -232,7 +232,7 @@ export class Armor extends Equipment {
                     ));
                 });
             SpecializationGains.forEach(critSpec => {
-                const specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
+                const specs: Array<Specialization> = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
                 specs.forEach(spec => {
                     if (critSpec.condition) {
                         spec.desc = `(${ critSpec.condition }) ${ spec.desc }`;
@@ -245,13 +245,13 @@ export class Armor extends Equipment {
         }
         return specializations;
     }
-    get_EffectsGenerationObjects(creature: Creature, characterService: CharacterService): (Equipment | Specialization | Rune)[] {
-        return super.get_EffectsGenerationObjects(creature, characterService)
+    getEffectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
+        return super.getEffectsGenerationObjects(creature, characterService)
             .concat(...this.get_ArmorSpecialization(creature, characterService))
             .concat(this.propertyRunes);
     }
-    get_EffectsGenerationHints(): HintEffectsObject[] {
-        return super.get_EffectsGenerationHints()
-            .concat(...this.propertyRunes.map(rune => rune.get_EffectsGenerationHints()));
+    getEffectsGenerationHints(): Array<HintEffectsObject> {
+        return super.getEffectsGenerationHints()
+            .concat(...this.propertyRunes.map(rune => rune.getEffectsGenerationHints()));
     }
 }

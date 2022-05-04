@@ -19,9 +19,9 @@ interface Toast {
 export class ToastContainerComponent {
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
         public toastService: ToastService
     ) { }
 

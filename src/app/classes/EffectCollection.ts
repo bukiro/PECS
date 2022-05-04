@@ -1,9 +1,9 @@
 import { Effect } from 'src/app/classes/Effect';
 
 export class EffectCollection {
-    public all: Effect[] = [];
-    public relatives: Effect[] = [];
-    public absolutes: Effect[] = [];
-    public bonuses: Effect[] = [];
-    public penalties: Effect[] = [];
+    public all: Array<Effect> = [];
+    public relatives: Array<Effect> = [];
+    public absolutes: Array<Effect> = [];
+    public bonuses: Array<Effect> = [];
+    public penalties: Array<Effect> = [];
 }

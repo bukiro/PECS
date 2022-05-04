@@ -20,10 +20,10 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     item: Item | any;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService
     ) { }
 
     trackByIndex(index: number): number {
@@ -66,13 +66,13 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     }
 
     get_BulkDifference(item: Item) {
-        const bulk = +item.get_Bulk();
+        const bulk = +item.getBulk();
         if (!isNaN(bulk) && !isNaN(+item.bulk)) {
-            return parseInt(item.get_Bulk()) - parseInt(item.bulk);
+            return parseInt(item.getBulk()) - parseInt(item.bulk);
         } else if (!isNaN(bulk) && isNaN(+item.bulk)) {
             return 1;
         } else if (isNaN(bulk) && !isNaN(+item.bulk)) {
-            if (item.get_Bulk() == 'L' && +item.bulk == 0) {
+            if (item.getBulk() == 'L' && +item.bulk == 0) {
                 return 1;
             } else {
                 return -1;

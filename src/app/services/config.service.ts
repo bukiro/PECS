@@ -20,11 +20,11 @@ export class ConfigService {
     private cannotLogin = false;
     private loggedOutMessage = '';
     private updateAvailable = '';
-    private updateURL = 'http://api.github.com/repos/bukiro/PECS/releases/latest';
+    private readonly updateURL = 'http://api.github.com/repos/bukiro/PECS/releases/latest';
 
     constructor(
-        private httpClient: HttpClient,
-        private refreshService: RefreshService
+        private readonly httpClient: HttpClient,
+        private readonly refreshService: RefreshService
     ) { }
 
     still_loading() {

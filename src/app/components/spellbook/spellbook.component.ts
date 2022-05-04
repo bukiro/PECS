@@ -17,51 +17,51 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 
-type ComponentParameters = {
-    bloodMagicFeats: Feat[],
-    focusPoints: { now: number, max: number },
-    hasSuperiorBond: boolean
+interface ComponentParameters {
+    bloodMagicFeats: Array<Feat>;
+    focusPoints: { now: number; max: number };
+    hasSuperiorBond: boolean;
 }
-type SpellCastingParameters = {
-    casting: SpellCasting,
-    equipmentSpells: { choice: SpellChoice, gain: SpellGain }[],
-    maxStudiousCapacitySlots: number,
-    usedStudiousCapacitySlots: number,
-    maxFirstGreaterVitalEvolutionSlot: number,
-    usedFirstGreaterVitalEvolutionSlot: number,
-    maxSecondGreaterVitalEvolutionSlot: number,
-    usedSecondGreaterVitalEvolutionSlot: number,
-    maxSpellLevel: number,
-    canCounterSpell: boolean
+interface SpellCastingParameters {
+    casting: SpellCasting;
+    equipmentSpells: Array<{ choice: SpellChoice; gain: SpellGain }>;
+    maxStudiousCapacitySlots: number;
+    usedStudiousCapacitySlots: number;
+    maxFirstGreaterVitalEvolutionSlot: number;
+    usedFirstGreaterVitalEvolutionSlot: number;
+    maxSecondGreaterVitalEvolutionSlot: number;
+    usedSecondGreaterVitalEvolutionSlot: number;
+    maxSpellLevel: number;
+    canCounterSpell: boolean;
 }
-type SpellCastingLevelParameters = {
-    level: number,
-    spellTakenList: { choice: SpellChoice, gain: SpellGain }[],
-    temporaryChoiceList: SpellChoice[],
-    maxSpellSlots: number,
-    usedSpellSlots: number,
-    extraSpellSlots: string,
-    canRestore: boolean
+interface SpellCastingLevelParameters {
+    level: number;
+    spellTakenList: Array<{ choice: SpellChoice; gain: SpellGain }>;
+    temporaryChoiceList: Array<SpellChoice>;
+    maxSpellSlots: number;
+    usedSpellSlots: number;
+    extraSpellSlots: string;
+    canRestore: boolean;
 }
-type SpellParameters = {
-    spell: Spell,
-    choice: SpellChoice,
-    gain: SpellGain,
-    externallyDisabled: boolean,
-    effectiveSpellLevel: number,
-    cannotCast: string,
-    cannotExpend: string,
-    canChannelSmite: boolean,
-    canSwiftBanish: boolean,
-    isSignatureSpell: boolean,
-    isSpellCombinationSpell: boolean,
-    isInfinitePossibilitiesSpell: boolean,
-    isSpellMasterySpell: boolean,
-    isCrossbloodedEvolutionSpell: boolean,
-    canReprepare: boolean,
-    isHostile: boolean,
-    maxCharges: number,
-    usedCharges: number,
+interface SpellParameters {
+    spell: Spell;
+    choice: SpellChoice;
+    gain: SpellGain;
+    externallyDisabled: boolean;
+    effectiveSpellLevel: number;
+    cannotCast: string;
+    cannotExpend: string;
+    canChannelSmite: boolean;
+    canSwiftBanish: boolean;
+    isSignatureSpell: boolean;
+    isSpellCombinationSpell: boolean;
+    isInfinitePossibilitiesSpell: boolean;
+    isSpellMasterySpell: boolean;
+    isCrossbloodedEvolutionSpell: boolean;
+    canReprepare: boolean;
+    isHostile: boolean;
+    maxCharges: number;
+    usedCharges: number;
 }
 
 @Component({
@@ -81,15 +81,15 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private traitsService: TraitsService,
-        private spellsService: SpellsService,
-        private itemsService: ItemsService,
-        private timeService: TimeService,
-        private effectsService: EffectsService,
-        private conditionsService: ConditionsService
+        private readonly refreshService: RefreshService,
+        private readonly traitsService: TraitsService,
+        private readonly spellsService: SpellsService,
+        private readonly itemsService: ItemsService,
+        private readonly timeService: TimeService,
+        private readonly effectsService: EffectsService,
+        private readonly conditionsService: ConditionsService
     ) { }
 
     minimize() {
@@ -117,7 +117,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         }
     }
 
-    receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }) {
+    receive_ChoiceMessage(message: { name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }) {
         this.toggle_List(message.name);
     }
 
@@ -233,7 +233,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         };
     }
 
-    public get_SpellCastingParameters(): SpellCastingParameters[] {
+    public get_SpellCastingParameters(): Array<SpellCastingParameters> {
         return this.get_SpellCastings().map(casting => {
             const equipmentSpells = this.get_Character().get_EquipmentSpellsGranted(casting, { characterService: this.characterService, itemsService: this.itemsService }, { cantripAllowed: true });
             //Don't list castings that have no spells available.
@@ -261,7 +261,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         }).filter(castingParameters => castingParameters);
     }
 
-    public get_SpellCastingLevelParameters(spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters): SpellCastingLevelParameters[] {
+    public get_SpellCastingLevelParameters(spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters): Array<SpellCastingLevelParameters> {
         return [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(level => level <= spellCastingParameters.maxSpellLevel).map(level => {
             const maxSpellSlots = this.get_MaxSpellSlots(level, spellCastingParameters.casting, spellCastingParameters.maxSpellLevel);
             return {
@@ -276,7 +276,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         });
     }
 
-    public get_SpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters): SpellParameters[] {
+    public get_SpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters): Array<SpellParameters> {
         return spellCastingLevelParameters.spellTakenList.map(spellTaken => {
             const choice = spellTaken.choice;
             const gain = spellTaken.gain;
@@ -305,7 +305,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         });
     }
 
-    get_MaxSpellLevel(casting: SpellCasting, equipmentSpells: { choice: SpellChoice, gain: SpellGain }[]) {
+    get_MaxSpellLevel(casting: SpellCasting, equipmentSpells: Array<{ choice: SpellChoice; gain: SpellGain }>) {
         //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level.
         //Focus spells are heightened to half your level rounded up.
         //Dynamic spell levels need to be evaluated.
@@ -354,7 +354,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     get_SpellConditions(spell: Spell, levelNumber: number, gain: SpellGain) {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
-        const conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
+        const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
         spell.get_HeightenedConditions(levelNumber)
             .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }; })
             .forEach((conditionSet, index) => {
@@ -373,7 +373,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return conditionSets;
     }
 
-    get_EffectiveSpellLevel(spell: Spell, context: { baseLevel: number, gain: SpellGain }) {
+    get_EffectiveSpellLevel(spell: Spell, context: { baseLevel: number; gain: SpellGain }) {
         return spell.get_EffectiveSpellLevel({ baseLevel: context.baseLevel, creature: this.get_Character(), gain: context.gain }, { characterService: this.characterService, effectsService: this.effectsService });
     }
 
@@ -496,7 +496,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return !!(this.effectsService.get_EffectsOnThis(this.get_Character(), `${ spell.name } Disabled`).length + this.effectsService.get_EffectsOnThis(this.get_Character(), `${ choice.source.replace('Feat: ', '') } Disabled`).length);
     }
 
-    cannot_Cast(context: { spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters, choice: SpellChoice, gain: SpellGain, externallyDisabled: boolean }) {
+    cannot_Cast(context: { spellCastingLevelParameters: SpellCastingLevelParameters; spellCastingParameters: SpellCastingParameters; choice: SpellChoice; gain: SpellGain; externallyDisabled: boolean }) {
         if (
             !context.gain.active &&
             context.choice.cooldown &&
@@ -560,12 +560,12 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have({ creature: character }, { characterService: this.characterService }));
     }
 
-    on_Cast(target = '', activated: boolean, context: { spellParameters: SpellParameters, spellCastingLevelParameters: SpellCastingLevelParameters, spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters }, options: { expend?: boolean } = {}) {
+    on_Cast(target = '', activated: boolean, context: { spellParameters: SpellParameters; spellCastingLevelParameters: SpellCastingLevelParameters; spellCastingParameters: SpellCastingParameters; componentParameters: ComponentParameters }, options: { expend?: boolean } = {}) {
         const character = this.get_Character();
         let highestSpellPreservationLevel = 0;
         let highestNoDurationSpellPreservationLevel = 0;
         //If an effect changes whether a spell resource will get used, mark this here and mark any matching condition for removal. The conditions will be removed if they have duration 1, regardless of whether the effect was used.
-        const conditionsToRemove: string[] = [];
+        const conditionsToRemove: Array<string> = [];
         this.characterService.effectsService.get_AbsolutesOnThis(character, 'Spell Slot Preservation').forEach(effect => {
             highestSpellPreservationLevel = parseInt(effect.setValue);
             conditionsToRemove.push(effect.source);

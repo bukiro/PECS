@@ -20,13 +20,13 @@ import { RefreshService } from 'src/app/services/refresh.service';
 })
 export class SpellsService {
 
-    private spells: Spell[] = [];
+    private spells: Array<Spell> = [];
     private loading = false;
-    private spellsMap = new Map<string, Spell>();
+    private readonly spellsMap = new Map<string, Spell>();
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private refreshService: RefreshService
+        private readonly extensionsService: ExtensionsService,
+        private readonly refreshService: RefreshService
     ) { }
 
     get_ReplacementSpell(name?: string): Spell {
@@ -38,7 +38,7 @@ export class SpellsService {
         return this.spellsMap.get(name.toLowerCase()) || this.get_ReplacementSpell(name);
     }
 
-    get_Spells(name = '', type = '', tradition = ''): Spell[] {
+    get_Spells(name = '', type = '', tradition = ''): Array<Spell> {
         if (!this.still_loading()) {
             //If only a name is given, try to find a spell by that name in the index map. This should be much quicker.
             if (name && !type && !tradition) {
@@ -74,7 +74,7 @@ export class SpellsService {
         }
     }
 
-    public process_Spell(spell: Spell, activated: boolean, services: { characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService }, context: { creature: Creature, gain: SpellGain, level: number, casting?: SpellCasting, choice?: SpellChoice, target?: string, activityGain?: ActivityGain }, options: { manual?: boolean, expendOnly?: boolean } = {}): void {
+    public process_Spell(spell: Spell, activated: boolean, services: { characterService: CharacterService; itemsService: ItemsService; conditionsService: ConditionsService }, context: { creature: Creature; gain: SpellGain; level: number; casting?: SpellCasting; choice?: SpellChoice; target?: string; activityGain?: ActivityGain }, options: { manual?: boolean; expendOnly?: boolean } = {}): void {
         context = Object.assign({
             target: ''
         }, context);
@@ -100,7 +100,7 @@ export class SpellsService {
         }
 
         //The conditions listed in conditionsToRemove will be removed after the spell is processed.
-        const conditionsToRemove: string[] = [];
+        const conditionsToRemove: Array<string> = [];
 
         if (!options.expendOnly && activated && spell.sustained) {
             context.gain.active = true;
@@ -130,7 +130,7 @@ export class SpellsService {
         if (!options.expendOnly && !services.characterService.get_ManualMode()) {
 
             //Find out if target was given. If no target is set, most effects will not be applied.
-            const targets: (Creature | SpellTarget)[] = [];
+            const targets: Array<Creature | SpellTarget> = [];
             switch (context.target) {
                 case 'self':
                     targets.push(context.creature);
@@ -158,7 +158,7 @@ export class SpellsService {
             // (because it's much more difficult to change the spell duration -and- the condition duration).
             if (spell.get_HeightenedConditions(spellLevel)) {
                 if (activated) {
-                    const conditions: ConditionGain[] = spell.get_HeightenedConditions(spellLevel);
+                    const conditions: Array<ConditionGain> = spell.get_HeightenedConditions(spellLevel);
                     const hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != 'caster');
                     const hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == 'caster');
                     const casterIsTarget: boolean = targets.some(target => target.id == context.creature.id);
@@ -302,7 +302,7 @@ export class SpellsService {
                             //      newConditionGain.casterData = services.characterService.effectsService.get_ValueFromFormula(conditionGain.casterDataFormula, context.creature, services.characterService, conditionGain);
                             //  }
                             //#
-                            let conditionTargets: (Creature | SpellTarget)[] = targets;
+                            let conditionTargets: Array<Creature | SpellTarget> = targets;
                             //Caster conditions are applied to the caster creature only. If the spell is durationDependsOnTarget, there are any foreign targets (whose turns don't end when the caster's turn ends)
                             // and it doesn't have a duration of X+1, add 2 for "until another character's turn".
                             // This allows the condition to persist until after the caster's last turn, simulating that it hasn't been the target's last turn yet.
@@ -328,14 +328,14 @@ export class SpellsService {
                                 if (!spell.durationDependsOnTarget && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
-                                services.characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as SpellTarget[], newConditionGain);
+                                services.characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as Array<SpellTarget>, newConditionGain);
                             }
                         }
                     });
                 } else if (options.manual) {
                     //Only if the spell was ended manually, find the matching conditions and end them. If the spell ran out, let the conditions run out by themselves.
                     spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
-                        const conditionTargets: (Creature | SpellTarget)[] = (conditionGain.targetFilter == 'caster' ? [context.creature] : targets);
+                        const conditionTargets: Array<Creature | SpellTarget> = (conditionGain.targetFilter == 'caster' ? [context.creature] : targets);
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
                             services.characterService.get_AppliedConditions(target as Creature, conditionGain.name)
                                 .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (context.gain?.id || ''))
@@ -343,7 +343,7 @@ export class SpellsService {
                                     services.characterService.remove_Condition(target as Creature, existingConditionGain, false);
                                 });
                         });
-                        services.characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as SpellTarget[], conditionGain, false);
+                        services.characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>, conditionGain, false);
                     });
                 }
             }
@@ -460,7 +460,7 @@ export class SpellsService {
         Object.keys(data).forEach(key => {
             this.spells.push(...data[key].map((obj: Spell) => Object.assign(new Spell(), obj).recast()));
         });
-        this.spells = this.extensionsService.cleanup_Duplicates(this.spells, 'id', 'spells') as Spell[];
+        this.spells = this.extensionsService.cleanup_Duplicates(this.spells, 'id', 'spells') as Array<Spell>;
     }
 
 }

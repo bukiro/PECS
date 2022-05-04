@@ -13,25 +13,25 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 export class QuickdiceComponent {
 
     @Input()
-    private diceNum = 0;
+    private readonly diceNum = 0;
     @Input()
-    private diceSize = 0;
+    private readonly diceSize = 0;
     @Input()
-    private bonus = 0;
+    private readonly bonus = 0;
     @Input()
-    private type = '';
+    private readonly type = '';
     @Input()
-    private diceString = '';
+    private readonly diceString = '';
     @Input()
-    private casting: SpellCasting = null;
+    private readonly casting: SpellCasting = null;
     @Input()
-    private creature = 'Character';
+    private readonly creature = 'Character';
 
     constructor(
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private diceService: DiceService,
-        private integrationsService: IntegrationsService
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly diceService: DiceService,
+        private readonly integrationsService: IntegrationsService
     ) { }
 
     get_FoundryVTTRollDirectly() {
@@ -137,7 +137,7 @@ export class QuickdiceComponent {
             } else if (this.diceString) {
                 let diceString = this.diceString.split('\n').join(' ');
                 diceString = this.cleanup_DiceString(diceString);
-                const formulaParts: string[] = [];
+                const formulaParts: Array<string> = [];
                 //For an existing diceString, we need to make sure there is no flavor text included. Only #d#, #, + or - are kept and sent to Foundry.
                 diceString.split(' ').map(part => part.trim()).forEach(dicePart => {
                     if (dicePart.match('^[0-9]+d[0-9]+$') || dicePart == '+' || dicePart == '-' || dicePart.match('^[0-9]+$')) {
@@ -152,7 +152,7 @@ export class QuickdiceComponent {
             } else if (this.diceString) {
                 let diceString = this.diceString.split('\n').join(' ');
                 diceString = this.cleanup_DiceString(diceString);
-                const diceRolls: { diceNum: number, diceSize: number, bonus: number, type: string }[] = [];
+                const diceRolls: Array<{ diceNum: number; diceSize: number; bonus: number; type: string }> = [];
                 let index = 0;
                 let arithmetic = '';
                 diceString.trim().split(' ').map(part => part.trim()).forEach(dicePart => {

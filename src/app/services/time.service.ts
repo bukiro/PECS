@@ -23,11 +23,11 @@ export class TimeService {
     private yourTurn = 0;
 
     constructor(
-        private activitiesService: ActivitiesService,
-        private customEffectsService: CustomEffectsService,
-        private effectsService: EffectsService,
-        private toastService: ToastService,
-        private refreshService: RefreshService
+        private readonly activitiesService: ActivitiesService,
+        private readonly customEffectsService: CustomEffectsService,
+        private readonly effectsService: EffectsService,
+        private readonly toastService: ToastService,
+        private readonly refreshService: RefreshService
     ) { }
 
     get_YourTurn() {
@@ -189,7 +189,7 @@ export class TimeService {
     tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns = 10, reload = true) {
         characterService.get_Creatures().forEach(creature => {
             //If any conditions are currently stopping time, process these first before continuing with the rest.
-            const timeStopDurations: number[] = creature.conditions.filter(gain => gain.apply && conditionsService.get_ConditionFromName(gain.name).get_IsStoppingTime(gain)).map(gain => gain.duration);
+            const timeStopDurations: Array<number> = creature.conditions.filter(gain => gain.apply && conditionsService.get_ConditionFromName(gain.name).get_IsStoppingTime(gain)).map(gain => gain.duration);
             //If any time stopping condition is permanent, no time passes at all.
             if (!timeStopDurations.includes(-1)) {
                 let timeStopDuration: number = Math.max(0, ...timeStopDurations);
@@ -295,7 +295,7 @@ export class TimeService {
         }
     }
 
-    get_Waiting(duration: number, services: { characterService: CharacterService, conditionsService: ConditionsService }, options: { includeResting: boolean }) {
+    get_Waiting(duration: number, services: { characterService: CharacterService; conditionsService: ConditionsService }, options: { includeResting: boolean }) {
         let result = '';
         const characterService = services.characterService;
         const conditionsService = services.conditionsService;

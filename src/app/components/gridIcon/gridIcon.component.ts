@@ -61,8 +61,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
     updateId: string;
 
     constructor(
-        private refreshService: RefreshService,
-        private changeDetector: ChangeDetectorRef
+        private readonly refreshService: RefreshService,
+        private readonly changeDetector: ChangeDetectorRef
     ) { }
 
     trackByIndex(index: number): number {
@@ -362,10 +362,10 @@ export class GridIconComponent implements OnInit, OnDestroy {
                 return this.item.iconValueOverride;
             }
             let value = '';
-            if ((this.item as Equipment)?.get_PotencyRune && (this.item as Equipment).get_PotencyRune()) {
-                value = `+${ (this.item as Equipment).get_PotencyRune().toString() }`;
-                if ((this.item as Equipment)?.get_StrikingRune()) {
-                    const striking = (this.item as Equipment).get_StrikingRune();
+            if ((this.item as Equipment)?.getPotencyRune && (this.item as Equipment).getPotencyRune()) {
+                value = `+${ (this.item as Equipment).getPotencyRune().toString() }`;
+                if ((this.item as Equipment)?.getStrikingRune()) {
+                    const striking = (this.item as Equipment).getStrikingRune();
                     switch (striking) {
                         case 1:
                             value += 'S';
@@ -378,8 +378,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
                             break;
                     }
                 }
-                if ((this.item as Equipment)?.get_ResilientRune()) {
-                    const resilient = (this.item as Equipment).get_ResilientRune();
+                if ((this.item as Equipment)?.getResilientRune()) {
+                    const resilient = (this.item as Equipment).getResilientRune();
                     switch (resilient) {
                         case 1:
                             value += 'R';
@@ -396,8 +396,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
                     value += '+';
                 }
                 return value;
-            } else if (this.item.get_IconValue()) {
-                return this.item.get_IconValue();
+            } else if (this.item.iconValue()) {
+                return this.item.iconValue();
             }
         }
         return '';

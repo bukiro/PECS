@@ -4,13 +4,13 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Hint } from 'src/app/classes/Hint';
 
 export class AnimalCompanionSpecialization {
-    public abilityChoices: AbilityChoice[] = [];
+    public abilityChoices: Array<AbilityChoice> = [];
     public desc = '';
-    public effects: EffectGain[] = [];
-    public hints: Hint[] = [];
+    public effects: Array<EffectGain> = [];
+    public hints: Array<Hint> = [];
     public level = 0;
     public name = '';
-    public skillChoices: SkillChoice[] = [];
+    public skillChoices: Array<SkillChoice> = [];
     public sourceBook = '';
     recast() {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());

@@ -12,10 +12,10 @@ export class Skill {
     public notes = '';
     public showNotes = false;
     public showEffects = false;
-    public _level: Map<string, { value: number, cached: number }> = new Map<string, { value: number, cached: number }>();
-    public _ability: Map<string, { value: string, cached: number }> = new Map<string, { value: string, cached: number }>();
-    public _baseValue: Map<string, { value: number, cached: number }> = new Map<string, { value: number, cached: number }>();
-    public _value: Map<string, { value: number, cached: number }> = new Map<string, { value: number, cached: number }>();
+    public _level: Map<string, { value: number; cached: number }> = new Map<string, { value: number; cached: number }>();
+    public _ability: Map<string, { value: string; cached: number }> = new Map<string, { value: string; cached: number }>();
+    public _baseValue: Map<string, { value: number; cached: number }> = new Map<string, { value: number; cached: number }>();
+    public _value: Map<string, { value: number; cached: number }> = new Map<string, { value: number; cached: number }>();
     constructor(
         public ability: string = '',
         public name: string = '',
@@ -26,33 +26,33 @@ export class Skill {
     ) { }
     recast() {
         if (!(this._level instanceof Map)) {
-            this._level = new Map<string, { value: number, cached: number }>();
+            this._level = new Map<string, { value: number; cached: number }>();
         }
         if (!(this._ability instanceof Map)) {
-            this._ability = new Map<string, { value: string, cached: number }>();
+            this._ability = new Map<string, { value: string; cached: number }>();
         }
         if (!(this._baseValue instanceof Map)) {
-            this._baseValue = new Map<string, { value: number, cached: number }>();
+            this._baseValue = new Map<string, { value: number; cached: number }>();
         }
         if (!(this._value instanceof Map)) {
-            this._value = new Map<string, { value: number, cached: number }>();
+            this._value = new Map<string, { value: number; cached: number }>();
         }
         return this;
     }
     calculate(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC = false) {
         const level: number = (this.level(creature, characterService, charLevel));
         const ability: string = this.get_Ability(creature, characterService);
-        const baseValue: { result: number, explain: string, skillLevel: number, ability: string } = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel, level);
+        const baseValue: { result: number; explain: string; skillLevel: number; ability: string } = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel, level);
 
         const result = {
             level,
             ability,
             baseValue,
-            absolutes: this.absolutes(creature, effectsService, isDC, level, ability) as Effect[],
-            relatives: this.relatives(creature, effectsService, isDC, level, ability) as Effect[],
+            absolutes: this.absolutes(creature, effectsService, isDC, level, ability) as Array<Effect>,
+            relatives: this.relatives(creature, effectsService, isDC, level, ability) as Array<Effect>,
             bonuses: this.bonuses(creature, effectsService, isDC, level, ability) as boolean,
             penalties: this.penalties(creature, effectsService, isDC, level, ability) as boolean,
-            value: this.value(creature, characterService, abilitiesService, effectsService, charLevel, isDC, baseValue) as { result: number, explain: string }
+            value: this.value(creature, characterService, abilitiesService, effectsService, charLevel, isDC, baseValue) as { result: number; explain: string }
         };
         return result;
     }
@@ -80,7 +80,7 @@ export class Skill {
     }
     get_NamesList(creature: Creature, isDC = false, skillLevel = 0, ability = '') {
         const levelNames = ['Untrained', 'Untrained', 'Trained', 'Trained', 'Expert', 'Expert', 'Master', 'Master', 'Legendary'];
-        const list: string[] = [
+        const list: Array<string> = [
             this.name,
             'All Checks and DCs',
         ];
@@ -170,11 +170,11 @@ export class Skill {
         } else {
             const effectsService = characterService.effectsService;
             let skillLevel = 0;
-            const relevantSkillList: string[] = [this.name];
+            const relevantSkillList: Array<string> = [this.name];
             if (this.name.includes('Innate') && this.name.includes('Spell DC')) {
                 relevantSkillList.push('Any Spell DC');
             }
-            const effectTargetList: string[] = [`${ this.name } Proficiency Level`];
+            const effectTargetList: Array<string> = [`${ this.name } Proficiency Level`];
             switch (this.type) {
                 case 'Skill':
                     effectTargetList.push('All Skill Proficiency Levels');
@@ -227,7 +227,7 @@ export class Skill {
                     const spellDCs = characterService.get_Skills(creature).filter(skill => skill !== this && skill.name.includes('Spell DC') && !skill.name.includes('Innate'));
                     skillLevel = Math.max(skillLevel, ...spellDCs.map(skill => skill.level(creature, characterService, charLevel, excludeTemporary)));
                 }
-                const proficiencyCopies: ProficiencyCopy[] = [];
+                const proficiencyCopies: Array<ProficiencyCopy> = [];
                 //Collect all the available proficiency copy instructions,
                 // (i.e. "Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons, you also gain that proficiency in...").
                 //We check whether you meet the minimum proficiency level for the copy by comparing your skillLevel up to this point.
@@ -244,7 +244,7 @@ export class Skill {
                     proficiencyCopies.push(Object.assign(new ProficiencyCopy(), { name: 'Highest Attack Proficiency', type: 'Weapon Proficiency', featuresOnly: false }));
                 }
                 //For each proficiency copy instruction, collect the desired skill increases, then keep the highest.
-                const copyLevels: number[] = [];
+                const copyLevels: Array<number> = [];
                 proficiencyCopies.forEach(copy => {
                     (creature as Character).class.levels.filter(level => level.number <= creature.level).forEach(level => {
                         copyLevels.push(
@@ -325,7 +325,7 @@ export class Skill {
         }
         return { result, explain, skillLevel, ability };
     }
-    value(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC = false, baseValue: { result: number, explain: string, skillLevel: number, ability: string } = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel)) {
+    value(creature: Creature, characterService: CharacterService, abilitiesService: AbilitiesService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level, isDC = false, baseValue: { result: number; explain: string; skillLevel: number; ability: string } = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel)) {
         //Calculates the effective bonus of the given Skill
         let result = 0;
         let explain = '';
@@ -344,7 +344,7 @@ export class Skill {
                     noRelatives = true;
                 }
             });
-            const relatives: Effect[] = [];
+            const relatives: Array<Effect> = [];
             //Familiars apply the characters skill value (before circumstance and status effects) on saves
             //We get this by calculating the skill's baseValue and adding effects that aren't circumstance or status effects.
             if (creature instanceof Familiar) {

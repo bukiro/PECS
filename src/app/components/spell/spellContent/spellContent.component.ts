@@ -23,11 +23,11 @@ export class SpellContentComponent implements OnInit, OnDestroy {
     casting: SpellCasting = null;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private traitsService: TraitsService,
-        private spellsService: SpellsService
+        private readonly refreshService: RefreshService,
+        private readonly traitsService: TraitsService,
+        private readonly spellsService: SpellsService
     ) { }
 
     trackByIndex(index: number): number {

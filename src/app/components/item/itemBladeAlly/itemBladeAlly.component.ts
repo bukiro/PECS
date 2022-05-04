@@ -24,17 +24,17 @@ export class ItemBladeAllyComponent implements OnInit {
     @Input()
     item: Equipment;
 
-    public newPropertyRune: { rune: Rune, disabled?: boolean };
+    public newPropertyRune: { rune: Rune; disabled?: boolean };
 
     constructor(
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService,
-        private timeService: TimeService,
-        private activitiesService: ActivitiesService,
-        private spellsService: SpellsService,
-        private conditionsService: ConditionsService,
-        private typeService: TypeService
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService,
+        private readonly timeService: TimeService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly spellsService: SpellsService,
+        private readonly conditionsService: ConditionsService,
+        private readonly typeService: TypeService
     ) { }
 
     trackByIndex(index: number): number {
@@ -62,7 +62,7 @@ export class ItemBladeAllyComponent implements OnInit {
     get_InitialPropertyRunes() {
         const weapon = this.item;
         //Start with one empty rune to select nothing.
-        const allRunes: { rune: Rune, disabled?: boolean }[] = [{ rune: new WeaponRune() }];
+        const allRunes: Array<{ rune: Rune; disabled?: boolean }> = [{ rune: new WeaponRune() }];
         allRunes[0].rune.name = '';
         //Add the current choice, if the item has a rune at that index.
         if (weapon.bladeAllyRunes[0]) {
@@ -84,7 +84,7 @@ export class ItemBladeAllyComponent implements OnInit {
         if ((weapon as WornItem).isHandwrapsOfMightyBlows) {
             weapon2 = this.get_CleanItems().weapons.find(weapon => weapon.name == 'Fist');
         }
-        const allRunes: { rune: Rune, disabled?: boolean }[] = [];
+        const allRunes: Array<{ rune: Rune; disabled?: boolean }> = [];
         //Add all runes either from the item store or from the inventories.
         if (this.get_Character().alignment.includes('Good')) {
             this.get_CleanItems().weaponrunes.filter(rune => ['Disrupting', 'Ghost Touch', 'Returning', 'Shifting'].includes(rune.name)).forEach(rune => {
@@ -96,7 +96,7 @@ export class ItemBladeAllyComponent implements OnInit {
             });
         }
         //Set all runes to disabled that have the same name as any that is already equipped.
-        allRunes.forEach((rune: { rune: WeaponRune, disabled?: boolean }) => {
+        allRunes.forEach((rune: { rune: WeaponRune; disabled?: boolean }) => {
             if (weapon.bladeAllyRunes
                 .map(propertyRune => propertyRune.name)
                 .includes(rune.rune.name)) {
@@ -104,7 +104,7 @@ export class ItemBladeAllyComponent implements OnInit {
             }
         });
         //Filter all runes whose requirements are not met.
-        allRunes.forEach((rune: { rune: WeaponRune, inv: ItemCollection, disabled?: boolean }) => {
+        allRunes.forEach((rune: { rune: WeaponRune; inv: ItemCollection; disabled?: boolean }) => {
             if (
                 (
                     //Show runes that require a trait if that trait is present on the weapon.

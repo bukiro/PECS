@@ -26,9 +26,9 @@ export class ItemActivity extends Activity {
     //Resonant item activities are only available when the item is slotted into a wayfinder.
     public resonant = false;
     //If the activity causes a condition, in order to select a choice from the activity beforehand, the choice is saved here for each condition.
-    public effectChoices: { condition: string, choice: string }[] = [];
+    public effectChoices: Array<{ condition: string; choice: string }> = [];
     //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each condition for each spell, recursively.
-    public spellEffectChoices: ({ condition: string, choice: string }[])[] = [];
+    public spellEffectChoices: Array<Array<{ condition: string; choice: string }>> = [];
     //Target is used internally to determine whether you can activate this activity on yourself, your companion/familiar or any ally
     //Should be: "ally", "area", "companion", "familiar", "minion", "object", "other" or "self"
     //For "companion", it can only be cast on the companion
@@ -43,7 +43,7 @@ export class ItemActivity extends Activity {
     //Most ItemActivities should apply to the user, so "self" is the default.
     public selectedTarget = 'self';
     //The selected targets are saved here for applying conditions.
-    public targets: SpellTarget[] = [];
+    public targets: Array<SpellTarget> = [];
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
     public id = uuidv4();
     recast() {
@@ -56,7 +56,7 @@ export class ItemActivity extends Activity {
     get_OriginalActivity(activitiesService: ActivitiesService) {
         return this;
     }
-    disabled(context: { creature: Creature, maxCharges: number }, services: { effectsService: EffectsService, timeService: TimeService }) {
+    disabled(context: { creature: Creature; maxCharges: number }, services: { effectsService: EffectsService; timeService: TimeService }) {
         if (this.active) {
             return '';
         }

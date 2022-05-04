@@ -15,9 +15,9 @@ export class Consumable extends Item {
     //What needs to be done to activate? Example: "Command", "Manipulate"
     public activationType = '';
     //List ConditionGain for every condition that you gain from using this item
-    public gainConditions: ConditionGain[] = [];
+    public gainConditions: Array<ConditionGain> = [];
     //List EffectGain for every effect that happens instantly when the item is used
-    public onceEffects: EffectGain[] = [];
+    public onceEffects: Array<EffectGain> = [];
     //Some Items get bought in stacks. Stack defines how many you buy at once,
     //and how many make up one instance of the items Bulk.
     public stack = 1;

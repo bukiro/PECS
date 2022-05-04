@@ -5,22 +5,22 @@ import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatCh
 export class Ancestry {
     public disabled = '';
     public warning = '';
-    public abilityChoices: AbilityChoice[] = [];
-    public ancestries: string[] = [];
+    public abilityChoices: Array<AbilityChoice> = [];
+    public ancestries: Array<string> = [];
     public baseLanguages = 0;
-    public desc: { name: string, value: string }[] = [];
-    public featChoices: FeatChoice[] = [];
-    public gainItems: ItemGain[] = [];
-    public heritages: string[] = [];
+    public desc: Array<{ name: string; value: string }> = [];
+    public featChoices: Array<FeatChoice> = [];
+    public gainItems: Array<ItemGain> = [];
+    public heritages: Array<string> = [];
     public hitPoints = 0;
-    public languages: string[] = [];
+    public languages: Array<string> = [];
     public name = '';
-    public recommendedLanguages: string[] = [];
-    public senses: string[] = [];
+    public recommendedLanguages: Array<string> = [];
+    public senses: Array<string> = [];
     public sourceBook = '';
     public size = 0;
-    public speeds: { name: string, value: number }[] = [];
-    public traits: string[] = [];
+    public speeds: Array<{ name: string; value: number }> = [];
+    public traits: Array<string> = [];
     recast() {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());

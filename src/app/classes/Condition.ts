@@ -15,23 +15,23 @@ import { Creature } from 'src/app/classes/Creature';
 import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 
-type ConditionEnd = {
-    name: string,
-    increaseWounded?: boolean,
-    sameCasterOnly?: boolean
+interface ConditionEnd {
+    name: string;
+    increaseWounded?: boolean;
+    sameCasterOnly?: boolean;
 }
-export type ConditionOverride = {
-    name: string,
-    conditionChoiceFilter?: string[]
+export interface ConditionOverride {
+    name: string;
+    conditionChoiceFilter?: Array<string>;
 }
-export type EndsWithCondition = {
-    name: string,
-    source?: string
+export interface EndsWithCondition {
+    name: string;
+    source?: string;
 }
-export type OtherConditionSelection = {
-    title?: string,
-    nameFilter: string[]
-    typeFilter: string[]
+export interface OtherConditionSelection {
+    title?: string;
+    nameFilter: Array<string>;
+    typeFilter: Array<string>;
 }
 
 export class Condition {
@@ -44,49 +44,49 @@ export class Condition {
     public value = 0;
     public automaticStages = false;
     public circularStages = false;
-    public heightenedDescs: HeightenedDescSet[] = [];
+    public heightenedDescs: Array<HeightenedDescSet> = [];
     public desc = '';
-    public hints: Hint[] = [];
+    public hints: Array<Hint> = [];
     public inputRequired = '';
-    public onceEffects: EffectGain[] = [];
-    public endEffects: EffectGain[] = [];
-    public effects: EffectGain[] = [];
-    public gainActivities: ActivityGain[] = [];
-    public gainConditions: ConditionGain[] = [];
-    public gainItems: ItemGain[] = [];
+    public onceEffects: Array<EffectGain> = [];
+    public endEffects: Array<EffectGain> = [];
+    public effects: Array<EffectGain> = [];
+    public gainActivities: Array<ActivityGain> = [];
+    public gainConditions: Array<ConditionGain> = [];
+    public gainItems: Array<ItemGain> = [];
     public hide = false;
     //Overridden conditions aren't applied, but keep ticking.
-    private overrideConditions: ConditionOverride[] = [];
+    private readonly overrideConditions: Array<ConditionOverride> = [];
     //Paused conditions don't tick. If you want to stop -and- hide a condition, you need to override it as well.
-    private pauseConditions: ConditionOverride[] = [];
+    private readonly pauseConditions: Array<ConditionOverride> = [];
     //Each selectCondition offers a select box that can be used to select one other active condition for later use.
     // The selected condition can be referenced in overrideConditions and pauseConditions as "selectedCondition|0" (or other index).
-    public selectOtherConditions: { title: string, nameFilter: string[], typeFilter: string[] }[] = [];
-    public denyConditions: string[] = [];
-    public endConditions: ConditionEnd[] = [];
+    public selectOtherConditions: Array<{ title: string; nameFilter: Array<string>; typeFilter: Array<string> }> = [];
+    public denyConditions: Array<string> = [];
+    public endConditions: Array<ConditionEnd> = [];
     //If alwaysApplyCasterCondition is true and this is a caster condition, it is applied even when it is informational and the caster is already getting the target condition.
     public alwaysApplyCasterCondition = false;
     //Remove this condition if any of the endsWithConditions is removed.
-    public endsWithConditions: EndsWithCondition[] = [];
+    public endsWithConditions: Array<EndsWithCondition> = [];
     //If the stopTimeChoiceFilter matches the condition choice or is "All", no time elapses for anything other than the condition that causes the time stop.
-    public stopTimeChoiceFilter: string[] = [];
-    public attackRestrictions: AttackRestriction[] = [];
-    public senses: SenseGain[] = [];
+    public stopTimeChoiceFilter: Array<string> = [];
+    public attackRestrictions: Array<AttackRestriction> = [];
+    public senses: Array<SenseGain> = [];
     public sourceBook = '';
-    public nextCondition: ConditionGain[] = [];
-    public defaultDurations: ConditionDuration[] = [];
+    public nextCondition: Array<ConditionGain> = [];
+    public defaultDurations: Array<ConditionDuration> = [];
     public persistent = false;
     //Restricted conditions can be seen, but not taken from the conditions menu.
     public restricted = false;
     public radius = 0;
     public allowRadiusChange = false;
-    public traits: string[] = [];
+    public traits: Array<string> = [];
     //If a condition has notes (like the HP of a summoned object), they get copied on the conditionGain.
     public notes = '';
     //List choices you can make for this condition. The first choice must never have a featreq.
-    public choices: ConditionChoice[] = [];
+    public choices: Array<ConditionChoice> = [];
     //_choices is a temporary value that stores the filtered name list produced by get_Choices();
-    public _choices: string[] = [];
+    public _choices: Array<string> = [];
     //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
     public choice = '';
     //All instances of an unlimited condition are shown in the conditions area. Limited conditions only show one instance.
@@ -130,7 +130,7 @@ export class Condition {
         });
         return this;
     }
-    public get_ConditionOverrides(gain: ConditionGain = null): ConditionOverride[] {
+    public get_ConditionOverrides(gain: ConditionGain = null): Array<ConditionOverride> {
         return this.overrideConditions.map(override => {
             let overrideName = override.name;
             if (gain && override.name.toLowerCase().includes('selectedcondition|')) {
@@ -139,7 +139,7 @@ export class Condition {
             return { name: overrideName, conditionChoiceFilter: override.conditionChoiceFilter };
         });
     }
-    public get_ConditionPauses(gain: ConditionGain = null): ConditionOverride[] {
+    public get_ConditionPauses(gain: ConditionGain = null): Array<ConditionOverride> {
         return this.pauseConditions.map(pause => {
             let pauseName = pause.name;
             if (gain && pause.name.toLowerCase().includes('selectedcondition|')) {
@@ -236,7 +236,7 @@ export class Condition {
         if (!filtered) {
             return this.choices.map(choice => choice.name);
         }
-        const choices: string[] = [];
+        const choices: Array<string> = [];
         this.choices.forEach(choice => {
             //The default choice is never tested. This ensures a fallback if no choices are available.
             if (choice.name == this.choice) {
@@ -250,7 +250,7 @@ export class Condition {
                         let featNotFound = false;
                         choice.featreq.forEach(featreq => {
                             //Allow to check for the Familiar's feats
-                            let requiredFeat: Feat[];
+                            let requiredFeat: Array<Feat>;
                             let testCreature: Character | Familiar;
                             let testFeat = featreq;
                             if (featreq.includes('Familiar:')) {
@@ -317,7 +317,7 @@ export class Condition {
         //This descends through the level numbers, starting with levelNumber and returning the first set of ItemGains found with a matching heightenedfilter.
         //It also returns all items that have no heightenedFilter.
         //If there are no ItemGains with a heightenedFilter, return all.
-        const items: ItemGain[] = [];
+        const items: Array<ItemGain> = [];
         if (!this.gainItems.length) {
             return this.gainItems;
         }

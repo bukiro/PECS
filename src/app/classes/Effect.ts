@@ -13,7 +13,7 @@ export class Effect {
     public duration = 0;
     public maxDuration = 0;
     //If the effect is typed, cumulative lists all effect sources (of the same type) that it is cumulative with.
-    public cumulative: string[] = [];
+    public cumulative: Array<string> = [];
     public sourceId = '';
     constructor(
         public value: string = ''

@@ -12,16 +12,16 @@ import { TypeService } from 'src/app/services/type.service';
     providedIn: 'root'
 })
 export class HistoryService {
-    private ancestries: Ancestry[] = [];
-    private heritages: Heritage[] = [];
-    private backgrounds: Background[] = [];
+    private readonly ancestries: Array<Ancestry> = [];
+    private readonly heritages: Array<Heritage> = [];
+    private readonly backgrounds: Array<Background> = [];
     private loading_ancestries = false;
     private loading_backgrounds = false;
     private loading_heritages = false;
 
     constructor(
-        private typeService: TypeService,
-        private extensionsService: ExtensionsService
+        private readonly typeService: TypeService,
+        private readonly extensionsService: ExtensionsService
     ) { }
 
     get_Ancestries(name = '') {
@@ -39,7 +39,7 @@ export class HistoryService {
 
     get_HeritagesAndSubtypes(name = '') {
         if (!this.loading_heritages) {
-            const heritages: Heritage[] = [];
+            const heritages: Array<Heritage> = [];
             heritages.push(...this.heritages);
             heritages.forEach(heritage => {
                 heritages.push(...heritage.subTypes);

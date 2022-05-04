@@ -107,7 +107,7 @@ export class ItemRolesService {
     }
 
     private itemAsStackable(item: Item): Item {
-        return item.can_Stack() ? item : null;
+        return item.canStack() ? item : null;
     }
 
     private itemAsEmblazonArmamentChangeable(item: Item): Shield | Weapon {

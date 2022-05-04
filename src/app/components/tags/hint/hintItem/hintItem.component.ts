@@ -24,10 +24,10 @@ export class HintItemComponent implements OnInit {
     constructor(
         public characterService: CharacterService,
         public effectsService: EffectsService,
-        private changeDetector: ChangeDetectorRef,
-        private traitsService: TraitsService,
-        private activitiesService: ActivitiesService,
-        private refreshService: RefreshService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly traitsService: TraitsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly refreshService: RefreshService
     ) { }
 
     trackByIndex(index: number): number {

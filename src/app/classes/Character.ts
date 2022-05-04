@@ -36,15 +36,15 @@ export class Character extends Creature {
     public appVersionMajor = 0;
     public appVersion = 0;
     public appVersionMinor = 0;
-    public ignoredMessages: { id: string, ttl: number }[] = [];
+    public ignoredMessages: Array<{ id: string; ttl: number }> = [];
     public partyName = '';
-    public baseValues: { name: string, baseValue: number }[] = [];
-    public cash: number[] = [0, 15, 0, 0];
+    public baseValues: Array<{ name: string; baseValue: number }> = [];
+    public cash: Array<number> = [0, 15, 0, 0];
     public class: Class = new Class();
-    public customFeats: Feat[] = [];
+    public customFeats: Array<Feat> = [];
     public heroPoints = 1;
     //Characters get one extra inventory for worn items.
-    public inventories: ItemCollection[] = [new ItemCollection(), new ItemCollection(2)];
+    public inventories: Array<ItemCollection> = [new ItemCollection(), new ItemCollection(2)];
     public experiencePoints = 0;
     public settings: Settings = new Settings();
     public GMMode = false;
@@ -60,7 +60,7 @@ export class Character extends Creature {
     get_BaseSize(): number {
         return this.class.ancestry.size ? this.class.ancestry.size : 0;
     }
-    get_BaseHP(services: { characterService: CharacterService }): { result: number, explain: string } {
+    get_BaseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
         let ancestryHP = 0;
@@ -77,7 +77,7 @@ export class Character extends Creature {
         }
         return { result: classHP + ancestryHP, explain: explain.trim() };
     }
-    get_BaseSpeed(speedName: string): { result: number, explain: string } {
+    get_BaseSpeed(speedName: string): { result: number; explain: string } {
         let explain = '';
         let sum = 0;
         if (this.class.ancestry.name) {
@@ -112,7 +112,7 @@ export class Character extends Creature {
                     });
                 });
             });
-            return boosts as AbilityBoost[];
+            return boosts as Array<AbilityBoost>;
         }
     }
     boost_Ability(characterService: CharacterService, abilityName: string, boost: boolean, choice: AbilityChoice, locked: boolean) {
@@ -268,8 +268,8 @@ export class Character extends Creature {
     }
     get_SkillIncreases(characterService: CharacterService, minLevelNumber: number, maxLevelNumber: number, skillName = '', source = '', sourceId = '', locked: boolean = undefined, excludeTemporary = false) {
         if (this.class) {
-            const increases: SkillIncrease[] = [];
-            const choices: SkillChoice[] = [];
+            const increases: Array<SkillIncrease> = [];
+            const choices: Array<SkillChoice> = [];
             //Collect all skill choices from spellcasting, level and some item runes as well as oils that emulate those runes.
             const levels = this.class.levels.filter(level => level.number >= minLevelNumber && level.number <= maxLevelNumber);
             levels.forEach(level => {
@@ -319,7 +319,7 @@ export class Character extends Creature {
             }
             return increases;
         } else {
-            return [] as SkillIncrease[];
+            return [] as Array<SkillIncrease>;
         }
     }
     increase_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice, locked: boolean) {
@@ -547,7 +547,7 @@ export class Character extends Creature {
     }
     get_FeatsTaken(minLevelNumber = 0, maxLevelNumber = 0, featName = '', source = '', sourceId = '', locked: boolean = undefined, excludeTemporary = false, includeCountAs = false, automatic: boolean = undefined) {
         if (this.class) {
-            const featsTaken: FeatTaken[] = [];
+            const featsTaken: Array<FeatTaken> = [];
             const levels = this.class.levels.filter(level => (!minLevelNumber || level.number >= minLevelNumber) && (!maxLevelNumber || level.number <= maxLevelNumber));
             levels.forEach(level => {
                 level.featChoices.forEach(choice => {
@@ -586,7 +586,7 @@ export class Character extends Creature {
             choiceFeats.splice(choiceFeats.indexOf(gain, 1));
         }
     }
-    get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, services: { characterService: CharacterService }, filter: { spellLevel?: number, spellName?: string, spellCasting?: SpellCasting, classNames?: string[], traditions?: string[], castingTypes?: string[], source?: string, sourceId?: string, locked?: boolean, signatureAllowed?: boolean, cantripAllowed?: boolean } = {}): { choice: SpellChoice, gain: SpellGain }[] {
+    get_SpellsTaken(minLevelNumber: number, maxLevelNumber: number, services: { characterService: CharacterService }, filter: { spellLevel?: number; spellName?: string; spellCasting?: SpellCasting; classNames?: Array<string>; traditions?: Array<string>; castingTypes?: Array<string>; source?: string; sourceId?: string; locked?: boolean; signatureAllowed?: boolean; cantripAllowed?: boolean } = {}): Array<{ choice: SpellChoice; gain: SpellGain }> {
         filter = {
             spellLevel: -1,
             classNames: [],
@@ -632,7 +632,7 @@ export class Character extends Creature {
             );
         }
         if (this.class) {
-            const spellsTaken: { choice: SpellChoice, gain: SpellGain }[] = [];
+            const spellsTaken: Array<{ choice: SpellChoice; gain: SpellGain }> = [];
             this.class.spellCasting
                 .filter(casting =>
                     (filter.spellCasting ? casting === filter.spellCasting : true) &&
@@ -655,7 +655,7 @@ export class Character extends Creature {
         }
     }
     get_AllEquipmentSpellsGranted() {
-        const spellsGranted: { choice: SpellChoice, gain: SpellGain }[] = [];
+        const spellsGranted: Array<{ choice: SpellChoice; gain: SpellGain }> = [];
         this.inventories[0].allEquipment().filter(equipment => equipment.investedOrEquipped()).forEach(equipment => {
             equipment.gainSpells.forEach(choice => {
                 choice.spells.forEach(gain => {
@@ -674,8 +674,8 @@ export class Character extends Creature {
         });
         return spellsGranted;
     }
-    get_EquipmentSpellsGranted(casting: SpellCasting, services: { characterService: CharacterService, itemsService: ItemsService }, options: { cantripAllowed?: boolean, emptyChoiceAllowed?: boolean } = {}): { choice: SpellChoice, gain: SpellGain }[] {
-        const spellsGranted: { choice: SpellChoice, gain: SpellGain }[] = [];
+    get_EquipmentSpellsGranted(casting: SpellCasting, services: { characterService: CharacterService; itemsService: ItemsService }, options: { cantripAllowed?: boolean; emptyChoiceAllowed?: boolean } = {}): Array<{ choice: SpellChoice; gain: SpellGain }> {
+        const spellsGranted: Array<{ choice: SpellChoice; gain: SpellGain }> = [];
         //Collect spells gained from worn items.
         function choiceMatchesCasting(choice: SpellChoice) {
             return (
@@ -792,7 +792,7 @@ export class Character extends Creature {
         this.remove_LoreFeats(characterService, source.loreName);
     }
     remove_LoreFeats(characterService: CharacterService, loreName: string) {
-        const loreFeats: Feat[] = [];
+        const loreFeats: Array<Feat> = [];
         //If we find any custom feat that has lorebase == "Lore: "+lorename,
         //  That feat was created when the lore was assigned, and can be removed.
         //We build our own reference array first, because otherwise the forEach-index would get messed up while we remove feats.
@@ -863,10 +863,10 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange('Character', 'charactersheet');
         });
     }
-    get_EffectsGenerationObjects(characterService: CharacterService): { feats: (Feat | AnimalCompanionSpecialization)[], hintSets: { hint: Hint, objectName: string }[] } {
+    get_EffectsGenerationObjects(characterService: CharacterService): { feats: Array<Feat | AnimalCompanionSpecialization>; hintSets: Array<{ hint: Hint; objectName: string }> } {
         //Return the Character, its Feats and their Hints for effect generation.
-        const feats: Feat[] = [];
-        const hintSets: { hint: Hint, objectName: string }[] = [];
+        const feats: Array<Feat> = [];
+        const hintSets: Array<{ hint: Hint; objectName: string }> = [];
         characterService.get_CharacterFeatsTaken(0, this.level)
             .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
             .filter(feat => feat && feat.have({ creature: this }, { characterService }))

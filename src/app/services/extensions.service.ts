@@ -11,7 +11,7 @@ export class ExtensionsService {
     private finishedLoading = 0;
 
     constructor(
-        private httpClient: HttpClient
+        private readonly httpClient: HttpClient
     ) { }
 
     initialize() {
@@ -83,7 +83,7 @@ export class ExtensionsService {
                         this.httpClient.get(`${ path }/extensions.json`, { headers })
                             .subscribe({
                                 next: data => {
-                                    JSON.parse(JSON.stringify(data)).forEach((extension: { name: string, filename: string }) => {
+                                    JSON.parse(JSON.stringify(data)).forEach((extension: { name: string; filename: string }) => {
                                         this.load_File(path, extension.filename, target, extension.name);
                                     });
                                 },
@@ -117,9 +117,9 @@ export class ExtensionsService {
         return data;
     }
 
-    cleanup_Duplicates(data: unknown[], identifier: string, listName: string) {
+    cleanup_Duplicates(data: Array<unknown>, identifier: string, listName: string) {
         const oldcount = data.length;
-        const duplicates: string[] = Array.from(new Set(
+        const duplicates: Array<string> = Array.from(new Set(
             data
                 .filter(item =>
                     data.filter(otherItem =>
@@ -127,16 +127,16 @@ export class ExtensionsService {
                     ).length > 1
                 ).map(item => item[identifier])
         ));
-        const winners: { object: string, winner: string }[] = [];
+        const winners: Array<{ object: string; winner: string }> = [];
         duplicates.forEach(duplicate => {
             const highestPriority = Math.max(
                 ...data
                     .filter(item => item[identifier] == duplicate)
-                    .map(item => item['overridePriority'] || 0)
+                    .map(item => item.overridePriority || 0)
             ) || 0;
-            const highestItem = data.find(item => item[identifier] == duplicate && (item['overridePriority'] || 0) == highestPriority);
+            const highestItem = data.find(item => item[identifier] == duplicate && (item.overridePriority || 0) == highestPriority);
             data.filter(item => (item[identifier] == duplicate && item !== highestItem)).forEach(item => { item[identifier] = 'DELETE'; });
-            winners.push({ object: duplicate, winner: highestItem['_extensionFileName'] || 'core' });
+            winners.push({ object: duplicate, winner: highestItem._extensionFileName || 'core' });
         });
         const newcount = data.length;
         if (oldcount != newcount) {
@@ -146,9 +146,9 @@ export class ExtensionsService {
         return data.filter(item => item[identifier] !== 'DELETE');
     }
 
-    cleanup_DuplicatesWithMultipleIdentifiers(data: unknown[], identifiers: string[], listName: string) {
+    cleanup_DuplicatesWithMultipleIdentifiers(data: Array<unknown>, identifiers: Array<string>, listName: string) {
         const oldcount = data.length;
-        const duplicates: string[] = Array.from(new Set(
+        const duplicates: Array<string> = Array.from(new Set(
             data
                 .filter(item =>
                     data.filter(otherItem =>
@@ -157,16 +157,16 @@ export class ExtensionsService {
                     ).length > 1
                 ).map(item => identifiers.map(identifier => item[identifier])).map(item => JSON.stringify(item))
         ));
-        const winners: { identifiers: string, object: string, winner: string }[] = [];
+        const winners: Array<{ identifiers: string; object: string; winner: string }> = [];
         duplicates.map(duplicate => JSON.parse(duplicate)).forEach(duplicateIdentifiers => {
             const highestPriority = Math.max(
                 ...data
                     .filter(item => !identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result))
-                    .map(item => item['overridePriority'] || 0)
+                    .map(item => item.overridePriority || 0)
             ) || 0;
-            const highestItem = data.find(item => !identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && (item['overridePriority'] || 0) == highestPriority);
+            const highestItem = data.find(item => !identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && (item.overridePriority || 0) == highestPriority);
             data.filter(item => (!identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && item !== highestItem)).forEach(item => { item[identifiers[0]] = 'DELETE'; });
-            winners.push({ identifiers: identifiers.join('; '), object: identifiers.map(identifier => highestItem[identifier]).join('; '), winner: highestItem['_extensionFileName'] || 'core' });
+            winners.push({ identifiers: identifiers.join('; '), object: identifiers.map(identifier => highestItem[identifier]).join('; '), winner: highestItem._extensionFileName || 'core' });
         });
         const newcount = data.length;
         if (oldcount != newcount) {
@@ -185,7 +185,7 @@ export class ExtensionsService {
                     this.extensions[target] = new Object;
                 }
                 this.extensions[target][key] = data;
-                this.extensions[target][key].forEach((obj: object) => { obj['_extensionFileName'] = filename; });
+                this.extensions[target][key].forEach((obj: object) => { obj._extensionFileName = filename; });
                 this.finishedLoading++;
             });
     }

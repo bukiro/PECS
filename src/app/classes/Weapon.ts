@@ -18,34 +18,34 @@ import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Item } from './Item';
 
-type AttackResult = {
-    range: string,
-    attackResult: number,
-    explain: string,
-    effects: Effect[],
-    penalties: Effect[],
-    bonuses: Effect[],
-    absolutes: Effect[]
+interface AttackResult {
+    range: string;
+    attackResult: number;
+    explain: string;
+    effects: Array<Effect>;
+    penalties: Array<Effect>;
+    bonuses: Array<Effect>;
+    absolutes: Array<Effect>;
 }
-type DamageResult = {
-    damageResult: string,
-    explain: string,
-    penalties: Effect[],
-    bonuses: Effect[],
-    absolutes: Effect[]
+interface DamageResult {
+    damageResult: string;
+    explain: string;
+    penalties: Array<Effect>;
+    bonuses: Array<Effect>;
+    absolutes: Array<Effect>;
 }
-type RuneSourceSet = {
-    fundamentalRunes: Weapon | WornItem,
-    propertyRunes: Weapon | WornItem,
-    reason?: Weapon | WornItem
+interface RuneSourceSet {
+    fundamentalRunes: Weapon | WornItem;
+    propertyRunes: Weapon | WornItem;
+    reason?: Weapon | WornItem;
 }
-type EmblazonArmamentSet = {
-    type: string,
-    choice: string,
-    deity: string,
-    alignment: string,
-    emblazonDivinity: boolean,
-    source: string
+interface EmblazonArmamentSet {
+    type: string;
+    choice: string;
+    deity: string;
+    alignment: string;
+    emblazonDivinity: boolean;
+    source: string;
 }
 
 export class Weapon extends Equipment {
@@ -64,7 +64,7 @@ export class Weapon extends Equipment {
     //What is the damage type? Usually S, B or P, but may include combinations".
     public dmgType = '';
     //Some weapons add additional damage like +1d4F. Use get_ExtraDamage() to read.
-    private extraDamage = '';
+    private readonly extraDamage = '';
     //The weapon group, needed for critical specialization effects.
     public group = '';
     //How many hands are needed to wield this weapon?
@@ -72,7 +72,7 @@ export class Weapon extends Equipment {
     //Melee range in ft: 5 or 10 for weapons with Reach trait.
     public melee = 0;
     //Store any poisons applied to this item. There should be only one poison at a time.
-    public poisonsApplied: AlchemicalPoison[] = [];
+    public poisonsApplied: Array<AlchemicalPoison> = [];
     //What proficiency is used? "Simple Weapons", "Unarmed Attacks", etc.? Use get_Proficiency() to get the proficiency for numbers and effects.
     public prof: 'Unarmed Attacks' | 'Simple Weapons' | 'Martial Weapons' | 'Advanced Weapons' = 'Simple Weapons';
     //Ranged range in ft - also add for thrown weapons.
@@ -90,7 +90,7 @@ export class Weapon extends Equipment {
     public battleforged = false;
     //A CLeric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
     // Subsequent feats can change options and restrictions of the functionality.
-    public emblazonArmament: EmblazonArmamentSet[] = [];
+    public emblazonArmament: Array<EmblazonArmamentSet> = [];
     public _emblazonArmament = false;
     public _emblazonEnergy = false;
     public _emblazonAntimagic = false;
@@ -98,21 +98,21 @@ export class Weapon extends Equipment {
     public dexterityBased = false;
     //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
     public useHighestAttackProficiency = false;
-    public _traits: string[] = [];
+    public _traits: Array<string> = [];
     //Shoddy weapons take a -2 penalty to attacks.
     public _shoddy = 0;
     recast(typeService: TypeService, itemsService: ItemsService): Weapon {
         super.recast(typeService, itemsService);
-        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign<AlchemicalPoison, Item>(new AlchemicalPoison(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign<AlchemicalPoison, Item>(new AlchemicalPoison(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
         this.material = this.material.map(obj => Object.assign(new WeaponMaterial(), obj).recast());
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restore_Item(obj, itemsService)).recast(typeService, itemsService));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
         return this;
     }
-    protected get_SecondaryRuneName(): string {
-        return this.get_Striking(this.get_StrikingRune());
+    protected _getSecondaryRuneName(): string {
+        return this.getStriking(this.getStrikingRune());
     }
-    protected get_BladeAllyName(): string[] {
-        const words: string[] = [];
+    protected _getBladeAllyName(): Array<string> {
+        const words: Array<string> = [];
         if (this.bladeAlly) {
             this.bladeAllyRunes.forEach(rune => {
                 let name: string = rune.name;
@@ -126,7 +126,7 @@ export class Weapon extends Equipment {
         }
         return words;
     }
-    public get_Title(options: { itemStore?: boolean, preparedProficiency?: string } = {}): string {
+    public get_Title(options: { itemStore?: boolean; preparedProficiency?: string } = {}): string {
         const proficiency = (options.itemStore || !options.preparedProficiency) ? this.prof : options.preparedProficiency;
         return [
             proficiency.split(' ')[0],
@@ -161,7 +161,7 @@ export class Weapon extends Equipment {
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }
-    update_Modifiers(creature: Creature, services: { characterService: CharacterService, refreshService: RefreshService }): void {
+    update_Modifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }): void {
         //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
         //Set components to update if these values have changed from before.
         const oldValues = [this._shoddy, this._emblazonArmament, this._emblazonEnergy, this._emblazonAntimagic];
@@ -239,7 +239,7 @@ export class Weapon extends Equipment {
 
     get_Traits(characterService: CharacterService, creature: Creature) {
         //Test for certain feats that give traits to unarmed attacks.
-        let traits: string[] = JSON.parse(JSON.stringify(this.traits));
+        let traits: Array<string> = JSON.parse(JSON.stringify(this.traits));
         if (this.melee) {
             //Find and apply effects that give this weapon reach.
             const effectsService = characterService.effectsService;
@@ -313,7 +313,7 @@ export class Weapon extends Equipment {
         traits = Array.from(new Set(traits)).sort();
         if (JSON.stringify(this._traits) != JSON.stringify(traits)) {
             //If any traits have changed, we need to update elements that these traits show on. First we save the traits, so we don't start a loop if anything wants to update attacks again.
-            const changed: string[] = this._traits.filter(trait => !traits.includes(trait)).concat(traits.filter(trait => !this._traits.includes(trait)));
+            const changed: Array<string> = this._traits.filter(trait => !traits.includes(trait)).concat(traits.filter(trait => !this._traits.includes(trait)));
             this._traits = traits;
             changed.forEach(trait => {
                 characterService.traitsService.get_Traits(trait).forEach(trait => {
@@ -328,7 +328,7 @@ export class Weapon extends Equipment {
         let proficiency = this.prof;
         //Some feats allow you to apply another proficiency to certain weapons, e.g.:
         // "For the purpose of determining your proficiency, martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons."
-        const proficiencyChanges: ProficiencyChange[] = [];
+        const proficiencyChanges: Array<ProficiencyChange> = [];
         if (creature instanceof Character) {
             characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.changeProficiency.length && feat.have({ creature }, { characterService }, { charLevel }))
@@ -340,7 +340,7 @@ export class Weapon extends Equipment {
                         (change.group ? (this.group && change.group == this.group) : true)
                     ));
                 });
-            const proficiencies: string[] = proficiencyChanges.map(change => change.result);
+            const proficiencies: Array<string> = proficiencyChanges.map(change => change.result);
             //Set the resulting proficiency to the best result by setting it in order of worst to best.
             if (proficiencies.includes('Advanced Weapons')) {
                 proficiency = 'Advanced Weapons';
@@ -366,7 +366,7 @@ export class Weapon extends Equipment {
         const prof = options.preparedProficiency || this.get_Proficiency(creature, characterService, charLevel);
         //There are a lot of ways to be trained with a weapon.
         //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
-        const levels: number[] = [];
+        const levels: Array<number> = [];
         //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
         if (this.useHighestAttackProficiency) {
             const highestProficiencySkill = characterService.get_Skills(creature, 'Highest Attack Proficiency', { type: 'Specific Weapon Proficiency' });
@@ -393,7 +393,7 @@ export class Weapon extends Equipment {
         let bestSkillLevel: number = skillLevel;
         if (runeSource.propertyRunes.some(rune => rune.name == 'Ancestral Echoing')) {
             //First, we get all the weapon proficiencies...
-            const skills: number[] = characterService.get_Skills(creature, '', { type: 'Weapon Proficiency' }).map(skill => skill.level(creature, characterService, charLevel));
+            const skills: Array<number> = characterService.get_Skills(creature, '', { type: 'Weapon Proficiency' }).map(skill => skill.level(creature, characterService, charLevel));
             skills.push(...characterService.get_Skills(creature, '', { type: 'Specific Weapon Proficiency' }).map(skill => skill.level(creature, characterService, charLevel)));
             //Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
             bestSkillLevel = Math.min(skillLevel + 2, Math.max(...skills));
@@ -401,14 +401,14 @@ export class Weapon extends Equipment {
         //If you have an oil applied that emulates an Ancestral Echoing rune, apply the same rule (there is no such oil, but things can change)
         if (this.oilsApplied.some(oil => oil.runeEffect && oil.runeEffect.name == 'Ancestral Echoing')) {
             //First, we get all the weapon proficiencies...
-            const skills: number[] = characterService.get_Skills(creature, '', { type: 'Weapon Proficiency' }).map(skill => skill.level(creature, characterService, charLevel));
+            const skills: Array<number> = characterService.get_Skills(creature, '', { type: 'Weapon Proficiency' }).map(skill => skill.level(creature, characterService, charLevel));
             skills.push(...characterService.get_Skills(creature, '', { type: 'Specific Weapon Proficiency' }).map(skill => skill.level(creature, characterService, charLevel)));
             //Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
             bestSkillLevel = Math.min(skillLevel + 2, Math.max(...skills));
         }
         return bestSkillLevel;
     }
-    private effectPhrases(phrase: string, prof: string, range: string, traits: string[], favoredWeapon: boolean) {
+    private effectPhrases(phrase: string, prof: string, range: string, traits: Array<string>, favoredWeapon: boolean) {
         return [
             phrase,
             `${ this.name } ${ phrase }`,
@@ -466,13 +466,13 @@ export class Weapon extends Equipment {
         if (charLevelBonus) {
             explain += `\nCharacter Level: +${ charLevelBonus }`;
         }
-        const penalties: Effect[] = [];
-        const bonuses: Effect[] = [];
-        const absolutes: Effect[] = [];
+        const penalties: Array<Effect> = [];
+        const bonuses: Array<Effect> = [];
+        const absolutes: Array<Effect> = [];
         //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
         //The Clumsy condition affects all Dexterity attacks.
         const dexEffects = effectsService.get_RelativesOnThese(creature, ['Dexterity-based Checks and DCs', 'Dexterity-based Attack Rolls']);
-        const dexPenalty: Effect[] = [];
+        const dexPenalty: Array<Effect> = [];
         let dexPenaltySum = 0;
         dexEffects.forEach(effect => {
             dexPenalty.push(Object.assign(new Effect(), { value: parseInt(effect.value), setValue: '', source: effect.source, penalty: true }));
@@ -480,7 +480,7 @@ export class Weapon extends Equipment {
         });
         //The Enfeebled condition affects all Strength attacks
         const strEffects = effectsService.get_RelativesOnThese(creature, ['Strength-based Checks and DCs', 'Strength-based Attack Rolls']);
-        const strPenalty: Effect[] = [];
+        const strPenalty: Array<Effect> = [];
         let strPenaltySum = 0;
         strEffects.forEach(effect => {
             strPenalty.push(Object.assign(new Effect(), { value: parseInt(effect.value), setValue: '', source: effect.source, penalty: true }));
@@ -544,7 +544,7 @@ export class Weapon extends Equipment {
                 `${ levelNames[skillLevel] } Attack Rolls`,
             ]);
         //For any activated traits of this weapon, check if any effects on Attack apply. These need to be evaluated in the Trait class.
-        const traitEffects: Effect[] = [];
+        const traitEffects: Array<Effect> = [];
         this.get_ActivatedTraits().forEach(activation => {
             const realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
             traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Attack']));
@@ -564,13 +564,13 @@ export class Weapon extends Equipment {
         let effectsSum = 0;
         //Add relative effects, including potency bonus and shoddy penalty
         //Generate potency bonus
-        const potencyRune: number = runeSource.fundamentalRunes.get_PotencyRune();
-        const calculatedEffects: Effect[] = [];
+        const potencyRune: number = runeSource.fundamentalRunes.getPotencyRune();
+        const calculatedEffects: Array<Effect> = [];
         if (potencyRune) {
             let source = 'Potency';
             //If you're getting the potency because of another item (like Doubling Rings), name it here
             if (runeSource.reason) {
-                source = `Potency (${ runeSource.reason.get_Name() })`;
+                source = `Potency (${ runeSource.reason.getName() })`;
             }
             calculatedEffects.push(Object.assign(new Effect(potencyRune.toString()), { creature: creature.type, type: 'item', target: this.name, source, apply: true, show: false }));
         }
@@ -578,7 +578,7 @@ export class Weapon extends Equipment {
             let source = 'Battleforged';
             //If you're getting the battleforged bonus because of another item (like Handwraps of Mighty Blows), name it here
             if (runeSource.reason) {
-                source = `Battleforged (${ runeSource.reason.get_Name() })`;
+                source = `Battleforged (${ runeSource.reason.getName() })`;
             }
             calculatedEffects.push(Object.assign(new Effect('+1'), { creature: creature.type, type: 'item', target: this.name, source, apply: true, show: false }));
         }
@@ -623,7 +623,7 @@ export class Weapon extends Equipment {
         explain = explain.trim();
         return { range, attackResult, explain, effects: penalties.concat(bonuses).concat(absolutes), penalties, bonuses, absolutes };
     }
-    get_ExtraDamage(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string, prof: string, traits: string[]) {
+    get_ExtraDamage(creature: Character | AnimalCompanion, characterService: CharacterService, effectsService: EffectsService, range: string, prof: string, traits: Array<string>) {
         let extraDamage = '';
         if (this.extraDamage) {
             extraDamage += `\n${ this.extraDamage }`;
@@ -731,9 +731,9 @@ export class Weapon extends Equipment {
         let bonusExplain = '';
         const str = characterService.get_Abilities('Strength')[0].mod(creature, characterService, effectsService).result;
         const dex = characterService.get_Abilities('Dexterity')[0].mod(creature, characterService, effectsService).result;
-        const penalties: Effect[] = [];
-        const bonuses: Effect[] = [];
-        const absolutes: Effect[] = [];
+        const penalties: Array<Effect> = [];
+        const bonuses: Array<Effect> = [];
+        const absolutes: Array<Effect> = [];
         const prof = this.get_Proficiency(creature, characterService);
         const traits = this._traits;
         //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
@@ -760,17 +760,17 @@ export class Weapon extends Equipment {
                 diceExplain += `\n${ effect.source }: Dice number multiplier ${ parseInt(effect.value) >= 0 ? '+' : '' }${ parseInt(effect.value) }`;
             });
             dicenum *= dicenumMultiplier;
-            let calculatedEffects: Effect[] = [];
+            let calculatedEffects: Array<Effect> = [];
             const effectPhrasesDiceNumber = effectPhrases('Dice Number');
             //Add the striking rune or oil of potency effect of the runeSource.
             //Only apply and explain Striking if it's actually better than your multiplied dice number.
-            if (runeSource.fundamentalRunes.get_StrikingRune() + 1 > dicenum) {
-                let source = runeSource.fundamentalRunes.get_Striking(runeSource.fundamentalRunes.get_StrikingRune());
+            if (runeSource.fundamentalRunes.getStrikingRune() + 1 > dicenum) {
+                let source = runeSource.fundamentalRunes.getStriking(runeSource.fundamentalRunes.getStrikingRune());
                 //If you're getting the striking effect because of another item (like Doubling Rings), name it here
                 if (runeSource.reason) {
-                    source += ` (${ runeSource.reason.get_Name() })`;
+                    source += ` (${ runeSource.reason.getName() })`;
                 }
-                calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Number`, setValue: (1 + runeSource.fundamentalRunes.get_StrikingRune()).toString(), source, apply: true, show: false }));
+                calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Number`, setValue: (1 + runeSource.fundamentalRunes.getStrikingRune()).toString(), source, apply: true, show: false }));
             }
             //For any activated traits of this weapon, check if any effects on Dice Number apply. These need to be calculated in the effects service.
             const traitEffects = [];
@@ -808,7 +808,7 @@ export class Weapon extends Equipment {
         //Determine the dice size.
         let dicesize = this.dicesize;
         if (dicesize) {
-            const calculatedEffects: Effect[] = [];
+            const calculatedEffects: Array<Effect> = [];
             //Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage or simple weapons as long as they are their deity's favored weapon.
             if (((dicesize == 4 && this.prof == 'Unarmed Attacks') || this.prof == 'Simple Weapons') &&
                 characterService.get_CharacterFeatsAndFeatures('Deific Weapon')[0]?.have({ creature }, { characterService })) {
@@ -872,7 +872,7 @@ export class Weapon extends Equipment {
             }
         }
         //Decide whether this weapon uses strength or dexterity (modifier, bonuses and penalties).
-        const calculatedEffects: Effect[] = [];
+        const calculatedEffects: Array<Effect> = [];
         let strUsed = false;
         let dexUsed = false;
         let abilityReason = '';
@@ -1031,7 +1031,7 @@ export class Weapon extends Equipment {
                 const realTrait = characterService.traitsService.get_Traits(activation.trait)[0];
                 traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Damage per Die']));
             });
-            const perDieList: string[] = [];
+            const perDieList: Array<string> = [];
             if (this.prof == 'Unarmed Attacks') {
                 perDieList.push('Unarmed Damage per Die');
             } else {
@@ -1100,9 +1100,9 @@ export class Weapon extends Equipment {
         const explain = (`${ diceExplain.trim() }\n${ bonusExplain.trim() }`).trim();
         return { damageResult: dmgResult, explain, penalties, bonuses, absolutes };
     }
-    get_CritSpecialization(creature: Creature, characterService: CharacterService, range: string): Specialization[] {
-        const SpecializationGains: SpecializationGain[] = [];
-        const specializations: Specialization[] = [];
+    get_CritSpecialization(creature: Creature, characterService: CharacterService, range: string): Array<Specialization> {
+        const SpecializationGains: Array<SpecializationGain> = [];
+        const specializations: Array<Specialization> = [];
         const prof = this.get_Proficiency((creature as AnimalCompanion | Character), characterService);
         if (creature instanceof Character && this.group) {
             const character = creature as Character;
@@ -1125,7 +1125,7 @@ export class Weapon extends Equipment {
                     ));
                 });
             SpecializationGains.forEach(critSpec => {
-                const specs: Specialization[] = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
+                const specs: Array<Specialization> = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
                 specs.forEach(spec => {
                     if (critSpec.condition) {
                         spec.desc = `(${ critSpec.condition }) ${ spec.desc }`;

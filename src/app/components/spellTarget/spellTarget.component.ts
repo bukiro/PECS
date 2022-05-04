@@ -20,8 +20,8 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SpellCast } from 'src/app/classes/SpellCast';
 
-type ComponentParameters = {
-    bloodMagicTrigger: string, canActivate: boolean, canActivateWithoutTarget: boolean, targetNumber: number, target: string
+interface ComponentParameters {
+    bloodMagicTrigger: string; canActivate: boolean; canActivateWithoutTarget: boolean; targetNumber: number; target: string;
 }
 
 @Component({
@@ -57,7 +57,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     @Input()
     effectiveSpellLevel = 0;
     @Input()
-    bloodMagicFeats: Feat[] = [];
+    bloodMagicFeats: Array<Feat> = [];
     @Input()
     phrase = 'Cast';
     @Input()
@@ -67,16 +67,16 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     @Input()
     dismissPhrase = '';
     @Output()
-    castMessage = new EventEmitter<{ target: string, activated: boolean, options: { expend?: boolean } }>();
+    castMessage = new EventEmitter<{ target: string; activated: boolean; options: { expend?: boolean } }>();
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private conditionsService: ConditionsService,
-        private timeService: TimeService,
-        private savegameService: SavegameService,
-        private modalService: NgbModal,
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly conditionsService: ConditionsService,
+        private readonly timeService: TimeService,
+        private readonly savegameService: SavegameService,
+        private readonly modalService: NgbModal,
         public modal: NgbActiveModal
     ) { }
 
@@ -176,7 +176,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         // - causes any target conditions and has a target or
         // - causes any caster conditions and caster conditions are not disabled in general, or any of the caster conditions are not disabled.
         // - in case of an activity, adds items or onceeffects (which are independent of the target)
-        let gainConditions: ConditionGain[] = [];
+        let gainConditions: Array<ConditionGain> = [];
         if (this.spell) {
             gainConditions = this.spell.get_HeightenedConditions(this.effectiveSpellLevel);
         } else if (this.activity) {
@@ -235,7 +235,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         return this.action.get_IsHostile(ignoreOverride);
     }
 
-    private canTarget(list: string[]): boolean {
+    private canTarget(list: Array<string>): boolean {
         return list.includes(this.target);
     }
 
@@ -300,7 +300,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         if (this.action.get_IsHostile(true)) {
             return [];
         }
-        const newTargets: SpellTarget[] = [];
+        const newTargets: Array<SpellTarget> = [];
         const character = this.get_Character();
         this.characterService.get_Creatures().forEach(creature => {
             newTargets.push(Object.assign(new SpellTarget(), { name: creature.name || creature.type, id: creature.id, playerId: character.id, type: creature.type, selected: (this.gain.targets.find(target => target.id == creature.id)?.selected || false), isPlayer: creature === character }));

@@ -27,30 +27,30 @@ import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemsService } from 'src/app/services/items.service';
 
-type FormulaObject = {
-    effects: EffectGain[],
-    get_Name?: () => string,
-    name?: string,
+interface FormulaObject {
+    effects: Array<EffectGain>;
+    get_Name?: () => string;
+    name?: string;
 }
-type FormulaContext = {
-    readonly creature: Creature,
-    readonly object?: FormulaObject,
-    readonly parentConditionGain?: ConditionGain,
-    readonly parentItem?: Item | Material
+interface FormulaContext {
+    readonly creature: Creature;
+    readonly object?: FormulaObject;
+    readonly parentConditionGain?: ConditionGain;
+    readonly parentItem?: Item | Material;
 }
-type FormulaOptions = {
-    readonly name?: string,
-    readonly pretendCharacterLevel?: number
+interface FormulaOptions {
+    readonly name?: string;
+    readonly pretendCharacterLevel?: number;
 }
 //Create a class that contains a condition gain's data and the original condition's effects, so we can extract effects from this object.
 class ConditionEffectsObject extends ConditionGain {
-    constructor(public effects: EffectGain[]) { super(); }
+    constructor(public effects: Array<EffectGain>) { super(); }
 }
-export type HintEffectsObject = {
-    readonly hint: Hint,
-    readonly parentItem?: Equipment | Oil | WornItem | Rune | WeaponRune | Material,
-    readonly parentConditionGain?: ConditionGain,
-    readonly objectName: string
+export interface HintEffectsObject {
+    readonly hint: Hint;
+    readonly parentItem?: Equipment | Oil | WornItem | Rune | WeaponRune | Material;
+    readonly parentConditionGain?: ConditionGain;
+    readonly objectName: string;
 }
 
 @Injectable({
@@ -61,15 +61,15 @@ export class EffectsGenerationService {
     private checkingActive = false;
 
     constructor(
-        private evaluationService: EvaluationService,
-        private activitiesService: ActivitiesService,
-        private effectsService: EffectsService,
-        private conditionsService: ConditionsService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService
+        private readonly evaluationService: EvaluationService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly effectsService: EffectsService,
+        private readonly conditionsService: ConditionsService,
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService
     ) { }
 
-    public get_EffectsFromObject(object: FormulaObject, services: { readonly characterService: CharacterService }, context: FormulaContext, options: FormulaOptions = {}): Effect[] {
+    public get_EffectsFromObject(object: FormulaObject, services: { readonly characterService: CharacterService }, context: FormulaContext, options: FormulaOptions = {}): Array<Effect> {
         context = Object.assign({
             creature: null,
             object,
@@ -85,7 +85,7 @@ export class EffectsGenerationService {
         //Formulas are allowed, such as "Character.level / 2".
         //Try to get the type, too - if no type is given, set it to untyped.
         //Return an array of Effect objects
-        const objectEffects: Effect[] = [];
+        const objectEffects: Array<Effect> = [];
         //Get the object name unless a name is enforced.
         let source: string = options.name ? options.name : (object.get_Name ? object.get_Name() : object.name);
         const Character: Character = services.characterService.get_Character();
@@ -96,7 +96,7 @@ export class EffectsGenerationService {
 
         //EffectGains come with values that contain a statement.
         //This statement is evaluated by the EvaluationService and then validated here in order to build a working Effect.
-        (object.effects as EffectGain[]).filter(effect => effect.resonant ? (object instanceof WornItem && object.isSlottedAeonStone) : true).forEach((effect: EffectGain) => {
+        (object.effects as Array<EffectGain>).filter(effect => effect.resonant ? (object instanceof WornItem && object.isSlottedAeonStone) : true).forEach((effect: EffectGain) => {
             function get_ValueFromFormula(value: string) {
                 return evaluationService.get_ValueFromFormula(value, { characterService: services.characterService, effectsService }, { ...context, effect, effectSourceName: source }, options);
             }
@@ -198,19 +198,19 @@ export class EffectsGenerationService {
         return objectEffects;
     }
 
-    private get_ForeignEffects(creature: Creature): Effect[] {
-        let foreignEffects: Effect[] = [];
+    private get_ForeignEffects(creature: Creature): Array<Effect> {
+        let foreignEffects: Array<Effect> = [];
         ['Character', 'Companion', 'Familiar'].filter(otherCreatureType => otherCreatureType != creature.type).forEach(otherCreatureType => {
             foreignEffects = foreignEffects.concat(this.effectsService.get_Effects(otherCreatureType).all.filter(effect => effect.creature == creature.id));
         });
         return foreignEffects;
     }
 
-    private collect_EffectItems(creature: Creature, services: { readonly characterService: CharacterService }): { objects: (Equipment | Specialization | Rune)[], hintSets: HintEffectsObject[] } {
+    private collect_EffectItems(creature: Creature, services: { readonly characterService: CharacterService }): { objects: Array<Equipment | Specialization | Rune>; hintSets: Array<HintEffectsObject> } {
         //Collect items and item specializations that may have effects, and their hints, and return them in two lists.
 
-        let objects: (Equipment | Specialization | Rune)[] = [];
-        let hintSets: HintEffectsObject[] = [];
+        let objects: Array<Equipment | Specialization | Rune> = [];
+        let hintSets: Array<HintEffectsObject> = [];
 
         function ItemEffectsApply(item: Equipment) {
             return item.investedOrEquipped() &&
@@ -222,8 +222,8 @@ export class EffectsGenerationService {
             inventory.allEquipment().filter(item =>
                 ItemEffectsApply(item)
             ).forEach((item: Equipment) => {
-                objects = objects.concat(item.get_EffectsGenerationObjects(creature, services.characterService));
-                hintSets = hintSets.concat(item.get_EffectsGenerationHints());
+                objects = objects.concat(item.getEffectsGenerationObjects(creature, services.characterService));
+                hintSets = hintSets.concat(item.getEffectsGenerationHints());
             });
         });
 
@@ -235,8 +235,8 @@ export class EffectsGenerationService {
         return { objects, hintSets };
     }
 
-    private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintEffectsObject[] {
-        const hintSets: HintEffectsObject[] = [];
+    private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): Array<HintEffectsObject> {
+        const hintSets: Array<HintEffectsObject> = [];
         services.characterService.traitsService.get_Traits().filter(trait => trait.hints.length && trait.haveOn(creature).length).forEach(trait => {
             trait.hints.forEach(hint => {
                 hintSets.push({ hint, objectName: trait.name });
@@ -245,9 +245,9 @@ export class EffectsGenerationService {
         return hintSets;
     }
 
-    private collect_EffectConditions(creature: Creature, services: { readonly characterService: CharacterService }): { conditions: ConditionEffectsObject[], hintSets: HintEffectsObject[] } {
-        const hintSets: HintEffectsObject[] = [];
-        const conditions: (ConditionEffectsObject)[] = [];
+    private collect_EffectConditions(creature: Creature, services: { readonly characterService: CharacterService }): { conditions: Array<ConditionEffectsObject>; hintSets: Array<HintEffectsObject> } {
+        const hintSets: Array<HintEffectsObject> = [];
+        const conditions: Array<ConditionEffectsObject> = [];
         const appliedConditions = services.characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
         appliedConditions.forEach(gain => {
             const originalCondition = services.characterService.get_Conditions(gain.name)[0];
@@ -262,8 +262,8 @@ export class EffectsGenerationService {
         return { conditions, hintSets };
     }
 
-    private collect_ActivityEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): HintEffectsObject[] {
-        const hintSets: HintEffectsObject[] = [];
+    private collect_ActivityEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): Array<HintEffectsObject> {
+        const hintSets: Array<HintEffectsObject> = [];
         services.characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active).forEach(activity => {
             activity.get_OriginalActivity(this.activitiesService)?.hints?.forEach(hint => {
                 hintSets.push({ hint, objectName: activity.name });
@@ -272,12 +272,12 @@ export class EffectsGenerationService {
         return hintSets;
     }
 
-    private generate_ObjectEffects(creature: Creature, services: { readonly characterService: CharacterService }): Effect[] {
+    private generate_ObjectEffects(creature: Creature, services: { readonly characterService: CharacterService }): Array<Effect> {
         //Collect objects, conditions and objects' hints to generate effects from. Hint effects will be handled separately at first.
-        let objects: (Equipment | Rune | Specialization)[] = [];
-        let feats: (Feat | AnimalCompanionSpecialization)[] = [];
-        let hintSets: HintEffectsObject[] = [];
-        let conditions: ConditionEffectsObject[] = [];
+        let objects: Array<Equipment | Rune | Specialization> = [];
+        let feats: Array<Feat | AnimalCompanionSpecialization> = [];
+        let hintSets: Array<HintEffectsObject> = [];
+        let conditions: Array<ConditionEffectsObject> = [];
 
         //Collect the creature's feats/abilities/specializations and their hints.
         const creatureObjects = creature.get_EffectsGenerationObjects(services.characterService);
@@ -301,7 +301,7 @@ export class EffectsGenerationService {
         hintSets = hintSets.concat(this.collect_ActivityEffectHints(creature, services));
 
         //Create object effects from abilities and items, then add effects from conditions.
-        let objectEffects: Effect[] = [];
+        let objectEffects: Array<Effect> = [];
         objects.filter(object => object.effects.length).forEach(object => {
             objectEffects = objectEffects.concat(this.get_EffectsFromObject(object, services, { creature }));
         });
@@ -310,14 +310,14 @@ export class EffectsGenerationService {
         });
 
         //Create object effects the creature. All effects from the creature should be SHOWN, after which they are moved into objectEffects.
-        let creatureEffects: Effect[] = [];
+        let creatureEffects: Array<Effect> = [];
         creatureEffects = creatureEffects.concat(this.get_EffectsFromObject(creature, services, { creature }));
         creatureEffects.forEach(effect => {
             effect.show = true;
         });
 
         //Create object effects from creature feats/abilities and store them in a separate list. All effects from feats should be HIDDEN, after which they are moved into objectEffects.
-        let featEffects: Effect[] = [];
+        let featEffects: Array<Effect> = [];
         feats.filter(object => object.effects?.length).forEach(object => {
             featEffects = featEffects.concat(this.get_EffectsFromObject(object, services, { creature }));
         });
@@ -326,7 +326,7 @@ export class EffectsGenerationService {
         });
 
         //Create object effects from active hints and store them in a separate list. All effects from hints should be SHOWN, after which they are moved into objectEffects.
-        let hintEffects: Effect[] = [];
+        let hintEffects: Array<Effect> = [];
         hintSets.filter(hintSet => (hintSet.hint.active || hintSet.hint.active2 || hintSet.hint.active3 || hintSet.hint.active4 || hintSet.hint.active5) && hintSet.hint.effects?.length).forEach(hintSet => {
             hintEffects = hintEffects.concat(this.get_EffectsFromObject(hintSet.hint, services, { creature, parentItem: hintSet.parentItem, parentConditionGain: hintSet.parentConditionGain }, { name: `conditional, ${ hintSet.objectName }` }));
         });
@@ -337,10 +337,10 @@ export class EffectsGenerationService {
         return objectEffects.concat(creatureEffects).concat(featEffects).concat(hintEffects);
     }
 
-    private generate_ArmorEffects(armor: Armor, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly ignoreArmorPenalties: boolean, readonly ignoreArmorSpeedPenalties: boolean }): Effect[] {
-        const itemEffects: Effect[] = [];
+    private generate_ArmorEffects(armor: Armor, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly ignoreArmorPenalties: boolean; readonly ignoreArmorSpeedPenalties: boolean }): Array<Effect> {
+        const itemEffects: Array<Effect> = [];
         const armorTraits = armor.get_Traits();
-        function add_Effect(options: { type: 'item' | 'untyped', target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
+        function add_Effect(options: { type: 'item' | 'untyped'; target: string; value: string; source: string; penalty: boolean; apply: boolean }): void {
             itemEffects.push(Object.assign(new Effect,
                 {
                     creature: context.creature.id,
@@ -357,12 +357,12 @@ export class EffectsGenerationService {
             ));
         }
         //For Saving Throws, add any resilient runes on the equipped armor.
-        const resilient = armor.get_ResilientRune();
+        const resilient = armor.getResilientRune();
         function applyResilientRune() {
             return resilient > 0 && !armor.broken;
         }
         if (applyResilientRune()) {
-            add_Effect({ type: 'item', target: 'Saving Throws', value: `+${ resilient }`, source: armor.get_Resilient(resilient), penalty: false, apply: undefined });
+            add_Effect({ type: 'item', target: 'Saving Throws', value: `+${ resilient }`, source: armor.getResilient(resilient), penalty: false, apply: undefined });
         }
         //Add broken penalty if the armor is broken.
         if (armor.broken) {
@@ -386,7 +386,7 @@ export class EffectsGenerationService {
         if (!options.ignoreArmorPenalties) {
             //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
             const strength = (context.creature instanceof Familiar) ? 0 : services.characterService.get_Abilities('Strength')[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
-            const name = armor.get_Name();
+            const name = armor.getName();
             const skillPenalty = armor.get_SkillPenalty();
             const skillPenaltyString = skillPenalty.toString();
             const speedPenalty = armor.get_SpeedPenalty();
@@ -441,14 +441,14 @@ export class EffectsGenerationService {
         return itemEffects;
     }
 
-    private generate_ShieldEffects(shield: Shield, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }): Effect[] {
+    private generate_ShieldEffects(shield: Shield, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }): Array<Effect> {
         //Get shield bonuses from raised shields
         //If a shield is raised, add its circumstance bonus to AC with a + in front, but subtract 2 if it's shoddy.
-        const itemEffects: Effect[] = [];
-        function add_Effect(options: { type: 'circumstance' | 'untyped' | 'item', target: string, value: string, source: string, penalty: boolean, apply: boolean }): void {
+        const itemEffects: Array<Effect> = [];
+        function add_Effect(options: { type: 'circumstance' | 'untyped' | 'item'; target: string; value: string; source: string; penalty: boolean; apply: boolean }): void {
             itemEffects.push(Object.assign(new Effect(options.value), { creature: context.creature.id, type: options.type, target: options.target, source: options.source, penalty: options.penalty, apply: options.apply }));
         }
-        const name = shield.get_Name();
+        const name = shield.getName();
         function shieldBonusApplies() {
             return shield.raised && !shield.broken;
         }
@@ -472,8 +472,8 @@ export class EffectsGenerationService {
         return itemEffects;
     }
 
-    private generate_CalculatedItemEffects(creature: Creature, services: { readonly characterService: CharacterService }, options: { readonly ignoreArmorPenalties: boolean, readonly ignoreArmorSpeedPenalties: boolean }): Effect[] {
-        let itemEffects: Effect[] = [];
+    private generate_CalculatedItemEffects(creature: Creature, services: { readonly characterService: CharacterService }, options: { readonly ignoreArmorPenalties: boolean; readonly ignoreArmorSpeedPenalties: boolean }): Array<Effect> {
+        let itemEffects: Array<Effect> = [];
 
         const items = creature.inventories[0];
         items.armors.filter(armor => armor.equipped).forEach(armor => {
@@ -487,7 +487,7 @@ export class EffectsGenerationService {
         return itemEffects;
     }
 
-    private apply_UnburdenedIron(effects: Effect[], services: { readonly characterService: CharacterService }, context: { readonly character: Character }): Effect[] {
+    private apply_UnburdenedIron(effects: Array<Effect>, services: { readonly characterService: CharacterService }, context: { readonly character: Character }): Array<Effect> {
         //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
         function lessen_SpeedPenaltyEffect(effect: Effect): void {
             effect.value = (parseInt(effect.value) + 5).toString();
@@ -517,7 +517,7 @@ export class EffectsGenerationService {
         return effects;
     }
 
-    private set_EffectsIgnored(effects: Effect[], context: { readonly creature: Creature }): Effect[] {
+    private set_EffectsIgnored(effects: Array<Effect>, context: { readonly creature: Creature }): Array<Effect> {
         //Reset ignoring all effects before processing ignored effects.
         effects.forEach(effect => {
             effect.ignored = false;
@@ -544,7 +544,7 @@ export class EffectsGenerationService {
         return effects;
     }
 
-    private set_EffectsApplied(effects: Effect[], context: { readonly creature: Creature }): Effect[] {
+    private set_EffectsApplied(effects: Array<Effect>, context: { readonly creature: Creature }): Array<Effect> {
         //Toggle effects are always applied.
         effects.filter(effect => effect.toggle).forEach(effect => {
             effect.apply = true;
@@ -561,7 +561,7 @@ export class EffectsGenerationService {
         // If one target is affected by two bonuses of the same type, only the bigger one is applied.
         // The same goes for penalties, unless they are untyped.
 
-        const targets: string[] = [];
+        const targets: Array<string> = [];
         //Collect all targets of effects, but each only once
         effects.forEach(effect => {
             if (!targets.includes(effect.target)) {
@@ -677,9 +677,9 @@ export class EffectsGenerationService {
         return effects;
     }
 
-    private set_EffectsShown(effects: Effect[]): Effect[] {
+    private set_EffectsShown(effects: Array<Effect>): Array<Effect> {
         //Figure out whether to show or hide an effect if it isn't set already.
-        const alwaysShow: string[] = [
+        const alwaysShow: Array<string> = [
             'AC',
             'Acrobatics',
             'Actions per Turn',
@@ -734,7 +734,7 @@ export class EffectsGenerationService {
             'Weapon Damage per Die',
             'Will'
         ].map(name => name.toLowerCase());
-        const alwaysShowWildcard: string[] = [
+        const alwaysShowWildcard: Array<string> = [
             'Extra Damage',
             'Resistance',
             'Immunity',
@@ -769,7 +769,7 @@ export class EffectsGenerationService {
 
         const creature: Creature = services.characterService.get_Creature(creatureType);
 
-        let effects: Effect[] = [];
+        let effects: Array<Effect> = [];
 
         //Fetch any effects from the other creatures that apply to this.
         effects = effects.concat(this.get_ForeignEffects(creature));
@@ -811,7 +811,7 @@ export class EffectsGenerationService {
         return this.finish_EffectsGeneration(effects, services, { creature }, options);
     }
 
-    private finish_EffectsGeneration(effects: Effect[], services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly secondRun?: boolean } = {}): boolean {
+    private finish_EffectsGeneration(effects: Array<Effect>, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly secondRun?: boolean } = {}): boolean {
         //Replace the global effects ONLY if the effects have changed, and if so, repeat the function straight away.
         //This ensures that any new strength bonuses get applied to any strength-based penalties,
         //and that the effects are always up to date and never need to be regenerated by any other process.

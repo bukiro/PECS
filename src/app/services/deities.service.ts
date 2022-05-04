@@ -12,15 +12,15 @@ import { CharacterService } from 'src/app/services/character.service';
 })
 export class DeitiesService {
 
-    private deities: Deity[] = [];
-    private domains: Domain[] = [];
+    private deities: Array<Deity> = [];
+    private domains: Array<Domain> = [];
     private loading = false;
     //The character's deity or deities get loaded into $characterDeities whenever it is queried and empty.
-    private $characterDeities: { deity: Deity, source: string, level: number }[] = [];
-    private deitiesMap = new Map<string, Deity>();
+    private $characterDeities: Array<{ deity: Deity; source: string; level: number }> = [];
+    private readonly deitiesMap = new Map<string, Deity>();
 
     constructor(
-        private extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService
     ) { }
 
     private get_ReplacementDeity(name?: string): Deity {
@@ -32,7 +32,7 @@ export class DeitiesService {
         return this.deitiesMap.get(name.toLowerCase()) || this.get_ReplacementDeity(name);
     }
 
-    get_CharacterDeities(characterService: CharacterService, character: Character, source = '', level: number = character.level): Deity[] {
+    get_CharacterDeities(characterService: CharacterService, character: Character, source = '', level: number = character.level): Array<Deity> {
         if (!this.$characterDeities.length && character.class.deity) {
             //Recreate the character deities list from the main deity and the Syncretism feat data.
             const mainDeity = this.get_Deities(character.class.deity)[0];
@@ -59,7 +59,7 @@ export class DeitiesService {
         this.$characterDeities.length = 0;
     }
 
-    get_Deities(name = ''): Deity[] {
+    get_Deities(name = ''): Array<Deity> {
         if (!this.still_loading()) {
             //If a name is given, try to find a deity by that name in the index map. This should be much quicker.
             if (name) {
@@ -70,7 +70,7 @@ export class DeitiesService {
         } else { return [this.get_ReplacementDeity()]; }
     }
 
-    get_Domains(name = ''): Domain[] {
+    get_Domains(name = ''): Array<Domain> {
         if (!this.still_loading()) {
             return this.domains.filter(domain => domain.name.toLowerCase() == name.toLowerCase() || name == '');
         } else { return [new Domain()]; }
@@ -101,7 +101,7 @@ export class DeitiesService {
         Object.keys(data).forEach(key => {
             this.deities.push(...data[key].map((obj: Deity) => Object.assign(new Deity(), obj).recast()));
         });
-        this.deities = this.extensionsService.cleanup_Duplicates(this.deities, 'name', 'deities') as Deity[];
+        this.deities = this.extensionsService.cleanup_Duplicates(this.deities, 'name', 'deities') as Array<Deity>;
     }
 
     load_Domains() {
@@ -110,7 +110,7 @@ export class DeitiesService {
         Object.keys(data).forEach(key => {
             this.domains.push(...data[key].map((obj: Domain) => Object.assign(new Domain(), obj).recast()));
         });
-        this.domains = this.extensionsService.cleanup_Duplicates(this.domains, 'name', 'domains') as Domain[];
+        this.domains = this.extensionsService.cleanup_Duplicates(this.domains, 'name', 'domains') as Array<Domain>;
     }
 
 }

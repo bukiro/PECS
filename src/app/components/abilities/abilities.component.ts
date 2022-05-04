@@ -22,10 +22,10 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public abilitiesService: AbilitiesService,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
+        private readonly refreshService: RefreshService,
         public effectsService: EffectsService
     ) { }
 

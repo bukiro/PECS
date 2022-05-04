@@ -25,7 +25,7 @@ export class EffectGain {
     //spellSource is copied from conditions and used in value eval()s. Also only used to calculate temporary HP so far.
     public spellSource = '';
     //If the effect is typed, cumulative lists all effect sources (of the same type) that it is cumulative with.
-    public cumulative: string[] = [];
+    public cumulative: Array<string> = [];
     //A resonant effect only applies if the carrying item is slotted into a wayfinder.
     public resonant = false;
     //The title will be shown instead of the value if it is set. It can be calculated like the value, and use the value for its calculations, but should result in a string.

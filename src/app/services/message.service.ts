@@ -15,18 +15,18 @@ import { TypeService } from 'src/app/services/type.service';
 })
 export class MessageService {
 
-    private newMessages: PlayerMessage[] = [];
+    private newMessages: Array<PlayerMessage> = [];
     private checkingActive = false;
     private checkingMessages = false;
     private cleaningUpIgnoredMessages = false;
 
     constructor(
-        private http: HttpClient,
-        private configService: ConfigService,
-        private toastService: ToastService,
-        private typeService: TypeService,
-        private itemsService: ItemsService,
-        private refreshService: RefreshService
+        private readonly http: HttpClient,
+        private readonly configService: ConfigService,
+        private readonly toastService: ToastService,
+        private readonly typeService: TypeService,
+        private readonly itemsService: ItemsService,
+        private readonly refreshService: RefreshService
     ) { }
 
     get_NewMessages(characterService: CharacterService) {
@@ -41,31 +41,31 @@ export class MessageService {
         return this.load_TimeFromConnector();
     }
 
-    send_Messages(messages: PlayerMessage[]) {
+    send_Messages(messages: Array<PlayerMessage>) {
         return this.save_MessagesToDB(messages);
     }
 
-    load_Messages(recipientId: string): Observable<string[]> {
-        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/loadMessages/${ recipientId }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+    load_Messages(recipientId: string): Observable<Array<string>> {
+        return this.http.get<Array<string>>(`${ this.configService.get_DBConnectionURL() }/loadMessages/${ recipientId }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     cleanup_OldMessages() {
-        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<Array<string>>(`${ this.configService.get_DBConnectionURL() }/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
-    load_TimeFromConnector(): Observable<string[]> {
-        return this.http.get<string[]>(`${ this.configService.get_DBConnectionURL() }/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+    load_TimeFromConnector(): Observable<Array<string>> {
+        return this.http.get<Array<string>>(`${ this.configService.get_DBConnectionURL() }/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
-    delete_MessageFromDB(message: PlayerMessage): Observable<string[]> {
-        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/deleteMessage`, { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+    delete_MessageFromDB(message: PlayerMessage): Observable<Array<string>> {
+        return this.http.post<Array<string>>(`${ this.configService.get_DBConnectionURL() }/deleteMessage`, { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
-    save_MessagesToDB(messages: PlayerMessage[]): Observable<string[]> {
-        return this.http.post<string[]>(`${ this.configService.get_DBConnectionURL() }/saveMessages/`, messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+    save_MessagesToDB(messages: Array<PlayerMessage>): Observable<Array<string>> {
+        return this.http.post<Array<string>>(`${ this.configService.get_DBConnectionURL() }/saveMessages/`, messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
-    finish_loading(loader: string[]) {
+    finish_loading(loader: Array<string>) {
         let messages = [];
         if (loader) {
             messages = loader.map(message => Object.assign(new PlayerMessage(), message).recast(this.typeService, this.itemsService));
@@ -87,7 +87,7 @@ export class MessageService {
         this.checkingMessages = true;
         this.load_Messages(characterService.get_Character().id)
             .subscribe({
-                next: (results: string[]) => {
+                next: (results: Array<string>) => {
                     const newMessages = this.process_Messages(characterService, results);
                     //If the check was automatic, and any messages are left, apply them automatically if applyMessagesAutomatically is set,
                     // otherwise only announce that new messages are available, then update the component to show the number on the button.
@@ -119,7 +119,7 @@ export class MessageService {
             });
     }
 
-    process_Messages(characterService: CharacterService, results: string[]) {
+    process_Messages(characterService: CharacterService, results: Array<string>) {
         const loader = results;
         let newMessages = this.finish_loading(loader).sort((a, b) => {
             if (!a.activated && b.activated) {
@@ -161,11 +161,11 @@ export class MessageService {
         return newMessages;
     }
 
-    add_NewMessages(messages: PlayerMessage[]) {
+    add_NewMessages(messages: Array<PlayerMessage>) {
         this.newMessages.push(...messages);
     }
 
-    on_ApplyMessagesAutomatically(characterService: CharacterService, messages: PlayerMessage[]) {
+    on_ApplyMessagesAutomatically(characterService: CharacterService, messages: Array<PlayerMessage>) {
         messages.forEach(message => {
             message.selected = true;
         });

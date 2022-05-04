@@ -18,10 +18,10 @@ export class ObjectEffectsComponent {
     creature = '';
 
     constructor(
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private effectsService: EffectsService,
-        private evaluationService: EvaluationService
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly effectsService: EffectsService,
+        private readonly evaluationService: EvaluationService
     ) { }
 
     get_Creature() {

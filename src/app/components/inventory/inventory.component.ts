@@ -34,14 +34,14 @@ import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
 
 interface ItemParameters extends ItemRoles {
-    proficiency: string,
-    asBattleforgedChangeable: Armor | Weapon | WornItem,
-    asBladeAllyChangeable: Weapon | WornItem,
-    asEmblazonArmamentChangeable: Shield | Weapon,
-    hasEmblazonArmament: boolean,
-    hasEmblazonAntimagic: boolean,
-    emblazonEnergyChoice: string,
-    canUse: boolean,
+    proficiency: string;
+    asBattleforgedChangeable: Armor | Weapon | WornItem;
+    asBladeAllyChangeable: Weapon | WornItem;
+    asEmblazonArmamentChangeable: Shield | Weapon;
+    hasEmblazonArmament: boolean;
+    hasEmblazonAntimagic: boolean;
+    emblazonEnergyChoice: string;
+    canUse: boolean;
 }
 
 @Component({
@@ -66,19 +66,19 @@ export class InventoryComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
+        private readonly refreshService: RefreshService,
         public itemsService: ItemsService,
         public traitsService: TraitsService,
         public effectsService: EffectsService,
-        private timeService: TimeService,
-        private spellsService: SpellsService,
-        private conditionsService: ConditionsService,
-        private activitiesService: ActivitiesService,
-        private itemRolesService: ItemRolesService,
-        private toastService: ToastService,
-        private modalService: NgbModal
+        private readonly timeService: TimeService,
+        private readonly spellsService: SpellsService,
+        private readonly conditionsService: ConditionsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly itemRolesService: ItemRolesService,
+        private readonly toastService: ToastService,
+        private readonly modalService: NgbModal
     ) { }
 
     minimize() {
@@ -215,13 +215,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
         return this.itemsService.get_Items();
     }
 
-    sort_ItemSet(itemSet: Item[]) {
+    sort_ItemSet(itemSet: Array<Item>) {
         //Sorting just by name can lead to jumping in the list.
         return itemSet
             .sort((a, b) => (a.name + a.id == b.name + b.id) ? 0 : (a.name + a.id > b.name + b.id) ? 1 : -1);
     }
 
-    get_ItemParameters(itemList: Item[]): ItemParameters[] {
+    get_ItemParameters(itemList: Array<Item>): Array<ItemParameters> {
         const creature = this.get_Creature();
         return itemList.map(item => {
             const itemRoles = this.itemRolesService.getItemRoles(item);
@@ -296,7 +296,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     can_Invest(item: Item, inventoryIndex: number) {
-        return inventoryIndex == 0 && item.can_Invest() && ((this.creature == 'Character') == !item.traits.includes('Companion'));
+        return inventoryIndex == 0 && item.canInvest() && ((this.creature == 'Character') == !item.traits.includes('Companion'));
     }
 
     can_Drop(item: Item) {
@@ -363,7 +363,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    dragdrop_InventoryItem(event: CdkDragDrop<string[]>): void {
+    dragdrop_InventoryItem(event: CdkDragDrop<Array<string>>): void {
         if (event.previousContainer === event.container) {
             return;
         } else {
@@ -389,7 +389,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_ItemIDs(itemList: Item[]) {
+    get_ItemIDs(itemList: Array<Item>) {
         return itemList.map(item => item.id);
     }
 
@@ -443,7 +443,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     get_MaxInvested() {
         let maxInvest = 0;
-        const effects: Effect[] = [];
+        const effects: Array<Effect> = [];
         let penalties = false;
         let bonuses = false;
         let absolutes = false;
@@ -498,7 +498,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (item.broken) {
             if (!this.can_Equip(item, 0) && item.equipped) {
                 this.characterService.on_Equip(this.get_Creature(), this.get_Creature().inventories[0], item, false, false, true);
-                this.toastService.show(`Your <strong>${ item.get_Name() }</strong> was unequipped because it is broken.`);
+                this.toastService.show(`Your <strong>${ item.getName() }</strong> was unequipped because it is broken.`);
             }
         }
         this.onItemChange(item);
@@ -544,9 +544,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 if (item.cooldown) {
                     if (item.overcharged && !this.get_ManualMode()) {
                         this.drop_InventoryItem(item, inventory, false);
-                        this.toastService.show(`The <strong>${ item.get_Name() }</strong> was destroyed because it was overcharged too much. The spell was not cast.`);
+                        this.toastService.show(`The <strong>${ item.getName() }</strong> was destroyed because it was overcharged too much. The spell was not cast.`);
                     } else if (item.overcharged && this.get_ManualMode()) {
-                        this.toastService.show(`The <strong>${ item.get_Name() }</strong> was overcharged too many times. It was not destroyed because manual mode is enabled.`);
+                        this.toastService.show(`The <strong>${ item.getName() }</strong> was overcharged too many times. It was not destroyed because manual mode is enabled.`);
                         item.broken = true;
                     } else {
                         item.overcharged = true;
@@ -570,7 +570,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     on_ConsumableUse(item: Consumable, creature: string, inventory: ItemCollection) {
         this.characterService.on_ConsumableUse(this.get_Creature(creature), item);
-        if (this.can_Drop(item) && !item.can_Stack()) {
+        if (this.can_Drop(item) && !item.canStack()) {
             this.drop_InventoryItem(item, inventory, false);
         }
         this.refreshService.process_ToChange();
@@ -629,7 +629,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         return this.get_Character().get_FormulasLearned(id, source);
     }
 
-    get_PreparedItems(type: string): { learned: FormulaLearned, item: Snare }[] {
+    get_PreparedItems(type: string): Array<{ learned: FormulaLearned; item: Snare }> {
         if (type == 'snarespecialist') {
             return this.get_FormulasLearned()
                 .filter(learned => learned.snareSpecialistPrepared)
@@ -641,7 +641,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     cannot_Craft(item: Item, learned: FormulaLearned, type: string) {
         //Return any reasons why you cannot craft an item.
         const character: Character = this.get_Character();
-        const reasons: string[] = [];
+        const reasons: Array<string> = [];
         if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Alchemical Crafting').length) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }

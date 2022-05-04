@@ -32,13 +32,13 @@ export class SkillsComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
+        private readonly refreshService: RefreshService,
         public skillsService: SkillsService,
         public featsService: FeatsService,
         public effectsService: EffectsService,
-        private activitiesService: ActivitiesService
+        private readonly activitiesService: ActivitiesService
     ) { }
 
     minimize() {
@@ -84,7 +84,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         this.toggle_Action(id);
     }
 
-    receive_ChoiceMessage(message: { name: string, levelNumber: number, choice: SkillChoice }) {
+    receive_ChoiceMessage(message: { name: string; levelNumber: number; choice: SkillChoice }) {
         this.toggle_List(message.name);
     }
 
@@ -98,7 +98,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         return this.get_Character().settings.skillsTileMode;
     }
 
-    get_Skills(name = '', filter: { type?: string, locked?: boolean } = {}): Skill[] {
+    get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}): Array<Skill> {
         filter = Object.assign({
             type: '',
             locked: undefined
@@ -133,8 +133,8 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_OwnedActivities() {
-        const activities: (ActivityGain | ItemActivity)[] = [];
-        const unique: string[] = [];
+        const activities: Array<ActivityGain | ItemActivity> = [];
+        const unique: Array<string> = [];
         if (this.get_Character().settings.showSkillActivities) {
             this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
                 activity.get_OriginalActivity(this.activitiesService)?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
@@ -147,7 +147,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         return activities;
     }
 
-    get_SkillActivities(activities: (ActivityGain | ItemActivity)[], skillName: string) {
+    get_SkillActivities(activities: Array<ActivityGain | ItemActivity>, skillName: string) {
         //Filter activities whose showonSkill or whose original activity's showonSkill includes this skill's name.
         return activities.filter(activity => (activity.get_OriginalActivity(this.activitiesService)?.showonSkill || '').toLowerCase().includes(skillName.toLowerCase()));
     }
@@ -157,7 +157,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Speeds() {
-        const speeds: Speed[] = this.characterService.get_Speeds(this.get_Creature());
+        const speeds: Array<Speed> = this.characterService.get_Speeds(this.get_Creature());
         if (['Character', 'Companion'].includes(this.get_Creature().type)) {
             (this.get_Creature() as Character).class?.ancestry?.speeds?.forEach(speed => {
                 speeds.push(new Speed(speed.name));
@@ -178,7 +178,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
             }
         });
         //Remove any duplicates for display
-        const uniqueSpeeds: Speed[] = [];
+        const uniqueSpeeds: Array<Speed> = [];
         speeds.forEach(speed => {
             if (!uniqueSpeeds.find(uniqueSpeed => uniqueSpeed.name == speed.name)) {
                 uniqueSpeeds.push(speed);
@@ -190,7 +190,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     get_SkillChoices() {
         if (this.creature == 'Character') {
             const character = (this.get_Creature() as Character);
-            const choices: SkillChoice[] = [];
+            const choices: Array<SkillChoice> = [];
             character.class.levels.filter(level => level.number <= character.level).forEach(level => {
                 choices.push(...level.skillChoices.filter(choice => choice.showOnSheet));
             });

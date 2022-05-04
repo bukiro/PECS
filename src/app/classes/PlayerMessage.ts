@@ -14,12 +14,12 @@ export class PlayerMessage {
     //The target is the creature id of the creature (character, companion or familiar) for whom the message is intended.
     public targetId = '';
     //gainCondition can contain ONE condition that is applied to the target creature.
-    public gainCondition: ConditionGain[] = [];
+    public gainCondition: Array<ConditionGain> = [];
     //offeredItem can contain ONE item that is offered or automatically given to the target character.
     //Any items granted by this and any inventories included in this item or its granted items are saved in includedItems and includedInventories.
-    public offeredItem: Item[] = [];
-    public includedItems: Item[] = [];
-    public includedInventories: ItemCollection[] = [];
+    public offeredItem: Array<Item> = [];
+    public includedItems: Array<Item> = [];
+    public includedInventories: Array<ItemCollection> = [];
     public rejectedItem = '';
     //If the item was accepted, its id and the amount is sent back so it can be dropped or deducted from the sending player's inventories.
     public acceptedItem = '';

@@ -16,16 +16,16 @@ import { TypeService } from 'src/app/services/type.service';
 })
 export class AnimalCompanionsService {
 
-    private companionAncestries: AnimalCompanionAncestry[] = [];
-    private companionLevels: AnimalCompanionLevel[] = [];
-    private companionSpecializations: AnimalCompanionSpecialization[] = [];
+    private readonly companionAncestries: Array<AnimalCompanionAncestry> = [];
+    private companionLevels: Array<AnimalCompanionLevel> = [];
+    private readonly companionSpecializations: Array<AnimalCompanionSpecialization> = [];
     private loading_ancestries = false;
     private loading_levels = false;
     private loading_specializations = false;
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private typeService: TypeService
+        private readonly extensionsService: ExtensionsService,
+        private readonly typeService: TypeService
     ) { }
 
     get_CompanionTypes(name = '') {

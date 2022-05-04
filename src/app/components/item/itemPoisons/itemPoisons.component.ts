@@ -20,17 +20,17 @@ export class ItemPoisonsComponent {
     item: Weapon;
     @Input()
     itemStore = false;
-    newPoison: { poison: AlchemicalPoison, inv: ItemCollection } = { poison: new AlchemicalPoison(), inv: null };
+    newPoison: { poison: AlchemicalPoison; inv: ItemCollection } = { poison: new AlchemicalPoison(), inv: null };
 
-    public newPropertyRuneName: string[] = ['', '', ''];
+    public newPropertyRuneName: Array<string> = ['', '', ''];
 
     constructor(
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService,
-        private activitiesService: ActivitiesService,
-        private timeService: TimeService,
-        private typeService: TypeService
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly timeService: TimeService,
+        private readonly typeService: TypeService
     ) { }
 
     trackByIndex(index: number): number {
@@ -50,7 +50,7 @@ export class ItemPoisonsComponent {
     }
 
     get_Poisons() {
-        const allPoisons: { poison: AlchemicalPoison, inv: ItemCollection }[] = [{ poison: new AlchemicalPoison(), inv: null }];
+        const allPoisons: Array<{ poison: AlchemicalPoison; inv: ItemCollection }> = [{ poison: new AlchemicalPoison(), inv: null }];
         allPoisons[0].poison.name = '';
         if (this.itemStore) {
             allPoisons.push(...this.get_CleanItems().alchemicalpoisons.filter(poison => poison.traits.includes('Injury')).map(poison => ({ poison, inv: null })));

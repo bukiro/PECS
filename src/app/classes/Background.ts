@@ -5,14 +5,14 @@ import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatCh
 
 export class Background {
     public desc = '';
-    public abilityChoices: AbilityChoice[] = [];
+    public abilityChoices: Array<AbilityChoice> = [];
     public feat = '';
-    public featChoices: FeatChoice[] = [];
-    public loreChoices: LoreChoice[] = [];
+    public featChoices: Array<FeatChoice> = [];
+    public loreChoices: Array<LoreChoice> = [];
     public loreName = '';
     public name = '';
     public skill = '';
-    public skillChoices: SkillChoice[] = [];
+    public skillChoices: Array<SkillChoice> = [];
     public specialLore = '';
     public subType = '';
     public subTypes = false;
@@ -22,7 +22,7 @@ export class Background {
     public adventurePath = '';
     public prerequisites = '';
     public inputRequired = '';
-    public traits: string[] = [];
+    public traits: Array<string> = [];
     recast() {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());

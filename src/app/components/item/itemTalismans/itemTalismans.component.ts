@@ -11,10 +11,10 @@ import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
 import { WornItem } from 'src/app/classes/WornItem';
 
-type TalismanOption = {
-    talisman: Talisman,
-    inv: ItemCollection,
-    talismanCordCompatible: boolean
+interface TalismanOption {
+    talisman: Talisman;
+    inv: ItemCollection;
+    talismanCordCompatible: boolean;
 }
 
 @Component({
@@ -28,13 +28,13 @@ export class ItemTalismansComponent implements OnInit {
     item: Equipment;
     @Input()
     itemStore = false;
-    newTalisman: TalismanOption[];
+    newTalisman: Array<TalismanOption>;
 
     constructor(
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService,
-        private typeService: TypeService
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService,
+        private readonly typeService: TypeService
     ) { }
 
     trackByIndex(index: number): number {
@@ -53,7 +53,7 @@ export class ItemTalismansComponent implements OnInit {
         //Items can have one talisman.
         //Add as many slots as the item has talismans inserted (should be one, but just in case).
         //If none are inserted, add one slot as long as any talismans are available to insert.
-        const indexes: number[] = [];
+        const indexes: Array<number> = [];
         if (this.item.talismans.length) {
             for (let index = 0; index < this.item.talismans.length; index++) {
                 indexes.push(index);
@@ -75,7 +75,7 @@ export class ItemTalismansComponent implements OnInit {
     get_InitialTalismans(index: number) {
         const item = this.item;
         //Start with one empty talisman to select nothing.
-        const allTalismans: TalismanOption[] = [{ talisman: new Talisman(), inv: null, talismanCordCompatible: false }];
+        const allTalismans: Array<TalismanOption> = [{ talisman: new Talisman(), inv: null, talismanCordCompatible: false }];
         allTalismans[0].talisman.name = '';
         //Add the current choice, if the item has a talisman at that index.
         if (item.talismans[index]) {
@@ -84,7 +84,7 @@ export class ItemTalismansComponent implements OnInit {
         return allTalismans;
     }
 
-    get_Talismans(inv: ItemCollection): TalismanOption[] {
+    get_Talismans(inv: ItemCollection): Array<TalismanOption> {
         return inv.talismans.filter(talisman => talisman.targets.length && talisman.amount)
             .map(talisman => ({
                 talisman,
@@ -159,7 +159,7 @@ export class ItemTalismansComponent implements OnInit {
     }
 
     get_Title(talisman: Talisman, talismanCordCompatible: boolean) {
-        const parts: string[] = [];
+        const parts: Array<string> = [];
         if (this.itemStore && talisman.price) {
             parts.push(`Price ${ this.get_Price(talisman) }`);
         }

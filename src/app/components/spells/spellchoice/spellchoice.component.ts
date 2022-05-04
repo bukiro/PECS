@@ -34,7 +34,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     @Input()
     showSpell = '';
     @Output()
-    showChoiceMessage = new EventEmitter<{ name: string, levelNumber: number, choice: SpellChoice, casting: SpellCasting }>();
+    showChoiceMessage = new EventEmitter<{ name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }>();
     @Output()
     showSpellMessage = new EventEmitter<string>();
     @Input()
@@ -58,13 +58,13 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private spellsService: SpellsService,
-        private traitsService: TraitsService,
-        private effectsService: EffectsService,
-        private deitiesService: DeitiesService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly spellsService: SpellsService,
+        private readonly traitsService: TraitsService,
+        private readonly effectsService: EffectsService,
+        private readonly deitiesService: DeitiesService
     ) { }
 
     toggle_Spell(name: string) {
@@ -186,7 +186,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             this.choice.source.includes(`${ this.spellCasting.className } Spellcasting`) &&
             !this.choice.showOnSheet
         ) {
-            const signatureSpellGains: SignatureSpellGain[] = [];
+            const signatureSpellGains: Array<SignatureSpellGain> = [];
             this.characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.allowSignatureSpells.length && feat.have({ creature: this.get_Character() }, { characterService: this.characterService })).forEach(feat => {
                     signatureSpellGains.push(...feat.allowSignatureSpells.filter(gain => gain.className == this.spellCasting.className));
@@ -599,10 +599,10 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             spellLevel = this.get_DynamicLevel();
         }
         const character = this.get_Character();
-        let allSpells: { spell: Spell, borrowed: boolean }[];
+        let allSpells: Array<{ spell: Spell; borrowed: boolean }>;
         //Get spells from your spellbook if the casting the choice requires it, otherwise get all spells.
         //If you are preparing spellbook spells because of the casting, and borrowing is active, get all spells and mark all spells as borrowed that aren't in the spellbook.
-        const spellBookSpells: Spell[] = this.spellsService.get_Spells().filter(spell =>
+        const spellBookSpells: Array<Spell> = this.spellsService.get_Spells().filter(spell =>
             character.class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
         );
         if (this.spellCasting?.spellBookOnly) {
@@ -621,7 +621,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             allSpells = allSpells.filter(spell => choice.filter.map(filter => filter.toLowerCase()).includes(spell.spell.name.toLowerCase()));
         }
         //Set up another Array to save the end result to, filtered from allSpells.
-        let spells: { spell: Spell, borrowed: boolean }[] = [];
+        let spells: Array<{ spell: Spell; borrowed: boolean }> = [];
         //If this is a character spellcasting choice (and not a scroll or other item), filter the spells by the spellcasting's tradition.
         //  The choice's tradition is preferred over the spellcasting's tradition, if set. If neither is set, get all spells.
         if (this.spellCasting) {
@@ -775,7 +775,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 );
                 if (choice.spells.length) {
                     if (choice.spells[0].name && choice.spells[0].combinationSpellName) {
-                        const availableSpells: { spell: Spell, borrowed: boolean }[] = spells.filter(spell =>
+                        const availableSpells: Array<{ spell: Spell; borrowed: boolean }> = spells.filter(spell =>
                             this.get_SpellTakenByThis(spell.spell.name)
                         );
                         return availableSpells
@@ -789,7 +789,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                         (existingSpell.savingThrow.includes('Will') == spell.spell.savingThrow.includes('Will'))
                     );
                 }
-                const availableSpells: { spell: Spell, borrowed: boolean }[] = spells.filter(spell =>
+                const availableSpells: Array<{ spell: Spell; borrowed: boolean }> = spells.filter(spell =>
                     !this.cannotTake(spell.spell).length || this.get_SpellTakenByThis(spell.spell.name)
                 );
                 return availableSpells
@@ -809,7 +809,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     .sort((a, b) => (a.spell.name == b.spell.name) ? 0 : ((a.spell.name > b.spell.name) ? 1 : -1));
             } else {
                 const showOtherOptions = this.get_Character().settings.showOtherOptions;
-                const availableSpells: { spell: Spell, borrowed: boolean }[] = spells.filter(spell =>
+                const availableSpells: Array<{ spell: Spell; borrowed: boolean }> = spells.filter(spell =>
                     this.get_SpellTakenByThis(spell.spell.name) || showOtherOptions
                 );
                 return availableSpells
@@ -818,7 +818,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         }
     }
 
-    cleanup_ChoiceSpells(spellList: { spell: Spell, borrowed: boolean }[], choice: SpellChoice) {
+    cleanup_ChoiceSpells(spellList: Array<{ spell: Spell; borrowed: boolean }>, choice: SpellChoice) {
         choice.spells.forEach(gain => {
             if (!spellList?.map(spell => spell.spell.name)?.includes(gain.name)) {
                 if (!gain.locked) {
@@ -853,7 +853,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         if (choice.dynamicLevel) {
             spellLevel = this.get_DynamicLevel(choice);
         }
-        const reasons: { reason: string, explain: string }[] = [];
+        const reasons: Array<{ reason: string; explain: string }> = [];
         //Are the basic requirements (so far just level) not met?
         if (!spell.canChoose(this.characterService, spellLevel)) {
             reasons.push({ reason: 'Requirements unmet', 'explain': 'The requirements are not met.' });

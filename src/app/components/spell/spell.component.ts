@@ -24,10 +24,10 @@ export class SpellComponent implements OnInit, OnDestroy {
     casting: SpellCasting = null;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private traitsService: TraitsService
+        private readonly refreshService: RefreshService,
+        private readonly traitsService: TraitsService
     ) { }
 
     trackByIndex(index: number): number {

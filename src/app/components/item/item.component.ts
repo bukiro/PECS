@@ -46,15 +46,15 @@ export class ItemComponent implements OnInit, OnDestroy {
     isSubItem = false;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private traitsService: TraitsService,
-        private activitiesService: ActivitiesService,
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly traitsService: TraitsService,
+        private readonly activitiesService: ActivitiesService,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService,
-        private spellsService: SpellsService,
-        private conditionsService: ConditionsService,
-        private effectsService: EffectsService
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService,
+        private readonly spellsService: SpellsService,
+        private readonly conditionsService: ConditionsService,
+        private readonly effectsService: EffectsService
     ) { }
 
     trackByIndex(index: number): number {
@@ -81,7 +81,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
-    get_GainedSpellLevel(spell: Spell, context: { gain: SpellGain, choice: SpellChoice }) {
+    get_GainedSpellLevel(spell: Spell, context: { gain: SpellGain; choice: SpellChoice }) {
         return spell.get_EffectiveSpellLevel({ baseLevel: (context.choice.level ? context.choice.level : 0), creature: this.get_Creature(), gain: context.gain }, { characterService: this.characterService, effectsService: this.effectsService }, { noEffects: true });
     }
 
@@ -149,7 +149,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         return `${ (wizardrySlot.tradition ? `${ wizardrySlot.tradition } ` : '') + spellLevels[wizardrySlot.level] } slot`;
     }
 
-    get_RingOfWizardryOptions(wizardrySlot: RingOfWizardrySlot): string[] {
+    get_RingOfWizardryOptions(wizardrySlot: RingOfWizardrySlot): Array<string> {
         if (this.get_Character().class) {
             return ['no spellcasting selected']
                 .concat(this.get_Character().class?.spellCasting
@@ -249,7 +249,7 @@ export class ItemComponent implements OnInit, OnDestroy {
 
     get_SpellConditions(spell: Spell, spellLevel: number, gain: SpellGain) {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
-        const conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
+        const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
         spell.get_HeightenedConditions(spellLevel)
             .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }; })
             .forEach((conditionSet, index) => {

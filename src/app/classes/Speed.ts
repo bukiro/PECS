@@ -38,7 +38,7 @@ export class Speed {
             return effectsService.show_PenaltiesOnThis(creature, name);
         }
     }
-    baseValue(creature: Creature, characterService: CharacterService, effectsService: EffectsService, options: { ignoreRelatives?: boolean } = {}): { result: number, explain: string } {
+    baseValue(creature: Creature, characterService: CharacterService, effectsService: EffectsService, options: { ignoreRelatives?: boolean } = {}): { result: number; explain: string } {
         //Gets the basic speed and adds all effects
         if (characterService.still_loading()) { return { result: 0, explain: '' }; }
         //Get the base speed from the ancestry.
@@ -64,7 +64,7 @@ export class Speed {
         baseValue.explain = baseValue.explain.trim();
         return baseValue;
     }
-    value(creature: Creature, characterService: CharacterService, effectsService: EffectsService): { result: number, explain: string } {
+    value(creature: Creature, characterService: CharacterService, effectsService: EffectsService): { result: number; explain: string } {
         //If there is a general speed penalty (or bonus), it applies to all speeds. We apply it to the base speed here so we can still
         // copy the base speed for effects (e.g. "You gain a climb speed equal to your land speed") and not apply the general penalty twice.
         const value = this.baseValue(creature, characterService, effectsService);

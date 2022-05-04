@@ -8,7 +8,7 @@ import { Weapon } from './Weapon';
 import { WornItem } from './WornItem';
 
 export interface ItemRoles {
-    item: Item,
+    item: Item;
     asConsumable: Consumable;
     asEquipment: Equipment;
     asGenericConsumable: Consumable;

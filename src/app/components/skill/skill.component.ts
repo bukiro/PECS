@@ -29,7 +29,7 @@ export class SkillComponent implements OnInit, OnDestroy {
     @Input()
     isDC = false;
     @Input()
-    relatedActivityGains: (ActivityGain | ItemActivity)[] = [];
+    relatedActivityGains: Array<ActivityGain | ItemActivity> = [];
     @Input()
     showAction = '';
     @Input()
@@ -41,15 +41,15 @@ export class SkillComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
+        private readonly refreshService: RefreshService,
         public diceService: DiceService,
         public abilitiesService: AbilitiesService,
         public skillsService: SkillsService,
         public traitsService: TraitsService,
         public effectsService: EffectsService,
-        private activitiesService: ActivitiesService
+        private readonly activitiesService: ActivitiesService
     ) { }
 
     trackByIndex(index: number): number {

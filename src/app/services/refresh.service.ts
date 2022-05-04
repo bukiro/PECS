@@ -29,21 +29,21 @@ import { ActivitiesService } from './activities.service';
 export class RefreshService {
 
     public characterChanged$: Observable<string>;
-    public viewChanged$: Observable<{ creature: string, target: string, subtarget: string }>;
-    private toChange: { creature: string, target: string, subtarget: string }[] = [];
-    private changed: BehaviorSubject<string> = new BehaviorSubject<string>('');
-    private viewChanged: BehaviorSubject<{ creature: string, target: string, subtarget: string }> = new BehaviorSubject<{ creature: string, target: string, subtarget: string }>({ target: '', creature: '', subtarget: '' });
+    public viewChanged$: Observable<{ creature: string; target: string; subtarget: string }>;
+    private toChange: Array<{ creature: string; target: string; subtarget: string }> = [];
+    private readonly changed: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    private readonly viewChanged: BehaviorSubject<{ creature: string; target: string; subtarget: string }> = new BehaviorSubject<{ creature: string; target: string; subtarget: string }>({ target: '', creature: '', subtarget: '' });
 
     constructor(
-        private traitsService: TraitsService,
-        private cacheService: CacheService
+        private readonly traitsService: TraitsService,
+        private readonly cacheService: CacheService
     ) { }
 
     get get_Changed(): Observable<string> {
         return this.characterChanged$;
     }
 
-    get get_ViewChanged(): Observable<{ creature: string, target: string, subtarget: string }> {
+    get get_ViewChanged(): Observable<{ creature: string; target: string; subtarget: string }> {
         return this.viewChanged$;
     }
 
@@ -84,11 +84,11 @@ export class RefreshService {
         this.toChange = this.toChange.filter(view => view.creature.toLowerCase() != creatureType.toLowerCase() && creatureType.toLowerCase() != 'all');
     }
 
-    private set_ViewChanged(view: { creature: string, target: string, subtarget: string }): void {
+    private set_ViewChanged(view: { creature: string; target: string; subtarget: string }): void {
         this.viewChanged.next(view);
     }
 
-    set_HintsToChange(creature: Creature, hints: Hint[] = [], services: { characterService: CharacterService }): void {
+    set_HintsToChange(creature: Creature, hints: Array<Hint> = [], services: { characterService: CharacterService }): void {
         hints.forEach(hint => {
             //Update the tags for every element that is named here.
             hint.showon.split(',').forEach(subtarget => {
@@ -111,13 +111,13 @@ export class RefreshService {
 
     set_AbilityToChange(creature: string, ability: string, services: { characterService: CharacterService }): void {
         //Set refresh commands for all components of the application depending this ability.
-        const abilities: string[] = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
-        const attacks: string[] = ['Dexterity', 'Strength'];
-        const defense: string[] = ['Constitution', 'Dexterity', 'Wisdom'];
-        const general: string[] = ['Strength', 'Dexterity', 'Intelligence', 'Wisdom', 'Charisma'];
-        const health: string[] = ['Constitution'];
-        const inventory: string[] = ['Strength'];
-        const spells: string[] = ['Intelligence', 'Charisma', 'Wisdom'];
+        const abilities: Array<string> = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
+        const attacks: Array<string> = ['Dexterity', 'Strength'];
+        const defense: Array<string> = ['Constitution', 'Dexterity', 'Wisdom'];
+        const general: Array<string> = ['Strength', 'Dexterity', 'Intelligence', 'Wisdom', 'Charisma'];
+        const health: Array<string> = ['Constitution'];
+        const inventory: Array<string> = ['Strength'];
+        const spells: Array<string> = ['Intelligence', 'Charisma', 'Wisdom'];
 
         //Prepare changes for everything that should be updated according to the ability.
         this.set_ToChange(creature, 'abilities');
@@ -153,7 +153,7 @@ export class RefreshService {
         }
     }
 
-    public set_ItemViewChanges(creature: Creature, item: Item, services: { characterService: CharacterService, activitiesService: ActivitiesService }): void {
+    public set_ItemViewChanges(creature: Creature, item: Item, services: { characterService: CharacterService; activitiesService: ActivitiesService }): void {
         this.set_ToChange(creature.type, item.id);
         item.traits.map(trait => this.traitsService.get_TraitFromName(trait)).forEach(trait => {
             this.set_HintsToChange(creature, trait.hints, services);
@@ -185,7 +185,7 @@ export class RefreshService {
         }
     }
 
-    private set_EquipmentViewChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService, activitiesService: ActivitiesService }): void {
+    private set_EquipmentViewChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService; activitiesService: ActivitiesService }): void {
         //Prepare refresh list according to the item's properties.
         if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
             this.set_ToChange(creature.type, 'defense');
@@ -291,34 +291,34 @@ export class RefreshService {
         }
     }
 
-    set_ToChangeByEffectTargets(targets: string[], context: { creature: Creature }): void {
+    set_ToChangeByEffectTargets(targets: Array<string>, context: { creature: Creature }): void {
         //Setup lists of names and what they should update.
-        const general: string[] = ['Max Languages', 'Size'].map(name => name.toLowerCase());
-        const generalWildcard: string[] = [].map(name => name.toLowerCase());
-        const abilities: string[] = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'].map(name => name.toLowerCase());
-        const abilitiesWildcard: string[] = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'].map(name => name.toLowerCase());
-        const health: string[] = ['HP', 'Fast Healing', 'Hardness', 'Max Dying', 'Max HP', 'Resting HP Gain', 'Temporary HP', 'Resting Blocked'].map(name => name.toLowerCase());
-        const healthWildcard: string[] = ['Resistance', 'Immunity'].map(name => name.toLowerCase());
-        const defense: string[] = ['AC', 'Saving Throws', 'Fortitude', 'Reflex', 'Will', 'Dexterity-based Checks and DCs', 'Constitution-based Checks and DCs',
+        const general: Array<string> = ['Max Languages', 'Size'].map(name => name.toLowerCase());
+        const generalWildcard: Array<string> = [].map(name => name.toLowerCase());
+        const abilities: Array<string> = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'].map(name => name.toLowerCase());
+        const abilitiesWildcard: Array<string> = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'].map(name => name.toLowerCase());
+        const health: Array<string> = ['HP', 'Fast Healing', 'Hardness', 'Max Dying', 'Max HP', 'Resting HP Gain', 'Temporary HP', 'Resting Blocked'].map(name => name.toLowerCase());
+        const healthWildcard: Array<string> = ['Resistance', 'Immunity'].map(name => name.toLowerCase());
+        const defense: Array<string> = ['AC', 'Saving Throws', 'Fortitude', 'Reflex', 'Will', 'Dexterity-based Checks and DCs', 'Constitution-based Checks and DCs',
             'Wisdom-based Checks and DCs', 'All Checks and DCs', 'Ignore Armor Penalty', 'Ignore Armor Speed Penalty', 'Proficiency Level', 'Dexterity Modifier Cap'].map(name => name.toLowerCase());
-        const effects: string[] = ['Encumbered Limit'].map(name => name.toLowerCase());
-        const fortitude: string[] = ['Constitution-based Checks and DCs'].map(name => name.toLowerCase());
-        const reflex: string[] = ['Dexterity-based Checks and DCs'].map(name => name.toLowerCase());
-        const will: string[] = ['Wisdom-based Checks and DCs'].map(name => name.toLowerCase());
-        const defenseWildcard: string[] = ['Proficiency Level'].map(name => name.toLowerCase());
-        const attacks: string[] = ['Damage Rolls', 'Dexterity-based Checks and DCs', 'Strength-based Checks and DCs', 'All Checks and DCs',
+        const effects: Array<string> = ['Encumbered Limit'].map(name => name.toLowerCase());
+        const fortitude: Array<string> = ['Constitution-based Checks and DCs'].map(name => name.toLowerCase());
+        const reflex: Array<string> = ['Dexterity-based Checks and DCs'].map(name => name.toLowerCase());
+        const will: Array<string> = ['Wisdom-based Checks and DCs'].map(name => name.toLowerCase());
+        const defenseWildcard: Array<string> = ['Proficiency Level'].map(name => name.toLowerCase());
+        const attacks: Array<string> = ['Damage Rolls', 'Dexterity-based Checks and DCs', 'Strength-based Checks and DCs', 'All Checks and DCs',
             'Unarmed Damage per Die', 'Weapon Damage per Die'].map(name => name.toLowerCase());
-        const attacksWildcard: string[] = ['Attack Rolls', 'Damage', 'Dice Size', 'Dice Number', 'Proficiency Level', 'Reach', 'Damage Per Die', 'Gain Trait', 'Lose Trait'].map(name => name.toLowerCase());
-        const individualskills: string[] = ['Perception', 'Fortitude', 'Reflex', 'Will', 'Acrobatics', 'Arcana', 'Athletics', 'Crafting', 'Deception', 'Diplomacy', 'Intimidation', 'Medicine',
+        const attacksWildcard: Array<string> = ['Attack Rolls', 'Damage', 'Dice Size', 'Dice Number', 'Proficiency Level', 'Reach', 'Damage Per Die', 'Gain Trait', 'Lose Trait'].map(name => name.toLowerCase());
+        const individualskills: Array<string> = ['Perception', 'Fortitude', 'Reflex', 'Will', 'Acrobatics', 'Arcana', 'Athletics', 'Crafting', 'Deception', 'Diplomacy', 'Intimidation', 'Medicine',
             'Nature', 'Occultism', 'Performance', 'Religion', 'Society', 'Stealth', 'Survival', 'Thievery', 'Fortitude', 'Reflex', 'Will'].map(name => name.toLowerCase());
-        const individualSkillsWildcard: string[] = ['Lore', 'Class DC', 'Spell DC', 'Spell Attack', 'Attack Rolls'].map(name => name.toLowerCase());
-        const skillsWildcard: string[] = ['All Checks and DCs', 'Skill Checks', 'Proficiency Level', 'Recall Knowledge Checks', 'Master Recall Knowledge Checks', 'Saving Throws', 'Speed'].map(name => name.toLowerCase());
-        const inventory: string[] = ['Bulk', 'Encumbered Limit', 'Max Bulk', 'Max Invested'].map(name => name.toLowerCase());
-        const inventoryWildcard: string[] = ['Gain Trait', 'Lose Trait'].map(name => name.toLowerCase());
-        const spellbook: string[] = ['Refocus Bonus Points', 'Focus Points', 'Focus Pool', 'All Checks and DCs', 'Attack Rolls', 'Spell Attack Rolls', 'Spell DCs'].map(name => name.toLowerCase());
-        const spellbookWildcard: string[] = ['Spell Slots', 'Proficiency Level', 'Spell Level', 'Disabled'].map(name => name.toLowerCase());
-        const activities: string[] = ['Dexterity-based Checks and DCs', 'Strength-based Checks and DCs', 'All Checks and DCs'].map(name => name.toLowerCase());
-        const activitiesWildcard: string[] = ['Class DC', 'Charges', 'Cooldown', 'Disabled'].map(name => name.toLowerCase());
+        const individualSkillsWildcard: Array<string> = ['Lore', 'Class DC', 'Spell DC', 'Spell Attack', 'Attack Rolls'].map(name => name.toLowerCase());
+        const skillsWildcard: Array<string> = ['All Checks and DCs', 'Skill Checks', 'Proficiency Level', 'Recall Knowledge Checks', 'Master Recall Knowledge Checks', 'Saving Throws', 'Speed'].map(name => name.toLowerCase());
+        const inventory: Array<string> = ['Bulk', 'Encumbered Limit', 'Max Bulk', 'Max Invested'].map(name => name.toLowerCase());
+        const inventoryWildcard: Array<string> = ['Gain Trait', 'Lose Trait'].map(name => name.toLowerCase());
+        const spellbook: Array<string> = ['Refocus Bonus Points', 'Focus Points', 'Focus Pool', 'All Checks and DCs', 'Attack Rolls', 'Spell Attack Rolls', 'Spell DCs'].map(name => name.toLowerCase());
+        const spellbookWildcard: Array<string> = ['Spell Slots', 'Proficiency Level', 'Spell Level', 'Disabled'].map(name => name.toLowerCase());
+        const activities: Array<string> = ['Dexterity-based Checks and DCs', 'Strength-based Checks and DCs', 'All Checks and DCs'].map(name => name.toLowerCase());
+        const activitiesWildcard: Array<string> = ['Class DC', 'Charges', 'Cooldown', 'Disabled'].map(name => name.toLowerCase());
 
         //Then prepare changes for everything that should be updated according to the targets.
         targets.forEach(target => {
@@ -399,11 +399,11 @@ export class RefreshService {
         });
     }
 
-    set_ToChangeByEffects(newEffects: Effect[], oldEffects: Effect[], context: { creature: Creature }): void {
+    set_ToChangeByEffects(newEffects: Array<Effect>, oldEffects: Array<Effect>, context: { creature: Creature }): void {
         //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
         // or old effects have been removed.
 
-        const changedEffects: Effect[] = [];
+        const changedEffects: Array<Effect> = [];
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
         newEffects.forEach(newEffect => {
             if (!oldEffects.some(oldEffect => JSON.stringify(oldEffect) == JSON.stringify(newEffect))) {

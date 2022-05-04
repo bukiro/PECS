@@ -37,14 +37,14 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     maxCharges = 0;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private traitsService: TraitsService,
-        private spellsService: SpellsService,
-        private activitiesService: ActivitiesService,
-        private timeService: TimeService,
-        private conditionsService: ConditionsService
+        private readonly refreshService: RefreshService,
+        private readonly traitsService: TraitsService,
+        private readonly spellsService: SpellsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly timeService: TimeService,
+        private readonly conditionsService: ConditionsService
     ) { }
 
     trackByIndex(index: number): number {
@@ -75,11 +75,11 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         return this.timeService.get_Duration(duration, includeTurnState, inASentence);
     }
 
-    public get_Activities(name: string): Activity[] {
+    public get_Activities(name: string): Array<Activity> {
         return this.activitiesService.get_Activities(name);
     }
 
-    public get_Spells(name = '', type = '', tradition = ''): Spell[] {
+    public get_Spells(name = '', type = '', tradition = ''): Array<Spell> {
         //If there is a mistake in writing the activity, it shouldn't return ALL spells.
         if (!name && !type && !tradition) {
             return [];
@@ -98,7 +98,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
 
     get_SpellConditions(spellCast: SpellCast, spellCastIndex: number) {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain at the index of this spellCast and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
-        const conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
+        const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
         const gain = this.gain;
         //Setup the spellEffectChoice collection for this SpellCast.
         if (gain) {

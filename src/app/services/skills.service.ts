@@ -7,12 +7,12 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
     providedIn: 'root'
 })
 export class SkillsService {
-    private skills: Skill[] = [];
-    private tempSkills: Skill[] = [];
+    private skills: Array<Skill> = [];
+    private tempSkills: Array<Skill> = [];
     private loading = true;
 
     constructor(
-        private extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService
     ) { }
 
     private get_TempSkill(name = '', filter: { type?: string }): Skill {
@@ -37,7 +37,7 @@ export class SkillsService {
         }
     }
 
-    public get_Skills(customSkills: Skill[], name = '', filter: { type?: string, locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}): Skill[] {
+    public get_Skills(customSkills: Array<Skill>, name = '', filter: { type?: string; locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}): Array<Skill> {
         //Gets all skills, including a provided custom skill list, filtered by name, type and locked.
         //Some exotic skills don't exist until queried. If a named skill is not found, a temporary skill is created for the rest of the session.
         //If you want to check if a skill exists, use noSubstitutions to prevent returning a temporary skill.
@@ -107,7 +107,7 @@ export class SkillsService {
         Object.keys(data).forEach(key => {
             this.skills.push(...data[key].map((obj: Skill) => Object.assign(new Skill(), obj).recast()));
         });
-        this.skills = this.extensionsService.cleanup_Duplicates(this.skills, 'name', 'skills') as Skill[];
+        this.skills = this.extensionsService.cleanup_Duplicates(this.skills, 'name', 'skills') as Array<Skill>;
     }
 
 }

@@ -23,7 +23,7 @@ export class ItemGain {
     //An ItemGain with a special property will determine the item to grant with a hardcoded method.
     public special: 'Favored Weapon' | '' = '';
     //These runes will be applied to the granted item. They can be { name: name } objects and will be filled during item initialization.
-    public newPropertyRunes: Partial<Rune>[] = [];
+    public newPropertyRunes: Array<Partial<Rune>> = [];
     public id = '';
     //The 'on' property is ignored for activities.
     public on: '' | 'grant' | 'equip' | 'use' | 'rest' = 'grant';
@@ -32,7 +32,7 @@ export class ItemGain {
     //For example, if a spell has an ItemGain with heightenedFilter 1 and one with heightenedFilter 2, and the spell is cast at 2nd level, only the heightenedFilter 2 ItemGain is used.
     public heightenedFilter = 0;
     //For conditions that grant an item only on a certain choice, set conditionChoiceFilter.
-    public conditionChoiceFilter: string[] = [];
+    public conditionChoiceFilter: Array<string> = [];
     public recast(): ItemGain {
         return this;
     }
@@ -51,12 +51,12 @@ export class ItemGain {
     }
     public get_IsMatchingExistingItem(item: Item): boolean {
         if (this.grantedItemID.includes(',')) {
-            return (this.grantedItemID.split(',').includes(item.id)) || (item.can_Stack() && this.get_IsMatchingItem(item));
+            return (this.grantedItemID.split(',').includes(item.id)) || (item.canStack() && this.get_IsMatchingItem(item));
         } else {
-            return (item.id == this.grantedItemID) || (item.can_Stack() && this.get_IsMatchingItem(item));
+            return (item.id == this.grantedItemID) || (item.canStack() && this.get_IsMatchingItem(item));
         }
     }
-    public grant_GrantedItem(creature: Creature, context: { sourceName?: string, grantingItem?: Item } = {}, services: { characterService: CharacterService, itemsService: ItemsService }): void {
+    public grant_GrantedItem(creature: Creature, context: { sourceName?: string; grantingItem?: Item } = {}, services: { characterService: CharacterService; itemsService: ItemsService }): void {
         if (this.special) {
             const character = services.characterService.get_Character();
             const deities = services.characterService.get_CharacterDeities(character);
@@ -64,7 +64,7 @@ export class ItemGain {
             switch (this.special) {
                 case 'Favored Weapon':
                     if (deities.length) {
-                        const favoredWeaponNames: string[] = [];
+                        const favoredWeaponNames: Array<string> = [];
                         const deity = services.characterService.get_CharacterDeities(character)[0];
                         if (deity && deity.favoredWeapon.length) {
                             favoredWeaponNames.push(...deity.favoredWeapon);
@@ -73,9 +73,9 @@ export class ItemGain {
                             favoredWeaponNames.push(...services.characterService.get_CharacterDeities(character, 'syncretism')[0]?.favoredWeapon || []);
                         }
                         if (favoredWeaponNames.length) {
-                            const favoredWeapons: Weapon[] = services.itemsService.get_CleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
+                            const favoredWeapons: Array<Weapon> = services.itemsService.get_CleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
                             if (favoredWeapons.length) {
-                                const grantedItemIDs: string[] = [];
+                                const grantedItemIDs: Array<string> = [];
                                 favoredWeapons.forEach(weapon => {
                                     const newGain = Object.assign(new ItemGain(), { ...JSON.parse(JSON.stringify(this)), special: '', id: weapon.id });
                                     newGain.grant_GrantedItem(creature, context, services);
@@ -97,7 +97,7 @@ export class ItemGain {
         else {
             const newItem: Item = services.itemsService.get_CleanItems()[this.type.toLowerCase()].find((item: Item) => this.get_IsMatchingItem(item));
             if (newItem) {
-                if (newItem.can_Stack()) {
+                if (newItem.canStack()) {
                     //For stackables, add the appropriate amount and don't track them.
                     const grantedItem = services.characterService.grant_InventoryItem(newItem, { creature, inventory: creature.inventories[0], amount: (this.amount + (this.amountPerLevel * creature.level)) }, { resetRunes: false, changeAfter: false, equipAfter: false, expiration: this.expiration });
                     if (this.unhideAfterGrant) {
@@ -116,7 +116,7 @@ export class ItemGain {
                     if (this.unhideAfterGrant) {
                         grantedItem.hide = false;
                     }
-                    if (!grantedItem.can_Stack() && context.sourceName) {
+                    if (!grantedItem.canStack() && context.sourceName) {
                         grantedItem.grantedBy = `(Granted by ${ context.sourceName })`;
                     }
                 }
@@ -138,7 +138,7 @@ export class ItemGain {
         let done = false;
         let amount = this.amount;
         if (this.special) {
-            const multipleGrantedItemIDs: string[] = this.grantedItemID.split(',');
+            const multipleGrantedItemIDs: Array<string> = this.grantedItemID.split(',');
             switch (this.special) {
                 case 'Favored Weapon':
                     multipleGrantedItemIDs.forEach(id => {

@@ -16,14 +16,14 @@ export class AlchemicalBomb extends Weapon {
     //What kind of weapon is this based on? Needed for weapon proficiencies for specific magical items.
     public readonly weaponBase: string = 'Alchemical Bomb';
     public readonly equippable = false;
-    get_Name() {
+    public getName(): string {
         return this.displayName || this.name;
     }
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         return this;
     }
-    can_Stack() {
+    canStack() {
         return true;
     }
 }

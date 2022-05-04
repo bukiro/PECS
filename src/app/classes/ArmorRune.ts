@@ -9,7 +9,7 @@ export class ArmorRune extends Rune {
     readonly type = 'armorrunes';
     public resilient = 0;
     //Can only be applied to an armor with this proficiency
-    public profreq: string[] = [];
+    public profreq: Array<string> = [];
     //Can only be applied to a nonmetallic armor
     public nonmetallic = false;
     recast(typeService: TypeService, itemsService: ItemsService) {
@@ -17,7 +17,7 @@ export class ArmorRune extends Rune {
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
         return this;
     }
-    get_EffectsGenerationHints(): HintEffectsObject[] {
-        return this.hints.map(hint => { return { hint, parentItem: this, objectName: this.get_Name() }; });
+    getEffectsGenerationHints(): Array<HintEffectsObject> {
+        return this.hints.map(hint => { return { hint, parentItem: this, objectName: this.getName() }; });
     }
 }

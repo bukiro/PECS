@@ -23,16 +23,16 @@ export class ItemTargetComponent implements OnInit {
     @Input()
     inventory: ItemCollection;
     @Output()
-    moveMessage = new EventEmitter<{ target: ItemCollection | SpellTarget, amount: number, including: boolean }>();
+    moveMessage = new EventEmitter<{ target: ItemCollection | SpellTarget; amount: number; including: boolean }>();
     public selectedTarget: ItemCollection | SpellTarget = null;
     public selectedAmount: number;
     public excluding = false;
 
     constructor(
-        private characterService: CharacterService,
-        private savegameService: SavegameService,
-        private itemsService: ItemsService,
-        private modalService: NgbModal,
+        private readonly characterService: CharacterService,
+        private readonly savegameService: SavegameService,
+        private readonly itemsService: ItemsService,
+        private readonly modalService: NgbModal,
         public modal: NgbActiveModal
     ) { }
 
@@ -68,7 +68,7 @@ export class ItemTargetComponent implements OnInit {
     get_ItemTargets() {
         //Collect all possible targets for the item.
         //This includes your own inventories, your companions or your allies.
-        const targets: (ItemCollection | SpellTarget)[] = [];
+        const targets: Array<ItemCollection | SpellTarget> = [];
         const creature = this.get_Creature();
         const character = this.get_Character();
         targets.push(...creature.inventories.filter(inv => inv.itemId != this.item.id));
@@ -95,7 +95,7 @@ export class ItemTargetComponent implements OnInit {
     }
 
     get_CanSplit() {
-        return (this.item.can_Stack() && this.item.amount > 1);
+        return (this.item.canStack() && this.item.amount > 1);
     }
 
     on_Split(amount: number) {

@@ -24,7 +24,7 @@ export class TraitComponent {
 
     constructor(
         public characterService: CharacterService,
-        private refreshService: RefreshService
+        private readonly refreshService: RefreshService
     ) { }
 
     trackByIndex(index: number): number {

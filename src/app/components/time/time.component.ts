@@ -27,14 +27,14 @@ export class TimeComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private timeService: TimeService,
-        private itemsService: ItemsService,
-        private spellsService: SpellsService,
-        private effectsService: EffectsService,
-        private conditionsService: ConditionsService,
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly timeService: TimeService,
+        private readonly itemsService: ItemsService,
+        private readonly spellsService: SpellsService,
+        private readonly effectsService: EffectsService,
+        private readonly conditionsService: ConditionsService,
     ) { }
 
     minimize() {

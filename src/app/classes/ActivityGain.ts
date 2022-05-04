@@ -25,17 +25,17 @@ export class ActivityGain {
     public name = '';
     public source = '';
     //We copy the activities ItemGains here whenever we activate it, so we can store the item ID.
-    public gainItems: ItemGain[] = [];
+    public gainItems: Array<ItemGain> = [];
     //We copy the activities castSpells here whenever we activate it, so we can store its duration.
-    public castSpells: SpellCast[] = [];
+    public castSpells: Array<SpellCast> = [];
     //If the activity causes a condition, in order to select a choice from the activity beforehand, the choice is saved here for each condition.
-    public effectChoices: { condition: string, choice: string }[] = [];
+    public effectChoices: Array<{ condition: string; choice: string }> = [];
     //If the activity casts a spell, in order to select a choice from the spell before casting it, the choice is saved here for each condition for each spell, recursively.
-    public spellEffectChoices: ({ condition: string, choice: string }[])[] = [];
+    public spellEffectChoices: Array<Array<{ condition: string; choice: string }>> = [];
     //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the activity service.
     public selectedTarget = '';
     //The selected targets are saved here for applying conditions.
-    public targets: SpellTarget[] = [];
+    public targets: Array<SpellTarget> = [];
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
     public id = uuidv4();
     recast() {
@@ -47,7 +47,7 @@ export class ActivityGain {
     get_OriginalActivity(activitiesService: ActivitiesService) {
         return activitiesService.get_ActivityFromName(this.name);
     }
-    disabled(context: { creature: Creature, maxCharges: number }, services: { effectsService: EffectsService, timeService: TimeService }) {
+    disabled(context: { creature: Creature; maxCharges: number }, services: { effectsService: EffectsService; timeService: TimeService }) {
         if (this.active) {
             return '';
         }

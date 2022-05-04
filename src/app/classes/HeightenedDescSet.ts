@@ -2,7 +2,7 @@ import { HeightenedDesc } from './HeightenedDesc';
 
 export class HeightenedDescSet {
     public level = 0;
-    public descs: HeightenedDesc[] = [];
+    public descs: Array<HeightenedDesc> = [];
     recast() {
         return this;
     }

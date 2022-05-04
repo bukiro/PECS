@@ -11,7 +11,7 @@ export class Snare extends Consumable {
     public success = '';
     public tradeable = false;
     public actions = '1 minute';
-    can_Stack() {
+    canStack() {
         //Snares can't stack.
         return false;
     }

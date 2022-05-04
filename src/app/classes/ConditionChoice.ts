@@ -2,7 +2,7 @@ export class ConditionChoice {
     public name = '';
     public defaultDuration: number = null;
     public nextStage = 0;
-    public featreq: string[] = [];
+    public featreq: Array<string> = [];
     public spelllevelreq = 0;
     recast() {
         //Blank choices are saved with "name":"-" for easier managing; These need to be blanked here.

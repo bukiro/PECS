@@ -20,8 +20,8 @@ export class SpellChoice {
     //How often can you cast the spells in this choice? 0 is one cast per cooldown, or infinite casts if no cooldown is given. Each used spell counts against the total number of charges.
     public charges = 0;
     public frequency = '';
-    public filter: string[] = [];
-    public traitFilter: string[] = [];
+    public filter: Array<string> = [];
+    public traitFilter: Array<string> = [];
     public id = uuidv4();
     //If insertClass is set, this SpellChoice is only granted by a feat if the character class name matches this name.
     // This is especially useful for class choices (hunter's edge, rogue racket, bloodline etc.) that don't give certain benefits when multiclassing.
@@ -50,13 +50,13 @@ export class SpellChoice {
     public singleTarget = false;
     //Only allow spells from your spellbook.
     public spellBookOnly = false;
-    public spells: SpellGain[] = [];
+    public spells: Array<SpellGain> = [];
     //Spell Blending is for Wizards and tracks spell blending choices for this spell choice. It contains three numbers.
     //The numbers are:
     // [0]: Number of spell slots traded away for cantrips
     // [1]: Number of spell slots traded away for a spell slot 1 level higher
     // [2]: Number of spell slots traded away for a spell slot 2 levels higher
-    public spellBlending: number[] = [0, 0, 0];
+    public spellBlending: Array<number> = [0, 0, 0];
     //Infinite Possibilities is for Wizards and tracks whether one of the spell slots of this choice has been traded away for an Infinite Possibilities slot.
     public infinitePossibilities = false;
     //Adapted Cantrip tracks whether one of the spell slots of this choice has been traded away for an Adapted Cantrip slot.

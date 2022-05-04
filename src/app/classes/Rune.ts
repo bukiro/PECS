@@ -7,16 +7,16 @@ import { ItemsService } from 'src/app/services/items.service';
 import { EffectGain } from 'src/app/classes/EffectGain';
 
 export class Rune extends Item {
-    public activities: ItemActivity[] = [];
+    public activities: Array<ItemActivity> = [];
     public desc = '';
     //For weapon runes, the hints are shown directly on the weapon. They don't have effects and are not taken into account when collecting hints or generating effects.
     //The hints on armor runes can have effects and are taken into account when collecting hints and generating effects.
-    public hints: Hint[] = [];
-    public effects: EffectGain[] = [];
+    public hints: Array<Hint> = [];
+    public effects: Array<EffectGain> = [];
     //One rune trains a lore skill while equipped.
-    public loreChoices: LoreChoice[] = [];
+    public loreChoices: Array<LoreChoice> = [];
     public potency = 0;
-    public traits: string[] = [];
+    public traits: Array<string> = [];
     public usage = '';
     readonly allowEquippable = false;
     readonly equippable = false;
@@ -27,10 +27,10 @@ export class Rune extends Item {
         this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());
         return this;
     }
-    can_Stack() {
+    canStack() {
         //Additionally to the usual considerations, runes can't stack if they add any activities.
         return (
-            super.can_Stack() &&
+            super.canStack() &&
             !this.activities.filter((activity: ItemActivity) => !activity.displayOnly).length
         );
     }

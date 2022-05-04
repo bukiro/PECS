@@ -8,10 +8,10 @@ import { ItemsService } from 'src/app/services/items.service';
 import { Creature } from './Creature';
 
 export class Item {
-    public readonly save: string[] = [
+    public readonly save: Array<string> = [
         'refId'
     ];
-    public readonly neversave: string[] = [
+    public readonly neversave: Array<string> = [
         'restoredFromSave'
     ];
     //Allow changing of "equippable" by custom item creation
@@ -26,7 +26,7 @@ export class Item {
     //Some items need certain requirements to be crafted.
     public craftRequirement = '';
     //Some items need to store data, usually via a hardcoded select box.
-    public data: { name: string, value: string | boolean, show: boolean, type: 'string' | 'boolean' }[] = [];
+    public data: Array<{ name: string; value: string | boolean; show: boolean; type: 'string' | 'boolean' }> = [];
     //Full description of the item, ideally unchanged from the source material
     public desc = '';
     //For summoned items or infused reagents, the expiration ticks down, and the item is then dropped or the amount reduced. Expiration is turns * 10.
@@ -40,7 +40,7 @@ export class Item {
     //Should this item be hidden in the item store
     public hide = false;
     //List ItemGain for every Item that you receive when you get, equip or use this item (specified in the ItemGain)
-    public gainItems: ItemGain[] = [];
+    public gainItems: Array<ItemGain> = [];
     //Descriptive text, set only if the item is granted via an ItemGain.
     public grantedBy = '';
     //Every item gets an ID to reference in activities or other items.
@@ -56,7 +56,7 @@ export class Item {
     //Any notes the player adds to the item
     public notes = '';
     //Store any oils applied to this item.
-    public oilsApplied: Oil[] = [];
+    public oilsApplied: Array<Oil> = [];
     //Price in Copper
     public price = 0;
     //This is the id of the library item this one is based on. It is used when loading the character and set when the item is first initialized.
@@ -69,7 +69,7 @@ export class Item {
     public storeBulk = '';
     //What spells are stored in this item, or can be?
     //Only the first spell will be cast when using the item.
-    public storedSpells: SpellChoice[] = [];
+    public storedSpells: Array<SpellChoice> = [];
     //Does this item come in different types? Like lesser, greater, major...
     //If so, name the subtype here
     public subType = '';
@@ -78,11 +78,11 @@ export class Item {
     public subTypeDesc = '';
     public tradeable = true;
     //What traits does the item have? Can be expanded under certain circumstances
-    public traits: string[] = [];
+    public traits: Array<string> = [];
     //Some items may recalculate their traits and store them here temporarily for easier access.
-    public _traits: string[] = [];
+    public _traits: Array<string> = [];
     //Items can store whether they have activated effects on any of their trait's hints here.
-    public traitActivations: { trait: string, active: boolean, active2: boolean, active3: boolean }[] = [];
+    public traitActivations: Array<{ trait: string; active: boolean; active2: boolean; active3: boolean }> = [];
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
     public type: string;
     //For items with the same id (from different source files for example), higher overridePriority wins. If two have the same priority, the first in the list wins.
@@ -96,7 +96,7 @@ export class Item {
     recast(typeService: TypeService, itemsService: ItemsService): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
-        this.oilsApplied = this.oilsApplied.map(obj => (typeService.classCast(typeService.restore_Item(obj, itemsService), 'Oil') as Oil).recast(typeService, itemsService));
+        this.oilsApplied = this.oilsApplied.map(obj => (typeService.classCast(typeService.restoreItem(obj, itemsService), 'Oil') as Oil).recast(typeService, itemsService));
         this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.storedSpells.forEach((choice: SpellChoice, index) => {
             choice.source = this.id;
@@ -115,7 +115,7 @@ export class Item {
     get_IconTitle() {
         return this.displayName.replace(`(${ this.subType })`, '') || this.name.replace(`(${ this.subType })`, '');
     }
-    get_IconValue() {
+    iconValue() {
         return this.subType[0] || '';
     }
     //Other implementations require creature and characterService.
@@ -134,7 +134,7 @@ export class Item {
     get_ActivatedTraits() {
         return this.traitActivations.filter(activation => activation.active || activation.active2 || activation.active3);
     }
-    get_Bulk() {
+    getBulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk = '';
         this.oilsApplied.forEach(oil => {
@@ -144,28 +144,28 @@ export class Item {
         });
         return oilBulk || this.bulk;
     }
-    can_Invest(): boolean {
+    canInvest(): boolean {
         return this.traits.includes('Invested');
     }
-    can_Stack() {
+    canStack() {
         //Equipment, Runes and Snares have their own version of can_Stack.
         return (
             !this.equippable &&
-            !this.can_Invest() &&
+            !this.canInvest() &&
             !this.gainItems.filter(gain => gain.on != 'use').length &&
             !this.storedSpells.length
         );
     }
     //Other implementations require itemStore.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_Name(options: { itemStore?: boolean } = {}) {
+    public getName(options: { itemStore?: boolean } = {}): string {
         if (this.displayName) {
             return this.displayName;
         } else {
             return this.name;
         }
     }
-    get_EffectsGenerationHints() {
+    getEffectsGenerationHints() {
         return [];
     }
     investedOrEquipped() {

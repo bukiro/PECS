@@ -7,11 +7,11 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
     providedIn: 'root'
 })
 export class AbilitiesService {
-    private abilities: Ability[] = [];
+    private abilities: Array<Ability> = [];
     private loading = false;
 
     constructor(
-        private extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService
     ) { }
 
     get_Abilities(name = '') {
@@ -41,6 +41,6 @@ export class AbilitiesService {
         Object.keys(data).forEach(key => {
             this.abilities.push(...data[key].map((obj: Ability) => Object.assign(new Ability(), obj)));
         });
-        this.abilities = this.extensionsService.cleanup_Duplicates(this.abilities, 'name', 'abilities') as Ability[];
+        this.abilities = this.extensionsService.cleanup_Duplicates(this.abilities, 'name', 'abilities') as Array<Ability>;
     }
 }

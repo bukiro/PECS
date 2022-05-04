@@ -10,9 +10,9 @@ import ogl15 from 'src/assets/json/licenses/ogl15.json';
 })
 export class LicensesComponent implements OnInit {
 
-    cup: { title: string, desc: string } = cup;
-    ogl: { title: string, desc: string }[] = [];
-    ogl15: { header: string, lines: { title: string, desc: string }[] }[] = [];
+    cup: { title: string; desc: string } = cup;
+    ogl: Array<{ title: string; desc: string }> = [];
+    ogl15: Array<{ header: string; lines: Array<{ title: string; desc: string }> }> = [];
 
     trackByIndex(index: number): number {
         return index;

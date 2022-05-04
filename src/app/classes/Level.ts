@@ -4,11 +4,11 @@ import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 
 export class Level {
-    public abilityChoices: AbilityChoice[] = [];
-    public featChoices: FeatChoice[] = [];
-    public loreChoices: LoreChoice[] = [];
+    public abilityChoices: Array<AbilityChoice> = [];
+    public featChoices: Array<FeatChoice> = [];
+    public loreChoices: Array<LoreChoice> = [];
     public number = 0;
-    public skillChoices: SkillChoice[] = [];
+    public skillChoices: Array<SkillChoice> = [];
     recast() {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());

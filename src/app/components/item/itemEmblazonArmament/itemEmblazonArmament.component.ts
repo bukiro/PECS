@@ -20,14 +20,14 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     public emblazonArmamentActivated = false;
     public emblazonEnergyActivated = false;
     public emblazonEnergyChoice = 'Acid';
-    public emblazonEnergyChoices: string[] = ['Acid', 'Cold', 'Electricity', 'Fire', 'Sonic'];
+    public emblazonEnergyChoices: Array<string> = ['Acid', 'Cold', 'Electricity', 'Fire', 'Sonic'];
     public emblazonAntimagicActivated = false;
 
-    public newPropertyRune: { rune: Rune, disabled?: boolean };
+    public newPropertyRune: { rune: Rune; disabled?: boolean };
 
     constructor(
         public characterService: CharacterService,
-        private refreshService: RefreshService
+        private readonly refreshService: RefreshService
     ) { }
 
     trackByIndex(index: number): number {

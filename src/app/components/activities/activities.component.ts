@@ -13,19 +13,19 @@ import { TimeService } from 'src/app/services/time.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 
-type ActivitySet = {
-    name: string,
-    gain: ActivityGain | ItemActivity,
-    activity: Activity | ItemActivity,
+interface ActivitySet {
+    name: string;
+    gain: ActivityGain | ItemActivity;
+    activity: Activity | ItemActivity;
 }
 
-type ActivityParameter = {
-    name: string,
-    gain: ActivityGain | ItemActivity,
-    activity: Activity | ItemActivity,
-    maxCharges: number,
-    disabled: string,
-    hostile: boolean,
+interface ActivityParameter {
+    name: string;
+    gain: ActivityGain | ItemActivity;
+    activity: Activity | ItemActivity;
+    maxCharges: number;
+    disabled: string;
+    hostile: boolean;
 }
 
 @Component({
@@ -48,12 +48,12 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private effectsService: EffectsService,
-        private timeService: TimeService,
-        private refreshService: RefreshService,
-        private activitiesService: ActivitiesService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly effectsService: EffectsService,
+        private readonly timeService: TimeService,
+        private readonly refreshService: RefreshService,
+        private readonly activitiesService: ActivitiesService
     ) { }
 
     public minimize(): void {
@@ -141,7 +141,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         return this.characterService.get_Creature(this.creature);
     }
 
-    public get_ActivityParameters(): ActivityParameter[] {
+    public get_ActivityParameters(): Array<ActivityParameter> {
         return this.get_OwnedActivities().map(gainSet => {
             const creature = this.get_Creature();
             const maxCharges = gainSet.activity.maxCharges({ creature }, { effectsService: this.effectsService });
@@ -156,13 +156,13 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         });
     }
 
-    public get_ClassDCs(): Skill[] {
+    public get_ClassDCs(): Array<Skill> {
         return this.characterService.get_Skills(this.get_Creature(), '', { type: 'Class DC' }).filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
     }
 
-    private get_OwnedActivities(): ActivitySet[] {
-        const activities: ActivitySet[] = [];
-        const unique: string[] = [];
+    private get_OwnedActivities(): Array<ActivitySet> {
+        const activities: Array<ActivitySet> = [];
+        const unique: Array<string> = [];
         const fuseStanceName = this.get_FuseStanceName();
         function activityName(name: string) {
             if (!!fuseStanceName && name === 'Fused Stance') {
@@ -191,8 +191,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         }
     }
 
-    public get_TemporaryFeatChoices(): FeatChoice[] {
-        const choices: FeatChoice[] = [];
+    public get_TemporaryFeatChoices(): Array<FeatChoice> {
+        const choices: Array<FeatChoice> = [];
         if (this.creature == 'Character') {
             (this.get_Creature() as Character).class.levels.filter(level => level.number <= this.get_Creature().level).forEach(level => {
                 choices.push(...level.featChoices.filter(choice => choice.showOnSheet));

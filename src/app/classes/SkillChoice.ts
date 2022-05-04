@@ -2,9 +2,9 @@ import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 
 export class SkillChoice {
     public available = 0;
-    public filter: string[] = [];
+    public filter: Array<string> = [];
     public id = '';
-    public increases: SkillIncrease[] = [];
+    public increases: Array<SkillIncrease> = [];
     //If insertLevel is set, this SkillChoice is placed at the designated class level when granted by a feat.
     // I.e. if a feat contains a SkillChoice with insertLevel = 5, the choice is added to level 5 regardless of when the feat was taken.
     public insertLevel = 0;

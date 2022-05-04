@@ -24,7 +24,7 @@ import { FeatRequirements } from 'src/app/character-creation/definitions/models/
 import { FeatIgnoreRequirements } from './featIgnoreRequirements';
 
 export class Feat {
-    public abilityreq: FeatRequirements.AbilityRequirement[] = [];
+    public abilityreq: Array<FeatRequirements.AbilityRequirement> = [];
     public access = '';
     //If weaponfeatbase is true, the feat will be copied for every weapon that matches the description in the subtype:
     // Advanced => Advanced Weapons
@@ -32,68 +32,68 @@ export class Feat {
     // Uncommon => Weapons with the Uncommon trait
     //These can be combined. Any more filters need to be hardcoded in characterService.create_WeaponFeats().
     public weaponfeatbase = false;
-    public anathema: string[] = [];
+    public anathema: Array<string> = [];
     public archetype = '';
-    public changeProficiency: ProficiencyChange[] = [];
-    public copyProficiency: ProficiencyCopy[] = [];
-    public bloodMagic: BloodMagic[] = [];
+    public changeProficiency: Array<ProficiencyChange> = [];
+    public copyProficiency: Array<ProficiencyCopy> = [];
+    public bloodMagic: Array<BloodMagic> = [];
     //Having this feat counts as fulfilling the prerequisite of having the feat named in countAsFeat. This is useful for class feats that allow you to take another of the class type choices.
     public countAsFeat = '';
     //The customData property causes the feat to be copied into a custom feat, and the data property to gain the listed fields.
     // This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields.
-    public customData: { name: string, type: 'string' | 'number' | 'stringArray' | 'numberArray' }[] = [];
+    public customData: Array<{ name: string; type: 'string' | 'number' | 'stringArray' | 'numberArray' }> = [];
     public generatedLoreFeat = false;
     public generatedWeaponFeat = false;
     //A custom character feat with canDelete: true can be manually deleted by the user.
     public canDelete = false;
     public displayName = '';
     public desc = '';
-    public effects: EffectGain[] = [];
-    public featreq: string[] = [];
+    public effects: Array<EffectGain> = [];
+    public featreq: Array<string> = [];
     public heritagereq = '';
     //You can add requirements to the ignore list. These get evaluated as complexreqs and must result in: "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "complexreq" or "dedicationlimit" to do anything.
-    public ignoreRequirements: FeatIgnoreRequirements.FeatIgnoreRequirement[] = [];
-    public gainAbilityChoice: AbilityChoice[] = [];
-    public gainActivities: string[] = [];
+    public ignoreRequirements: Array<FeatIgnoreRequirements.FeatIgnoreRequirement> = [];
+    public gainAbilityChoice: Array<AbilityChoice> = [];
+    public gainActivities: Array<string> = [];
     public gainAnimalCompanion = '';
-    public gainSpecialization: SpecializationGain[] = [];
+    public gainSpecialization: Array<SpecializationGain> = [];
     public gainFamiliar = false;
-    public gainConditions: ConditionGain[] = [];
-    public gainFeatChoice: FeatChoice[] = [];
-    public gainFormulaChoice: FormulaChoice[] = [];
-    public gainAncestry: string[] = [];
-    public gainHeritage: HeritageGain[] = [];
-    public gainItems: ItemGain[] = [];
-    public gainLanguages: LanguageGain[] = [];
-    public gainLoreChoice: LoreChoice[] = [];
-    public gainSkillChoice: SkillChoice[] = [];
-    public gainSpellBookSlots: { spellBookSlots: number[], className: string }[] = [];
-    public gainSpellListSpells: string[] = [];
-    public gainSpellCasting: SpellCasting[] = [];
-    public gainSpellChoice: SpellChoice[] = [];
-    public gainDomains: string[] = [];
+    public gainConditions: Array<ConditionGain> = [];
+    public gainFeatChoice: Array<FeatChoice> = [];
+    public gainFormulaChoice: Array<FormulaChoice> = [];
+    public gainAncestry: Array<string> = [];
+    public gainHeritage: Array<HeritageGain> = [];
+    public gainItems: Array<ItemGain> = [];
+    public gainLanguages: Array<LanguageGain> = [];
+    public gainLoreChoice: Array<LoreChoice> = [];
+    public gainSkillChoice: Array<SkillChoice> = [];
+    public gainSpellBookSlots: Array<{ spellBookSlots: Array<number>; className: string }> = [];
+    public gainSpellListSpells: Array<string> = [];
+    public gainSpellCasting: Array<SpellCasting> = [];
+    public gainSpellChoice: Array<SpellChoice> = [];
+    public gainDomains: Array<string> = [];
     public hide = false;
-    public hints: Hint[] = [];
+    public hints: Array<Hint> = [];
     public levelreq = 0;
     public limited = 0;
     public lorebase = '';
     public name = '';
-    public onceEffects: EffectGain[] = [];
-    public senses: string[] = [];
+    public onceEffects: Array<EffectGain> = [];
+    public senses: Array<string> = [];
     public shortdesc = '';
-    public skillreq: FeatRequirements.SkillRequirement[] = [];
+    public skillreq: Array<FeatRequirements.SkillRequirement> = [];
     public specialdesc = '';
-    public complexreq: FeatRequirements.ComplexRequirement[] = [];
+    public complexreq: Array<FeatRequirements.ComplexRequirement> = [];
     public complexreqdesc = '';
     public subType = '';
     public subTypes = false;
     public superType = '';
-    public tenets: string[] = [];
-    public traits: string[] = [];
+    public tenets: Array<string> = [];
+    public traits: Array<string> = [];
     public unlimited = false;
     public usageNote = '';
     public sourceBook = '';
-    public allowSignatureSpells: SignatureSpellGain[] = [];
+    public allowSignatureSpells: Array<SignatureSpellGain> = [];
     public PFSnote = '';
     public recast(): typeof this {
         this.changeProficiency = this.changeProficiency.map(obj => Object.assign(new ProficiencyChange(), obj).recast());
@@ -130,8 +130,8 @@ export class Feat {
     public have(
         context: { creature: Creature },
         services: { characterService: CharacterService },
-        filter: { charLevel?: number, minLevel?: number } = {},
-        options: { excludeTemporary?: boolean, includeCountAs?: boolean } = {}
+        filter: { charLevel?: number; minLevel?: number } = {},
+        options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {}
     ): number {
         if (services.characterService?.still_loading()) { return 0; }
         filter = {

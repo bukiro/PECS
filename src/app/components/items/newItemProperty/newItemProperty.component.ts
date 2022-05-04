@@ -34,7 +34,7 @@ export class NewItemPropertyComponent {
     @Input()
     propertyKey: string;
     @Input()
-    parents: string[] = [];
+    parents: Array<string> = [];
     @Input()
     newItem: Item;
     @Input()
@@ -46,13 +46,13 @@ export class NewItemPropertyComponent {
     public validationResult = '';
 
     constructor(
-        private itemsService: ItemsService,
-        private characterService: CharacterService,
-        private effectsService: EffectsService,
-        private traitsService: TraitsService,
-        private activitiesService: ActivitiesService,
-        private spellsService: SpellsService,
-        private evaluationService: EvaluationService
+        private readonly itemsService: ItemsService,
+        private readonly characterService: CharacterService,
+        private readonly effectsService: EffectsService,
+        private readonly traitsService: TraitsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly spellsService: SpellsService,
+        private readonly evaluationService: EvaluationService
     ) { }
 
     get_Parent() {
@@ -75,7 +75,7 @@ export class NewItemPropertyComponent {
         return this.characterService.get_Character();
     }
 
-    private get_Inventories(): ItemCollection[] {
+    private get_Inventories(): Array<ItemCollection> {
         return this.get_Character().inventories;
     }
 
@@ -89,7 +89,7 @@ export class NewItemPropertyComponent {
             }
             const existingItems = this.get_Inventories()[0][this.newItem.type].filter((existing: Item) => existing.name == value);
             const existingCleanItems = this.itemsService.get_CleanItems()[this.newItem.type].filter((existing: Item) => existing.name == value);
-            if (existingItems.length && existingItems.some((existing: Item) => existing.can_Stack())) {
+            if (existingItems.length && existingItems.some((existing: Item) => existing.canStack())) {
                 this.validationError = `If you use this name, this item will be added to the ${ existingItems[0].name } stack in your inventory. All changes you make here will be lost.`;
             } else if (existingItems.length) {
                 this.validationError = 'You already own an item with this name and type.';
@@ -187,11 +187,11 @@ export class NewItemPropertyComponent {
         switch (this.propertyKey) {
             case 'activities':
                 index = this.get_Parent()[this.propertyKey].push(new ItemActivity());
-                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()['id'];
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent().id;
                 break;
             case 'gainActivities':
                 index = this.get_Parent()[this.propertyKey].push(new ActivityGain());
-                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()['id'];
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent().id;
                 break;
             case 'gainItems':
                 this.get_Parent()[this.propertyKey].push(new ItemGain());
@@ -213,11 +213,11 @@ export class NewItemPropertyComponent {
                 break;
             case 'storedSpells':
                 index = this.get_Parent()[this.propertyKey].push(new SpellChoice());
-                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()['id'];
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent().id;
                 break;
             case 'gainSpells':
                 index = this.get_Parent()[this.propertyKey].push(new SpellChoice());
-                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent()['id'];
+                this.get_Parent()[this.propertyKey][index - 1].source = this.get_Parent().id;
                 break;
             case 'spells':
                 index = this.get_Parent()[this.propertyKey].push(new SpellGain());
@@ -260,7 +260,7 @@ export class NewItemPropertyComponent {
     }
 
     get_Examples() {
-        let examples: (string | number)[] = [''];
+        let examples: Array<string | number> = [''];
 
         const get_AllItems = () => {
             return this.get_Items().allItems().concat(...this.get_Inventories().map(inventory => inventory.allItems()));
@@ -300,7 +300,7 @@ export class NewItemPropertyComponent {
 
         switch (this.propertyData.examples) {
             case 'prof':
-                switch (this.get_Parent()['type']) {
+                switch (this.get_Parent().type) {
                     case 'weapons':
                         examples = this.characterService.get_Skills(this.get_Character(), '', { type: 'Weapon Proficiency' }).map(item => item.name);
                         examples.push('Advanced Weapons');
@@ -313,7 +313,7 @@ export class NewItemPropertyComponent {
                 }
                 break;
             case 'group':
-                switch (this.get_Parent()['type']) {
+                switch (this.get_Parent().type) {
                     case 'weapons':
                         examples.push(...this.get_Items().weapons.map(item => item.group));
                         break;
@@ -653,7 +653,7 @@ export class NewItemPropertyComponent {
                 examples.push('Chaotic', 'Chaotic Evil', 'Chaotic Good', 'Evil', 'Good', 'Lawful', 'Lawful Evil', 'Lawful Good', 'Neutral', 'Neutral Evil', 'Neutral Good', '!Chaotic', '!Chaotic Evil', '!Chaotic Good', '!Evil', '!Good', '!Lawful', '!Lawful Evil', '!Lawful Good', '!Neutral', '!Neutral Evil', '!Neutral Good');
                 break;
             case 'gainitems name':
-                examples = this.itemsService.get_Items()[this.get_Parent()['type']].map((item: Item) => item.name);
+                examples = this.itemsService.get_Items()[this.get_Parent().type].map((item: Item) => item.name);
                 break;
             case 'gainitems on':
                 examples = ['', 'equip', 'grant', 'use'];
@@ -689,7 +689,7 @@ export class NewItemPropertyComponent {
     }
 
     set_ItemType() {
-        this.get_Parent()['name'] = this.itemsService.get_Items()[this.get_Parent()['type']][0]['name'];
+        this.get_Parent().name = this.itemsService.get_Items()[this.get_Parent().type][0].name;
     }
 
 }

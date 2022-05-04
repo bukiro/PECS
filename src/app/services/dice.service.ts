@@ -8,10 +8,10 @@ import { RefreshService } from 'src/app/services/refresh.service';
 })
 export class DiceService {
 
-    private diceResults: DiceResult[] = [];
+    private diceResults: Array<DiceResult> = [];
 
     constructor(
-        private refreshService: RefreshService
+        private readonly refreshService: RefreshService
     ) { }
 
     get_DiceResults() {

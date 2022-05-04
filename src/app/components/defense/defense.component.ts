@@ -42,12 +42,12 @@ export class DefenseComponent implements OnInit, OnDestroy {
     private viewChangeSubscription: Subscription;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
+        private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private defenseService: DefenseService,
-        private traitsService: TraitsService,
-        private conditionsService: ConditionsService,
+        private readonly refreshService: RefreshService,
+        private readonly defenseService: DefenseService,
+        private readonly traitsService: TraitsService,
+        private readonly conditionsService: ConditionsService,
         public effectsService: EffectsService,
         public abilitiesService: AbilitiesService,
         public toastService: ToastService
@@ -72,7 +72,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    public get_ArmorSpecialization(armor: Armor | WornItem): Specialization[] {
+    public get_ArmorSpecialization(armor: Armor | WornItem): Array<Specialization> {
         if (armor instanceof Armor) {
             return armor.get_ArmorSpecialization(this.get_Creature(), this.characterService);
         }
@@ -102,7 +102,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     public get_Cover(): number {
         const creature = this.get_Creature();
-        const conditions: ConditionGain[] = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => gain.name == 'Cover' && gain.source == 'Quick Status');
         if (conditions.some(gain => gain.name == 'Cover' && gain.choice == 'Greater')) {
             return 4;
@@ -174,16 +174,16 @@ export class DefenseComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    public get_EquippedArmor(): (Armor | WornItem)[] {
+    public get_EquippedArmor(): Array<Armor | WornItem> {
         return []
             .concat(this.defenseService.get_EquippedArmor(this.get_Creature()))
             .concat(this.defenseService.get_EquippedBracersOfArmor(this.get_Creature()));
     }
 
-    public get_HintRunes(armor: Armor | WornItem): ArmorRune[] {
+    public get_HintRunes(armor: Armor | WornItem): Array<ArmorRune> {
         //Return all runes and rune-emulating oil effects that have a hint to show
-        const runes: ArmorRune[] = [];
-        runes.push(...armor.propertyRunes.filter((rune: ArmorRune) => rune.hints.length) as ArmorRune[]);
+        const runes: Array<ArmorRune> = [];
+        runes.push(...armor.propertyRunes.filter((rune: ArmorRune) => rune.hints.length) as Array<ArmorRune>);
         return runes;
     }
 
@@ -191,7 +191,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         return hint.get_Heightened(hint.desc, this.get_Character().level);
     }
 
-    public get_EquippedShield(): Shield[] {
+    public get_EquippedShield(): Array<Shield> {
         return this.defenseService.get_EquippedShield(this.get_Creature());
     }
 
@@ -209,12 +209,12 @@ export class DefenseComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    public get_Skills(type: string): Skill[] {
+    public get_Skills(type: string): Array<Skill> {
         return this.characterService.get_Skills(this.get_Creature(), '', { type })
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
-    public get_Traits(traitName = ''): Trait[] {
+    public get_Traits(traitName = ''): Array<Trait> {
         return this.traitsService.get_Traits(traitName);
     }
 
@@ -235,10 +235,10 @@ export class DefenseComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
-    public get_SpecialShowon(item: Armor | Shield | WornItem, savingThrows = false): string[] {
+    public get_SpecialShowon(item: Armor | Shield | WornItem, savingThrows = false): Array<string> {
         //Under certain circumstances, some Feats apply to Armnor, Shield or Saving Throws independently of their name.
         //Return names that get_FeatsShowingOn should run on.
-        const specialNames: string[] = [];
+        const specialNames: Array<string> = [];
         if (item instanceof Shield) {
             //Shields with Emblazon Armament get tagged as "Emblazon Armament Shield".
             if (item instanceof Shield && item._emblazonArmament) {

@@ -3,12 +3,12 @@ import { CharacterService } from 'src/app/services/character.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { ToastService } from 'src/app/services/toast.service';
 
-type FoundryRoll = {
-    class: string,
-    formula: string,
-    terms: object[],
-    results: (string | number)[],
-    _total: number
+interface FoundryRoll {
+    class: string;
+    formula: string;
+    terms: Array<object>;
+    results: Array<string | number>;
+    _total: number;
 }
 
 @Injectable({
@@ -17,10 +17,10 @@ type FoundryRoll = {
 export class IntegrationsService {
 
     constructor(
-        private toastService: ToastService
+        private readonly toastService: ToastService
     ) { }
 
-    prepare_RollForFoundry(diceString = '', diceResults: DiceResult[] = []): FoundryRoll | string {
+    prepare_RollForFoundry(diceString = '', diceResults: Array<DiceResult> = []): FoundryRoll | string {
         //Create a readable message for the External Dice Roll API - either a formula string or a fake Roll object - and send it to Foundry.
         let roll: FoundryRoll | string = '';
         if (diceString) {
@@ -80,7 +80,7 @@ export class IntegrationsService {
         return this.http.options(foundryVTTUrl, { params: { mode: "no-cors" }, observe: 'response' });
     }*/
 
-    send_RollToFoundry(creature: string, diceString = '', diceResults: DiceResult[] = [], characterService: CharacterService) {
+    send_RollToFoundry(creature: string, diceString = '', diceResults: Array<DiceResult> = [], characterService: CharacterService) {
         let foundryVTTUrl = characterService.get_Character().settings.foundryVTTUrl;
         //Remove trailing slashes.
         foundryVTTUrl = foundryVTTUrl.replace(/\/+$/, '');

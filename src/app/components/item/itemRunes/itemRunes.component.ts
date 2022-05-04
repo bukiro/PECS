@@ -33,18 +33,18 @@ export class ItemRunesComponent implements OnInit {
     bladeAlly = false;
 
 
-    public newPropertyRune: { rune: Rune, inv: ItemCollection, disabled?: boolean }[];
-    public inventories: string[] = [];
+    public newPropertyRune: Array<{ rune: Rune; inv: ItemCollection; disabled?: boolean }>;
+    public inventories: Array<string> = [];
 
     constructor(
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService,
-        private timeService: TimeService,
-        private activitiesService: ActivitiesService,
-        private spellsService: SpellsService,
-        private conditionsService: ConditionsService,
-        private typeService: TypeService
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService,
+        private readonly timeService: TimeService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly spellsService: SpellsService,
+        private readonly conditionsService: ConditionsService,
+        private readonly typeService: TypeService
     ) { }
 
     trackByIndex(index: number): number {
@@ -60,7 +60,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_WeaponPotencyRunes() {
-        const runes: { potency: number, rune?: Rune, disabled?: boolean }[] = [{ potency: 0 }];
+        const runes: Array<{ potency: number; rune?: Rune; disabled?: boolean }> = [{ potency: 0 }];
         if (this.item.potencyRune) {
             runes.push({ potency: this.item.potencyRune, disabled: true });
         }
@@ -100,7 +100,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_ArmorPotencyRunes() {
-        const runes: { potency: number, rune?: Rune, disabled?: boolean }[] = [{ potency: 0 }];
+        const runes: Array<{ potency: number; rune?: Rune; disabled?: boolean }> = [{ potency: 0 }];
         if (this.item.potencyRune) {
             runes.push({ potency: this.item.potencyRune, disabled: true });
         }
@@ -140,7 +140,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_StrikingRunes() {
-        const runes: { striking: number, rune?: Rune, disabled?: boolean }[] = [{ striking: 0, rune: new Rune() }];
+        const runes: Array<{ striking: number; rune?: Rune; disabled?: boolean }> = [{ striking: 0, rune: new Rune() }];
         if (this.item.strikingRune) {
             runes.push({ striking: this.item.strikingRune, disabled: true });
         }
@@ -179,7 +179,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_ResilientRunes() {
-        const runes: { resilient: number, rune?: Rune, disabled?: boolean }[] = [{ resilient: 0, rune: new Rune() }];
+        const runes: Array<{ resilient: number; rune?: Rune; disabled?: boolean }> = [{ resilient: 0, rune: new Rune() }];
         if (this.item.resilientRune) {
             runes.push({ resilient: this.item.resilientRune, disabled: true });
         }
@@ -218,7 +218,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     get_PropertyRunes() {
-        const indexes: number[] = [];
+        const indexes: Array<number> = [];
         //For each rune with the Saggorak trait, provide one less field.
         const saggorak = this.item.propertyRunes.filter(rune => rune.traits.includes('Saggorak')).length;
         for (let index = 0; index < this.item.potencyRune - saggorak; index++) {
@@ -254,11 +254,11 @@ export class ItemRunesComponent implements OnInit {
     get_InitialPropertyRunes(index: number) {
         const weapon = this.item;
         //Start with one empty rune to select nothing.
-        const allRunes: { rune: Rune, inv: ItemCollection, disabled?: boolean }[] = [{ rune: new WeaponRune(), inv: null }];
+        const allRunes: Array<{ rune: Rune; inv: ItemCollection; disabled?: boolean }> = [{ rune: new WeaponRune(), inv: null }];
         allRunes[0].rune.name = '';
         //Add the current choice, if the item has a rune at that index.
         if (weapon.propertyRunes[index]) {
-            allRunes.push(this.newPropertyRune[index] as { rune: WeaponRune, inv: ItemCollection });
+            allRunes.push(this.newPropertyRune[index] as { rune: WeaponRune; inv: ItemCollection });
         }
         return allRunes;
     }
@@ -276,7 +276,7 @@ export class ItemRunesComponent implements OnInit {
         if ((weapon as WornItem).isHandwrapsOfMightyBlows) {
             weapon2 = this.get_CleanItems().weapons.find(weapon => weapon.name == 'Fist');
         }
-        let allRunes: { rune: Rune, inv: ItemCollection, disabled?: boolean }[] = [];
+        let allRunes: Array<{ rune: Rune; inv: ItemCollection; disabled?: boolean }> = [];
         //Add all runes either from the item store or from the inventories.
         if (this.itemStore) {
             inv.weaponrunes.forEach(rune => {
@@ -288,16 +288,16 @@ export class ItemRunesComponent implements OnInit {
             });
         }
         //Set all runes to disabled that have the same name as any that is already equipped.
-        allRunes.forEach((rune: { rune: WeaponRune, inv: ItemCollection, disabled?: boolean }) => {
+        allRunes.forEach((rune: { rune: WeaponRune; inv: ItemCollection; disabled?: boolean }) => {
             if (weapon.propertyRunes
                 .map(propertyRune => propertyRune.name)
                 .includes(rune.rune.name)) {
                 rune.disabled = true;
             }
         });
-        allRunes = allRunes.filter((rune: { rune: WeaponRune, inv: ItemCollection, disabled?: boolean }) => !rune.rune.potency && !rune.rune.striking);
+        allRunes = allRunes.filter((rune: { rune: WeaponRune; inv: ItemCollection; disabled?: boolean }) => !rune.rune.potency && !rune.rune.striking);
         //Filter all runes whose requirements are not met.
-        allRunes.forEach((rune: { rune: WeaponRune, inv: ItemCollection, disabled?: boolean }, $index) => {
+        allRunes.forEach((rune: { rune: WeaponRune; inv: ItemCollection; disabled?: boolean }, $index) => {
             if (
                 (
                     //Don't show runes that the item material doesn't support.
@@ -368,7 +368,7 @@ export class ItemRunesComponent implements OnInit {
 
     get_ArmorPropertyRunes(index: number, inv: ItemCollection) {
         const armor: Armor = this.item as Armor;
-        let allRunes: { rune: Rune, inv: ItemCollection, disabled?: boolean }[] = [];
+        let allRunes: Array<{ rune: Rune; inv: ItemCollection; disabled?: boolean }> = [];
         //Add all runes either from the item store or from the inventories.
         if (this.itemStore) {
             inv.armorrunes.forEach(rune => {
@@ -380,16 +380,16 @@ export class ItemRunesComponent implements OnInit {
             });
         }
         //Set all runes to disabled that have the same name as any that is already equipped.
-        allRunes.forEach((rune: { rune: ArmorRune, inv: ItemCollection, disabled?: boolean }) => {
+        allRunes.forEach((rune: { rune: ArmorRune; inv: ItemCollection; disabled?: boolean }) => {
             if (armor.propertyRunes
                 .map(propertyRune => propertyRune.name)
                 .includes(rune.rune.name)) {
                 rune.disabled = true;
             }
         });
-        allRunes = allRunes.filter((rune: { rune: ArmorRune, inv: ItemCollection, disabled?: boolean }) => !rune.rune.potency && !rune.rune.resilient);
+        allRunes = allRunes.filter((rune: { rune: ArmorRune; inv: ItemCollection; disabled?: boolean }) => !rune.rune.potency && !rune.rune.resilient);
         //Filter all runes whose requirements are not met.
-        allRunes.forEach((rune: { rune: ArmorRune, inv: ItemCollection, disabled?: boolean }, $index) => {
+        allRunes.forEach((rune: { rune: ArmorRune; inv: ItemCollection; disabled?: boolean }, $index) => {
             if (
                 (
                     //Don't show runes that the item material doesn't support.

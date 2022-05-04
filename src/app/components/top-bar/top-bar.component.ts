@@ -20,28 +20,28 @@ import { Subscription } from 'rxjs';
 })
 export class TopBarComponent implements OnInit, OnDestroy {
 
-    public newMessages: PlayerMessage[] = [];
+    public newMessages: Array<PlayerMessage> = [];
     public modalOpen = false;
     public loginModalOpen = false;
     public password = '';
     public passwordFailed = false;
     @ViewChild('NewMessagesModal', { static: false })
-    private newMessagesModal;
+    private readonly newMessagesModal;
     @ViewChild('LoginModal', { static: false })
-    private loginModal;
+    private readonly loginModal;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private configService: ConfigService,
-        private savegameService: SavegameService,
-        private messageService: MessageService,
-        private timeService: TimeService,
-        private toastService: ToastService,
-        private modalService: NgbModal,
-        private typeService: TypeService,
-        private itemsService: ItemsService,
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly configService: ConfigService,
+        private readonly savegameService: SavegameService,
+        private readonly messageService: MessageService,
+        private readonly timeService: TimeService,
+        private readonly toastService: ToastService,
+        private readonly modalService: NgbModal,
+        private readonly typeService: TypeService,
+        private readonly itemsService: ItemsService,
         public modal: NgbActiveModal
     ) { }
 
@@ -207,7 +207,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                     next: () => {
                         this.messageService.load_Messages(this.characterService.get_Character().id)
                             .subscribe({
-                                next: (results: string[]) => {
+                                next: (results: Array<string>) => {
                                     //Get any new messages.
                                     const newMessages = this.messageService.process_Messages(this.characterService, results);
                                     //Add them to the list of new messages.
@@ -246,7 +246,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_ItemMessageIncluded(message: PlayerMessage) {
-        const included: string[] = [];
+        const included: Array<string> = [];
         if (message.includedItems.length) {
             included.push(`${ message.includedItems.length } extra items`);
         }

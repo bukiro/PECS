@@ -25,15 +25,15 @@ export class ItemMaterialComponent implements OnInit {
     @Input()
     customItemStore = false;
 
-    public newArmorMaterial: { material: Material, disabled?: boolean }[];
-    public newWeaponMaterial: { material: Material, disabled?: boolean }[];
-    public newShieldMaterial: { material: Material, disabled?: boolean }[];
-    public inventories: string[] = [];
+    public newArmorMaterial: Array<{ material: Material; disabled?: boolean }>;
+    public newWeaponMaterial: Array<{ material: Material; disabled?: boolean }>;
+    public newShieldMaterial: Array<{ material: Material; disabled?: boolean }>;
+    public inventories: Array<string> = [];
 
     constructor(
         public characterService: CharacterService,
-        private refreshService: RefreshService,
-        private itemsService: ItemsService
+        private readonly refreshService: RefreshService,
+        private readonly itemsService: ItemsService
     ) { }
 
     trackByIndex(index: number): number {
@@ -54,7 +54,7 @@ export class ItemMaterialComponent implements OnInit {
     get_InitialArmorMaterials() {
         const armor = this.item as Armor;
         //Start with one empty slot to select nothing.
-        const allArmorMaterials: { material: ArmorMaterial, disabled?: boolean }[] = [{ material: new ArmorMaterial() }];
+        const allArmorMaterials: Array<{ material: ArmorMaterial; disabled?: boolean }> = [{ material: new ArmorMaterial() }];
         allArmorMaterials[0].material.name = '';
         //Add the current choice, if the item has a material at that index.
         if (armor.material[0]) {
@@ -65,12 +65,12 @@ export class ItemMaterialComponent implements OnInit {
 
     get_ArmorMaterials() {
         const item: Armor = this.item as Armor;
-        const allMaterials: { material: ArmorMaterial, disabled?: boolean }[] = [];
+        const allMaterials: Array<{ material: ArmorMaterial; disabled?: boolean }> = [];
         this.itemsService.get_ArmorMaterials().forEach(material => {
             allMaterials.push({ material });
         });
         //Set all materials to disabled that have the same name as any that is already equipped.
-        allMaterials.forEach((material: { material: ArmorMaterial, disabled?: boolean }) => {
+        allMaterials.forEach((material: { material: ArmorMaterial; disabled?: boolean }) => {
             if (item.material[0] && item.material[0].name == material.material.name) {
                 material.disabled = true;
             }
@@ -148,7 +148,7 @@ export class ItemMaterialComponent implements OnInit {
     get_InitialShieldMaterials() {
         const shield = this.item as Shield;
         //Start with one empty slot to select nothing.
-        const allShieldMaterials: { material: ShieldMaterial, disabled?: boolean }[] = [{ material: new ShieldMaterial() }];
+        const allShieldMaterials: Array<{ material: ShieldMaterial; disabled?: boolean }> = [{ material: new ShieldMaterial() }];
         allShieldMaterials[0].material.name = '';
         //Add the current choice, if the item has a material at that index.
         if (shield.material[0]) {
@@ -159,12 +159,12 @@ export class ItemMaterialComponent implements OnInit {
 
     get_ShieldMaterials() {
         const item: Shield = this.item as Shield;
-        const allMaterials: { material: ShieldMaterial, disabled?: boolean }[] = [];
+        const allMaterials: Array<{ material: ShieldMaterial; disabled?: boolean }> = [];
         this.itemsService.get_ShieldMaterials().forEach(material => {
             allMaterials.push({ material });
         });
         //Set all materials to disabled that have the same name as any that is already equipped.
-        allMaterials.forEach((material: { material: ShieldMaterial, disabled?: boolean }) => {
+        allMaterials.forEach((material: { material: ShieldMaterial; disabled?: boolean }) => {
             if (item.material[0] && item.material[0].name == material.material.name) {
                 material.disabled = true;
             }
@@ -228,7 +228,7 @@ export class ItemMaterialComponent implements OnInit {
     get_InitialWeaponMaterials() {
         const weapon = this.item as Weapon;
         //Start with one empty slot to select nothing.
-        const allWeaponMaterials: { material: WeaponMaterial, disabled?: boolean }[] = [{ material: new WeaponMaterial() }];
+        const allWeaponMaterials: Array<{ material: WeaponMaterial; disabled?: boolean }> = [{ material: new WeaponMaterial() }];
         allWeaponMaterials[0].material.name = '';
         //Add the current choice, if the item has a material at that index.
         if (weapon.material[0]) {
@@ -239,12 +239,12 @@ export class ItemMaterialComponent implements OnInit {
 
     get_WeaponMaterials() {
         const item: Weapon = this.item as Weapon;
-        const allMaterials: { material: WeaponMaterial, disabled?: boolean }[] = [];
+        const allMaterials: Array<{ material: WeaponMaterial; disabled?: boolean }> = [];
         this.itemsService.get_WeaponMaterials().forEach(material => {
             allMaterials.push({ material });
         });
         //Set all materials to disabled that have the same name as any that is already equipped.
-        allMaterials.forEach((material: { material: WeaponMaterial, disabled?: boolean }) => {
+        allMaterials.forEach((material: { material: WeaponMaterial; disabled?: boolean }) => {
             if (item.material[0] && item.material[0].name == material.material.name) {
                 material.disabled = true;
             }

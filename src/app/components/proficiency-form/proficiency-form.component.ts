@@ -24,8 +24,8 @@ export class ProficiencyFormComponent implements OnInit {
     excludeTemporary = false;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private refreshService: RefreshService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly refreshService: RefreshService
     ) { }
 
     trackByIndex(index: number): number {

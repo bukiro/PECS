@@ -9,13 +9,13 @@ interface Toast {
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
-    toasts: Toast[] = [];
+    toasts: Array<Toast> = [];
 
     constructor(
-        private refreshService: RefreshService
+        private readonly refreshService: RefreshService
     ) { }
 
-    show(text: string, options: { onClickCreature?: string, onClickAction?: string } = {}) {
+    show(text: string, options: { onClickCreature?: string; onClickAction?: string } = {}) {
         options = Object.assign({
             onClickCreature: '',
             onClickAction: ''

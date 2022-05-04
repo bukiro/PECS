@@ -25,15 +25,15 @@ import { WeaponRune } from 'src/app/classes/WeaponRune';
 })
 export class ConditionsService {
 
-    private conditions: Condition[] = [];
+    private conditions: Array<Condition> = [];
     private loading = false;
-    private appliedConditions: ConditionGain[][] = [[], [], []];
-    private conditionsMap = new Map<string, Condition>();
+    private appliedConditions: Array<Array<ConditionGain>> = [[], [], []];
+    private readonly conditionsMap = new Map<string, Condition>();
 
     constructor(
-        private extensionsService: ExtensionsService,
-        private evaluationService: EvaluationService,
-        private refreshService: RefreshService
+        private readonly extensionsService: ExtensionsService,
+        private readonly evaluationService: EvaluationService,
+        private readonly refreshService: RefreshService
     ) { }
 
     get_ReplacementCondition(name?: string): Condition {
@@ -45,7 +45,7 @@ export class ConditionsService {
         return this.conditionsMap.get(name.toLowerCase()) || this.get_ReplacementCondition(name);
     }
 
-    get_Conditions(name = '', type = ''): Condition[] {
+    get_Conditions(name = '', type = ''): Array<Condition> {
         if (!this.still_loading()) {
             //If only a name is given, try to find a condition by that name in the index map. This should be much quicker.
             if (name && !type) {
@@ -71,18 +71,18 @@ export class ConditionsService {
         }
     }
 
-    get_AppliedConditions(creature: Creature, characterService: CharacterService, activeConditions: ConditionGain[], readonly = false): ConditionGain[] {
+    get_AppliedConditions(creature: Creature, characterService: CharacterService, activeConditions: Array<ConditionGain>, readonly = false): Array<ConditionGain> {
         const creatureIndex: number = this.get_CalculatedIndex(creature.type);
-        function conditionOverrideExists(overrides: { override: ConditionOverride, source: string }[], gain: ConditionGain) {
+        function conditionOverrideExists(overrides: Array<{ override: ConditionOverride; source: string }>, gain: ConditionGain) {
             return overrides.some(override => ['All', gain.name].includes(override.override.name) && override.source != gain.id);
         }
-        function conditionPauseExists(pauses: { pause: ConditionOverride, source: string }[], gain: ConditionGain) {
+        function conditionPauseExists(pauses: Array<{ pause: ConditionOverride; source: string }>, gain: ConditionGain) {
             return pauses.some(pause => ['All', gain.name].includes(pause.pause.name) && pause.source != gain.id);
         }
         //Readonly skips any modifications and just returns the currently applied conditions. The same happens if the conditions haven't changed since the last run.
         if (!readonly && JSON.stringify(activeConditions) != JSON.stringify(this.appliedConditions[creatureIndex])) {
-            let overrides: { override: ConditionOverride, source: string }[] = [];
-            let pauses: { pause: ConditionOverride, source: string }[] = [];
+            let overrides: Array<{ override: ConditionOverride; source: string }> = [];
+            let pauses: Array<{ pause: ConditionOverride; source: string }> = [];
             activeConditions.forEach(gain => {
                 //Set apply for all conditions first, then change it later.
                 gain.apply = true;
@@ -479,7 +479,7 @@ export class ConditionsService {
         gainItem.drop_GrantedItem(creature, {}, { characterService });
     }
 
-    generate_ItemConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService, itemsService: ItemsService }): void {
+    generate_ItemConditions(creature: Creature, services: { characterService: CharacterService; effectsService: EffectsService; itemsService: ItemsService }): void {
         //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
         //Conditions caused by equipment are not calculated in manual mode.
         if (services.characterService.get_ManualMode()) {
@@ -606,7 +606,7 @@ export class ConditionsService {
         }
     }
 
-    generate_BulkConditions(creature: Creature, services: { characterService: CharacterService, effectsService: EffectsService }): void {
+    generate_BulkConditions(creature: Creature, services: { characterService: CharacterService; effectsService: EffectsService }): void {
         //Calculate whether the creature is encumbered and add or remove the condition.
         //Encumbered conditions are not calculated in manual mode.
         if (!services.characterService.get_ManualMode()) {
@@ -633,13 +633,13 @@ export class ConditionsService {
         includedConditions.filter(gain => gain.maxDuration > 0 && gain.maxDuration < gain.duration).forEach(gain => {
             gain.maxDuration = gain.duration;
         });
-        function SortByShortestDuration(conditions: ConditionGain[]): ConditionGain[] {
+        function SortByShortestDuration(conditions: Array<ConditionGain>): Array<ConditionGain> {
             return conditions.sort(function (a, b) {
                 // Sort conditions by the length of either their nextstage or their duration, whichever is shorter.
-                const compareA: number[] = [];
+                const compareA: Array<number> = [];
                 if (a.nextStage > 0) { compareA.push(a.nextStage); }
                 if (a.duration > 0) { compareA.push(a.duration); }
-                const compareB: number[] = [];
+                const compareB: Array<number> = [];
                 if (b.nextStage > 0) { compareB.push(b.nextStage); }
                 if (b.duration > 0) { compareB.push(b.duration); }
                 if (!compareA.length) {
@@ -667,7 +667,7 @@ export class ConditionsService {
                 } else {
                     if (includedConditions.some(gain => (gain.duration > 0 && gain.choice != 'Onset') || gain.nextStage > 0)) {
                         const firstObject: ConditionGain = SortByShortestDuration(includedConditions).find(gain => gain.duration > 0 || gain.nextStage > 0);
-                        const durations: number[] = [];
+                        const durations: Array<number> = [];
                         if (firstObject.duration > 0 && firstObject.choice != 'Onset') { durations.push(firstObject.duration); }
                         if (firstObject.nextStage > 0) { durations.push(firstObject.nextStage); }
                         first = Math.min(...durations);
@@ -867,7 +867,7 @@ export class ConditionsService {
         this.refreshService.set_HintsToChange(creature, condition.hints, { characterService });
     }
 
-    change_ConditionStage(creature: Creature, gain: ConditionGain, condition: Condition, choices: string[], change: number, characterService: CharacterService, itemsService: ItemsService) {
+    change_ConditionStage(creature: Creature, gain: ConditionGain, condition: Condition, choices: Array<string>, change: number, characterService: CharacterService, itemsService: ItemsService) {
         if (change == 0) {
             //If no change, the condition remains, but the onset is reset.
             gain.nextStage = condition.get_ChoiceNextStage(gain.choice);
@@ -928,7 +928,7 @@ export class ConditionsService {
         Object.keys(data).forEach(key => {
             this.conditions.push(...data[key].map((obj: Condition) => Object.assign(new Condition(), obj).recast()));
         });
-        this.conditions = this.extensionsService.cleanup_Duplicates(this.conditions, 'name', 'conditions') as Condition[];
+        this.conditions = this.extensionsService.cleanup_Duplicates(this.conditions, 'name', 'conditions') as Array<Condition>;
     }
 
 }

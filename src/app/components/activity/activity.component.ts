@@ -25,19 +25,19 @@ import { Spell } from 'src/app/classes/Spell';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Trait } from 'src/app/classes/Trait';
 
-type ActivityParameters = {
-    maxCharges: number,
-    cooldown: number,
-    disabled: string,
-    activitySpell: ActivitySpellSet,
-    tooManySlottedAeonStones: boolean,
-    resonantAllowed: boolean
+interface ActivityParameters {
+    maxCharges: number;
+    cooldown: number;
+    disabled: string;
+    activitySpell: ActivitySpellSet;
+    tooManySlottedAeonStones: boolean;
+    resonantAllowed: boolean;
 }
 
-type ActivitySpellSet = {
-    spell: Spell,
-    gain: SpellGain,
-    cast: SpellCast
+interface ActivitySpellSet {
+    spell: Spell;
+    gain: SpellGain;
+    cast: SpellCast;
 }
 
 @Component({
@@ -64,16 +64,16 @@ export class ActivityComponent implements OnInit, OnDestroy {
     item: Equipment | Rune;
 
     constructor(
-        private changeDetector: ChangeDetectorRef,
-        private characterService: CharacterService,
-        private refreshService: RefreshService,
-        private traitsService: TraitsService,
-        private spellsService: SpellsService,
-        private activitiesService: ActivitiesService,
-        private timeService: TimeService,
-        private itemsService: ItemsService,
-        private conditionsService: ConditionsService,
-        private effectsService: EffectsService
+        private readonly changeDetector: ChangeDetectorRef,
+        private readonly characterService: CharacterService,
+        private readonly refreshService: RefreshService,
+        private readonly traitsService: TraitsService,
+        private readonly spellsService: SpellsService,
+        private readonly activitiesService: ActivitiesService,
+        private readonly timeService: TimeService,
+        private readonly itemsService: ItemsService,
+        private readonly conditionsService: ConditionsService,
+        private readonly effectsService: EffectsService
     ) { }
 
     trackByIndex(index: number): number {
@@ -153,11 +153,11 @@ export class ActivityComponent implements OnInit, OnDestroy {
         this.gain.chargesUsed = 0;
     }
 
-    public get_Traits(traitName = ''): Trait[] {
+    public get_Traits(traitName = ''): Array<Trait> {
         return this.traitsService.get_Traits(traitName);
     }
 
-    public get_FeatsShowingOn(activityName: string): Feat[] {
+    public get_FeatsShowingOn(activityName: string): Array<Feat> {
         if (activityName) {
             return this.characterService.get_FeatsShowingOn(activityName)
                 .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
@@ -166,7 +166,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         }
     }
 
-    public get_ConditionsShowingOn(activityName: string): { gain: ConditionGain, condition: Condition }[] {
+    public get_ConditionsShowingOn(activityName: string): Array<{ gain: ConditionGain; condition: Condition }> {
         if (activityName) {
             return this.characterService.get_ConditionsShowingOn(this.get_Creature(), activityName)
                 .sort((a, b) => (a.condition.name == b.condition.name) ? 0 : ((a.condition.name > b.condition.name) ? 1 : -1));
@@ -175,7 +175,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         }
     }
 
-    public get_ActivitiesShowingOn(objectName: string): { gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity }[] {
+    public get_ActivitiesShowingOn(objectName: string): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
                 .map(gain => { return { gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
@@ -194,7 +194,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         }
     }
 
-    public get_FusedStances(): { gain: ItemActivity | ActivityGain, activity: Activity }[] {
+    public get_FusedStances(): Array<{ gain: ItemActivity | ActivityGain; activity: Activity }> {
         const featData = this.get_Character().class.get_FeatData(0, 0, 'Fuse Stance')[0];
         if (featData) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
@@ -206,13 +206,13 @@ export class ActivityComponent implements OnInit, OnDestroy {
         }
     }
 
-    private get_Spells(name = '', type = '', tradition = ''): Spell[] {
+    private get_Spells(name = '', type = '', tradition = ''): Array<Spell> {
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
-    public get_ActivityConditions(): { gain: ConditionGain, condition: Condition }[] {
+    public get_ActivityConditions(): Array<{ gain: ConditionGain; condition: Condition }> {
         //For all conditions that are included with this activity, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
-        const conditionSets: { gain: ConditionGain, condition: Condition }[] = [];
+        const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
         const gain = this.gain;
         if (gain) {
             this.activity.gainConditions
@@ -234,7 +234,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         return conditionSets;
     }
 
-    public get_ShowConditionChoice(conditionSet: { gain: ConditionGain, condition: Condition }, context: { tooManySlottedAeonStones: boolean, resonantAllowed: boolean }): boolean {
+    public get_ShowConditionChoice(conditionSet: { gain: ConditionGain; condition: Condition }, context: { tooManySlottedAeonStones: boolean; resonantAllowed: boolean }): boolean {
         return this.allowActivate &&
             conditionSet.condition &&
             conditionSet.condition._choices.length &&
