@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
@@ -771,6 +772,23 @@ export class SavegameService {
                         });
                 }
             });
+        }
+
+        //Some property names change in 1.0.16.
+        if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 14) {
+            interface OldFeatData {
+                data?: { [key: string]: string | number | boolean | Array<string> | Array<number> };
+            }
+
+            if (character.class?.featData?.length) {
+                character.class.featData = character.class.featData.map((featData: FeatData & OldFeatData) => {
+                    if (featData.data) {
+                        return new FeatData(featData.level, featData.featName, featData.sourceId, featData.data);
+                    } else {
+                        return featData as FeatData;
+                    }
+                });
+            }
         }
     }
     /* eslint-enable @typescript-eslint/no-magic-numbers */
