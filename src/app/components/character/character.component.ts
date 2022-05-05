@@ -292,7 +292,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_SavegamesInitializing() {
-        return this.savegameService.still_loading();
+        return this.savegameService.stillLoading();
     }
 
     get_LoggingIn() {
@@ -312,8 +312,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Savegames() {
-        if (!this.savegameService.get_LoadingError()) {
-            return this.savegameService.get_Savegames()
+        if (!this.savegameService.getLoadingError()) {
+            return this.savegameService.getSavegames()
                 .sort(function (a, b) {
                     if (b.partyName == 'No Party' && a.partyName != 'No Party') {
                         return 1;

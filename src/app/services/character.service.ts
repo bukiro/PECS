@@ -1451,7 +1451,7 @@ export class CharacterService {
     }
 
     get_MessageSender(message: PlayerMessage) {
-        return this.savegameService.get_Savegames().find(savegame => savegame.id == message.senderId)?.name;
+        return this.savegameService.getSavegames().find(savegame => savegame.id == message.senderId)?.name;
     }
 
     send_TurnChangeToPlayers() {
@@ -1464,7 +1464,7 @@ export class CharacterService {
                 next: (result: Array<string>) => {
                     const timeStamp = result.time;
                     const character = this.get_Character();
-                    const targets = this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
+                    const targets = this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
                     const messages: Array<PlayerMessage> = [];
                     targets.forEach(target => {
                         const message = new PlayerMessage();
@@ -1520,7 +1520,7 @@ export class CharacterService {
                     .forEach(existingConditionGain => {
                         removed = this.remove_Condition(creature, existingConditionGain, false);
                         if (removed) {
-                            const senderName = this.savegameService.get_Savegames().find(savegame => savegame.id == senderId)?.name || 'Unknown';
+                            const senderName = this.savegameService.getSavegames().find(savegame => savegame.id == senderId)?.name || 'Unknown';
                             this.toastService.show(`Automatically removed <strong>${ existingConditionGain.name }${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }</strong> condition from <strong>${ creature.name || creature.type }</strong> on turn of <strong>${ senderName }</strong>`);
                             this.refreshService.set_ToChange(creature.type, 'effects');
                         }
@@ -2590,11 +2590,11 @@ export class CharacterService {
     }
 
     load_CharacterFromDB(id: string): Observable<Array<Partial<Character>>> {
-        return this.savegameService.load_CharacterFromDB(id);
+        return this.savegameService.loadCharacter(id);
     }
 
     delete_Character(savegame: Savegame) {
-        this.savegameService.delete_CharacterFromDB(savegame)
+        this.savegameService.deleteCharacter(savegame)
             .subscribe({
                 next: () => {
                     this.toastService.show(`Deleted ${ savegame.name || 'character' } from database.`);
@@ -2616,7 +2616,7 @@ export class CharacterService {
         //We assign the character, but recast it in the savegameService.
         this.me = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this.loader)));
         //Use this.me here instead of this.get_Character() because we're still_loading().
-        this.me = this.savegameService.load_Character(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
+        this.me = this.savegameService.processLoadedCharacter(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
         this.me.GMMode = loadAsGM;
         this.loader = [];
         //Set loading to false. The last steps need the characterService to not be loading.
@@ -2658,7 +2658,8 @@ export class CharacterService {
     save_Character() {
         this.get_Character().yourTurn = this.timeService.getYourTurn();
         this.toastService.show('Saving...');
-        this.savegameService.save_Character(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService)
+        const savegame = this.savegameService.prepareCharacterForSaving(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
+        this.savegameService.saveCharacter(savegame)
             .subscribe({
                 next: (result) => {
                     if (result.lastErrorObject && result.lastErrorObject.updatedExisting) {

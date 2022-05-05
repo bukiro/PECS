@@ -307,7 +307,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         });
         if (character.partyName) {
             //Only allow selecting other players if you are in a party.
-            this.savegameService.get_Savegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id).forEach(savegame => {
+            this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id).forEach(savegame => {
                 newTargets.push(Object.assign(new SpellTarget(), { name: savegame.name || 'Unnamed', id: savegame.id, playerId: savegame.id, type: 'Character', selected: (this.gain.targets.find(target => target.id == savegame.id)?.selected || false) }));
                 if (savegame.companionId) {
                     newTargets.push(Object.assign(new SpellTarget(), { name: savegame.companionName || 'Companion', id: savegame.companionId, playerId: savegame.id, type: 'Companion', selected: (this.gain.targets.find(target => target.id == savegame.companionId)?.selected || false) }));

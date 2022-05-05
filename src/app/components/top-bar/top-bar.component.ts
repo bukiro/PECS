@@ -70,10 +70,10 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_Savegames() {
-        if (this.savegameService.get_LoadingError() || this.get_SavegamesInitializing()) {
+        if (this.savegameService.getLoadingError() || this.get_SavegamesInitializing()) {
             return null;
         } else {
-            return this.savegameService.get_Savegames();
+            return this.savegameService.getSavegames();
         }
     }
 
@@ -86,7 +86,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_SavegamesInitializing() {
-        return this.savegameService.still_loading();
+        return this.savegameService.stillLoading();
     }
 
     set_Changed() {
