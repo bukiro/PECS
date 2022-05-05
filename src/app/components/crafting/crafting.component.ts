@@ -231,15 +231,15 @@ export class CraftingComponent implements OnInit, OnDestroy {
         const character: Character = this.get_Character();
         const reasons: Array<string> = [];
 
-        if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Alchemical Crafting').length) {
+        if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Alchemical Crafting' }).length) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }
 
-        if (item.traits.includes('Magical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Magical Crafting').length) {
+        if (item.traits.includes('Magical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Magical Crafting' }).length) {
             reasons.push('You need the Magical Crafting skill feat to create magic items.');
         }
 
-        if (item.traits.includes('Snare') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Snare Crafting').length) {
+        if (item.traits.includes('Snare') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Snare Crafting' }).length) {
             reasons.push('You need the Snare Crafting skill feat to create snares.');
         }
 
@@ -272,7 +272,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, name).length;
+        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
     }
 
     get_SnareSpecialistPreparations() {

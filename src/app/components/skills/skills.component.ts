@@ -99,8 +99,10 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}): Array<Skill> {
-        filter = { type: '',
-            locked: undefined, ...filter };
+        filter = {
+            type: '',
+            locked: undefined, ...filter,
+        };
 
         const creature = this.get_Creature();
 
@@ -126,7 +128,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.characterService.get_Character().level, name).length;
+        return this.characterService.get_CharacterFeatsTaken(1, this.characterService.get_Character().level, { featName: name }).length;
     }
 
     get_Activities(name = '') {

@@ -40,7 +40,7 @@ export class DeitiesService {
             if (mainDeity) {
                 this.$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
 
-                const syncretismFeat = characterService.get_CharacterFeatsTaken(0, level, 'Syncretism').length;
+                const syncretismFeat = characterService.get_CharacterFeatsTaken(0, level, { featName: 'Syncretism' }).length;
 
                 if (syncretismFeat) {
                     const data = character.class.get_FeatData(0, 0, 'Syncretism')[0];

@@ -177,7 +177,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     get_NumbToDeath() {
         if (this.get_Creature() instanceof Character) {
-            return this.characterService.get_CharacterFeatsTaken(0, this.get_Character().level, 'Numb to Death').length;
+            return this.characterService.get_CharacterFeatsTaken(0, this.get_Character().level, { featName: 'Numb to Death' }).length;
         } else {
             return 0;
         }

@@ -482,7 +482,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, name).length;
+        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
     }
 
     get_LearningAvailable() {

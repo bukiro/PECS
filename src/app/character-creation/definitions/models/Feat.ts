@@ -26,21 +26,28 @@ import { FeatIgnoreRequirements } from './featIgnoreRequirements';
 export class Feat {
     public abilityreq: Array<FeatRequirements.AbilityRequirement> = [];
     public access = '';
-    //If weaponfeatbase is true, the feat will be copied for every weapon that matches the description in the subtype:
-    // Advanced => Advanced Weapons
-    // Ancestry => Weapons with a trait that corresponds to an ancestry
-    // Uncommon => Weapons with the Uncommon trait
-    //These can be combined. Any more filters need to be hardcoded in characterService.create_WeaponFeats().
+    /**
+     * If weaponfeatbase is true, the feat will be copied for every weapon that matches the description in the subtype:
+     * - Advanced => Advanced Weapons
+     * - Ancestry => Weapons with a trait that corresponds to an ancestry
+     * - Uncommon => Weapons with the Uncommon trait
+     * These can be combined. Any more filters need to be hardcoded in characterService.create_WeaponFeats().
+     */
     public weaponfeatbase = false;
     public anathema: Array<string> = [];
     public archetype = '';
     public changeProficiency: Array<ProficiencyChange> = [];
     public copyProficiency: Array<ProficiencyCopy> = [];
     public bloodMagic: Array<BloodMagic> = [];
-    //Having this feat counts as fulfilling the prerequisite of having the feat named in countAsFeat. This is useful for class feats that allow you to take another of the class type choices.
+    /**
+     * Having this feat counts as fulfilling the prerequisite of having the feat named in countAsFeat.
+     * This is useful for class feats that allow you to take another of the class type choices.
+     */
     public countAsFeat = '';
-    //The customData property causes the feat to be copied into a custom feat, and the data property to gain the listed fields.
-    // This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields.
+    /**
+     * The customData property causes the feat to be copied into a custom feat, and the data property to gain the listed fields.
+     * This usually goes hand in hand with feats where you need to make very specific, hardcoded choices that are saved in the data fields.
+     */
     public customData: Array<{ name: string; type: 'string' | 'number' | 'stringArray' | 'numberArray' }> = [];
     public generatedLoreFeat = false;
     public generatedWeaponFeat = false;
@@ -51,7 +58,17 @@ export class Feat {
     public effects: Array<EffectGain> = [];
     public featreq: Array<string> = [];
     public heritagereq = '';
-    //You can add requirements to the ignore list. These get evaluated as complexreqs and must result in: "levelreq", "abilityreq", "featreq", "skillreq", "heritagereq", "complexreq" or "dedicationlimit" to do anything.
+    /**
+     * You can add requirements to the ignore list.
+     * These get evaluated as complexreqs and must result in one of the following to disable the requirement:
+     * - "levelreq"
+     * - "abilityreq"
+     * - "featreq"
+     * - "skillreq"
+     * - "heritagereq"
+     * - "complexreq"
+     * - "dedicationlimit"
+     */
     public ignoreRequirements: Array<FeatIgnoreRequirements.FeatIgnoreRequirement> = [];
     public gainAbilityChoice: Array<AbilityChoice> = [];
     public gainActivities: Array<string> = [];
@@ -143,9 +160,14 @@ export class Feat {
         };
 
         if (context.creature instanceof Character) {
-            return services.characterService.get_CharacterFeatsTaken(filter.minLevel, filter.charLevel, this.name, '', '', undefined, options.excludeTemporary, options.includeCountAs)?.length || 0;
+            return services.characterService.get_CharacterFeatsTaken(
+                filter.minLevel,
+                filter.charLevel,
+                { featName: this.name },
+                options,
+            )?.length || 0;
         } else if (context.creature instanceof Familiar) {
-            return context.creature.abilities.feats.filter(gain => gain.name.toLowerCase() == this.name.toLowerCase())?.length || 0;
+            return context.creature.abilities.feats.filter(gain => gain.name.toLowerCase() === this.name.toLowerCase())?.length || 0;
         } else {
             return 0;
         }

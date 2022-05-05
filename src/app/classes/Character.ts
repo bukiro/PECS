@@ -997,6 +997,6 @@ export class Character extends Creature {
     has_Feat(featName: string, services: { readonly characterService: CharacterService }, context: { readonly level?: number } = {}): number {
         context = { level: this.level, ...context };
 
-        return services.characterService.get_CharacterFeatsTaken(1, context.level, featName).length;
+        return services.characterService.get_CharacterFeatsTaken(1, context.level, { featName }).length;
     }
 }

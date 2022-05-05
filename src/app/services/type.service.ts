@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { Activity } from 'src/app/classes/Activity';
@@ -94,7 +96,6 @@ import { WornItem } from 'src/app/classes/WornItem';
 })
 export class TypeService {
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public classCast(obj: any, className: string): any {
         //This function tries to cast an object according to the given class name.
         switch (className) {
@@ -192,7 +193,6 @@ export class TypeService {
 
     public merge(target: unknown, source: unknown): unknown {
         if (typeof source === 'object' && source) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const output = Object.assign(new (target.constructor as any)(), JSON.parse(JSON.stringify(target)));
 
             if (Array.isArray(source)) {
@@ -206,7 +206,11 @@ export class TypeService {
             } else {
                 Object.keys(source).forEach(key => {
                     if (typeof source === 'object') {
-                        if (!Object.prototype.hasOwnProperty.call(target, key)) { Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) }); } else { output[key] = this.merge(target[key], source[key]); }
+                        if (!Object.prototype.hasOwnProperty.call(target, key)) {
+                            Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
+                        } else {
+                            output[key] = this.merge(target[key], source[key]);
+                        }
                     } else {
                         Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
                     }
@@ -239,7 +243,7 @@ export class TypeService {
 
                     mergedObject.restoredFromSave = true;
                 } catch (e) {
-                    console.log(`Failed reassigning item ${ mergedObject.id }: ${ e }`);
+                    console.error(`[TypeService] Failed reassigning item ${ mergedObject.id }: ${ e }`);
                 }
             }
 

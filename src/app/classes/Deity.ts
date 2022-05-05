@@ -36,7 +36,7 @@ export class Deity {
 
             if (character.class.deity == this.name) {
                 //If you have taken the Splinter Faith feat, your domains are replaced. It's not necessary to filter by level, because Splinter Faith changes domains retroactively.
-                const splinterFaithFeat = characterService.get_CharacterFeatsTaken(0, 0, 'Splinter Faith')[0];
+                const splinterFaithFeat = characterService.get_CharacterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
 
                 if (splinterFaithFeat) {
                     character.class.get_FeatData(0, 0, 'Splinter Faith').forEach(data => {
@@ -65,7 +65,7 @@ export class Deity {
         if (JSON.stringify(this.$domains) != JSON.stringify(this.domains)) {
             if (character.class.deity == this.name) {
                 //If you have taken the Splinter Faith feat, your alternate domains are replaced. It's not necessary to filter by level, because Splinter Faith changes domains retroactively.
-                const splinterFaithFeat = characterService.get_CharacterFeatsTaken(0, 0, 'Splinter Faith')[0];
+                const splinterFaithFeat = characterService.get_CharacterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
 
                 if (splinterFaithFeat) {
                     let splinterFaithDomains = [];

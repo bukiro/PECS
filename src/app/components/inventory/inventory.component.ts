@@ -651,7 +651,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (this.creature == 'Character') {
             const character = this.get_Character();
 
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, name).length;
+            return this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: name }).length;
         }
     }
 
@@ -680,15 +680,15 @@ export class InventoryComponent implements OnInit, OnDestroy {
         const character: Character = this.get_Character();
         const reasons: Array<string> = [];
 
-        if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Alchemical Crafting').length) {
+        if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Alchemical Crafting' }).length) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }
 
-        if (item.traits.includes('Magical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Magical Crafting').length) {
+        if (item.traits.includes('Magical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Magical Crafting' }).length) {
             reasons.push('You need the Magical Crafting skill feat to create magic items.');
         }
 
-        if (item.traits.includes('Snare') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Snare Crafting').length) {
+        if (item.traits.includes('Snare') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Snare Crafting' }).length) {
             reasons.push('You need the Snare Crafting skill feat to create snares.');
         }
 
@@ -758,20 +758,53 @@ export class InventoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_LargeWeaponAllowed(item: Item) {
-        return this.creature == 'Character' && item instanceof Weapon && item.prof != 'Unarmed Attacks' && (this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, 'Titan Mauler').length || this.effectsService.get_EffectsOnThis(this.get_Creature(), 'Use Large Weapons').length);
+    get_LargeWeaponAllowed(item: Item): boolean {
+        return (
+            this.creature == 'Character' &&
+            item instanceof Weapon &&
+            item.prof != 'Unarmed Attacks' &&
+            (
+                !!this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: 'Titan Mauler' }).length ||
+                !!this.effectsService.get_EffectsOnThis(this.get_Creature(), 'Use Large Weapons').length
+            )
+        );
     }
 
-    get_BladeAllyAllowed(item: Item) {
-        return this.creature == 'Character' && ((item instanceof Weapon && item.prof != 'Unarmed Attacks') || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) && this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, 'Divine Ally: Blade Ally').length;
+    get_BladeAllyAllowed(item: Item): boolean {
+        return (
+            this.creature == 'Character' &&
+            (
+                (
+                    item instanceof Weapon &&
+                    item.prof != 'Unarmed Attacks'
+                ) ||
+                (
+                    item instanceof WornItem &&
+                    item.isHandwrapsOfMightyBlows
+                )
+            ) &&
+            !!this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: 'Divine Ally: Blade Ally' }).length
+        );
     }
 
-    get_EmblazonArmamentAllowed(item: Item) {
-        return this.creature == 'Character' && (item instanceof Weapon || item instanceof Shield) && this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, 'Emblazon Armament').length;
+    get_EmblazonArmamentAllowed(item: Item): boolean {
+        return (
+            this.creature == 'Character' &&
+            (
+                item instanceof Weapon ||
+                item instanceof Shield
+            ) &&
+            !!this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: 'Emblazon Armament' }).length
+        );
     }
 
     get_BladeAllyUsed(): boolean {
-        return this.get_Character().inventories.some(inventory => inventory.weapons.some(weapon => weapon.bladeAlly) || inventory.wornitems.some(wornItem => wornItem.isHandwrapsOfMightyBlows && wornItem.bladeAlly));
+        return (
+            this.get_Character().inventories.some(inventory =>
+                inventory.weapons.some(weapon => weapon.bladeAlly) ||
+                inventory.wornitems.some(wornItem => wornItem.isHandwrapsOfMightyBlows && wornItem.bladeAlly),
+            )
+        );
     }
 
     get_BattleforgedAllowed(item: Item) {

@@ -624,7 +624,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
 
     get_FeatTakenEver(feat: Feat) {
         //Return whether this feat or a feat that counts as this feat has been taken at all up to this level - unless it's unlimited or its limit is not reached yet.
-        const taken = this.characterService.get_CharacterFeatsTaken(1, this.levelNumber, feat.name, '', '', undefined, true, true);
+        const taken = this.characterService.get_CharacterFeatsTaken(1, this.levelNumber, { featName: feat.name }, { excludeTemporary: true, includeCountAs: true });
 
         return !feat.unlimited && taken.length && taken.length >= feat.limited;
     }
@@ -638,7 +638,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName = '', source = '', sourceId = '', locked: boolean = undefined) {
-        return this.characterService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked);
+        return this.characterService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, { featName, source, sourceId, locked });
     }
 
     on_FeatTaken(feat: Feat, event: Event, choice: FeatChoice, locked: boolean) {

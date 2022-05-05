@@ -49,12 +49,16 @@ export class EvaluationService {
     }
 
     public get_ValueFromFormula(formula: string, services: { readonly characterService: CharacterService; readonly effectsService: EffectsService }, context: FormulaContext, options: FormulaOptions = {}): number | string | null {
-        context = { creature: context.creature,
+        context = {
+            creature: context.creature,
             object: null,
             parentConditionGain: null,
-            parentItem: null, ...context };
-        options = { name: '',
-            pretendCharacterLevel: 0, ...options };
+            parentItem: null, ...context,
+        };
+        options = {
+            name: '',
+            pretendCharacterLevel: 0, ...options,
+        };
 
         //This function takes a formula, then evaluates that formula using the variables and functions listed here.
         //Define some values that may be relevant for effect values
@@ -206,7 +210,7 @@ export class EvaluationService {
             if (creature == 'Familiar') {
                 return familiarsService.get_FamiliarAbilities(name).filter(feat => feat.have({ creature: Familiar }, { characterService }, { charLevel: Level })).length;
             } else if (creature == 'Character') {
-                return characterService.get_CharacterFeatsTaken(1, Level, name).length;
+                return characterService.get_CharacterFeatsTaken(1, Level, { featName: name }).length;
             } else {
                 return 0;
             }

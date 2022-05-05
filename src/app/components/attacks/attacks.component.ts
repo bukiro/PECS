@@ -158,12 +158,12 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 this.onlyAttacks.push(
                     ...condition?.attackRestrictions
                         .filter(restriction => !restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
-                || [],
+                    || [],
                 );
                 this.forbiddenAttacks.push(
                     ...condition?.attackRestrictions
                         .filter(restriction => restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
-                || [],
+                    || [],
                 );
             });
     }
@@ -448,10 +448,10 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
         this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == 'Hunt Prey').length;
 
-        if (creature === character || (creature instanceof AnimalCompanion && this.characterService.get_CharacterFeatsTaken(1, character.level, 'Animal Companion (Ranger)').length)) {
+        if (creature === character || (creature instanceof AnimalCompanion && this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Animal Companion (Ranger)' }).length)) {
             return (
                 (
-                    this.characterService.get_CharacterFeatsTaken(1, character.level, 'Flurry').length &&
+                    this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Flurry' }).length &&
                     this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey').length
                 ) ||
                 this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey: Flurry').length
@@ -654,7 +654,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 favoredWeapons.push(...deity.favoredWeapon);
             }
 
-            if (this.characterService.get_CharacterFeatsTaken(1, creature.level, 'Favored Weapon (Syncretism)').length) {
+            if (this.characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
                 favoredWeapons.push(...this.characterService.get_CharacterDeities(creature, 'syncretism')[0]?.favoredWeapon || []);
             }
 

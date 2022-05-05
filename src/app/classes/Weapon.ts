@@ -627,7 +627,7 @@ export class Weapon extends Equipment {
         effectsService.get_TypeFilteredEffects(
             traitEffects.filter(effect => effect.setValue)
                 .concat(effectsService.get_AbsolutesOnThese(creature, effectsListAttackRolls),
-                ), { absolutes: true })
+            ), { absolutes: true })
             .forEach(effect => {
                 if (effect.show) {
                     absolutes.push(Object.assign(new Effect(), { value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type }));
@@ -671,7 +671,7 @@ export class Weapon extends Equipment {
         if (this.prof == 'Unarmed Attacks') {
             const character = characterService.get_Character();
 
-            if (characterService.get_CharacterFeatsTaken(0, character.level, 'Powerful Fist').length) {
+            if (characterService.get_CharacterFeatsTaken(0, character.level, { featName: 'Powerful Fist' }).length) {
                 hasPowerfulFist = true;
             }
         }
@@ -688,7 +688,7 @@ export class Weapon extends Equipment {
             calculatedEffects
                 .concat(traitEffects.filter(effect => effect.value != '0'))
                 .concat(effectsService.get_RelativesOnThese(creature, effectsListAttackRolls),
-                ))
+            ))
             .forEach(effect => {
                 //Powerful Fist ignores the nonlethal penalty on unarmed attacks.
                 if (hasPowerfulFist && effect.source == 'conditional, Nonlethal') {
@@ -811,7 +811,7 @@ export class Weapon extends Equipment {
 
         if (
             creature instanceof Character &&
-            characterService.get_CharacterFeatsTaken(0, creature.level, 'Favored Weapon (Syncretism)').length
+            characterService.get_CharacterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
         ) {
             if (characterService.get_CharacterDeities(creature, 'syncretism')[0]?.favoredWeapon
                 .some(favoredWeapon =>
@@ -897,7 +897,7 @@ export class Weapon extends Equipment {
                 calculatedEffects
                     .concat(traitEffects.filter(effect => effect.setValue))
                     .concat(effectsService.get_AbsolutesOnThese(creature, effectPhrasesDiceNumber),
-                    ), { absolutes: true })
+                ), { absolutes: true })
                 .forEach(effect => {
                     dicenum = parseInt(effect.setValue);
                     diceExplain += `\n${ effect.source }: Dice number ${ dicenum }`;
@@ -908,7 +908,7 @@ export class Weapon extends Equipment {
             if (this.prof == 'Unarmed Attacks') {
                 const character = characterService.get_Character();
 
-                if (characterService.get_CharacterFeatsTaken(0, character.level, 'Diamond Fists').length && this.traits.includes('Forceful')) {
+                if (characterService.get_CharacterFeatsTaken(0, character.level, { featName: 'Diamond Fists' }).length && this.traits.includes('Forceful')) {
                     calculatedEffects.push(Object.assign(new Effect('+1'), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Number`, source: 'Diamond Fists', apply: true, show: false }));
                 }
             }
@@ -917,7 +917,7 @@ export class Weapon extends Equipment {
                 calculatedEffects
                     .concat(traitEffects.filter(effect => effect.value != '0'))
                     .concat(effectsService.get_RelativesOnThese(creature, effectPhrasesDiceNumber),
-                    ))
+                ))
                 .forEach(effect => {
                     dicenum += parseInt(effect.value);
                     diceExplain += `\n${ effect.source }: Dice number ${ parseInt(effect.value) >= 0 ? '+' : '' }${ parseInt(effect.value) }`;
@@ -974,7 +974,7 @@ export class Weapon extends Equipment {
                 calculatedEffects
                     .concat(traitEffects.filter(effect => effect.setValue))
                     .concat(effectsService.get_AbsolutesOnThese(creature, effectPhrasesDiceSize),
-                    ), { absolutes: true })
+                ), { absolutes: true })
                 .forEach(effect => {
                     dicesize = parseInt(effect.setValue);
                     diceExplain += `\n${ effect.source }: Dice size d${ dicesize }`;
@@ -982,7 +982,7 @@ export class Weapon extends Equipment {
             effectsService.get_TypeFilteredEffects(
                 traitEffects.filter(effect => effect.value != '0')
                     .concat(effectsService.get_RelativesOnThese(creature, effectPhrasesDiceSize),
-                    ))
+                ))
                 .forEach(effect => {
                     dicesize += parseInt(effect.value);
                     //Don't raise dice size over 12.
@@ -1036,7 +1036,7 @@ export class Weapon extends Equipment {
                 //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
                 if (traits.includes('Finesse') &&
                     creature instanceof Character &&
-                    characterService.get_CharacterFeatsTaken(1, creature.level, 'Thief Racket').length) {
+                    characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Thief Racket' }).length) {
                     //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
                     //The Enfeebled condition affects all Strength damage
                     const strEffects = effectsService.get_RelativesOnThis(creature, 'Strength-based Checks and DCs');
@@ -1227,7 +1227,7 @@ export class Weapon extends Equipment {
             effectsService.get_TypeFilteredEffects(
                 calculatedEffects
                     .concat(effectsService.get_RelativesOnThese(creature, effectPhrasesDamage),
-                    ))
+                ))
                 .forEach(effect => {
                     if (effect.show) {
                         if (parseInt(effect.value) < 0) {

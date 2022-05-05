@@ -257,7 +257,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, name).length;
+        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
     }
 
     is_TradedIn() {
@@ -571,7 +571,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         const Has_Feat = (name: string) =>
             //Return number of times you have the feat. The number is needed for calculations; boolean is not enough.
             this.have_Feat(name)
-        ;
+            ;
         const Used_For_Spell_Blending = () => this.get_SpellBlendingUsed();
         const Used_For_Infinite_Possibilities = () => this.get_InfinitePossibilitiesUsed();
 

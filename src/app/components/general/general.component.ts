@@ -134,7 +134,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
                     .filter(feat => feat.gainDomains?.length && feat.have({ creature: character }, { characterService: this.characterService }));
                 const domains = deity.get_Domains(character, this.characterService)
                     .concat(...(domainFeats.map(feat => feat.gainDomains)),
-                    );
+                );
 
                 return domains.map(domain => this.deitiesService.get_Domains(domain)[0] || new Domain());
             } else {
@@ -222,7 +222,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     get_DifferentWorldsData() {
         const character = this.get_Character();
 
-        if (this.characterService.get_CharacterFeatsTaken(1, character.level, 'Different Worlds').length) {
+        if (this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Different Worlds' }).length) {
             return character.class.get_FeatData(0, character.level, 'Different Worlds');
         }
     }
@@ -270,7 +270,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         let traits: Array<string> = JSON.parse(JSON.stringify(character.class.ancestry.traits));
 
         //Verdant Metamorphosis adds the Plant trait and removes the Humanoid, Animal or Fungus trait.
-        if (this.characterService.get_CharacterFeatsTaken(1, character.level, 'Verdant Metamorphosis').length) {
+        if (this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Verdant Metamorphosis' }).length) {
             traits = ['Plant'].concat(traits.filter(trait => !['Humanoid', 'Animal', 'Fungus'].includes(trait)));
         }
 

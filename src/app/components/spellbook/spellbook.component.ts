@@ -489,7 +489,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     have_Feat(name: string): boolean {
         const character = this.get_Character();
 
-        return !!this.characterService.get_CharacterFeatsTaken(0, character.level, name).length;
+        return !!this.characterService.get_CharacterFeatsTaken(0, character.level, { featName: name }).length;
     }
 
     refocus() {
@@ -727,7 +727,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         if (['Prepared', 'Spontaneous'].includes(casting.castingType)) {
-            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, `Counterspell (${ casting.castingType })`).length;
+            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: `Counterspell (${ casting.castingType })` }).length;
         }
     }
 
@@ -735,7 +735,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         if (['Heal', 'Harm'].includes(spell.name)) {
-            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, 'Channel Smite').length;
+            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Channel Smite' }).length;
         }
     }
 
@@ -743,9 +743,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         if (['Banishment'].includes(spell.name)) {
-            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, 'Swift Banishment').length;
+            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Swift Banishment' }).length;
         } else if (level >= 5 && casting.castingType == 'Prepared') {
-            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, 'Improved Swift Banishment').length;
+            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Improved Swift Banishment' }).length;
         }
     }
 

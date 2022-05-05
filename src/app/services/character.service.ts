@@ -1566,10 +1566,10 @@ export class CharacterService {
             )
                 .forEach(extraCondition => {
                     if (!(keepPersistent && extraCondition.persistent)) {
-                    //Remove child conditions that are not persistent, or remove all if keepPersistent is false.
+                        //Remove child conditions that are not persistent, or remove all if keepPersistent is false.
                         this.remove_Condition(creature, extraCondition, false, increaseWounded, keepPersistent, ignoreLockedByParent, ignoreEndsWithConditions);
                     } else if (extraCondition.persistent) {
-                    //If this condition adds persistent conditions, don't remove them, but remove the persistent flag as its parent is gone.
+                        //If this condition adds persistent conditions, don't remove them, but remove the persistent flag as its parent is gone.
                         this.remove_Persistent(creature, extraCondition);
                     }
                 });
@@ -2352,13 +2352,25 @@ export class CharacterService {
         return this.featsService.get_CharacterFeats(this.get_Character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
-    get_CharacterFeatsTaken(minLevelNumber = 0, maxLevelNumber = 0, featName = '', source = '', sourceId = '', locked: boolean = undefined, excludeTemporary = false, includeCountAs = false, automatic: boolean = undefined) {
+    get_CharacterFeatsTaken(
+        minLevelNumber = 0,
+        maxLevelNumber = 0,
+        filter: { featName?: string; source?: string; sourceId?: string; locked?: boolean; automatic?: boolean } = {},
+        options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
+    ) {
+        filter = {
+            locked: undefined,
+            automatic: undefined,
+            ...filter,
+        };
+
+        //get_CharacterFeatsTaken(minLevelNumber = 0, maxLevelNumber = 0, featName = '', source = '', sourceId = '', locked: boolean = undefined, excludeTemporary = false, includeCountAs = false, automatic: boolean = undefined) {
         //If the feat choice is not needed (i.e. if excludeTemporary is not given), we can get the taken feats quicker from the featsService.
         //CharacterService.get_CharacterFeatsTaken should be preferred over Character.get_FeatsTaken for this reason.
-        if (!excludeTemporary) {
-            return this.featsService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked, includeCountAs, automatic);
+        if (!options.excludeTemporary) {
+            return this.featsService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.includeCountAs, filter.automatic);
         } else {
-            return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked, excludeTemporary, includeCountAs, automatic);
+            return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.excludeTemporary, options.includeCountAs, filter.automatic);
         }
     }
 
@@ -2413,7 +2425,7 @@ export class CharacterService {
                     const condition = this.conditionsService.get_Conditions(gain.name)[0];
 
                     if (condition?.senses.length) {
-                    //Add all non-excluding senses.
+                        //Add all non-excluding senses.
                         senses.push(...condition.senses.filter(sense => !sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).map(sense => sense.name));
                         //Remove all excluding senses.
                         condition.senses.filter(sense => sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).forEach(sense => {

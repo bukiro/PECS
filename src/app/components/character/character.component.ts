@@ -827,8 +827,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}) {
-        filter = { type: '',
-            locked: undefined, ...filter };
+        filter = {
+            type: '',
+            locked: undefined, ...filter,
+        };
 
         return this.characterService.get_Skills(this.get_Character(), name, filter, options);
     }
@@ -944,13 +946,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_DifferentWorldsData(levelNumber: number): Array<FeatData> {
-        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, 'Different Worlds').length) {
-            return this.get_Character().class.get_FeatData(levelNumber, levelNumber, 'Different Worlds');
+        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Different Worlds' }).length) {
+            return this.get_Character().class.get_FeatData(levelNumber, levelNumber, { featName: 'Different Worlds' });
         }
     }
 
     get_BlessedBloodAvailable(levelNumber: number) {
-        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, 'Blessed Blood').length;
+        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Blessed Blood' }).length;
     }
 
     get_BlessedBloodDeitySpells() {
@@ -985,7 +987,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_SplinterFaithAvailable(levelNumber: number) {
-        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, 'Splinter Faith').length;
+        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Splinter Faith' }).length;
     }
 
     get_SplinterFaithDomains() {
@@ -1151,7 +1153,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_FuseStanceData(levelNumber: number): Array<FeatData> {
-        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, 'Fuse Stance').length) {
+        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Fuse Stance' }).length) {
             return this.get_Character().class.get_FeatData(levelNumber, levelNumber, 'Fuse Stance');
         }
     }
@@ -1223,7 +1225,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_SyncretismData(levelNumber: number) {
-        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, 'Syncretism').length) {
+        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Syncretism' }).length) {
             return this.get_Character().class.get_FeatData(levelNumber, levelNumber, 'Syncretism');
         }
     }
@@ -1249,7 +1251,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName = '', source = '', sourceId = '', locked: boolean = undefined, filter = '', automatic: boolean = undefined) {
         const character = this.get_Character();
 
-        return this.characterService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, featName, source, sourceId, locked, undefined, undefined, automatic)
+        return this.characterService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, { featName, source, sourceId, locked, automatic })
             .filter(taken =>
                 !filter ||
                 (filter == 'feature') == (taken.source == character.class.name || (taken.locked && taken.source.includes(' Dedication'))),

@@ -71,7 +71,7 @@ export class ItemGain {
                             favoredWeaponNames.push(...deity.favoredWeapon);
                         }
 
-                        if (services.characterService.get_CharacterFeatsTaken(1, creature.level, 'Favored Weapon (Syncretism)').length) {
+                        if (services.characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
                             favoredWeaponNames.push(...services.characterService.get_CharacterDeities(character, 'syncretism')[0]?.favoredWeapon || []);
                         }
 

@@ -200,15 +200,15 @@ export class FeatsService {
             name.toLowerCase().split(' or ')
                 .some(alternative =>
                     !alternative ||
-                feat.name.toLowerCase() == alternative ||
-                (
-                    includeSubTypes &&
-                    feat.superType.toLowerCase() == alternative
-                ) ||
-                (
-                    includeCountAs &&
-                    feat.countAsFeat.toLowerCase() == alternative
-                ),
+                    feat.name.toLowerCase() == alternative ||
+                    (
+                        includeSubTypes &&
+                        feat.superType.toLowerCase() == alternative
+                    ) ||
+                    (
+                        includeCountAs &&
+                        feat.countAsFeat.toLowerCase() == alternative
+                    ),
                 ) &&
             (
                 !type ||
@@ -965,7 +965,7 @@ export class FeatsService {
                 'Illusion School', 'Necromancy School', 'Transmutation School', 'Universalist Wizard'].includes(feat.name)) {
                 if (taken) {
                     character.class.spellCasting.filter(casting => casting.castingType == 'Prepared' && casting.className == 'Wizard').forEach(casting => {
-                        const superiorBond = characterService.get_CharacterFeatsTaken(1, character.level, 'Superior Bond').length;
+                        const superiorBond = characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Superior Bond' }).length;
 
                         if (feat.name == 'Universalist Wizard') {
                             casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];

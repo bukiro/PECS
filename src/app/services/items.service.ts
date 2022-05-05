@@ -450,8 +450,10 @@ export class ItemsService {
     }
 
     get_RealBulk(item: Item, options: { carrying?: boolean; amount?: number }) {
-        options = { carrying: false,
-            amount: item.amount, ...options };
+        options = {
+            carrying: false,
+            amount: item.amount, ...options,
+        };
 
         //All bulk gets calculated at *10 to avoid rounding issues with decimals,
         //Then returned at /10
@@ -603,8 +605,10 @@ export class ItemsService {
 
     get_CannotFit(creature: Creature, item: Item, target: ItemCollection, options: { amount?: number; including?: boolean } = {}) {
         //All bulk results are multiplied by 10 to avoid decimal addition bugs.
-        options = { amount: 0,
-            including: true, ...options };
+        options = {
+            amount: 0,
+            including: true, ...options,
+        };
 
         let bulkLimit = target.bulkLimit;
 
@@ -645,8 +649,8 @@ export class ItemsService {
 
         if (item.gainInventory?.length) {
             found = creature.inventories.filter(inv => inv.itemId == item.id).some(inv => inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
-                    inv.allEquipment().filter(invItem => invItem.gainInventory.length)
-                        .some(invItem => this.get_ItemContainsInventory(creature, invItem, inventory)));
+                inv.allEquipment().filter(invItem => invItem.gainInventory.length)
+                    .some(invItem => this.get_ItemContainsInventory(creature, invItem, inventory)));
         }
 
         return found;
@@ -858,7 +862,7 @@ export class ItemsService {
 
         if (creature instanceof Character) {
             //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
-            if (characterService.get_CharacterFeatsTaken(1, creature.level, 'Scroll Savant').length) {
+            if (characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
                 creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
                         characterService.grant_InventoryItem(scroll, { creature, inventory: creature.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
@@ -867,7 +871,7 @@ export class ItemsService {
             }
 
             //If you have Battleforger, all your battleforged items are reset.
-            if (characterService.get_CharacterFeatsTaken(1, creature.level, 'Battleforger').length) {
+            if (characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Battleforger' }).length) {
                 let attacksChanged = false;
                 let defenseChanged = false;
 
@@ -951,7 +955,7 @@ export class ItemsService {
                         item.name = 'DELETE';
 
                         if (item instanceof Equipment && item.gainInventory.length) {
-                        //If a temporary container is destroyed, return all contained items to the main inventory.
+                            //If a temporary container is destroyed, return all contained items to the main inventory.
                             creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
                                 inv.allItems().forEach(invItem => {
                                     this.move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, characterService);

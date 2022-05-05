@@ -135,7 +135,7 @@ export class FeatRequirementsService {
         //If you have the feat and any of these skills are required, add Performance to the requirements with the lowest required value.
         const matchingreqs = skillreq.filter(requirement => ['Deception', 'Diplomacy', 'Intimidation'].includes(requirement.skill));
 
-        if (matchingreqs.length && this.characterService.get_CharacterFeatsTaken(1, charLevel, 'Versatile Performance').length) {
+        if (matchingreqs.length && this.characterService.get_CharacterFeatsTaken(1, charLevel, { featName: 'Versatile Performance' }).length) {
             const lowest = Math.min(matchingreqs.map(requirement => requirement.value));
 
             skillreq.push({ skill: 'Performance', value: lowest });
