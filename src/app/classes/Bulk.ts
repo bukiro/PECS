@@ -26,8 +26,9 @@ export class Bulk {
             encumberedabsolutes: currentabsolutes,
             encumberedbonuses: this.bonuses(creature, effectsService, 'Encumbered Limit'),
             encumberedpenalties: this.penalties(creature, effectsService, 'Encumbered Limit'),
-            encumbered: this.encumbered(creature, characterService, effectsService, encumberedabsolutes)
+            encumbered: this.encumbered(creature, characterService, effectsService, encumberedabsolutes),
         };
+
         return result;
     }
     absolutes(creature: Creature, effectsService: EffectsService, name: string) {
@@ -45,10 +46,13 @@ export class Bulk {
     current(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Array<Effect> = this.absolutes(creature, effectsService, 'Bulk')) {
         const inventories = creature.inventories;
         const result: { value: number; explain: string } = { value: 0, explain: '' };
+
         if (characterService.still_loading()) { return result; }
+
         inventories.forEach(inventory => {
             //To avoid decimal issues, the bulk is rounded to one decimal.
             const bulk = Math.floor(Math.max(0, inventory.get_Bulk(false, true)) * 10) / 10;
+
             result.value += bulk;
             result.explain += `\n${ inventory.get_Name(characterService) }: ${ bulk }`;
         });
@@ -62,17 +66,22 @@ export class Bulk {
         });
         result.value = Math.floor(Math.max(0, result.value));
         result.explain = result.explain.trim();
+
         return result;
     }
     encumbered(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Array<Effect> = this.absolutes(creature, effectsService, 'Encumbered Limit')) {
         //Gets the basic bulk and adds all effects
         const result: { value: number; explain: string } = { value: 5, explain: 'Base limit: 5' };
+
         if (characterService.still_loading()) { return result; }
+
         const str = characterService.get_Abilities('Strength')[0].mod(creature, characterService, effectsService).result;
+
         if (str != 0) {
             result.value += str;
             result.explain += `\nStrength Modifier: ${ str }`;
         }
+
         absolutes.forEach(effect => {
             result.value = parseInt(effect.setValue);
             result.explain = `${ effect.source }: ${ effect.setValue }`;
@@ -82,12 +91,15 @@ export class Bulk {
             result.explain += `\n${ effect.source }: ${ effect.value }`;
         });
         result.explain = result.explain.trim();
+
         return result;
     }
     max(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Array<Effect> = this.absolutes(creature, effectsService, 'Max Bulk')) {
         //Gets the basic bulk and adds all effects
         const result: { value: number; explain: string } = { value: 10, explain: 'Base limit: 10' };
+
         if (characterService.still_loading()) { return result; }
+
         if (absolutes.length) {
             absolutes.forEach(effect => {
                 result.value = parseInt(effect.setValue);
@@ -96,12 +108,15 @@ export class Bulk {
         } else {
             //We cannot use instanceof Familiar here because of circular dependencies. We test typeId == 2 (Familiar) instead.
             const str = (creature.typeId == 2) ? 0 : characterService.get_Abilities('Strength')[0].mod(creature as Character | AnimalCompanion, characterService, effectsService).result;
+
             if (str != 0) {
                 result.value += str;
                 result.explain += `\nStrength Modifier: ${ str }`;
             }
+
             const size = creature.get_Size(effectsService);
             let sizeMultiplier = 0;
+
             switch (size) {
                 case 'Tiny':
                     sizeMultiplier = .5;
@@ -116,15 +131,18 @@ export class Bulk {
                     sizeMultiplier = 8;
                     break;
             }
+
             if (sizeMultiplier) {
                 result.value = Math.floor(result.value * sizeMultiplier);
                 result.explain += `\nSize Multiplier: ${ sizeMultiplier }`;
             }
         }
+
         this.relatives(creature, effectsService, 'Max Bulk').forEach(effect => {
             result.value += parseInt(effect.value);
             result.explain += `\n${ effect.source }: ${ effect.value }`;
         });
+
         return result;
     }
 }

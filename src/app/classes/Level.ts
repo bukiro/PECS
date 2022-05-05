@@ -14,6 +14,7 @@ export class Level {
         this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());
         this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
+
         return this;
     }
 }

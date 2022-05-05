@@ -26,6 +26,7 @@ export class WeaponRune extends Rune {
     public traitreq = '';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

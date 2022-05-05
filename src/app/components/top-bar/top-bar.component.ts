@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-top-bar',
     templateUrl: './top-bar.component.html',
     styleUrls: ['./top-bar.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopBarComponent implements OnInit, OnDestroy {
 
@@ -42,7 +42,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly modalService: NgbModal,
         private readonly typeService: TypeService,
         private readonly itemsService: ItemsService,
-        public modal: NgbActiveModal
+        public modal: NgbActiveModal,
     ) { }
 
     trackByIndex(index: number): number {
@@ -177,6 +177,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     get_HasSpells() {
         const character = this.get_Character();
+
         return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.charLevelAvailable <= character.level));
     }
 
@@ -189,10 +190,12 @@ export class TopBarComponent implements OnInit, OnDestroy {
             //Don't check effects in manual mode or if not logged in.
             return false;
         }
+
         if (this.modalOpen) {
             //Don't check for messages if you are currently selecting messages from a previous check.
             return;
         }
+
         if (this.get_Character().settings.checkMessagesAutomatically) {
             //If the app checks for messages automatically, you don't need to check again manually. Just open the Dialog if messages exist, or let us know if not.
             if (this.messageService.get_NewMessages(this.characterService).length) {
@@ -210,8 +213,10 @@ export class TopBarComponent implements OnInit, OnDestroy {
                                 next: (results: Array<string>) => {
                                     //Get any new messages.
                                     const newMessages = this.messageService.process_Messages(this.characterService, results);
+
                                     //Add them to the list of new messages.
                                     this.messageService.add_NewMessages(newMessages);
+
                                     //If any exist, start the dialog. Otherwise give an appropriate response.
                                     if (this.messageService.get_NewMessages(this.characterService).length) {
                                         this.open_NewMessagesModal();
@@ -219,7 +224,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                                         this.toastService.show('No new effects are available.');
                                     }
                                 },
-                                error: (error) => {
+                                error: error => {
                                     this.toastService.show('An error occurred while searching for new effects. See console for more information.');
                                     console.log(`Error loading messages from database: ${ error.message }`);
                                 },
@@ -247,15 +252,19 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     get_ItemMessageIncluded(message: PlayerMessage) {
         const included: Array<string> = [];
+
         if (message.includedItems.length) {
             included.push(`${ message.includedItems.length } extra items`);
         }
+
         if (message.includedInventories.length) {
             included.push(`${ message.includedInventories.length } containers`);
         }
+
         if (included.length) {
             return `Includes ${ included.join(' and ') }`;
         }
+
         return '';
     }
 
@@ -263,7 +272,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         this.modalOpen = true;
         //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
         this.newMessages = this.get_NewConditionMessages().map(message => Object.assign<PlayerMessage, PlayerMessage>(new PlayerMessage(), JSON.parse(JSON.stringify(message))).recast(this.typeService, this.itemsService));
-        this.modalService.open(this.newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
+        this.modalService.open(this.newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
             if (result == 'Apply click') {
                 //Prepare to refresh the effects of all affected creatures;
                 this.characterService.get_Creatures().forEach(creature => {
@@ -286,6 +295,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     on_SelectAllMessages(event: Event) {
         const checked = (<HTMLInputElement>event.target).checked;
+
         this.newMessages.forEach(message => {
             message.selected = checked;
         });
@@ -307,10 +317,12 @@ export class TopBarComponent implements OnInit, OnDestroy {
         if (!this.modalOpen) {
             this.modalOpen = true;
             this.password = '';
+
             if (passwordFailed) {
                 this.passwordFailed = true;
             }
-            this.modalService.open(this.loginModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
+
+            this.modalService.open(this.loginModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
                 if (result == 'OK click') {
                     this.passwordFailed = false;
                     this.modalOpen = false;
@@ -327,22 +339,25 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['top-bar', 'all', 'character'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['top-bar', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
+
                 if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'check-messages-manually') {
                     this.get_Messages();
                 }
+
                 if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'logged-out') {
                     this.open_LoginModal();
                 }
+
                 if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'password-failed') {
                     this.open_LoginModal(true);
                 }

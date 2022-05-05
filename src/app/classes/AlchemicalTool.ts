@@ -7,6 +7,7 @@ export class AlchemicalTool extends Consumable {
     readonly type = 'alchemicaltools';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

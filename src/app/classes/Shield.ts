@@ -41,29 +41,36 @@ export class Shield extends Equipment {
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
+
         return this;
     }
     //Other implementations require itemsService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     get_Price(itemsService: ItemsService) {
         let price = this.price;
+
         this.material.forEach(mat => {
             price += mat.price;
+
             if (parseInt(this.bulk)) {
                 price += (mat.bulkPrice * parseInt(this.bulk));
             }
         });
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
+
         return price;
     }
     update_Modifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }) {
         //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
         //Set components to update if these values have changed from before.
         const oldValues = [this._shoddy, this._shieldAlly, this._emblazonArmament, this._emblazonEnergy, this._emblazonAntimagic];
+
         this.get_Shoddy(creature, services.characterService);
         this.get_ShieldAlly(creature, services.characterService);
         this.get_EmblazonArmament(creature, services.characterService);
+
         const newValues = [this._shoddy, this._shieldAlly, this._emblazonArmament, this._emblazonEnergy, this._emblazonAntimagic];
+
         if (oldValues.some((previous, index) => previous != newValues[index])) {
             services.refreshService.set_ToChange(creature.type, this.id);
             services.refreshService.set_ToChange(creature.type, 'defense');
@@ -74,17 +81,21 @@ export class Shield extends Equipment {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
             this._shoddy = 0;
+
             return 0;
         } else if (this.shoddy) {
             this._shoddy = -2;
+
             return -2;
         } else {
             this._shoddy = 0;
+
             return 0;
         }
     }
     get_ShieldAlly(creature: Creature, characterService: CharacterService) {
         this._shieldAlly = this.equipped && (characterService.get_CharacterFeatsAndFeatures('Divine Ally: Shield Ally')[0]?.have({ creature }, { characterService }) && true);
+
         return this._shieldAlly;
     }
     get_EmblazonArmament(creature: Creature, characterService: CharacterService) {
@@ -105,27 +116,34 @@ export class Shield extends Equipment {
                 }
             }
         });
+
         return this._emblazonArmament || this._emblazonEnergy || this._emblazonAntimagic;
     }
     get_Hardness() {
         let hardness = this.hardness;
+
         this.material.forEach((material: ShieldMaterial) => {
             hardness = material.hardness;
         });
+
         return hardness + (this._shieldAlly ? 2 : 0) + (this._emblazonArmament ? 1 : 0);
     }
     get_MaxHP() {
         let hitpoints = this.hitpoints;
+
         this.material.forEach((material: ShieldMaterial) => {
             hitpoints = material.hitpoints;
         });
+
         return hitpoints + (this._shieldAlly ? (Math.floor(hitpoints / 2)) : 0);
     }
     get_BrokenThreshold() {
         let brokenThreshold = this.brokenThreshold;
+
         this.material.forEach((material: ShieldMaterial) => {
             brokenThreshold = material.brokenThreshold;
         });
+
         return brokenThreshold + (this._shieldAlly ? (Math.floor(brokenThreshold / 2)) : 0);
     }
     get_ACBonus() {
@@ -133,10 +151,13 @@ export class Shield extends Equipment {
     }
     get_HitPoints() {
         this.damage = Math.max(Math.min(this.get_MaxHP(), this.damage), 0);
+
         const hitpoints: number = this.get_MaxHP() - this.damage;
+
         if (hitpoints < this.get_BrokenThreshold()) {
             this.broken = true;
         }
+
         return hitpoints;
     }
     get_SpeedPenalty() {

@@ -4,7 +4,7 @@ import * as json_abilities from 'src/assets/json/familiarabilities';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class FamiliarsService {
 
@@ -12,7 +12,7 @@ export class FamiliarsService {
     private loading_familiarAbilities = false;
 
     constructor(
-        private readonly extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService,
     ) { }
 
     still_loading() {
@@ -45,7 +45,9 @@ export class FamiliarsService {
 
     load_Abilities() {
         this.familiarAbilities = [];
+
         const data = this.extensionsService.extend(json_abilities, 'familiarAbilities');
+
         Object.keys(data).forEach(key => {
             this.familiarAbilities.push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
         });

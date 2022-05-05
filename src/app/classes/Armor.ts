@@ -49,6 +49,7 @@ export class Armor extends Equipment {
         super.recast(typeService, itemsService);
         this.propertyRunes = this.propertyRunes.map(obj => Object.assign<ArmorRune, Item>(new ArmorRune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
         this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
+
         return this;
     }
     protected _getSecondaryRuneName(): string {
@@ -56,6 +57,7 @@ export class Armor extends Equipment {
     }
     public get_Title(options: { itemStore?: boolean } = {}): string {
         const proficiency = options.itemStore ? this.prof : this.get_Proficiency();
+
         return [
             proficiency.split(' ')[0],
             this.group,
@@ -65,32 +67,40 @@ export class Armor extends Equipment {
     }
     get_Price(itemsService: ItemsService) {
         let price = this.price;
+
         if (this.potencyRune) {
             price += itemsService.get_CleanItems().armorrunes.find(rune => rune.potency == this.potencyRune).price;
         }
+
         if (this.resilientRune) {
             price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.resilientRune).price;
         }
+
         price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
         this.material.forEach(mat => {
             price += mat.price;
+
             if (parseInt(this.bulk)) {
                 price += (mat.bulkPrice * parseInt(this.bulk));
             }
         });
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
+
         return price;
     }
     getBulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk = '';
+
         this.oilsApplied.forEach(oil => {
             if (oil.bulkEffect) {
                 oilBulk = oil.bulkEffect;
             }
         });
+
         //Fortification Runes raise the required strength
         const fortification = this.propertyRunes.filter(rune => rune.name.includes('Fortification')).length ? 1 : 0;
+
         if (parseInt(this.bulk)) {
             return oilBulk || (parseInt(this.bulk) + fortification).toString();
         } else {
@@ -102,9 +112,12 @@ export class Armor extends Equipment {
         //Initialize shoddy values and armored skirt.
         //Set components to update if these values have changed from before.
         const oldValues = [this._affectedByArmoredSkirt, this._shoddy];
+
         this.get_ArmoredSkirt(creature as AnimalCompanion | Character);
         this.get_Shoddy((creature as AnimalCompanion | Character), services.characterService);
+
         const newValues = [this._affectedByArmoredSkirt, this._shoddy];
+
         if (oldValues.some((previous, index) => previous != newValues[index])) {
             services.refreshService.set_ToChange(creature.type, 'inventory');
         }
@@ -112,24 +125,31 @@ export class Armor extends Equipment {
     get_ArmoredSkirt(creature: Creature, options: { itemStore?: boolean } = {}) {
         if (!options.itemStore && ['Breastplate', 'Chain Shirt', 'Chain Mail', 'Scale Mail'].includes(this.name)) {
             const armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
+
             if (armoredSkirt?.length) {
                 this._affectedByArmoredSkirt = 1;
+
                 return armoredSkirt[0];
             } else {
                 this._affectedByArmoredSkirt = 0;
+
                 return null;
             }
         } else if (!options.itemStore && ['Half Plate', 'Full Plate', 'Hellknight Plate'].includes(this.name)) {
             const armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
+
             if (armoredSkirt?.length) {
                 this._affectedByArmoredSkirt = -1;
+
                 return armoredSkirt[0];
             } else {
                 this._affectedByArmoredSkirt = 0;
+
                 return null;
             }
         } else {
             this._affectedByArmoredSkirt = 0;
+
             return null;
         }
     }
@@ -137,12 +157,15 @@ export class Armor extends Equipment {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
             this._shoddy = 0;
+
             return 0;
         } else if (this.shoddy) {
             this._shoddy = -2;
+
             return -2;
         } else {
             this._shoddy = 0;
+
             return 0;
         }
     }
@@ -168,6 +191,7 @@ export class Armor extends Equipment {
         const fortification = this.propertyRunes.filter(rune => rune.name.includes('Fortification')).length ? 2 : 0;
         //Some materials lower the required strength
         const material = this.material.map(material => (material as ArmorMaterial).strengthScoreModifier).reduce((a, b) => a + b, 0);
+
         return this.strength + (this._affectedByArmoredSkirt * 2) + fortification + material;
     }
     get_Proficiency(creature: Creature = null, characterService: CharacterService = null) {
@@ -175,6 +199,7 @@ export class Armor extends Equipment {
             //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
             return 'Unarmored Defense';
         }
+
         if (this._affectedByArmoredSkirt == 1) {
             switch (this.prof) {
                 case 'Light Armor':
@@ -193,32 +218,41 @@ export class Armor extends Equipment {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     get_Traits(characterService?: CharacterService, creature?: Creature) {
         let traits = this.traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
+
         if (this._affectedByArmoredSkirt != 0) {
             //An armored skirt makes your armor noisy if it isn't already.
             if (!traits.includes('Noisy')) {
                 traits = traits.concat('Noisy');
             }
         }
+
         this._traits = traits;
+
         return traits;
     }
     profLevel(creature: Character | AnimalCompanion, characterService: CharacterService, charLevel: number = characterService.get_Character().level, options: { itemStore?: boolean } = {}) {
         if (characterService.still_loading()) { return 0; }
+
         this.get_ArmoredSkirt(creature, options);
+
         let skillLevel = 0;
         const armorLevel = characterService.get_Skills(creature, this.name, { type: 'Specific Weapon Proficiency' })[0].level(creature, characterService, charLevel);
         const proficiencyLevel = characterService.get_Skills(creature, this.get_Proficiency(creature, characterService))[0].level(creature, characterService, charLevel);
+
         //Add either the armor category proficiency or the armor proficiency, whichever is better
         skillLevel = Math.min(Math.max(armorLevel, proficiencyLevel), 8);
+
         return skillLevel;
     }
     get_ArmorSpecialization(creature: Creature, characterService: CharacterService): Array<Specialization> {
         const SpecializationGains: Array<SpecializationGain> = [];
         const specializations: Array<Specialization> = [];
         const prof = this.get_Proficiency(creature, characterService);
+
         if (creature instanceof Character && this.group) {
             const character = creature as Character;
             const skillLevel = this.profLevel(character, characterService);
+
             characterService.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.gainSpecialization.length && feat.have({ creature: character }, { characterService }))
                 .forEach(feat => {
@@ -228,21 +262,24 @@ export class Armor extends Equipment {
                         (spec.trait ? this.traits.filter(trait => trait && spec.trait.includes(trait)).length : true) &&
                         (spec.proficiency ? (prof && spec.proficiency.includes(prof)) : true) &&
                         (spec.skillLevel ? skillLevel >= spec.skillLevel : true) &&
-                        (spec.featreq ? characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]?.have({ creature: character }, { characterService }) : true)
+                        (spec.featreq ? characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]?.have({ creature: character }, { characterService }) : true),
                     ));
                 });
             SpecializationGains.forEach(critSpec => {
                 const specs: Array<Specialization> = characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
+
                 specs.forEach(spec => {
                     if (critSpec.condition) {
                         spec.desc = `(${ critSpec.condition }) ${ spec.desc }`;
                     }
+
                     if (!specializations.some(existingspec => JSON.stringify(existingspec) == JSON.stringify(spec))) {
                         specializations.push(spec);
                     }
                 });
             });
         }
+
         return specializations;
     }
     getEffectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {

@@ -17,7 +17,7 @@ import { Skill } from 'src/app/classes/Skill';
     selector: 'app-skills',
     templateUrl: './skills.component.html',
     styleUrls: ['./skills.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkillsComponent implements OnInit, OnDestroy {
 
@@ -38,7 +38,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         public skillsService: SkillsService,
         public featsService: FeatsService,
         public effectsService: EffectsService,
-        private readonly activitiesService: ActivitiesService
+        private readonly activitiesService: ActivitiesService,
     ) { }
 
     minimize() {
@@ -99,17 +99,18 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}): Array<Skill> {
-        filter = Object.assign({
-            type: '',
-            locked: undefined
-        }, filter);
+        filter = { type: '',
+            locked: undefined, ...filter };
+
         const creature = this.get_Creature();
+
         return this.characterService.get_Skills(creature, name, filter)
             .filter(skill =>
                 skill.name.includes('Lore') ?
                     skill.level(creature, this.characterService, creature.level) :
-                    true
-            ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
+                    true,
+            )
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     trackByIndex(index: number): number {
@@ -135,15 +136,18 @@ export class SkillsComponent implements OnInit, OnDestroy {
     get_OwnedActivities() {
         const activities: Array<ActivityGain | ItemActivity> = [];
         const unique: Array<string> = [];
+
         if (this.get_Character().settings.showSkillActivities) {
             this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
                 activity.get_OriginalActivity(this.activitiesService)?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
+
                 if (!unique.includes(activity.name)) {
                     unique.push(activity.name);
                     activities.push(activity);
                 }
             });
         }
+
         return activities;
     }
 
@@ -158,11 +162,13 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     get_Speeds() {
         const speeds: Array<Speed> = this.characterService.get_Speeds(this.get_Creature());
+
         if (['Character', 'Companion'].includes(this.get_Creature().type)) {
             (this.get_Creature() as Character).class?.ancestry?.speeds?.forEach(speed => {
                 speeds.push(new Speed(speed.name));
             });
         }
+
         //We don't process the values yet - for now we just collect all Speeds that are mentioned in effects.
         // Since we pick up every effect that includes "Speed", but we don't want "Ignore Circumstance Penalties To Speed" to show up, we filter out "Ignore".
         const speedEffects = this.effectsService.get_Effects(this.creature).all
@@ -172,18 +178,22 @@ export class SkillsComponent implements OnInit, OnDestroy {
                 effect.target.toLowerCase().includes('speed') &&
                 effect.target.toLowerCase() != 'speed' &&
                 !effect.target.toLowerCase().includes('ignore'));
+
         speedEffects.forEach(effect => {
             if (!speeds.some(speed => speed.name == effect.target)) {
                 speeds.push(new Speed(effect.target));
             }
         });
+
         //Remove any duplicates for display
         const uniqueSpeeds: Array<Speed> = [];
+
         speeds.forEach(speed => {
             if (!uniqueSpeeds.find(uniqueSpeed => uniqueSpeed.name == speed.name)) {
                 uniqueSpeeds.push(speed);
             }
         });
+
         return uniqueSpeeds.filter(speed => speed.value(this.get_Creature(), this.characterService, this.effectsService).result != 0);
     }
 
@@ -191,9 +201,11 @@ export class SkillsComponent implements OnInit, OnDestroy {
         if (this.creature == 'Character') {
             const character = (this.get_Creature() as Character);
             const choices: Array<SkillChoice> = [];
+
             character.class.levels.filter(level => level.number <= character.level).forEach(level => {
                 choices.push(...level.skillChoices.filter(choice => choice.showOnSheet));
             });
+
             return choices;
         }
     }
@@ -210,9 +222,11 @@ export class SkillsComponent implements OnInit, OnDestroy {
                 if (sense.includes('Scent')) {
                     return 'You can use your sense of smell to determine the location of a creature, but it remains hidden.';
                 }
+
                 if (sense.includes('Tremorsense')) {
                     return 'You can feel the vibrations through a solid surface caused by movement.';
                 }
+
                 return '';
         }
     }
@@ -223,13 +237,13 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['skills', 'alls', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['skills', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

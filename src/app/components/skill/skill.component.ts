@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-skill',
     templateUrl: './skill.component.html',
     styleUrls: ['./skill.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkillComponent implements OnInit, OnDestroy {
 
@@ -49,7 +49,7 @@ export class SkillComponent implements OnInit, OnDestroy {
         public skillsService: SkillsService,
         public traitsService: TraitsService,
         public effectsService: EffectsService,
-        private readonly activitiesService: ActivitiesService
+        private readonly activitiesService: ActivitiesService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -62,6 +62,7 @@ export class SkillComponent implements OnInit, OnDestroy {
         } else {
             this.showAction = id;
         }
+
         this.showActionMessage.emit(this.showAction);
     }
 
@@ -97,6 +98,7 @@ export class SkillComponent implements OnInit, OnDestroy {
                 return this.get_Creature().skillNotes.find(note => note.name == skill.name);
             } else {
                 this.get_Creature().skillNotes.push({ name: skill.name, showNotes: false, notes: '' });
+
                 return this.get_Creature().skillNotes.find(note => note.name == skill.name);
             }
         }
@@ -108,6 +110,7 @@ export class SkillComponent implements OnInit, OnDestroy {
 
     public get_FuseStanceName(): string {
         const data = this.get_Character().class.get_FeatData(0, 0, 'Fuse Stance')[0];
+
         if (data) {
             return data.valueAsString('name') || 'Fused Stance';
         } else {
@@ -117,13 +120,13 @@ export class SkillComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['individualskills', 'all', this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature == this.creature &&
                     (
                         view.target == 'all' ||
@@ -131,19 +134,23 @@ export class SkillComponent implements OnInit, OnDestroy {
                             (
                                 [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase()) ||
                                 (
-                                    this.get_Name(this.skill).toLowerCase().includes('attack') &&
+                                    this.get_Name(this.skill).toLowerCase()
+                                        .includes('attack') &&
                                     view.subtarget.toLowerCase() == 'attacks'
                                 ) ||
                                 (
-                                    this.get_Name(this.skill).toLowerCase().includes('spell attack') &&
+                                    this.get_Name(this.skill).toLowerCase()
+                                        .includes('spell attack') &&
                                     view.subtarget.toLowerCase().includes('spell attack')
                                 ) ||
                                 (
-                                    this.get_Name(this.skill).toLowerCase().includes('spell dc') &&
+                                    this.get_Name(this.skill).toLowerCase()
+                                        .includes('spell dc') &&
                                     view.subtarget.toLowerCase().includes('spell dc')
                                 ) ||
                                 (
-                                    this.get_Name(this.skill).toLowerCase().includes('class dc') &&
+                                    this.get_Name(this.skill).toLowerCase()
+                                        .includes('class dc') &&
                                     view.subtarget.toLowerCase().includes('class dc')
                                 )
                             )

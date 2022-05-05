@@ -26,6 +26,7 @@ export class AnimalCompanionAncestry {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
+
         return this;
     }
 }

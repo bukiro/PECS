@@ -15,7 +15,7 @@ export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
     public customSkills: Array<Skill> = [
         new Skill('', 'Light Barding', 'Armor Proficiency'),
-        new Skill('', 'Heavy Barding', 'Armor Proficiency')
+        new Skill('', 'Heavy Barding', 'Armor Proficiency'),
     ];
     public species = '';
     public readonly type = 'Companion';
@@ -23,15 +23,18 @@ export class AnimalCompanion extends Creature {
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
+
         return this;
     }
     get_BaseSize(): number {
         let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
+
         this.class.levels.filter(level => level.number <= this.level).forEach(level => {
             if (level.sizeChange) {
                 size = Math.min(size + level.sizeChange, 1);
             }
         });
+
         return size;
     }
     get_BaseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
@@ -39,27 +42,33 @@ export class AnimalCompanion extends Creature {
         let classHP = 0;
         let ancestryHP = 0;
         const charLevel = services.characterService.get_Character().level;
+
         if (this.class.hitPoints) {
             if (this.class.ancestry.name) {
                 ancestryHP = this.class.ancestry.hitPoints;
                 explain = `Ancestry base HP: ${ ancestryHP }`;
             }
+
             const constitution = services.characterService.get_Abilities('Constitution')[0].baseValue(this, services.characterService, charLevel).result;
             const CON: number = Math.floor((constitution - 10) / 2);
+
             classHP = (this.class.hitPoints + CON) * charLevel;
             explain += `\nClass: ${ this.class.hitPoints } + CON: ${ this.class.hitPoints + CON } per Level: ${ classHP }`;
         }
+
         return { result: classHP + ancestryHP, explain: explain.trim() };
     }
     get_BaseSpeed(speedName: string): { result: number; explain: string } {
         let explain = '';
         let sum = 0;
+
         if (this.class.ancestry.name) {
             this.class.ancestry.speeds.filter(speed => speed.name == speedName).forEach(speed => {
                 sum = speed.value;
                 explain = `\n${ this.class.ancestry.name } base speed: ${ sum }`;
             });
         }
+
         return { result: sum, explain: explain.trim() };
     }
     set_Level(characterService: CharacterService) {
@@ -69,6 +78,7 @@ export class AnimalCompanion extends Creature {
         //  That means that level 3 is the highest we need to go, as Nimble, Savage or other advanced options will be placed there.
         const character = characterService.get_Character();
         let advancedOption = '';
+
         this.level = Math.min(3, Math.max(1, ...characterService.get_CharacterFeatsAndFeatures()
             .filter(feat => feat.gainAnimalCompanion && feat.have({ creature: character }, { characterService }))
             .map(feat => {
@@ -79,10 +89,12 @@ export class AnimalCompanion extends Creature {
                         return 2;
                     default:
                         advancedOption = feat.gainAnimalCompanion;
+
                         return 3;
                 }
-            })
+            }),
         ));
+
         if (advancedOption && (this.class.levels[3].name != advancedOption)) {
             this.class.levels[3] = Object.assign(new AnimalCompanionLevel(), this.class.levels.find(level => level.name == advancedOption)).recast();
             this.class.levels[3].number = 3;
@@ -91,6 +103,7 @@ export class AnimalCompanion extends Creature {
             this.class.levels[3].number = 3;
             this.class.levels[3].name = 'Placeholder';
         }
+
         characterService.cacheService.set_LevelChanged({ creatureTypeId: 1, minLevel: 0 });
         characterService.refreshService.set_ToChange('Companion', 'all');
     }
@@ -99,6 +112,7 @@ export class AnimalCompanion extends Creature {
             const boosts = [];
             //When animal companion levels are checked for ability boosts, we don't care about the character level - so we use the companion's level here.
             const levels: Array<AnimalCompanionLevel | AnimalCompanionAncestry> = this.class.levels.filter(level => level.number >= 0 && level.number <= this.level);
+
             levels.push(this.class.ancestry);
             levels.forEach((level: AnimalCompanionLevel | AnimalCompanionAncestry) => {
                 level.abilityChoices.forEach(choice => {
@@ -107,14 +121,16 @@ export class AnimalCompanion extends Creature {
                         (boost.type == type || type == '') &&
                         (boost.source == source || source == '') &&
                         (boost.sourceId == sourceId || sourceId == '') &&
-                        (boost.locked == locked || locked == undefined)
+                        (boost.locked == locked || locked == undefined),
                     ).forEach(boost => {
                         boosts.push(boost);
                     });
                 });
             });
+
             //When specializations are checked for ability boosts, we want to be certain we don't get a specialization that is taken on a higher character level
             const specializations: Array<AnimalCompanionSpecialization> = this.class.specializations.filter(spec => spec.level >= minLevelNumber && spec.level <= maxLevelNumber);
+
             //Only the first specialization may add the "First specialization" boosts.
             specializations.forEach((spec: AnimalCompanionSpecialization, index) => {
                 spec.abilityChoices.forEach(choice => {
@@ -124,13 +140,14 @@ export class AnimalCompanion extends Creature {
                             (boost.type == type || type == '') &&
                             (boost.source == source || source == '') &&
                             (boost.sourceId == sourceId || sourceId == '') &&
-                            (boost.locked == locked || locked == undefined)
+                            (boost.locked == locked || locked == undefined),
                         ).forEach(boost => {
                             boosts.push(boost);
                         });
                     }
                 });
             });
+
             return boosts as Array<AbilityBoost>;
         }
     }
@@ -138,6 +155,7 @@ export class AnimalCompanion extends Creature {
         if (this.class) {
             //When animal companion species and levels are checked for skill increases, we don't care about the character level - so we replace minLevelNumber and maxLevelNumber here.
             const increases = [];
+
             this.class.levels
                 .filter(level => level.number >= 1 && level.number <= this.level)
                 .forEach(level => {
@@ -146,26 +164,29 @@ export class AnimalCompanion extends Creature {
                             (!skillName || increase.name == skillName) &&
                             (!source || increase.source == source) &&
                             (!sourceId || increase.sourceId == sourceId) &&
-                            (locked == undefined || increase.locked == locked)
+                            (locked == undefined || increase.locked == locked),
                         ).forEach(increase => {
                             increases.push(increase);
                         });
                     });
                 });
+
             if (this.class.ancestry.name) {
                 this.class.ancestry.skillChoices.forEach(choice => {
                     choice.increases.filter(increase =>
                         (!skillName || increase.name == skillName) &&
                         (!source || increase.source == source) &&
                         (!sourceId || increase.sourceId == sourceId) &&
-                        (locked == undefined || increase.locked == locked)
+                        (locked == undefined || increase.locked == locked),
                     ).forEach(increase => {
                         increases.push(increase);
                     });
                 });
             }
+
             //When specializations are checked for skill increases, we want to be certain we don't get a specialization that is taken on a higher character level (maxLevelNumber).
             const specializations: Array<AnimalCompanionSpecialization> = this.class.specializations.filter(spec => spec.level >= minLevelNumber && spec.level <= maxLevelNumber);
+
             //Only the first specialization may add the "First specialization" increases.
             specializations.forEach((spec: AnimalCompanionSpecialization, index) => {
                 spec.skillChoices.forEach(choice => {
@@ -174,13 +195,14 @@ export class AnimalCompanion extends Creature {
                             (!skillName || increase.name == skillName) &&
                             (!source || increase.source == source) &&
                             (!sourceId || increase.sourceId == sourceId) &&
-                            (locked == undefined || increase.locked == locked)
+                            (locked == undefined || increase.locked == locked),
                         ).forEach(increase => {
                             increases.push(increase);
                         });
                     }
                 });
             });
+
             return increases;
         }
     }
@@ -190,6 +212,7 @@ export class AnimalCompanion extends Creature {
         //Return the Companion, its Ancestry's Hints and its Specializations and their Hints for effect generation.
         const feats: Array<AnimalCompanionSpecialization> = [];
         const hintSets: Array<{ hint: Hint; objectName: string }> = [];
+
         this.class?.ancestry?.hints?.forEach(hint => {
             hintSets.push({ hint, objectName: this.class.ancestry.name });
         });
@@ -199,6 +222,7 @@ export class AnimalCompanion extends Creature {
                 hintSets.push({ hint, objectName: spec.name });
             });
         });
+
         return { feats, hintSets };
     }
 }

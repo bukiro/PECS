@@ -36,7 +36,7 @@ interface SpellParameters {
     selector: 'app-spells',
     templateUrl: './spells.component.html',
     styleUrls: ['./spells.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellsComponent implements OnInit, OnDestroy {
 
@@ -56,7 +56,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         private readonly itemsService: ItemsService,
         private readonly refreshService: RefreshService,
         private readonly spellsService: SpellsService,
-        private readonly effectsService: EffectsService
+        private readonly effectsService: EffectsService,
     ) { }
 
     public minimize(): void {
@@ -166,7 +166,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     public get_ComponentParameters(): ComponentParameters {
         return {
             allowSwitchingPreparedSpells: this.get_AllowSwitchingPreparedSpells(),
-            hasSpellChoices: this.get_HasSpellChoices()
+            hasSpellChoices: this.get_HasSpellChoices(),
         };
     }
 
@@ -178,46 +178,54 @@ export class SpellsComponent implements OnInit, OnDestroy {
                 casting.charLevelAvailable &&
                 casting.charLevelAvailable <= this.get_Character().level
             ) || equipmentSpells.length;
+
             if (!castingAvailable) {
                 return null;
             }
+
             return {
                 casting,
                 equipmentSpells,
                 needSpellBook: this.get_NeedSpellbook(casting),
                 maxSpellLevel: this.get_MaxSpellLevel(casting, equipmentSpells),
             };
-        }).filter(castingParameters => castingParameters);
+        })
+            .filter(castingParameters => castingParameters);
     }
 
     public get_SpellCastingLevelParameters(spellCastingParameters: SpellCastingParameters): Array<SpellCastingLevelParameters> {
         return [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(level => level <= spellCastingParameters.maxSpellLevel).map(level => {
             const availableSpellChoices = this.get_AvailableSpellChoices(spellCastingParameters, level);
             const fixedSpellSets = this.get_FixedSpellsByLevel(spellCastingParameters, level);
+
             if (!(availableSpellChoices.length + fixedSpellSets.length)) {
                 return null;
             }
+
             return {
                 level,
                 availableSpellChoices,
-                fixedSpellSets
+                fixedSpellSets,
             };
-        }).filter(spellCastingLevelParameters => spellCastingLevelParameters);
+        })
+            .filter(spellCastingLevelParameters => spellCastingLevelParameters);
     }
 
     private get_AvailableSpellChoices(spellCastingParameters: SpellCastingParameters, levelNumber: number): Array<SpellChoice> {
         //Get all spellchoices that have this spell level and are available at this character level.
         const character = this.get_Character();
+
         return spellCastingParameters.casting.spellChoices
             .filter(choice => choice.charLevelAvailable <= character.level && !choice.showOnSheet)
             .concat(Array.from(new Set(spellCastingParameters.equipmentSpells.map(spellSet => spellSet.choice))))
             .filter(choice =>
-                (choice.dynamicLevel ? this.get_DynamicLevel(choice, spellCastingParameters.casting) : choice.level) == levelNumber
+                (choice.dynamicLevel ? this.get_DynamicLevel(choice, spellCastingParameters.casting) : choice.level) == levelNumber,
             );
     }
 
     private get_FixedSpellsByLevel(spellCastingParameters: SpellCastingParameters, levelNumber: number): Array<{ choice: SpellChoice; gain: SpellGain }> {
         const character = this.get_Character();
+
         if (levelNumber == -1) {
             if (spellCastingParameters.casting.castingType == 'Focus') {
                 return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, locked: true, signatureAllowed: false, cantripAllowed: false })
@@ -231,8 +239,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
                     .filter(spellSet =>
                         spellSet.gain &&
                         spellSet.gain.locked &&
-                        (spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, spellCastingParameters.casting) : spellSet.choice.level) == levelNumber
-                    )
+                        (spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, spellCastingParameters.casting) : spellSet.choice.level) == levelNumber,
+                    ),
                 )
                 .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
         }
@@ -241,13 +249,15 @@ export class SpellsComponent implements OnInit, OnDestroy {
     public get_FixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
         return spellCastingLevelParameters.fixedSpellSets.map(spellSet => {
             const spell = this.spellsService.get_Spells(spellSet.gain.name)[0];
+
             if (!spell) {
                 return null;
             }
+
             return {
                 spell,
                 choice: spellSet.choice,
-                gain: spellSet.gain
+                gain: spellSet.gain,
             };
         }).filter(spellParameter => spellParameter);
     }
@@ -258,20 +268,23 @@ export class SpellsComponent implements OnInit, OnDestroy {
         //Dynamic spell levels need to be evaluated.
         //Non-Focus spellcastings need to consider spells granted by items.
         const character = this.get_Character();
+
         if (casting.castingType == 'Focus') {
             return this.get_Character().get_SpellLevel();
         }
+
         return Math.max(
             ...equipmentSpells
                 .map(spellSet => spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, casting) : spellSet.choice.level),
             ...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level)
                 .map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(spellChoice, casting) : spellChoice.level),
-            0
+            0,
         );
     }
 
     private get_HasSpellChoices(): boolean {
         const character = this.get_Character();
+
         return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => (choice.available || choice.dynamicAvailable) && choice.charLevelAvailable <= character.level));
     }
 
@@ -285,20 +298,24 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     private get_SpellCastings(): Array<SpellCasting> {
         const character = this.get_Character();
+
         enum CastingTypeSort {
             Innate,
             Focus,
             Prepared,
             Spontaneous
         }
+
         return [...character.class.spellCasting]
             .sort((a, b) => {
                 if (a.className == 'Innate' && b.className != 'Innate') {
                     return -1;
                 }
+
                 if (a.className != 'Innate' && b.className == 'Innate') {
                     return 1;
                 }
+
                 if (a.className == b.className) {
                     return (
                         (CastingTypeSort[a.castingType] + a.tradition == CastingTypeSort[b.castingType] + b.tradition) ? 0 :
@@ -307,6 +324,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
                             )
                     );
                 }
+
                 if (a.className > b.className) {
                     return 1;
                 } else {
@@ -325,15 +343,16 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['spells', 'all', 'character'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['spells', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
+
                     if (view.subtarget == 'clear') {
                         this.toggle_Choice('');
                     }

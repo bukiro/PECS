@@ -16,6 +16,7 @@ export class Wand extends Equipment {
     readonly inputRequired = 'After the spell is cast from the wand for the day, you can use it one more time, but the wand is immediately broken. Roll a DC 10 flat check. On a failure, drop the wand as it is destroyed. If you overcharge the wand when it\'s already been overcharged that day, the wand is automatically destroyed and dropped (even if it had been repaired) and no spell is cast.';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
     getName() {
@@ -36,13 +37,17 @@ export class Wand extends Equipment {
     get_Traits(characterService: CharacterService, creature: Creature) {
         //creature is not needed for wands, but for other types of item.
         let traits: Array<string> = [];
+
         if (this.storedSpells[0]?.spells.length) {
             const spell = characterService.spellsService.get_Spells(this.storedSpells[0].spells[0].name)[0];
+
             if (spell) {
                 traits = Array.from(new Set(this.traits.concat(spell.traits))).sort();
             }
         }
+
         this._traits = traits;
+
         return traits;
     }
 }

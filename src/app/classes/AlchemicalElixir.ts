@@ -12,6 +12,7 @@ export class AlchemicalElixir extends Consumable {
     public drawback = '';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

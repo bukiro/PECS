@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-proficiency-form',
     templateUrl: './proficiency-form.component.html',
     styleUrls: ['./proficiency-form.component.css'],
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ProficiencyFormComponent implements OnInit {
 
@@ -25,7 +25,7 @@ export class ProficiencyFormComponent implements OnInit {
 
     constructor(
         private readonly changeDetector: ChangeDetectorRef,
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -41,7 +41,7 @@ export class ProficiencyFormComponent implements OnInit {
             { value: 2, key: 'T', title: 'Trained' },
             { value: 4, key: 'E', title: 'Expert' },
             { value: 6, key: 'M', title: 'Master' },
-            { value: 8, key: 'L', title: 'Legendary' }
+            { value: 8, key: 'L', title: 'Legendary' },
         ];
     }
 
@@ -51,13 +51,13 @@ export class ProficiencyFormComponent implements OnInit {
 
     finish_loading() {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['individualskills', 'all', this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature == this.creature &&
                     (
                         view.target == 'all' ||

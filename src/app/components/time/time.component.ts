@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-time',
     templateUrl: './time.component.html',
     styleUrls: ['./time.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimeComponent implements OnInit, OnDestroy {
 
@@ -79,13 +79,13 @@ export class TimeComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['time', 'all', 'character'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['time', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

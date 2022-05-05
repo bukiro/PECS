@@ -7,6 +7,7 @@ export class MaterialItem extends Item {
     readonly type = 'materialitems';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

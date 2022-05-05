@@ -65,10 +65,12 @@ export class Class {
         this.levels = this.levels.map(obj => Object.assign(new Level(), obj).recast());
         this.spellCasting = this.spellCasting.map(obj => Object.assign(new SpellCasting(obj.castingType), obj).recast());
         this.formulaBook = this.formulaBook.map(obj => Object.assign(new FormulaLearned(), obj).recast());
+
         return this;
     }
     on_ChangeClass(characterService: CharacterService) {
         const character = characterService.get_Character();
+
         //Of each granted Item, find the item with the stored id and drop it.
         this.gainItems.forEach(freeItem => {
             freeItem.drop_GrantedItem(character, {}, { characterService });
@@ -82,12 +84,15 @@ export class Class {
                 });
             });
         });
+
         const customSkillNames = this.customSkills.map(skill => skill.name);
+
         character.customSkills = character.customSkills.filter(characterSkill => !customSkillNames.includes(characterSkill.name));
     }
     on_NewClass(characterService: CharacterService, itemsService: ItemsService) {
         if (this.name) {
             const character = characterService.get_Character();
+
             //Grant all items and save their id in the ItemGain.
             this.gainItems.forEach(freeItem => {
                 freeItem.grant_GrantedItem(character, {}, { characterService, itemsService });
@@ -98,6 +103,7 @@ export class Class {
             this.levels.forEach(level => {
                 level.featChoices.forEach(choice => {
                     let count = 0;
+
                     choice.feats.forEach(feat => {
                         count++;
                         character.take_Feat(character, characterService, undefined, feat.name, true, choice, feat.locked);
@@ -114,6 +120,7 @@ export class Class {
         if (this.ancestry.name) {
             const character = characterService.get_Character();
             const level = this.levels[1];
+
             this.languages = this.languages.filter(language => language.source != this.ancestry.name);
             characterService.refreshService.set_ToChange('Character', 'general');
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source != 'Ancestry');
@@ -140,6 +147,7 @@ export class Class {
         if (this.ancestry.name) {
             const character = characterService.get_Character();
             const level = this.levels[1];
+
             this.languages.push(...this.ancestry.languages.map(language => Object.assign(new LanguageGain(), { name: language, locked: true, source: this.ancestry.name })));
             characterService.refreshService.set_ToChange('Character', 'general');
             level.abilityChoices.push(...this.ancestry.abilityChoices);
@@ -154,6 +162,7 @@ export class Class {
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source == 'Ancestry').forEach(choice => {
                 let count = 0;
+
                 choice.feats.forEach(feat => {
                     count++;
                     character.take_Feat(character, characterService, undefined, feat.name, true, choice, feat.locked);
@@ -164,14 +173,18 @@ export class Class {
     }
     on_ChangeHeritage(characterService: CharacterService, index = -1) {
         let heritage: Heritage = this.heritage;
+
         if (index != -1) {
             heritage = this.additionalHeritages[index];
         }
+
         if (heritage?.name) {
             const level = this.levels[1];
             const character = characterService.get_Character();
+
             heritage.ancestries.forEach(ancestryListing => {
                 const a = this.ancestry.ancestries;
+
                 a.splice(a.indexOf(ancestryListing), 1);
             });
             heritage.traits.forEach(traitListing => {
@@ -192,12 +205,15 @@ export class Class {
             });
             level.featChoices = level.featChoices.filter(choice => choice.source != heritage.name);
             level.skillChoices = level.skillChoices.filter(choice => choice.source != heritage.name);
+
             //Also remove the 1st and 5th level skill increase from Skilled Heritage if you are removing Skilled Heritage
             if (heritage.name == 'Skilled Heritage') {
                 this.levels[5].skillChoices = this.levels[5].skillChoices.filter(choice => choice.source != heritage.name);
             }
+
             heritage.gainActivities.forEach((gainActivity: string) => {
                 const oldGain = character.class.activities.find(gain => gain.name == gainActivity && gain.source == heritage.name);
+
                 if (oldGain) {
                     character.lose_Activity(characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, characterService.activitiesService, oldGain);
                 }
@@ -206,6 +222,7 @@ export class Class {
             heritage.spellChoices.forEach(oldSpellChoice => {
                 character.remove_SpellChoice(characterService, oldSpellChoice);
             });
+
             //Undo all Wellspring Gnome changes, where we turned Primal spells into other traditions.
             //We collect all Gnome feats that grant a primal spell, and for all of those spells that you own, set the spell tradition to Primal on the character:
             if (heritage.name.includes('Wellspring Gnome')) {
@@ -213,12 +230,14 @@ export class Class {
                     .filter(feat =>
                         feat.gainSpellChoice.filter(choice =>
                             choice.castingType == 'Innate' &&
-                            choice.tradition == 'Primal'
+                            choice.tradition == 'Primal',
                         ).length)
                     .map(feat => feat.name);
+
                 this.spellCasting.find(casting => casting.castingType == 'Innate')
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
                         choice.tradition = 'Primal';
+
                         if (choice.available || choice.dynamicAvailable) {
                             choice.spells.length = 0;
                         }
@@ -228,12 +247,15 @@ export class Class {
     }
     on_NewHeritage(characterService: CharacterService, itemsService: ItemsService, index = -1) {
         let heritage: Heritage = this.heritage;
+
         if (index != -1) {
             heritage = this.additionalHeritages[index];
         }
+
         if (heritage?.name) {
             const character = characterService.get_Character();
             const level = this.levels[1];
+
             this.ancestry.traits.push(...heritage.traits);
             this.ancestry.ancestries.push(...heritage.ancestries);
             level.featChoices.push(...heritage.featChoices);
@@ -247,21 +269,25 @@ export class Class {
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source == heritage.name).forEach(choice => {
                 let count = 0;
+
                 choice.feats.forEach(feat => {
                     count++;
                     character.take_Feat(character, characterService, undefined, feat.name, true, choice, feat.locked);
                 });
                 choice.feats.splice(0, count);
             });
+
             //You may get a skill training from a heritage.
             //If you have already trained this skill from another source:
             //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the heritage's.
             //If it is locked, we better not replace it. Instead, you get a free Heritage skill increase.
             if (heritage.skillChoices.length && heritage.skillChoices[0].increases.length) {
                 const existingIncreases = character.get_SkillIncreases(characterService, 1, 1, heritage.skillChoices[0].increases[0].name, '');
+
                 if (existingIncreases.length) {
                     const existingIncrease = existingIncreases[0];
                     const existingSkillChoice: SkillChoice = character.get_SkillChoice(existingIncrease.sourceId);
+
                     if (existingSkillChoice !== heritage.skillChoices[0]) {
                         if (!existingIncrease.locked) {
                             character.increase_Skill(characterService, existingIncrease.name, false, existingSkillChoice, false);
@@ -272,22 +298,28 @@ export class Class {
                     }
                 }
             }
+
             heritage.gainActivities.forEach((gainActivity: string) => {
                 character.gain_Activity(characterService, (Object.assign(new ActivityGain(), { name: gainActivity, source: heritage.name }) as ActivityGain).recast(), 1);
             });
             //Gain Spell or Spell Option
             heritage.spellChoices.forEach(newSpellChoice => {
                 const insertSpellChoice = Object.assign<SpellChoice, SpellChoice>(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice))).recast();
+
                 character.add_SpellChoice(characterService, level.number, insertSpellChoice);
             });
+
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
             if (heritage.name.includes('Wellspring Gnome')) {
                 const feats: Array<string> = characterService.get_Feats('', 'Gnome')
-                    .filter(feat => feat.gainSpellChoice.some(choice => choice.castingType == 'Innate' && choice.tradition == 'Primal')).map(feat => feat.name);
+                    .filter(feat => feat.gainSpellChoice.some(choice => choice.castingType == 'Innate' && choice.tradition == 'Primal'))
+                    .map(feat => feat.name);
+
                 this.spellCasting.find(casting => casting.castingType == 'Innate')
                     .spellChoices.filter(choice => feats.includes(choice.source.substr(6))).forEach(choice => {
                         choice.tradition = heritage.subType;
+
                         if (choice.available || choice.dynamicAvailable) {
                             choice.spells.length = 0;
                         }
@@ -299,6 +331,7 @@ export class Class {
         if (this.background.name) {
             const level = this.levels[1];
             const character = characterService.get_Character();
+
             level.skillChoices = level.skillChoices.filter(choice => choice.source != 'Background');
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source != 'Background');
             //Some feats get specially processed when taken.
@@ -309,12 +342,15 @@ export class Class {
                 });
             });
             level.featChoices = level.featChoices.filter(availableBoost => availableBoost.source != 'Background');
+
             //Remove all Lores
             const oldChoices: Array<LoreChoice> = level.loreChoices.filter(choice => choice.source == 'Background');
             const oldChoice = oldChoices[oldChoices.length - 1];
+
             if (oldChoice.increases.length) {
                 character.remove_Lore(characterService, oldChoice);
             }
+
             level.loreChoices = level.loreChoices.filter(choice => choice.source != 'Background');
             //Process skill choices in case any custom skills need to be removed.
             this.background.skillChoices.filter(choice => choice.source == 'Background').forEach(choice => {
@@ -329,6 +365,7 @@ export class Class {
         if (this.background.name) {
             const level = this.levels[1];
             const character = characterService.get_Character();
+
             level.abilityChoices.push(...this.background.abilityChoices);
             level.skillChoices.push(...this.background.skillChoices);
             level.featChoices.push(...this.background.featChoices);
@@ -338,6 +375,7 @@ export class Class {
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source == 'Background').forEach(choice => {
                 let count = 0;
+
                 choice.feats.forEach(feat => {
                     count++;
                     character.take_Feat(character, characterService, undefined, feat.name, true, choice, feat.locked);
@@ -350,25 +388,32 @@ export class Class {
                     character.process_Skill(characterService, increase.name, true, choice);
                 });
             });
+
             if (this.background.loreChoices[0].loreName) {
                 if (characterService.get_Skills(character, `Lore: ${ this.background.loreChoices[0].loreName }`, {}, { noSubstitutions: true }).length) {
                     const increases = character.get_SkillIncreases(characterService, 1, 20, `Lore: ${ this.background.loreChoices[0].loreName }`).filter(increase =>
-                        increase.sourceId.includes('-Lore-')
+                        increase.sourceId.includes('-Lore-'),
                     );
+
                     if (increases.length) {
                         const oldChoice = character.get_LoreChoice(increases[0].sourceId);
+
                         if (oldChoice.available == 1) {
                             character.remove_Lore(characterService, oldChoice);
                         }
                     }
                 }
+
                 character.add_Lore(characterService, this.background.loreChoices[0]);
             }
+
             if (this.background.skillChoices[0].increases.length) {
                 const existingIncreases = character.get_SkillIncreases(characterService, 1, 1, this.background.skillChoices[0].increases[0].name, '');
+
                 if (existingIncreases.length) {
                     const existingIncrease = existingIncreases[0];
                     const existingSkillChoice: SkillChoice = character.get_SkillChoice(existingIncrease.sourceId);
+
                     //If you have already trained this skill from another source:
                     //Check if it is a free training (not locked). If so, remove it and reimburse the skill point, then replace it with the background's.
                     //If it is locked, we better not replace it. Instead, you get a free Background skill increase.
@@ -389,7 +434,7 @@ export class Class {
             (data.featName.toLowerCase() == featName.toLowerCase()) &&
             (!minLevel || data.level >= minLevel) &&
             (!maxLevel || data.level <= maxLevel) &&
-            (!sourceId || data.sourceId == sourceId)
+            (!sourceId || data.sourceId == sourceId),
         );
     }
 }

@@ -87,11 +87,13 @@ export class Equipment extends Item {
         let runes = this.potencyRune - this.propertyRunes.length - this.propertyRunes.filter(rune => rune.traits.includes('Saggorak')).length;
         //Material can allow you to have four runes instead of three.
         const extraRune = this.material?.[0]?.extraRune || 0;
+
         if (this.potencyRune == RuneLevels.Third && extraRune) {
             for (let index = 0; index < extraRune; index++) {
                 runes++;
             }
         }
+
         return runes;
     }
     public recast(typeService: TypeService, itemsService: ItemsService): Equipment {
@@ -107,6 +109,7 @@ export class Equipment extends Item {
             if (!conditionGain.source) {
                 conditionGain.source = this.name;
             }
+
             conditionGain.fromItem = true;
         });
         this.gainSpells = this.gainSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
@@ -114,6 +117,7 @@ export class Equipment extends Item {
             if (!choice.castingType) {
                 choice.castingType = 'Innate';
             }
+
             choice.source = this.name;
             choice.spells.forEach(gain => {
                 gain.source = choice.source;
@@ -126,19 +130,24 @@ export class Equipment extends Item {
         this.talismans = this.talismans.map(obj => Object.assign<Talisman, Item>(new Talisman(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
         this.talismanCords = this.talismanCords.map(obj => (typeService.classCast(typeService.restoreItem(obj, itemsService), 'WornItem') as WornItem).recast(typeService, itemsService));
+
         if (this.choices.length && !this.choices.includes(this.choice)) {
             this.choice = this.choices[0];
         }
+
         return this;
     }
     public iconValue(): string {
         const parts: Array<string> = [];
+
         if (this.subType) {
             parts.push(this.subType[0]);
         }
+
         if (this.choice) {
             parts.push(this.choice[0]);
         }
+
         return parts.join(',');
     }
     public investedOrEquipped(): boolean {
@@ -154,22 +163,27 @@ export class Equipment extends Item {
     public getBulk(): string {
         //Return either the bulk set by an oil, or the bulk of the item, possibly reduced by the material.
         let bulk: string = this.bulk;
+
         this.material.forEach(material => {
             if (parseInt(this.bulk) && parseInt(this.bulk) != 0) {
                 bulk = (parseInt(this.bulk) + material.bulkModifier).toString();
+
                 if (parseInt(bulk) == 0 && parseInt(this.bulk) != 0) {
                     //Material can't reduce the bulk to 0.
                     bulk = 'L';
                 }
             }
         });
+
         let oilBulk = '';
+
         this.oilsApplied.forEach(oil => {
             if (oil.bulkEffect) {
                 oilBulk = oil.bulkEffect;
             }
         });
         bulk = (this.carryingBulk && !this.equipped) ? this.carryingBulk : bulk;
+
         return oilBulk || bulk;
     }
     public getPotencyRune(): number {
@@ -221,21 +235,28 @@ export class Equipment extends Item {
         } else {
             const words: Array<string> = [];
             const potency = this.getPotency(this.getPotencyRune());
+
             if (potency) {
                 words.push(potency);
             }
+
             let secondary = '';
+
             secondary = this._getSecondaryRuneName();
+
             if (secondary) {
                 words.push(secondary);
             }
+
             this.propertyRunes.forEach(rune => {
                 let name: string = rune.name;
+
                 if (rune.name.includes('(Greater)')) {
                     name = `Greater ${ rune.name.substr(0, rune.name.indexOf('(Greater)')) }`;
                 } else if (rune.name.includes(', Greater)')) {
                     name = `Greater ${ rune.name.substr(0, rune.name.indexOf(', Greater)')) })`;
                 }
+
                 words.push(name);
             });
             this._getBladeAllyName().forEach(name => {
@@ -244,13 +265,16 @@ export class Equipment extends Item {
             this.material.forEach(mat => {
                 words.push(mat.getName());
             });
+
             //If you have any material in the name of the item, and it has a material applied, remove the original material. This list may grow.
             const materials = [
                 'Wooden ',
-                'Steel '
+                'Steel ',
             ];
+
             if (this.material.length && materials.some(mat => this.name.toLowerCase().includes(mat.toLowerCase()))) {
                 let name = this.name;
+
                 materials.forEach(mat => {
                     name = name.replace(mat, '');
                 });
@@ -258,6 +282,7 @@ export class Equipment extends Item {
             } else {
                 words.push(this.name);
             }
+
             return words.join(' ') + ((!options.itemStore && this.choice) ? `: ${ this.choice }` : '');
         }
     }
@@ -268,8 +293,9 @@ export class Equipment extends Item {
     }
     public getEffectsGenerationHints(): Array<HintEffectsObject> {
         function convertHints(item: Equipment | Oil | Material): Array<{ hint: Hint; parentItem: Equipment | Oil | Material; objectName: string }> {
-            return item.hints.map(hint => { return { hint, parentItem: item, objectName: item.getName() }; });
+            return item.hints.map(hint => ({ hint, parentItem: item, objectName: item.getName() }));
         }
+
         return convertHints(this)
             .concat(...this.oilsApplied.map(oil => convertHints(oil)))
             .concat(...this.material.map(material => convertHints(material)));

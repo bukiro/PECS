@@ -32,7 +32,7 @@ interface ActivityParameter {
     selector: 'app-activities',
     templateUrl: './activities.component.html',
     styleUrls: ['./activities.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivitiesComponent implements OnInit, OnDestroy {
 
@@ -53,7 +53,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         private readonly effectsService: EffectsService,
         private readonly timeService: TimeService,
         private readonly refreshService: RefreshService,
-        private readonly activitiesService: ActivitiesService
+        private readonly activitiesService: ActivitiesService,
     ) { }
 
     public minimize(): void {
@@ -145,13 +145,14 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         return this.get_OwnedActivities().map(gainSet => {
             const creature = this.get_Creature();
             const maxCharges = gainSet.activity.maxCharges({ creature }, { effectsService: this.effectsService });
+
             return {
                 name: gainSet.name,
                 gain: gainSet.gain,
                 activity: gainSet.activity,
                 maxCharges,
                 disabled: gainSet.gain.disabled({ creature, maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }),
-                hostile: gainSet.activity.get_IsHostile()
+                hostile: gainSet.activity.get_IsHostile(),
             };
         });
     }
@@ -164,6 +165,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         const activities: Array<ActivitySet> = [];
         const unique: Array<string> = [];
         const fuseStanceName = this.get_FuseStanceName();
+
         function activityName(name: string) {
             if (!!fuseStanceName && name === 'Fused Stance') {
                 return fuseStanceName;
@@ -173,17 +175,21 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         }
         this.characterService.get_OwnedActivities(this.get_Creature()).forEach(gain => {
             const activity = gain.get_OriginalActivity(this.activitiesService);
+
             activity?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
+
             if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
                 unique.push(gain.name);
                 activities.push({ name: activityName(gain.name), gain, activity });
             }
         });
+
         return activities.sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     private get_FuseStanceName(): string {
         const data = this.get_Character().class.get_FeatData(0, 0, 'Fuse Stance')[0];
+
         if (data) {
             return data.valueAsString('name') || 'Fused Stance';
         } else {
@@ -193,23 +199,25 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     public get_TemporaryFeatChoices(): Array<FeatChoice> {
         const choices: Array<FeatChoice> = [];
+
         if (this.creature == 'Character') {
             (this.get_Creature() as Character).class.levels.filter(level => level.number <= this.get_Creature().level).forEach(level => {
                 choices.push(...level.featChoices.filter(choice => choice.showOnSheet));
             });
         }
+
         return choices;
     }
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (target == 'activities' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

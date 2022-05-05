@@ -18,13 +18,14 @@ import { WeaponRune } from '../classes/WeaponRune';
 import { WornItem } from '../classes/WornItem';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ItemRolesService {
 
     public getItemRoles(item: Item): ItemRoles {
         const asArmor = this.itemAsArmor(item);
         const asWeapon = this.itemAsWeapon(item);
+
         return {
             item,
             asConsumable: this.itemAsConsumable(item),

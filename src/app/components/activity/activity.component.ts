@@ -44,7 +44,7 @@ interface ActivitySpellSet {
     selector: 'app-activity',
     templateUrl: './activity.component.html',
     styleUrls: ['./activity.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityComponent implements OnInit, OnDestroy {
 
@@ -73,7 +73,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly timeService: TimeService,
         private readonly itemsService: ItemsService,
         private readonly conditionsService: ConditionsService,
-        private readonly effectsService: EffectsService
+        private readonly effectsService: EffectsService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -97,13 +97,14 @@ export class ActivityComponent implements OnInit, OnDestroy {
         const maxCharges = this.activity.maxCharges({ creature }, { effectsService: this.effectsService });
         const tooManySlottedAeonStones = (this.item instanceof WornItem && this.item.isSlottedAeonStone && this.itemsService.get_TooManySlottedAeonStones(this.get_Creature()));
         const resonantAllowed = (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !tooManySlottedAeonStones);
+
         return {
             maxCharges,
             cooldown: this.activity.get_Cooldown({ creature }, { characterService: this.characterService, effectsService: this.effectsService }),
             disabled: this.gain?.disabled({ creature, maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }) || '',
             activitySpell: this.get_ActivitySpell(),
             tooManySlottedAeonStones,
-            resonantAllowed
+            resonantAllowed,
         };
     }
 
@@ -114,6 +115,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     private get_ActivitySpell(): ActivitySpellSet {
         if (this.activity.castSpells.length) {
             const spell = this.get_Spells(this.activity.castSpells[0].name)[0];
+
             if (spell) {
                 return { spell, gain: this.activity.castSpells[0].spellGain, cast: this.activity.castSpells[0] };
             } else {
@@ -143,6 +145,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public on_ManualRestoreCharge(): void {
         this.gain.chargesUsed = Math.max(this.gain.chargesUsed - 1, 0);
+
         if (this.gain.chargesUsed == 0) {
             this.gain.activeCooldown = 0;
         }
@@ -178,15 +181,15 @@ export class ActivityComponent implements OnInit, OnDestroy {
     public get_ActivitiesShowingOn(objectName: string): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-                .map(gain => { return { gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
+                .map(gain => ({ gain, activity: gain.get_OriginalActivity(this.activitiesService) }))
                 .filter(set =>
                     set.activity?.hints
                         .some(hint =>
                             hint.showon.split(',')
                                 .some(showon =>
-                                    showon.trim().toLowerCase() == objectName.toLowerCase()
-                                )
-                        )
+                                    showon.trim().toLowerCase() == objectName.toLowerCase(),
+                                ),
+                        ),
                 )
                 .sort((a, b) => (a.activity.name == b.activity.name) ? 0 : ((a.activity.name > b.activity.name) ? 1 : -1));
         } else {
@@ -196,12 +199,12 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public get_FusedStances(): Array<{ gain: ItemActivity | ActivityGain; activity: Activity }> {
         const featData = this.get_Character().class.get_FeatData(0, 0, 'Fuse Stance')[0];
+
         if (featData) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
                 .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
-                .map(gain => { return { gain, activity: gain.get_OriginalActivity(this.activitiesService) }; });
-        }
-        else {
+                .map(gain => ({ gain, activity: gain.get_OriginalActivity(this.activitiesService) }));
+        } else {
             return [];
         }
     }
@@ -214,23 +217,27 @@ export class ActivityComponent implements OnInit, OnDestroy {
         //For all conditions that are included with this activity, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
         const gain = this.gain;
+
         if (gain) {
             this.activity.gainConditions
-                .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }; })
+                .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
                     conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : conditionSet.condition.minLevel));
                     //Add the condition to the selection list. Conditions with no choices, with hideChoices or with copyChoiceFrom will not be displayed.
                     conditionSets.push(conditionSet);
+
                     //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
                     while (conditionSet.condition && !gain.effectChoices.length || gain.effectChoices.length < index - 1) {
                         gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                     }
+
                     if (conditionSet.condition && !conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
                         gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                     }
                 });
         }
+
         return conditionSets;
     }
 
@@ -254,13 +261,13 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     private finish_Loading(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['activities', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
@@ -271,6 +278,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         if (this.activity.displayOnly) {
             this.allowActivate = false;
         }
+
         this.item = this.activitiesService.get_ItemFromActivityGain(this.get_Creature(), this.gain);
         this.finish_Loading();
     }

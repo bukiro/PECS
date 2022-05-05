@@ -4,14 +4,14 @@ import { DiceResult } from 'src/app/classes/DiceResult';
 import { RefreshService } from 'src/app/services/refresh.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class DiceService {
 
     private diceResults: Array<DiceResult> = [];
 
     constructor(
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     get_DiceResults() {
@@ -22,13 +22,17 @@ export class DiceService {
         if (newChain) {
             this.unselectAll();
         }
+
         const diceResult = new DiceResult();
+
         diceResult.diceNum = amount;
         diceResult.diceSize = size;
         diceResult.desc = '';
+
         if (amount && size) {
             diceResult.desc += `${ amount }d${ size }`;
         }
+
         if (bonus > 0) {
             if (diceResult.desc) {
                 diceResult.desc += ` + ${ bonus }`;
@@ -42,16 +46,21 @@ export class DiceService {
                 diceResult.desc += bonus;
             }
         }
+
         diceResult.desc += type;
         diceResult.bonus = bonus;
         diceResult.type = type;
+
         for (let index = 0; index < amount; index++) {
             diceResult.rolls.push(Math.ceil(Math.random() * size));
         }
+
         this.diceResults.unshift(diceResult);
+
         if (characterService.get_DiceMenuState() == 'out') {
             characterService.toggle_Menu('dice');
         }
+
         this.refreshService.set_ToChange('character', 'dice');
         this.refreshService.set_ToChange('character', 'character-sheet');
         this.refreshService.set_ToChange('character', 'top-bar');

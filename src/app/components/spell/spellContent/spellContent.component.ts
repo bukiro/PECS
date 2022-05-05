@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-spellContent',
     templateUrl: './spellContent.component.html',
     styleUrls: ['./spellContent.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellContentComponent implements OnInit, OnDestroy {
 
@@ -27,7 +27,7 @@ export class SpellContentComponent implements OnInit, OnDestroy {
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
         private readonly traitsService: TraitsService,
-        private readonly spellsService: SpellsService
+        private readonly spellsService: SpellsService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -40,12 +40,15 @@ export class SpellContentComponent implements OnInit, OnDestroy {
 
     get_Heightened(desc: string) {
         let levelNumber = this.spellLevel;
+
         if ((!levelNumber && (this.spell.traits.includes('Cantrip'))) || levelNumber == -1) {
             levelNumber = this.characterService.get_Character().get_SpellLevel();
         }
+
         if (this.spell.levelreq && levelNumber < this.spell.levelreq) {
             levelNumber = this.spell.levelreq;
         }
+
         return this.spell.get_Heightened(desc, levelNumber);
     }
 
@@ -58,13 +61,13 @@ export class SpellContentComponent implements OnInit, OnDestroy {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
+                .subscribe(target => {
                     if (['individualspells', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
+                .subscribe(view => {
                     if (view.creature.toLowerCase() == 'character' &&
                         (
                             view.target.toLowerCase() == 'all' ||
@@ -73,6 +76,7 @@ export class SpellContentComponent implements OnInit, OnDestroy {
                         this.changeDetector.detectChanges();
                     }
                 });
+
             return true;
         }
     }

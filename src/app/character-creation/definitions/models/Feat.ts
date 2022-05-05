@@ -125,20 +125,23 @@ export class Feat {
         });
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.allowSignatureSpells = this.allowSignatureSpells.map(obj => Object.assign(new SignatureSpellGain(), obj).recast());
+
         return this;
     }
     public have(
         context: { creature: Creature },
         services: { characterService: CharacterService },
         filter: { charLevel?: number; minLevel?: number } = {},
-        options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {}
+        options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
     ): number {
         if (services.characterService?.still_loading()) { return 0; }
+
         filter = {
             charLevel: services.characterService.get_Character().level,
             minLevel: 1,
             ...filter,
         };
+
         if (context.creature instanceof Character) {
             return services.characterService.get_CharacterFeatsTaken(filter.minLevel, filter.charLevel, this.name, '', '', undefined, options.excludeTemporary, options.includeCountAs)?.length || 0;
         } else if (context.creature instanceof Familiar) {

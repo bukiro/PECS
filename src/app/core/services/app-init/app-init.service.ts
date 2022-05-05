@@ -22,7 +22,7 @@ import { SpellsService } from 'src/app/services/spells.service';
 import { TraitsService } from 'src/app/services/traits.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class AppInitService {
 
@@ -57,6 +57,7 @@ export class AppInitService {
         this.refreshService.initialize();
         this.extensionsService.initialize();
         this.configService.initialize(this.characterService, this.savegameService);
+
         const waitForFileServices = setInterval(() => {
             if (!this.extensionsService.still_loading() && !this.configService.still_loading()) {
                 clearInterval(waitForFileServices);

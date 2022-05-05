@@ -6,6 +6,7 @@ export class ArmorMaterial extends Material {
     public speedPenaltyModifier = 0;
     recast() {
         super.recast();
+
         return this;
     }
 }

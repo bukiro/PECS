@@ -48,7 +48,7 @@ interface ItemParameters extends ItemRoles {
     selector: 'app-inventory',
     templateUrl: './inventory.component.html',
     styleUrls: ['./inventory.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventoryComponent implements OnInit, OnDestroy {
 
@@ -78,7 +78,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly activitiesService: ActivitiesService,
         private readonly itemRolesService: ItemRolesService,
         private readonly toastService: ToastService,
-        private readonly modalService: NgbModal
+        private readonly modalService: NgbModal,
     ) { }
 
     minimize() {
@@ -197,11 +197,12 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (item.id && (item as Equipment).gainInventory?.length) {
             return this.get_Creature().inventories
                 .filter(inventory =>
-                    inventory.itemId == item.id
+                    inventory.itemId == item.id,
                 ).map(inventory => inventory.allItems()
                     .map(item => item.amount)
-                    .reduce((a, b) => a + b, 0)
-                ).reduce((a, b) => a + b, 0);
+                    .reduce((a, b) => a + b, 0),
+                )
+                .reduce((a, b) => a + b, 0);
         } else {
             return 0;
         }
@@ -223,9 +224,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     get_ItemParameters(itemList: Array<Item>): Array<ItemParameters> {
         const creature = this.get_Creature();
+
         return itemList.map(item => {
             const itemRoles = this.itemRolesService.getItemRoles(item);
             const proficiency = (!(creature instanceof Familiar) && (itemRoles.asArmor || itemRoles.asWeapon))?.get_Proficiency(creature, this.characterService) || '';
+
             return {
                 ...itemRoles,
                 proficiency,
@@ -266,14 +269,17 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     private get_CanUse(itemRoles: ItemRoles, proficiency: string): boolean {
         const creature = this.get_Creature();
+
         if (!(creature instanceof Familiar)) {
             if (itemRoles.asWeapon) {
                 return itemRoles.asWeapon.profLevel(creature, this.characterService, itemRoles.asWeapon, undefined, { preparedProficiency: proficiency }) > 0;
             }
+
             if (itemRoles.asArmor) {
                 return itemRoles.asArmor.profLevel(creature, this.characterService) > 0;
             }
         }
+
         return undefined;
     }
 
@@ -311,10 +317,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     open_GrantingOrContainerItemDropModal(content, item: Item, inventory: ItemCollection) {
-        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
+        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
             if (result == 'Drop all') {
                 this.drop_InventoryItem(item, inventory);
             }
+
             if (result == 'Drop one') {
                 this.drop_ContainerOnly(item, inventory);
             }
@@ -325,17 +332,21 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (pay) {
             if (this.get_Price(item)) {
                 let price = this.get_Price(item);
+
                 if ((item as Consumable).stack) {
                     price *= Math.floor(item.amount / (item as Consumable).stack);
                 } else {
                     price *= item.amount;
                 }
+
                 if (price) {
                     this.change_Cash(1, Math.floor(price / 2));
                 }
             }
         }
+
         const preserveInventoryContent = (pay && item instanceof Equipment && !!item.gainInventory.length);
+
         this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount, preserveInventoryContent);
         this.toggle_Item();
         this.refreshService.set_ToChange(this.creature, 'inventory');
@@ -352,8 +363,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
             } else {
                 this.characterService.send_ItemsToPlayer(this.get_Creature(), target, item, amount);
             }
+
             this.toggle_Item();
         }
+
         if (reload) {
             this.refreshService.set_Changed('close-popovers');
             this.refreshService.set_Changed(item.id);
@@ -373,8 +386,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
             const target = this.get_Creature().inventories.find(inv => inv.id == targetId);
             const itemKey = event.previousContainer.id.split('|')[1];
             const item = source[itemKey][event.previousIndex];
+
             if (source && target && item && this.can_Drop(item)) {
                 const cannotMove = this.itemsService.get_CannotMove(this.get_Creature(), item, target);
+
                 if (cannotMove) {
                     this.toastService.show(`${ cannotMove } The item was not moved.`);
                 } else {
@@ -408,9 +423,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     bulkOnly(event): boolean {
         const charCode = (event.which) ? event.which : event.keyCode;
+
         if (charCode != 76 && charCode > 31 && (charCode < 48 || charCode > 57)) {
             return false;
         }
+
         return true;
     }
 
@@ -420,6 +437,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         } else {
             item.bulk = '';
         }
+
         //Update effects to re-calculate your bulk.
         this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
@@ -448,6 +466,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         let bonuses = false;
         let absolutes = false;
         let explain = '';
+
         if (this.creature == 'Character') {
             maxInvest = 10;
             explain = 'Base limit: 10';
@@ -455,6 +474,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             maxInvest = 2;
             explain = 'Base limit: 2';
         }
+
         this.effectsService.get_AbsolutesOnThis(this.get_Creature(), 'Max Invested').forEach(effect => {
             maxInvest = parseInt(effect.setValue);
             explain = `${ effect.source }: ${ effect.setValue }`;
@@ -464,13 +484,16 @@ export class InventoryComponent implements OnInit, OnDestroy {
         this.effectsService.get_RelativesOnThis(this.get_Creature(), 'Max Invested').forEach(effect => {
             maxInvest += parseInt(effect.value);
             explain += `\n${ effect.source }: ${ effect.value }`;
+
             if (parseInt(effect.value) < 0) {
                 penalties = true;
             } else {
                 bonuses = true;
             }
+
             effects.push(effect);
         });
+
         return { value: maxInvest, explain, effects, penalties, bonuses, absolutes };
     }
 
@@ -482,8 +505,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
         //Sum up the invested items: 1 for each item other than Wayfinders,
         // and for Wayfinders: 1 for the Wayfinder, and 1 for each Aeon Stone but the first. That is represented by 1 for each Aeon Stone (but at least 1).
         return this.get_InvestedItems().map(item =>
-            (item instanceof WornItem && item.aeonStones.length) ? Math.max(item.aeonStones.length, 1) : 1
-        ).reduce((a, b) => a + b, 0);
+            (item instanceof WornItem && item.aeonStones.length) ? Math.max(item.aeonStones.length, 1) : 1,
+        )
+            .reduce((a, b) => a + b, 0);
     }
 
     on_Equip(item: Equipment, inventory: ItemCollection, equipped: boolean) {
@@ -501,6 +525,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 this.toastService.show(`Your <strong>${ item.getName() }</strong> was unequipped because it is broken.`);
             }
         }
+
         this.onItemChange(item);
     }
 
@@ -512,6 +537,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     onAmountChange(item: Item, amount: number, pay = false) {
         item.amount += amount;
+
         if (pay) {
             if (amount > 0) {
                 this.change_Cash(-1, this.get_Price(item));
@@ -519,6 +545,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 this.change_Cash(1, Math.floor(this.get_Price(item) / 2));
             }
         }
+
         this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService, activitiesService: this.activitiesService });
         this.refreshService.process_ToChange();
         this.update_Item(item);
@@ -531,15 +558,18 @@ export class InventoryComponent implements OnInit, OnDestroy {
     public on_SpellItemUse(item: Item, creature: string, inventory: ItemCollection): void {
         const spellName = item.storedSpells[0]?.spells[0]?.name || '';
         const spellChoice = item.storedSpells[0];
+
         if (spellChoice && spellName) {
             const spell = this.get_Spells(spellName)[0];
+
             if (spell && (!(item instanceof Wand && item.overcharged) || this.get_ManualMode())) {
                 this.characterService.spellsService.process_Spell(spell, true,
                     { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
                     { creature: this.get_Character(), choice: spellChoice, target: creature, gain: item.storedSpells[0].spells[0], level: spellChoice.level },
-                    { manual: true }
+                    { manual: true },
                 );
             }
+
             if (item instanceof Wand) {
                 if (item.cooldown) {
                     if (item.overcharged && !this.get_ManualMode()) {
@@ -560,19 +590,23 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 this.refreshService.set_ToChange('Character', 'spellchoices');
             }
         }
+
         if (item instanceof Consumable) {
             this.on_ConsumableUse(item, creature, inventory);
         } else {
             this.refreshService.process_ToChange();
         }
+
         this.update_Item(item);
     }
 
     on_ConsumableUse(item: Consumable, creature: string, inventory: ItemCollection) {
         this.characterService.on_ConsumableUse(this.get_Creature(creature), item);
+
         if (this.can_Drop(item) && !item.canStack()) {
             this.drop_InventoryItem(item, inventory, false);
         }
+
         this.refreshService.process_ToChange();
     }
 
@@ -601,11 +635,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
     public have_Funds(sum = 0): boolean {
         const character = this.characterService.get_Character();
         const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
+
         return (sum <= funds);
     }
 
     change_Cash(multiplier = 1, sum = 0, changeafter = false) {
         this.characterService.change_Cash(multiplier, sum);
+
         if (changeafter) {
             this.refreshService.process_ToChange();
         }
@@ -614,6 +650,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     have_Feat(name: string) {
         if (this.creature == 'Character') {
             const character = this.get_Character();
+
             return this.characterService.get_CharacterFeatsTaken(1, character.level, name).length;
         }
     }
@@ -642,38 +679,49 @@ export class InventoryComponent implements OnInit, OnDestroy {
         //Return any reasons why you cannot craft an item.
         const character: Character = this.get_Character();
         const reasons: Array<string> = [];
+
         if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Alchemical Crafting').length) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }
+
         if (item.traits.includes('Magical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Magical Crafting').length) {
             reasons.push('You need the Magical Crafting skill feat to create magic items.');
         }
+
         if (item.traits.includes('Snare') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Snare Crafting').length) {
             reasons.push('You need the Snare Crafting skill feat to create snares.');
         }
+
         if (item.level > character.level) {
             reasons.push('The item to craft must be your level or lower.');
         }
+
         if (item.level >= 16 && (this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 8) {
             reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
         } else if (item.level >= 9 && (this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 6) {
             reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
         }
+
         if (type == 'snarespecialist' && !learned.snareSpecialistAvailable) {
             reasons.push('You must do your preparations again before you can deploy more of this item.');
         }
+
         return reasons;
     }
 
     craft_Item(item: Item, learned: FormulaLearned, type: string) {
         let amount = 1;
+
         if (item instanceof AdventuringGear || item instanceof Consumable) {
             amount = item.stack;
         }
+
         this.characterService.grant_InventoryItem(item, { creature: this.characterService.get_Character(), inventory: this.characterService.get_Character().inventories[0], amount }, { resetRunes: false });
+
         if (type == 'snarespecialist') {
             learned.snareSpecialistAvailable--;
         }
+
         this.refreshService.set_ToChange('Character', 'inventory');
         this.refreshService.process_ToChange();
     }
@@ -699,6 +747,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     get_ItemSpell(item: Item) {
         if (item.storedSpells.length && item.storedSpells[0].spells.length) {
             const spell = this.get_Spells(item.storedSpells[0].spells[0].name)[0];
+
             if (spell) {
                 return [{ spell, gain: item.storedSpells[0].spells[0], choice: item.storedSpells[0] }];
             } else {
@@ -745,15 +794,18 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     on_ShieldHPChange(shield: Shield, amount: number) {
         shield.damage += amount;
+
         if (shield.equipped) {
             this.refreshService.set_ToChange(this.creature, 'defense');
         }
+
         if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
             shield.broken = true;
             this.onItemBroken(shield);
         } else {
             shield.broken = false;
         }
+
         this.refreshService.set_ToChange(this.creature, 'inventory');
         this.refreshService.process_ToChange();
     }
@@ -764,6 +816,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -773,13 +826,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['inventory', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['inventory', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

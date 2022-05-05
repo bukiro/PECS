@@ -7,6 +7,7 @@ export class OtherConsumable extends Consumable {
     readonly type = 'otherconsumables';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

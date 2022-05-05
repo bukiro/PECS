@@ -9,10 +9,10 @@ import { Creature } from './Creature';
 
 export class Item {
     public readonly save: Array<string> = [
-        'refId'
+        'refId',
     ];
     public readonly neversave: Array<string> = [
-        'restoredFromSave'
+        'restoredFromSave',
     ];
     //Allow changing of "equippable" by custom item creation
     public allowEquippable: boolean;
@@ -102,9 +102,11 @@ export class Item {
             choice.source = this.id;
             choice.id = `0-Spell-${ this.id }${ index }`;
         });
+
         if (!this.refId) {
             this.refId = this.id;
         }
+
         return this;
     }
     //Other implementations require itemsService.
@@ -123,6 +125,7 @@ export class Item {
     get_Traits(characterService: CharacterService, creature: Creature) {
         //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
         this._traits = this.traits;
+
         return this._traits;
     }
     cleanup_TraitActivations() {
@@ -137,11 +140,13 @@ export class Item {
     getBulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk = '';
+
         this.oilsApplied.forEach(oil => {
             if (oil.bulkEffect) {
                 oilBulk = oil.bulkEffect;
             }
         });
+
         return oilBulk || this.bulk;
     }
     canInvest(): boolean {

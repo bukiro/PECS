@@ -18,6 +18,7 @@ export class AdventuringGear extends Equipment {
     public usage = '';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
     canStack() {

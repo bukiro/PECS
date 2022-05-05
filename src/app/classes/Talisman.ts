@@ -16,6 +16,7 @@ export class Talisman extends Consumable {
     public trigger = '';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

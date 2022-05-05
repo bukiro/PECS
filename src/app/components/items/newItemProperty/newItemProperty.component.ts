@@ -27,7 +27,7 @@ import { Consumable } from 'src/app/classes/Consumable';
 @Component({
     selector: 'app-newItemProperty',
     templateUrl: './newItemProperty.component.html',
-    styleUrls: ['./newItemProperty.component.css']
+    styleUrls: ['./newItemProperty.component.css'],
 })
 export class NewItemPropertyComponent {
 
@@ -52,14 +52,16 @@ export class NewItemPropertyComponent {
         private readonly traitsService: TraitsService,
         private readonly activitiesService: ActivitiesService,
         private readonly spellsService: SpellsService,
-        private readonly evaluationService: EvaluationService
+        private readonly evaluationService: EvaluationService,
     ) { }
 
     get_Parent() {
         let item = this.newItem;
+
         this.parents.forEach(parent => {
             item = item[parent];
         });
+
         return item;
     }
 
@@ -82,13 +84,17 @@ export class NewItemPropertyComponent {
     validate() {
         this.validationError = '';
         this.validationResult = '';
+
         const value = this.get_Parent()[this.propertyKey];
+
         if (this.propertyKey == 'name' && !this.propertyData.parent) {
             if (!value) {
                 this.get_Parent()[this.propertyKey] = 'New Item';
             }
+
             const existingItems = this.get_Inventories()[0][this.newItem.type].filter((existing: Item) => existing.name == value);
             const existingCleanItems = this.itemsService.get_CleanItems()[this.newItem.type].filter((existing: Item) => existing.name == value);
+
             if (existingItems.length && existingItems.some((existing: Item) => existing.canStack())) {
                 this.validationError = `If you use this name, this item will be added to the ${ existingItems[0].name } stack in your inventory. All changes you make here will be lost.`;
             } else if (existingItems.length) {
@@ -97,9 +103,11 @@ export class NewItemPropertyComponent {
                 this.validationError = 'An item with this name and type already exists, but you don\'t own it.';
             }
         }
+
         if (this.propertyKey == 'value' && this.propertyData.parent == 'effects') {
             if (value && value != '0') {
                 const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
+
                 if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError = '';
@@ -116,6 +124,7 @@ export class NewItemPropertyComponent {
         } else if (this.propertyKey == 'setValue' && this.propertyData.parent == 'effects') {
             if (value && value != '0') {
                 const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
+
                 if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError = '';
@@ -132,6 +141,7 @@ export class NewItemPropertyComponent {
         } else if (this.propertyKey == 'value' && this.propertyData.parent == 'onceEffects') {
             if (value && value != '0') {
                 const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
+
                 if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError = '';
@@ -179,11 +189,12 @@ export class NewItemPropertyComponent {
     }
 
     get_IsObject(property) {
-        return (typeof property == 'object');
+        return (typeof property === 'object');
     }
 
     add_NewItemObject() {
         let index = null;
+
         switch (this.propertyKey) {
             case 'activities':
                 index = this.get_Parent()[this.propertyKey].push(new ItemActivity());
@@ -252,8 +263,8 @@ export class NewItemPropertyComponent {
 
     get_NewItemSubProperties(object: object) {
         return Object.keys(object)
-            .map((key) =>
-                this.itemsService.get_ItemProperties().filter(property => property.parent == this.propertyData.key && property.key == key)[0]
+            .map(key =>
+                this.itemsService.get_ItemProperties().filter(property => property.parent == this.propertyData.key && property.key == key)[0],
             )
             .filter(property => property != undefined)
             .sort((a, b) => (a.group + a.priority == b.group + b.priority) ? 0 : ((a.group + a.priority > b.group + b.priority) ? 1 : -1));
@@ -262,21 +273,19 @@ export class NewItemPropertyComponent {
     get_Examples() {
         let examples: Array<string | number> = [''];
 
-        const get_AllItems = () => {
-            return this.get_Items().allItems().concat(...this.get_Inventories().map(inventory => inventory.allItems()));
-        };
+        const get_AllItems = () => this.get_Items().allItems()
+            .concat(...this.get_Inventories().map(inventory => inventory.allItems()));
 
-        const get_AllEquipment = () => {
-            return this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment()));
-        };
+        const get_AllEquipment = () => this.get_Items().allEquipment()
+            .concat(...this.get_Inventories().map(inventory => inventory.allEquipment()));
 
-        const get_AllConsumables = () => {
-            return this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables()));
-        };
+        const get_AllConsumables = () => this.get_Items().allConsumables()
+            .concat(...this.get_Inventories().map(inventory => inventory.allConsumables()));
 
         const extract_Example = (element: Equipment | Consumable) => {
             const key = this.propertyData.key;
             const parent = this.propertyData.parent;
+
             if (parent) {
                 if (element[parent]) {
                     element[parent].forEach(parent => {
@@ -311,6 +320,7 @@ export class NewItemPropertyComponent {
                         examples.push('Heavy Barding');
                         break;
                 }
+
                 break;
             case 'group':
                 switch (this.get_Parent().type) {
@@ -321,6 +331,7 @@ export class NewItemPropertyComponent {
                         examples.push(...this.get_Items().armors.map(item => item.group));
                         break;
                 }
+
                 break;
             case 'weaponbase':
                 examples.push(...this.get_Items().weapons.map(item => item.weaponBase));
@@ -340,19 +351,18 @@ export class NewItemPropertyComponent {
             case 'activity':
                 examples.push(...get_AllConsumables()
                     .filter(item => item[this.propertyData.key] && item[this.propertyData.key].length)
-                    .map(item => {
-                        return item[this.propertyData.key];
-                    }));
+                    .map(item => item[this.propertyData.key]));
                 get_AllEquipment()
                     .filter(item => item.activities.length)
                     .forEach(item => {
                         examples.push(...item.activities.filter(activity => activity[this.propertyData.key].length)
-                            .map(activity => activity[this.propertyData.key]
+                            .map(activity => activity[this.propertyData.key],
                             ));
                     });
                 examples.push(...this.activitiesService.get_Activities()
-                    .filter(activity => activity[this.propertyData.key].length).map(activity =>
-                        activity[this.propertyData.key]
+                    .filter(activity => activity[this.propertyData.key].length)
+                    .map(activity =>
+                        activity[this.propertyData.key],
                     ));
                 break;
             case 'spellname':
@@ -432,7 +442,7 @@ export class NewItemPropertyComponent {
                 break;
             case 'effects affected':
                 examples.push(...this.characterService.get_Skills(this.get_Character()).map(skill => skill.name));
-                examples.push(...this.characterService.get_Abilities().map(ability => { return ability.name; }));
+                examples.push(...this.characterService.get_Abilities().map(ability => ability.name));
                 this.characterService.get_FeatsAndFeatures()
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
@@ -484,7 +494,7 @@ export class NewItemPropertyComponent {
                     .forEach(item => {
                         examples.push(...item.onceEffects.map(effect => effect.value));
                     });
-                examples = examples.filter(example => typeof example == 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
+                examples = examples.filter(example => typeof example === 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
                 break;
             case 'effects setvalue':
                 this.characterService.get_FeatsAndFeatures()
@@ -528,10 +538,10 @@ export class NewItemPropertyComponent {
                     });
                 examples = examples
                     .filter(example =>
-                        typeof example == 'string' &&
+                        typeof example === 'string' &&
                         !example.toLowerCase().includes('object') &&
                         !example.toLowerCase().includes('heightened') &&
-                        !example.toLowerCase().includes('value')
+                        !example.toLowerCase().includes('value'),
                     );
                 break;
             case 'effects title':
@@ -547,9 +557,9 @@ export class NewItemPropertyComponent {
                     });
                 examples = examples
                     .filter(example =>
-                        typeof example == 'string' &&
+                        typeof example === 'string' &&
                         !example.toLowerCase().includes('object') &&
-                        !example.toLowerCase().includes('heightened')
+                        !example.toLowerCase().includes('heightened'),
                     );
                 break;
             case 'inputRequired':
@@ -558,22 +568,18 @@ export class NewItemPropertyComponent {
                     .forEach(item => {
                         examples.push(...item.activities
                             .filter(activity => activity.inputRequired.length)
-                            .map(activity => activity.inputRequired)
+                            .map(activity => activity.inputRequired),
                         );
                     });
                 examples.push(...this.activitiesService.get_Activities()
-                    .filter(activity => activity.inputRequired.length).map(activity => {
-                        return activity.inputRequired;
-                    }));
+                    .filter(activity => activity.inputRequired.length)
+                    .map(activity => activity.inputRequired));
                 examples.push(...this.characterService.get_Conditions()
-                    .filter(condition => condition.inputRequired.length).map(condition => {
-                        return condition.inputRequired;
-                    }));
+                    .filter(condition => condition.inputRequired.length)
+                    .map(condition => condition.inputRequired));
                 break;
             case 'gainactivity name':
-                examples.push(...this.activitiesService.get_Activities().map(activity => {
-                    return activity.name;
-                }));
+                examples.push(...this.activitiesService.get_Activities().map(activity => activity.name));
                 break;
             case 'showon':
                 examples.push(...this.characterService.get_Skills(this.get_Character()).map(skill => skill.name));
@@ -609,9 +615,10 @@ export class NewItemPropertyComponent {
                     });
                 break;
             case 'hints desc':
-                this.activitiesService.get_Activities().filter(activity => activity.hints.length).forEach(activity => {
-                    examples.push(...activity.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
-                });
+                this.activitiesService.get_Activities().filter(activity => activity.hints.length)
+                    .forEach(activity => {
+                        examples.push(...activity.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
+                    });
                 get_AllEquipment()
                     .filter(item => item.activities.length)
                     .forEach(item => {
@@ -681,6 +688,7 @@ export class NewItemPropertyComponent {
         }
 
         const uniqueExamples = Array.from(new Set(examples.filter(example => example.toString().length <= 90)));
+
         return uniqueExamples.sort();
     }
 

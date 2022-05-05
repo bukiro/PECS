@@ -20,7 +20,7 @@ import { Rune } from 'src/app/classes/Rune';
 import * as json_activities from 'src/assets/json/activities';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ActivitiesService {
 
@@ -30,11 +30,11 @@ export class ActivitiesService {
 
     constructor(
         private readonly extensionsService: ExtensionsService,
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     private get_ReplacementActivity(name?: string): Activity {
-        return Object.assign(new Activity(), { name: 'Activity not found', 'desc': `${ name ? name : 'The requested activity' } does not exist in the activities list.`, displayOnly: true });
+        return Object.assign(new Activity(), { name: 'Activity not found', desc: `${ name ? name : 'The requested activity' } does not exist in the activities list.`, displayOnly: true });
     }
 
     get_ActivityFromName(name: string): Activity {
@@ -59,16 +59,16 @@ export class ActivitiesService {
         if (!gain) {
             return null;
         }
+
         let item: Equipment | Rune = null;
+
         creature.inventories.forEach(inventory => {
             inventory.allEquipment().forEach(equipment => {
                 if (gain.isActivity && equipment.activities.some(itemActivity => itemActivity === gain)) {
                     item = equipment;
-                }
-                else if (!gain.isActivity && equipment.gainActivities.some(activityGain => activityGain === gain)) {
+                } else if (!gain.isActivity && equipment.gainActivities.some(activityGain => activityGain === gain)) {
                     item = equipment;
-                }
-                else if (gain.isActivity) {
+                } else if (gain.isActivity) {
                     if (equipment instanceof Armor) {
                         equipment.propertyRunes.forEach(rune => {
                             if (rune.activities.some(itemActivity => itemActivity === gain)) {
@@ -82,6 +82,7 @@ export class ActivitiesService {
                             }
                         });
                     }
+
                     equipment.oilsApplied.forEach(oil => {
                         if (oil.runeEffect?.activities.some(itemActivity => itemActivity === gain)) {
                             item = oil.runeEffect;
@@ -90,6 +91,7 @@ export class ActivitiesService {
                 }
             });
         });
+
         return item;
     }
 
@@ -104,15 +106,18 @@ export class ActivitiesService {
         let closePopupsAfterActivation = false;
 
         const cooldown = activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService });
+
         if (activated || activity.cooldownAfterEnd) {
             //Start cooldown, unless one is already in effect.
             //If the activity ends and cooldownAfterEnd is set, start the cooldown anew.
             if (cooldown && (!gain.activeCooldown || (!activated && activity.cooldownAfterEnd))) {
                 gain.activeCooldown = cooldown;
             }
+
             if (activated) {
                 //Use charges
                 const maxCharges = activity.maxCharges({ creature }, { effectsService: characterService.effectsService });
+
                 if (maxCharges || gain.sharedChargesID) {
                     //If this activity belongs to an item and has a sharedCharges ID, spend a charge for every activity with the same sharedChargesID and start their cooldown if necessary.
                     if (item && gain.sharedChargesID) {
@@ -122,7 +127,9 @@ export class ActivitiesService {
                                 if (itemActivity.maxCharges({ creature }, { effectsService: characterService.effectsService })) {
                                     itemActivity.chargesUsed += 1;
                                 }
+
                                 const otherCooldown = itemActivity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService });
+
                                 if (!itemActivity.activeCooldown && otherCooldown) {
                                     itemActivity.activeCooldown = otherCooldown;
                                 }
@@ -131,10 +138,13 @@ export class ActivitiesService {
                             .filter(activityGain => activityGain.sharedChargesID == gain.sharedChargesID)
                             .forEach(activityGain => {
                                 const originalActivity = this.get_Activities(activityGain.name)[0];
+
                                 if (originalActivity?.maxCharges({ creature }, { effectsService: characterService.effectsService })) {
                                     activityGain.chargesUsed += 1;
                                 }
+
                                 const otherCooldown = originalActivity?.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService }) || 0;
+
                                 if (!activityGain.activeCooldown && otherCooldown) {
                                     activityGain.activeCooldown = otherCooldown;
                                 }
@@ -151,6 +161,7 @@ export class ActivitiesService {
 
         if (activated && activity.toggle) {
             gain.active = true;
+
             if (activity.maxDuration) {
                 gain.duration = activity.maxDuration;
                 //If an effect changes the duration of this activitiy, change the duration here.
@@ -163,14 +174,17 @@ export class ActivitiesService {
                     conditionsToRemove.push(effect.source);
                 });
             }
+
             gain.selectedTarget = target;
         } else {
             gain.active = false;
             gain.duration = 0;
             gain.selectedTarget = '';
         }
+
         this.refreshService.set_ToChange(creature.type, 'activities');
         this.refreshService.set_ToChange(creature.type, gain.id);
+
         if (item) { this.refreshService.set_ToChange(creature.type, 'inventory'); }
 
         //Process various results of activating the activity
@@ -181,6 +195,7 @@ export class ActivitiesService {
                 if (gain.constructor instanceof ActivityGain) {
                     gain.gainItems = activity.gainItems.map(gainItem => Object.assign(new ItemGain(), gainItem).recast());
                 }
+
                 gain.gainItems.forEach(gainItem => {
                     gainItem.grant_GrantedItem(creature, { sourceName: activity.name }, { characterService, itemsService });
                 });
@@ -188,6 +203,7 @@ export class ActivitiesService {
                 gain.gainItems.forEach(gainItem => {
                     gainItem.drop_GrantedItem(creature, {}, { characterService });
                 });
+
                 if (gain instanceof ActivityGain) {
                     gain.gainItems = [];
                 }
@@ -200,6 +216,7 @@ export class ActivitiesService {
             //Find out if target was given. If no target is set, conditions will not be applied.
             //Everything else (one time effects and gained items) automatically applies to the activating creature.
             const targets: Array<Creature | SpellTarget> = [];
+
             switch (target) {
                 case 'self':
                     targets.push(creature);
@@ -217,6 +234,7 @@ export class ActivitiesService {
                     if (gain) {
                         targets.push(...gain.targets.filter(target => target.selected));
                     }
+
                     break;
             }
 
@@ -226,6 +244,7 @@ export class ActivitiesService {
                     if (!effect.source) {
                         effect.source = activity.name;
                     }
+
                     characterService.process_OnceEffect(creature, effect);
                 });
             }
@@ -241,18 +260,23 @@ export class ActivitiesService {
                     const casterIsTarget: boolean = targets.some(target => target.id == creature.id);
                     //Do the target and the caster get the same condition?
                     const sameCondition: boolean = hasTargetCondition && hasCasterCondition && Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length == 1;
+
                     conditions.forEach((conditionGain, conditionIndex) => {
                         conditionGain.source = activity.name;
+
                         const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
                         const condition = conditionsService.get_ConditionFromName(conditionGain.name);
+
                         if (condition.endConditions.some(endCondition => endCondition.name.toLowerCase() == gain.source.toLowerCase())) {
                             //If any condition ends the condition that this activity came from, close all popovers after the activity is processed.
                             // This ensures that conditions in stickyPopovers don't remain open even after they have been removed.
                             closePopupsAfterActivation = true;
                         }
+
                         if (!newConditionGain.source) {
                             newConditionGain.source = activity.name;
                         }
+
                         //Unless the conditionGain has a choice set, try to set it by various factors.
                         if (!newConditionGain.choice) {
                             if (newConditionGain.copyChoiceFrom && gain.effectChoices.length) {
@@ -261,6 +285,7 @@ export class ActivitiesService {
                             } else if (newConditionGain.choiceBySubType) {
                                 //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
                                 const subType = (characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have({ creature }, { characterService })));
+
                                 if (subType && condition.choices.map(choice => choice.name).includes(subType.subType)) {
                                     newConditionGain.choice = subType.subType;
                                 }
@@ -272,6 +297,7 @@ export class ActivitiesService {
                                 }
                             }
                         }
+
                         //Under certain circumstances, don't grant caster conditions:
                         // - If there is a target condition, the caster is also a target, and the caster and the targets get the same condition.
                         // - If there is a target condition, the caster is also a target, and the caster condition is purely informational.
@@ -309,14 +335,17 @@ export class ActivitiesService {
                             )
                         ) {
                             newConditionGain.sourceGainID = gain?.id || '';
+
                             //If this activityGain has taken over a spell level from a spell condition, and the new condition is a spell condition itself, transfer the spell level to it.
                             if (condition.minLevel) {
                                 newConditionGain.heightened = newConditionGain.heightened || gain.heightened || condition.minLevel;
                             }
+
                             if (newConditionGain.durationIsDynamic) {
                                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
                                 newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
                             }
+
                             if (
                                 conditionGain.targetFilter == 'caster' &&
                                 hasTargetCondition &&
@@ -331,16 +360,19 @@ export class ActivitiesService {
                             } else {
                                 //Check if an effect changes the duration of this condition.
                                 let effectDuration: number = newConditionGain.duration || 0;
+
                                 characterService.effectsService.get_AbsolutesOnThis(creature, `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`).forEach(effect => {
                                     effectDuration = parseInt(effect.setValue);
                                     conditionsToRemove.push(effect.source);
                                 });
+
                                 if (effectDuration > 0) {
                                     characterService.effectsService.get_RelativesOnThis(creature, `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`).forEach(effect => {
                                         effectDuration += parseInt(effect.value);
                                         conditionsToRemove.push(effect.source);
                                     });
                                 }
+
                                 //If an effect has changed the duration, use the effect duration unless it is shorter than the current duration.
                                 if (effectDuration) {
                                     if (effectDuration == -1) {
@@ -358,9 +390,11 @@ export class ActivitiesService {
                                     }
                                 }
                             }
+
                             if (condition.hasValue) {
                                 //Apply effects that change the value of this condition.
                                 let effectValue: number = newConditionGain.value || 0;
+
                                 characterService.effectsService.get_AbsolutesOnThis(creature, `${ condition.name } Value`).forEach(effect => {
                                     effectValue = parseInt(effect.setValue);
                                     conditionsToRemove.push(effect.source);
@@ -371,6 +405,7 @@ export class ActivitiesService {
                                 });
                                 newConditionGain.value = effectValue;
                             }
+
                             //#Experimental, not needed so far
                             //Add caster data, if a formula exists.
                             //  if (conditionGain.casterDataFormula) {
@@ -378,24 +413,30 @@ export class ActivitiesService {
                             //  }
                             //#
                             let conditionTargets: Array<Creature | SpellTarget> = targets;
+
                             //Caster conditions are applied to the caster creature only. If the spell is durationDependsOnTarget, there are any foreign targets (whose turns don't end when the caster's turn ends)
                             // and it doesn't have a duration of X+1, add 2 for "until another character's turn".
                             // This allows the condition to persist until after the caster's last turn, simulating that it hasn't been the target's last turn yet.
                             if (conditionGain.targetFilter == 'caster') {
                                 conditionTargets = [creature];
+
                                 if (activity.durationDependsOnTarget && targets.some(target => target instanceof SpellTarget) && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
                             }
+
                             //Apply to any targets that are your own creatures.
                             conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
                                 characterService.add_Condition(target as Creature, newConditionGain, {}, { noReload: true });
                             });
+
                             //Apply to any non-creature targets whose ID matches your own creatures.
                             const creatures = characterService.get_Creatures();
+
                             conditionTargets.filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id == target.id)).forEach(target => {
                                 characterService.add_Condition(characterService.get_Creature(target.type), newConditionGain, {}, { noReload: true });
                             });
+
                             //Send conditions to non-creature targets that aren't your own creatures.
                             if (conditionGain.targetFilter != 'caster' && conditionTargets.some(target => target instanceof SpellTarget)) {
                                 //For foreign targets (whose turns don't end when the caster's turn ends), if the spell is not durationDependsOnTarget, and it doesn't have a duration of X+1, add 2 for "until another character's turn".
@@ -403,6 +444,7 @@ export class ActivitiesService {
                                 if (!activity.durationDependsOnTarget && newConditionGain.duration > 0 && !newConditionGain.durationDependsOnOther) {
                                     newConditionGain.duration += 2;
                                 }
+
                                 characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as Array<SpellTarget>, newConditionGain);
                             }
                         }
@@ -410,6 +452,7 @@ export class ActivitiesService {
                 } else {
                     activity.gainConditions.forEach(conditionGain => {
                         const conditionTargets: Array<Creature | SpellTarget> = (conditionGain.targetFilter == 'caster' ? [creature] : targets);
+
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
                             characterService.get_AppliedConditions(target as Creature, conditionGain.name)
                                 .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (gain?.id || ''))
@@ -430,29 +473,36 @@ export class ActivitiesService {
                         gain.castSpells = activity.castSpells.map(spellCast => Object.assign<SpellCast, SpellCast>(new SpellCast(), JSON.parse(JSON.stringify(spellCast))).recast());
                     }
                 }
+
                 gain.castSpells.forEach((cast, spellCastIndex) => {
                     const librarySpell = spellsService.get_Spells(cast.name)[0];
+
                     if (librarySpell) {
                         if (activated && gain.spellEffectChoices[spellCastIndex].length) {
                             cast.spellGain.effectChoices = gain.spellEffectChoices[spellCastIndex];
                         }
+
                         if (cast.overrideChoices.length) {
                             //If the SpellCast has overrideChoices, copy them to the SpellGain.
                             cast.spellGain.overrideChoices = JSON.parse(JSON.stringify(cast.overrideChoices));
                         }
+
                         if (cast.duration) {
                             cast.spellGain.duration = cast.duration;
                         }
+
                         if (activated) {
                             cast.spellGain.selectedTarget = target;
                         }
+
                         characterService.spellsService.process_Spell(librarySpell, activated,
                             { characterService, itemsService, conditionsService },
                             { creature, target: cast.spellGain.selectedTarget, gain: cast.spellGain, level: cast.level, activityGain: gain },
-                            { manual: true }
+                            { manual: true },
                         );
                     }
                 });
+
                 if (!activated) {
                     if (gain instanceof ActivityGain) {
                         gain.castSpells = [];
@@ -477,9 +527,10 @@ export class ActivitiesService {
 
         //All Conditions that have affected the duration of this activity or its conditions are now removed.
         if (conditionsToRemove.length) {
-            characterService.get_AppliedConditions(creature, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name)).forEach(conditionGain => {
-                characterService.remove_Condition(creature, conditionGain, false);
-            });
+            characterService.get_AppliedConditions(creature, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
+                .forEach(conditionGain => {
+                    characterService.remove_Condition(creature, conditionGain, false);
+                });
         }
 
         if (closePopupsAfterActivation) {
@@ -494,75 +545,93 @@ export class ActivitiesService {
     rest(creature: Creature, characterService: CharacterService) {
         //Get all owned activity gains that have a cooldown active or have a current duration of -2 (until rest).
         //Get the original activity information, and if its cooldown is exactly one day or until rest (-2), the activity gain's cooldown is reset.
-        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown != 0 || gain.duration == -2).forEach(gain => {
-            const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
-            if (gain.duration == -2 && activity) {
-                this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
-            }
-            if ([144000, -2].includes(activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService }))) {
-                gain.activeCooldown = 0;
-                gain.chargesUsed = 0;
-            }
-            activity.showonSkill?.split(',').forEach(skillName => {
-                this.refreshService.set_ToChange(creature.type, 'skills');
-                this.refreshService.set_ToChange(creature.type, 'individualskills', skillName.trim());
+        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown != 0 || gain.duration == -2)
+            .forEach(gain => {
+                const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
+
+                if (gain.duration == -2 && activity) {
+                    this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
+                }
+
+                if ([144000, -2].includes(activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService }))) {
+                    gain.activeCooldown = 0;
+                    gain.chargesUsed = 0;
+                }
+
+                activity.showonSkill?.split(',').forEach(skillName => {
+                    this.refreshService.set_ToChange(creature.type, 'skills');
+                    this.refreshService.set_ToChange(creature.type, 'individualskills', skillName.trim());
+                });
             });
-        });
     }
 
     refocus(creature: Creature, characterService: CharacterService) {
         //Get all owned activity gains that have a cooldown or a current duration of -3 (until refocus).
         //Get the original activity information, and if its cooldown is until refocus (-3), the activity gain's cooldown is reset.
-        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown == -3 || gain.duration == -3).forEach(gain => {
-            const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
-            if (gain.duration == -3 && activity) {
-                this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
-            }
-            if ((activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService })) == -3) {
-                gain.activeCooldown = 0;
-                gain.chargesUsed = 0;
-            }
-            activity.showonSkill?.split(',').forEach(skillName => {
-                this.refreshService.set_ToChange(creature.type, 'skills');
-                this.refreshService.set_ToChange(creature.type, 'individualskills', skillName.trim());
+        characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown == -3 || gain.duration == -3)
+            .forEach(gain => {
+                const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
+
+                if (gain.duration == -3 && activity) {
+                    this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
+                }
+
+                if ((activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService })) == -3) {
+                    gain.activeCooldown = 0;
+                    gain.chargesUsed = 0;
+                }
+
+                activity.showonSkill?.split(',').forEach(skillName => {
+                    this.refreshService.set_ToChange(creature.type, 'skills');
+                    this.refreshService.set_ToChange(creature.type, 'individualskills', skillName.trim());
+                });
             });
-        });
     }
 
     tick_Activities(creature: Creature, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns = 10) {
-        characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration).forEach(gain => {
+        characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration)
+            .forEach(gain => {
             //Tick down the duration and the cooldown by the amount of turns.
-            const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
-            // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
-            let remainingTurns = turns;
-            this.refreshService.set_ToChange(creature.type, 'activities');
-            if (gain.duration > 0) {
-                const difference = Math.min(gain.duration, remainingTurns);
-                gain.duration -= difference;
-                remainingTurns -= difference;
-                if (gain.duration == 0) {
-                    if (activity) {
-                        this.activate_Activity(creature, creature.type, characterService, conditionsService, itemsService, spellsService, gain, activity, false, false);
+                const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
+                // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
+                let remainingTurns = turns;
+
+                this.refreshService.set_ToChange(creature.type, 'activities');
+
+                if (gain.duration > 0) {
+                    const difference = Math.min(gain.duration, remainingTurns);
+
+                    gain.duration -= difference;
+                    remainingTurns -= difference;
+
+                    if (gain.duration == 0) {
+                        if (activity) {
+                            this.activate_Activity(creature, creature.type, characterService, conditionsService, itemsService, spellsService, gain, activity, false, false);
+                        }
                     }
                 }
-            }
-            //Only if the activity has a cooldown active, reduce the cooldown and restore charges. If the activity does not have a cooldown, the charges are permanently spent.
-            //If the activity has cooldownAfterEnd, only the remaining turns are applied.
-            const cooldownTurns = activity.cooldownAfterEnd ? remainingTurns : turns;
-            if (gain.activeCooldown) {
-                gain.activeCooldown = Math.max(gain.activeCooldown - cooldownTurns, 0);
-                if (gain.chargesUsed && gain.activeCooldown == 0) {
-                    gain.chargesUsed = 0;
+
+                //Only if the activity has a cooldown active, reduce the cooldown and restore charges. If the activity does not have a cooldown, the charges are permanently spent.
+                //If the activity has cooldownAfterEnd, only the remaining turns are applied.
+                const cooldownTurns = activity.cooldownAfterEnd ? remainingTurns : turns;
+
+                if (gain.activeCooldown) {
+                    gain.activeCooldown = Math.max(gain.activeCooldown - cooldownTurns, 0);
+
+                    if (gain.chargesUsed && gain.activeCooldown == 0) {
+                        gain.chargesUsed = 0;
+                    }
                 }
-            }
-            if (gain instanceof ItemActivity) {
-                this.refreshService.set_ToChange(creature.type, 'inventory');
-            }
-            activity.showonSkill?.split(',').forEach(skillName => {
-                this.refreshService.set_ToChange(creature.type, 'skills');
-                this.refreshService.set_ToChange(creature.type, 'individualskills', skillName.trim());
+
+                if (gain instanceof ItemActivity) {
+                    this.refreshService.set_ToChange(creature.type, 'inventory');
+                }
+
+                activity.showonSkill?.split(',').forEach(skillName => {
+                    this.refreshService.set_ToChange(creature.type, 'skills');
+                    this.refreshService.set_ToChange(creature.type, 'individualskills', skillName.trim());
+                });
             });
-        });
     }
 
     still_loading() {
@@ -593,7 +662,9 @@ export class ActivitiesService {
 
     load_Activities() {
         this.activities = [];
+
         const data = this.extensionsService.extend(json_activities, 'activities');
+
         Object.keys(data).forEach(key => {
             this.activities.push(...data[key].map((obj: Activity) => Object.assign(new Activity(), obj).recast()));
         });

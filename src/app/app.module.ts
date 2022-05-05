@@ -149,7 +149,7 @@ import { AppInitService } from './core/services/app-init/app-init.service';
         SpellContentComponent,
         ItemEmblazonArmamentComponent,
         TraitComponent,
-        AboutComponent
+        AboutComponent,
     ],
     imports: [
         CommonModule,
@@ -160,14 +160,14 @@ import { AppInitService } from './core/services/app-init/app-init.service';
         AppRoutingModule,
         HttpClientModule,
         NgbModule,
-        DragDropModule
+        DragDropModule,
     ],
     providers: [
         NgbActiveModal,
-        { provide: APP_INITIALIZER, useFactory: (service: AppInitService) => () => { return service; }, deps: [AppInitService], multi: true }
+        { provide: APP_INITIALIZER, useFactory: (service: AppInitService) => () => service, deps: [AppInitService], multi: true },
     ],
     bootstrap: [
-        AppComponent
-    ]
+        AppComponent,
+    ],
 })
 export class AppModule { }

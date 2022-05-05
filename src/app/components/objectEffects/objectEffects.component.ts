@@ -8,7 +8,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 @Component({
     selector: 'app-objectEffects',
     templateUrl: './objectEffects.component.html',
-    styleUrls: ['./objectEffects.component.css']
+    styleUrls: ['./objectEffects.component.css'],
 })
 export class ObjectEffectsComponent {
 
@@ -21,7 +21,7 @@ export class ObjectEffectsComponent {
         private readonly characterService: CharacterService,
         private readonly refreshService: RefreshService,
         private readonly effectsService: EffectsService,
-        private readonly evaluationService: EvaluationService
+        private readonly evaluationService: EvaluationService,
     ) { }
 
     get_Creature() {
@@ -36,6 +36,7 @@ export class ObjectEffectsComponent {
         if (this.get_IsFormula(effect.value)) {
             effect.value = '0';
         }
+
         this.update_Effects();
     }
 
@@ -67,18 +68,22 @@ export class ObjectEffectsComponent {
                 return true;
             }
         }
+
         return false;
     }
 
     get_EffectValue(effect: EffectGain) {
         //Send the effect's setValue or value to the EvaluationService to get its result.
         const value = effect.setValue || effect.value || null;
+
         if (value) {
             const result = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Creature(), effect });
+
             if (result) {
                 return `= ${ result }`;
             }
         }
+
         //If the EffectGain did not produce a value, return a zero value instead.
         return '0';
     }

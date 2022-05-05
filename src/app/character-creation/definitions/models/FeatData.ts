@@ -12,6 +12,7 @@ export class FeatData {
     }
     public setValue(key: string, input: FeatDataValue | Event) {
         const value = input instanceof Event ? (<HTMLInputElement>input.target).value : input;
+
         this.data[key] = value;
     }
     public getValue(key: string): FeatDataValue {

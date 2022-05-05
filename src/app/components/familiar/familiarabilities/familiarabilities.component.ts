@@ -7,7 +7,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     selector: 'app-familiarabilities',
     templateUrl: './familiarabilities.component.html',
     styleUrls: ['./familiarabilities.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
 
@@ -20,7 +20,7 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
     constructor(
         private readonly changeDetector: ChangeDetectorRef,
         private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -41,13 +41,13 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['familiarabilities', 'all', 'Familiar'].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature == 'Familiar' && ['familiarabilities', 'all'].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }

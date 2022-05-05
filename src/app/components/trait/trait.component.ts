@@ -7,7 +7,7 @@ import { Item } from 'src/app/classes/Item';
 @Component({
     selector: 'app-trait',
     templateUrl: './trait.component.html',
-    styleUrls: ['./trait.component.css']
+    styleUrls: ['./trait.component.css'],
 })
 export class TraitComponent {
 
@@ -24,7 +24,7 @@ export class TraitComponent {
 
     constructor(
         public characterService: CharacterService,
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -43,8 +43,10 @@ export class TraitComponent {
     get_ObjectTraitActivations() {
         if (this.item) {
             this.item.cleanup_TraitActivations();
+
             return this.item.traitActivations.filter(activation => activation.trait == this.trait.name || (this.trait.dynamic && activation.trait.includes(this.trait.name)));
         }
+
         return [];
     }
 

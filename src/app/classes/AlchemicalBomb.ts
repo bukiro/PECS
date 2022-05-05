@@ -21,6 +21,7 @@ export class AlchemicalBomb extends Weapon {
     }
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
     canStack() {

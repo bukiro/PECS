@@ -12,7 +12,7 @@ import { ActivitiesService } from 'src/app/services/activities.service';
 @Component({
     selector: 'app-itemPoisons',
     templateUrl: './itemPoisons.component.html',
-    styleUrls: ['./itemPoisons.component.css']
+    styleUrls: ['./itemPoisons.component.css'],
 })
 export class ItemPoisonsComponent {
 
@@ -30,7 +30,7 @@ export class ItemPoisonsComponent {
         private readonly itemsService: ItemsService,
         private readonly activitiesService: ActivitiesService,
         private readonly timeService: TimeService,
-        private readonly typeService: TypeService
+        private readonly typeService: TypeService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -51,7 +51,9 @@ export class ItemPoisonsComponent {
 
     get_Poisons() {
         const allPoisons: Array<{ poison: AlchemicalPoison; inv: ItemCollection }> = [{ poison: new AlchemicalPoison(), inv: null }];
+
         allPoisons[0].poison.name = '';
+
         if (this.itemStore) {
             allPoisons.push(...this.get_CleanItems().alchemicalpoisons.filter(poison => poison.traits.includes('Injury')).map(poison => ({ poison, inv: null })));
         } else {
@@ -59,17 +61,21 @@ export class ItemPoisonsComponent {
                 allPoisons.push(...inv.alchemicalpoisons.filter(poison => poison.traits.includes('Injury')).map(poison => ({ poison, inv })));
             });
         }
+
         return allPoisons;
     }
 
     add_Poison() {
         if (this.newPoison.poison.name) {
             const item = this.item;
+
             item.poisonsApplied.length = 0;
             item.poisonsApplied.push(Object.assign<AlchemicalPoison, AlchemicalPoison>(new AlchemicalPoison(), JSON.parse(JSON.stringify(this.newPoison.poison))).recast(this.typeService, this.itemsService));
+
             if (this.newPoison.inv) {
                 this.characterService.drop_InventoryItem(this.get_Character(), this.newPoison.inv, this.newPoison.poison, false, false, false, 1);
             }
+
             this.newPoison = { poison: new AlchemicalPoison(), inv: null };
             this.newPoison.poison.name = '';
             this.refreshService.set_ToChange('Character', 'inventory');

@@ -7,7 +7,7 @@ import { ConfigService } from 'src/app/services/config.service';
 @Component({
     selector: 'app-about',
     templateUrl: './about.component.html',
-    styleUrls: ['./about.component.scss']
+    styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit {
 
@@ -18,7 +18,7 @@ export class AboutComponent implements OnInit {
     changelog: Array<{ version: string; changes: Array<{ header: string; desc: string; images: Array<{ file: string; title: string }> }> }> = changelog;
 
     constructor(
-        private readonly configService: ConfigService
+        private readonly configService: ConfigService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -31,6 +31,7 @@ export class AboutComponent implements OnInit {
 
     get_UpdateAvailable() {
         const updateAvailable = this.configService.get_UpdateAvailable();
+
         if (updateAvailable == 'n/a') {
             return [{ available: false, desc: 'PECS was unable to check for new versions.' }];
         } else if (updateAvailable) {

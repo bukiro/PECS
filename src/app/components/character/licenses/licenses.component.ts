@@ -6,7 +6,7 @@ import ogl15 from 'src/assets/json/licenses/ogl15.json';
 @Component({
     selector: 'app-licenses',
     templateUrl: './licenses.component.html',
-    styleUrls: ['./licenses.component.css']
+    styleUrls: ['./licenses.component.css'],
 })
 export class LicensesComponent implements OnInit {
 
@@ -23,7 +23,7 @@ export class LicensesComponent implements OnInit {
             this.ogl.push({ title: ogl[key].title, desc: ogl[key].desc });
         });
         Object.keys(ogl15).forEach(key => {
-            this.ogl15.push({ header: ogl15[key].header, lines: ogl15[key].lines.map(line => { return { title: line.title, desc: line.desc }; }) });
+            this.ogl15.push({ header: ogl15[key].header, lines: ogl15[key].lines.map(line => ({ title: line.title, desc: line.desc })) });
         });
     }
 }

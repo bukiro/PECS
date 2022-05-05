@@ -15,7 +15,7 @@ import { InputValidationService } from 'src/app/services/inputValidation.service
     selector: 'app-health',
     templateUrl: './health.component.html',
     styleUrls: ['./health.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HealthComponent implements OnInit, OnDestroy {
 
@@ -45,7 +45,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
         public effectsService: EffectsService,
-        private readonly conditionsService: ConditionsService
+        private readonly conditionsService: ConditionsService,
     ) { }
 
     minimize() {
@@ -97,7 +97,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     die(reason: string) {
         if (!this.characterService.get_AppliedConditions(this.get_Creature(), 'Dead').length) {
-            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain, { name: 'Dead', source: reason }), {}, { noReload: true });
+            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain(), { name: 'Dead', source: reason }), {}, { noReload: true });
             this.characterService.get_AppliedConditions(this.get_Creature(), 'Doomed').forEach(gain => {
                 this.characterService.remove_Condition(this.get_Creature(), gain, false);
             });
@@ -110,6 +110,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     calculate_Health() {
         const calculatedHealth = this.get_Health().calculate(this.get_Creature(), this.characterService, this.effectsService);
+
         //Don't do anything about your dying status in manual mode.
         if (!this.characterService.get_ManualMode()) {
             if (calculatedHealth.dying >= calculatedHealth.maxDying) {
@@ -120,7 +121,9 @@ export class HealthComponent implements OnInit, OnDestroy {
                 }
             }
         }
+
         this.damageSliderMax = (calculatedHealth.maxHP.result + (this.get_Health().temporaryHP[0]?.amount || 0)) || 1;
+
         return calculatedHealth;
     }
 
@@ -144,10 +147,12 @@ export class HealthComponent implements OnInit, OnDestroy {
             this.characterService.get_AppliedConditions(this.get_Creature(), 'Dying').forEach(gain => {
                 gain.value = Math.min(gain.value + 1, maxDying);
             });
+
             if (this.get_Health().dying(this.get_Creature(), this.characterService) >= maxDying) {
                 this.die('Failed Dying Save');
             }
         }
+
         this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
     }
@@ -223,10 +228,12 @@ export class HealthComponent implements OnInit, OnDestroy {
             effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes('resistance') ||
                 effect.target.toLowerCase().includes('hardness')) && effect.apply && !effect.ignored);
         const resistances: Array<{ target: string; value: number; source: string }> = [];
+
         //Build a list of all resistances other than "Resistances" and add up their respective value.
         effects.filter(effect => effect.target.toLowerCase() != 'resistances').forEach(effect => {
             const value = parseInt(effect.value) || parseInt(effect.setValue);
             const resistance = resistances.find(res => res.target == effect.target);
+
             if (resistance) {
                 resistance.value += value;
                 resistance.source += `\n${ effect.source }: ${ value }`;
@@ -237,6 +244,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         //Globally apply any effects on "Resistances".
         effects.filter(effect => effect.target.toLowerCase() == 'resistances').forEach(effect => {
             const value = parseInt(effect.value) || parseInt(effect.setValue);
+
             resistances.forEach(resistance => {
                 resistance.value += value;
                 resistance.source += `\n${ effect.source }: ${ value }`;
@@ -246,8 +254,11 @@ export class HealthComponent implements OnInit, OnDestroy {
             if (res.value < 0) {
                 res.target = res.target.toLowerCase().replace('resistance', 'weakness');
             }
-            res.target = res.target.split(' ').map(word => word[0].toUpperCase() + word.substr(1).toLowerCase()).join(' ');
+
+            res.target = res.target.split(' ').map(word => word[0].toUpperCase() + word.substr(1).toLowerCase())
+                .join(' ');
         });
+
         return resistances;
     }
 
@@ -255,14 +266,17 @@ export class HealthComponent implements OnInit, OnDestroy {
         const effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
             effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes('immunity')));
         const immunities: Array<{ target: string; source: string }> = [];
+
         effects.forEach(effect => {
             if (!immunities.some(immunity => immunity.target == effect.target)) {
                 immunities.push({ target: effect.target, source: effect.source });
             }
         });
         immunities.forEach(immunity => {
-            immunity.target = immunity.target.split(' ').map(word => word[0].toUpperCase() + word.substring(1).toLowerCase()).join(' ');
+            immunity.target = immunity.target.split(' ').map(word => word[0].toUpperCase() + word.substring(1).toLowerCase())
+                .join(' ');
         });
+
         return immunities;
     }
 
@@ -280,13 +294,13 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['health', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['health', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

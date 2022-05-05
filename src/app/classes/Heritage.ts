@@ -25,6 +25,7 @@ export class Heritage {
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
         this.spellChoices = this.spellChoices.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.subTypes = this.subTypes.map(obj => Object.assign(new Heritage(), obj).recast());
+
         return this;
     }
 }

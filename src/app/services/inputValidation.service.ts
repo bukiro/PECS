@@ -14,7 +14,7 @@ const positiveNumbersOnly = new Set([
 ]);
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class InputValidationService {
 

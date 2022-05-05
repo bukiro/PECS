@@ -7,7 +7,7 @@ export class SpellChoice {
     //A regular SpellChoice does not do that, so if you disable the signature spell on the choice, it is false == false and gets discarded.
     //Loading the character recreates the class and overwrites attributes that aren't set, so the SpellChoice will be a signature spell again.
     public readonly save = [
-        'signatureSpell'
+        'signatureSpell',
     ];
     public available = 0;
     //Dynamic Available gets evaluated in the spellchoice component instead of available if it is set.
@@ -77,6 +77,7 @@ export class SpellChoice {
     recast() {
         this.spells = this.spells.map(obj => Object.assign(new SpellGain(), obj).recast());
         this.spells.forEach(gain => { gain.source = this.source; });
+
         return this;
     }
 }

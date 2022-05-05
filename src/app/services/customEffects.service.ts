@@ -6,7 +6,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { RefreshService } from 'src/app/services/refresh.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class CustomEffectsService {
 
@@ -14,7 +14,7 @@ export class CustomEffectsService {
 
     constructor(
         private readonly extensionsService: ExtensionsService,
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     public get get_EffectProperties(): Array<ItemProperty> {
@@ -26,9 +26,11 @@ export class CustomEffectsService {
         creature.effects.filter(gain => gain.duration > 0).forEach(gain => {
             //Tick down all custom effects and set them to remove when they expire.
             gain.duration -= turns;
+
             if (gain.duration <= 0) {
                 gain.type = 'DELETE';
             }
+
             this.refreshService.set_ToChange(creature.type, 'effects');
         });
         //Remove all effects that were marked for removal.
@@ -44,7 +46,9 @@ export class CustomEffectsService {
 
     private load_EffectProperties(): void {
         this.effectProperties = [];
+
         const data = this.extensionsService.extend(json_effectproperties, 'effectProperties');
+
         Object.keys(data).forEach(key => {
             this.effectProperties.push(...data[key].map((obj: ItemProperty) => Object.assign(new ItemProperty(), obj).recast()));
         });

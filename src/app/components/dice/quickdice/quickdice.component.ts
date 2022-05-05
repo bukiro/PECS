@@ -8,7 +8,7 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 @Component({
     selector: 'app-quickdice',
     templateUrl: './quickdice.component.html',
-    styleUrls: ['./quickdice.component.scss']
+    styleUrls: ['./quickdice.component.scss'],
 })
 export class QuickdiceComponent {
 
@@ -31,7 +31,7 @@ export class QuickdiceComponent {
         private readonly characterService: CharacterService,
         private readonly refreshService: RefreshService,
         private readonly diceService: DiceService,
-        private readonly integrationsService: IntegrationsService
+        private readonly integrationsService: IntegrationsService,
     ) { }
 
     get_FoundryVTTRollDirectly() {
@@ -41,23 +41,28 @@ export class QuickdiceComponent {
     get_SpellCastingModifier() {
         const ability = this.casting?.ability || 'Charisma';
         const character = this.characterService.get_Character();
+
         return this.characterService.abilitiesService.get_Abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
     }
 
     cleanup_DiceString(diceString: string) {
         let cleanedUpDiceString = this.space_ArithmeticSymbols(diceString);
+
         cleanedUpDiceString = this.expand_DamageTypes(cleanedUpDiceString);
         cleanedUpDiceString = this.replace_Modifiers(cleanedUpDiceString);
         cleanedUpDiceString = this.replace_AbilityModifiers(cleanedUpDiceString);
+
         return cleanedUpDiceString;
     }
 
     space_ArithmeticSymbols(text: string) {
-        return text.replace(/\+/g, ' + ').replace(/-/g, ' - ').replace(/\s+/g, ' ');
+        return text.replace(/\+/g, ' + ').replace(/-/g, ' - ')
+            .replace(/\s+/g, ' ');
     }
 
     expand_DamageTypes(diceString: string) {
-        return diceString.replace(/( |^|\/)B( |$|\/)/g, '$1Bludgeoning$2').replace(/( |^|\/)P( |$|\/)/g, '$1Piercing$2').replace(/( |^|\/)S( |$|\/)/g, '$1Slashing$2');
+        return diceString.replace(/( |^|\/)B( |$|\/)/g, '$1Bludgeoning$2').replace(/( |^|\/)P( |$|\/)/g, '$1Piercing$2')
+            .replace(/( |^|\/)S( |$|\/)/g, '$1Slashing$2');
     }
 
     replace_Modifiers(diceString: string) {
@@ -68,7 +73,8 @@ export class QuickdiceComponent {
                 } else {
                     return part;
                 }
-            }).join(' ');
+            })
+                .join(' ');
         } else {
             return diceString;
         }
@@ -80,6 +86,7 @@ export class QuickdiceComponent {
             return diceString.split(' ').map(part => {
                 if (part.toLowerCase().includes('mod')) {
                     let abilityName = '';
+
                     switch (part.toLowerCase()) {
                         case 'strmod':
                             abilityName = 'Strength';
@@ -105,8 +112,10 @@ export class QuickdiceComponent {
                         default:
                             return part;
                     }
+
                     if (abilityName) {
                         const character = this.characterService.get_Character();
+
                         return this.characterService.abilitiesService.get_Abilities(abilityName)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result.toString() || '0';
                     } else {
                         return '0';
@@ -114,7 +123,8 @@ export class QuickdiceComponent {
                 } else {
                     return part;
                 }
-            }).join(' ');
+            })
+                .join(' ');
         } else {
             return diceString;
         }
@@ -126,6 +136,7 @@ export class QuickdiceComponent {
             if (this.diceNum && this.diceSize) {
                 //A simple formula is built from diceNum d diceSize +/- bonus.
                 let formula = `${ this.diceNum }d${ this.diceSize }`;
+
                 if (this.bonus) {
                     if (this.bonus > 0) {
                         formula += ` + ${ this.bonus }`;
@@ -133,17 +144,22 @@ export class QuickdiceComponent {
                         formula += ` - ${ this.bonus * -1 }`;
                     }
                 }
+
                 this.integrationsService.send_RollToFoundry(this.creature, formula, [], this.characterService);
             } else if (this.diceString) {
                 let diceString = this.diceString.split('\n').join(' ');
+
                 diceString = this.cleanup_DiceString(diceString);
+
                 const formulaParts: Array<string> = [];
+
                 //For an existing diceString, we need to make sure there is no flavor text included. Only #d#, #, + or - are kept and sent to Foundry.
-                diceString.split(' ').map(part => part.trim()).forEach(dicePart => {
-                    if (dicePart.match('^[0-9]+d[0-9]+$') || dicePart == '+' || dicePart == '-' || dicePart.match('^[0-9]+$')) {
-                        formulaParts.push(dicePart);
-                    }
-                });
+                diceString.split(' ').map(part => part.trim())
+                    .forEach(dicePart => {
+                        if (dicePart.match('^[0-9]+d[0-9]+$') || dicePart == '+' || dicePart == '-' || dicePart.match('^[0-9]+$')) {
+                            formulaParts.push(dicePart);
+                        }
+                    });
                 this.integrationsService.send_RollToFoundry(this.creature, formulaParts.join(' '), [], this.characterService);
             }
         } else {
@@ -151,52 +167,63 @@ export class QuickdiceComponent {
                 this.diceService.roll(this.diceNum, this.diceSize, this.bonus, this.characterService, true, (this.type ? ` ${ this.expand_DamageTypes(this.type) }` : ''));
             } else if (this.diceString) {
                 let diceString = this.diceString.split('\n').join(' ');
+
                 diceString = this.cleanup_DiceString(diceString);
+
                 const diceRolls: Array<{ diceNum: number; diceSize: number; bonus: number; type: string }> = [];
                 let index = 0;
                 let arithmetic = '';
-                diceString.trim().split(' ').map(part => part.trim()).forEach(dicePart => {
-                    if (dicePart.match('^[0-9]+d[0-9]+$')) {
-                        if (!diceRolls.length || diceRolls[index].diceNum || diceRolls[index].diceSize || diceRolls[index].type) {
-                            index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
-                        }
-                        diceRolls[index].diceNum = parseInt(dicePart.split('d')[0]);
-                        diceRolls[index].diceSize = parseInt(dicePart.split('d')[1]);
-                    } else if (dicePart == '+' || dicePart == '-') {
-                        arithmetic = dicePart;
-                    } else if (dicePart.match('^[0-9]+$')) {
+
+                diceString.trim().split(' ')
+                    .map(part => part.trim())
+                    .forEach(dicePart => {
+                        if (dicePart.match('^[0-9]+d[0-9]+$')) {
+                            if (!diceRolls.length || diceRolls[index].diceNum || diceRolls[index].diceSize || diceRolls[index].type) {
+                                index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
+                            }
+
+                            diceRolls[index].diceNum = parseInt(dicePart.split('d')[0]);
+                            diceRolls[index].diceSize = parseInt(dicePart.split('d')[1]);
+                        } else if (dicePart == '+' || dicePart == '-') {
+                            arithmetic = dicePart;
+                        } else if (dicePart.match('^[0-9]+$')) {
                         //Bonuses accumulate on the current roll until a type is given. If no roll exists yet, create one.
                         //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
-                        if (!diceRolls.length || diceRolls[index].type) {
-                            index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
-                        }
-                        if (arithmetic) {
-                            diceRolls[index].bonus += parseInt(arithmetic + dicePart);
-                            arithmetic = '';
+                            if (!diceRolls.length || diceRolls[index].type) {
+                                index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
+                            }
+
+                            if (arithmetic) {
+                                diceRolls[index].bonus += parseInt(arithmetic + dicePart);
+                                arithmetic = '';
+                            } else {
+                                diceRolls[index].bonus = parseInt(dicePart);
+                            }
                         } else {
-                            diceRolls[index].bonus = parseInt(dicePart);
+                            if (diceRolls[index]) {
+                                diceRolls[index].type += ` ${ dicePart }`;
+                            }
                         }
-                    } else {
-                        if (diceRolls[index]) {
-                            diceRolls[index].type += ` ${ dicePart }`;
-                        }
-                    }
-                });
+                    });
                 diceRolls.forEach((diceRoll, index) => {
                     this.diceService.roll(diceRoll.diceNum, diceRoll.diceSize, diceRoll.bonus, this.characterService, index == 0, diceRoll.type);
                 });
             }
         }
+
         this.refreshService.process_ToChange();
     }
 
     get_Description() {
         if (this.diceString) {
             let diceString = this.diceString.split('\n').join(' ');
+
             diceString = this.cleanup_DiceString(diceString);
+
             return diceString;
         } else if (this.diceNum && this.diceSize) {
             let description = `${ this.diceNum }d${ this.diceSize }`;
+
             if (this.bonus) {
                 if (this.bonus > 0) {
                     description += ` + ${ this.bonus }`;
@@ -204,9 +231,11 @@ export class QuickdiceComponent {
                     description += ` - ${ this.bonus * -1 }`;
                 }
             }
+
             if (this.type) {
                 description += ` ${ this.expand_DamageTypes(this.type) }`;
             }
+
             return description;
         }
     }

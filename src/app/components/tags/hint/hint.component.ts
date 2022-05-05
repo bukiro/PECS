@@ -23,7 +23,7 @@ type HintObject = Feat | Activity | ConditionSet | Equipment | Oil | WornItem | 
 @Component({
     selector: 'app-hint',
     templateUrl: './hint.component.html',
-    styleUrls: ['./hint.component.scss']
+    styleUrls: ['./hint.component.scss'],
 })
 export class HintComponent {
 
@@ -46,7 +46,7 @@ export class HintComponent {
         public characterService: CharacterService,
         public effectsService: EffectsService,
         private readonly refreshService: RefreshService,
-        private readonly traitsService: TraitsService
+        private readonly traitsService: TraitsService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -69,8 +69,10 @@ export class HintComponent {
         if (this.noFilter) {
             return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints);
         }
+
         const isSlottedAeonStone = this.object instanceof WornItem && this.object.isSlottedAeonStone;
         const isEmblazonArmamentShield = (this.object instanceof Shield && this.object.emblazonArmament.length) ? this.object : null;
+
         return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints)
             .filter((hint: Hint) =>
                 (hint.minLevel ? this.get_CharacterLevel() >= hint.minLevel : true) &&
@@ -86,7 +88,7 @@ export class HintComponent {
                         ) :
                         true
                 ) &&
-                (hint.resonant ? isSlottedAeonStone : true)
+                (hint.resonant ? isSlottedAeonStone : true),
             )
             .filter((hint: Hint) =>
                 hint.showon.split(',')
@@ -111,8 +113,8 @@ export class HintComponent {
                                     showon == 'Emblazon Antimagic Shield Block'
                                 )
                             )
-                        )
-                    )
+                        ),
+                    ),
             );
     }
 
@@ -142,6 +144,7 @@ export class HintComponent {
         if (this.object instanceof ConditionSet && hint.conditionChoiceFilter.length) {
             return `: ${ this.object.gain.choice }`;
         }
+
         return '';
     }
 
@@ -157,6 +160,7 @@ export class HintComponent {
     get_Source(hint: Hint) {
         if (hint.replaceSource.length) {
             const replaceSource = hint.replaceSource[0];
+
             if (replaceSource.source) {
                 switch (replaceSource.type) {
                     case 'feat':
@@ -164,6 +168,7 @@ export class HintComponent {
                 }
             }
         }
+
         return this.object;
     }
 
@@ -185,11 +190,13 @@ export class HintComponent {
         ) {
             return object;
         }
+
         if (
             object instanceof ConditionSet
         ) {
             return object.condition;
         }
+
         return null;
     }
 

@@ -16,6 +16,7 @@ export class SpellCast {
     public restrictionDesc = '';
     recast() {
         this.spellGain = Object.assign(new SpellGain(), this.spellGain).recast();
+
         return this;
     }
 }

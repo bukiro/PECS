@@ -1,14 +1,15 @@
 import {
-    ElementRef, Directive, Input, TemplateRef, Renderer2, Injector, ViewContainerRef, NgZone, OnInit, Inject, ChangeDetectorRef, ApplicationRef, OnDestroy
+    ElementRef, Directive, Input, TemplateRef, Renderer2, Injector, ViewContainerRef, NgZone, OnInit, Inject, ChangeDetectorRef, ApplicationRef, OnDestroy,
 } from '@angular/core';
 
 import { DOCUMENT } from '@angular/common';
 import { NgbPopover, NgbPopoverConfig } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+
 @Directive({
     selector: '[stickyPopover]',
-    exportAs: 'stickyPopover'
+    exportAs: 'stickyPopover',
 })
 export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDestroy {
     //Most popovers in this app are configured to close when clicking outside them.
@@ -43,13 +44,13 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
 
     private finish_Loading(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (target == 'close-popovers' && super.isOpen()) {
                     super.close();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.target == 'close-popovers' && super.isOpen()) {
                     super.close();
                 }
@@ -78,6 +79,7 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
         if (!super.isOpen()) {
             this.unsubscribe();
         }
+
         super.ngOnDestroy();
     }
 

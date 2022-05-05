@@ -20,6 +20,7 @@ interface ConditionEnd {
     increaseWounded?: boolean;
     sameCasterOnly?: boolean;
 }
+
 export interface ConditionOverride {
     name: string;
     conditionChoiceFilter?: Array<string>;
@@ -111,16 +112,16 @@ export class Condition {
         this.nextCondition = this.nextCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
         this.defaultDurations = this.defaultDurations.map(obj => Object.assign(new ConditionDuration(), obj).recast());
         this.choices = this.choices.map(obj => Object.assign(new ConditionChoice(), obj).recast());
+
         //If choices exist and no default choice is given, take the first one as default.
         if (this.choices.length && !this.choice) {
             this.choice = this.choices[0].name;
         }
+
         this.selectOtherConditions = this.selectOtherConditions.map(selection =>
-            Object.assign({
-                title: '',
+            ({ title: '',
                 nameFilter: [],
-                typeFilter: []
-            }, selection)
+                typeFilter: [], ...selection }),
         );
         //endsWithConditions has changed from string to object; this is patched here for existing conditions.
         this.endsWithConditions.forEach((endsWith, index) => {
@@ -128,23 +129,28 @@ export class Condition {
                 this.endsWithConditions[index] = { name: endsWith, source: '' };
             }
         });
+
         return this;
     }
     public get_ConditionOverrides(gain: ConditionGain = null): Array<ConditionOverride> {
         return this.overrideConditions.map(override => {
             let overrideName = override.name;
+
             if (gain && override.name.toLowerCase().includes('selectedcondition|')) {
                 overrideName = gain.selectedOtherConditions[override.name.toLowerCase().split('|')[1] || 0] || overrideName;
             }
+
             return { name: overrideName, conditionChoiceFilter: override.conditionChoiceFilter };
         });
     }
     public get_ConditionPauses(gain: ConditionGain = null): Array<ConditionOverride> {
         return this.pauseConditions.map(pause => {
             let pauseName = pause.name;
+
             if (gain && pause.name.toLowerCase().includes('selectedcondition|')) {
                 pauseName = gain.selectedOtherConditions[pause.name.toLowerCase().split('|')[1] || 0] || pauseName;
             }
+
             return { name: pauseName, conditionChoiceFilter: pause.conditionChoiceFilter };
         });
     }
@@ -189,7 +195,7 @@ export class Condition {
                         !conditionGain ||
                         !hint.conditionChoiceFilter.length ||
                         hint.conditionChoiceFilter.includes(conditionGain.choice)
-                    )
+                    ),
                 )
             ) ||
             (
@@ -207,8 +213,8 @@ export class Condition {
                                 (
                                     !override.conditionChoiceFilter?.length ||
                                     override.conditionChoiceFilter.includes(conditionGain?.choice || '')
-                                )
-                            )
+                                ),
+                            ),
                         ) :
                     false
             ) ||
@@ -221,8 +227,8 @@ export class Condition {
                                 (
                                     !pause.conditionChoiceFilter?.length ||
                                     pause.conditionChoiceFilter.includes(conditionGain?.choice || '')
-                                )
-                            )
+                                ),
+                            ),
                         ) :
                     false
             )
@@ -233,26 +239,32 @@ export class Condition {
         if (this.choices.length && !this.choices.map(choice => choice.name).includes(this.choice)) {
             this.choice == this.choices[0].name;
         }
+
         if (!filtered) {
             return this.choices.map(choice => choice.name);
         }
+
         const choices: Array<string> = [];
+
         this.choices.forEach(choice => {
             //The default choice is never tested. This ensures a fallback if no choices are available.
             if (choice.name == this.choice) {
                 choices.push(choice.name);
             } else {
                 const character = characterService.get_Character();
+
                 //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
                 //Requirements like "Aggressive Block or Brutish Shove" are split in get_CharacterFeatsAndFeatures().
                 if (!choice.spelllevelreq || spellLevel >= choice.spelllevelreq) {
                     if (choice.featreq?.length) {
                         let featNotFound = false;
+
                         choice.featreq.forEach(featreq => {
                             //Allow to check for the Familiar's feats
                             let requiredFeat: Array<Feat>;
                             let testCreature: Character | Familiar;
                             let testFeat = featreq;
+
                             if (featreq.includes('Familiar:')) {
                                 testCreature = characterService.get_Familiar();
                                 testFeat = featreq.split('Familiar:')[1].trim();
@@ -261,6 +273,7 @@ export class Condition {
                                 testCreature = character;
                                 requiredFeat = characterService.get_CharacterFeatsAndFeatures(testFeat, '', true);
                             }
+
                             if (requiredFeat.length) {
                                 if (!requiredFeat.some(feat => feat.have({ creature: testCreature }, { characterService }))) {
                                     featNotFound = true;
@@ -269,6 +282,7 @@ export class Condition {
                                 featNotFound = true;
                             }
                         });
+
                         if (!featNotFound) {
                             choices.push(choice.name);
                         }
@@ -279,6 +293,7 @@ export class Condition {
             }
         });
         this._choices = choices;
+
         return this._choices;
     }
     get_ChoiceNextStage(choiceName: string) {
@@ -292,25 +307,31 @@ export class Condition {
         // 4. null
         //Returns {duration: number, source: string}
         const choice = this.choices.find(choice => choice.name == choiceName);
+
         if (choice?.defaultDuration != null) {
             return { duration: choice.defaultDuration, source: choice.name };
         }
+
         if (this.minLevel) {
             //Levelnumber should not be below minLevel, but might be in the conditions menu.
             let levelNumber = Math.max(this.minLevel, spellLevel);
+
             if (this.defaultDurations.some(defaultDuration => defaultDuration.minLevel)) {
                 // Going down from levelNumber to minLevel, use the first default duration that matches the level.
                 for (levelNumber; levelNumber >= this.minLevel; levelNumber--) {
                     const level = this.defaultDurations.find(defaultDuration => defaultDuration.minLevel == levelNumber);
+
                     if (level?.duration != null) {
                         return { duration: level.duration, source: `Spell level ${ levelNumber }` };
                     }
                 }
             }
         }
+
         if (this.defaultDurations[0]?.duration != null) {
             return { duration: this.defaultDurations[0].duration, source: 'Default' };
         }
+
         return null;
     }
     get_HeightenedItems(levelNumber: number) {
@@ -318,10 +339,13 @@ export class Condition {
         //It also returns all items that have no heightenedFilter.
         //If there are no ItemGains with a heightenedFilter, return all.
         const items: Array<ItemGain> = [];
+
         if (!this.gainItems.length) {
             return this.gainItems;
         }
+
         items.push(...this.gainItems.filter(gain => !gain.heightenedFilter));
+
         if (this.gainItems.some(gain => gain.heightenedFilter)) {
             switch (levelNumber) {
                 case 10:
@@ -385,6 +409,7 @@ export class Condition {
                     }
             }
         }
+
         return items;
     }
     get_DescriptionSet(levelNumber: number) {
@@ -392,21 +417,26 @@ export class Condition {
         //A description set contains variable names and the text to replace them with.
         if (this.heightenedDescs.length) {
             let remainingLevelNumber = levelNumber;
+
             for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
                 if (this.heightenedDescs.some(descSet => descSet.level == remainingLevelNumber)) {
                     return this.heightenedDescs.find(descSet => descSet.level == remainingLevelNumber);
                 }
             }
         }
+
         return new HeightenedDescSet();
     }
     get_Heightened(text: string, levelNumber: number) {
         //For an arbitrary text (usually the condition description), retrieve the appropriate description set for this level and replace the variables with the included strings.
         let heightenedText = text;
+
         this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             const regex = new RegExp(descVar.variable, 'g');
+
             heightenedText = heightenedText.replace(regex, (descVar.value || ''));
         });
+
         return heightenedText;
     }
 }

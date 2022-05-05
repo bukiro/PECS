@@ -35,13 +35,13 @@ interface FormulaOptions {
 }
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class EvaluationService {
 
     constructor(
         private readonly abilitiesService: AbilitiesService,
-        private readonly familiarsService: FamiliarsService
+        private readonly familiarsService: FamiliarsService,
     ) { }
 
     private get_TestSpeed(name: string): Speed {
@@ -49,16 +49,13 @@ export class EvaluationService {
     }
 
     public get_ValueFromFormula(formula: string, services: { readonly characterService: CharacterService; readonly effectsService: EffectsService }, context: FormulaContext, options: FormulaOptions = {}): number | string | null {
-        context = Object.assign({
-            creature: context.creature,
+        context = { creature: context.creature,
             object: null,
             parentConditionGain: null,
-            parentItem: null
-        }, context);
-        options = Object.assign({
-            name: '',
-            pretendCharacterLevel: 0
-        }, options);
+            parentItem: null, ...context };
+        options = { name: '',
+            pretendCharacterLevel: 0, ...options };
+
         //This function takes a formula, then evaluates that formula using the variables and functions listed here.
         //Define some values that may be relevant for effect values
         /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -87,23 +84,29 @@ export class EvaluationService {
         //Conditions pass their own gain as parentConditionGain for effects.
         //Conditions that are caused by conditions also pass the original conditionGain for the evaluation of their activationPrerequisite.
         const parentConditionGain = context.parentConditionGain;
+
         if (parentConditionGain) {
             if (!Duration) {
                 Duration = parentConditionGain.duration;
             }
+
             if (!Value) {
                 Value = parentConditionGain.value;
             }
+
             if (!Heightened) {
                 Heightened = parentConditionGain.heightened;
             }
+
             if (!Choice) {
                 Choice = parentConditionGain.choice;
             }
+
             if (!SpellCastingAbility) {
                 SpellCastingAbility = parentConditionGain.spellCastingAbility;
             }
         }
+
         //Some Functions for effect values
         function Temporary_HP(source = '', sourceId = '') {
             if (sourceId) {
@@ -159,9 +162,9 @@ export class EvaluationService {
             return Creature.speeds.some(speed => speed.name === name) ||
                 effectsService.get_AbsolutesOnThis(Creature, name).some(effect => !context.effectSourceName || effect.source !== context.effectSourceName);
         }
-        const Speed = (name: string): number => {
-            return (this.get_TestSpeed(name))?.value(Creature, characterService, effectsService).result || 0;
-        };
+
+        const Speed = (name: string): number => (this.get_TestSpeed(name))?.value(Creature, characterService, effectsService).result || 0;
+
         function Has_Condition(name: string): boolean {
             return !!characterService.get_AppliedConditions(Creature, name, '', true).length;
         }
@@ -228,17 +231,18 @@ export class EvaluationService {
             const allHeritages: Array<string> = Character.class?.heritage ?
                 [
                     Character.class.heritage.name.toLowerCase(),
-                    Character.class.heritage.superType.toLowerCase()
+                    Character.class.heritage.superType.toLowerCase(),
                 ].concat(
                     ...Character.class.additionalHeritages
                         .map(heritage =>
                             [
                                 heritage.name.toLowerCase(),
-                                heritage.superType.toLowerCase()
-                            ]
-                        )
+                                heritage.superType.toLowerCase(),
+                            ],
+                        ),
                 ) :
                 [];
+
             return allHeritages.includes(name);
         }
         function Deities() {
@@ -251,14 +255,18 @@ export class EvaluationService {
         //This function is to avoid evaluating a string like "01" as a base-8 number.
         function CleanupLeadingZeroes(text: string) {
             let cleanedText = text;
+
             while (cleanedText[0] == '0' && cleanedText != '0') {
                 cleanedText = cleanedText.substr(1);
             }
+
             return cleanedText;
         }
+
         try {
             const result: number | string | null = eval(CleanupLeadingZeroes(formula));
-            if (result == null || typeof result == 'string' || typeof result == 'number') {
+
+            if (result == null || typeof result === 'string' || typeof result === 'number') {
                 return result;
             } else {
                 return null;

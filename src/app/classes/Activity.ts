@@ -95,18 +95,22 @@ export class Activity {
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
+
         if (this.sustained) {
             this.toggle = true;
+
             if (!this.maxDuration) {
                 this.maxDuration = 1000;
             }
         }
+
         return this;
     }
     get_ActivationTraits(): Array<string> {
         return Array.from(new Set([].concat(...this.activationType.split(',')
             .map(activationType => {
                 const trimmedType = activationType.trim().toLowerCase();
+
                 if (trimmedType.includes('command')) {
                     return ['Auditory', 'Concentrate'];
                 } else if (trimmedType.includes('envision')) {
@@ -118,7 +122,7 @@ export class Activity {
                 } else {
                     return [];
                 }
-            })))
+            }))),
         );
     }
     can_Activate() {
@@ -154,27 +158,34 @@ export class Activity {
         if (this.target == 'area') {
             return -1;
         }
+
         const character = characterService.get_Character();
         let targetNumber: SpellTargetNumber;
+
         //This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any). Prefer targetNumbers with required feats over those without.
         // If no targetNumbers are configured, return 1 for an ally activity and 0 for any other, and if none have a minLevel, return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
         if (this.targetNumbers.length) {
             if (this.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
                 let remainingLevelNumber = levelNumber;
+
                 for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
                     if (this.targetNumbers.some(targetNumber => targetNumber.minLevel == remainingLevelNumber)) {
                         targetNumber = this.targetNumbers.find(targetNumber => (targetNumber.minLevel == remainingLevelNumber) && (targetNumber.featreq && characterService.get_CharacterFeatsTaken(1, character.level, targetNumber.featreq).length));
+
                         if (!targetNumber) {
                             targetNumber = this.targetNumbers.find(targetNumber => targetNumber.minLevel == remainingLevelNumber);
                         }
+
                         if (targetNumber) {
                             return targetNumber.number;
                         }
                     }
                 }
+
                 return this.targetNumbers[0].number;
             } else {
                 targetNumber = this.targetNumbers.find(targetNumber => targetNumber.featreq && characterService.get_CharacterFeatsTaken(1, character.level, targetNumber.featreq).length);
+
                 return targetNumber?.number || this.targetNumbers[0].number;
             }
         } else {
@@ -189,10 +200,12 @@ export class Activity {
         //Add any effects to the number of charges you have. If you have none, start with 1, and if the result then remains 1, return 0.
         let charges = this.charges;
         let startWithZero = false;
+
         if (charges == 0) {
             startWithZero = true;
             charges = 1;
         }
+
         services.effectsService.get_AbsolutesOnThis(context.creature, `${ this.name } Charges`)
             .forEach(effect => {
                 charges = parseInt(effect.setValue);
@@ -201,17 +214,21 @@ export class Activity {
             .forEach(effect => {
                 charges += parseInt(effect.value);
             });
+
         if (startWithZero && charges == 1) {
             this._charges = 0;
+
             return 0;
         } else {
             this._charges = charges;
+
             return charges;
         }
     }
     get_Cooldown(context: { creature: Creature }, services: { characterService: CharacterService; effectsService: EffectsService }) {
         //Add any effects to the activity's cooldown.
         let cooldown = this.cooldown;
+
         //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.
         services.effectsService.get_AbsolutesOnThese(context.creature, [`${ this.name } Cooldown`], { lowerIsBetter: true })
             .sort((a, b) => parseInt(b.setValue) - parseInt(a.setValue))
@@ -226,11 +243,14 @@ export class Activity {
             });
         //If the cooldown has changed from the original, update all activity gains that refer to this condition to lower their cooldown if necessary.
         this._cooldown = cooldown;
+
         if (this.cooldown != cooldown) {
-            services.characterService.get_OwnedActivities(context.creature, 20, true).filter(gain => gain.name == this.name).forEach(gain => {
-                gain.activeCooldown = Math.min(gain.activeCooldown, cooldown);
-            });
+            services.characterService.get_OwnedActivities(context.creature, 20, true).filter(gain => gain.name == this.name)
+                .forEach(gain => {
+                    gain.activeCooldown = Math.min(gain.activeCooldown, cooldown);
+                });
         }
+
         return cooldown;
     }
     get_DescriptionSet(levelNumber: number) {
@@ -238,21 +258,26 @@ export class Activity {
         //A description set contains variable names and the text to replace them with.
         if (this.heightenedDescs.length) {
             let remainingLevelNumber = levelNumber;
+
             for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
                 if (this.heightenedDescs.some(descSet => descSet.level == remainingLevelNumber)) {
                     return this.heightenedDescs.find(descSet => descSet.level == remainingLevelNumber);
                 }
             }
         }
+
         return new HeightenedDescSet();
     }
     get_Heightened(text: string, levelNumber: number) {
         //For an arbitrary text (usually the activity description or the saving throw result descriptions), retrieve the appropriate description set for this level and replace the variables with the included strings.
         let heightenedText = text;
+
         this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             const regex = new RegExp(descVar.variable, 'g');
+
             heightenedText = heightenedText.replace(regex, (descVar.value || ''));
         });
+
         return heightenedText;
     }
 }

@@ -7,7 +7,7 @@ import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/app/services/refresh.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ConfigService {
 
@@ -24,7 +24,7 @@ export class ConfigService {
 
     constructor(
         private readonly httpClient: HttpClient,
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     still_loading() {
@@ -82,6 +82,7 @@ export class ConfigService {
             .subscribe({
                 next: (result: { token: string | false }) => {
                     this.cannotLogin = false;
+
                     if (result.token != false) {
                         this.xAccessToken = result.token;
                         this.loggedIn = true;
@@ -93,26 +94,31 @@ export class ConfigService {
                         savegameService.reset();
                     } else {
                         this.loggedIn = false;
+
                         if (password) {
                             this.refreshService.set_ToChange('Character', 'password-failed');
                         } else {
                             this.refreshService.set_ToChange('Character', 'logged-out');
                         }
+
                         this.refreshService.process_ToChange();
                     }
+
                     this.loading = false;
-                }, error: (error) => {
+                }, error: error => {
                     console.log(`Error logging in: ${ error.message }`);
+
                     if (error.status == 0) {
                         characterService.toastService.show('The configured database is not available. Characters can\'t be saved or loaded.');
                     }
+
                     this.cannotLogin = true;
                     this.loggingIn = false;
                     this.loading = false;
                     this.refreshService.set_ToChange('Character', 'charactersheet');
                     this.refreshService.set_ToChange('Character', 'top-bar');
                     this.refreshService.process_ToChange();
-                }
+                },
             });
     }
 
@@ -130,7 +136,8 @@ export class ConfigService {
         if (!this.dataServiceURL && !this.localDataService) {
             this.loading = true;
 
-            const headers = new HttpHeaders().set('Cache-Control', 'no-cache').set('Pragma', 'no-cache');
+            const headers = new HttpHeaders().set('Cache-Control', 'no-cache')
+                .set('Pragma', 'no-cache');
 
             this.httpClient.request(new HttpRequest('HEAD', 'assets/config.json', headers))
                 .subscribe({
@@ -141,6 +148,7 @@ export class ConfigService {
                                     .subscribe({
                                         next: data => {
                                             const config = JSON.parse(JSON.stringify(data));
+
                                             this.dataServiceURL = config.dataServiceURL || config.dbConnectionURL || '';
                                             this.localDataService = config.localDataService || config.localDBConnector;
                                         },
@@ -150,7 +158,7 @@ export class ConfigService {
                                         complete: () => {
                                             //Establish a connection to the data service and check whether login is required.
                                             this.get_Login('', characterService, savegameService);
-                                        }
+                                        },
                                     });
                             } else {
                                 //If there is any result other than 200, assume that we are working with a local data service.
@@ -165,16 +173,19 @@ export class ConfigService {
                         } else {
                             throw error;
                         }
+
                         this.loading = false;
                     },
                 });
             this.httpClient.get(this.updateURL)
                 .subscribe({
-                    next: (response) => {
+                    next: response => {
                         const cvs = package_json.version.split('.').map(version => parseInt(version));
                         const availableVersion = JSON.parse(JSON.stringify(response)).tag_name?.replace('v', '') || 'n/a';
+
                         if (availableVersion != 'n/a') {
                             const avs = availableVersion.split('.').map(version => parseInt(version));
+
                             if (avs[0] > cvs[0] || (avs[0] == cvs[0] && avs[1] > cvs[1]) || (avs[0] == cvs[0] && avs[1] == cvs[1] && avs[2] > cvs[2])) {
                                 this.updateAvailable = availableVersion;
                             }
@@ -185,7 +196,7 @@ export class ConfigService {
                     error: () => {
                         console.warn('Could not contact github to check for new version.');
                         this.updateAvailable = 'n/a';
-                    }
+                    },
                 });
         }
     }

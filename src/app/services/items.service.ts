@@ -75,7 +75,7 @@ import * as json_wornitems from 'src/assets/json/items/wornitems';
 import { ActivitiesService } from './activities.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ItemsService {
 
@@ -95,7 +95,7 @@ export class ItemsService {
         private readonly typeService: TypeService,
         private readonly extensionsService: ExtensionsService,
         private readonly activitiesService: ActivitiesService,
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     toggleItemsMenu(position = '') {
@@ -113,19 +113,19 @@ export class ItemsService {
     get_Items() {
         if (!this.still_loading()) {
             return this.items;
-        } else { return new ItemCollection; }
+        } else { return new ItemCollection(); }
     }
 
     get_CleanItems() {
         if (!this.still_loading()) {
             return this.cleanItems;
-        } else { return new ItemCollection; }
+        } else { return new ItemCollection(); }
     }
 
     get_CraftingItems() {
         if (!this.still_loading()) {
             return this.craftingItems;
-        } else { return new ItemCollection; }
+        } else { return new ItemCollection(); }
     }
 
     get_ItemByID(id: string) {
@@ -149,31 +149,31 @@ export class ItemsService {
     get_ItemProperties() {
         if (!this.still_loading()) {
             return this.itemProperties;
-        } else { return [new ItemProperty]; }
+        } else { return [new ItemProperty()]; }
     }
 
     get_ArmorMaterials() {
         if (!this.still_loading()) {
             return this.armorMaterials;
-        } else { return [new ArmorMaterial]; }
+        } else { return [new ArmorMaterial()]; }
     }
 
     get_ShieldMaterials() {
         if (!this.still_loading()) {
             return this.shieldMaterials;
-        } else { return [new ShieldMaterial]; }
+        } else { return [new ShieldMaterial()]; }
     }
 
     get_WeaponMaterials() {
         if (!this.still_loading()) {
             return this.weaponMaterials;
-        } else { return [new WeaponMaterial]; }
+        } else { return [new WeaponMaterial()]; }
     }
 
     get_Specializations(group = '') {
         if (!this.still_loading()) {
             return this.specializations.filter(spec => spec.name.toLowerCase() == group.toLowerCase() || group == '');
-        } else { return [new Specialization]; }
+        } else { return [new Specialization()]; }
     }
 
     get_ItemsOfType(type: string, name = '') {
@@ -248,24 +248,29 @@ export class ItemsService {
             newPropertyRunes: [],
             ...options,
         };
+
         //If the item is modified with propertyRunes, the runes need to be filled.
         if (options.newPropertyRunes.length) {
             options.resetPropertyRunes = true;
         }
+
         //Every new item has to be re-assigned its class and iterate over its objects to reassign them as well.
         //Typescript does not seem to have the option to keep object properties' classes when assigning.
         let newItem: Item = JSON.parse(JSON.stringify(item));
+
         //Set preassigned if you have already given the item a Class. Otherwise it will be determined by the item's type.
         if (options.preassigned) {
             //Any is required because the incoming item's class is unknown in the code.
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            newItem = Object.assign(new (<any>item.constructor), newItem);
+            newItem = Object.assign(new (<any>item.constructor)(), newItem);
         } else {
             newItem = this.cast_ItemByType(newItem);
         }
+
         //Optionally, a new ID is assigned and updated on the item's activities and their spell gains.
         if (options.newId) {
             newItem.id = uuidv4();
+
             if (newItem instanceof Equipment || newItem instanceof Rune) {
                 newItem.activities?.forEach((activity: ItemActivity) => {
                     activity.castSpells?.forEach(cast => {
@@ -275,6 +280,7 @@ export class ItemsService {
                     });
                 });
             }
+
             if (newItem instanceof Equipment) {
                 newItem.gainSpells?.forEach((choice: SpellChoice) => {
                     choice.id = uuidv4();
@@ -287,6 +293,7 @@ export class ItemsService {
         //For items (oils) that apply the same effect as a rune, load the rune into the item here.
         if (newItem instanceof Oil && newItem.runeEffect?.name) {
             const rune = this.cleanItems.weaponrunes.find(rune => rune.name == (newItem as Oil).runeEffect.name);
+
             if (rune) {
                 newItem.runeEffect = Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this.typeService, this);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += ` (${ newItem.name })`; });
@@ -297,52 +304,67 @@ export class ItemsService {
         if (options.newPropertyRunes.length) {
             newItem = Object.assign(newItem, { propertyRunes: options.newPropertyRunes });
         }
+
         //For base items that come with property Runes with name only, load the rune into the item here.
         if (options.resetPropertyRunes && (newItem instanceof Weapon || (newItem instanceof WornItem && newItem.isHandwrapsOfMightyBlows)) && newItem.propertyRunes?.length) {
             const newRunes: Array<WeaponRune> = [];
+
             newItem.propertyRunes.forEach((rune: WeaponRune) => {
                 const libraryItem = this.cleanItems.weaponrunes.find(newrune => newrune.name == rune.name);
+
                 if (libraryItem) {
                     newRunes.push(this.typeService.merge(libraryItem, rune));
                 }
             });
             newItem.propertyRunes = newRunes;
         }
+
         if (options.resetPropertyRunes && newItem instanceof Armor && newItem.propertyRunes?.length) {
             const newRunes: Array<ArmorRune> = [];
+
             newItem.propertyRunes.forEach((rune: ArmorRune) => {
                 const libraryItem = this.cleanItems.armorrunes.find(newrune => newrune.name == rune.name);
+
                 if (libraryItem) {
                     newRunes.push(this.typeService.merge(libraryItem, rune));
                 }
             });
             newItem.propertyRunes = newRunes;
         }
+
         //For base items that come with material with name only, load the material into the item here.
         if (options.resetPropertyRunes && newItem instanceof Weapon && newItem.material?.length) {
             const newMaterials: Array<WeaponMaterial> = [];
+
             newItem.material.forEach((material: WeaponMaterial) => {
                 const libraryItem = this.weaponMaterials.find(newMaterial => newMaterial.name == material.name);
+
                 if (libraryItem) {
                     newMaterials.push(this.typeService.merge(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
         }
+
         if (options.resetPropertyRunes && newItem instanceof Armor && newItem.material?.length) {
             const newMaterials: Array<ArmorMaterial> = [];
+
             newItem.material.forEach((material: ArmorMaterial) => {
                 const libraryItem = this.armorMaterials.find(newMaterial => newMaterial.name == material.name);
+
                 if (libraryItem) {
                     newMaterials.push(this.typeService.merge(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
         }
+
         if (options.resetPropertyRunes && newItem instanceof Shield && newItem.material?.length) {
             const newMaterials: Array<ShieldMaterial> = [];
+
             newItem.material.forEach((material: ShieldMaterial) => {
                 const libraryItem = this.armorMaterials.find(newMaterial => newMaterial.name == material.name);
+
                 if (libraryItem) {
                     newMaterials.push(this.typeService.merge(libraryItem, material));
                 }
@@ -382,11 +404,13 @@ export class ItemsService {
         //If this item has granted other items, sum up the bulk of each of them.
         //If a targetInventory is given, don't count items in that inventory, as we want to figure out if the whole package will fit into that inventory.
         let bulk = 0;
+
         if (including) {
             item.gainItems?.forEach(itemGain => {
                 let found = 0;
                 let stackBulk = '';
                 let stackSize = 1;
+
                 creature.inventories.filter(inventory => !targetInventory || inventory !== targetInventory).forEach(inventory => {
                     //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
                     inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
@@ -401,9 +425,11 @@ export class ItemsService {
                         }
                     });
                 });
+
                 if (found && stackBulk && stackSize) {
                     //If one ore more stacked items were found, calculate the stack bulk accordingly.
                     const testItem = new Consumable();
+
                     testItem.bulk = stackBulk;
                     testItem.amount = Math.min(itemGain.amount, found);
                     testItem.stack = stackSize;
@@ -411,25 +437,28 @@ export class ItemsService {
                 }
             });
         }
+
         //If the item adds an inventory, add the sum bulk of that inventory, unless it's the target inventory. The item will not be moved into the inventory in that case (handled during the move).
         if ((item as Equipment).gainInventory) {
             bulk += creature.inventories.find(inventory => inventory !== targetInventory && inventory.itemId == item.id)?.get_Bulk(false, true) || 0;
         }
+
         //Remove ugly decimal errors
         bulk = Math.floor(bulk * 10) / 10;
+
         return bulk;
     }
 
     get_RealBulk(item: Item, options: { carrying?: boolean; amount?: number }) {
-        options = Object.assign({
-            carrying: false,
-            amount: item.amount
-        }, options);
+        options = { carrying: false,
+            amount: item.amount, ...options };
+
         //All bulk gets calculated at *10 to avoid rounding issues with decimals,
         //Then returned at /10
         let itemBulk = 0;
         //Use the item's carrying bulk if carrying is true.
         const bulkString = (options.carrying && (item as Equipment).carryingBulk) ? (item as Equipment).carryingBulk : item.getBulk();
+
         switch (bulkString) {
             case '':
                 break;
@@ -441,6 +470,7 @@ export class ItemsService {
                 } else {
                     itemBulk += 1;
                 }
+
                 break;
             default:
                 if (options.amount) {
@@ -448,9 +478,12 @@ export class ItemsService {
                 } else {
                     itemBulk += parseInt(bulkString) * 10;
                 }
+
                 break;
         }
+
         itemBulk = Math.floor(itemBulk) / 10;
+
         return itemBulk;
     }
 
@@ -458,6 +491,7 @@ export class ItemsService {
         //If this item has granted other items, check how many of those still exist, and update the item's granting list.
         item.gainItems?.forEach(itemGain => {
             let found = 0;
+
             creature.inventories.forEach(inventory => {
                 //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
                 inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
@@ -467,6 +501,7 @@ export class ItemsService {
                     this.update_GrantingItem(creature, invItem);
                 });
             });
+
             if (found < itemGain.amount) {
                 itemGain.amount = found;
             }
@@ -481,17 +516,23 @@ export class ItemsService {
 
         item.gainItems?.forEach(itemGain => {
             let toPack: number = itemGain.amount;
+
             creature.inventories.forEach(inventory => {
                 //Find items that either have this ItemGain's id or, if stackable, its name.
                 //Then add as many of them into the package as the amount demands, and pack their contents as well.
                 inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
                     if (toPack) {
                         const moved = Math.min(toPack, invItem.amount);
+
                         toPack -= moved;
+
                         const newItem = this.cast_ItemByType(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(invItem)))).recast(this.typeService, this);
+
                         newItem.amount = moved;
                         items.push(newItem);
+
                         const included = this.pack_GrantingItem(creature, invItem);
+
                         items.push(...included.items);
                         inventories.push(...included.inventories);
                     }
@@ -511,17 +552,20 @@ export class ItemsService {
             //We don't pack items granted by items in inventories.
             if (inventories.length) {
                 let newInventoriesFound = true;
+
                 while (newInventoriesFound) {
                     newInventoriesFound = false;
                     inventories.forEach(inv => {
-                        inv.allEquipment().filter(invItem => invItem.gainInventory.length).forEach(invItem => {
-                            const newInventories = creature.inventories.filter(inventory => !inventories.some(inv => inv.id == inventory.id) && inventory.itemId == invItem.id);
-                            if (newInventories.length) {
-                                newInventoriesFound = true;
-                                inventories.push(
-                                    ...newInventories.map(inventory => Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(inventory))).recast(this.typeService, this)));
-                            }
-                        });
+                        inv.allEquipment().filter(invItem => invItem.gainInventory.length)
+                            .forEach(invItem => {
+                                const newInventories = creature.inventories.filter(inventory => !inventories.some(inv => inv.id == inventory.id) && inventory.itemId == invItem.id);
+
+                                if (newInventories.length) {
+                                    newInventoriesFound = true;
+                                    inventories.push(
+                                        ...newInventories.map(inventory => Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(inventory))).recast(this.typeService, this)));
+                                }
+                            });
                     });
                 }
             }
@@ -545,44 +589,52 @@ export class ItemsService {
         if (target.itemId == item.id) {
             return 'You cannot put a container into itself.';
         }
+
         if (this.get_CannotFit(creature, item, target)) {
             return 'The selected inventory does not have enough room for the item.';
         }
+
         if (this.get_IsCircularContainer(creature, item, target)) {
             return 'The selected inventory is nested in this container item.';
         }
+
         return '';
     }
 
     get_CannotFit(creature: Creature, item: Item, target: ItemCollection, options: { amount?: number; including?: boolean } = {}) {
         //All bulk results are multiplied by 10 to avoid decimal addition bugs.
-        options = Object.assign({
-            amount: 0,
-            including: true
-        }, options);
+        options = { amount: 0,
+            including: true, ...options };
+
         let bulkLimit = target.bulkLimit;
+
         if (bulkLimit >= 1 && Math.floor(bulkLimit) == bulkLimit) {
             //For full bulk limits (2 rather than 4L, for example), allow 9 light items extra.
             bulkLimit = (bulkLimit * 10) + 9;
         } else {
             bulkLimit *= 10;
         }
+
         if (target instanceof ItemCollection) {
             if (bulkLimit) {
                 const itemBulk = this.get_RealBulk(item, { carrying: true, amount: options.amount }) * 10;
                 const containedBulk = this.get_ContainedBulk(creature, item, target, options.including) * 10;
+
                 return ((target.get_Bulk(false) * 10) + itemBulk + containedBulk > bulkLimit);
             }
         }
+
         return false;
     }
 
     get_IsCircularContainer(creature: Creature, item: Item, target: ItemCollection) {
         //Check if the target inventory is contained in this item.
         let found = false;
+
         if (item instanceof Equipment && item.gainInventory?.length) {
             found = this.get_ItemContainsInventory(creature, item, target);
         }
+
         return found;
     }
 
@@ -590,14 +642,13 @@ export class ItemsService {
         //If this item grants any inventories, check those inventories for whether they include any items that grant the target inventory.
         //Repeat for any included items that grant inventories themselves, until we are certain that this inventory is not in this container, no matter how deep.
         let found = false;
+
         if (item.gainInventory?.length) {
-            found = creature.inventories.filter(inv => inv.itemId == item.id).some(inv => {
-                return inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
-                    inv.allEquipment().filter(invItem => invItem.gainInventory.length).some(invItem => {
-                        return this.get_ItemContainsInventory(creature, invItem, inventory);
-                    });
-            });
+            found = creature.inventories.filter(inv => inv.itemId == item.id).some(inv => inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
+                    inv.allEquipment().filter(invItem => invItem.gainInventory.length)
+                        .some(invItem => this.get_ItemContainsInventory(creature, invItem, inventory)));
         }
+
         return found;
     }
 
@@ -607,6 +658,7 @@ export class ItemsService {
         //If any of the contained items contain the the target inventory, that should be caught in move_InventoryItem.
         item.gainItems?.forEach(itemGain => {
             let toMove: number = itemGain.amount;
+
             [inventory].concat(creature.inventories.filter(inv => inv !== targetInventory && inv !== inventory)).forEach(inv => {
                 //Find items that either have this ItemGain's id or, if stackable, its name.
                 //Then move as many of them into the new inventory as the amount demands.
@@ -614,6 +666,7 @@ export class ItemsService {
                     if (toMove) {
                         if (!this.get_CannotMove(creature, invItem, targetInventory)) {
                             const moved = Math.min(toMove, invItem.amount);
+
                             toMove -= moved;
                             this.move_InventoryItemLocally(creature, invItem, targetInventory, inv, characterService, moved);
                         }
@@ -627,15 +680,18 @@ export class ItemsService {
         if (targetInventory && targetInventory != inventory && targetInventory.itemId != item.id) {
             this.update_GrantingItem(creature, item);
             this.refreshService.set_ToChange('Character', item.id);
+
             //Only move the item locally if the item still exists in the inventory.
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 //The item does need to be copied so we don't just move a reference.
                 const movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(item))).recast(this.typeService, this);
+
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
                 if (movedItem.canStack()) {
                     const targetItem = targetInventory[item.type].find((inventoryItem: Item) => inventoryItem.name == movedItem.name);
+
                     if (targetItem) {
                         targetItem.amount += amount;
                     } else {
@@ -644,6 +700,7 @@ export class ItemsService {
                 } else {
                     targetInventory[item.type].push(movedItem);
                 }
+
                 //If the amount is higher or exactly the same, remove the item from the old inventory. If not, reduce the amount on the old item, then set that amount on the new item.
                 if (amount >= item.amount) {
                     inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item);
@@ -651,16 +708,20 @@ export class ItemsService {
                     movedItem.amount = amount;
                     item.amount -= amount;
                 }
+
                 if (movedItem instanceof Equipment && movedItem.equipped) {
                     characterService.on_Equip(creature, inventory, movedItem as Equipment, false);
                 }
+
                 if (movedItem instanceof Equipment && movedItem.invested) {
                     characterService.on_Invest(creature, inventory, movedItem as Equipment, false);
                 }
+
                 //Move all granted items as well.
                 if (including) {
                     this.move_GrantedItems(creature, movedItem, targetInventory, inventory, characterService);
                 }
+
                 this.refreshService.set_ItemViewChanges(creature, movedItem, { characterService, activitiesService: this.activitiesService });
             }
         }
@@ -669,17 +730,21 @@ export class ItemsService {
     move_InventoryItemToCreature(creature: Creature, targetCreature: SpellTarget, item: Item, inventory: ItemCollection, characterService: CharacterService, amount = item.amount) {
         if (creature.type != targetCreature.type) {
             this.update_GrantingItem(creature, item);
+
             const included = this.pack_GrantingItem(creature, item);
             const toCreature = characterService.get_Creature(targetCreature.type);
             const targetInventory = toCreature.inventories[0];
+
             //Iterate through the main item and all its granted items and inventories.
             [item].concat(included.items).forEach(includedItem => {
                 //If any existing, stackable items are found, add this item's amount on top and finish.
                 //If no items are found, add the new item and its included items to the inventory.
                 let existingItems: Array<Item> = [];
+
                 if (!includedItem.expiration && includedItem.canStack()) {
                     existingItems = targetInventory[includedItem.type].filter((existing: Item) => existing.name == includedItem.name && existing.canStack() && !includedItem.expiration);
                 }
+
                 if (existingItems.length) {
                     existingItems[0].amount += includedItem.amount;
                     //Update the item's gridicon to reflect its changed amount.
@@ -688,6 +753,7 @@ export class ItemsService {
                     const movedItem = this.cast_ItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this.typeService, this);
                     const newLength = targetInventory[includedItem.type].push(movedItem);
                     const newItem = targetInventory[includedItem.type][newLength - 1];
+
                     targetInventory[includedItem.type][newLength - 1] = characterService.process_GrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
                 }
             });
@@ -695,14 +761,17 @@ export class ItemsService {
             included.inventories.forEach(inventory => {
                 const newLength = toCreature.inventories.push(inventory);
                 const newInventory = toCreature.inventories[newLength - 1];
+
                 newInventory.allItems().forEach(invItem => {
                     characterService.process_GrantedItem(toCreature, invItem, newInventory, true, false, true, true);
                 });
             });
+
             //If the item still exists on the inventory, drop it with all its contents.
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
                 characterService.drop_InventoryItem(creature, inventory, item, false, true, true, amount);
             }
+
             this.refreshService.set_ToChange(toCreature.type, 'inventory');
             this.refreshService.set_ToChange(creature.type, 'inventory');
             this.refreshService.set_ToChange(toCreature.type, 'effects');
@@ -730,6 +799,7 @@ export class ItemsService {
             //Apply conditions
             item.gainConditions.forEach(gain => {
                 const newConditionGain = Object.assign(new ConditionGain(), gain).recast();
+
                 characterService.add_Condition(creature, newConditionGain, {}, { noReload: true });
             });
 
@@ -737,12 +807,14 @@ export class ItemsService {
             if (item instanceof Oil) {
                 item.castSpells.forEach((cast: SpellCast) => {
                     cast.spellGain.duration = cast.duration;
+
                     const librarySpell = spellsService.get_Spells(cast.name)[0];
+
                     if (librarySpell) {
                         characterService.spellsService.process_Spell(librarySpell, true,
                             { characterService, itemsService: this, conditionsService },
                             { creature, target: creature.type, gain: cast.spellGain, level: cast.level },
-                            { manual: true }
+                            { manual: true },
                         );
                     }
                 });
@@ -761,23 +833,29 @@ export class ItemsService {
 
     rest(creature: Creature, characterService: CharacterService) {
         creature.inventories.forEach(inv => {
-            inv.allItems().filter(item => item.expiration == -2).forEach(item => {
-                item.name = 'DELETE';
-            });
+            inv.allItems().filter(item => item.expiration == -2)
+                .forEach(item => {
+                    item.name = 'DELETE';
+                });
+
             //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
             while (inv.allItems().some(item => item.name == 'DELETE')) {
-                inv.allItems().filter(item => item.name == 'DELETE').forEach(item => {
-                    characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
-                });
+                inv.allItems().filter(item => item.name == 'DELETE')
+                    .forEach(item => {
+                        characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
+                    });
                 this.refreshService.set_ToChange(creature.type, 'inventory');
             }
+
             //Grant items that are granted by other items on rest.
-            inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped()).forEach(item => {
-                item.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
+            inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped())
+                .forEach(item => {
+                    item.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
+                        gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
+                    });
                 });
-            });
         });
+
         if (creature instanceof Character) {
             //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
             if (characterService.get_CharacterFeatsTaken(1, creature.level, 'Scroll Savant').length) {
@@ -792,29 +870,35 @@ export class ItemsService {
             if (characterService.get_CharacterFeatsTaken(1, creature.level, 'Battleforger').length) {
                 let attacksChanged = false;
                 let defenseChanged = false;
+
                 creature.inventories.forEach(inv => {
                     inv.weapons.forEach(weapon => {
                         if (weapon.battleforged) {
                             attacksChanged = true;
                         }
+
                         weapon.battleforged = false;
                     });
                     inv.armors.forEach(armor => {
                         if (armor.battleforged) {
                             defenseChanged = true;
                         }
+
                         armor.battleforged = false;
                     });
                     inv.wornitems.forEach(wornitem => {
                         if (wornitem.battleforged) {
                             attacksChanged = true;
                         }
+
                         wornitem.battleforged = false;
                     });
                 });
+
                 if (attacksChanged) {
                     this.refreshService.set_ToChange('Character', 'attacks');
                 }
+
                 if (defenseChanged) {
                     this.refreshService.set_ToChange('Character', 'defense');
                 }
@@ -833,14 +917,17 @@ export class ItemsService {
 
     refocus(creature: Creature, characterService: CharacterService) {
         creature.inventories.forEach(inv => {
-            inv.allItems().filter(item => item.expiration == -3).forEach(item => {
-                item.name = 'DELETE';
-            });
+            inv.allItems().filter(item => item.expiration == -3)
+                .forEach(item => {
+                    item.name = 'DELETE';
+                });
+
             //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
             while (inv.allItems().some(item => item.name == 'DELETE')) {
-                inv.allItems().filter(item => item.name == 'DELETE').forEach(item => {
-                    characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
-                });
+                inv.allItems().filter(item => item.name == 'DELETE')
+                    .forEach(item => {
+                        characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
+                    });
                 this.refreshService.set_ToChange(creature.type, 'inventory');
             }
         });
@@ -856,54 +943,68 @@ export class ItemsService {
                     default: return true;
                 }
             }
-            inv.allItems().filter(item => item.expiration > 0 && expirationApplies(item)).forEach(item => {
-                item.expiration -= turns;
-                if (item.expiration <= 0) {
-                    item.name = 'DELETE';
-                    if (item instanceof Equipment && item.gainInventory.length) {
+            inv.allItems().filter(item => item.expiration > 0 && expirationApplies(item))
+                .forEach(item => {
+                    item.expiration -= turns;
+
+                    if (item.expiration <= 0) {
+                        item.name = 'DELETE';
+
+                        if (item instanceof Equipment && item.gainInventory.length) {
                         //If a temporary container is destroyed, return all contained items to the main inventory.
-                        creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
-                            inv.allItems().forEach(invItem => {
-                                this.move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, characterService);
+                            creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
+                                inv.allItems().forEach(invItem => {
+                                    this.move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, characterService);
+                                });
                             });
-                        });
+                        }
                     }
-                }
-                this.refreshService.set_ToChange(creature.type, 'inventory');
-                if (item instanceof Shield && item.equipped) {
-                    this.refreshService.set_ToChange(creature.type, 'attacks');
-                }
-                if ((item instanceof Armor || item instanceof Shield) && item.equipped) {
-                    this.refreshService.set_ToChange(creature.type, 'defense');
-                }
-            });
-            inv.wands.filter(wand => wand.cooldown > 0).forEach(wand => {
-                wand.cooldown = Math.max(wand.cooldown - turns, 0);
-                this.refreshService.set_ToChange(creature.type, 'inventory');
-            });
-            //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
-            while (inv.allItems().some(item => item.name == 'DELETE')) {
-                inv.allItems().filter(item => item.name == 'DELETE').forEach(item => {
-                    characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
-                });
-                this.refreshService.set_ToChange(creature.type, 'inventory');
-            }
-            inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length).forEach(item => {
-                item.oilsApplied.filter(oil => oil.duration != -1).forEach(oil => {
-                    oil.duration -= turns;
-                    if (oil.duration <= 0) {
-                        oil.name = 'DELETE';
-                    }
+
                     this.refreshService.set_ToChange(creature.type, 'inventory');
-                    if (item instanceof Weapon && item.equipped) {
+
+                    if (item instanceof Shield && item.equipped) {
                         this.refreshService.set_ToChange(creature.type, 'attacks');
                     }
+
                     if ((item instanceof Armor || item instanceof Shield) && item.equipped) {
                         this.refreshService.set_ToChange(creature.type, 'defense');
                     }
                 });
-                item.oilsApplied = item.oilsApplied.filter(oil => oil.name != 'DELETE');
+            inv.wands.filter(wand => wand.cooldown > 0).forEach(wand => {
+                wand.cooldown = Math.max(wand.cooldown - turns, 0);
+                this.refreshService.set_ToChange(creature.type, 'inventory');
             });
+
+            //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
+            while (inv.allItems().some(item => item.name == 'DELETE')) {
+                inv.allItems().filter(item => item.name == 'DELETE')
+                    .forEach(item => {
+                        characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
+                    });
+                this.refreshService.set_ToChange(creature.type, 'inventory');
+            }
+
+            inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length)
+                .forEach(item => {
+                    item.oilsApplied.filter(oil => oil.duration != -1).forEach(oil => {
+                        oil.duration -= turns;
+
+                        if (oil.duration <= 0) {
+                            oil.name = 'DELETE';
+                        }
+
+                        this.refreshService.set_ToChange(creature.type, 'inventory');
+
+                        if (item instanceof Weapon && item.equipped) {
+                            this.refreshService.set_ToChange(creature.type, 'attacks');
+                        }
+
+                        if ((item instanceof Armor || item instanceof Shield) && item.equipped) {
+                            this.refreshService.set_ToChange(creature.type, 'defense');
+                        }
+                    });
+                    item.oilsApplied = item.oilsApplied.filter(oil => oil.name != 'DELETE');
+                });
         });
     }
 
@@ -981,6 +1082,7 @@ export class ItemsService {
 
     load(source, target: string, type, category: 'item' | 'meta', listName = '') {
         let data;
+
         switch (category) {
             case 'item':
                 this.cleanItems[target] = [];

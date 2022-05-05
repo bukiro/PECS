@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ExtensionsService {
 
@@ -11,11 +11,11 @@ export class ExtensionsService {
     private finishedLoading = 0;
 
     constructor(
-        private readonly httpClient: HttpClient
+        private readonly httpClient: HttpClient,
     ) { }
 
     initialize() {
-        this.extensions = new Object;
+        this.extensions = new Object();
         this.loading++;
 
         this.load_Extensions('assets/json/abilities', 'abilities');
@@ -74,7 +74,8 @@ export class ExtensionsService {
     load_Extensions(path: string, target: string) {
         this.loading++;
 
-        const headers = new HttpHeaders().set('Cache-Control', 'no-cache').set('Pragma', 'no-cache');
+        const headers = new HttpHeaders().set('Cache-Control', 'no-cache')
+            .set('Pragma', 'no-cache');
 
         this.httpClient.request(new HttpRequest('HEAD', `${ path }/extensions.json`, headers))
             .subscribe({
@@ -92,7 +93,7 @@ export class ExtensionsService {
                                 },
                                 complete: () => {
                                     this.finishedLoading++;
-                                }
+                                },
                             });
                     }
                 },
@@ -102,8 +103,9 @@ export class ExtensionsService {
                     } else {
                         console.log(`Error loading extension file: ${ error.message }`);
                     }
+
                     this.finishedLoading++;
-                }
+                },
             });
 
     }
@@ -114,6 +116,7 @@ export class ExtensionsService {
                 data[key] = this.extensions[name][key];
             });
         }
+
         return data;
     }
 
@@ -123,26 +126,31 @@ export class ExtensionsService {
             data
                 .filter(item =>
                     data.filter(otherItem =>
-                        otherItem[identifier] == item[identifier]
-                    ).length > 1
-                ).map(item => item[identifier])
+                        otherItem[identifier] == item[identifier],
+                    ).length > 1,
+                ).map(item => item[identifier]),
         ));
         const winners: Array<{ object: string; winner: string }> = [];
+
         duplicates.forEach(duplicate => {
             const highestPriority = Math.max(
                 ...data
                     .filter(item => item[identifier] == duplicate)
-                    .map(item => item.overridePriority || 0)
+                    .map(item => item.overridePriority || 0),
             ) || 0;
             const highestItem = data.find(item => item[identifier] == duplicate && (item.overridePriority || 0) == highestPriority);
+
             data.filter(item => (item[identifier] == duplicate && item !== highestItem)).forEach(item => { item[identifier] = 'DELETE'; });
             winners.push({ object: duplicate, winner: highestItem._extensionFileName || 'core' });
         });
+
         const newcount = data.length;
+
         if (oldcount != newcount) {
             console.log(`Resolved ${ oldcount - newcount } duplicate${ (oldcount - newcount > 1) ? 's' : '' } in ${ listName }:`);
             console.log(winners);
         }
+
         return data.filter(item => item[identifier] !== 'DELETE');
     }
 
@@ -153,26 +161,32 @@ export class ExtensionsService {
                 .filter(item =>
                     data.filter(otherItem =>
                         //List all items where all identifiers match.
-                        !identifiers.map(identifier => otherItem[identifier] == item[identifier]).some(result => result == false)
-                    ).length > 1
-                ).map(item => identifiers.map(identifier => item[identifier])).map(item => JSON.stringify(item))
+                        !identifiers.map(identifier => otherItem[identifier] == item[identifier]).some(result => result == false),
+                    ).length > 1,
+                ).map(item => identifiers.map(identifier => item[identifier]))
+                .map(item => JSON.stringify(item)),
         ));
         const winners: Array<{ identifiers: string; object: string; winner: string }> = [];
+
         duplicates.map(duplicate => JSON.parse(duplicate)).forEach(duplicateIdentifiers => {
             const highestPriority = Math.max(
                 ...data
                     .filter(item => !identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result))
-                    .map(item => item.overridePriority || 0)
+                    .map(item => item.overridePriority || 0),
             ) || 0;
             const highestItem = data.find(item => !identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && (item.overridePriority || 0) == highestPriority);
+
             data.filter(item => (!identifiers.map((identifier, index) => item[identifier] == duplicateIdentifiers[index]).some(result => !result) && item !== highestItem)).forEach(item => { item[identifiers[0]] = 'DELETE'; });
             winners.push({ identifiers: identifiers.join('; '), object: identifiers.map(identifier => highestItem[identifier]).join('; '), winner: highestItem._extensionFileName || 'core' });
         });
+
         const newcount = data.length;
+
         if (oldcount != newcount) {
             console.log(`Resolved ${ oldcount - newcount } duplicate${ (oldcount - newcount > 1) ? 's' : '' } in ${ listName } (with multiple identifiers):`);
             console.log(winners);
         }
+
         return data.filter(item => item[identifiers[0]] !== 'DELETE');
     }
 
@@ -182,8 +196,9 @@ export class ExtensionsService {
             .toPromise()
             .then(data => {
                 if (!this.extensions[target]) {
-                    this.extensions[target] = new Object;
+                    this.extensions[target] = new Object();
                 }
+
                 this.extensions[target][key] = data;
                 this.extensions[target][key].forEach((obj: object) => { obj._extensionFileName = filename; });
                 this.finishedLoading++;

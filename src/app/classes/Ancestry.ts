@@ -25,6 +25,7 @@ export class Ancestry {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+
         return this;
     }
 }

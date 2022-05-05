@@ -18,7 +18,7 @@ import { Activity } from 'src/app/classes/Activity';
 @Component({
     selector: 'app-tags',
     templateUrl: './tags.component.html',
-    styleUrls: ['./tags.component.css']
+    styleUrls: ['./tags.component.css'],
 })
 export class TagsComponent implements OnInit, OnDestroy {
 
@@ -54,7 +54,7 @@ export class TagsComponent implements OnInit, OnDestroy {
         private readonly refreshService: RefreshService,
         private readonly traitsService: TraitsService,
         private readonly effectsService: EffectsService,
-        private readonly timeService: TimeService
+        private readonly timeService: TimeService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -74,26 +74,15 @@ export class TagsComponent implements OnInit, OnDestroy {
             specializations: [],
             activities: [],
             conditions: [],
-            effects: []
+            effects: [],
         };
-        allTags.traits = [this.objectName].concat(this.specialNames).map(name => {
-            return { setName: name, traits: this.get_TraitsForThis(name) };
-        });
-        allTags.feats = [this.objectName].concat(this.specialNames).map((name, index) => {
-            return { setName: name, feats: this.get_FeatsShowingOn(name, index == 0 ? this.showFeats : true) };
-        });
-        allTags.items = [this.objectName].concat(this.specialNames).map(name => {
-            return { setName: name, items: this.get_ItemsShowingOn(name) };
-        });
-        allTags.specializations = [this.objectName].concat(this.specialNames).map(name => {
-            return { setName: name, specializations: this.get_SpecializationsShowingOn(name) };
-        });
-        allTags.activities = [this.objectName].concat(this.specialNames).map(name => {
-            return { setName: name, activities: this.get_ActivitiesShowingOn(name) };
-        });
-        allTags.conditions = [this.objectName].concat(this.specialNames).map(name => {
-            return { setName: name, conditionSets: this.get_ConditionsShowingOn(name) };
-        });
+
+        allTags.traits = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, traits: this.get_TraitsForThis(name) }));
+        allTags.feats = [this.objectName].concat(this.specialNames).map((name, index) => ({ setName: name, feats: this.get_FeatsShowingOn(name, index == 0 ? this.showFeats : true) }));
+        allTags.items = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, items: this.get_ItemsShowingOn(name) }));
+        allTags.specializations = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, specializations: this.get_SpecializationsShowingOn(name) }));
+        allTags.activities = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, activities: this.get_ActivitiesShowingOn(name) }));
+        allTags.conditions = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, conditionSets: this.get_ConditionsShowingOn(name) }));
         allTags.effects = this.get_EffectsOnThis(this.objectName).concat(this.specialEffects);
         allTags.count = allTags.traits.reduce((a, b) => a + b.traits.length, 0) +
             allTags.feats.reduce((a, b) => a + b.feats.length, 0) +
@@ -102,6 +91,7 @@ export class TagsComponent implements OnInit, OnDestroy {
             allTags.activities.reduce((a, b) => a + b.activities.length, 0) +
             allTags.conditions.reduce((a, b) => a + b.conditionSets.length, 0) +
             allTags.effects.length;
+
         return allTags;
     }
 
@@ -120,7 +110,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     nameSort(
         a: AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat | Condition | Item | Material | Specialization | Activity,
-        b: AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat | Condition | Item | Material | Specialization | Activity
+        b: AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat | Condition | Item | Material | Specialization | Activity,
     ) {
         return (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1);
     }
@@ -193,13 +183,13 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['tags', 'all', this.creature, this.objectName].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature == this.creature &&
                     (
                         view.target == 'all' ||

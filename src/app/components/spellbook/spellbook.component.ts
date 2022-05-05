@@ -68,7 +68,7 @@ interface SpellParameters {
     selector: 'app-spellbook',
     templateUrl: './spellbook.component.html',
     styleUrls: ['./spellbook.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellbookComponent implements OnInit, OnDestroy {
 
@@ -89,7 +89,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly itemsService: ItemsService,
         private readonly timeService: TimeService,
         private readonly effectsService: EffectsService,
-        private readonly conditionsService: ConditionsService
+        private readonly conditionsService: ConditionsService,
     ) { }
 
     minimize() {
@@ -165,6 +165,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     get_HasSpells() {
         const character = this.get_Character();
+
         return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.charLevelAvailable <= character.level));
     }
 
@@ -194,6 +195,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     get_SpellCastings() {
         const character = this.get_Character();
+
         //Return all spellcastings that have spells available, and the Innate spellcasting if any items grant you innate spells.
         enum CastingTypeSort {
             Innate,
@@ -201,14 +203,17 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             Prepared,
             Spontaneous
         }
+
         return [...character.class.spellCasting]
             .sort((a, b) => {
                 if (a.className == 'Innate' && b.className != 'Innate') {
                     return -1;
                 }
+
                 if (a.className != 'Innate' && b.className == 'Innate') {
                     return 1;
                 }
+
                 if (a.className == b.className) {
                     return (
                         (CastingTypeSort[a.castingType] + a.tradition == CastingTypeSort[b.castingType] + b.tradition) ? 0 :
@@ -217,6 +222,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                             )
                     );
                 }
+
                 if (a.className > b.className) {
                     return 1;
                 } else {
@@ -229,7 +235,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return {
             bloodMagicFeats: this.get_BloodMagicFeats(),
             focusPoints: this.get_FocusPoints(),
-            hasSuperiorBond: this.have_Feat('Superior Bond')
+            hasSuperiorBond: this.have_Feat('Superior Bond'),
         };
     }
 
@@ -241,11 +247,14 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 casting.charLevelAvailable &&
                 casting.charLevelAvailable <= this.get_Character().level
             ) || equipmentSpells.length;
+
             if (!castingAvailable) {
                 return null;
             }
+
             const maxSpellLevel = this.get_MaxSpellLevel(casting, equipmentSpells);
             const maxGreaterVitalEvolutionSlot = this.get_MaxSpellSlots(11, casting, maxSpellLevel);
+
             return {
                 casting,
                 equipmentSpells,
@@ -256,14 +265,16 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 maxSecondGreaterVitalEvolutionSlot: maxGreaterVitalEvolutionSlot,
                 usedSecondGreaterVitalEvolutionSlot: this.get_UsedSpellSlots(12, casting),
                 maxSpellLevel,
-                canCounterSpell: this.can_Counterspell(casting)
+                canCounterSpell: this.can_Counterspell(casting),
             };
-        }).filter(castingParameters => castingParameters);
+        })
+            .filter(castingParameters => castingParameters);
     }
 
     public get_SpellCastingLevelParameters(spellCastingParameters: SpellCastingParameters, componentParameters: ComponentParameters): Array<SpellCastingLevelParameters> {
         return [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(level => level <= spellCastingParameters.maxSpellLevel).map(level => {
             const maxSpellSlots = this.get_MaxSpellSlots(level, spellCastingParameters.casting, spellCastingParameters.maxSpellLevel);
+
             return {
                 level,
                 spellTakenList: this.get_SpellsByLevel(level, spellCastingParameters),
@@ -271,7 +282,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 maxSpellSlots,
                 usedSpellSlots: this.get_UsedSpellSlots(level, spellCastingParameters.casting),
                 extraSpellSlots: this.get_ExtraSpellSlots(level, spellCastingParameters.maxSpellLevel, spellCastingParameters),
-                canRestore: this.can_Restore(spellCastingParameters, level, componentParameters.hasSuperiorBond)
+                canRestore: this.can_Restore(spellCastingParameters, level, componentParameters.hasSuperiorBond),
             };
         });
     }
@@ -282,6 +293,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             const gain = spellTaken.gain;
             const spell = this.get_Spells(gain.name)[0];
             const externallyDisabled = this.get_ExternallyDisabled(spell, choice);
+
             return {
                 spell,
                 choice,
@@ -300,7 +312,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 isSpellMasterySpell: this.is_SpellMasterySpell(choice),
                 isCrossbloodedEvolutionSpell: choice.crossbloodedEvolution,
                 canReprepare: this.can_Reprepare(spellCastingLevelParameters.level, spell, spellCastingParameters.casting),
-                isHostile: spell.get_IsHostile()
+                isHostile: spell.get_IsHostile(),
             };
         });
     }
@@ -311,15 +323,17 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         //Dynamic spell levels need to be evaluated.
         //Non-Focus spellcastings need to consider spells granted by items.
         const character = this.get_Character();
+
         if (casting.castingType == 'Focus') {
             return this.get_Character().get_SpellLevel();
         }
+
         return Math.max(
             ...equipmentSpells
                 .map(spellSet => spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, casting) : spellSet.choice.level),
             ...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level)
                 .map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(spellChoice, casting) : spellChoice.level),
-            0
+            0,
         );
     }
 
@@ -334,6 +348,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     get_SpellsByLevel(levelNumber: number, spellCastingParameters: SpellCastingParameters) {
         const character = this.get_Character();
+
         if (levelNumber == -1) {
             if (spellCastingParameters.casting.castingType == 'Focus') {
                 return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, signatureAllowed: this.get_SignatureSpellsAllowed(spellCastingParameters.casting), cantripAllowed: false })
@@ -355,21 +370,25 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     get_SpellConditions(spell: Spell, levelNumber: number, gain: SpellGain) {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
+
         spell.get_HeightenedConditions(levelNumber)
-            .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }; })
+            .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }))
             .forEach((conditionSet, index) => {
                 //Create the temporary list of currently available choices.
                 conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : levelNumber));
                 //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                 conditionSets.push(conditionSet);
+
                 //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
                 while (conditionSet.condition && (!gain.effectChoices.length || gain.effectChoices.length < index - 1)) {
                     gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                 }
+
                 if (conditionSet.condition && !conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
                     gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                 }
             });
+
         return conditionSets;
     }
 
@@ -379,6 +398,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     get_FocusPoints() {
         const maxFocusPoints = this.get_MaxFocusPoints();
+
         return { now: Math.min(this.get_Character().class.focusPoints, maxFocusPoints), max: maxFocusPoints };
     }
 
@@ -396,9 +416,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     get_ExtraSpellSlots(level: number, maxSpellLevel: number, spellCastingParameters: SpellCastingParameters) {
         let extraSpellSlots = '';
+
         if (level < maxSpellLevel && (spellCastingParameters.maxStudiousCapacitySlots - spellCastingParameters.usedStudiousCapacitySlots > 0)) {
             extraSpellSlots += `+${ (spellCastingParameters.maxStudiousCapacitySlots - spellCastingParameters.usedStudiousCapacitySlots).toString() }`;
         }
+
         if (
             (
                 spellCastingParameters.maxFirstGreaterVitalEvolutionSlot ||
@@ -413,6 +435,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         ) {
             extraSpellSlots += '+1';
         }
+
         return extraSpellSlots;
     }
 
@@ -424,6 +447,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     get_MaxSpellSlots(spellLevel: number, casting: SpellCasting, maxSpellLevel: number) {
         if (casting.castingType == 'Spontaneous') {
             let spellslots = 0;
+
             //You have as many spontaneous spell slots as you have original spells (e.g. spells with source "*Sorcerer Spellcasting" for Sorcerers),
             //  except for Level 10, where you have 1 (before effects).
             if (spellLevel == 10) {
@@ -436,21 +460,26 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 casting.spellChoices.filter(choice =>
                     choice.level == spellLevel &&
                     choice.charLevelAvailable <= this.get_Character().level &&
-                    choice.source.includes(`${ casting.className } Spellcasting`)
+                    choice.source.includes(`${ casting.className } Spellcasting`),
                 ).forEach(choice => {
                     spellslots += choice.available;
                 });
+
                 if (spellLevel <= maxSpellLevel - 2 && (casting.className == 'Bard' && this.have_Feat('Occult Breadth'))) {
                     spellslots += 1;
                 }
+
                 if (spellLevel <= maxSpellLevel - 2 && (casting.className == 'Sorcerer' && this.have_Feat('Bloodline Breadth'))) {
                     spellslots += 1;
                 }
             }
-            if (casting.className)
+
+            if (casting.className) {
                 this.effectsService.get_RelativesOnThis(this.get_Character(), `${ casting.className } ${ casting.castingType } Level ${ spellLevel } Spell Slots`).forEach(effect => {
                     spellslots += parseInt(effect.value);
                 });
+            }
+
             return spellslots;
         } else {
             return 0;
@@ -459,6 +488,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     have_Feat(name: string): boolean {
         const character = this.get_Character();
+
         return !!this.characterService.get_CharacterFeatsTaken(0, character.level, name).length;
     }
 
@@ -472,12 +502,14 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     on_ManualFocusPointChange(amount: number) {
         const character = this.get_Character();
+
         character.class.focusPoints = Math.min(character.class.focusPoints, this.get_MaxFocusPoints());
         character.class.focusPoints = Math.max(Math.min(character.class.focusPoints + amount, this.get_MaxFocusPoints()), 0);
     }
 
     on_ManualRestoreCharge(gain: SpellGain) {
         gain.chargesUsed = Math.max(gain.chargesUsed - 1, 0);
+
         if (gain.chargesUsed == 0) {
             gain.activeCooldown = 0;
         }
@@ -509,9 +541,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         ) {
             return (context.choice.charges ? 'Recharged in ' : 'Cooldown: ') + this.get_Duration(context.gain.activeCooldown, true);
         }
+
         if (context.externallyDisabled) {
             return 'Disabled by effect.';
         }
+
         switch (context.spellCastingParameters.casting.castingType) {
             case 'Focus':
                 if (context.spellCastingLevelParameters.level == -1 && this.get_Character().class.focusPoints <= 0) {
@@ -557,6 +591,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     get_BloodMagicFeats() {
         const character = this.get_Character();
+
         return this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have({ creature: character }, { characterService: this.characterService }));
     }
 
@@ -566,6 +601,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         let highestNoDurationSpellPreservationLevel = 0;
         //If an effect changes whether a spell resource will get used, mark this here and mark any matching condition for removal. The conditions will be removed if they have duration 1, regardless of whether the effect was used.
         const conditionsToRemove: Array<string> = [];
+
         this.characterService.effectsService.get_AbsolutesOnThis(character, 'Spell Slot Preservation').forEach(effect => {
             highestSpellPreservationLevel = parseInt(effect.setValue);
             conditionsToRemove.push(effect.source);
@@ -582,12 +618,15 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             highestNoDurationSpellPreservationLevel += parseInt(effect.value);
             conditionsToRemove.push(effect.source);
         });
+
         if (context.spellParameters.choice.source == 'Feat: Channeled Succor') {
             //When you use a Channeled Succor spell, you instead expend a heal spell from your divine font.
             const divineFontSpell = character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellName: 'Heal', source: 'Divine Font' }).find(taken => taken.gain.prepared);
+
             if (divineFontSpell) {
                 divineFontSpell.gain.prepared = false;
             }
+
             //Update effects because Channeled Succor gets disabled after you expend all your divine font heal spells.
             this.refreshService.set_ToChange('Character', 'effects');
         } else if (context.spellParameters.choice.cooldown) {
@@ -616,6 +655,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                                 }
                             }
                         }
+
                         //Prepared spells get locked until the next preparation.
                         if (context.spellCastingParameters.casting.castingType == 'Prepared' && !context.spellParameters.spell.traits.includes('Cantrip') && activated) {
                             context.spellParameters.gain.prepared = false;
@@ -624,14 +664,17 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 }
             }
         }
+
         //All Conditions that have affected the resource use of this spell are now removed (provided they have duration 1, so they count only for the next spell).
         if (conditionsToRemove.length) {
-            this.characterService.get_AppliedConditions(character, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name)).forEach(conditionGain => {
-                if (conditionGain.durationIsInstant) {
-                    this.characterService.remove_Condition(character, conditionGain, false);
-                }
-            });
+            this.characterService.get_AppliedConditions(character, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
+                .forEach(conditionGain => {
+                    if (conditionGain.durationIsInstant) {
+                        this.characterService.remove_Condition(character, conditionGain, false);
+                    }
+                });
         }
+
         //Trigger bloodline powers or other additional effects.
         //Do not process in manual mode or when explicitly disabled.
         if (!options.expend && !this.get_ManualMode() && !context.spellParameters.gain.ignoreBloodMagicTrigger) {
@@ -641,14 +684,16 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                         bloodMagic.sourceTrigger.some(sourceTrigger =>
                             [
                                 context.spellCastingParameters.casting?.source.toLowerCase() || '',
-                                context.spellParameters.gain?.source.toLowerCase() || ''
-                            ].includes(sourceTrigger.toLowerCase())
+                                context.spellParameters.gain?.source.toLowerCase() || '',
+                            ].includes(sourceTrigger.toLowerCase()),
                         )) {
                         const conditionGain = new ConditionGain();
+
                         conditionGain.name = bloodMagic.condition;
                         conditionGain.duration = bloodMagic.duration;
                         conditionGain.source = feat.name;
                         conditionGain.heightened = context.spellParameters.effectiveSpellLevel;
+
                         if (conditionGain.name) {
                             this.characterService.add_Condition(this.get_Character(), conditionGain, {}, { noReload: true });
                         }
@@ -656,26 +701,31 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 });
             });
         }
+
         this.spellsService.process_Spell(context.spellParameters.spell, activated,
             { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
             { creature: character, target, casting: context.spellCastingParameters.casting, choice: context.spellParameters.choice, gain: context.spellParameters.gain, level: context.spellCastingLevelParameters.level },
-            { manual: true, expendOnly: options.expend }
+            { manual: true, expendOnly: options.expend },
         );
+
         if (context.spellParameters.gain.combinationSpellName) {
             const secondSpell = this.get_Spells(context.spellParameters.gain.combinationSpellName)[0];
+
             if (secondSpell) {
                 this.spellsService.process_Spell(secondSpell, activated,
                     { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
                     { creature: character, target, casting: context.spellCastingParameters.casting, choice: context.spellParameters.choice, gain: context.spellParameters.gain, level: context.spellCastingLevelParameters.level },
-                    { manual: true, expendOnly: options.expend }
+                    { manual: true, expendOnly: options.expend },
                 );
             }
         }
+
         this.refreshService.process_ToChange();
     }
 
     can_Counterspell(casting: SpellCasting): boolean {
         const character = this.get_Character();
+
         if (['Prepared', 'Spontaneous'].includes(casting.castingType)) {
             return !!this.characterService.get_CharacterFeatsTaken(1, character.level, `Counterspell (${ casting.castingType })`).length;
         }
@@ -683,6 +733,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     can_ChannelSmite(spell: Spell): boolean {
         const character = this.get_Character();
+
         if (['Heal', 'Harm'].includes(spell.name)) {
             return !!this.characterService.get_CharacterFeatsTaken(1, character.level, 'Channel Smite').length;
         }
@@ -690,6 +741,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     can_SwiftBanish(casting: SpellCasting, spell: Spell, level: number): boolean {
         const character = this.get_Character();
+
         if (['Banishment'].includes(spell.name)) {
             return !!this.characterService.get_CharacterFeatsTaken(1, character.level, 'Swift Banishment').length;
         } else if (level >= 5 && casting.castingType == 'Prepared') {
@@ -702,14 +754,17 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         if (this.effectsService.get_EffectsOnThis(this.get_Character(), 'Free Bonded Item Charge').length) {
             return true;
         }
+
         //True if there is a charge available for this level
         if (spellCastingParameters.casting.bondedItemCharges[level]) {
             return true;
         }
+
         //True if there is more than one general charge available - it means we have Superior Bond, and the first charge can be applied to every level.
         if (spellCastingParameters.casting.bondedItemCharges[0] > 1) {
             return true;
         }
+
         //If there is only one charge, we need to check if this came from the Superior Bond feat.
         //If we have that feat, the last charge is the Superior Bond charge and can only be applied to a spell 2 or more levels lower than the highest-level spell.
         if (spellCastingParameters.casting.bondedItemCharges[0] > 0) {
@@ -723,16 +778,21 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 }
             }
         }
+
         return false;
     }
 
     on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
         const character = this.get_Character();
+
         this.refreshService.set_ToChange('Character', 'effects');
+
         if (this.have_Feat('Linked Focus')) {
             this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: '+1' }));
         }
+
         const bondedItemCharges = this.effectsService.get_EffectsOnThis(character, 'Free Bonded Item Charge');
+
         if (bondedItemCharges.length) {
             bondedItemCharges.forEach(effect => {
                 this.characterService.get_AppliedConditions(character, effect.source).forEach(gain => {
@@ -748,6 +808,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 }
             }
         }
+
         gain.prepared = true;
         this.refreshService.process_ToChange();
     }
@@ -804,13 +865,13 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['spellbook', 'all', 'character'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['spellbook', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

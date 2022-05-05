@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-spellchoice',
     templateUrl: './spellchoice.component.html',
     styleUrls: ['./spellchoice.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellchoiceComponent implements OnInit, OnDestroy {
 
@@ -64,7 +64,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         private readonly spellsService: SpellsService,
         private readonly traitsService: TraitsService,
         private readonly effectsService: EffectsService,
-        private readonly deitiesService: DeitiesService
+        private readonly deitiesService: DeitiesService,
     ) { }
 
     toggle_Spell(name: string) {
@@ -73,6 +73,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         } else {
             this.showSpell = name;
         }
+
         this.showSpellMessage.emit(this.showSpell);
     }
 
@@ -82,6 +83,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         } else {
             this.showChoice = name;
         }
+
         this.showChoiceMessage.emit({ name, levelNumber: this.level, choice: this.choice, casting: this.spellCasting });
     }
 
@@ -131,50 +133,65 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
 
     get_ButtonTitle(available: number) {
         let title = '';
+
         if (this.itemSpell || this.choice.showOnSheet) {
             title += ` Level ${ this.choice.level }`;
         }
+
         if (this.choice.frequency) {
             title += ` ${ this.capitalize(this.choice.frequency) }`;
         }
+
         if (this.choice.tradition) {
             title += ` ${ this.choice.tradition }`;
         }
+
         if (this.is_AdaptedCantripSpell()) {
             title += ` non-${ this.spellCasting.tradition }`;
         }
+
         if (this.is_AdaptiveAdeptSpell()) {
             title += ` non-${ this.spellCasting.tradition }`;
         }
+
         if (this.choice.traitFilter.length) {
             title += ` ${ this.choice.traitFilter.join(' ') }`;
         }
+
         if (this.choice.spellCombinationAllowed) {
             title += ' Combination';
         }
+
         if (this.choice.className) {
             title += ` ${ this.choice.className }`;
         }
+
         if (this.choice.spellBookOnly) {
             title += ' Spellbook';
         }
+
         title += ' Spell';
+
         if (available != 1) {
             title += 's';
         }
+
         if (!this.itemSpell) {
             title += ` (${ this.choice.source })`;
         }
+
         if (available != 1) {
             title += `: ${ this.choice.spells.length }/${ available }`;
         } else {
             if (this.choice.spells.length) {
                 title += `: ${ this.choice.spells[0].name }`;
+
                 if (this.choice.spells[0].combinationSpellName) {
                     title += ` & ${ this.choice.spells[0].combinationSpellName }`;
                 }
             }
         }
+
         return title;
     }
 
@@ -187,10 +204,13 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             !this.choice.showOnSheet
         ) {
             const signatureSpellGains: Array<SignatureSpellGain> = [];
+
             this.characterService.get_CharacterFeatsAndFeatures()
-                .filter(feat => feat.allowSignatureSpells.length && feat.have({ creature: this.get_Character() }, { characterService: this.characterService })).forEach(feat => {
+                .filter(feat => feat.allowSignatureSpells.length && feat.have({ creature: this.get_Character() }, { characterService: this.characterService }))
+                .forEach(feat => {
                     signatureSpellGains.push(...feat.allowSignatureSpells.filter(gain => gain.className == this.spellCasting.className));
                 });
+
             if (signatureSpellGains.some(gain => gain.available == -1)) {
                 return -1;
             } else {
@@ -221,9 +241,11 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             if (this.get_SignatureSpellsChosen(this.choice.level)) {
                 return 'A signature spell has already been chosen for this level.';
             }
+
             if ((signatureSpellsAllowed > -1 && this.get_SignatureSpellsChosen(0) >= signatureSpellsAllowed)) {
                 return `The maximum amount of signature spells (${ signatureSpellsAllowed }) has already been chosen.`;
             }
+
             return '';
         }
     }
@@ -247,7 +269,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             'Feat: Adaptive Adept: Cantrip',
             'Feat: Adaptive Adept: 1st-Level Spell',
             'Feat: Infinite Possibilities',
-            'Feat: Spell Mastery'
+            'Feat: Spell Mastery',
         ].includes(this.choice.source) ||
             this.choice.spellCombination;
     }
@@ -284,6 +306,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         //  and to check if the current choice can be traded in for a spell slot at the given level (get_SpellBlendingAllowed()).
         if (this.get_SpellBlendingAllowed() || this.choice.source == 'Spell Blending') {
             const highestSpellLevel = this.get_HighestSpellLevel();
+
             //Check if there are enough spell choices that have been traded in in this spellcasting to unlock this level.
             if (level == 0) {
                 return this.spellCasting.spellChoices.filter(choice => choice.level > 0 && choice.spellBlending[0] > 0).length * 2;
@@ -448,6 +471,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             } else if (this.have_Feat('Impossible Polymath')) {
                 const character = this.get_Character();
                 let skill = '';
+
                 switch (tradition) {
                     case 'Arcane':
                         skill = 'Arcana';
@@ -459,6 +483,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                         skill = 'Nature';
                         break;
                 }
+
                 return this.characterService.get_Skills(character, skill)[0].level(character, this.characterService, character.level) >= 2;
             } else {
                 return false;
@@ -525,6 +550,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         if (this.spellCasting) {
             //Get the available spell level of this casting. This is the higest spell level of the spell choices that are available at your character level.
             const character = this.get_Character();
+
             return Math.max(...this.spellCasting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level).map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(spellChoice) : spellChoice.level), 0);
         } else {
             return 1;
@@ -540,22 +566,15 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         let available = 0;
         //Define some functions for choices with a dynamic available value.
         /* eslint-disable @typescript-eslint/no-unused-vars */
-        const Highest_Spell_Level = () => {
-            return this.get_HighestSpellLevel();
-        };
-        const Modifier = (name: string) => {
-            return this.characterService.get_Abilities(name)[0].mod(this.get_Character(), this.characterService, this.effectsService).result;
-        };
-        const Has_Feat = (name: string) => {
+        const Highest_Spell_Level = () => this.get_HighestSpellLevel();
+        const Modifier = (name: string) => this.characterService.get_Abilities(name)[0].mod(this.get_Character(), this.characterService, this.effectsService).result;
+        const Has_Feat = (name: string) =>
             //Return number of times you have the feat. The number is needed for calculations; boolean is not enough.
-            return this.have_Feat(name);
-        };
-        const Used_For_Spell_Blending = () => {
-            return this.get_SpellBlendingUsed();
-        };
-        const Used_For_Infinite_Possibilities = () => {
-            return this.get_InfinitePossibilitiesUsed();
-        };
+            this.have_Feat(name)
+        ;
+        const Used_For_Spell_Blending = () => this.get_SpellBlendingUsed();
+        const Used_For_Infinite_Possibilities = () => this.get_InfinitePossibilitiesUsed();
+
         /* eslint-enable @typescript-eslint/no-unused-vars */
         if (choice.dynamicAvailable) {
             try {
@@ -564,6 +583,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 available = 0;
             }
         }
+
         if (available == 0 || isNaN(available)) {
             if (this.is_SpellBlendingSpell()) {
                 available = Math.max(choice.available + this.get_SpellBlendingUnlocked(choice.level), 0);
@@ -577,9 +597,11 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 available = Math.max(choice.available, 0);
             }
         }
+
         if (available) {
             available = Math.max(available - this.get_SpellBlendingUsed() - this.get_InfinitePossibilitiesUsed() - this.get_AdaptedCantripUsed() - this.get_AdaptiveAdeptUsed(), 0);
         }
+
         //If this choice has more spells than it should have (unless they are locked), remove the excess.
         if (choice.spells.length > available) {
             choice.spells.filter(gain => !gain.locked).forEach((gain, index) => {
@@ -588,6 +610,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 }
             });
         }
+
         return available;
     }
 
@@ -595,37 +618,44 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         const choice = this.choice;
         //Get spell level from the choice level or from the dynamic choice level, if set.
         let spellLevel = choice.level;
+
         if (choice.dynamicLevel) {
             spellLevel = this.get_DynamicLevel();
         }
+
         const character = this.get_Character();
         let allSpells: Array<{ spell: Spell; borrowed: boolean }>;
         //Get spells from your spellbook if the casting the choice requires it, otherwise get all spells.
         //If you are preparing spellbook spells because of the casting, and borrowing is active, get all spells and mark all spells as borrowed that aren't in the spellbook.
         const spellBookSpells: Array<Spell> = this.spellsService.get_Spells().filter(spell =>
-            character.class.spellBook.find((learned: SpellLearned) => learned.name == spell.name)
+            character.class.spellBook.find((learned: SpellLearned) => learned.name == spell.name),
         );
+
         if (this.spellCasting?.spellBookOnly) {
             if (this.allowBorrow) {
-                allSpells = this.spellsService.get_Spells().map(spell => { return { spell, borrowed: (!spellBookSpells.some(spellBookSpell => spellBookSpell.name == spell.name)) }; });
+                allSpells = this.spellsService.get_Spells().map(spell => ({ spell, borrowed: (!spellBookSpells.some(spellBookSpell => spellBookSpell.name == spell.name)) }));
             } else {
-                allSpells = spellBookSpells.map(spell => { return { spell, borrowed: false }; });
+                allSpells = spellBookSpells.map(spell => ({ spell, borrowed: false }));
             }
         } else if (this.choice.spellBookOnly) {
-            allSpells = spellBookSpells.map(spell => { return { spell, borrowed: false }; });
+            allSpells = spellBookSpells.map(spell => ({ spell, borrowed: false }));
         } else {
-            allSpells = this.spellsService.get_Spells().map(spell => { return { spell, borrowed: false }; });
+            allSpells = this.spellsService.get_Spells().map(spell => ({ spell, borrowed: false }));
         }
+
         //Filter the list by the filter given in the choice.
         if (choice.filter.length) {
             allSpells = allSpells.filter(spell => choice.filter.map(filter => filter.toLowerCase()).includes(spell.spell.name.toLowerCase()));
         }
+
         //Set up another Array to save the end result to, filtered from allSpells.
         let spells: Array<{ spell: Spell; borrowed: boolean }> = [];
+
         //If this is a character spellcasting choice (and not a scroll or other item), filter the spells by the spellcasting's tradition.
         //  The choice's tradition is preferred over the spellcasting's tradition, if set. If neither is set, get all spells.
         if (this.spellCasting) {
             const traditionFilter = choice.tradition || this.spellCasting.tradition || '';
+
             //Keep either only Focus spells (and skip the tradition filter) or exclude Focus spells as needed.
             if (this.spellCasting.castingType == 'Focus') {
                 spells.push(...allSpells.filter(spell => spell.spell.traits.includes(character.class.name) && spell.spell.traditions.includes('Focus')));
@@ -639,8 +669,10 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 } else if (choice.source.includes('Feat: Adaptive Adept')) {
                     //With Adaptive Adept, you can choose spells of the same tradition(s) as with Adapted Cantrip, but not your own.
                     const adaptedcantrip = this.spellCasting.spellChoices.find(choice => choice.source == 'Feat: Adapted Cantrip').spells[0];
+
                     if (adaptedcantrip) {
                         const originalSpell = this.spellsService.get_Spells(adaptedcantrip.name)[0];
+
                         if (originalSpell) {
                             spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes(this.spellCasting.tradition) && spell.spell.traditions.some(tradition => originalSpell.traditions.includes(tradition)) && !spell.spell.traditions.includes('Focus')));
                         }
@@ -651,15 +683,17 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 } else if (choice.source.includes('Divine Font') && this.have_Feat('Versatile Font')) {
                     //With Versatile Font, you can choose both Harm and Heal in the Divine Font spell slot.
                     if (!choice.filter.includes('Harm')) {
-                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Harm').map(spell => { return { spell, borrowed: false }; })));
+                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Harm').map(spell => ({ spell, borrowed: false }))));
                     }
+
                     if (!choice.filter.includes('Heal')) {
-                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Heal').map(spell => { return { spell, borrowed: false }; })));
+                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Heal').map(spell => ({ spell, borrowed: false }))));
                     }
                 } else if (traditionFilter) {
                     //If the tradition filter comes from the spellcasting, also include all spells that are on the spell list regardless of their tradition.
                     //For main class clerics, include all spells that are on your deity's cleric spell list
                     const deity = character.class.deity ? this.deitiesService.get_CharacterDeities(this.characterService, character)[0] : null;
+
                     if (!choice.tradition && this.spellCasting.tradition) {
                         spells.push(...allSpells.filter(spell =>
                             (
@@ -669,17 +703,17 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                                     this.spellCasting.source == 'Cleric Spellcasting' && (
                                         deity?.clericSpells.some(clericSpell =>
                                             clericSpell.name == spell.spell.name &&
-                                            clericSpell.level <= spellLevel
+                                            clericSpell.level <= spellLevel,
                                         )
                                     )
                                 )
                             ) &&
-                            !spell.spell.traditions.includes('Focus')
+                            !spell.spell.traditions.includes('Focus'),
                         ));
                     } else {
                         spells.push(...allSpells.filter(spell =>
                             spell.spell.traditions.includes(traditionFilter) &&
-                            !spell.spell.traditions.includes('Focus')
+                            !spell.spell.traditions.includes('Focus'),
                         ));
                     }
                 } else {
@@ -689,12 +723,14 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         } else {
             //If this is an item spell choice, only the choice's tradition is relevant. If it's not set, keep all spells except Focus spells.
             const traditionFilter = choice.tradition || '';
+
             if (traditionFilter) {
                 spells.push(...allSpells.filter(spell => spell.spell.traditions.includes(traditionFilter) && !spell.spell.traditions.includes('Focus')));
             } else {
                 spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes('Focus')));
             }
         }
+
         //If a certain target is required, filter out the spells that don't match it.
         switch (choice.target) {
             case 'Others':
@@ -709,12 +745,14 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             case 'Enemies':
                 spells = spells.filter(spell => spell.spell.target == '');
         }
+
         //If a trait filter is set, keep only spells that match it, with extra handling for "Common".
         if (choice.traitFilter.length) {
             //There is no actual Common trait. If a spell choice is limited to common spells,
             //  exclude all uncommon and rare spells, then process the rest of the trait filter.
             if (choice.traitFilter.includes('Common')) {
                 const traitFilter = choice.traitFilter.filter(trait => trait != 'Common');
+
                 spells = spells.filter(spell =>
                     !spell.spell.traits.includes('Uncommon') &&
                     !spell.spell.traits.includes('Rare') &&
@@ -722,37 +760,44 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                         traitFilter.length ?
                             spell.spell.traits.find(trait => traitFilter.includes(trait))
                             : true
-                    )
+                    ),
                 );
             } else {
                 spells = spells.filter(spell => spell.spell.traits.find(trait => choice.traitFilter.includes(trait)));
             }
         }
+
         //If only spells are allowed that target a single creature or object, these are filtered here.
         if (choice.singleTarget) {
             spells = spells.filter(spell => spell.spell.singleTarget);
         }
+
         //If any spells in the choice have become invalid (i.e. they aren't on the list), remove them, unless they are locked or borrowed. You need to reload the spells area if this happens.
         const spellNumber = choice.spells.length;
+
         choice.spells = this.choice.spells.filter(spell => spell.locked || spell.borrowed || spells.some(availableSpell => availableSpell.spell.name == spell.name));
+
         if (choice.spells.length < spellNumber) {
             this.refreshService.set_ToChange('Character', 'spellbook');
             this.refreshService.process_ToChange();
         }
+
         //If any locked or borrowed spells remain that aren't in the list, add them to the list.
         const librarySpells = this.spellsService.get_Spells();
+
         choice.spells.filter(spell =>
             (spell.locked || spell.borrowed) &&
             !spells.some(addedSpell =>
-                addedSpell.spell.name == spell.name
+                addedSpell.spell.name == spell.name,
             ))
             .forEach(spell => {
                 spells.push(
                     ...librarySpells
                         .filter(librarySpell => librarySpell.name == spell.name)
-                        .map(librarySpell => ({ spell: librarySpell, borrowed: spell.borrowed }))
+                        .map(librarySpell => ({ spell: librarySpell, borrowed: spell.borrowed })),
                 );
             });
+
         //If any spells are left after this, we apply secondary, mechanical filters.
         if (spells.length) {
             //Get only Cantrips if the spell level is 0, but keep those already taken.
@@ -761,6 +806,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             } else {
                 spells = spells.filter(spell => !spell.spell.traits.includes('Cantrip') || this.get_SpellTakenByThis(spell.spell.name));
             }
+
             //Spell combination spell choices have special requirements, but they are also transformed from existing spell choices, so we don't want to change their properties.
             //The requirements that would usually be handled as choice properties are handled on the fly here.
             //The requirements are as follows:
@@ -771,30 +817,37 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 spells = spells.filter(spell =>
                     (spell.spell.levelreq <= spellLevel - 2) &&
                     (!(this.showHeightened || choice.alwaysShowHeightened) ? spell.spell.levelreq == spellLevel - 2 : true) &&
-                    spell.spell.singleTarget
+                    spell.spell.singleTarget,
                 );
+
                 if (choice.spells.length) {
                     if (choice.spells[0].name && choice.spells[0].combinationSpellName) {
                         const availableSpells: Array<{ spell: Spell; borrowed: boolean }> = spells.filter(spell =>
-                            this.get_SpellTakenByThis(spell.spell.name)
+                            this.get_SpellTakenByThis(spell.spell.name),
                         );
+
                         return availableSpells
                             .sort((a, b) => (choice.spells[0].name == b.spell.name) ? 1 : -1);
                     }
+
                     const existingSpell = this.get_Spells(choice.spells[0].name)[0];
+
                     spells = spells.filter(spell =>
                         (existingSpell.traits.includes('Attack') == spell.spell.traits.includes('Attack')) &&
                         (existingSpell.savingThrow.includes('Fortitude') == spell.spell.savingThrow.includes('Fortitude')) &&
                         (existingSpell.savingThrow.includes('Reflex') == spell.spell.savingThrow.includes('Reflex')) &&
-                        (existingSpell.savingThrow.includes('Will') == spell.spell.savingThrow.includes('Will'))
+                        (existingSpell.savingThrow.includes('Will') == spell.spell.savingThrow.includes('Will')),
                     );
                 }
+
                 const availableSpells: Array<{ spell: Spell; borrowed: boolean }> = spells.filter(spell =>
-                    !this.cannotTake(spell.spell).length || this.get_SpellTakenByThis(spell.spell.name)
+                    !this.cannotTake(spell.spell).length || this.get_SpellTakenByThis(spell.spell.name),
                 );
+
                 return availableSpells
                     .sort((a, b) => (a.spell.name == b.spell.name) ? 0 : ((a.spell.name > b.spell.name) ? 1 : -1));
             }
+
             //Don't show spells of a different level unless heightened spells are allowed. Never show spells of a different level if this is a level 0 choice.
             if (!(this.showHeightened || choice.alwaysShowHeightened) && (spellLevel > 0)) {
                 spells = spells.filter(spell => spell.spell.levelreq == spellLevel || this.get_SpellTakenByThis(spell.spell.name));
@@ -802,6 +855,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 //Still don't show higher level non-cantrip spells even if heightened spells are allowed.
                 spells = spells.filter(spell => spell.spell.levelreq <= spellLevel || this.get_SpellTakenByThis(spell.spell.name));
             }
+
             //Finally, if there are fewer spells selected than available, show all spells that individually match the requirements or that are already selected.
             // If the available spells are exhausted, only show the selected ones unless showOtherOptions is true.
             if (choice.spells.length < this.get_Available()) {
@@ -810,8 +864,9 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             } else {
                 const showOtherOptions = this.get_Character().settings.showOtherOptions;
                 const availableSpells: Array<{ spell: Spell; borrowed: boolean }> = spells.filter(spell =>
-                    this.get_SpellTakenByThis(spell.spell.name) || showOtherOptions
+                    this.get_SpellTakenByThis(spell.spell.name) || showOtherOptions,
                 );
+
                 return availableSpells
                     .sort((a, b) => (a.spell.name == b.spell.name) ? 0 : ((a.spell.name > b.spell.name) ? 1 : -1));
             }
@@ -830,6 +885,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
 
     cannotTakeSome() {
         let anytrue = 0;
+
         this.choice.spells.forEach(gain => {
             if (this.cannotTake(this.get_Spells(gain.name)[0]).length) {
                 if (!gain.locked) {
@@ -840,28 +896,36 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             }
         });
         this.refreshService.process_ToChange();
+
         return anytrue;
     }
 
     cannotTake(spell: Spell) {
         const choice = this.choice;
         const takenByThis = this.get_SpellTakenByThis(spell.name);
+
         if (takenByThis && choice.spells.find(spellGain => spellGain.name == spell.name && spellGain.locked)) {
             return [];
         }
+
         let spellLevel = choice.level;
+
         if (choice.dynamicLevel) {
             spellLevel = this.get_DynamicLevel(choice);
         }
+
         const reasons: Array<{ reason: string; explain: string }> = [];
+
         //Are the basic requirements (so far just level) not met?
         if (!spell.canChoose(this.characterService, spellLevel)) {
-            reasons.push({ reason: 'Requirements unmet', 'explain': 'The requirements are not met.' });
+            reasons.push({ reason: 'Requirements unmet', explain: 'The requirements are not met.' });
         }
+
         //Has it already been taken at this level by this class, and was that not by this SpellChoice? (Only for spontaneous spellcasters.)
         if (this.get_SpellTakenThisLevel(spell, spellLevel) && !takenByThis) {
             reasons.push({ reason: 'Already taken', explain: 'You already have this spell on this level with this class.' });
         }
+
         return reasons;
     }
 
@@ -874,6 +938,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         //Returns whether this spell has been taken in this spellcasting at this level at all (only for spontaneous spellcasters.)
         //Returns false for spontaneous spell choices that draw from your spellbook (i.e. Esoteric Polymath and Arcane Evolution) and for spell choices with a cooldown.
         const choice = this.choice;
+
         return (
             !choice.spellBookOnly &&
             !choice.cooldown &&
@@ -882,8 +947,8 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             this.spellCasting.spellChoices.some(otherChoice =>
                 (choice.dynamicLevel ? this.get_DynamicLevel(choice) : choice.level) == spellLevel &&
                 otherChoice.spells.some(gain =>
-                    !gain.locked && gain.name == spell.name
-                )
+                    !gain.locked && gain.name == spell.name,
+                ),
             )
         );
     }
@@ -901,11 +966,15 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     on_SpellTaken(spellName: string, takenEvent: Event | boolean, locked: boolean, borrowed = false) {
         const taken = takenEvent instanceof Event ? (<HTMLInputElement>takenEvent.target).checked : takenEvent;
         const choice = this.choice;
+
         //Close the menu if all slots are filled, unless it's a spell combination choice.
         if (taken && this.get_Character().settings.autoCloseChoices && !choice.spellCombination && (choice.spells.length == this.get_Available() - 1)) { this.toggle_Choice(''); }
+
         const prepared: boolean = this.prepared;
         const character = this.get_Character();
+
         character.take_Spell(this.characterService, spellName, taken, choice, locked, prepared, borrowed);
+
         //For the Esoteric Polymath feat and the Arcane Evolution feat, if you choose a spell that is in your repertoire (i.e. if other spell choices have this spell in it),
         // the choice is turned into a signature spell choice. If you drop the spell, turn signature spell off.
         if (['Feat: Esoteric Polymath', 'Feat: Arcane Evolution'].includes(choice.source)) {
@@ -917,12 +986,14 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 choice.spells.forEach(gain => gain.signatureSpell = false);
             }
         }
+
         //The Interweave Dispel feat is dependent on having Dispel in your repertoire, so we update that here.
         if (spellName == 'Dispel Magic' && !taken) {
             if (this.have_Feat('Interweave Dispel')) {
                 this.refreshService.set_ToChange('Character', 'featchoices');
             }
         }
+
         this.refreshService.set_ToChange('Character', 'spells');
         this.refreshService.set_ToChange('Character', 'spellchoices');
         this.refreshService.set_ToChange('Character', 'spellbook');
@@ -943,14 +1014,15 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         if (!this.level) {
             this.level = this.choice.level;
         }
+
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['spellchoices', 'all', 'Character'].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature == 'Character' && ['spellchoices', 'all'].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }

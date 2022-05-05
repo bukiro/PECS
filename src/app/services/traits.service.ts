@@ -5,7 +5,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class TraitsService {
 
@@ -14,7 +14,7 @@ export class TraitsService {
     private readonly _traitsMap = new Map<string, Trait>();
 
     constructor(
-        private readonly _extensionsService: ExtensionsService
+        private readonly _extensionsService: ExtensionsService,
     ) { }
 
     public getTraitFromName(name: string): Trait {
@@ -28,10 +28,12 @@ export class TraitsService {
             //If no trait is found with that exact name, continue the search, considering composite trait names.
             if (traitName) {
                 const trait = this.getTraitFromName(traitName);
+
                 if (trait?.name == traitName) {
                     return [trait];
                 }
             }
+
             //Some trait instances have information after the trait name, so we allow traits that are included in the name as long as they have the dynamic attribute.
             const traits = this._traits
                 .filter(trait =>
@@ -40,12 +42,14 @@ export class TraitsService {
                     (
                         trait.dynamic &&
                         traitName.includes(`${ trait.name } `)
-                    )
+                    ),
                 );
+
             if (traits.length) {
                 return traits;
             }
         }
+
         return [this._getReplacementTrait()];
     }
 
@@ -61,10 +65,10 @@ export class TraitsService {
                         (
                             name.toLowerCase().includes('lore') &&
                             showon.trim().toLowerCase() == 'lore'
-                        )
-                    )
+                        ),
+                    ),
                 )
-                && !!trait.haveOn(creature).length
+                && !!trait.haveOn(creature).length,
             );
         } else {
             return [];
@@ -97,7 +101,9 @@ export class TraitsService {
 
     private _loadTraits(): void {
         this._traits = [];
+
         const data = this._extensionsService.extend(json_traits, 'traits');
+
         Object.keys(data).forEach(key => {
             this._traits.push(...data[key].map((obj: Trait) => Object.assign(new Trait(), obj).recast()));
         });
@@ -105,7 +111,7 @@ export class TraitsService {
     }
 
     private _getReplacementTrait(name?: string): Trait {
-        return Object.assign(new Trait(), { name: 'Trait not found', 'desc': `${ name ? name : 'The requested trait' } does not exist in the traits list.` });
+        return Object.assign(new Trait(), { name: 'Trait not found', desc: `${ name ? name : 'The requested trait' } does not exist in the traits list.` });
     }
 
 }

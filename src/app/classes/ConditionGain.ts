@@ -97,6 +97,7 @@ export class ConditionGain {
     recast() {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
+
         return this;
     }
     get durationIsDynamic() {

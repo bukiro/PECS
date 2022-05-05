@@ -26,12 +26,14 @@ export class Trait {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.objectEffects = this.objectEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
+
         return this;
     }
     //Return all equipped items that have this trait, or alternatively only their names.
     //Some trait instances have information after the trait name, so we allow traits that include this trait's name as long as this trait is dynamic.
     haveOn(creature: Creature, namesOnly = false) {
         const filteredItems: Array<Item> = [];
+
         creature.inventories.forEach(inventory => {
             filteredItems.push(...inventory.allEquipment()
                 .filter(item =>
@@ -42,11 +44,12 @@ export class Trait {
                             (
                                 trait.includes(this.name) &&
                                 this.dynamic
-                            )
-                        )
-                )
+                            ),
+                        ),
+                ),
             );
         });
+
         if (namesOnly) {
             return filteredItems.map(item => item.displayName || item.name);
         } else {
@@ -58,6 +61,7 @@ export class Trait {
         //Only active, active2, active3 and dynamicValue are available as variables, and no toggle or title effects will be produced. The resulting effects are very minimized, as only their value and setValue are required.
         if (this.objectEffects) {
             const effects = this.objectEffects.filter(effect => !filter.length || filter.includes(effect.affected));
+
             if (effects.length) {
                 const resultingEffects: Array<Effect> = [];
                 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -65,6 +69,7 @@ export class Trait {
                 const active2 = activation.active2;
                 const active3 = activation.active3;
                 const dynamicValue = this.get_DynamicValue(activation.trait);
+
                 /* eslint-enable @typescript-eslint/no-unused-vars */
                 effects.forEach(effect => {
                     const show: boolean = effect.show;
@@ -72,14 +77,17 @@ export class Trait {
                     let penalty = false;
                     let value = '0';
                     let setValue = '';
+
                     try {
                         value = eval(effect.value).toString();
+
                         if (parseInt(value) > 0) {
                             value = `+${ value }`;
                         }
                     } catch (error) {
                         value = '0';
                     }
+
                     if (effect.setValue) {
                         try {
                             setValue = eval(effect.setValue).toString();
@@ -87,35 +95,43 @@ export class Trait {
                             setValue = '';
                         }
                     }
+
                     if ((!parseInt(value) && !parseFloat(value)) || parseFloat(value) == Infinity) {
                         value = '0';
                     }
+
                     if (effect.type) {
                         type = effect.type;
                     }
+
                     if (setValue) {
                         penalty = false;
                         value = '0';
                     } else {
                         penalty = (parseInt(value) < 0) == (effect.affected != 'Bulk');
                     }
+
                     //Effects can affect another creature. In that case, remove the notation and change the target.
                     const target = '';
                     const affected: string = effect.affected;
+
                     //Effects that have no value get ignored.
                     if (setValue || parseInt(value) != 0) {
                         resultingEffects.push(Object.assign(new Effect(value), { creature: target, type, target: affected, setValue, toggle: false, source: `conditional, ${ this.name }`, penalty, show }));
                     }
                 });
+
                 return resultingEffects;
             }
         }
+
         return [];
     }
     get_DynamicValue(traitName: string) {
         //Return the value of a dynamic trait, reduced to only the first number.
         if (this.dynamic && traitName != this.name) {
             const value = traitName.replace(this.name, '').match(/(\d+)/)[0];
+
             if (value && !isNaN(parseInt(value))) {
                 return value;
             }
@@ -123,6 +139,7 @@ export class Trait {
             //If the dynamic trait has no value, return the default.
             return this.dynamicDefault;
         }
+
         return 0;
     }
 }

@@ -10,7 +10,7 @@ import { FeatRequirementsService } from 'src/app/character-creation/services/fea
 @Component({
     selector: 'app-feat',
     templateUrl: './feat.component.html',
-    styleUrls: ['./feat.component.css']
+    styleUrls: ['./feat.component.css'],
 })
 export class FeatComponent {
 
@@ -28,7 +28,7 @@ export class FeatComponent {
         private readonly spellsService: SpellsService,
         private readonly activitiesService: ActivitiesService,
         private readonly traitsService: TraitsService,
-        private readonly featRequirementsService: FeatRequirementsService
+        private readonly featRequirementsService: FeatRequirementsService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -42,10 +42,12 @@ export class FeatComponent {
     get_FeatRequirements(choice: FeatChoice, feat: Feat) {
         const ignoreRequirementsList: Array<string> = this.featRequirementsService.createIgnoreRequirementList(feat, this.levelNumber, choice);
         const result: Array<{ met?: boolean; ignored?: boolean; desc?: string }> = [];
+
         if (feat.levelreq) {
             result.push(this.featRequirementsService.meetsLevelReq(feat, this.featLevel));
             result[result.length - 1].ignored = ignoreRequirementsList.includes('levelreq');
         }
+
         if (feat.abilityreq.length) {
             this.featRequirementsService.meetsAbilityReq(feat, this.levelNumber).forEach(req => {
                 result.push({ met: true, desc: ', ' });
@@ -53,6 +55,7 @@ export class FeatComponent {
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('abilityreq');
             });
         }
+
         if (feat.skillreq.length) {
             this.featRequirementsService.meetsSkillReq(feat, this.levelNumber).forEach((req, index) => {
                 if (index == 0) {
@@ -60,10 +63,12 @@ export class FeatComponent {
                 } else {
                     result.push({ met: true, desc: ' or ' });
                 }
+
                 result.push(req);
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('skillreq');
             });
         }
+
         if (feat.featreq.length) {
             this.featRequirementsService.meetsFeatReq(feat, this.levelNumber).forEach(req => {
                 result.push({ met: true, desc: ', ' });
@@ -71,6 +76,7 @@ export class FeatComponent {
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('featreq');
             });
         }
+
         if (feat.heritagereq) {
             this.featRequirementsService.meetsHeritageReq(feat, this.levelNumber).forEach(req => {
                 result.push({ met: true, desc: ', ' });
@@ -78,13 +84,16 @@ export class FeatComponent {
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('heritagereq');
             });
         }
+
         if (feat.complexreqdesc) {
             result.push({ met: true, desc: ', ' });
             result.push(this.featRequirementsService.meetsComplexReq(feat.complexreq, { feat, desc: feat.complexreqdesc }, { charLevel: this.levelNumber }));
         }
+
         if (result.length > 1 && result[0].desc == ', ') {
             result.shift();
         }
+
         return result;
     }
 

@@ -19,7 +19,7 @@ import { Spell } from 'src/app/classes/Spell';
     selector: 'app-activityContent',
     templateUrl: './activityContent.component.html',
     styleUrls: ['./activityContent.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityContentComponent implements OnInit, OnDestroy {
 
@@ -44,7 +44,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         private readonly spellsService: SpellsService,
         private readonly activitiesService: ActivitiesService,
         private readonly timeService: TimeService,
-        private readonly conditionsService: ConditionsService
+        private readonly conditionsService: ConditionsService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -84,6 +84,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         if (!name && !type && !tradition) {
             return [];
         }
+
         return this.spellsService.get_Spells(name, type, tradition);
     }
 
@@ -93,6 +94,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
                 this.gain.spellEffectChoices.push([]);
             }
         }
+
         return this.activity.castSpells;
     }
 
@@ -100,28 +102,34 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain at the index of this spellCast and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
         const gain = this.gain;
+
         //Setup the spellEffectChoice collection for this SpellCast.
         if (gain) {
             while (!gain.spellEffectChoices.length || gain.spellEffectChoices.length < spellCastIndex - 1) {
                 gain.spellEffectChoices.push([]);
             }
+
             const spell = this.spellsService.get_Spells(spellCast.name)[0];
+
             spell.get_HeightenedConditions(spellCast.level)
-                .map(conditionGain => { return { gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }; })
+                .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
                     conditionSet.condition?.get_Choices(this.characterService, true, spellCast.level);
                     //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                     conditionSets.push(conditionSet);
+
                     //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
                     while (!gain.spellEffectChoices[spellCastIndex].length || gain.spellEffectChoices[spellCastIndex].length < index - 1) {
                         gain.spellEffectChoices[spellCastIndex].push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                     }
+
                     if (!conditionSet.condition._choices.includes(gain.spellEffectChoices[spellCastIndex]?.[index]?.choice)) {
                         gain.spellEffectChoices[spellCastIndex][index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                     }
                 });
         }
+
         return conditionSets;
     }
 
@@ -137,13 +145,13 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['activities', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

@@ -14,7 +14,7 @@ import { Item } from 'src/app/classes/Item';
 @Component({
     selector: 'app-itemMaterial',
     templateUrl: './itemMaterial.component.html',
-    styleUrls: ['./itemMaterial.component.css']
+    styleUrls: ['./itemMaterial.component.css'],
 })
 export class ItemMaterialComponent implements OnInit {
 
@@ -33,7 +33,7 @@ export class ItemMaterialComponent implements OnInit {
     constructor(
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        private readonly itemsService: ItemsService
+        private readonly itemsService: ItemsService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -48,6 +48,7 @@ export class ItemMaterialComponent implements OnInit {
         if (item instanceof Armor) {
             return item.get_Proficiency() == 'Unarmored Defense';
         }
+
         return false;
     }
 
@@ -55,17 +56,21 @@ export class ItemMaterialComponent implements OnInit {
         const armor = this.item as Armor;
         //Start with one empty slot to select nothing.
         const allArmorMaterials: Array<{ material: ArmorMaterial; disabled?: boolean }> = [{ material: new ArmorMaterial() }];
+
         allArmorMaterials[0].material.name = '';
+
         //Add the current choice, if the item has a material at that index.
         if (armor.material[0]) {
             allArmorMaterials.push(this.newArmorMaterial[0] as { material: ArmorMaterial });
         }
+
         return allArmorMaterials;
     }
 
     get_ArmorMaterials() {
         const item: Armor = this.item as Armor;
         const allMaterials: Array<{ material: ArmorMaterial; disabled?: boolean }> = [];
+
         this.itemsService.get_ArmorMaterials().forEach(material => {
             allMaterials.push({ material });
         });
@@ -75,13 +80,17 @@ export class ItemMaterialComponent implements OnInit {
                 material.disabled = true;
             }
         });
+
         let charLevel = 0;
         let crafting = 0;
+
         if (this.craftingStation) {
             const character = this.get_Character();
+
             charLevel = character.level;
             crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
         }
+
         //Disable all materials whose requirements are not met.
         allMaterials.forEach(material => {
             if (
@@ -113,6 +122,7 @@ export class ItemMaterialComponent implements OnInit {
                 material.disabled = true;
             }
         });
+
         //Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material and don't share the name with another disabled material that comes before it.
         // This means you can still see a material that you can't take at the moment, but you don't see duplicates of a material that only apply to other items.
         const materials = allMaterials.filter((material, index) =>
@@ -120,8 +130,9 @@ export class ItemMaterialComponent implements OnInit {
             (
                 !allMaterials.some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && !othermaterial.disabled) &&
                 !allMaterials.slice(0, index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
-            )
+            ),
         );
+
         return materials
             .sort((a, b) => (a.material.level + a.material.name == b.material.level + b.material.name) ? 0 : ((a.material.level + a.material.name > b.material.level + b.material.name) ? 1 : -1));
     }
@@ -129,17 +140,20 @@ export class ItemMaterialComponent implements OnInit {
     add_ArmorMaterial() {
         const armor = this.item as Armor;
         const material = this.newArmorMaterial[0].material;
+
         if (!armor.material[0] || material !== armor.material[0]) {
             //If there is a material in this slot, remove the old material from the item.
             if (armor.material[0]) {
                 armor.material.shift();
             }
+
             //Then add the new material to the item.
             if (material.name != '') {
                 //Add a copy of the material to the item
                 armor.material.push(Object.assign<ArmorMaterial, ArmorMaterial>(new ArmorMaterial(), JSON.parse(JSON.stringify(material))).recast());
             }
         }
+
         this.set_MaterialNames();
         this.refreshService.process_ToChange();
         this.update_Item();
@@ -149,17 +163,21 @@ export class ItemMaterialComponent implements OnInit {
         const shield = this.item as Shield;
         //Start with one empty slot to select nothing.
         const allShieldMaterials: Array<{ material: ShieldMaterial; disabled?: boolean }> = [{ material: new ShieldMaterial() }];
+
         allShieldMaterials[0].material.name = '';
+
         //Add the current choice, if the item has a material at that index.
         if (shield.material[0]) {
             allShieldMaterials.push(this.newShieldMaterial[0] as { material: ShieldMaterial });
         }
+
         return allShieldMaterials;
     }
 
     get_ShieldMaterials() {
         const item: Shield = this.item as Shield;
         const allMaterials: Array<{ material: ShieldMaterial; disabled?: boolean }> = [];
+
         this.itemsService.get_ShieldMaterials().forEach(material => {
             allMaterials.push({ material });
         });
@@ -169,13 +187,17 @@ export class ItemMaterialComponent implements OnInit {
                 material.disabled = true;
             }
         });
+
         let charLevel = 0;
         let crafting = 0;
+
         if (this.craftingStation) {
             const character = this.get_Character();
+
             charLevel = character.level;
             crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
         }
+
         //Disable all materials whose requirements are not met.
         allMaterials.forEach(material => {
             if (
@@ -193,6 +215,7 @@ export class ItemMaterialComponent implements OnInit {
                 material.disabled = true;
             }
         });
+
         //Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material and don't share the name with another disabled material that comes before it.
         // This means you can still see a material that you can't take at the moment, but you don't see duplicates of a material that only apply to other items.
         const materials = allMaterials.filter((material, index) =>
@@ -200,8 +223,9 @@ export class ItemMaterialComponent implements OnInit {
             (
                 !allMaterials.some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && !othermaterial.disabled) &&
                 !allMaterials.slice(0, index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
-            )
+            ),
         );
+
         return materials
             .sort((a, b) => (a.material.level + a.material.name == b.material.level + b.material.name) ? 0 : ((a.material.level + a.material.name > b.material.level + b.material.name) ? 1 : -1));
     }
@@ -209,17 +233,20 @@ export class ItemMaterialComponent implements OnInit {
     add_ShieldMaterial() {
         const shield = this.item as Shield;
         const material = this.newShieldMaterial[0].material;
+
         if (!shield.material[0] || material !== shield.material[0]) {
             //If there is a material in this slot, remove the old material from the item.
             if (shield.material[0]) {
                 shield.material.shift();
             }
+
             //Then add the new material to the item.
             if (material.name != '') {
                 //Add a copy of the material to the item
                 shield.material.push(Object.assign<ShieldMaterial, ShieldMaterial>(new ShieldMaterial(), JSON.parse(JSON.stringify(material))).recast());
             }
         }
+
         this.set_MaterialNames();
         this.refreshService.process_ToChange();
         this.update_Item();
@@ -229,17 +256,21 @@ export class ItemMaterialComponent implements OnInit {
         const weapon = this.item as Weapon;
         //Start with one empty slot to select nothing.
         const allWeaponMaterials: Array<{ material: WeaponMaterial; disabled?: boolean }> = [{ material: new WeaponMaterial() }];
+
         allWeaponMaterials[0].material.name = '';
+
         //Add the current choice, if the item has a material at that index.
         if (weapon.material[0]) {
             allWeaponMaterials.push(this.newWeaponMaterial[0] as { material: WeaponMaterial });
         }
+
         return allWeaponMaterials;
     }
 
     get_WeaponMaterials() {
         const item: Weapon = this.item as Weapon;
         const allMaterials: Array<{ material: WeaponMaterial; disabled?: boolean }> = [];
+
         this.itemsService.get_WeaponMaterials().forEach(material => {
             allMaterials.push({ material });
         });
@@ -249,13 +280,17 @@ export class ItemMaterialComponent implements OnInit {
                 material.disabled = true;
             }
         });
+
         let charLevel = 0;
         let crafting = 0;
+
         if (this.craftingStation) {
             const character = this.get_Character();
+
             charLevel = character.level;
             crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
         }
+
         //Disable all materials whose requirements are not met.
         allMaterials.forEach(material => {
             if (
@@ -287,6 +322,7 @@ export class ItemMaterialComponent implements OnInit {
                 material.disabled = true;
             }
         });
+
         //Only show materials that aren't disabled or, if they are disabled, don't share the name with an enabled material and don't share the name with another disabled material that comes before it.
         // This means you can still see a material that you can't take at the moment, but you don't see duplicates of a material that only apply to other items.
         const materials = allMaterials.filter((material, index) =>
@@ -294,8 +330,9 @@ export class ItemMaterialComponent implements OnInit {
             (
                 !allMaterials.some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && !othermaterial.disabled) &&
                 !allMaterials.slice(0, index).some(othermaterial => othermaterial !== material && othermaterial.material.name == material.material.name && othermaterial.disabled)
-            )
+            ),
         );
+
         return materials
             .sort((a, b) => (a.material.level + a.material.name == b.material.level + b.material.name) ? 0 : ((a.material.level + a.material.name > b.material.level + b.material.name) ? 1 : -1));
     }
@@ -303,17 +340,20 @@ export class ItemMaterialComponent implements OnInit {
     add_WeaponMaterial() {
         const weapon = this.item as Weapon;
         const material = this.newWeaponMaterial[0].material;
+
         if (!weapon.material[0] || material !== weapon.material[0]) {
             //If there is a material in this slot, remove the old material from the item.
             if (weapon.material[0]) {
                 weapon.material.shift();
             }
+
             //Then add the new material to the item.
             if (material.name != '') {
                 //Add a copy of the material to the item
                 weapon.material.push(Object.assign<WeaponMaterial, WeaponMaterial>(new WeaponMaterial(), JSON.parse(JSON.stringify(material))).recast());
             }
         }
+
         this.set_MaterialNames();
         this.refreshService.process_ToChange();
         this.update_Item();
@@ -324,6 +364,7 @@ export class ItemMaterialComponent implements OnInit {
         if (!this.craftingStation && material.price) {
             return `Price ${ this.get_Price(material.price) }${ material.bulkPrice ? ` (+${ this.get_Price(material.bulkPrice) } per Bulk)` : '' }`;
         }
+
         //In the crafting station, return the crafting requirements.
         if (this.craftingStation && material.craftingRequirement) {
             switch (material.craftingRequirement) {
@@ -343,19 +384,25 @@ export class ItemMaterialComponent implements OnInit {
         } else {
             let workingPrice = price;
             let priceString = '';
+
             if (workingPrice >= 100) {
                 priceString += `${ Math.floor(workingPrice / 100) }gp`;
                 workingPrice %= 100;
+
                 if (workingPrice >= 10) { priceString += ' '; }
             }
+
             if (workingPrice >= 10) {
                 priceString += `${ Math.floor(workingPrice / 10) }sp`;
                 workingPrice %= 10;
+
                 if (workingPrice >= 1) { priceString += ' '; }
             }
+
             if (workingPrice >= 1) {
                 priceString += `${ workingPrice }cp`;
             }
+
             return priceString;
         }
     }
@@ -364,19 +411,21 @@ export class ItemMaterialComponent implements OnInit {
         if (this.item instanceof Weapon) {
             this.newWeaponMaterial =
                 (this.item.material ? [
-                    (this.item.material[0] ? { material: this.item.material[0] } : { material: new WeaponMaterial() })
+                    (this.item.material[0] ? { material: this.item.material[0] } : { material: new WeaponMaterial() }),
                 ] : [{ material: new WeaponMaterial() }]);
         }
+
         if (this.item instanceof Armor) {
             this.newArmorMaterial =
                 (this.item.material ? [
-                    (this.item.material[0] ? { material: this.item.material[0] } : { material: new ArmorMaterial() })
+                    (this.item.material[0] ? { material: this.item.material[0] } : { material: new ArmorMaterial() }),
                 ] : [{ material: new ArmorMaterial() }]);
         }
+
         if (this.item instanceof Shield) {
             this.newShieldMaterial =
                 (this.item.material ? [
-                    (this.item.material[0] ? { material: this.item.material[0] } : { material: new ShieldMaterial() })
+                    (this.item.material[0] ? { material: this.item.material[0] } : { material: new ShieldMaterial() }),
                 ] : [{ material: new ShieldMaterial() }]);
         }
     }

@@ -14,6 +14,7 @@ export class AnimalCompanionClass {
         this.ancestry = Object.assign(new AnimalCompanionAncestry(), this.ancestry).recast();
         this.levels = this.levels.map(obj => Object.assign(new AnimalCompanionLevel(), obj).recast());
         this.specializations = this.specializations.map(obj => Object.assign(new AnimalCompanionSpecialization(), obj).recast());
+
         return this;
     }
     on_ChangeAncestry(characterService: CharacterService) {
@@ -21,6 +22,7 @@ export class AnimalCompanionClass {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {
                     const items: Array<Equipment> = characterService.get_Companion().inventories[0][freeItem.type].filter((item: Equipment) => item.id == freeItem.grantedItemID);
+
                     items.forEach(item => {
                         characterService.drop_InventoryItem(characterService.get_Companion(), characterService.get_Companion().inventories[0], item, false, true, true, freeItem.amount);
                     });

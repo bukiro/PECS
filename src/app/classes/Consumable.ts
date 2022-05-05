@@ -25,6 +25,7 @@ export class Consumable extends Item {
         super.recast(typeService, itemsService);
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
         this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
+
         return this;
     }
 }

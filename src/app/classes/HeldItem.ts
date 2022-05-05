@@ -11,6 +11,7 @@ export class HeldItem extends Equipment {
     public usage = '';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

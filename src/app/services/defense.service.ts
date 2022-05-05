@@ -6,7 +6,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { WornItem } from '../classes/WornItem';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class DefenseService {
 

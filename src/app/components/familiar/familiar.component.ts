@@ -9,7 +9,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     selector: 'app-familiar',
     templateUrl: './familiar.component.html',
     styleUrls: ['./familiar.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FamiliarComponent implements OnInit, OnDestroy {
 
@@ -24,7 +24,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         private readonly characterService: CharacterService,
         private readonly refreshService: RefreshService,
         private readonly familiarsService: FamiliarsService,
-        private readonly effectsService: EffectsService
+        private readonly effectsService: EffectsService,
     ) { }
 
     minimize() {
@@ -83,12 +83,14 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     get_FamiliarAbilitiesFinished() {
         const choice = this.get_Familiar().abilities;
         let available = choice.available;
+
         this.effectsService.get_AbsolutesOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
             available = parseInt(effect.setValue);
         });
         this.effectsService.get_RelativesOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
             available += parseInt(effect.value);
         });
+
         return choice.feats.length >= available;
     }
 
@@ -99,13 +101,13 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.set_Mobile();
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['familiar', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == 'familiar' && ['familiar', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

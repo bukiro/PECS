@@ -83,7 +83,7 @@ export class ItemCollection {
         { name: 'Other Consumables', key: 'otherconsumables' },
         { name: 'Other Consumables (Bombs)', key: 'otherconsumablesbombs' },
         { name: 'Wands', key: 'wands' },
-        { name: 'Materials', key: 'materialitems' }
+        { name: 'Materials', key: 'materialitems' },
     ];
     recast(typeService: TypeService, itemsService: ItemsService) {
         this.adventuringgear = this.adventuringgear.map(obj => Object.assign<AdventuringGear, Item>(new AdventuringGear(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
@@ -113,6 +113,7 @@ export class ItemCollection {
         //Weapons need to be cast blindly to avoid circular dependency warnings.
         this.weapons = this.weapons.map(obj => (typeService.classCast(typeService.restoreItem(obj, itemsService), 'Weapon') as Weapon).recast(typeService, itemsService));
         this.wornitems = this.wornitems.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
+
         return this;
     }
     allEquipment(): Array<Equipment> {
@@ -150,7 +151,7 @@ export class ItemCollection {
     }
     allOther(): Array<Item> {
         return [].concat(
-            this.materialitems
+            this.materialitems,
         );
     }
     allItems(): Array<Item> {
@@ -158,18 +159,21 @@ export class ItemCollection {
             this.allConsumables(),
             this.allEquipment(),
             this.allRunes(),
-            this.allOther()
+            this.allOther(),
         );
     }
     get_Bulk(rounded = true, reduced = false) {
         //All bulk gets calculated at *10 to avoid rounding issues with decimals,
         //Then returned at /10
         let sum = 0;
+
         function addup(item: Item | OtherItem) {
             let bulk = item instanceof OtherItem ? item.bulk : (item as Item).getBulk();
+
             if ((item as Equipment).carryingBulk && !(item as Equipment).equipped) {
                 bulk = (item as Equipment).carryingBulk;
             }
+
             switch (bulk) {
                 case '':
                     break;
@@ -181,6 +185,7 @@ export class ItemCollection {
                     } else {
                         sum += 1;
                     }
+
                     break;
                 default:
                     if (item.amount) {
@@ -188,6 +193,7 @@ export class ItemCollection {
                     } else {
                         sum += parseInt(bulk) * 10;
                     }
+
                     break;
             }
         }
@@ -198,24 +204,29 @@ export class ItemCollection {
             addup(item);
         });
         sum = Math.max(0, sum);
+
         //Either round to int, or else to 1 decimal
         if (rounded) {
             sum = Math.floor(sum / 10);
         } else {
             sum = Math.floor(sum) / 10;
         }
+
         if (reduced) {
             sum = Math.max(0, sum - this.bulkReduction);
         }
+
         return sum;
     }
     get_Name(characterService: CharacterService) {
         let name = '';
+
         if (!this.itemId) {
             characterService.get_Creatures().forEach(creature => {
                 if (creature.inventories[0] === this) {
                     name = creature.name || creature.type;
                 }
+
                 if (creature.inventories[1] === this) {
                     name = 'Worn Tools';
                 }
@@ -225,6 +236,7 @@ export class ItemCollection {
                 if (creature.inventories.some(inventory => inventory === this)) {
                     creature.inventories.forEach(creatureInventory => {
                         const items = creatureInventory.allEquipment().filter(item => item.id == this.itemId);
+
                         if (items.length) {
                             name = items[0].getName();
                         }
@@ -232,6 +244,7 @@ export class ItemCollection {
                 }
             });
         }
+
         return name;
     }
 }

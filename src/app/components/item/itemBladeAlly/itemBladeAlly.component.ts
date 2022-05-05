@@ -17,7 +17,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 @Component({
     selector: 'app-itemBladeAlly',
     templateUrl: './itemBladeAlly.component.html',
-    styleUrls: ['./itemBladeAlly.component.scss']
+    styleUrls: ['./itemBladeAlly.component.scss'],
 })
 export class ItemBladeAllyComponent implements OnInit {
 
@@ -34,7 +34,7 @@ export class ItemBladeAllyComponent implements OnInit {
         private readonly activitiesService: ActivitiesService,
         private readonly spellsService: SpellsService,
         private readonly conditionsService: ConditionsService,
-        private readonly typeService: TypeService
+        private readonly typeService: TypeService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -53,6 +53,7 @@ export class ItemBladeAllyComponent implements OnInit {
         //If any activity on this rune has a cooldown, return the lowest of these in a human readable format.
         if (rune.activities && rune.activities.length && rune.activities.some(activity => activity.activeCooldown)) {
             const lowestCooldown = Math.min(...rune.activities.filter(activity => activity.activeCooldown).map(activity => activity.activeCooldown));
+
             return ` (Cooldown ${ this.timeService.getDurationDescription(lowestCooldown) })`;
         } else {
             return '';
@@ -63,28 +64,36 @@ export class ItemBladeAllyComponent implements OnInit {
         const weapon = this.item;
         //Start with one empty rune to select nothing.
         const allRunes: Array<{ rune: Rune; disabled?: boolean }> = [{ rune: new WeaponRune() }];
+
         allRunes[0].rune.name = '';
+
         //Add the current choice, if the item has a rune at that index.
         if (weapon.bladeAllyRunes[0]) {
             allRunes.push(this.newPropertyRune as { rune: WeaponRune });
         }
+
         return allRunes;
     }
 
     get_WeaponPropertyRunes() {
         let weapon: Weapon | WornItem;
+
         if (this.item.type == 'wornitems') {
             weapon = this.item as WornItem;
         } else {
             weapon = this.item as Weapon;
         }
+
         //In the case of Handwraps of Mighty Blows, we need to compare the rune's requirements with the Fist weapon, but its potency rune requirements with the Handwraps.
         //For this purpose, we use two different "weapon"s.
         let weapon2 = this.item;
+
         if ((weapon as WornItem).isHandwrapsOfMightyBlows) {
             weapon2 = this.get_CleanItems().weapons.find(weapon => weapon.name == 'Fist');
         }
+
         const allRunes: Array<{ rune: Rune; disabled?: boolean }> = [];
+
         //Add all runes either from the item store or from the inventories.
         if (this.get_Character().alignment.includes('Good')) {
             this.get_CleanItems().weaponrunes.filter(rune => ['Disrupting', 'Ghost Touch', 'Returning', 'Shifting'].includes(rune.name)).forEach(rune => {
@@ -95,6 +104,7 @@ export class ItemBladeAllyComponent implements OnInit {
                 allRunes.push({ rune });
             });
         }
+
         //Set all runes to disabled that have the same name as any that is already equipped.
         allRunes.forEach((rune: { rune: WeaponRune; disabled?: boolean }) => {
             if (weapon.bladeAllyRunes
@@ -136,6 +146,7 @@ export class ItemBladeAllyComponent implements OnInit {
                 rune.disabled = true;
             }
         });
+
         return allRunes
             .sort((a, b) => (a.rune.level + a.rune.name == b.rune.level + b.rune.name) ? 0 : ((a.rune.level + a.rune.name > b.rune.level + b.rune.name) ? 1 : -1));
     }
@@ -143,12 +154,14 @@ export class ItemBladeAllyComponent implements OnInit {
     add_BladeAllyRune() {
         const weapon = this.item;
         const rune = this.newPropertyRune.rune;
+
         if (!weapon.bladeAllyRunes[0] || rune !== weapon.bladeAllyRunes[0]) {
             //If there is a rune in this slot, remove it from the item.
             if (weapon.bladeAllyRunes[0]) {
                 this.remove_BladeAllyRune();
                 weapon.bladeAllyRunes.splice(0);
             }
+
             //Then add the new rune to the item.
             if (rune.name != '') {
                 //Add a copy of the rune to the item
@@ -156,12 +169,15 @@ export class ItemBladeAllyComponent implements OnInit {
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }
+
         this.refreshService.set_ToChange('Character', 'inventory');
         this.refreshService.set_ToChange('Character', 'attacks');
         this.refreshService.set_ToChange('Character', this.item.id);
+
         if (rune.activities?.length) {
             this.refreshService.set_ToChange('Character', 'activities');
         }
+
         this.set_PropertyRuneNames();
         this.refreshService.process_ToChange();
     }
@@ -169,9 +185,11 @@ export class ItemBladeAllyComponent implements OnInit {
     remove_BladeAllyRune() {
         const weapon: Equipment = this.item;
         const oldRune: Rune = weapon.bladeAllyRunes[0];
+
         if (oldRune.activities?.length) {
             this.refreshService.set_ToChange('Character', 'activities');
         }
+
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
             this.activitiesService.activate_Activity(this.get_Character(), 'Character', this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
@@ -181,6 +199,7 @@ export class ItemBladeAllyComponent implements OnInit {
     set_PropertyRuneNames() {
         this.newPropertyRune =
             (this.item.bladeAllyRunes[0] ? { rune: this.item.bladeAllyRunes[0] } : { rune: new Rune() });
+
         if (this.newPropertyRune.rune.name == 'New Item') {
             this.newPropertyRune.rune.name = '';
         }

@@ -11,7 +11,7 @@ import { WornItem } from 'src/app/classes/WornItem';
     selector: 'app-itemContent',
     templateUrl: './itemContent.component.html',
     styleUrls: ['./itemContent.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemContentComponent implements OnInit, OnDestroy {
 
@@ -23,7 +23,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        private readonly itemsService: ItemsService
+        private readonly itemsService: ItemsService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -45,19 +45,25 @@ export class ItemContentComponent implements OnInit, OnDestroy {
             } else {
                 let price: number = this.get_FullPrice(item);
                 let priceString = '';
+
                 if (price >= 100) {
                     priceString += `${ Math.floor(price / 100) }gp`;
                     price %= 100;
+
                     if (price >= 10) { priceString += ' '; }
                 }
+
                 if (price >= 10) {
                     priceString += `${ Math.floor(price / 10) }sp`;
                     price %= 10;
+
                     if (price >= 1) { priceString += ' '; }
                 }
+
                 if (price >= 1) {
                     priceString += `${ price }cp`;
                 }
+
                 return priceString;
             }
         } else {
@@ -67,6 +73,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
 
     get_BulkDifference(item: Item) {
         const bulk = +item.getBulk();
+
         if (!isNaN(bulk) && !isNaN(+item.bulk)) {
             return parseInt(item.getBulk()) - parseInt(item.bulk);
         } else if (!isNaN(bulk) && isNaN(+item.bulk)) {
@@ -100,13 +107,13 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     finish_Loading() {
         if (this.item.id) {
             this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
+                .subscribe(target => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
+                .subscribe(view => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }

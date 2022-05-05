@@ -13,7 +13,7 @@ import { ActivitiesService } from 'src/app/services/activities.service';
 @Component({
     selector: 'app-itemOils',
     templateUrl: './itemOils.component.html',
-    styleUrls: ['./itemOils.component.css']
+    styleUrls: ['./itemOils.component.css'],
 })
 export class ItemOilsComponent {
 
@@ -31,7 +31,7 @@ export class ItemOilsComponent {
         private readonly itemsService: ItemsService,
         private readonly activitiesService: ActivitiesService,
         private readonly timeService: TimeService,
-        private readonly typeService: TypeService
+        private readonly typeService: TypeService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -53,7 +53,9 @@ export class ItemOilsComponent {
     get_Oils() {
         const item = this.item;
         const allOils: Array<{ oil: Oil; inv: ItemCollection }> = [{ oil: new Oil(), inv: null }];
+
         allOils[0].oil.name = '';
+
         if (this.itemStore) {
             allOils.push(...this.get_CleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil, inv: null })));
         } else {
@@ -61,6 +63,7 @@ export class ItemOilsComponent {
                 allOils.push(...inv.oils.filter(oil => oil.targets.length && oil.amount).map(oil => ({ oil, inv })));
             });
         }
+
         return allOils.filter(
             (oil: { oil: Oil; inv: ItemCollection }, index) =>
                 index == 0 ||
@@ -96,7 +99,7 @@ export class ItemOilsComponent {
                             )
                             : true
                     )
-                )
+                ),
         );
     }
 
@@ -104,13 +107,16 @@ export class ItemOilsComponent {
         if (this.newOil.oil.name) {
             const item = this.item;
             const newLength = item.oilsApplied.push(Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this.newOil.oil))).recast(this.typeService, this.itemsService));
+
             if (this.newOil.inv) {
                 this.characterService.drop_InventoryItem(this.get_Character(), this.newOil.inv, this.newOil.oil, false, false, false, 1);
             }
+
             //Add RuneLore if the oil's Rune Effect includes one
             if (item.oilsApplied[newLength - 1].runeEffect && item.oilsApplied[newLength - 1].runeEffect.loreChoices.length) {
                 this.characterService.add_RuneLore(item.oilsApplied[newLength - 1].runeEffect);
             }
+
             this.newOil = { oil: new Oil(), inv: null };
             this.newOil.oil.name = '';
             this.refreshService.set_ToChange('Character', 'inventory');
@@ -124,6 +130,7 @@ export class ItemOilsComponent {
         if (this.item.oilsApplied[index].runeEffect && this.item.oilsApplied[index].runeEffect.loreChoices.length) {
             this.characterService.remove_RuneLore(this.item.oilsApplied[index].runeEffect);
         }
+
         this.item.oilsApplied.splice(index, 1);
         this.refreshService.set_ToChange('Character', 'inventory');
         this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });

@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-animal-companion',
     templateUrl: './animal-companion.component.html',
     styleUrls: ['./animal-companion.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
@@ -23,7 +23,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
         private readonly changeDetector: ChangeDetectorRef,
         private readonly characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        private readonly animalCompanionsService: AnimalCompanionsService
+        private readonly animalCompanionsService: AnimalCompanionsService,
     ) { }
 
     minimize() {
@@ -85,13 +85,13 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.set_Mobile();
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['companion', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == 'companion' && ['companion', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

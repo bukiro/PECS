@@ -35,6 +35,7 @@ export class Oil extends Consumable {
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.runeEffect = this.runeEffect ? Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restoreItem(this.runeEffect, itemsService)).recast(typeService, itemsService) : null;
+
         return this;
     }
 }

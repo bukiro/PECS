@@ -14,7 +14,7 @@ interface Toast {
     selector: 'app-toast-container',
     templateUrl: './toast-container.component.html',
     host: { '[class.ngb-toasts]': 'true' },
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToastContainerComponent {
 
@@ -22,7 +22,7 @@ export class ToastContainerComponent {
         private readonly changeDetector: ChangeDetectorRef,
         private readonly characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        public toastService: ToastService
+        public toastService: ToastService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -34,6 +34,7 @@ export class ToastContainerComponent {
             this.refreshService.set_ToChange(toast.onClickCreature || 'Character', toast.onClickAction);
             this.refreshService.process_ToChange();
         }
+
         this.toastService.remove(toast);
     }
 
@@ -42,17 +43,18 @@ export class ToastContainerComponent {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
+                .subscribe(target => {
                     if (['toasts', 'all'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
+                .subscribe(view => {
                     if (['toasts', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
+
             return true;
         }
     }

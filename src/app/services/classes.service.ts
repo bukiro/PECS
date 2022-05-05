@@ -6,7 +6,7 @@ import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ClassesService {
 
@@ -17,11 +17,11 @@ export class ClassesService {
     constructor(
         private readonly typeService: TypeService,
         private readonly itemsService: ItemsService,
-        private readonly extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService,
     ) { }
 
     private get_ReplacementClass(name?: string): Class {
-        return Object.assign(new Class(), { name: 'Class not found', 'desc': `${ name ? name : 'The requested class' } does not exist in the class list.` });
+        return Object.assign(new Class(), { name: 'Class not found', desc: `${ name ? name : 'The requested class' } does not exist in the class list.` });
     }
 
     get_ClassFromName(name: string): Class {
@@ -45,8 +45,10 @@ export class ClassesService {
 
     restore_ClassFromSave(classObj: Class) {
         let restoredClass: Class;
+
         if (classObj.name) {
             const libraryObject = this.get_Classes(classObj.name)[0];
+
             if (libraryObject) {
                 //Make a safe copy of the library object.
                 //Then map the restored object onto the copy and keep that.
@@ -57,12 +59,14 @@ export class ClassesService {
                 }
             }
         }
+
         return restoredClass || classObj;
     }
 
     clean_ClassForSave($class: Class) {
         if ($class.name) {
             const libraryObject = this.get_Classes($class.name)[0];
+
             if (libraryObject) {
                 Object.keys($class).forEach(key => {
                     if (key != 'name') {
@@ -73,6 +77,7 @@ export class ClassesService {
                         }
                     }
                 });
+
                 //Perform the same step for each level.
                 if ($class.levels) {
                     for (let index = 0; index < $class.levels.length; index++) {
@@ -87,6 +92,7 @@ export class ClassesService {
                 }
             }
         }
+
         return $class;
     }
 
@@ -105,7 +111,9 @@ export class ClassesService {
 
     load_Classes() {
         this.classes = [];
+
         const data = this.extensionsService.extend(json_classes, 'classes');
+
         Object.keys(data).forEach(key => {
             this.classes.push(...data[key].map((obj: Class) => Object.assign(new Class(), obj).recast(this.typeService, this.itemsService)));
         });

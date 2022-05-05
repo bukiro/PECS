@@ -40,6 +40,7 @@ export class Creature {
         this.inventories = this.inventories.map(obj => Object.assign(new ItemCollection(), obj).recast(typeService, itemsService));
         this.speeds = this.speeds.map(obj => Object.assign(new Speed(), obj).recast());
         this.bulk = Object.assign(new Bulk(), this.bulk).recast();
+
         return this;
     }
     get_BaseSize() {
@@ -50,11 +51,13 @@ export class Creature {
         let size: number = this.get_BaseSize();
 
         const setSizeEffects = effectsService.get_AbsolutesOnThis(this, 'Size');
+
         if (setSizeEffects.length) {
             size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue)));
         }
 
         const sizeEffects = effectsService.get_RelativesOnThis(this, 'Size');
+
         sizeEffects.forEach(effect => {
             size += parseInt(effect.value);
         });

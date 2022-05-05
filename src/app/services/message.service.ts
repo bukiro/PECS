@@ -11,7 +11,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { TypeService } from 'src/app/services/type.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class MessageService {
 
@@ -26,7 +26,7 @@ export class MessageService {
         private readonly toastService: ToastService,
         private readonly typeService: TypeService,
         private readonly itemsService: ItemsService,
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     get_NewMessages(characterService: CharacterService) {
@@ -67,6 +67,7 @@ export class MessageService {
 
     finish_loading(loader: Array<string>) {
         let messages = [];
+
         if (loader) {
             messages = loader.map(message => Object.assign(new PlayerMessage(), message).recast(this.typeService, this.itemsService));
             messages.forEach(message => {
@@ -76,6 +77,7 @@ export class MessageService {
                 message.gainCondition = message.gainCondition.map(gain => Object.assign(new ConditionGain(), gain).recast());
             });
         }
+
         return messages;
     }
 
@@ -84,11 +86,13 @@ export class MessageService {
         if (!characterService.get_Character().partyName || !characterService.get_LoggedIn() || this.checkingMessages) {
             return false;
         }
+
         this.checkingMessages = true;
         this.load_Messages(characterService.get_Character().id)
             .subscribe({
                 next: (results: Array<string>) => {
                     const newMessages = this.process_Messages(characterService, results);
+
                     //If the check was automatic, and any messages are left, apply them automatically if applyMessagesAutomatically is set,
                     // otherwise only announce that new messages are available, then update the component to show the number on the button.
                     if (newMessages.length && characterService.get_Character().settings.applyMessagesAutomatically) {
@@ -100,22 +104,26 @@ export class MessageService {
                             { onClickCreature: 'character', onClickAction: 'check-messages-manually' });
                         this.refreshService.set_Changed('top-bar');
                     }
+
                     this.checkingMessages = false;
                 },
-                error: (error) => {
+                error: error => {
                     this.checkingMessages = false;
+
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid; Messages have not been loaded.');
                     } else {
                         let text = 'An error occurred while searching for new messages. See console for more information.';
+
                         if (characterService.get_Character().settings.checkMessagesAutomatically) {
                             text += ' Automatic checks have been disabled.';
                             characterService.get_Character().settings.checkMessagesAutomatically = false;
                         }
+
                         this.toastService.show(text);
                         console.log(`Error loading messages from database: ${ error.message }`);
                     }
-                }
+                },
             });
     }
 
@@ -125,11 +133,14 @@ export class MessageService {
             if (!a.activated && b.activated) {
                 return 1;
             }
+
             if (a.activated && !b.activated) {
                 return -1;
             }
+
             return 0;
         });
+
         //Ignore messages for creatures that you don't own.
         newMessages.forEach(message => {
             if (message.gainCondition.length) {
@@ -141,13 +152,14 @@ export class MessageService {
         //Remove all ignored messages that don't match a new message, as you don't need them anymore.
         characterService.get_Character().ignoredMessages = this.get_IgnoredMessages(characterService).filter(message =>
             newMessages.some(newMessage => newMessage.id == message.id) ||
-            this.newMessages.some(newMessage => newMessage.id == message.id)
+            this.newMessages.some(newMessage => newMessage.id == message.id),
         );
         //Remove ignored messages and messages that are already in the list.
         newMessages = newMessages.filter(message =>
             !this.get_IgnoredMessages(characterService).some(ignoredMessage => ignoredMessage.id == message.id) &&
-            !this.newMessages.some(ignoredMessage => ignoredMessage.id == message.id)
+            !this.newMessages.some(ignoredMessage => ignoredMessage.id == message.id),
         );
+
         //Apply turn change messages automatically, then invalidate these messages and return the rest.
         if (newMessages.length) {
             characterService.apply_TurnChangeMessage(newMessages.filter(message => message.turnChange));
@@ -158,6 +170,7 @@ export class MessageService {
             });
             newMessages = newMessages.filter(message => !message.turnChange && !message.acceptedItem && !message.rejectedItem);
         }
+
         return newMessages;
     }
 
@@ -189,14 +202,17 @@ export class MessageService {
         if (!this.cleaningUpIgnoredMessages) {
             let errorMessage = false;
             let messagesToDelete = 0;
+
             this.get_IgnoredMessages(characterService).forEach(message => {
                 message.ttl--;
+
                 if (message.ttl == 0 && characterService.get_LoggedIn()) {
                     messagesToDelete++;
                     this.delete_MessageFromDB(Object.assign(new PlayerMessage(), { id: message.id }))
                         .subscribe({
                             next: () => {
                                 messagesToDelete--;
+
                                 if (!messagesToDelete) {
                                     this.cleaningUpIgnoredMessages = false;
                                 }
@@ -205,18 +221,22 @@ export class MessageService {
                                 //Restore a point of ttl so the app will attempt to delete the message again next time.
                                 message.ttl++;
                                 messagesToDelete--;
+
                                 if (!messagesToDelete) {
                                     this.cleaningUpIgnoredMessages = false;
                                 }
+
                                 if (error.status == 401) {
                                     this.configService.on_LoggedOut('Your login is no longer valid.');
                                 } else if (!errorMessage) {
                                     errorMessage = true;
+
                                     const text = 'An error occurred while deleting messages. See console for more information.';
+
                                     this.toastService.show(text);
                                     console.log(`Error deleting messages: ${ error.message }`);
                                 }
-                            }
+                            },
                         });
                 }
             });
@@ -227,6 +247,7 @@ export class MessageService {
         //Count down all new messages. If a message reaches 0 (typically after 10 minutes), delete it from the list, but add it to the ignored list so it doesn't show up again before it's deleted from the database.
         this.newMessages.forEach(message => {
             message.ttl--;
+
             if (message.ttl <= 0) {
                 this.mark_MessageAsIgnored(characterService, message);
             }
@@ -244,11 +265,14 @@ export class MessageService {
 
     start_MessageInterval(characterService: CharacterService) {
         this.checkingActive = true;
+
         let minuteTimer = 0;
+
         setInterval(() => {
 
             if (characterService.get_Character().settings.checkMessagesAutomatically && !characterService.get_ManualMode() && characterService.get_LoggedIn()) {
                 minuteTimer--;
+
                 if (minuteTimer <= 0) {
                     //Every minute, let the database connector clean up messages that are older than 10 minutes.
                     //The timer starts at 0 so this happens immediately upon activating automatic checking (or loading a character with it.)
@@ -259,7 +283,7 @@ export class MessageService {
                             }, error: error => {
                                 this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
                                 console.log(`Error cleaning up messages: ${ error.message }`);
-                            }
+                            },
                         });
                     minuteTimer = 60;
                 }

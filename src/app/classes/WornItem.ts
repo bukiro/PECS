@@ -53,13 +53,16 @@ export class WornItem extends Equipment {
         super.recast(typeService, itemsService);
         this.aeonStones = this.aeonStones.map(obj => Object.assign<WornItem, Item>(new WornItem(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
         this.propertyRunes = this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
+
         if (this.isDoublingRings) {
             if (!this.data[0]) {
                 this.data.push({ name: 'gold', show: false, type: 'string', value: '' });
             }
+
             if (!this.data[1]) {
                 this.data.push({ name: 'iron', show: false, type: 'string', value: '' });
             }
+
             if (!this.data[2]) {
                 this.data.push({ name: 'propertyRunes', show: false, type: 'string', value: '' });
             }
@@ -67,20 +70,24 @@ export class WornItem extends Equipment {
             if (!this.data[0]) {
                 this.data.push({ name: 'Attuned magic school', show: false, type: 'string', value: 'no school attuned' });
             }
+
             if (!this.data[1]) {
                 this.data.push({ name: 'Second attuned magic school', show: false, type: 'string', value: 'no school attuned' });
             }
+
             if (!this.data[2]) {
                 this.data.push({ name: 'Third attuned magic school', show: false, type: 'string', value: 'no school attuned' });
             }
         } else if (this.isRingOfWizardry.length) {
             this.isRingOfWizardry.forEach((wizardrySlot, index) => {
                 wizardrySlot.level = Math.max(Math.min(10, wizardrySlot.level), 0);
+
                 if (!this.data[index]) {
                     this.data.push({ name: 'wizardrySlot', show: false, type: 'string', value: 'no spellcasting selected' });
                 }
             });
         }
+
         return this;
     }
     protected _getSecondaryRuneName(): string {
@@ -88,14 +95,18 @@ export class WornItem extends Equipment {
     }
     get_Price(itemsService: ItemsService) {
         let price = this.price;
+
         if (this.potencyRune) {
             price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency == this.potencyRune).price;
         }
+
         if (this.strikingRune) {
             price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
         }
+
         price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
         price += this.aeonStones.reduce((prev, next) => prev + next.price, 0);
+
         return price;
     }
     get_Traits(characterService: CharacterService, creature: Creature): Array<string> {
@@ -105,9 +116,9 @@ export class WornItem extends Equipment {
                     this.data
                         .map(data => data.value.toString())
                         .filter(trait =>
-                            !this.traits.includes(trait) && trait !== 'no school attuned'
+                            !this.traits.includes(trait) && trait !== 'no school attuned',
                         ) :
-                    []
+                    [],
             );
     }
     get_CompatibleWithTalisman(talisman: Talisman) {
@@ -115,7 +126,7 @@ export class WornItem extends Equipment {
             (
                 this.level >= talisman.level &&
                 this.data.some(data =>
-                    talisman.traits.includes(data.value.toString())
+                    talisman.traits.includes(data.value.toString()),
                 )
             ) :
             false;

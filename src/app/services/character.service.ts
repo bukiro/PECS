@@ -73,7 +73,7 @@ import { CacheService } from 'src/app/services/cache.service';
 import { AdditionalHeritage } from '../classes/AdditionalHeritage';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class CharacterService {
 
@@ -148,6 +148,7 @@ export class CharacterService {
 
     set_LoadingStatus(status: string, refreshTopBar = true) {
         this.loadingStatus = status || 'Loading';
+
         if (refreshTopBar) {
             this.refreshService.set_Changed('top-bar');
         }
@@ -167,6 +168,7 @@ export class CharacterService {
 
     toggle_Menu(menu = '') {
         this.firstTime = false;
+
         const characterMenuState = this.characterMenuState;
         const companionMenuState = this.companionMenuState;
         const familiarMenuState = this.familiarMenuState;
@@ -176,18 +178,22 @@ export class CharacterService {
         const spelllibraryMenuState = this.spelllibraryMenuState;
         const conditionsMenuState = this.conditionsMenuState;
         const diceMenuState = this.diceMenuState;
+
         this.characterMenuState = (menu == 'character' && (this.characterMenuState == 'out')) ? 'in' : 'out';
+
         //Companion and Familiar menus don't need to close if the dice menu opens.
         if (menu != 'dice') {
             this.companionMenuState = (menu == 'companion' && (this.companionMenuState == 'out')) ? 'in' : 'out';
             this.familiarMenuState = (menu == 'familiar' && (this.familiarMenuState == 'out')) ? 'in' : 'out';
         }
+
         this.itemsMenuState = (menu == 'items' && (this.itemsMenuState == 'out')) ? 'in' : 'out';
         this.craftingMenuState = (menu == 'crafting' && (this.craftingMenuState == 'out')) ? 'in' : 'out';
         this.spellsMenuState = (menu == 'spells' && (this.spellsMenuState == 'out')) ? 'in' : 'out';
         this.spelllibraryMenuState = (menu == 'spelllibrary' && (this.spelllibraryMenuState == 'out')) ? 'in' : 'out';
         this.conditionsMenuState = (menu == 'conditions' && (this.conditionsMenuState == 'out')) ? 'in' : 'out';
         this.diceMenuState = (menu == 'dice' && (this.diceMenuState == 'out')) ? 'in' : 'out';
+
         if (this.characterMenuState != characterMenuState) {
             if (this.characterMenuState == 'in') {
                 this.refreshService.set_Changed('charactersheet');
@@ -197,6 +203,7 @@ export class CharacterService {
                 }, 400);
             }
         }
+
         if (this.companionMenuState != companionMenuState) {
             if (this.companionMenuState == 'in') {
                 this.refreshService.set_Changed('Companion');
@@ -206,6 +213,7 @@ export class CharacterService {
                 }, 400);
             }
         }
+
         if (this.familiarMenuState != familiarMenuState) {
             if (this.familiarMenuState == 'in') {
                 this.refreshService.set_Changed('Familiar');
@@ -215,6 +223,7 @@ export class CharacterService {
                 }, 400);
             }
         }
+
         if (this.itemsMenuState != itemsMenuState) {
             if (this.itemsMenuState == 'in') {
                 this.refreshService.set_Changed('items');
@@ -224,6 +233,7 @@ export class CharacterService {
                 }, 400);
             }
         }
+
         if (this.craftingMenuState != craftingMenuState) {
             if (this.craftingMenuState == 'in') {
                 this.refreshService.set_Changed('crafting');
@@ -233,6 +243,7 @@ export class CharacterService {
                 }, 400);
             }
         }
+
         if (this.spellsMenuState != spellsMenuState) {
             if (this.spellsMenuState == 'in') {
                 this.refreshService.set_Changed('spells');
@@ -242,6 +253,7 @@ export class CharacterService {
                 }, 400);
             }
         }
+
         if (this.spelllibraryMenuState != spelllibraryMenuState) {
             if (this.spelllibraryMenuState == 'in') {
                 this.refreshService.set_Changed('spelllibrary');
@@ -251,6 +263,7 @@ export class CharacterService {
                 }, 400);
             }
         }
+
         if (this.conditionsMenuState != conditionsMenuState) {
             if (this.conditionsMenuState == 'in') {
                 this.refreshService.set_Changed('conditions');
@@ -260,6 +273,7 @@ export class CharacterService {
                 }, 400);
             }
         }
+
         if (this.diceMenuState != diceMenuState) {
             if (this.diceMenuState == 'in') {
                 this.refreshService.set_Changed('dice');
@@ -269,6 +283,7 @@ export class CharacterService {
                 }, 400);
             }
         }
+
         this.refreshService.set_Changed('top-bar');
         this.refreshService.process_ToChange();
     }
@@ -344,6 +359,7 @@ export class CharacterService {
     get_IsBlankCharacter() {
         //The character is blank if textboxes haven't been used, no class and no basevalues have been chosen, and no items have been added other than the starter items.
         const character = this.get_Character();
+
         return (
             !character.class?.name &&
             !character.name &&
@@ -390,7 +406,8 @@ export class CharacterService {
     get_Creatures(companionAvailable: boolean = this.get_CompanionAvailable(), familiarAvailable: boolean = this.get_FamiliarAvailable()) {
         if (!this.still_loading()) {
             if (companionAvailable && familiarAvailable) {
-                return ([] as Array<Creature>).concat(this.get_Character()).concat(this.get_Companion()).concat(this.get_Familiar());
+                return ([] as Array<Creature>).concat(this.get_Character()).concat(this.get_Companion())
+                    .concat(this.get_Familiar());
             } else if (companionAvailable) {
                 return ([] as Array<Creature>).concat(this.get_Character()).concat(this.get_Companion());
             } else if (familiarAvailable) {
@@ -408,9 +425,11 @@ export class CharacterService {
 
     get_Accent() {
         let result: RegExpExecArray;
+
         function hexToRgb(hex) {
             if (hex.length == 4) {
                 result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
+
                 return result ? {
                     r: parseInt(result[1] + result[1], 16),
                     g: parseInt(result[2] + result[2], 16),
@@ -418,6 +437,7 @@ export class CharacterService {
                 } : null;
             } else if (hex.length == 7) {
                 result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
                 return result ? {
                     r: parseInt(result[1], 16),
                     g: parseInt(result[2], 16),
@@ -425,15 +445,17 @@ export class CharacterService {
                 } : null;
             }
         }
+
         if (!this.still_loading()) {
             const original = this.get_Character().settings.accent;
+
             if (original.length == 4 || original.length == 7) {
                 try {
                     const rgba = hexToRgb(original);
                     const result = `${ rgba.r },${ rgba.g },${ rgba.b }`;
+
                     return result;
-                }
-                catch (error) {
+                } catch (error) {
                     return '25, 118, 210';
                 }
             } else {
@@ -479,12 +501,14 @@ export class CharacterService {
         //This function is called by the effects service after generating effects, so that new languages aren't thrown out before the effects are generated.
         //Don't call this function in situations where effects are going to change, but haven't been generated yet - or you may lose languages.
         const character = this.get_Character();
+
         if (character.class.name) {
             //Collect everything that gives you free languages, and the level on which it happens. This will allow us to mark languages as available depending on their level.
             const languageSources: Array<{ name: string; level: number; amount: number }> = [];
 
             //Free languages from your ancestry
             const ancestryLanguages: number = character.class.ancestry.baseLanguages - character.class.ancestry.languages.length;
+
             if (ancestryLanguages) {
                 languageSources.push({ name: 'Ancestry', level: 0, amount: ancestryLanguages });
             }
@@ -492,9 +516,11 @@ export class CharacterService {
             //Free languages from your base intelligence
             const baseIntelligence: number = this.get_Abilities('Intelligence')[0]?.baseValue(character, this, 0)?.result;
             const baseInt: number = Math.floor((baseIntelligence - 10) / 2);
+
             if (baseInt > 0) {
                 languageSources.push({ name: 'Intelligence', level: 0, amount: baseInt });
             }
+
             //Build an array of int per level for comparison between the levels, starting with the base at 0.
             const int: Array<number> = [baseInt];
 
@@ -503,20 +529,26 @@ export class CharacterService {
                 //Add the amount that they would grant you on that level by faking a level for the effect.
                 this.get_CharacterFeatsTaken(level.number, level.number).forEach(taken => {
                     const feat = this.get_FeatsAndFeatures(taken.name)[0];
+
                     if (feat) {
                         if (feat.effects.some(effect => effect.affected == 'Max Languages')) {
                             const effects = this.effectsGenerationService.get_EffectsFromObject(feat, { characterService: this }, { creature: character }, { name: taken.name, pretendCharacterLevel: level.number });
+
                             effects.filter(effect => effect.target == 'Max Languages').forEach(effect => {
                                 languageSources.push({ name: taken.name, level: level.number, amount: parseInt(effect.value) });
                             });
                         }
                     }
                 });
+
                 //Also add more languages if INT has been raised (and is positive).
                 //Compare INT on this level with INT on the previous level. Don't do this on Level 0, obviously.
                 const levelIntelligence: number = this.get_Abilities('Intelligence')[0]?.baseValue(character, this, level.number)?.result;
+
                 int.push(Math.floor((levelIntelligence - 10) / 2));
+
                 const diff = int[level.number] - int[level.number - 1];
+
                 if (diff > 0 && int[level.number] > 0) {
                     languageSources.push({ name: 'Intelligence', level: level.number, amount: Math.min(diff, int[level.number]) });
                 }
@@ -529,6 +561,7 @@ export class CharacterService {
             this.effectsService.get_RelativesOnThis(this.get_Character(), 'Max Languages').forEach(effect => {
                 if (parseInt(effect.value) > 0) {
                     const source = languageSources.find(source => source.name == effect.source && source.amount == parseInt(effect.value));
+
                     if (!source) {
                         languageSources.push({ name: effect.source, level: -2, amount: parseInt(effect.value) });
                     }
@@ -538,14 +571,17 @@ export class CharacterService {
             //If the current INT is positive and higher than the base INT for the current level (e.g. because of an item bonus), add another temporary language source.
             const currentInt = this.get_Abilities('Intelligence')[0]?.mod(character, this, this.effectsService)?.result;
             const diff = currentInt - int[character.level];
+
             if (diff > 0 && currentInt > 0) {
                 languageSources.push({ name: 'Intelligence', level: -2, amount: Math.min(diff, currentInt) });
             }
 
             //Remove all free languages that have not been filled.
             character.class.languages = character.class.languages.sort().filter(language => !(language.name == '' && !language.locked));
+
             //Make a new list of all the free languages. We will pick and sort the free languages from here into the character language list.
             const tempLanguages: Array<LanguageGain> = character.class.languages.filter(language => !language.locked).map(language => Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(language))));
+
             //Reduce the character language list to only the locked ones.
             character.class.languages = character.class.languages.filter(language => language.locked);
 
@@ -557,13 +593,16 @@ export class CharacterService {
             languageSources.forEach(languageSource => {
                 for (let index = 0; index < languageSource.amount; index++) {
                     let existingLanguage = tempLanguages.find(language => language.source == languageSource.name && language.level == languageSource.level && !language.locked);
+
                     if (existingLanguage) {
                         character.class.languages.push(existingLanguage);
                         tempLanguages.splice(tempLanguages.indexOf(existingLanguage), 1);
                     } else {
                         existingLanguage = tempLanguages.find(language => language.source == languageSource.name && language.level == -1 && !language.locked);
+
                         if (existingLanguage) {
                             const newLanguage = Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(existingLanguage)));
+
                             newLanguage.level = languageSource.level;
                             character.class.languages.push(newLanguage);
                             tempLanguages.splice(tempLanguages.indexOf(existingLanguage), 1);
@@ -580,8 +619,9 @@ export class CharacterService {
                     .find(freeLanguage =>
                         !freeLanguage.locked &&
                         freeLanguage.name == '' &&
-                        (freeLanguage.source == lostLanguage.source || freeLanguage.source == 'Intelligence' || freeLanguage.source == 'Multilingual' || true)
+                        (freeLanguage.source == lostLanguage.source || freeLanguage.source == 'Intelligence' || freeLanguage.source == 'Multilingual' || true),
                     );
+
                 if (targetLanguage) {
                     targetLanguage.name = lostLanguage.name;
                 }
@@ -589,29 +629,35 @@ export class CharacterService {
 
             //Sort languages by locked > level > source > name.
             character.class.languages = character.class.languages
-                .sort(function (a, b) {
+                .sort((a, b) => {
                     if (a.name && !b.name) {
                         return -1;
                     }
+
                     if (!a.name && b.name) {
                         return 1;
                     }
+
                     if (a.name > b.name) {
                         return 1;
                     }
+
                     if (a.name < b.name) {
                         return -1;
                     }
+
                     return 0;
                 })
                 .sort((a, b) => (a.level + a.source == b.level + b.source) ? 0 : ((a.level + a.source > b.level + b.source) ? 1 : -1))
-                .sort(function (a, b) {
+                .sort((a, b) => {
                     if (!a.locked && b.locked) {
                         return 1;
                     }
+
                     if (a.locked && !b.locked) {
                         return -1;
                     }
+
                     return 0;
                 });
         }
@@ -620,6 +666,7 @@ export class CharacterService {
     change_Class($class: Class) {
         //Cleanup Heritage, Ancestry, Background and class skills
         const character = this.get_Character();
+
         character.class.on_ChangeHeritage(this);
         character.class.on_ChangeAncestry(this);
         character.class.on_ChangeBackground(this);
@@ -633,6 +680,7 @@ export class CharacterService {
 
     change_Ancestry(ancestry: Ancestry, itemsService: ItemsService) {
         const character = this.get_Character();
+
         this.change_Heritage(new Heritage());
         character.class.on_ChangeAncestry(this);
         character.class.ancestry = new Ancestry();
@@ -644,6 +692,7 @@ export class CharacterService {
 
     change_Deity(deity: Deity) {
         const character = this.get_Character();
+
         character.class.deity = deity.name;
         this.deitiesService.clear_CharacterDeities();
         this.refreshService.set_ToChange('Character', 'general');
@@ -655,7 +704,9 @@ export class CharacterService {
 
     change_Heritage(heritage: Heritage, index = -1) {
         const character = this.get_Character();
+
         character.class.on_ChangeHeritage(this, index);
+
         if (index == -1) {
             character.class.heritage = new Heritage();
             character.class.heritage = Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
@@ -663,6 +714,7 @@ export class CharacterService {
             const heritageToChange = character.class.additionalHeritages[index];
             const source = heritageToChange.source;
             const levelNumber = heritageToChange.charLevelAvailable;
+
             character.class.additionalHeritages[index] = Object.assign<AdditionalHeritage, AdditionalHeritage>(new AdditionalHeritage(),
                 {
                     ...JSON.parse(JSON.stringify(heritage)),
@@ -670,12 +722,14 @@ export class CharacterService {
                     charLevelAvailable: levelNumber,
                 }).recast();
         }
+
         character.class.on_NewHeritage(this, this.itemsService, index);
         this.cacheService.reset_CreatureCache(character.typeId);
     }
 
     change_Background(background: Background) {
         const character = this.get_Character();
+
         character.class.on_ChangeBackground(this);
         character.class.background = new Background();
         character.class.background = Object.assign<Background, Background>(new Background(), JSON.parse(JSON.stringify(background))).recast();
@@ -712,26 +766,31 @@ export class CharacterService {
         this.refreshService.set_ToChange(context.creature.type, 'inventory');
         this.refreshService.set_ToChange(context.creature.type, 'effects');
         this.refreshService.set_ToChange('Character', 'top-bar');
+
         const newInventoryItem = this.itemsService.initialize_Item(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
         let returnedItem: Item;
         //Check if this item already exists in the inventory, and if it is stackable and doesn't expire. Don't make that check if this item expires.
         let existingItems: Array<Item> = [];
+
         if (!options.expiration && newInventoryItem.canStack()) {
             existingItems = context.inventory[item.type].filter((existing: Item) =>
-                existing.name == newInventoryItem.name && newInventoryItem.canStack() && !item.expiration
+                existing.name == newInventoryItem.name && newInventoryItem.canStack() && !item.expiration,
             );
         }
+
         //If any existing, stackable items are found, try parsing the amount (set it to 1 if failed), then raise the amount on the first of the existing items.
         //The amount must be parsed because it could be set to anything during custom item creation.
         //If no items are found, add the new item to the inventory.
         //Set returnedInventoryItem to either the found or the new item for further processing.
         if (existingItems.length) {
             let intAmount = 1;
+
             try {
                 intAmount = parseInt(context.amount.toString());
             } catch (error) {
                 intAmount = 1;
             }
+
             existingItems[0].amount += intAmount;
             returnedItem = existingItems[0];
             //Update gridicons of the expanded item.
@@ -739,22 +798,28 @@ export class CharacterService {
         } else {
             const newInventoryLength = context.inventory[newInventoryItem.type].push(newInventoryItem);
             const newItem = context.inventory[newInventoryItem.type][newInventoryLength - 1];
+
             if (context.amount > 1) {
                 newItem.amount = context.amount;
             }
+
             if (options.expiration) {
                 newItem.expiration = options.expiration;
             }
+
             returnedItem = this.process_GrantedItem(context.creature, newItem, context.inventory, options.equipAfter, options.resetRunes);
         }
+
         if (options.changeAfter) {
             this.refreshService.process_ToChange();
         }
+
         return returnedItem;
     }
 
     process_GrantedItem(creature: Creature, item: Item, inventory: ItemCollection, equip = true, resetRunes = true, skipGrantedItems = false, skipGainedInventories = false) {
         this.refreshService.set_ToChange(creature.type, 'inventory');
+
         //Disable activities on equipment and runes. Refresh all affected components.
         if (((item instanceof Equipment) || (item instanceof Rune)) && item.activities?.length) {
             item.activities.forEach(activity => {
@@ -763,9 +828,11 @@ export class CharacterService {
             });
             this.refreshService.set_ToChange(creature.type, 'activities');
         }
+
         if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
             this.refreshService.set_HintsToChange(creature, item.hints, { characterService: this });
         }
+
         if (item instanceof Equipment) {
             if (item.gainActivities?.length) {
                 item.gainActivities.forEach(gain => {
@@ -773,37 +840,47 @@ export class CharacterService {
                 });
                 this.refreshService.set_ToChange(creature.type, 'activities');
             }
+
             if (equip && Object.prototype.hasOwnProperty.call(item, 'equipped') && item.equippable) {
                 this.on_Equip(creature, inventory, item, true, false);
             }
+
             if (item instanceof Weapon) {
                 const customFeats = this.featsService.create_WeaponFeats([item]);
+
                 customFeats.forEach(customFeat => {
                     const oldFeat = this.get_Character().customFeats.find(existingFeat => existingFeat.name === customFeat.name);
+
                     if (oldFeat) {
                         this.remove_CustomFeat(oldFeat);
                     }
+
                     this.add_CustomFeat(customFeat);
                 });
             }
+
             if (resetRunes && item.moddable) {
                 item.potencyRune = item.strikingRune = item.resilientRune = item.propertyRunes.length = 0;
             }
+
             item.propertyRunes.filter(rune => rune.loreChoices?.length).forEach(rune => {
                 this.add_RuneLore(rune);
             });
+
             if (!skipGainedInventories) {
                 //Add all Inventories that you get from this item.
                 if (item.gainInventory) {
                     item.gainInventory.forEach(gain => {
                         const newLength = creature.inventories.push(new ItemCollection());
                         const newInventory = creature.inventories[newLength - 1];
+
                         newInventory.itemId = item.id;
                         newInventory.bulkLimit = gain.bulkLimit;
                         newInventory.bulkReduction = gain.bulkReduction;
                     });
                 }
             }
+
             if (!skipGrantedItems) {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
@@ -813,9 +890,11 @@ export class CharacterService {
                 }
             }
         }
+
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
             this.refreshService.set_ToChange(creature.type, 'attacks');
         }
+
         return item;
     }
 
@@ -824,11 +903,13 @@ export class CharacterService {
         if (item.markedForDeletion) {
             return false;
         }
+
         item.markedForDeletion = true;
         this.refreshService.set_ToChange(creature.type, 'inventory');
         this.refreshService.set_ToChange(creature.type, 'effects');
         this.refreshService.set_ToChange('Character', 'top-bar');
         this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
+
         if (amount < item.amount) {
             item.amount -= amount;
             this.refreshService.set_ToChange('Character', item.id);
@@ -836,6 +917,7 @@ export class CharacterService {
             if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
                 this.refreshService.set_HintsToChange(creature, item.hints, { characterService: this });
             }
+
             if ((item instanceof Equipment) || (item instanceof Rune)) {
                 item.activities.forEach(activity => {
                     if (activity.active) {
@@ -843,6 +925,7 @@ export class CharacterService {
                     }
                 });
             }
+
             if (item instanceof Equipment) {
                 if (item.equipped) {
                     this.on_Equip(creature, inventory, item as Equipment, false, false);
@@ -851,11 +934,13 @@ export class CharacterService {
                 } else if (!item.equippable && !item.canInvest()) {
                     this.conditionsService.remove_GainedItemConditions(creature, item, this);
                 }
+
                 if (item.propertyRunes) {
                     item.propertyRunes.filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
                         this.remove_RuneLore(rune);
                     });
                 }
+
                 if (item.gainActivities) {
                     item.gainActivities.forEach(gain => {
                         if (gain.active) {
@@ -863,6 +948,7 @@ export class CharacterService {
                         }
                     });
                 }
+
                 if (item.gainInventory?.length) {
                     if (keepInventoryContent) {
                         this.preserve_InventoryContent(creature, item);
@@ -873,34 +959,44 @@ export class CharacterService {
                             });
                         });
                     }
+
                     creature.inventories = creature.inventories.filter(existingInventory => existingInventory.itemId != item.id);
                 }
+
                 if (including) {
                     item.gainItems.filter(gainItem => gainItem.on == 'grant').forEach(gainItem => {
                         gainItem.drop_GrantedItem(creature, {}, { characterService: this });
                     });
                 }
             }
+
             item.oilsApplied.filter((oil: Oil) => oil.runeEffect.loreChoices.length).forEach((oil: Oil) => {
                 this.remove_RuneLore(oil.runeEffect);
             });
+
             if (item instanceof Weapon) {
                 this.mark_UnneededWeaponFeatsForDeletion(item);
             }
+
             //The item is deleted here.
             inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item);
+
             if (equipBasicItems) {
                 this.equip_BasicItems(creature);
             }
         }
+
         //If the item still exists at this point, unmark it for deletion, so it doesn't become un-droppable.
         item.markedForDeletion = false;
+
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
             this.refreshService.set_ToChange(creature.type, 'attacks');
         }
+
         if (changeAfter) {
             this.refreshService.process_ToChange();
         }
+
         this.refreshService.set_Changed(item.id);
     }
 
@@ -914,13 +1010,14 @@ export class CharacterService {
                 ...character.inventories
                     .concat(
                         character.class?.animalCompanion?.inventories || [],
-                        character.class?.familiar?.inventories || []
+                        character.class?.familiar?.inventories || [],
                     )
                     .map(inventory => inventory.weapons))
             .filter(inventoryWeapon =>
                 inventoryWeapon.name.toLowerCase() === weapon.name.toLowerCase() &&
-                inventoryWeapon !== weapon
+                inventoryWeapon !== weapon,
             );
+
         if (!remainingWeapons.length) {
             character.customFeats
                 .filter(customFeat => customFeat.generatedWeaponFeat && customFeat.subType === weapon.name)
@@ -938,14 +1035,14 @@ export class CharacterService {
                 this.get_Character().inventories[0]?.allEquipment()
                     .filter(item => item.propertyRunes
                         .some(propertyRune => propertyRune.loreChoices
-                            .some(otherchoice => otherchoice.loreName == choice.loreName)
-                        )
+                            .some(otherchoice => otherchoice.loreName == choice.loreName),
+                        ),
                     ).length +
                 this.get_Character().inventories[0]?.allEquipment()
                     .filter(item => item.oilsApplied
                         .some(oil => oil.runeEffect && oil.runeEffect.loreChoices
-                            .some(otherchoice => otherchoice.loreName == choice.loreName)
-                        )
+                            .some(otherchoice => otherchoice.loreName == choice.loreName),
+                        ),
                     ).length == 1) {
                 this.get_Character().add_Lore(this, choice);
             }
@@ -988,8 +1085,10 @@ export class CharacterService {
             sum %= 10;
             copper = sum;
         }
+
         if (copper) {
             this.get_Character().cash[3] += (copper * multiplier);
+
             if (this.get_Character().cash[3] < 0) {
                 if (this.get_Character().cash[2] > 0 || this.get_Character().cash[1] > 0 || this.get_Character().cash[0] > 0) {
                     silver += Math.floor(this.get_Character().cash[3] / 10) * multiplier;
@@ -997,8 +1096,10 @@ export class CharacterService {
                 }
             }
         }
+
         if (silver) {
             this.get_Character().cash[2] += (silver * multiplier);
+
             if (this.get_Character().cash[2] < 0) {
                 if (this.get_Character().cash[1] > 0 || this.get_Character().cash[0] > 0) {
                     gold += Math.floor(this.get_Character().cash[2] / 10) * multiplier;
@@ -1006,8 +1107,10 @@ export class CharacterService {
                 }
             }
         }
+
         if (gold) {
             this.get_Character().cash[1] += (gold * multiplier);
+
             if (this.get_Character().cash[1] < 0) {
                 if (this.get_Character().cash[0] > 0) {
                     plat += Math.floor(this.get_Character().cash[1] / 10) * multiplier;
@@ -1015,20 +1118,25 @@ export class CharacterService {
                 }
             }
         }
+
         if (plat) {
             this.get_Character().cash[0] += (plat * multiplier);
+
             if (this.get_Character().cash[0] < 0) {
                 this.sort_Cash();
             }
         }
+
         if (this.get_Character().cash[0] < 0 || this.get_Character().cash[1] < 0 || this.get_Character().cash[2] < 0) {
             this.sort_Cash();
         }
+
         this.refreshService.set_ToChange('Character', 'inventory');
     }
 
     sort_Cash() {
         const sum = (this.get_Character().cash[0] * 1000) + (this.get_Character().cash[1] * 100) + (this.get_Character().cash[2] * 10) + (this.get_Character().cash[3]);
+
         this.get_Character().cash = [0, 0, 0, 0];
         this.change_Cash(1, sum);
     }
@@ -1037,6 +1145,7 @@ export class CharacterService {
         //Only allow equipping or unequipping for items that the creature can wear. Only allow equipping items in inventories that aren't containers (i.e. the first two).
         //Unequip any item that lands here and can't be equipped.
         const oldequipped = item.equipped;
+
         function canEquip() {
             return (
                 !inventory.itemId &&
@@ -1049,28 +1158,34 @@ export class CharacterService {
                 )
             );
         }
+
         if (canEquip()) {
             item.equipped = equipped;
         } else {
             item.equipped = false;
         }
+
         this.refreshService.set_ToChange(creature.type, 'inventory');
         this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
+
         if (!oldequipped && item.equipped) {
             if (item instanceof Armor) {
                 inventory.armors.filter(armor => armor !== item).forEach(armor => {
                     this.on_Equip(creature, inventory, armor, false, false, false);
                 });
             }
+
             if (item instanceof Shield) {
                 inventory.shields.filter(shield => shield !== item).forEach(shield => {
                     this.on_Equip(creature, inventory, shield, false, false, false);
                 });
             }
+
             //If you get an Activity from an item that doesn't need to be invested, immediately invest it in secret so the Activity is gained
             if ((item.gainActivities || item.activities) && !item.canInvest()) {
                 this.on_Invest(creature, inventory, item, true, false);
             }
+
             //Add all Items that you get from equipping this one
             if (item.gainItems && item.gainItems.length) {
                 item.gainItems.filter(gainItem => gainItem.on == 'equip').forEach(gainItem => {
@@ -1081,27 +1196,33 @@ export class CharacterService {
             if (equipBasicItems) {
                 this.equip_BasicItems(creature);
             }
+
             //If you are unequipping a shield, you should also be lowering it and losing cover
             if (item instanceof Shield) {
                 if (item.takingCover) {
                     this.get_AC().set_Cover(creature, 0, item, this, this.conditionsService);
                     item.takingCover = false;
                 }
+
                 item.raised = false;
             }
+
             //If the item was invested and the item, it isn't now.
             if (item.invested) {
                 this.on_Invest(creature, inventory, item, false, false);
             }
+
             if (item.gainItems?.length) {
                 item.gainItems.filter(gainItem => gainItem.on == 'equip').forEach(gainItem => {
                     gainItem.drop_GrantedItem(creature, {}, { characterService: this });
                 });
             }
+
             //If the item can't be un-invested, make sure you lose the conditions you gained from equipping it.
             if (!item.canInvest()) {
                 this.conditionsService.remove_GainedItemConditions(creature, item, this);
             }
+
             item.propertyRunes?.forEach(rune => {
                 //Deactivate any active toggled activities of inserted runes.
                 rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
@@ -1109,6 +1230,7 @@ export class CharacterService {
                 });
             });
         }
+
         if (changeAfter) {
             this.refreshService.process_ToChange();
         }
@@ -1117,14 +1239,17 @@ export class CharacterService {
     preserve_InventoryContent(creature: Creature, item: Equipment) {
         //This gets all inventories granted by an item and dumps them into the main inventory. That way, content isn't lost when you drop an inventory item.
         let found = 0;
+
         creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
-            inv.allItems().filter(invItem => invItem !== item).forEach(invItem => {
-                if (!invItem.markedForDeletion) {
-                    found++;
-                    this.itemsService.move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, this, invItem.amount, true);
-                }
-            });
+            inv.allItems().filter(invItem => invItem !== item)
+                .forEach(invItem => {
+                    if (!invItem.markedForDeletion) {
+                        found++;
+                        this.itemsService.move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, this, invItem.amount, true);
+                    }
+                });
         });
+
         if (found) {
             this.toastService.show(`${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.getName() }</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.`);
         }
@@ -1134,9 +1259,11 @@ export class CharacterService {
         item.invested = invested;
         this.refreshService.set_ToChange(creature.type, 'inventory');
         this.refreshService.set_ToChange(creature.type, item.id);
+
         if (item instanceof WornItem && item.gainSpells.length) {
             this.refreshService.set_ToChange(creature.type, 'spellbook');
         }
+
         //Items are automatically equipped if they are invested.
         if (item.invested) {
             if (!item.equipped) {
@@ -1147,6 +1274,7 @@ export class CharacterService {
         } else {
             item.gainActivities.filter(gainActivity => gainActivity.active).forEach((gainActivity: ActivityGain) => {
                 const libraryActivity = this.activitiesService.get_Activities(gainActivity.name)[0];
+
                 if (libraryActivity) {
                     this.activitiesService.activate_Activity(creature, '', this, this.conditionsService, this.itemsService, this.spellsService, gainActivity, libraryActivity, false);
                 }
@@ -1157,6 +1285,7 @@ export class CharacterService {
             this.conditionsService.remove_GainedItemConditions(creature, item, this);
             this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
         }
+
         //If a wayfinder is invested or uninvested, all other invested wayfinders need to run updates as well,
         // Because too many invested wayfinders disable each other's aeon stones.
         if (item instanceof WornItem && item.aeonStones.length) {
@@ -1164,6 +1293,7 @@ export class CharacterService {
                 this.refreshService.set_ItemViewChanges(creature, wornItem, { characterService: this, activitiesService: this.activitiesService });
             });
         }
+
         if (changeAfter) {
             this.refreshService.process_ToChange();
         }
@@ -1173,6 +1303,7 @@ export class CharacterService {
         if (!preserveItem) {
             item.amount--;
         }
+
         this.itemsService.process_Consumable(creature, this, this.conditionsService, this.spellsService, item);
         this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
         this.refreshService.set_ToChange(creature.type, 'inventory');
@@ -1187,6 +1318,7 @@ export class CharacterService {
         } else {
             const newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_CleanItemByID('08693211-8daa-11ea-abca-ffb46fbada73')).recast(this.typeService, this.itemsService);
             const newBasicArmor: Armor = Object.assign(new Armor(), this.itemsService.get_CleanItemByID('89c1a2c2-8e09-11ea-9fab-e92c63c14723')).recast(this.typeService, this.itemsService);
+
             this.basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
             this.equip_BasicItems(this.get_Character(), false);
             this.equip_BasicItems(this.get_Companion(), false);
@@ -1198,14 +1330,17 @@ export class CharacterService {
             if (!creature.inventories[0].weapons.some(weapon => !weapon.broken) && (creature instanceof Character)) {
                 this.grant_InventoryItem(this.basicItems.weapon, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
             }
+
             if (!creature.inventories[0].armors.some(armor => !armor.broken)) {
                 this.grant_InventoryItem(this.basicItems.armor, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
             }
+
             if (!creature.inventories[0].weapons.some(weapon => weapon.equipped == true)) {
                 if (creature.inventories[0].weapons.some(weapon => !weapon.broken)) {
                     this.on_Equip(creature, creature.inventories[0], creature.inventories[0].weapons.find(weapon => !weapon.broken), true, changeAfter);
                 }
             }
+
             if (!creature.inventories[0].armors.some(armor => armor.equipped == true)) {
                 if (creature.inventories[0].weapons.some(armor => !armor.broken)) {
                     this.on_Equip(creature, creature.inventories[0], creature.inventories[0].armors.find(armor => !armor.broken), true, changeAfter);
@@ -1229,6 +1364,7 @@ export class CharacterService {
 
     public remove_CustomFeat(feat: Feat): void {
         const character = this.get_Character();
+
         character.customFeats = character.customFeats.filter(oldFeat => oldFeat !== feat);
     }
 
@@ -1240,7 +1376,7 @@ export class CharacterService {
         //Returns ConditionGain[] with apply=true/false for each
         return this.conditionsService.get_AppliedConditions(creature, this, creature.conditions, readonly).filter(condition =>
             (condition.name == name || name == '') &&
-            (condition.source == source || source == '')
+            (condition.source == source || source == ''),
         );
     }
 
@@ -1248,75 +1384,97 @@ export class CharacterService {
         let activate = true;
         const conditionGain: ConditionGain = Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast();
         const originalCondition = this.get_Conditions(conditionGain.name)[0];
+
         if (originalCondition) {
             if (conditionGain.heightened < originalCondition.minLevel) {
                 conditionGain.heightened = originalCondition.minLevel;
             }
+
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (conditionGain.activationPrerequisite) {
                 const activationValue = this.evaluationService.get_ValueFromFormula(conditionGain.activationPrerequisite, { characterService: this, effectsService: this.effectsService }, { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain });
-                if (!activationValue || activationValue == '0' || (typeof activationValue == 'string' && !parseInt(activationValue))) {
+
+                if (!activationValue || activationValue == '0' || (typeof activationValue === 'string' && !parseInt(activationValue))) {
                     activate = false;
                 }
             }
+
             //Check if any condition denies this condition, and stop processing if that is the case.
-            const denySources: Array<string> = this.get_AppliedConditions(creature, '', '', true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name)).map(existingGain => `<strong>${ existingGain.name }</strong>`);
+            const denySources: Array<string> = this.get_AppliedConditions(creature, '', '', true).filter(existingGain => this.get_Conditions(existingGain.name)?.[0]?.denyConditions.includes(conditionGain.name))
+                .map(existingGain => `<strong>${ existingGain.name }</strong>`);
+
             if (denySources.length) {
                 activate = false;
                 this.toastService.show(`The condition <strong>${ conditionGain.name }</strong> was not added because it is blocked by: ${ denySources.join(', ') }`);
             }
+
             if (activate) {
                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
                 if (conditionGain.duration == -5) {
                     conditionGain.duration = originalCondition.get_DefaultDuration(conditionGain.choice, conditionGain.heightened).duration;
                 }
+
                 //If there are choices, and the choice is not set by the gain, take the default or the first choice.
                 if (originalCondition.choices.length && !conditionGain.choice) {
                     conditionGain.choice = originalCondition.choice || originalCondition.choices[0].name;
                 }
+
                 //If there is a choice, check if there is a nextStage value of that choice and copy it to the condition gain.
                 if (conditionGain.choice) {
                     conditionGain.nextStage = originalCondition.get_ChoiceNextStage(conditionGain.choice);
                 }
+
                 if (conditionGain.nextStage) {
                     this.refreshService.set_ToChange(creature.type, 'time');
                     this.refreshService.set_ToChange(creature.type, 'health');
                 }
+
                 if (conditionGain.heightened < originalCondition.minLevel) {
                     conditionGain.heightened = originalCondition.minLevel;
                 }
+
                 if (!conditionGain.radius) {
                     conditionGain.radius = originalCondition.radius;
                 }
+
                 //Set persistent if the condition is, unless ignorePersistent is set. Don't just set gain.persistent = condition.persistent, because condition.persistent could be false.
                 if (originalCondition.persistent && !conditionGain.ignorePersistent) {
                     conditionGain.persistent = true;
                 }
+
                 conditionGain.decreasingValue = originalCondition.decreasingValue;
                 conditionGain.notes = originalCondition.notes;
                 conditionGain.showNotes = conditionGain.notes && true;
+
                 let newLength = 0;
+
                 if (conditionGain.addValue || conditionGain.increaseRadius) {
                     const existingConditions = creature.conditions.filter(gain => gain.name == conditionGain.name);
+
                     if (existingConditions.length) {
                         existingConditions.forEach(gain => {
                             gain.value += conditionGain.addValue;
                             gain.radius = Math.max(0, gain.radius + conditionGain.increaseRadius);
+
                             if (conditionGain.addValueUpperLimit) {
                                 gain.value = Math.min(gain.value, conditionGain.addValueUpperLimit);
                             }
+
                             if (conditionGain.addValueLowerLimit) {
                                 gain.value = Math.max(gain.value, conditionGain.addValueLowerLimit);
                             }
+
                             //If this condition gain has both locked properties and addValue, transfer these properties and change the parentID to this one, but only if the existing gain does not have them.
                             if (conditionGain.lockedByParent && !gain.lockedByParent) {
                                 gain.lockedByParent = true;
                                 gain.parentID = conditionGain.parentID;
                             }
+
                             if (conditionGain.valueLockedByParent && !gain.valueLockedByParent) {
                                 gain.valueLockedByParent = true;
                                 gain.parentID = conditionGain.parentID;
                             }
+
                             if (conditionGain.persistent) {
                                 gain.persistent = true;
                             }
@@ -1325,16 +1483,20 @@ export class CharacterService {
                     } else {
                         if (!conditionGain.value) {
                             conditionGain.value = conditionGain.addValue;
+
                             if (conditionGain.addValueUpperLimit) {
                                 conditionGain.value = Math.min(conditionGain.value, conditionGain.addValueUpperLimit);
                             }
+
                             if (conditionGain.addValueLowerLimit) {
                                 conditionGain.value = Math.max(conditionGain.value, conditionGain.addValueLowerLimit);
                             }
                         }
+
                         if (!conditionGain.radius) {
                             conditionGain.radius = conditionGain.increaseRadius;
                         }
+
                         if (conditionGain.value > 0) {
                             newLength = creature.conditions.push(conditionGain);
                         }
@@ -1346,17 +1508,21 @@ export class CharacterService {
                         newLength = creature.conditions.push(conditionGain);
                     }
                 }
+
                 if (newLength) {
                     this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, conditionGain, this.conditionsService.get_Conditions(conditionGain.name)[0], true);
                     this.refreshService.set_ToChange(creature.type, 'effects');
                     this.refreshService.set_ToChange(creature.type, 'effects-component');
+
                     if (!options.noReload) {
                         this.refreshService.process_ToChange();
                     }
+
                     return newLength;
                 }
             }
         }
+
         return 0;
     }
 
@@ -1367,51 +1533,64 @@ export class CharacterService {
         //-- If none is found, find one that has the same duration.
         //- If none is found or the list has only one, take the first.
         let oldConditionGain: ConditionGain = creature.conditions.find(gain => gain === conditionGain);
+
         if (!oldConditionGain) {
             const oldConditionGains: Array<ConditionGain> = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.value == conditionGain.value && gain.source == conditionGain.source);
+
             if (oldConditionGains.length > 1) {
                 oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) == JSON.stringify(conditionGain));
+
                 if (!oldConditionGain) {
                     oldConditionGain = oldConditionGains.find(gain => gain.duration == conditionGain.duration);
                 }
             }
+
             if (!oldConditionGain) {
                 oldConditionGain = oldConditionGains[0];
             }
         }
+
         const originalCondition = this.get_Conditions(conditionGain.name)[0];
+
         //If this condition is locked by its parent, it can't be removed.
         if (oldConditionGain && (ignoreLockedByParent || !oldConditionGain.lockedByParent)) {
             if (oldConditionGain.nextStage || oldConditionGain.durationIsInstant) {
                 this.refreshService.set_ToChange(creature.type, 'time');
                 this.refreshService.set_ToChange(creature.type, 'health');
             }
+
             //Remove the parent lock for all conditions locked by this, so that they can be removed in the next step or later (if persistent).
             this.remove_LockedByParent(creature, oldConditionGain.id);
             this.get_AppliedConditions(creature, '', oldConditionGain.name, true).filter(gain =>
-                gain.parentID == oldConditionGain.id
-            ).forEach(extraCondition => {
-                if (!(keepPersistent && extraCondition.persistent)) {
+                gain.parentID == oldConditionGain.id,
+            )
+                .forEach(extraCondition => {
+                    if (!(keepPersistent && extraCondition.persistent)) {
                     //Remove child conditions that are not persistent, or remove all if keepPersistent is false.
-                    this.remove_Condition(creature, extraCondition, false, increaseWounded, keepPersistent, ignoreLockedByParent, ignoreEndsWithConditions);
-                } else if (extraCondition.persistent) {
+                        this.remove_Condition(creature, extraCondition, false, increaseWounded, keepPersistent, ignoreLockedByParent, ignoreEndsWithConditions);
+                    } else if (extraCondition.persistent) {
                     //If this condition adds persistent conditions, don't remove them, but remove the persistent flag as its parent is gone.
-                    this.remove_Persistent(creature, extraCondition);
-                }
-            });
+                        this.remove_Persistent(creature, extraCondition);
+                    }
+                });
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1);
             this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, oldConditionGain, originalCondition, false, increaseWounded, ignoreEndsWithConditions);
+
             if (oldConditionGain.source == 'Quick Status') {
                 this.refreshService.set_ToChange(creature.type, 'defense');
                 this.refreshService.set_ToChange(creature.type, 'attacks');
             }
+
             this.refreshService.set_ToChange(creature.type, 'effects');
             this.refreshService.set_ToChange(creature.type, 'effects-component');
+
             if (reload) {
                 this.refreshService.process_ToChange();
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -1424,15 +1603,19 @@ export class CharacterService {
         //- If none is found or the list has only one, take the first.
         let oldConditionGain: ConditionGain;
         const oldConditionGains: Array<ConditionGain> = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.source == conditionGain.source && gain.persistent);
+
         if (oldConditionGains.length > 1) {
             oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) == JSON.stringify(conditionGain));
+
             if (!oldConditionGain) {
                 oldConditionGain = oldConditionGains.find(gain => gain.duration == conditionGain.duration);
             }
         }
+
         if (!oldConditionGain) {
             oldConditionGain = oldConditionGains[0];
         }
+
         if (oldConditionGain) {
             oldConditionGain.persistent = false;
         }
@@ -1459,6 +1642,7 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
+
         this.messageService.get_Time()
             .subscribe({
                 next: result => {
@@ -1466,17 +1650,22 @@ export class CharacterService {
                     const character = this.get_Character();
                     const targets = this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
                     const messages: Array<PlayerMessage> = [];
+
                     targets.forEach(target => {
                         const message = new PlayerMessage();
+
                         message.recipientId = target.id;
                         message.senderId = character.id;
                         message.targetId = '';
+
                         const date = new Date();
+
                         message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                         message.timeStamp = timeStamp;
                         message.turnChange = true;
                         messages.push(message);
                     });
+
                     if (messages.length) {
                         this.messageService.send_Messages(messages)
                             .subscribe({
@@ -1484,25 +1673,25 @@ export class CharacterService {
                                     //Don't notify the user that a turn change was sent. It proved more annoying than useful.
                                     //this.toastService.show("Sent turn change to " + (messages.length) + " targets.");
                                 },
-                                error: (error) => {
+                                error: error => {
                                     if (error.status == 401) {
                                         this.configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
                                     } else {
                                         this.toastService.show('An error occurred while sending effects. See console for more information.');
                                         console.log(`Error saving effect messages to database: ${ error.message }`);
                                     }
-                                }
+                                },
                             });
                     }
                 },
-                error: (error) => {
+                error: error => {
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
                         console.log(`Error saving effect messages to database: ${ error.message }`);
                     }
-                }
+                },
             });
     }
 
@@ -1511,16 +1700,20 @@ export class CharacterService {
         if (this.get_ManualMode()) {
             return false;
         }
+
         //For each senderId that you have a turnChange message from, remove all conditions that came from this sender and have duration 2.
         Array.from(new Set(messages.filter(message => message.selected).map(message => message.senderId))).forEach(senderId => {
             let removed = false;
+
             this.get_Creatures().forEach(creature => {
                 this.get_AppliedConditions(creature)
                     .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.durationEndsOnOtherTurnChange)
                     .forEach(existingConditionGain => {
                         removed = this.remove_Condition(creature, existingConditionGain, false);
+
                         if (removed) {
                             const senderName = this.savegameService.getSavegames().find(savegame => savegame.id == senderId)?.name || 'Unknown';
+
                             this.toastService.show(`Automatically removed <strong>${ existingConditionGain.name }${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }</strong> condition from <strong>${ creature.name || creature.type }</strong> on turn of <strong>${ senderName }</strong>`);
                             this.refreshService.set_ToChange(creature.type, 'effects');
                         }
@@ -1537,12 +1730,14 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
+
         this.messageService.get_Time()
             .subscribe({
                 next: result => {
                     const timeStamp = result.time;
                     const creatures = this.get_Creatures();
                     const messages: Array<PlayerMessage> = [];
+
                     targets.forEach(target => {
                         if (creatures.some(creature => creature.id == target.id)) {
                             //Catch any messages that go to your own creatures
@@ -1550,20 +1745,26 @@ export class CharacterService {
                         } else {
                             //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                             const message = new PlayerMessage();
+
                             message.recipientId = target.playerId;
                             message.senderId = this.get_Character().id;
                             message.targetId = target.id;
+
                             const date = new Date();
+
                             message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                             message.timeStamp = timeStamp;
                             message.gainCondition.push(Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast());
+
                             if (message.gainCondition.length) {
                                 message.gainCondition[0].foreignPlayerId = message.senderId;
                             }
+
                             message.activateCondition = activate;
                             messages.push(message);
                         }
                     });
+
                     if (messages.length) {
                         this.messageService.send_Messages(messages)
                             .subscribe({
@@ -1571,25 +1772,25 @@ export class CharacterService {
                                     //If messages were sent, send a summary toast.
                                     this.toastService.show(`Sent effects to ${ messages.length } targets.`);
                                 },
-                                error: (error) => {
+                                error: error => {
                                     if (error.status == 401) {
                                         this.configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
                                     } else {
                                         this.toastService.show('An error occurred while sending effects. See console for more information.');
                                         console.log(`Error saving effect messages to database: ${ error.message }`);
                                     }
-                                }
+                                },
                             });
                     }
                 },
-                error: (error) => {
+                error: error => {
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
                         console.log(`Error saving effect messages to database: ${ error.message }`);
                     }
-                }
+                },
             });
     }
 
@@ -1598,17 +1799,21 @@ export class CharacterService {
         if (this.get_ManualMode()) {
             return false;
         }
+
         //Iterate through all messages that have a gainCondition (only one per message will be applied) and either add or remove the appropriate conditions.
         //The ConditionGains have a foreignPlayerId that allows us to recognize that they came from this player.
         messages.forEach(message => {
             if (message.selected) {
                 const targetCreature = this.get_MessageCreature(message);
+
                 if (message.activateCondition) {
                     if (targetCreature && message.gainCondition.length) {
                         const conditionGain: ConditionGain = message.gainCondition[0];
                         const newLength = this.add_Condition(targetCreature, conditionGain, {}, { noReload: true });
+
                         if (newLength) {
                             const senderName = this.get_MessageSender(message);
+
                             //If a condition was created, send a toast to inform the user.
                             this.toastService.show(`Added <strong>${ conditionGain.name }${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition to <strong>${ targetCreature.name || targetCreature.type }</strong> (sent by <strong>${ senderName.trim() }</strong>)`);
                         }
@@ -1617,19 +1822,23 @@ export class CharacterService {
                     if (targetCreature && message.gainCondition.length) {
                         const conditionGain: ConditionGain = message.gainCondition[0];
                         let removed = false;
+
                         this.get_AppliedConditions(targetCreature, message.gainCondition[0].name)
                             .filter(existingConditionGain => existingConditionGain.foreignPlayerId == message.senderId && existingConditionGain.source == message.gainCondition[0].source)
                             .forEach(existingConditionGain => {
                                 removed = this.remove_Condition(targetCreature, existingConditionGain, false);
                             });
+
                         if (removed) {
                             const senderName = this.get_MessageSender(message);
+
                             //If a condition was removed, send a toast to inform the user.
                             this.toastService.show(`Removed <strong>${ conditionGain.name }${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition from <strong>${ targetCreature.name || targetCreature.type }</strong> (added by <strong>${ senderName.trim() }</strong>)`);
                         }
                     }
                 }
             }
+
             this.messageService.mark_MessageAsIgnored(this, message);
         });
     }
@@ -1639,21 +1848,28 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
+
         this.messageService.get_Time()
             .subscribe({
                 next: result => {
                     const timeStamp = result.time;
+
                     if (!amount) {
                         amount == item.amount;
                     }
+
                     this.itemsService.update_GrantingItem(sender, item);
+
                     const included: { items: Array<Item>; inventories: Array<ItemCollection> } = this.itemsService.pack_GrantingItem(sender, item);
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const message = new PlayerMessage();
+
                     message.recipientId = target.playerId;
                     message.senderId = this.get_Character().id;
                     message.targetId = target.id;
+
                     const date = new Date();
+
                     message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     message.timeStamp = timeStamp;
                     message.offeredItem.push(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(item))).recast(this.typeService, this.itemsService));
@@ -1666,24 +1882,24 @@ export class CharacterService {
                                 //If the message was sent, send a summary toast.
                                 this.toastService.show(`Sent item offer to <strong>${ target.name }</strong>.`);
                             },
-                            error: (error) => {
+                            error: error => {
                                 if (error.status == 401) {
                                     this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
                                 } else {
                                     this.toastService.show('An error occurred while sending item. See console for more information.');
                                     console.log(`Error saving item message to database: ${ error.message }`);
                                 }
-                            }
+                            },
                         });
                 },
-                error: (error) => {
+                error: error => {
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
                     } else {
                         this.toastService.show('An error occurred while sending item. See console for more information.');
                         console.log(`Error saving item message to database: ${ error.message }`);
                     }
-                }
+                },
             });
     }
 
@@ -1692,40 +1908,52 @@ export class CharacterService {
         if (this.get_ManualMode()) {
             return false;
         }
+
         //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.
         messages.forEach(message => {
             const targetCreature = this.get_MessageCreature(message);
+
             if (message.selected) {
                 const sender = this.get_MessageSender(message);
+
                 if (targetCreature && message.offeredItem.length) {
                     //We can't use grant_InventoryItem, because these items are initialized and possibly bringing their own inventories and gained items.
                     //We have to process the item directly here.
                     if (targetCreature instanceof Character || targetCreature instanceof AnimalCompanion) {
                         const targetInventory = targetCreature.inventories[0];
                         let addedPrimaryItem: Item;
+
                         message.offeredItem.concat(message.includedItems).forEach(item => {
                             if (item === message.offeredItem[0]) {
                                 item.amount = message.itemAmount;
                             }
+
                             const typedItem = this.itemsService.cast_ItemByType(item);
                             const existingItems = targetInventory[typedItem.type].filter((existing: Item) => existing.name == typedItem.name && existing.canStack() && !typedItem.expiration);
+
                             //If any existing, stackable items are found, add this item's amount on top and finish.
                             //If no items are found, add the new item to the inventory and process it as a new item (skipping gained items and gained inventories).
                             if (existingItems.length) {
                                 existingItems[0].amount += typedItem.amount;
+
                                 if (typedItem.id === message.offeredItem[0].id) {
                                     addedPrimaryItem = existingItems[0];
                                 }
+
                                 this.refreshService.set_ToChange(targetCreature.type, 'inventory');
                                 this.refreshService.set_Changed(existingItems[0].id);
                             } else {
                                 typedItem.recast(this.typeService, this.itemsService);
+
                                 const newLength = targetInventory[typedItem.type].push(typedItem);
                                 const addedItem = targetInventory[typedItem.type][newLength - 1];
+
                                 this.refreshService.set_ToChange(targetCreature.type, 'inventory');
+
                                 if (item.id === message.offeredItem[0].id) {
                                     addedPrimaryItem = addedItem;
                                 }
+
                                 this.process_GrantedItem((targetCreature), addedItem, targetInventory, true, false, true, true);
                             }
                         });
@@ -1733,31 +1961,42 @@ export class CharacterService {
                         message.includedInventories.forEach(inventory => {
                             const newLength = targetCreature.inventories.push(inventory);
                             const newInventory = targetCreature.inventories[newLength - 1];
+
                             newInventory.allItems().forEach(invItem => {
                                 this.process_GrantedItem((targetCreature), invItem, newInventory, true, false, true, true);
                             });
                         });
+
                         if (addedPrimaryItem) {
                             //Build a toast message and send it.
                             let text = 'Received <strong>';
+
                             if (message.itemAmount > 1) {
                                 text += `${ message.itemAmount } `;
                             }
+
                             text += addedPrimaryItem.getName();
+
                             if (sender) {
                                 text += `</strong> from <strong>${ sender }</strong>`;
                             }
+
                             if (message.includedItems.length || message.includedInventories.length) {
                                 text += ', including ';
+
                                 const includedText: Array<string> = [];
+
                                 if (message.includedItems.length) {
                                     includedText.push(`${ message.includedItems.length } extra items`);
                                 }
+
                                 if (message.includedInventories.length) {
                                     includedText.push(`${ message.includedInventories.length } containers`);
                                 }
+
                                 text += includedText.join(' and ');
                             }
+
                             text += '.';
                             this.toastService.show(text);
                             //Build a response message that lets the other player know that the item has been accepted.
@@ -1769,6 +2008,7 @@ export class CharacterService {
                 //Build a response message that lets the other player know that the item has been rejected.
                 this.send_ItemAcceptedMessage(message, false);
             }
+
             this.messageService.mark_MessageAsIgnored(this, message);
         });
     }
@@ -1778,25 +2018,31 @@ export class CharacterService {
         if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
             return false;
         }
+
         this.messageService.get_Time()
             .subscribe({
                 next: result => {
                     const timeStamp = result.time;
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const response = new PlayerMessage();
+
                     response.recipientId = message.senderId;
                     response.senderId = this.get_Character().id;
                     response.targetId = message.senderId;
+
                     const target = this.get_MessageSender(message) || 'sender';
                     const date = new Date();
+
                     response.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     response.timeStamp = timeStamp;
                     response.itemAmount = message.itemAmount;
+
                     if (accepted) {
                         response.acceptedItem = message.offeredItem[0].id;
                     } else {
                         response.rejectedItem = message.offeredItem[0].id;
                     }
+
                     this.messageService.send_Messages([response])
                         .subscribe({
                             next: () => {
@@ -1807,24 +2053,24 @@ export class CharacterService {
                                     this.toastService.show(`Sent rejection response to <strong>${ target }</strong>.`);
                                 }
                             },
-                            error: (error) => {
+                            error: error => {
                                 if (error.status == 401) {
                                     this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
                                 } else {
                                     this.toastService.show('An error occurred while sending response. See console for more information.');
                                     console.log(`Error saving response message to database: ${ error.message }`);
                                 }
-                            }
+                            },
                         });
                 },
-                error: (error) => {
+                error: error => {
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
                     } else {
                         this.toastService.show('An error occurred while sending response. See console for more information.');
                         console.log(`Error saving response message to database: ${ error.message }`);
                     }
-                }
+                },
             });
     }
 
@@ -1833,14 +2079,17 @@ export class CharacterService {
         if (this.get_ManualMode()) {
             return false;
         }
+
         //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.
         messages.forEach(message => {
             const sender = this.get_MessageSender(message) || 'The player ';
+
             if (message.acceptedItem || message.rejectedItem) {
                 let foundItem: Item;
                 let foundInventory: ItemCollection;
                 let foundCreature: Creature;
                 let itemName = 'item';
+
                 this.get_Creatures().forEach(creature => {
                     creature.inventories.forEach(inventory => {
                         if (!foundItem) {
@@ -1850,11 +2099,14 @@ export class CharacterService {
                         }
                     });
                 });
+
                 if (foundItem) {
                     itemName = foundItem.getName();
                 }
+
                 if (message.acceptedItem) {
                     this.toastService.show(`<strong>${ sender }</strong> has accepted the <strong>${ itemName }</strong>. The item is dropped from your inventory.`);
+
                     if (foundItem) {
                         this.drop_InventoryItem(foundCreature, foundInventory, foundItem, false, true, true, message.itemAmount);
                     }
@@ -1862,6 +2114,7 @@ export class CharacterService {
                     this.toastService.show(`<strong>${ sender }</strong> has rejected the <strong>${ itemName }</strong>. The item will remain in your inventory.`);
                 }
             }
+
             this.messageService.mark_MessageAsIgnored(this, message);
         });
         this.refreshService.process_ToChange();
@@ -1875,6 +2128,7 @@ export class CharacterService {
         //Make a copy of the prepared OnceEffects and clear the original.
         //Some OnceEffects can cause effects to be regenerated, which calls this function again, so we need to clear them to avoid duplicate applications.
         const preparedOnceEffects = this.preparedOnceEffects.slice();
+
         this.preparedOnceEffects.length = 0;
         preparedOnceEffects.forEach(prepared => {
             this.process_OnceEffect(this.get_Creature(prepared.creatureType), prepared.effectGain, prepared.conditionValue, prepared.conditionHeightened, prepared.conditionChoice, prepared.conditionSpellCastingAbility);
@@ -1883,24 +2137,28 @@ export class CharacterService {
 
     public process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue = 0, conditionHeightened = 0, conditionChoice = '', conditionSpellCastingAbility = '') {
         let value = 0;
+
         try {
             //we eval the effect value by sending it to the evaluationService with some additional attributes and receive the resulting effect.
             if (effectGain.value) {
                 const testObject = { spellSource: effectGain.spellSource, value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility };
                 const validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature, object: testObject, effect: effectGain });
-                if (validationResult && typeof validationResult == 'number') {
+
+                if (validationResult && typeof validationResult === 'number') {
                     value = validationResult;
                 }
             }
         } catch (error) {
             value = 0;
         }
+
         let recipientName = '';
         let recipientName2 = 'It';
         let recipientName3 = 'it';
         let recipientGenitive = 'its';
         let recipientIs = 'is';
         let recipientHas = 'has';
+
         if (creature instanceof Character) {
             recipientName = 'You';
             recipientName2 = 'You';
@@ -1913,25 +2171,31 @@ export class CharacterService {
         } else if (creature instanceof Familiar) {
             recipientName = this.get_Familiar().name || 'Your familiar';
         }
+
         switch (effectGain.affected) {
             case 'Focus Points':
                 if (value) {
                     const maxFocusPoints = this.get_MaxFocusPoints();
+
                     if (maxFocusPoints == 0) {
                         this.toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
                         break;
                     }
+
                     this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, maxFocusPoints);
                     //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
                     // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
                     (creature as Character).class.focusPoints += value;
+
                     if (value >= 0) {
                         this.toastService.show(`You gained ${ value } focus point${ value == 1 ? '' : 's' }.`);
                     } else {
                         this.toastService.show(`You lost ${ value * -1 } focus point${ value == 1 ? '' : 's' }.`);
                     }
+
                     this.refreshService.set_ToChange('Character', 'spellbook');
                 }
+
                 break;
             case 'Temporary HP':
                 //When you get temporary HP, some things to process:
@@ -1956,22 +2220,28 @@ export class CharacterService {
                     }
                 } else if (value < 0) {
                     const targetTempHPSet = creature.health.temporaryHP.find(tempHPSet => ((tempHPSet.source == 'Manual') && (effectGain.source == 'Manual')) || tempHPSet.sourceId == effectGain.sourceId);
+
                     if (targetTempHPSet) {
                         targetTempHPSet.amount += value;
+
                         if (targetTempHPSet === creature.health.temporaryHP[0]) {
                             creature.health.temporaryHP.length = 1;
+
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
                             }
+
                             this.toastService.show(`${ recipientName } lost ${ value * -1 } temporary HP.`);
                         } else {
                             if (targetTempHPSet.amount <= 0) {
                                 creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
                             }
+
                             this.toastService.show(`${ recipientName } lost ${ value * -1 } of the temporary HP gained from ${ effectGain.source }. This is not the set of temporary HP that ${ recipientName3 } ${ recipientIs } currently using.`);
                         }
                     }
                 }
+
                 this.refreshService.set_ToChange(creature.type, 'health');
                 //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
                 this.refreshService.set_ToChange('Character', 'health');
@@ -1981,32 +2251,41 @@ export class CharacterService {
                 if (value > 0) {
                     const result = creature.health.heal(creature, this, this.effectsService, value, true);
                     let results = '';
+
                     if (result.unconsciousRemoved) {
                         results = ` This removed ${ recipientGenitive } Unconscious condition.`;
                     }
+
                     if (result.dyingRemoved) {
                         results = ` This removed ${ recipientGenitive } Dying condition.`;
                     }
+
                     this.toastService.show(`${ recipientName } gained ${ value } HP from ${ effectGain.source }.${ results }`);
                 } else if (value < 0) {
                     const result = creature.health.takeDamage(creature, this, this.effectsService, -value, false);
                     let results = '';
+
                     if (result.unconsciousAdded) {
                         results = ` ${ recipientName } ${ recipientIs } now Unconscious.`;
                     }
+
                     if (result.dyingAdded && effectGain.source != 'Dead') {
                         results = ` ${ recipientName2 } ${ recipientIs } now Dying ${ result.dyingAdded }.`;
                     }
+
                     if (result.wokeUp) {
                         results = ` This removed ${ recipientGenitive } Unconscious condition.`;
                     }
+
                     this.toastService.show(`${ recipientName } lost ${ value * -1 } HP from ${ effectGain.source }.${ results }`);
                 }
+
                 this.refreshService.set_ToChange(creature.type, 'health');
                 this.refreshService.set_ToChange(creature.type, 'effects');
                 break;
             case 'Raise Shield': {
                 const shield = this.get_Character().inventories[0].shields.find(shield => shield.equipped);
+
                 if (shield) {
                     if (value > 0) {
                         shield.raised = true;
@@ -2015,13 +2294,16 @@ export class CharacterService {
                         shield.raised = false;
                         this.toastService.show('Your shield was lowered.');
                     }
+
                     this.refreshService.set_ToChange(creature.type, 'defense');
                     this.refreshService.set_ToChange(creature.type, 'effects');
                 }
+
                 break;
             }
             case 'Cover':
                 this.defenseService.get_AC().set_Cover(creature, value, null, this, this.conditionsService);
+
                 switch (value) {
                     case 0:
                         this.toastService.show(`${ recipientName } ${ recipientIs } no longer taking cover.`);
@@ -2036,6 +2318,7 @@ export class CharacterService {
                         this.toastService.show(`${ recipientName } now ${ recipientHas } greater cover.`);
                         break;
                 }
+
                 break;
         }
     }
@@ -2091,52 +2374,66 @@ export class CharacterService {
         let senses: Array<string> = [];
 
         let ancestrySenses: Array<string>;
+
         if (creature instanceof Familiar) {
             ancestrySenses = creature.senses;
         } else {
             ancestrySenses = (creature as AnimalCompanion | Character).class?.ancestry?.senses;
         }
+
         if (ancestrySenses.length) {
             senses.push(...ancestrySenses);
         }
+
         if (creature instanceof Character) {
             const heritageSenses = creature.class.heritage.senses;
+
             if (heritageSenses.length) {
                 senses.push(...heritageSenses);
             }
+
             this.get_CharacterFeatsAndFeatures()
                 .filter(feat => feat.senses?.length && feat.have({ creature }, { characterService: this }, { charLevel }))
                 .forEach(feat => {
                     senses.push(...feat.senses);
                 });
         }
+
         if (creature instanceof Familiar) {
-            creature.abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(ability => ability?.senses.length).forEach(ability => {
-                senses.push(...ability.senses);
-            });
+            creature.abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(ability => ability?.senses.length)
+                .forEach(ability => {
+                    senses.push(...ability.senses);
+                });
         }
+
         if (allowTemporary) {
             senses.push(...this.get_EquipmentSenses(creature));
-            this.get_AppliedConditions(creature).filter(gain => gain.apply).forEach(gain => {
-                const condition = this.conditionsService.get_Conditions(gain.name)[0];
-                if (condition?.senses.length) {
+            this.get_AppliedConditions(creature).filter(gain => gain.apply)
+                .forEach(gain => {
+                    const condition = this.conditionsService.get_Conditions(gain.name)[0];
+
+                    if (condition?.senses.length) {
                     //Add all non-excluding senses.
-                    senses.push(...condition.senses.filter(sense => !sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).map(sense => sense.name));
-                    //Remove all excluding senses.
-                    condition.senses.filter(sense => sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).forEach(sense => {
-                        senses = senses.filter(existingSense => existingSense != sense.name);
-                    });
-                }
-            });
+                        senses.push(...condition.senses.filter(sense => !sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).map(sense => sense.name));
+                        //Remove all excluding senses.
+                        condition.senses.filter(sense => sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).forEach(sense => {
+                            senses = senses.filter(existingSense => existingSense != sense.name);
+                        });
+                    }
+                });
         }
+
         return Array.from(new Set(senses));
     }
 
     get_EquipmentSenses(creature: Creature): Array<string> {
         const senses: Array<string> = [];
-        creature.inventories[0].allEquipment().filter(equipment => equipment.gainSenses.length && equipment.investedOrEquipped()).forEach(equipment => {
-            senses.push(...equipment.gainSenses);
-        });
+
+        creature.inventories[0].allEquipment().filter(equipment => equipment.gainSenses.length && equipment.investedOrEquipped())
+            .forEach(equipment => {
+                senses.push(...equipment.gainSenses);
+            });
+
         return senses;
     }
 
@@ -2157,9 +2454,9 @@ export class CharacterService {
                             objectName.toLowerCase().includes(' lore')
                         ) &&
                         showon.trim().toLowerCase() == 'lore'
-                    )
-                )
-            ) && feat.have({ creature: this.get_Character() }, { characterService: this })
+                    ),
+                ),
+            ) && feat.have({ creature: this.get_Character() }, { characterService: this }),
         );
     }
 
@@ -2175,10 +2472,10 @@ export class CharacterService {
                                 hint.showon?.split(',')
                                     .find(showon =>
                                         objectName == 'all' ||
-                                        showon.trim().toLowerCase() == objectName.toLowerCase()
-                                    )
-                            )
-                    )
+                                        showon.trim().toLowerCase() == objectName.toLowerCase(),
+                                    ),
+                            ),
+                    ),
             )
             .concat(
                 this.get_Companion().class.specializations
@@ -2189,14 +2486,14 @@ export class CharacterService {
                                 hint.showon?.split(',')
                                     .find(showon =>
                                         objectName == 'all' ||
-                                        showon.trim().toLowerCase() == objectName.toLowerCase()
-                                    )
-                            )
-                    )
+                                        showon.trim().toLowerCase() == objectName.toLowerCase(),
+                                    ),
+                            ),
+                    ),
             )
             //Return any feats that include e.g. Companion:Athletics
             .concat(
-                this.get_FeatsShowingOn(`Companion:${ objectName }`)
+                this.get_FeatsShowingOn(`Companion:${ objectName }`),
             ) as Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat>;
     }
 
@@ -2214,17 +2511,18 @@ export class CharacterService {
                             objectName.toLowerCase().includes(' lore')
                         ) &&
                         showon.trim().toLowerCase() == 'lore'
-                    )
-                )
-            ) && feat.have({ creature: this.get_Familiar() }, { characterService: this })
+                    ),
+                ),
+            ) && feat.have({ creature: this.get_Familiar() }, { characterService: this }),
             //Return any feats that include e.g. Companion:Athletics
-        ).concat(this.get_FeatsShowingOn(`Familiar:${ objectName }`));
+        )
+            .concat(this.get_FeatsShowingOn(`Familiar:${ objectName }`));
     }
 
     get_ConditionsShowingOn(creature: Creature, objectName = 'all') {
         return this.get_AppliedConditions(creature)
             .filter(conditionGain => conditionGain.apply)
-            .map(conditionGain => { return Object.assign(new ConditionSet, { gain: conditionGain, condition: this.get_Conditions(conditionGain.name)[0] }); })
+            .map(conditionGain => Object.assign(new ConditionSet(), { gain: conditionGain, condition: this.get_Conditions(conditionGain.name)[0] }))
             .filter(conditionSet =>
                 conditionSet.condition?.hints.find(hint =>
                     (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
@@ -2237,28 +2535,33 @@ export class CharacterService {
                                 objectName.toLowerCase().includes(' lore')
                             ) &&
                             showon.trim().toLowerCase() == 'lore'
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             );
     }
 
     get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): Array<ActivityGain> {
         const activities: Array<ActivityGain | ItemActivity> = [];
+
         if (!this.still_loading()) {
             if (creature instanceof Character) {
                 activities.push(...creature.class.activities.filter(gain => gain.level <= levelNumber));
             }
+
             if (creature instanceof AnimalCompanion) {
                 activities.push(...creature.class?.ancestry?.activities.filter(gain => gain.level <= levelNumber) || []);
             }
+
             //Get all applied condition gains' activity gains. These were copied from the condition when it was added. Also set the condition gain's spell level to the activity gain.
-            this.get_AppliedConditions(creature, '', '', true).filter(gain => gain.apply).forEach(gain => {
-                gain.gainActivities.forEach(activityGain => {
-                    activityGain.heightened = gain.heightened;
+            this.get_AppliedConditions(creature, '', '', true).filter(gain => gain.apply)
+                .forEach(gain => {
+                    gain.gainActivities.forEach(activityGain => {
+                        activityGain.heightened = gain.heightened;
+                    });
+                    activities.push(...gain.gainActivities);
                 });
-                activities.push(...gain.gainActivities);
-            });
+
             //With the all parameter, get all activities of all items regardless of whether they are equipped or invested or slotted.
             // This is used for ticking down cooldowns.
             if (all) {
@@ -2270,39 +2573,45 @@ export class CharacterService {
                                 //Only get Emblazon Armament activities if the blessing applies.
                                 activities.push(...item.gainActivities.filter(gain =>
                                     (item._emblazonEnergy ? true : gain.source != 'Emblazon Energy') &&
-                                    (item._emblazonAntimagic ? true : gain.source != 'Emblazon Antimagic')
+                                    (item._emblazonAntimagic ? true : gain.source != 'Emblazon Antimagic'),
                                 ));
                             } else {
                                 activities.push(...item.gainActivities);
                             }
                         }
+
                         if (item.activities.length) {
                             activities.push(...item.activities);
                         }
+
                         //Get activities from runes.
                         if (item.propertyRunes) {
                             item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
                                 activities.push(...rune.activities);
                             });
                         }
+
                         //Get activities from runes.
                         if (item.bladeAllyRunes) {
                             item.bladeAllyRunes.filter(rune => rune.activities.length).forEach(rune => {
                                 activities.push(...rune.activities);
                             });
                         }
+
                         //Get activities from Oils emulating runes.
                         if (item.oilsApplied) {
                             item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
                                 activities.push(...oil.runeEffect.activities);
                             });
                         }
+
                         //Get activities from slotted Aeon Stones.
                         if ((item as WornItem).aeonStones) {
                             (item as WornItem).aeonStones.filter(stone => stone.activities.length).forEach(stone => {
                                 activities.push(...stone.activities);
                             });
                         }
+
                         item.traits
                             .map(trait => this.traitsService.getTraits(trait)[0])
                             .filter(trait => trait?.gainActivities.length)
@@ -2319,42 +2628,50 @@ export class CharacterService {
             } else {
                 //Without the all parameter, get activities only from equipped and invested items and their slotted items.
                 const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(creature);
+
                 creature.inventories[0]?.allEquipment()
                     .filter(item =>
                         item.investedOrEquipped() &&
-                        !item.broken
-                    ).forEach((item: Equipment) => {
+                        !item.broken,
+                    )
+                    .forEach((item: Equipment) => {
                         if (item.gainActivities.length) {
                             activities.push(...item.gainActivities);
                         }
+
                         //DO NOT get resonant activities at this point; they are only available if the item is slotted into a wayfinder.
                         if (item.activities.length) {
                             activities.push(...item.activities.filter(activity => !activity.resonant || all));
                         }
+
                         //Get activities from runes.
                         if (item.propertyRunes) {
                             item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
                                 activities.push(...rune.activities);
                             });
                         }
+
                         //Get activities from blade ally runes.
                         if ((item instanceof Weapon || item instanceof WornItem) && item.bladeAllyRunes && item.bladeAlly) {
                             item.bladeAllyRunes.filter(rune => rune.activities.length).forEach(rune => {
                                 activities.push(...rune.activities);
                             });
                         }
+
                         //Get activities from oils emulating runes.
                         if (item.oilsApplied) {
                             item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
                                 activities.push(...oil.runeEffect.activities);
                             });
                         }
+
                         //Get activities from slotted aeon stones, NOW including resonant activities.
                         if (!tooManySlottedAeonStones && item instanceof WornItem) {
                             item.aeonStones.filter(stone => stone.activities.length).forEach(stone => {
                                 activities.push(...stone.activities);
                             });
                         }
+
                         item.traits
                             .map(trait => this.traitsService.getTraits(trait)[0])
                             .filter(trait => trait?.gainActivities.length)
@@ -2364,6 +2681,7 @@ export class CharacterService {
                     });
             }
         }
+
         return activities
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
@@ -2371,7 +2689,7 @@ export class CharacterService {
     get_ActivitiesShowingOn(creature: Creature, objectName = 'all') {
         return this.get_OwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
-            .map(gain => { return { gain, activity: gain.get_OriginalActivity(this.activitiesService) }; })
+            .map(gain => ({ gain, activity: gain.get_OriginalActivity(this.activitiesService) }))
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
             .filter((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) => gainAndActivity.activity && (gainAndActivity.gain.active || !gainAndActivity.activity.toggle))
             //...and then keep only the activities.
@@ -2387,14 +2705,15 @@ export class CharacterService {
                                 objectName.toLowerCase().includes(' lore')
                             ) &&
                             showon.trim().toLowerCase() == 'lore'
-                        )
-                    )
-                )
+                        ),
+                    ),
+                ),
             );
     }
 
     get_ItemsShowingOn(creature: Creature, objectName = 'all') {
         const returnedItems: Array<Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material> = [];
+
         //Prepare function to add items whose hints match the objectName.
         function get_Hints(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material, allowResonant: boolean) {
             if (item.hints
@@ -2421,42 +2740,50 @@ export class CharacterService {
                                     showon == 'Emblazon Antimagic Shield Block'
                                 )
                             )
-                        )
-                    )
+                        ),
+                    ),
                 )
             ) {
                 returnedItems.push(item);
             }
         }
+
         const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(creature);
+
         creature.inventories.forEach(inventory => {
-            inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.canInvest() ? item.invested : true)).forEach(item => {
-                get_Hints(item, false);
-                item.oilsApplied.forEach(oil => {
-                    get_Hints(oil, false);
+            inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.canInvest() ? item.invested : true))
+                .forEach(item => {
+                    get_Hints(item, false);
+                    item.oilsApplied.forEach(oil => {
+                        get_Hints(oil, false);
+                    });
+
+                    if (!tooManySlottedAeonStones && item instanceof WornItem) {
+                        item.aeonStones.forEach(stone => {
+                            get_Hints(stone, true);
+                        });
+                    }
+
+                    if ((item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) && item.propertyRunes) {
+                        item.propertyRunes.forEach(rune => {
+                            get_Hints(rune as WeaponRune, false);
+                        });
+                    }
+
+                    if (item instanceof Armor && item.propertyRunes) {
+                        (item as Equipment).propertyRunes.forEach(rune => {
+                            get_Hints(rune as ArmorRune, false);
+                        });
+                    }
+
+                    if (item instanceof Equipment && item.moddable && item.material) {
+                        item.material.forEach(material => {
+                            get_Hints(material, false);
+                        });
+                    }
                 });
-                if (!tooManySlottedAeonStones && item instanceof WornItem) {
-                    item.aeonStones.forEach(stone => {
-                        get_Hints(stone, true);
-                    });
-                }
-                if ((item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) && item.propertyRunes) {
-                    item.propertyRunes.forEach(rune => {
-                        get_Hints(rune as WeaponRune, false);
-                    });
-                }
-                if (item instanceof Armor && item.propertyRunes) {
-                    (item as Equipment).propertyRunes.forEach(rune => {
-                        get_Hints(rune as ArmorRune, false);
-                    });
-                }
-                if (item instanceof Equipment && item.moddable && item.material) {
-                    item.material.forEach(material => {
-                        get_Hints(material, false);
-                    });
-                }
-            });
         });
+
         return returnedItems;
     }
 
@@ -2476,9 +2803,9 @@ export class CharacterService {
                                             objectName.toLowerCase().includes(' lore')
                                         ) &&
                                         showon.trim().toLowerCase() == 'lore'
-                                    )
-                                )
-                        )
+                                    ),
+                                ),
+                        ),
                 );
         } else {
             return [];
@@ -2487,12 +2814,14 @@ export class CharacterService {
 
     get_MaxFocusPoints() {
         let focusPoints = 0;
+
         this.effectsService.get_AbsolutesOnThis(this.get_Character(), 'Focus Pool').forEach(effect => {
             focusPoints = parseInt(effect.setValue);
         });
         this.effectsService.get_RelativesOnThis(this.get_Character(), 'Focus Pool').forEach(effect => {
             focusPoints += parseInt(effect.value);
         });
+
         return Math.min(focusPoints, 3);
     }
 
@@ -2510,7 +2839,9 @@ export class CharacterService {
 
     initialize_AnimalCompanion() {
         const character = this.get_Character();
+
         this.cacheService.reset_CreatureCache(1);
+
         if (character.class.animalCompanion) {
             character.class.animalCompanion = Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this.typeService, this.itemsService);
             character.class.animalCompanion.class.levels = this.get_AnimalCompanionLevels();
@@ -2527,7 +2858,9 @@ export class CharacterService {
 
     initialize_Familiar() {
         const character = this.get_Character();
+
         this.cacheService.reset_CreatureCache(2);
+
         if (character.class.familiar) {
             character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this.typeService, this.itemsService);
             this.refreshService.set_ToChange('Familiar', 'all');
@@ -2537,6 +2870,7 @@ export class CharacterService {
     initialize() {
         this.loading = true;
         this.set_LoadingStatus('Loading extensions');
+
         const waitForFileServices = setInterval(() => {
             if (!this.extensionsService.still_loading() && !this.configService.still_loading()) {
                 clearInterval(waitForFileServices);
@@ -2559,12 +2893,14 @@ export class CharacterService {
         this.animalCompanionsService.reset();
         this.familiarsService.reset();
         this.messageService.reset();
+
         if (id) {
             this.set_LoadingStatus('Loading character');
             this.load_CharacterFromDB(id)
                 .subscribe({
                     next: (results: Array<Partial<Character>>) => {
                         this.loader = results;
+
                         if (this.loader) {
                             this.finish_Loading(loadAsGM);
                         } else {
@@ -2572,7 +2908,7 @@ export class CharacterService {
                             this.cancel_Loading();
                         }
                     },
-                    error: (error) => {
+                    error: error => {
                         if (error.status == 401) {
                             this.configService.on_LoggedOut('Your login is no longer valid. The character could not be loaded. Please try again after logging in.');
                             this.cancel_Loading();
@@ -2581,7 +2917,7 @@ export class CharacterService {
                             console.log(`Error loading character from database: ${ error.message }`);
                             this.cancel_Loading();
                         }
-                    }
+                    },
                 });
         } else {
             this.me = new Character();
@@ -2600,14 +2936,14 @@ export class CharacterService {
                     this.toastService.show(`Deleted ${ savegame.name || 'character' } from database.`);
                     this.savegameService.reset();
                 },
-                error: (error) => {
+                error: error => {
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid. The character could not be deleted. Please try again after logging in.');
                     } else {
                         this.toastService.show('An error occurred while deleting the character. See console for more information.');
                         console.log(`Error deleting from database: ${ error.message }`);
                     }
-                }
+                },
             });
     }
 
@@ -2647,33 +2983,38 @@ export class CharacterService {
         this.refreshService.set_Changed();
         this.set_LoadingStatus('Loading', false);
         this.refreshService.set_ToChange('Character', 'effects');
+
         if (!this.configService.get_LoggedIn() && !this.configService.get_CannotLogin()) {
             this.refreshService.set_ToChange('Character', 'logged-out');
         }
+
         this.refreshService.process_ToChange();
     }
 
     save_Character() {
         this.get_Character().yourTurn = this.timeService.getYourTurn();
         this.toastService.show('Saving...');
+
         const savegame = this.savegameService.prepareCharacterForSaving(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
+
         this.savegameService.saveCharacter(savegame)
             .subscribe({
-                next: (result) => {
+                next: result => {
                     if (result.lastErrorObject && result.lastErrorObject.updatedExisting) {
                         this.toastService.show(`Saved ${ this.get_Character().name || 'character' }.`);
                     } else {
                         this.toastService.show(`Created ${ this.get_Character().name || 'character' }.`);
                     }
+
                     this.savegameService.reset();
-                }, error: (error) => {
+                }, error: error => {
                     if (error.status == 401) {
                         this.configService.on_LoggedOut('Your login is no longer valid. The character could not be saved. Please try saving the character again after logging in.');
                     } else {
                         this.toastService.show('An error occurred while saving the character. See console for more information.');
                         console.log(`Error saving to database: ${ error.message }`);
                     }
-                }
+                },
             });
     }
 

@@ -10,6 +10,7 @@ export class Specialization {
     recast() {
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+
         return this;
     }
 }

@@ -6,6 +6,7 @@ export class ShieldMaterial extends Material {
     public brokenThreshold = 0;
     recast() {
         super.recast();
+
         return this;
     }
 }

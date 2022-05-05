@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-spellLibrary',
     templateUrl: './spellLibrary.component.html',
     styleUrls: ['./spellLibrary.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellLibraryComponent implements OnInit, OnDestroy {
 
@@ -35,7 +35,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         private readonly spellsService: SpellsService,
         private readonly characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        private readonly traitsService: TraitsService
+        private readonly traitsService: TraitsService,
     ) { }
 
     set_Range(amount: number) {
@@ -48,6 +48,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         } else {
             this.showList = level;
         }
+
         this.range = 0;
     }
 
@@ -163,18 +164,21 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                     this.traditionFilter ?
                         spell.traditions.includes(this.traditionFilter) :
                         !spell.traditions.includes('Focus')
-                )
-            ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
+                ),
+            )
+            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_WizardSpellCasting() {
         const casting: SpellCasting = this.get_Character().class?.spellCasting.find(casting => casting.className == 'Wizard' && casting.castingType == 'Prepared' && casting.charLevelAvailable <= this.get_Character().level);
+
         return casting || new SpellCasting('Innate');
     }
 
     get_BardSpellCasting() {
         const character = this.get_Character();
         const casting: SpellCasting = character.class?.spellCasting.find(casting => casting.className == 'Bard' && casting.castingType == 'Spontaneous' && casting.charLevelAvailable <= character.level);
+
         if (this.have_Feat('Esoteric Polymath')) {
             return casting || new SpellCasting('Innate');
         } else {
@@ -185,6 +189,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     get_SorcererSpellCasting() {
         const character = this.get_Character();
         const casting: SpellCasting = character.class?.spellCasting.find(casting => casting.className == 'Sorcerer' && casting.castingType == 'Spontaneous' && casting.charLevelAvailable <= character.level);
+
         if (this.have_Feat('Arcane Evolution')) {
             return casting || new SpellCasting('Innate');
         } else {
@@ -195,7 +200,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     get_School() {
         return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level).find(taken =>
             ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School',
-                'Illusion School', 'Necromancy School', 'Transmutation School', 'Universalist Wizard'].includes(taken.name)
+                'Illusion School', 'Necromancy School', 'Transmutation School', 'Universalist Wizard'].includes(taken.name),
         )?.name || '';
     }
 
@@ -205,16 +210,20 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             const school = this.get_School();
             const charLevel: number = this.get_Character().level;
             let overdraw = 0;
+
             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].forEach(level => {
                 let wizardLearned: number = this.get_SpellsLearned('', 'wizard', level).length;
+
                 wizardLearned += overdraw;
                 overdraw = 0;
+
                 const schoolLearned: number = this.get_SpellsLearned('', 'school', level).length;
                 let wizardAvailable = 0;
                 let schoolAvailable = 0;
                 let adaptedCantripAvailable = 0;
                 let adaptiveAdeptCantripAvailable = 0;
                 let adaptiveAdept1stLevelAvailable = 0;
+
                 if (level == 0) {
                     wizardAvailable = wizardCasting.spellBookSlots[level];
                     adaptedCantripAvailable = this.have_Feat('Adapted Cantrip') ? 1 : 0;
@@ -224,6 +233,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                         wizardAvailable += wizardCasting.spellBookSlots[index];
                     }
                 }
+
                 if (level == 1 && school) {
                     if (school == 'Universalist Wizard') {
                         wizardAvailable += 1;
@@ -231,55 +241,73 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                         schoolAvailable = 1;
                     }
                 }
+
                 if (level == 1) {
                     adaptiveAdept1stLevelAvailable = this.have_Feat('Adaptive Adept: 1st-Level Spell') ? 1 : 0;
                 }
+
                 if (wizardAvailable < wizardLearned) {
                     overdraw += wizardLearned - wizardAvailable;
                     wizardLearned = wizardAvailable;
                 }
+
                 if (wizardAvailable || schoolAvailable) {
                     result += `\n${ wizardAvailable - wizardLearned - adaptedCantripAvailable - adaptiveAdeptCantripAvailable - adaptiveAdept1stLevelAvailable } of ${ wizardAvailable - adaptedCantripAvailable - adaptiveAdeptCantripAvailable - adaptiveAdept1stLevelAvailable }${ level == 0 ? ' Arcane Cantrips' : ` Arcane spell(s) up to level ${ level }` }`;
+
                     if (schoolAvailable) {
                         result += `\n${ schoolAvailable - schoolLearned } of ${ schoolAvailable } Arcane spell(s) of the ${ school.toLowerCase() } up to level ${ level }`;
                     }
                 }
+
                 if (adaptedCantripAvailable) {
                     const adaptedCantripLearned: number = this.get_SpellsLearned('', 'adaptedcantrip').length;
+
                     result += `\n${ 1 - adaptedCantripLearned } of ${ 1 } non-Arcane Cantrips via Adapted Cantrip`;
                 }
+
                 if (adaptiveAdeptCantripAvailable) {
                     const adaptedcantrip = this.get_SpellsLearned('', 'adaptedcantrip')[0];
+
                     if (adaptedcantrip) {
                         const originalSpell = this.get_Spells(adaptedcantrip.name)[0];
+
                         if (originalSpell) {
                             const adaptiveAdeptLearned: number = this.get_SpellsLearned('', 'adaptiveadept').length;
+
                             result += `\n${ 1 - adaptiveAdeptLearned } of ${ 1 } non-Arcane Cantrips of the following traditions via Adaptive Adept: ${ originalSpell.traditions.join(', ') }`;
                         }
                     }
                 }
+
                 if (adaptiveAdept1stLevelAvailable) {
                     const adaptedcantrip = this.get_SpellsLearned('', 'adaptedcantrip')[0];
+
                     if (adaptedcantrip) {
                         const originalSpell = this.get_Spells(adaptedcantrip.name)[0];
+
                         if (originalSpell) {
                             const adaptiveAdeptLearned: number = this.get_SpellsLearned('', 'adaptiveadept').length;
+
                             result += `\n${ 1 - adaptiveAdeptLearned } of ${ 1 } non-Arcane 1st-level spell of the following traditions via Adaptive Adept: ${ originalSpell.traditions.join(', ') }`;
                         }
                     }
                 }
             });
+
             return result || '';
         } else if (bardCasting.className == 'Bard' && bardCasting.castingType == 'Spontaneous' && (this.get_EsotericPolymathAllowed(bardCasting, this.traditionFilter))) {
             let result = 'You can add any spell in your repertoire to your spellbook for free via esoteric polymath. You can learn and cast spells of the following traditions using esoteric polymath:\n';
+
             ['Arcane', 'Divine', 'Occult', 'Primal'].forEach(tradition => {
                 if (this.get_EsotericPolymathAllowed(bardCasting, tradition)) {
                     result += `\n${ tradition }`;
                 }
             });
+
             return result || '';
         } else if (sorcererCasting.className == 'Sorcerer' && sorcererCasting.castingType == 'Spontaneous' && (this.get_ArcaneEvolutionAllowed(sorcererCasting, this.traditionFilter))) {
             const result = 'You can add any spell in your repertoire to your spellbook for free via arcane evolution.';
+
             return result || '';
         } else {
             return '';
@@ -290,16 +318,20 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         if (!adaptedCantrip && casting.className == 'Wizard' && casting.castingType == 'Prepared' && (this.traditionFilter == '' || this.traditionFilter == 'Arcane' || this.get_Character().get_SpellListSpell(spell.name).length)) {
             return !this.get_SpellsLearned(spell.name).length;
         }
+
         if (adaptedCantrip && casting.className == 'Wizard' && casting.castingType == 'Prepared' && (this.traditionFilter == '' || this.traditionFilter != 'Arcane')) {
             return this.have_Feat('Adapted Cantrip') && spell.traits.includes('Cantrip') && !this.get_SpellsLearned(spell.name).length;
         }
+
         if (adaptiveAdept && casting.className == 'Wizard' && casting.castingType == 'Prepared' && (this.traditionFilter == '' || this.traditionFilter != 'Arcane')) {
             return (this.have_Feat('Adaptive Adept: Cantrip') && spell.traits.includes('Cantrip') && !this.get_SpellsLearned(spell.name).length) ||
                 (this.have_Feat('Adaptive Adept: 1st-Level Spell') && spell.levelreq == 1 && !this.get_SpellsLearned(spell.name).length);
         }
+
         if (casting.className == 'Bard' && casting.castingType == 'Spontaneous' && (this.traditionFilter == '' || this.traditionFilter == 'Occult' || this.get_Character().get_SpellListSpell(spell.name).length)) {
             return !this.get_SpellsLearned(spell.name).length;
         }
+
         if (casting.className == 'Sorcerer' && casting.castingType == 'Spontaneous' && (this.traditionFilter == '' || this.traditionFilter == 'Arcane' || this.get_Character().get_SpellListSpell(spell.name).length)) {
             return !this.get_SpellsLearned(spell.name).length;
         }
@@ -311,6 +343,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
     can_Learn(casting: SpellCasting, level: number, spell: Spell, source: string) {
         const character = this.get_Character();
+
         if (source == 'wizard' && casting.className == 'Wizard' && (spell.traditions.includes('Arcane') || character.get_SpellListSpell(spell.name).length)) {
             const charLevel: number = character.level;
             const wizardLearned: number = this.get_SpellsLearned('', 'wizard').filter(learned => learned.level == level && (learned.level > 0 || level == 0)).length;
@@ -320,6 +353,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             const adaptedCantripAvailable = this.have_Feat('Adapted Cantrip') ? 1 : 0;
             const adaptiveAdeptCantripAvailable = this.have_Feat('Adaptive Adept: Cantrip') ? 1 : 0;
             const adaptiveAdept1stLevelAvailable = this.have_Feat('Adaptive Adept: 1st-Level Spell') ? 1 : 0;
+
             if (level == 0) {
                 wizardAvailable = casting.spellBookSlots[level] - adaptedCantripAvailable - adaptiveAdeptCantripAvailable;
                 wizardAvailableAll = casting.spellBookSlots[level] - adaptedCantripAvailable - adaptiveAdeptCantripAvailable;
@@ -327,31 +361,39 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                 for (let index = level * 2 - 1; index <= charLevel; index++) {
                     wizardAvailable += casting.spellBookSlots[index];
                 }
+
                 for (let index = 1; index <= charLevel; index++) {
                     wizardAvailableAll += casting.spellBookSlots[index];
                 }
             }
+
             if (level == 1 && this.get_School() == 'Universalist Wizard') {
                 wizardAvailable += 1;
                 wizardAvailableAll += 1;
             }
+
             if (level == 1) {
                 wizardAvailable -= adaptiveAdept1stLevelAvailable;
                 wizardAvailableAll -= adaptiveAdept1stLevelAvailable;
             }
+
             return wizardAvailable > wizardLearned && wizardAvailableAll > wizardLearnedAll;
         }
+
         if (source == 'school' && casting.className == 'Wizard' && (spell.traditions.includes('Arcane') || character.get_SpellListSpell(spell.name).length)) {
             const school = this.get_School();
             let schoolAvailable = 0;
             const schoolLearned: number = this.get_SpellsLearned('', 'school', level).length;
+
             if (level == 1 && school) {
                 if (school != 'Universalist Wizard' && spell.traits.includes(school.split(' ')[0])) {
                     schoolAvailable += 1;
                 }
             }
+
             return schoolAvailable > schoolLearned;
         }
+
         if (source == 'esotericpolymath' && casting.className == 'Bard') {
             if (spell.traditions.find(tradition => this.get_EsotericPolymathAllowed(casting, tradition))) {
                 //You can learn a spell via esoteric polymath if it is in your spell repertoire, i.e. if you have chosen it for any spell slot.
@@ -360,6 +402,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                 }
             }
         }
+
         if (source == 'arcaneevolution' && casting.className == 'Sorcerer') {
             if (spell.traditions.find(tradition => this.get_ArcaneEvolutionAllowed(casting, tradition))) {
                 //You can learn a spell via arcane evolution if it is in your spell repertoire, i.e. if you have chosen it for any spell slot.
@@ -368,18 +411,22 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                 }
             }
         }
+
         if (source == 'adaptedcantrip' && casting.className == 'Wizard') {
             //You can learn a spell via adapted cantrip if none of its traditions is your own.
             if (!spell.traditions.includes('Arcane')) {
                 return this.get_SpellsLearned('', 'adaptedcantrip').length < 1;
             }
         }
+
         if (source == 'adaptiveadept' && casting.className == 'Wizard') {
             //You can learn a spell via adaptive adept if none of its traditions is your own, and it matches a tradition of the cantrip learned via adapted adept.
             //With Adaptive Adept, you can choose spells of the same tradition(s) as with Adapted Cantrip, but not your own.
             const adaptedcantrip = this.get_SpellsLearned('', 'adaptedcantrip')[0];
+
             if (adaptedcantrip) {
                 const originalSpell = this.get_Spells(adaptedcantrip.name)[0];
+
                 if (originalSpell) {
                     if (!spell.traditions.includes('Arcane') && spell.traditions.some(tradition => originalSpell.traditions.includes(tradition))) {
                         return this.get_SpellsLearned('', 'adaptiveadept').length < 1;
@@ -391,7 +438,9 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
     learn_Spell(spell: Spell, source: string) {
         this.get_Character().learn_Spell(spell, source);
+
         if (this.get_Character().settings.autoCloseChoices) { this.toggle_Item(); }
+
         this.refreshService.set_ToChange('Character', 'spellchoices');
         this.refreshService.process_ToChange();
     }
@@ -429,14 +478,17 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                 const available = 4;
                 const selected: Array<SpellChoice> = this.get_SpellMasterySpells(casting);
                 let result = `You can select ${ available - selected.length } of ${ available } spells of different levels up to 9th level to automatically prepare via Spell Mastery.`;
+
                 if (selected.length) {
                     result += ' You have already selected the following spells:\n';
                 }
+
                 selected
                     .sort((a, b) => (a.level == b.level) ? 0 : ((a.level > b.level) ? 1 : -1))
                     .forEach(choice => {
                         result += `\n${ choice.spells[0].name } (level ${ choice.level })`;
                     });
+
                 return result;
             } else {
                 return '';
@@ -472,7 +524,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             (
                 choice.level == levelNumber ||
                 choice.spells.find(spellTaken => spellTaken.name == spell.name)
-            )
+            ),
         ) &&
             casting.spellChoices.filter(choice => choice.source == 'Feat: Spell Mastery').length < 4;
     }
@@ -480,6 +532,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     add_SpellMasterySpell(spell: Spell) {
         const newChoice: SpellChoice = new SpellChoice();
         const newSpellTaken: SpellGain = new SpellGain();
+
         newChoice.className = 'Wizard';
         newChoice.castingType = 'Prepared';
         newChoice.source = 'Feat: Spell Mastery';
@@ -494,9 +547,11 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
     remove_SpellMasterySpell(casting: SpellCasting, spell: Spell) {
         const oldChoice: SpellChoice = casting.spellChoices.find(choice => choice.source == 'Feat: Spell Mastery' && choice.spells.find(spellTaken => spellTaken.name == spell.name));
+
         if (oldChoice) {
             this.get_Character().remove_SpellChoice(this.characterService, oldChoice);
         }
+
         this.refreshService.process_ToChange();
     }
 
@@ -507,6 +562,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             } else if (this.have_Feat('Impossible Polymath')) {
                 const character = this.get_Character();
                 let skill = '';
+
                 switch (tradition) {
                     case 'Arcane':
                         skill = 'Arcana';
@@ -518,6 +574,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                         skill = 'Nature';
                         break;
                 }
+
                 return this.characterService.get_Skills(character, skill)[0].level(character, this.characterService, character.level) >= 2;
             } else {
                 return false;
@@ -545,13 +602,13 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['spelllibrary', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['spelllibrary', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

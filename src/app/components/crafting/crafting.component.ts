@@ -23,7 +23,7 @@ interface ItemParameters extends ItemRoles {
     selector: 'app-crafting',
     templateUrl: './crafting.component.html',
     styleUrls: ['./crafting.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CraftingComponent implements OnInit, OnDestroy {
 
@@ -60,6 +60,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         } else {
             this.showList = type;
         }
+
         this.range = 0;
     }
 
@@ -135,9 +136,11 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     get_ItemParameters(itemList: Array<Item>): Array<ItemParameters> {
         const character = this.get_Character();
+
         return itemList.map(item => {
             const itemRoles = this.itemRolesService.getItemRoles(item);
             const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)?.get_Proficiency(character, this.characterService) || '';
+
             return {
                 ...itemRoles,
                 canUse: this.get_CanUse(itemRoles, proficiency),
@@ -155,12 +158,15 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     private get_CanUse(itemRoles: ItemRoles, proficiency: string): boolean {
         const character = this.get_Character();
+
         if (itemRoles.asWeapon) {
             return itemRoles.asWeapon.profLevel(character, this.characterService, itemRoles.asWeapon, character.level, { preparedProficiency: proficiency }) > 0;
         }
+
         if (itemRoles.asArmor) {
             return itemRoles.asArmor.profLevel(character, this.characterService, character.level, { itemStore: true }) > 0;
         }
+
         return undefined;
     }
 
@@ -171,6 +177,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     have_Funds(sum = ((this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC))) {
         const character = this.characterService.get_Character();
         const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
+
         if (sum <= funds) {
             return true;
         } else {
@@ -180,6 +187,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     change_Cash(multiplier = 1, sum = 0, changeafter = false) {
         this.characterService.change_Cash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
+
         if (changeafter) {
             this.refreshService.set_Changed('inventory');
         }
@@ -195,6 +203,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     get_VisibleItems(items: Array<Item>) {
         const have_CraftingBook = this.get_Character().inventories.find(inv => inv.adventuringgear.find(gear => gear.name == 'Basic Crafter\'s Book'));
+
         return items
             .filter((item: Item) =>
                 (
@@ -213,7 +222,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
                             .includes(this.wordFilter.toLowerCase()) ||
                         item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
                     )
-                )
+                ),
             ).sort((a, b) => (a[this.sorting] == b[this.sorting]) ? 0 : (a[this.sorting] < b[this.sorting]) ? -1 : 1);
     }
 
@@ -221,31 +230,39 @@ export class CraftingComponent implements OnInit, OnDestroy {
         //Return any reasons why you cannot craft an item.
         const character: Character = this.get_Character();
         const reasons: Array<string> = [];
+
         if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Alchemical Crafting').length) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }
+
         if (item.traits.includes('Magical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Magical Crafting').length) {
             reasons.push('You need the Magical Crafting skill feat to create magic items.');
         }
+
         if (item.traits.includes('Snare') && !this.characterService.get_CharacterFeatsTaken(1, character.level, 'Snare Crafting').length) {
             reasons.push('You need the Snare Crafting skill feat to create snares.');
         }
+
         if (item.level > character.level) {
             reasons.push('The item to craft must be your level or lower.');
         }
+
         if (item.level >= 16 && (this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 8) {
             reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
         } else if (item.level >= 9 && (this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 6) {
             reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
         }
+
         return reasons;
     }
 
     grant_Item(item: Item) {
         let amount = 1;
+
         if (item instanceof AdventuringGear || item instanceof Consumable) {
             amount = item.stack;
         }
+
         item.crafted = true;
         this.characterService.grant_InventoryItem(item, { creature: this.characterService.get_Character(), inventory: this.characterService.get_Character().inventories[0], amount }, { resetRunes: false });
     }
@@ -264,18 +281,23 @@ export class CraftingComponent implements OnInit, OnDestroy {
             let available = 0;
             const character = this.get_Character();
             const crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
+
             if (crafting >= 4) {
                 available += 4;
             }
+
             if (crafting >= 6) {
                 available += 2;
             }
+
             if (crafting >= 8) {
                 available += 2;
             }
+
             if (this.have_Feat('Ubiquitous Snares')) {
                 available *= 2;
             }
+
             return { available, prepared };
         }
     }
@@ -284,6 +306,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         if (this.get_FormulasLearned(item.id).length) {
             this.get_FormulasLearned(item.id)[0].snareSpecialistPrepared += amount;
         }
+
         this.refreshService.set_ToChange('Character', 'inventory');
         //this.refreshService.set_ToChange("Character", "crafting");
         this.refreshService.process_ToChange();
@@ -303,13 +326,13 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['crafting', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['crafting', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-dice',
     templateUrl: './dice.component.html',
     styleUrls: ['./dice.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiceComponent implements OnInit {
 
@@ -26,7 +26,7 @@ export class DiceComponent implements OnInit {
         private readonly characterService: CharacterService,
         private readonly refreshService: RefreshService,
         private readonly diceService: DiceService,
-        private readonly integrationsService: IntegrationsService
+        private readonly integrationsService: IntegrationsService,
     ) { }
 
     toggleDiceMenu() {
@@ -59,15 +59,18 @@ export class DiceComponent implements OnInit {
         if (creatureType == 'Companion') {
             return this.characterService.get_CompanionAvailable() ? [this.characterService.get_Creature(creatureType)] : [];
         }
+
         if (creatureType == 'Familiar') {
             return this.characterService.get_FamiliarAvailable() ? [this.characterService.get_Creature(creatureType)] : [];
         }
+
         return [this.characterService.get_Creature(creatureType)];
     }
 
     on_Heal(creature: Creature) {
         const amount = this.get_TotalSum();
         const dying = creature.health.dying(creature, this.characterService);
+
         creature.health.heal(creature, this.characterService, this.characterService.effectsService, amount, true, true, dying);
         this.refreshService.set_ToChange(creature.type, 'health');
         this.refreshService.set_ToChange(creature.type, 'effects');
@@ -78,6 +81,7 @@ export class DiceComponent implements OnInit {
         const amount = this.get_TotalSum();
         const wounded = creature.health.wounded(creature, this.characterService);
         const dying = creature.health.dying(creature, this.characterService);
+
         creature.health.takeDamage(creature, this.characterService, this.characterService.effectsService, amount, false, wounded, dying);
         this.refreshService.set_ToChange(creature.type, 'health');
         this.refreshService.set_ToChange(creature.type, 'effects');
@@ -86,6 +90,7 @@ export class DiceComponent implements OnInit {
 
     set_TempHP(creature: Creature) {
         const amount = this.get_TotalSum();
+
         creature.health.temporaryHP[0] = { amount, source: 'Manual', sourceId: '' };
         creature.health.temporaryHP.length = 1;
         this.refreshService.set_ToChange(creature.type, 'health');
@@ -98,7 +103,8 @@ export class DiceComponent implements OnInit {
     }
 
     get_TotalSum() {
-        return this.get_DiceResults().filter(diceResult => diceResult.included).reduce((a, b) => a + this.get_DiceSum(b), 0);
+        return this.get_DiceResults().filter(diceResult => diceResult.included)
+            .reduce((a, b) => a + this.get_DiceSum(b), 0);
     }
 
     on_SendToFoundry(creature: string) {
@@ -115,13 +121,13 @@ export class DiceComponent implements OnInit {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['dice', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (['dice', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

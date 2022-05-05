@@ -42,6 +42,7 @@ export class ActivityGain {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
+
         return this;
     }
     get_OriginalActivity(activitiesService: ActivitiesService) {
@@ -51,6 +52,7 @@ export class ActivityGain {
         if (this.active) {
             return '';
         }
+
         if (this.chargesUsed >= context.maxCharges) {
             if (this.activeCooldown) {
                 return (context.maxCharges ? 'Recharged in: ' : 'Cooldown: ') + services.timeService.getDurationDescription(this.activeCooldown, true, false);
@@ -58,10 +60,13 @@ export class ActivityGain {
                 return 'No activations left.';
             }
         }
+
         const disablingEffects = services.effectsService.get_EffectsOnThis(context.creature, `${ this.name } Disabled`);
+
         if (disablingEffects.length) {
             return `Disabled by: ${ disablingEffects.map(effect => effect.source).join(', ') }`;
         }
+
         return '';
     }
 }

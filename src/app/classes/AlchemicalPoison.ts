@@ -11,6 +11,7 @@ export class AlchemicalPoison extends Consumable {
     public stages: Array<string> = [];
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

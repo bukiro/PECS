@@ -28,7 +28,7 @@ interface ComponentParameters {
     selector: 'app-spellTarget',
     templateUrl: './spellTarget.component.html',
     styleUrls: ['./spellTarget.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellTargetComponent implements OnInit, OnDestroy {
 
@@ -77,7 +77,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         private readonly timeService: TimeService,
         private readonly savegameService: SavegameService,
         private readonly modalService: NgbModal,
-        public modal: NgbActiveModal
+        public modal: NgbActiveModal,
     ) { }
 
     public get action(): Activity | Spell {
@@ -134,12 +134,14 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         const canActivateWithoutTarget = this.can_Activate(true);
         const targetNumber = this.action.get_TargetNumber(this.effectiveSpellLevel, this.characterService);
         const target = this.target;
+
         return { bloodMagicTrigger, canActivate, canActivateWithoutTarget, targetNumber, target };
     }
 
     private get_BloodMagicTrigger(): string {
         if (this.spell) {
             let bloodMagicTrigger = '';
+
             this.bloodMagicFeats.forEach(feat => {
                 feat.bloodMagic.forEach(bloodMagic => {
                     if (
@@ -148,8 +150,8 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                             [
                                 this.casting?.source.toLowerCase() || '',
                                 this.parentActivityGain?.source.toLowerCase() || '',
-                                this.gain?.source.toLowerCase() || ''
-                            ].includes(sourceTrigger.toLowerCase())
+                                this.gain?.source.toLowerCase() || '',
+                            ].includes(sourceTrigger.toLowerCase()),
                         )
                     ) {
                         if (bloodMagic.neutralPhrase && !bloodMagicTrigger) {
@@ -160,6 +162,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                     }
                 });
             });
+
             return bloodMagicTrigger;
         } else {
             return '';
@@ -177,11 +180,13 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         // - causes any caster conditions and caster conditions are not disabled in general, or any of the caster conditions are not disabled.
         // - in case of an activity, adds items or onceeffects (which are independent of the target)
         let gainConditions: Array<ConditionGain> = [];
+
         if (this.spell) {
             gainConditions = this.spell.get_HeightenedConditions(this.effectiveSpellLevel);
         } else if (this.activity) {
             gainConditions = this.activity.gainConditions;
         }
+
         return (
             !!this.get_BloodMagicTrigger().length ||
             (
@@ -209,7 +214,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                             .filter(condition => gainConditions.some(gain => gain.name == condition.name && gain.targetFilter == 'caster'))
                             .some(condition =>
                                 condition.get_HasEffects() ||
-                                condition.get_IsChangeable()
+                                condition.get_IsChangeable(),
                             )
                     )
                 )
@@ -287,7 +292,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     open_SpellTargetModal(content) {
-        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then((result) => {
+        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
             if (result == 'Cast click') {
                 this.on_Cast('Selected', true);
             }
@@ -300,29 +305,38 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         if (this.action.get_IsHostile(true)) {
             return [];
         }
+
         const newTargets: Array<SpellTarget> = [];
         const character = this.get_Character();
+
         this.characterService.get_Creatures().forEach(creature => {
             newTargets.push(Object.assign(new SpellTarget(), { name: creature.name || creature.type, id: creature.id, playerId: character.id, type: creature.type, selected: (this.gain.targets.find(target => target.id == creature.id)?.selected || false), isPlayer: creature === character }));
         });
+
         if (character.partyName) {
             //Only allow selecting other players if you are in a party.
-            this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id).forEach(savegame => {
-                newTargets.push(Object.assign(new SpellTarget(), { name: savegame.name || 'Unnamed', id: savegame.id, playerId: savegame.id, type: 'Character', selected: (this.gain.targets.find(target => target.id == savegame.id)?.selected || false) }));
-                if (savegame.companionId) {
-                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.companionName || 'Companion', id: savegame.companionId, playerId: savegame.id, type: 'Companion', selected: (this.gain.targets.find(target => target.id == savegame.companionId)?.selected || false) }));
-                }
-                if (savegame.familiarId) {
-                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.familiarName || 'Familiar', id: savegame.familiarId, playerId: savegame.id, type: 'Familiar', selected: (this.gain.targets.find(target => target.id == savegame.familiarId)?.selected || false) }));
-                }
-            });
+            this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id)
+                .forEach(savegame => {
+                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.name || 'Unnamed', id: savegame.id, playerId: savegame.id, type: 'Character', selected: (this.gain.targets.find(target => target.id == savegame.id)?.selected || false) }));
+
+                    if (savegame.companionId) {
+                        newTargets.push(Object.assign(new SpellTarget(), { name: savegame.companionName || 'Companion', id: savegame.companionId, playerId: savegame.id, type: 'Companion', selected: (this.gain.targets.find(target => target.id == savegame.companionId)?.selected || false) }));
+                    }
+
+                    if (savegame.familiarId) {
+                        newTargets.push(Object.assign(new SpellTarget(), { name: savegame.familiarName || 'Familiar', id: savegame.familiarId, playerId: savegame.id, type: 'Familiar', selected: (this.gain.targets.find(target => target.id == savegame.familiarId)?.selected || false) }));
+                    }
+                });
         }
+
         this.gain.targets = newTargets;
+
         return this.gain.targets;
     }
 
     on_SelectAllTargets(event: Event) {
         const checked = (<HTMLInputElement>event.target).checked;
+
         if (checked) {
             this.gain.targets.forEach(target => {
                 if (!target.isPlayer || !this.action.cannotTargetCaster) {
@@ -346,11 +360,13 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     get_DeactivatePhrase() {
         let phrase = this.dismissPhrase || 'Dismiss <span class=\'actionIcon action1A\'></span> or Stop Sustaining';
+
         if (this.parentActivityGain?.duration) {
             phrase += ` (Duration: ${ this.get_Duration(this.parentActivityGain?.duration) })`;
         } else if (this.gain.duration) {
             phrase += ` (Duration: ${ this.get_Duration(this.gain?.duration) })`;
         }
+
         return phrase;
     }
 
@@ -360,13 +376,13 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (target == 'activities' || target == 'spellbook' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'spellbook', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

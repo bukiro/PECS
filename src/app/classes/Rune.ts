@@ -25,6 +25,7 @@ export class Rune extends Item {
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());
+
         return this;
     }
     canStack() {

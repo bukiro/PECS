@@ -4,7 +4,7 @@ import * as json_skills from 'src/assets/json/skills';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class SkillsService {
     private skills: Array<Skill> = [];
@@ -12,27 +12,28 @@ export class SkillsService {
     private loading = true;
 
     constructor(
-        private readonly extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService,
     ) { }
 
     private get_TempSkill(name = '', filter: { type?: string }): Skill {
-        filter = Object.assign({
-            ability: '',
+        filter = { ability: '',
             type: '',
             locked: undefined,
-            recallKnowledge: undefined
-        });
+            recallKnowledge: undefined };
+
         const skill = this.tempSkills.find(skill =>
             (
                 skill.name.toLowerCase().includes(name.toLowerCase())
             ) && (
                 filter.type ? skill.type.toLowerCase() == filter.type.toLowerCase() : true
-            )
+            ),
         );
+
         if (skill) {
             return skill;
         } else {
             const newLength = this.tempSkills.push(new Skill('', name, filter.type, false, false));
+
             return this.tempSkills[newLength - 1];
         }
     }
@@ -41,11 +42,10 @@ export class SkillsService {
         //Gets all skills, including a provided custom skill list, filtered by name, type and locked.
         //Some exotic skills don't exist until queried. If a named skill is not found, a temporary skill is created for the rest of the session.
         //If you want to check if a skill exists, use noSubstitutions to prevent returning a temporary skill.
-        filter = Object.assign({
-            type: '',
+        filter = { type: '',
             locked: undefined,
-            noSubstitution: false
-        }, filter);
+            noSubstitution: false, ...filter };
+
         if (!this.still_loading()) {
             if (name == 'Lore') {
                 return this.skills.concat(customSkills).filter(skill =>
@@ -55,9 +55,10 @@ export class SkillsService {
                         filter.type ? skill.type.toLowerCase() == filter.type.toLowerCase() : true
                     ) && (
                         filter.locked != undefined ? skill.locked == filter.locked : true
-                    )
+                    ),
                 );
             }
+
             const skills = this.skills.concat(customSkills).filter(skill =>
                 (
                     name ? skill.name.toLowerCase() == name.toLowerCase() : true
@@ -66,6 +67,7 @@ export class SkillsService {
                 ) && (
                     filter.locked != undefined ? skill.locked == filter.locked : true
                 ));
+
             if (skills.length) {
                 return skills;
             } else if (name && !options.noSubstitutions) {
@@ -103,7 +105,9 @@ export class SkillsService {
 
     load_Skills() {
         this.skills = [];
+
         const data = this.extensionsService.extend(json_skills, 'skills');
+
         Object.keys(data).forEach(key => {
             this.skills.push(...data[key].map((obj: Skill) => Object.assign(new Skill(), obj).recast()));
         });

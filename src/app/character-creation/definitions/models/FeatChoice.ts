@@ -37,6 +37,7 @@ export class FeatChoice {
     public bonus = false;
     public recast(): typeof this {
         this.feats = this.feats.map(obj => Object.assign(new FeatTaken(), obj).recast());
+
         return this;
     }
 }

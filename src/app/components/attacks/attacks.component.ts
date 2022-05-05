@@ -35,7 +35,7 @@ interface WeaponParameters {
     selector: 'app-attacks',
     templateUrl: './attacks.component.html',
     styleUrls: ['./attacks.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttacksComponent implements OnInit, OnDestroy {
 
@@ -60,7 +60,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly refreshService: RefreshService,
         private readonly activitiesService: ActivitiesService,
         public effectsService: EffectsService,
-        public conditionsService: ConditionsService
+        public conditionsService: ConditionsService,
     ) { }
 
     minimize() {
@@ -130,14 +130,17 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     get_CriticalHints(weapon: Weapon) {
         const hints: Array<string> = [];
+
         if (weapon.criticalHint) {
             hints.push(weapon.criticalHint);
         }
+
         weapon.material.forEach(material => {
             if ((material as WeaponMaterial).criticalHint) {
                 hints.push((material as WeaponMaterial).criticalHint);
             }
         });
+
         return hints;
     }
 
@@ -148,24 +151,27 @@ export class AttacksComponent implements OnInit, OnDestroy {
     get_AttackRestrictions() {
         this.onlyAttacks = [];
         this.forbiddenAttacks = [];
-        this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply).forEach(gain => {
-            const condition = this.characterService.get_Conditions(gain.name)[0];
-            this.onlyAttacks.push(
-                ...condition?.attackRestrictions
-                    .filter(restriction => !restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
-                || []
-            );
-            this.forbiddenAttacks.push(
-                ...condition?.attackRestrictions
-                    .filter(restriction => restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
-                || []
-            );
-        });
+        this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply)
+            .forEach(gain => {
+                const condition = this.characterService.get_Conditions(gain.name)[0];
+
+                this.onlyAttacks.push(
+                    ...condition?.attackRestrictions
+                        .filter(restriction => !restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
+                || [],
+                );
+                this.forbiddenAttacks.push(
+                    ...condition?.attackRestrictions
+                        .filter(restriction => restriction.excluding && (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)))
+                || [],
+                );
+            });
     }
 
     get_IsAllowed(weapon: Weapon) {
         const creature = this.get_Creature();
         const characterService = this.characterService;
+
         function doesListMatchWeapon(list: Array<AttackRestriction>, weapon: Weapon) {
             return list.some(restriction => {
                 if (restriction.name) {
@@ -178,6 +184,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 }
             });
         }
+
         return (
             !(
                 this.onlyAttacks.length && !doesListMatchWeapon(this.onlyAttacks, weapon)
@@ -188,6 +195,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     get_EquippedWeaponsParameters(): Array<WeaponParameters> {
         this.get_AttackRestrictions();
+
         return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken)
             .concat(...this.get_Creature().inventories.map(inv => inv.alchemicalbombs))
             .concat(...this.get_Creature().inventories.map(inv => inv.otherconsumablesbombs))
@@ -220,9 +228,11 @@ export class AttacksComponent implements OnInit, OnDestroy {
     on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number, preserve = false) {
         this.refreshService.set_ToChange(this.creature, 'attacks');
         this.characterService.on_ConsumableUse(this.get_Creature(), talisman, preserve);
+
         if (!preserve) {
             weapon.talismans.splice(index, 1);
         }
+
         this.refreshService.process_ToChange();
     }
 
@@ -237,7 +247,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return Array.from(new Set(
             this.get_EquippedWeaponsParameters()
                 .map(weaponParameters => weaponParameters.weapon.ammunition)
-                .filter(ammunition => !!ammunition)
+                .filter(ammunition => !!ammunition),
         ));
     }
 
@@ -245,22 +255,26 @@ export class AttacksComponent implements OnInit, OnDestroy {
         //Return all ammo from all inventories that has this type in its group
         //We need the inventory for using up items and the name just for sorting
         const ammoList: Array<{ item: Ammunition; name: string; inventory: ItemCollection }> = [];
+
         this.get_Creature().inventories.forEach(inv => {
             inv.ammunition.filter(ammo => [type, 'Any'].includes(ammo.ammunition)).forEach(ammo => {
                 ammoList.push({ item: ammo, name: ammo.getName(), inventory: inv });
             });
         });
+
         return ammoList
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 
     get_Snares() {
         const snares: Array<{ item: Snare; name: string; inventory: ItemCollection }> = [];
+
         this.get_Creature().inventories.forEach(inv => {
             inv.snares.forEach(snare => {
                 snares.push({ item: snare, name: snare.getName(), inventory: inv });
             });
         });
+
         return snares
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
@@ -273,24 +287,31 @@ export class AttacksComponent implements OnInit, OnDestroy {
         if (item.storedSpells.length) {
             const spellName = item.storedSpells[0]?.spells[0]?.name || '';
             const spellChoice = item.storedSpells[0];
+
             if (spellChoice && spellName) {
                 const spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
+
                 if (spell) {
                     const tempGain: SpellGain = new SpellGain();
                     let target = '';
+
                     if (spell.target == 'self') {
                         target = 'Character';
                     }
+
                     this.characterService.spellsService.process_Spell(spell, true,
                         { characterService: this.characterService, itemsService: this.characterService.itemsService, conditionsService: this.characterService.conditionsService },
                         { creature: this.get_Character(), target, gain: tempGain, level: spellChoice.level },
-                        { manual: true }
+                        { manual: true },
                     );
                 }
+
                 spellChoice.spells.shift();
             }
         }
+
         this.characterService.on_ConsumableUse(this.get_Creature(), item as Consumable);
+
         if (item.canStack()) {
             this.refreshService.set_ToChange(this.creature, 'attacks');
             this.refreshService.process_ToChange();
@@ -314,12 +335,13 @@ export class AttacksComponent implements OnInit, OnDestroy {
     get_HintRunes(weapon: Weapon, range: string): Array<WeaponRune> {
         //Return all runes and rune-emulating effects that have a hint to show.
         const runeSource = weapon.get_RuneSource(this.get_Creature(), range);
+
         return (runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as Array<WeaponRune>)
             .concat(weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hints.length).map(oil => oil.runeEffect))
             .concat(
                 runeSource.propertyRunes.bladeAlly ?
                     runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) as Array<WeaponRune> :
-                    []
+                    [],
             );
     }
 
@@ -327,17 +349,21 @@ export class AttacksComponent implements OnInit, OnDestroy {
         //Return all runes and rune-emulating oil effects.
         const runes: Array<WeaponRune> = [];
         const runeSource = weapon.get_RuneSource(this.get_Creature(), range);
+
         runes.push(...weapon.get_RuneSource(this.get_Creature(), range).propertyRunes.propertyRunes as Array<WeaponRune>);
         runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect).map(oil => oil.runeEffect));
+
         if (runeSource.propertyRunes.bladeAlly) {
             runes.push(...runeSource.propertyRunes.bladeAllyRunes as Array<WeaponRune>);
         }
+
         return runes;
     }
 
     get_HandwrapsOfMightyBlows(weapon: Weapon) {
         if (weapon.traits.includes('Unarmed')) {
             const handwraps = this.get_Creature().inventories[0].wornitems.find(wornItem => wornItem.isHandwrapsOfMightyBlows && wornItem.invested);
+
             if (handwraps) {
                 return [handwraps];
             } else {
@@ -350,6 +376,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     get_GrievousData(weapon: Weapon, rune: WeaponRune): string {
         const data = rune.data.find(data => data.name == weapon.group);
+
         return data?.value as string || null;
     }
 
@@ -357,14 +384,17 @@ export class AttacksComponent implements OnInit, OnDestroy {
         //Under certain circumstances, some Feats apply to Weapons independently of their name.
         //Return names that get_FeatsShowingOn should run on.
         const specialNames: Array<string> = [];
+
         //Monks with Monastic Weaponry can apply Unarmed effects to Monk weapons.
         if (weapon.traits.includes('Monk') && this.characterService.get_Feats('Monastic Weaponry')[0].have({ creature: this.get_Creature() }, { characterService: this.characterService })) {
             specialNames.push('Unarmed Attacks');
         }
+
         //Deity's favored weapons get tagged as "Favored Weapon".
         if (weapon.get_IsFavoredWeapon(this.get_Character(), this.characterService)) {
             specialNames.push('Favored Weapon');
         }
+
         //Weapons with Emblazon Armament get tagged as "Emblazon Armament Weapon".
         if (weapon._emblazonArmament) {
             weapon.emblazonArmament.forEach(ea => {
@@ -373,6 +403,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 }
             });
         }
+
         //Weapons with Emblazon Energy get tagged as "Emblazon Energy Weapon <Choice>".
         if (weapon._emblazonEnergy) {
             weapon.emblazonArmament.forEach(ea => {
@@ -381,6 +412,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 }
             });
         }
+
         //Weapons with Emblazon Antimagic get tagged as "Emblazon Antimagic Weapon".
         if (weapon._emblazonAntimagic) {
             weapon.emblazonArmament.forEach(ea => {
@@ -391,10 +423,12 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         const creature = this.get_Creature();
+
         specialNames.push(weapon.get_Proficiency(creature, this.characterService, creature.level));
         specialNames.push(...weapon._traits);
         specialNames.push(range);
         specialNames.push(weapon.weaponBase);
+
         return specialNames;
     }
 
@@ -411,7 +445,9 @@ export class AttacksComponent implements OnInit, OnDestroy {
     get_FlurryAllowed() {
         const creature = this.get_Creature();
         const character = this.characterService.get_Character();
+
         this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == 'Hunt Prey').length;
+
         if (creature === character || (creature instanceof AnimalCompanion && this.characterService.get_CharacterFeatsTaken(1, character.level, 'Animal Companion (Ranger)').length)) {
             return (
                 (
@@ -429,6 +465,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const creature = this.get_Creature();
         const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => ['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'].includes(gain.name) && gain.source == 'Quick Status');
+
         for (const gain of conditions) {
             if (gain.name == 'Multiple Attack Penalty (Flurry)') {
                 switch (gain.choice) {
@@ -436,6 +473,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     case 'Second Attack': return '2f';
                 }
             }
+
             if (gain.name == 'Multiple Attack Penalty') {
                 switch (gain.choice) {
                     case 'Third Attack': return '3';
@@ -443,6 +481,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 }
             }
         }
+
         return '1';
     }
 
@@ -456,48 +495,60 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const map3f = conditions.find(gain => gain.name == 'Multiple Attack Penalty (Flurry)' && gain.choice == 'Third Attack');
         let mapName = '';
         let mapChoice = '';
+
         switch (map) {
             case '2':
                 if (!map2) {
                     mapName = 'Multiple Attack Penalty';
                     mapChoice = 'Second Attack';
                 }
+
                 break;
             case '3':
                 if (!map3) {
                     mapName = 'Multiple Attack Penalty';
                     mapChoice = 'Third Attack';
                 }
+
                 break;
             case '2f':
                 if (!map2f) {
                     mapName = 'Multiple Attack Penalty (Flurry)';
                     mapChoice = 'Second Attack';
                 }
+
                 break;
             case '3f':
                 if (!map3f) {
                     mapName = 'Multiple Attack Penalty (Flurry)';
                     mapChoice = 'Third Attack';
                 }
+
                 break;
         }
+
         if (map2 && map != '2') {
             this.characterService.remove_Condition(creature, map2, false);
         }
+
         if (map3 && map != '3') {
             this.characterService.remove_Condition(creature, map3, false);
         }
+
         if (map2f && map != '2f') {
             this.characterService.remove_Condition(creature, map2f, false);
         }
+
         if (map3f && map != '3f') {
             this.characterService.remove_Condition(creature, map3f, false);
         }
+
         if (mapName) {
             const newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: mapName, choice: mapChoice, source: 'Quick Status', duration: 5, locked: true });
+
             this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
         }
+
         this.refreshService.process_ToChange();
     }
 
@@ -505,6 +556,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const creature = this.get_Creature();
         const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => gain.name == 'Range Penalty' && gain.source == 'Quick Status');
+
         for (const gain of conditions) {
             switch (gain.choice) {
                 case 'Sixth Range Increment': return '6';
@@ -514,6 +566,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 case 'Second Range Increment': return '2';
             }
         }
+
         return '1';
     }
 
@@ -527,80 +580,99 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const rap5 = conditions.find(gain => gain.choice == 'Fifth Range Increment');
         const rap6 = conditions.find(gain => gain.choice == 'Sixth Range Increment');
         let rapChoice = '';
+
         switch (rap) {
             case '2':
                 if (!rap2) {
                     rapChoice = 'Second Range Increment';
                 }
+
                 break;
             case '3':
                 if (!rap3) {
                     rapChoice = 'Third Range Increment';
                 }
+
                 break;
             case '4':
                 if (!rap4) {
                     rapChoice = 'Fourth Range Increment';
                 }
+
                 break;
             case '5':
                 if (!rap5) {
                     rapChoice = 'Fifth Range Increment';
                 }
+
                 break;
             case '6':
                 if (!rap6) {
                     rapChoice = 'Sixth Range Increment';
                 }
+
                 break;
         }
+
         if (rap2 && rap != '2') {
             this.characterService.remove_Condition(creature, rap2, false);
         }
+
         if (rap3 && rap != '3') {
             this.characterService.remove_Condition(creature, rap3, false);
         }
+
         if (rap4 && rap != '4') {
             this.characterService.remove_Condition(creature, rap4, false);
         }
+
         if (rap5 && rap != '5') {
             this.characterService.remove_Condition(creature, rap5, false);
         }
+
         if (rap6 && rap != '6') {
             this.characterService.remove_Condition(creature, rap6, false);
         }
+
         if (rapChoice) {
             const newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: 'Range Penalty', choice: rapChoice, source: 'Quick Status', duration: 5, locked: true });
+
             this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
         }
+
         this.refreshService.process_ToChange();
     }
 
     get_FavoredWeapons() {
         const creature = this.get_Creature();
+
         if (creature instanceof Character && creature.class?.deity && creature.class.deityFocused) {
             const deity = this.deitiesService.get_CharacterDeities(this.characterService, creature)[0];
             const favoredWeapons: Array<string> = [];
+
             if (deity && deity.favoredWeapon.length) {
                 favoredWeapons.push(...deity.favoredWeapon);
             }
+
             if (this.characterService.get_CharacterFeatsTaken(1, creature.level, 'Favored Weapon (Syncretism)').length) {
                 favoredWeapons.push(...this.characterService.get_CharacterDeities(creature, 'syncretism')[0]?.favoredWeapon || []);
             }
+
             return [favoredWeapons];
         }
+
         return [];
     }
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['attacks', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['attacks', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

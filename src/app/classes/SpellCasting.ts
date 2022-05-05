@@ -29,6 +29,7 @@ export class SpellCasting {
     }
     recast() {
         this.spellChoices = this.spellChoices.map(obj => Object.assign(new SpellChoice(), obj).recast());
+
         return this;
     }
 }

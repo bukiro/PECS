@@ -90,7 +90,7 @@ import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class TypeService {
 
@@ -191,9 +191,10 @@ export class TypeService {
     }
 
     public merge(target: unknown, source: unknown): unknown {
-        if (typeof source == 'object' && source) {
+        if (typeof source === 'object' && source) {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const output = Object.assign(new (target.constructor as any), JSON.parse(JSON.stringify(target)));
+            const output = Object.assign(new (target.constructor as any)(), JSON.parse(JSON.stringify(target)));
+
             if (Array.isArray(source)) {
                 source.forEach((obj: unknown, index) => {
                     if (!output[index]) {
@@ -205,15 +206,13 @@ export class TypeService {
             } else {
                 Object.keys(source).forEach(key => {
                     if (typeof source === 'object') {
-                        if (!Object.prototype.hasOwnProperty.call(target, key))
-                            Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
-                        else
-                            output[key] = this.merge(target[key], source[key]);
+                        if (!Object.prototype.hasOwnProperty.call(target, key)) { Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) }); } else { output[key] = this.merge(target[key], source[key]); }
                     } else {
                         Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
                     }
                 });
             }
+
             return output;
         } else {
             return source;
@@ -224,24 +223,29 @@ export class TypeService {
         if (itemsService && object.refId && !object.restoredFromSave) {
             const libraryItem = itemsService.get_CleanItemByID(object.refId);
             let mergedObject = object;
+
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
                 try {
                     mergedObject = this.merge(libraryItem, mergedObject) as typeof libraryItem;
                     mergedObject = itemsService.cast_ItemByType(mergedObject, libraryItem.type);
+
                     //Disable any active hint effects when loading an item.
                     if (mergedObject instanceof Equipment) {
                         mergedObject.hints.forEach(hint => {
                             hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
                         });
                     }
+
                     mergedObject.restoredFromSave = true;
                 } catch (e) {
                     console.log(`Failed reassigning item ${ mergedObject.id }: ${ e }`);
                 }
             }
+
             return mergedObject;
         }
+
         return object;
     }
 

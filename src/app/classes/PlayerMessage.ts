@@ -38,6 +38,7 @@ export class PlayerMessage {
         this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(typeService, itemsService));
         this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(typeService, itemsService));
         this.includedInventories = this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(typeService, itemsService));
+
         return this;
     }
 }

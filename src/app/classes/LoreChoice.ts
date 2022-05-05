@@ -12,6 +12,7 @@ export class LoreChoice extends SkillChoice {
     public source = '';
     recast() {
         super.recast();
+
         return this;
     }
 }

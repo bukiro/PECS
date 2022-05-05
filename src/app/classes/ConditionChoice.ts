@@ -9,10 +9,12 @@ export class ConditionChoice {
         if (this.name == '-') {
             this.name = '';
         }
+
         //If a choice name has turned into a number, turn it back into a string.
-        if (typeof this.name == 'number') {
+        if (typeof this.name === 'number') {
             this.name = parseInt(this.name).toString();
         }
+
         return this;
     }
 }

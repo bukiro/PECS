@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-effects',
     templateUrl: './effects.component.html',
     styleUrls: ['./effects.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EffectsComponent implements OnInit, OnDestroy {
 
@@ -38,7 +38,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
         private readonly characterService: CharacterService,
         private readonly conditionsService: ConditionsService,
         private readonly refreshService: RefreshService,
-        private readonly timeService: TimeService
+        private readonly timeService: TimeService,
     ) { }
 
     minimize() {
@@ -154,12 +154,15 @@ export class EffectsComponent implements OnInit, OnDestroy {
         if (condition.get_IsStoppingTime(conditionGain)) {
             return 'icon-ra ra-hourglass';
         }
+
         if (conditionGain.paused) {
             return 'icon-bi-pause-circle';
         }
+
         if (condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, conditionGain)) {
             return 'icon-bi-info-circle';
         }
+
         return '';
     }
 
@@ -176,9 +179,10 @@ export class EffectsComponent implements OnInit, OnDestroy {
                     ignoredEffect.creature == effect.creature &&
                     ignoredEffect.target == effect.target &&
                     ignoredEffect.source == effect.source
-                )
+                ),
             );
         }
+
         this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
     }
@@ -188,17 +192,18 @@ export class EffectsComponent implements OnInit, OnDestroy {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
+                .subscribe(target => {
                     if (['effects', 'all', 'effects-component', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
+                .subscribe(view => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['effects', 'all', 'effects-component'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
+
             return true;
         }
     }

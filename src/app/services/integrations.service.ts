@@ -12,17 +12,18 @@ interface FoundryRoll {
 }
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class IntegrationsService {
 
     constructor(
-        private readonly toastService: ToastService
+        private readonly toastService: ToastService,
     ) { }
 
     prepare_RollForFoundry(diceString = '', diceResults: Array<DiceResult> = []): FoundryRoll | string {
         //Create a readable message for the External Dice Roll API - either a formula string or a fake Roll object - and send it to Foundry.
         let roll: FoundryRoll | string = '';
+
         if (diceString) {
             //If a formula is given, just pass the formula.
             roll = diceString;
@@ -30,9 +31,12 @@ export class IntegrationsService {
             //If dice results are given, make sure to keep only the ones included in the result, and reverse the order (because PECS keeps dice results in order from last to first).
             //If any results are included, build a fake Roll object from them, including the formula, terms, results and total sum (as _total).
             const results = JSON.parse(JSON.stringify(diceResults.filter(result => result.included)));
+
             if (results.length) {
                 results.reverse();
+
                 const rollObject = { formula: '', terms: [], results: [], _total: 0 };
+
                 results.forEach((result: DiceResult, index) => {
                     if (index > 0 && ((result.diceNum && result.diceSize) || result.bonus >= 0)) {
                         rollObject.formula += ' + ';
@@ -43,27 +47,35 @@ export class IntegrationsService {
                         rollObject.terms.push({ operator: '-' });
                         rollObject.results.push('-');
                     }
+
                     //For a result made from a dice roll, add fake Die objects to the Roll's terms and include the results of the roll, then add the sum to the Roll's results.
                     if (result.diceNum && result.diceSize) {
                         const die = { number: result.diceNum, faces: result.diceSize, results: [], options: { flavor: result.type.trim() } };
-                        die.results = result.rolls.map(roll => { return { result: roll, active: true }; });
+
+                        die.results = result.rolls.map(roll => ({ result: roll, active: true }));
                         rollObject.terms.push(die);
                         rollObject.results.push(result.rolls.reduce((a, b) => a + b, 0));
                     }
+
                     //For a result that is just a number, add the number to the Roll's terms and results (subtracting negatives instead).
                     if (result.bonus) {
                         let operator = '+';
+
                         if (result.bonus < 0) {
                             operator = '-';
                         }
+
                         const bonus = Math.abs(result.bonus);
+
                         if ((result.diceNum && result.diceSize) || index > 0) {
                             rollObject.terms.push({ operator });
                             rollObject.results.push(operator);
                         }
+
                         rollObject.terms.push({ number: bonus, options: { flavor: result.type.trim() } });
                         rollObject.results.push(bonus);
                     }
+
                     //Add the result's formula to the Roll's formula, omitting the flavor text.
                     rollObject.formula += result.desc.replace(result.type, '').trim();
                     //Add the result's results to the Roll's _total.
@@ -72,6 +84,7 @@ export class IntegrationsService {
                 roll = JSON.stringify(rollObject);
             }
         }
+
         return roll;
     }
 
@@ -82,29 +95,36 @@ export class IntegrationsService {
 
     send_RollToFoundry(creature: string, diceString = '', diceResults: Array<DiceResult> = [], characterService: CharacterService) {
         let foundryVTTUrl = characterService.get_Character().settings.foundryVTTUrl;
+
         //Remove trailing slashes.
         foundryVTTUrl = foundryVTTUrl.replace(/\/+$/, '');
         function prepareAndSend(integrationsService: IntegrationsService) {
             let roll = integrationsService.prepare_RollForFoundry(diceString, diceResults);
+
             if (foundryVTTUrl) {
                 if (!roll) {
                     roll = '0';
                 }
+
                 const foundryVTTTimeout = characterService.get_Character().settings.foundryVTTTimeout;
                 //Open the foundry URL in a small window, then close it after the configured timeout.
                 const roller = characterService.get_Creature(creature);
                 let alias = '';
+
                 if (creature == 'Character') {
                     alias = roller.name || '';
                 } else {
                     alias = roller.name || `${ roller.type } of ${ characterService.get_Character().name }`;
                 }
+
                 let foundryWindow: Window;
+
                 if (alias) {
                     foundryWindow = window.open(`${ foundryVTTUrl }/modules/external-dice-roll-connector/roll.html?name=${ alias }&roll=${ roll }`, '', 'width=200, height=100');
                 } else {
                     foundryWindow = window.open(`${ foundryVTTUrl }/modules/external-dice-roll-connector/roll.html?roll=${ roll }`, '', 'width=200, height=100');
                 }
+
                 foundryWindow.blur();
                 window.self.focus();
                 setTimeout(() => {
@@ -113,6 +133,7 @@ export class IntegrationsService {
                 integrationsService.toastService.show('Dice roll sent to Foundry VTT.');
             }
         }
+
         if (foundryVTTUrl) {
 
             prepareAndSend(this);

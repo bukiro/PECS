@@ -9,7 +9,7 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 import { TypeService } from 'src/app/services/type.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class HistoryService {
     private readonly ancestries: Array<Ancestry> = [];
@@ -21,7 +21,7 @@ export class HistoryService {
 
     constructor(
         private readonly typeService: TypeService,
-        private readonly extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService,
     ) { }
 
     get_Ancestries(name = '') {
@@ -40,10 +40,12 @@ export class HistoryService {
     get_HeritagesAndSubtypes(name = '') {
         if (!this.loading_heritages) {
             const heritages: Array<Heritage> = [];
+
             heritages.push(...this.heritages);
             heritages.forEach(heritage => {
                 heritages.push(...heritage.subTypes);
             });
+
             return heritages.filter(heritage => (heritage.name == name || name == ''));
         } else { return [new Heritage()]; }
     }
@@ -56,8 +58,10 @@ export class HistoryService {
 
     restore_AncestryFromSave(ancestry: Ancestry) {
         let restoredAncestry: Ancestry;
+
         if (ancestry.name) {
             const libraryObject = this.get_Ancestries(ancestry.name)[0];
+
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
@@ -67,12 +71,14 @@ export class HistoryService {
                 }
             }
         }
+
         return restoredAncestry || ancestry;
     }
 
     clean_AncestryForSave(ancestry: Ancestry) {
         if (ancestry.name) {
             const libraryObject = this.get_Ancestries(ancestry.name)[0];
+
             if (libraryObject) {
                 Object.keys(ancestry).forEach(key => {
                     if (key != 'name') {
@@ -85,13 +91,16 @@ export class HistoryService {
                 });
             }
         }
+
         return ancestry;
     }
 
     restore_HeritageFromSave(heritage: Heritage) {
         let restoredHeritage: Heritage;
+
         if (heritage.name) {
             const libraryObject = this.get_HeritagesAndSubtypes(heritage.name)[0];
+
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
@@ -101,12 +110,14 @@ export class HistoryService {
                 }
             }
         }
+
         return restoredHeritage || heritage;
     }
 
     clean_HeritageForSave(heritage: Heritage) {
         if (heritage.name) {
             const libraryObject = this.get_HeritagesAndSubtypes(heritage.name)[0];
+
             if (libraryObject) {
                 Object.keys(heritage).forEach(key => {
                     if (key != 'name') {
@@ -119,13 +130,16 @@ export class HistoryService {
                 });
             }
         }
+
         return heritage;
     }
 
     restore_BackgroundFromSave(background: Background) {
         let mergedBackground: Background;
+
         if (background.name) {
             const libraryObject = this.get_Backgrounds(background.name)[0];
+
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
@@ -135,12 +149,14 @@ export class HistoryService {
                 }
             }
         }
+
         return mergedBackground || background;
     }
 
     clean_BackgroundForSave(background: Background) {
         if (background.name) {
             const libraryObject = this.get_Backgrounds(background.name)[0];
+
             if (libraryObject) {
                 Object.keys(background).forEach(key => {
                     if (key != 'name') {
@@ -153,6 +169,7 @@ export class HistoryService {
                 });
             }
         }
+
         return background;
     }
 
@@ -167,11 +184,13 @@ export class HistoryService {
             this.load(json_ancestries, 'ancestries', 'Ancestry');
             this.loading_ancestries = false;
         }
+
         if (!this.backgrounds.length) {
             this.loading_backgrounds = true;
             this.load(json_backgrounds, 'backgrounds', 'Background');
             this.loading_backgrounds = false;
         }
+
         if (!this.heritages.length) {
             this.loading_heritages = true;
             this.load(json_heritages, 'heritages', 'Heritage');
@@ -181,7 +200,9 @@ export class HistoryService {
 
     load(source, target: string, type: string) {
         this[target] = [];
+
         const data = this.extensionsService.extend(source, target);
+
         switch (type) {
             case 'Ancestry':
                 Object.keys(data).forEach(key => {
@@ -199,6 +220,7 @@ export class HistoryService {
                 });
                 break;
         }
+
         this[target] = this.extensionsService.cleanup_Duplicates(this[target], 'name', target);
     }
 

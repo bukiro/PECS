@@ -11,7 +11,7 @@ import { ActivitiesService } from 'src/app/services/activities.service';
 @Component({
     selector: 'app-itemAeonStones',
     templateUrl: './itemAeonStones.component.html',
-    styleUrls: ['./itemAeonStones.component.css']
+    styleUrls: ['./itemAeonStones.component.css'],
 })
 export class ItemAeonStonesComponent implements OnInit {
 
@@ -28,7 +28,7 @@ export class ItemAeonStonesComponent implements OnInit {
         private readonly itemsService: ItemsService,
         private readonly activitiesService: ActivitiesService,
         private readonly timeService: TimeService,
-        private readonly typeService: TypeService
+        private readonly typeService: TypeService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -45,9 +45,11 @@ export class ItemAeonStonesComponent implements OnInit {
 
     get_Slots() {
         const indexes: Array<number> = [];
+
         for (let index = 0; index < this.item.isWayfinder; index++) {
             indexes.push(index);
         }
+
         return indexes;
     }
 
@@ -63,11 +65,14 @@ export class ItemAeonStonesComponent implements OnInit {
         const item = this.item;
         //Start with one empty stone to select nothing.
         const allStones: Array<{ aeonStone: WornItem; inv: ItemCollection }> = [{ aeonStone: new WornItem(), inv: null }];
+
         allStones[0].aeonStone.name = '';
+
         //Add the current choice, if the item has a stone at that index.
         if (item.aeonStones[index]) {
             allStones.push(this.newAeonStone[index] as { aeonStone: WornItem; inv: ItemCollection });
         }
+
         return allStones;
     }
 
@@ -83,6 +88,7 @@ export class ItemAeonStonesComponent implements OnInit {
         //If any resonant activity on this aeon Stone has a cooldown, return the lowest of these in a human readable format.
         if (stone.activities && stone.activities.length && stone.activities.some(activity => activity.resonant && activity.activeCooldown)) {
             const lowestCooldown = Math.min(...stone.activities.filter(activity => activity.resonant && activity.activeCooldown).map(activity => activity.activeCooldown));
+
             return ` (Cooldown: ${ this.timeService.getDurationDescription(lowestCooldown) })`;
         } else {
             return '';
@@ -93,27 +99,33 @@ export class ItemAeonStonesComponent implements OnInit {
         const item: WornItem = this.item;
         const stone: WornItem = this.newAeonStone[index].aeonStone;
         const inv: ItemCollection = this.newAeonStone[index].inv;
+
         if (!item.aeonStones[index] || stone !== item.aeonStones[index]) {
             //If there is an Aeon Stone in this slot, return the old stone to the inventory, unless we are in the item store. Then remove it from the item.
             if (item.aeonStones[index]) {
                 if (!this.itemStore) {
                     this.remove_AeonStone(index);
                 }
+
                 item.aeonStones.splice(index, 1);
             }
+
             //Then add the new Aeon Stone to the item and (unless we are in the item store) remove it from the inventory.
             if (stone.name != '') {
                 //Add a copy of the stone to the item
-                const newLength = item.aeonStones.push(Object.assign<WornItem, WornItem>(new WornItem, JSON.parse(JSON.stringify(stone))).recast(this.typeService, this.itemsService));
+                const newLength = item.aeonStones.push(Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(stone))).recast(this.typeService, this.itemsService));
                 const newStone = item.aeonStones[newLength - 1];
+
                 newStone.amount = 1;
                 newStone.isSlottedAeonStone = true;
+
                 //If we are not in the item store, remove the inserted Aeon Stone from the inventory, either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
                     this.characterService.drop_InventoryItem(this.get_Character(), inv, stone, false, false, false, 1);
                 }
             }
         }
+
         this.set_ToChange(stone);
         this.set_AeonStoneNames();
         this.refreshService.process_ToChange();
@@ -123,6 +135,7 @@ export class ItemAeonStonesComponent implements OnInit {
         const character = this.get_Character();
         const item: WornItem = this.item;
         const oldStone: WornItem = item.aeonStones[index];
+
         oldStone.isSlottedAeonStone = false;
         this.set_ToChange(oldStone);
         //Add the extracted stone back to the inventory.
@@ -146,19 +159,25 @@ export class ItemAeonStonesComponent implements OnInit {
             } else {
                 let price: number = stone.price;
                 let priceString = '';
+
                 if (price >= 100) {
                     priceString += `${ Math.floor(price / 100) }gp`;
                     price %= 100;
+
                     if (price >= 10) { priceString += ' '; }
                 }
+
                 if (price >= 10) {
                     priceString += `${ Math.floor(price / 10) }sp`;
                     price %= 10;
+
                     if (price >= 1) { priceString += ' '; }
                 }
+
                 if (price >= 1) {
                     priceString += `${ price }cp`;
                 }
+
                 return priceString;
             }
         } else {

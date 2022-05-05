@@ -18,7 +18,7 @@ import { EffectsService } from 'src/app/services/effects.service';
     selector: 'app-condition',
     templateUrl: './condition.component.html',
     styleUrls: ['./condition.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConditionComponent implements OnInit, OnDestroy {
 
@@ -47,7 +47,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         private readonly itemsService: ItemsService,
         private readonly conditionsService: ConditionsService,
         private readonly traitsService: TraitsService,
-        private readonly activitiesService: ActivitiesService
+        private readonly activitiesService: ActivitiesService,
     ) { }
 
     toggle_Item(name: string) {
@@ -56,6 +56,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         } else {
             this.showItem = name;
         }
+
         this.showItemMessage.emit(this.showItem);
     }
 
@@ -105,12 +106,14 @@ export class ConditionComponent implements OnInit, OnDestroy {
         } else {
             change = gain.value - oldValue;
         }
+
         if (gain.name == 'Drained' && change < 0) {
             //When you lower your drained value, you regain Max HP, but not the lost HP.
             //Because HP is Max HP - Damage, we increase damage to represent not regaining the HP.
             //We subtract level*change from damage because change is negative.
             this.get_Creature().health.damage == Math.max(0, (this.get_Creature().health.damage - (this.get_Creature().level * change)));
         }
+
         gain.showValue = false;
         this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
@@ -138,6 +141,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
                 gain.selectedOtherConditions.push('');
             }
         });
+
         return condition.selectOtherConditions;
     }
 
@@ -147,8 +151,10 @@ export class ConditionComponent implements OnInit, OnDestroy {
         const nameFilter = selection.nameFilter.map(filter => filter.toLowerCase());
         const filteredConditions = this.conditionsService.get_Conditions().filter(libraryCondition =>
             (typeFilter.length ? typeFilter.includes(libraryCondition.type.toLowerCase()) : true) &&
-            (nameFilter.length ? nameFilter.includes(libraryCondition.name.toLowerCase()) : true)
-        ).map(libraryCondition => libraryCondition.name.toLowerCase());
+            (nameFilter.length ? nameFilter.includes(libraryCondition.name.toLowerCase()) : true),
+        )
+            .map(libraryCondition => libraryCondition.name.toLowerCase());
+
         return Array.from(new Set(
             this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
                 .map(conditionGain => conditionGain.name)
@@ -156,8 +162,9 @@ export class ConditionComponent implements OnInit, OnDestroy {
                     (conditionName.toLowerCase() != gain.name.toLowerCase()) &&
                     (
                         (typeFilter.length || nameFilter.length) ? filteredConditions.includes(conditionName.toLowerCase()) : true
-                    )
-                ).concat('', gain.selectedOtherConditions[index])
+                    ),
+                )
+                .concat('', gain.selectedOtherConditions[index]),
         )).sort();
     }
 
@@ -191,6 +198,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         if (!name) {
             return [];
         }
+
         return this.activitiesService.get_Activities(name);
     }
 
@@ -200,6 +208,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
                 activityGain.heightened = this.conditionGain.heightened;
                 activityGain.get_OriginalActivity(this.activitiesService)?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
             });
+
             return this.conditionGain.gainActivities;
         } else {
             return [];
@@ -215,13 +224,13 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (target == 'effects' || target == 'all' || target == this.creature) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature == this.creature && ['effects', 'all'].includes(view.target)) {
                     this.changeDetector.detectChanges();
                 }

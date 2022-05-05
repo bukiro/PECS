@@ -21,6 +21,7 @@ export class Material {
     public itemFilter: Array<string> = [];
     public recast(): Material {
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
+
         return this;
     }
     public getName(): string {

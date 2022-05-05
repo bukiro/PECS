@@ -12,7 +12,7 @@ import { EffectsService } from 'src/app/services/effects.service';
     selector: 'app-hintItem',
     templateUrl: './hintItem.component.html',
     styleUrls: ['./hintItem.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HintItemComponent implements OnInit {
 
@@ -27,7 +27,7 @@ export class HintItemComponent implements OnInit {
         private readonly changeDetector: ChangeDetectorRef,
         private readonly traitsService: TraitsService,
         private readonly activitiesService: ActivitiesService,
-        private readonly refreshService: RefreshService
+        private readonly refreshService: RefreshService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -49,13 +49,13 @@ export class HintItemComponent implements OnInit {
     finish_Loading() {
         if (this.item.id) {
             this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
+                .subscribe(target => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
+                .subscribe(view => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }

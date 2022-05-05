@@ -7,6 +7,7 @@ export class Potion extends Consumable {
     readonly type = 'potions';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

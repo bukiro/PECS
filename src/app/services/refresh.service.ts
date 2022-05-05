@@ -24,7 +24,7 @@ import { CacheService } from 'src/app/services/cache.service';
 import { ActivitiesService } from './activities.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class RefreshService {
 
@@ -36,7 +36,7 @@ export class RefreshService {
 
     constructor(
         private readonly traitsService: TraitsService,
-        private readonly cacheService: CacheService
+        private readonly cacheService: CacheService,
     ) { }
 
     get get_Changed(): Observable<string> {
@@ -51,6 +51,7 @@ export class RefreshService {
         if (['Character', 'Companion', 'Familiar', 'all'].includes(target)) {
             this.clear_ToChange(target);
         }
+
         this.changed.next(target);
     }
 
@@ -72,6 +73,7 @@ export class RefreshService {
                 //For the rest, copy the toChange list and clear it, so we don't get a loop if set_ViewChanged() causes more calls of process_ToChange().
                 const uniqueOthersStrings = this.toChange.filter(view => view.creature.toLowerCase() == creature.toLowerCase()).map(view => JSON.stringify(view));
                 const uniqueOthers = Array.from(new Set(uniqueOthersStrings)).map(view => JSON.parse(view));
+
                 this.clear_ToChange(creature);
                 uniqueOthers.forEach(view => {
                     this.set_ViewChanged(view);
@@ -94,10 +96,12 @@ export class RefreshService {
             hint.showon.split(',').forEach(subtarget => {
                 this.set_ToChange(creature.type, 'tags', subtarget.trim());
             });
+
             //If any activities are named, also update the activities area.
             if (this.get_ActivitiesAffected(creature, hint.showon, services)) {
                 this.set_ToChange(creature.type, 'activities');
             }
+
             if (hint.effects.length) {
                 this.set_ToChange(creature.type, 'effects');
             }
@@ -121,32 +125,41 @@ export class RefreshService {
 
         //Prepare changes for everything that should be updated according to the ability.
         this.set_ToChange(creature, 'abilities');
+
         if (abilities.includes(ability)) {
             this.set_ToChange(creature, 'abilities');
             this.set_ToChange(creature, 'individualskills', ability);
         }
+
         if (attacks.includes(ability)) {
             this.set_ToChange(creature, 'attacks');
         }
+
         if (defense.includes(ability)) {
             this.set_ToChange(creature, 'defense');
         }
+
         if (general.includes(ability)) {
             this.set_ToChange(creature, 'general');
         }
+
         if (health.includes(ability)) {
             this.set_ToChange(creature, 'health');
         }
+
         if (inventory.includes(ability)) {
             this.set_ToChange(creature, 'inventory');
         }
+
         if (spells.includes(ability)) {
             this.set_ToChange(creature, 'spells');
             this.set_ToChange(creature, 'spellbook');
             this.set_ToChange(creature, 'spellchoices');
         }
+
         this.set_ToChange(creature, 'effects');
         this.set_ToChange('Character', 'charactersheet');
+
         if (ability == 'Intelligence') {
             this.set_ToChange('Character', 'skillchoices');
             services.characterService.update_LanguageList();
@@ -158,15 +171,19 @@ export class RefreshService {
         item.traits.map(trait => this.traitsService.getTraitFromName(trait)).forEach(trait => {
             this.set_HintsToChange(creature, trait.hints, services);
         });
+
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof AlchemicalPoison || item instanceof Ammunition || item instanceof Snare) {
             this.set_ToChange(creature.type, 'attacks');
         }
+
         if (item instanceof Oil) {
             this.set_HintsToChange(creature, item.hints, services);
         }
+
         if (item instanceof Rune) {
             this.set_RuneViewChanges(creature, item, services);
         }
+
         if (item instanceof Equipment) {
             this.set_EquipmentViewChanges(creature, item as Equipment, services);
             this.set_HintsToChange(creature, item.hints, services);
@@ -177,9 +194,11 @@ export class RefreshService {
         if (item.effects.some(effect => effect.value.includes('Choice'))) {
             this.set_ToChange(creature.type, 'effects');
         }
+
         if (item.hints.some(hint => hint.effects.some(effect => effect.value.includes('Choice')))) {
             this.set_ToChange(creature.type, 'effects');
         }
+
         if (item.hints.some(hint => hint.conditionChoiceFilter.length)) {
             this.set_HintsToChange(creature, item.hints, services);
         }
@@ -193,18 +212,22 @@ export class RefreshService {
             //That means we have to check the effects whenever we equip or unequip one of those.
             this.set_ToChange(creature.type, 'effects');
         }
+
         if (item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) {
             this.set_ToChange(creature.type, 'attacks');
             //There are effects that are based on your currently weapons.
             //That means we have to check the effects whenever we equip or unequip one of those.
             this.set_ToChange(creature.type, 'effects');
         }
+
         if (item.effects.length) {
             this.set_ToChange(creature.type, 'effects');
         }
+
         if (item.gainConditions.length) {
             this.set_ToChange(creature.type, 'effects');
         }
+
         if (item.activities?.length) {
             this.set_ToChange(creature.type, 'activities');
             item.activities.forEach(activity => {
@@ -214,6 +237,7 @@ export class RefreshService {
                 });
             });
         }
+
         if (item.gainActivities?.length) {
             this.set_ToChange(creature.type, 'activities');
             item.gainActivities.forEach(gain => {
@@ -223,20 +247,25 @@ export class RefreshService {
                 });
             });
         }
+
         if (item.gainSpells.length) {
             this.set_ToChange(creature.type, 'spellbook');
             this.set_ToChange(creature.type, 'spells');
         }
+
         if (item.gainSenses.length) {
             this.set_ToChange(creature.type, 'skills');
         }
+
         item.propertyRunes.forEach(rune => {
             if (item instanceof Armor) {
                 this.set_HintsToChange(creature, rune.hints, services);
+
                 if ((rune as ArmorRune).effects?.length) {
                     this.set_ToChange(creature.type, 'effects');
                 }
             }
+
             if (rune.activities?.length) {
                 this.set_ToChange(creature.type, 'activities');
                 rune.activities.forEach(activity => {
@@ -247,33 +276,40 @@ export class RefreshService {
                 });
             }
         });
+
         if (item instanceof AdventuringGear) {
             if (item.isArmoredSkirt) {
                 this.set_ToChange(creature.type, 'inventory');
                 this.set_ToChange(creature.type, 'defense');
             }
         }
+
         if (item instanceof WornItem) {
             if (item.isDoublingRings) {
                 this.set_ToChange(creature.type, 'inventory');
                 this.set_ToChange(creature.type, 'attacks');
             }
+
             if (item.isHandwrapsOfMightyBlows) {
                 this.set_ToChange(creature.type, 'inventory');
                 this.set_ToChange(creature.type, 'attacks');
             }
+
             if (item.isBracersOfArmor) {
                 this.set_ToChange(creature.type, 'inventory');
                 this.set_ToChange(creature.type, 'defense');
             }
+
             if (item.isRingOfWizardry) {
                 this.set_ToChange(creature.type, 'inventory');
                 this.set_ToChange(creature.type, 'spellbook');
                 this.set_ToChange(creature.type, 'spells');
             }
+
             if (item.gainLanguages.length) {
                 this.set_ToChange(creature.type, 'general');
             }
+
             item.aeonStones.forEach(aeonStone => {
                 this.set_ItemViewChanges(creature, aeonStone, services);
             });
@@ -283,9 +319,11 @@ export class RefreshService {
     private set_RuneViewChanges(creature: Creature, rune: Rune, services: { characterService: CharacterService }) {
         //Prepare refresh list according to the rune's properties.
         this.set_HintsToChange(creature, rune.hints, services);
+
         if (rune.effects.length) {
             this.set_ToChange(creature.type, 'effects');
         }
+
         if (rune.activities.length) {
             this.set_ToChange(creature.type, 'activities');
         }
@@ -323,74 +361,95 @@ export class RefreshService {
         //Then prepare changes for everything that should be updated according to the targets.
         targets.forEach(target => {
             const lowerCaseTarget = target.toLowerCase();
+
             if (general.includes(lowerCaseTarget) || generalWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, 'general');
             }
+
             if (abilities.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, 'abilities');
                 this.set_ToChange(context.creature.type, 'skills');
                 this.set_ToChange(context.creature.type, 'effects');
             }
+
             abilitiesWildcard.filter(name => lowerCaseTarget.includes(name)).forEach(() => {
                 this.set_ToChange(context.creature.type, 'abilities');
                 this.set_ToChange(context.creature.type, 'skills');
                 this.set_ToChange(context.creature.type, 'effects');
             });
+
             if (health.includes(lowerCaseTarget) || healthWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, 'health');
             }
+
             if (defense.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, 'defense');
             }
+
             if (defenseWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, 'defense');
             }
+
             if (effects.includes(lowerCaseTarget)) {
                 //Effects need to be re-generated if new effects are likely to change the effect generation procedure itself
                 // or its preflight functions.
                 this.set_ToChange(context.creature.type, 'effects');
             }
+
             if (attacks.includes(lowerCaseTarget) || attacksWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, 'attacks');
                 this.set_ToChange(context.creature.type, 'individualskills', 'attacks');
             }
+
             if (individualskills.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, 'individualskills', lowerCaseTarget);
             }
+
             if (fortitude.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, 'individualskills', 'fortitude');
             }
+
             if (reflex.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, 'individualskills', 'reflex');
             }
+
             if (will.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, 'individualskills', 'will');
             }
+
             if (individualSkillsWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, 'individualskills', lowerCaseTarget);
             }
+
             if (skillsWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, 'skills');
                 this.set_ToChange(context.creature.type, 'individualskills', 'all');
             }
+
             if (inventory.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, 'inventory');
             }
+
             if (inventoryWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, 'inventory');
             }
+
             if (spellbook.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, 'spellbook');
             }
+
             if (spellbookWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, 'spellbook');
             }
+
             if (activities.includes(lowerCaseTarget)) {
                 this.set_ToChange(context.creature.type, 'activities');
             }
+
             if (activitiesWildcard.some(name => lowerCaseTarget.includes(name))) {
                 this.set_ToChange(context.creature.type, 'activities');
             }
+
             //Specific triggers
             if (lowerCaseTarget == 'familiar abilities') {
                 //Familiar abilities effects need to update the familiar's featchoices.
@@ -404,6 +463,7 @@ export class RefreshService {
         // or old effects have been removed.
 
         const changedEffects: Array<Effect> = [];
+
         //Collect all new feats that don't exist in the old list or old feats that don't exist in the new list - that is, everything that has changed.
         newEffects.forEach(newEffect => {
             if (!oldEffects.some(oldEffect => JSON.stringify(oldEffect) == JSON.stringify(newEffect))) {
@@ -427,9 +487,11 @@ export class RefreshService {
         if (context.creature.inventories[0].weapons.some(weapon => weapon.equipped && changedEffects.some(effect => effect.target.toLowerCase() == weapon.name.toLowerCase()))) {
             this.set_ToChange(context.creature.type, 'attacks');
         }
+
         if (context.creature.inventories[0].armors.some(armor => armor.equipped && changedEffects.some(effect => effect.target.toLowerCase() == armor.name.toLowerCase()))) {
             this.set_ToChange(context.creature.type, 'defense');
         }
+
         if (context.creature.inventories[0].shields.some(shield => shield.equipped && changedEffects.some(effect => effect.target.toLowerCase() == shield.name.toLowerCase()))) {
             this.set_ToChange(context.creature.type, 'defense');
         }

@@ -7,6 +7,7 @@ export class OtherConsumableBomb extends AlchemicalBomb {
     readonly type = 'otherconsumablesbombs';
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

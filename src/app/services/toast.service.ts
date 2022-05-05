@@ -12,14 +12,12 @@ export class ToastService {
     public toasts: Array<Toast> = [];
 
     constructor(
-        private readonly _refreshService: RefreshService
+        private readonly _refreshService: RefreshService,
     ) { }
 
     public show(text: string, options: { onClickCreature?: string; onClickAction?: string } = {}): void {
-        options = Object.assign({
-            onClickCreature: '',
-            onClickAction: ''
-        }, options);
+        options = { onClickCreature: '',
+            onClickAction: '', ...options };
         this.toasts.push({ text, ...options });
         this._refreshService.set_Changed('toasts');
     }

@@ -9,7 +9,7 @@ export class Hint {
         'active2',
         'active3',
         'active4',
-        'active5'
+        'active5',
     ];
     public desc = '';
     public minLevel = 0;
@@ -36,6 +36,7 @@ export class Hint {
     recast() {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
+
         return this;
     }
     get_DescriptionSet(levelNumber: number) {
@@ -43,21 +44,26 @@ export class Hint {
         //A description set contains variable names and the text to replace them with.
         if (this.heightenedDescs.length) {
             let remainingLevelNumber = levelNumber;
+
             for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
                 if (this.heightenedDescs.some(descSet => descSet.level == remainingLevelNumber)) {
                     return this.heightenedDescs.find(descSet => descSet.level == remainingLevelNumber);
                 }
             }
         }
+
         return new HeightenedDescSet();
     }
     get_Heightened(text: string, levelNumber: number) {
         //For an arbitrary text (usually the spell description or the saving throw result descriptions), retrieve the appropriate description set for this level and replace the variables with the included strings.
         let heightenedText = text;
+
         this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             const regex = new RegExp(descVar.variable, 'g');
+
             heightenedText = heightenedText.replace(regex, (descVar.value || ''));
         });
+
         return heightenedText;
     }
 }

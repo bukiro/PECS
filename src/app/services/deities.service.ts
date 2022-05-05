@@ -8,7 +8,7 @@ import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class DeitiesService {
 
@@ -20,11 +20,11 @@ export class DeitiesService {
     private readonly deitiesMap = new Map<string, Deity>();
 
     constructor(
-        private readonly extensionsService: ExtensionsService
+        private readonly extensionsService: ExtensionsService,
     ) { }
 
     private get_ReplacementDeity(name?: string): Deity {
-        return Object.assign(new Deity(), { name: 'Deity not found', 'desc': `${ name ? name : 'The requested deity' } does not exist in the deities list.` });
+        return Object.assign(new Deity(), { name: 'Deity not found', desc: `${ name ? name : 'The requested deity' } does not exist in the deities list.` });
     }
 
     get_DeityFromName(name: string): Deity {
@@ -36,15 +36,20 @@ export class DeitiesService {
         if (!this.$characterDeities.length && character.class.deity) {
             //Recreate the character deities list from the main deity and the Syncretism feat data.
             const mainDeity = this.get_Deities(character.class.deity)[0];
+
             if (mainDeity) {
                 this.$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
+
                 const syncretismFeat = characterService.get_CharacterFeatsTaken(0, level, 'Syncretism').length;
+
                 if (syncretismFeat) {
                     const data = character.class.get_FeatData(0, 0, 'Syncretism')[0];
                     const syncretismDeity = data.valueAsString('deity');
+
                     if (syncretismDeity) {
                         const levelNumber = data.level;
                         const secondDeity = this.get_Deities(syncretismDeity)[0];
+
                         if (secondDeity) {
                             this.$characterDeities.push({ deity: secondDeity, source: 'syncretism', level: levelNumber });
                         }
@@ -52,6 +57,7 @@ export class DeitiesService {
                 }
             }
         }
+
         return this.$characterDeities.filter(deitySet => deitySet.level <= level && (!source || deitySet.source == source)).map(deitySet => deitySet.deity);
     }
 
@@ -97,7 +103,9 @@ export class DeitiesService {
 
     load_Deities() {
         this.deities = [];
+
         const data = this.extensionsService.extend(json_deities, 'deities');
+
         Object.keys(data).forEach(key => {
             this.deities.push(...data[key].map((obj: Deity) => Object.assign(new Deity(), obj).recast()));
         });
@@ -106,7 +114,9 @@ export class DeitiesService {
 
     load_Domains() {
         this.domains = [];
+
         const data = this.extensionsService.extend(json_domains, 'domains');
+
         Object.keys(data).forEach(key => {
             this.domains.push(...data[key].map((obj: Domain) => Object.assign(new Domain(), obj).recast()));
         });

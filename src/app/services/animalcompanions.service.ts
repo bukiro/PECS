@@ -12,7 +12,7 @@ import { TypeService } from 'src/app/services/type.service';
 
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class AnimalCompanionsService {
 
@@ -25,7 +25,7 @@ export class AnimalCompanionsService {
 
     constructor(
         private readonly extensionsService: ExtensionsService,
-        private readonly typeService: TypeService
+        private readonly typeService: TypeService,
     ) { }
 
     get_CompanionTypes(name = '') {
@@ -48,8 +48,10 @@ export class AnimalCompanionsService {
 
     restore_AncestryFromSave(ancestry: AnimalCompanionAncestry) {
         let restoredAncestry: AnimalCompanionAncestry;
+
         if (ancestry.name) {
             const libraryObject = this.get_CompanionTypes(ancestry.name)[0];
+
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
@@ -59,12 +61,14 @@ export class AnimalCompanionsService {
                 }
             }
         }
+
         return restoredAncestry || ancestry;
     }
 
     clean_AncestryForSave(ancestry: AnimalCompanionAncestry) {
         if (ancestry.name) {
             const libraryObject = this.get_CompanionTypes(ancestry.name)[0];
+
             if (libraryObject) {
                 Object.keys(ancestry).forEach(key => {
                     if (key != 'name') {
@@ -77,12 +81,14 @@ export class AnimalCompanionsService {
                 });
             }
         }
+
         return ancestry;
     }
 
     restore_LevelsFromSave($class: AnimalCompanionClass) {
         if ($class.levels) {
             const libraryObject = this.get_CompanionLevels();
+
             if (libraryObject) {
                 for (let index = 0; index < $class.levels.length; index++) {
                     //Map the restored object onto the library object and keep the result.
@@ -94,12 +100,14 @@ export class AnimalCompanionsService {
                 }
             }
         }
+
         return $class;
     }
 
     clean_LevelsForSave($class: AnimalCompanionClass) {
         if ($class.levels) {
             const libraryObject = this.get_CompanionLevels();
+
             if (libraryObject) {
                 for (let index = 0; index < $class.levels.length; index++) {
                     Object.keys($class.levels[index]).forEach(key => {
@@ -115,13 +123,16 @@ export class AnimalCompanionsService {
 
             }
         }
+
         return $class;
     }
 
     restore_SpecializationFromSave(spec: AnimalCompanionSpecialization) {
         let restoredSpecialization: AnimalCompanionSpecialization;
+
         if (spec.name) {
             const libraryObject = this.get_CompanionSpecializations(spec.name)[0];
+
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
@@ -131,12 +142,14 @@ export class AnimalCompanionsService {
                 }
             }
         }
+
         return restoredSpecialization || spec;
     }
 
     clean_SpecializationForSave(spec: AnimalCompanionSpecialization) {
         if (spec.name) {
             const libraryObject = this.get_CompanionSpecializations(spec.name)[0];
+
             if (libraryObject) {
                 Object.keys(spec).forEach(key => {
                     if (key != 'name') {
@@ -149,6 +162,7 @@ export class AnimalCompanionsService {
                 });
             }
         }
+
         return spec;
     }
 
@@ -159,6 +173,7 @@ export class AnimalCompanionsService {
 
     add_Specialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization, levelNumber: number) {
         const newLength = companion.class.specializations.push(Object.assign<AnimalCompanionSpecialization, AnimalCompanionSpecialization>(new AnimalCompanionSpecialization(), JSON.parse(JSON.stringify(spec))).recast());
+
         companion.class.specializations[newLength - 1].level = levelNumber;
     }
 
@@ -177,6 +192,7 @@ export class AnimalCompanionsService {
             this.load(json_ancestries, 'companionAncestries', 'AnimalCompanionAncestry');
             this.loading_ancestries = false;
         }
+
         if (!this.companionLevels.length) {
             this.loading_levels = true;
             this.load(json_levels, 'companionLevels', 'AnimalCompanionLevel');
@@ -184,6 +200,7 @@ export class AnimalCompanionsService {
             this.companionLevels = this.companionLevels.sort((a, b) => a.number - b.number);
             this.loading_levels = false;
         }
+
         if (!this.companionSpecializations.length) {
             this.loading_specializations = true;
             this.load(json_specializations, 'companionSpecializations', 'AnimalCompanionSpecialization');
@@ -208,7 +225,9 @@ export class AnimalCompanionsService {
 
     load(source, target: string, type: string) {
         this[target] = [];
+
         const data = this.extensionsService.extend(source, target);
+
         switch (type) {
             case 'AnimalCompanionAncestry':
                 Object.keys(data).forEach(key => {
@@ -226,6 +245,7 @@ export class AnimalCompanionsService {
                 });
                 break;
         }
+
         this[target] = this.extensionsService.cleanup_Duplicates(this[target], 'name', target);
     }
 

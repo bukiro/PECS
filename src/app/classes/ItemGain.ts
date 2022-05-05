@@ -66,18 +66,24 @@ export class ItemGain {
                     if (deities.length) {
                         const favoredWeaponNames: Array<string> = [];
                         const deity = services.characterService.get_CharacterDeities(character)[0];
+
                         if (deity && deity.favoredWeapon.length) {
                             favoredWeaponNames.push(...deity.favoredWeapon);
                         }
+
                         if (services.characterService.get_CharacterFeatsTaken(1, creature.level, 'Favored Weapon (Syncretism)').length) {
                             favoredWeaponNames.push(...services.characterService.get_CharacterDeities(character, 'syncretism')[0]?.favoredWeapon || []);
                         }
+
                         if (favoredWeaponNames.length) {
                             const favoredWeapons: Array<Weapon> = services.itemsService.get_CleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
+
                             if (favoredWeapons.length) {
                                 const grantedItemIDs: Array<string> = [];
+
                                 favoredWeapons.forEach(weapon => {
                                     const newGain = Object.assign(new ItemGain(), { ...JSON.parse(JSON.stringify(this)), special: '', id: weapon.id });
+
                                     newGain.grant_GrantedItem(creature, context, services);
                                     grantedItemIDs.push(newGain.grantedItemID);
                                 });
@@ -91,15 +97,17 @@ export class ItemGain {
                     } else {
                         services.characterService.toastService.show('You did not gain your deity\'s favored weapon because you have no deity.');
                     }
+
                     break;
             }
-        }
-        else {
+        } else {
             const newItem: Item = services.itemsService.get_CleanItems()[this.type.toLowerCase()].find((item: Item) => this.get_IsMatchingItem(item));
+
             if (newItem) {
                 if (newItem.canStack()) {
                     //For stackables, add the appropriate amount and don't track them.
                     const grantedItem = services.characterService.grant_InventoryItem(newItem, { creature, inventory: creature.inventories[0], amount: (this.amount + (this.amountPerLevel * creature.level)) }, { resetRunes: false, changeAfter: false, equipAfter: false, expiration: this.expiration });
+
                     if (this.unhideAfterGrant) {
                         grantedItem.hide = false;
                     }
@@ -107,15 +115,20 @@ export class ItemGain {
                     //For non-stackables, track the ID of the newly added item for removal.
                     //Don't equip the new item if it's a shield or armor and the granting one is too - only one shield or armor can be equipped.
                     let equip = true;
+
                     if (context.grantingItem && ((newItem instanceof Armor || newItem instanceof Shield) && newItem instanceof context.grantingItem.constructor)) {
                         equip = false;
                     }
+
                     const grantedItem = services.characterService.grant_InventoryItem(newItem, { creature, inventory: creature.inventories[0], amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: equip, expiration: this.expiration, newPropertyRunes: this.newPropertyRunes });
+
                     this.grantedItemID = grantedItem.id;
                     grantedItem.expiresOnlyIf = this.expiresOnlyIf;
+
                     if (this.unhideAfterGrant) {
                         grantedItem.hide = false;
                     }
+
                     if (!grantedItem.canStack() && context.sourceName) {
                         grantedItem.grantedBy = `(Granted by ${ context.sourceName })`;
                     }
@@ -130,19 +143,21 @@ export class ItemGain {
         }
     }
     public drop_GrantedItem(creature: Creature, options: { requireGrantedItemID?: boolean }, services: { characterService: CharacterService }): void {
-        options = Object.assign(
-            {
-                requireGrantedItemID: true
-            }, options
-        );
+        options = {
+            requireGrantedItemID: true, ...options,
+        };
+
         let done = false;
         let amount = this.amount;
+
         if (this.special) {
             const multipleGrantedItemIDs: Array<string> = this.grantedItemID.split(',');
+
             switch (this.special) {
                 case 'Favored Weapon':
                     multipleGrantedItemIDs.forEach(id => {
                         const newGain = Object.assign(new ItemGain(), { ...JSON.parse(JSON.stringify(this)), special: '', id: '', name: '', grantedItemID: id });
+
                         newGain.drop_GrantedItem(creature, { requireGrantedItemID: true }, services);
                     });
                     this.grantedItemID = '';
@@ -154,8 +169,10 @@ export class ItemGain {
                     inv[this.type].filter((item: Item) => options.requireGrantedItemID ? this.get_IsMatchingExistingItem(item) : this.get_IsMatchingItem(item)).forEach((item: Item) => {
                         if (!done) {
                             const amountToRemove = Math.min(amount, item.amount);
+
                             amount -= amountToRemove;
                             services.characterService.drop_InventoryItem(creature, inv, item, false, true, true, amountToRemove, true);
+
                             if (amount <= 0) {
                                 done = true;
                             }

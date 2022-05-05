@@ -77,12 +77,14 @@ export class Spell {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.showSpells = this.showSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.targetNumbers = this.targetNumbers.map(obj => Object.assign(new SpellTargetNumber(), obj).recast());
+
         return this;
     }
     get_ActivationTraits(): Array<string> {
         return Array.from(new Set([].concat(...this.castType.split(',')
             .map(castType => {
                 const trimmedType = castType.trim().toLowerCase();
+
                 if (trimmedType.includes('verbal')) {
                     return ['Concentrate'];
                 } else if (trimmedType.includes('material')) {
@@ -94,7 +96,7 @@ export class Spell {
                 } else {
                     return [];
                 }
-            })
+            }),
         )));
     }
     get_DescriptionSet(levelNumber: number) {
@@ -102,21 +104,26 @@ export class Spell {
         //A description set contains variable names and the text to replace them with.
         if (this.heightenedDescs.length) {
             let remainingLevelNumber = levelNumber;
+
             for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
                 if (this.heightenedDescs.some(descSet => descSet.level == remainingLevelNumber)) {
                     return this.heightenedDescs.find(descSet => descSet.level == remainingLevelNumber);
                 }
             }
         }
+
         return new HeightenedDescSet();
     }
     get_Heightened(text: string, levelNumber: number) {
         //For an arbitrary text (usually the spell description or the saving throw result descriptions), retrieve the appropriate description set for this spell level and replace the variables with the included strings.
         let heightenedText = text;
+
         this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             const regex = new RegExp(descVar.variable, 'g');
+
             heightenedText = heightenedText.replace(regex, (descVar.value || ''));
         });
+
         return heightenedText;
     }
     get_TargetNumber(levelNumber: number, characterService: CharacterService) {
@@ -124,27 +131,34 @@ export class Spell {
         if (this.target == 'area') {
             return -1;
         }
+
         const character = characterService.get_Character();
         let targetNumber: SpellTargetNumber;
+
         //This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any). Prefer targetNumbers with required feats over those without.
         // If no targetNumbers are configured, return 1 for an ally spell and 0 for any other, and if none have a minLevel, return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
         if (this.targetNumbers.length) {
             if (this.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
                 let remainingLevelNumber = levelNumber;
+
                 for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
                     if (this.targetNumbers.some(targetNumber => targetNumber.minLevel == remainingLevelNumber)) {
                         targetNumber = this.targetNumbers.find(targetNumber => (targetNumber.minLevel == remainingLevelNumber) && (targetNumber.featreq && characterService.get_CharacterFeatsTaken(1, character.level, targetNumber.featreq).length));
+
                         if (!targetNumber) {
                             targetNumber = this.targetNumbers.find(targetNumber => targetNumber.minLevel == remainingLevelNumber);
                         }
+
                         if (targetNumber) {
                             return targetNumber.number;
                         }
                     }
                 }
+
                 return this.targetNumbers[0].number;
             } else {
                 targetNumber = this.targetNumbers.find(targetNumber => targetNumber.featreq && characterService.get_CharacterFeatsTaken(1, character.level, targetNumber.featreq).length);
+
                 return targetNumber?.number || this.targetNumbers[0].number;
             }
         } else {
@@ -224,6 +238,7 @@ export class Spell {
         //If the spell has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
         let result: { met: boolean; desc: string };
+
         if (this.levelreq && !this.traits.includes('Cantrip')) {
             if (spellLevel >= this.levelreq) {
                 result = { met: true, desc: `Level ${ this.levelreq }` };
@@ -233,14 +248,18 @@ export class Spell {
         } else {
             result = { met: true, desc: '' };
         }
+
         return result;
     }
     canChoose(characterService: CharacterService, spellLevel: number = Math.ceil(characterService.get_Character().level / 2)) {
         if (characterService.still_loading()) { return false; }
+
         if (spellLevel == -1) {
             spellLevel = Math.ceil(characterService.get_Character().level / 2);
         }
+
         const levelreq: boolean = this.meetsLevelReq(characterService, spellLevel).met;
+
         return levelreq;
     }
     get_IsHostile(ignoreOverride = false) {
@@ -273,6 +292,7 @@ export class Spell {
 
         //If needed, calculate the dynamic effective spell level.
         const Character = services.characterService.get_Character();
+
         if (context.gain.dynamicEffectiveSpellLevel) {
             try {
                 level = parseInt(eval(context.gain.dynamicEffectiveSpellLevel));
@@ -289,14 +309,17 @@ export class Spell {
             //Apply all effects that might change the effective spell level of this spell.
             const list = [
                 'Spell Levels',
-                `${ this.name } Spell Level`
+                `${ this.name } Spell Level`,
             ];
+
             if (this.traditions.includes('Focus')) {
                 list.push('Focus Spell Levels');
             }
+
             if (this.traits.includes('Cantrip')) {
                 list.push('Cantrip Spell Levels');
             }
+
             services.effectsService.get_AbsolutesOnThese(context.creature, list).forEach(effect => {
                 if (parseInt(effect.setValue)) {
                     level = parseInt(effect.setValue);

@@ -15,9 +15,10 @@ export class ArmorRune extends Rune {
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
+
         return this;
     }
     getEffectsGenerationHints(): Array<HintEffectsObject> {
-        return this.hints.map(hint => { return { hint, parentItem: this, objectName: this.getName() }; });
+        return this.hints.map(hint => ({ hint, parentItem: this, objectName: this.getName() }));
     }
 }

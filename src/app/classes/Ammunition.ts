@@ -14,6 +14,7 @@ export class Ammunition extends Consumable {
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
+
         return this;
     }
     getName() {

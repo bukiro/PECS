@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-spell',
     templateUrl: './spell.component.html',
     styleUrls: ['./spell.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellComponent implements OnInit, OnDestroy {
 
@@ -27,7 +27,7 @@ export class SpellComponent implements OnInit, OnDestroy {
         private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        private readonly traitsService: TraitsService
+        private readonly traitsService: TraitsService,
     ) { }
 
     trackByIndex(index: number): number {
@@ -47,13 +47,13 @@ export class SpellComponent implements OnInit, OnDestroy {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
+                .subscribe(target => {
                     if (['individualspells', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
+                .subscribe(view => {
                     if (view.creature.toLowerCase() == 'character' &&
                         (
                             view.target.toLowerCase() == 'all' ||
@@ -62,6 +62,7 @@ export class SpellComponent implements OnInit, OnDestroy {
                         this.changeDetector.detectChanges();
                     }
                 });
+
             return true;
         }
     }

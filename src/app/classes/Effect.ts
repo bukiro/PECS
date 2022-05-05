@@ -16,7 +16,7 @@ export class Effect {
     public cumulative: Array<string> = [];
     public sourceId = '';
     constructor(
-        public value: string = ''
+        public value: string = '',
     ) {
         if (value && !isNaN(parseInt(value))) {
             this.value = (parseInt(value) >= 0 ? '+' : '') + parseInt(value);

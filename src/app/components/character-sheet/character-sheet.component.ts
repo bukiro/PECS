@@ -11,36 +11,36 @@ import { Subscription } from 'rxjs';
     animations: [
         trigger('slideInOut', [
             state('in', style({
-                transform: 'translate3d(0,0,0)'
+                transform: 'translate3d(0,0,0)',
             })),
             state('out', style({
-                transform: 'translate3d(-100%, 0, 0)'
+                transform: 'translate3d(-100%, 0, 0)',
             })),
             transition('in => out', animate('400ms ease-in-out')),
-            transition('out => in', animate('400ms ease-in-out'))
+            transition('out => in', animate('400ms ease-in-out')),
         ]),
         trigger('slideInOutRight', [
             state('in', style({
-                transform: 'translate3d(0,0,0)'
+                transform: 'translate3d(0,0,0)',
             })),
             state('out', style({
-                transform: 'translate3d(+100%, 0, 0)'
+                transform: 'translate3d(+100%, 0, 0)',
             })),
             transition('in => out', animate('400ms ease-in-out')),
-            transition('out => in', animate('400ms ease-in-out'))
+            transition('out => in', animate('400ms ease-in-out')),
         ]),
         trigger('slideInOutVert', [
             state('in', style({
-                transform: 'translate3d(0,0,0)'
+                transform: 'translate3d(0,0,0)',
             })),
             state('out', style({
-                transform: 'translate3d(0, -100%, 0)'
+                transform: 'translate3d(0, -100%, 0)',
             })),
             transition('in => out', animate('400ms ease-in-out')),
-            transition('out => in', animate('400ms ease-in-out'))
+            transition('out => in', animate('400ms ease-in-out')),
         ]),
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterSheetComponent implements OnInit, OnDestroy {
 
@@ -50,7 +50,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     constructor(
         private readonly characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        private readonly changeDetector: ChangeDetectorRef
+        private readonly changeDetector: ChangeDetectorRef,
     ) { }
 
     toggle_Mode(type: string) {
@@ -210,17 +210,18 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed
-                .subscribe((target) => {
+                .subscribe(target => {
                     if (['character-sheet', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
             this.viewChangeSubscription = this.refreshService.get_ViewChanged
-                .subscribe((view) => {
+                .subscribe(view => {
                     if (view.creature.toLowerCase() == 'character' && ['character-sheet', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
+
             return true;
         }
     }

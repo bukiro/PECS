@@ -17,6 +17,7 @@ export class Snare extends Consumable {
     }
     recast(typeService: TypeService, itemsService: ItemsService) {
         super.recast(typeService, itemsService);
+
         return this;
     }
 }

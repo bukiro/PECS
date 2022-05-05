@@ -25,7 +25,7 @@ import { Subscription } from 'rxjs';
     selector: 'app-conditions',
     templateUrl: './conditions.component.html',
     styleUrls: ['./conditions.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConditionsComponent implements OnInit, OnDestroy {
 
@@ -64,7 +64,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly timeService: TimeService,
         private readonly traitsService: TraitsService,
         private readonly evaluationService: EvaluationService,
-        private readonly customEffectsService: CustomEffectsService
+        private readonly customEffectsService: CustomEffectsService,
     ) { }
 
     set_Range(amount: number) {
@@ -77,6 +77,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         } else {
             this.showList = type;
         }
+
         this.range = 0;
     }
 
@@ -187,6 +188,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     get_VisibleConditionsSet(type: string) {
         let typeKey = '';
+
         switch (type) {
             case 'Generic':
                 typeKey = 'generic';
@@ -247,8 +249,9 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                                 .toLowerCase()
                                 .includes(this.wordFilter.toLowerCase())
                         )
-                    )
-                ).sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
+                    ),
+                )
+                .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
         }
     }
 
@@ -291,12 +294,15 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         if (this.permanent) {
             return -1;
         }
+
         if (this.untilRest) {
             return -2;
         }
+
         if (this.untilRefocus) {
             return -3;
         }
+
         return (
             this.days * 144000 +
             this.hours * 6000 +
@@ -316,19 +322,25 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false), includeTurnState = true) {
         const newGain = new ConditionGain();
+
         newGain.name = condition.name;
+
         if (duration < 0 || duration == 1 || !includeTurnState) {
             newGain.duration = duration;
         } else {
             newGain.duration = duration + (this.endOn == this.timeService.getYourTurn() ? 0 : 5);
         }
+
         newGain.choice = condition.choice;
+
         if (condition.hasValue) {
             newGain.value = this.value;
         }
+
         if (condition.type == 'spells') {
             newGain.heightened = this.heightened;
         }
+
         newGain.source = 'Manual';
         this.characterService.add_Condition(creature, newGain);
     }
@@ -341,17 +353,20 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         //Send the effect's setValue or value to the EvaluationService to get its result.
         let result: string | number = null;
         let penalty = false;
+
         if (effect.setValue) {
             result = this.evaluationService.get_ValueFromFormula(effect.setValue, { characterService: this.characterService, effectsService: this.effectsService }, { creature, effect });
             penalty = false;
         } else if (effect.value) {
             result = this.evaluationService.get_ValueFromFormula(effect.value, { characterService: this.characterService, effectsService: this.effectsService }, { creature, effect });
+
             if (!isNaN(result as number)) {
                 penalty = (result < 0) == (effect.affected != 'Bulk');
             } else {
                 result = null;
             }
         }
+
         return { value: result, penalty };
     }
 
@@ -369,6 +384,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -382,11 +398,13 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         const duration: number = this.get_ConditionDuration(false);
         const newLength = creature.effects.push(Object.assign<EffectGain, EffectGain>(new EffectGain(), JSON.parse(JSON.stringify(this.newEffect))).recast());
         const newEffect = creature.effects[newLength - 1];
+
         if (duration == -1) {
             newEffect.maxDuration = newEffect.duration = duration;
         } else {
             newEffect.maxDuration = newEffect.duration = duration + (this.endOn == this.timeService.getYourTurn() ? 0 : 5);
         }
+
         this.refreshService.set_ToChange(creature.type, 'effects');
         this.refreshService.set_ToChange(creature.type, 'conditions');
         this.refreshService.process_ToChange();
@@ -413,16 +431,20 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         if (this.get_IsFormula(effect.value)) {
             effect.value = '0';
         }
+
         this.update_Effects(creature);
     }
 
     validate_AdvancedEffect(propertyData: ItemProperty, index: number) {
         this.validationError[index] = '';
         this.validationResult[index] = '';
+
         const value = this.newEffect[propertyData.key];
+
         if (propertyData.key == 'value' && propertyData.parent == 'effects') {
             if (value && value != '0') {
                 const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
+
                 if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError[index] = '';
@@ -439,6 +461,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         } else if (propertyData.key == 'setValue' && propertyData.parent == 'effects') {
             if (value && value != '0') {
                 const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
+
                 if (validationResult && (parseInt(validationResult) || parseFloat(validationResult)) || parseInt(validationResult) == 0) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError[index] = '';
@@ -481,11 +504,13 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     get_CustomEffectProperties() {
         const customEffectsService = this.customEffectsService;
+
         function get_PropertyData(key: string) {
             return customEffectsService.get_EffectProperties.find(property => property.key == key);
         }
+
         return Object.keys(this.newEffect)
-            .map((key) => get_PropertyData(key))
+            .map(key => get_PropertyData(key))
             .filter(property => property != undefined)
             .sort((a, b) => (a.group + a.priority == b.group + b.priority) ? 0 : ((a.group + a.priority > b.group + b.priority) ? 1 : -1));
     }
@@ -496,74 +521,100 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         switch (propertyData.examples) {
             case 'effects affected':
                 examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) => skill.name));
-                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => { return ability.name; }));
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.affected));
-                });
-                this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.affected));
-                });
+                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => ability.name));
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length)
+                    .forEach(feat => {
+                        examples.push(...feat.effects.map(effect => effect.affected));
+                    });
+                this.characterService.get_Conditions().filter(condition => condition.effects.length)
+                    .forEach((condition: Condition) => {
+                        examples.push(...condition.effects.map(effect => effect.affected));
+                    });
                 break;
             case 'effects value':
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                    examples.push(...feat.onceEffects.map(effect => effect.value));
-                });
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.value));
-                });
-                this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.onceEffects.map(effect => effect.value));
-                });
-                this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.value));
-                });
-                this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.onceEffects.map(effect => effect.value));
-                });
-                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
-                    item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length)
+                    .forEach(feat => {
+                        examples.push(...feat.onceEffects.map(effect => effect.value));
+                    });
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length)
+                    .forEach(feat => {
+                        examples.push(...feat.effects.map(effect => effect.value));
+                    });
+                this.characterService.get_Conditions().filter(condition => condition.onceEffects.length)
+                    .forEach((condition: Condition) => {
+                        examples.push(...condition.onceEffects.map(effect => effect.value));
+                    });
+                this.characterService.get_Conditions().filter(condition => condition.effects.length)
+                    .forEach((condition: Condition) => {
+                        examples.push(...condition.effects.map(effect => effect.value));
+                    });
+                this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length)
+                    .forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.value));
                     });
-                });
-                this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                    examples.push(...item.onceEffects.map(effect => effect.value));
-                });
-                examples = examples.filter(example => typeof example == 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
+                this.get_Items().allEquipment()
+                    .concat(...this.get_Inventories().map(inventory => inventory.allEquipment()))
+                    .filter(item => item.activities.length)
+                    .forEach((item: Equipment) => {
+                        item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                            examples.push(...activity.onceEffects.map(effect => effect.value));
+                        });
+                    });
+                this.get_Items().allConsumables()
+                    .concat(...this.get_Inventories().map(inventory => inventory.allConsumables()))
+                    .filter(item => item.onceEffects.length)
+                    .forEach((item: Consumable) => {
+                        examples.push(...item.onceEffects.map(effect => effect.value));
+                    });
+                examples = examples.filter(example => typeof example === 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
                 break;
             case 'effects setvalue':
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length).forEach(feat => {
-                    examples.push(...feat.onceEffects.map(effect => effect.setValue));
-                });
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.setValue));
-                });
-                this.characterService.get_Conditions().filter(condition => condition.onceEffects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.onceEffects.map(effect => effect.setValue));
-                });
-                this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.setValue));
-                });
-                this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
-                    examples.push(...activity.onceEffects.map(effect => effect.setValue));
-                });
-                this.get_Items().allEquipment().concat(...this.get_Inventories().map(inventory => inventory.allEquipment())).filter(item => item.activities.length).forEach((item: Equipment) => {
-                    item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length)
+                    .forEach(feat => {
+                        examples.push(...feat.onceEffects.map(effect => effect.setValue));
+                    });
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length)
+                    .forEach(feat => {
+                        examples.push(...feat.effects.map(effect => effect.setValue));
+                    });
+                this.characterService.get_Conditions().filter(condition => condition.onceEffects.length)
+                    .forEach((condition: Condition) => {
+                        examples.push(...condition.onceEffects.map(effect => effect.setValue));
+                    });
+                this.characterService.get_Conditions().filter(condition => condition.effects.length)
+                    .forEach((condition: Condition) => {
+                        examples.push(...condition.effects.map(effect => effect.setValue));
+                    });
+                this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length)
+                    .forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.setValue));
                     });
-                });
-                this.get_Items().allConsumables().concat(...this.get_Inventories().map(inventory => inventory.allConsumables())).filter(item => item.onceEffects.length).forEach((item: Consumable) => {
-                    examples.push(...item.onceEffects.map(effect => effect.setValue));
-                });
-                examples = examples.filter(example => typeof example == 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
+                this.get_Items().allEquipment()
+                    .concat(...this.get_Inventories().map(inventory => inventory.allEquipment()))
+                    .filter(item => item.activities.length)
+                    .forEach((item: Equipment) => {
+                        item.activities.filter(activity => activity.onceEffects.length).forEach((activity: Activity) => {
+                            examples.push(...activity.onceEffects.map(effect => effect.setValue));
+                        });
+                    });
+                this.get_Items().allConsumables()
+                    .concat(...this.get_Inventories().map(inventory => inventory.allConsumables()))
+                    .filter(item => item.onceEffects.length)
+                    .forEach((item: Consumable) => {
+                        examples.push(...item.onceEffects.map(effect => effect.setValue));
+                    });
+                examples = examples.filter(example => typeof example === 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
                 break;
             case 'effects title':
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length).forEach(feat => {
-                    examples.push(...feat.effects.map(effect => effect.title));
-                });
-                this.characterService.get_Conditions().filter(condition => condition.effects.length).forEach((condition: Condition) => {
-                    examples.push(...condition.effects.map(effect => effect.title));
-                });
-                examples = examples.filter(example => typeof example == 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened'));
+                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length)
+                    .forEach(feat => {
+                        examples.push(...feat.effects.map(effect => effect.title));
+                    });
+                this.characterService.get_Conditions().filter(condition => condition.effects.length)
+                    .forEach((condition: Condition) => {
+                        examples.push(...condition.effects.map(effect => effect.title));
+                    });
+                examples = examples.filter(example => typeof example === 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened'));
                 break;
             case 'effects type':
                 examples = this.get_BonusTypes();
@@ -571,6 +622,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         }
 
         const uniqueExamples = Array.from(new Set(examples.filter(example => example.length <= 90)));
+
         return uniqueExamples.sort();
     }
 
@@ -580,13 +632,13 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['conditions', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['conditions', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }

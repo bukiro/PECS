@@ -9,7 +9,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
     selector: 'app-abilities',
     templateUrl: './abilities.component.html',
     styleUrls: ['./abilities.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AbilitiesComponent implements OnInit, OnDestroy {
 
@@ -26,7 +26,7 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
         public abilitiesService: AbilitiesService,
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        public effectsService: EffectsService
+        public effectsService: EffectsService,
     ) { }
 
     minimize() {
@@ -81,13 +81,13 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['abilities', 'all', this.creature.toLowerCase()].includes(target)) {
                     this.changeDetector.detectChanges();
                 }
             });
         this.viewChangeSubscription = this.refreshService.get_ViewChanged
-            .subscribe((view) => {
+            .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['abilities', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
