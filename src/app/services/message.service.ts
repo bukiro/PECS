@@ -53,8 +53,8 @@ export class MessageService {
         return this.http.get<Array<string>>(`${ this.configService.get_DBConnectionURL() }/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
-    load_TimeFromConnector(): Observable<Array<string>> {
-        return this.http.get<Array<string>>(`${ this.configService.get_DBConnectionURL() }/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+    load_TimeFromConnector(): Observable<{ time: number }> {
+        return this.http.get<{ time: number }>(`${ this.configService.get_DBConnectionURL() }/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
     }
 
     delete_MessageFromDB(message: PlayerMessage): Observable<Array<string>> {

@@ -26,6 +26,11 @@ interface DatabaseCharacter {
     _id: string;
 }
 
+interface SaveCharacterResponse {
+    result: { n: number, ok: number },
+    lastErrorObject?: { updatedExisting?: number }
+}
+
 enum HttpStatus {
     InvalidLogin = 401,
 }
@@ -57,9 +62,16 @@ export class SavegameService {
         return this._loadingError;
     }
 
-    public processLoadedCharacter(character: Character & DatabaseCharacter, characterService: CharacterService, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService): Character {
+    public processLoadedCharacter(loader: Partial<Character & DatabaseCharacter>, characterService: CharacterService, itemsService: ItemsService, classesService: ClassesService, historyService: HistoryService, animalCompanionsService: AnimalCompanionsService): Character {
         //Make a copy of the character before restoration. This will be used in patching.
-        const savedCharacter = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(character)));
+        const savedCharacter = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(loader)));
+
+        //Remove the database id so it isn't saved over.
+        if (loader._id) {
+            delete loader._id;
+        }
+
+        const character = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(loader)));
 
         //We restore a few things individually before we restore the class, allowing us to patch them before any issues would be created by new changes to the class.
 
@@ -102,9 +114,6 @@ export class SavegameService {
         }
 
         character.recast(this._typeService, itemsService);
-        if (character._id) {
-            delete character._id;
-        }
 
         //Apply any patches that need to be done after the class is restored.
         this._patchCompleteCharacter(savedCharacter, character, characterService);
@@ -212,9 +221,9 @@ export class SavegameService {
         return this._http.post<Array<string>>(`${ this._configService.get_DBConnectionURL() }/deleteCharacter`, { id: savegame.id }, { headers: new HttpHeaders({ 'x-access-Token': this._configService.get_XAccessToken() }) });
     }
 
-    public saveCharacter(savegame: Partial<Character>): Observable<Array<string>> {
+    public saveCharacter(savegame: Partial<Character>): Observable<SaveCharacterResponse> {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.post<Array<string>>(`${ this._configService.get_DBConnectionURL() }/saveCharacter`, savegame, { headers: new HttpHeaders({ 'x-access-Token': this._configService.get_XAccessToken() }) });
+        return this._http.post<SaveCharacterResponse>(`${ this._configService.get_DBConnectionURL() }/saveCharacter`, savegame, { headers: new HttpHeaders({ 'x-access-Token': this._configService.get_XAccessToken() }) });
     }
 
     private _loadAllCharacters(): Observable<Array<Partial<Character>>> {

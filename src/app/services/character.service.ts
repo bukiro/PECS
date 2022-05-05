@@ -1461,7 +1461,7 @@ export class CharacterService {
         }
         this.messageService.get_Time()
             .subscribe({
-                next: (result: Array<string>) => {
+                next: result => {
                     const timeStamp = result.time;
                     const character = this.get_Character();
                     const targets = this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
@@ -1539,7 +1539,7 @@ export class CharacterService {
         }
         this.messageService.get_Time()
             .subscribe({
-                next: (result: Array<string>) => {
+                next: result => {
                     const timeStamp = result.time;
                     const creatures = this.get_Creatures();
                     const messages: Array<PlayerMessage> = [];
@@ -1641,7 +1641,7 @@ export class CharacterService {
         }
         this.messageService.get_Time()
             .subscribe({
-                next: (result: Array<string>) => {
+                next: result => {
                     const timeStamp = result.time;
                     if (!amount) {
                         amount == item.amount;
@@ -1780,7 +1780,7 @@ export class CharacterService {
         }
         this.messageService.get_Time()
             .subscribe({
-                next: (result: Array<string>) => {
+                next: result => {
                     const timeStamp = result.time;
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const response = new PlayerMessage();
@@ -2613,10 +2613,8 @@ export class CharacterService {
 
     finish_Loading(loadAsGM = false) {
         this.set_LoadingStatus('Initializing character');
-        //We assign the character, but recast it in the savegameService.
-        this.me = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this.loader)));
-        //Use this.me here instead of this.get_Character() because we're still_loading().
-        this.me = this.savegameService.processLoadedCharacter(this.me, this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
+        //Assign and restore the loaded character.
+        this.me = this.savegameService.processLoadedCharacter(JSON.parse(JSON.stringify(this.loader)), this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
         this.me.GMMode = loadAsGM;
         this.loader = [];
         //Set loading to false. The last steps need the characterService to not be loading.
