@@ -4,51 +4,66 @@ import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Creature } from './Creature';
+import { Effect } from './Effect';
+
+interface CalculatedAbility {
+    absolutes: boolean;
+    baseValue: { result: number; explain: string };
+    bonuses: boolean;
+    penalties: boolean;
+    value: { result: number; explain: string };
+    mod: { result: number; explain: string };
+    modabsolutes: boolean;
+    modbonuses: boolean;
+    modpenalties: boolean;
+}
+
+const abilityDefaultBaseValue = 10;
+const abilityBoostWeightFull = 2;
+const abilityBoostWeightHalf = 2;
+const abilityBoostWeightBreakpoint = 18;
 
 export class Ability {
     constructor(
         public name: string = '',
     ) { }
-    calculate(creature: Creature, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+    public calculate(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService,
+        charLevel: number = characterService.get_Character().level,
+    ): CalculatedAbility {
         const result = {
-            absolutes: !!this.absolutes(creature, effectsService, this.name).length,
-            baseValue: this.baseValue(creature, characterService, charLevel) as { result: number; explain: string },
-            bonuses: !!this.bonuses(creature, effectsService, this.name),
-            penalties: !!this.penalties(creature, effectsService, this.name),
-            value: this.value(creature, characterService, effectsService, charLevel) as { result: number; explain: string },
-            mod: this.mod(creature, characterService, effectsService, charLevel) as { result: number; explain: string },
-            modabsolutes: !!this.absolutes(creature, effectsService, `${ this.name } Modifier`).length,
-            modbonuses: !!this.bonuses(creature, effectsService, `${ this.name } Modifier`),
-            modpenalties: !!this.penalties(creature, effectsService, `${ this.name } Modifier`),
+            absolutes: !!this._absolutes(creature, effectsService, this.name).length,
+            baseValue: this.baseValue(creature, characterService, charLevel),
+            bonuses: this._bonuses(creature, effectsService, this.name),
+            penalties: this._penalties(creature, effectsService, this.name),
+            value: this.value(creature, characterService, effectsService, charLevel),
+            mod: this.mod(creature, characterService, effectsService, charLevel),
+            modabsolutes: !!this._absolutes(creature, effectsService, `${ this.name } Modifier`).length,
+            modbonuses: this._bonuses(creature, effectsService, `${ this.name } Modifier`),
+            modpenalties: this._penalties(creature, effectsService, `${ this.name } Modifier`),
         };
 
         return result;
     }
-    absolutes(creature: Creature, effectsService: EffectsService, name: string) {
-        return effectsService.get_AbsolutesOnThis(creature, name);
-    }
-    relatives(creature: Creature, effectsService: EffectsService, name: string) {
-        return effectsService.get_RelativesOnThis(creature, name);
-    }
-    bonuses(creature: Creature, effectsService: EffectsService, name: string) {
-        return effectsService.show_BonusesOnThis(creature, name);
-    }
-    penalties(creature: Creature, effectsService: EffectsService, name: string) {
-        return effectsService.show_PenaltiesOnThis(creature, name);
-    }
-    baseValue(creature: Creature, characterService: CharacterService, charLevel: number = characterService.get_Character().level) {
+    public baseValue(
+        creature: Creature,
+        characterService: CharacterService,
+        charLevel: number = characterService.get_Character().level,
+    ): { result: number; explain: string } {
         if (creature instanceof Familiar) {
             return { result: 0, explain: '' };
         } else {
             if (characterService.still_loading()) {
-                return { result: 10, explain: 'Base value: 10' };
+                return { result: abilityDefaultBaseValue, explain: 'Base value: 10' };
             }
 
             //Get manual baseValues for the character if they exist, otherwise 10
-            let baseValue = 10;
+            let baseValue = abilityDefaultBaseValue;
 
             if (creature instanceof Character && creature.baseValues.length) {
-                creature.baseValues.filter(ownValue => ownValue.name == this.name).forEach(ownValue => {
+                creature.baseValues.filter(ownValue => ownValue.name === this.name).forEach(ownValue => {
                     baseValue = ownValue.baseValue;
                 });
             }
@@ -63,14 +78,18 @@ export class Ability {
 
             if (boosts) {
                 boosts.forEach(boost => {
-                    if (boost.type == 'Boost') {
-                        const weight = (baseValue < 18 || creature instanceof AnimalCompanion) ? 2 : 1;
+                    if (boost.type === 'Boost') {
+                        const weight = (
+                            baseValue < abilityBoostWeightBreakpoint || creature instanceof AnimalCompanion
+                                ? abilityBoostWeightFull
+                                : abilityBoostWeightHalf
+                        );
 
                         baseValue += weight;
                         explain += `\n${ boost.source }: +${ weight }`;
-                    } else if (boost.type == 'Flaw') {
-                        baseValue -= 2;
-                        explain += `\n${ boost.source }: -2`;
+                    } else if (boost.type === 'Flaw') {
+                        baseValue -= abilityBoostWeightFull;
+                        explain += `\n${ boost.source }: -${ abilityBoostWeightFull }`;
                     }
                 });
             }
@@ -78,7 +97,12 @@ export class Ability {
             return { result: baseValue, explain };
         }
     }
-    value(creature: Creature, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+    public value(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService,
+        charLevel: number = characterService.get_Character().level,
+    ): { result: number; explain: string } {
         //Calculates the ability with all active effects
         if (creature instanceof Familiar) {
             return { result: 0, explain: '' };
@@ -88,13 +112,13 @@ export class Ability {
             let explain: string = baseValue.explain;
 
             //Add all active bonuses and penalties to the base value
-            this.absolutes(creature, effectsService, this.name).forEach(effect => {
-                result = parseInt(effect.setValue);
+            this._absolutes(creature, effectsService, this.name).forEach(effect => {
+                result = parseInt(effect.setValue, 10);
                 explain = `${ effect.source }: ${ effect.setValue }`;
             });
-            this.relatives(creature, effectsService, this.name).forEach(effect => {
-                if (parseInt(effect.value) != 0) {
-                    result += parseInt(effect.value);
+            this._relatives(creature, effectsService, this.name).forEach(effect => {
+                if (parseInt(effect.value, 10) !== 0) {
+                    result += parseInt(effect.value, 10);
                     explain += `\n${ effect.source }: ${ effect.value }`;
                 }
             });
@@ -102,29 +126,58 @@ export class Ability {
             return { result, explain };
         }
     }
-    mod(creature: Creature, characterService: CharacterService, effectsService: EffectsService, charLevel: number = characterService.get_Character().level) {
+    public mod(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService,
+        charLevel: number = characterService.get_Character().level,
+    ): { result: number; explain: string } {
         if (creature instanceof Familiar) {
             return { result: 0, explain: '' };
         } else {
             const value = this.value(creature, characterService, effectsService, charLevel);
             const result: number = value.result;
-            //Calculates the ability modifier from the effective ability in the usual d20 fashion - 0-1 => -5; 2-3 => -4; ... 10-11 => 0; 12-13 => 1 etc.
-            let modifier = Math.floor((result - 10) / 2);
+            /**
+             * Calculates the ability modifier from the effective ability in the usual d20 fashion:
+             * 0-1 => -5;
+             * 2-3 => -4;
+             * ...
+             * 10-11 => 0;
+             * 12-13 => 1;
+             * ...
+             * 20-21 => 5
+             * etc.
+             */
+            const baseline = 10;
+            const half = 0.5;
+            let modifier = Math.floor((result - baseline) * half);
             let explain = `${ this.name } Modifier: ${ modifier }`;
 
             //Add active bonuses and penalties to the ability modifier
-            this.absolutes(creature, effectsService, `${ this.name } Modifier`).forEach(effect => {
-                modifier = parseInt(effect.setValue);
+            this._absolutes(creature, effectsService, `${ this.name } Modifier`).forEach(effect => {
+                modifier = parseInt(effect.setValue, 10);
                 explain = `\n${ effect.source }: ${ effect.setValue }`;
             });
-            this.relatives(creature, effectsService, `${ this.name } Modifier`).forEach(effect => {
-                if (parseInt(effect.value) >= 0) {
-                    modifier += parseInt(effect.value);
+            this._relatives(creature, effectsService, `${ this.name } Modifier`).forEach(effect => {
+                if (parseInt(effect.value, 10) >= 0) {
+                    modifier += parseInt(effect.value, 10);
                     explain += `\n${ effect.source }: ${ effect.value }`;
                 }
             });
 
             return { result: modifier, explain };
         }
+    }
+    private _absolutes(creature: Creature, effectsService: EffectsService, name: string): Array<Effect> {
+        return effectsService.get_AbsolutesOnThis(creature, name);
+    }
+    private _relatives(creature: Creature, effectsService: EffectsService, name: string): Array<Effect> {
+        return effectsService.get_RelativesOnThis(creature, name);
+    }
+    private _bonuses(creature: Creature, effectsService: EffectsService, name: string): boolean {
+        return effectsService.show_BonusesOnThis(creature, name);
+    }
+    private _penalties(creature: Creature, effectsService: EffectsService, name: string): boolean {
+        return effectsService.show_PenaltiesOnThis(creature, name);
     }
 }
