@@ -154,13 +154,13 @@ export class Character extends Creature {
         return level.abilityChoices[newLength - 1];
     }
     remove_AbilityChoice(oldChoice: AbilityChoice) {
-        const levelNumber = parseInt(oldChoice.id.split('-')[0]);
+        const levelNumber = parseInt(oldChoice.id.split('-')[0], 10);
         const a = this.class.levels[levelNumber].abilityChoices;
 
         a.splice(a.indexOf(oldChoice), 1);
     }
     get_AbilityChoice(sourceId: string) {
-        const levelNumber = parseInt(sourceId[0]);
+        const levelNumber = parseInt(sourceId[0], 10);
 
         return this.class.levels[levelNumber].abilityChoices.find(choice => choice.id == sourceId);
     }
@@ -175,12 +175,12 @@ export class Character extends Creature {
         return level.skillChoices[newLength - 1];
     }
     get_SkillChoice(sourceId: string) {
-        const levelNumber = parseInt(sourceId[0]);
+        const levelNumber = parseInt(sourceId[0], 10);
 
         return this.class.levels[levelNumber].skillChoices.find(choice => choice.id == sourceId);
     }
     remove_SkillChoice(oldChoice: SkillChoice) {
-        const levelNumber = parseInt(oldChoice.id.split('-')[0]);
+        const levelNumber = parseInt(oldChoice.id.split('-')[0], 10);
         const a = this.class.levels[levelNumber].skillChoices;
 
         a.splice(a.indexOf(oldChoice), 1);
@@ -217,7 +217,7 @@ export class Character extends Creature {
         return level.loreChoices[newLength - 1];
     }
     get_LoreChoice(sourceId: string) {
-        const levelNumber = parseInt(sourceId[0]);
+        const levelNumber = parseInt(sourceId[0], 10);
 
         return this.class.levels[levelNumber].loreChoices.find(choice => choice.id == sourceId);
     }
@@ -237,7 +237,7 @@ export class Character extends Creature {
         return level.featChoices[newLength - 1];
     }
     get_FeatChoice(sourceId: string) {
-        const levelNumber = parseInt(sourceId[0]);
+        const levelNumber = parseInt(sourceId[0], 10);
 
         return this.class.levels[levelNumber].featChoices.find(choice => choice.id == sourceId);
     }
@@ -386,7 +386,7 @@ export class Character extends Creature {
         this.process_Skill(characterService, skillName, train, choice);
     }
     process_Skill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice) {
-        const level = parseInt(choice.id.split('-')[0]);
+        const level = parseInt(choice.id.split('-')[0], 10);
 
         characterService.cacheService.set_SkillChanged(skillName, { creatureTypeId: 0, minLevel: level });
 
@@ -645,7 +645,7 @@ export class Character extends Creature {
         }
     }
     take_Feat(creature: Character | Familiar, characterService: CharacterService, feat: Feat, featName: string, taken: boolean, choice: FeatChoice, locked: boolean, automatic = false) {
-        const levelNumber = parseInt(choice.id.split('-')[0]);
+        const levelNumber = parseInt(choice.id.split('-')[0], 10);
         const level: Level = creature instanceof Character ? creature.class.levels[levelNumber] : characterService.get_Level(levelNumber);
 
         if (taken) {

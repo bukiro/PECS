@@ -184,7 +184,7 @@ export class AC {
 
         clonedAbsolutes.forEach(effect => {
             armorSet = true;
-            basicBonus = parseInt(effect.setValue);
+            basicBonus = parseInt(effect.setValue, 10);
             explain = `${ effect.source }: ${ effect.setValue }`;
         });
 
@@ -211,16 +211,16 @@ export class AC {
 
             effectsService.get_AbsolutesOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
                 //The dexterity modifier should only become worse through effects.
-                if (dexcap == -1 || parseInt(effect.setValue) < dexcap) {
-                    dexcap = Math.max(0, parseInt(effect.setValue));
+                if (dexcap == -1 || parseInt(effect.setValue, 10) < dexcap) {
+                    dexcap = Math.max(0, parseInt(effect.setValue, 10));
                     explain += `\n${ effect.source }: Dexterity modifier cap ${ dexcap }`;
                 }
             });
             effectsService.get_RelativesOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
                 //The dexterity modifier should only become worse through effects.
-                if (parseInt(effect.value) < 0) {
-                    dexcap = Math.max(0, dexcap + parseInt(effect.value));
-                    explain += `\n${ effect.source }: Dexterity modifier cap ${ parseInt(effect.value) }`;
+                if (parseInt(effect.value, 10) < 0) {
+                    dexcap = Math.max(0, dexcap + parseInt(effect.value, 10));
+                    explain += `\n${ effect.source }: Dexterity modifier cap ${ parseInt(effect.value, 10) }`;
                 }
             });
 
@@ -267,7 +267,7 @@ export class AC {
 
         characterService.effectsService.get_TypeFilteredEffects(clonedRelatives)
             .forEach(effect => {
-                effectsSum += parseInt(effect.value);
+                effectsSum += parseInt(effect.value, 10);
                 explain += `\n${ effect.source }: ${ effect.value }`;
             });
 

@@ -476,7 +476,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
             if (casting.className) {
                 this.effectsService.get_RelativesOnThis(this.get_Character(), `${ casting.className } ${ casting.castingType } Level ${ spellLevel } Spell Slots`).forEach(effect => {
-                    spellslots += parseInt(effect.value);
+                    spellslots += parseInt(effect.value, 10);
                 });
             }
 
@@ -603,19 +603,19 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const conditionsToRemove: Array<string> = [];
 
         this.characterService.effectsService.get_AbsolutesOnThis(character, 'Spell Slot Preservation').forEach(effect => {
-            highestSpellPreservationLevel = parseInt(effect.setValue);
+            highestSpellPreservationLevel = parseInt(effect.setValue, 10);
             conditionsToRemove.push(effect.source);
         });
         this.characterService.effectsService.get_RelativesOnThis(character, 'Spell Slot Preservation').forEach(effect => {
-            highestSpellPreservationLevel += parseInt(effect.value);
+            highestSpellPreservationLevel += parseInt(effect.value, 10);
             conditionsToRemove.push(effect.source);
         });
         this.characterService.effectsService.get_AbsolutesOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
-            highestNoDurationSpellPreservationLevel = parseInt(effect.setValue);
+            highestNoDurationSpellPreservationLevel = parseInt(effect.setValue, 10);
             conditionsToRemove.push(effect.source);
         });
         this.characterService.effectsService.get_RelativesOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
-            highestNoDurationSpellPreservationLevel += parseInt(effect.value);
+            highestNoDurationSpellPreservationLevel += parseInt(effect.value, 10);
             conditionsToRemove.push(effect.source);
         });
 

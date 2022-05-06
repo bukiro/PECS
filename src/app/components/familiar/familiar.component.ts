@@ -85,10 +85,10 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         let available = choice.available;
 
         this.effectsService.get_AbsolutesOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
-            available = parseInt(effect.setValue);
+            available = parseInt(effect.setValue, 10);
         });
         this.effectsService.get_RelativesOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
-            available += parseInt(effect.value);
+            available += parseInt(effect.value, 10);
         });
 
         return choice.feats.length >= available;

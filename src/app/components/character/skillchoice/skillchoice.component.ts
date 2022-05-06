@@ -92,8 +92,10 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}) {
-        filter = { type: '',
-            locked: undefined, ...filter };
+        filter = {
+            type: '',
+            locked: undefined, ...filter,
+        };
 
         return this.characterService.get_Skills(this.get_Character(), name, filter);
     }
@@ -120,7 +122,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
     get_SkillINTBonus() {
         //Allow INT more skills if INT has been raised since the last level.
-        const levelNumber = parseInt(this.choice.id.split('-')[0]);
+        const levelNumber = parseInt(this.choice.id.split('-')[0], 10);
 
         if (this.choice.source == 'Intelligence') {
             return this.get_INT(levelNumber) - this.get_INT(levelNumber - 1);
@@ -172,7 +174,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         let anytrue = 0;
 
         choice.increases.forEach(increase => {
-            let levelNumber = parseInt(choice.id.split('-')[0]);
+            let levelNumber = parseInt(choice.id.split('-')[0], 10);
 
             //Temporary choices are compared to the character level, not their own.
             if (choice.showOnSheet) {

@@ -165,10 +165,10 @@ export class Equipment extends Item {
         let bulk: string = this.bulk;
 
         this.material.forEach(material => {
-            if (parseInt(this.bulk) && parseInt(this.bulk) != 0) {
-                bulk = (parseInt(this.bulk) + material.bulkModifier).toString();
+            if (parseInt(this.bulk, 10) && parseInt(this.bulk, 10) != 0) {
+                bulk = (parseInt(this.bulk, 10) + material.bulkModifier).toString();
 
-                if (parseInt(bulk) == 0 && parseInt(this.bulk) != 0) {
+                if (parseInt(bulk, 10) == 0 && parseInt(this.bulk, 10) != 0) {
                     //Material can't reduce the bulk to 0.
                     bulk = 'L';
                 }

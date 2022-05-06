@@ -619,7 +619,7 @@ export class ConditionsService {
                         if (gain.activationPrerequisite) {
                             const testResult = evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature, object: gain, parentItem: item });
 
-                            if (testResult == '0' || !(parseInt(testResult as string))) {
+                            if (testResult == '0' || !(parseInt(testResult as string, 10))) {
                                 services.characterService.remove_Condition(creature, gain, false);
                             }
                         }
@@ -846,11 +846,11 @@ export class ConditionsService {
                     newCondition.duration = -1;
 
                     if (effect.setValue) {
-                        newCondition.value = parseInt(effect.setValue);
+                        newCondition.value = parseInt(effect.setValue, 10);
                     }
 
-                    if (parseInt(effect.value)) {
-                        newCondition.addValue = parseInt(effect.value);
+                    if (parseInt(effect.value, 10)) {
+                        newCondition.addValue = parseInt(effect.value, 10);
                     }
 
                     newCondition.source = effect.source;

@@ -108,34 +108,34 @@ export class NewItemPropertyComponent {
             if (value && value != '0') {
                 const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
 
-                if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
-                    if (parseFloat(validationResult) == parseInt(validationResult)) {
+                if (validationResult && validationResult != '0' && (parseInt(validationResult, 10) || parseFloat(validationResult))) {
+                    if (parseFloat(validationResult) == parseInt(validationResult, 10)) {
                         this.validationError = '';
-                        this.validationResult = parseInt(validationResult).toString();
+                        this.validationResult = parseInt(validationResult, 10).toString();
                     } else {
                         this.validationError = 'This may result in a decimal value and be turned into a whole number.';
-                        this.validationResult = parseInt(validationResult).toString();
+                        this.validationResult = parseInt(validationResult, 10).toString();
                     }
                 } else {
                     this.validationError = 'This may result in an invalid value or 0. Invalid values will default to 0, and relative effects with value 0 will not be applied.';
-                    this.validationResult = parseInt(validationResult).toString();
+                    this.validationResult = parseInt(validationResult, 10).toString();
                 }
             }
         } else if (this.propertyKey == 'setValue' && this.propertyData.parent == 'effects') {
             if (value && value != '0') {
                 const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
 
-                if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
-                    if (parseFloat(validationResult) == parseInt(validationResult)) {
+                if (validationResult && validationResult != '0' && (parseInt(validationResult, 10) || parseFloat(validationResult, 10))) {
+                    if (parseFloat(validationResult) == parseInt(validationResult, 10)) {
                         this.validationError = '';
-                        this.validationResult = parseInt(validationResult).toString();
+                        this.validationResult = parseInt(validationResult, 10).toString();
                     } else {
                         this.validationError = 'This may result in a decimal value and be turned into a whole number.';
-                        this.validationResult = parseInt(validationResult).toString();
+                        this.validationResult = parseInt(validationResult, 10).toString();
                     }
                 } else {
                     this.validationError = 'This may result in an invalid value. Absolute effects with an invalid value will not be applied.';
-                    this.validationResult = parseInt(validationResult).toString();
+                    this.validationResult = parseInt(validationResult, 10).toString();
                 }
             }
         } else if (this.propertyKey == 'value' && this.propertyData.parent == 'onceEffects') {
@@ -145,42 +145,42 @@ export class NewItemPropertyComponent {
                 if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {
                         this.validationError = '';
-                        this.validationResult = parseInt(validationResult).toString();
+                        this.validationResult = parseInt(validationResult, 10).toString();
                     } else {
                         this.validationError = 'This may result in a decimal value and be turned into a whole number.';
-                        this.validationResult = parseInt(validationResult).toString();
+                        this.validationResult = parseInt(validationResult, 10).toString();
                     }
                 } else {
                     this.validationError = 'This may result in an invalid value or 0. This is allowed for languages; for all other targets, invalid values will default to 0, and untyped effects without a value will not be displayed.';
-                    this.validationResult = parseInt(validationResult).toString();
+                    this.validationResult = parseInt(validationResult, 10).toString();
                 }
             }
         } else if (this.propertyKey == 'bulk' || this.propertyKey == 'carryingBulk') {
-            if (parseInt(value) || parseInt(value) == 0 || value == 'L' || value == '') {
+            if (parseInt(value, 10) || parseInt(value, 10) == 0 || value == 'L' || value == '') {
                 //Do nothing if the validation is successful.
             } else {
                 this.get_Parent()[this.propertyKey] = '';
             }
         } else if (this.propertyData.validation == '1plus') {
-            if (parseInt(value) >= 1) {
+            if (parseInt(value, 10) >= 1) {
                 //Do nothing if the validation is successful.
             } else {
                 this.get_Parent()[this.propertyKey] = 1;
             }
         } else if (this.propertyData.validation == '0plus') {
-            if (parseInt(value) >= 0) {
+            if (parseInt(value, 10) >= 0) {
                 //Do nothing if the validation is successful.
             } else {
                 this.get_Parent()[this.propertyKey] = 0;
             }
         } else if (this.propertyData.validation == '=1plus') {
-            if (parseInt(value) >= -1) {
+            if (parseInt(value, 10) >= -1) {
                 //Do nothing if the validation is successful.
             } else {
                 this.get_Parent()[this.propertyKey] = -1;
             }
         } else if (this.propertyData.validation == '0minus') {
-            if (parseInt(value) <= 0) {
+            if (parseInt(value, 10) <= 0) {
                 //Do nothing if the validation is successful.
             } else {
                 this.get_Parent()[this.propertyKey] = 0;
@@ -357,7 +357,7 @@ export class NewItemPropertyComponent {
                     .forEach(item => {
                         examples.push(...item.activities.filter(activity => activity[this.propertyData.key].length)
                             .map(activity => activity[this.propertyData.key],
-                            ));
+                        ));
                     });
                 examples.push(...this.activitiesService.get_Activities()
                     .filter(activity => activity[this.propertyData.key].length)

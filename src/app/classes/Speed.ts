@@ -48,7 +48,7 @@ export class Speed {
         const absolutes = this.absolutes(creature, effectsService, this.name).filter(effect => effect.setValue);
 
         absolutes.forEach(effect => {
-            baseValue.result = parseInt(effect.setValue);
+            baseValue.result = parseInt(effect.setValue, 10);
             baseValue.explain = `${ effect.source }: ${ effect.setValue }`;
         });
 
@@ -56,7 +56,7 @@ export class Speed {
 
         if (!options.ignoreRelatives) {
             this.relatives(creature, effectsService, this.name).forEach(effect => {
-                baseValue.result += parseInt(effect.value);
+                baseValue.result += parseInt(effect.value, 10);
                 baseValue.explain += `\n${ effect.source }: ${ effect.value }`;
             });
         }
@@ -79,7 +79,7 @@ export class Speed {
 
         if (this.name != 'Speed') {
             this.relatives(creature, effectsService, 'Speed').forEach(effect => {
-                value.result += parseInt(effect.value);
+                value.result += parseInt(effect.value, 10);
                 value.explain += `\n${ effect.source }: ${ effect.value }`;
             });
         }

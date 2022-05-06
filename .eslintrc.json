@@ -24,7 +24,7 @@
                 "@typescript-eslint"
             ],
             "rules": {
-                "indent": [
+                "@typescript-eslint/indent": [
                     "error",
                     4,
                     {
@@ -39,7 +39,7 @@
                     "windows"
                 ],
                 "prefer-template": "error",
-                "object-curly-spacing": [
+                "@typescript-eslint/object-curly-spacing": [
                     "error",
                     "always"
                 ],

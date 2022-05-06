@@ -46,8 +46,6 @@ export class TagsComponent implements OnInit, OnDestroy {
     private changeSubscription: Subscription;
     private viewChangeSubscription: Subscription;
 
-    public parseInt = parseInt;
-
     constructor(
         private readonly changeDetector: ChangeDetectorRef,
         public characterService: CharacterService,

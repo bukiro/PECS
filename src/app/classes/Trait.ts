@@ -81,7 +81,7 @@ export class Trait {
                     try {
                         value = eval(effect.value).toString();
 
-                        if (parseInt(value) > 0) {
+                        if (parseInt(value, 10) > 0) {
                             value = `+${ value }`;
                         }
                     } catch (error) {
@@ -96,7 +96,7 @@ export class Trait {
                         }
                     }
 
-                    if ((!parseInt(value) && !parseFloat(value)) || parseFloat(value) == Infinity) {
+                    if ((!parseInt(value, 10) && !parseFloat(value, 10)) || parseFloat(value, 10) == Infinity) {
                         value = '0';
                     }
 
@@ -108,7 +108,7 @@ export class Trait {
                         penalty = false;
                         value = '0';
                     } else {
-                        penalty = (parseInt(value) < 0) == (effect.affected != 'Bulk');
+                        penalty = (parseInt(value, 10) < 0) == (effect.affected != 'Bulk');
                     }
 
                     //Effects can affect another creature. In that case, remove the notation and change the target.
@@ -116,7 +116,7 @@ export class Trait {
                     const affected: string = effect.affected;
 
                     //Effects that have no value get ignored.
-                    if (setValue || parseInt(value) != 0) {
+                    if (setValue || parseInt(value, 10) != 0) {
                         resultingEffects.push(Object.assign(new Effect(value), { creature: target, type, target: affected, setValue, toggle: false, source: `conditional, ${ this.name }`, penalty, show }));
                     }
                 });
@@ -132,7 +132,7 @@ export class Trait {
         if (this.dynamic && traitName != this.name) {
             const value = traitName.replace(this.name, '').match(/(\d+)/)[0];
 
-            if (value && !isNaN(parseInt(value))) {
+            if (value && !isNaN(parseInt(value, 10))) {
                 return value;
             }
         } else if (this.dynamic && traitName == this.name) {

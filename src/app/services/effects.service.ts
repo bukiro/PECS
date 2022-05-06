@@ -34,11 +34,11 @@ export class EffectsService {
 
         this.effects[creatureIndex] = new EffectCollection();
         this.effects[creatureIndex].all = effects.map(effect => Object.assign(new Effect(), effect).recast());
-        this.effects[creatureIndex].relatives = this.effects[creatureIndex].all.filter(effect => parseInt(effect.value));
+        this.effects[creatureIndex].relatives = this.effects[creatureIndex].all.filter(effect => parseInt(effect.value, 10));
         //Sort the absolute effects in ascending order of value. This means that the largest value will usually be the the one that ultimately counts.
-        this.effects[creatureIndex].absolutes = this.effects[creatureIndex].all.filter(effect => effect.setValue).sort((a, b) => parseInt(a.setValue) - parseInt(b.setValue));
-        this.effects[creatureIndex].penalties = this.effects[creatureIndex].all.filter(effect => parseInt(effect.value) < 0);
-        this.effects[creatureIndex].bonuses = this.effects[creatureIndex].all.filter(effect => parseInt(effect.value) > 0);
+        this.effects[creatureIndex].absolutes = this.effects[creatureIndex].all.filter(effect => effect.setValue).sort((a, b) => parseInt(a.setValue, 10) - parseInt(b.setValue, 10));
+        this.effects[creatureIndex].penalties = this.effects[creatureIndex].all.filter(effect => parseInt(effect.value, 10) < 0);
+        this.effects[creatureIndex].bonuses = this.effects[creatureIndex].all.filter(effect => parseInt(effect.value, 10) > 0);
     }
 
     public get_EffectsOnThis(creature: Creature, ObjectName: string): Array<Effect> {
@@ -100,8 +100,10 @@ export class EffectsService {
     }
 
     public get_TypeFilteredEffects(effects: Array<Effect>, options: { readonly absolutes?: boolean; readonly lowerIsBetter?: boolean } = {}): Array<Effect> {
-        options = { absolutes: false,
-            lowerIsBetter: false, ...options };
+        options = {
+            absolutes: false,
+            lowerIsBetter: false, ...options,
+        };
 
         //This function takes a batch of effects and reduces them to the highest bonus and the lowest (i.e. worst) penalty per bonus type, since only untyped bonuses stack.
         //Explicitly cumulative effects are added together before comparing.
@@ -116,7 +118,7 @@ export class EffectsService {
         }
 
         function groupSum(effectGroup: Array<Effect>) {
-            return effectGroup.reduce((prev, current) => prev + parseInt(current.value), 0);
+            return effectGroup.reduce((prev, current) => prev + parseInt(current.value, 10), 0);
         }
         this.bonusTypes.forEach(type => {
             if (type == 'untyped' && !options.absolutes) {
@@ -132,9 +134,9 @@ export class EffectsService {
                     //We have to make sure there are applicable effects, because reduce doesn't like empty arrays.
                     if (options.absolutes && bonusEffects.some(effect => effect.setValue)) {
                         if (options.lowerIsBetter) {
-                            returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.setValue) < parseInt(current.setValue) ? prev : current)));
+                            returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.setValue, 10) < parseInt(current.setValue, 10) ? prev : current)));
                         } else {
-                            returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.setValue) > parseInt(current.setValue) ? prev : current)));
+                            returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.setValue, 10) > parseInt(current.setValue, 10) ? prev : current)));
                         }
                     } else if (bonusEffects.some(effect => effect.value)) {
                         //If any effects are cumulative, and any effect exists whose source appears in the cumulative list, we build groups.
@@ -157,9 +159,9 @@ export class EffectsService {
                             }
                         } else {
                             if (options.lowerIsBetter) {
-                                returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.value) < parseInt(current.value) ? prev : current)));
+                                returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.value, 10) < parseInt(current.value, 10) ? prev : current)));
                             } else {
-                                returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.value) > parseInt(current.value) ? prev : current)));
+                                returnedEffects.push(bonusEffects.reduce((prev, current) => (parseInt(prev.value, 10) > parseInt(current.value, 10) ? prev : current)));
                             }
                         }
                     }
@@ -171,7 +173,7 @@ export class EffectsService {
                     //If we have any PENALTIES for this type, we proceed as with bonuses,
                     // only we pick the lowest number (that is, the worst penalty).
                     if (options.absolutes && penaltyEffects.some(effect => effect.setValue)) {
-                        returnedEffects.push(penaltyEffects.reduce((prev, current) => (parseInt(prev.setValue) < parseInt(current.setValue) ? prev : current)));
+                        returnedEffects.push(penaltyEffects.reduce((prev, current) => (parseInt(prev.setValue, 10) < parseInt(current.setValue, 10) ? prev : current)));
                     } else if (penaltyEffects.some(effect => effect.value)) {
                         if (penaltyEffects.some(effect => effect.cumulative.length) && penaltyEffects.some(effect => penaltyEffects.some(otherEffect => otherEffect.cumulative.includes(effect.source)))) {
                             const effectGroups: Array<Array<Effect>> = [];
@@ -184,7 +186,7 @@ export class EffectsService {
                                 returnedEffects.push(...effectGroups.reduce((prev, current) => (groupSum(prev) < groupSum(current) ? prev : current)));
                             }
                         } else {
-                            returnedEffects.push(penaltyEffects.reduce((prev, current) => (parseInt(prev.value) < parseInt(current.value) ? prev : current)));
+                            returnedEffects.push(penaltyEffects.reduce((prev, current) => (parseInt(prev.value, 10) < parseInt(current.value, 10) ? prev : current)));
                         }
                     }
                 }

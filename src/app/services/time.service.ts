@@ -64,10 +64,10 @@ export class TimeService {
             characterService.get_Creatures().forEach(creature => {
 
                 effectsService.get_AbsolutesOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
-                    fastHealing = parseInt(effect.setValue);
+                    fastHealing = parseInt(effect.setValue, 10);
                 });
                 effectsService.get_RelativesOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
-                    fastHealing += parseInt(effect.value);
+                    fastHealing += parseInt(effect.value, 10);
                 });
 
                 if (!this._effectsService.get_EffectsOnThis(creature, 'Time Stop').length) {
@@ -119,19 +119,19 @@ export class TimeService {
             let heal: number = con * charLevel;
 
             this._effectsService.get_AbsolutesOnThis(creature, 'Resting HP Gain').forEach(effect => {
-                heal = parseInt(effect.setValue);
+                heal = parseInt(effect.setValue, 10);
             });
             this._effectsService.get_RelativesOnThis(creature, 'Resting HP Gain').forEach(effect => {
-                heal += parseInt(effect.value);
+                heal += parseInt(effect.value, 10);
             });
 
             let multiplier = 1;
 
             this._effectsService.get_AbsolutesOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
-                multiplier = parseInt(effect.setValue);
+                multiplier = parseInt(effect.setValue, 10);
             });
             this._effectsService.get_RelativesOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
-                multiplier += parseInt(effect.value);
+                multiplier += parseInt(effect.value, 10);
             });
             multiplier = Math.max(1, multiplier);
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
@@ -206,7 +206,7 @@ export class TimeService {
         if (finalRecoverPoints < maximumFocusPoints) {
             //Several feats recover more focus points if you spent at least that amount since the last time refocusing. Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
             characterService.effectsService.get_AbsolutesOnThis(character, 'Refocus Bonus Points').forEach(effect => {
-                const points = parseInt(effect.setValue);
+                const points = parseInt(effect.setValue, 10);
 
                 if (focusPointsLast - focusPoints >= points) {
                     finalRecoverPoints = Math.max(finalRecoverPoints, points);

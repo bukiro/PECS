@@ -182,22 +182,23 @@ export class QuickdiceComponent {
                                 index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
                             }
 
-                            diceRolls[index].diceNum = parseInt(dicePart.split('d')[0]);
-                            diceRolls[index].diceSize = parseInt(dicePart.split('d')[1]);
+                            diceRolls[index].diceNum = parseInt(dicePart.split('d')[0], 10);
+                            diceRolls[index].diceSize = parseInt(dicePart.split('d')[1], 10);
                         } else if (dicePart == '+' || dicePart == '-') {
                             arithmetic = dicePart;
                         } else if (dicePart.match('^[0-9]+$')) {
-                        //Bonuses accumulate on the current roll until a type is given. If no roll exists yet, create one.
-                        //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
+                            //Bonuses accumulate on the current roll until a type is given.
+                            //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
+                            //If no roll exists yet, create one.
                             if (!diceRolls.length || diceRolls[index].type) {
                                 index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
                             }
 
                             if (arithmetic) {
-                                diceRolls[index].bonus += parseInt(arithmetic + dicePart);
+                                diceRolls[index].bonus += parseInt(arithmetic + dicePart, 10);
                                 arithmetic = '';
                             } else {
-                                diceRolls[index].bonus = parseInt(dicePart);
+                                diceRolls[index].bonus = parseInt(dicePart, 10);
                             }
                         } else {
                             if (diceRolls[index]) {

@@ -208,11 +208,11 @@ export class Activity {
 
         services.effectsService.get_AbsolutesOnThis(context.creature, `${ this.name } Charges`)
             .forEach(effect => {
-                charges = parseInt(effect.setValue);
+                charges = parseInt(effect.setValue, 10);
             });
         services.effectsService.get_RelativesOnThis(context.creature, `${ this.name } Charges`)
             .forEach(effect => {
-                charges += parseInt(effect.value);
+                charges += parseInt(effect.value, 10);
             });
 
         if (startWithZero && charges == 1) {
@@ -231,15 +231,15 @@ export class Activity {
 
         //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.
         services.effectsService.get_AbsolutesOnThese(context.creature, [`${ this.name } Cooldown`], { lowerIsBetter: true })
-            .sort((a, b) => parseInt(b.setValue) - parseInt(a.setValue))
+            .sort((a, b) => parseInt(b.setValue, 10) - parseInt(a.setValue, 10))
             .forEach(effect => {
-                cooldown = parseInt(effect.setValue);
+                cooldown = parseInt(effect.setValue, 10);
             });
         //Use get_RelativesOnThese() because it allows to prefer lower values. We still sort the effects in descending value.
         services.effectsService.get_RelativesOnThese(context.creature, [`${ this.name } Cooldown`], { lowerIsBetter: true })
-            .sort((a, b) => parseInt(b.value) - parseInt(a.value))
+            .sort((a, b) => parseInt(b.value) - parseInt(a.value, 10))
             .forEach(effect => {
-                cooldown += parseInt(effect.value);
+                cooldown += parseInt(effect.value, 10);
             });
         //If the cooldown has changed from the original, update all activity gains that refer to this condition to lower their cooldown if necessary.
         this._cooldown = cooldown;

@@ -476,9 +476,9 @@ export class ItemsService {
                 break;
             default:
                 if (options.amount) {
-                    itemBulk += parseInt(bulkString) * 10 * Math.floor(options.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
+                    itemBulk += parseInt(bulkString, 10) * 10 * Math.floor(options.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
                 } else {
-                    itemBulk += parseInt(bulkString) * 10;
+                    itemBulk += parseInt(bulkString, 10) * 10;
                 }
 
                 break;

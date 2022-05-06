@@ -69,7 +69,7 @@ export class SpellsService {
 
         /* eslint-enable @typescript-eslint/no-unused-vars */
         try {
-            const level = parseInt(eval(choice.dynamicLevel));
+            const level = parseInt(eval(choice.dynamicLevel, 10));
 
             return level;
         } catch (e) {
@@ -112,11 +112,11 @@ export class SpellsService {
             context.gain.active = true;
             //If an effect changes the duration of this spell, change the duration here only if it is sustained.
             services.characterService.effectsService.get_AbsolutesOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]).forEach(effect => {
-                customDuration = parseInt(effect.setValue);
+                customDuration = parseInt(effect.setValue, 10);
                 conditionsToRemove.push(effect.source);
             });
             services.characterService.effectsService.get_RelativesOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]).forEach(effect => {
-                customDuration += parseInt(effect.value);
+                customDuration += parseInt(effect.value, 10);
                 conditionsToRemove.push(effect.source);
             });
             context.gain.duration = customDuration || spell.sustained;
@@ -274,13 +274,13 @@ export class SpellsService {
                                 let effectDuration: number = newConditionGain.duration || 0;
 
                                 services.characterService.effectsService.get_AbsolutesOnThese(context.creature, ['Next Spell Duration', `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`]).forEach(effect => {
-                                    effectDuration = parseInt(effect.setValue);
+                                    effectDuration = parseInt(effect.setValue, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
 
                                 if (effectDuration > 0) {
                                     services.characterService.effectsService.get_RelativesOnThese(context.creature, ['Next Spell Duration', `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`]).forEach(effect => {
-                                        effectDuration += parseInt(effect.value);
+                                        effectDuration += parseInt(effect.value, 10);
                                         conditionsToRemove.push(effect.source);
                                     });
                                 }
@@ -308,11 +308,11 @@ export class SpellsService {
                                 let effectValue: number = newConditionGain.value || 0;
 
                                 services.characterService.effectsService.get_AbsolutesOnThis(context.creature, `${ condition.name } Value`).forEach(effect => {
-                                    effectValue = parseInt(effect.setValue);
+                                    effectValue = parseInt(effect.setValue, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
                                 services.characterService.effectsService.get_RelativesOnThis(context.creature, `${ condition.name } Value`).forEach(effect => {
-                                    effectValue += parseInt(effect.value);
+                                    effectValue += parseInt(effect.value, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
                                 newConditionGain.value = effectValue;

@@ -164,8 +164,8 @@ export class Weapon extends Equipment {
         this.material.forEach(mat => {
             price += mat.price;
 
-            if (parseInt(this.bulk)) {
-                price += (mat.bulkPrice * parseInt(this.bulk));
+            if (parseInt(this.bulk, 10)) {
+                price += (mat.bulkPrice * parseInt(this.bulk, 10));
             }
         });
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
@@ -272,7 +272,7 @@ export class Weapon extends Equipment {
             const reachTrait = traits.find(trait => trait.includes('Reach'));
 
             if (reachTrait) {
-                reach = reachTrait.includes(' ') ? parseInt(reachTrait.split(' ')[1]) : 10;
+                reach = reachTrait.includes(' ') ? parseInt(reachTrait.split(' ')[1], 10) : 10;
             }
 
             let newReach = reach;
@@ -286,11 +286,11 @@ export class Weapon extends Equipment {
 
             effectsService.get_AbsolutesOnThese(creature, list)
                 .forEach(effect => {
-                    newReach = parseInt(effect.setValue);
+                    newReach = parseInt(effect.setValue, 10);
                 });
             effectsService.get_RelativesOnThese(creature, list)
                 .forEach(effect => {
-                    newReach += parseInt(effect.value);
+                    newReach += parseInt(effect.value, 10);
                 });
 
             if (newReach != reach) {
@@ -538,8 +538,8 @@ export class Weapon extends Equipment {
         let dexPenaltySum = 0;
 
         dexEffects.forEach(effect => {
-            dexPenalty.push(Object.assign(new Effect(), { value: parseInt(effect.value), setValue: '', source: effect.source, penalty: true }));
-            dexPenaltySum += parseInt(effect.value);
+            dexPenalty.push(Object.assign(new Effect(), { value: parseInt(effect.value, 10), setValue: '', source: effect.source, penalty: true }));
+            dexPenaltySum += parseInt(effect.value, 10);
         });
 
         //The Enfeebled condition affects all Strength attacks
@@ -548,8 +548,8 @@ export class Weapon extends Equipment {
         let strPenaltySum = 0;
 
         strEffects.forEach(effect => {
-            strPenalty.push(Object.assign(new Effect(), { value: parseInt(effect.value), setValue: '', source: effect.source, penalty: true }));
-            strPenaltySum += parseInt(effect.value);
+            strPenalty.push(Object.assign(new Effect(), { value: parseInt(effect.value, 10), setValue: '', source: effect.source, penalty: true }));
+            strPenaltySum += parseInt(effect.value, 10);
         });
 
         let dexUsed = false;
@@ -633,7 +633,7 @@ export class Weapon extends Equipment {
                     absolutes.push(Object.assign(new Effect(), { value: 0, setValue: effect.setValue, source: effect.source, penalty: false, type: effect.type }));
                 }
 
-                attackResult = parseInt(effect.setValue);
+                attackResult = parseInt(effect.setValue, 10);
                 explain = `${ effect.source }: ${ effect.setValue }`;
             });
 
@@ -695,15 +695,15 @@ export class Weapon extends Equipment {
                     explain += '\nNonlethal (cancelled by Powerful Fist)';
                 } else {
                     if (effect.show) {
-                        if (parseInt(effect.value) < 0) {
+                        if (parseInt(effect.value, 10) < 0) {
                             penalties.push(Object.assign(new Effect(effect.value), { target: effect.target, source: effect.source, penalty: true, type: effect.type, apply: false, show: false }));
                         } else {
                             bonuses.push(Object.assign(new Effect(effect.value), { target: effect.target, source: effect.source, penalty: false, type: effect.type, apply: true, show: false }));
                         }
                     }
 
-                    effectsSum += parseInt(effect.value);
-                    explain += `\n${ effect.source }: ${ parseInt(effect.value) >= 0 ? '+' : '' }${ parseInt(effect.value) }`;
+                    effectsSum += parseInt(effect.value, 10);
+                    explain += `\n${ effect.source }: ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }${ parseInt(effect.value, 10) }`;
                 }
             });
         //Add up all modifiers and return the attack bonus for this attack
@@ -860,12 +860,12 @@ export class Weapon extends Equipment {
             const effectPhrasesDiceNumberMult = effectPhrases('Dice Number Multiplier');
 
             effectsService.get_AbsolutesOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
-                dicenumMultiplier = parseInt(effect.setValue);
+                dicenumMultiplier = parseInt(effect.setValue, 10);
                 diceExplain += `\n${ effect.source }: Dice number multiplier ${ dicenumMultiplier }`;
             });
             effectsService.get_RelativesOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
-                dicenumMultiplier += parseInt(effect.value);
-                diceExplain += `\n${ effect.source }: Dice number multiplier ${ parseInt(effect.value) >= 0 ? '+' : '' }${ parseInt(effect.value) }`;
+                dicenumMultiplier += parseInt(effect.value, 10);
+                diceExplain += `\n${ effect.source }: Dice number multiplier ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }${ parseInt(effect.value, 10) }`;
             });
             dicenum *= dicenumMultiplier;
 
@@ -899,7 +899,7 @@ export class Weapon extends Equipment {
                     .concat(effectsService.get_AbsolutesOnThese(creature, effectPhrasesDiceNumber),
                 ), { absolutes: true })
                 .forEach(effect => {
-                    dicenum = parseInt(effect.setValue);
+                    dicenum = parseInt(effect.setValue, 10);
                     diceExplain += `\n${ effect.source }: Dice number ${ dicenum }`;
                 });
             calculatedEffects = [];
@@ -919,8 +919,8 @@ export class Weapon extends Equipment {
                     .concat(effectsService.get_RelativesOnThese(creature, effectPhrasesDiceNumber),
                 ))
                 .forEach(effect => {
-                    dicenum += parseInt(effect.value);
-                    diceExplain += `\n${ effect.source }: Dice number ${ parseInt(effect.value) >= 0 ? '+' : '' }${ parseInt(effect.value) }`;
+                    dicenum += parseInt(effect.value, 10);
+                    diceExplain += `\n${ effect.source }: Dice number ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }${ parseInt(effect.value, 10) }`;
                 });
         }
 
@@ -976,7 +976,7 @@ export class Weapon extends Equipment {
                     .concat(effectsService.get_AbsolutesOnThese(creature, effectPhrasesDiceSize),
                 ), { absolutes: true })
                 .forEach(effect => {
-                    dicesize = parseInt(effect.setValue);
+                    dicesize = parseInt(effect.setValue, 10);
                     diceExplain += `\n${ effect.source }: Dice size d${ dicesize }`;
                 });
             effectsService.get_TypeFilteredEffects(
@@ -984,7 +984,7 @@ export class Weapon extends Equipment {
                     .concat(effectsService.get_RelativesOnThese(creature, effectPhrasesDiceSize),
                 ))
                 .forEach(effect => {
-                    dicesize += parseInt(effect.value);
+                    dicesize += parseInt(effect.value, 10);
                     //Don't raise dice size over 12.
                     dicesize = Math.min(12, dicesize);
                     diceExplain += `\n${ effect.source }: Dice size d${ dicesize }`;
@@ -1043,7 +1043,7 @@ export class Weapon extends Equipment {
                     let strPenaltySum = 0;
 
                     strEffects.forEach(effect => {
-                        strPenaltySum += parseInt(effect.value);
+                        strPenaltySum += parseInt(effect.value, 10);
                     });
 
                     //The Clumsy condition affects all Dexterity damage
@@ -1051,7 +1051,7 @@ export class Weapon extends Equipment {
                     let dexPenaltySum = 0;
 
                     dexEffects.forEach(effect => {
-                        dexPenaltySum += parseInt(effect.value);
+                        dexPenaltySum += parseInt(effect.value, 10);
                     });
 
                     if ((dex + dexPenaltySum) > (str + strPenaltySum)) {
@@ -1156,8 +1156,8 @@ export class Weapon extends Equipment {
                     absolutes.push(Object.assign(new Effect(), { value: 0, setValue: effect.setValue, source: effect.source, penalty: false }));
                 }
 
-                dmgBonus = parseInt(effect.setValue);
-                bonusExplain = `\n${ effect.source }: Bonus damage ${ parseInt(effect.setValue) }`;
+                dmgBonus = parseInt(effect.setValue, 10);
+                bonusExplain = `\n${ effect.source }: Bonus damage ${ parseInt(effect.setValue, 10) }`;
             });
 
         if (!effectsService.get_EffectsOnThis(creature, `Ignore Bonus Damage on ${ this.name }`).length) {
@@ -1216,7 +1216,7 @@ export class Weapon extends Equipment {
             traitEffects.filter(effect => effect.value != '0')
                 .concat(effectsService.get_RelativesOnThese(creature, perDieList))
                 .forEach(effect => {
-                    const effectBonus = parseInt(effect.value) * dicenum;
+                    const effectBonus = parseInt(effect.value, 10) * dicenum;
                     const newEffect = Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(effect))).recast();
 
                     newEffect.target = newEffect.target.replace(' per Die', '');
@@ -1230,15 +1230,15 @@ export class Weapon extends Equipment {
                 ))
                 .forEach(effect => {
                     if (effect.show) {
-                        if (parseInt(effect.value) < 0) {
-                            penalties.push(Object.assign(new Effect(), { value: parseInt(effect.value), setValue: '', source: effect.source, penalty: true }));
+                        if (parseInt(effect.value, 10) < 0) {
+                            penalties.push(Object.assign(new Effect(), { value: parseInt(effect.value, 10), setValue: '', source: effect.source, penalty: true }));
                         } else {
-                            bonuses.push(Object.assign(new Effect(), { value: parseInt(effect.value), setValue: '', source: effect.source, penalty: false }));
+                            bonuses.push(Object.assign(new Effect(), { value: parseInt(effect.value, 10), setValue: '', source: effect.source, penalty: false }));
                         }
                     }
 
-                    effectBonus += parseInt(effect.value);
-                    bonusExplain += `\n${ effect.source }: Damage ${ parseInt(effect.value) >= 0 ? '+' : '' }${ parseInt(effect.value) }`;
+                    effectBonus += parseInt(effect.value, 10);
+                    bonusExplain += `\n${ effect.source }: Damage ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }${ parseInt(effect.value, 10) }`;
                 });
             dmgBonus += effectBonus;
         }

@@ -180,11 +180,11 @@ export class ConfigService {
             this.httpClient.get(this.updateURL)
                 .subscribe({
                     next: response => {
-                        const cvs = package_json.version.split('.').map(version => parseInt(version));
+                        const cvs = package_json.version.split('.').map(version => parseInt(version, 10));
                         const availableVersion = JSON.parse(JSON.stringify(response)).tag_name?.replace('v', '') || 'n/a';
 
                         if (availableVersion != 'n/a') {
-                            const avs = availableVersion.split('.').map(version => parseInt(version));
+                            const avs = availableVersion.split('.').map(version => parseInt(version, 10));
 
                             if (avs[0] > cvs[0] || (avs[0] == cvs[0] && avs[1] > cvs[1]) || (avs[0] == cvs[0] && avs[1] == cvs[1] && avs[2] > cvs[2])) {
                                 this.updateAvailable = availableVersion;

@@ -57,11 +57,11 @@ export class Bulk {
             result.explain += `\n${ inventory.get_Name(characterService) }: ${ bulk }`;
         });
         absolutes.forEach(effect => {
-            result.value = parseInt(effect.setValue);
+            result.value = parseInt(effect.setValue, 10);
             result.explain = `${ effect.source }: ${ effect.setValue }`;
         });
         this.relatives(creature, effectsService, 'Bulk').forEach(effect => {
-            result.value += parseInt(effect.value);
+            result.value += parseInt(effect.value, 10);
             result.explain += `${ effect.source }: ${ effect.value }`;
         });
         result.value = Math.floor(Math.max(0, result.value));
@@ -83,11 +83,11 @@ export class Bulk {
         }
 
         absolutes.forEach(effect => {
-            result.value = parseInt(effect.setValue);
+            result.value = parseInt(effect.setValue, 10);
             result.explain = `${ effect.source }: ${ effect.setValue }`;
         });
         this.relatives(creature, effectsService, 'Encumbered Limit').forEach(effect => {
-            result.value += parseInt(effect.value);
+            result.value += parseInt(effect.value, 10);
             result.explain += `\n${ effect.source }: ${ effect.value }`;
         });
         result.explain = result.explain.trim();
@@ -102,7 +102,7 @@ export class Bulk {
 
         if (absolutes.length) {
             absolutes.forEach(effect => {
-                result.value = parseInt(effect.setValue);
+                result.value = parseInt(effect.setValue, 10);
                 result.explain = `${ effect.source }: ${ effect.setValue }`;
             });
         } else {
@@ -139,7 +139,7 @@ export class Bulk {
         }
 
         this.relatives(creature, effectsService, 'Max Bulk').forEach(effect => {
-            result.value += parseInt(effect.value);
+            result.value += parseInt(effect.value, 10);
             result.explain += `\n${ effect.source }: ${ effect.value }`;
         });
 

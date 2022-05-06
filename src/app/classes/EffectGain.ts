@@ -2,7 +2,7 @@ export class EffectGain {
     public affected = '';
     //Add this number to the target value.
     //Gets eval()-ed to determine the actual value.
-    //Gets applied if parseInt(value) != 0
+    //Gets applied if parseInt(value, 10) != 0
     public value = '0';
     //Set the target value to this number and ignore item, proficiency and untyped effects.
     //Gets eval()-ed to determine the actual value.

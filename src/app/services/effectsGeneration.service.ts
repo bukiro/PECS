@@ -72,12 +72,16 @@ export class EffectsGenerationService {
     ) { }
 
     public get_EffectsFromObject(object: FormulaObject, services: { readonly characterService: CharacterService }, context: FormulaContext, options: FormulaOptions = {}): Array<Effect> {
-        context = { creature: null,
+        context = {
+            creature: null,
             object,
             parentConditionGain: null,
-            parentItem: null, ...context };
-        options = { name: '',
-            pretendCharacterLevel: 0, ...options };
+            parentItem: null, ...context,
+        };
+        options = {
+            name: '',
+            pretendCharacterLevel: 0, ...options,
+        };
 
         //If an object has a simple instruction in effects, such as "affected":"Athletics" and "value":"+2", turn it into an Effect here,
         // then mark the effect as a penalty if the change is negative (except for Bulk).
@@ -208,7 +212,7 @@ export class EffectsGenerationService {
 
             //Effects that have neither a value nor a toggle don't get created.
             function functionalEffect() {
-                return toggle || setValue || parseInt(value) != 0;
+                return toggle || setValue || parseInt(value, 10) != 0;
             }
 
             if (functionalEffect()) {
@@ -557,7 +561,7 @@ export class EffectsGenerationService {
     private apply_UnburdenedIron(effects: Array<Effect>, services: { readonly characterService: CharacterService }, context: { readonly character: Character }): Array<Effect> {
         //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
         function lessen_SpeedPenaltyEffect(effect: Effect): void {
-            effect.value = (parseInt(effect.value) + 5).toString();
+            effect.value = (parseInt(effect.value, 10) + 5).toString();
 
             if (effect.value == '0' || effect.value == '') {
                 effect.apply = false;

@@ -189,9 +189,9 @@ export class ItemCollection {
                     break;
                 default:
                     if (item.amount) {
-                        sum += parseInt(bulk) * 10 * Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
+                        sum += parseInt(bulk, 10) * 10 * Math.floor(item.amount / ((item as Consumable).stack ? (item as Consumable).stack : 1));
                     } else {
-                        sum += parseInt(bulk) * 10;
+                        sum += parseInt(bulk, 10) * 10;
                     }
 
                     break;

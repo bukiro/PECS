@@ -166,11 +166,11 @@ export class ActivitiesService {
                 gain.duration = activity.maxDuration;
                 //If an effect changes the duration of this activitiy, change the duration here.
                 characterService.effectsService.get_AbsolutesOnThis(creature, `${ activity.name } Duration`).forEach(effect => {
-                    gain.duration = parseInt(effect.setValue);
+                    gain.duration = parseInt(effect.setValue, 10);
                     conditionsToRemove.push(effect.source);
                 });
                 characterService.effectsService.get_RelativesOnThis(creature, `${ activity.name } Duration`).forEach(effect => {
-                    gain.duration += parseInt(effect.value);
+                    gain.duration += parseInt(effect.value, 10);
                     conditionsToRemove.push(effect.source);
                 });
             }
@@ -362,13 +362,13 @@ export class ActivitiesService {
                                 let effectDuration: number = newConditionGain.duration || 0;
 
                                 characterService.effectsService.get_AbsolutesOnThis(creature, `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`).forEach(effect => {
-                                    effectDuration = parseInt(effect.setValue);
+                                    effectDuration = parseInt(effect.setValue, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
 
                                 if (effectDuration > 0) {
                                     characterService.effectsService.get_RelativesOnThis(creature, `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`).forEach(effect => {
-                                        effectDuration += parseInt(effect.value);
+                                        effectDuration += parseInt(effect.value, 10);
                                         conditionsToRemove.push(effect.source);
                                     });
                                 }
@@ -396,11 +396,11 @@ export class ActivitiesService {
                                 let effectValue: number = newConditionGain.value || 0;
 
                                 characterService.effectsService.get_AbsolutesOnThis(creature, `${ condition.name } Value`).forEach(effect => {
-                                    effectValue = parseInt(effect.setValue);
+                                    effectValue = parseInt(effect.setValue, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
                                 characterService.effectsService.get_RelativesOnThis(creature, `${ condition.name } Value`).forEach(effect => {
-                                    effectValue += parseInt(effect.value);
+                                    effectValue += parseInt(effect.value, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
                                 newConditionGain.value = effectValue;
@@ -591,7 +591,7 @@ export class ActivitiesService {
     tick_Activities(creature: Creature, characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns = 10) {
         characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration)
             .forEach(gain => {
-            //Tick down the duration and the cooldown by the amount of turns.
+                //Tick down the duration and the cooldown by the amount of turns.
                 const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
                 // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
                 let remainingTurns = turns;

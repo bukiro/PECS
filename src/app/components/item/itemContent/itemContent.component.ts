@@ -75,7 +75,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         const bulk = +item.getBulk();
 
         if (!isNaN(bulk) && !isNaN(+item.bulk)) {
-            return parseInt(item.getBulk()) - parseInt(item.bulk);
+            return parseInt(item.getBulk(), 10) - parseInt(item.bulk, 10);
         } else if (!isNaN(bulk) && isNaN(+item.bulk)) {
             return 1;
         } else if (isNaN(bulk) && !isNaN(+item.bulk)) {

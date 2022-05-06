@@ -432,7 +432,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     validate_Bulk(item: OtherItem) {
-        if (parseInt(item.bulk) || parseInt(item.bulk) == 0 || item.bulk == 'L' || item.bulk == '') {
+        if (parseInt(item.bulk, 10) || parseInt(item.bulk, 10) == 0 || item.bulk == 'L' || item.bulk == '') {
             //OK - no change needed
         } else {
             item.bulk = '';
@@ -476,16 +476,16 @@ export class InventoryComponent implements OnInit, OnDestroy {
         }
 
         this.effectsService.get_AbsolutesOnThis(this.get_Creature(), 'Max Invested').forEach(effect => {
-            maxInvest = parseInt(effect.setValue);
+            maxInvest = parseInt(effect.setValue, 10);
             explain = `${ effect.source }: ${ effect.setValue }`;
             absolutes = true;
             effects.push(effect);
         });
         this.effectsService.get_RelativesOnThis(this.get_Creature(), 'Max Invested').forEach(effect => {
-            maxInvest += parseInt(effect.value);
+            maxInvest += parseInt(effect.value, 10);
             explain += `\n${ effect.source }: ${ effect.value }`;
 
-            if (parseInt(effect.value) < 0) {
+            if (parseInt(effect.value, 10) < 0) {
                 penalties = true;
             } else {
                 bonuses = true;

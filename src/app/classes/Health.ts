@@ -27,11 +27,11 @@ export class Health {
         let effectsSum = 0;
 
         effectsService.get_AbsolutesOnThis(creature, 'Max HP').forEach(effect => {
-            effectsSum = parseInt(effect.setValue);
+            effectsSum = parseInt(effect.setValue, 10);
             baseHP.explain = `${ effect.source }: ${ effect.setValue }`;
         });
         effectsService.get_RelativesOnThis(creature, 'Max HP').forEach(effect => {
-            effectsSum += parseInt(effect.value);
+            effectsSum += parseInt(effect.value, 10);
             baseHP.explain += `\n${ effect.source }: ${ effect.value }`;
         });
         baseHP.result = Math.max(0, baseHP.result + effectsSum);
@@ -86,10 +86,10 @@ export class Health {
         let effectsSum = 0;
 
         effectsService.get_AbsolutesOnThis(creature, 'Max Dying').forEach(effect => {
-            effectsSum = parseInt(effect.value);
+            effectsSum = parseInt(effect.value, 10);
         });
         effectsService.get_RelativesOnThis(creature, 'Max Dying').forEach(effect => {
-            effectsSum += parseInt(effect.value);
+            effectsSum += parseInt(effect.value, 10);
         });
 
         return defaultMaxDying + effectsSum;

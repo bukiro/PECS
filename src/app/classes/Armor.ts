@@ -80,8 +80,8 @@ export class Armor extends Equipment {
         this.material.forEach(mat => {
             price += mat.price;
 
-            if (parseInt(this.bulk)) {
-                price += (mat.bulkPrice * parseInt(this.bulk));
+            if (parseInt(this.bulk, 10)) {
+                price += (mat.bulkPrice * parseInt(this.bulk, 10));
             }
         });
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
@@ -101,8 +101,8 @@ export class Armor extends Equipment {
         //Fortification Runes raise the required strength
         const fortification = this.propertyRunes.filter(rune => rune.name.includes('Fortification')).length ? 1 : 0;
 
-        if (parseInt(this.bulk)) {
-            return oilBulk || (parseInt(this.bulk) + fortification).toString();
+        if (parseInt(this.bulk, 10)) {
+            return oilBulk || (parseInt(this.bulk, 10) + fortification).toString();
         } else {
             return oilBulk || fortification ? fortification.toString() : this.bulk;
         }

@@ -18,8 +18,8 @@ export class Effect {
     constructor(
         public value: string = '',
     ) {
-        if (value && !isNaN(parseInt(value))) {
-            this.value = (parseInt(value) >= 0 ? '+' : '') + parseInt(value);
+        if (value && !isNaN(parseInt(value, 10))) {
+            this.value = (parseInt(value, 10) >= 0 ? '+' : '') + parseInt(value, 10);
         }
     }
     recast() {
@@ -29,7 +29,7 @@ export class Effect {
         if (this.title) {
             return (signed ? '= ' : '') + this.title;
         } else {
-            if (parseInt(this.value)) {
+            if (parseInt(this.value, 10)) {
                 return this.value;
             } else if (this.setValue) {
                 return (signed ? '= ' : '') + this.setValue;

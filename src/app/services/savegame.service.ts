@@ -140,9 +140,9 @@ export class SavegameService {
         const minorVersionPosition = 2;
 
         if (versionString) {
-            savegame.appVersionMajor = parseInt(versionString.split('.')[majorVersionPosition]) || 0;
-            savegame.appVersion = parseInt(versionString.split('.')[versionPosition]) || 0;
-            savegame.appVersionMinor = parseInt(versionString.split('.')[minorVersionPosition]) || 0;
+            savegame.appVersionMajor = parseInt(versionString.split('.')[majorVersionPosition], 10) || 0;
+            savegame.appVersion = parseInt(versionString.split('.')[versionPosition], 10) || 0;
+            savegame.appVersionMinor = parseInt(versionString.split('.')[minorVersionPosition], 10) || 0;
         }
 
         //Go through all the items, class, ancestry, heritage, background and compare every element to its library equivalent, skipping the properties listed in .save
@@ -298,7 +298,6 @@ export class SavegameService {
     /* eslint-enable @typescript-eslint/no-explicit-any */
     /* eslint-enable @typescript-eslint/no-dynamic-delete */
 
-    /* eslint-disable @typescript-eslint/no-magic-numbers */
     private _patchPartialCharacter(character: Character, characterService: CharacterService): void {
 
         // STAGE 1
@@ -791,9 +790,7 @@ export class SavegameService {
             }
         }
     }
-    /* eslint-enable @typescript-eslint/no-magic-numbers */
 
-    /* eslint-disable @typescript-eslint/no-magic-numbers */
     private _patchCompleteCharacter(savedCharacter: Character, character: Character, characterService: CharacterService): void {
 
         // STAGE 2
@@ -1066,7 +1063,6 @@ export class SavegameService {
             });
         }
     }
-    /* eslint-enable @typescript-eslint/no-magic-numbers */
 
     private _finishLoading(loader: Array<Partial<Character & DatabaseCharacter>>): void {
         if (loader) {

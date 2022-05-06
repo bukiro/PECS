@@ -295,7 +295,7 @@ export class Spell {
 
         if (context.gain.dynamicEffectiveSpellLevel) {
             try {
-                level = parseInt(eval(context.gain.dynamicEffectiveSpellLevel));
+                level = parseInt(eval(context.gain.dynamicEffectiveSpellLevel), 10);
             } catch (e) {
                 console.log(`Error parsing effective spell level (${ context.gain.dynamicEffectiveSpellLevel }): ${ e }`);
             }
@@ -321,13 +321,13 @@ export class Spell {
             }
 
             services.effectsService.get_AbsolutesOnThese(context.creature, list).forEach(effect => {
-                if (parseInt(effect.setValue)) {
-                    level = parseInt(effect.setValue);
+                if (parseInt(effect.setValue, 10)) {
+                    level = parseInt(effect.setValue, 10);
                 }
             });
             services.effectsService.get_RelativesOnThese(context.creature, list).forEach(effect => {
-                if (parseInt(effect.value)) {
-                    level += parseInt(effect.value);
+                if (parseInt(effect.value, 10)) {
+                    level += parseInt(effect.value, 10);
                 }
             });
         }

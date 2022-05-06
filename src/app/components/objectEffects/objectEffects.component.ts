@@ -63,7 +63,7 @@ export class ObjectEffectsComponent {
     }
 
     get_IsFormula(value: string) {
-        if (isNaN(parseInt(value))) {
+        if (isNaN(parseInt(value, 10))) {
             if (!value.match('^[0-9-]*$').length) {
                 return true;
             }

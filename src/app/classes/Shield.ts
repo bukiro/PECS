@@ -52,8 +52,8 @@ export class Shield extends Equipment {
         this.material.forEach(mat => {
             price += mat.price;
 
-            if (parseInt(this.bulk)) {
-                price += (mat.bulkPrice * parseInt(this.bulk));
+            if (parseInt(this.bulk, 10)) {
+                price += (mat.bulkPrice * parseInt(this.bulk, 10));
             }
         });
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);

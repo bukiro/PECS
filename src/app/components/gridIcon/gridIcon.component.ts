@@ -215,7 +215,7 @@ export class GridIconComponent implements OnInit, OnDestroy {
                 if (!iconTitle.includes(' ')) {
                     //If the title does not contain spaces, and is not just a number, keep only letters and return the first 3 letters.
                     //Return numbers unchanged
-                    if (isNaN(parseInt(iconTitle))) {
+                    if (isNaN(parseInt(iconTitle, 10))) {
                         iconTitle = iconTitle.replace(/[^A-Z]/gi, '').substring(0, 3);
                     }
                 } else if (iconTitle.match('.*[A-Z].*')) {
@@ -276,7 +276,7 @@ export class GridIconComponent implements OnInit, OnDestroy {
         }
 
         if (iconDetail) {
-            if (isNaN(parseInt(iconDetail))) {
+            if (isNaN(parseInt(iconDetail, 10))) {
                 if (iconDetail.match('.*[A-Z].*')) {
                     iconDetail = iconDetail.replace(/[^A-Z ]/g, '').split(' ')
                         .map(part => part.substring(0, 1))
@@ -290,7 +290,7 @@ export class GridIconComponent implements OnInit, OnDestroy {
                         .substring(0, 2);
                 }
             } else {
-                iconDetail = parseInt(iconDetail).toString();
+                iconDetail = parseInt(iconDetail, 10).toString();
             }
         }
 

@@ -248,7 +248,7 @@ export class Skill {
             if (absoluteEffects.length) {
                 //If the skill is set by an effect, we can skip every other calculation.
                 absoluteEffects.forEach(effect => {
-                    skillLevel = parseInt(effect.setValue);
+                    skillLevel = parseInt(effect.setValue, 10);
                 });
             } else {
                 let increases = (creature as Character | AnimalCompanion).get_SkillIncreases(characterService, 0, charLevel, this.name, '', '', undefined, excludeTemporary);
@@ -305,8 +305,8 @@ export class Skill {
             const relativeEffects = excludeTemporary ? [] : effectsService.get_RelativesOnThese(creature, effectTargetList);
 
             relativeEffects.forEach(effect => {
-                if ([-8, -6, -4, -2, 2, 4, 6, 8].includes(parseInt(effect.value))) {
-                    skillLevel += parseInt(effect.value);
+                if ([-8, -6, -4, -2, 2, 4, 6, 8].includes(parseInt(effect.value, 10))) {
+                    skillLevel += parseInt(effect.value, 10);
                 }
             });
             skillLevel = Math.max(Math.min(skillLevel, 8), 0);
@@ -399,7 +399,7 @@ export class Skill {
 
             //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
             this.absolutes(creature, effectsService, isDC, skillLevel, ability).forEach(effect => {
-                result = parseInt(effect.setValue);
+                result = parseInt(effect.setValue, 10);
                 explain = `${ effect.source }: ${ effect.setValue }`;
 
                 if (effect.source.includes('Assurance')) {
@@ -416,7 +416,7 @@ export class Skill {
 
                 if (['Fortitude', 'Reflex', 'Will'].includes(this.name)) {
                     this.absolutes(character, effectsService, isDC, baseValue.skillLevel, baseValue.ability).forEach(effect => {
-                        baseValue.result = parseInt(effect.setValue);
+                        baseValue.result = parseInt(effect.setValue, 10);
                         baseValue.explain = `${ effect.source }: ${ effect.setValue }`;
                     });
                     relatives.push(...this.relatives(character, effectsService, isDC, baseValue.skillLevel, baseValue.ability).filter(effect => effect.type != 'circumstance' && effect.type != 'status'));
@@ -428,7 +428,7 @@ export class Skill {
                 relatives.push(...this.relatives(creature, effectsService, isDC, baseValue.skillLevel, baseValue.ability));
                 relatives.forEach(effect => {
 
-                    result += parseInt(effect.value);
+                    result += parseInt(effect.value, 10);
                     explain += `\n${ effect.source }: ${ effect.value }`;
                 });
             }

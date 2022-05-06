@@ -16455,7 +16455,7 @@
             },
             {
                 "affected": "Spell Damage Resistance",
-                "value": "Choice ? (parseInt(Choice.substr(0,1)) || 0) : 0"
+                "value": "Choice ? (parseInt(Choice.substr(0,2)) || 0) : 0"
             }
         ]
     },

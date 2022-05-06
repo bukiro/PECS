@@ -74,9 +74,9 @@ export class ItemOilsComponent {
                     ) && (
                         oil.oil.weightLimit ?
                             (
-                                !(parseInt(item.bulk)) ||
+                                !(parseInt(item.bulk, 10)) ||
                                 (
-                                    item.bulk && parseInt(item.bulk) <= oil.oil.weightLimit
+                                    item.bulk && parseInt(item.bulk, 10) <= oil.oil.weightLimit
                                 )
                             )
                             : true

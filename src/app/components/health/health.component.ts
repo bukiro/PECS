@@ -231,7 +231,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
         //Build a list of all resistances other than "Resistances" and add up their respective value.
         effects.filter(effect => effect.target.toLowerCase() != 'resistances').forEach(effect => {
-            const value = parseInt(effect.value) || parseInt(effect.setValue);
+            const value = parseInt(effect.value, 10) || parseInt(effect.setValue, 10);
             const resistance = resistances.find(res => res.target == effect.target);
 
             if (resistance) {
@@ -243,7 +243,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         });
         //Globally apply any effects on "Resistances".
         effects.filter(effect => effect.target.toLowerCase() == 'resistances').forEach(effect => {
-            const value = parseInt(effect.value) || parseInt(effect.setValue);
+            const value = parseInt(effect.value, 10) || parseInt(effect.setValue, 10);
 
             resistances.forEach(resistance => {
                 resistance.value += value;
