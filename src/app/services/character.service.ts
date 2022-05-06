@@ -1200,7 +1200,7 @@ export class CharacterService {
             //If you are unequipping a shield, you should also be lowering it and losing cover
             if (item instanceof Shield) {
                 if (item.takingCover) {
-                    this.get_AC().set_Cover(creature, 0, item, this, this.conditionsService);
+                    this.get_AC().setCover(creature, 0, item, this, this.conditionsService);
                     item.takingCover = false;
                 }
 
@@ -2302,7 +2302,7 @@ export class CharacterService {
                 break;
             }
             case 'Cover':
-                this.defenseService.get_AC().set_Cover(creature, value, null, this, this.conditionsService);
+                this.defenseService.get_AC().setCover(creature, value, null, this, this.conditionsService);
 
                 switch (value) {
                     case 0:

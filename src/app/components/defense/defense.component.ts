@@ -122,7 +122,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public set_Cover(cover: number, shield: Shield = null): void {
-        this.get_AC().set_Cover(this.get_Creature(), cover, shield, this.characterService, this.conditionsService);
+        this.get_AC().setCover(this.get_Creature(), cover, shield, this.characterService, this.conditionsService);
     }
 
     public raise_Shield(raised = false, shield: Shield): void {
