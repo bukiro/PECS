@@ -12,7 +12,7 @@ export class FeatData {
             this._data = data;
         }
     }
-    public recast(): typeof this {
+    public recast(): FeatData {
         return this;
     }
     public setValue(key: string, input: FeatDataValue | Event): void {

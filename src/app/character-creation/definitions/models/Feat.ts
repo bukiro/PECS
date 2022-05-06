@@ -112,7 +112,7 @@ export class Feat {
     public sourceBook = '';
     public allowSignatureSpells: Array<SignatureSpellGain> = [];
     public PFSnote = '';
-    public recast(): typeof this {
+    public recast(): Feat {
         this.changeProficiency = this.changeProficiency.map(obj => Object.assign(new ProficiencyChange(), obj).recast());
         this.copyProficiency = this.copyProficiency.map(obj => Object.assign(new ProficiencyCopy(), obj).recast());
         this.bloodMagic = this.bloodMagic.map(obj => Object.assign(new BloodMagic(), obj).recast());

@@ -5,7 +5,7 @@ export class FeatTaken {
     public automatic = false;
     public sourceId = '';
     public countAsFeat = '';
-    public recast(): typeof this {
+    public recast(): FeatTaken {
         return this;
     }
 }
