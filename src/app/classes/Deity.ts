@@ -65,11 +65,7 @@ export class Deity {
 
         return this.$alternateDomains;
     }
-    // This method is currently only used in evals and not in the code.
-    // It should only be renamed when the evals are updated or replaced.
-
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    public get_IsExternalDomain(domain: string): boolean {
+    public isDomainExternal(domain: string): boolean {
         return !new Set([
             ...this.domains,
             ...this.alternateDomains,
