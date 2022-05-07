@@ -396,7 +396,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         //Weapons with Emblazon Armament get tagged as "Emblazon Armament Weapon".
-        if (weapon._emblazonArmament) {
+        if (weapon.$emblazonArmament) {
             weapon.emblazonArmament.forEach(ea => {
                 if (ea.type == 'emblazonArmament') {
                     specialNames.push('Emblazon Armament Weapon');
@@ -405,7 +405,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         //Weapons with Emblazon Energy get tagged as "Emblazon Energy Weapon <Choice>".
-        if (weapon._emblazonEnergy) {
+        if (weapon.$emblazonEnergy) {
             weapon.emblazonArmament.forEach(ea => {
                 if (ea.type == 'emblazonEnergy') {
                     specialNames.push(`Emblazon Energy Weapon ${ ea.choice }`);
@@ -414,7 +414,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         //Weapons with Emblazon Antimagic get tagged as "Emblazon Antimagic Weapon".
-        if (weapon._emblazonAntimagic) {
+        if (weapon.$emblazonAntimagic) {
             weapon.emblazonArmament.forEach(ea => {
                 if (ea.type == 'emblazonAntimagic') {
                     specialNames.push('Emblazon Antimagic Weapon');
@@ -425,7 +425,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const creature = this.get_Creature();
 
         specialNames.push(weapon.get_Proficiency(creature, this.characterService, creature.level));
-        specialNames.push(...weapon._traits);
+        specialNames.push(...weapon.$traits);
         specialNames.push(range);
         specialNames.push(weapon.weaponBase);
 

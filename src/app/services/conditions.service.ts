@@ -352,7 +352,7 @@ export class ConditionsService {
                             gainItem.conditionChoiceFilter.includes(gain.choice),
                         ).forEach(gainItem => {
                             conditionDidSomething = true;
-                            gainItem.grant_GrantedItem(creature, { sourceName: condition.name }, { characterService, itemsService });
+                            gainItem.grantGrantedItem(creature, { sourceName: condition.name }, { characterService, itemsService });
                         });
                 } else {
                     gain.gainItems
@@ -360,7 +360,7 @@ export class ConditionsService {
                             !gainItem.conditionChoiceFilter.length ||
                             gainItem.conditionChoiceFilter.includes(gain.choice),
                         ).forEach(gainItem => {
-                            gainItem.drop_GrantedItem(creature, {}, { characterService });
+                            gainItem.dropGrantedItem(creature, {}, { characterService });
                         });
                     gain.gainItems = [];
                 }
@@ -431,8 +431,8 @@ export class ConditionsService {
 
             //If no other conditions have this ConditionGain's sourceGainID, find the matching Spellgain or ActivityGain and disable it.
             if (!characterService.get_AppliedConditions(character).some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID == gain.sourceGainID)) {
-                character.get_SpellsTaken(0, 20, { characterService })
-                    .concat(character.get_AllEquipmentSpellsGranted())
+                character.takenSpells(0, 20, { characterService })
+                    .concat(character.allGrantedEquipmentSpells())
                     .filter(taken => taken.gain.id == gain.sourceGainID && taken.gain.active)
                     .forEach(taken => {
                         const spell = characterService.spellsService.get_Spells(taken.gain.name)[0];
@@ -450,7 +450,7 @@ export class ConditionsService {
                     .filter(activityGain => activityGain.id == gain.sourceGainID && activityGain.active)
                     .forEach(activityGain => {
                         //Tick down the duration and the cooldown.
-                        const activity: Activity | ItemActivity = activityGain.get_OriginalActivity(characterService.activitiesService);
+                        const activity: Activity | ItemActivity = activityGain.originalActivity(characterService.activitiesService);
 
                         if (activity) {
                             characterService.activitiesService.activate_Activity(creature, activityGain.selectedTarget, characterService, characterService.conditionsService, itemsService, characterService.spellsService, activityGain, activity, false, false);
@@ -520,7 +520,7 @@ export class ConditionsService {
     }
 
     remove_ConditionItem(creature, characterService: CharacterService, itemsService: ItemsService, gainItem: ItemGain) {
-        gainItem.drop_GrantedItem(creature, {}, { characterService });
+        gainItem.dropGrantedItem(creature, {}, { characterService });
     }
 
     generate_ItemConditions(creature: Creature, services: { characterService: CharacterService; effectsService: EffectsService; itemsService: ItemsService }): void {
@@ -877,7 +877,7 @@ export class ConditionsService {
             //Remove any items that were granted by the previous choice.
             if (oldChoice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(oldChoice)).forEach(gainItem => {
-                    gainItem.drop_GrantedItem((creature as AnimalCompanion | Character), {}, { characterService });
+                    gainItem.dropGrantedItem((creature as AnimalCompanion | Character), {}, { characterService });
                 });
             }
 
@@ -885,7 +885,7 @@ export class ConditionsService {
             if (gain.choice) {
                 gain.gainItems.filter(gainItem => gainItem.conditionChoiceFilter.includes(gain.choice)).forEach(gainItem => {
                     conditionDidSomething = true;
-                    gainItem.grant_GrantedItem(creature, { sourceName: condition.name }, { characterService, itemsService });
+                    gainItem.grantGrantedItem(creature, { sourceName: condition.name }, { characterService, itemsService });
                 });
             }
         }

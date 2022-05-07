@@ -268,7 +268,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     get_FormulasLearned(id = '', source = '') {
-        return this.get_Character().get_FormulasLearned(id, source);
+        return this.get_Character().learnedFormulas(id, source);
     }
 
     have_Feat(name: string) {

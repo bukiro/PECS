@@ -105,7 +105,7 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     get_OriginalActivity(gain: ActivityGain | ItemActivity) {
-        return gain.get_OriginalActivity(this.activitiesService);
+        return gain.originalActivity(this.activitiesService);
     }
 
     public get_FuseStanceName(): string {

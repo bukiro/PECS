@@ -4,8 +4,8 @@ import { TypeService } from 'src/app/services/type.service';
 
 export class AlchemicalTool extends Consumable {
     //Alchemical tools should be type "alchemicaltools" to be found in the database
-    readonly type = 'alchemicaltools';
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    public readonly type = 'alchemicaltools';
+    public recast(typeService: TypeService, itemsService: ItemsService): AlchemicalTool {
         super.recast(typeService, itemsService);
 
         return this;

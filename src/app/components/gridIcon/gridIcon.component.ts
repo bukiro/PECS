@@ -317,8 +317,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
 
         //For activities, show the number of activations if applicable.
         if (this.activity && this.activityGain) {
-            if (this.activity._charges) {
-                return (this.activity._charges - this.activityGain.chargesUsed).toString();
+            if (this.activity.$charges) {
+                return (this.activity.$charges - this.activityGain.chargesUsed).toString();
             }
         }
 

@@ -46,7 +46,7 @@ export class Wand extends Equipment {
             }
         }
 
-        this._traits = traits;
+        this.$traits = traits;
 
         return traits;
     }

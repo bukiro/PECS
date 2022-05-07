@@ -241,7 +241,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     public get_SpellCastingParameters(): Array<SpellCastingParameters> {
         return this.get_SpellCastings().map(casting => {
-            const equipmentSpells = this.get_Character().get_EquipmentSpellsGranted(casting, { characterService: this.characterService, itemsService: this.itemsService }, { cantripAllowed: true });
+            const equipmentSpells = this.get_Character().grantedEquipmentSpells(casting, { characterService: this.characterService, itemsService: this.itemsService }, { cantripAllowed: true });
             //Don't list castings that have no spells available.
             const castingAvailable = (
                 casting.charLevelAvailable &&
@@ -325,7 +325,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         if (casting.castingType == 'Focus') {
-            return this.get_Character().get_SpellLevel();
+            return this.get_Character().maxSpellLevel();
         }
 
         return Math.max(
@@ -351,13 +351,13 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
         if (levelNumber == -1) {
             if (spellCastingParameters.casting.castingType == 'Focus') {
-                return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, signatureAllowed: this.get_SignatureSpellsAllowed(spellCastingParameters.casting), cantripAllowed: false })
+                return character.takenSpells(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, signatureAllowed: this.get_SignatureSpellsAllowed(spellCastingParameters.casting), cantripAllowed: false })
                     .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
             } else {
                 return [];
             }
         } else {
-            return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, signatureAllowed: this.get_SignatureSpellsAllowed(spellCastingParameters.casting), cantripAllowed: true })
+            return character.takenSpells(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, signatureAllowed: this.get_SignatureSpellsAllowed(spellCastingParameters.casting), cantripAllowed: true })
                 .concat(...spellCastingParameters.equipmentSpells.filter(spellSet => (spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, spellCastingParameters.casting) : spellSet.choice.level) == levelNumber))
                 .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
         }
@@ -384,7 +384,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                     gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                 }
 
-                if (conditionSet.condition && !conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
+                if (conditionSet.condition && !conditionSet.condition.$choices.includes(gain.effectChoices?.[index]?.choice)) {
                     gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                 }
             });
@@ -621,7 +621,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
         if (context.spellParameters.choice.source == 'Feat: Channeled Succor') {
             //When you use a Channeled Succor spell, you instead expend a heal spell from your divine font.
-            const divineFontSpell = character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellName: 'Heal', source: 'Divine Font' }).find(taken => taken.gain.prepared);
+            const divineFontSpell = character.takenSpells(1, character.level, { characterService: this.characterService }, { spellName: 'Heal', source: 'Divine Font' }).find(taken => taken.gain.prepared);
 
             if (divineFontSpell) {
                 divineFontSpell.gain.prepared = false;

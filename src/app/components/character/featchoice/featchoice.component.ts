@@ -436,7 +436,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             if (template?.name) {
                 if (this.cannotTake(template, choice).length || index >= available) {
                     if (!feat.locked) {
-                        this.get_Character().take_Feat(this.get_Creature(), this.characterService, template, feat.name, false, choice, feat.locked);
+                        this.get_Character().takeFeat(this.get_Creature(), this.characterService, template, feat.name, false, choice, feat.locked);
                     } else {
                         anytrue += 1;
                     }
@@ -483,7 +483,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
 
         if (featsToTake.length && featsToTake.length <= (available - choice.feats.length)) {
             featsToTake.forEach(featSet => {
-                this.get_Character().take_Feat(this.get_Creature(), this.characterService, featSet.feat, featSet.feat.name, true, choice, false, true);
+                this.get_Character().takeFeat(this.get_Creature(), this.characterService, featSet.feat, featSet.feat.name, true, choice, false, true);
             });
             this.refreshService.process_ToChange();
         }
@@ -646,7 +646,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
 
         if (taken && this.get_Character().settings.autoCloseChoices && (choice.feats.length == this.get_Available(choice) - 1)) { this.toggle_List(''); }
 
-        this.get_Character().take_Feat(this.get_Creature(), this.characterService, feat, feat.name, taken, choice, locked);
+        this.get_Character().takeFeat(this.get_Creature(), this.characterService, feat, feat.name, taken, choice, locked);
         this.refreshService.set_ToChange('Character', 'charactersheet');
         this.refreshService.set_ToChange('Character', 'featchoices');
         this.refreshService.process_ToChange();
@@ -666,7 +666,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
         if (oldChoice) {
             oldChoice.feats.forEach(feat => {
-                this.get_Character().take_Feat(this.get_Character(), this.characterService, undefined, feat.name, false, oldChoice, false);
+                this.get_Character().takeFeat(this.get_Character(), this.characterService, undefined, feat.name, false, oldChoice, false);
             });
             level.featChoices.splice(level.featChoices.indexOf(oldChoice), 1);
         }

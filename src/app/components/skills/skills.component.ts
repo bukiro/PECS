@@ -141,7 +141,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
         if (this.get_Character().settings.showSkillActivities) {
             this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
-                activity.get_OriginalActivity(this.activitiesService)?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
+                activity.originalActivity(this.activitiesService)?.effectiveCooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
 
                 if (!unique.includes(activity.name)) {
                     unique.push(activity.name);
@@ -155,7 +155,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     get_SkillActivities(activities: Array<ActivityGain | ItemActivity>, skillName: string) {
         //Filter activities whose showonSkill or whose original activity's showonSkill includes this skill's name.
-        return activities.filter(activity => (activity.get_OriginalActivity(this.activitiesService)?.showonSkill || '').toLowerCase().includes(skillName.toLowerCase()));
+        return activities.filter(activity => (activity.originalActivity(this.activitiesService)?.showonSkill || '').toLowerCase().includes(skillName.toLowerCase()));
     }
 
     get_Senses() {

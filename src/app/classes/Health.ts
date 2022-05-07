@@ -23,7 +23,7 @@ export class Health {
         return result;
     }
     maxHP(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
-        const baseHP = creature.get_BaseHP({ characterService });
+        const baseHP = creature.baseHP({ characterService });
         let effectsSum = 0;
 
         effectsService.get_AbsolutesOnThis(creature, 'Max HP').forEach(effect => {

@@ -302,7 +302,7 @@ export class Spell {
         }
 
         if ([0, -1].includes(level)) {
-            level = Character.get_SpellLevel();
+            level = Character.maxSpellLevel();
         }
 
         if (!options.noEffects) {

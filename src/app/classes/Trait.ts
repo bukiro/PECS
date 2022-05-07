@@ -38,7 +38,7 @@ export class Trait {
             filteredItems.push(...inventory.allEquipment()
                 .filter(item =>
                     item.equipped &&
-                    item._traits
+                    item.$traits
                         .find(trait =>
                             this.name == trait ||
                             (

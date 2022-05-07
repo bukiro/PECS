@@ -80,7 +80,7 @@ export class Item {
     //What traits does the item have? Can be expanded under certain circumstances
     public traits: Array<string> = [];
     //Some items may recalculate their traits and store them here temporarily for easier access.
-    public _traits: Array<string> = [];
+    public $traits: Array<string> = [];
     //Items can store whether they have activated effects on any of their trait's hints here.
     public traitActivations: Array<{ trait: string; active: boolean; active2: boolean; active3: boolean }> = [];
     //Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item
@@ -124,13 +124,13 @@ export class Item {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     get_Traits(characterService: CharacterService, creature: Creature) {
         //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
-        this._traits = this.traits;
+        this.$traits = this.traits;
 
-        return this._traits;
+        return this.$traits;
     }
     cleanup_TraitActivations() {
-        this.traitActivations = this.traitActivations.filter(activation => this._traits.includes(activation.trait));
-        this._traits.filter(trait => !this.traitActivations.some(activation => activation.trait == trait)).forEach(trait => {
+        this.traitActivations = this.traitActivations.filter(activation => this.$traits.includes(activation.trait));
+        this.$traits.filter(trait => !this.traitActivations.some(activation => activation.trait == trait)).forEach(trait => {
             this.traitActivations.push({ trait, active: false, active2: false, active3: false });
         });
     }

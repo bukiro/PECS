@@ -172,7 +172,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public get_SpellCastingParameters(): Array<SpellCastingParameters> {
         return this.get_SpellCastings().map(casting => {
-            const equipmentSpells = this.get_Character().get_EquipmentSpellsGranted(casting, { characterService: this.characterService, itemsService: this.itemsService }, { cantripAllowed: true, emptyChoiceAllowed: true });
+            const equipmentSpells = this.get_Character().grantedEquipmentSpells(casting, { characterService: this.characterService, itemsService: this.itemsService }, { cantripAllowed: true, emptyChoiceAllowed: true });
             //Don't list castings that have no spells available.
             const castingAvailable = (
                 casting.charLevelAvailable &&
@@ -228,13 +228,13 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
         if (levelNumber == -1) {
             if (spellCastingParameters.casting.castingType == 'Focus') {
-                return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, locked: true, signatureAllowed: false, cantripAllowed: false })
+                return character.takenSpells(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, locked: true, signatureAllowed: false, cantripAllowed: false })
                     .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
             } else {
                 return [];
             }
         } else {
-            return character.get_SpellsTaken(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, locked: true, signatureAllowed: false, cantripAllowed: true })
+            return character.takenSpells(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, locked: true, signatureAllowed: false, cantripAllowed: true })
                 .concat(...spellCastingParameters.equipmentSpells
                     .filter(spellSet =>
                         spellSet.gain &&
@@ -270,7 +270,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         if (casting.castingType == 'Focus') {
-            return this.get_Character().get_SpellLevel();
+            return this.get_Character().maxSpellLevel();
         }
 
         return Math.max(

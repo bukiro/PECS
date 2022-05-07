@@ -142,7 +142,7 @@ export class EvaluationService {
             }
         }
         function BaseSize() {
-            return (Creature as AnimalCompanion | Character | Familiar).get_BaseSize();
+            return (Creature as AnimalCompanion | Character | Familiar).baseSize();
         }
         function Size(asNumber = false) {
             return (Creature as AnimalCompanion | Character | Familiar).get_Size(effectsService, { asNumber });

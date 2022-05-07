@@ -124,7 +124,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
                         gain.spellEffectChoices[spellCastIndex].push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                     }
 
-                    if (!conditionSet.condition._choices.includes(gain.spellEffectChoices[spellCastIndex]?.[index]?.choice)) {
+                    if (!conditionSet.condition.$choices.includes(gain.spellEffectChoices[spellCastIndex]?.[index]?.choice)) {
                         gain.spellEffectChoices[spellCastIndex][index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                     }
                 });
@@ -134,7 +134,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     }
 
     get_HeightenedDescription() {
-        return this.activity.get_Heightened(this.activity.desc, this.gain?.heightened || this.get_Character().level);
+        return this.activity.heightenedText(this.activity.desc, this.gain?.heightened || this.get_Character().level);
     }
 
     on_EffectChoiceChange() {

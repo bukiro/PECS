@@ -283,7 +283,7 @@ export class ItemComponent implements OnInit, OnDestroy {
                     gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                 }
 
-                if (!conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
+                if (!conditionSet.condition.$choices.includes(gain.effectChoices?.[index]?.choice)) {
                     gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                 }
             });

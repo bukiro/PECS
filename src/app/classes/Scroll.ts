@@ -36,7 +36,7 @@ export class Scroll extends Consumable {
             }
         }
 
-        this._traits = traits;
+        this.$traits = traits;
 
         return traits;
     }

@@ -12,10 +12,10 @@ export class Skill {
     public notes = '';
     public showNotes = false;
     public showEffects = false;
-    public _level: Map<string, { value: number; cached: number }> = new Map<string, { value: number; cached: number }>();
-    public _ability: Map<string, { value: string; cached: number }> = new Map<string, { value: string; cached: number }>();
-    public _baseValue: Map<string, { value: number; cached: number }> = new Map<string, { value: number; cached: number }>();
-    public _value: Map<string, { value: number; cached: number }> = new Map<string, { value: number; cached: number }>();
+    public $level: Map<string, { value: number; cached: number }> = new Map<string, { value: number; cached: number }>();
+    public $ability: Map<string, { value: string; cached: number }> = new Map<string, { value: string; cached: number }>();
+    public $baseValue: Map<string, { value: number; cached: number }> = new Map<string, { value: number; cached: number }>();
+    public $value: Map<string, { value: number; cached: number }> = new Map<string, { value: number; cached: number }>();
     constructor(
         public ability: string = '',
         public name: string = '',
@@ -25,20 +25,20 @@ export class Skill {
         public recallKnowledge: boolean = false,
     ) { }
     recast() {
-        if (!(this._level instanceof Map)) {
-            this._level = new Map<string, { value: number; cached: number }>();
+        if (!(this.$level instanceof Map)) {
+            this.$level = new Map<string, { value: number; cached: number }>();
         }
 
-        if (!(this._ability instanceof Map)) {
-            this._ability = new Map<string, { value: string; cached: number }>();
+        if (!(this.$ability instanceof Map)) {
+            this.$ability = new Map<string, { value: string; cached: number }>();
         }
 
-        if (!(this._baseValue instanceof Map)) {
-            this._baseValue = new Map<string, { value: number; cached: number }>();
+        if (!(this.$baseValue instanceof Map)) {
+            this.$baseValue = new Map<string, { value: number; cached: number }>();
         }
 
-        if (!(this._value instanceof Map)) {
-            this._value = new Map<string, { value: number; cached: number }>();
+        if (!(this.$value instanceof Map)) {
+            this.$value = new Map<string, { value: number; cached: number }>();
         }
 
         return this;
@@ -74,13 +74,13 @@ export class Skill {
     }
     isLegal(creature: Character, characterService: CharacterService, levelNumber: number, maxRank = 8) {
         if (levelNumber >= 15) {
-            return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(8, maxRank));
+            return (creature.skillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(8, maxRank));
         } else if (levelNumber >= 7) {
-            return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(6, maxRank));
+            return (creature.skillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(6, maxRank));
         } else if (levelNumber >= 2) {
-            return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(4, maxRank));
+            return (creature.skillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(4, maxRank));
         } else {
-            return (creature.get_SkillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(2, maxRank));
+            return (creature.skillIncreases(characterService, 0, levelNumber, this.name).length * 2 <= Math.min(2, maxRank));
         }
     }
     get_NamesList(creature: Creature, isDC = false, skillLevel = 0, ability = '') {
@@ -151,7 +151,7 @@ export class Skill {
                 return this.ability;
             } else {
                 const character = characterService.get_Character();
-                const cachedAbility = this._ability.get(`${ creature.type }-${ character.level }`);
+                const cachedAbility = this.$ability.get(`${ creature.type }-${ character.level }`);
 
                 if (cachedAbility) {
                     const checkList = {
@@ -170,21 +170,21 @@ export class Skill {
                 //Get the correct ability by finding the first key ability boost for the main class or the archetype class.
                 // Some effects ask for your Unarmed Attacks modifier without any weapon, so we need to apply your strength modifier. But Unarmed Attacks is not a real skill and does not have an ability.
                 if (this.name == 'Unarmed Attacks') {
-                    this._ability.set(`${ creature.type }-${ character.level }`, { value: 'Strength', cached: Date.now() });
+                    this.$ability.set(`${ creature.type }-${ character.level }`, { value: 'Strength', cached: Date.now() });
 
                     return 'Strength';
                 }
 
                 if (this.name == `${ character.class.name } Class DC`) {
-                    const ability = character.get_AbilityBoosts(1, 1, '', '', 'Class Key Ability')[0]?.name;
+                    const ability = character.abilityBoosts(1, 1, '', '', 'Class Key Ability')[0]?.name;
 
-                    this._ability.set(`${ creature.type }-${ character.level }`, { value: ability, cached: Date.now() });
+                    this.$ability.set(`${ creature.type }-${ character.level }`, { value: ability, cached: Date.now() });
 
                     return ability;
                 } else if (this.name.includes(' Class DC') && !this.name.includes(character.class.name)) {
-                    const ability = character.get_AbilityBoosts(1, character.level, '', '', `${ this.name.split(' ')[0] } Key Ability`)[0]?.name;
+                    const ability = character.abilityBoosts(1, character.level, '', '', `${ this.name.split(' ')[0] } Key Ability`)[0]?.name;
 
-                    this._ability.set(`${ creature.type }-${ character.level }`, { value: ability, cached: Date.now() });
+                    this.$ability.set(`${ creature.type }-${ character.level }`, { value: ability, cached: Date.now() });
 
                     return ability;
                 }
@@ -227,7 +227,7 @@ export class Skill {
                     break;
             }
 
-            const cachedLevel = this._level.get(`${ creature.type }-${ charLevel }-${ excludeTemporary }`);
+            const cachedLevel = this.$level.get(`${ creature.type }-${ charLevel }-${ excludeTemporary }`);
 
             if (cachedLevel) {
                 const checkList = {
@@ -251,7 +251,7 @@ export class Skill {
                     skillLevel = parseInt(effect.setValue, 10);
                 });
             } else {
-                let increases = (creature as Character | AnimalCompanion).get_SkillIncreases(characterService, 0, charLevel, this.name, '', '', undefined, excludeTemporary);
+                let increases = (creature as Character | AnimalCompanion).skillIncreases(characterService, 0, charLevel, this.name, '', '', undefined, excludeTemporary);
 
                 // Add 2 for each increase, but keep them to their max Rank
                 increases = increases.sort((a, b) => ((a.maxRank || 8) == (b.maxRank || 8)) ? 0 : (((a.maxRank || 8) > (b.maxRank || 8)) ? 1 : -1));
@@ -310,7 +310,7 @@ export class Skill {
                 }
             });
             skillLevel = Math.max(Math.min(skillLevel, 8), 0);
-            this._level.set(`${ creature.type }-${ charLevel }-${ excludeTemporary }`, { value: skillLevel, cached: Date.now() });
+            this.$level.set(`${ creature.type }-${ charLevel }-${ excludeTemporary }`, { value: skillLevel, cached: Date.now() });
 
             return skillLevel;
         }

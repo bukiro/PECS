@@ -43,7 +43,7 @@ export class Speed {
         if (characterService.still_loading()) { return { result: 0, explain: '' }; }
 
         //Get the base speed from the ancestry.
-        const baseValue = creature.get_BaseSpeed(this.name);
+        const baseValue = creature.baseSpeed(this.name);
         //Absolutes completely replace the baseValue. They are sorted so that the highest value counts last.
         const absolutes = this.absolutes(creature, effectsService, this.name).filter(effect => effect.setValue);
 

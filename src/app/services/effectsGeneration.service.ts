@@ -303,7 +303,7 @@ export class EffectsGenerationService {
 
         services.characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active)
             .forEach(activity => {
-                activity.get_OriginalActivity(this.activitiesService)?.hints?.forEach(hint => {
+                activity.originalActivity(this.activitiesService)?.hints?.forEach(hint => {
                     hintSets.push({ hint, objectName: activity.name });
                 });
             });
@@ -319,7 +319,7 @@ export class EffectsGenerationService {
         let conditions: Array<ConditionEffectsObject> = [];
 
         //Collect the creature's feats/abilities/specializations and their hints.
-        const creatureObjects = creature.get_EffectsGenerationObjects(services.characterService);
+        const creatureObjects = creature.effectsGenerationObjects(services.characterService);
 
         feats = feats.concat(creatureObjects.feats);
         hintSets = hintSets.concat(creatureObjects.hintSets);
@@ -523,13 +523,13 @@ export class EffectsGenerationService {
             if (shieldBonus) {
                 add_Effect({ type: 'circumstance', target: 'AC', value: `+${ shieldBonus }`, source: name, penalty: false, apply: undefined });
 
-                if (shield._shoddy) {
+                if (shield.$shoddy) {
                     add_Effect({ type: 'item', target: 'AC', value: '-2', source: 'Shoddy Shield', penalty: true, apply: undefined });
                 }
             }
 
             //Reflexive Shield adds the same bonus to your reflex save. Only a Character can have it.
-            if (context.creature instanceof Character && context.creature.has_Feat('Reflexive Shield', services)) {
+            if (context.creature instanceof Character && context.creature.hasFeat('Reflexive Shield', services)) {
                 add_Effect({ type: 'circumstance', target: 'Reflex', value: `+${ shieldBonus }`, source: 'Reflexive Shield', penalty: false, apply: undefined });
             }
         }
@@ -571,7 +571,7 @@ export class EffectsGenerationService {
             }
         }
 
-        if (context.character.has_Feat('Unburdened Iron', services)) {
+        if (context.character.hasFeat('Unburdened Iron', services)) {
             let done = false;
 
             //Try global speed penalties first (this is more beneficial to the character).

@@ -19,9 +19,9 @@ export class Armor extends Equipment {
     readonly type = 'armors';
     //For certain medium and light armors, set 1 if an "Armored Skirt" is equipped; For certain heavy armors, set -1 instead
     //This value influences acbonus, skillpenalty, dexcap and strength
-    public _affectedByArmoredSkirt: -1 | 0 | 1 = 0;
+    public $affectedByArmoredSkirt: -1 | 0 | 1 = 0;
     //Shoddy armors give a penalty of -2 unless you have the Junk Tinker feat.
-    public _shoddy: -2 | 0 = 0;
+    public $shoddy: -2 | 0 = 0;
     //The armor's inherent bonus to AC.
     private readonly acbonus = 0;
     //What kind of armor is this based on? Needed for armor proficiencies for specific magical items.
@@ -111,12 +111,12 @@ export class Armor extends Equipment {
     update_Modifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }) {
         //Initialize shoddy values and armored skirt.
         //Set components to update if these values have changed from before.
-        const oldValues = [this._affectedByArmoredSkirt, this._shoddy];
+        const oldValues = [this.$affectedByArmoredSkirt, this.$shoddy];
 
         this.get_ArmoredSkirt(creature as AnimalCompanion | Character);
         this.get_Shoddy((creature as AnimalCompanion | Character), services.characterService);
 
-        const newValues = [this._affectedByArmoredSkirt, this._shoddy];
+        const newValues = [this.$affectedByArmoredSkirt, this.$shoddy];
 
         if (oldValues.some((previous, index) => previous != newValues[index])) {
             services.refreshService.set_ToChange(creature.type, 'inventory');
@@ -127,11 +127,11 @@ export class Armor extends Equipment {
             const armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
 
             if (armoredSkirt?.length) {
-                this._affectedByArmoredSkirt = 1;
+                this.$affectedByArmoredSkirt = 1;
 
                 return armoredSkirt[0];
             } else {
-                this._affectedByArmoredSkirt = 0;
+                this.$affectedByArmoredSkirt = 0;
 
                 return null;
             }
@@ -139,16 +139,16 @@ export class Armor extends Equipment {
             const armoredSkirt = creature.inventories.map(inventory => inventory.adventuringgear).find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
 
             if (armoredSkirt?.length) {
-                this._affectedByArmoredSkirt = -1;
+                this.$affectedByArmoredSkirt = -1;
 
                 return armoredSkirt[0];
             } else {
-                this._affectedByArmoredSkirt = 0;
+                this.$affectedByArmoredSkirt = 0;
 
                 return null;
             }
         } else {
-            this._affectedByArmoredSkirt = 0;
+            this.$affectedByArmoredSkirt = 0;
 
             return null;
         }
@@ -156,31 +156,31 @@ export class Armor extends Equipment {
     get_Shoddy(creature: Creature, characterService: CharacterService) {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
-            this._shoddy = 0;
+            this.$shoddy = 0;
 
             return 0;
         } else if (this.shoddy) {
-            this._shoddy = -2;
+            this.$shoddy = -2;
 
             return -2;
         } else {
-            this._shoddy = 0;
+            this.$shoddy = 0;
 
             return 0;
         }
     }
     get_ACBonus() {
-        return this.acbonus + this._affectedByArmoredSkirt;
+        return this.acbonus + this.$affectedByArmoredSkirt;
     }
     get_SkillPenalty() {
-        return Math.min(0, this.skillpenalty - this._affectedByArmoredSkirt + this._shoddy + this.material.map(material => (material as ArmorMaterial).skillPenaltyModifier).reduce((a, b) => a + b, 0));
+        return Math.min(0, this.skillpenalty - this.$affectedByArmoredSkirt + this.$shoddy + this.material.map(material => (material as ArmorMaterial).skillPenaltyModifier).reduce((a, b) => a + b, 0));
     }
     get_SpeedPenalty() {
         return Math.min(0, this.speedpenalty + this.material.map(material => (material as ArmorMaterial).speedPenaltyModifier).reduce((a, b) => a + b, 0));
     }
     get_DexCap() {
         if (this.dexcap != -1) {
-            return this.dexcap - this._affectedByArmoredSkirt;
+            return this.dexcap - this.$affectedByArmoredSkirt;
         } else {
             return this.dexcap;
         }
@@ -192,7 +192,7 @@ export class Armor extends Equipment {
         //Some materials lower the required strength
         const material = this.material.map(material => (material as ArmorMaterial).strengthScoreModifier).reduce((a, b) => a + b, 0);
 
-        return this.strength + (this._affectedByArmoredSkirt * 2) + fortification + material;
+        return this.strength + (this.$affectedByArmoredSkirt * 2) + fortification + material;
     }
     get_Proficiency(creature: Creature = null, characterService: CharacterService = null) {
         if (creature && characterService.get_AppliedConditions(creature, 'Mage Armor', '', true).length) {
@@ -200,7 +200,7 @@ export class Armor extends Equipment {
             return 'Unarmored Defense';
         }
 
-        if (this._affectedByArmoredSkirt == 1) {
+        if (this.$affectedByArmoredSkirt == 1) {
             switch (this.prof) {
                 case 'Light Armor':
                     return 'Medium Armor';
@@ -219,14 +219,14 @@ export class Armor extends Equipment {
     get_Traits(characterService?: CharacterService, creature?: Creature) {
         let traits = this.traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
 
-        if (this._affectedByArmoredSkirt != 0) {
+        if (this.$affectedByArmoredSkirt != 0) {
             //An armored skirt makes your armor noisy if it isn't already.
             if (!traits.includes('Noisy')) {
                 traits = traits.concat('Noisy');
             }
         }
 
-        this._traits = traits;
+        this.$traits = traits;
 
         return traits;
     }

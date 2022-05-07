@@ -132,7 +132,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         const bloodMagicTrigger = this.get_BloodMagicTrigger();
         const canActivate = this.can_Activate();
         const canActivateWithoutTarget = this.can_Activate(true);
-        const targetNumber = this.action.get_TargetNumber(this.effectiveSpellLevel, this.characterService);
+        const targetNumber = this.action.targetNumber(this.effectiveSpellLevel, this.characterService);
         const target = this.target;
 
         return { bloodMagicTrigger, canActivate, canActivateWithoutTarget, targetNumber, target };
@@ -205,7 +205,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                 gainConditions.some(gain => gain.targetFilter == 'caster') &&
                 (
                     (
-                        this.action.get_IsHostile() ?
+                        this.action.isHostile() ?
                             !this.get_Character().settings.noHostileCasterConditions :
                             !this.get_Character().settings.noFriendlyCasterConditions
                     ) ||
@@ -237,7 +237,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     private isHostile(ignoreOverride = false): boolean {
-        return this.action.get_IsHostile(ignoreOverride);
+        return this.action.isHostile(ignoreOverride);
     }
 
     private canTarget(list: Array<string>): boolean {
@@ -302,7 +302,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     get_SpellTargets() {
         //Collect all possible targets for a spell/activity (allies only).
         //Hostile spells and activities don't get targets.
-        if (this.action.get_IsHostile(true)) {
+        if (this.action.isHostile(true)) {
             return [];
         }
 

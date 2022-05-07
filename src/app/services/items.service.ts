@@ -413,7 +413,7 @@ export class ItemsService {
 
                 creature.inventories.filter(inventory => !targetInventory || inventory !== targetInventory).forEach(inventory => {
                     //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
-                    inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
+                    inventory[itemGain.type].filter((invItem: Item) => itemGain.isMatchingExistingItem(invItem)).forEach((invItem: Item) => {
                         if (invItem.canStack()) {
                             found += invItem.amount;
                             stackBulk = (invItem as Equipment).carryingBulk || invItem.bulk;
@@ -496,7 +496,7 @@ export class ItemsService {
 
             creature.inventories.forEach(inventory => {
                 //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
-                inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
+                inventory[itemGain.type].filter((invItem: Item) => itemGain.isMatchingExistingItem(invItem)).forEach((invItem: Item) => {
                     found += invItem.amount;
                     //Take the opportunity to update this item as well, in case it grants further items.
                     //Ideally, the granting items should not contain the same kind of stackable items, or the numbers will be wrong.
@@ -522,7 +522,7 @@ export class ItemsService {
             creature.inventories.forEach(inventory => {
                 //Find items that either have this ItemGain's id or, if stackable, its name.
                 //Then add as many of them into the package as the amount demands, and pack their contents as well.
-                inventory[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach((invItem: Item) => {
+                inventory[itemGain.type].filter((invItem: Item) => itemGain.isMatchingExistingItem(invItem)).forEach((invItem: Item) => {
                     if (toPack) {
                         const moved = Math.min(toPack, invItem.amount);
 
@@ -666,7 +666,7 @@ export class ItemsService {
             [inventory].concat(creature.inventories.filter(inv => inv !== targetInventory && inv !== inventory)).forEach(inv => {
                 //Find items that either have this ItemGain's id or, if stackable, its name.
                 //Then move as many of them into the new inventory as the amount demands.
-                inv[itemGain.type].filter((invItem: Item) => itemGain.get_IsMatchingExistingItem(invItem)).forEach(invItem => {
+                inv[itemGain.type].filter((invItem: Item) => itemGain.isMatchingExistingItem(invItem)).forEach(invItem => {
                     if (toMove) {
                         if (!this.get_CannotMove(creature, invItem, targetInventory)) {
                             const moved = Math.min(toMove, invItem.amount);
@@ -827,7 +827,7 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length) {
                 item.gainItems.forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
+                    gainItem.grantGrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
                 });
             }
 
@@ -855,7 +855,7 @@ export class ItemsService {
             inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped())
                 .forEach(item => {
                     item.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
-                        gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
+                        gainItem.grantGrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
                     });
                 });
         });
@@ -913,7 +913,7 @@ export class ItemsService {
                 .filter(feat => feat.gainItems.some(gain => gain.on == 'rest') && feat.have({ creature }, { characterService }))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
-                        gainItem.grant_GrantedItem(creature, { sourceName: feat.name }, { characterService, itemsService: this });
+                        gainItem.grantGrantedItem(creature, { sourceName: feat.name }, { characterService, itemsService: this });
                     });
                 });
         }

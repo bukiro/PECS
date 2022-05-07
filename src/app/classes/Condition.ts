@@ -87,7 +87,7 @@ export class Condition {
     //List choices you can make for this condition. The first choice must never have a featreq.
     public choices: Array<ConditionChoice> = [];
     //_choices is a temporary value that stores the filtered name list produced by get_Choices();
-    public _choices: Array<string> = [];
+    public $choices: Array<string> = [];
     //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
     public choice = '';
     //All instances of an unlimited condition are shown in the conditions area. Limited conditions only show one instance.
@@ -119,9 +119,11 @@ export class Condition {
         }
 
         this.selectOtherConditions = this.selectOtherConditions.map(selection =>
-            ({ title: '',
-                nameFilter: [],
-                typeFilter: [], ...selection }),
+        ({
+            title: '',
+            nameFilter: [],
+            typeFilter: [], ...selection,
+        }),
         );
         //endsWithConditions has changed from string to object; this is patched here for existing conditions.
         this.endsWithConditions.forEach((endsWith, index) => {
@@ -292,9 +294,9 @@ export class Condition {
                 }
             }
         });
-        this._choices = choices;
+        this.$choices = choices;
 
-        return this._choices;
+        return this.$choices;
     }
     get_ChoiceNextStage(choiceName: string) {
         return this.choices.find(choice => choice.name == choiceName)?.nextStage || 0;

@@ -152,7 +152,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
                 activity: gainSet.activity,
                 maxCharges,
                 disabled: gainSet.gain.disabled({ creature, maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }),
-                hostile: gainSet.activity.get_IsHostile(),
+                hostile: gainSet.activity.isHostile(),
             };
         });
     }
@@ -174,9 +174,9 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
             }
         }
         this.characterService.get_OwnedActivities(this.get_Creature()).forEach(gain => {
-            const activity = gain.get_OriginalActivity(this.activitiesService);
+            const activity = gain.originalActivity(this.activitiesService);
 
-            activity?.get_Cooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
+            activity?.effectiveCooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
 
             if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
                 unique.push(gain.name);

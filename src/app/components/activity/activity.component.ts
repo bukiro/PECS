@@ -100,7 +100,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
         return {
             maxCharges,
-            cooldown: this.activity.get_Cooldown({ creature }, { characterService: this.characterService, effectsService: this.effectsService }),
+            cooldown: this.activity.effectiveCooldown({ creature }, { characterService: this.characterService, effectsService: this.effectsService }),
             disabled: this.gain?.disabled({ creature, maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }) || '',
             activitySpell: this.get_ActivitySpell(),
             tooManySlottedAeonStones,
@@ -181,7 +181,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     public get_ActivitiesShowingOn(objectName: string): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
         if (objectName) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
-                .map(gain => ({ gain, activity: gain.get_OriginalActivity(this.activitiesService) }))
+                .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesService) }))
                 .filter(set =>
                     set.activity?.hints
                         .some(hint =>
@@ -203,7 +203,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         if (featData) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
                 .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
-                .map(gain => ({ gain, activity: gain.get_OriginalActivity(this.activitiesService) }));
+                .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesService) }));
         } else {
             return [];
         }
@@ -232,7 +232,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
                         gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                     }
 
-                    if (conditionSet.condition && !conditionSet.condition._choices.includes(gain.effectChoices?.[index]?.choice)) {
+                    if (conditionSet.condition && !conditionSet.condition.$choices.includes(gain.effectChoices?.[index]?.choice)) {
                         gain.effectChoices[index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                     }
                 });
@@ -244,7 +244,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     public get_ShowConditionChoice(conditionSet: { gain: ConditionGain; condition: Condition }, context: { tooManySlottedAeonStones: boolean; resonantAllowed: boolean }): boolean {
         return this.allowActivate &&
             conditionSet.condition &&
-            conditionSet.condition._choices.length &&
+            conditionSet.condition.$choices.length &&
             !conditionSet.gain.choiceBySubType &&
             !conditionSet.gain.choiceLocked &&
             !conditionSet.gain.copyChoiceFrom &&

@@ -183,7 +183,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
             if (!this.get_Skills(increase.name)[0].isLegal(this.get_Character(), this.characterService, levelNumber, choice.maxRank)) {
                 if (!increase.locked) {
-                    this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, increase.locked);
+                    this.get_Character().increaseSkill(this.characterService, increase.name, false, choice, increase.locked);
                     this.refreshService.process_ToChange();
                 } else {
                     anytrue += 1;
@@ -267,7 +267,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source = '', sourceId = '', locked: boolean = undefined, excludeTemporary = false) {
-        return this.get_Character().get_SkillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked, excludeTemporary);
+        return this.get_Character().skillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked, excludeTemporary);
     }
 
     on_SkillIncrease(skillName: string, event: Event, choice: SkillChoice, locked = false, maxAvailable: number) {
@@ -275,15 +275,15 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
         if (boost && this.get_Character().settings.autoCloseChoices && (choice.increases.length == maxAvailable - 1)) { this.toggle_List(''); }
 
-        this.get_Character().increase_Skill(this.characterService, skillName, boost, choice, locked);
+        this.get_Character().increaseSkill(this.characterService, skillName, boost, choice, locked);
         this.refreshService.process_ToChange();
     }
 
     remove_BonusSkillChoice(choice: SkillChoice) {
         choice.increases.forEach(increase => {
-            this.get_Character().increase_Skill(this.characterService, increase.name, false, choice, false);
+            this.get_Character().increaseSkill(this.characterService, increase.name, false, choice, false);
         });
-        this.get_Character().remove_SkillChoice(choice);
+        this.get_Character().removeSkillChoice(choice);
         this.toggle_List('');
         this.refreshService.process_ToChange();
     }

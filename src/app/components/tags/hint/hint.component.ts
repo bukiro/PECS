@@ -104,11 +104,11 @@ export class HintComponent {
                             isEmblazonArmamentShield &&
                             (
                                 (
-                                    isEmblazonArmamentShield._emblazonEnergy &&
+                                    isEmblazonArmamentShield.$emblazonEnergy &&
                                     this.objectName == 'Shield Block' &&
                                     showon == 'Emblazon Energy Shield Block'
                                 ) || (
-                                    isEmblazonArmamentShield._emblazonAntimagic &&
+                                    isEmblazonArmamentShield.$emblazonAntimagic &&
                                     this.objectName == 'Shield Block' &&
                                     showon == 'Emblazon Antimagic Shield Block'
                                 )

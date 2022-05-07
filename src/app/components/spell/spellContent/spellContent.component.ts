@@ -42,7 +42,7 @@ export class SpellContentComponent implements OnInit, OnDestroy {
         let levelNumber = this.spellLevel;
 
         if ((!levelNumber && (this.spell.traits.includes('Cantrip'))) || levelNumber == -1) {
-            levelNumber = this.characterService.get_Character().get_SpellLevel();
+            levelNumber = this.characterService.get_Character().maxSpellLevel();
         }
 
         if (this.spell.levelreq && levelNumber < this.spell.levelreq) {

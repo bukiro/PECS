@@ -270,16 +270,17 @@ export class SavegameService {
                     //Delete attributes that are in the "neversave" list, if it exists.
                     if (object.neversave?.includes(key)) {
                         delete object[key];
-                        //Don't cleanup the neversave list, the save list, any attributes that are in the save list, or any that start with "_" (which is done further down).
-                    } else if (key != 'save' && key != 'neversave' && !object.save?.includes(key) && (key.substr(0, 1) != '_')) {
+                        // Don't cleanup the neversave list, the save list, any attributes that are in the save list,
+                        // or any that start with "_" (which is done further down).
+                    } else if (key !== 'save' && key !== 'neversave' && !object.save?.includes(key) && (key.substring(0, 1) !== '$')) {
                         //If the attribute has the same value as the default, delete it from the object.
-                        if (JSON.stringify(object[key]) == JSON.stringify(blank[key])) {
+                        if (JSON.stringify(object[key]) === JSON.stringify(blank[key])) {
                             delete object[key];
                         } else {
                             this._trimForSaving(object[key], itemsService);
                         }
                         //Cleanup attributes that start with _.
-                    } else if (key.substring(0, 1) == '_') {
+                    } else if (key.substring(0, 1) === '$') {
                         delete object[key];
                     }
                 });
@@ -823,7 +824,7 @@ export class SavegameService {
                     const firstPathFeat = characterService.get_Feats(`Path to Perfection: ${ firstPath }`)[0];
 
                     if (firstPathFeat) {
-                        character.take_Feat(character, characterService, firstPathFeat, firstPathFeat.name, true, firstPathChoice, false);
+                        character.takeFeat(character, characterService, firstPathFeat, firstPathFeat.name, true, firstPathChoice, false);
                     }
                 }
             }
@@ -835,7 +836,7 @@ export class SavegameService {
                     const secondPathFeat = characterService.get_Feats(`Second Path to Perfection: ${ secondPath }`)[0];
 
                     if (secondPathFeat) {
-                        character.take_Feat(character, characterService, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
+                        character.takeFeat(character, characterService, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
                     }
                 }
             }
@@ -847,7 +848,7 @@ export class SavegameService {
                     const thirdPathFeat = characterService.get_Feats(`Third Path to Perfection: ${ thirdPath }`)[0];
 
                     if (thirdPathFeat) {
-                        character.take_Feat(character, characterService, thirdPathFeat, thirdPathFeat.name, true, thirdPathChoice, false);
+                        character.takeFeat(character, characterService, thirdPathFeat, thirdPathFeat.name, true, thirdPathChoice, false);
                     }
                 }
             }

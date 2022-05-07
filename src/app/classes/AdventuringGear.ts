@@ -4,9 +4,9 @@ import { TypeService } from 'src/app/services/type.service';
 
 export class AdventuringGear extends Equipment {
     //Adventuring Gear should be type "adventuringgear" to be found in the database
-    readonly type = 'adventuringgear';
+    public readonly type = 'adventuringgear';
     //Adventuring Gear can usually not be equipped or invested, but with exceptions.
-    equippable = false;
+    public equippable = false;
     //How many hands need to be free to use this item?
     public hands = '';
     //Does this item count for the "Armored Skirt" functionality?
@@ -16,17 +16,17 @@ export class AdventuringGear extends Equipment {
     public stack = 1;
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage = '';
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    public recast(typeService: TypeService, itemsService: ItemsService): AdventuringGear {
         super.recast(typeService, itemsService);
 
         return this;
     }
-    canStack() {
+    public canStack(): boolean {
         //Some AdventuringGear can stack. This is an expanded version of Item.can_Stack().
         return (
             !this.equippable &&
             !this.canInvest() &&
-            !this.gainItems.filter(gain => gain.on != 'use').length &&
+            !this.gainItems.filter(gain => gain.on !== 'use').length &&
             !this.storedSpells.length &&
             !this.activities.length &&
             !this.gainActivities.length

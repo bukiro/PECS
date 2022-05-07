@@ -15,6 +15,11 @@ import { Hint } from 'src/app/classes/Hint';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { CharacterService } from '../services/character.service';
 
+export interface EffectsGenerationObjects {
+    feats: Array<Feat | AnimalCompanionSpecialization>;
+    hintSets: Array<{ hint: Hint; objectName: string }>;
+}
+
 export class Creature {
     public name = '';
     public alignment = 'Neutral';
@@ -32,7 +37,7 @@ export class Creature {
     public bulk: Bulk = new Bulk();
     public notes = '';
     public skillNotes: Array<{ name: string; showNotes: boolean; notes: string }> = [];
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    public recast(typeService: TypeService, itemsService: ItemsService): Creature {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.health = Object.assign(new Health(), this.health).recast();
         this.conditions = this.conditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
@@ -43,12 +48,12 @@ export class Creature {
 
         return this;
     }
-    get_BaseSize() {
+    baseSize() {
         //Each kind of creature provides its own version of this.
         return 0;
     }
     get_Size(effectsService: EffectsService, options: { asNumber?: boolean } = {}): string | number {
-        let size: number = this.get_BaseSize();
+        let size: number = this.baseSize();
 
         const setSizeEffects = effectsService.get_AbsolutesOnThis(this, 'Size');
 
@@ -83,17 +88,17 @@ export class Creature {
     }
     //Other implementations require characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_BaseHP(services: { characterService?: CharacterService }): { result: number; explain: string } {
+    baseHP(services: { characterService?: CharacterService }): { result: number; explain: string } {
         return { result: 0, explain: '' };
     }
     //Other implementations require speedName.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_BaseSpeed(speedName: string): { result: number; explain: string } {
+    baseSpeed(speedName: string): { result: number; explain: string } {
         return { result: 0, explain: '' };
     }
     //Other implementations require characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_EffectsGenerationObjects(characterService?: CharacterService): { feats: Array<Feat | AnimalCompanionSpecialization>; hintSets: Array<{ hint: Hint; objectName: string }> } {
+    effectsGenerationObjects(characterService?: CharacterService): { feats: Array<Feat | AnimalCompanionSpecialization>; hintSets: Array<{ hint: Hint; objectName: string }> } {
         //Each kind of creature provides its own version of this.
         return { feats: [], hintSets: [] };
     }

@@ -91,16 +91,16 @@ export class Weapon extends Equipment {
     //A CLeric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
     // Subsequent feats can change options and restrictions of the functionality.
     public emblazonArmament: Array<EmblazonArmamentSet> = [];
-    public _emblazonArmament = false;
-    public _emblazonEnergy = false;
-    public _emblazonAntimagic = false;
+    public $emblazonArmament = false;
+    public $emblazonEnergy = false;
+    public $emblazonAntimagic = false;
     //Dexterity-based melee attacks force you to use dexterity for your attack modifier.
     public dexterityBased = false;
     //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
     public useHighestAttackProficiency = false;
-    public _traits: Array<string> = [];
+    public $traits: Array<string> = [];
     //Shoddy weapons take a -2 penalty to attacks.
-    public _shoddy = 0;
+    public $shoddy = 0;
     recast(typeService: TypeService, itemsService: ItemsService): Weapon {
         super.recast(typeService, itemsService);
         this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign<AlchemicalPoison, Item>(new AlchemicalPoison(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
@@ -175,12 +175,12 @@ export class Weapon extends Equipment {
     update_Modifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }): void {
         //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
         //Set components to update if these values have changed from before.
-        const oldValues = [this._shoddy, this._emblazonArmament, this._emblazonEnergy, this._emblazonAntimagic];
+        const oldValues = [this.$shoddy, this.$emblazonArmament, this.$emblazonEnergy, this.$emblazonAntimagic];
 
         this.get_Shoddy((creature as AnimalCompanion | Character), services.characterService);
         this.get_EmblazonArmament((creature as AnimalCompanion | Character), services.characterService);
 
-        const newValues = [this._shoddy, this._emblazonArmament, this._emblazonEnergy, this._emblazonAntimagic];
+        const newValues = [this.$shoddy, this.$emblazonArmament, this.$emblazonEnergy, this.$emblazonAntimagic];
 
         if (oldValues.some((previous, index) => previous != newValues[index])) {
             services.refreshService.set_ToChange(creature.type, this.id);
@@ -191,15 +191,15 @@ export class Weapon extends Equipment {
     get_Shoddy(creature: Creature, characterService: CharacterService): number {
         //Shoddy items have a -2 penalty to Attack, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
-            this._shoddy = 0;
+            this.$shoddy = 0;
 
             return 0;
         } else if (this.shoddy) {
-            this._shoddy = -2;
+            this.$shoddy = -2;
 
             return -2;
         } else {
-            this._shoddy = 0;
+            this.$shoddy = 0;
 
             return 0;
         }
@@ -240,25 +240,25 @@ export class Weapon extends Equipment {
         return runeSource;
     }
     get_EmblazonArmament(creature: Creature, characterService: CharacterService) {
-        this._emblazonArmament = false;
-        this._emblazonEnergy = false;
+        this.$emblazonArmament = false;
+        this.$emblazonEnergy = false;
         this.emblazonArmament.forEach(ea => {
             if (ea.emblazonDivinity || (creature instanceof Character && characterService.get_CharacterDeities(creature).some(deity => deity.name.toLowerCase() == ea.deity.toLowerCase()))) {
                 switch (ea.type) {
                     case 'emblazonArmament':
-                        this._emblazonArmament = true;
+                        this.$emblazonArmament = true;
                         break;
                     case 'emblazonEnergy':
-                        this._emblazonEnergy = true;
+                        this.$emblazonEnergy = true;
                         break;
                     case 'emblazonAntimagic':
-                        this._emblazonAntimagic = true;
+                        this.$emblazonAntimagic = true;
                         break;
                 }
             }
         });
 
-        return this._emblazonArmament || this._emblazonEnergy || this._emblazonAntimagic;
+        return this.$emblazonArmament || this.$emblazonEnergy || this.$emblazonAntimagic;
     }
 
     get_Traits(characterService: CharacterService, creature: Creature) {
@@ -347,11 +347,11 @@ export class Weapon extends Equipment {
         traits = traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
         traits = Array.from(new Set(traits)).sort();
 
-        if (JSON.stringify(this._traits) != JSON.stringify(traits)) {
+        if (JSON.stringify(this.$traits) != JSON.stringify(traits)) {
             //If any traits have changed, we need to update elements that these traits show on. First we save the traits, so we don't start a loop if anything wants to update attacks again.
-            const changed: Array<string> = this._traits.filter(trait => !traits.includes(trait)).concat(traits.filter(trait => !this._traits.includes(trait)));
+            const changed: Array<string> = this.$traits.filter(trait => !traits.includes(trait)).concat(traits.filter(trait => !this.$traits.includes(trait)));
 
-            this._traits = traits;
+            this.$traits = traits;
             changed.forEach(trait => {
                 characterService.traitsService.getTraits(trait).forEach(trait => {
                     characterService.refreshService.set_HintsToChange(creature, trait.hints, { characterService });
@@ -677,9 +677,9 @@ export class Weapon extends Equipment {
         }
 
         //Shoddy items have a -2 item penalty to attacks, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if ((this._shoddy == 0) && this.shoddy) {
+        if ((this.$shoddy == 0) && this.shoddy) {
             explain += '\nShoddy (canceled by Junk Tinker): -0';
-        } else if (this._shoddy) {
+        } else if (this.$shoddy) {
             calculatedEffects.push(Object.assign(new Effect('-2'), { creature: creature.type, type: 'item', target: this.name, source: 'Shoddy', penalty: true, apply: true, show: false }));
         }
 
@@ -742,7 +742,7 @@ export class Weapon extends Equipment {
 
         //Emblazon Energy on a weapon adds 1d4 damage of the chosen type if the deity matches.
         if (creature instanceof Character) {
-            if (this._emblazonEnergy) {
+            if (this.$emblazonEnergy) {
                 this.emblazonArmament.filter(ea => ea.type == 'emblazonEnergy').forEach(ea => {
                     let eaDmg = '+1d4 ';
                     const type = ea.choice;
@@ -843,7 +843,7 @@ export class Weapon extends Equipment {
         const bonuses: Array<Effect> = [];
         const absolutes: Array<Effect> = [];
         const prof = this.get_Proficiency(creature, characterService);
-        const traits = this._traits;
+        const traits = this.$traits;
         //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
         //We set runeSource to the respective item and use it whenever runes are concerned.
         const runeSource = this.get_RuneSource(creature, range);
@@ -1108,7 +1108,7 @@ export class Weapon extends Equipment {
 
         //Emblazon Armament on a weapon adds a +1 status bonus to damage rolls if the deity matches.
         if (creature instanceof Character) {
-            if (this._emblazonArmament) {
+            if (this.$emblazonArmament) {
                 this.emblazonArmament.filter(ea => ea.type == 'emblazonArmament').forEach(() => {
                     calculatedEffects.push(Object.assign(new Effect('+1'), { creature: creature.type, type: 'status', target: `${ this.name } Damage`, source: 'Emblazon Armament', apply: true, show: false }));
                 });

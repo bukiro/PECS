@@ -74,7 +74,7 @@ export class Ability {
             //Boosts are always +2 for Companion
             //Flaws are always -2
             //Infos are not processed.
-            const boosts = (creature as Character | AnimalCompanion).get_AbilityBoosts(0, charLevel, this.name);
+            const boosts = (creature as Character | AnimalCompanion).abilityBoosts(0, charLevel, this.name);
 
             if (boosts) {
                 boosts.forEach(boost => {

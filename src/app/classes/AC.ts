@@ -315,7 +315,7 @@ export class AC {
 
             //Shoddy items have a -2 item penalty to ac, unless you have the Junk Tinker feat and have crafted the item yourself.
             //This is considered when _shoddy is calculated.
-            if (armor._shoddy) {
+            if (armor.$shoddy) {
                 clonedRelatives.push(
                     Object.assign(
                         new Effect('-2'),

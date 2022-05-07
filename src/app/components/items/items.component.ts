@@ -327,7 +327,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
                         (
                             creatureType == 'Character' &&
                             item.type == 'scrolls' &&
-                            (item as Scroll).storedSpells[0]?.level <= character.get_SpellLevel(character.level) - 2 &&
+                            (item as Scroll).storedSpells[0]?.level <= character.maxSpellLevel(character.level) - 2 &&
                             casting && !casting.scrollSavant.find(scroll => scroll.refId == item.id)
                         )
                         : true
@@ -455,15 +455,15 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     get_FormulasLearned(id = '', source = '') {
-        return this.get_Character().get_FormulasLearned(id, source);
+        return this.get_Character().learnedFormulas(id, source);
     }
 
     learn_Formula(item: Item, source: string) {
-        this.get_Character().learn_Formula(item, source);
+        this.get_Character().learnItemFormula(item, source);
     }
 
     unlearn_Formula(item: Item) {
-        this.get_Character().unlearn_Formula(item);
+        this.get_Character().unlearnItemFormula(item);
     }
 
     get_LearnedFormulaSource(source: string) {
@@ -620,7 +620,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
                 //Remove all prepared scrolls that are of a higher level than allowed.
                 casting.scrollSavant
-                    .filter(scroll => scroll.storedSpells[0].level > this.get_Character().get_SpellLevel(this.get_Character().level))
+                    .filter(scroll => scroll.storedSpells[0].level > this.get_Character().maxSpellLevel(this.get_Character().level))
                     .forEach(scroll => {
                         scroll.amount = 0;
                     });
@@ -633,7 +633,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
                 const prepared: number = casting.scrollSavant.length;
 
                 if (available) {
-                    result = `You can currently prepare ${ available - prepared } of ${ available } temporary scrolls of different spell levels up to level ${ this.get_Character().get_SpellLevel(this.get_Character().level) - 2 }.`;
+                    result = `You can currently prepare ${ available - prepared } of ${ available } temporary scrolls of different spell levels up to level ${ this.get_Character().maxSpellLevel(this.get_Character().level) - 2 }.`;
                 }
             }
 

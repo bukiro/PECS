@@ -506,7 +506,7 @@ export class FeatRequirementsService {
                 complexreq.countLores?.forEach(lorereq => {
                     if (!hasThisRequirementFailed) {
                         const allLores = Array.from(new Set(
-                            character.get_SkillIncreases(this._characterService, 1, charLevel)
+                            character.skillIncreases(this._characterService, 1, charLevel)
                                 .filter(increase => increase.name.toLowerCase().includes('lore:'))
                                 .map(increase => increase.name),
                         ));
@@ -676,7 +676,7 @@ export class FeatRequirementsService {
                                 SplitNames(spellreq.query.ofSpellCasting.havingAnyOfTraditions) :
                                 [];
                         const allSpells =
-                            character.get_SpellsTaken(
+                            character.takenSpells(
                                 1,
                                 charLevel,
                                 { characterService: this._characterService },
@@ -692,7 +692,7 @@ export class FeatRequirementsService {
                 });
                 complexreq.countLearnedSpells?.forEach(learnedspellreq => {
                     if (!hasThisRequirementFailed) {
-                        const allLearnedSpells = character.get_SpellsLearned().map(learned => learned.name);
+                        const allLearnedSpells = character.learnedSpells().map(learned => learned.name);
                         const queryResult = ApplyDefaultQuery(learnedspellreq.query, allLearnedSpells);
 
                         if (!DoesNumberMatchExpectation(queryResult, learnedspellreq.expected)) {

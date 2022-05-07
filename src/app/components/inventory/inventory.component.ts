@@ -663,7 +663,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_FormulasLearned(id = '', source = '') {
-        return this.get_Character().get_FormulasLearned(id, source);
+        return this.get_Character().learnedFormulas(id, source);
     }
 
     get_PreparedItems(type: string): Array<{ learned: FormulaLearned; item: Snare }> {

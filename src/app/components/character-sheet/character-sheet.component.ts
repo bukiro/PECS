@@ -188,7 +188,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     get_ClassOrder(fightingStyle: string) {
         //Returns whether the fightingStyle (attacks or spells) should be first or second for this class (0 or 1).
         //This checks whether you have a primary spellcasting for your class from level 1, and if so, spells should be first.
-        if (this.characterService.get_Character().get_DefaultSpellcasting()?.charLevelAvailable == 1) {
+        if (this.characterService.get_Character().defaultSpellcasting()?.charLevelAvailable == 1) {
             switch (fightingStyle) {
                 case 'attacks':
                     return 1;

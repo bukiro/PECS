@@ -21,7 +21,7 @@ export class Ancestry {
     public size = 0;
     public speeds: Array<{ name: string; value: number }> = [];
     public traits: Array<string> = [];
-    recast() {
+    public recast(): Ancestry {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());

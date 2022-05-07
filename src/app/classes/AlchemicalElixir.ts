@@ -4,13 +4,18 @@ import { TypeService } from 'src/app/services/type.service';
 
 export class AlchemicalElixir extends Consumable {
     //Alchemical Elixirs should be type "alchemicalelixirs" to be found in the database
-    readonly type = 'alchemicalelixirs';
-    //Alchemical Elixirs can have benefits and drawbacks. Describe them here.
-    //Will be shown as "Benefit":"..."
+    public readonly type = 'alchemicalelixirs';
+    /**
+     * Alchemical Elixirs can have benefits and drawbacks. Describe the benefits here.
+     * Will be shown as "Benefit":"..."
+     */
     public benefit = '';
-    //Will be shown as "Drawback":"..."
+    /**
+     * Alchemical Elixirs can have benefits and drawbacks. Describe the drawbacks here.
+     * Will be shown as "Drawbacks":"..."
+     */
     public drawback = '';
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    public recast(typeService: TypeService, itemsService: ItemsService): AlchemicalElixir {
         super.recast(typeService, itemsService);
 
         return this;

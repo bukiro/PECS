@@ -559,11 +559,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.set_ToChange('Character', 'activities');
         this.refreshService.set_ToChange('Character', 'spells');
         this.refreshService.set_ToChange('Character', 'spellbook');
-        character.get_AbilityBoosts(lowerLevel, higherLevel).forEach(boost => {
+        character.abilityBoosts(lowerLevel, higherLevel).forEach(boost => {
             this.refreshService.set_ToChange('Character', 'abilities');
             this.cacheService.set_AbilityChanged(boost.name, { creatureTypeId: 0, minLevel: lowerLevel });
         });
-        character.get_SkillIncreases(this.characterService, lowerLevel, higherLevel).forEach(increase => {
+        character.skillIncreases(this.characterService, lowerLevel, higherLevel).forEach(increase => {
             this.refreshService.set_ToChange('Character', 'skillchoices');
             this.refreshService.set_ToChange('Character', 'individualSkills', increase.name);
             this.cacheService.set_SkillChanged(increase.name, { creatureTypeId: 0, minLevel: lowerLevel });
@@ -593,14 +593,14 @@ export class CharacterComponent implements OnInit, OnDestroy {
             });
 
         //Reload spellbook if spells were learned between the levels,
-        if (character.get_SpellsLearned().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
+        if (character.learnedSpells().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
             this.refreshService.set_ToChange('Character', 'spellbook');
             //if spells were taken between the levels,
-        } else if (character.get_SpellsTaken(lowerLevel, higherLevel, { characterService: this.characterService }).length) {
+        } else if (character.takenSpells(lowerLevel, higherLevel, { characterService: this.characterService }).length) {
             this.refreshService.set_ToChange('Character', 'spellbook');
             //if any spells have a dynamic level dependent on the character level,
-        } else if (character.get_SpellsTaken(0, 20, { characterService: this.characterService })
-            .concat(character.get_AllEquipmentSpellsGranted())
+        } else if (character.takenSpells(0, 20, { characterService: this.characterService })
+            .concat(character.allGrantedEquipmentSpells())
             .some(taken => taken.choice.dynamicLevel.toLowerCase().includes('level'))
         ) {
             this.refreshService.set_ToChange('Character', 'spellbook');
@@ -620,7 +620,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
 
         if (this.characterService.get_CompanionAvailable()) {
-            this.get_Companion().set_Level(this.characterService);
+            this.get_Companion().setLevel(this.characterService);
         }
 
         if (this.characterService.get_FamiliarAvailable(newLevel)) {
@@ -649,7 +649,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 let newLanguages = 0;
 
                 newLanguages += this.get_CharacterFeatsAndFeatures().filter(feat => (feat.gainLanguages.length || feat.effects.some(effect => effect.affected == 'Max Languages')) && feat.have({ creature: character }, { characterService: this.characterService }, { charLevel: levelNumber, minLevel: levelNumber })).length;
-                newLanguages += character.get_AbilityBoosts(levelNumber, levelNumber, 'Intelligence').length;
+                newLanguages += character.abilityBoosts(levelNumber, levelNumber, 'Intelligence').length;
 
                 if (!newLanguages) {
                     return false;
@@ -746,7 +746,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         choice.boosts.forEach(boost => {
             if (this.abilityIllegal(levelNumber, this.get_Abilities(boost.name)[0])) {
                 if (!boost.locked) {
-                    this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, boost.locked);
+                    this.get_Character().boostAbility(this.characterService, boost.name, false, choice, boost.locked);
                     this.refreshService.process_ToChange();
                 } else {
                     anytrue += 1;
@@ -809,7 +809,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_AbilityBoosts(minLevelNumber: number, maxLevelNumber: number, abilityName = '', type = '', source = '', sourceId = '', locked: boolean = undefined) {
-        return this.get_Character().get_AbilityBoosts(minLevelNumber, maxLevelNumber, abilityName, type, source, sourceId, locked);
+        return this.get_Character().abilityBoosts(minLevelNumber, maxLevelNumber, abilityName, type, source, sourceId, locked);
     }
 
     onAbilityBoost(abilityName: string, boostedEvent: Event, choice: AbilityChoice, locked: boolean) {
@@ -817,13 +817,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
         if (boost && this.get_Character().settings.autoCloseChoices && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length) ? choice.baseValuesLost : 0) - 1) { this.toggle_List(''); }
 
-        this.get_Character().boost_Ability(this.characterService, abilityName, boost, choice, locked);
+        this.get_Character().boostAbility(this.characterService, abilityName, boost, choice, locked);
         this.refreshService.set_AbilityToChange('Character', abilityName, { characterService: this.characterService });
         this.refreshService.process_ToChange();
     }
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source = '', sourceId = '', locked: boolean = undefined) {
-        return this.get_Character().get_SkillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
+        return this.get_Character().skillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked);
     }
 
     get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}) {
@@ -912,9 +912,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices && (choice.increases.length == choice.available - 1)) { this.toggle_List(''); }
 
-            this.get_Character().add_Lore(this.characterService, choice);
+            this.get_Character().addLore(this.characterService, choice);
         } else {
-            this.get_Character().remove_Lore(this.characterService, choice);
+            this.get_Character().removeLore(this.characterService, choice);
         }
 
         this.refreshService.process_ToChange();
@@ -964,11 +964,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_BlessedBloodSpells() {
-        return this.get_Character().get_SpellListSpell('', 'Feat: Blessed Blood').length;
+        return this.get_Character().getSpellsFromSpellList('', 'Feat: Blessed Blood').length;
     }
 
     get_BlessedBloodHaveSpell(spell: Spell) {
-        return this.get_Character().get_SpellListSpell(spell.name, 'Feat: Blessed Blood').length;
+        return this.get_Character().getSpellsFromSpellList(spell.name, 'Feat: Blessed Blood').length;
     }
 
     onBlessedBloodSpellTaken(spell: Spell, levelNumber: number, checkedEvent: Event) {
@@ -977,9 +977,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(''); }
 
-            this.get_Character().add_SpellListSpell(spell.name, 'Feat: Blessed Blood', levelNumber);
+            this.get_Character().addSpellListSpell(spell.name, 'Feat: Blessed Blood', levelNumber);
         } else {
-            this.get_Character().remove_SpellListSpell(spell.name, 'Feat: Blessed Blood', levelNumber);
+            this.get_Character().removeSpellListSpell(spell.name, 'Feat: Blessed Blood', levelNumber);
         }
 
         this.refreshService.set_ToChange('Character', 'spells');
@@ -1110,26 +1110,26 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
             data.setValue('background', background.name);
             background.loreChoices.forEach(choice => {
-                const newChoice: LoreChoice = character.add_LoreChoice(level, choice);
+                const newChoice: LoreChoice = character.addLoreChoice(level, choice);
 
                 newChoice.source = 'Different Worlds';
 
                 if (newChoice.loreName) {
                     if (this.get_Skills(`Lore: ${ newChoice.loreName }`, {}, { noSubstitutions: true }).length) {
-                        const increases = character.get_SkillIncreases(this.characterService, 1, 20, `Lore: ${ newChoice.loreName }`).filter(increase =>
+                        const increases = character.skillIncreases(this.characterService, 1, 20, `Lore: ${ newChoice.loreName }`).filter(increase =>
                             increase.sourceId.includes('-Lore-'),
                         );
 
                         if (increases.length) {
-                            const oldChoice = character.get_LoreChoice(increases[0].sourceId);
+                            const oldChoice = character.getLoreChoiceBySourceId(increases[0].sourceId);
 
                             if (oldChoice.available == 1) {
-                                character.remove_Lore(this.characterService, oldChoice);
+                                character.removeLore(this.characterService, oldChoice);
                             }
                         }
                     }
 
-                    character.add_Lore(this.characterService, newChoice);
+                    character.addLore(this.characterService, newChoice);
                 }
             });
         } else {
@@ -1142,7 +1142,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 const oldChoice = oldChoices[0];
 
                 if (oldChoice.increases.length) {
-                    character.remove_Lore(this.characterService, oldChoice);
+                    character.removeLore(this.characterService, oldChoice);
                 }
 
                 level.loreChoices = level.loreChoices.filter(choice => choice.source != 'Different Worlds');
@@ -1622,7 +1622,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_ItemFromGain(gain: ItemGain) {
         //This is a simplified version of the methods in ItemGain. It doesn't work for "special" ItemGains, which aren't needed here.
-        return this.characterService.get_CleanItems()[gain.type].filter((item: Item) => gain.get_IsMatchingItem(item));
+        return this.characterService.get_CleanItems()[gain.type].filter((item: Item) => gain.isMatchingItem(item));
     }
 
     get_AnimalCompanionAbilities(type: AnimalCompanionAncestry) {
@@ -1649,15 +1649,15 @@ export class CharacterComponent implements OnInit, OnDestroy {
         newChoice.type = type;
         newChoice.source = this.bonusSource || 'Bonus';
         newChoice.bonus = true;
-        this.get_Character().add_AbilityChoice(level, newChoice);
+        this.get_Character().addAbilityChoice(level, newChoice);
     }
 
     remove_BonusAbilityChoice(choice: AbilityChoice) {
         choice.boosts.forEach(boost => {
-            this.get_Character().boost_Ability(this.characterService, boost.name, false, choice, false);
+            this.get_Character().boostAbility(this.characterService, boost.name, false, choice, false);
             this.refreshService.set_AbilityToChange('Character', boost.name, { characterService: this.characterService });
         });
-        this.get_Character().remove_AbilityChoice(choice);
+        this.get_Character().removeAbilityChoice(choice);
         this.toggle_List('');
         this.refreshService.process_ToChange();
     }
@@ -1669,7 +1669,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         newChoice.type = type;
         newChoice.source = this.bonusSource || 'Bonus';
         newChoice.bonus = true;
-        this.get_Character().add_SkillChoice(level, newChoice);
+        this.get_Character().addSkillChoice(level, newChoice);
     }
 
     add_BonusFeatChoice(level: Level, type: 'Ancestry' | 'Class' | 'General' | 'Skill') {
@@ -1679,7 +1679,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         newChoice.type = type;
         newChoice.source = this.bonusSource || 'Bonus';
         newChoice.bonus = true;
-        this.get_Character().add_FeatChoice(level, newChoice);
+        this.get_Character().addFeatChoice(level, newChoice);
     }
 
     add_BonusLoreChoice(level: Level) {
@@ -1688,7 +1688,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         newChoice.available = 1;
         newChoice.source = this.bonusSource || 'Bonus';
         newChoice.bonus = true;
-        this.get_Character().add_LoreChoice(level, newChoice);
+        this.get_Character().addLoreChoice(level, newChoice);
     }
 
     remove_BonusLoreChoice(choice: LoreChoice, levelNumber: number) {
@@ -1696,7 +1696,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const a = character.class.levels[levelNumber].loreChoices;
 
         if (choice.loreName) {
-            character.remove_Lore(this.characterService, choice);
+            character.removeLore(this.characterService, choice);
         }
 
         if (a.indexOf(choice) != -1) {

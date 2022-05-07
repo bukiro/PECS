@@ -165,9 +165,9 @@ export class TimeService {
                 this._refreshService.set_ToChange('Character', 'inventory');
                 //Regenerate bonded item charges.
                 character.class.spellCasting.filter(casting => casting.castingType == 'Prepared' && casting.className == 'Wizard').forEach(casting => {
-                    const superiorBond = character.has_Feat('Superior Bond', { characterService });
+                    const superiorBond = character.hasFeat('Superior Bond', { characterService });
 
-                    if (character.has_Feat('Universalist Wizard', { characterService })) {
+                    if (character.hasFeat('Universalist Wizard', { characterService })) {
                         casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
                     } else {
                         casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

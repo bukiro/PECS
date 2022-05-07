@@ -885,7 +885,7 @@ export class CharacterService {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
                     item.gainItems.filter(gainItem => gainItem.on == 'grant' && gainItem.amount > 0).forEach(gainItem => {
-                        gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
+                        gainItem.grantGrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
                     });
                 }
             }
@@ -965,7 +965,7 @@ export class CharacterService {
 
                 if (including) {
                     item.gainItems.filter(gainItem => gainItem.on == 'grant').forEach(gainItem => {
-                        gainItem.drop_GrantedItem(creature, {}, { characterService: this });
+                        gainItem.dropGrantedItem(creature, {}, { characterService: this });
                     });
                 }
             }
@@ -1044,7 +1044,7 @@ export class CharacterService {
                             .some(otherchoice => otherchoice.loreName == choice.loreName),
                         ),
                     ).length == 1) {
-                this.get_Character().add_Lore(this, choice);
+                this.get_Character().addLore(this, choice);
             }
         });
     }
@@ -1067,7 +1067,7 @@ export class CharacterService {
                             .length)
                         .length)
                     .length == 1) {
-                this.get_Character().remove_Lore(this, choice);
+                this.get_Character().removeLore(this, choice);
             }
         });
     }
@@ -1189,7 +1189,7 @@ export class CharacterService {
             //Add all Items that you get from equipping this one
             if (item.gainItems && item.gainItems.length) {
                 item.gainItems.filter(gainItem => gainItem.on == 'equip').forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
+                    gainItem.grantGrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
                 });
             }
         } else if (oldequipped && !item.equipped) {
@@ -1214,7 +1214,7 @@ export class CharacterService {
 
             if (item.gainItems?.length) {
                 item.gainItems.filter(gainItem => gainItem.on == 'equip').forEach(gainItem => {
-                    gainItem.drop_GrantedItem(creature, {}, { characterService: this });
+                    gainItem.dropGrantedItem(creature, {}, { characterService: this });
                 });
             }
 
@@ -2370,7 +2370,7 @@ export class CharacterService {
         if (!options.excludeTemporary) {
             return this.featsService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.includeCountAs, filter.automatic);
         } else {
-            return this.get_Character().get_FeatsTaken(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.excludeTemporary, options.includeCountAs, filter.automatic);
+            return this.get_Character().takenFeats(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.excludeTemporary, options.includeCountAs, filter.automatic);
         }
     }
 
@@ -2584,8 +2584,8 @@ export class CharacterService {
                             if (item instanceof Shield && item.emblazonArmament?.length) {
                                 //Only get Emblazon Armament activities if the blessing applies.
                                 activities.push(...item.gainActivities.filter(gain =>
-                                    (item._emblazonEnergy ? true : gain.source != 'Emblazon Energy') &&
-                                    (item._emblazonAntimagic ? true : gain.source != 'Emblazon Antimagic'),
+                                    (item.$emblazonEnergy ? true : gain.source != 'Emblazon Energy') &&
+                                    (item.$emblazonAntimagic ? true : gain.source != 'Emblazon Antimagic'),
                                 ));
                             } else {
                                 activities.push(...item.gainActivities);
@@ -2701,7 +2701,7 @@ export class CharacterService {
     get_ActivitiesShowingOn(creature: Creature, objectName = 'all') {
         return this.get_OwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
-            .map(gain => ({ gain, activity: gain.get_OriginalActivity(this.activitiesService) }))
+            .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesService) }))
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
             .filter((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) => gainAndActivity.activity && (gainAndActivity.gain.active || !gainAndActivity.activity.toggle))
             //...and then keep only the activities.
@@ -2743,11 +2743,11 @@ export class CharacterService {
                             item instanceof Shield && item.emblazonArmament.length &&
                             (
                                 (
-                                    item._emblazonEnergy &&
+                                    item.$emblazonEnergy &&
                                     objectName == 'Shield Block' &&
                                     showon == 'Emblazon Energy Shield Block'
                                 ) || (
-                                    item._emblazonAntimagic &&
+                                    item.$emblazonAntimagic &&
                                     objectName == 'Shield Block' &&
                                     showon == 'Emblazon Antimagic Shield Block'
                                 )
@@ -2858,13 +2858,13 @@ export class CharacterService {
             character.class.animalCompanion = Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this.typeService, this.itemsService);
             character.class.animalCompanion.class.levels = this.get_AnimalCompanionLevels();
             this.equip_BasicItems(character.class.animalCompanion);
-            character.class.animalCompanion.set_Level(this);
+            character.class.animalCompanion.setLevel(this);
         }
     }
 
     cleanup_Familiar() {
         this.get_Familiar().abilities.feats.forEach(gain => {
-            this.get_Character().take_Feat(this.get_Familiar(), this, undefined, gain.name, false, this.get_Familiar().abilities, undefined);
+            this.get_Character().takeFeat(this.get_Familiar(), this, undefined, gain.name, false, this.get_Familiar().abilities, undefined);
         });
     }
 

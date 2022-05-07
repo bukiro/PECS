@@ -42,7 +42,7 @@
                 <app-trait *ngFor="let trait of activity.traits; trackBy:trackByIndex;" [name]="trait"
                     [trait]="get_Traits(trait)[0]">
                 </app-trait>
-                <app-trait *ngFor="let trait of activity.get_ActivationTraits(); trackBy:trackByIndex;" [name]="trait"
+                <app-trait *ngFor="let trait of activity.activationTraits(); trackBy:trackByIndex;" [name]="trait"
                     [trait]="get_Traits(trait)[0]"
                     [extraDescription]="'(This trait was derived from the action components.)'">
                 </app-trait>

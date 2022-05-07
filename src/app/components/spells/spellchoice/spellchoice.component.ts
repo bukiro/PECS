@@ -387,7 +387,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         // - This choice is part of your default spellcasting
         // - This choice is not itself a bonus slot gained by trading in
         // - You have the Adapted Cantrip feat
-        return (this.choice.level == 0 && !this.choice.dynamicLevel && this.spellCasting === this.get_Character().get_DefaultSpellcasting() &&
+        return (this.choice.level == 0 && !this.choice.dynamicLevel && this.spellCasting === this.get_Character().defaultSpellcasting() &&
             !this.is_TradedIn() &&
             this.have_Feat('Adapted Cantrip'));
     }
@@ -425,7 +425,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         // - This choice does not have a dynamic level
         // - This choice is part of your default spellcasting
         // - This choice is not itself a bonus slot gained by trading in
-        return (!this.choice.dynamicLevel && this.spellCasting === this.get_Character().get_DefaultSpellcasting() &&
+        return (!this.choice.dynamicLevel && this.spellCasting === this.get_Character().defaultSpellcasting() &&
             !this.is_TradedIn() &&
             (
                 (this.choice.level == 0 && this.have_Feat('Adaptive Adept: Cantrip')) ||
@@ -698,7 +698,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                         spells.push(...allSpells.filter(spell =>
                             (
                                 spell.spell.traditions.includes(traditionFilter) ||
-                                this.get_Character().get_SpellListSpell(spell.spell.name).length ||
+                                this.get_Character().getSpellsFromSpellList(spell.spell.name).length ||
                                 (
                                     this.spellCasting.source == 'Cleric Spellcasting' && (
                                         deity?.clericSpells.some(clericSpell =>
@@ -877,7 +877,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         choice.spells.forEach(gain => {
             if (!spellList?.map(spell => spell.spell.name)?.includes(gain.name)) {
                 if (!gain.locked) {
-                    this.get_Character().take_Spell(this.characterService, gain.name, false, choice, gain.locked);
+                    this.get_Character().takeSpell(this.characterService, gain.name, false, choice, gain.locked);
                 }
             }
         });
@@ -889,7 +889,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         this.choice.spells.forEach(gain => {
             if (this.cannotTake(this.get_Spells(gain.name)[0]).length) {
                 if (!gain.locked) {
-                    this.get_Character().take_Spell(this.characterService, gain.name, false, this.choice, gain.locked);
+                    this.get_Character().takeSpell(this.characterService, gain.name, false, this.choice, gain.locked);
                 } else {
                     anytrue += 1;
                 }
@@ -973,7 +973,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         const prepared: boolean = this.prepared;
         const character = this.get_Character();
 
-        character.take_Spell(this.characterService, spellName, taken, choice, locked, prepared, borrowed);
+        character.takeSpell(this.characterService, spellName, taken, choice, locked, prepared, borrowed);
 
         //For the Esoteric Polymath feat and the Arcane Evolution feat, if you choose a spell that is in your repertoire (i.e. if other spell choices have this spell in it),
         // the choice is turned into a signature spell choice. If you drop the spell, turn signature spell off.

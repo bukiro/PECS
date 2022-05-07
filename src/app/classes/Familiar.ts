@@ -31,10 +31,10 @@ export class Familiar extends Creature {
 
         return this;
     }
-    get_BaseSize() {
+    baseSize() {
         return -2;
     }
-    get_BaseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
+    baseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
         const charLevel = services.characterService.get_Character().level;
@@ -45,7 +45,7 @@ export class Familiar extends Creature {
 
         return { result: classHP, explain: explain.trim() };
     }
-    get_BaseSpeed(speedName: string): { result: number; explain: string } {
+    baseSpeed(speedName: string): { result: number; explain: string } {
         let explain = '';
         let sum = 0;
 
@@ -66,7 +66,7 @@ export class Familiar extends Creature {
 
         return featsTaken;
     }
-    get_EffectsGenerationObjects(characterService: CharacterService): { feats: Array<Feat | AnimalCompanionSpecialization>; hintSets: Array<{ hint: Hint; objectName: string }> } {
+    effectsGenerationObjects(characterService: CharacterService): { feats: Array<Feat | AnimalCompanionSpecialization>; hintSets: Array<{ hint: Hint; objectName: string }> } {
         //Return the Familiar, its Feats and their hints for effect generation.
         const feats: Array<Feat> = [];
         const hintSets: Array<{ hint: Hint; objectName: string }> = [];

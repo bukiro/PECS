@@ -105,7 +105,7 @@ export class ActivitiesService {
 
         let closePopupsAfterActivation = false;
 
-        const cooldown = activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService });
+        const cooldown = activity.effectiveCooldown({ creature }, { characterService, effectsService: characterService.effectsService });
 
         if (activated || activity.cooldownAfterEnd) {
             //Start cooldown, unless one is already in effect.
@@ -128,7 +128,7 @@ export class ActivitiesService {
                                     itemActivity.chargesUsed += 1;
                                 }
 
-                                const otherCooldown = itemActivity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService });
+                                const otherCooldown = itemActivity.effectiveCooldown({ creature }, { characterService, effectsService: characterService.effectsService });
 
                                 if (!itemActivity.activeCooldown && otherCooldown) {
                                     itemActivity.activeCooldown = otherCooldown;
@@ -143,7 +143,7 @@ export class ActivitiesService {
                                     activityGain.chargesUsed += 1;
                                 }
 
-                                const otherCooldown = originalActivity?.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService }) || 0;
+                                const otherCooldown = originalActivity?.effectiveCooldown({ creature }, { characterService, effectsService: characterService.effectsService }) || 0;
 
                                 if (!activityGain.activeCooldown && otherCooldown) {
                                     activityGain.activeCooldown = otherCooldown;
@@ -197,11 +197,11 @@ export class ActivitiesService {
                 }
 
                 gain.gainItems.forEach(gainItem => {
-                    gainItem.grant_GrantedItem(creature, { sourceName: activity.name }, { characterService, itemsService });
+                    gainItem.grantGrantedItem(creature, { sourceName: activity.name }, { characterService, itemsService });
                 });
             } else {
                 gain.gainItems.forEach(gainItem => {
-                    gainItem.drop_GrantedItem(creature, {}, { characterService });
+                    gainItem.dropGrantedItem(creature, {}, { characterService });
                 });
 
                 if (gain instanceof ActivityGain) {
@@ -292,7 +292,7 @@ export class ActivitiesService {
                             } else if (gain.effectChoices.length) {
                                 //If this condition has choices, and the activityGain has choices prepared, apply the choice from the gain.
                                 //The order of gain.effectChoices maps directly onto the order of the conditions, no matter if they have choices.
-                                if (condition._choices.includes(gain.effectChoices[conditionIndex].choice)) {
+                                if (condition.$choices.includes(gain.effectChoices[conditionIndex].choice)) {
                                     newConditionGain.choice = gain.effectChoices[conditionIndex].choice;
                                 }
                             }
@@ -321,7 +321,7 @@ export class ActivitiesService {
                                     ) ||
                                     (
                                         (
-                                            activity.get_IsHostile() ?
+                                            activity.isHostile() ?
                                                 characterService.get_Character().settings.noHostileCasterConditions :
                                                 characterService.get_Character().settings.noFriendlyCasterConditions
                                         ) &&
@@ -547,13 +547,13 @@ export class ActivitiesService {
         //Get the original activity information, and if its cooldown is exactly one day or until rest (-2), the activity gain's cooldown is reset.
         characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown != 0 || gain.duration == -2)
             .forEach(gain => {
-                const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
+                const activity: Activity | ItemActivity = gain.originalActivity(this);
 
                 if (gain.duration == -2 && activity) {
                     this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
                 }
 
-                if ([144000, -2].includes(activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService }))) {
+                if ([144000, -2].includes(activity.effectiveCooldown({ creature }, { characterService, effectsService: characterService.effectsService }))) {
                     gain.activeCooldown = 0;
                     gain.chargesUsed = 0;
                 }
@@ -570,13 +570,13 @@ export class ActivitiesService {
         //Get the original activity information, and if its cooldown is until refocus (-3), the activity gain's cooldown is reset.
         characterService.get_OwnedActivities(creature).filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown == -3 || gain.duration == -3)
             .forEach(gain => {
-                const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
+                const activity: Activity | ItemActivity = gain.originalActivity(this);
 
                 if (gain.duration == -3 && activity) {
                     this.activate_Activity(creature, creature.type, characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, gain, activity, false, false);
                 }
 
-                if ((activity.get_Cooldown({ creature }, { characterService, effectsService: characterService.effectsService })) == -3) {
+                if ((activity.effectiveCooldown({ creature }, { characterService, effectsService: characterService.effectsService })) == -3) {
                     gain.activeCooldown = 0;
                     gain.chargesUsed = 0;
                 }
@@ -592,7 +592,7 @@ export class ActivitiesService {
         characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration)
             .forEach(gain => {
                 //Tick down the duration and the cooldown by the amount of turns.
-                const activity: Activity | ItemActivity = gain.get_OriginalActivity(this);
+                const activity: Activity | ItemActivity = gain.originalActivity(this);
                 // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
                 let remainingTurns = turns;
 

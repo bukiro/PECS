@@ -263,7 +263,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
         if (item instanceof Shield) {
             //Shields with Emblazon Armament get tagged as "Emblazon Armament Shield".
-            if (item instanceof Shield && item._emblazonArmament) {
+            if (item instanceof Shield && item.$emblazonArmament) {
                 item.emblazonArmament.forEach(ea => {
                     if (ea.type == 'emblazonArmament') {
                         specialNames.push('Emblazon Armament Shield');
@@ -272,7 +272,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             }
 
             //Shields with Emblazon Energy get tagged as "Emblazon Energy Shield <Choice>".
-            if (item instanceof Shield && item._emblazonEnergy) {
+            if (item instanceof Shield && item.$emblazonEnergy) {
                 item.emblazonArmament.forEach(ea => {
                     if (ea.type == 'emblazonEnergy') {
                         specialNames.push(`Emblazon Energy Shield ${ ea.choice }`);
@@ -281,7 +281,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             }
 
             //Shields with Emblazon Antimagic get tagged as "Emblazon Antimagic Shield".
-            if (item instanceof Shield && item._emblazonAntimagic) {
+            if (item instanceof Shield && item.$emblazonAntimagic) {
                 item.emblazonArmament.forEach(ea => {
                     if (ea.type == 'emblazonAntimagic') {
                         specialNames.push('Emblazon Antimagic Shield');
@@ -293,13 +293,13 @@ export class DefenseComponent implements OnInit, OnDestroy {
         //Return the same name for Saving Throws if the shield applies.
         if (savingThrows) {
             this.get_EquippedShield().forEach(shield => {
-                if (shield._emblazonEnergy) {
+                if (shield.$emblazonEnergy) {
                     shield.emblazonArmament.filter(ea => ea.type == 'emblazonEnergy').forEach(ea => {
                         specialNames.push(`Emblazon Energy Shield ${ ea.choice }`);
                     });
                 }
 
-                if (shield._emblazonAntimagic) {
+                if (shield.$emblazonAntimagic) {
                     shield.emblazonArmament.filter(ea => ea.type == 'emblazonAntimagic').forEach(() => {
                         specialNames.push('Emblazon Antimagic Shield');
                     });

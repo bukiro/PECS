@@ -315,7 +315,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     get_AvailableForLearning(casting: SpellCasting, spell: Spell, adaptedCantrip = false, adaptiveAdept = false) {
-        if (!adaptedCantrip && casting.className == 'Wizard' && casting.castingType == 'Prepared' && (this.traditionFilter == '' || this.traditionFilter == 'Arcane' || this.get_Character().get_SpellListSpell(spell.name).length)) {
+        if (!adaptedCantrip && casting.className == 'Wizard' && casting.castingType == 'Prepared' && (this.traditionFilter == '' || this.traditionFilter == 'Arcane' || this.get_Character().getSpellsFromSpellList(spell.name).length)) {
             return !this.get_SpellsLearned(spell.name).length;
         }
 
@@ -328,23 +328,23 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                 (this.have_Feat('Adaptive Adept: 1st-Level Spell') && spell.levelreq == 1 && !this.get_SpellsLearned(spell.name).length);
         }
 
-        if (casting.className == 'Bard' && casting.castingType == 'Spontaneous' && (this.traditionFilter == '' || this.traditionFilter == 'Occult' || this.get_Character().get_SpellListSpell(spell.name).length)) {
+        if (casting.className == 'Bard' && casting.castingType == 'Spontaneous' && (this.traditionFilter == '' || this.traditionFilter == 'Occult' || this.get_Character().getSpellsFromSpellList(spell.name).length)) {
             return !this.get_SpellsLearned(spell.name).length;
         }
 
-        if (casting.className == 'Sorcerer' && casting.castingType == 'Spontaneous' && (this.traditionFilter == '' || this.traditionFilter == 'Arcane' || this.get_Character().get_SpellListSpell(spell.name).length)) {
+        if (casting.className == 'Sorcerer' && casting.castingType == 'Spontaneous' && (this.traditionFilter == '' || this.traditionFilter == 'Arcane' || this.get_Character().getSpellsFromSpellList(spell.name).length)) {
             return !this.get_SpellsLearned(spell.name).length;
         }
     }
 
     get_SpellsLearned(name = '', source = '', level = -1) {
-        return this.get_Character().get_SpellsLearned(name, source, level);
+        return this.get_Character().learnedSpells(name, source, level);
     }
 
     can_Learn(casting: SpellCasting, level: number, spell: Spell, source: string) {
         const character = this.get_Character();
 
-        if (source == 'wizard' && casting.className == 'Wizard' && (spell.traditions.includes('Arcane') || character.get_SpellListSpell(spell.name).length)) {
+        if (source == 'wizard' && casting.className == 'Wizard' && (spell.traditions.includes('Arcane') || character.getSpellsFromSpellList(spell.name).length)) {
             const charLevel: number = character.level;
             const wizardLearned: number = this.get_SpellsLearned('', 'wizard').filter(learned => learned.level == level && (learned.level > 0 || level == 0)).length;
             const wizardLearnedAll: number = this.get_SpellsLearned('', 'wizard').filter(learned => (level > 0 && learned.level > 0) || (level == 0 && learned.level == 0)).length;
@@ -380,7 +380,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             return wizardAvailable > wizardLearned && wizardAvailableAll > wizardLearnedAll;
         }
 
-        if (source == 'school' && casting.className == 'Wizard' && (spell.traditions.includes('Arcane') || character.get_SpellListSpell(spell.name).length)) {
+        if (source == 'school' && casting.className == 'Wizard' && (spell.traditions.includes('Arcane') || character.getSpellsFromSpellList(spell.name).length)) {
             const school = this.get_School();
             let schoolAvailable = 0;
             const schoolLearned: number = this.get_SpellsLearned('', 'school', level).length;
@@ -437,7 +437,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     learn_Spell(spell: Spell, source: string) {
-        this.get_Character().learn_Spell(spell, source);
+        this.get_Character().learnSpell(spell, source);
 
         if (this.get_Character().settings.autoCloseChoices) { this.toggle_Item(); }
 
@@ -446,7 +446,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     unlearn_Spell(spell: Spell) {
-        this.get_Character().unlearn_Spell(spell);
+        this.get_Character().unlearnSpell(spell);
     }
 
     get_LearnedSpellSource(source: string) {
@@ -541,7 +541,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         newSpellTaken.locked = true;
         newSpellTaken.source = 'Feat: Spell Mastery';
         newChoice.spells.push(newSpellTaken);
-        this.get_Character().add_SpellChoice(this.characterService, spell.levelreq, newChoice);
+        this.get_Character().addSpellChoice(this.characterService, spell.levelreq, newChoice);
         this.refreshService.process_ToChange();
     }
 
@@ -549,7 +549,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         const oldChoice: SpellChoice = casting.spellChoices.find(choice => choice.source == 'Feat: Spell Mastery' && choice.spells.find(spellTaken => spellTaken.name == spell.name));
 
         if (oldChoice) {
-            this.get_Character().remove_SpellChoice(this.characterService, oldChoice);
+            this.get_Character().removeSpellChoice(this.characterService, oldChoice);
         }
 
         this.refreshService.process_ToChange();

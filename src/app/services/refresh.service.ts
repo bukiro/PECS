@@ -241,7 +241,7 @@ export class RefreshService {
         if (item.gainActivities?.length) {
             this.set_ToChange(creature.type, 'activities');
             item.gainActivities.forEach(gain => {
-                gain.get_OriginalActivity(services.activitiesService)?.showonSkill?.split(',').forEach(skillName => {
+                gain.originalActivity(services.activitiesService)?.showonSkill?.split(',').forEach(skillName => {
                     this.set_ToChange(creature.type, 'skills');
                     this.set_ToChange(creature.type, 'individualskills', skillName.trim());
                 });
