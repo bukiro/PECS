@@ -168,7 +168,7 @@ export class ItemCollection {
         let sum = 0;
 
         function addup(item: Item | OtherItem) {
-            let bulk = item instanceof OtherItem ? item.bulk : (item as Item).getBulk();
+            let bulk = item instanceof OtherItem ? item.bulk : (item as Item).effectiveBulk();
 
             if ((item as Equipment).carryingBulk && !(item as Equipment).equipped) {
                 bulk = (item as Equipment).carryingBulk;

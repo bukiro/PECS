@@ -46,7 +46,7 @@ export class Shield extends Equipment {
     }
     //Other implementations require itemsService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_Price(itemsService: ItemsService) {
+    effectivePrice(itemsService: ItemsService) {
         let price = this.price;
 
         this.material.forEach(mat => {
@@ -164,8 +164,8 @@ export class Shield extends Equipment {
         //The function is needed for compatibility with other equipment.
         return this.speedpenalty;
     }
-    getEffectsGenerationHints(): Array<HintEffectsObject> {
-        return super.getEffectsGenerationHints()
-            .concat(...this.propertyRunes.map(rune => rune.getEffectsGenerationHints()));
+    effectsGenerationHints(): Array<HintEffectsObject> {
+        return super.effectsGenerationHints()
+            .concat(...this.propertyRunes.map(rune => rune.effectsGenerationHints()));
     }
 }

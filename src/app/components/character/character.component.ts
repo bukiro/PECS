@@ -1507,11 +1507,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices && this.get_Companion().name && this.get_Companion().species) { this.toggle_List(''); }
 
-            this.get_Companion().class.on_ChangeAncestry(this.characterService);
+            this.get_Companion().class.removeOldAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), type);
-            this.get_Companion().class.on_NewAncestry(this.characterService, this.itemsService);
+            this.get_Companion().class.processNewAncestry(this.characterService, this.itemsService);
         } else {
-            this.get_Companion().class.on_ChangeAncestry(this.characterService);
+            this.get_Companion().class.removeOldAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), new AnimalCompanionAncestry());
         }
 

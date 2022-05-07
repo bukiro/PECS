@@ -32,7 +32,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
 
     get_FullPrice(item: Item) {
         if (item instanceof Equipment) {
-            return item.get_Price(this.itemsService);
+            return item.effectivePrice(this.itemsService);
         } else {
             return item.price;
         }
@@ -72,14 +72,14 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     }
 
     get_BulkDifference(item: Item) {
-        const bulk = +item.getBulk();
+        const bulk = +item.effectiveBulk();
 
         if (!isNaN(bulk) && !isNaN(+item.bulk)) {
-            return parseInt(item.getBulk(), 10) - parseInt(item.bulk, 10);
+            return parseInt(item.effectiveBulk(), 10) - parseInt(item.bulk, 10);
         } else if (!isNaN(bulk) && isNaN(+item.bulk)) {
             return 1;
         } else if (isNaN(bulk) && !isNaN(+item.bulk)) {
-            if (item.getBulk() == 'L' && +item.bulk == 0) {
+            if (item.effectiveBulk() == 'L' && +item.bulk == 0) {
                 return 1;
             } else {
                 return -1;

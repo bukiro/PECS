@@ -5,3 +5,5 @@ export enum SkillLevels {
     Master = 6,
     Legendary = 8,
 }
+
+export const MaxSkillLevel = 8;

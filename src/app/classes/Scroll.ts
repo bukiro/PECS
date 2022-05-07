@@ -23,7 +23,7 @@ export class Scroll extends Consumable {
     }
     //Other implementations require creature.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_Traits(characterService: CharacterService, creature: Creature) {
+    effectiveTraits(characterService: CharacterService, creature: Creature) {
         //creature is not needed for scrolls, but for other types of item.
         let traits: Array<string> = [];
 

@@ -9,7 +9,7 @@ export class AnimalCompanionLevel {
     public sizeChange = 0;
     public skillChoices: Array<SkillChoice> = [];
     public sourceBook = '';
-    recast() {
+    public recast(): AnimalCompanionLevel {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
 

@@ -246,7 +246,7 @@ export class AC {
             }
 
             //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
-            let dexcap = armor.get_DexCap();
+            let dexcap = armor.effectiveDexCap();
 
             effectsService.get_AbsolutesOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
                 //The dexterity modifier should only become worse through effects.
@@ -274,7 +274,7 @@ export class AC {
             }
 
             //Explain the Armor Bonus
-            let armorItemBonus = armor.get_ACBonus();
+            let armorItemBonus = armor.effectiveACBonus();
 
             if (armorItemBonus) {
                 //Potency increases the armor bonus; it does not add a separate bonus on armors.

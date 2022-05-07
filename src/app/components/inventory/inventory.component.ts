@@ -227,7 +227,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
         return itemList.map(item => {
             const itemRoles = this.itemRolesService.getItemRoles(item);
-            const proficiency = (!(creature instanceof Familiar) && (itemRoles.asArmor || itemRoles.asWeapon))?.get_Proficiency(creature, this.characterService) || '';
+            const proficiency = (!(creature instanceof Familiar) && (itemRoles.asArmor || itemRoles.asWeapon))?.effectiveProficiency(creature, this.characterService) || '';
 
             return {
                 ...itemRoles,
@@ -629,7 +629,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_Price(item: Item) {
-        return item.get_Price(this.itemsService);
+        return item.effectivePrice(this.itemsService);
     }
 
     public have_Funds(sum = 0): boolean {

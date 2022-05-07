@@ -111,7 +111,7 @@ export class Item {
     }
     //Other implementations require itemsService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public get_Price(itemsService: ItemsService) {
+    public effectivePrice(itemsService: ItemsService) {
         return this.price;
     }
     get_IconTitle() {
@@ -122,7 +122,7 @@ export class Item {
     }
     //Other implementations require creature and characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    get_Traits(characterService: CharacterService, creature: Creature) {
+    effectiveTraits(characterService: CharacterService, creature: Creature) {
         //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
         this.$traits = this.traits;
 
@@ -137,7 +137,7 @@ export class Item {
     get_ActivatedTraits() {
         return this.traitActivations.filter(activation => activation.active || activation.active2 || activation.active3);
     }
-    getBulk() {
+    effectiveBulk() {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk = '';
 
@@ -170,7 +170,7 @@ export class Item {
             return this.name;
         }
     }
-    getEffectsGenerationHints() {
+    effectsGenerationHints() {
         return [];
     }
     investedOrEquipped() {

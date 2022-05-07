@@ -93,7 +93,7 @@ export class WornItem extends Equipment {
     protected _getSecondaryRuneName(): string {
         return this.getStriking(this.getStrikingRune());
     }
-    get_Price(itemsService: ItemsService) {
+    effectivePrice(itemsService: ItemsService) {
         let price = this.price;
 
         if (this.potencyRune) {
@@ -109,8 +109,8 @@ export class WornItem extends Equipment {
 
         return price;
     }
-    get_Traits(characterService: CharacterService, creature: Creature): Array<string> {
-        return super.get_Traits(characterService, creature)
+    effectiveTraits(characterService: CharacterService, creature: Creature): Array<string> {
+        return super.effectiveTraits(characterService, creature)
             .concat(
                 this.isTalismanCord ?
                     this.data
@@ -131,16 +131,16 @@ export class WornItem extends Equipment {
             ) :
             false;
     }
-    getEffectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
-        return super.getEffectsGenerationObjects(creature, characterService)
+    effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
+        return super.effectsGenerationObjects(creature, characterService)
             .concat(...this.aeonStones);
     }
-    getEffectsGenerationHints(): Array<HintEffectsObject> {
+    effectsGenerationHints(): Array<HintEffectsObject> {
         //Aeon Stones have hints that can be resonant, meaning they are only displayed if the stone is slotted.
         //After collecting the hints, we keep the resonant ones only if the item is slotted.
         //Then we add the hints of any slotted aeon stones of this item, with the same rules.
-        return super.getEffectsGenerationHints()
+        return super.effectsGenerationHints()
             .filter(hintSet => hintSet.hint.resonant ? this.isSlottedAeonStone : true)
-            .concat(...this.aeonStones.map(stone => stone.getEffectsGenerationHints()));
+            .concat(...this.aeonStones.map(stone => stone.effectsGenerationHints()));
     }
 }

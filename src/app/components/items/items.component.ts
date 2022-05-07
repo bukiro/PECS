@@ -211,7 +211,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
         return itemList.map(item => {
             const itemRoles = this.itemRolesService.getItemRoles(item);
-            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)?.get_Proficiency(character, this.characterService) || '';
+            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)?.effectiveProficiency(character, this.characterService) || '';
 
             return {
                 ...itemRoles,
@@ -243,7 +243,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     get_Price(item: Item) {
-        return item.get_Price(this.itemsService);
+        return item.effectivePrice(this.itemsService);
     }
 
     have_Funds(sum = ((this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC))) {
@@ -337,7 +337,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     grant_Item(creature = 'Character', item: Item, pay = false) {
-        const price = item.get_Price(this.itemsService);
+        const price = item.effectivePrice(this.itemsService);
 
         if (pay && price) {
             this.change_Cash(-1, price);

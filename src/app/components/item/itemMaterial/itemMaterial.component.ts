@@ -46,7 +46,7 @@ export class ItemMaterialComponent implements OnInit {
 
     get_IsUnarmored(item: Item) {
         if (item instanceof Armor) {
-            return item.get_Proficiency() == 'Unarmored Defense';
+            return item.effectiveProficiency() == 'Unarmored Defense';
         }
 
         return false;

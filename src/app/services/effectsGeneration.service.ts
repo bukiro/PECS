@@ -250,8 +250,8 @@ export class EffectsGenerationService {
                 ItemEffectsApply(item),
             )
                 .forEach((item: Equipment) => {
-                    objects = objects.concat(item.getEffectsGenerationObjects(creature, services.characterService));
-                    hintSets = hintSets.concat(item.getEffectsGenerationHints());
+                    objects = objects.concat(item.effectsGenerationObjects(creature, services.characterService));
+                    hintSets = hintSets.concat(item.effectsGenerationHints());
                 });
         });
 
@@ -386,7 +386,7 @@ export class EffectsGenerationService {
 
     private generate_ArmorEffects(armor: Armor, services: { readonly characterService: CharacterService }, context: { readonly creature: Creature }, options: { readonly ignoreArmorPenalties: boolean; readonly ignoreArmorSpeedPenalties: boolean }): Array<Effect> {
         const itemEffects: Array<Effect> = [];
-        const armorTraits = armor.get_Traits();
+        const armorTraits = armor.effectiveTraits();
 
         function add_Effect(options: { type: 'item' | 'untyped'; target: string; value: string; source: string; penalty: boolean; apply: boolean }): void {
             itemEffects.push(Object.assign(new Effect(),
@@ -420,7 +420,7 @@ export class EffectsGenerationService {
         if (armor.broken) {
             let brokenPenalty = '';
 
-            switch (armor.get_Proficiency()) {
+            switch (armor.effectiveProficiency()) {
                 case 'Light Armor':
                     brokenPenalty = '-1';
                     break;
@@ -442,9 +442,9 @@ export class EffectsGenerationService {
             //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
             const strength = (context.creature instanceof Familiar) ? 0 : services.characterService.get_Abilities('Strength')[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
             const name = armor.getName();
-            const skillPenalty = armor.get_SkillPenalty();
+            const skillPenalty = armor.effectiveSkillPenalty();
             const skillPenaltyString = skillPenalty.toString();
-            const speedPenalty = armor.get_SpeedPenalty();
+            const speedPenalty = armor.effectiveSpeedPenalty();
             const speedPenaltyString = speedPenalty.toString();
 
             if (!(strength >= armor.get_Strength())) {
@@ -944,7 +944,7 @@ export class EffectsGenerationService {
                 weapon.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
             });
             inv.armors.forEach(armor => {
-                armor.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
+                armor.updateModifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
             });
         });
     }

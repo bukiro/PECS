@@ -12,7 +12,7 @@ export class AnimalCompanionSpecialization {
     public name = '';
     public skillChoices: Array<SkillChoice> = [];
     public sourceBook = '';
-    recast() {
+    public recast(): AnimalCompanionSpecialization {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
 

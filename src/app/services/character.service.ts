@@ -2801,7 +2801,7 @@ export class CharacterService {
 
     get_ArmorSpecializationsShowingOn(creature: Creature, objectName = 'all') {
         if (creature instanceof Character) {
-            return creature.inventories[0].armors.find(armor => armor.equipped).get_ArmorSpecialization(creature, this)
+            return creature.inventories[0].armors.find(armor => armor.equipped).armorSpecializations(creature, this)
                 .filter(spec =>
                     spec?.hints
                         .find(hint =>

@@ -140,7 +140,7 @@ export class Weapon extends Equipment {
         ].filter(part => part)
             .join(' ');
     }
-    get_Price(itemsService: ItemsService): number {
+    effectivePrice(itemsService: ItemsService): number {
         let price = this.price;
 
         if (this.potencyRune) {
@@ -261,7 +261,7 @@ export class Weapon extends Equipment {
         return this.$emblazonArmament || this.$emblazonEnergy || this.$emblazonAntimagic;
     }
 
-    get_Traits(characterService: CharacterService, creature: Creature) {
+    effectiveTraits(characterService: CharacterService, creature: Creature) {
         //Test for certain feats that give traits to unarmed attacks.
         let traits: Array<string> = JSON.parse(JSON.stringify(this.traits));
 
@@ -514,7 +514,7 @@ export class Weapon extends Equipment {
         const str = characterService.get_Abilities('Strength')[0].mod(creature, characterService, effectsService).result;
         const dex = characterService.get_Abilities('Dexterity')[0].mod(creature, characterService, effectsService).result;
         const runeSource = this.get_RuneSource(creature, range);
-        const traits = this.get_Traits(characterService, creature);
+        const traits = this.effectiveTraits(characterService, creature);
         const skillLevel = this.profLevel(creature, characterService, runeSource.propertyRunes);
 
         if (skillLevel) {

@@ -74,7 +74,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     public get_ArmorSpecialization(armor: Armor | WornItem): Array<Specialization> {
         if (armor instanceof Armor) {
-            return armor.get_ArmorSpecialization(this.get_Creature(), this.characterService);
+            return armor.armorSpecializations(this.get_Creature(), this.characterService);
         }
 
         //No armor specializations for bracers of armor.

@@ -160,7 +160,7 @@ export class Equipment extends Item {
         //Equipment cannot stack.
         return false;
     }
-    public getBulk(): string {
+    public effectiveBulk(): string {
         //Return either the bulk set by an oil, or the bulk of the item, possibly reduced by the material.
         let bulk: string = this.bulk;
 
@@ -288,10 +288,10 @@ export class Equipment extends Item {
     }
     //Other implementations require creature and characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public getEffectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
+    public effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
         return [this];
     }
-    public getEffectsGenerationHints(): Array<HintEffectsObject> {
+    public effectsGenerationHints(): Array<HintEffectsObject> {
         function convertHints(item: Equipment | Oil | Material): Array<{ hint: Hint; parentItem: Equipment | Oil | Material; objectName: string }> {
             return item.hints.map(hint => ({ hint, parentItem: item, objectName: item.getName() }));
         }

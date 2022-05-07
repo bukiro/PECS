@@ -864,7 +864,7 @@
                                             </div>
                                             <app-item class="lower" [creature]="creature" [item]=itemParameters.item
                                                 [allowActivate]="itemParameters.item.investedOrEquipped()"
-                                                [armoredSkirt]="itemParameters.asArmor?.get_ArmoredSkirt(get_Creature()) || null">
+                                                [armoredSkirt]="itemParameters.asArmor?.armoredSkirt(get_Creature()) || null">
                                             </app-item>
                                         </ng-template>
                                         <ng-container
