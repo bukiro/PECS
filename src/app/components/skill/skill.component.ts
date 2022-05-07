@@ -109,7 +109,7 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     public get_FuseStanceName(): string {
-        const data = this.get_Character().class.get_FeatData(0, 0, 'Fuse Stance')[0];
+        const data = this.get_Character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (data) {
             return data.valueAsString('name') || 'Fused Stance';

@@ -14,7 +14,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Settings } from 'src/app/classes/Settings';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { Creature, EffectsGenerationObjects } from 'src/app/classes/Creature';
+import { Creature, CreatureEffectsGenerationObjects } from 'src/app/classes/Creature';
 import { AbilityBoost } from 'src/app/classes/AbilityBoost';
 import { SpellsService } from 'src/app/services/spells.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
@@ -1334,7 +1334,7 @@ export class Character extends Creature {
 
         this._addLoreFeats(characterService, source.loreName);
     }
-    public effectsGenerationObjects(characterService: CharacterService): EffectsGenerationObjects {
+    public effectsGenerationObjects(characterService: CharacterService): CreatureEffectsGenerationObjects {
         //Return the Character, its Feats and their Hints for effect generation.
         const feats: Array<Feat> = [];
         const hintSets: Array<{ hint: Hint; objectName: string }> = [];

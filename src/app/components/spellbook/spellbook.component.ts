@@ -375,7 +375,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }))
             .forEach((conditionSet, index) => {
                 //Create the temporary list of currently available choices.
-                conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : levelNumber));
+                conditionSet.condition?.effectiveChoices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : levelNumber));
                 //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                 conditionSets.push(conditionSet);
 

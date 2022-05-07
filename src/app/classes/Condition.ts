@@ -1,3 +1,6 @@
+//TO-DO: Resolve private properties either not matching JSON import or not having an underscore
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -21,14 +24,17 @@ interface ConditionEnd {
     sameCasterOnly?: boolean;
 }
 
+interface EndsWithCondition {
+    name: string;
+    source?: string;
+}
+
 export interface ConditionOverride {
     name: string;
     conditionChoiceFilter?: Array<string>;
 }
-export interface EndsWithCondition {
-    name: string;
-    source?: string;
-}
+
+
 export interface OtherConditionSelection {
     title?: string;
     nameFilter: Array<string>;
@@ -56,20 +62,24 @@ export class Condition {
     public gainConditions: Array<ConditionGain> = [];
     public gainItems: Array<ItemGain> = [];
     public hide = false;
-    //Overridden conditions aren't applied, but keep ticking.
-    private readonly overrideConditions: Array<ConditionOverride> = [];
-    //Paused conditions don't tick. If you want to stop -and- hide a condition, you need to override it as well.
-    private readonly pauseConditions: Array<ConditionOverride> = [];
-    //Each selectCondition offers a select box that can be used to select one other active condition for later use.
-    // The selected condition can be referenced in overrideConditions and pauseConditions as "selectedCondition|0" (or other index).
+    /**
+     * Each selectCondition offers a select box that can be used to select one other active condition for later use.
+     * The selected condition can be referenced in overrideConditions and pauseConditions as "selectedCondition|0" (or other index).
+     */
     public selectOtherConditions: Array<{ title: string; nameFilter: Array<string>; typeFilter: Array<string> }> = [];
     public denyConditions: Array<string> = [];
     public endConditions: Array<ConditionEnd> = [];
-    //If alwaysApplyCasterCondition is true and this is a caster condition, it is applied even when it is informational and the caster is already getting the target condition.
+    /**
+     * If alwaysApplyCasterCondition is true and this is a caster condition,
+     * it is applied even when it is informational and the caster is already getting the target condition.
+     */
     public alwaysApplyCasterCondition = false;
-    //Remove this condition if any of the endsWithConditions is removed.
+    /** Remove this condition if any of the endsWithConditions is removed. */
     public endsWithConditions: Array<EndsWithCondition> = [];
-    //If the stopTimeChoiceFilter matches the condition choice or is "All", no time elapses for anything other than the condition that causes the time stop.
+    /**
+     * If the stopTimeChoiceFilter matches the condition choice or is "All",
+     * no time elapses for anything other than the condition that causes the time stop.
+     */
     public stopTimeChoiceFilter: Array<string> = [];
     public attackRestrictions: Array<AttackRestriction> = [];
     public senses: Array<SenseGain> = [];
@@ -77,22 +87,26 @@ export class Condition {
     public nextCondition: Array<ConditionGain> = [];
     public defaultDurations: Array<ConditionDuration> = [];
     public persistent = false;
-    //Restricted conditions can be seen, but not taken from the conditions menu.
+    /** Restricted conditions can be seen, but not taken from the conditions menu. */
     public restricted = false;
     public radius = 0;
     public allowRadiusChange = false;
     public traits: Array<string> = [];
-    //If a condition has notes (like the HP of a summoned object), they get copied on the conditionGain.
+    /** If a condition has notes (like the HP of a summoned object), they get copied on the conditionGain. */
     public notes = '';
-    //List choices you can make for this condition. The first choice must never have a featreq.
+    /** List choices you can make for this condition. The first choice must never have a featreq. */
     public choices: Array<ConditionChoice> = [];
-    //_choices is a temporary value that stores the filtered name list produced by get_Choices();
+    /** _choices is a temporary value that stores the filtered name list produced by get_Choices(); */
     public $choices: Array<string> = [];
-    //This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition.
+    /** This property is only used to select a default choice before adding the condition. It is not read when evaluating the condition. */
     public choice = '';
-    //All instances of an unlimited condition are shown in the conditions area. Limited conditions only show one instance.
+    /** All instances of an unlimited condition are shown in the conditions area. Limited conditions only show one instance. */
     public unlimited = false;
-    recast() {
+    /** Overridden conditions aren't applied, but keep ticking. */
+    private readonly overrideConditions: Array<ConditionOverride> = [];
+    /** Paused conditions don't tick. If you want to stop -and- hide a condition, you need to override it as well. */
+    private readonly pauseConditions: Array<ConditionOverride> = [];
+    public recast(): Condition {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
@@ -118,13 +132,11 @@ export class Condition {
             this.choice = this.choices[0].name;
         }
 
-        this.selectOtherConditions = this.selectOtherConditions.map(selection =>
-        ({
+        this.selectOtherConditions = this.selectOtherConditions.map(selection => ({
             title: '',
             nameFilter: [],
             typeFilter: [], ...selection,
-        }),
-        );
+        }));
         //endsWithConditions has changed from string to object; this is patched here for existing conditions.
         this.endsWithConditions.forEach((endsWith, index) => {
             if (typeof endsWith === 'string') {
@@ -134,7 +146,7 @@ export class Condition {
 
         return this;
     }
-    public get_ConditionOverrides(gain: ConditionGain = null): Array<ConditionOverride> {
+    public conditionOverrides(gain: ConditionGain = null): Array<ConditionOverride> {
         return this.overrideConditions.map(override => {
             let overrideName = override.name;
 
@@ -145,7 +157,7 @@ export class Condition {
             return { name: overrideName, conditionChoiceFilter: override.conditionChoiceFilter };
         });
     }
-    public get_ConditionPauses(gain: ConditionGain = null): Array<ConditionOverride> {
+    public conditionPauses(gain: ConditionGain = null): Array<ConditionOverride> {
         return this.pauseConditions.map(pause => {
             let pauseName = pause.name;
 
@@ -156,40 +168,55 @@ export class Condition {
             return { name: pauseName, conditionChoiceFilter: pause.conditionChoiceFilter };
         });
     }
-    get_HasInstantEffects() {
+    public hasInstantEffects(): boolean {
         //Return whether the condition has any effects that are instantly applied even if the condition has no duration.
-        return (this.endConditions.length || this.onceEffects.length);
+        return (!!this.endConditions.length || !!this.onceEffects.length);
     }
-    get_HasDurationEffects() {
+    public hasDurationEffects(): boolean {
         //Return whether the condition has any effects that persist during its duration.
-        return (this.effects?.length || this.hints.some(hint => hint.effects?.length) || this.gainConditions.length || this.nextCondition.length || this.overrideConditions.length || this.denyConditions.length || this.gainItems.length || this.gainActivities.length || this.senses.length || this.endEffects.length);
+        return (
+            !!this.effects?.length ||
+            this.hints.some(hint => hint.effects?.length) ||
+            !!this.gainConditions.length ||
+            !!this.nextCondition.length ||
+            !!this.overrideConditions.length ||
+            !!this.denyConditions.length ||
+            !!this.gainItems.length ||
+            !!this.gainActivities.length ||
+            !!this.senses.length ||
+            !!this.endEffects.length
+        );
     }
-    get_HasEffects() {
+    public hasEffects(): boolean {
         //Return whether the condition has any effects beyond showing text.
-        return this.get_HasInstantEffects() || this.get_HasDurationEffects();
+        return this.hasInstantEffects() || this.hasDurationEffects();
     }
-    get_IsChangeable() {
+    public isChangeable(): boolean {
         //Return whether the condition has values that you can change.
         return this.hasValue || this.allowRadiusChange;
     }
-    get_HasHints() {
-        return this.hints.length;
+    public hasHints(): boolean {
+        return !!this.hints.length;
     }
-    get_IsStoppingTime(conditionGain: ConditionGain = null) {
+    public isStoppingTime(conditionGain: ConditionGain = null): boolean {
         return this.stopTimeChoiceFilter.some(filter => ['All', (conditionGain?.choice || 'All')].includes(filter));
     }
-    get_IsInformationalCondition(creature: Creature, characterService: CharacterService, conditionGain: ConditionGain = null) {
+    public isInformationalCondition(
+        creature: Creature,
+        characterService: CharacterService,
+        conditionGain: ConditionGain = null,
+    ): boolean {
         //Return whether the condition has any effects beyond showing text, and if it causes or overrides any currently existing conditions.
         return !(
-            this.effects?.length ||
-            this.endConditions.length ||
-            this.gainItems.length ||
-            this.gainActivities.length ||
-            this.senses.length ||
-            this.nextCondition.length ||
-            this.endEffects.length ||
-            this.denyConditions.length ||
-            this.get_IsStoppingTime(conditionGain) ||
+            !!this.effects?.length ||
+            !!this.endConditions.length ||
+            !!this.gainItems.length ||
+            !!this.gainActivities.length ||
+            !!this.senses.length ||
+            !!this.nextCondition.length ||
+            !!this.endEffects.length ||
+            !!this.denyConditions.length ||
+            this.isStoppingTime(conditionGain) ||
             (
                 this.hints.some(hint =>
                     hint.effects?.length &&
@@ -203,15 +230,15 @@ export class Condition {
             (
                 this.gainConditions.length ?
                     characterService.get_AppliedConditions(creature, '', '', true)
-                        .some(existingCondition => !conditionGain || existingCondition.parentID == conditionGain.id) :
+                        .some(existingCondition => !conditionGain || existingCondition.parentID === conditionGain.id) :
                     false
             ) ||
             (
                 this.overrideConditions.length ?
                     characterService.get_AppliedConditions(creature, '', '', true)
                         .some(existingCondition =>
-                            this.get_ConditionOverrides(conditionGain).some(override =>
-                                override.name == existingCondition.name &&
+                            this.conditionOverrides(conditionGain).some(override =>
+                                override.name === existingCondition.name &&
                                 (
                                     !override.conditionChoiceFilter?.length ||
                                     override.conditionChoiceFilter.includes(conditionGain?.choice || '')
@@ -224,8 +251,8 @@ export class Condition {
                 this.pauseConditions.length ?
                     characterService.get_AppliedConditions(creature, '', '', true)
                         .some(existingCondition =>
-                            this.get_ConditionPauses(conditionGain).some(pause =>
-                                pause.name == existingCondition.name &&
+                            this.conditionPauses(conditionGain).some(pause =>
+                                pause.name === existingCondition.name &&
                                 (
                                     !pause.conditionChoiceFilter?.length ||
                                     pause.conditionChoiceFilter.includes(conditionGain?.choice || '')
@@ -236,10 +263,14 @@ export class Condition {
             )
         );
     }
-    get_Choices(characterService: CharacterService, filtered = false, spellLevel: number = this.minLevel) {
+    public effectiveChoices(
+        characterService: CharacterService,
+        filtered = false,
+        spellLevel: number = this.minLevel,
+    ): Array<string> {
         //If this.choice is not one of the available choices, set it to the first.
         if (this.choices.length && !this.choices.map(choice => choice.name).includes(this.choice)) {
-            this.choice == this.choices[0].name;
+            this.choice = this.choices[0].name;
         }
 
         if (!filtered) {
@@ -250,7 +281,7 @@ export class Condition {
 
         this.choices.forEach(choice => {
             //The default choice is never tested. This ensures a fallback if no choices are available.
-            if (choice.name == this.choice) {
+            if (choice.name === this.choice) {
                 choices.push(choice.name);
             } else {
                 const character = characterService.get_Character();
@@ -258,8 +289,9 @@ export class Condition {
                 //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
                 //Requirements like "Aggressive Block or Brutish Shove" are split in get_CharacterFeatsAndFeatures().
                 if (!choice.spelllevelreq || spellLevel >= choice.spelllevelreq) {
+                    let hasOneFeatreqFailed = false;
+
                     if (choice.featreq?.length) {
-                        let featNotFound = false;
 
                         choice.featreq.forEach(featreq => {
                             //Allow to check for the Familiar's feats
@@ -276,16 +308,15 @@ export class Condition {
                                 requiredFeat = characterService.get_CharacterFeatsAndFeatures(testFeat, '', true);
                             }
 
-                            if (requiredFeat.length) {
-                                if (!requiredFeat.some(feat => feat.have({ creature: testCreature }, { characterService }))) {
-                                    featNotFound = true;
-                                }
-                            } else {
-                                featNotFound = true;
+                            if (
+                                !requiredFeat.length ||
+                                !requiredFeat.some(feat => feat.have({ creature: testCreature }, { characterService }))
+                            ) {
+                                hasOneFeatreqFailed = true;
                             }
                         });
 
-                        if (!featNotFound) {
+                        if (!hasOneFeatreqFailed) {
                             choices.push(choice.name);
                         }
                     } else {
@@ -298,20 +329,20 @@ export class Condition {
 
         return this.$choices;
     }
-    get_ChoiceNextStage(choiceName: string) {
-        return this.choices.find(choice => choice.name == choiceName)?.nextStage || 0;
+    public timeToNextStage(choiceName: string): number {
+        return this.choices.find(choice => choice.name === choiceName)?.nextStage || 0;
     }
-    get_DefaultDuration(choiceName = '', spellLevel = 0) {
+    public defaultDuration(choiceName = '', spellLevel = 0): { duration: number; source: string } {
         //Suggest a default duration for a condition in this order:
         // 1. The default duration of the current condition choice, if one exists
         // 2. If the condition has a minLevel (== is a spell), the default duration with the appropriate minLevel value, if one exists
         // 3. The first default duration, if one exists
         // 4. null
         //Returns {duration: number, source: string}
-        const choice = this.choices.find(choice => choice.name == choiceName);
+        const currentChoice = this.choices.find(choice => choice.name === choiceName);
 
-        if (choice?.defaultDuration != null) {
-            return { duration: choice.defaultDuration, source: choice.name };
+        if (currentChoice?.defaultDuration != null) {
+            return { duration: currentChoice.defaultDuration, source: currentChoice.name };
         }
 
         if (this.minLevel) {
@@ -321,7 +352,7 @@ export class Condition {
             if (this.defaultDurations.some(defaultDuration => defaultDuration.minLevel)) {
                 // Going down from levelNumber to minLevel, use the first default duration that matches the level.
                 for (levelNumber; levelNumber >= this.minLevel; levelNumber--) {
-                    const level = this.defaultDurations.find(defaultDuration => defaultDuration.minLevel == levelNumber);
+                    const level = this.defaultDurations.find(defaultDuration => defaultDuration.minLevel === levelNumber);
 
                     if (level?.duration != null) {
                         return { duration: level.duration, source: `Spell level ${ levelNumber }` };
@@ -336,104 +367,58 @@ export class Condition {
 
         return null;
     }
-    get_HeightenedItems(levelNumber: number) {
-        //This descends through the level numbers, starting with levelNumber and returning the first set of ItemGains found with a matching heightenedfilter.
-        //It also returns all items that have no heightenedFilter.
-        //If there are no ItemGains with a heightenedFilter, return all.
-        const items: Array<ItemGain> = [];
+    // eslint-disable-next-line complexity
+    public heightenedItemGains(levelNumber: number): Array<ItemGain> {
+        // This descends through the level numbers,
+        // starting with levelNumber and returning the first set of ItemGains found with a matching heightenedfilter.
+        // It also returns all items that have no heightenedFilter.
+        // If there are no ItemGains with a heightenedFilter, return all.
+        const itemGains: Array<ItemGain> = [];
 
         if (!this.gainItems.length) {
             return this.gainItems;
         }
 
-        items.push(...this.gainItems.filter(gain => !gain.heightenedFilter));
+        itemGains.push(...this.gainItems.filter(gain => !gain.heightenedFilter));
 
+        //TO-DO: Test if this still works after switching from switch() to for.
         if (this.gainItems.some(gain => gain.heightenedFilter)) {
-            switch (levelNumber) {
-                case 10:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 10)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 10));
-                        break;
-                    }
-                //If nothing is found, fall through to the next highest level.
-                case 9:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 9)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 9));
-                        break;
-                    }
-                //If nothing is found, fall through to the next highest level.
-                case 8:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 8)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 8));
-                        break;
-                    }
-                //If nothing is found, fall through to the next highest level.
-                case 7:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 7)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 7));
-                        break;
-                    }
-                //If nothing is found, fall through to the next highest level.
-                case 6:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 6)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 6));
-                        break;
-                    }
-                //If nothing is found, fall through to the next highest level.
-                case 5:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 5)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 5));
-                        break;
-                    }
-                //If nothing is found, fall through to the next highest level.
-                case 4:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 4)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 4));
-                        break;
-                    }
-                //If nothing is found, fall through to the next highest level.
-                case 3:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 3)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 3));
-                        break;
-                    }
-                //If nothing is found, fall through to the next highest level.
-                case 2:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 2)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 2));
-                        break;
-                    }
-                //If nothing is found, fall through to the next highest level.
-                case 1:
-                    if (this.gainItems.some(gain => gain.heightenedFilter == 1)) {
-                        items.push(...this.gainItems.filter(gain => gain.heightenedFilter == 1));
-                        break;
-                    }
-            }
-        }
+            for (let levelNumberToTry = levelNumber; levelNumber > 0; levelNumber--) {
+                const foundItemGains = this.gainItems.filter(gain => gain.heightenedFilter === levelNumberToTry);
 
-        return items;
-    }
-    get_DescriptionSet(levelNumber: number) {
-        //This descends from levelnumber downwards and returns the first description set with a matching level.
-        //A description set contains variable names and the text to replace them with.
-        if (this.heightenedDescs.length) {
-            let remainingLevelNumber = levelNumber;
-
-            for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
-                if (this.heightenedDescs.some(descSet => descSet.level == remainingLevelNumber)) {
-                    return this.heightenedDescs.find(descSet => descSet.level == remainingLevelNumber);
+                if (foundItemGains.length) {
+                    itemGains.push(...foundItemGains);
+                    break;
                 }
             }
         }
 
+        return itemGains;
+    }
+    public heightenedDescriptionSet(levelNumber: number): HeightenedDescSet {
+        //This descends from levelnumber downwards and returns the first description set with a matching level.
+        //A description set contains variable names and the text to replace them with.
+        if (this.heightenedDescs.length) {
+            let levelNumberToTry = levelNumber;
+
+            for (levelNumberToTry; levelNumberToTry > 0; levelNumberToTry--) {
+                const foundDescSet = this.heightenedDescs.find(descSet => descSet.level === levelNumberToTry);
+
+                if (foundDescSet) {
+                    return foundDescSet;
+                }
+            }
+        }
+
+        //Fallback if nothing is found: a blank HeightenedDescSet.
         return new HeightenedDescSet();
     }
-    get_Heightened(text: string, levelNumber: number) {
-        //For an arbitrary text (usually the condition description), retrieve the appropriate description set for this level and replace the variables with the included strings.
+    public heightenedText(text: string, levelNumber: number): string {
+        // For an arbitrary text (usually the condition description),
+        // retrieve the appropriate description set for this level and replace the variables with the included strings.
         let heightenedText = text;
 
-        this.get_DescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
+        this.heightenedDescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
             const regex = new RegExp(descVar.variable, 'g');
 
             heightenedText = heightenedText.replace(regex, (descVar.value || ''));

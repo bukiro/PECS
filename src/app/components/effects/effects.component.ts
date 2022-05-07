@@ -147,11 +147,11 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     get_IsInformationalCondition(conditionGain: ConditionGain, condition: Condition) {
-        return condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, conditionGain);
+        return condition.isInformationalCondition(this.get_Creature(), this.characterService, conditionGain);
     }
 
     get_ConditionSuperTitle(conditionGain: ConditionGain, condition: Condition) {
-        if (condition.get_IsStoppingTime(conditionGain)) {
+        if (condition.isStoppingTime(conditionGain)) {
             return 'icon-ra ra-hourglass';
         }
 
@@ -159,7 +159,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
             return 'icon-bi-pause-circle';
         }
 
-        if (condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, conditionGain)) {
+        if (condition.isInformationalCondition(this.get_Creature(), this.characterService, conditionGain)) {
             return 'icon-bi-info-circle';
         }
 
@@ -167,7 +167,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     get_TimeStopped() {
-        return this.get_AppliedConditions(true, true).some(gain => this.conditionsService.get_ConditionFromName(gain.name).get_IsStoppingTime(gain));
+        return this.get_AppliedConditions(true, true).some(gain => this.conditionsService.get_ConditionFromName(gain.name).isStoppingTime(gain));
     }
 
     on_IgnoreEffect(effect: Effect, ignore: boolean) {

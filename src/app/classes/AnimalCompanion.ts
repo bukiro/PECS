@@ -1,4 +1,4 @@
-import { Creature, EffectsGenerationObjects } from 'src/app/classes/Creature';
+import { Creature, CreatureEffectsGenerationObjects } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AbilityBoost } from 'src/app/classes/AbilityBoost';
@@ -240,7 +240,7 @@ export class AnimalCompanion extends Creature {
     }
     //Other implementations require characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectsGenerationObjects(characterService: CharacterService): EffectsGenerationObjects {
+    public effectsGenerationObjects(characterService: CharacterService): CreatureEffectsGenerationObjects {
         //Return the Companion, its Ancestry's Hints and its Specializations and their Hints for effect generation.
         const feats: Array<AnimalCompanionSpecialization> = [];
         const hintSets: Array<{ hint: Hint; objectName: string }> = [];

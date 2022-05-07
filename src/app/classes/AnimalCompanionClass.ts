@@ -19,7 +19,7 @@ export class AnimalCompanionClass {
 
         return this;
     }
-    public removeOldAncestry(characterService: CharacterService): void {
+    public processRemovingOldAncestry(characterService: CharacterService): void {
         if (this.ancestry.name) {
             if (this.ancestry.gainItems.length) {
                 this.ancestry.gainItems.forEach(freeItem => {

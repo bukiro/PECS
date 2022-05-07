@@ -115,7 +115,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     get_Size() {
-        return this.get_Creature().get_Size(this.effectsService);
+        return this.get_Creature().effectiveSize(this.effectsService);
     }
 
     get_ArchetypeFeats() {
@@ -132,7 +132,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             if (deity) {
                 const domainFeats = this.characterService.get_CharacterFeatsAndFeatures()
                     .filter(feat => feat.gainDomains?.length && feat.have({ creature: character }, { characterService: this.characterService }));
-                const domains = deity.get_Domains(character, this.characterService)
+                const domains = deity.effectiveDomains(character, this.characterService)
                     .concat(...(domainFeats.map(feat => feat.gainDomains)),
                 );
 
@@ -223,7 +223,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         if (this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Different Worlds' }).length) {
-            return character.class.get_FeatData(0, character.level, 'Different Worlds');
+            return character.class.filteredFeatData(0, character.level, 'Different Worlds');
         }
     }
 

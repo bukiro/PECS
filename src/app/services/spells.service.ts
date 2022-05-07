@@ -217,8 +217,8 @@ export class SpellsService {
                                             sameCondition ||
                                             (
                                                 !condition.alwaysApplyCasterCondition &&
-                                                !condition.get_HasEffects() &&
-                                                !condition.get_IsChangeable()
+                                                !condition.hasEffects() &&
+                                                !condition.isChangeable()
                                             )
                                         )
                                     ) ||
@@ -229,8 +229,8 @@ export class SpellsService {
                                                 services.characterService.get_Character().settings.noFriendlyCasterConditions
                                         ) &&
                                         (
-                                            !condition.get_HasEffects() &&
-                                            !condition.get_IsChangeable() &&
+                                            !condition.hasEffects() &&
+                                            !condition.isChangeable() &&
                                             !spell.cannotTargetCaster
                                         )
                                     )
@@ -255,9 +255,9 @@ export class SpellsService {
                                 hasTargetCondition &&
                                 casterIsTarget &&
                                 !condition.alwaysApplyCasterCondition &&
-                                !condition.get_IsChangeable() &&
-                                !condition.get_HasDurationEffects() &&
-                                condition.get_HasInstantEffects()
+                                !condition.isChangeable() &&
+                                !condition.hasDurationEffects() &&
+                                condition.hasInstantEffects()
                             ) {
                                 //If the condition is only granted because it has instant effects, we set the duration to 0, so it can do its thing and then leave.
                                 newConditionGain.duration = 0;
@@ -267,7 +267,7 @@ export class SpellsService {
                                     newConditionGain.duration = activityDuration;
                                 } else if (newConditionGain.durationIsDynamic) {
                                     //Otherwise, and if the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
-                                    newConditionGain.duration = condition.get_DefaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
+                                    newConditionGain.duration = condition.defaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
                                 }
 
                                 //Check if an effect changes the duration of this condition.

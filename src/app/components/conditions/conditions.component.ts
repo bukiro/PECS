@@ -265,9 +265,9 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     get_HeightenedDescription(condition: Condition) {
         if (this.heightened >= condition.minLevel) {
-            return condition.get_Heightened(condition.desc, this.heightened);
+            return condition.heightenedText(condition.desc, this.heightened);
         } else {
-            return condition.get_Heightened(condition.desc, condition.minLevel);
+            return condition.heightenedText(condition.desc, condition.minLevel);
         }
     }
 
@@ -313,7 +313,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_ConditionChoices(condition: Condition) {
-        return condition.get_Choices(this.characterService, false);
+        return condition.effectiveChoices(this.characterService, false);
     }
 
     get_Duration(duration: number = this.get_ConditionDuration(), inASentence = false) {

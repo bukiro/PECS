@@ -100,9 +100,9 @@ export class ConditionsService {
                     if ((originalCondition.hasValue && gain.value <= 0) || gain.duration == 0) {
                         gain.value = -1;
                     } else {
-                        overrides.push(...originalCondition.get_ConditionOverrides(gain).filter(override => !override.conditionChoiceFilter?.length || override.conditionChoiceFilter.includes(gain.choice))
+                        overrides.push(...originalCondition.conditionOverrides(gain).filter(override => !override.conditionChoiceFilter?.length || override.conditionChoiceFilter.includes(gain.choice))
                             .map(overrideCondition => ({ override: overrideCondition, source: gain.id })));
-                        pauses.push(...originalCondition.get_ConditionPauses(gain).filter(pause => !pause.conditionChoiceFilter?.length || pause.conditionChoiceFilter.includes(gain.choice))
+                        pauses.push(...originalCondition.conditionPauses(gain).filter(pause => !pause.conditionChoiceFilter?.length || pause.conditionChoiceFilter.includes(gain.choice))
                             .map(pauseCondition => ({ pause: pauseCondition, source: gain.id })));
                     }
                 }
@@ -345,7 +345,7 @@ export class ConditionsService {
                 this.refreshService.set_ToChange(creature.type, 'inventory');
 
                 if (taken) {
-                    gain.gainItems = condition.get_HeightenedItems(gain.heightened).map(itemGain => Object.assign<ItemGain, ItemGain>(new ItemGain(), JSON.parse(JSON.stringify(itemGain))).recast());
+                    gain.gainItems = condition.heightenedItemGains(gain.heightened).map(itemGain => Object.assign<ItemGain, ItemGain>(new ItemGain(), JSON.parse(JSON.stringify(itemGain))).recast());
                     gain.gainItems
                         .filter(gainItem =>
                             !gainItem.conditionChoiceFilter.length ||
@@ -684,7 +684,7 @@ export class ConditionsService {
     tick_Conditions(creature: Creature, turns = 10, yourTurn: number, characterService: CharacterService, itemsService: ItemsService) {
         const creatureConditions = creature.conditions;
         //If any conditions are currently stopping time, these are the only ones processed.
-        const StoppingTime = (gain: ConditionGain) => gain.duration && this.get_ConditionFromName(gain.name).get_IsStoppingTime(gain);
+        const StoppingTime = (gain: ConditionGain) => gain.duration && this.get_ConditionFromName(gain.name).isStoppingTime(gain);
         const timeStoppingConditions = creatureConditions.filter(gain => StoppingTime(gain));
         const includedConditions = timeStoppingConditions.length ? timeStoppingConditions.filter(gain => !gain.paused) : creatureConditions.filter(gain => !gain.paused);
 
@@ -761,7 +761,7 @@ export class ConditionsService {
                         const condition = this.get_ConditionFromName(gain.name);
 
                         if (condition.automaticStages) {
-                            this.change_ConditionStage(creature, gain, condition, condition.get_Choices(characterService, gain.source != 'Manual', gain.heightened), 1, characterService, itemsService);
+                            this.change_ConditionStage(creature, gain, condition, condition.effectiveChoices(characterService, gain.source != 'Manual', gain.heightened), 1, characterService, itemsService);
                         } else {
                             gain.nextStage = -1;
                         }
@@ -930,11 +930,11 @@ export class ConditionsService {
             }
 
             //If the current duration is the default duration of the previous choice, then set the default duration for the current choice. This lets users change the choice directly after adding the condition if they made a mistake.
-            if (gain.duration == condition.get_DefaultDuration(oldChoice, gain.heightened).duration) {
-                gain.duration = condition.get_DefaultDuration(gain.choice, gain.heightened).duration;
+            if (gain.duration == condition.defaultDuration(oldChoice, gain.heightened).duration) {
+                gain.duration = condition.defaultDuration(gain.choice, gain.heightened).duration;
                 //Also set the maxDuration to the new value as we have effectively restarted the counter.
                 gain.maxDuration = gain.duration;
-            } else if (gain.duration == condition.get_DefaultDuration(oldChoice, gain.heightened).duration + 2) {
+            } else if (gain.duration == condition.defaultDuration(oldChoice, gain.heightened).duration + 2) {
                 //If the current duration is the default duration of the previous choice PLUS 2, then set the default duration for the current choice, plus 2.
                 //Only apply if the duration is a multiple of half turns, not for special durations like 1.
                 let addition = 0;
@@ -943,7 +943,7 @@ export class ConditionsService {
                     addition = 2;
                 }
 
-                gain.duration = condition.get_DefaultDuration(gain.choice, gain.heightened).duration + addition;
+                gain.duration = condition.defaultDuration(gain.choice, gain.heightened).duration + addition;
                 //Also set the maxDuration to the new value as we have effectively restarted the counter.
                 gain.maxDuration = gain.duration;
             }
@@ -977,7 +977,7 @@ export class ConditionsService {
     change_ConditionStage(creature: Creature, gain: ConditionGain, condition: Condition, choices: Array<string>, change: number, characterService: CharacterService, itemsService: ItemsService) {
         if (change == 0) {
             //If no change, the condition remains, but the onset is reset.
-            gain.nextStage = condition.get_ChoiceNextStage(gain.choice);
+            gain.nextStage = condition.timeToNextStage(gain.choice);
             this.refreshService.set_ToChange(creature.type, 'time');
             this.refreshService.set_ToChange(creature.type, 'health');
             this.refreshService.set_ToChange(creature.type, 'effects');
@@ -995,7 +995,7 @@ export class ConditionsService {
             const newChoice = choices[newIndex];
 
             if (newChoice) {
-                gain.nextStage = condition.get_ChoiceNextStage(newChoice);
+                gain.nextStage = condition.timeToNextStage(newChoice);
 
                 if (gain.nextStage) {
                     this.refreshService.set_ToChange(creature.type, 'time');

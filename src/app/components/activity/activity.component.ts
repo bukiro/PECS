@@ -198,7 +198,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     public get_FusedStances(): Array<{ gain: ItemActivity | ActivityGain; activity: Activity }> {
-        const featData = this.get_Character().class.get_FeatData(0, 0, 'Fuse Stance')[0];
+        const featData = this.get_Character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (featData) {
             return this.characterService.get_OwnedActivities(this.get_Creature())
@@ -223,7 +223,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
                 .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
-                    conditionSet.condition?.get_Choices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : conditionSet.condition.minLevel));
+                    conditionSet.condition?.effectiveChoices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : conditionSet.condition.minLevel));
                     //Add the condition to the selection list. Conditions with no choices, with hideChoices or with copyChoiceFrom will not be displayed.
                     conditionSets.push(conditionSet);
 

@@ -81,7 +81,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     get_IsInformationalCondition() {
-        return this.condition.get_IsInformationalCondition(this.get_Creature(), this.characterService, this.conditionGain);
+        return this.condition.isInformationalCondition(this.get_Creature(), this.characterService, this.conditionGain);
     }
 
     set_ConditionDuration(gain: ConditionGain, turns: number) {
@@ -125,7 +125,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     get_ConditionChoices(gain: ConditionGain, condition: Condition) {
-        return condition.get_Choices(this.characterService, gain.source != 'Manual', gain.heightened);
+        return condition.effectiveChoices(this.characterService, gain.source != 'Manual', gain.heightened);
     }
 
     change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
@@ -182,9 +182,9 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     get_HeightenedDescription() {
         if (this.conditionGain) {
-            return this.condition.get_Heightened(this.condition.desc, this.conditionGain.heightened);
+            return this.condition.heightenedText(this.condition.desc, this.conditionGain.heightened);
         } else {
-            return this.condition.get_Heightened(this.condition.desc, this.condition.minLevel);
+            return this.condition.heightenedText(this.condition.desc, this.condition.minLevel);
         }
     }
 

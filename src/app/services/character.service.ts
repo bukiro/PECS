@@ -667,12 +667,12 @@ export class CharacterService {
         //Cleanup Heritage, Ancestry, Background and class skills
         const character = this.get_Character();
 
-        character.class.on_ChangeHeritage(this);
-        character.class.on_ChangeAncestry(this);
-        character.class.on_ChangeBackground(this);
-        character.class.on_ChangeClass(this);
+        character.class.processRemovingChangeHeritage(this);
+        character.class.processRemovingOldAncestry(this);
+        character.class.processRemovingOldBackground(this);
+        character.class.processRemovingOldClass(this);
         character.class = Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify($class))).recast(this.typeService, this.itemsService);
-        character.class.on_NewClass(this, this.itemsService);
+        character.class.processNewClass(this, this.itemsService);
         this.deitiesService.clear_CharacterDeities();
         this.cacheService.reset_CreatureCache(character.typeId);
         this.refreshService.set_Changed();
@@ -682,10 +682,10 @@ export class CharacterService {
         const character = this.get_Character();
 
         this.change_Heritage(new Heritage());
-        character.class.on_ChangeAncestry(this);
+        character.class.processRemovingOldAncestry(this);
         character.class.ancestry = new Ancestry();
         character.class.ancestry = Object.assign<Ancestry, Ancestry>(new Ancestry(), JSON.parse(JSON.stringify(ancestry))).recast();
-        character.class.on_NewAncestry(this, itemsService);
+        character.class.processNewAncestry(this, itemsService);
         this.cacheService.reset_CreatureCache(character.typeId);
         this.update_LanguageList();
     }
@@ -705,7 +705,7 @@ export class CharacterService {
     change_Heritage(heritage: Heritage, index = -1) {
         const character = this.get_Character();
 
-        character.class.on_ChangeHeritage(this, index);
+        character.class.processRemovingChangeHeritage(this, index);
 
         if (index == -1) {
             character.class.heritage = new Heritage();
@@ -723,17 +723,17 @@ export class CharacterService {
                 }).recast();
         }
 
-        character.class.on_NewHeritage(this, this.itemsService, index);
+        character.class.processNewHeritage(this, this.itemsService, index);
         this.cacheService.reset_CreatureCache(character.typeId);
     }
 
     change_Background(background: Background) {
         const character = this.get_Character();
 
-        character.class.on_ChangeBackground(this);
+        character.class.processRemovingOldBackground(this);
         character.class.background = new Background();
         character.class.background = Object.assign<Background, Background>(new Background(), JSON.parse(JSON.stringify(background))).recast();
-        character.class.on_NewBackground(this);
+        character.class.processNewBackground(this);
         this.cacheService.reset_CreatureCache(character.typeId);
     }
 
@@ -1411,7 +1411,7 @@ export class CharacterService {
             if (activate) {
                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
                 if (conditionGain.duration == -5) {
-                    conditionGain.duration = originalCondition.get_DefaultDuration(conditionGain.choice, conditionGain.heightened).duration;
+                    conditionGain.duration = originalCondition.defaultDuration(conditionGain.choice, conditionGain.heightened).duration;
                 }
 
                 //If there are choices, and the choice is not set by the gain, take the default or the first choice.
@@ -1421,7 +1421,7 @@ export class CharacterService {
 
                 //If there is a choice, check if there is a nextStage value of that choice and copy it to the condition gain.
                 if (conditionGain.choice) {
-                    conditionGain.nextStage = originalCondition.get_ChoiceNextStage(conditionGain.choice);
+                    conditionGain.nextStage = originalCondition.timeToNextStage(conditionGain.choice);
                 }
 
                 if (conditionGain.nextStage) {

@@ -123,7 +123,7 @@ export class HintComponent {
             return this.get_HeightenedHint(hint);
         } else {
             if (this.object instanceof ConditionSet) {
-                return this.object.condition.get_Heightened(this.object.condition.desc, this.object.gain.heightened);
+                return this.object.condition.heightenedText(this.object.condition.desc, this.object.gain.heightened);
             } else {
                 return this.object.desc || '';
             }

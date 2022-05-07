@@ -710,7 +710,7 @@ export class FeatsService {
                         const oldHeritage = character.class.additionalHeritages.find(heritage => heritage.source == feat.name && heritage.charLevelAvailable == level.number);
                         const heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
 
-                        character.class.on_ChangeHeritage(characterService, heritageIndex);
+                        character.class.processRemovingChangeHeritage(characterService, heritageIndex);
                         character.class.additionalHeritages.splice(heritageIndex, 1);
                     });
                 }
@@ -1104,7 +1104,7 @@ export class FeatsService {
             //Splinter Faith changes your domains and needs to clear out the runtime variables and update general.
             if (feat.name == 'Splinter Faith') {
                 characterService.get_CharacterDeities(character).forEach(deity => {
-                    deity.clear_TemporaryDomains();
+                    deity.clearTemporaryDomains();
                 });
                 this.refreshService.set_ToChange(creature.type, 'general');
             }
@@ -1123,7 +1123,7 @@ export class FeatsService {
 
             //Losing a stance needs to update Fuse Stance.
             if (feat.traits.includes('Stance')) {
-                character.class.get_FeatData(0, 0, 'Fuse Stance').forEach(featData => {
+                character.class.filteredFeatData(0, 0, 'Fuse Stance').forEach(featData => {
                     const stances = featData.valueAsStringArray('stances');
 
                     if (stances) {

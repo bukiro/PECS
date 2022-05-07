@@ -154,7 +154,7 @@ export class Bulk {
                 result.explain += `\nStrength Modifier: ${ str }`;
             }
 
-            const size = creature.get_Size(effectsService);
+            const size = creature.effectiveSize(effectsService);
             let sizeMultiplier = 0;
 
             enum SizeMultipliers {

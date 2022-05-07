@@ -213,8 +213,8 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                         this.conditionsService.get_Conditions()
                             .filter(condition => gainConditions.some(gain => gain.name == condition.name && gain.targetFilter == 'caster'))
                             .some(condition =>
-                                condition.get_HasEffects() ||
-                                condition.get_IsChangeable(),
+                                condition.hasEffects() ||
+                                condition.isChangeable(),
                             )
                     )
                 )

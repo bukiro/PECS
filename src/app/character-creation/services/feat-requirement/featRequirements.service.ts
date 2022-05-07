@@ -744,8 +744,8 @@ export class FeatRequirementsService {
 
                             deities = deities
                                 .filter(deity => {
-                                    const deityDomains = deity.get_Domains(character, this._characterService)
-                                        .concat(deity.get_AlternateDomains(character, this._characterService))
+                                    const deityDomains = deity.effectiveDomains(character, this._characterService)
+                                        .concat(deity.effectiveAlternateDomains(character, this._characterService))
                                         .map(domain => domain.toLowerCase());
 
                                     return domains.some(domain => deityDomains.includes(domain));
@@ -757,7 +757,7 @@ export class FeatRequirementsService {
 
                             deities = deities
                                 .filter(deity => {
-                                    const deityDomains = deity.get_Domains(character, this._characterService)
+                                    const deityDomains = deity.effectiveDomains(character, this._characterService)
                                         .map(domain => domain.toLowerCase());
 
                                     return domains.some(domain => deityDomains.includes(domain));
@@ -769,7 +769,7 @@ export class FeatRequirementsService {
 
                             deities = deities
                                 .filter(deity => {
-                                    const deityDomains = deity.get_AlternateDomains(character, this._characterService)
+                                    const deityDomains = deity.effectiveAlternateDomains(character, this._characterService)
                                         .map(domain => domain.toLowerCase());
 
                                     return domains.some(domain => deityDomains.includes(domain));

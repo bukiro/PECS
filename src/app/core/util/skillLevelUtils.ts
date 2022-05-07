@@ -1,6 +1,6 @@
 export class SkillLevelUtils {
 
-    public static SkillLevelName(skillLevel: number, shortForm = false): string {
+    public static skillLevelName(skillLevel: number, shortForm = false): string {
         if (shortForm) {
             return ['U', 'U', 'T', 'T', 'E', 'E', 'M', 'M', 'L'][skillLevel];
         } else {

@@ -211,7 +211,7 @@ export class TimeService {
     public tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns = 10, reload = true): void {
         characterService.get_Creatures().forEach(creature => {
             //If any conditions are currently stopping time, process these first before continuing with the rest.
-            const timeStopDurations: Array<number> = creature.conditions.filter(gain => gain.apply && conditionsService.get_ConditionFromName(gain.name).get_IsStoppingTime(gain)).map(gain => gain.duration);
+            const timeStopDurations: Array<number> = creature.conditions.filter(gain => gain.apply && conditionsService.get_ConditionFromName(gain.name).isStoppingTime(gain)).map(gain => gain.duration);
 
             //If any time stopping condition is permanent, no time passes at all.
             if (!timeStopDurations.includes(-1)) {
@@ -274,9 +274,9 @@ export class TimeService {
             return inASentence ? 'until the next time you make your daily preparations' : 'Until the next time you make your daily preparations';
         } else if (duration == TimePeriods.Permanent) {
             return inASentence ? 'permanently' : 'Permanent';
-        } else if (duration == TimePeriods.OtherCharacterTurn) {
+        } else if (duration == TimePeriods.UntilOtherCharactersTurn) {
             return inASentence ? 'until another character\'s turn' : 'Ends on another character\'s turn';
-        } else if ([TimePeriods.UntilResolved, TimePeriods.UntilResolvedOnOtherCharacterTurn].includes(duration)) {
+        } else if ([TimePeriods.UntilResolved, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(duration)) {
             return inASentence ? 'until resolved' : 'Until resolved';
         } else {
             let returnString = '';

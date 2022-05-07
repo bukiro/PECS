@@ -4,7 +4,7 @@ import { ConditionGain } from './ConditionGain';
 export class ConditionSet {
     public condition: Condition;
     public gain: ConditionGain;
-    recast() {
+    public recast(): ConditionSet {
         return this;
     }
 }

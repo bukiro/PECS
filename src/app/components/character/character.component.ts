@@ -947,7 +947,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_DifferentWorldsData(levelNumber: number): Array<FeatData> {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Different Worlds' }).length) {
-            return this.get_Character().class.get_FeatData(levelNumber, levelNumber, { featName: 'Different Worlds' });
+            return this.get_Character().class.filteredFeatData(levelNumber, levelNumber, { featName: 'Different Worlds' });
         }
     }
 
@@ -991,11 +991,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_SplinterFaithDomains() {
-        return this.get_Character().class.get_FeatData(0, 0, 'Splinter Faith')[0]?.valueAsStringArray('domains') || [];
+        return this.get_Character().class.filteredFeatData(0, 0, 'Splinter Faith')[0]?.valueAsStringArray('domains') || [];
     }
 
     set_SplinterFaithDomains(domains: Array<string>) {
-        this.get_Character().class.get_FeatData(0, 0, 'Splinter Faith')[0].setValue('domains', domains);
+        this.get_Character().class.filteredFeatData(0, 0, 'Splinter Faith')[0].setValue('domains', domains);
     }
 
     get_SplinterFaithAvailableDomains() {
@@ -1036,7 +1036,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     const deity = this.characterService.get_Deities(deityName)[0];
 
                     if (deity) {
-                        deity.clear_TemporaryDomains();
+                        deity.clearTemporaryDomains();
                     }
                 }
             } else {
@@ -1049,7 +1049,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     const deity = this.characterService.get_Deities(deityName)[0];
 
                     if (deity) {
-                        deity.clear_TemporaryDomains();
+                        deity.clearTemporaryDomains();
                     }
                 }
             }
@@ -1154,7 +1154,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_FuseStanceData(levelNumber: number): Array<FeatData> {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Fuse Stance' }).length) {
-            return this.get_Character().class.get_FeatData(levelNumber, levelNumber, 'Fuse Stance');
+            return this.get_Character().class.filteredFeatData(levelNumber, levelNumber, 'Fuse Stance');
         }
     }
 
@@ -1226,7 +1226,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_SyncretismData(levelNumber: number) {
         if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Syncretism' }).length) {
-            return this.get_Character().class.get_FeatData(levelNumber, levelNumber, 'Syncretism');
+            return this.get_Character().class.filteredFeatData(levelNumber, levelNumber, 'Syncretism');
         }
     }
 
@@ -1507,11 +1507,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices && this.get_Companion().name && this.get_Companion().species) { this.toggle_List(''); }
 
-            this.get_Companion().class.removeOldAncestry(this.characterService);
+            this.get_Companion().class.processRemovingOldAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), type);
             this.get_Companion().class.processNewAncestry(this.characterService, this.itemsService);
         } else {
-            this.get_Companion().class.removeOldAncestry(this.characterService);
+            this.get_Companion().class.processRemovingOldAncestry(this.characterService);
             this.animalCompanionsService.change_Type(this.get_Companion(), new AnimalCompanionAncestry());
         }
 

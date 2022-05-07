@@ -43,7 +43,7 @@ export class DeitiesService {
                 const syncretismFeat = characterService.get_CharacterFeatsTaken(0, level, { featName: 'Syncretism' }).length;
 
                 if (syncretismFeat) {
-                    const data = character.class.get_FeatData(0, 0, 'Syncretism')[0];
+                    const data = character.class.filteredFeatData(0, 0, 'Syncretism')[0];
                     const syncretismDeity = data.valueAsString('deity');
 
                     if (syncretismDeity) {

@@ -145,7 +145,7 @@ export class EvaluationService {
             return (Creature as AnimalCompanion | Character | Familiar).baseSize();
         }
         function Size(asNumber = false) {
-            return (Creature as AnimalCompanion | Character | Familiar).get_Size(effectsService, { asNumber });
+            return (Creature as AnimalCompanion | Character | Familiar).effectiveSize(effectsService, { asNumber });
         }
         function Skill(name: string) {
             return characterService.get_Skills(Creature, name)[0]?.baseValue((Creature as AnimalCompanion | Character), characterService, abilitiesService, effectsService, Level).result;

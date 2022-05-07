@@ -107,7 +107,7 @@
                 *ngFor="let conditionSet of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
                 <header class="spellHeader">{{conditionSet.condition.name}}</header>
                 <div class="newrow left-aligned"
-                    *ngFor="let desc of conditionSet.condition.get_Heightened(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;">
+                    *ngFor="let desc of conditionSet.condition.heightenedText(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;">
                     <app-description class="newrow" [text]="desc"></app-description>
                 </div>
             </div>
