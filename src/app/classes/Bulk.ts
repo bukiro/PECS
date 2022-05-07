@@ -5,53 +5,77 @@ import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Creature } from './Creature';
 
+interface CalculatedBulk {
+    maxabsolutes: Array<Effect>;
+    maxbonuses: boolean;
+    maxpenalties: boolean;
+    max: { value: number; explain: string };
+    currentabsolutes: Array<Effect>;
+    currentbonuses: boolean;
+    currentpenalties: boolean;
+    current: { value: number; explain: string };
+    encumberedabsolutes: Array<Effect>;
+    encumberedbonuses: boolean;
+    encumberedpenalties: boolean;
+    encumbered: { value: number; explain: string };
+}
+
+const defaultEncumberedLimitBase = 5;
+const defaultBulkLimitBase = 10;
+
 export class Bulk {
-    recast() {
+    public recast(): Bulk {
         return this;
     }
-    calculate(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
-        const maxabsolutes = this.absolutes(creature, effectsService, 'Max Bulk');
-        const currentabsolutes = this.absolutes(creature, effectsService, 'Bulk');
-        const encumberedabsolutes = this.absolutes(creature, effectsService, 'Encumbered Limit');
+    public calculate(creature: Creature, characterService: CharacterService, effectsService: EffectsService): CalculatedBulk {
+        const maxabsolutes = this._absolutes(creature, effectsService, 'Max Bulk');
+        const currentabsolutes = this._absolutes(creature, effectsService, 'Bulk');
+        const encumberedabsolutes = this._absolutes(creature, effectsService, 'Encumbered Limit');
 
         const result = {
             maxabsolutes,
-            maxbonuses: this.bonuses(creature, effectsService, 'Max Bulk'),
-            maxpenalties: this.penalties(creature, effectsService, 'Max Bulk'),
-            max: this.max(creature, characterService, effectsService, maxabsolutes),
+            maxbonuses: this._bonuses(creature, effectsService, 'Max Bulk'),
+            maxpenalties: this._penalties(creature, effectsService, 'Max Bulk'),
+            max: this._max(creature, characterService, effectsService, maxabsolutes),
             currentabsolutes,
-            currentbonuses: this.bonuses(creature, effectsService, 'Bulk'),
-            currentpenalties: this.penalties(creature, effectsService, 'Bulk'),
-            current: this.current(creature, characterService, effectsService, currentabsolutes),
+            currentbonuses: this._bonuses(creature, effectsService, 'Bulk'),
+            currentpenalties: this._penalties(creature, effectsService, 'Bulk'),
+            current: this._current(creature, characterService, effectsService, currentabsolutes),
             encumberedabsolutes: currentabsolutes,
-            encumberedbonuses: this.bonuses(creature, effectsService, 'Encumbered Limit'),
-            encumberedpenalties: this.penalties(creature, effectsService, 'Encumbered Limit'),
-            encumbered: this.encumbered(creature, characterService, effectsService, encumberedabsolutes),
+            encumberedbonuses: this._bonuses(creature, effectsService, 'Encumbered Limit'),
+            encumberedpenalties: this._penalties(creature, effectsService, 'Encumbered Limit'),
+            encumbered: this._encumbered(creature, characterService, effectsService, encumberedabsolutes),
         };
 
         return result;
     }
-    absolutes(creature: Creature, effectsService: EffectsService, name: string) {
+    private _absolutes(creature: Creature, effectsService: EffectsService, name: string): Array<Effect> {
         return effectsService.get_AbsolutesOnThis(creature, name);
     }
-    relatives(creature: Creature, effectsService: EffectsService, name: string) {
+    private _relatives(creature: Creature, effectsService: EffectsService, name: string): Array<Effect> {
         return effectsService.get_RelativesOnThis(creature, name);
     }
-    bonuses(creature: Creature, effectsService: EffectsService, name: string) {
+    private _bonuses(creature: Creature, effectsService: EffectsService, name: string): boolean {
         return effectsService.show_BonusesOnThis(creature, name);
     }
-    penalties(creature: Creature, effectsService: EffectsService, name: string) {
+    private _penalties(creature: Creature, effectsService: EffectsService, name: string): boolean {
         return effectsService.show_PenaltiesOnThis(creature, name);
     }
-    current(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Array<Effect> = this.absolutes(creature, effectsService, 'Bulk')) {
+    private _current(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService,
+        absolutes: Array<Effect> = this._absolutes(creature, effectsService, 'Bulk'),
+    ): { value: number; explain: string } {
         const inventories = creature.inventories;
         const result: { value: number; explain: string } = { value: 0, explain: '' };
 
         if (characterService.still_loading()) { return result; }
 
         inventories.forEach(inventory => {
+            const decimal = 10;
             //To avoid decimal issues, the bulk is rounded to one decimal.
-            const bulk = Math.floor(Math.max(0, inventory.get_Bulk(false, true)) * 10) / 10;
+            const bulk = Math.floor(Math.max(0, inventory.get_Bulk(false, true)) * decimal) / decimal;
 
             result.value += bulk;
             result.explain += `\n${ inventory.get_Name(characterService) }: ${ bulk }`;
@@ -60,7 +84,7 @@ export class Bulk {
             result.value = parseInt(effect.setValue, 10);
             result.explain = `${ effect.source }: ${ effect.setValue }`;
         });
-        this.relatives(creature, effectsService, 'Bulk').forEach(effect => {
+        this._relatives(creature, effectsService, 'Bulk').forEach(effect => {
             result.value += parseInt(effect.value, 10);
             result.explain += `${ effect.source }: ${ effect.value }`;
         });
@@ -69,15 +93,20 @@ export class Bulk {
 
         return result;
     }
-    encumbered(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Array<Effect> = this.absolutes(creature, effectsService, 'Encumbered Limit')) {
+    private _encumbered(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService, absolutes: Array<Effect> = this._absolutes(creature, effectsService, 'Encumbered Limit'),
+    ): { value: number; explain: string } {
         //Gets the basic bulk and adds all effects
-        const result: { value: number; explain: string } = { value: 5, explain: 'Base limit: 5' };
+        const result: { value: number; explain: string } =
+            { value: defaultEncumberedLimitBase, explain: `Base limit: ${ defaultEncumberedLimitBase }` };
 
         if (characterService.still_loading()) { return result; }
 
         const str = characterService.get_Abilities('Strength')[0].mod(creature, characterService, effectsService).result;
 
-        if (str != 0) {
+        if (str !== 0) {
             result.value += str;
             result.explain += `\nStrength Modifier: ${ str }`;
         }
@@ -86,7 +115,7 @@ export class Bulk {
             result.value = parseInt(effect.setValue, 10);
             result.explain = `${ effect.source }: ${ effect.setValue }`;
         });
-        this.relatives(creature, effectsService, 'Encumbered Limit').forEach(effect => {
+        this._relatives(creature, effectsService, 'Encumbered Limit').forEach(effect => {
             result.value += parseInt(effect.value, 10);
             result.explain += `\n${ effect.source }: ${ effect.value }`;
         });
@@ -94,9 +123,15 @@ export class Bulk {
 
         return result;
     }
-    max(creature: Creature, characterService: CharacterService, effectsService: EffectsService, absolutes: Array<Effect> = this.absolutes(creature, effectsService, 'Max Bulk')) {
+    private _max(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService,
+        absolutes: Array<Effect> = this._absolutes(creature, effectsService, 'Max Bulk'),
+    ): { value: number; explain: string } {
         //Gets the basic bulk and adds all effects
-        const result: { value: number; explain: string } = { value: 10, explain: 'Base limit: 10' };
+        const result: { value: number; explain: string } =
+            { value: defaultBulkLimitBase, explain: `Base limit: ${ defaultBulkLimitBase }` };
 
         if (characterService.still_loading()) { return result; }
 
@@ -107,9 +142,14 @@ export class Bulk {
             });
         } else {
             //We cannot use instanceof Familiar here because of circular dependencies. We test typeId == 2 (Familiar) instead.
-            const str = (creature.typeId == 2) ? 0 : characterService.get_Abilities('Strength')[0].mod(creature as Character | AnimalCompanion, characterService, effectsService).result;
+            const familiarId = 2;
+            const str =
+                (creature.typeId === familiarId)
+                    ? 0
+                    : characterService.get_Abilities('Strength')[0]
+                        .mod(creature as Character | AnimalCompanion, characterService, effectsService).result;
 
-            if (str != 0) {
+            if (str !== 0) {
                 result.value += str;
                 result.explain += `\nStrength Modifier: ${ str }`;
             }
@@ -117,28 +157,38 @@ export class Bulk {
             const size = creature.get_Size(effectsService);
             let sizeMultiplier = 0;
 
-            switch (size) {
-                case 'Tiny':
-                    sizeMultiplier = .5;
-                    break;
-                case 'Large':
-                    sizeMultiplier = 2;
-                    break;
-                case 'Huge':
-                    sizeMultiplier = 4;
-                    break;
-                case 'Gargantuan':
-                    sizeMultiplier = 8;
-                    break;
+            enum SizeMultipliers {
+                Tiny = .5,
+                Medium = 1,
+                Large = 2,
+                Huge = 4,
+                Gargantuan = 8,
             }
 
-            if (sizeMultiplier) {
+            switch (size) {
+                case 'Tiny':
+                    sizeMultiplier = SizeMultipliers.Tiny;
+                    break;
+                case 'Large':
+                    sizeMultiplier = SizeMultipliers.Large;
+                    break;
+                case 'Huge':
+                    sizeMultiplier = SizeMultipliers.Huge;
+                    break;
+                case 'Gargantuan':
+                    sizeMultiplier = SizeMultipliers.Gargantuan;
+                    break;
+                default:
+                    sizeMultiplier = SizeMultipliers.Medium;
+            }
+
+            if (sizeMultiplier !== SizeMultipliers.Medium) {
                 result.value = Math.floor(result.value * sizeMultiplier);
                 result.explain += `\nSize Multiplier: ${ sizeMultiplier }`;
             }
         }
 
-        this.relatives(creature, effectsService, 'Max Bulk').forEach(effect => {
+        this._relatives(creature, effectsService, 'Max Bulk').forEach(effect => {
             result.value += parseInt(effect.value, 10);
             result.explain += `\n${ effect.source }: ${ effect.value }`;
         });

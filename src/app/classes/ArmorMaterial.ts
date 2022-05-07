@@ -4,7 +4,7 @@ export class ArmorMaterial extends Material {
     public strengthScoreModifier = 0;
     public skillPenaltyModifier = 0;
     public speedPenaltyModifier = 0;
-    recast() {
+    public recast(): ArmorMaterial {
         super.recast();
 
         return this;

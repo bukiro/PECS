@@ -23,7 +23,7 @@ export class Background {
     public prerequisites = '';
     public inputRequired = '';
     public traits: Array<string> = [];
-    recast() {
+    public recast(): Background {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());
         this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());

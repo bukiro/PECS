@@ -13,23 +13,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Creature } from 'src/app/classes/Creature';
-
-enum TimePeriods {
-    UntilRefocus = -3,
-    UntilRest = -2,
-    Permanent = -1,
-    NoTurn = 0,
-    UntilResolved = 1,
-    OtherCharacterTurn = 2,
-    UntilResolvedOnOtherCharacterTurn = 3,
-    HalfTurn = 5,
-    Turn = 10,
-    Minute = 100,
-    TenMinutes = 1000,
-    Hour = 6000,
-    EightHours = 48000,
-    Day = 144000,
-}
+import { TimePeriods } from '../core/definitions/timePeriods';
 
 @Injectable({
     providedIn: 'root',

@@ -1,10 +1,12 @@
+import { TimePeriods } from '../core/definitions/timePeriods';
+
 export class BloodMagic {
     public condition = '';
-    public duration = 10;
+    public duration = TimePeriods.Turn;
     public sourceTrigger: Array<string> = [];
     public trigger: Array<string> = [];
     public neutralPhrase = false;
-    recast() {
+    public recast(): BloodMagic {
         return this;
     }
 }

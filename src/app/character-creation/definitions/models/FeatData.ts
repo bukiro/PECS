@@ -1,3 +1,6 @@
+//TO-DO: Resolve private properties either not matching JSON import or not having an underscore
+/* eslint-disable @typescript-eslint/naming-convention */
+
 type FeatDataValue = string | number | boolean | Array<string> | Array<number>;
 
 export class FeatData {

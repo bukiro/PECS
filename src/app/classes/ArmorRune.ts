@@ -6,19 +6,19 @@ import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 
 export class ArmorRune extends Rune {
     //Armor Runes should be type "armorrunes" to be found in the database
-    readonly type = 'armorrunes';
+    public readonly type = 'armorrunes';
     public resilient = 0;
-    //Can only be applied to an armor with this proficiency
+    /** If sit, the armor rune can only be applied to an armor with this proficiency. */
     public profreq: Array<string> = [];
-    //Can only be applied to a nonmetallic armor
+    /** If this is set, the armor rune can only be applied to a nonmetallic armor. */
     public nonmetallic = false;
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    public recast(typeService: TypeService, itemsService: ItemsService): ArmorRune {
         super.recast(typeService, itemsService);
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
 
         return this;
     }
-    effectsGenerationHints(): Array<HintEffectsObject> {
+    public effectsGenerationHints(): Array<HintEffectsObject> {
         return this.hints.map(hint => ({ hint, parentItem: this, objectName: this.getName() }));
     }
 }
