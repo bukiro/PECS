@@ -428,11 +428,11 @@ export class GridIconComponent implements OnInit, OnDestroy {
 
             let value = '';
 
-            if ((this.item as Equipment)?.getPotencyRune && (this.item as Equipment).getPotencyRune()) {
-                value = `+${ (this.item as Equipment).getPotencyRune().toString() }`;
+            if ((this.item as Equipment)?.effectivePotency && (this.item as Equipment).effectivePotency()) {
+                value = `+${ (this.item as Equipment).effectivePotency().toString() }`;
 
-                if ((this.item as Equipment)?.getStrikingRune()) {
-                    const striking = (this.item as Equipment).getStrikingRune();
+                if ((this.item as Equipment)?.effectiveStriking()) {
+                    const striking = (this.item as Equipment).effectiveStriking();
 
                     switch (striking) {
                         case 1:
@@ -447,8 +447,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
                     }
                 }
 
-                if ((this.item as Equipment)?.getResilientRune()) {
-                    const resilient = (this.item as Equipment).getResilientRune();
+                if ((this.item as Equipment)?.effectiveResilient()) {
+                    const resilient = (this.item as Equipment).effectiveResilient();
 
                     switch (resilient) {
                         case 1:

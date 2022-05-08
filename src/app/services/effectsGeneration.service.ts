@@ -406,14 +406,14 @@ export class EffectsGenerationService {
         }
 
         //For Saving Throws, add any resilient runes on the equipped armor.
-        const resilient = armor.getResilientRune();
+        const resilient = armor.effectiveResilient();
 
         function applyResilientRune() {
             return resilient > 0 && !armor.broken;
         }
 
         if (applyResilientRune()) {
-            add_Effect({ type: 'item', target: 'Saving Throws', value: `+${ resilient }`, source: armor.getResilient(resilient), penalty: false, apply: undefined });
+            add_Effect({ type: 'item', target: 'Saving Throws', value: `+${ resilient }`, source: armor.resilientTitle(resilient), penalty: false, apply: undefined });
         }
 
         //Add broken penalty if the armor is broken.
@@ -441,7 +441,7 @@ export class EffectsGenerationService {
         if (!options.ignoreArmorPenalties) {
             //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
             const strength = (context.creature instanceof Familiar) ? 0 : services.characterService.get_Abilities('Strength')[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
-            const name = armor.getName();
+            const name = armor.effectiveName();
             const skillPenalty = armor.effectiveSkillPenalty();
             const skillPenaltyString = skillPenalty.toString();
             const speedPenalty = armor.effectiveSpeedPenalty();
@@ -511,7 +511,7 @@ export class EffectsGenerationService {
             itemEffects.push(Object.assign(new Effect(options.value), { creature: context.creature.id, type: options.type, target: options.target, source: options.source, penalty: options.penalty, apply: options.apply }));
         }
 
-        const name = shield.getName();
+        const name = shield.effectiveName();
 
         function shieldBonusApplies() {
             return shield.raised && !shield.broken;

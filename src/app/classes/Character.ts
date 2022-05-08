@@ -31,9 +31,7 @@ import { TypeService } from 'src/app/services/type.service';
 import { Hint } from 'src/app/classes/Hint';
 import { SkillLevels } from '../core/definitions/skillLevels';
 import { SpellLearned } from './SpellLearned';
-
-const startingGold = 15;
-const wornToolsBulkLimit = 2;
+import { Defaults } from '../core/definitions/defaults';
 
 export class Character extends Creature {
     public readonly type = 'Character';
@@ -44,12 +42,12 @@ export class Character extends Creature {
     public ignoredMessages: Array<{ id: string; ttl: number }> = [];
     public partyName = '';
     public baseValues: Array<{ name: string; baseValue: number }> = [];
-    public cash: Array<number> = [0, startingGold, 0, 0];
+    public cash: Array<number> = [0, Defaults.startingGold, 0, 0];
     public class: Class = new Class();
     public customFeats: Array<Feat> = [];
     public heroPoints = 1;
     //Characters get one extra inventory for worn items.
-    public inventories: Array<ItemCollection> = [new ItemCollection(), new ItemCollection(wornToolsBulkLimit)];
+    public inventories: Array<ItemCollection> = [new ItemCollection(), new ItemCollection(Defaults.wornToolsInventoryBulkLimit)];
     public experiencePoints = 0;
     public settings: Settings = new Settings();
     public GMMode = false;

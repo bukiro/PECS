@@ -349,7 +349,7 @@ export class Armor extends Equipment {
         return super.effectsGenerationHints()
             .concat(...this.propertyRunes.map(rune => rune.effectsGenerationHints()));
     }
-    protected _getSecondaryRuneName(): string {
-        return this.getResilient(this.getResilientRune());
+    protected _secondaryRuneName(): string {
+        return this.resilientTitle(this.effectiveResilient());
     }
 }

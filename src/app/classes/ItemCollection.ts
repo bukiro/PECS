@@ -238,7 +238,7 @@ export class ItemCollection {
                         const items = creatureInventory.allEquipment().filter(item => item.id == this.itemId);
 
                         if (items.length) {
-                            name = items[0].getName();
+                            name = items[0].effectiveName();
                         }
                     });
                 }

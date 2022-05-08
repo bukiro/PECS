@@ -12,7 +12,7 @@ export class Effect {
     public show: boolean = undefined;
     public duration = 0;
     public maxDuration = 0;
-    //If the effect is typed, cumulative lists all effect sources (of the same type) that it is cumulative with.
+    /** If the effect has a type, cumulative lists all effect sources (of the same type) that it is cumulative with. */
     public cumulative: Array<string> = [];
     public sourceId = '';
     constructor(
@@ -22,10 +22,10 @@ export class Effect {
             this.value = (parseInt(value, 10) >= 0 ? '+' : '') + parseInt(value, 10);
         }
     }
-    recast() {
+    public recast(): Effect {
         return this;
     }
-    get_DisplayTitle(signed = false) {
+    public displayTitle(signed = false): string {
         if (this.title) {
             return (signed ? '= ' : '') + this.title;
         } else {

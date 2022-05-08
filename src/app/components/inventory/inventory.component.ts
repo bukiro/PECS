@@ -522,7 +522,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (item.broken) {
             if (!this.can_Equip(item, 0) && item.equipped) {
                 this.characterService.on_Equip(this.get_Creature(), this.get_Creature().inventories[0], item, false, false, true);
-                this.toastService.show(`Your <strong>${ item.getName() }</strong> was unequipped because it is broken.`);
+                this.toastService.show(`Your <strong>${ item.effectiveName() }</strong> was unequipped because it is broken.`);
             }
         }
 
@@ -574,9 +574,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 if (item.cooldown) {
                     if (item.overcharged && !this.get_ManualMode()) {
                         this.drop_InventoryItem(item, inventory, false);
-                        this.toastService.show(`The <strong>${ item.getName() }</strong> was destroyed because it was overcharged too much. The spell was not cast.`);
+                        this.toastService.show(`The <strong>${ item.effectiveName() }</strong> was destroyed because it was overcharged too much. The spell was not cast.`);
                     } else if (item.overcharged && this.get_ManualMode()) {
-                        this.toastService.show(`The <strong>${ item.getName() }</strong> was overcharged too many times. It was not destroyed because manual mode is enabled.`);
+                        this.toastService.show(`The <strong>${ item.effectiveName() }</strong> was overcharged too many times. It was not destroyed because manual mode is enabled.`);
                         item.broken = true;
                     } else {
                         item.overcharged = true;

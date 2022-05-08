@@ -19,6 +19,6 @@ export class ArmorRune extends Rune {
         return this;
     }
     public effectsGenerationHints(): Array<HintEffectsObject> {
-        return this.hints.map(hint => ({ hint, parentItem: this, objectName: this.getName() }));
+        return this.hints.map(hint => ({ hint, parentItem: this, objectName: this.effectiveName() }));
     }
 }

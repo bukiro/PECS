@@ -6,7 +6,7 @@ export class Material {
     public bulkPrice = 0;
     public bulkModifier = 0;
     public craftRequirement = '';
-    //This is how high your crafting level needs to be to craft with this material.
+    /** This is how high your crafting level needs to be to craft with this material. */
     public craftingRequirement = defaultCraftingRequirement;
     public desc = '';
     public level = 0;
@@ -24,7 +24,7 @@ export class Material {
 
         return this;
     }
-    public getName(): string {
+    public effectiveName(): string {
         return this.name.split('(')[0].trim();
     }
 }

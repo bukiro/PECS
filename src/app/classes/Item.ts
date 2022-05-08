@@ -35,7 +35,7 @@ export class Item {
     public expiresOnlyIf: '' | 'equipped' | 'unequipped' = '';
     //If this name is set, always show it instead of the expanded base name
     public displayName = '';
-    //Can this item be equipped (and apply its effect only then)
+    /** Can this item be equipped (and apply its effect only then). */
     public equippable: boolean;
     //Should this item be hidden in the item store
     public hide = false;
@@ -163,7 +163,7 @@ export class Item {
     }
     //Other implementations require itemStore.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public getName(options: { itemStore?: boolean } = {}): string {
+    public effectiveName(options: { itemStore?: boolean } = {}): string {
         if (this.displayName) {
             return this.displayName;
         } else {

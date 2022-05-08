@@ -885,7 +885,7 @@ export class CharacterService {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
                     item.gainItems.filter(gainItem => gainItem.on == 'grant' && gainItem.amount > 0).forEach(gainItem => {
-                        gainItem.grantGrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
+                        gainItem.grantGrantedItem(creature, { sourceName: item.effectiveName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
                     });
                 }
             }
@@ -1189,7 +1189,7 @@ export class CharacterService {
             //Add all Items that you get from equipping this one
             if (item.gainItems && item.gainItems.length) {
                 item.gainItems.filter(gainItem => gainItem.on == 'equip').forEach(gainItem => {
-                    gainItem.grantGrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
+                    gainItem.grantGrantedItem(creature, { sourceName: item.effectiveName(), grantingItem: item }, { characterService: this, itemsService: this.itemsService });
                 });
             }
         } else if (oldequipped && !item.equipped) {
@@ -1251,7 +1251,7 @@ export class CharacterService {
         });
 
         if (found) {
-            this.toastService.show(`${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.getName() }</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.`);
+            this.toastService.show(`${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.effectiveName() }</strong> before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.`);
         }
     }
 
@@ -1975,7 +1975,7 @@ export class CharacterService {
                                 text += `${ message.itemAmount } `;
                             }
 
-                            text += addedPrimaryItem.getName();
+                            text += addedPrimaryItem.effectiveName();
 
                             if (sender) {
                                 text += `</strong> from <strong>${ sender }</strong>`;
@@ -2101,7 +2101,7 @@ export class CharacterService {
                 });
 
                 if (foundItem) {
-                    itemName = foundItem.getName();
+                    itemName = foundItem.effectiveName();
                 }
 
                 if (message.acceptedItem) {
@@ -2366,7 +2366,7 @@ export class CharacterService {
 
         //get_CharacterFeatsTaken(minLevelNumber = 0, maxLevelNumber = 0, featName = '', source = '', sourceId = '', locked: boolean = undefined, excludeTemporary = false, includeCountAs = false, automatic: boolean = undefined) {
         //If the feat choice is not needed (i.e. if excludeTemporary is not given), we can get the taken feats quicker from the featsService.
-        //CharacterService.get_CharacterFeatsTaken should be preferred over Character.get_FeatsTaken for this reason.
+        //CharacterService.get_CharacterFeatsTaken should be preferred over Character.takenFeats for this reason.
         if (!options.excludeTemporary) {
             return this.featsService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.includeCountAs, filter.automatic);
         } else {

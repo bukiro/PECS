@@ -12,7 +12,7 @@ export class Scroll extends Consumable {
 
         return this;
     }
-    getName() {
+    effectiveName() {
         if (this.displayName) {
             return this.displayName;
         } else if (this.storedSpells.length && this.storedSpells[0].spells.length) {

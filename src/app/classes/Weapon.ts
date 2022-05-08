@@ -109,10 +109,10 @@ export class Weapon extends Equipment {
 
         return this;
     }
-    protected _getSecondaryRuneName(): string {
-        return this.getStriking(this.getStrikingRune());
+    protected _secondaryRuneName(): string {
+        return this.strikingTitle(this.effectiveStriking());
     }
-    protected _getBladeAllyName(): Array<string> {
+    protected _bladeAllyName(): Array<string> {
         const words: Array<string> = [];
 
         if (this.bladeAlly) {
@@ -640,7 +640,7 @@ export class Weapon extends Equipment {
         let effectsSum = 0;
         //Add relative effects, including potency bonus and shoddy penalty
         //Generate potency bonus
-        const potencyRune: number = runeSource.fundamentalRunes.getPotencyRune();
+        const potencyRune: number = runeSource.fundamentalRunes.effectivePotency();
         const calculatedEffects: Array<Effect> = [];
 
         if (potencyRune) {
@@ -648,7 +648,7 @@ export class Weapon extends Equipment {
 
             //If you're getting the potency because of another item (like Doubling Rings), name it here
             if (runeSource.reason) {
-                source = `Potency (${ runeSource.reason.getName() })`;
+                source = `Potency (${ runeSource.reason.effectiveName() })`;
             }
 
             calculatedEffects.push(Object.assign(new Effect(potencyRune.toString()), { creature: creature.type, type: 'item', target: this.name, source, apply: true, show: false }));
@@ -659,7 +659,7 @@ export class Weapon extends Equipment {
 
             //If you're getting the battleforged bonus because of another item (like Handwraps of Mighty Blows), name it here
             if (runeSource.reason) {
-                source = `Battleforged (${ runeSource.reason.getName() })`;
+                source = `Battleforged (${ runeSource.reason.effectiveName() })`;
             }
 
             calculatedEffects.push(Object.assign(new Effect('+1'), { creature: creature.type, type: 'item', target: this.name, source, apply: true, show: false }));
@@ -874,15 +874,15 @@ export class Weapon extends Equipment {
 
             //Add the striking rune or oil of potency effect of the runeSource.
             //Only apply and explain Striking if it's actually better than your multiplied dice number.
-            if (runeSource.fundamentalRunes.getStrikingRune() + 1 > dicenum) {
-                let source = runeSource.fundamentalRunes.getStriking(runeSource.fundamentalRunes.getStrikingRune());
+            if (runeSource.fundamentalRunes.effectiveStriking() + 1 > dicenum) {
+                let source = runeSource.fundamentalRunes.strikingTitle(runeSource.fundamentalRunes.effectiveStriking());
 
                 //If you're getting the striking effect because of another item (like Doubling Rings), name it here
                 if (runeSource.reason) {
-                    source += ` (${ runeSource.reason.getName() })`;
+                    source += ` (${ runeSource.reason.effectiveName() })`;
                 }
 
-                calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Number`, setValue: (1 + runeSource.fundamentalRunes.getStrikingRune()).toString(), source, apply: true, show: false }));
+                calculatedEffects.push(Object.assign(new Effect(), { creature: creature.type, type: 'untyped', target: `${ this.name } Dice Number`, setValue: (1 + runeSource.fundamentalRunes.effectiveStriking()).toString(), source, apply: true, show: false }));
             }
 
             //For any activated traits of this weapon, check if any effects on Dice Number apply. These need to be calculated in the effects service.

@@ -19,7 +19,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { TypeService } from 'src/app/services/type.service';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { AdditionalHeritage } from './AdditionalHeritage';
-import { defaults } from '../core/definitions/defaults';
+import { Defaults } from '../core/definitions/defaults';
 
 export class Class {
     public disabled = '';
@@ -425,7 +425,7 @@ export class Class {
                         character.skillIncreases(
                             characterService,
                             1,
-                            defaults.maxCharacterLevel,
+                            Defaults.maxCharacterLevel,
                             `Lore: ${ this.background.loreChoices[0].loreName }`,
                         )
                             .filter(increase =>

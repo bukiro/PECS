@@ -278,7 +278,7 @@ export class AC {
 
             if (armorItemBonus) {
                 //Potency increases the armor bonus; it does not add a separate bonus on armors.
-                const potency = armor.getPotencyRune();
+                const potency = armor.effectivePotency();
 
                 if (potency) {
                     armorItemBonus += potency;

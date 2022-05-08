@@ -258,7 +258,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
         this.get_Creature().inventories.forEach(inv => {
             inv.ammunition.filter(ammo => [type, 'Any'].includes(ammo.ammunition)).forEach(ammo => {
-                ammoList.push({ item: ammo, name: ammo.getName(), inventory: inv });
+                ammoList.push({ item: ammo, name: ammo.effectiveName(), inventory: inv });
             });
         });
 
@@ -271,7 +271,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
         this.get_Creature().inventories.forEach(inv => {
             inv.snares.forEach(snare => {
-                snares.push({ item: snare, name: snare.getName(), inventory: inv });
+                snares.push({ item: snare, name: snare.effectiveName(), inventory: inv });
             });
         });
 

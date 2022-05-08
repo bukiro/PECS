@@ -827,7 +827,7 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length) {
                 item.gainItems.forEach(gainItem => {
-                    gainItem.grantGrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
+                    gainItem.grantGrantedItem(creature, { sourceName: item.effectiveName(), grantingItem: item }, { characterService, itemsService: this });
                 });
             }
 
@@ -855,7 +855,7 @@ export class ItemsService {
             inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped())
                 .forEach(item => {
                     item.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
-                        gainItem.grantGrantedItem(creature, { sourceName: item.getName(), grantingItem: item }, { characterService, itemsService: this });
+                        gainItem.grantGrantedItem(creature, { sourceName: item.effectiveName(), grantingItem: item }, { characterService, itemsService: this });
                     });
                 });
         });

@@ -16,7 +16,7 @@ export class AlchemicalBomb extends Weapon {
     /** What kind of weapon is this based on? Needed for weapon proficiencies for specific magical items. */
     public readonly weaponBase: string = 'Alchemical Bomb';
     public readonly equippable = false;
-    public getName(): string {
+    public effectiveName(): string {
         return this.displayName || this.name;
     }
     public recast(typeService: TypeService, itemsService: ItemsService): Weapon {

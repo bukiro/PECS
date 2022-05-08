@@ -20,7 +20,7 @@ export class Ammunition extends Consumable {
 
         return this;
     }
-    public getName(): string {
+    public effectiveName(): string {
         if (this.displayName) {
             return this.displayName;
         } else if (this.storedSpells[0]?.spells?.length) {

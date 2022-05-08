@@ -90,8 +90,8 @@ export class WornItem extends Equipment {
 
         return this;
     }
-    protected _getSecondaryRuneName(): string {
-        return this.getStriking(this.getStrikingRune());
+    protected _secondaryRuneName(): string {
+        return this.strikingTitle(this.effectiveStriking());
     }
     effectivePrice(itemsService: ItemsService) {
         let price = this.price;
