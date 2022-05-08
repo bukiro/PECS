@@ -17,7 +17,7 @@ import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { Rune } from 'src/app/classes/Rune';
 import { Item } from './Item';
 import { AdventuringGear } from './AdventuringGear';
-import { MaxSkillLevel } from '../core/definitions/skillLevels';
+import { MaxSkillLevel } from '../../libs/shared/definitions/skillLevels';
 
 enum ShoddyPenalties {
     NotShoddy = 0,

@@ -1,7 +1,7 @@
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { v4 as uuidv4 } from 'uuid';
-import { TimePeriods } from '../core/definitions/timePeriods';
+import { TimePeriods } from '../../libs/shared/definitions/timePeriods';
 
 export class ConditionGain {
     public addValue = 0;

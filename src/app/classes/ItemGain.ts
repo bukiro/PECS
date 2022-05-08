@@ -1,3 +1,4 @@
+import { ItemGainOnOptions } from '../../libs/shared/definitions/itemGainOptions';
 import { CharacterService } from '../services/character.service';
 import { ItemsService } from '../services/items.service';
 import { Armor } from './Armor';
@@ -6,14 +7,6 @@ import { Item } from './Item';
 import { Rune } from './Rune';
 import { Shield } from './Shield';
 import { Weapon } from './Weapon';
-
-export enum ItemGainOnOptions {
-    Null = '',
-    Grant = 'grant',
-    Equip = 'equip',
-    Use = 'use',
-    Rest = 'rest',
-}
 
 export class ItemGain {
     //Amount only applies to stackable items; other items are always granted as one item.

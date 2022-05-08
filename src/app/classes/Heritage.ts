@@ -19,7 +19,7 @@ export class Heritage {
     public subTypes: Array<Heritage> = [];
     public traits: Array<string> = [];
     public displayOnly = false;
-    recast() {
+    public recast(): Heritage {
         this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());

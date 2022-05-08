@@ -2265,15 +2265,15 @@ export class CharacterService {
                     const result = creature.health.takeDamage(creature, this, this.effectsService, -value, false);
                     let results = '';
 
-                    if (result.unconsciousAdded) {
+                    if (result.hasAddedUnconscious) {
                         results = ` ${ recipientName } ${ recipientIs } now Unconscious.`;
                     }
 
-                    if (result.dyingAdded && effectGain.source != 'Dead') {
+                    if (result.dyingAddedAmount && effectGain.source != 'Dead') {
                         results = ` ${ recipientName2 } ${ recipientIs } now Dying ${ result.dyingAdded }.`;
                     }
 
-                    if (result.wokeUp) {
+                    if (result.hasRemovedUnconscious) {
                         results = ` This removed ${ recipientGenitive } Unconscious condition.`;
                     }
 

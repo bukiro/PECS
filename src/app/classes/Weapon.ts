@@ -618,7 +618,7 @@ export class Weapon extends Equipment {
         //For any activated traits of this weapon, check if any effects on Attack apply. These need to be evaluated in the Trait class.
         const traitEffects: Array<Effect> = [];
 
-        this.get_ActivatedTraits().forEach(activation => {
+        this.activatedTraitsActivations().forEach(activation => {
             const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
 
             traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Attack']));
@@ -888,7 +888,7 @@ export class Weapon extends Equipment {
             //For any activated traits of this weapon, check if any effects on Dice Number apply. These need to be calculated in the effects service.
             const traitEffects = [];
 
-            this.get_ActivatedTraits().forEach(activation => {
+            this.activatedTraitsActivations().forEach(activation => {
                 const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
 
                 traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Dice Number']));
@@ -961,7 +961,7 @@ export class Weapon extends Equipment {
             //For any activated traits of this weapon, check if any effects on Dice Size apply. These need to be calculated in the effects service.
             const traitEffects = [];
 
-            this.get_ActivatedTraits().forEach(activation => {
+            this.activatedTraitsActivations().forEach(activation => {
                 const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
 
                 traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Dice Size']));
@@ -1191,7 +1191,7 @@ export class Weapon extends Equipment {
             //For any activated traits of this weapon, check if any effects on Dice Size apply. These need to be calculated in the effects service.
             const traitEffects = [];
 
-            this.get_ActivatedTraits().forEach(activation => {
+            this.activatedTraitsActivations().forEach(activation => {
                 const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
 
                 traitEffects.push(...realTrait.get_ObjectEffects(activation, ['Damage per Die']));

@@ -14,7 +14,7 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Hint } from 'src/app/classes/Hint';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { CharacterService } from '../services/character.service';
-import { CreatureUtils } from '../core/util/creatureUtils';
+import { CreatureSizeName } from '../../libs/shared/util/creatureUtils';
 
 export interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;
@@ -71,7 +71,7 @@ export class Creature {
         if (options.asNumber) {
             return size;
         } else {
-            return CreatureUtils.creatureSizeName(size);
+            return CreatureSizeName(size);
         }
     }
     //Other implementations require characterService.

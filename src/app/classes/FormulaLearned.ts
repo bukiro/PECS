@@ -3,7 +3,7 @@ export class FormulaLearned {
     public source = '';
     public snareSpecialistPrepared = 0;
     public snareSpecialistAvailable = 0;
-    recast() {
+    public recast(): FormulaLearned {
         return this;
     }
 }

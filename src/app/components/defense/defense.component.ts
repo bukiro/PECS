@@ -205,7 +205,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public get_HeightenedHint(hint: Hint): string {
-        return hint.get_Heightened(hint.desc, this.get_Character().level);
+        return hint.heightenedText(hint.desc, this.get_Character().level);
     }
 
     public get_EquippedShield(): Array<Shield> {

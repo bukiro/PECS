@@ -1,5 +1,6 @@
 export class FormulaChoice {
-    recast() {
+    //FormulaChoice is going to become relevant with the Alchemist.
+    public recast(): FormulaChoice {
         return this;
     }
 }

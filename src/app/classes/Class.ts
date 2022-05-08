@@ -19,7 +19,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { TypeService } from 'src/app/services/type.service';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { AdditionalHeritage } from './AdditionalHeritage';
-import { Defaults } from '../core/definitions/defaults';
+import { Defaults } from '../../libs/shared/definitions/defaults';
 
 export class Class {
     public disabled = '';

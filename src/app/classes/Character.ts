@@ -29,9 +29,9 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TypeService } from 'src/app/services/type.service';
 import { Hint } from 'src/app/classes/Hint';
-import { SkillLevels } from '../core/definitions/skillLevels';
+import { SkillLevels } from '../../libs/shared/definitions/skillLevels';
 import { SpellLearned } from './SpellLearned';
-import { Defaults } from '../core/definitions/defaults';
+import { Defaults } from '../../libs/shared/definitions/defaults';
 
 export class Character extends Creature {
     public readonly type = 'Character';

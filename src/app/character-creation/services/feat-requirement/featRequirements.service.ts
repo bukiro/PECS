@@ -10,7 +10,7 @@ import { Skill } from 'src/app/classes/Skill';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatRequirements } from '../../definitions/models/featRequirements';
 import { FeatChoice } from '../../definitions/models/FeatChoice';
-import { SkillLevels } from 'src/app/core/definitions/skillLevels';
+import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 
 @Injectable({
     providedIn: 'root',

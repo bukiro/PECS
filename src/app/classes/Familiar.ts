@@ -6,8 +6,8 @@ import { Hint } from 'src/app/classes/Hint';
 import { ItemsService } from 'src/app/services/items.service';
 import { Skill } from 'src/app/classes/Skill';
 import { TypeService } from 'src/app/services/type.service';
-import { Defaults } from '../core/definitions/defaults';
-import { CreatureSizes } from '../core/definitions/creatureSizes';
+import { Defaults } from '../../libs/shared/definitions/defaults';
+import { CreatureSizes } from '../../libs/shared/definitions/creatureSizes';
 
 export class Familiar extends Creature {
     public readonly type = 'Familiar';

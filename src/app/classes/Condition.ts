@@ -15,8 +15,8 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ConditionDuration } from 'src/app/classes/ConditionDuration';
 import { Creature } from 'src/app/classes/Creature';
-import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
+import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
 
 interface ConditionEnd {
     name: string;
@@ -395,35 +395,7 @@ export class Condition {
 
         return itemGains;
     }
-    public heightenedDescriptionSet(levelNumber: number): HeightenedDescSet {
-        //This descends from levelnumber downwards and returns the first description set with a matching level.
-        //A description set contains variable names and the text to replace them with.
-        if (this.heightenedDescs.length) {
-            let levelNumberToTry = levelNumber;
-
-            for (levelNumberToTry; levelNumberToTry > 0; levelNumberToTry--) {
-                const foundDescSet = this.heightenedDescs.find(descSet => descSet.level === levelNumberToTry);
-
-                if (foundDescSet) {
-                    return foundDescSet;
-                }
-            }
-        }
-
-        //Fallback if nothing is found: a blank HeightenedDescSet.
-        return new HeightenedDescSet();
-    }
     public heightenedText(text: string, levelNumber: number): string {
-        // For an arbitrary text (usually the condition description),
-        // retrieve the appropriate description set for this level and replace the variables with the included strings.
-        let heightenedText = text;
-
-        this.heightenedDescriptionSet(levelNumber).descs.forEach((descVar: HeightenedDesc) => {
-            const regex = new RegExp(descVar.variable, 'g');
-
-            heightenedText = heightenedText.replace(regex, (descVar.value || ''));
-        });
-
-        return heightenedText;
+        return heightenedTextFromDescSets(text, levelNumber, this.heightenedDescs);
     }
 }

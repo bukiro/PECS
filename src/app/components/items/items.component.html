@@ -370,7 +370,7 @@
                                                                     <app-gridIcon [updateId]="itemParameters.item.id"
                                                                         [ngClass]="{'fancy-button':get_ShowPurpose()==='formulas' && get_ShowCreature()==='Character' && get_FormulasLearned(itemParameters.item.id).length, 'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
                                                                         [ngbTooltip]="ItemTooltipTemplate"
-                                                                        [title]="itemParameters.item.get_IconTitle()"
+                                                                        [title]="itemParameters.item.gridIconTitle()"
                                                                         [superTitle]="itemParameters.stack > 1 ? itemParameters.stack.toString() : ''"
                                                                         [detail]="'noparse|' + (itemParameters.item.traits.includes('Rare') ? 'R' : (itemParameters.item.traits.includes('Uncommon') ? 'U' : (itemParameters.item.traits.includes('Unique') ? 'Q' : ''))) + (itemParameters.item.level ? itemParameters.item.level.toString() : '')"
                                                                         [item]="itemParameters.item" [itemStore]="true">

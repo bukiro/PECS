@@ -1,4 +1,4 @@
-import { TimePeriods } from '../core/definitions/timePeriods';
+import { TimePeriods } from '../../libs/shared/definitions/timePeriods';
 
 export class BloodMagic {
     public condition = '';

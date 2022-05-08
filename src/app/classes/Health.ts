@@ -3,26 +3,36 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 
+interface CalculatedHealth {
+    maxHP: { result: number; explain: string };
+    currentHP: { result: number; explain: string };
+    wounded: number;
+    dying: number;
+    maxDying: number;
+}
+
 export class Health {
     public damage = 0;
     public temporaryHP: Array<{ amount: number; source: string; sourceId: string }> = [{ amount: 0, source: '', sourceId: '' }];
     public manualWounded = 0;
     public manualDying = 0;
-    recast() {
+    public recast(): Health {
         return this;
     }
-    calculate(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
-        const result = {
+    public calculate(creature: Creature, characterService: CharacterService, effectsService: EffectsService): CalculatedHealth {
+        return {
             maxHP: this.maxHP(creature, characterService, effectsService),
             currentHP: this.currentHP(creature, characterService, effectsService),
             wounded: this.wounded(creature, characterService),
             dying: this.dying(creature, characterService),
             maxDying: this.maxDying(creature, effectsService),
         };
-
-        return result;
     }
-    maxHP(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
+    public maxHP(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService,
+    ): { result: number; explain: string } {
         const baseHP = creature.baseHP({ characterService });
         let effectsSum = 0;
 
@@ -39,7 +49,11 @@ export class Health {
 
         return baseHP;
     }
-    currentHP(creature: Creature, characterService: CharacterService, effectsService: EffectsService) {
+    public currentHP(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService,
+    ): { result: number; explain: string } {
         const maxHP = this.maxHP(creature, characterService, effectsService);
         let sum = maxHP.result + this.temporaryHP[0].amount - this.damage;
         let explain = `Max HP: ${ maxHP.result }`;
@@ -61,7 +75,7 @@ export class Health {
 
         return { result: sum, explain };
     }
-    wounded(creature: Creature, characterService: CharacterService) {
+    public wounded(creature: Creature, characterService: CharacterService): number {
         let woundeds = 0;
         const conditions = characterService.get_AppliedConditions(creature, 'Wounded');
 
@@ -71,7 +85,7 @@ export class Health {
 
         return Math.max(woundeds, 0);
     }
-    dying(creature: Creature, characterService: CharacterService) {
+    public dying(creature: Creature, characterService: CharacterService): number {
         let dying = 0;
         const conditions = characterService.get_AppliedConditions(creature, 'Dying');
 
@@ -81,7 +95,7 @@ export class Health {
 
         return Math.max(dying, 0);
     }
-    maxDying(creature: Creature, effectsService: EffectsService) {
+    public maxDying(creature: Creature, effectsService: EffectsService): number {
         const defaultMaxDying = 4;
         let effectsSum = 0;
 
@@ -94,7 +108,15 @@ export class Health {
 
         return defaultMaxDying + effectsSum;
     }
-    takeDamage(creature: Creature, characterService: CharacterService, effectsService: EffectsService, amount: number, nonlethal = false, wounded: number = this.wounded(creature, characterService), dying: number = this.dying(creature, characterService)) {
+    public takeDamage(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService,
+        amount: number,
+        nonlethal = false,
+        wounded: number = this.wounded(creature, characterService),
+        dying: number = this.dying(creature, characterService),
+    ): { dyingAddedAmount: number; hasAddedUnconscious: boolean; hasRemovedUnconscious: boolean } {
         //First, absorb damage with temporary HP and add the rest to this.damage.
         //Reset temp HP if it has reached 0, and remove other options if you are starting to use up your first amount of temp HP.
         const diff = Math.min(this.temporaryHP[0].amount, amount);
@@ -111,53 +133,77 @@ export class Health {
         this.damage += remainingAmount;
 
         const currentHP = this.currentHP(creature, characterService, effectsService).result;
-        let dyingAdded = 0;
-        let unconsciousAdded = false;
-        let wokeUp = false;
+        let dyingAddedAmount = 0;
+        let hasAddedUnconscious = false;
+        let hasRemovedUnconscious = false;
 
         //Don't process conditions in manual mode.
         if (!characterService.get_ManualMode()) {
             //Then, if you have reached 0 HP with lethal damage, get dying 1+wounded
             //Dying and maxDying are compared in the Conditions service when Dying is added
-            if (!nonlethal && currentHP == 0) {
-                if (dying == 0) {
-                    if (!characterService.get_AppliedConditions(creature, 'Unconscious', '0 Hit Points').length && !characterService.get_AppliedConditions(creature, 'Unconscious', 'Dying').length) {
-                        dyingAdded = wounded + 1;
-                        characterService.add_Condition(creature, Object.assign(new ConditionGain(), { name: 'Dying', value: wounded + 1, source: '0 Hit Points' }), {}, { noReload: true });
+            if (!nonlethal && currentHP === 0) {
+                if (dying === 0) {
+                    if (
+                        !characterService.get_AppliedConditions(creature, 'Unconscious', '0 Hit Points').length &&
+                        !characterService.get_AppliedConditions(creature, 'Unconscious', 'Dying').length
+                    ) {
+                        dyingAddedAmount = wounded + 1;
+                        characterService.add_Condition(
+                            creature,
+                            Object.assign(new ConditionGain(), { name: 'Dying', value: wounded + 1, source: '0 Hit Points' }),
+                            {},
+                            { noReload: true },
+                        );
                     }
                 }
             }
 
-            if (nonlethal && currentHP == 0) {
-                if (!characterService.get_AppliedConditions(creature, 'Unconscious', '0 Hit Points').length && !characterService.get_AppliedConditions(creature, 'Unconscious', 'Dying').length) {
-                    unconsciousAdded = true;
-                    characterService.add_Condition(creature, Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' }), {}, { noReload: true });
+            if (nonlethal && currentHP === 0) {
+                if (
+                    !characterService.get_AppliedConditions(creature, 'Unconscious', '0 Hit Points').length &&
+                    !characterService.get_AppliedConditions(creature, 'Unconscious', 'Dying').length
+                ) {
+                    hasAddedUnconscious = true;
+                    characterService.add_Condition(
+                        creature,
+                        Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' }),
+                        {},
+                        { noReload: true },
+                    );
                 }
             }
 
             //Wake up if you are unconscious and take damage (without falling under 1 HP)
             if (currentHP > 0) {
                 characterService.get_AppliedConditions(creature, 'Unconscious').forEach(gain => {
-                    wokeUp = true;
+                    hasRemovedUnconscious = true;
                     characterService.remove_Condition(creature, gain, false);
                 });
             }
         }
 
-        return { dyingAdded, unconsciousAdded, wokeUp };
+        return { dyingAddedAmount, hasAddedUnconscious, hasRemovedUnconscious };
     }
-    heal(creature: Creature, characterService: CharacterService, effectsService: EffectsService, amount: number, wake = true, increaseWounded = true, dying: number = this.dying(creature, characterService)) {
+    public heal(
+        creature: Creature,
+        characterService: CharacterService,
+        effectsService: EffectsService,
+        amount: number,
+        wake = true,
+        increaseWounded = true,
+        dying: number = this.dying(creature, characterService),
+    ): { hasRemovedDying: boolean; hasRemovedUnconscious: boolean } {
         this.damage = Math.max(0, this.damage - amount);
 
-        let dyingRemoved = false;
-        let unconsciousRemoved = false;
+        let hasRemovedDying = false;
+        let hasRemovedUnconscious = false;
 
         //Don't process conditions in manual mode.
         if (!characterService.get_ManualMode()) {
             //Recover from Dying and get Wounded++
             if (this.currentHP(creature, characterService, effectsService).result > 0 && dying > 0) {
                 characterService.get_AppliedConditions(creature, 'Dying').forEach(gain => {
-                    dyingRemoved = true;
+                    hasRemovedDying = true;
                     characterService.remove_Condition(creature, gain, false, increaseWounded);
                 });
             }
@@ -165,16 +211,16 @@ export class Health {
             //Wake up from Healing
             if (wake) {
                 characterService.get_AppliedConditions(creature, 'Unconscious', '0 Hit Points').forEach(gain => {
-                    unconsciousRemoved = true;
+                    hasRemovedUnconscious = true;
                     characterService.remove_Condition(creature, gain);
                 });
                 characterService.get_AppliedConditions(creature, 'Unconscious', 'Dying').forEach(gain => {
-                    unconsciousRemoved = true;
+                    hasRemovedUnconscious = true;
                     characterService.remove_Condition(creature, gain, false);
                 });
             }
         }
 
-        return { dyingRemoved, unconsciousRemoved };
+        return { hasRemovedDying, hasRemovedUnconscious };
     }
 }

@@ -160,7 +160,7 @@ export class Equipment extends Item {
 
         return this;
     }
-    public iconValue(): string {
+    public gridIconValue(): string {
         const parts: Array<string> = [];
 
         if (this.subType) {

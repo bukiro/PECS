@@ -135,7 +135,7 @@
                                                             <app-gridIcon [ngClass]="{'fancy-button':preparedAmount}"
                                                                 [ngbTooltip]="(preparedAmount ? preparedAmount + ' ' : '') + item.get_Name({itemStore:true}) + (item.level ? ' (Level ' + item.level + ')' : '')"
                                                                 [subTitle]="preparedAmount.toString()"
-                                                                [title]="item.get_IconTitle()"
+                                                                [title]="item.gridIconTitle()"
                                                                 [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level || '')"
                                                                 [item]="item">
                                                             </app-gridIcon>
@@ -291,7 +291,7 @@
                                                         <app-gridIcon [updateId]="itemParameters.item.id"
                                                             [ngClass]="{'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
                                                             [ngbTooltip]="ItemTooltipTemplate"
-                                                            [title]="itemParameters.item.get_IconTitle()"
+                                                            [title]="itemParameters.item.gridIconTitle()"
                                                             [detail]="(itemParameters.item.traits.includes('Rare') ? 'R' : (itemParameters.item.traits.includes('Uncommon') ? 'U' : (itemParameters.item.traits.includes('Unique') ? 'Q' : ''))) + (itemParameters.item.level || '')"
                                                             [item]="itemParameters.item" [itemStore]="true">
                                                         </app-gridIcon>

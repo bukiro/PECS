@@ -468,8 +468,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
                 }
 
                 return value;
-            } else if (this.item.iconValue()) {
-                return this.item.iconValue();
+            } else if (this.item.gridIconValue()) {
+                return this.item.gridIconValue();
             }
         }
 

@@ -42,7 +42,7 @@ export class TraitComponent {
 
     get_ObjectTraitActivations() {
         if (this.item) {
-            this.item.cleanup_TraitActivations();
+            this.item.prepareTraitActivations();
 
             return this.item.traitActivations.filter(activation => activation.trait == this.trait.name || (this.trait.dynamic && activation.trait.includes(this.trait.name)));
         }

@@ -133,9 +133,9 @@ export class HintComponent {
     get_HeightenedHint(hint: Hint) {
         //Spell conditions have their hints heightened to their spell level, everything else is heightened to the character level.
         if (this.object instanceof ConditionSet && this.object.condition.minLevel) {
-            return hint.get_Heightened(hint.desc, this.object.gain.heightened);
+            return hint.heightenedText(hint.desc, this.object.gain.heightened);
         } else {
-            return hint.get_Heightened(hint.desc, this.characterService.get_Character().level);
+            return hint.heightenedText(hint.desc, this.characterService.get_Character().level);
         }
     }
 

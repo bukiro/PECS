@@ -13,7 +13,7 @@ import { ToastService } from 'src/app/services/toast.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Creature } from 'src/app/classes/Creature';
-import { TimePeriods } from '../core/definitions/timePeriods';
+import { TimePeriods } from '../../libs/shared/definitions/timePeriods';
 
 @Injectable({
     providedIn: 'root',
