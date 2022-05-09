@@ -5,4 +5,7 @@ export const Defaults: {
     startingGold: 15;
     wornToolsInventoryBulkLimit: 2;
     defaultFamiliarSpeed: 25;
+    playerMessageTTL: 600;
+    foundryMessageTTL: 500;
+    colorAccent: '#465A8C';
 };

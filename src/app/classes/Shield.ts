@@ -8,37 +8,54 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
 import { TypeService } from 'src/app/services/type.service';
 
+enum ShoddyPenalties {
+    NotShoddy = 0,
+    Shoddy = -2,
+}
+
+const shieldAllyBonus = 2;
+const emblazonArmamentBonus = 1;
+
 export class Shield extends Equipment {
     //Shields should be type "shields" to be found in the database
-    readonly type = 'shields';
+    public readonly type = 'shields';
     //Shields are usually moddable, which means they get material but no runes.
-    moddable = true;
-    //The shield's AC bonus received when raising it.
+    public moddable = true;
+    /** The shield's AC bonus received when raising it. */
     public acbonus = 0;
-    //Is the shield currently raised in order to deflect damage?
+    /** Is the shield currently raised in order to deflect damage? */
     public raised = false;
-    //The penalty to all speeds while equipping this shield.
+    /** The penalty to all speeds while equipping this shield. */
     public speedpenalty = 0;
-    //Are you currently taking cover behind the shield?
+    /** Are you currently taking cover behind the shield? */
     public takingCover = false;
     public brokenThreshold = 0;
-    //Allow taking cover behind the shield when it is raised.
+    /** Allow taking cover behind the shield when it is raised. */
     public coverbonus = false;
     public damage = 0;
     public hardness = 0;
     public hitpoints = 0;
-    //What kind of shield is this based on?
+    /** What kind of shield is this based on? */
     public shieldBase = '';
     public $shieldAlly = false;
-    //A Cleric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
-    // Subsequent feats can change options and restrictions of the functionality.
-    public emblazonArmament: Array<{ type: string; choice: string; deity: string; alignment: string; emblazonDivinity: boolean; source: string }> = [];
+    /**
+     * A Cleric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
+     * Subsequent feats can change options and restrictions of the functionality.
+     */
+    public emblazonArmament: Array<{
+        type: string;
+        choice: string;
+        deity: string;
+        alignment: string;
+        emblazonDivinity: boolean;
+        source: string;
+    }> = [];
     public $emblazonArmament = false;
     public $emblazonEnergy = false;
     public $emblazonAntimagic = false;
-    //Shoddy shields take a -2 penalty to AC.
-    public $shoddy: 0 | -2 = 0;
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    /** Shoddy shields take a -2 penalty to AC. */
+    public $shoddy: ShoddyPenalties.NotShoddy | ShoddyPenalties.Shoddy = ShoddyPenalties.NotShoddy;
+    public recast(typeService: TypeService, itemsService: ItemsService): Shield {
         super.recast(typeService, itemsService);
         this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
 
@@ -46,7 +63,7 @@ export class Shield extends Equipment {
     }
     //Other implementations require itemsService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    effectivePrice(itemsService: ItemsService) {
+    public effectivePrice(itemsService: ItemsService): number {
         let price = this.price;
 
         this.material.forEach(mat => {
@@ -60,49 +77,103 @@ export class Shield extends Equipment {
 
         return price;
     }
-    update_Modifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }) {
+    public updateModifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }): void {
         //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
         //Set components to update if these values have changed from before.
         const oldValues = [this.$shoddy, this.$shieldAlly, this.$emblazonArmament, this.$emblazonEnergy, this.$emblazonAntimagic];
 
-        this.get_Shoddy(creature, services.characterService);
-        this.get_ShieldAlly(creature, services.characterService);
-        this.get_EmblazonArmament(creature, services.characterService);
+        this._effectiveShoddy(creature, services.characterService);
+        this._shieldAllyActive(creature, services.characterService);
+        this._emblazonArmamentActive(creature, services.characterService);
 
         const newValues = [this.$shoddy, this.$shieldAlly, this.$emblazonArmament, this.$emblazonEnergy, this.$emblazonAntimagic];
 
-        if (oldValues.some((previous, index) => previous != newValues[index])) {
+        if (oldValues.some((previous, index) => previous !== newValues[index])) {
             services.refreshService.set_ToChange(creature.type, this.id);
             services.refreshService.set_ToChange(creature.type, 'defense');
             services.refreshService.set_ToChange(creature.type, 'inventory');
         }
     }
-    get_Shoddy(creature: Creature, characterService: CharacterService) {
+    public effectiveHardness(): number {
+        let hardness = this.hardness;
+
+        this.material.forEach((material: ShieldMaterial) => {
+            hardness = material.hardness;
+        });
+
+        return hardness + (this.$shieldAlly ? shieldAllyBonus : 0) + (this.$emblazonArmament ? emblazonArmamentBonus : 0);
+    }
+    public effectiveMaxHP(): number {
+        const half = .5;
+        let hitpoints = this.hitpoints;
+
+        this.material.forEach((material: ShieldMaterial) => {
+            hitpoints = material.hitpoints;
+        });
+
+        return hitpoints + (this.$shieldAlly ? (Math.floor(hitpoints * half)) : 0);
+    }
+    public effectiveBrokenThreshold(): number {
+        const half = .5;
+        let brokenThreshold = this.brokenThreshold;
+
+        this.material.forEach((material: ShieldMaterial) => {
+            brokenThreshold = material.brokenThreshold;
+        });
+
+        return brokenThreshold + (this.$shieldAlly ? (Math.floor(brokenThreshold * half)) : 0);
+    }
+    public effectiveACBonus(): number {
+        return this.acbonus;
+    }
+    public currentHitPoints(): number {
+        this.damage = Math.max(Math.min(this.effectiveMaxHP(), this.damage), 0);
+
+        const hitpoints: number = this.effectiveMaxHP() - this.damage;
+
+        if (hitpoints < this.effectiveBrokenThreshold()) {
+            this.broken = true;
+        }
+
+        return hitpoints;
+    }
+    public effectiveSpeedPenalty(): number {
+        return this.speedpenalty;
+    }
+    public effectsGenerationHints(): Array<HintEffectsObject> {
+        return super.effectsGenerationHints()
+            .concat(...this.propertyRunes.map(rune => rune.effectsGenerationHints()));
+    }
+    private _effectiveShoddy(creature: Creature, characterService: CharacterService): number {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
-            this.$shoddy = 0;
-
-            return 0;
+            this.$shoddy = ShoddyPenalties.NotShoddy;
         } else if (this.shoddy) {
-            this.$shoddy = -2;
-
-            return -2;
+            this.$shoddy = ShoddyPenalties.Shoddy;
         } else {
-            this.$shoddy = 0;
-
-            return 0;
+            this.$shoddy = ShoddyPenalties.NotShoddy;
         }
+
+        return this.$shoddy;
     }
-    get_ShieldAlly(creature: Creature, characterService: CharacterService) {
-        this.$shieldAlly = this.equipped && (characterService.get_CharacterFeatsAndFeatures('Divine Ally: Shield Ally')[0]?.have({ creature }, { characterService }) && true);
+    private _shieldAllyActive(creature: Creature, characterService: CharacterService): boolean {
+        this.$shieldAlly =
+            this.equipped &&
+            !!characterService.get_CharacterFeatsAndFeatures('Divine Ally: Shield Ally')[0]?.have({ creature }, { characterService });
 
         return this.$shieldAlly;
     }
-    get_EmblazonArmament(creature: Creature, characterService: CharacterService) {
+    private _emblazonArmamentActive(creature: Creature, characterService: CharacterService): boolean {
         this.$emblazonArmament = false;
         this.$emblazonEnergy = false;
         this.emblazonArmament.forEach(ea => {
-            if (ea.emblazonDivinity || (creature instanceof Character && characterService.get_CharacterDeities(creature).some(deity => deity.name.toLowerCase() == ea.deity.toLowerCase()))) {
+            if (
+                ea.emblazonDivinity ||
+                (
+                    creature instanceof Character &&
+                    characterService.get_CharacterDeities(creature).some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
+                )
+            ) {
                 switch (ea.type) {
                     case 'emblazonArmament':
                         this.$emblazonArmament = true;
@@ -113,59 +184,11 @@ export class Shield extends Equipment {
                     case 'emblazonAntimagic':
                         this.$emblazonAntimagic = true;
                         break;
+                    default: break;
                 }
             }
         });
 
         return this.$emblazonArmament || this.$emblazonEnergy || this.$emblazonAntimagic;
-    }
-    get_Hardness() {
-        let hardness = this.hardness;
-
-        this.material.forEach((material: ShieldMaterial) => {
-            hardness = material.hardness;
-        });
-
-        return hardness + (this.$shieldAlly ? 2 : 0) + (this.$emblazonArmament ? 1 : 0);
-    }
-    get_MaxHP() {
-        let hitpoints = this.hitpoints;
-
-        this.material.forEach((material: ShieldMaterial) => {
-            hitpoints = material.hitpoints;
-        });
-
-        return hitpoints + (this.$shieldAlly ? (Math.floor(hitpoints / 2)) : 0);
-    }
-    get_BrokenThreshold() {
-        let brokenThreshold = this.brokenThreshold;
-
-        this.material.forEach((material: ShieldMaterial) => {
-            brokenThreshold = material.brokenThreshold;
-        });
-
-        return brokenThreshold + (this.$shieldAlly ? (Math.floor(brokenThreshold / 2)) : 0);
-    }
-    get_ACBonus() {
-        return this.acbonus;
-    }
-    get_HitPoints() {
-        this.damage = Math.max(Math.min(this.get_MaxHP(), this.damage), 0);
-
-        const hitpoints: number = this.get_MaxHP() - this.damage;
-
-        if (hitpoints < this.get_BrokenThreshold()) {
-            this.broken = true;
-        }
-
-        return hitpoints;
-    }
-    get_SpeedPenalty() {
-        //The function is needed for compatibility with other equipment.
-        return this.speedpenalty;
-    }
-    effectsGenerationHints(): Array<HintEffectsObject> {
-        return super.effectsGenerationHints()
-            .concat(...this.propertyRunes.map(rune => rune.effectsGenerationHints()));
     }
 }

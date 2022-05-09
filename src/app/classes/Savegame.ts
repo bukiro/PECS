@@ -1,18 +1,18 @@
 export class Savegame {
-    name = 'Unnamed';
-    id: string;
-    dbId: string;
-    class: string;
-    classChoice: string;
-    heritage: string;
-    ancestry: string;
-    level: number;
-    partyName: string;
-    companionName: string;
-    companionId: string;
-    familiarName: string;
-    familiarId: string;
-    recast() {
+    public name = 'Unnamed';
+    public id: string;
+    public dbId: string;
+    public class: string;
+    public classChoice: string;
+    public heritage: string;
+    public ancestry: string;
+    public level: number;
+    public partyName: string;
+    public companionName: string;
+    public companionId: string;
+    public familiarName: string;
+    public familiarId: string;
+    public recast(): Savegame {
         return this;
     }
 }

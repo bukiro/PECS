@@ -10,7 +10,7 @@ export class LoreChoice extends SkillChoice {
     public loreName = '';
     public maxRank = 0;
     public source = '';
-    recast() {
+    public recast(): LoreChoice {
         super.recast();
 
         return this;

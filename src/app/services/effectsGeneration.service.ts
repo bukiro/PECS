@@ -518,7 +518,7 @@ export class EffectsGenerationService {
         }
 
         if (shieldBonusApplies()) {
-            const shieldBonus = shield.get_ACBonus();
+            const shieldBonus = shield.effectiveACBonus();
 
             if (shieldBonus) {
                 add_Effect({ type: 'circumstance', target: 'AC', value: `+${ shieldBonus }`, source: name, penalty: false, apply: undefined });
@@ -938,7 +938,7 @@ export class EffectsGenerationService {
         //We update weapons even though they don't generate effects with these modifiers, because this is a good spot to keep them up to date.
         creature.inventories.forEach(inv => {
             inv.shields.forEach(shield => {
-                shield.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
+                shield.updateModifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
             });
             inv.weapons.forEach(weapon => {
                 weapon.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });

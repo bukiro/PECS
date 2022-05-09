@@ -75,10 +75,10 @@ export class Bulk {
         inventories.forEach(inventory => {
             const decimal = 10;
             //To avoid decimal issues, the bulk is rounded to one decimal.
-            const bulk = Math.floor(Math.max(0, inventory.get_Bulk(false, true)) * decimal) / decimal;
+            const bulk = Math.floor(Math.max(0, inventory.totalBulk(false, true)) * decimal) / decimal;
 
             result.value += bulk;
-            result.explain += `\n${ inventory.get_Name(characterService) }: ${ bulk }`;
+            result.explain += `\n${ inventory.effectiveName(characterService) }: ${ bulk }`;
         });
         absolutes.forEach(effect => {
             result.value = parseInt(effect.setValue, 10);

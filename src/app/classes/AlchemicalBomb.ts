@@ -19,7 +19,7 @@ export class AlchemicalBomb extends Weapon {
     public effectiveName(): string {
         return this.displayName || this.name;
     }
-    public recast(typeService: TypeService, itemsService: ItemsService): Weapon {
+    public recast(typeService: TypeService, itemsService: ItemsService): AlchemicalBomb {
         super.recast(typeService, itemsService);
 
         return this;

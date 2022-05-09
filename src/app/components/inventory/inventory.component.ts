@@ -552,7 +552,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_InventoryName(inventory: ItemCollection) {
-        return inventory.get_Name(this.characterService);
+        return inventory.effectiveName(this.characterService);
     }
 
     public on_SpellItemUse(item: Item, creature: string, inventory: ItemCollection): void {
@@ -832,7 +832,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             this.refreshService.set_ToChange(this.creature, 'defense');
         }
 
-        if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
+        if (shield.currentHitPoints() < shield.effectiveBrokenThreshold()) {
             shield.broken = true;
             this.onItemBroken(shield);
         } else {
@@ -845,7 +845,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     get_RepairAllowed(item: Equipment) {
         if (item.broken && item instanceof Shield) {
-            if (item.get_HitPoints() < item.get_BrokenThreshold()) {
+            if (item.currentHitPoints() < item.effectiveBrokenThreshold()) {
                 return false;
             }
         }

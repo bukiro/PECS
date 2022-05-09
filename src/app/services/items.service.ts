@@ -440,7 +440,7 @@ export class ItemsService {
 
         //If the item adds an inventory, add the sum bulk of that inventory, unless it's the target inventory. The item will not be moved into the inventory in that case (handled during the move).
         if ((item as Equipment).gainInventory) {
-            bulk += creature.inventories.find(inventory => inventory !== targetInventory && inventory.itemId == item.id)?.get_Bulk(false, true) || 0;
+            bulk += creature.inventories.find(inventory => inventory !== targetInventory && inventory.itemId == item.id)?.totalBulk(false, true) || 0;
         }
 
         //Remove ugly decimal errors
@@ -624,7 +624,7 @@ export class ItemsService {
                 const itemBulk = this.get_RealBulk(item, { carrying: true, amount: options.amount }) * 10;
                 const containedBulk = this.get_ContainedBulk(creature, item, target, options.including) * 10;
 
-                return ((target.get_Bulk(false) * 10) + itemBulk + containedBulk > bulkLimit);
+                return ((target.totalBulk(false) * 10) + itemBulk + containedBulk > bulkLimit);
             }
         }
 

@@ -8,13 +8,13 @@ import { Item } from './Item';
 
 export class Oil extends Consumable {
     //Oils should be type "oils" to be found in the database
-    readonly type = 'oils';
+    public readonly type = 'oils';
     public castSpells: Array<SpellCast> = [];
     public critfailure = '';
     public critsuccess = '';
-    //Can only be applied to a weapon with this damage type (or modular)
+    /** Can only be applied to a weapon with this damage type (or modular). */
     public damagereq = '';
-    //Duration is in turns * 10. The Oil is removed after the duration expires.
+    /** Duration is in turns * 10. The Oil is removed after the duration expires. */
     public duration = 0;
     public failure = '';
     public hints: Array<Hint> = [];
@@ -22,19 +22,27 @@ export class Oil extends Consumable {
     public potencyEffect = 0;
     public strikingEffect = 0;
     public resilientEffect = 0;
-    //If this is "melee" or "ranged", you can only apply it to a weapon that has a value in that property.
+    /** If this is "melee" or "ranged", you can only apply it to a weapon that has a value in that property. */
     public rangereq = '';
-    //The rune with this name will be loaded into the oil at initialization, and its effects will be applied on a weapon to which the oil is applied.
+    /**
+     * The rune with this name will be loaded into the oil at initialization,
+     * and its effects will be applied on a weapon to which the oil is applied.
+     */
     public runeEffect: WeaponRune = null;
     public success = '';
-    //You can only choose this oil for an item if its type or "items" is in the targets list
+    /** You can only choose this oil for an item if its type or "items" is in the targets list */
     public targets: Array<string> = [];
     public weightLimit = 0;
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    public recast(typeService: TypeService, itemsService: ItemsService): Oil {
         super.recast(typeService, itemsService);
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
-        this.runeEffect = this.runeEffect ? Object.assign<WeaponRune, Item>(new WeaponRune(), typeService.restoreItem(this.runeEffect, itemsService)).recast(typeService, itemsService) : null;
+        this.runeEffect = this.runeEffect
+            ? Object.assign<WeaponRune, Item>(
+                new WeaponRune(),
+                typeService.restoreItem(this.runeEffect, itemsService),
+            ).recast(typeService, itemsService)
+            : null;
 
         return this;
     }

@@ -215,7 +215,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     public on_ShieldHPChange(shield: Shield, amount: number): void {
         shield.damage += amount;
 
-        if (shield.get_HitPoints() < shield.get_BrokenThreshold()) {
+        if (shield.currentHitPoints() < shield.effectiveBrokenThreshold()) {
             shield.broken = true;
             this.characterService.on_Equip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], shield, false, false, true);
             this.toastService.show('Your shield broke and was unequipped.');

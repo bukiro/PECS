@@ -134,7 +134,7 @@ export class Armor extends Equipment {
         const oldValues = [this.$affectedByArmoredSkirt, this.$shoddy];
 
         this.armoredSkirt(creature as AnimalCompanion | Character);
-        this.effectiveShoddy((creature as AnimalCompanion | Character), services.characterService);
+        this._effectiveShoddy((creature as AnimalCompanion | Character), services.characterService);
 
         const newValues = [this.$affectedByArmoredSkirt, this.$shoddy];
 
@@ -178,18 +178,6 @@ export class Armor extends Equipment {
 
             return null;
         }
-    }
-    public effectiveShoddy(creature: Creature, characterService: CharacterService): number {
-        //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
-            this.$shoddy = ShoddyPenalties.NotShoddy;
-        } else if (this.shoddy) {
-            this.$shoddy = ShoddyPenalties.Shoddy;
-        } else {
-            this.$shoddy = ShoddyPenalties.NotShoddy;
-        }
-
-        return this.$shoddy;
     }
     public effectiveACBonus(): number {
         return this.acbonus + this.$affectedByArmoredSkirt;
@@ -351,5 +339,17 @@ export class Armor extends Equipment {
     }
     protected _secondaryRuneName(): string {
         return this.resilientTitle(this.effectiveResilient());
+    }
+    private _effectiveShoddy(creature: Creature, characterService: CharacterService): number {
+        //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
+        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
+            this.$shoddy = ShoddyPenalties.NotShoddy;
+        } else if (this.shoddy) {
+            this.$shoddy = ShoddyPenalties.Shoddy;
+        } else {
+            this.$shoddy = ShoddyPenalties.NotShoddy;
+        }
+
+        return this.$shoddy;
     }
 }

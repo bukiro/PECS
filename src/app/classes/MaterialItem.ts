@@ -4,8 +4,8 @@ import { Item } from './Item';
 
 export class MaterialItem extends Item {
     //Material Items should be type "materialitems" to be found in the database
-    readonly type = 'materialitems';
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    public readonly type = 'materialitems';
+    public recast(typeService: TypeService, itemsService: ItemsService): MaterialItem {
         super.recast(typeService, itemsService);
 
         return this;

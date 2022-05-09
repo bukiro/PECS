@@ -152,8 +152,8 @@ export class ItemTargetComponent implements OnInit {
 
         if (item.gainInventory?.length) {
             found = this.get_Creature().inventories.filter(inv => inv.itemId == item.id).some(inv => inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
-                    inv.allEquipment().filter(invItem => invItem.gainInventory.length)
-                        .some(invItem => this.get_ItemContainsInventory(invItem, inventory)));
+                inv.allEquipment().filter(invItem => invItem.gainInventory.length)
+                    .some(invItem => this.get_ItemContainsInventory(invItem, inventory)));
         }
 
         return found;
@@ -194,12 +194,12 @@ export class ItemTargetComponent implements OnInit {
     }
 
     get_InventoryBulk() {
-        return this.get_Creature().inventories.find(inventory => inventory.itemId == this.item.id)?.get_Bulk() || 0;
+        return this.get_Creature().inventories.find(inventory => inventory.itemId == this.item.id)?.totalBulk() || 0;
     }
 
     get_ContainerBulk(target: ItemCollection | SpellTarget) {
         if (target instanceof ItemCollection && target.bulkLimit) {
-            return `(${ target.get_Bulk() } / ${ target.bulkLimit } Bulk)`;
+            return `(${ target.totalBulk() } / ${ target.bulkLimit } Bulk)`;
         } else {
             return '';
         }
@@ -219,7 +219,7 @@ export class ItemTargetComponent implements OnInit {
 
     get_TargetName(target: ItemCollection | SpellTarget) {
         if (target instanceof ItemCollection) {
-            return target.get_Name(this.characterService);
+            return target.effectiveName(this.characterService);
         } else {
             return target.name;
         }

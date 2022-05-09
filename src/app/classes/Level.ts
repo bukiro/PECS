@@ -9,7 +9,7 @@ export class Level {
     public loreChoices: Array<LoreChoice> = [];
     public number = 0;
     public skillChoices: Array<SkillChoice> = [];
-    recast() {
+    public recast(): Level {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.featChoices = this.featChoices.map(obj => Object.assign(new FeatChoice(), obj).recast());
         this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());

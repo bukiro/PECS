@@ -24,7 +24,7 @@ export class SkillChoice {
     public source = '';
     public type = '';
     public bonus = false;
-    recast() {
+    public recast(): SkillChoice {
         return this;
     }
 }

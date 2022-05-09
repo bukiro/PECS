@@ -4,7 +4,7 @@ export class ShieldMaterial extends Material {
     public hardness = 0;
     public hitpoints = 0;
     public brokenThreshold = 0;
-    recast() {
+    public recast(): ShieldMaterial {
         super.recast();
 
         return this;
