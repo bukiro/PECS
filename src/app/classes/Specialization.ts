@@ -7,7 +7,7 @@ export class Specialization {
     public hints: Array<Hint> = [];
     public name = '';
     public type = '';
-    recast() {
+    public recast(): Specialization {
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
 

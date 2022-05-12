@@ -5,6 +5,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Creature } from './Creature';
 import { Effect } from './Effect';
+import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 
 interface CalculatedAbility {
     absolutes: boolean;
@@ -135,22 +136,10 @@ export class Ability {
         if (creature instanceof Familiar) {
             return { result: 0, explain: '' };
         } else {
-            const value = this.value(creature, characterService, effectsService, charLevel);
-            const result: number = value.result;
-            /**
-             * Calculates the ability modifier from the effective ability in the usual d20 fashion:
-             * 0-1 => -5;
-             * 2-3 => -4;
-             * ...
-             * 10-11 => 0;
-             * 12-13 => 1;
-             * ...
-             * 20-21 => 5
-             * etc.
-             */
-            const baseline = 10;
-            const half = 0.5;
-            let modifier = Math.floor((result - baseline) * half);
+            const valueResult = this.value(creature, characterService, effectsService, charLevel);
+            const abilityValue: number = valueResult.result;
+
+            let modifier = AbilityModFromAbilityValue(abilityValue);
             let explain = `${ this.name } Modifier: ${ modifier }`;
 
             //Add active bonuses and penalties to the ability modifier

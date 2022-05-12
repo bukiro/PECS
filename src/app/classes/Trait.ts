@@ -4,34 +4,46 @@ import { Creature } from 'src/app/classes/Creature';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Effect } from 'src/app/classes/Effect';
 import { ActivityGain } from './ActivityGain';
+import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
 
 export class Trait {
     public desc = '';
-    //effectDesc describes how to use the trait's effects, if needed. Typically something like "Activate the first level for X and the second for Y".
+    /**
+     * effectDesc describes how to use the trait's effects, if needed.
+     * Typically something like "Activate the first level for X and the second for Y".
+     */
     public effectDesc = '';
     public dynamic = false;
-    public dynamicDefault = 6;
-    //Name any common activity that becomes available when you equip and invest an item with this trait.
+    public dynamicDefault = DiceSizes.D6;
+    /** Name any common activity that becomes available when you equip and invest an item with this trait. */
     public gainActivities: Array<ActivityGain> = [];
     public name = '';
     public hints: Array<Hint> = [];
-    //Object effects apply only to the object that is bearing this trait, and are evaluated within the object instead of the effects service.
-    // Whether they are activated or not is saved in the object and accessed with 'active' in calculations.
+    /**
+     * Object effects apply only to the object that is bearing this trait,
+     * and are evaluated within the object instead of the effects service.
+     * Whether they are activated or not is saved in the object and accessed with 'active' in calculations.
+     */
     public objectEffects: Array<EffectGain> = [];
-    //If extraActivations is 1 through 4, up to four more activation boxes are shown to control the object effects.
-    // Their state can be accessed with 'active2' through 'active5' in calculations.
+    /**
+     * If extraActivations is 1 through 4, up to four more activation boxes are shown to control the object effects.
+     * Their state can be accessed with 'active2' through 'active5' in calculations.
+     */
     public extraActivations = 0;
     public sourceBook = '';
-    recast() {
+    public recast(): Trait {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.objectEffects = this.objectEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
 
         return this;
     }
-    //Return all equipped items that have this trait, or alternatively only their names.
-    //Some trait instances have information after the trait name, so we allow traits that include this trait's name as long as this trait is dynamic.
-    haveOn(creature: Creature, namesOnly = false) {
+    /**
+     * Return all equipped items that have this trait, or alternatively only their names.
+     * Some trait instances have information after the trait name,
+     * so we allow traits that include this trait's name as long as this trait is dynamic.
+     */
+    public itemsWithThisTrait(creature: Creature, namesOnly = false): Array<Item> | Array<string> {
         const filteredItems: Array<Item> = [];
 
         creature.inventories.forEach(inventory => {
@@ -40,9 +52,9 @@ export class Trait {
                     item.equipped &&
                     item.$traits
                         .find(trait =>
-                            this.name == trait ||
+                            this.name.toLowerCase() === trait.toLowerCase() ||
                             (
-                                trait.includes(this.name) &&
+                                trait.toLowerCase().includes(this.name.toLowerCase()) &&
                                 this.dynamic
                             ),
                         ),
@@ -56,29 +68,40 @@ export class Trait {
             return filteredItems;
         }
     }
-    get_ObjectEffects(activation: { trait: string; active: boolean; active2: boolean; active3: boolean }, filter: Array<string> = []) {
-        //Collect all object effect gains of this hint that match the filter, and generate effects from them. This uses a similar process to EvaluationService.get_ValueFromFormula, but with very reduced options.
-        //Only active, active2, active3 and dynamicValue are available as variables, and no toggle or title effects will be produced. The resulting effects are very minimized, as only their value and setValue are required.
+    public objectBoundEffects(
+        activation: { trait: string; active: boolean; active2: boolean; active3: boolean },
+        filter: Array<string> = [],
+    ): Array<Effect> {
+        /**
+         * Collect all object effect gains of this hint that match the filter, and generate effects from them.
+         * This uses a similar process to EvaluationService.get_ValueFromFormula, but with very reduced options.
+         * Only active, active2, active3 and dynamicValue are available as variables, and no toggle or title effects will be produced.
+         * The resulting effects are very minimized, as only their value and setValue are required.
+         */
         if (this.objectEffects) {
             const effects = this.objectEffects.filter(effect => !filter.length || filter.includes(effect.affected));
 
             if (effects.length) {
                 const resultingEffects: Array<Effect> = [];
                 /* eslint-disable @typescript-eslint/no-unused-vars */
+                /* eslint-disable @typescript-eslint/naming-convention */
                 const active = activation.active;
                 const active2 = activation.active2;
                 const active3 = activation.active3;
-                const dynamicValue = this.get_DynamicValue(activation.trait);
+                const dynamicValue = this.dynamicValueAsNumber(activation.trait);
 
                 /* eslint-enable @typescript-eslint/no-unused-vars */
+                /* eslint-enable @typescript-eslint/naming-convention */
                 effects.forEach(effect => {
-                    const show: boolean = effect.show;
+                    const shouldBeDisplayed: boolean = effect.show;
                     let type = 'untyped';
-                    let penalty = false;
+                    let isPenaltyEffect = false;
                     let value = '0';
                     let setValue = '';
 
                     try {
+                        //TO-DO: replace eval with system similar to featrequirements
+                        // eslint-disable-next-line no-eval
                         value = eval(effect.value).toString();
 
                         if (parseInt(value, 10) > 0) {
@@ -90,13 +113,15 @@ export class Trait {
 
                     if (effect.setValue) {
                         try {
+                            //TO-DO: replace eval with system similar to featrequirements
+                            // eslint-disable-next-line no-eval
                             setValue = eval(effect.setValue).toString();
                         } catch (error) {
                             setValue = '';
                         }
                     }
 
-                    if ((!parseInt(value, 10) && !parseFloat(value, 10)) || parseFloat(value, 10) == Infinity) {
+                    if ((!parseInt(value, 10) && !parseFloat(value)) || parseFloat(value) === Infinity) {
                         value = '0';
                     }
 
@@ -105,10 +130,10 @@ export class Trait {
                     }
 
                     if (setValue) {
-                        penalty = false;
+                        isPenaltyEffect = false;
                         value = '0';
                     } else {
-                        penalty = (parseInt(value, 10) < 0) == (effect.affected != 'Bulk');
+                        isPenaltyEffect = (parseInt(value, 10) < 0) === (effect.affected !== 'Bulk');
                     }
 
                     //Effects can affect another creature. In that case, remove the notation and change the target.
@@ -116,8 +141,20 @@ export class Trait {
                     const affected: string = effect.affected;
 
                     //Effects that have no value get ignored.
-                    if (setValue || parseInt(value, 10) != 0) {
-                        resultingEffects.push(Object.assign(new Effect(value), { creature: target, type, target: affected, setValue, toggle: false, source: `conditional, ${ this.name }`, penalty, show }));
+                    if (setValue || parseInt(value, 10) !== 0) {
+                        resultingEffects.push(
+                            Object.assign(
+                                new Effect(value),
+                                {
+                                    creature: target,
+                                    type,
+                                    target: affected,
+                                    setValue,
+                                    toggle: false,
+                                    source: `conditional, ${ this.name }`,
+                                    penalty: isPenaltyEffect,
+                                    show: shouldBeDisplayed,
+                                }));
                     }
                 });
 
@@ -127,15 +164,16 @@ export class Trait {
 
         return [];
     }
-    get_DynamicValue(traitName: string) {
-        //Return the value of a dynamic trait, reduced to only the first number.
-        if (this.dynamic && traitName != this.name) {
+    public dynamicValueAsNumber(traitName: string): number {
+        // The dynamic value is usually a dice size.
+        // Return the value of a dynamic trait, reduced to only the first number.
+        if (this.dynamic && traitName.toLowerCase() !== this.name.toLowerCase()) {
             const value = traitName.replace(this.name, '').match(/(\d+)/)[0];
 
             if (value && !isNaN(parseInt(value, 10))) {
-                return value;
+                return parseInt(value, 10);
             }
-        } else if (this.dynamic && traitName == this.name) {
+        } else if (this.dynamic && traitName === this.name) {
             //If the dynamic trait has no value, return the default.
             return this.dynamicDefault;
         }

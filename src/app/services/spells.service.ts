@@ -84,7 +84,7 @@ export class SpellsService {
 
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
-        const spellLevel: number = spell.get_EffectiveSpellLevel({ baseLevel: context.level, creature: context.creature, gain: context.gain }, { characterService: services.characterService, effectsService: services.characterService.effectsService });
+        const spellLevel: number = spell.effectiveSpellLevel({ baseLevel: context.level, creature: context.creature, gain: context.gain }, { characterService: services.characterService, effectsService: services.characterService.effectsService });
 
         //If this spell was cast by an activity, it may have a specified duration in the spellGain. Keep that here before the duration is changed to keep the spell active (or not).
         //That spellGain is a temporary object with its duration coming from the spellCast object, and its duration can be freely changed without influencing the next time you cast the spell.
@@ -164,9 +164,9 @@ export class SpellsService {
             //If the spell ends by the time running out, the condition will also have a timer and run out by itself.
             //This allows us to manually change the duration for a condition and keep it running when the spell runs out
             // (because it's much more difficult to change the spell duration -and- the condition duration).
-            if (spell.get_HeightenedConditions(spellLevel)) {
+            if (spell.heightenedConditions(spellLevel)) {
                 if (activated) {
-                    const conditions: Array<ConditionGain> = spell.get_HeightenedConditions(spellLevel);
+                    const conditions: Array<ConditionGain> = spell.heightenedConditions(spellLevel);
                     const hasTargetCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter != 'caster');
                     const hasCasterCondition: boolean = conditions.some(conditionGain => conditionGain.targetFilter == 'caster');
                     const casterIsTarget: boolean = targets.some(target => target.id == context.creature.id);
@@ -224,7 +224,7 @@ export class SpellsService {
                                     ) ||
                                     (
                                         (
-                                            spell.get_IsHostile() ?
+                                            spell.isHostile() ?
                                                 services.characterService.get_Character().settings.noHostileCasterConditions :
                                                 services.characterService.get_Character().settings.noFriendlyCasterConditions
                                         ) &&
@@ -363,7 +363,7 @@ export class SpellsService {
                     });
                 } else if (options.manual) {
                     //Only if the spell was ended manually, find the matching conditions and end them. If the spell ran out, let the conditions run out by themselves.
-                    spell.get_HeightenedConditions(spellLevel).forEach(conditionGain => {
+                    spell.heightenedConditions(spellLevel).forEach(conditionGain => {
                         const conditionTargets: Array<Creature | SpellTarget> = (conditionGain.targetFilter == 'caster' ? [context.creature] : targets);
 
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {

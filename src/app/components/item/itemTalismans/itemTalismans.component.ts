@@ -116,7 +116,7 @@ export class ItemTalismansComponent implements OnInit {
     get_CompatibleWithTalismanCord(talisman: Talisman) {
         return this.item.talismanCords
             .some(cord =>
-                cord.get_CompatibleWithTalisman(talisman),
+                cord.isCompatibleWithTalisman(talisman),
             );
     }
 

@@ -82,7 +82,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     get_GainedSpellLevel(spell: Spell, context: { gain: SpellGain; choice: SpellChoice }) {
-        return spell.get_EffectiveSpellLevel({ baseLevel: (context.choice.level ? context.choice.level : 0), creature: this.get_Creature(), gain: context.gain }, { characterService: this.characterService, effectsService: this.effectsService }, { noEffects: true });
+        return spell.effectiveSpellLevel({ baseLevel: (context.choice.level ? context.choice.level : 0), creature: this.get_Creature(), gain: context.gain }, { characterService: this.characterService, effectsService: this.effectsService }, { noEffects: true });
     }
 
     get_HaveMatchingTalismanCord(talisman: Talisman) {
@@ -270,7 +270,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
 
-        spell.get_HeightenedConditions(spellLevel)
+        spell.heightenedConditions(spellLevel)
             .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }))
             .forEach((conditionSet, index) => {
                 //Create the temporary list of currently available choices.

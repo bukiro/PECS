@@ -182,7 +182,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         let gainConditions: Array<ConditionGain> = [];
 
         if (this.spell) {
-            gainConditions = this.spell.get_HeightenedConditions(this.effectiveSpellLevel);
+            gainConditions = this.spell.heightenedConditions(this.effectiveSpellLevel);
         } else if (this.activity) {
             gainConditions = this.activity.gainConditions;
         }

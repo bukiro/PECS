@@ -68,7 +68,7 @@ export class TraitsService {
                         ),
                     ),
                 )
-                && !!trait.haveOn(creature).length,
+                && !!trait.itemsWithThisTrait(creature).length,
             );
         } else {
             return [];

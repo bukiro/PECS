@@ -215,10 +215,10 @@
                                                     <ng-template #SpellTitleTemplate>
                                                         <span *ngIf="!get_TileMode()">
                                                             <i class="value bi-patch-plus bonus"
-                                                                *ngIf="!spell.get_IsHostile()"
+                                                                *ngIf="!spell.isHostile()"
                                                                 [ngbTooltip]="'Beneficial spell'"></i>
                                                             <i class="value bi-patch-minus-fill penalty"
-                                                                *ngIf="spell.get_IsHostile()"
+                                                                *ngIf="spell.isHostile()"
                                                                 [ngbTooltip]="'Hostile spell'"></i>
                                                         </span>
                                                         <span>
@@ -261,11 +261,11 @@
                                                     </ng-container>
                                                     <ng-container *ngIf="get_TileMode()">
                                                         <button
-                                                            [ngClass]="{'fancy-button choicecleared':get_SpellsLearned(spell.name).length, 'penalty':spell.get_IsHostile(), 'bonus':!spell.get_IsHostile()}"
+                                                            [ngClass]="{'fancy-button choicecleared':get_SpellsLearned(spell.name).length, 'penalty':spell.isHostile(), 'bonus':!spell.isHostile()}"
                                                             [ngbPopover]="SpellTemplate" triggers="click"
                                                             (click)="toggle_Item()">
                                                             <app-gridIcon
-                                                                [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length, 'penalty':spell.get_IsHostile(), 'bonus':!spell.get_IsHostile()}"
+                                                                [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length, 'penalty':spell.isHostile(), 'bonus':!spell.isHostile()}"
                                                                 [ngbTooltip]="SpellTitleTemplate" [title]="spell.name"
                                                                 [detail]="spell.traits.includes('Rare') ? 'R' : (spell.traits.includes('Uncommon') ? 'U' : '')"
                                                                 [superTitle]="get_SpellMasterySelected(wizardCasting, spell) ? 'icon-ra ra-crown' : ''"

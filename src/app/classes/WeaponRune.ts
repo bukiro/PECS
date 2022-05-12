@@ -4,27 +4,27 @@ import { TypeService } from 'src/app/services/type.service';
 
 export class WeaponRune extends Rune {
     //Weapon Runes should be type "weaponrunes" to be found in the database
-    readonly type = 'weaponrunes';
-    //You are enfeebled 2 if your alignment contains this word.
+    public readonly type = 'weaponrunes';
+    /** You are enfeebled 2 if you equip this rune and your alignment contains this word. */
     public alignmentPenalty = '';
     public critfailure = '';
     public criticalHint = '';
     public critsuccess = '';
-    //Can only be applied to a weapon with this damage type (or modular)
+    /** Can only be applied to a weapon with this damage type (or modular). */
     public damagereq = '';
     public extraDamage = '';
     public failure = '';
-    //Can only be applied to a weapon with this name
+    /** Can only be applied to a weapon with this name. */
     public namereq = '';
-    //Can only be applied to a melee weapon, or to a ranged weapon
+    /** Can only be applied to a melee weapon, or to a ranged weapon. */
     public rangereq: '' | 'melee' | 'ranged' = '';
-    //Cannot apply to a weapon with this rune
-    public runeblock = '';
+    /** Cannot apply to a weapon with this rune. */
+    public runeBlock = '';
     public striking = 0;
     public success = '';
-    //Can only be applied to a weapon with this trait
+    /** Can only be applied to a weapon with this trait. */
     public traitreq = '';
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    public recast(typeService: TypeService, itemsService: ItemsService): WeaponRune {
         super.recast(typeService, itemsService);
 
         return this;

@@ -6,20 +6,24 @@ import { ItemsService } from 'src/app/services/items.service';
 
 export class Wand extends Equipment {
     //Wands should be type "wands" to be found in the database
-    readonly type = 'wands';
-    readonly equippable = false;
+    public readonly type = 'wands';
+    public readonly equippable = false;
     public actions = '';
     public frequency = 'one per day, plus overcharge';
     public effect = 'You Cast the Spell at the indicated level.';
     public overcharged = false;
     public cooldown = 0;
-    readonly inputRequired = 'After the spell is cast from the wand for the day, you can use it one more time, but the wand is immediately broken. Roll a DC 10 flat check. On a failure, drop the wand as it is destroyed. If you overcharge the wand when it\'s already been overcharged that day, the wand is automatically destroyed and dropped (even if it had been repaired) and no spell is cast.';
-    recast(typeService: TypeService, itemsService: ItemsService) {
+    public readonly inputRequired =
+        'After the spell is cast from the wand for the day, you can use it one more time, but the wand is immediately broken. '
+        + 'Roll a DC 10 flat check. On a failure, drop the wand as it is destroyed. '
+        + 'If you overcharge the wand when it\'s already been overcharged that day, '
+        + 'the wand is automatically destroyed and dropped (even if it had been repaired) and no spell is cast.';
+    public recast(typeService: TypeService, itemsService: ItemsService): Wand {
         super.recast(typeService, itemsService);
 
         return this;
     }
-    effectiveName() {
+    public effectiveName(): string {
         if (this.displayName) {
             return this.displayName;
         } else if (this.storedSpells.length && this.storedSpells[0].spells.length) {
@@ -34,7 +38,7 @@ export class Wand extends Equipment {
     }
     //Other implementations require creature.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    effectiveTraits(characterService: CharacterService, creature: Creature) {
+    public effectiveTraits(characterService: CharacterService, creature: Creature): Array<string> {
         //creature is not needed for wands, but for other types of item.
         let traits: Array<string> = [];
 

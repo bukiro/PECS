@@ -1,6 +1,6 @@
 import { CreatureSizes } from '../definitions/creatureSizes';
 
-export function CreatureSizeName(size: number): string {
+export const CreatureSizeName = (size: number): string => {
     switch (size) {
         case CreatureSizes.Tiny:
             return 'Tiny';
@@ -17,4 +17,4 @@ export function CreatureSizeName(size: number): string {
         default:
             return 'Medium';
     }
-}
+};

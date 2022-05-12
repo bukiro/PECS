@@ -242,7 +242,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public get_HaveMatchingTalismanCord(item: Armor | Shield | WornItem, talisman: Talisman): boolean {
-        return item.talismanCords.some(cord => cord.get_CompatibleWithTalisman(talisman));
+        return item.talismanCords.some(cord => cord.isCompatibleWithTalisman(talisman));
     }
 
     public on_TalismanUse(item: Armor | Shield | WornItem, talisman: Talisman, index: number, preserve = false): void {

@@ -145,7 +145,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_CritSpecialization(weapon: Weapon, range: string) {
-        return weapon.get_CritSpecialization(this.get_Creature(), this.characterService, range);
+        return weapon.critSpecialization(this.get_Creature(), this.characterService, range);
     }
 
     get_AttackRestrictions() {
@@ -179,7 +179,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 } else if (restriction.special) {
                     switch (restriction.special) {
                         case 'Favored Weapon':
-                            return weapon.get_IsFavoredWeapon(creature, characterService);
+                            return weapon.isFavoredWeapon(creature, characterService);
                     }
                 }
             });
@@ -213,7 +213,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_HaveMatchingTalismanCord(weapon: Weapon, talisman: Talisman) {
-        return weapon.talismanCords.some(cord => cord.get_CompatibleWithTalisman(talisman));
+        return weapon.talismanCords.some(cord => cord.isCompatibleWithTalisman(talisman));
     }
 
     get_PoisonTitle(poison: AlchemicalPoison) {
@@ -334,7 +334,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     get_HintRunes(weapon: Weapon, range: string): Array<WeaponRune> {
         //Return all runes and rune-emulating effects that have a hint to show.
-        const runeSource = weapon.get_RuneSource(this.get_Creature(), range);
+        const runeSource = weapon.runeSource(this.get_Creature(), range);
 
         return (runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as Array<WeaponRune>)
             .concat(weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hints.length).map(oil => oil.runeEffect))
@@ -348,9 +348,9 @@ export class AttacksComponent implements OnInit, OnDestroy {
     get_Runes(weapon: Weapon, range: string) {
         //Return all runes and rune-emulating oil effects.
         const runes: Array<WeaponRune> = [];
-        const runeSource = weapon.get_RuneSource(this.get_Creature(), range);
+        const runeSource = weapon.runeSource(this.get_Creature(), range);
 
-        runes.push(...weapon.get_RuneSource(this.get_Creature(), range).propertyRunes.propertyRunes as Array<WeaponRune>);
+        runes.push(...weapon.runeSource(this.get_Creature(), range).propertyRunes.propertyRunes as Array<WeaponRune>);
         runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect).map(oil => oil.runeEffect));
 
         if (runeSource.propertyRunes.bladeAlly) {
@@ -391,7 +391,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         //Deity's favored weapons get tagged as "Favored Weapon".
-        if (weapon.get_IsFavoredWeapon(this.get_Character(), this.characterService)) {
+        if (weapon.isFavoredWeapon(this.get_Character(), this.characterService)) {
             specialNames.push('Favored Weapon');
         }
 
@@ -424,7 +424,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
         const creature = this.get_Creature();
 
-        specialNames.push(weapon.get_Proficiency(creature, this.characterService, creature.level));
+        specialNames.push(weapon.effectiveProficiency(creature, this.characterService, creature.level));
         specialNames.push(...weapon.$traits);
         specialNames.push(range);
         specialNames.push(weapon.weaponBase);

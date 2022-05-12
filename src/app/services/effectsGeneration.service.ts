@@ -267,7 +267,7 @@ export class EffectsGenerationService {
     private collect_TraitEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): Array<HintEffectsObject> {
         const hintSets: Array<HintEffectsObject> = [];
 
-        services.characterService.traitsService.getTraits().filter(trait => trait.hints.length && trait.haveOn(creature).length)
+        services.characterService.traitsService.getTraits().filter(trait => trait.hints.length && trait.itemsWithThisTrait(creature).length)
             .forEach(trait => {
                 trait.hints.forEach(hint => {
                     hintSets.push({ hint, objectName: trait.name });
@@ -941,7 +941,7 @@ export class EffectsGenerationService {
                 shield.updateModifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
             });
             inv.weapons.forEach(weapon => {
-                weapon.update_Modifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
+                weapon.updateModifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });
             });
             inv.armors.forEach(armor => {
                 armor.updateModifiers(creature, { characterService: services.characterService, refreshService: this.refreshService });

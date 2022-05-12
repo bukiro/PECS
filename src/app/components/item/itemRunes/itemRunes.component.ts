@@ -343,10 +343,10 @@ export class ItemRunesComponent implements OnInit {
                         : true
                 ) && (
                     //Don't show runes whose opposite runes are equipped.
-                    rune.rune.runeblock ?
+                    rune.rune.runeBlock ?
                         !weapon.propertyRunes
                             .map(propertyRune => propertyRune.name)
-                            .includes(rune.rune.runeblock)
+                            .includes(rune.rune.runeBlock)
                         : true
                 ) && (
                     //Show runes that require a trait if that trait is present on the weapon.

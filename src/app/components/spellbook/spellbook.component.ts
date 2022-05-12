@@ -312,7 +312,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 isSpellMasterySpell: this.is_SpellMasterySpell(choice),
                 isCrossbloodedEvolutionSpell: choice.crossbloodedEvolution,
                 canReprepare: this.can_Reprepare(spellCastingLevelParameters.level, spell, spellCastingParameters.casting),
-                isHostile: spell.get_IsHostile(),
+                isHostile: spell.isHostile(),
             };
         });
     }
@@ -371,7 +371,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
 
-        spell.get_HeightenedConditions(levelNumber)
+        spell.heightenedConditions(levelNumber)
             .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }))
             .forEach((conditionSet, index) => {
                 //Create the temporary list of currently available choices.
@@ -393,7 +393,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_EffectiveSpellLevel(spell: Spell, context: { baseLevel: number; gain: SpellGain }) {
-        return spell.get_EffectiveSpellLevel({ baseLevel: context.baseLevel, creature: this.get_Character(), gain: context.gain }, { characterService: this.characterService, effectsService: this.effectsService });
+        return spell.effectiveSpellLevel({ baseLevel: context.baseLevel, creature: this.get_Character(), gain: context.gain }, { characterService: this.characterService, effectsService: this.effectsService });
     }
 
     get_FocusPoints() {
