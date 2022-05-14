@@ -136,28 +136,30 @@ export class Weapon extends Equipment {
     }
     get_Price(itemsService: ItemsService): number {
         let price = this.price;
-        if (this.potencyRune) {
-            price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency == this.potencyRune).price;
-        }
-        if (this.strikingRune) {
-            price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
-        }
-        this.propertyRunes.forEach(rune => {
-            if (rune) {
-                //Due to orichalcum's temporal properties, etching the speed weapon property rune onto an orichalcum weapon costs half the normal Price.
-                if (rune.name == 'Speed' && this.material?.[0]?.name.includes('Orichalcum')) {
-                    price += Math.floor(rune.price / 2);
-                } else {
-                    price += rune.price;
+        if (this.moddable) {
+            if (this.potencyRune) {
+                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency == this.potencyRune).price;
+            }
+            if (this.strikingRune) {
+                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
+            }
+            this.propertyRunes.forEach(rune => {
+                if (rune) {
+                    //Due to orichalcum's temporal properties, etching the speed weapon property rune onto an orichalcum weapon costs half the normal Price.
+                    if (rune.name == 'Speed' && this.material?.[0]?.name.includes('Orichalcum')) {
+                        price += Math.floor(rune.price / 2);
+                    } else {
+                        price += rune.price;
+                    }
                 }
-            }
-        });
-        this.material.forEach(mat => {
-            price += mat.price;
-            if (parseInt(this.bulk)) {
-                price += (mat.bulkPrice * parseInt(this.bulk));
-            }
-        });
+            });
+            this.material.forEach(mat => {
+                price += mat.price;
+                if (parseInt(this.bulk)) {
+                    price += (mat.bulkPrice * parseInt(this.bulk));
+                }
+            });
+        }
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }

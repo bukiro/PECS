@@ -76,6 +76,7 @@ export class Item {
     //If you have named a subtype, this description will show up
     //e.g.: "Greater":"The bonus to Athletics is +2"
     public subTypeDesc = '';
+    //Can be bought or sold. This can be set to false for unique weapons etc. Snares are not tradeable by default.
     public tradeable = true;
     //What traits does the item have? Can be expanded under certain circumstances
     public traits: string[] = [];

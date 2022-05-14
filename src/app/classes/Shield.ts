@@ -47,12 +47,14 @@ export class Shield extends Equipment {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     get_Price(itemsService: ItemsService) {
         let price = this.price;
-        this.material.forEach(mat => {
-            price += mat.price;
-            if (parseInt(this.bulk)) {
-                price += (mat.bulkPrice * parseInt(this.bulk));
-            }
-        });
+        if (this.moddable) {
+            this.material.forEach(mat => {
+                price += mat.price;
+                if (parseInt(this.bulk)) {
+                    price += (mat.bulkPrice * parseInt(this.bulk));
+                }
+            });
+        }
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }

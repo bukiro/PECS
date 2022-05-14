@@ -527,10 +527,11 @@
                                             </div>
                                             <!-- Lower row of buttons -->
                                             <div class="newrow"
-                                                *ngIf="get_Price(itemParameters.item) && itemParameters.item.tradeable">
+                                                *ngIf="itemParameters.item.tradeable && get_Price(itemParameters.item)">
                                                 <span class="gap-text"
                                                     *ngIf="itemParameters.asStackable; else CannotStack">
-                                                    <span [ngbTooltip]="'Sell at half price'">
+                                                    <span
+                                                        [ngbTooltip]="(itemParameters.asStackable.amount <= itemParameters.stack) ? 'Use the sell button to sell the last item of a stack' : 'Sell at half price'">
                                                         <button
                                                             (click)="onAmountChange(itemParameters.asStackable, -itemParameters.stack, true)"
                                                             [disabled]="itemParameters.asStackable.amount <= itemParameters.stack">

@@ -88,14 +88,17 @@ export class WornItem extends Equipment {
     }
     get_Price(itemsService: ItemsService) {
         let price = this.price;
-        if (this.potencyRune) {
-            price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency == this.potencyRune).price;
+        if (this.moddable) {
+            if (this.potencyRune) {
+                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency == this.potencyRune).price;
+            }
+            if (this.strikingRune) {
+                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
+            }
+            price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
         }
-        if (this.strikingRune) {
-            price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking == this.strikingRune).price;
-        }
-        price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
         price += this.aeonStones.reduce((prev, next) => prev + next.price, 0);
+        price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }
     get_Traits(characterService: CharacterService, creature: Creature): string[] {

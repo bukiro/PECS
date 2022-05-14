@@ -11,9 +11,9 @@
     </span>
 </div>
 <div class="newrow left-aligned">
-    <span *ngIf="item.price">
+    <span *ngIf="item.tradeable && get_Price(item) as calculatedPrice">
         <strong>Price</strong>
-        {{get_Price(item)}}{{item.stack && item.stack > 1 ? " per "+item.stack : ""}}
+        {{calculatedPrice}}{{item.stack && item.stack > 1 ? " per "+item.stack : ""}}
     </span>
     <span *ngIf="item.dicenum">
         <strong>Damage</strong>

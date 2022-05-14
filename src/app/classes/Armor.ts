@@ -65,19 +65,21 @@ export class Armor extends Equipment {
     }
     get_Price(itemsService: ItemsService) {
         let price = this.price;
-        if (this.potencyRune) {
-            price += itemsService.get_CleanItems().armorrunes.find(rune => rune.potency == this.potencyRune).price;
-        }
-        if (this.resilientRune) {
-            price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.resilientRune).price;
-        }
-        price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
-        this.material.forEach(mat => {
-            price += mat.price;
-            if (parseInt(this.bulk)) {
-                price += (mat.bulkPrice * parseInt(this.bulk));
+        if (this.moddable) {
+            if (this.potencyRune) {
+                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.potency == this.potencyRune).price;
             }
-        });
+            if (this.resilientRune) {
+                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient == this.resilientRune).price;
+            }
+            price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
+            this.material.forEach(mat => {
+                price += mat.price;
+                if (parseInt(this.bulk)) {
+                    price += (mat.bulkPrice * parseInt(this.bulk));
+                }
+            });
+        }
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
         return price;
     }

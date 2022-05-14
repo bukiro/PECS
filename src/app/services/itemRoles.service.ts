@@ -99,7 +99,7 @@ export class ItemRolesService {
     }
 
     private itemAsTalismanChangeable(item: Item): Armor | Shield | Weapon | WornItem {
-        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon || (item instanceof WornItem && item.isBracersOfArmor)) ? item : null;
+        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon || (item instanceof WornItem && (item.isBracersOfArmor || item.isHandwrapsOfMightyBlows))) ? item : null;
     }
 
     private itemAsStatusChangeable(item: Item): Equipment {
