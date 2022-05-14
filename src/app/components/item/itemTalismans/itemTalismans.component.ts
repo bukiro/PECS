@@ -101,11 +101,15 @@ export class ItemTalismansComponent implements OnInit {
                 (
                     talisman.talisman.targets.includes(this.item.type) ||
                     (
-                        //One exception: The jade bauble is affixed to a melee weapon, which is not a weapon type.
+                        //Exception: The jade bauble is affixed to a melee weapon, which is not a weapon type.
                         this.item instanceof Weapon && this.item.melee && talisman.talisman.targets.includes('melee weapons')
                     ) ||
                     (
-                        //Two exceptions: Worn items with the bracers of armor functionality can attach armor talismans.
+                        //Exception: Weapon talismans can be affixed to handwraps of mighty blows.
+                        this.item instanceof WornItem && this.item.isHandwrapsOfMightyBlows && talisman.talisman.targets.includes('weapons')
+                    ) ||
+                    (
+                        //Exception: Worn items with the bracers of armor functionality can attach armor talismans.
                         this.item instanceof WornItem && this.item.isBracersOfArmor && talisman.talisman.targets.includes('armors')
                     )
                 ),

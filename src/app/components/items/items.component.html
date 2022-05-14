@@ -271,7 +271,7 @@
                                                                 </button>
                                                                 <button class="newrow center-aligned"
                                                                     (click)="grant_Item(creature, itemParameters.item, true)"
-                                                                    [disabled]="!have_Funds(get_Price(itemParameters.item)) || !get_Price(itemParameters.item)"
+                                                                    [disabled]="!itemParameters.item.tradeable || !have_Funds(get_Price(itemParameters.item)) || !get_Price(itemParameters.item)"
                                                                     *ngIf="itemSet.name !== 'Snares'">
                                                                     Buy {{itemParameters.stack > 1 ?
                                                                     itemParameters.stack+" "

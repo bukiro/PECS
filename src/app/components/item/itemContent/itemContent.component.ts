@@ -30,45 +30,40 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    get_FullPrice(item: Item) {
-        if (item instanceof Equipment) {
-            return item.effectivePrice(this.itemsService);
-        } else {
-            return item.price;
-        }
-    }
-
     get_Price(item: Item) {
-        if (this.get_FullPrice(item)) {
-            if (item.price == 0) {
-                return '';
-            } else {
-                let price: number = this.get_FullPrice(item);
-                let priceString = '';
+        if (item.tradeable) {
+            let price = item.get_Price(this.itemsService);
 
-                if (price >= 100) {
-                    priceString += `${ Math.floor(price / 100) }gp`;
-                    price %= 100;
+            if (price) {
+                if (!item.tradeable) {
+                    return '';
+                } else {
+                    let priceString = '';
 
-                    if (price >= 10) { priceString += ' '; }
+                    if (price >= 100) {
+                        priceString += `${ Math.floor(price / 100) }gp`;
+                        price %= 100;
+
+                        if (price >= 10) { priceString += ' '; }
+                    }
+
+                    if (price >= 10) {
+                        priceString += `${ Math.floor(price / 10) }sp`;
+                        price %= 10;
+
+                        if (price >= 1) { priceString += ' '; }
+                    }
+
+                    if (price >= 1) {
+                        priceString += `${ price }cp`;
+                    }
+
+                    return priceString;
                 }
-
-                if (price >= 10) {
-                    priceString += `${ Math.floor(price / 10) }sp`;
-                    price %= 10;
-
-                    if (price >= 1) { priceString += ' '; }
-                }
-
-                if (price >= 1) {
-                    priceString += `${ price }cp`;
-                }
-
-                return priceString;
             }
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     get_BulkDifference(item: Item) {

@@ -96,6 +96,7 @@ export class Item {
      * The bonus to Athletics is +2.
      */
     public subTypeDesc = '';
+    //Can be bought or sold. This can be set to false for unique weapons etc. Snares are not tradeable by default.
     public tradeable = true;
     /** What traits does the item have? Can be expanded under certain circumstances. */
     public traits: Array<string> = [];

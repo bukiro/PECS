@@ -4821,7 +4821,7 @@
         "moddable": false,
         "potencyRune": 1,
         "prof": "Unarmed Attacks",
-        "strikingRune": 1,
+        "": 1,
         "weaponBase": "Berserker's Cloak Attacks"
     },
     {

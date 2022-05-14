@@ -66,13 +66,16 @@ export class Shield extends Equipment {
     public effectivePrice(itemsService: ItemsService): number {
         let price = this.price;
 
-        this.material.forEach(mat => {
-            price += mat.price;
+        if (this.moddable) {
+            this.material.forEach(mat => {
+                price += mat.price;
 
-            if (parseInt(this.bulk, 10)) {
-                price += (mat.bulkPrice * parseInt(this.bulk, 10));
-            }
-        });
+                if (parseInt(this.bulk, 10)) {
+                    price += (mat.bulkPrice * parseInt(this.bulk, 10));
+                }
+            });
+        }
+
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
 
         return price;

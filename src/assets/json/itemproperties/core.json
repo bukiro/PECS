@@ -57,13 +57,21 @@
         "priority": "04",
         "group": "2-Basics",
         "name": "Price",
-        "desc": "The money worth of the item in copper pieces (1SP is 10CP, 1GP is 100CP and 1PP is 1000CP).",
+        "desc": "The money worth of the item in copper pieces (1SP is 10CP, 1GP is 100CP and 1PP is 1000CP). Items with no price can't be bought or sold, only given and dropped. Items that can be modified add the price of their included material, runes and talismans.",
         "type": "number",
         "validation": "0plus"
     },
     {
-        "key": "desc",
+        "key": "tradeable",
         "priority": "05",
+        "group": "2-Basics",
+        "name": "Can be bought and sold",
+        "desc": "Can this item be traded for currency? If not, it can only be given and dropped.",
+        "type": "checkbox"
+    },
+    {
+        "key": "desc",
+        "priority": "06",
         "group": "2-Basics",
         "name": "Description",
         "desc": "The description will be shown on the item and can be as detailed as needed.",
@@ -71,14 +79,14 @@
     },
     {
         "key": "craftRequirement",
-        "priority": "06",
+        "priority": "07",
         "group": "2-Basics",
         "name": "Crafting requirements",
         "desc": "Describe what is needed to craft this item, other than the appropriate crafting feat and level."
     },
     {
         "key": "traits",
-        "priority": "07",
+        "priority": "08",
         "group": "2-Basics",
         "name": "Traits",
         "desc": "The item's traits are listed on the item. An item must have the Invested trait to be invested.",
@@ -86,28 +94,28 @@
     },
     {
         "key": "subType",
-        "priority": "08",
+        "priority": "09",
         "group": "2-Basics",
         "name": "Subtype",
         "desc": "Items can come in different subtypes, like 'Lesser', 'Greater', etc."
     },
     {
         "key": "subTypeDesc",
-        "priority": "09",
+        "priority": "10",
         "group": "2-Basics",
         "name": "Subtype Description",
         "desc": "If the item has a subtype, describe the difference between this subtype and the regular item here."
     },
     {
         "key": "notes",
-        "priority": "10",
+        "priority": "11",
         "group": "2-Basics",
         "name": "Notes",
         "desc": "Notes that can be displayed on the item. The notes can be changed later."
     },
     {
         "key": "choices",
-        "priority": "07",
+        "priority": "12",
         "group": "2-Basics",
         "name": "Variation options",
         "desc": "Some items can be attuned to or affiliated with different things, which can change the way the item's effects and hints work. These options can be added here, and the selected option can be referenced in effect calculations as the word 'Choice'. Unlike with bought items, custom items will always allow you to change the chosen option later.",
