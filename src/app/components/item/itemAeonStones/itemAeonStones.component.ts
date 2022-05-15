@@ -121,7 +121,7 @@ export class ItemAeonStonesComponent implements OnInit {
 
                 //If we are not in the item store, remove the inserted Aeon Stone from the inventory, either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
-                    this.characterService.drop_InventoryItem(this.get_Character(), inv, stone, false, false, false, 1);
+                    this.characterService.dropInventoryItem(this.get_Character(), inv, stone, false, false, false, 1);
                 }
             }
         }
@@ -139,7 +139,7 @@ export class ItemAeonStonesComponent implements OnInit {
         oldStone.isSlottedAeonStone = false;
         this.set_ToChange(oldStone);
         //Add the extracted stone back to the inventory.
-        this.characterService.grant_InventoryItem(oldStone, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
+        this.characterService.grantInventoryItem(oldStone, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
     }
 
     set_ToChange(stone: WornItem) {

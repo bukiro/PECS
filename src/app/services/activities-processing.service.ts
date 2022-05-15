@@ -510,7 +510,7 @@ export class ActivitiesProcessingService {
 
                         //Apply to any targets that are your own creatures.
                         conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
-                            services.characterService.add_Condition(target as Creature, newConditionGain, {}, { noReload: true });
+                            services.characterService.addCondition(target as Creature, newConditionGain, {}, { noReload: true });
                         });
 
                         //Apply to any non-creature targets whose ID matches your own creatures.
@@ -521,7 +521,7 @@ export class ActivitiesProcessingService {
                                 creatures.some(listCreature => listCreature.id === target.id),
                         )
                             .forEach(target => {
-                                services.characterService.add_Condition(
+                                services.characterService.addCondition(
                                     services.characterService.creatureFromType(target.type),
                                     newConditionGain,
                                     {},
@@ -661,7 +661,7 @@ export class ActivitiesProcessingService {
 
         //All Conditions that have affected the duration of this activity or its conditions are now removed.
         if (conditionsToRemove.length) {
-            services.characterService.get_AppliedConditions(context.creature, '', '', true)
+            services.characterService.currentCreatureConditions(context.creature, '', '', true)
                 .filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
                 .forEach(conditionGain => {
                     services.characterService.remove_Condition(context.creature, conditionGain, false);
@@ -733,7 +733,7 @@ export class ActivitiesProcessingService {
                     conditionTargets
                         .filter(target => target.constructor !== SpellTarget)
                         .forEach(target => {
-                            services.characterService.get_AppliedConditions(target as Creature, conditionGain.name)
+                            services.characterService.currentCreatureConditions(target as Creature, conditionGain.name)
                                 .filter(existingConditionGain =>
                                     existingConditionGain.source === conditionGain.source &&
                                     existingConditionGain.sourceGainID === (context.gain?.id || ''),

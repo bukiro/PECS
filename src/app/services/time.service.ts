@@ -256,7 +256,7 @@ export class TimeService {
 
                     //If you are at full health and rest for 10 minutes, you lose the wounded condition.
                     if (creatureTurns >= TimePeriods.TenMinutes && characterService.get_Health(creature).damage == 0) {
-                        characterService.get_AppliedConditions(creature, 'Wounded').forEach(gain => characterService.remove_Condition(creature, gain, false));
+                        characterService.currentCreatureConditions(creature, 'Wounded').forEach(gain => characterService.remove_Condition(creature, gain, false));
                     }
                 }
             }
@@ -358,10 +358,10 @@ export class TimeService {
         const effectsService = this._effectsService;
 
         function AfflictionOnsetsWithinDuration(creature: Creature): boolean {
-            return characterService.get_AppliedConditions(creature, '', '', true).some(gain => (!conditionsService.get_ConditionFromName(gain.name).automaticStages && !gain.paused && gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.durationIsInstant);
+            return characterService.currentCreatureConditions(creature, '', '', true).some(gain => (!conditionsService.get_ConditionFromName(gain.name).automaticStages && !gain.paused && gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.durationIsInstant);
         }
         function TimeStopConditionsActive(creature: Creature): boolean {
-            return characterService.get_AppliedConditions(creature, '', '', true).some(gain => conditionsService.get_ConditionFromName(gain.name).stopTimeChoiceFilter.some(filter => [gain.choice, 'All'].includes(filter)));
+            return characterService.currentCreatureConditions(creature, '', '', true).some(gain => conditionsService.get_ConditionFromName(gain.name).stopTimeChoiceFilter.some(filter => [gain.choice, 'All'].includes(filter)));
         }
         function MultipleTempHPAvailable(creature: Creature): boolean {
             return characterService.get_Health(creature).temporaryHP.length > 1;

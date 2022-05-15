@@ -384,7 +384,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.affected));
                     });
-                this.characterService.get_Conditions()
+                this.characterService.conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.affected));
@@ -415,7 +415,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.value));
                     });
-                this.characterService.get_Conditions()
+                this.characterService.conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.value));
@@ -448,7 +448,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.affected));
                     });
-                this.characterService.get_Conditions()
+                this.characterService.conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.affected));
@@ -465,12 +465,12 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.value));
                     });
-                this.characterService.get_Conditions()
+                this.characterService.conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.value));
                     });
-                this.characterService.get_Conditions()
+                this.characterService.conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.value));
@@ -507,12 +507,12 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.setValue));
                     });
-                this.characterService.get_Conditions()
+                this.characterService.conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.setValue));
                     });
-                this.characterService.get_Conditions()
+                this.characterService.conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.setValue));
@@ -550,7 +550,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.title));
                     });
-                this.characterService.get_Conditions()
+                this.characterService.conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.title));
@@ -574,7 +574,7 @@ export class NewItemPropertyComponent {
                 examples.push(...this.activitiesService.activities()
                     .filter(activity => activity.inputRequired.length)
                     .map(activity => activity.inputRequired));
-                examples.push(...this.characterService.get_Conditions()
+                examples.push(...this.characterService.conditions()
                     .filter(condition => condition.inputRequired.length)
                     .map(condition => condition.inputRequired));
                 break;
@@ -589,7 +589,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
                     });
-                this.characterService.get_Conditions()
+                this.characterService.conditions()
                     .filter(condition => condition.hints.length)
                     .forEach(condition => {
                         examples.push(...condition.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
@@ -654,7 +654,7 @@ export class NewItemPropertyComponent {
                 examples = ['', 'item', 'circumstance', 'status', 'proficiency'];
                 break;
             case 'gaincondition name':
-                examples.push(...this.characterService.get_Conditions().map(condition => condition.name));
+                examples.push(...this.characterService.conditions().map(condition => condition.name));
                 break;
             case 'gaincondition alignmentfilter':
                 examples.push('Chaotic', 'Chaotic Evil', 'Chaotic Good', 'Evil', 'Good', 'Lawful', 'Lawful Evil', 'Lawful Good', 'Neutral', 'Neutral Evil', 'Neutral Good', '!Chaotic', '!Chaotic Evil', '!Chaotic Good', '!Evil', '!Good', '!Lawful', '!Lawful Evil', '!Lawful Good', '!Neutral', '!Neutral Evil', '!Neutral Good');

@@ -149,7 +149,7 @@ export class ItemTalismansComponent implements OnInit {
 
                 //If we are not in the item store, remove the inserted Talisman from the inventory, either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
-                    this.characterService.drop_InventoryItem(this.get_Character(), inv, talisman, false, false, false, 1);
+                    this.characterService.dropInventoryItem(this.get_Character(), inv, talisman, false, false, false, 1);
                 }
             }
         }
@@ -174,7 +174,7 @@ export class ItemTalismansComponent implements OnInit {
         const oldTalisman = this.item.talismans[index];
 
         //Add the extracted stone back to the inventory.
-        this.characterService.grant_InventoryItem(oldTalisman, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
+        this.characterService.grantInventoryItem(oldTalisman, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
     }
 
     get_Title(talisman: Talisman, talismanCordCompatible: boolean) {

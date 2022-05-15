@@ -542,19 +542,19 @@ export class Character extends Creature {
                 if (skillName.includes('Class DC')) {
                     switch (skillName) {
                         case 'Alchemist Class DC':
-                            characterService.add_CustomSkill(skillName, 'Class DC', 'Intelligence');
+                            characterService.addCustomSkill(skillName, 'Class DC', 'Intelligence');
                             break;
                         case 'Barbarian Class DC':
-                            characterService.add_CustomSkill(skillName, 'Class DC', 'Strength');
+                            characterService.addCustomSkill(skillName, 'Class DC', 'Strength');
                             break;
                         case 'Bard Class DC':
-                            characterService.add_CustomSkill(skillName, 'Class DC', 'Charisma');
+                            characterService.addCustomSkill(skillName, 'Class DC', 'Charisma');
                             break;
                         default:
                             // The Ability is the subtype of the taken feat.
                             // The taken feat is found in the source as "Feat: [name]",
                             // so we remove the "Feat: " part with substr to find it and its subType.
-                            characterService.add_CustomSkill(
+                            characterService.addCustomSkill(
                                 skillName,
                                 'Class DC',
                                 characterService.get_Feats(choice.source.replace('Feat: ', ''))[0].subType,
@@ -564,16 +564,16 @@ export class Character extends Creature {
                 } else if (skillName.includes('Spell DC')) {
                     switch (skillName.split(' ')[0]) {
                         case 'Bard':
-                            characterService.add_CustomSkill(skillName, 'Spell DC', 'Charisma');
+                            characterService.addCustomSkill(skillName, 'Spell DC', 'Charisma');
                             break;
                         case 'Champion':
-                            characterService.add_CustomSkill(skillName, 'Spell DC', 'Charisma');
+                            characterService.addCustomSkill(skillName, 'Spell DC', 'Charisma');
                             break;
                         case 'Cleric':
-                            characterService.add_CustomSkill(skillName, 'Spell DC', 'Wisdom');
+                            characterService.addCustomSkill(skillName, 'Spell DC', 'Wisdom');
                             break;
                         case 'Druid':
-                            characterService.add_CustomSkill(skillName, 'Spell DC', 'Wisdom');
+                            characterService.addCustomSkill(skillName, 'Spell DC', 'Wisdom');
                             break;
                         case 'Monk':
                             // For Monks, add the tradition to the Monk spellcasting abilities.
@@ -582,28 +582,28 @@ export class Character extends Creature {
                                 .filter(casting => casting.className === 'Monk').forEach(casting => {
                                     casting.tradition = skillName.split(' ')[1] as 'Divine' | 'Occult';
                                 });
-                            characterService.add_CustomSkill(skillName, 'Spell DC', 'Wisdom');
+                            characterService.addCustomSkill(skillName, 'Spell DC', 'Wisdom');
                             break;
                         case 'Rogue':
-                            characterService.add_CustomSkill(skillName, 'Spell DC', 'Charisma');
+                            characterService.addCustomSkill(skillName, 'Spell DC', 'Charisma');
                             break;
                         case 'Sorcerer':
-                            characterService.add_CustomSkill(skillName, 'Spell DC', 'Charisma');
+                            characterService.addCustomSkill(skillName, 'Spell DC', 'Charisma');
                             break;
                         case 'Wizard':
-                            characterService.add_CustomSkill(skillName, 'Spell DC', 'Intelligence');
+                            characterService.addCustomSkill(skillName, 'Spell DC', 'Intelligence');
                             break;
                         case 'Innate':
-                            characterService.add_CustomSkill(skillName, 'Spell DC', 'Charisma');
+                            characterService.addCustomSkill(skillName, 'Spell DC', 'Charisma');
                             break;
                         default:
-                            characterService.add_CustomSkill(skillName, 'Spell DC', '');
+                            characterService.addCustomSkill(skillName, 'Spell DC', '');
                     }
                     // One background grants the "Lore" skill. We treat it as a Lore category skill, but don't generate any feats for it.
                 } else if (skillName === 'Lore') {
-                    characterService.add_CustomSkill(skillName, 'Skill', 'Intelligence');
+                    characterService.addCustomSkill(skillName, 'Skill', 'Intelligence');
                 } else {
-                    characterService.add_CustomSkill(skillName, choice.type, '');
+                    characterService.addCustomSkill(skillName, choice.type, '');
                 }
             }
 
@@ -725,7 +725,7 @@ export class Character extends Creature {
             const maxLevel = 20;
 
             if (customSkills.length && !this.skillIncreases(characterService, 1, maxLevel, skillName).length) {
-                characterService.remove_CustomSkill(customSkills[0]);
+                characterService.removeCustomSkill(customSkills[0]);
 
                 //For Monks, remove the tradition from the Monk spellcasting abilities if you removed the Monk Divine/Occult Spell DC.
                 if (skillName.includes('Monk') && skillName.includes('Spell DC')) {
@@ -1114,14 +1114,14 @@ export class Character extends Creature {
         const loreSkill: Skill = characterService.character().customSkills.find(skill => skill.name === `Lore: ${ source.loreName }`);
 
         if (loreSkill) {
-            characterService.remove_CustomSkill(loreSkill);
+            characterService.removeCustomSkill(loreSkill);
         }
 
         this._removeLoreFeats(characterService, source.loreName);
     }
     public addLore(characterService: CharacterService, source: LoreChoice): void {
         //Create the skill on the character. Lore can be increased, so it's locked:false.
-        characterService.add_CustomSkill(`Lore: ${ source.loreName }`, 'Skill', 'Intelligence', false);
+        characterService.addCustomSkill(`Lore: ${ source.loreName }`, 'Skill', 'Intelligence', false);
 
         //Create as many skill increases as the source's initialIncreases value
         for (let increase = 0; increase < source.initialIncreases; increase++) {
@@ -1377,7 +1377,7 @@ export class Character extends Creature {
                 newFeat.lorebase = `Lore: ${ loreName }`;
                 newFeat.hide = false;
                 newFeat.generatedLoreFeat = true;
-                characterService.add_CustomFeat(newFeat);
+                characterService.addCustomFeat(newFeat);
                 characterService.refreshService.set_ToChange('Character', 'skills');
                 characterService.refreshService.set_ToChange('Character', 'charactersheet');
             });
@@ -1392,7 +1392,7 @@ export class Character extends Creature {
 
         if (loreFeats.length) {
             loreFeats.forEach(loreFeat => {
-                characterService.remove_CustomFeat(loreFeat);
+                characterService.removeCustomFeat(loreFeat);
             });
         }
 

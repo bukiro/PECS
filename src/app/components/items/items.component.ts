@@ -258,7 +258,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     change_Cash(multiplier = 1, sum = 0, changeafter = false) {
-        this.characterService.change_Cash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
+        this.characterService.changeCash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
 
         if (changeafter) {
             this.refreshService.set_Changed('inventory');
@@ -351,7 +351,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
         const target: Creature = this.characterService.creatureFromType(creature);
 
-        this.characterService.grant_InventoryItem(item, { creature: target, inventory: target.inventories[0], amount }, { resetRunes: false });
+        this.characterService.grantInventoryItem(item, { creature: target, inventory: target.inventories[0], amount }, { resetRunes: false });
     }
 
     get_NewItemFilter() {
@@ -644,7 +644,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     prepare_Scroll(scroll: Item) {
         const casting = this.get_ScrollSavantCasting();
         const tempInv = new ItemCollection();
-        const newScroll = this.characterService.grant_InventoryItem(scroll, { creature: this.characterService.character(), inventory: tempInv, amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: false }) as Scroll;
+        const newScroll = this.characterService.grantInventoryItem(scroll, { creature: this.characterService.character(), inventory: tempInv, amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: false }) as Scroll;
 
         newScroll.expiration = -2;
         newScroll.price = 0;

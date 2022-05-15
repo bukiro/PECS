@@ -1089,9 +1089,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(''); }
 
-            this.characterService.change_Heritage(heritage, index);
+            this.characterService.changeHeritage(heritage, index);
         } else {
-            this.characterService.change_Heritage(new Heritage(), index);
+            this.characterService.changeHeritage(new Heritage(), index);
         }
 
         this.refreshService.set_ToChange('Character', 'all');
@@ -1276,9 +1276,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(''); }
 
-            this.characterService.change_Class($class);
+            this.characterService.changeClass($class);
         } else {
-            this.characterService.change_Class(new Class());
+            this.characterService.changeClass(new Class());
         }
     }
 
@@ -1300,9 +1300,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(''); }
 
-            this.characterService.change_Ancestry(ancestry, this.itemsService);
+            this.characterService.changeAncestry(ancestry, this.itemsService);
         } else {
-            this.characterService.change_Ancestry(new Ancestry(), this.itemsService);
+            this.characterService.changeAncestry(new Ancestry(), this.itemsService);
         }
 
         this.refreshService.set_ToChange('Character', 'all');
@@ -1360,9 +1360,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(''); }
 
-            this.characterService.change_Deity(deity);
+            this.characterService.changeDeity(deity);
         } else {
-            this.characterService.change_Deity(new Deity());
+            this.characterService.changeDeity(new Deity());
         }
 
         this.refreshService.process_ToChange();
@@ -1409,9 +1409,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(''); }
 
-            this.characterService.change_Heritage(heritage);
+            this.characterService.changeHeritage(heritage);
         } else {
-            this.characterService.change_Heritage(new Heritage());
+            this.characterService.changeHeritage(new Heritage());
         }
 
         this.refreshService.set_ToChange('Character', 'all');
@@ -1453,9 +1453,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(''); }
 
-            this.characterService.change_Background(background);
+            this.characterService.changeBackground(background);
         } else {
-            this.characterService.change_Background(new Background());
+            this.characterService.changeBackground(new Background());
         }
 
         this.refreshService.set_ToChange('Character', 'all');
@@ -1622,7 +1622,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_ItemFromGain(gain: ItemGain) {
         //This is a simplified version of the methods in ItemGain. It doesn't work for "special" ItemGains, which aren't needed here.
-        return this.characterService.get_CleanItems()[gain.type].filter((item: Item) => gain.isMatchingItem(item));
+        return this.characterService.cleanItems()[gain.type].filter((item: Item) => gain.isMatchingItem(item));
     }
 
     get_AnimalCompanionAbilities(type: AnimalCompanionAncestry) {

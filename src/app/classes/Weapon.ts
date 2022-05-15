@@ -1430,7 +1430,7 @@ export class Weapon extends Equipment {
                 });
             SpecializationGains.forEach(critSpec => {
                 const specs: Array<Specialization> =
-                    characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
+                    characterService.itemGroupSpecializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
 
                 specs.forEach(spec => {
                     if (critSpec.condition) {

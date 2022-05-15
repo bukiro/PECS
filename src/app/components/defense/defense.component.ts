@@ -152,7 +152,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             if (!flatFooted) {
                 const newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: 'Flat-Footed', source: 'Quick Status', duration: -1, locked: true });
 
-                this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
+                this.characterService.addCondition(creature, newCondition, {}, { noReload: true });
             }
         } else {
             if (flatFooted) {
@@ -178,7 +178,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             if (!hidden) {
                 const newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: 'Hidden', source: 'Quick Status', duration: -1, locked: true });
 
-                this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
+                this.characterService.addCondition(creature, newCondition, {}, { noReload: true });
             }
         } else {
             if (hidden) {
@@ -217,7 +217,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
         if (shield.currentHitPoints() < shield.effectiveBrokenThreshold()) {
             shield.broken = true;
-            this.characterService.on_Equip(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], shield, false, false, true);
+            this.characterService.equipItem(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], shield, false, false, true);
             this.toastService.show('Your shield broke and was unequipped.');
         } else {
             shield.broken = false;
@@ -247,7 +247,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     public on_TalismanUse(item: Armor | Shield | WornItem, talisman: Talisman, index: number, preserve = false): void {
         this.refreshService.set_ToChange(this.creature, 'defense');
-        this.characterService.on_ConsumableUse(this.get_Creature() as Character | AnimalCompanion, talisman, preserve);
+        this.characterService.useConsumable(this.get_Creature() as Character | AnimalCompanion, talisman, preserve);
 
         if (!preserve) {
             item.talismans.splice(index, 1);

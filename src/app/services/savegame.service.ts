@@ -941,10 +941,10 @@ export class SavegameService {
             creatures.forEach(creature => {
                 creature?.inventories?.forEach(inventory => {
                     inventory.armors.filter(armor => mageArmorIDs.includes(armor.refId)).forEach(armor => {
-                        characterService.drop_InventoryItem(creature, inventory, armor, false, true);
+                        characterService.dropInventoryItem(creature, inventory, armor, false, true);
                     });
                     inventory.shields.filter(shield => shieldIDs.includes(shield.refId)).forEach(shield => {
-                        characterService.drop_InventoryItem(creature, inventory, shield, false, true);
+                        characterService.dropInventoryItem(creature, inventory, shield, false, true);
                     });
                 });
             });

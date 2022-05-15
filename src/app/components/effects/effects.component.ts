@@ -138,7 +138,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     get_AppliedConditions(apply: boolean, instant = false) {
-        return this.characterService.get_AppliedConditions(this.get_Creature())
+        return this.characterService.currentCreatureConditions(this.get_Creature())
             .filter(gain => gain.apply == apply || (instant && gain.durationIsInstant) || (instant && gain.nextStage == -1));
     }
 

@@ -491,7 +491,7 @@ export class ItemRunesComponent implements OnInit {
                     if (weapon.potencyRune > 0) {
                         const insertedRune: WeaponRune = character.inventories[0].weaponrunes.find(rune => rune.potency == weapon.potencyRune);
 
-                        this.characterService.drop_InventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
+                        this.characterService.dropInventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
 
@@ -527,7 +527,7 @@ export class ItemRunesComponent implements OnInit {
                     if (weapon.strikingRune > 0) {
                         const insertedRune: WeaponRune = character.inventories[0].weaponrunes.find(rune => rune.striking == weapon.strikingRune);
 
-                        this.characterService.drop_InventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
+                        this.characterService.dropInventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
 
@@ -563,7 +563,7 @@ export class ItemRunesComponent implements OnInit {
                     if (armor.potencyRune > 0) {
                         const insertedRune: ArmorRune = character.inventories[0].armorrunes.find(rune => rune.potency == armor.potencyRune);
 
-                        this.characterService.drop_InventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
+                        this.characterService.dropInventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
 
@@ -599,7 +599,7 @@ export class ItemRunesComponent implements OnInit {
                     if (armor.resilientRune > 0) {
                         const insertedRune: ArmorRune = character.inventories[0].armorrunes.find(rune => rune.resilient == armor.resilientRune);
 
-                        this.characterService.drop_InventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
+                        this.characterService.dropInventoryItem(character, character.inventories[0], insertedRune, false, false, false, 1);
                     }
                 }
 
@@ -640,10 +640,10 @@ export class ItemRunesComponent implements OnInit {
                 //If we are not in the item store, remove the inserted rune from the inventory, either by decreasing the amount or by dropping the item.
                 //Also add the rune's lore if needed.
                 if (!this.itemStore) {
-                    this.characterService.drop_InventoryItem(this.get_Character(), inv, rune, false, false, false, 1);
+                    this.characterService.dropInventoryItem(this.get_Character(), inv, rune, false, false, false, 1);
 
                     if ((weapon.propertyRunes[newLength - 1] as WeaponRune).loreChoices.length) {
-                        this.characterService.add_RuneLore(weapon.propertyRunes[newLength - 1]);
+                        this.characterService.addRuneLore(weapon.propertyRunes[newLength - 1]);
                     }
                 }
             }
@@ -668,7 +668,7 @@ export class ItemRunesComponent implements OnInit {
 
         //Remove the Ancestral Echoing Lore if applicable.
         if (oldRune.loreChoices.length) {
-            this.characterService.remove_RuneLore(oldRune);
+            this.characterService.removeRuneLore(oldRune);
         }
 
         this.update_Item();
@@ -699,7 +699,7 @@ export class ItemRunesComponent implements OnInit {
 
                 //If we are not in the item store, remove the inserted rune from the inventory, either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
-                    this.characterService.drop_InventoryItem(this.get_Character(), inv, rune, false, false, false, 1);
+                    this.characterService.dropInventoryItem(this.get_Character(), inv, rune, false, false, false, 1);
 
                 }
             }
@@ -796,7 +796,7 @@ export class ItemRunesComponent implements OnInit {
     private grant_RuneToInventory(rune: Rune) {
         const character = this.get_Character();
 
-        this.characterService.grant_InventoryItem(rune, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
+        this.characterService.grantInventoryItem(rune, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
     }
 
     update_Item() {

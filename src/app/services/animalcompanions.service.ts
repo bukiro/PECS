@@ -184,7 +184,7 @@ export class AnimalCompanionsService {
         companion.class.specializations = companion.class.specializations.filter(specialization => specialization.name !== spec.name);
     }
 
-    stillLoading(): boolean {
+    public stillLoading(): boolean {
         return !(this._ancestriesInitialized && this._levelsInitialized && this._specializationsInitialized);
     }
 

@@ -604,11 +604,11 @@ export class FeatsService {
                         const newConditionGain = Object.assign(new ConditionGain(), gain);
 
                         newConditionGain.fromFeat = true;
-                        characterService.add_Condition(character, newConditionGain, {}, { noReload: true });
+                        characterService.addCondition(character, newConditionGain, {}, { noReload: true });
                     });
                 } else {
                     feat.gainConditions.forEach(gain => {
-                        const conditionGains = characterService.get_AppliedConditions(character, gain.name).filter(conditionGain => conditionGain.source == gain.source);
+                        const conditionGains = characterService.currentCreatureConditions(character, gain.name).filter(conditionGain => conditionGain.source == gain.source);
 
                         if (conditionGains.length) {
                             characterService.remove_Condition(character, conditionGains[0], false);
@@ -710,7 +710,7 @@ export class FeatsService {
                         const oldHeritage = character.class.additionalHeritages.find(heritage => heritage.source == feat.name && heritage.charLevelAvailable == level.number);
                         const heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
 
-                        character.class.processRemovingChangeHeritage(characterService, heritageIndex);
+                        character.class.processRemovingOldHeritage(characterService, heritageIndex);
                         character.class.additionalHeritages.splice(heritageIndex, 1);
                     });
                 }

@@ -27,80 +27,82 @@ import { TraitsService } from 'src/app/services/traits.service';
 export class AppInitService {
 
     constructor(
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly extensionsService: ExtensionsService,
-        private readonly configService: ConfigService,
-        private readonly savegameService: SavegameService,
-        private readonly traitsService: TraitsService,
-        private readonly abilitiesService: AbilitiesDataService,
-        private readonly activitiesService: ActivitiesDataService,
-        private readonly featsService: FeatsService,
-        private readonly historyService: HistoryService,
-        private readonly classesService: ClassesService,
-        private readonly conditionsService: ConditionsService,
-        private readonly spellsService: SpellsService,
-        private readonly skillsService: SkillsService,
-        private readonly itemsService: ItemsService,
-        private readonly deitiesService: DeitiesService,
-        private readonly animalCompanionsService: AnimalCompanionsService,
-        private readonly familiarsService: FamiliarsService,
-        private readonly messageService: MessageService,
-        private readonly customEffectsService: CustomEffectsService,
-        private readonly effectsGenerationService: EffectsGenerationService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _extensionsService: ExtensionsService,
+        private readonly _configService: ConfigService,
+        private readonly _savegameService: SavegameService,
+        private readonly _traitsService: TraitsService,
+        private readonly _abilitiesService: AbilitiesDataService,
+        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _featsService: FeatsService,
+        private readonly _historyService: HistoryService,
+        private readonly _classesService: ClassesService,
+        private readonly _conditionsService: ConditionsService,
+        private readonly _spellsService: SpellsService,
+        private readonly _skillsService: SkillsService,
+        private readonly _itemsService: ItemsService,
+        private readonly _deitiesService: DeitiesService,
+        private readonly _animalCompanionsService: AnimalCompanionsService,
+        private readonly _familiarsService: FamiliarsService,
+        private readonly _messageService: MessageService,
+        private readonly _customEffectsService: CustomEffectsService,
+        private readonly _effectsGenerationService: EffectsGenerationService,
     ) {
         this.init();
     }
 
     public init(): void {
-        this.characterService.initialize();
-        this.refreshService.initialize();
-        this.extensionsService.initialize();
-        this.configService.initialize(this.characterService, this.savegameService);
+        const waitDelay = 100;
+
+        this._characterService.initialize();
+        this._refreshService.initialize();
+        this._extensionsService.initialize();
+        this._configService.initialize(this._characterService, this._savegameService);
 
         const waitForFileServices = setInterval(() => {
-            if (!this.extensionsService.still_loading() && !this.configService.still_loading()) {
+            if (!this._extensionsService.still_loading() && !this._configService.still_loading()) {
                 clearInterval(waitForFileServices);
-                this.traitsService.initialize();
-                this.abilitiesService.initialize();
-                this.activitiesService.initialize();
-                this.featsService.initialize();
-                this.historyService.initialize();
-                this.classesService.initialize();
-                this.conditionsService.initialize();
-                this.spellsService.initialize();
-                this.skillsService.initialize();
-                this.itemsService.initialize();
-                this.deitiesService.initialize();
-                this.animalCompanionsService.initialize();
-                this.familiarsService.initialize();
-                this.messageService.initialize(this.characterService);
-                this.customEffectsService.initialize();
-                this.effectsGenerationService.initialize(this.characterService);
+                this._traitsService.initialize();
+                this._abilitiesService.initialize();
+                this._activitiesService.initialize();
+                this._featsService.initialize();
+                this._historyService.initialize();
+                this._classesService.initialize();
+                this._conditionsService.initialize();
+                this._spellsService.initialize();
+                this._skillsService.initialize();
+                this._itemsService.initialize();
+                this._deitiesService.initialize();
+                this._animalCompanionsService.initialize();
+                this._familiarsService.initialize();
+                this._messageService.initialize(this._characterService);
+                this._customEffectsService.initialize();
+                this._effectsGenerationService.initialize(this._characterService);
             }
-        }, 100);
+        }, waitDelay);
         const waitForLoadServices = setInterval(() => {
             if (
                 !(
-                    this.traitsService.stillLoading() ||
-                    this.abilitiesService.stillLoading() ||
-                    this.activitiesService.stillLoading() ||
-                    this.featsService.still_loading() ||
-                    this.historyService.still_loading() ||
-                    this.classesService.still_loading() ||
-                    this.conditionsService.still_loading() ||
-                    this.spellsService.still_loading() ||
-                    this.skillsService.still_loading() ||
-                    this.itemsService.still_loading() ||
-                    this.deitiesService.still_loading() ||
-                    this.animalCompanionsService.stillLoading() ||
-                    this.familiarsService.still_loading()
+                    this._traitsService.stillLoading() ||
+                    this._abilitiesService.stillLoading() ||
+                    this._activitiesService.stillLoading() ||
+                    this._featsService.still_loading() ||
+                    this._historyService.still_loading() ||
+                    this._classesService.still_loading() ||
+                    this._conditionsService.still_loading() ||
+                    this._spellsService.still_loading() ||
+                    this._skillsService.still_loading() ||
+                    this._itemsService.still_loading() ||
+                    this._deitiesService.still_loading() ||
+                    this._animalCompanionsService.stillLoading() ||
+                    this._familiarsService.still_loading()
                 )
             ) {
                 clearInterval(waitForLoadServices);
-                this.characterService.finish_Loading();
+                this._characterService.finish_Loading();
             }
-        }, 100);
+        }, waitDelay);
     }
 
 }

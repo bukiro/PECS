@@ -186,7 +186,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     change_Cash(multiplier = 1, sum = 0, changeafter = false) {
-        this.characterService.change_Cash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
+        this.characterService.changeCash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
 
         if (changeafter) {
             this.refreshService.set_Changed('inventory');
@@ -264,7 +264,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         }
 
         item.crafted = true;
-        this.characterService.grant_InventoryItem(item, { creature: this.characterService.character(), inventory: this.characterService.character().inventories[0], amount }, { resetRunes: false });
+        this.characterService.grantInventoryItem(item, { creature: this.characterService.character(), inventory: this.characterService.character().inventories[0], amount }, { resetRunes: false });
     }
 
     get_FormulasLearned(id = '', source = '') {

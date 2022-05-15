@@ -280,10 +280,10 @@ export class EffectsGenerationService {
     private collect_EffectConditions(creature: Creature, services: { readonly characterService: CharacterService }): { conditions: Array<ConditionEffectsObject>; hintSets: Array<HintEffectsObject> } {
         const hintSets: Array<HintEffectsObject> = [];
         const conditions: Array<ConditionEffectsObject> = [];
-        const appliedConditions = services.characterService.get_AppliedConditions(creature).filter(condition => condition.apply);
+        const appliedConditions = services.characterService.currentCreatureConditions(creature).filter(condition => condition.apply);
 
         appliedConditions.forEach(gain => {
-            const originalCondition = services.characterService.get_Conditions(gain.name)[0];
+            const originalCondition = services.characterService.conditions(gain.name)[0];
 
             if (originalCondition) {
                 const conditionEffectsObject: ConditionEffectsObject = Object.assign(new ConditionEffectsObject(originalCondition.effects), gain);

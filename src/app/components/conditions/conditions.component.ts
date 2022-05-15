@@ -342,7 +342,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         }
 
         newGain.source = 'Manual';
-        this.characterService.add_Condition(creature, newGain);
+        this.characterService.addCondition(creature, newGain);
     }
 
     get_EffectsProperty() {
@@ -526,7 +526,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.affected));
                     });
-                this.characterService.get_Conditions().filter(condition => condition.effects.length)
+                this.characterService.conditions().filter(condition => condition.effects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.affected));
                     });
@@ -540,11 +540,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.value));
                     });
-                this.characterService.get_Conditions().filter(condition => condition.onceEffects.length)
+                this.characterService.conditions().filter(condition => condition.onceEffects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.onceEffects.map(effect => effect.value));
                     });
-                this.characterService.get_Conditions().filter(condition => condition.effects.length)
+                this.characterService.conditions().filter(condition => condition.effects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.value));
                     });
@@ -577,11 +577,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.setValue));
                     });
-                this.characterService.get_Conditions().filter(condition => condition.onceEffects.length)
+                this.characterService.conditions().filter(condition => condition.onceEffects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.onceEffects.map(effect => effect.setValue));
                     });
-                this.characterService.get_Conditions().filter(condition => condition.effects.length)
+                this.characterService.conditions().filter(condition => condition.effects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.setValue));
                     });
@@ -610,7 +610,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.title));
                     });
-                this.characterService.get_Conditions().filter(condition => condition.effects.length)
+                this.characterService.conditions().filter(condition => condition.effects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.title));
                     });

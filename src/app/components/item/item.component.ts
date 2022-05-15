@@ -92,7 +92,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     on_TalismanUse(talisman: Talisman, index: number, preserve = false) {
-        this.characterService.on_ConsumableUse(this.get_Creature(), talisman, preserve);
+        this.characterService.useConsumable(this.get_Creature(), talisman, preserve);
 
         if (!preserve) {
             this.item.talismans.splice(index, 1);
@@ -110,7 +110,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     on_PoisonUse(poison: AlchemicalPoison) {
-        this.characterService.on_ConsumableUse(this.get_Creature(), poison);
+        this.characterService.useConsumable(this.get_Creature(), poison);
 
         if (this.item instanceof Weapon) {
             this.item.poisonsApplied.length = 0;

@@ -73,7 +73,7 @@ export class ItemPoisonsComponent {
             item.poisonsApplied.push(Object.assign<AlchemicalPoison, AlchemicalPoison>(new AlchemicalPoison(), JSON.parse(JSON.stringify(this.newPoison.poison))).recast(this.typeService, this.itemsService));
 
             if (this.newPoison.inv) {
-                this.characterService.drop_InventoryItem(this.get_Character(), this.newPoison.inv, this.newPoison.poison, false, false, false, 1);
+                this.characterService.dropInventoryItem(this.get_Character(), this.newPoison.inv, this.newPoison.poison, false, false, false, 1);
             }
 
             this.newPoison = { poison: new AlchemicalPoison(), inv: null };

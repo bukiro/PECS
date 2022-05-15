@@ -273,7 +273,7 @@ export class ConditionsService {
         if (taken) {
             condition.endConditions.forEach(end => {
                 conditionDidSomething = true;
-                characterService.get_AppliedConditions(creature, end.name)
+                characterService.currentCreatureConditions(creature, end.name)
                     .filter(conditionGain =>
                         conditionGain != gain &&
                         (
@@ -291,7 +291,7 @@ export class ConditionsService {
 
         //If this ends, remove conditions that have this listed in endsWithConditions
         if (!taken && !ignoreEndsWithConditions) {
-            characterService.get_AppliedConditions(creature, '', '', true)
+            characterService.currentCreatureConditions(creature, '', '', true)
                 .filter(conditionGain => this.get_ConditionFromName(conditionGain.name).endsWithConditions.some(endsWith => endsWith.name == condition.name && (!endsWith.source || gain.source == endsWith.source)))
                 .map(conditionGain => Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast())
                 .forEach(conditionGain => {
@@ -312,7 +312,7 @@ export class ConditionsService {
                     newGain.name = nextCondition.name;
                     newGain.duration = nextCondition.duration || -1;
                     newGain.choice = nextCondition.choice || this.get_ConditionFromName(newGain.name)?.choice || '';
-                    characterService.add_Condition(creature, newGain, {}, { noReload: true });
+                    characterService.addCondition(creature, newGain, {}, { noReload: true });
                 }
             });
         }
@@ -333,7 +333,7 @@ export class ConditionsService {
                 addCondition.source = gain.name;
                 addCondition.parentID = gain.id;
                 addCondition.apply = true;
-                characterService.add_Condition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
+                characterService.addCondition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
 
             });
         }
@@ -373,26 +373,26 @@ export class ConditionsService {
 
             if (taken) {
                 if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
-                    if (!characterService.get_AppliedConditions(creature, 'Dead').length) {
-                        characterService.add_Condition(creature, Object.assign(new ConditionGain(), { name: 'Dead', source: 'Dying value too high' }).recast(), {}, { noReload: true });
+                    if (!characterService.currentCreatureConditions(creature, 'Dead').length) {
+                        characterService.addCondition(creature, Object.assign(new ConditionGain(), { name: 'Dead', source: 'Dying value too high' }).recast(), {}, { noReload: true });
                     }
                 }
             } else {
                 if (creature.health.dying(creature, characterService) == 0) {
                     if (increaseWounded) {
                         if (creature.health.wounded(creature, characterService) > 0) {
-                            characterService.get_AppliedConditions(creature, 'Wounded').forEach(gain => {
+                            characterService.currentCreatureConditions(creature, 'Wounded').forEach(gain => {
                                 gain.value++;
                                 gain.source = 'Recovered from Dying';
                             });
                         } else {
-                            characterService.add_Condition(creature, Object.assign(new ConditionGain(), { name: 'Wounded', value: 1, source: 'Recovered from Dying' }).recast(), {}, { noReload: true });
+                            characterService.addCondition(creature, Object.assign(new ConditionGain(), { name: 'Wounded', value: 1, source: 'Recovered from Dying' }).recast(), {}, { noReload: true });
                         }
                     }
 
                     if (!creature.health.currentHP(creature, characterService, effectsService).result) {
-                        if (!characterService.get_AppliedConditions(creature, 'Unconscious', '0 Hit Points').length && !characterService.get_AppliedConditions(creature, 'Unconscious', 'Dying').length) {
-                            characterService.add_Condition(creature, Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' }).recast(), {}, { noReload: true });
+                        if (!characterService.currentCreatureConditions(creature, 'Unconscious', '0 Hit Points').length && !characterService.currentCreatureConditions(creature, 'Unconscious', 'Dying').length) {
+                            characterService.addCondition(creature, Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' }).recast(), {}, { noReload: true });
                         }
                     }
                 }
@@ -430,7 +430,7 @@ export class ConditionsService {
             const character = characterService.character();
 
             //If no other conditions have this ConditionGain's sourceGainID, find the matching Spellgain or ActivityGain and disable it.
-            if (!characterService.get_AppliedConditions(character).some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID == gain.sourceGainID)) {
+            if (!characterService.currentCreatureConditions(character).some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID == gain.sourceGainID)) {
                 character.takenSpells(0, 20, { characterService })
                     .concat(character.allGrantedEquipmentSpells())
                     .filter(taken => taken.gain.id == gain.sourceGainID && taken.gain.active)
@@ -560,10 +560,10 @@ export class ConditionsService {
             });
         });
         function get_HaveCondition(name: string, source: string) {
-            return (!!services.characterService.get_AppliedConditions(creature, name, source, true).length);
+            return (!!services.characterService.currentCreatureConditions(creature, name, source, true).length);
         }
         function add_Condition(name: string, value: number, source: string) {
-            services.characterService.add_Condition(creature, Object.assign(new ConditionGain(), { name, value, source, apply: true }), {}, { noReload: true });
+            services.characterService.addCondition(creature, Object.assign(new ConditionGain(), { name, value, source, apply: true }), {}, { noReload: true });
         }
         function remove_Condition(name: string, value: number, source: string) {
             services.characterService.remove_Condition(creature, Object.assign(new ConditionGain(), { name, value, source, apply: true }), false);
@@ -612,7 +612,7 @@ export class ConditionsService {
                     activate = true;
                 }
 
-                if (services.characterService.get_AppliedConditions(creature, gain.name, gain.source, true).filter(existingGain => !gain.choice || (existingGain.choice == gain.choice)).length) {
+                if (services.characterService.currentCreatureConditions(creature, gain.name, gain.source, true).filter(existingGain => !gain.choice || (existingGain.choice == gain.choice)).length) {
                     if (!activate) {
                         services.characterService.remove_Condition(creature, gain, false);
                     } else {
@@ -626,7 +626,7 @@ export class ConditionsService {
                     }
                 } else {
                     if (activate) {
-                        services.characterService.add_Condition(creature, gain, { parentItem: item }, { noReload: true });
+                        services.characterService.addCondition(creature, gain, { parentItem: item }, { noReload: true });
                     }
                 }
             });
@@ -647,7 +647,7 @@ export class ConditionsService {
 
     remove_GainedItemConditions(creature: Creature, item: Equipment, characterService: CharacterService) {
         function remove_GainedConditions(gain: ConditionGain) {
-            if (characterService.get_AppliedConditions(creature, gain.name, gain.source, true).filter(existingGain => !gain.choice || (existingGain.choice == gain.choice)).length) {
+            if (characterService.currentCreatureConditions(creature, gain.name, gain.source, true).filter(existingGain => !gain.choice || (existingGain.choice == gain.choice)).length) {
                 characterService.remove_Condition(creature, gain, false);
             }
         }
@@ -671,11 +671,11 @@ export class ConditionsService {
             const bulk = creature.bulk;
             const calculatedBulk = bulk.calculate(creature, services.characterService, services.effectsService);
 
-            if (calculatedBulk.current.value > calculatedBulk.encumbered.value && !services.characterService.get_AppliedConditions(creature, 'Encumbered', 'Bulk').length) {
-                services.characterService.add_Condition(creature, Object.assign(new ConditionGain(), { name: 'Encumbered', value: 0, source: 'Bulk', apply: true }), {}, { noReload: true });
+            if (calculatedBulk.current.value > calculatedBulk.encumbered.value && !services.characterService.currentCreatureConditions(creature, 'Encumbered', 'Bulk').length) {
+                services.characterService.addCondition(creature, Object.assign(new ConditionGain(), { name: 'Encumbered', value: 0, source: 'Bulk', apply: true }), {}, { noReload: true });
             }
 
-            if (calculatedBulk.current.value <= calculatedBulk.encumbered.value && !!services.characterService.get_AppliedConditions(creature, 'Encumbered', 'Bulk').length) {
+            if (calculatedBulk.current.value <= calculatedBulk.encumbered.value && !!services.characterService.currentCreatureConditions(creature, 'Encumbered', 'Bulk').length) {
                 services.characterService.remove_Condition(creature, Object.assign(new ConditionGain(), { name: 'Encumbered', value: 0, source: 'Bulk', apply: true }), true);
             }
         }
@@ -854,7 +854,7 @@ export class ConditionsService {
                     }
 
                     newCondition.source = effect.source;
-                    characterService.add_Condition(creature, newCondition, {}, { noReload: true });
+                    characterService.addCondition(creature, newCondition, {}, { noReload: true });
                     characterService.toastService.show(
                         `Added <strong>${ conditionName }</strong> condition to <strong>${ creature.name || creature.type }</strong> after resting (caused by <strong>${ effect.source }</strong>)`,
                     );
@@ -898,7 +898,7 @@ export class ConditionsService {
 
                     addCondition.source = gain.name;
 
-                    const originalCondition = characterService.get_Conditions(addCondition.name)[0];
+                    const originalCondition = characterService.conditions(addCondition.name)[0];
 
                     if (!(addCondition.persistent || originalCondition?.persistent) || addCondition.ignorePersistentAtChoiceChange) {
                         characterService.remove_Condition(creature, addCondition, false, false, true, true, true);
@@ -920,7 +920,7 @@ export class ConditionsService {
                     addCondition.source = gain.name;
                     addCondition.parentID = gain.id;
                     addCondition.apply = true;
-                    characterService.add_Condition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
+                    characterService.addCondition(creature, addCondition, { parentConditionGain: gain }, { noReload: true });
                 });
             }
 

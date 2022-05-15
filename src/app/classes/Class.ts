@@ -179,7 +179,7 @@ export class Class {
             });
         }
     }
-    public processRemovingChangeHeritage(characterService: CharacterService, index = -1): void {
+    public processRemovingOldHeritage(characterService: CharacterService, index = -1): void {
         let heritage: Heritage = this.heritage;
 
         if (index !== -1) {

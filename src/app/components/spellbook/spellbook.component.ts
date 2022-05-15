@@ -667,7 +667,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
         //All Conditions that have affected the resource use of this spell are now removed (provided they have duration 1, so they count only for the next spell).
         if (conditionsToRemove.length) {
-            this.characterService.get_AppliedConditions(character, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
+            this.characterService.currentCreatureConditions(character, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
                 .forEach(conditionGain => {
                     if (conditionGain.durationIsInstant) {
                         this.characterService.remove_Condition(character, conditionGain, false);
@@ -695,7 +695,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                         conditionGain.heightened = context.spellParameters.effectiveSpellLevel;
 
                         if (conditionGain.name) {
-                            this.characterService.add_Condition(this.get_Character(), conditionGain, {}, { noReload: true });
+                            this.characterService.addCondition(this.get_Character(), conditionGain, {}, { noReload: true });
                         }
                     }
                 });
@@ -795,7 +795,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
         if (bondedItemCharges.length) {
             bondedItemCharges.forEach(effect => {
-                this.characterService.get_AppliedConditions(character, effect.source).forEach(gain => {
+                this.characterService.currentCreatureConditions(character, effect.source).forEach(gain => {
                     this.characterService.remove_Condition(character, gain, false, false);
                 });
             });

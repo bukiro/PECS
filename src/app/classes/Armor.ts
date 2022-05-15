@@ -226,7 +226,7 @@ export class Armor extends Equipment {
         return this.strength + (this.$affectedByArmoredSkirt * armoredSkirtMultiplier) + fortificationFactor + materialFactor;
     }
     public effectiveProficiency(creature: Creature = null, characterService: CharacterService = null): string {
-        if (creature && characterService.get_AppliedConditions(creature, 'Mage Armor', '', true).length) {
+        if (creature && characterService.currentCreatureConditions(creature, 'Mage Armor', '', true).length) {
             //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
             return 'Unarmored Defense';
         }
@@ -316,7 +316,7 @@ export class Armor extends Equipment {
                 });
             SpecializationGains.forEach(critSpec => {
                 const specs: Array<Specialization> =
-                    characterService.get_Specializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
+                    characterService.itemGroupSpecializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
 
                 specs.forEach(spec => {
                     if (critSpec.condition) {

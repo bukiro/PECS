@@ -97,7 +97,7 @@ export class ItemTalismanCordsComponent implements OnInit {
 
                 newCord.amount = 1;
                 //Remove the inserted Talisman Cord from the inventory, either by decreasing the amount or by dropping the item.
-                this.characterService.drop_InventoryItem(this.get_Character(), inv, cord, false, false, false, 1);
+                this.characterService.dropInventoryItem(this.get_Character(), inv, cord, false, false, false, 1);
             }
         }
 
@@ -112,7 +112,7 @@ export class ItemTalismanCordsComponent implements OnInit {
         const oldCord = item.talismanCords[index];
 
         //Add the extracted cord back to the inventory.
-        this.characterService.grant_InventoryItem(oldCord, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
+        this.characterService.grantInventoryItem(oldCord, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
     }
 
     set_ToChange() {

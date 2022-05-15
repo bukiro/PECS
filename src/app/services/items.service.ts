@@ -714,11 +714,11 @@ export class ItemsService {
                 }
 
                 if (movedItem instanceof Equipment && movedItem.equipped) {
-                    characterService.on_Equip(creature, inventory, movedItem as Equipment, false);
+                    characterService.equipItem(creature, inventory, movedItem as Equipment, false);
                 }
 
                 if (movedItem instanceof Equipment && movedItem.invested) {
-                    characterService.on_Invest(creature, inventory, movedItem as Equipment, false);
+                    characterService.investItem(creature, inventory, movedItem as Equipment, false);
                 }
 
                 //Move all granted items as well.
@@ -758,7 +758,7 @@ export class ItemsService {
                     const newLength = targetInventory[includedItem.type].push(movedItem);
                     const newItem = targetInventory[includedItem.type][newLength - 1];
 
-                    targetInventory[includedItem.type][newLength - 1] = characterService.process_GrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
+                    targetInventory[includedItem.type][newLength - 1] = characterService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
                 }
             });
             //Add included inventories and process all items inside them.
@@ -767,13 +767,13 @@ export class ItemsService {
                 const newInventory = toCreature.inventories[newLength - 1];
 
                 newInventory.allItems().forEach(invItem => {
-                    characterService.process_GrantedItem(toCreature, invItem, newInventory, true, false, true, true);
+                    characterService.processGrantedItem(toCreature, invItem, newInventory, true, false, true, true);
                 });
             });
 
             //If the item still exists on the inventory, drop it with all its contents.
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
-                characterService.drop_InventoryItem(creature, inventory, item, false, true, true, amount);
+                characterService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
             }
 
             this.refreshService.set_ToChange(toCreature.type, 'inventory');
@@ -804,7 +804,7 @@ export class ItemsService {
             item.gainConditions.forEach(gain => {
                 const newConditionGain = Object.assign(new ConditionGain(), gain).recast();
 
-                characterService.add_Condition(creature, newConditionGain, {}, { noReload: true });
+                characterService.addCondition(creature, newConditionGain, {}, { noReload: true });
             });
 
             //Cast Spells
@@ -846,7 +846,7 @@ export class ItemsService {
             while (inv.allItems().some(item => item.name == 'DELETE')) {
                 inv.allItems().filter(item => item.name == 'DELETE')
                     .forEach(item => {
-                        characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
+                        characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
                     });
                 this.refreshService.set_ToChange(creature.type, 'inventory');
             }
@@ -865,7 +865,7 @@ export class ItemsService {
             if (characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
                 creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
-                        characterService.grant_InventoryItem(scroll, { creature, inventory: creature.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
+                        characterService.grantInventoryItem(scroll, { creature, inventory: creature.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
                     });
                 });
             }
@@ -930,7 +930,7 @@ export class ItemsService {
             while (inv.allItems().some(item => item.name == 'DELETE')) {
                 inv.allItems().filter(item => item.name == 'DELETE')
                     .forEach(item => {
-                        characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
+                        characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
                     });
                 this.refreshService.set_ToChange(creature.type, 'inventory');
             }
@@ -983,7 +983,7 @@ export class ItemsService {
             while (inv.allItems().some(item => item.name == 'DELETE')) {
                 inv.allItems().filter(item => item.name == 'DELETE')
                     .forEach(item => {
-                        characterService.drop_InventoryItem(creature, inv, item, false, true, true, item.amount);
+                        characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
                     });
                 this.refreshService.set_ToChange(creature.type, 'inventory');
             }

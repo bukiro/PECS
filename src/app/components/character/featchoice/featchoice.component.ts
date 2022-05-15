@@ -653,7 +653,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     }
 
     remove_CustomFeat(feat: Feat) {
-        this.characterService.remove_CustomFeat(feat);
+        this.characterService.removeCustomFeat(feat);
         this.refreshService.set_ToChange('Character', 'charactersheet');
         this.refreshService.set_ToChange('Character', 'featchoices');
         this.refreshService.process_ToChange();

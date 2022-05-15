@@ -28,7 +28,7 @@ export class AnimalCompanionClass {
                             .filter((item: Equipment) => item.id === freeItem.grantedItemID);
 
                     items.forEach(item => {
-                        characterService.drop_InventoryItem(
+                        characterService.dropInventoryItem(
                             characterService.companion(),
                             characterService.companion().inventories[0],
                             item,

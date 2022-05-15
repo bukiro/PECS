@@ -209,7 +209,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     sort_Cash() {
-        this.characterService.sort_Cash();
+        this.characterService.sortCash();
     }
 
     get_Items() {
@@ -347,7 +347,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
         const preserveInventoryContent = (pay && item instanceof Equipment && !!item.gainInventory.length);
 
-        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount, preserveInventoryContent);
+        this.characterService.dropInventoryItem(this.get_Creature(), inventory, item, false, true, true, item.amount, preserveInventoryContent);
         this.toggle_Item();
         this.refreshService.set_ToChange(this.creature, 'inventory');
         this.refreshService.set_ToChange(this.creature, 'close-popovers');
@@ -410,7 +410,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     drop_ContainerOnly(item: Item, inventory: ItemCollection) {
         this.toggle_Item();
-        this.characterService.drop_InventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount, true);
+        this.characterService.dropInventoryItem(this.get_Creature(), inventory, item, false, true, false, item.amount, true);
         this.refreshService.set_ToChange(this.creature, 'close-popovers');
         this.refreshService.process_ToChange();
     }
@@ -498,7 +498,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_InvestedItems() {
-        return this.characterService.get_InvestedItems(this.get_Creature());
+        return this.characterService.creatureInvestedItems(this.get_Creature());
     }
 
     get_Invested() {
@@ -511,17 +511,17 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     on_Equip(item: Equipment, inventory: ItemCollection, equipped: boolean) {
-        this.characterService.on_Equip(this.get_Creature(), inventory, item, equipped);
+        this.characterService.equipItem(this.get_Creature(), inventory, item, equipped);
     }
 
     on_Invest(item: Equipment, inventory: ItemCollection, invested: boolean) {
-        this.characterService.on_Invest(this.get_Creature(), inventory, item, invested);
+        this.characterService.investItem(this.get_Creature(), inventory, item, invested);
     }
 
     onItemBroken(item: Equipment) {
         if (item.broken) {
             if (!this.can_Equip(item, 0) && item.equipped) {
-                this.characterService.on_Equip(this.get_Creature(), this.get_Creature().inventories[0], item, false, false, true);
+                this.characterService.equipItem(this.get_Creature(), this.get_Creature().inventories[0], item, false, false, true);
                 this.toastService.show(`Your <strong>${ item.effectiveName() }</strong> was unequipped because it is broken.`);
             }
         }
@@ -601,7 +601,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     on_ConsumableUse(item: Consumable, creature: string, inventory: ItemCollection) {
-        this.characterService.on_ConsumableUse(this.get_Creature(creature), item);
+        this.characterService.useConsumable(this.get_Creature(creature), item);
 
         if (this.can_Drop(item) && !item.canStack()) {
             this.drop_InventoryItem(item, inventory, false);
@@ -640,7 +640,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     change_Cash(multiplier = 1, sum = 0, changeafter = false) {
-        this.characterService.change_Cash(multiplier, sum);
+        this.characterService.changeCash(multiplier, sum);
 
         if (changeafter) {
             this.refreshService.process_ToChange();
@@ -716,7 +716,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             amount = item.stack;
         }
 
-        this.characterService.grant_InventoryItem(item, { creature: this.characterService.character(), inventory: this.characterService.character().inventories[0], amount }, { resetRunes: false });
+        this.characterService.grantInventoryItem(item, { creature: this.characterService.character(), inventory: this.characterService.character().inventories[0], amount }, { resetRunes: false });
 
         if (type == 'snarespecialist') {
             learned.snareSpecialistAvailable--;

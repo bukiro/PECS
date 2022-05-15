@@ -339,14 +339,14 @@ export class SpellsService {
 
                             //Apply to any targets that are your own creatures.
                             conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
-                                services.characterService.add_Condition(target as Creature, newConditionGain, {}, { noReload: true });
+                                services.characterService.addCondition(target as Creature, newConditionGain, {}, { noReload: true });
                             });
 
                             //Apply to any non-creature targets whose ID matches your own creatures.
                             const creatures = services.characterService.allAvailableCreatures();
 
                             conditionTargets.filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id == target.id)).forEach(target => {
-                                services.characterService.add_Condition(services.characterService.creatureFromType(target.type), newConditionGain, {}, { noReload: true });
+                                services.characterService.addCondition(services.characterService.creatureFromType(target.type), newConditionGain, {}, { noReload: true });
                             });
 
                             //Send conditions to non-creature targets that aren't your own creatures.
@@ -367,7 +367,7 @@ export class SpellsService {
                         const conditionTargets: Array<Creature | SpellTarget> = (conditionGain.targetFilter == 'caster' ? [context.creature] : targets);
 
                         conditionTargets.filter(target => target.constructor != SpellTarget).forEach(target => {
-                            services.characterService.get_AppliedConditions(target as Creature, conditionGain.name)
+                            services.characterService.currentCreatureConditions(target as Creature, conditionGain.name)
                                 .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (context.gain?.id || ''))
                                 .forEach(existingConditionGain => {
                                     services.characterService.remove_Condition(target as Creature, existingConditionGain, false);
@@ -382,7 +382,7 @@ export class SpellsService {
 
         //All Conditions that have affected the duration of this spell or its conditions are now removed.
         if (conditionsToRemove.length) {
-            services.characterService.get_AppliedConditions(context.creature, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
+            services.characterService.currentCreatureConditions(context.creature, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
                 .forEach(conditionGain => {
                     services.characterService.remove_Condition(context.creature, conditionGain, false);
                 });

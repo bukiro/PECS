@@ -151,9 +151,9 @@ export class AttacksComponent implements OnInit, OnDestroy {
     get_AttackRestrictions() {
         this.onlyAttacks = [];
         this.forbiddenAttacks = [];
-        this.characterService.get_AppliedConditions(this.get_Creature()).filter(gain => gain.apply)
+        this.characterService.currentCreatureConditions(this.get_Creature()).filter(gain => gain.apply)
             .forEach(gain => {
-                const condition = this.characterService.get_Conditions(gain.name)[0];
+                const condition = this.characterService.conditions(gain.name)[0];
 
                 this.onlyAttacks.push(
                     ...condition?.attackRestrictions
@@ -227,7 +227,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number, preserve = false) {
         this.refreshService.set_ToChange(this.creature, 'attacks');
-        this.characterService.on_ConsumableUse(this.get_Creature(), talisman, preserve);
+        this.characterService.useConsumable(this.get_Creature(), talisman, preserve);
 
         if (!preserve) {
             weapon.talismans.splice(index, 1);
@@ -238,7 +238,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     on_PoisonUse(weapon: Weapon, poison: AlchemicalPoison) {
         this.refreshService.set_ToChange(this.creature, 'attacks');
-        this.characterService.on_ConsumableUse(this.get_Creature(), poison);
+        this.characterService.useConsumable(this.get_Creature(), poison);
         weapon.poisonsApplied.length = 0;
         this.refreshService.process_ToChange();
     }
@@ -310,13 +310,13 @@ export class AttacksComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.characterService.on_ConsumableUse(this.get_Creature(), item as Consumable);
+        this.characterService.useConsumable(this.get_Creature(), item as Consumable);
 
         if (item.canStack()) {
             this.refreshService.set_ToChange(this.creature, 'attacks');
             this.refreshService.process_ToChange();
         } else {
-            this.characterService.drop_InventoryItem(this.get_Creature(), inv, item, true);
+            this.characterService.dropInventoryItem(this.get_Creature(), inv, item, true);
         }
     }
 
@@ -546,7 +546,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         if (mapName) {
             const newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: mapName, choice: mapChoice, source: 'Quick Status', duration: 5, locked: true });
 
-            this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
+            this.characterService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
         this.refreshService.process_ToChange();
@@ -637,7 +637,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         if (rapChoice) {
             const newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: 'Range Penalty', choice: rapChoice, source: 'Quick Status', duration: 5, locked: true });
 
-            this.characterService.add_Condition(creature, newCondition, {}, { noReload: true });
+            this.characterService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
         this.refreshService.process_ToChange();

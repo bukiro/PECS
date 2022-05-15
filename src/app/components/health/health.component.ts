@@ -96,9 +96,9 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     die(reason: string) {
-        if (!this.characterService.get_AppliedConditions(this.get_Creature(), 'Dead').length) {
-            this.characterService.add_Condition(this.get_Creature(), Object.assign(new ConditionGain(), { name: 'Dead', source: reason }), {}, { noReload: true });
-            this.characterService.get_AppliedConditions(this.get_Creature(), 'Doomed').forEach(gain => {
+        if (!this.characterService.currentCreatureConditions(this.get_Creature(), 'Dead').length) {
+            this.characterService.addCondition(this.get_Creature(), Object.assign(new ConditionGain(), { name: 'Dead', source: reason }), {}, { noReload: true });
+            this.characterService.currentCreatureConditions(this.get_Creature(), 'Doomed').forEach(gain => {
                 this.characterService.remove_Condition(this.get_Creature(), gain, false);
             });
         }
@@ -114,7 +114,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         //Don't do anything about your dying status in manual mode.
         if (!this.characterService.isManualMode()) {
             if (calculatedHealth.dying >= calculatedHealth.maxDying) {
-                if (this.characterService.get_AppliedConditions(this.get_Creature(), 'Doomed').length) {
+                if (this.characterService.currentCreatureConditions(this.get_Creature(), 'Doomed').length) {
                     this.die('Doomed');
                 } else {
                     this.die('Dying value too high');
@@ -140,11 +140,11 @@ export class HealthComponent implements OnInit, OnDestroy {
             //Reduce all dying conditions by 1
             //Conditions with Value 0 get cleaned up in the conditions Service
             //Wounded is added automatically when Dying is removed
-            this.characterService.get_AppliedConditions(this.get_Creature(), 'Dying').forEach(gain => {
+            this.characterService.currentCreatureConditions(this.get_Creature(), 'Dying').forEach(gain => {
                 gain.value = Math.max(gain.value - 1, 0);
             });
         } else {
-            this.characterService.get_AppliedConditions(this.get_Creature(), 'Dying').forEach(gain => {
+            this.characterService.currentCreatureConditions(this.get_Creature(), 'Dying').forEach(gain => {
                 gain.value = Math.min(gain.value + 1, maxDying);
             });
 
@@ -158,7 +158,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     on_HeroPointRecover() {
-        this.characterService.get_AppliedConditions(this.get_Creature(), 'Dying').forEach(gain => {
+        this.characterService.currentCreatureConditions(this.get_Creature(), 'Dying').forEach(gain => {
             this.characterService.remove_Condition(this.get_Creature(), gain, false, false, false);
         });
         this.get_Character().heroPoints = 0;
@@ -168,7 +168,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     on_HealWounded() {
-        this.characterService.get_AppliedConditions(this.get_Creature(), 'Wounded').forEach(gain => {
+        this.characterService.currentCreatureConditions(this.get_Creature(), 'Wounded').forEach(gain => {
             this.characterService.remove_Condition(this.get_Creature(), gain, false);
         });
         this.refreshService.set_ToChange(this.creature, 'effects');

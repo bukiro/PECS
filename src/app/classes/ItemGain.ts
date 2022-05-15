@@ -147,7 +147,7 @@ export class ItemGain {
                 if (newItem.canStack()) {
                     //For stackables, add the appropriate amount and don't track them.
                     const grantedItem =
-                        services.characterService.grant_InventoryItem(
+                        services.characterService.grantInventoryItem(
                             newItem,
                             {
                                 creature,
@@ -181,7 +181,7 @@ export class ItemGain {
                     }
 
                     const grantedItem =
-                        services.characterService.grant_InventoryItem(
+                        services.characterService.grantInventoryItem(
                             newItem,
                             {
                                 creature,
@@ -264,7 +264,7 @@ export class ItemGain {
                                 const amountToRemove = Math.min(remainingAmount, item.amount);
 
                                 remainingAmount -= amountToRemove;
-                                services.characterService.drop_InventoryItem(creature, inv, item, false, true, true, amountToRemove, true);
+                                services.characterService.dropInventoryItem(creature, inv, item, false, true, true, amountToRemove, true);
 
                                 if (remainingAmount <= 0) {
                                     hasUsedAmount = true;

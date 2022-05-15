@@ -170,10 +170,10 @@ export class EvaluationService {
         const Speed = (name: string): number => (this.get_TestSpeed(name))?.value(Creature, characterService, effectsService).result || 0;
 
         function Has_Condition(name: string): boolean {
-            return !!characterService.get_AppliedConditions(Creature, name, '', true).length;
+            return !!characterService.currentCreatureConditions(Creature, name, '', true).length;
         }
         function Owned_Conditions(name: string): Array<ConditionGain> {
-            return characterService.get_AppliedConditions(Creature, name, '', true);
+            return characterService.currentCreatureConditions(Creature, name, '', true);
         }
         function Owned_Activities(name: string): Array<ActivityGain> {
             return characterService.get_OwnedActivities(Creature).filter(gain => gain.name === name);

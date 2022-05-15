@@ -229,13 +229,13 @@ export class Condition {
             ) ||
             (
                 this.gainConditions.length ?
-                    characterService.get_AppliedConditions(creature, '', '', true)
+                    characterService.currentCreatureConditions(creature, '', '', true)
                         .some(existingCondition => !conditionGain || existingCondition.parentID === conditionGain.id) :
                     false
             ) ||
             (
                 this.overrideConditions.length ?
-                    characterService.get_AppliedConditions(creature, '', '', true)
+                    characterService.currentCreatureConditions(creature, '', '', true)
                         .some(existingCondition =>
                             this.conditionOverrides(conditionGain).some(override =>
                                 override.name === existingCondition.name &&
@@ -249,7 +249,7 @@ export class Condition {
             ) ||
             (
                 this.pauseConditions.length ?
-                    characterService.get_AppliedConditions(creature, '', '', true)
+                    characterService.currentCreatureConditions(creature, '', '', true)
                         .some(existingCondition =>
                             this.conditionPauses(conditionGain).some(pause =>
                                 pause.name === existingCondition.name &&

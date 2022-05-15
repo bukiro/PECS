@@ -77,7 +77,7 @@ export class Health {
     }
     public wounded(creature: Creature, characterService: CharacterService): number {
         let woundeds = 0;
-        const conditions = characterService.get_AppliedConditions(creature, 'Wounded');
+        const conditions = characterService.currentCreatureConditions(creature, 'Wounded');
 
         if (conditions.length) {
             woundeds = Math.max(...conditions.map(gain => gain.value));
@@ -87,7 +87,7 @@ export class Health {
     }
     public dying(creature: Creature, characterService: CharacterService): number {
         let dying = 0;
-        const conditions = characterService.get_AppliedConditions(creature, 'Dying');
+        const conditions = characterService.currentCreatureConditions(creature, 'Dying');
 
         if (conditions.length) {
             dying = Math.max(...conditions.map(gain => gain.value));
@@ -144,11 +144,11 @@ export class Health {
             if (!nonlethal && currentHP === 0) {
                 if (dying === 0) {
                     if (
-                        !characterService.get_AppliedConditions(creature, 'Unconscious', '0 Hit Points').length &&
-                        !characterService.get_AppliedConditions(creature, 'Unconscious', 'Dying').length
+                        !characterService.currentCreatureConditions(creature, 'Unconscious', '0 Hit Points').length &&
+                        !characterService.currentCreatureConditions(creature, 'Unconscious', 'Dying').length
                     ) {
                         dyingAddedAmount = wounded + 1;
-                        characterService.add_Condition(
+                        characterService.addCondition(
                             creature,
                             Object.assign(new ConditionGain(), { name: 'Dying', value: wounded + 1, source: '0 Hit Points' }),
                             {},
@@ -160,11 +160,11 @@ export class Health {
 
             if (nonlethal && currentHP === 0) {
                 if (
-                    !characterService.get_AppliedConditions(creature, 'Unconscious', '0 Hit Points').length &&
-                    !characterService.get_AppliedConditions(creature, 'Unconscious', 'Dying').length
+                    !characterService.currentCreatureConditions(creature, 'Unconscious', '0 Hit Points').length &&
+                    !characterService.currentCreatureConditions(creature, 'Unconscious', 'Dying').length
                 ) {
                     hasAddedUnconscious = true;
-                    characterService.add_Condition(
+                    characterService.addCondition(
                         creature,
                         Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' }),
                         {},
@@ -175,7 +175,7 @@ export class Health {
 
             //Wake up if you are unconscious and take damage (without falling under 1 HP)
             if (currentHP > 0) {
-                characterService.get_AppliedConditions(creature, 'Unconscious').forEach(gain => {
+                characterService.currentCreatureConditions(creature, 'Unconscious').forEach(gain => {
                     hasRemovedUnconscious = true;
                     characterService.remove_Condition(creature, gain, false);
                 });
@@ -202,7 +202,7 @@ export class Health {
         if (!characterService.isManualMode()) {
             //Recover from Dying and get Wounded++
             if (this.currentHP(creature, characterService, effectsService).result > 0 && dying > 0) {
-                characterService.get_AppliedConditions(creature, 'Dying').forEach(gain => {
+                characterService.currentCreatureConditions(creature, 'Dying').forEach(gain => {
                     hasRemovedDying = true;
                     characterService.remove_Condition(creature, gain, false, increaseWounded);
                 });
@@ -210,11 +210,11 @@ export class Health {
 
             //Wake up from Healing
             if (wake) {
-                characterService.get_AppliedConditions(creature, 'Unconscious', '0 Hit Points').forEach(gain => {
+                characterService.currentCreatureConditions(creature, 'Unconscious', '0 Hit Points').forEach(gain => {
                     hasRemovedUnconscious = true;
                     characterService.remove_Condition(creature, gain);
                 });
-                characterService.get_AppliedConditions(creature, 'Unconscious', 'Dying').forEach(gain => {
+                characterService.currentCreatureConditions(creature, 'Unconscious', 'Dying').forEach(gain => {
                     hasRemovedUnconscious = true;
                     characterService.remove_Condition(creature, gain, false);
                 });
