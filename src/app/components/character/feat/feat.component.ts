@@ -3,7 +3,7 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { SpellsService } from 'src/app/services/spells.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { FeatRequirementsService } from 'src/app/character-creation/services/feat-requirement/featRequirements.service';
 
@@ -26,7 +26,7 @@ export class FeatComponent {
     constructor(
         public characterService: CharacterService,
         private readonly spellsService: SpellsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly traitsService: TraitsService,
         private readonly featRequirementsService: FeatRequirementsService,
     ) { }
@@ -98,7 +98,7 @@ export class FeatComponent {
     }
 
     get_Activities(name = '') {
-        return this.activitiesService.get_Activities(name);
+        return this.activitiesService.activities(name);
     }
 
     get_Spells(name = '') {

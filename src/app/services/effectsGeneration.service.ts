@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Armor } from 'src/app/classes/Armor';
@@ -64,7 +64,7 @@ export class EffectsGenerationService {
 
     constructor(
         private readonly evaluationService: EvaluationService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly effectsService: EffectsService,
         private readonly conditionsService: ConditionsService,
         private readonly refreshService: RefreshService,

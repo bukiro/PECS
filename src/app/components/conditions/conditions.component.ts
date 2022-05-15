@@ -13,7 +13,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 import { Ability } from 'src/app/classes/Ability';
 import { Activity } from 'src/app/classes/Activity';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
 import { EvaluationService } from 'src/app/services/evaluation.service';
@@ -57,7 +57,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly changeDetector: ChangeDetectorRef,
         private readonly characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly conditionsService: ConditionsService,
         private readonly effectsService: EffectsService,
         private readonly itemsService: ItemsService,
@@ -548,7 +548,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.value));
                     });
-                this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length)
+                this.activitiesService.activities().filter(activity => activity.onceEffects.length)
                     .forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.value));
                     });
@@ -585,7 +585,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.setValue));
                     });
-                this.activitiesService.get_Activities().filter(activity => activity.onceEffects.length)
+                this.activitiesService.activities().filter(activity => activity.onceEffects.length)
                     .forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.setValue));
                     });

@@ -9,7 +9,7 @@ import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Settings } from 'src/app/classes/Settings';
@@ -343,13 +343,13 @@ export class Character extends Creature {
         conditionsService: ConditionsService,
         itemsService: ItemsService,
         spellsService: SpellsService,
-        activitiesService: ActivitiesService,
+        activitiesDataService: ActivitiesDataService,
         oldGain: ActivityGain,
     ): void {
         const a = this.class.activities;
 
         if (oldGain.active) {
-            activitiesService.activate_Activity(
+            characterService.activitiesProcessingService.activateActivity(
                 this,
                 '',
                 characterService,
@@ -357,7 +357,7 @@ export class Character extends Creature {
                 itemsService,
                 spellsService,
                 oldGain,
-                activitiesService.get_Activities(oldGain.name)[0],
+                activitiesDataService.activities(oldGain.name)[0],
                 false,
             );
         }

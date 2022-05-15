@@ -417,10 +417,10 @@ export class ConditionsService {
                     activityGain = activityGains[0];
                 }
 
-                const activity = characterService.activitiesService.get_Activities(activityGain.name)[0];
+                const activity = characterService.activitiesService.activities(activityGain.name)[0];
 
                 if (activity) {
-                    characterService.activitiesService.activate_Activity(creature, '', characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, activityGain, activity, false, false);
+                    characterService.activitiesProcessingService.activateActivity(creature, '', characterService, characterService.conditionsService, characterService.itemsService, characterService.spellsService, activityGain, activity, false, false);
                 }
             }
         }
@@ -453,7 +453,7 @@ export class ConditionsService {
                         const activity: Activity | ItemActivity = activityGain.originalActivity(characterService.activitiesService);
 
                         if (activity) {
-                            characterService.activitiesService.activate_Activity(creature, activityGain.selectedTarget, characterService, characterService.conditionsService, itemsService, characterService.spellsService, activityGain, activity, false, false);
+                            characterService.activitiesProcessingService.activateActivity(creature, activityGain.selectedTarget, characterService, characterService.conditionsService, itemsService, characterService.spellsService, activityGain, activity, false, false);
                         }
 
                         this.refreshService.set_ToChange('Character', 'activities');

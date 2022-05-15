@@ -4,7 +4,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { Armor } from 'src/app/classes/Armor';
 import { EffectsService } from 'src/app/services/effects.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { AbilitiesService } from 'src/app/services/abilities.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Talisman } from 'src/app/classes/Talisman';
@@ -49,7 +49,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         private readonly traitsService: TraitsService,
         private readonly conditionsService: ConditionsService,
         public effectsService: EffectsService,
-        public abilitiesService: AbilitiesService,
+        public abilitiesService: AbilitiesDataService,
         public toastService: ToastService,
     ) { }
 

@@ -3,7 +3,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { TraitsService } from 'src/app/services/traits.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
@@ -50,7 +50,7 @@ export class NewItemPropertyComponent {
         private readonly characterService: CharacterService,
         private readonly effectsService: EffectsService,
         private readonly traitsService: TraitsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly spellsService: SpellsService,
         private readonly evaluationService: EvaluationService,
     ) { }
@@ -359,7 +359,7 @@ export class NewItemPropertyComponent {
                             .map(activity => activity[this.propertyData.key],
                         ));
                     });
-                examples.push(...this.activitiesService.get_Activities()
+                examples.push(...this.activitiesService.activities()
                     .filter(activity => activity[this.propertyData.key].length)
                     .map(activity =>
                         activity[this.propertyData.key],
@@ -389,7 +389,7 @@ export class NewItemPropertyComponent {
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.affected));
                     });
-                this.activitiesService.get_Activities()
+                this.activitiesService.activities()
                     .filter(activity => activity.onceEffects.length)
                     .forEach(activity => {
                         examples.push(...activity.onceEffects.map(effect => effect.affected));
@@ -420,7 +420,7 @@ export class NewItemPropertyComponent {
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.value));
                     });
-                this.activitiesService.get_Activities()
+                this.activitiesService.activities()
                     .filter(activity => activity.onceEffects.length)
                     .forEach(activity => {
                         examples.push(...activity.onceEffects.map(effect => effect.value));
@@ -475,7 +475,7 @@ export class NewItemPropertyComponent {
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.value));
                     });
-                this.activitiesService.get_Activities()
+                this.activitiesService.activities()
                     .filter(activity => activity.onceEffects.length)
                     .forEach(activity => {
                         examples.push(...activity.onceEffects.map(effect => effect.value));
@@ -517,7 +517,7 @@ export class NewItemPropertyComponent {
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.setValue));
                     });
-                this.activitiesService.get_Activities()
+                this.activitiesService.activities()
                     .filter(activity => activity.onceEffects.length)
                     .forEach(activity => {
                         examples.push(...activity.onceEffects.map(effect => effect.setValue));
@@ -571,7 +571,7 @@ export class NewItemPropertyComponent {
                             .map(activity => activity.inputRequired),
                         );
                     });
-                examples.push(...this.activitiesService.get_Activities()
+                examples.push(...this.activitiesService.activities()
                     .filter(activity => activity.inputRequired.length)
                     .map(activity => activity.inputRequired));
                 examples.push(...this.characterService.get_Conditions()
@@ -579,7 +579,7 @@ export class NewItemPropertyComponent {
                     .map(condition => condition.inputRequired));
                 break;
             case 'gainactivity name':
-                examples.push(...this.activitiesService.get_Activities().map(activity => activity.name));
+                examples.push(...this.activitiesService.activities().map(activity => activity.name));
                 break;
             case 'showon':
                 examples.push(...this.characterService.get_Skills(this.get_Character()).map(skill => skill.name));
@@ -594,7 +594,7 @@ export class NewItemPropertyComponent {
                     .forEach(condition => {
                         examples.push(...condition.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
                     });
-                this.activitiesService.get_Activities()
+                this.activitiesService.activities()
                     .filter(activity => activity.hints.length)
                     .forEach(activity => {
                         examples.push(...activity.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
@@ -615,7 +615,7 @@ export class NewItemPropertyComponent {
                     });
                 break;
             case 'hints desc':
-                this.activitiesService.get_Activities().filter(activity => activity.hints.length)
+                this.activitiesService.activities().filter(activity => activity.hints.length)
                     .forEach(activity => {
                         examples.push(...activity.hints.filter(hint => hint.desc.length).map(hint => hint.desc));
                     });

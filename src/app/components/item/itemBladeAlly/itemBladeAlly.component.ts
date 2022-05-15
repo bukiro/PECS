@@ -8,11 +8,12 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Weapon } from 'src/app/classes/Weapon';
 import { TimeService } from 'src/app/services/time.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
 
 @Component({
     selector: 'app-itemBladeAlly',
@@ -31,7 +32,8 @@ export class ItemBladeAllyComponent implements OnInit {
         private readonly refreshService: RefreshService,
         private readonly itemsService: ItemsService,
         private readonly timeService: TimeService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
+        private readonly activitiesProcessingService: ActivitiesProcessingService,
         private readonly spellsService: SpellsService,
         private readonly conditionsService: ConditionsService,
         private readonly typeService: TypeService,
@@ -192,7 +194,7 @@ export class ItemBladeAllyComponent implements OnInit {
 
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-            this.activitiesService.activate_Activity(this.get_Character(), 'Character', this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
+            this.activitiesProcessingService.activateActivity(this.get_Character(), 'Character', this.characterService, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
         });
     }
 

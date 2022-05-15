@@ -2,13 +2,13 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, O
 import { SkillsService } from 'src/app/services/skills.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { TraitsService } from 'src/app/services/traits.service';
-import { AbilitiesService } from 'src/app/services/abilities.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Skill } from 'src/app/classes/Skill';
 import { DiceService } from 'src/app/services/dice.service';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 
@@ -45,11 +45,11 @@ export class SkillComponent implements OnInit, OnDestroy {
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
         public diceService: DiceService,
-        public abilitiesService: AbilitiesService,
+        public abilitiesService: AbilitiesDataService,
         public skillsService: SkillsService,
         public traitsService: TraitsService,
         public effectsService: EffectsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
     ) { }
 
     trackByIndex(index: number): number {

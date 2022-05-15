@@ -23,7 +23,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { DeitiesService } from 'src/app/services/deities.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 
 interface WeaponParameters {
@@ -58,7 +58,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly deitiesService: DeitiesService,
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         public effectsService: EffectsService,
         public conditionsService: ConditionsService,
     ) { }

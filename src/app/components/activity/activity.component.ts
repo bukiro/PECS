@@ -3,7 +3,7 @@ import { Activity } from 'src/app/classes/Activity';
 import { TraitsService } from 'src/app/services/traits.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { TimeService } from 'src/app/services/time.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -24,6 +24,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Trait } from 'src/app/classes/Trait';
+import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -69,7 +70,8 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly refreshService: RefreshService,
         private readonly traitsService: TraitsService,
         private readonly spellsService: SpellsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
+        private readonly activitiesProcessingService: ActivitiesProcessingService,
         private readonly timeService: TimeService,
         private readonly itemsService: ItemsService,
         private readonly conditionsService: ConditionsService,
@@ -130,7 +132,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         if (gain.name == 'Fused Stance') {
             this.on_ActivateFuseStance(activated);
         } else {
-            this.activitiesService.activate_Activity(this.get_Creature(), target, this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
+            this.activitiesProcessingService.activateActivity(this.get_Creature(), target, this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
         }
     }
 
@@ -138,7 +140,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         this.gain.active = activated;
         this.get_FusedStances().forEach(set => {
             if (set.gain && set.activity && activated != set.gain.active) {
-                this.activitiesService.activate_Activity(this.get_Creature(), 'Character', this.characterService, this.conditionsService, this.itemsService, this.spellsService, set.gain, set.activity, activated);
+                this.activitiesProcessingService.activateActivity(this.get_Creature(), 'Character', this.characterService, this.conditionsService, this.itemsService, this.spellsService, set.gain, set.activity, activated);
             }
         });
     }
@@ -279,7 +281,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
             this.allowActivate = false;
         }
 
-        this.item = this.activitiesService.get_ItemFromActivityGain(this.get_Creature(), this.gain);
+        this.item = this.activitiesService.itemFromActivityGain(this.get_Creature(), this.gain);
         this.finish_Loading();
     }
 

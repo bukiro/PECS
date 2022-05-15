@@ -7,7 +7,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { TimeService } from 'src/app/services/time.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { Creature } from 'src/app/classes/Creature';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -47,7 +47,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         private readonly itemsService: ItemsService,
         private readonly conditionsService: ConditionsService,
         private readonly traitsService: TraitsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
     ) { }
 
     toggle_Item(name: string) {
@@ -199,7 +199,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
             return [];
         }
 
-        return this.activitiesService.get_Activities(name);
+        return this.activitiesService.activities(name);
     }
 
     public get_ConditionActivities(): Array<ActivityGain> {

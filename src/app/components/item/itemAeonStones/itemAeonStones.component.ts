@@ -6,7 +6,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { TimeService } from 'src/app/services/time.service';
 import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 
 @Component({
     selector: 'app-itemAeonStones',
@@ -26,7 +26,7 @@ export class ItemAeonStonesComponent implements OnInit {
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
         private readonly itemsService: ItemsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly timeService: TimeService,
         private readonly typeService: TypeService,
     ) { }

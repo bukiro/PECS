@@ -28,7 +28,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Familiar } from 'src/app/classes/Familiar';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ItemRolesService } from 'src/app/services/itemRoles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
@@ -75,7 +75,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly timeService: TimeService,
         private readonly spellsService: SpellsService,
         private readonly conditionsService: ConditionsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly itemRolesService: ItemRolesService,
         private readonly toastService: ToastService,
         private readonly modalService: NgbModal,

@@ -42,7 +42,7 @@ export class QuickdiceComponent {
         const ability = this.casting?.ability || 'Charisma';
         const character = this.characterService.get_Character();
 
-        return this.characterService.abilitiesService.get_Abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
+        return this.characterService.abilitiesService.abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
     }
 
     cleanup_DiceString(diceString: string) {
@@ -116,7 +116,7 @@ export class QuickdiceComponent {
                     if (abilityName) {
                         const character = this.characterService.get_Character();
 
-                        return this.characterService.abilitiesService.get_Abilities(abilityName)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result.toString() || '0';
+                        return this.characterService.abilitiesService.abilities(abilityName)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result.toString() || '0';
                     } else {
                         return '0';
                     }

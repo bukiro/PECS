@@ -72,7 +72,7 @@ import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';
 import * as json_weaponrunes from 'src/assets/json/items/weaponrunes';
 import * as json_weapons from 'src/assets/json/items/weapons';
 import * as json_wornitems from 'src/assets/json/items/wornitems';
-import { ActivitiesService } from './activities.service';
+import { ActivitiesDataService } from '../core/services/data/activities-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -94,7 +94,7 @@ export class ItemsService {
     constructor(
         private readonly typeService: TypeService,
         private readonly extensionsService: ExtensionsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly refreshService: RefreshService,
     ) { }
 

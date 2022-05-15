@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbilitiesService } from 'src/app/services/abilities.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -40,7 +40,7 @@ interface FormulaOptions {
 export class EvaluationService {
 
     constructor(
-        private readonly abilitiesService: AbilitiesService,
+        private readonly abilitiesService: AbilitiesDataService,
         private readonly familiarsService: FamiliarsService,
     ) { }
 
@@ -226,7 +226,7 @@ export class EvaluationService {
         }
         function SpellcastingModifier() {
             if (SpellCastingAbility) {
-                return abilitiesService.get_Abilities(SpellCastingAbility)?.[0]?.mod(Character, characterService, effectsService, Level).result || 0;
+                return abilitiesService.abilities(SpellCastingAbility)?.[0]?.mod(Character, characterService, effectsService, Level).result || 0;
             } else {
                 return 0;
             }

@@ -1,4 +1,4 @@
-import { AbilitiesService } from 'src/app/services/abilities.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Effect } from 'src/app/classes/Effect';
@@ -65,7 +65,7 @@ export class Skill {
     public calculate(
         creature: Creature,
         characterService: CharacterService,
-        abilitiesService: AbilitiesService,
+        abilitiesService: AbilitiesDataService,
         effectsService: EffectsService,
         charLevel: number = characterService.get_Character().level,
         isDC = false,
@@ -397,7 +397,7 @@ export class Skill {
     public baseValue(
         creature: Creature,
         characterService: CharacterService,
-        abilitiesService: AbilitiesService,
+        abilitiesService: AbilitiesDataService,
         effectsService: EffectsService,
         charLevel: number = characterService.get_Character().level,
         skillLevel: number = this.level((creature as AnimalCompanion | Character), characterService, charLevel),
@@ -425,7 +425,7 @@ export class Skill {
                     ability = 'Charisma';
                     ability = this.modifierAbility(creature, characterService);
 
-                    const value = abilitiesService.get_Abilities(ability)[0].mod(character, characterService, effectsService);
+                    const value = abilitiesService.abilities(ability)[0].mod(character, characterService, effectsService);
 
                     if (value) {
                         result += value.result;
@@ -455,7 +455,7 @@ export class Skill {
 
                 if (ability) {
                     abilityMod =
-                        abilitiesService.get_Abilities(ability)[0]
+                        abilitiesService.abilities(ability)[0]
                             .mod((creature as AnimalCompanion | Character), characterService, effectsService).result;
                 }
 
@@ -474,7 +474,7 @@ export class Skill {
     public value(
         creature: Creature,
         characterService: CharacterService,
-        abilitiesService: AbilitiesService,
+        abilitiesService: AbilitiesDataService,
         effectsService: EffectsService,
         charLevel: number = characterService.get_Character().level,
         isDC = false,

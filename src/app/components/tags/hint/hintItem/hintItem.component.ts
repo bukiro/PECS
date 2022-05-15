@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { TraitsService } from 'src/app/services/traits.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
@@ -26,7 +26,7 @@ export class HintItemComponent implements OnInit {
         public effectsService: EffectsService,
         private readonly changeDetector: ChangeDetectorRef,
         private readonly traitsService: TraitsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly refreshService: RefreshService,
     ) { }
 
@@ -43,7 +43,7 @@ export class HintItemComponent implements OnInit {
     }
 
     get_Activities(name = '') {
-        return this.activitiesService.get_Activities(name);
+        return this.activitiesService.activities(name);
     }
 
     finish_Loading() {

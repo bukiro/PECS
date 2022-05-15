@@ -3,7 +3,7 @@ import { Activity } from 'src/app/classes/Activity';
 import { TraitsService } from 'src/app/services/traits.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { TimeService } from 'src/app/services/time.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
@@ -42,7 +42,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         private readonly refreshService: RefreshService,
         private readonly traitsService: TraitsService,
         private readonly spellsService: SpellsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly timeService: TimeService,
         private readonly conditionsService: ConditionsService,
     ) { }
@@ -76,7 +76,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     }
 
     public get_Activities(name: string): Array<Activity> {
-        return this.activitiesService.get_Activities(name);
+        return this.activitiesService.activities(name);
     }
 
     public get_Spells(name = '', type = '', tradition = ''): Array<Spell> {

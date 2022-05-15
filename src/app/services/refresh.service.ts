@@ -21,7 +21,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CacheService } from 'src/app/services/cache.service';
-import { ActivitiesService } from './activities.service';
+import { ActivitiesDataService } from '../core/services/data/activities-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -166,7 +166,7 @@ export class RefreshService {
         }
     }
 
-    public set_ItemViewChanges(creature: Creature, item: Item, services: { characterService: CharacterService; activitiesService: ActivitiesService }): void {
+    public set_ItemViewChanges(creature: Creature, item: Item, services: { characterService: CharacterService; activitiesService: ActivitiesDataService }): void {
         this.set_ToChange(creature.type, item.id);
         item.traits.map(trait => this.traitsService.getTraitFromName(trait)).forEach(trait => {
             this.set_HintsToChange(creature, trait.hints, services);
@@ -204,7 +204,7 @@ export class RefreshService {
         }
     }
 
-    private set_EquipmentViewChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService; activitiesService: ActivitiesService }): void {
+    private set_EquipmentViewChanges(creature: Creature, item: Equipment, services: { characterService: CharacterService; activitiesService: ActivitiesDataService }): void {
         //Prepare refresh list according to the item's properties.
         if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
             this.set_ToChange(creature.type, 'defense');

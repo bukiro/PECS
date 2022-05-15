@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AbilitiesService } from 'src/app/services/abilities.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -23,7 +23,7 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly changeDetector: ChangeDetectorRef,
-        public abilitiesService: AbilitiesService,
+        public abilitiesService: AbilitiesDataService,
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
         public effectsService: EffectsService,
@@ -66,17 +66,17 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     get_Abilities(subset = 0) {
         switch (subset) {
             case 0:
-                return this.abilitiesService.get_Abilities();
+                return this.abilitiesService.abilities();
             case 1:
-                return this.abilitiesService.get_Abilities().filter((ability, index) => index <= 2);
+                return this.abilitiesService.abilities().filter((ability, index) => index <= 2);
             case 2:
-                return this.abilitiesService.get_Abilities().filter((ability, index) => index >= 3);
+                return this.abilitiesService.abilities().filter((ability, index) => index >= 3);
         }
 
     }
 
     public still_loading(): boolean {
-        return this.abilitiesService.still_loading() || this.characterService.still_loading();
+        return this.abilitiesService.stillLoading() || this.characterService.still_loading();
     }
 
     public ngOnInit(): void {

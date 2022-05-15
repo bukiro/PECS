@@ -2,7 +2,7 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Creature } from 'src/app/classes/Creature';
 import { TimeService } from 'src/app/services/time.service';
@@ -61,8 +61,8 @@ export class ActivityGain {
 
         return this;
     }
-    public originalActivity(activitiesService: ActivitiesService): Activity {
-        return activitiesService.get_ActivityFromName(this.name);
+    public originalActivity(activitiesService: ActivitiesDataService): Activity {
+        return activitiesService.activityFromName(this.name);
     }
     public disabled(
         context: { creature: Creature; maxCharges: number },

@@ -4,7 +4,7 @@ import { Skill } from 'src/app/classes/Skill';
 import { Observable } from 'rxjs';
 import { Item } from 'src/app/classes/Item';
 import { Class } from 'src/app/classes/Class';
-import { AbilitiesService } from 'src/app/services/abilities.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { SkillsService } from 'src/app/services/skills.service';
 import { Level } from 'src/app/classes/Level';
 import { ClassesService } from 'src/app/services/classes.service';
@@ -21,7 +21,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { SpellsService } from 'src/app/services/spells.service';
@@ -71,6 +71,7 @@ import { EffectsGenerationService } from 'src/app/services/effectsGeneration.ser
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { AdditionalHeritage } from '../classes/AdditionalHeritage';
+import { ActivitiesProcessingService } from './activities-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -100,14 +101,14 @@ export class CharacterService {
         private readonly configService: ConfigService,
         private readonly extensionsService: ExtensionsService,
         private readonly savegameService: SavegameService,
-        public abilitiesService: AbilitiesService,
+        public abilitiesService: AbilitiesDataService,
         public skillsService: SkillsService,
         public classesService: ClassesService,
         public featsService: FeatsService,
         public traitsService: TraitsService,
         private readonly historyService: HistoryService,
         public conditionsService: ConditionsService,
-        public activitiesService: ActivitiesService,
+        public activitiesService: ActivitiesDataService,
         public itemsService: ItemsService,
         public spellsService: SpellsService,
         public effectsService: EffectsService,
@@ -125,6 +126,7 @@ export class CharacterService {
         public cacheService: CacheService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
+        public activitiesProcessingService: ActivitiesProcessingService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -921,7 +923,7 @@ export class CharacterService {
             if ((item instanceof Equipment) || (item instanceof Rune)) {
                 item.activities.forEach(activity => {
                     if (activity.active) {
-                        this.activitiesService.activate_Activity(creature, '', this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
+                        this.activitiesProcessingService.activateActivity(creature, '', this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
                     }
                 });
             }
@@ -944,7 +946,7 @@ export class CharacterService {
                 if (item.gainActivities) {
                     item.gainActivities.forEach(gain => {
                         if (gain.active) {
-                            this.activitiesService.activate_Activity(creature, '', this, this.conditionsService, this.itemsService, this.spellsService, gain, this.activitiesService.get_Activities(gain.name)[0], false);
+                            this.activitiesProcessingService.activateActivity(creature, '', this, this.conditionsService, this.itemsService, this.spellsService, gain, this.activitiesService.activities(gain.name)[0], false);
                         }
                     });
                 }
@@ -1226,7 +1228,7 @@ export class CharacterService {
             item.propertyRunes?.forEach(rune => {
                 //Deactivate any active toggled activities of inserted runes.
                 rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-                    this.activitiesService.activate_Activity(this.get_Character(), 'Character', this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
+                    this.activitiesProcessingService.activateActivity(this.get_Character(), 'Character', this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
                 });
             });
         }
@@ -1273,14 +1275,14 @@ export class CharacterService {
             }
         } else {
             item.gainActivities.filter(gainActivity => gainActivity.active).forEach((gainActivity: ActivityGain) => {
-                const libraryActivity = this.activitiesService.get_Activities(gainActivity.name)[0];
+                const libraryActivity = this.activitiesService.activities(gainActivity.name)[0];
 
                 if (libraryActivity) {
-                    this.activitiesService.activate_Activity(creature, '', this, this.conditionsService, this.itemsService, this.spellsService, gainActivity, libraryActivity, false);
+                    this.activitiesProcessingService.activateActivity(creature, '', this, this.conditionsService, this.itemsService, this.spellsService, gainActivity, libraryActivity, false);
                 }
             });
             item.activities.filter(itemActivity => itemActivity.active).forEach((itemActivity: ItemActivity) => {
-                this.activitiesService.activate_Activity(creature, '', this, this.conditionsService, this.itemsService, this.spellsService, itemActivity, itemActivity, false);
+                this.activitiesProcessingService.activateActivity(creature, '', this, this.conditionsService, this.itemsService, this.spellsService, itemActivity, itemActivity, false);
             });
             this.conditionsService.remove_GainedItemConditions(creature, item, this);
             this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
@@ -2324,7 +2326,7 @@ export class CharacterService {
     }
 
     get_Abilities(name = '') {
-        return this.abilitiesService.get_Abilities(name);
+        return this.abilitiesService.abilities(name);
     }
 
     public get_Skills(creature: Creature, name = '', filter: { type?: string; locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}): Array<Skill> {

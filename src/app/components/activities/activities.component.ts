@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
@@ -53,7 +53,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         private readonly effectsService: EffectsService,
         private readonly timeService: TimeService,
         private readonly refreshService: RefreshService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
     ) { }
 
     public minimize(): void {
@@ -134,7 +134,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.activitiesService.still_loading() || this.characterService.still_loading();
+        return this.activitiesService.stillLoading() || this.characterService.still_loading();
     }
 
     public get_Creature(): Creature {

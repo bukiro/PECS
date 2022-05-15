@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AbilitiesService } from 'src/app/services/abilities.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { AnimalCompanionsService } from 'src/app/services/animalcompanions.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ClassesService } from 'src/app/services/classes.service';
@@ -33,8 +33,8 @@ export class AppInitService {
         private readonly configService: ConfigService,
         private readonly savegameService: SavegameService,
         private readonly traitsService: TraitsService,
-        private readonly abilitiesService: AbilitiesService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly abilitiesService: AbilitiesDataService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly featsService: FeatsService,
         private readonly historyService: HistoryService,
         private readonly classesService: ClassesService,
@@ -83,8 +83,8 @@ export class AppInitService {
             if (
                 !(
                     this.traitsService.stillLoading() ||
-                    this.abilitiesService.still_loading() ||
-                    this.activitiesService.still_loading() ||
+                    this.abilitiesService.stillLoading() ||
+                    this.activitiesService.stillLoading() ||
                     this.featsService.still_loading() ||
                     this.historyService.still_loading() ||
                     this.classesService.still_loading() ||

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { SpellsService } from 'src/app/services/spells.service';
@@ -14,6 +14,7 @@ import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Creature } from 'src/app/classes/Creature';
 import { TimePeriods } from '../../libs/shared/definitions/timePeriods';
+import { ActivitiesTimeService } from './activities-time.service';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +25,7 @@ export class TimeService {
     private _yourTurn: TimePeriods.NoTurn | TimePeriods.HalfTurn = TimePeriods.NoTurn;
 
     constructor(
-        private readonly _activitiesService: ActivitiesService,
+        private readonly _activitiesTimeService: ActivitiesTimeService,
         private readonly _customEffectsService: CustomEffectsService,
         private readonly _effectsService: EffectsService,
         private readonly _toastService: ToastService,
@@ -98,7 +99,7 @@ export class TimeService {
 
             let con = 1;
 
-            con = Math.max(characterService.abilitiesService.get_Abilities('Constitution')[0].mod(creature, characterService, characterService.effectsService).result, 1);
+            con = Math.max(characterService.abilitiesService.abilities('Constitution')[0].mod(creature, characterService, characterService.effectsService).result, 1);
 
             let heal: number = con * charLevel;
 
@@ -121,7 +122,7 @@ export class TimeService {
             characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
             this._toastService.show(`${ creature instanceof Character ? 'You' : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`) } gained ${ (heal * multiplier).toString() } HP from resting.`);
             //Reset all "once per day" activity cooldowns.
-            this._activitiesService.rest(creature, characterService);
+            this._activitiesTimeService.restActivities(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".
             conditionsService.rest(creature, characterService);
             //Remove all items that expire when you make your daily preparations.
@@ -173,7 +174,7 @@ export class TimeService {
 
         characterService.get_Creatures().forEach(creature => {
             //Reset all "until you refocus" activity cooldowns.
-            this._activitiesService.refocus(creature, characterService);
+            this._activitiesTimeService.refocusActivities(creature, characterService);
             //Reset all conditions that are "until you refocus".
             conditionsService.refocus(creature);
             //Remove all items that expire when you refocus.
@@ -234,7 +235,7 @@ export class TimeService {
 
                 if (creatureTurns > 0) {
                     //Tick activities before conditions because activities can end conditions, which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
-                    this._activitiesService.tick_Activities(creature, characterService, conditionsService, itemsService, spellsService, creatureTurns);
+                    this._activitiesTimeService.tickActivities(creature, characterService, conditionsService, itemsService, spellsService, creatureTurns);
 
                     if (creature.conditions.length) {
                         if (creature.conditions.filter(gain => gain.nextStage > 0)) {

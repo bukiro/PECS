@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { TraitsService } from 'src/app/services/traits.service';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { SpellsService } from 'src/app/services/spells.service';
@@ -48,7 +48,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     constructor(
         private readonly changeDetector: ChangeDetectorRef,
         private readonly traitsService: TraitsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         public characterService: CharacterService,
         private readonly refreshService: RefreshService,
         private readonly itemsService: ItemsService,
@@ -74,7 +74,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     get_Activities(name = '') {
-        return this.activitiesService.get_Activities(name);
+        return this.activitiesService.activities(name);
     }
 
     get_Spells(name = '', type = '', tradition = '') {

@@ -3,7 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { Class } from 'src/app/classes/Class';
 import { Level } from 'src/app/classes/Level';
-import { AbilitiesService } from 'src/app/services/abilities.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { HistoryService } from 'src/app/services/history.service';
@@ -14,7 +14,7 @@ import { Background } from 'src/app/classes/Background';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Ability } from 'src/app/classes/Ability';
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Deity } from 'src/app/classes/Deity';
 import { DeitiesService } from 'src/app/services/deities.service';
 import { SpellsService } from 'src/app/services/spells.service';
@@ -78,12 +78,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly refreshService: RefreshService,
         public configService: ConfigService,
         public classesService: ClassesService,
-        public abilitiesService: AbilitiesService,
+        public abilitiesService: AbilitiesDataService,
         public effectsService: EffectsService,
         public featsService: FeatsService,
         public historyService: HistoryService,
         private readonly itemsService: ItemsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
         private readonly deitiesService: DeitiesService,
         private readonly spellsService: SpellsService,
         private readonly animalCompanionsService: AnimalCompanionsService,
@@ -934,7 +934,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Activities(name = '') {
-        return this.activitiesService.get_Activities(name);
+        return this.activitiesService.activities(name);
     }
 
     get_Spells(name = '') {
@@ -1167,7 +1167,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const availableStances: Array<{ activity: Activity; restricted: boolean; reason: string }> = [];
         const restrictedConditions = this.get_Conditions().filter(condition => condition.attackRestrictions.length)
             .map(condition => condition.name);
-        const activities = this.activitiesService.get_Activities().filter(activity => activity.traits.includes('Stance'));
+        const activities = this.activitiesService.activities().filter(activity => activity.traits.includes('Stance'));
         const existingStances: Array<Activity> = [];
         const featStances = fuseStanceData.valueAsStringArray('stances');
 

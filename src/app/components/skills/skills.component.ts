@@ -8,7 +8,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Speed } from 'src/app/classes/Speed';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Skill } from 'src/app/classes/Skill';
@@ -38,7 +38,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         public skillsService: SkillsService,
         public featsService: FeatsService,
         public effectsService: EffectsService,
-        private readonly activitiesService: ActivitiesService,
+        private readonly activitiesService: ActivitiesDataService,
     ) { }
 
     minimize() {
@@ -132,7 +132,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Activities(name = '') {
-        return this.activitiesService.get_Activities(name);
+        return this.activitiesService.activities(name);
     }
 
     get_OwnedActivities() {

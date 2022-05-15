@@ -1,7 +1,7 @@
 import { Activity, ActivityTargetOptions } from 'src/app/classes/Activity';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { v4 as uuidv4 } from 'uuid';
-import { ActivitiesService } from 'src/app/services/activities.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Creature } from 'src/app/classes/Creature';
 import { TimeService } from '../services/time.service';
@@ -72,7 +72,7 @@ export class ItemActivity extends Activity {
     }
     // Other implementations require activitiesService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public originalActivity(activitiesService: ActivitiesService): Activity {
+    public originalActivity(activitiesService: ActivitiesDataService): Activity {
         return this;
     }
     public disabled(
