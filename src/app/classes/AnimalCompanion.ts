@@ -41,7 +41,7 @@ export class AnimalCompanion extends Creature {
         let explain = '';
         let classHP = 0;
         let ancestryHP = 0;
-        const charLevel = services.characterService.get_Character().level;
+        const charLevel = services.characterService.character().level;
         const baseline = 10;
         const half = 0.5;
 
@@ -81,7 +81,7 @@ export class AnimalCompanion extends Creature {
         // When you take a feat with gainAnimalCompanion other than "Young", "Mature" or "Specialized",
         // level 3 gets replaced with that level.
         // That means that level 3 is the highest we need to go, as Nimble, Savage or other advanced options will be placed there.
-        const character = characterService.get_Character();
+        const character = characterService.character();
         const youngLevel = 1;
         const matureLevel = 2;
         const advancedLevel = 3;
@@ -113,7 +113,7 @@ export class AnimalCompanion extends Creature {
             this.class.levels[advancedLevel].name = 'Placeholder';
         }
 
-        characterService.cacheService.set_LevelChanged({ creatureTypeId: 1, minLevel: 0 });
+        characterService.cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
         characterService.refreshService.set_ToChange('Companion', 'all');
     }
     public abilityBoosts(

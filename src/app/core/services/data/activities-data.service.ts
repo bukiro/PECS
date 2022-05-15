@@ -83,7 +83,7 @@ export class ActivitiesDataService {
         return item;
     }
 
-    public stillLoading(): boolean {
+    stillLoading(): boolean {
         return (!this._initialized);
     }
 
@@ -123,7 +123,7 @@ export class ActivitiesDataService {
         Object.keys(data).forEach(key => {
             this._activities.push(...data[key].map((obj: Activity) => Object.assign(new Activity(), obj).recast()));
         });
-        this._activities = this._extensionsService.cleanup_Duplicates(this._activities, 'name', 'activities') as Array<Activity>;
+        this._activities = this._extensionsService.cleanupDuplicates(this._activities, 'name', 'activities') as Array<Activity>;
     }
 
 }

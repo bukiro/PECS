@@ -93,11 +93,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.spellbookMinimized = !this.characterService.get_Character().settings.spellbookMinimized;
+        this.characterService.character().settings.spellbookMinimized = !this.characterService.character().settings.spellbookMinimized;
     }
 
     get_Minimized() {
-        return this.characterService.get_Character().settings.spellbookMinimized;
+        return this.characterService.character().settings.spellbookMinimized;
     }
 
     toggle_Spell(id = '') {
@@ -138,7 +138,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     toggle_TileMode() {
@@ -152,11 +152,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_ManualMode() {
-        return this.characterService.get_ManualMode();
+        return this.characterService.isManualMode();
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     get_Traits(name = '') {
@@ -170,23 +170,23 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     toggleSpellsMenu() {
-        this.characterService.toggle_Menu('spells');
+        this.characterService.toggleMenu('spells');
     }
 
     get_CompanionAvailable() {
-        return this.characterService.get_CompanionAvailable();
+        return this.characterService.isCompanionAvailable();
     }
 
     get_Companion() {
-        return this.characterService.get_Companion();
+        return this.characterService.companion();
     }
 
     get_FamiliarAvailable() {
-        return this.characterService.get_FamiliarAvailable();
+        return this.characterService.isFamiliarAvailable();
     }
 
     get_Familiar() {
-        return this.characterService.get_Familiar();
+        return this.characterService.familiar();
     }
 
     get_SpellDCs() {

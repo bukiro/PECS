@@ -37,7 +37,7 @@ export class Familiar extends Creature {
     public baseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
-        const charLevel = services.characterService.get_Character().level;
+        const charLevel = services.characterService.character().level;
         const familiarHPMultiplier = 5;
 
         //Your familiar has 5 Hit Points for each of your levels.

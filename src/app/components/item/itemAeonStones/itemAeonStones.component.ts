@@ -36,7 +36,7 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_CleanItems() {

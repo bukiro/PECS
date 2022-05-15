@@ -60,7 +60,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     get_AllTags() {

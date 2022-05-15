@@ -736,7 +736,7 @@ export class ItemsService {
             this.update_GrantingItem(creature, item);
 
             const included = this.pack_GrantingItem(creature, item);
-            const toCreature = characterService.get_Creature(targetCreature.type);
+            const toCreature = characterService.creatureFromType(targetCreature.type);
             const targetInventory = toCreature.inventories[0];
 
             //Iterate through the main item and all its granted items and inventories.
@@ -791,7 +791,7 @@ export class ItemsService {
     process_Consumable(creature: Creature, characterService: CharacterService, conditionsService: ConditionsService, spellsService: SpellsService, item: Consumable) {
 
         //Consumables don't do anything in manual mode, except be used up.
-        if (!characterService.get_ManualMode()) {
+        if (!characterService.isManualMode()) {
 
             //One time effects
             if (item.onceEffects) {
@@ -1022,13 +1022,13 @@ export class ItemsService {
         this.load(json_itemproperties, 'itemProperties', ItemProperty, 'meta');
         this.itemProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.itemProperties, ['group', 'parent', 'key'], 'custom item properties') as Array<ItemProperty>;
         this.load(json_armormaterials, 'armorMaterials', ArmorMaterial, 'meta');
-        this.armorMaterials = this.extensionsService.cleanup_Duplicates(this.armorMaterials, 'name', 'armor materials') as Array<ArmorMaterial>;
+        this.armorMaterials = this.extensionsService.cleanupDuplicates(this.armorMaterials, 'name', 'armor materials') as Array<ArmorMaterial>;
         this.load(json_shieldmaterials, 'shieldMaterials', ShieldMaterial, 'meta');
         this.shieldMaterials = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.shieldMaterials, ['name', 'itemFilter'], 'shield materials') as Array<ShieldMaterial>;
         this.load(json_weaponmaterials, 'weaponMaterials', WeaponMaterial, 'meta');
-        this.weaponMaterials = this.extensionsService.cleanup_Duplicates(this.weaponMaterials, 'name', 'weapon materials') as Array<WeaponMaterial>;
+        this.weaponMaterials = this.extensionsService.cleanupDuplicates(this.weaponMaterials, 'name', 'weapon materials') as Array<WeaponMaterial>;
         this.load(json_specializations, 'specializations', Specialization, 'meta');
-        this.specializations = this.extensionsService.cleanup_Duplicates(this.specializations, 'name', 'armor and weapon specializations') as Array<Specialization>;
+        this.specializations = this.extensionsService.cleanupDuplicates(this.specializations, 'name', 'armor and weapon specializations') as Array<Specialization>;
 
         this.items = new ItemCollection();
         this.cleanItems = new ItemCollection();
@@ -1097,7 +1097,7 @@ export class ItemsService {
                 Object.keys(data).forEach(key => {
                     this.cleanItems[target].push(...data[key].map((obj: Item) => this.initialize_Item(Object.assign(new type(), obj), { preassigned: true, newId: false, resetPropertyRunes: true })));
                 });
-                this.cleanItems[target] = this.extensionsService.cleanup_Duplicates(this.cleanItems[target], 'id', listName);
+                this.cleanItems[target] = this.extensionsService.cleanupDuplicates(this.cleanItems[target], 'id', listName);
                 break;
             case 'meta':
                 this[target] = [];

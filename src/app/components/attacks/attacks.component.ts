@@ -64,32 +64,32 @@ export class AttacksComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.attacksMinimized = !this.characterService.get_Character().settings.attacksMinimized;
+        this.characterService.character().settings.attacksMinimized = !this.characterService.character().settings.attacksMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.get_Character().settings.attacksMinimized;
+                return this.characterService.character().settings.attacksMinimized;
             case 'Companion':
-                return this.characterService.get_Character().settings.companionMinimized;
+                return this.characterService.character().settings.companionMinimized;
         }
     }
 
     get_ManualMode() {
-        return this.characterService.get_ManualMode();
+        return this.characterService.isManualMode();
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_Creature(type: string = this.creature) {
-        return this.characterService.get_Creature(type) as Character | AnimalCompanion;
+        return this.characterService.creatureFromType(type) as Character | AnimalCompanion;
     }
 
     get_InventoryTileMode() {
@@ -444,7 +444,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     get_FlurryAllowed() {
         const creature = this.get_Creature();
-        const character = this.characterService.get_Character();
+        const character = this.characterService.character();
 
         this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == 'Hunt Prey').length;
 
@@ -655,7 +655,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             }
 
             if (this.characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
-                favoredWeapons.push(...this.characterService.get_CharacterDeities(creature, 'syncretism')[0]?.favoredWeapon || []);
+                favoredWeapons.push(...this.characterService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon || []);
             }
 
             return [favoredWeapons];

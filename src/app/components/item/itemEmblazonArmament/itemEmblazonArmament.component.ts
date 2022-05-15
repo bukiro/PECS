@@ -35,7 +35,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_EmblazonDivinity() {
@@ -138,7 +138,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
             case 'emblazonArmament':
                 if (this.emblazonArmamentActivated) {
                     const character = this.get_Character();
-                    const deity = this.characterService.get_CharacterDeities(character)[0];
+                    const deity = this.characterService.currentCharacterDeities(character)[0];
 
                     this.item.emblazonArmament = [{ type, choice: '', deity: deity.name, alignment: deity.alignment, emblazonDivinity, source: this.get_Character().id }];
 
@@ -160,7 +160,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
             case 'emblazonEnergy':
                 if (this.emblazonEnergyActivated) {
                     const character = this.get_Character();
-                    const deity = this.characterService.get_CharacterDeities(character)[0];
+                    const deity = this.characterService.currentCharacterDeities(character)[0];
 
                     this.item.emblazonArmament = [{ type, choice: this.emblazonEnergyChoice, deity: deity.name, alignment: deity.alignment, emblazonDivinity, source: this.get_Character().id }];
 
@@ -220,7 +220,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
             case 'emblazonAntimagic':
                 if (this.emblazonAntimagicActivated) {
                     const character = this.get_Character();
-                    const deity = this.characterService.get_CharacterDeities(character)[0];
+                    const deity = this.characterService.currentCharacterDeities(character)[0];
 
                     this.item.emblazonArmament = [{ type, choice: this.emblazonEnergyChoice, deity: deity.name, alignment: deity.alignment, emblazonDivinity, source: this.get_Character().id }];
 

@@ -117,7 +117,7 @@ export class ClassesService {
         Object.keys(data).forEach(key => {
             this.classes.push(...data[key].map((obj: Class) => Object.assign(new Class(), obj).recast(this.typeService, this.itemsService)));
         });
-        this.classes = this.extensionsService.cleanup_Duplicates(this.classes, 'name', 'classes') as Array<Class>;
+        this.classes = this.extensionsService.cleanupDuplicates(this.classes, 'name', 'classes') as Array<Class>;
     }
 
 }

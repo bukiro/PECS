@@ -82,30 +82,30 @@ export class InventoryComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.inventoryMinimized = !this.characterService.get_Character().settings.inventoryMinimized;
+        this.characterService.character().settings.inventoryMinimized = !this.characterService.character().settings.inventoryMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.get_Character().settings.inventoryMinimized;
+                return this.characterService.character().settings.inventoryMinimized;
             case 'Companion':
-                return this.characterService.get_Character().settings.companionMinimized;
+                return this.characterService.character().settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.get_Character().settings.familiarMinimized;
+                return this.characterService.character().settings.familiarMinimized;
         }
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     set_ItemsMenuTarget(target: string) {
-        this.characterService.set_ItemsMenuTarget(target);
+        this.characterService.setItemsMenuTarget(target);
     }
 
     toggle_Menu(menu = '') {
-        this.characterService.toggle_Menu(menu);
+        this.characterService.toggleMenu(menu);
     }
 
     trackByIndex(index: number): number {
@@ -155,27 +155,27 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_ManualMode() {
-        return this.characterService.get_ManualMode();
+        return this.characterService.isManualMode();
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_Creature(creature: string = this.creature) {
-        return this.characterService.get_Creature(creature);
+        return this.characterService.creatureFromType(creature);
     }
 
     get_CompanionAvailable() {
-        return this.characterService.get_CompanionAvailable();
+        return this.characterService.isCompanionAvailable();
     }
 
     get_FamiliarAvailable() {
-        return this.characterService.get_FamiliarAvailable();
+        return this.characterService.isFamiliarAvailable();
     }
 
     get_Creatures() {
-        return this.characterService.get_Creatures();
+        return this.characterService.allAvailableCreatures();
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -633,7 +633,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public have_Funds(sum = 0): boolean {
-        const character = this.characterService.get_Character();
+        const character = this.characterService.character();
         const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
 
         return (sum <= funds);
@@ -716,7 +716,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             amount = item.stack;
         }
 
-        this.characterService.grant_InventoryItem(item, { creature: this.characterService.get_Character(), inventory: this.characterService.get_Character().inventories[0], amount }, { resetRunes: false });
+        this.characterService.grant_InventoryItem(item, { creature: this.characterService.character(), inventory: this.characterService.character().inventories[0], amount }, { resetRunes: false });
 
         if (type == 'snarespecialist') {
             learned.snareSpecialistAvailable--;

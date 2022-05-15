@@ -71,11 +71,11 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     get_TileMode() {

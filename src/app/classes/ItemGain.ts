@@ -79,14 +79,14 @@ export class ItemGain {
         services: { characterService: CharacterService; itemsService: ItemsService },
     ): void {
         if (this.special) {
-            const character = services.characterService.get_Character();
-            const deities = services.characterService.get_CharacterDeities(character);
+            const character = services.characterService.character();
+            const deities = services.characterService.currentCharacterDeities(character);
 
             switch (this.special) {
                 case 'Favored Weapon':
                     if (deities.length) {
                         const favoredWeaponNames: Array<string> = [];
-                        const deity = services.characterService.get_CharacterDeities(character)[0];
+                        const deity = services.characterService.currentCharacterDeities(character)[0];
 
                         if (deity && deity.favoredWeapon.length) {
                             favoredWeaponNames.push(...deity.favoredWeapon);
@@ -100,7 +100,7 @@ export class ItemGain {
                             ).length
                         ) {
                             favoredWeaponNames.push(
-                                ...services.characterService.get_CharacterDeities(character, 'syncretism')[0]?.favoredWeapon ||
+                                ...services.characterService.currentCharacterDeities(character, 'syncretism')[0]?.favoredWeapon ||
                                 [],
                             );
                         }

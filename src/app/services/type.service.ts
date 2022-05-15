@@ -191,36 +191,32 @@ export class TypeService {
         }
     }
 
-    public merge(target: unknown, source: unknown): unknown {
-        if (typeof source === 'object' && source) {
-            const output = Object.assign(new (target.constructor as any)(), JSON.parse(JSON.stringify(target)));
+    public merge<T>(target: T, source: Partial<T>): T {
+        const output = Object.assign(new (target.constructor as any)(), JSON.parse(JSON.stringify(target)));
 
-            if (Array.isArray(source)) {
-                source.forEach((obj: unknown, index) => {
-                    if (!output[index]) {
-                        Object.assign(output, { [index]: JSON.parse(JSON.stringify(source[index])) });
-                    } else {
-                        output[index] = this.merge(target[index], source[index]);
-                    }
-                });
-            } else {
-                Object.keys(source).forEach(key => {
-                    if (typeof source === 'object') {
-                        if (!Object.prototype.hasOwnProperty.call(target, key)) {
-                            Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
-                        } else {
-                            output[key] = this.merge(target[key], source[key]);
-                        }
-                    } else {
-                        Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
-                    }
-                });
-            }
-
-            return output;
+        if (Array.isArray(source)) {
+            source.forEach((obj: unknown, index) => {
+                if (!output[index]) {
+                    Object.assign(output, { [index]: JSON.parse(JSON.stringify(source[index])) });
+                } else {
+                    output[index] = this.merge(target[index], source[index]);
+                }
+            });
         } else {
-            return source;
+            Object.keys(source).forEach(key => {
+                if (typeof source === 'object') {
+                    if (!Object.prototype.hasOwnProperty.call(target, key)) {
+                        Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
+                    } else {
+                        output[key] = this.merge(target[key], source[key]);
+                    }
+                } else {
+                    Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
+                }
+            });
         }
+
+        return output;
     }
 
     public restoreItem(object: Item, itemsService: ItemsService = null): Item {

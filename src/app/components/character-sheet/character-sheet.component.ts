@@ -66,11 +66,11 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     get_Darkmode() {
-        return this.characterService.get_Darkmode();
+        return this.characterService.darkmode();
     }
 
     trackByIndex(index: number): number {
@@ -78,117 +78,117 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     get_ItemsMenuState() {
-        return this.characterService.get_ItemsMenuState();
+        return this.characterService.itemsMenuState();
     }
 
     get_CraftingMenuState() {
-        return this.characterService.get_CraftingMenuState();
+        return this.characterService.craftingMenuState();
     }
 
     get_CharacterMenuState() {
-        return this.characterService.get_CharacterMenuState();
+        return this.characterService.characterMenuState();
     }
 
     get_CompanionMenuState() {
-        return this.characterService.get_CompanionMenuState();
+        return this.characterService.companionMenuState();
     }
 
     get_FamiliarMenuState() {
-        return this.characterService.get_FamiliarMenuState();
+        return this.characterService.familiarMenuState();
     }
 
     get_SpellsMenuState() {
-        return this.characterService.get_SpellsMenuState();
+        return this.characterService.spellsMenuState();
     }
 
     get_SpellLibraryMenuState() {
-        return this.characterService.get_SpellLibraryMenuState();
+        return this.characterService.spellLibraryMenuState();
     }
 
     get_ConditionsMenuState() {
-        return this.characterService.get_ConditionsMenuState();
+        return this.characterService.conditionsMenuState();
     }
 
     get_DiceMenuState() {
-        return this.characterService.get_DiceMenuState();
+        return this.characterService.diceMenuState();
     }
 
     get_CompanionAvailable() {
-        return this.characterService.get_CompanionAvailable();
+        return this.characterService.isCompanionAvailable();
     }
 
     get_FamiliarAvailable() {
-        return this.characterService.get_FamiliarAvailable();
+        return this.characterService.isFamiliarAvailable();
     }
 
     get_CharacterMinimized() {
-        return this.characterService.get_Character().settings.characterMinimized;
+        return this.characterService.character().settings.characterMinimized;
     }
 
     get_CompanionMinimized() {
-        return this.characterService.get_Character().settings.companionMinimized;
+        return this.characterService.character().settings.companionMinimized;
     }
 
     get_FamiliarMinimized() {
-        return this.characterService.get_Character().settings.familiarMinimized;
+        return this.characterService.character().settings.familiarMinimized;
     }
 
     get_SpellsMinimized() {
-        return this.characterService.get_Character().settings.spellsMinimized;
+        return this.characterService.character().settings.spellsMinimized;
     }
 
     get_SpellLibraryMinimized() {
-        return this.characterService.get_Character().settings.spelllibraryMinimized;
+        return this.characterService.character().settings.spelllibraryMinimized;
     }
 
     get_GeneralMinimized() {
-        return this.characterService.get_Character().settings.generalMinimized;
+        return this.characterService.character().settings.generalMinimized;
     }
 
     get_EffectsMinimized() {
-        return this.characterService.get_Character().settings.effectsMinimized;
+        return this.characterService.character().settings.effectsMinimized;
     }
 
     get_AbilitiesMinimized() {
-        return this.characterService.get_Character().settings.abilitiesMinimized;
+        return this.characterService.character().settings.abilitiesMinimized;
     }
 
     get_HealthMinimized() {
-        return this.characterService.get_Character().settings.healthMinimized;
+        return this.characterService.character().settings.healthMinimized;
     }
 
     get_DefenseMinimized() {
-        return this.characterService.get_Character().settings.defenseMinimized;
+        return this.characterService.character().settings.defenseMinimized;
     }
 
     get_AttacksMinimized() {
-        return this.characterService.get_Character().settings.attacksMinimized;
+        return this.characterService.character().settings.attacksMinimized;
     }
 
     get_SkillsMinimized() {
-        return this.characterService.get_Character().settings.skillsMinimized;
+        return this.characterService.character().settings.skillsMinimized;
     }
 
     get_InventoryMinimized() {
-        return this.characterService.get_Character().settings.inventoryMinimized;
+        return this.characterService.character().settings.inventoryMinimized;
     }
 
     get_ActivitiesMinimized() {
-        return this.characterService.get_Character().settings.activitiesMinimized;
+        return this.characterService.character().settings.activitiesMinimized;
     }
 
     get_SpellbookMinimized() {
-        return this.characterService.get_Character().settings.spellbookMinimized;
+        return this.characterService.character().settings.spellbookMinimized;
     }
 
     get_TimeMinimized() {
-        return this.characterService.get_Character().settings.timeMinimized;
+        return this.characterService.character().settings.timeMinimized;
     }
 
     get_ClassOrder(fightingStyle: string) {
         //Returns whether the fightingStyle (attacks or spells) should be first or second for this class (0 or 1).
         //This checks whether you have a primary spellcasting for your class from level 1, and if so, spells should be first.
-        if (this.characterService.get_Character().defaultSpellcasting()?.charLevelAvailable == 1) {
+        if (this.characterService.character().defaultSpellcasting()?.charLevelAvailable == 1) {
             switch (fightingStyle) {
                 case 'attacks':
                     return 1;
@@ -206,7 +206,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     finish_Loading() {
-        if (this.characterService.still_loading()) {
+        if (this.characterService.stillLoading()) {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed

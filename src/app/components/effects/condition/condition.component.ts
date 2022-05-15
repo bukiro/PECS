@@ -65,7 +65,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Creature;
+        return this.characterService.creatureFromType(this.creature) as Creature;
     }
 
     trackByIndex(index: number): number {

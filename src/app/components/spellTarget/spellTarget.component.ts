@@ -105,27 +105,27 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     public get_Character(): Character {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     private get_CompanionAvailable(): boolean {
-        return this.characterService.get_CompanionAvailable();
+        return this.characterService.isCompanionAvailable();
     }
 
     public get_Companion(): AnimalCompanion {
-        return this.characterService.get_Companion();
+        return this.characterService.companion();
     }
 
     private get_FamiliarAvailable(): boolean {
-        return this.characterService.get_FamiliarAvailable();
+        return this.characterService.isFamiliarAvailable();
     }
 
     public get_Familiar(): Familiar {
-        return this.characterService.get_Familiar();
+        return this.characterService.familiar();
     }
 
     get_ManualMode() {
-        return this.characterService.get_ManualMode();
+        return this.characterService.isManualMode();
     }
 
     public get_Parameters(): ComponentParameters {
@@ -309,7 +309,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         const newTargets: Array<SpellTarget> = [];
         const character = this.get_Character();
 
-        this.characterService.get_Creatures().forEach(creature => {
+        this.characterService.allAvailableCreatures().forEach(creature => {
             newTargets.push(Object.assign(new SpellTarget(), { name: creature.name || creature.type, id: creature.id, playerId: character.id, type: creature.type, selected: (this.gain.targets.find(target => target.id == creature.id)?.selected || false), isPlayer: creature === character }));
         });
 

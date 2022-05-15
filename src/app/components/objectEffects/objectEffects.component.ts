@@ -25,7 +25,7 @@ export class ObjectEffectsComponent {
     ) { }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     trackByIndex(index: number): number {

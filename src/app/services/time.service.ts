@@ -45,8 +45,8 @@ export class TimeService {
         //Apply Fast Healing.
         let fastHealing = 0;
 
-        if (!characterService.get_Character().settings.manualMode) {
-            characterService.get_Creatures().forEach(creature => {
+        if (!characterService.character().settings.manualMode) {
+            characterService.allAvailableCreatures().forEach(creature => {
 
                 effectsService.get_AbsolutesOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
                     fastHealing = parseInt(effect.setValue, 10);
@@ -69,7 +69,7 @@ export class TimeService {
         this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
-        const character = characterService.get_Character();
+        const character = characterService.character();
 
         if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
             characterService.send_TurnChangeToPlayers();
@@ -82,7 +82,7 @@ export class TimeService {
         this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
-        const character = characterService.get_Character();
+        const character = characterService.character();
 
         if (character.partyName && character.settings.sendTurnStartMessage && character.settings.sendTurnEndMessage) {
             characterService.send_TurnChangeToPlayers();
@@ -90,10 +90,10 @@ export class TimeService {
     }
 
     public rest(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService): void {
-        const charLevel: number = characterService.get_Character().level;
+        const charLevel: number = characterService.character().level;
 
         this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.EightHours, false);
-        characterService.get_Creatures().forEach(creature => {
+        characterService.allAvailableCreatures().forEach(creature => {
             this._refreshService.set_ToChange(creature.type, 'health');
             this._refreshService.set_ToChange(creature.type, 'effects');
 
@@ -169,10 +169,10 @@ export class TimeService {
             this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.TenMinutes, false);
         }
 
-        const character = characterService.get_Character();
+        const character = characterService.character();
         const maximumFocusPoints = 3;
 
-        characterService.get_Creatures().forEach(creature => {
+        characterService.allAvailableCreatures().forEach(creature => {
             //Reset all "until you refocus" activity cooldowns.
             this._activitiesTimeService.refocusActivities(creature, characterService);
             //Reset all conditions that are "until you refocus".
@@ -210,7 +210,7 @@ export class TimeService {
     }
 
     public tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns = 10, reload = true): void {
-        characterService.get_Creatures().forEach(creature => {
+        characterService.allAvailableCreatures().forEach(creature => {
             //If any conditions are currently stopping time, process these first before continuing with the rest.
             const timeStopDurations: Array<number> = creature.conditions.filter(gain => gain.apply && conditionsService.get_ConditionFromName(gain.name).isStoppingTime(gain)).map(gain => gain.duration);
 
@@ -369,7 +369,7 @@ export class TimeService {
         function RestingBlockingEffectsActive(creature: Creature): boolean {
             return effectsService.get_EffectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
         }
-        characterService.get_Creatures().forEach(creature => {
+        characterService.allAvailableCreatures().forEach(creature => {
             if (AfflictionOnsetsWithinDuration(creature)) {
                 result = `One or more conditions${ creature instanceof Character ? '' : ` on your ${ creature.type }` } need to be resolved before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
             }

@@ -151,39 +151,39 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.conditionsService.still_loading() || this.characterService.still_loading();
+        return this.conditionsService.still_loading() || this.characterService.stillLoading();
     }
 
     toggleConditionsMenu() {
-        this.characterService.toggle_Menu('conditions');
+        this.characterService.toggleMenu('conditions');
     }
 
     get_ConditionsMenuState() {
-        return this.characterService.get_ConditionsMenuState();
+        return this.characterService.conditionsMenuState();
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_CompanionAvailable() {
-        return this.characterService.get_CompanionAvailable();
+        return this.characterService.isCompanionAvailable();
     }
 
     get_FamiliarAvailable() {
-        return this.characterService.get_FamiliarAvailable();
+        return this.characterService.isFamiliarAvailable();
     }
 
     get_Companion() {
-        return this.characterService.get_Companion();
+        return this.characterService.companion();
     }
 
     get_Familiar() {
-        return this.characterService.get_Familiar();
+        return this.characterService.familiar();
     }
 
     get_Creatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined) {
-        return this.characterService.get_Creatures(companionAvailable, familiarAvailable);
+        return this.characterService.allAvailableCreatures(companionAvailable, familiarAvailable);
     }
 
     get_VisibleConditionsSet(type: string) {

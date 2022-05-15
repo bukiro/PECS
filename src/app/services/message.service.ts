@@ -34,7 +34,7 @@ export class MessageService {
     }
 
     get_IgnoredMessages(characterService: CharacterService) {
-        return characterService.get_Character().ignoredMessages;
+        return characterService.character().ignoredMessages;
     }
 
     get_Time() {
@@ -150,7 +150,7 @@ export class MessageService {
             }
         });
         //Remove all ignored messages that don't match a new message, as you don't need them anymore.
-        characterService.get_Character().ignoredMessages = this.get_IgnoredMessages(characterService).filter(message =>
+        characterService.character().ignoredMessages = this.get_IgnoredMessages(characterService).filter(message =>
             newMessages.some(newMessage => newMessage.id == message.id) ||
             this.newMessages.some(newMessage => newMessage.id == message.id),
         );
@@ -192,7 +192,7 @@ export class MessageService {
     }
 
     mark_MessageAsIgnored(characterService: CharacterService, message: PlayerMessage) {
-        characterService.get_Character().ignoredMessages.push({ id: message.id, ttl: 60 });
+        characterService.character().ignoredMessages.push({ id: message.id, ttl: 60 });
     }
 
     cleanup_IgnoredMessages(characterService: CharacterService) {
@@ -206,7 +206,7 @@ export class MessageService {
             this.get_IgnoredMessages(characterService).forEach(message => {
                 message.ttl--;
 
-                if (message.ttl == 0 && characterService.get_LoggedIn()) {
+                if (message.ttl == 0 && characterService.isLoggedIn()) {
                     messagesToDelete++;
                     this.delete_MessageFromDB(Object.assign(new PlayerMessage(), { id: message.id }))
                         .subscribe({
@@ -270,7 +270,7 @@ export class MessageService {
 
         setInterval(() => {
 
-            if (characterService.get_Character().settings.checkMessagesAutomatically && !characterService.get_ManualMode() && characterService.get_LoggedIn()) {
+            if (characterService.character().settings.checkMessagesAutomatically && !characterService.isManualMode() && characterService.isLoggedIn()) {
                 minuteTimer--;
 
                 if (minuteTimer <= 0) {

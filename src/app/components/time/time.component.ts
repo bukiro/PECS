@@ -38,11 +38,11 @@ export class TimeComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.timeMinimized = !this.characterService.get_Character().settings.timeMinimized;
+        this.characterService.character().settings.timeMinimized = !this.characterService.character().settings.timeMinimized;
     }
 
     get_Minimized() {
-        return this.characterService.get_Character().settings.timeMinimized;
+        return this.characterService.character().settings.timeMinimized;
     }
 
     trackByIndex(index: number): number {
@@ -58,7 +58,7 @@ export class TimeComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     get_YourTurn() {

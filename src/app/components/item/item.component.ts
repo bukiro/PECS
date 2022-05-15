@@ -62,11 +62,11 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     get_Creature(type: string = this.creature) {
-        return this.characterService.get_Creature(type);
+        return this.characterService.creatureFromType(type);
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_Traits(name = '') {

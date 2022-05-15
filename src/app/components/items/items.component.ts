@@ -83,7 +83,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     get_InventoryMinimized() {
-        return this.characterService.get_Character().settings.inventoryMinimized;
+        return this.characterService.character().settings.inventoryMinimized;
     }
 
     trackByIndex(index: number): number {
@@ -91,7 +91,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     toggle_Item(id = '') {
@@ -142,34 +142,34 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     get_CompanionAvailable() {
-        return this.characterService.get_CompanionAvailable();
+        return this.characterService.isCompanionAvailable();
     }
 
     get_FamiliarAvailable() {
-        return this.characterService.get_FamiliarAvailable();
+        return this.characterService.isFamiliarAvailable();
     }
 
     set_ItemsMenuTarget() {
-        this.characterService.set_ItemsMenuTarget(this.creature);
+        this.characterService.setItemsMenuTarget(this.creature);
     }
 
     get_ItemsMenuState() {
-        return this.characterService.get_ItemsMenuState();
+        return this.characterService.itemsMenuState();
     }
 
     get_ItemsMenuTarget() {
-        this.creature = this.characterService.get_ItemsMenuTarget();
+        this.creature = this.characterService.itemsMenuTarget();
 
         const companionAvailable = this.get_CompanionAvailable();
 
         if (this.creature == 'Companion' && !companionAvailable) {
-            this.characterService.set_ItemsMenuTarget('Character');
+            this.characterService.setItemsMenuTarget('Character');
         }
 
         const familiarAvailable = this.get_FamiliarAvailable();
 
         if (this.creature == 'Familiar' && !familiarAvailable) {
-            this.characterService.set_ItemsMenuTarget('Character');
+            this.characterService.setItemsMenuTarget('Character');
         }
 
         return companionAvailable || familiarAvailable;
@@ -194,7 +194,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     toggleItemsMenu() {
-        this.characterService.toggle_Menu('items');
+        this.characterService.toggleMenu('items');
     }
 
     positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -247,7 +247,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     have_Funds(sum = ((this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC))) {
-        const character = this.characterService.get_Character();
+        const character = this.characterService.character();
         const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
 
         if (sum <= funds) {
@@ -287,7 +287,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     get_InventoryItems(type: string) {
         const items = [];
 
-        this.characterService.get_Character().inventories.map(inventory => inventory[type]).forEach(itemSet => {
+        this.characterService.character().inventories.map(inventory => inventory[type]).forEach(itemSet => {
             items.push(...itemSet);
         });
 
@@ -349,7 +349,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             amount = item.stack;
         }
 
-        const target: Creature = this.characterService.get_Creature(creature);
+        const target: Creature = this.characterService.creatureFromType(creature);
 
         this.characterService.grant_InventoryItem(item, { creature: target, inventory: target.inventories[0], amount }, { resetRunes: false });
     }
@@ -644,7 +644,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     prepare_Scroll(scroll: Item) {
         const casting = this.get_ScrollSavantCasting();
         const tempInv = new ItemCollection();
-        const newScroll = this.characterService.grant_InventoryItem(scroll, { creature: this.characterService.get_Character(), inventory: tempInv, amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: false }) as Scroll;
+        const newScroll = this.characterService.grant_InventoryItem(scroll, { creature: this.characterService.character(), inventory: tempInv, amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: false }) as Scroll;
 
         newScroll.expiration = -2;
         newScroll.price = 0;
@@ -660,7 +660,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.itemsService.still_loading() || this.characterService.still_loading();
+        return this.itemsService.still_loading() || this.characterService.stillLoading();
     }
 
     public ngOnInit(): void {

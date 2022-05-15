@@ -151,10 +151,10 @@ export class Feat {
         filter: { charLevel?: number; minLevel?: number } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
     ): number {
-        if (services.characterService?.still_loading()) { return 0; }
+        if (services.characterService?.stillLoading()) { return 0; }
 
         filter = {
-            charLevel: services.characterService.get_Character().level,
+            charLevel: services.characterService.character().level,
             minLevel: 1,
             ...filter,
         };

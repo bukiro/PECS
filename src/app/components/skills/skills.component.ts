@@ -42,17 +42,17 @@ export class SkillsComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.skillsMinimized = !this.characterService.get_Character().settings.skillsMinimized;
+        this.characterService.character().settings.skillsMinimized = !this.characterService.character().settings.skillsMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.get_Character().settings.skillsMinimized;
+                return this.characterService.character().settings.skillsMinimized;
             case 'Companion':
-                return this.characterService.get_Character().settings.companionMinimized;
+                return this.characterService.character().settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.get_Character().settings.familiarMinimized;
+                return this.characterService.character().settings.familiarMinimized;
         }
     }
 
@@ -120,15 +120,15 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.characterService.get_Character().level, { featName: name }).length;
+        return this.characterService.get_CharacterFeatsTaken(1, this.characterService.character().level, { featName: name }).length;
     }
 
     get_Activities(name = '') {
@@ -163,7 +163,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Speeds() {
-        const speeds: Array<Speed> = this.characterService.get_Speeds(this.get_Creature());
+        const speeds: Array<Speed> = this.characterService.creatureSpeeds(this.get_Creature());
 
         if (['Character', 'Companion'].includes(this.get_Creature().type)) {
             (this.get_Creature() as Character).class?.ancestry?.speeds?.forEach(speed => {
@@ -234,7 +234,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.skillsService.still_loading() || this.characterService.still_loading();
+        return this.skillsService.still_loading() || this.characterService.stillLoading();
     }
 
     public ngOnInit(): void {

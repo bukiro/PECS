@@ -54,15 +54,15 @@ export class HintComponent {
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     public get_Character(): Character {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_CharacterLevel() {
-        return this.characterService.get_Character().level;
+        return this.characterService.character().level;
     }
 
     get_Hints(): Array<Hint> {
@@ -135,7 +135,7 @@ export class HintComponent {
         if (this.object instanceof ConditionSet && this.object.condition.minLevel) {
             return hint.heightenedText(hint.desc, this.object.gain.heightened);
         } else {
-            return hint.heightenedText(hint.desc, this.characterService.get_Character().level);
+            return hint.heightenedText(hint.desc, this.characterService.character().level);
         }
     }
 

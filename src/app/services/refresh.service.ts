@@ -162,7 +162,7 @@ export class RefreshService {
 
         if (ability == 'Intelligence') {
             this.set_ToChange('Character', 'skillchoices');
-            services.characterService.update_LanguageList();
+            services.characterService.updateLanguageList();
         }
     }
 
@@ -480,7 +480,7 @@ export class RefreshService {
         this.set_ToChangeByEffectTargets(changedEffects.map(effect => effect.target), context);
 
         changedEffects.forEach(effect => {
-            this.cacheService.set_EffectChanged(effect.target, { creatureTypeId: context.creature.typeId });
+            this.cacheService.setEffectChanged(effect.target, { creatureTypeId: context.creature.typeId });
         });
 
         //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.

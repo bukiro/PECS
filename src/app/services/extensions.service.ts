@@ -1,12 +1,18 @@
+/* eslint-disable no-console */
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
+
+interface OverrideType {
+    overridePriority?: number;
+    _extensionFileName?: string;
+}
 
 @Injectable({
     providedIn: 'root',
 })
 export class ExtensionsService {
 
-    public extensions: unknown;
+    public extensions: { [list: string]: { [fileContent: string]: Array<Partial<unknown>> } };
     private loading = 0;
     private finishedLoading = 0;
 
@@ -15,7 +21,7 @@ export class ExtensionsService {
     ) { }
 
     initialize() {
-        this.extensions = new Object();
+        this.extensions = {};
         this.loading++;
 
         this.load_Extensions('assets/json/abilities', 'abilities');
@@ -110,7 +116,7 @@ export class ExtensionsService {
 
     }
 
-    extend(data: unknown, name: string) {
+    public extend(data: { [fileContent: string]: Array<unknown> }, name: string): { [key: string]: Array<unknown> } {
         if (this.extensions[name]) {
             Object.keys(this.extensions[name]).forEach(key => {
                 data[key] = this.extensions[name][key];
@@ -120,13 +126,13 @@ export class ExtensionsService {
         return data;
     }
 
-    cleanup_Duplicates(data: Array<unknown>, identifier: string, listName: string) {
+    public cleanupDuplicates<T>(data: Array<T & OverrideType>, identifier: string, listName: string): Array<T> {
         const oldcount = data.length;
         const duplicates: Array<string> = Array.from(new Set(
             data
                 .filter(item =>
                     data.filter(otherItem =>
-                        otherItem[identifier] == item[identifier],
+                        otherItem[identifier] === item[identifier],
                     ).length > 1,
                 ).map(item => item[identifier]),
         ));
@@ -135,18 +141,18 @@ export class ExtensionsService {
         duplicates.forEach(duplicate => {
             const highestPriority = Math.max(
                 ...data
-                    .filter(item => item[identifier] == duplicate)
+                    .filter(item => item[identifier] === duplicate)
                     .map(item => item.overridePriority || 0),
             ) || 0;
-            const highestItem = data.find(item => item[identifier] == duplicate && (item.overridePriority || 0) == highestPriority);
+            const highestItem = data.find(item => item[identifier] === duplicate && (item.overridePriority || 0) === highestPriority);
 
-            data.filter(item => (item[identifier] == duplicate && item !== highestItem)).forEach(item => { item[identifier] = 'DELETE'; });
+            data.filter(item => (item[identifier] === duplicate && item !== highestItem)).forEach(item => { item[identifier] = 'DELETE'; });
             winners.push({ object: duplicate, winner: highestItem._extensionFileName || 'core' });
         });
 
         const newcount = data.length;
 
-        if (oldcount != newcount) {
+        if (oldcount !== newcount) {
             console.log(`Resolved ${ oldcount - newcount } duplicate${ (oldcount - newcount > 1) ? 's' : '' } in ${ listName }:`);
             console.log(winners);
         }

@@ -51,7 +51,7 @@ export class FamiliarsService {
         Object.keys(data).forEach(key => {
             this.familiarAbilities.push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
         });
-        this.familiarAbilities = this.extensionsService.cleanup_Duplicates(this.familiarAbilities, 'name', 'familiar abilities') as Array<Feat>;
+        this.familiarAbilities = this.extensionsService.cleanupDuplicates(this.familiarAbilities, 'name', 'familiar abilities') as Array<Feat>;
     }
 
 }

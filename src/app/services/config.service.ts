@@ -74,7 +74,7 @@ export class ConfigService {
     get_Login(password = '', characterService: CharacterService, savegameService: SavegameService) {
         //We set loggingIn to true, which changes buttons in the character builder and the top-bar, so we need to update those.
         this.loggingIn = true;
-        characterService.set_LoadingStatus('Connecting');
+        characterService.setLoadingStatus('Connecting');
         this.refreshService.set_ToChange('Character', 'charactersheet');
         this.refreshService.process_ToChange();
         //Try logging in. You will receive false if the password was wrong, a random token if it was correct, or a token of "no-login-required" if no password is needed.

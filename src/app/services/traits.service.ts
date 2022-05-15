@@ -75,7 +75,7 @@ export class TraitsService {
         }
     }
 
-    public stillLoading(): boolean {
+    stillLoading(): boolean {
         return (this._loading);
     }
 
@@ -107,7 +107,7 @@ export class TraitsService {
         Object.keys(data).forEach(key => {
             this._traits.push(...data[key].map((obj: Trait) => Object.assign(new Trait(), obj).recast()));
         });
-        this._traits = this._extensionsService.cleanup_Duplicates(this._traits, 'name', 'traits') as Array<Trait>;
+        this._traits = this._extensionsService.cleanupDuplicates(this._traits, 'name', 'traits') as Array<Trait>;
     }
 
     private _getReplacementTrait(name?: string): Trait {

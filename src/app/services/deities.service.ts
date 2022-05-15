@@ -109,7 +109,7 @@ export class DeitiesService {
         Object.keys(data).forEach(key => {
             this.deities.push(...data[key].map((obj: Deity) => Object.assign(new Deity(), obj).recast()));
         });
-        this.deities = this.extensionsService.cleanup_Duplicates(this.deities, 'name', 'deities') as Array<Deity>;
+        this.deities = this.extensionsService.cleanupDuplicates(this.deities, 'name', 'deities') as Array<Deity>;
     }
 
     load_Domains() {
@@ -120,7 +120,7 @@ export class DeitiesService {
         Object.keys(data).forEach(key => {
             this.domains.push(...data[key].map((obj: Domain) => Object.assign(new Domain(), obj).recast()));
         });
-        this.domains = this.extensionsService.cleanup_Duplicates(this.domains, 'name', 'domains') as Array<Domain>;
+        this.domains = this.extensionsService.cleanupDuplicates(this.domains, 'name', 'domains') as Array<Domain>;
     }
 
 }

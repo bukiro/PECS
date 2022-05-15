@@ -22,26 +22,28 @@ export class AbilitiesDataService {
         }
     }
 
-    public stillLoading(): boolean {
+    stillLoading(): boolean {
         return (!this._initialized);
     }
 
     public initialize(): void {
         //Initialize only once.
         if (!this._abilities.length) {
-            this._loadAbilities();
+            this._abilities = this._loadAbilities();
             this._initialized = true;
         }
     }
 
-    private _loadAbilities(): void {
-        this._abilities = [];
+    private _loadAbilities(): Array<Ability> {
+        let abilities: Array<Ability> = [];
 
-        const data = this._extensionsService.extend(json_abilities, 'abilities');
+        const extendedData = this._extensionsService.extend(json_abilities, 'abilities');
 
-        Object.keys(data).forEach(key => {
-            this._abilities.push(...data[key].map((obj: Ability) => Object.assign(new Ability(), obj)));
+        Object.keys(extendedData).forEach(key => {
+            abilities.push(...extendedData[key].map((obj: Ability) => Object.assign(new Ability(), obj)));
         });
-        this._abilities = this._extensionsService.cleanup_Duplicates(this._abilities, 'name', 'abilities') as Array<Ability>;
+        abilities = this._extensionsService.cleanupDuplicates(abilities, 'name', 'abilities') as Array<Ability>;
+
+        return abilities;
     }
 }

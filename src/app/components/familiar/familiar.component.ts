@@ -28,24 +28,24 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.familiarMinimized = !this.characterService.get_Character().settings.familiarMinimized;
+        this.characterService.character().settings.familiarMinimized = !this.characterService.character().settings.familiarMinimized;
         this.set_Changed('Familiar');
     }
 
     get_Minimized() {
-        return this.characterService.get_Character().settings.familiarMinimized;
+        return this.characterService.character().settings.familiarMinimized;
     }
 
     public still_loading(): boolean {
-        return (this.characterService.still_loading() || this.familiarsService.still_loading());
+        return (this.characterService.stillLoading() || this.familiarsService.still_loading());
     }
 
     toggleFamiliarMenu() {
-        this.characterService.toggle_Menu('familiar');
+        this.characterService.toggleMenu('familiar');
     }
 
     get_FamiliarMenuState() {
-        return this.characterService.get_FamiliarMenuState();
+        return this.characterService.familiarMenuState();
     }
 
     trackByIndex(index: number): number {
@@ -57,15 +57,15 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_FamiliarAvailable() {
-        return this.characterService.get_FamiliarAvailable();
+        return this.characterService.isFamiliarAvailable();
     }
 
     get_Familiar() {
-        return this.characterService.get_Familiar();
+        return this.characterService.familiar();
     }
 
     toggle_Mode(type: string) {

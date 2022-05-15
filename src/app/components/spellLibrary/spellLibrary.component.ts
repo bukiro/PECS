@@ -101,11 +101,11 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     toggleSpellLibraryMenu() {
-        this.characterService.toggle_Menu('spelllibrary');
+        this.characterService.toggleMenu('spelllibrary');
     }
 
     get_SpellLibraryMenuState() {
-        return this.characterService.get_SpellLibraryMenuState();
+        return this.characterService.spellLibraryMenuState();
     }
 
     toggle_TileMode() {
@@ -119,11 +119,11 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     get_SpellbookMinimized() {
-        return this.characterService.get_Character().settings.spellbookMinimized;
+        return this.characterService.character().settings.spellbookMinimized;
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_Spells(name = '') {
@@ -597,7 +597,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.spellsService.still_loading() || this.characterService.still_loading();
+        return this.spellsService.still_loading() || this.characterService.stillLoading();
     }
 
     public ngOnInit(): void {

@@ -60,7 +60,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     ) { }
 
     public minimize(): void {
-        this.characterService.get_Character().settings.spellsMinimized = !this.characterService.get_Character().settings.spellsMinimized;
+        this.characterService.character().settings.spellsMinimized = !this.characterService.character().settings.spellsMinimized;
     }
 
     public toggle_TileMode(): void {
@@ -70,19 +70,19 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public get_Minimized(): boolean {
-        return this.characterService.get_Character().settings.spellsMinimized;
+        return this.characterService.character().settings.spellsMinimized;
     }
 
     public get_TileMode(): boolean {
-        return this.characterService.get_Character().settings.spellsTileMode;
+        return this.characterService.character().settings.spellsTileMode;
     }
 
     public toggle_SpellMenu(): void {
-        this.characterService.toggle_Menu('spells');
+        this.characterService.toggleMenu('spells');
     }
 
     public get_SpellsMenuState(): string {
-        return this.characterService.get_SpellsMenuState();
+        return this.characterService.spellsMenuState();
     }
 
     public toggle_Spell(name: string): void {
@@ -160,7 +160,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public get_Character(): Character {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     public get_ComponentParameters(): ComponentParameters {
@@ -338,7 +338,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     public ngOnInit(): void {

@@ -30,11 +30,11 @@ export class DiceComponent implements OnInit {
     ) { }
 
     toggleDiceMenu() {
-        this.characterService.toggle_Menu('dice');
+        this.characterService.toggleMenu('dice');
     }
 
     get_DiceMenuState() {
-        return this.characterService.get_DiceMenuState();
+        return this.characterService.diceMenuState();
     }
 
     trackByIndex(index: number): number {
@@ -42,7 +42,7 @@ export class DiceComponent implements OnInit {
     }
 
     get_FoundryVTTSendRolls() {
-        return this.characterService.get_Character().settings.foundryVTTSendRolls && this.characterService.get_Character().settings.foundryVTTUrl;
+        return this.characterService.character().settings.foundryVTTSendRolls && this.characterService.character().settings.foundryVTTUrl;
     }
 
     get_DiceResults() {
@@ -57,14 +57,14 @@ export class DiceComponent implements OnInit {
 
     get_Creature(creatureType: string) {
         if (creatureType == 'Companion') {
-            return this.characterService.get_CompanionAvailable() ? [this.characterService.get_Creature(creatureType)] : [];
+            return this.characterService.isCompanionAvailable() ? [this.characterService.creatureFromType(creatureType)] : [];
         }
 
         if (creatureType == 'Familiar') {
-            return this.characterService.get_FamiliarAvailable() ? [this.characterService.get_Creature(creatureType)] : [];
+            return this.characterService.isFamiliarAvailable() ? [this.characterService.creatureFromType(creatureType)] : [];
         }
 
-        return [this.characterService.get_Creature(creatureType)];
+        return [this.characterService.creatureFromType(creatureType)];
     }
 
     on_Heal(creature: Creature) {

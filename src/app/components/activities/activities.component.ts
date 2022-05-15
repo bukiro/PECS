@@ -57,15 +57,15 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     ) { }
 
     public minimize(): void {
-        this.characterService.get_Character().settings.activitiesMinimized = !this.characterService.get_Character().settings.activitiesMinimized;
+        this.characterService.character().settings.activitiesMinimized = !this.characterService.character().settings.activitiesMinimized;
     }
 
     public get_Minimized(): boolean {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.get_Character().settings.activitiesMinimized;
+                return this.characterService.character().settings.activitiesMinimized;
             case 'Companion':
-                return this.characterService.get_Character().settings.companionMinimized;
+                return this.characterService.character().settings.companionMinimized;
         }
     }
 
@@ -120,7 +120,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     private get_Character(): Character {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     public toggle_TileMode(): void {
@@ -134,11 +134,11 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.activitiesService.stillLoading() || this.characterService.still_loading();
+        return this.activitiesService.stillLoading() || this.characterService.stillLoading();
     }
 
     public get_Creature(): Creature {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     public get_ActivityParameters(): Array<ActivityParameter> {

@@ -349,7 +349,7 @@ export class Weapon extends Equipment {
     public effectiveProficiency(
         creature: Character | AnimalCompanion,
         characterService: CharacterService,
-        charLevel: number = characterService.get_Character().level,
+        charLevel: number = characterService.character().level,
     ): string {
         let proficiency = this.prof;
         // Some feats allow you to apply another proficiency to certain weapons, e.g.:
@@ -398,10 +398,10 @@ export class Weapon extends Equipment {
         creature: Character | AnimalCompanion,
         characterService: CharacterService,
         runeSource: Weapon | WornItem,
-        charLevel: number = characterService.get_Character().level,
+        charLevel: number = characterService.character().level,
         options: { preparedProficiency?: string } = {},
     ): number {
-        if (characterService.still_loading()) { return 0; }
+        if (characterService.stillLoading()) { return 0; }
 
         let skillLevel = 0;
         const prof = options.preparedProficiency || this.effectiveProficiency(creature, characterService, charLevel);
@@ -518,7 +518,7 @@ export class Weapon extends Equipment {
     ): AttackResult {
         //Calculates the attack bonus for a melee or ranged attack with this weapon.
         let explain = '';
-        const charLevel = characterService.get_Character().level;
+        const charLevel = characterService.character().level;
         const str = characterService.get_Abilities('Strength')[0].mod(creature, characterService, effectsService).result;
         const dex = characterService.get_Abilities('Dexterity')[0].mod(creature, characterService, effectsService).result;
         const runeSource = this.runeSource(creature, range);
@@ -701,7 +701,7 @@ export class Weapon extends Equipment {
         let hasPowerfulFist = false;
 
         if (this.prof === WeaponProficiencies.Unarmed) {
-            const character = characterService.get_Character();
+            const character = characterService.character();
 
             if (characterService.get_CharacterFeatsTaken(0, character.level, { featName: 'Powerful Fist' }).length) {
                 hasPowerfulFist = true;
@@ -778,7 +778,7 @@ export class Weapon extends Equipment {
     }
     public isFavoredWeapon(creature: Character | AnimalCompanion, characterService: CharacterService): boolean {
         if (creature instanceof Character && creature.class.deity) {
-            if (characterService.get_CharacterDeities(creature)[0]?.favoredWeapon
+            if (characterService.currentCharacterDeities(creature)[0]?.favoredWeapon
                 .some(favoredWeapon =>
                     [
                         this.name.toLowerCase(),
@@ -795,7 +795,7 @@ export class Weapon extends Equipment {
             creature instanceof Character &&
             characterService.get_CharacterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
         ) {
-            if (characterService.get_CharacterDeities(creature, 'syncretism')[0]?.favoredWeapon
+            if (characterService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon
                 .some(favoredWeapon =>
                     [
                         this.name.toLowerCase(),
@@ -913,7 +913,7 @@ export class Weapon extends Equipment {
 
             //Diamond Fists adds the forceful trait to your unarmed attacks, but if one already has the trait, it gains one damage die.
             if (this.prof === WeaponProficiencies.Unarmed) {
-                const character = characterService.get_Character();
+                const character = characterService.character();
 
                 if (
                     characterService.get_CharacterFeatsTaken(0, character.level, { featName: 'Diamond Fists' }).length &&
@@ -1534,7 +1534,7 @@ export class Weapon extends Equipment {
                 ea.emblazonDivinity ||
                 (
                     creature instanceof Character &&
-                    characterService.get_CharacterDeities(creature).some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
+                    characterService.currentCharacterDeities(creature).some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
                 )
             ) {
                 switch (ea.type) {

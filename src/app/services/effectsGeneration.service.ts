@@ -91,9 +91,9 @@ export class EffectsGenerationService {
         const objectEffects: Array<Effect> = [];
         //Get the object name unless a name is enforced.
         let source: string = options.name ? options.name : (object.get_Name ? object.get_Name() : object.name);
-        const Character: Character = services.characterService.get_Character();
-        const Companion: AnimalCompanion = services.characterService.get_Companion();
-        const Familiar: Familiar = services.characterService.get_Familiar();
+        const Character: Character = services.characterService.character();
+        const Companion: AnimalCompanion = services.characterService.companion();
+        const Familiar: Familiar = services.characterService.familiar();
         const evaluationService = this.evaluationService;
         const effectsService = this.effectsService;
 
@@ -852,7 +852,7 @@ export class EffectsGenerationService {
 
         options = { secondRun: false, ...options };
 
-        const creature: Creature = services.characterService.get_Creature(creatureType);
+        const creature: Creature = services.characterService.creatureFromType(creatureType);
 
         let effects: Array<Effect> = [];
 
@@ -912,7 +912,7 @@ export class EffectsGenerationService {
             this.refreshService.set_ToChangeByEffects(effects, this.effectsService.get_Effects(context.creature.type).all, context);
             this.effectsService.replace_Effects(context.creature.type, effects);
 
-            if (!services.characterService.still_loading()) {
+            if (!services.characterService.stillLoading()) {
                 return this.generate_Effects(context.creature.type, services, { secondRun: true });
             } else {
                 return false;
@@ -950,7 +950,7 @@ export class EffectsGenerationService {
     }
 
     private update_EffectsAndConditions(creatureType: string, services: { readonly characterService: CharacterService }): void {
-        const creature: Creature = services.characterService.get_Creature(creatureType);
+        const creature: Creature = services.characterService.creatureFromType(creatureType);
 
         //Run certain non-effect updates that influence later effect generation.
         this.run_EffectGenerationPreflightUpdates(creature, services);
@@ -959,7 +959,7 @@ export class EffectsGenerationService {
         const effectsChanged = this.generate_Effects(creatureType, services);
 
         if (effectsChanged) {
-            services.characterService.update_LanguageList();
+            services.characterService.updateLanguageList();
         }
 
         //Process all prepared onceEffects.
@@ -971,7 +971,7 @@ export class EffectsGenerationService {
     initialize(characterService: CharacterService): void {
         //Only start subscribing to effects refreshing commands after the character has finished loading.
         const waitForCharacterService = setInterval(() => {
-            if (!characterService.still_loading()) {
+            if (!characterService.stillLoading()) {
                 clearInterval(waitForCharacterService);
 
                 //Subscribe to updates only once.
@@ -985,11 +985,11 @@ export class EffectsGenerationService {
                                 } else {
                                     this.update_EffectsAndConditions('Character', { characterService });
 
-                                    if (characterService.get_CompanionAvailable()) {
+                                    if (characterService.isCompanionAvailable()) {
                                         this.update_EffectsAndConditions('Companion', { characterService });
                                     }
 
-                                    if (characterService.get_FamiliarAvailable()) {
+                                    if (characterService.isFamiliarAvailable()) {
                                         this.update_EffectsAndConditions('Familiar', { characterService });
                                     }
                                 }

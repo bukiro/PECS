@@ -35,7 +35,7 @@ export class HintItemComponent implements OnInit {
     }
 
     get_Creature(creature: string = this.creature) {
-        return this.characterService.get_Creature(creature) as Creature;
+        return this.characterService.creatureFromType(creature) as Creature;
     }
 
     get_Traits(name = '') {

@@ -45,15 +45,15 @@ export class ItemTargetComponent implements OnInit {
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_ManualMode() {
-        return this.characterService.get_ManualMode();
+        return this.characterService.isManualMode();
     }
 
     open_ItemTargetModal(content) {
@@ -75,13 +75,13 @@ export class ItemTargetComponent implements OnInit {
         targets.push(...creature.inventories.filter(inv => inv.itemId != this.item.id));
 
         if (!this.excluding) {
-            this.characterService.get_Creatures().filter(otherCreature => otherCreature != creature)
+            this.characterService.allAvailableCreatures().filter(otherCreature => otherCreature != creature)
                 .forEach(otherCreature => {
                     targets.push(Object.assign(new SpellTarget(), { name: otherCreature.name || otherCreature.type, id: otherCreature.id, playerId: character.id, type: otherCreature.type, selected: false }));
                 });
         }
 
-        if (character.partyName && !this.excluding && !this.characterService.get_GMMode() && !this.characterService.get_ManualMode()) {
+        if (character.partyName && !this.excluding && !this.characterService.isGMMode() && !this.characterService.isManualMode()) {
             //Only allow selecting other players if you are in a party.
             this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id)
                 .forEach(savegame => {

@@ -8,4 +8,6 @@ export const Defaults: {
     playerMessageTTL: 600;
     foundryMessageTTL: 500;
     colorAccent: '#465A8C';
+    colorAccentRGB: '25, 118, 210';
+    tooltipDelay: 100;
 };

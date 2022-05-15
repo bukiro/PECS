@@ -43,22 +43,22 @@ export class GeneralComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.generalMinimized = !this.characterService.get_Character().settings.generalMinimized;
+        this.characterService.character().settings.generalMinimized = !this.characterService.character().settings.generalMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.get_Character().settings.generalMinimized;
+                return this.characterService.character().settings.generalMinimized;
             case 'Companion':
-                return this.characterService.get_Character().settings.companionMinimized;
+                return this.characterService.character().settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.get_Character().settings.familiarMinimized;
+                return this.characterService.character().settings.familiarMinimized;
         }
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     trackByIndex(index: number): number {
@@ -66,19 +66,19 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_Companion() {
-        return this.characterService.get_Companion();
+        return this.characterService.companion();
     }
 
     get_Familiar() {
-        return this.characterService.get_Familiar();
+        return this.characterService.familiar();
     }
 
     get_FamiliarAbilities(name: string) {
@@ -127,7 +127,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         const archetypesDeityFocused = this.get_ArchetypeFeats().some(feat => this.classesService.get_ClassFromName(feat.archetype).deityFocused);
 
         if (character.class.deityFocused || archetypesDeityFocused) {
-            const deity = this.characterService.get_CharacterDeities(character)[0];
+            const deity = this.characterService.currentCharacterDeities(character)[0];
 
             if (deity) {
                 const domainFeats = this.characterService.get_CharacterFeatsAndFeatures()
@@ -163,7 +163,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             //Collect edicts from all deities you have (usually one);
             const deityEdicts: Array<string> = [];
 
-            this.characterService.get_CharacterDeities(character).forEach(deity => {
+            this.characterService.currentCharacterDeities(character).forEach(deity => {
                 deityEdicts.push(...deity.edicts.map(edict => edict[0].toUpperCase() + edict.substr(1)));
             });
 
@@ -181,7 +181,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
         if (character.class.showDeityAnathema || archetypesShowDeityAnathema) {
             //If your Collect anathema from all deities you have (usually one);
-            this.characterService.get_CharacterDeities(character).forEach(deity => {
+            this.characterService.currentCharacterDeities(character).forEach(deity => {
                 deityAnathema.push(...deity.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1)));
             });
         }

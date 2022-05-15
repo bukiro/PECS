@@ -42,17 +42,17 @@ export class EffectsComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.effectsMinimized = !this.characterService.get_Character().settings.effectsMinimized;
+        this.characterService.character().settings.effectsMinimized = !this.characterService.character().settings.effectsMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.get_Character().settings.effectsMinimized;
+                return this.characterService.character().settings.effectsMinimized;
             case 'Companion':
-                return this.characterService.get_Character().settings.companionMinimized;
+                return this.characterService.character().settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.get_Character().settings.familiarMinimized;
+                return this.characterService.character().settings.familiarMinimized;
         }
     }
 
@@ -69,7 +69,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     get_Darkmode() {
-        return this.characterService.get_Darkmode();
+        return this.characterService.darkmode();
     }
 
     receive_ItemMessage(name: string) {
@@ -89,11 +89,11 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     get_ManualMode() {
-        return this.characterService.get_ManualMode();
+        return this.characterService.isManualMode();
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     toggle_Applied() {
@@ -188,7 +188,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     finish_Loading() {
-        if (this.characterService.still_loading()) {
+        if (this.characterService.stillLoading()) {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed

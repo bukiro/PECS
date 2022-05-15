@@ -146,11 +146,11 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature) as Character | Familiar;
+        return this.characterService.creatureFromType(this.creature) as Character | Familiar;
     }
 
     get_Traits(traitName = '') {

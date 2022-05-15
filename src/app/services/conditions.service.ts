@@ -427,7 +427,7 @@ export class ConditionsService {
 
         //End the condition's spell or activity if there is one and it is active.
         if (!taken && gain.sourceGainID) {
-            const character = characterService.get_Character();
+            const character = characterService.character();
 
             //If no other conditions have this ConditionGain's sourceGainID, find the matching Spellgain or ActivityGain and disable it.
             if (!characterService.get_AppliedConditions(character).some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID == gain.sourceGainID)) {
@@ -526,7 +526,7 @@ export class ConditionsService {
     generate_ItemConditions(creature: Creature, services: { characterService: CharacterService; effectsService: EffectsService; itemsService: ItemsService }): void {
         //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
         //Conditions caused by equipment are not calculated in manual mode.
-        if (services.characterService.get_ManualMode()) {
+        if (services.characterService.isManualMode()) {
             return;
         }
 
@@ -541,7 +541,7 @@ export class ConditionsService {
                     }
 
                     if (rune instanceof WeaponRune && rune.alignmentPenalty && creature instanceof Character) {
-                        if (services.characterService.get_Character().alignment.toLowerCase().includes(rune.alignmentPenalty.toLowerCase())) {
+                        if (services.characterService.character().alignment.toLowerCase().includes(rune.alignmentPenalty.toLowerCase())) {
                             enfeebledRune = true;
                         }
                     }
@@ -552,7 +552,7 @@ export class ConditionsService {
                     }
 
                     if (oil.runeEffect && oil.runeEffect.alignmentPenalty && creature instanceof Character) {
-                        if (services.characterService.get_Character().alignment.toLowerCase().includes(oil.runeEffect.alignmentPenalty.toLowerCase())) {
+                        if (services.characterService.character().alignment.toLowerCase().includes(oil.runeEffect.alignmentPenalty.toLowerCase())) {
                             enfeebledRune = true;
                         }
                     }
@@ -667,7 +667,7 @@ export class ConditionsService {
     generate_BulkConditions(creature: Creature, services: { characterService: CharacterService; effectsService: EffectsService }): void {
         //Calculate whether the creature is encumbered and add or remove the condition.
         //Encumbered conditions are not calculated in manual mode.
-        if (!services.characterService.get_ManualMode()) {
+        if (!services.characterService.isManualMode()) {
             const bulk = creature.bulk;
             const calculatedBulk = bulk.calculate(creature, services.characterService, services.effectsService);
 
@@ -1044,7 +1044,7 @@ export class ConditionsService {
         Object.keys(data).forEach(key => {
             this.conditions.push(...data[key].map((obj: Condition) => Object.assign(new Condition(), obj).recast()));
         });
-        this.conditions = this.extensionsService.cleanup_Duplicates(this.conditions, 'name', 'conditions') as Array<Condition>;
+        this.conditions = this.extensionsService.cleanupDuplicates(this.conditions, 'name', 'conditions') as Array<Condition>;
     }
 
 }

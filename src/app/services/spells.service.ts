@@ -58,7 +58,7 @@ export class SpellsService {
     get_DynamicSpellLevel(casting: SpellCasting, choice: SpellChoice, characterService: CharacterService): number {
         //highestSpellLevel is used in the eval() process.
         let highestSpellLevel = 1;
-        const Character = characterService.get_Character();
+        const Character = characterService.character();
 
         /* eslint-disable @typescript-eslint/no-unused-vars */
         function Skill_Level(name: string) {
@@ -133,7 +133,7 @@ export class SpellsService {
         }
 
         //In manual mode, targets and conditions are not processed.
-        if (!options.expendOnly && !services.characterService.get_ManualMode()) {
+        if (!options.expendOnly && !services.characterService.isManualMode()) {
 
             //Find out if target was given. If no target is set, most effects will not be applied.
             const targets: Array<Creature | SpellTarget> = [];
@@ -143,13 +143,13 @@ export class SpellsService {
                     targets.push(context.creature);
                     break;
                 case 'Character':
-                    targets.push(services.characterService.get_Character());
+                    targets.push(services.characterService.character());
                     break;
                 case 'Companion':
-                    targets.push(services.characterService.get_Companion());
+                    targets.push(services.characterService.companion());
                     break;
                 case 'Familiar':
-                    targets.push(services.characterService.get_Familiar());
+                    targets.push(services.characterService.familiar());
                     break;
                 case 'Selected':
                     if (context.gain) {
@@ -225,8 +225,8 @@ export class SpellsService {
                                     (
                                         (
                                             spell.isHostile() ?
-                                                services.characterService.get_Character().settings.noHostileCasterConditions :
-                                                services.characterService.get_Character().settings.noFriendlyCasterConditions
+                                                services.characterService.character().settings.noHostileCasterConditions :
+                                                services.characterService.character().settings.noFriendlyCasterConditions
                                         ) &&
                                         (
                                             !condition.hasEffects() &&
@@ -343,10 +343,10 @@ export class SpellsService {
                             });
 
                             //Apply to any non-creature targets whose ID matches your own creatures.
-                            const creatures = services.characterService.get_Creatures();
+                            const creatures = services.characterService.allAvailableCreatures();
 
                             conditionTargets.filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id == target.id)).forEach(target => {
-                                services.characterService.add_Condition(services.characterService.get_Creature(target.type), newConditionGain, {}, { noReload: true });
+                                services.characterService.add_Condition(services.characterService.creatureFromType(target.type), newConditionGain, {}, { noReload: true });
                             });
 
                             //Send conditions to non-creature targets that aren't your own creatures.
@@ -499,7 +499,7 @@ export class SpellsService {
         Object.keys(data).forEach(key => {
             this.spells.push(...data[key].map((obj: Spell) => Object.assign(new Spell(), obj).recast()));
         });
-        this.spells = this.extensionsService.cleanup_Duplicates(this.spells, 'id', 'spells') as Array<Spell>;
+        this.spells = this.extensionsService.cleanupDuplicates(this.spells, 'id', 'spells') as Array<Spell>;
     }
 
 }

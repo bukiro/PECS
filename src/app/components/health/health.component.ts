@@ -49,34 +49,34 @@ export class HealthComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.healthMinimized = !this.characterService.get_Character().settings.healthMinimized;
+        this.characterService.character().settings.healthMinimized = !this.characterService.character().settings.healthMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.get_Character().settings.healthMinimized;
+                return this.characterService.character().settings.healthMinimized;
             case 'Companion':
-                return this.characterService.get_Character().settings.companionMinimized;
+                return this.characterService.character().settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.get_Character().settings.familiarMinimized;
+                return this.characterService.character().settings.familiarMinimized;
         }
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_ManualMode() {
-        return this.characterService.get_ManualMode();
+        return this.characterService.isManualMode();
     }
 
     trackByIndex(index: number): number {
@@ -112,7 +112,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         const calculatedHealth = this.get_Health().calculate(this.get_Creature(), this.characterService, this.effectsService);
 
         //Don't do anything about your dying status in manual mode.
-        if (!this.characterService.get_ManualMode()) {
+        if (!this.characterService.isManualMode()) {
             if (calculatedHealth.dying >= calculatedHealth.maxDying) {
                 if (this.characterService.get_AppliedConditions(this.get_Creature(), 'Doomed').length) {
                     this.die('Doomed');

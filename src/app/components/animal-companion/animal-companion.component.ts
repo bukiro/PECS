@@ -27,30 +27,30 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.companionMinimized = !this.characterService.get_Character().settings.companionMinimized;
+        this.characterService.character().settings.companionMinimized = !this.characterService.character().settings.companionMinimized;
         this.refreshService.set_ToChange('Companion', 'companion');
         this.refreshService.set_ToChange('Companion', 'abilities');
         this.refreshService.process_ToChange();
     }
 
     get_Minimized() {
-        return this.characterService.get_Character().settings.companionMinimized;
+        return this.characterService.character().settings.companionMinimized;
     }
 
     public still_loading(): boolean {
-        return (this.characterService.still_loading() || this.animalCompanionsService.still_loading());
+        return (this.characterService.stillLoading() || this.animalCompanionsService.stillLoading());
     }
 
     toggleCompanionMenu() {
-        this.characterService.toggle_Menu('companion');
+        this.characterService.toggleMenu('companion');
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_CompanionMenuState() {
-        return this.characterService.get_CompanionMenuState();
+        return this.characterService.companionMenuState();
     }
 
     set_Changed(target: string) {
@@ -63,7 +63,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     get_CompanionAvailable() {
-        return this.characterService.get_CompanionAvailable();
+        return this.characterService.isCompanionAvailable();
     }
 
     toggle_Mode(type: string) {

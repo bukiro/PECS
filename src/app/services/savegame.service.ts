@@ -103,16 +103,16 @@ export class SavegameService {
 
             if (character.class.animalCompanion) {
                 if (character.class.animalCompanion?.class?.ancestry) {
-                    character.class.animalCompanion.class.ancestry = animalCompanionsService.restore_AncestryFromSave(character.class.animalCompanion.class.ancestry);
+                    character.class.animalCompanion.class.ancestry = animalCompanionsService.restoreAncestryFromSave(character.class.animalCompanion.class.ancestry);
                 }
 
                 if (character.class.animalCompanion?.class?.levels) {
-                    character.class.animalCompanion.class = animalCompanionsService.restore_LevelsFromSave(character.class.animalCompanion.class);
+                    character.class.animalCompanion.class = animalCompanionsService.restoreLevelsFromSave(character.class.animalCompanion.class);
                 }
 
                 if (character.class.animalCompanion.class?.specializations) {
                     character.class.animalCompanion.class.specializations = character.class.animalCompanion.class.specializations
-                        .map(spec => animalCompanionsService.restore_SpecializationFromSave(spec));
+                        .map(spec => animalCompanionsService.restoreSpecializationFromSave(spec));
                 }
             }
 
@@ -164,16 +164,16 @@ export class SavegameService {
 
             if (savegame.class.animalCompanion) {
                 if (savegame.class.animalCompanion.class?.ancestry) {
-                    savegame.class.animalCompanion.class.ancestry = animalCompanionsService.clean_AncestryForSave(savegame.class.animalCompanion.class.ancestry);
+                    animalCompanionsService.cleanAncestryForSave(savegame.class.animalCompanion.class.ancestry);
                 }
 
                 if (savegame.class.animalCompanion.class?.levels) {
-                    savegame.class.animalCompanion.class = animalCompanionsService.clean_LevelsForSave(savegame.class.animalCompanion.class);
+                    animalCompanionsService.cleanLevelsForSave(savegame.class.animalCompanion.class);
                 }
 
                 if (savegame.class.animalCompanion.class?.specializations) {
-                    savegame.class.animalCompanion.class.specializations =
-                        savegame.class.animalCompanion.class.specializations.map(spec => animalCompanionsService.clean_SpecializationForSave(spec));
+                    savegame.class.animalCompanion.class.specializations
+                        .forEach(spec => animalCompanionsService.cleanSpecializationForSave(spec));
                 }
             }
         }
@@ -186,7 +186,7 @@ export class SavegameService {
         return savegame;
     }
 
-    public stillLoading(): boolean {
+    stillLoading(): boolean {
         return this._loading;
     }
 
@@ -602,7 +602,7 @@ export class SavegameService {
                         }
 
                         if (character.class.deity) {
-                            if (characterService.get_Deities(character.class.deity)[0]?.divineFont.length == 1) {
+                            if (characterService.deities(character.class.deity)[0]?.divineFont.length == 1) {
                                 taken.automatic = true;
                             }
                         }

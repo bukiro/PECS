@@ -30,15 +30,15 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.abilitiesMinimized = !this.characterService.get_Character().settings.abilitiesMinimized;
+        this.characterService.character().settings.abilitiesMinimized = !this.characterService.character().settings.abilitiesMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.get_Character().settings.abilitiesMinimized;
+                return this.characterService.character().settings.abilitiesMinimized;
             case 'Companion':
-                return this.characterService.get_Character().settings.companionMinimized;
+                return this.characterService.character().settings.companionMinimized;
         }
     }
 
@@ -47,11 +47,11 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     get_CalculatedIndex() {
@@ -76,7 +76,7 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.abilitiesService.stillLoading() || this.characterService.still_loading();
+        return this.abilitiesService.stillLoading() || this.characterService.stillLoading();
     }
 
     public ngOnInit(): void {

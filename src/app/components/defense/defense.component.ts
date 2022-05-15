@@ -54,17 +54,17 @@ export class DefenseComponent implements OnInit, OnDestroy {
     ) { }
 
     public minimize(): void {
-        this.characterService.get_Character().settings.defenseMinimized = !this.characterService.get_Character().settings.defenseMinimized;
+        this.characterService.character().settings.defenseMinimized = !this.characterService.character().settings.defenseMinimized;
     }
 
     public get_Minimized(): boolean {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.get_Character().settings.defenseMinimized;
+                return this.characterService.character().settings.defenseMinimized;
             case 'Companion':
-                return this.characterService.get_Character().settings.companionMinimized;
+                return this.characterService.character().settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.get_Character().settings.familiarMinimized;
+                return this.characterService.character().settings.familiarMinimized;
         }
     }
 
@@ -82,11 +82,11 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     private get_Character(): Character {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     private get_Creature(): Creature {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     private get_AC(): AC {
@@ -316,7 +316,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     public ngOnInit(): void {

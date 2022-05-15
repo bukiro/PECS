@@ -472,10 +472,10 @@ export class Character extends Creature {
     public processSkill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice): void {
         const level = parseInt(choice.id.split('-')[0], 10);
 
-        characterService.cacheService.set_SkillChanged(skillName, { creatureTypeId: 0, minLevel: level });
+        characterService.cacheService.setSkillChanged(skillName, { creatureTypeId: 0, minLevel: level });
 
         if (skillName.toLowerCase().includes('spell dc')) {
-            characterService.cacheService.set_SkillChanged('Any Spell DC', { creatureTypeId: 0, minLevel: level });
+            characterService.cacheService.setSkillChanged('Any Spell DC', { creatureTypeId: 0, minLevel: level });
         }
 
         characterService.refreshService.set_ToChange('Character', 'individualskills', skillName);
@@ -486,7 +486,7 @@ export class Character extends Creature {
             if (level === 1 && choice.source === 'Skilled Heritage') {
                 const skilledHeritageExtraIncreaseLevel = 5;
                 const newChoice = this.addSkillChoice(
-                    characterService.get_Level(skilledHeritageExtraIncreaseLevel),
+                    this._classLevel(skilledHeritageExtraIncreaseLevel),
                     Object.assign(
                         new SkillChoice(),
                         {
@@ -510,14 +510,14 @@ export class Character extends Creature {
                 // We are naming the type "Automatic" - it doesn't matter because it's a locked choice,
                 // but it allows us to distinguish this increase from the original if you take Canny Acumen at level 17
                 const cannyAcumenExtraIncreaseLevel = 17;
-                const existingChoices = characterService.get_Level(cannyAcumenExtraIncreaseLevel).skillChoices.filter(skillChoice =>
+                const existingChoices = this._classLevel(cannyAcumenExtraIncreaseLevel).skillChoices.filter(skillChoice =>
                     skillChoice.source === choice.source && skillChoice.type === 'Automatic',
                 );
 
                 // If there isn't one, go ahead and create one, then immediately increase this skill in it.
                 if (!existingChoices.length) {
                     const newChoice = this.addSkillChoice(
-                        characterService.get_Level(cannyAcumenExtraIncreaseLevel),
+                        this._classLevel(cannyAcumenExtraIncreaseLevel),
                         Object.assign(
                             new SkillChoice(),
                             {
@@ -578,7 +578,7 @@ export class Character extends Creature {
                         case 'Monk':
                             // For Monks, add the tradition to the Monk spellcasting abilities.
                             // The tradition is the second word of the skill name.
-                            characterService.get_Character().class.spellCasting
+                            characterService.character().class.spellCasting
                                 .filter(casting => casting.className === 'Monk').forEach(casting => {
                                     casting.tradition = skillName.split(' ')[1] as 'Divine' | 'Occult';
                                 });
@@ -611,7 +611,7 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange('Character', 'featchoices');
             characterService.refreshService.set_ToChange('Character', 'skillchoices');
 
-            switch (characterService.get_Skills(characterService.get_Character(), skillName)[0].type) {
+            switch (characterService.get_Skills(characterService.character(), skillName)[0].type) {
                 case 'Skill':
                     characterService.refreshService.set_ToChange('Character', 'skills');
                     break;
@@ -657,8 +657,8 @@ export class Character extends Creature {
             const skilledHeritageExtraIncreaseLevel = 5;
 
             if (level === 1 && choice.source === 'Skilled Heritage') {
-                characterService.get_Level(skilledHeritageExtraIncreaseLevel).skillChoices =
-                    characterService.get_Level(skilledHeritageExtraIncreaseLevel).skillChoices
+                this._classLevel(skilledHeritageExtraIncreaseLevel).skillChoices =
+                    this._classLevel(skilledHeritageExtraIncreaseLevel).skillChoices
                         .filter(existingChoice => existingChoice.source !== 'Skilled Heritage');
             }
 
@@ -666,7 +666,7 @@ export class Character extends Creature {
             if (choice.source.includes('Feat: Canny Acumen')) {
                 const cannyAcumenExtraIncreaseLevel = 17;
                 const oldChoices =
-                    characterService.get_Level(cannyAcumenExtraIncreaseLevel).skillChoices
+                    this._classLevel(cannyAcumenExtraIncreaseLevel).skillChoices
                         .filter(skillChoice => skillChoice.source === choice.source);
 
                 if (oldChoices.length) {
@@ -678,7 +678,7 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange('Character', 'featchoices');
             characterService.refreshService.set_ToChange('Character', 'skillchoices');
 
-            switch (characterService.get_Skills(characterService.get_Character(), skillName)[0]?.type) {
+            switch (characterService.get_Skills(characterService.character(), skillName)[0]?.type) {
                 case 'Skill':
                     characterService.refreshService.set_ToChange('Character', 'skills');
                     characterService.refreshService.set_ToChange('Character', 'individualskills', 'all');
@@ -721,7 +721,7 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange('Character', 'effects');
 
             //Remove custom skill if previously created and this was the last increase of it
-            const customSkills = characterService.get_Character().customSkills.filter(skill => skill.name === skillName);
+            const customSkills = characterService.character().customSkills.filter(skill => skill.name === skillName);
             const maxLevel = 20;
 
             if (customSkills.length && !this.skillIncreases(characterService, 1, maxLevel, skillName).length) {
@@ -729,7 +729,7 @@ export class Character extends Creature {
 
                 //For Monks, remove the tradition from the Monk spellcasting abilities if you removed the Monk Divine/Occult Spell DC.
                 if (skillName.includes('Monk') && skillName.includes('Spell DC')) {
-                    characterService.get_Character().class.spellCasting.filter(casting => casting.className === 'Monk').forEach(casting => {
+                    characterService.character().class.spellCasting.filter(casting => casting.className === 'Monk').forEach(casting => {
                         casting.tradition = '';
                     });
                 }
@@ -791,7 +791,7 @@ export class Character extends Creature {
         automatic = false,
     ): void {
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
-        const level: Level = creature instanceof Character ? creature.class.levels[levelNumber] : characterService.get_Level(levelNumber);
+        const level: Level = creature instanceof Character ? creature.class.levels[levelNumber] : this._classLevel(levelNumber);
 
         if (taken) {
             const newLength =
@@ -1082,7 +1082,7 @@ export class Character extends Creature {
     public removeLore(characterService: CharacterService, source: LoreChoice): void {
         //Remove the original Lore training
         for (let increase = 0; increase < source.initialIncreases; increase++) {
-            characterService.get_Character().increaseSkill(characterService, `Lore: ${ source.loreName }`, false, source, true);
+            characterService.character().increaseSkill(characterService, `Lore: ${ source.loreName }`, false, source, true);
         }
 
         //Go through all levels and remove skill increases for this lore from their respective sources
@@ -1111,7 +1111,7 @@ export class Character extends Creature {
             }
         });
 
-        const loreSkill: Skill = characterService.get_Character().customSkills.find(skill => skill.name === `Lore: ${ source.loreName }`);
+        const loreSkill: Skill = characterService.character().customSkills.find(skill => skill.name === `Lore: ${ source.loreName }`);
 
         if (loreSkill) {
             characterService.remove_CustomSkill(loreSkill);
@@ -1125,7 +1125,7 @@ export class Character extends Creature {
 
         //Create as many skill increases as the source's initialIncreases value
         for (let increase = 0; increase < source.initialIncreases; increase++) {
-            characterService.get_Character().increaseSkill(characterService, `Lore: ${ source.loreName }`, true, source, true);
+            characterService.character().increaseSkill(characterService, `Lore: ${ source.loreName }`, true, source, true);
         }
 
         //The Additional Lore feat grants a skill increase on Levels 3, 7 and 15 that can only be applied to this lore.
@@ -1135,7 +1135,7 @@ export class Character extends Creature {
 
         if (source.source === 'Feat: Additional Lore') {
             this.addSkillChoice(
-                characterService.get_Level(additionalLoreFirstIncreaseLevel),
+                this._classLevel(additionalLoreFirstIncreaseLevel),
                 Object.assign(
                     new SkillChoice(),
                     {
@@ -1148,7 +1148,7 @@ export class Character extends Creature {
                 ),
             );
             this.addSkillChoice(
-                characterService.get_Level(additionalLoreSecondIncreaseLevel),
+                this._classLevel(additionalLoreSecondIncreaseLevel),
                 Object.assign(
                     new SkillChoice(),
                     {
@@ -1161,7 +1161,7 @@ export class Character extends Creature {
                 ),
             );
             this.addSkillChoice(
-                characterService.get_Level(additionalLoreThirdIncreaseLevel),
+                this._classLevel(additionalLoreThirdIncreaseLevel),
                 Object.assign(
                     new SkillChoice(),
                     {
@@ -1183,7 +1183,7 @@ export class Character extends Creature {
 
             const firstChoice =
                 this.addSkillChoice(
-                    characterService.get_Level(gnomeObsessionFirstIncreaseLevel),
+                    this._classLevel(gnomeObsessionFirstIncreaseLevel),
                     Object.assign(
                         new SkillChoice(),
                         {
@@ -1204,7 +1204,7 @@ export class Character extends Creature {
 
             const secondChoice =
                 this.addSkillChoice(
-                    characterService.get_Level(gnomeObsessionSecondIncreaseLevel),
+                    this._classLevel(gnomeObsessionSecondIncreaseLevel),
                     Object.assign(
                         new SkillChoice(),
                         {
@@ -1225,7 +1225,7 @@ export class Character extends Creature {
 
             const thirdChoice =
                 this.addSkillChoice(
-                    characterService.get_Level(gnomeObsessionThirdIncreaseLevel),
+                    this._classLevel(gnomeObsessionThirdIncreaseLevel),
                     Object.assign(
                         new SkillChoice(),
                         {
@@ -1266,7 +1266,7 @@ export class Character extends Creature {
                 if (!gnomeObsessionLoreIncreases.some(existingIncrease => existingIncrease.name === backgroundLoreName)) {
                     const firstChoice =
                         this.addSkillChoice(
-                            characterService.get_Level(gnomeObsessionFirstIncreaseLevel),
+                            this._classLevel(gnomeObsessionFirstIncreaseLevel),
                             Object.assign(
                                 new SkillChoice(),
                                 {
@@ -1287,7 +1287,7 @@ export class Character extends Creature {
 
                     const secondChoice =
                         this.addSkillChoice(
-                            characterService.get_Level(gnomeObsessionSecondIncreaseLevel),
+                            this._classLevel(gnomeObsessionSecondIncreaseLevel),
                             Object.assign(
                                 new SkillChoice(),
                                 {
@@ -1308,7 +1308,7 @@ export class Character extends Creature {
 
                     const thirdChoice =
                         this.addSkillChoice(
-                            characterService.get_Level(gnomeObsessionThirdIncreaseLevel),
+                            this._classLevel(gnomeObsessionThirdIncreaseLevel),
                             Object.assign(
                                 new SkillChoice(),
                                 {
@@ -1388,7 +1388,7 @@ export class Character extends Creature {
         //If we find any custom feat that has lorebase == "Lore: "+lorename,
         //  That feat was created when the lore was assigned, and can be removed.
         //We build our own reference array first, because otherwise the forEach-index would get messed up while we remove feats.
-        loreFeats.push(...characterService.get_Character().customFeats.filter(feat => feat.lorebase === `Lore: ${ loreName }`));
+        loreFeats.push(...characterService.character().customFeats.filter(feat => feat.lorebase === `Lore: ${ loreName }`));
 
         if (loreFeats.length) {
             loreFeats.forEach(loreFeat => {
@@ -1398,5 +1398,8 @@ export class Character extends Creature {
 
         characterService.refreshService.set_ToChange('Character', 'skills');
         characterService.refreshService.set_ToChange('Character', 'charactersheet');
+    }
+    private _classLevel(number: number): Level {
+        return this.class.levels[number];
     }
 }

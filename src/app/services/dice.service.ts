@@ -57,8 +57,8 @@ export class DiceService {
 
         this.diceResults.unshift(diceResult);
 
-        if (characterService.get_DiceMenuState() == 'out') {
-            characterService.toggle_Menu('dice');
+        if (characterService.diceMenuState() == 'out') {
+            characterService.toggleMenu('dice');
         }
 
         this.refreshService.set_ToChange('character', 'dice');

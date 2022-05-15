@@ -78,7 +78,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_LoadingButtonTitle() {
-        return this.characterService.get_LoadingStatus();
+        return this.characterService.loadingStatus();
     }
 
     get_NewConditionMessages() {
@@ -94,85 +94,85 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_Darkmode() {
-        return this.characterService.get_Darkmode();
+        return this.characterService.darkmode();
     }
 
     toggle_Menu(menu: string) {
-        this.characterService.toggle_Menu(menu);
+        this.characterService.toggleMenu(menu);
         this.refreshService.set_ToChange('Character', 'character-sheet');
         this.refreshService.process_ToChange();
     }
 
     get_ItemsMenuState() {
-        return this.characterService.get_ItemsMenuState();
+        return this.characterService.itemsMenuState();
     }
 
     get_CraftingMenuState() {
-        return this.characterService.get_CraftingMenuState();
+        return this.characterService.craftingMenuState();
     }
 
     get_CharacterMenuState() {
-        return this.characterService.get_CharacterMenuState();
+        return this.characterService.characterMenuState();
     }
 
     get_CompanionMenuState() {
-        return this.characterService.get_CompanionMenuState();
+        return this.characterService.companionMenuState();
     }
 
     get_FamiliarMenuState() {
-        return this.characterService.get_FamiliarMenuState();
+        return this.characterService.familiarMenuState();
     }
 
     get_SpellsMenuState() {
-        return this.characterService.get_SpellsMenuState();
+        return this.characterService.spellsMenuState();
     }
 
     get_SpellLibraryMenuState() {
-        return this.characterService.get_SpellLibraryMenuState();
+        return this.characterService.spellLibraryMenuState();
     }
 
     get_ConditionsMenuState() {
-        return this.characterService.get_ConditionsMenuState();
+        return this.characterService.conditionsMenuState();
     }
 
     get_DiceMenuState() {
-        return this.characterService.get_DiceMenuState();
+        return this.characterService.diceMenuState();
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_CompanionAvailable() {
-        return this.characterService.get_CompanionAvailable();
+        return this.characterService.isCompanionAvailable();
     }
 
     get_FamiliarAvailable() {
-        return this.characterService.get_FamiliarAvailable();
+        return this.characterService.isFamiliarAvailable();
     }
 
     get_GMMode() {
-        return this.characterService.get_GMMode();
+        return this.characterService.isGMMode();
     }
 
     get_ManualMode() {
-        return this.characterService.get_ManualMode();
+        return this.characterService.isManualMode();
     }
 
     get_Companion() {
-        return this.characterService.get_Companion();
+        return this.characterService.companion();
     }
 
     get_Familiar() {
-        return this.characterService.get_Familiar();
+        return this.characterService.familiar();
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     get_IsBlankCharacter() {
-        return this.characterService.get_IsBlankCharacter();
+        return this.characterService.isBlankCharacter();
     }
 
     get_HasSpells() {
@@ -208,7 +208,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
             this.messageService.cleanup_OldMessages()
                 .subscribe({
                     next: () => {
-                        this.messageService.load_Messages(this.characterService.get_Character().id)
+                        this.messageService.load_Messages(this.characterService.character().id)
                             .subscribe({
                                 next: (results: Array<string>) => {
                                     //Get any new messages.
@@ -275,7 +275,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         this.modalService.open(this.newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
             if (result == 'Apply click') {
                 //Prepare to refresh the effects of all affected creatures;
-                this.characterService.get_Creatures().forEach(creature => {
+                this.characterService.allAvailableCreatures().forEach(creature => {
                     if (this.newMessages.some(message => message.id == creature.id)) {
                         this.refreshService.set_ToChange(creature.type, 'effects');
                     }

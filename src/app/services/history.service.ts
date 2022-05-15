@@ -221,7 +221,7 @@ export class HistoryService {
                 break;
         }
 
-        this[target] = this.extensionsService.cleanup_Duplicates(this[target], 'name', target);
+        this[target] = this.extensionsService.cleanupDuplicates(this[target], 'name', target);
     }
 
 }

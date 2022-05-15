@@ -93,7 +93,7 @@ export class AppInitService {
                     this.skillsService.still_loading() ||
                     this.itemsService.still_loading() ||
                     this.deitiesService.still_loading() ||
-                    this.animalCompanionsService.still_loading() ||
+                    this.animalCompanionsService.stillLoading() ||
                     this.familiarsService.still_loading()
                 )
             ) {

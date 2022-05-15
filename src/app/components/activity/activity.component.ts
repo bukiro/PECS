@@ -83,15 +83,15 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     private get_Creature(creature: string = this.creature): Creature {
-        return this.characterService.get_Creature(creature);
+        return this.characterService.creatureFromType(creature);
     }
 
     public get_Character(): Character {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     public get_ManualMode(): boolean {
-        return this.characterService.get_ManualMode();
+        return this.characterService.isManualMode();
     }
 
     public get_ActivityParameters(): ActivityParameters {

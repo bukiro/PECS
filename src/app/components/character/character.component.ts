@@ -97,23 +97,23 @@ export class CharacterComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.get_Character().settings.characterMinimized = !this.characterService.get_Character().settings.characterMinimized;
+        this.characterService.character().settings.characterMinimized = !this.characterService.character().settings.characterMinimized;
     }
 
     get_Minimized() {
-        return this.characterService.get_Character().settings.characterMinimized;
+        return this.characterService.character().settings.characterMinimized;
     }
 
     get_GMMode() {
-        return this.characterService.get_GMMode();
+        return this.characterService.isGMMode();
     }
 
     toggleCharacterMenu() {
-        this.characterService.toggle_Menu('character');
+        this.characterService.toggleMenu('character');
     }
 
     get_CharacterMenuState() {
-        return this.characterService.get_CharacterMenuState();
+        return this.characterService.characterMenuState();
     }
 
     toggle_Level(levelNumber: number) {
@@ -236,11 +236,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     set_Accent() {
-        this.characterService.set_Accent();
+        this.characterService.setAccent();
     }
 
     set_Darkmode() {
-        this.characterService.set_Darkmode();
+        this.characterService.setDarkmode();
     }
 
     toggle_TileMode() {
@@ -266,7 +266,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     onNewCharacter() {
         this.toggle_List('');
-        this.characterService.reset_Character();
+        this.characterService.loadOrResetCharacter();
     }
 
     onManualMode() {
@@ -369,7 +369,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     load_CharacterFromDB(savegame: Savegame) {
         this.toggleCharacterMenu();
-        this.characterService.reset_Character(savegame.id, this.loadAsGM);
+        this.characterService.loadOrResetCharacter(savegame.id, this.loadAsGM);
     }
 
     delete_CharacterFromDB(savegame: Savegame) {
@@ -389,7 +389,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_FirstTime() {
-        return this.characterService.get_FirstTime();
+        return this.characterService.isFirstLoad();
     }
 
     get_CloseButtonTitle() {
@@ -401,7 +401,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_IsBlankCharacter() {
-        return this.characterService.get_IsBlankCharacter();
+        return this.characterService.isBlankCharacter();
     }
 
     get_Alignments() {
@@ -543,7 +543,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 }
 
                 choice.feats.forEach(taken => {
-                    this.cacheService.set_FeatChanged(taken.name, { creatureTypeId: 0, minLevel: lowerLevel, maxLevel: higherLevel });
+                    this.cacheService.setFeatChanged(taken.name, { creatureTypeId: 0, minLevel: lowerLevel, maxLevel: higherLevel });
                 });
             });
         });
@@ -561,16 +561,16 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.set_ToChange('Character', 'spellbook');
         character.abilityBoosts(lowerLevel, higherLevel).forEach(boost => {
             this.refreshService.set_ToChange('Character', 'abilities');
-            this.cacheService.set_AbilityChanged(boost.name, { creatureTypeId: 0, minLevel: lowerLevel });
+            this.cacheService.setAbilityChanged(boost.name, { creatureTypeId: 0, minLevel: lowerLevel });
         });
         character.skillIncreases(this.characterService, lowerLevel, higherLevel).forEach(increase => {
             this.refreshService.set_ToChange('Character', 'skillchoices');
             this.refreshService.set_ToChange('Character', 'individualSkills', increase.name);
-            this.cacheService.set_SkillChanged(increase.name, { creatureTypeId: 0, minLevel: lowerLevel });
+            this.cacheService.setSkillChanged(increase.name, { creatureTypeId: 0, minLevel: lowerLevel });
         });
         this.get_CharacterFeatsAndFeatures().filter(feat => feat.have({ creature: character }, { characterService: this.characterService }, { charLevel: higherLevel, minLevel: lowerLevel }, { excludeTemporary: true }))
             .forEach(feat => {
-                this.cacheService.set_FeatChanged(feat.name, { creatureTypeId: 0, minLevel: lowerLevel });
+                this.cacheService.setFeatChanged(feat.name, { creatureTypeId: 0, minLevel: lowerLevel });
                 this.refreshService.set_HintsToChange(character, feat.hints, { characterService: this.characterService });
 
                 if (feat.gainAbilityChoice.length) {
@@ -605,7 +605,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         ) {
             this.refreshService.set_ToChange('Character', 'spellbook');
             //or if you have the cantrip connection or spell battery familiar ability.
-        } else if (this.characterService.get_FamiliarAvailable()) {
+        } else if (this.characterService.isFamiliarAvailable()) {
             this.refreshService.set_ToChange('Familiar', 'all');
             this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat)
                 .forEach(feat => {
@@ -619,11 +619,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 });
         }
 
-        if (this.characterService.get_CompanionAvailable()) {
+        if (this.characterService.isCompanionAvailable()) {
             this.get_Companion().setLevel(this.characterService);
         }
 
-        if (this.characterService.get_FamiliarAvailable(newLevel)) {
+        if (this.characterService.isFamiliarAvailable(newLevel)) {
             this.refreshService.set_ToChange('Familiar', 'featchoices');
         }
 
@@ -673,7 +673,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.get_Character();
+        return this.characterService.character();
     }
 
     get_MaxAvailable(choice: AbilityChoice) {
@@ -956,7 +956,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_BlessedBloodDeitySpells() {
-        const deity = this.characterService.get_CharacterDeities(this.get_Character())[0];
+        const deity = this.characterService.currentCharacterDeities(this.get_Character())[0];
 
         if (deity) {
             return deity.clericSpells.map(spell => this.get_Spells(spell.name)[0]).filter(spell => spell && (this.get_Character().settings.showOtherOptions ? true : this.get_BlessedBloodHaveSpell(spell)));
@@ -1002,7 +1002,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const deityName = this.get_Character().class.deity;
 
         if (deityName) {
-            const deity = this.characterService.get_Deities(deityName)[0];
+            const deity = this.characterService.deities(deityName)[0];
 
             if (deity) {
                 return []
@@ -1033,7 +1033,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 const deityName = this.get_Character().class.deity;
 
                 if (deityName) {
-                    const deity = this.characterService.get_Deities(deityName)[0];
+                    const deity = this.characterService.deities(deityName)[0];
 
                     if (deity) {
                         deity.clearTemporaryDomains();
@@ -1046,7 +1046,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 const deityName = this.get_Character().class.deity;
 
                 if (deityName) {
-                    const deity = this.characterService.get_Deities(deityName)[0];
+                    const deity = this.characterService.deities(deityName)[0];
 
                     if (deity) {
                         deity.clearTemporaryDomains();
@@ -1259,7 +1259,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Classes(name = '') {
-        return this.characterService.get_Classes(name);
+        return this.characterService.characterClasses(name);
     }
 
     get_AvailableClasses(): Array<Class> {
@@ -1311,7 +1311,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_AvailableDeities(name = '', syncretism = false, charLevel: number = this.get_Character().level) {
         const character = this.get_Character();
-        const currentDeities = this.characterService.get_CharacterDeities(character, '', charLevel);
+        const currentDeities = this.characterService.currentCharacterDeities(character, '', charLevel);
         const showOtherOptions = this.get_Character().settings.showOtherOptions;
         const wordFilter = this.deityWordFilter.toLowerCase();
 
@@ -1470,12 +1470,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Companion() {
-        return this.characterService.get_Character().class.animalCompanion;
+        return this.characterService.character().class.animalCompanion;
     }
 
     onNewCompanion() {
-        if (this.characterService.get_Character().class.animalCompanion) {
-            const character = this.characterService.get_Character();
+        if (this.characterService.character().class.animalCompanion) {
+            const character = this.characterService.character();
             //Keep the specializations and ID; When the animal companion is reset, any later feats and specializations still remain, and foreign effects still need to apply.
             const id = character.class.animalCompanion.id;
             const specializations: Array<AnimalCompanionSpecialization> = character.class.animalCompanion.class.specializations;
@@ -1496,7 +1496,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const existingCompanionName: string = this.get_Companion().class.ancestry.name;
         const showOtherOptions = this.get_Character().settings.showOtherOptions;
 
-        return this.animalCompanionsService.get_CompanionTypes()
+        return this.animalCompanionsService.companionTypes()
             .filter(type => showOtherOptions || !existingCompanionName || type.name == existingCompanionName)
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
@@ -1508,15 +1508,15 @@ export class CharacterComponent implements OnInit, OnDestroy {
             if (this.get_Character().settings.autoCloseChoices && this.get_Companion().name && this.get_Companion().species) { this.toggle_List(''); }
 
             this.get_Companion().class.processRemovingOldAncestry(this.characterService);
-            this.animalCompanionsService.change_Type(this.get_Companion(), type);
+            this.animalCompanionsService.changeType(this.get_Companion(), type);
             this.get_Companion().class.processNewAncestry(this.characterService, this.itemsService);
         } else {
             this.get_Companion().class.processRemovingOldAncestry(this.characterService);
-            this.animalCompanionsService.change_Type(this.get_Companion(), new AnimalCompanionAncestry());
+            this.animalCompanionsService.changeType(this.get_Companion(), new AnimalCompanionAncestry());
         }
 
         this.refreshService.set_ToChange('Companion', 'all');
-        this.cacheService.set_LevelChanged({ creatureTypeId: 1, minLevel: 0 });
+        this.cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
         this.refreshService.process_ToChange();
     }
 
@@ -1528,16 +1528,16 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 this.toggle_List('');
             }
 
-            this.animalCompanionsService.add_Specialization(this.get_Companion(), spec, levelNumber);
+            this.animalCompanionsService.addSpecialization(this.get_Companion(), spec, levelNumber);
         } else {
-            this.animalCompanionsService.remove_Specialization(this.get_Companion(), spec);
+            this.animalCompanionsService.removeSpecialization(this.get_Companion(), spec);
         }
 
         this.refreshService.set_ToChange('Companion', 'abilities');
         this.refreshService.set_ToChange('Companion', 'skills');
         this.refreshService.set_ToChange('Companion', 'attacks');
         this.refreshService.set_ToChange('Companion', 'defense');
-        this.cacheService.set_LevelChanged({ creatureTypeId: 1, minLevel: 0 });
+        this.cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
         this.refreshService.process_ToChange();
     }
 
@@ -1554,7 +1554,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const showOtherOptions = this.get_Character().settings.showOtherOptions;
 
         //Get all specializations that were either taken on this level (so they can be deselected) or that were not yet taken if the choice is not exhausted.
-        return this.animalCompanionsService.get_CompanionSpecializations()
+        return this.animalCompanionsService.companionSpecializations()
             .filter(type =>
                 showOtherOptions ||
                 existingCompanionSpecs.find(spec => spec.name == type.name && spec.level == levelNumber) ||
@@ -1580,12 +1580,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Familiar() {
-        return this.characterService.get_Character().class.familiar;
+        return this.characterService.character().class.familiar;
     }
 
     onNewFamiliar() {
         if (this.get_Character().class.familiar) {
-            const character = this.characterService.get_Character();
+            const character = this.characterService.character();
             //Preserve the origin class and set it again after resetting. Also preserve the ID so that old foreign effects still match.
             const originClass = character.class.familiar.originClass;
             const id = character.class.familiar.id;
@@ -1708,7 +1708,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.still_loading();
+        return this.characterService.stillLoading();
     }
 
     public ngOnInit(): void {

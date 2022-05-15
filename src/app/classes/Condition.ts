@@ -284,7 +284,7 @@ export class Condition {
             if (choice.name === this.choice) {
                 choices.push(choice.name);
             } else {
-                const character = characterService.get_Character();
+                const character = characterService.character();
 
                 //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
                 //Requirements like "Aggressive Block or Brutish Shove" are split in get_CharacterFeatsAndFeatures().
@@ -300,7 +300,7 @@ export class Condition {
                             let testFeat = featreq;
 
                             if (featreq.includes('Familiar:')) {
-                                testCreature = characterService.get_Familiar();
+                                testCreature = characterService.familiar();
                                 testFeat = featreq.split('Familiar:')[1].trim();
                                 requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testFeat);
                             } else {

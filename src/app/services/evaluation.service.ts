@@ -68,9 +68,9 @@ export class EvaluationService {
         const abilitiesService = this.abilitiesService;
         const familiarsService = this.familiarsService;
         const Creature: Creature = context.creature;
-        const Character = characterService.get_Character();
-        const Companion = characterService.get_Companion();
-        const Familiar: Familiar = characterService.get_Familiar();
+        const Character = characterService.character();
+        const Companion = characterService.companion();
+        const Familiar: Familiar = characterService.familiar();
         const object = context.object;
         const effect = context.effect;
         const parentItem = context.parentItem;
@@ -250,10 +250,10 @@ export class EvaluationService {
             return allHeritages.includes(name);
         }
         function Deities() {
-            return characterService.get_CharacterDeities(Character);
+            return characterService.currentCharacterDeities(Character);
         }
         function Deity() {
-            return characterService.get_CharacterDeities(Character)[0];
+            return characterService.currentCharacterDeities(Character)[0];
         }
         /* eslint-enable @typescript-eslint/no-unused-vars */
         //This function is to avoid evaluating a string like "01" as a base-8 number.

@@ -307,7 +307,7 @@ export class ItemCollection {
         let name = '';
 
         if (!this.itemId) {
-            characterService.get_Creatures().forEach(creature => {
+            characterService.allAvailableCreatures().forEach(creature => {
                 if (creature.inventories[0] === this) {
                     name = creature.name || creature.type;
                 }
@@ -317,7 +317,7 @@ export class ItemCollection {
                 }
             });
         } else {
-            characterService.get_Creatures().forEach(creature => {
+            characterService.allAvailableCreatures().forEach(creature => {
                 if (creature.inventories.some(inventory => inventory === this)) {
                     creature.inventories.forEach(creatureInventory => {
                         const items = creatureInventory.allEquipment().filter(item => item.id === this.itemId);

@@ -57,7 +57,7 @@ export class ActivitiesProcessingService {
         const targets: Array<Creature | SpellTarget> = [];
 
         //In manual mode, targets, conditions, one time effects and spells are not processed, and targets are not needed.
-        if (!characterService.get_ManualMode()) {
+        if (!characterService.isManualMode()) {
 
             //Find out if target was given. If no target is set, conditions will not be applied.
             //Everything else (one time effects and gained items) automatically applies to the activating creature.
@@ -66,13 +66,13 @@ export class ActivitiesProcessingService {
                     targets.push(creature);
                     break;
                 case 'Character':
-                    targets.push(characterService.get_Character());
+                    targets.push(characterService.character());
                     break;
                 case 'Companion':
-                    targets.push(characterService.get_Companion());
+                    targets.push(characterService.companion());
                     break;
                 case 'Familiar':
-                    targets.push(characterService.get_Familiar());
+                    targets.push(characterService.familiar());
                     break;
                 case 'Selected':
                     if (gain) {
@@ -264,7 +264,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!services.characterService.get_ManualMode()) {
+        if (!services.characterService.isManualMode()) {
 
             //One time effects
             if (activity.onceEffects) {
@@ -375,8 +375,8 @@ export class ActivitiesProcessingService {
                                 (
                                     (
                                         activity.isHostile() ?
-                                            services.characterService.get_Character().settings.noHostileCasterConditions :
-                                            services.characterService.get_Character().settings.noFriendlyCasterConditions
+                                            services.characterService.character().settings.noHostileCasterConditions :
+                                            services.characterService.character().settings.noFriendlyCasterConditions
                                     ) &&
                                     (
                                         !condition.hasEffects() &&
@@ -514,7 +514,7 @@ export class ActivitiesProcessingService {
                         });
 
                         //Apply to any non-creature targets whose ID matches your own creatures.
-                        const creatures = services.characterService.get_Creatures();
+                        const creatures = services.characterService.allAvailableCreatures();
 
                         conditionTargets.filter(
                             target => target instanceof SpellTarget &&
@@ -522,7 +522,7 @@ export class ActivitiesProcessingService {
                         )
                             .forEach(target => {
                                 services.characterService.add_Condition(
-                                    services.characterService.get_Creature(target.type),
+                                    services.characterService.creatureFromType(target.type),
                                     newConditionGain,
                                     {},
                                     { noReload: true },
@@ -721,7 +721,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!services.characterService.get_ManualMode()) {
+        if (!services.characterService.isManualMode()) {
 
             //Remove applied conditions.
             //The condition source is the activity name.

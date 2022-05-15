@@ -72,41 +72,80 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { AdditionalHeritage } from '../classes/AdditionalHeritage';
 import { ActivitiesProcessingService } from './activities-processing.service';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { Speed } from '../classes/Speed';
+import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
+
+interface PreparedOnceEffect {
+    creatureType: string;
+    effectGain: EffectGain;
+    conditionValue: number;
+    conditionHeightened: number;
+    conditionChoice: string;
+    conditionSpellCastingAbility: string;
+}
+
+enum MenuNames {
+    ItemsMenu = 'items',
+    CraftingMenu = 'crafting',
+    CharacterMenu = 'character',
+    CompanionMenu = 'companion',
+    FamiliarMenu = 'familiar',
+    SpellsMenu = 'spells',
+    SpellLibraryMenu = 'spelllibrary',
+    ConditionsMenu = 'conditions',
+    DiceMenu = 'dice',
+}
 
 @Injectable({
     providedIn: 'root',
 })
 export class CharacterService {
 
-    private me: Character = new Character();
-    private loader: Array<Partial<Character>> = [];
-    private loading = false;
-    private basicItems: { weapon: Weapon; armor: Armor } = { weapon: null, armor: null };
-    private firstTime = true;
-    private loadingStatus = 'Loading';
-    private preparedOnceEffects: Array<{ creatureType: string; effectGain: EffectGain; conditionValue: number; conditionHeightened: number; conditionChoice: string; conditionSpellCastingAbility: string }> = [];
+    private readonly _menuState = {
+        [MenuNames.ItemsMenu]: 'out' as 'in' | 'out',
+        [MenuNames.CraftingMenu]: 'out' as 'in' | 'out',
+        [MenuNames.CharacterMenu]: 'in' as 'in' | 'out',
+        [MenuNames.CompanionMenu]: 'out' as 'in' | 'out',
+        [MenuNames.FamiliarMenu]: 'out' as 'in' | 'out',
+        [MenuNames.SpellsMenu]: 'out' as 'in' | 'out',
+        [MenuNames.SpellLibraryMenu]: 'out' as 'in' | 'out',
+        [MenuNames.ConditionsMenu]: 'out' as 'in' | 'out',
+        [MenuNames.DiceMenu]: 'out' as 'in' | 'out',
+    };
 
-    itemsMenuState = 'out';
-    itemsMenuTarget = 'Character';
-    craftingMenuState = 'out';
-    characterMenuState = 'in';
-    companionMenuState = 'out';
-    familiarMenuState = 'out';
-    spellsMenuState = 'out';
-    spelllibraryMenuState = 'out';
-    conditionsMenuState = 'out';
-    diceMenuState = 'out';
+    private readonly _menuMatchingComponent = {
+        [MenuNames.ItemsMenu]: 'items',
+        [MenuNames.CraftingMenu]: 'crafting',
+        [MenuNames.CharacterMenu]: 'charactersheet',
+        [MenuNames.CompanionMenu]: 'companion',
+        [MenuNames.FamiliarMenu]: 'familiar',
+        [MenuNames.SpellsMenu]: 'spells',
+        [MenuNames.SpellLibraryMenu]: 'spelllibrary',
+        [MenuNames.ConditionsMenu]: 'conditions',
+        [MenuNames.DiceMenu]: 'dice',
+    };
+
+    private _itemsMenuTarget: 'Character' | 'Companion' | 'Familiar' = 'Character';
+
+    private _character: Character = new Character();
+    private _loader: Array<Partial<Character>> = [];
+    private _loading = false;
+    private _basicItems: { weapon: Weapon; armor: Armor } = { weapon: null, armor: null };
+    private _isFirstLoad = true;
+    private _loadingStatus = 'Loading';
+    private _preparedOnceEffects: Array<PreparedOnceEffect> = [];
 
     constructor(
-        private readonly configService: ConfigService,
-        private readonly extensionsService: ExtensionsService,
-        private readonly savegameService: SavegameService,
+        private readonly _configService: ConfigService,
+        private readonly _extensionsService: ExtensionsService,
+        private readonly _savegameService: SavegameService,
         public abilitiesService: AbilitiesDataService,
         public skillsService: SkillsService,
         public classesService: ClassesService,
         public featsService: FeatsService,
         public traitsService: TraitsService,
-        private readonly historyService: HistoryService,
+        private readonly _historyService: HistoryService,
         public conditionsService: ConditionsService,
         public activitiesService: ActivitiesDataService,
         public itemsService: ItemsService,
@@ -117,11 +156,11 @@ export class CharacterService {
         public deitiesService: DeitiesService,
         public animalCompanionsService: AnimalCompanionsService,
         public familiarsService: FamiliarsService,
-        private readonly messageService: MessageService,
+        private readonly _messageService: MessageService,
         public toastService: ToastService,
-        private readonly typeService: TypeService,
-        private readonly evaluationService: EvaluationService,
-        private readonly effectsGenerationService: EffectsGenerationService,
+        private readonly _typeService: TypeService,
+        private readonly _evaluationService: EvaluationService,
+        private readonly _effectsGenerationService: EffectsGenerationService,
         public refreshService: RefreshService,
         public cacheService: CacheService,
         popoverConfig: NgbPopoverConfig,
@@ -130,237 +169,159 @@ export class CharacterService {
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
-        popoverConfig.openDelay = 100;
+        popoverConfig.openDelay = Defaults.tooltipDelay;
         popoverConfig.placement = 'auto';
         popoverConfig.popoverClass = 'list-item sublist';
         popoverConfig.triggers = 'hover:click';
         tooltipConfig.placement = 'auto';
         tooltipConfig.container = 'body';
-        tooltipConfig.openDelay = 100;
+        tooltipConfig.openDelay = Defaults.tooltipDelay;
         tooltipConfig.triggers = 'hover:click';
     }
 
-    still_loading() {
-        return this.loading;
+    public stillLoading(): boolean {
+        return this._loading;
     }
 
-    get_LoadingStatus() {
-        return this.loadingStatus;
+    public loadingStatus(): string {
+        return this._loadingStatus;
     }
 
-    set_LoadingStatus(status: string, refreshTopBar = true) {
-        this.loadingStatus = status || 'Loading';
+    public setLoadingStatus(status: string, refreshTopBar = true): void {
+        this._loadingStatus = status || 'Loading';
 
         if (refreshTopBar) {
             this.refreshService.set_Changed('top-bar');
         }
     }
 
-    get_Darkmode() {
-        if (!this.still_loading()) {
-            return this.get_Character().settings.darkmode;
+    public darkmode(): boolean {
+        if (!this.stillLoading()) {
+            return this.character().settings.darkmode;
         } else {
             return true;
         }
     }
 
-    get_FirstTime() {
-        return this.firstTime;
+    public isFirstLoad(): boolean {
+        return this._isFirstLoad;
     }
 
-    toggle_Menu(menu = '') {
-        this.firstTime = false;
+    public toggleMenu(menu?: MenuNames): void {
+        const refreshDelay = 400;
 
-        const characterMenuState = this.characterMenuState;
-        const companionMenuState = this.companionMenuState;
-        const familiarMenuState = this.familiarMenuState;
-        const itemsMenuState = this.itemsMenuState;
-        const craftingMenuState = this.craftingMenuState;
-        const spellsMenuState = this.spellsMenuState;
-        const spelllibraryMenuState = this.spelllibraryMenuState;
-        const conditionsMenuState = this.conditionsMenuState;
-        const diceMenuState = this.diceMenuState;
+        this._isFirstLoad = false;
 
-        this.characterMenuState = (menu == 'character' && (this.characterMenuState == 'out')) ? 'in' : 'out';
-
-        //Companion and Familiar menus don't need to close if the dice menu opens.
-        if (menu != 'dice') {
-            this.companionMenuState = (menu == 'companion' && (this.companionMenuState == 'out')) ? 'in' : 'out';
-            this.familiarMenuState = (menu == 'familiar' && (this.familiarMenuState == 'out')) ? 'in' : 'out';
-        }
-
-        this.itemsMenuState = (menu == 'items' && (this.itemsMenuState == 'out')) ? 'in' : 'out';
-        this.craftingMenuState = (menu == 'crafting' && (this.craftingMenuState == 'out')) ? 'in' : 'out';
-        this.spellsMenuState = (menu == 'spells' && (this.spellsMenuState == 'out')) ? 'in' : 'out';
-        this.spelllibraryMenuState = (menu == 'spelllibrary' && (this.spelllibraryMenuState == 'out')) ? 'in' : 'out';
-        this.conditionsMenuState = (menu == 'conditions' && (this.conditionsMenuState == 'out')) ? 'in' : 'out';
-        this.diceMenuState = (menu == 'dice' && (this.diceMenuState == 'out')) ? 'in' : 'out';
-
-        if (this.characterMenuState != characterMenuState) {
-            if (this.characterMenuState == 'in') {
-                this.refreshService.set_Changed('charactersheet');
+        if (menu) {
+            if (this._menuState[menu] === 'out') {
+                this._menuState[menu] = 'in';
+                this.refreshService.set_Changed(this._menuMatchingComponent[menu]);
             } else {
+                this._menuState[menu] = 'out';
                 setTimeout(() => {
-                    this.refreshService.set_Changed('charactersheet');
-                }, 400);
+                    this.refreshService.set_Changed(this._menuMatchingComponent[menu]);
+                }, refreshDelay);
             }
+
+            this._menuState[menu] = (this._menuState[menu] === 'out') ? 'in' : 'out';
         }
 
-        if (this.companionMenuState != companionMenuState) {
-            if (this.companionMenuState == 'in') {
-                this.refreshService.set_Changed('Companion');
-            } else {
-                setTimeout(() => {
-                    this.refreshService.set_Changed('Companion');
-                }, 400);
+        Object.values(MenuNames).forEach(menuName => {
+            if (
+                menu !== menuName &&
+                !(menu === MenuNames.DiceMenu && [MenuNames.CompanionMenu, MenuNames.FamiliarMenu].includes(menuName))
+            ) {
+                if (this._menuState[menuName] === 'in') {
+                    this._menuState[menuName] = 'out';
+                    setTimeout(() => {
+                        this.refreshService.set_Changed(this._menuMatchingComponent[menuName]);
+                    }, refreshDelay);
+                }
             }
-        }
-
-        if (this.familiarMenuState != familiarMenuState) {
-            if (this.familiarMenuState == 'in') {
-                this.refreshService.set_Changed('Familiar');
-            } else {
-                setTimeout(() => {
-                    this.refreshService.set_Changed('Familiar');
-                }, 400);
-            }
-        }
-
-        if (this.itemsMenuState != itemsMenuState) {
-            if (this.itemsMenuState == 'in') {
-                this.refreshService.set_Changed('items');
-            } else {
-                setTimeout(() => {
-                    this.refreshService.set_Changed('items');
-                }, 400);
-            }
-        }
-
-        if (this.craftingMenuState != craftingMenuState) {
-            if (this.craftingMenuState == 'in') {
-                this.refreshService.set_Changed('crafting');
-            } else {
-                setTimeout(() => {
-                    this.refreshService.set_Changed('crafting');
-                }, 400);
-            }
-        }
-
-        if (this.spellsMenuState != spellsMenuState) {
-            if (this.spellsMenuState == 'in') {
-                this.refreshService.set_Changed('spells');
-            } else {
-                setTimeout(() => {
-                    this.refreshService.set_Changed('spells');
-                }, 400);
-            }
-        }
-
-        if (this.spelllibraryMenuState != spelllibraryMenuState) {
-            if (this.spelllibraryMenuState == 'in') {
-                this.refreshService.set_Changed('spelllibrary');
-            } else {
-                setTimeout(() => {
-                    this.refreshService.set_Changed('spelllibrary');
-                }, 400);
-            }
-        }
-
-        if (this.conditionsMenuState != conditionsMenuState) {
-            if (this.conditionsMenuState == 'in') {
-                this.refreshService.set_Changed('conditions');
-            } else {
-                setTimeout(() => {
-                    this.refreshService.set_Changed('conditions');
-                }, 400);
-            }
-        }
-
-        if (this.diceMenuState != diceMenuState) {
-            if (this.diceMenuState == 'in') {
-                this.refreshService.set_Changed('dice');
-            } else {
-                setTimeout(() => {
-                    this.refreshService.set_Changed('dice');
-                }, 400);
-            }
-        }
+        });
 
         this.refreshService.set_Changed('top-bar');
         this.refreshService.process_ToChange();
     }
 
-    get_CharacterMenuState() {
-        return this.characterMenuState;
+    public characterMenuState(): 'in' | 'out' {
+        return this._menuState.character;
     }
 
-    get_CompanionMenuState() {
-        return this.companionMenuState;
+    public companionMenuState(): 'in' | 'out' {
+        return this._menuState.companion;
     }
 
-    get_FamiliarMenuState() {
-        return this.familiarMenuState;
+    public familiarMenuState(): 'in' | 'out' {
+        return this._menuState.familiar;
     }
 
-    get_ItemsMenuState() {
-        return this.itemsMenuState;
+    public itemsMenuState(): 'in' | 'out' {
+        return this._menuState.items;
     }
 
-    get_CraftingMenuState() {
-        return this.craftingMenuState;
+    public craftingMenuState(): 'in' | 'out' {
+        return this._menuState.crafting;
     }
 
-    get_SpellsMenuState() {
-        return this.spellsMenuState;
+    public spellsMenuState(): 'in' | 'out' {
+        return this._menuState.spells;
     }
 
-    get_SpellLibraryMenuState() {
-        return this.spelllibraryMenuState;
+    public spellLibraryMenuState(): 'in' | 'out' {
+        return this._menuState.spelllibrary;
     }
 
-    get_ConditionsMenuState() {
-        return this.conditionsMenuState;
+    public conditionsMenuState(): 'in' | 'out' {
+        return this._menuState.conditions;
     }
 
-    get_DiceMenuState() {
-        return this.diceMenuState;
+    public diceMenuState(): 'in' | 'out' {
+        return this._menuState.dice;
     }
 
-    get_ItemsMenuTarget() {
-        return this.itemsMenuTarget;
+    public itemsMenuTarget(): 'Character' | 'Companion' | 'Familiar' {
+        return this._itemsMenuTarget;
     }
 
-    set_ItemsMenuTarget(target = 'Character') {
-        this.itemsMenuTarget = target;
+    public setItemsMenuTarget(target: 'Character' | 'Companion' | 'Familiar' = 'Character'): void {
+        this._itemsMenuTarget = target;
         this.refreshService.set_Changed('itemstore');
     }
 
-    get_Level(number: number) {
-        return this.get_Character().class.levels[number];
-    }
-
-    get_Creature(type: string): Character | AnimalCompanion | Familiar {
+    public creatureFromType(type: string): Character | AnimalCompanion | Familiar {
         switch (type.toLowerCase()) {
             case 'character':
-                return this.get_Character();
+                return this.character();
             case 'companion':
-                return this.get_Companion();
+                return this.companion();
             case 'familiar':
-                return this.get_Familiar();
+                return this.familiar();
             default:
                 return new Character();
         }
     }
 
-    get_Character() {
-        if (!this.still_loading()) {
-            return this.me;
+    public character(): Character {
+        if (!this.stillLoading()) {
+            return this._character;
         } else { return new Character(); }
     }
 
-    get_IsBlankCharacter() {
-        //The character is blank if textboxes haven't been used, no class and no basevalues have been chosen, and no items have been added other than the starter items.
-        const character = this.get_Character();
+    public companion(): AnimalCompanion {
+        return this.character().class?.animalCompanion || new AnimalCompanion();
+    }
+
+    public familiar(): Familiar {
+        return this.character().class?.familiar || new Familiar();
+    }
+
+    public isBlankCharacter(): boolean {
+        // The character is blank if textboxes haven't been used, no class and no basevalues have been chosen,
+        // and no items have been added other than the starter items.
+        const character = this.character();
+        const characterStartingInventoryAmount = 2;
+        const characterStartingItemAmount = 2;
 
         return (
             !character.class?.name &&
@@ -369,143 +330,114 @@ export class CharacterService {
             !character.experiencePoints &&
             !character.alignment &&
             !character.baseValues.length &&
-            character.inventories.length <= 2 &&
-            //The character is not blank if any inventory has more than 0 items (more than 2 for the first) or if any item is not one of the basic items.
-            !character.inventories.some((inv, index) => inv.allItems().length > (index ? 0 : 2) || inv.allItems().some(item => ![this.basicItems.weapon?.id || 'noid', this.basicItems.armor?.id || 'noid'].includes(item.refId)))
+            character.inventories.length <= characterStartingInventoryAmount &&
+            // The character is not blank if any inventory has more than 0 items (more than 2 for the first)
+            // or if any item is not one of the basic items.
+            !character.inventories.some((inv, index) =>
+                inv.allItems().length > (index ? 0 : characterStartingItemAmount) ||
+                inv.allItems().some(item =>
+                    ![
+                        this._basicItems.weapon?.id || 'noid',
+                        this._basicItems.armor?.id || 'noid',
+                    ].includes(item.refId),
+                ))
         );
     }
 
-    get_GMMode() {
-        return this.get_Character().GMMode;
+    public isGMMode(): boolean {
+        return this.character().GMMode;
     }
 
-    get_ManualMode() {
-        return this.get_Character().settings.manualMode;
+    public isManualMode(): boolean {
+        return this.character().settings.manualMode;
     }
 
-    get_LoggedIn() {
-        return this.configService.get_LoggedIn();
+    public isLoggedIn(): boolean {
+        return this._configService.get_LoggedIn();
     }
 
-    public get_CompanionAvailable(charLevel: number = this.get_Character().level): boolean {
+    public isCompanionAvailable(charLevel: number = this.character().level): boolean {
         //Return any feat that grants an animal companion that you own.
-        return this.get_CharacterFeatsAndFeatures().some(feat => feat.gainAnimalCompanion == 'Young' && feat.have({ creature: this.get_Character() }, { characterService: this }, { charLevel }));
+        return this.get_CharacterFeatsAndFeatures()
+            .some(feat =>
+                feat.gainAnimalCompanion === 'Young' &&
+                feat.have({ creature: this.character() }, { characterService: this }, { charLevel }),
+            );
     }
 
-    public get_FamiliarAvailable(charLevel: number = this.get_Character().level): boolean {
+    public isFamiliarAvailable(charLevel: number = this.character().level): boolean {
         //Return any feat that grants an animal companion that you own.
-        return this.get_CharacterFeatsAndFeatures().some(feat => feat.gainFamiliar && feat.have({ creature: this.get_Character() }, { characterService: this }, { charLevel }));
+        return this.get_CharacterFeatsAndFeatures()
+            .some(feat =>
+                feat.gainFamiliar &&
+                feat.have({ creature: this.character() }, { characterService: this }, { charLevel }),
+            );
     }
 
-    public get_Companion(): AnimalCompanion {
-        return this.get_Character().class?.animalCompanion || new AnimalCompanion();
-    }
-
-    public get_Familiar(): Familiar {
-        return this.get_Character().class?.familiar || new Familiar();
-    }
-
-    get_Creatures(companionAvailable: boolean = this.get_CompanionAvailable(), familiarAvailable: boolean = this.get_FamiliarAvailable()) {
-        if (!this.still_loading()) {
+    public allAvailableCreatures(
+        companionAvailable: boolean = this.isCompanionAvailable(),
+        familiarAvailable: boolean = this.isFamiliarAvailable(),
+    ): Array<Creature> {
+        if (!this.stillLoading()) {
             if (companionAvailable && familiarAvailable) {
-                return ([] as Array<Creature>).concat(this.get_Character()).concat(this.get_Companion())
-                    .concat(this.get_Familiar());
+                return ([] as Array<Creature>).concat(this.character()).concat(this.companion())
+                    .concat(this.familiar());
             } else if (companionAvailable) {
-                return ([] as Array<Creature>).concat(this.get_Character()).concat(this.get_Companion());
+                return ([] as Array<Creature>).concat(this.character()).concat(this.companion());
             } else if (familiarAvailable) {
-                return ([] as Array<Creature>).concat(this.get_Character()).concat(this.get_Familiar());
+                return ([] as Array<Creature>).concat(this.character()).concat(this.familiar());
             } else {
-                return ([] as Array<Creature>).concat(this.get_Character());
+                return ([] as Array<Creature>).concat(this.character());
             }
         } else { return [new Character()]; }
     }
 
-    reset_Character(id = '', loadAsGM = false) {
-        this.loading = true;
+    public loadOrResetCharacter(id = '', loadAsGM = false): void {
+        this._loading = true;
         this.reset(id, loadAsGM);
     }
 
-    get_Accent() {
-        let result: RegExpExecArray;
-
-        function hexToRgb(hex) {
-            if (hex.length == 4) {
-                result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
-
-                return result ? {
-                    r: parseInt(result[1] + result[1], 16),
-                    g: parseInt(result[2] + result[2], 16),
-                    b: parseInt(result[3] + result[3], 16),
-                } : null;
-            } else if (hex.length == 7) {
-                result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
-                return result ? {
-                    r: parseInt(result[1], 16),
-                    g: parseInt(result[2], 16),
-                    b: parseInt(result[3], 16),
-                } : null;
-            }
-        }
-
-        if (!this.still_loading()) {
-            const original = this.get_Character().settings.accent;
-
-            if (original.length == 4 || original.length == 7) {
-                try {
-                    const rgba = hexToRgb(original);
-                    const result = `${ rgba.r },${ rgba.g },${ rgba.b }`;
-
-                    return result;
-                } catch (error) {
-                    return '25, 118, 210';
-                }
-            } else {
-                return '25, 118, 210';
-            }
-        }
+    public setAccent(): void {
+        document.documentElement.style.setProperty('--accent', this._rgbAccent());
     }
 
-    set_Accent() {
-        document.documentElement.style.setProperty('--accent', this.get_Accent());
-    }
-
-    set_Darkmode() {
-        if (this.get_Darkmode()) {
+    public setDarkmode(): void {
+        if (this.darkmode()) {
             document.body.classList.add('darkmode');
         } else {
             document.body.classList.remove('darkmode');
         }
     }
 
-    get_Classes(name: string) {
+    public characterClasses(name: string): Array<Class> {
         return this.classesService.get_Classes(name);
     }
 
-    get_Ancestries(name: string) {
-        this.historyService.get_Ancestries(name);
-    }
-
-    get_Deities(name = '') {
+    public deities(name = ''): Array<Deity> {
         return this.deitiesService.get_Deities(name);
     }
 
-    get_CharacterDeities(character: Character, source = '', level: number = character.level) {
+    public currentCharacterDeities(character: Character, source = '', level: number = character.level): Array<Deity> {
         return this.deitiesService.get_CharacterDeities(this, character, source, level);
     }
 
-    get_Speeds(creature: Creature, name = '') {
-        return creature.speeds.filter(speed => speed.name == name || name == '');
+    public creatureSpeeds(creature: Creature, name = ''): Array<Speed> {
+        return creature.speeds.filter(speed => !name || speed.name === name);
     }
 
-    update_LanguageList() {
-        //Ensure that the language list is always as long as ancestry languages + INT + any relevant feats and bonuses.
-        //This function is called by the effects service after generating effects, so that new languages aren't thrown out before the effects are generated.
-        //Don't call this function in situations where effects are going to change, but haven't been generated yet - or you may lose languages.
-        const character = this.get_Character();
+    public updateLanguageList(): void {
+        // Ensure that the language list is always as long as ancestry languages + INT + any relevant feats and bonuses.
+        // This function is called by the effects service after generating effects,
+        // so that new languages aren't thrown out before the effects are generated.
+        // Don't call this function in situations where effects are going to change,
+        // but haven't been generated yet - or you may lose languages.
+        const character = this.character();
+        const noLevel = -1;
+        const temporarySourceLevel = -2;
 
         if (character.class.name) {
-            //Collect everything that gives you free languages, and the level on which it happens. This will allow us to mark languages as available depending on their level.
+            // Collect everything that gives you free languages, and the level on which it happens.
+            // This will allow us to mark languages as available depending on their level.
             const languageSources: Array<{ name: string; level: number; amount: number }> = [];
 
             //Free languages from your ancestry
@@ -517,7 +449,7 @@ export class CharacterService {
 
             //Free languages from your base intelligence
             const baseIntelligence: number = this.get_Abilities('Intelligence')[0]?.baseValue(character, this, 0)?.result;
-            const baseInt: number = Math.floor((baseIntelligence - 10) / 2);
+            const baseInt: number = AbilityModFromAbilityValue(baseIntelligence);
 
             if (baseInt > 0) {
                 languageSources.push({ name: 'Intelligence', level: 0, amount: baseInt });
@@ -533,11 +465,17 @@ export class CharacterService {
                     const feat = this.get_FeatsAndFeatures(taken.name)[0];
 
                     if (feat) {
-                        if (feat.effects.some(effect => effect.affected == 'Max Languages')) {
-                            const effects = this.effectsGenerationService.get_EffectsFromObject(feat, { characterService: this }, { creature: character }, { name: taken.name, pretendCharacterLevel: level.number });
+                        if (feat.effects.some(effect => effect.affected === 'Max Languages')) {
+                            const effects =
+                                this._effectsGenerationService.get_EffectsFromObject(
+                                    feat,
+                                    { characterService: this },
+                                    { creature: character },
+                                    { name: taken.name, pretendCharacterLevel: level.number },
+                                );
 
-                            effects.filter(effect => effect.target == 'Max Languages').forEach(effect => {
-                                languageSources.push({ name: taken.name, level: level.number, amount: parseInt(effect.value) });
+                            effects.filter(effect => effect.target === 'Max Languages').forEach(effect => {
+                                languageSources.push({ name: taken.name, level: level.number, amount: parseInt(effect.value, 10) });
                             });
                         }
                     }
@@ -547,12 +485,12 @@ export class CharacterService {
                 //Compare INT on this level with INT on the previous level. Don't do this on Level 0, obviously.
                 const levelIntelligence: number = this.get_Abilities('Intelligence')[0]?.baseValue(character, this, level.number)?.result;
 
-                int.push(Math.floor((levelIntelligence - 10) / 2));
+                int.push(AbilityModFromAbilityValue(levelIntelligence));
 
-                const diff = int[level.number] - int[level.number - 1];
+                const levelIntDiff = int[level.number] - int[level.number - 1];
 
-                if (diff > 0 && int[level.number] > 0) {
-                    languageSources.push({ name: 'Intelligence', level: level.number, amount: Math.min(diff, int[level.number]) });
+                if (levelIntDiff > 0 && int[level.number] > 0) {
+                    languageSources.push({ name: 'Intelligence', level: level.number, amount: Math.min(levelIntDiff, int[level.number]) });
                 }
             });
 
@@ -560,29 +498,35 @@ export class CharacterService {
             // and it could delete your chosen languages.
             //Check if you have already collected this effect by finding a languageSource with the same source and amount.
             //Only if a source cannot be found, add the effect as a temporary source (level = -2).
-            this.effectsService.get_RelativesOnThis(this.get_Character(), 'Max Languages').forEach(effect => {
+            this.effectsService.get_RelativesOnThis(this.character(), 'Max Languages').forEach(effect => {
                 if (parseInt(effect.value, 10) > 0) {
-                    const source = languageSources.find(source => source.name == effect.source && source.amount == parseInt(effect.value, 10));
+                    const matchingSource =
+                        languageSources.find(source => source.name === effect.source && source.amount === parseInt(effect.value, 10));
 
-                    if (!source) {
-                        languageSources.push({ name: effect.source, level: -2, amount: parseInt(effect.value, 10) });
+                    if (!matchingSource) {
+                        languageSources.push({ name: effect.source, level: temporarySourceLevel, amount: parseInt(effect.value, 10) });
                     }
                 }
             });
 
-            //If the current INT is positive and higher than the base INT for the current level (e.g. because of an item bonus), add another temporary language source.
+            // If the current INT is positive and higher than the base INT for the current level
+            // (e.g. because of an item bonus), add another temporary language source.
             const currentInt = this.get_Abilities('Intelligence')[0]?.mod(character, this, this.effectsService)?.result;
             const diff = currentInt - int[character.level];
 
             if (diff > 0 && currentInt > 0) {
-                languageSources.push({ name: 'Intelligence', level: -2, amount: Math.min(diff, currentInt) });
+                languageSources.push({ name: 'Intelligence', level: temporarySourceLevel, amount: Math.min(diff, currentInt) });
             }
 
             //Remove all free languages that have not been filled.
-            character.class.languages = character.class.languages.sort().filter(language => !(language.name == '' && !language.locked));
+            character.class.languages = character.class.languages.sort().filter(language => !(language.name === '' && !language.locked));
 
-            //Make a new list of all the free languages. We will pick and sort the free languages from here into the character language list.
-            const tempLanguages: Array<LanguageGain> = character.class.languages.filter(language => !language.locked).map(language => Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(language))));
+            // Make a new list of all the free languages.
+            // We will pick and sort the free languages from here into the character language list.
+            const tempLanguages: Array<LanguageGain> =
+                character.class.languages
+                    .filter(language => !language.locked)
+                    .map(language => Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(language))));
 
             //Reduce the character language list to only the locked ones.
             character.class.languages = character.class.languages.filter(language => language.locked);
@@ -594,35 +538,70 @@ export class CharacterService {
             // - If not available, add a new blank language.
             languageSources.forEach(languageSource => {
                 for (let index = 0; index < languageSource.amount; index++) {
-                    let existingLanguage = tempLanguages.find(language => language.source == languageSource.name && language.level == languageSource.level && !language.locked);
+                    let existingLanguage =
+                        tempLanguages.find(language =>
+                            language.source === languageSource.name &&
+                            language.level === languageSource.level &&
+                            !language.locked,
+                        );
 
                     if (existingLanguage) {
                         character.class.languages.push(existingLanguage);
                         tempLanguages.splice(tempLanguages.indexOf(existingLanguage), 1);
                     } else {
-                        existingLanguage = tempLanguages.find(language => language.source == languageSource.name && language.level == -1 && !language.locked);
+                        existingLanguage =
+                            tempLanguages.find(language =>
+                                language.source === languageSource.name &&
+                                language.level === noLevel &&
+                                !language.locked,
+                            );
 
                         if (existingLanguage) {
-                            const newLanguage = Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(existingLanguage)));
+                            const newLanguage =
+                                Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(existingLanguage)));
 
                             newLanguage.level = languageSource.level;
                             character.class.languages.push(newLanguage);
                             tempLanguages.splice(tempLanguages.indexOf(existingLanguage), 1);
                         } else {
-                            character.class.languages.push(Object.assign(new LanguageGain(), { name: '', source: languageSource.name, locked: false, level: languageSource.level }) as LanguageGain);
+                            character.class.languages.push(
+                                Object.assign(
+                                    new LanguageGain(),
+                                    { name: '', source: languageSource.name, locked: false, level: languageSource.level },
+                                ) as LanguageGain,
+                            );
                         }
                     }
                 }
             });
 
-            //If any languages are left in the temporary list, assign them to any blank languages, preferring same source, Intelligence and then Multilingual as sources.
+            // If any languages are left in the temporary list, assign them to any blank languages,
+            // preferring same source, Intelligence and then Multilingual as sources.
             tempLanguages.forEach(lostLanguage => {
-                const targetLanguage = character.class.languages
-                    .find(freeLanguage =>
-                        !freeLanguage.locked &&
-                        freeLanguage.name == '' &&
-                        (freeLanguage.source == lostLanguage.source || freeLanguage.source == 'Intelligence' || freeLanguage.source == 'Multilingual' || true),
-                    );
+                const targetLanguage =
+                    character.class.languages
+                        .find(freeLanguage =>
+                            !freeLanguage.locked &&
+                            !freeLanguage.name &&
+                            freeLanguage.source === lostLanguage.source,
+                        ) ||
+                    character.class.languages
+                        .find(freeLanguage =>
+                            !freeLanguage.locked &&
+                            !freeLanguage.name &&
+                            freeLanguage.source === 'Intelligence',
+                        ) ||
+                    character.class.languages
+                        .find(freeLanguage =>
+                            !freeLanguage.locked &&
+                            !freeLanguage.name &&
+                            freeLanguage.source === 'Multilingual',
+                        ) ||
+                    character.class.languages
+                        .find(freeLanguage =>
+                            !freeLanguage.locked &&
+                            !freeLanguage.name,
+                        );
 
                 if (targetLanguage) {
                     targetLanguage.name = lostLanguage.name;
@@ -650,7 +629,7 @@ export class CharacterService {
 
                     return 0;
                 })
-                .sort((a, b) => (a.level + a.source == b.level + b.source) ? 0 : ((a.level + a.source > b.level + b.source) ? 1 : -1))
+                .sort((a, b) => (a.level + a.source === b.level + b.source) ? 0 : ((a.level + a.source > b.level + b.source) ? 1 : -1))
                 .sort((a, b) => {
                     if (!a.locked && b.locked) {
                         return 1;
@@ -667,33 +646,33 @@ export class CharacterService {
 
     change_Class($class: Class) {
         //Cleanup Heritage, Ancestry, Background and class skills
-        const character = this.get_Character();
+        const character = this.character();
 
         character.class.processRemovingChangeHeritage(this);
         character.class.processRemovingOldAncestry(this);
         character.class.processRemovingOldBackground(this);
         character.class.processRemovingOldClass(this);
-        character.class = Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify($class))).recast(this.typeService, this.itemsService);
+        character.class = Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify($class))).recast(this._typeService, this.itemsService);
         character.class.processNewClass(this, this.itemsService);
         this.deitiesService.clear_CharacterDeities();
-        this.cacheService.reset_CreatureCache(character.typeId);
+        this.cacheService.resetCreatureCache(character.typeId);
         this.refreshService.set_Changed();
     }
 
     change_Ancestry(ancestry: Ancestry, itemsService: ItemsService) {
-        const character = this.get_Character();
+        const character = this.character();
 
         this.change_Heritage(new Heritage());
         character.class.processRemovingOldAncestry(this);
         character.class.ancestry = new Ancestry();
         character.class.ancestry = Object.assign<Ancestry, Ancestry>(new Ancestry(), JSON.parse(JSON.stringify(ancestry))).recast();
         character.class.processNewAncestry(this, itemsService);
-        this.cacheService.reset_CreatureCache(character.typeId);
-        this.update_LanguageList();
+        this.cacheService.resetCreatureCache(character.typeId);
+        this.updateLanguageList();
     }
 
     change_Deity(deity: Deity) {
-        const character = this.get_Character();
+        const character = this.character();
 
         character.class.deity = deity.name;
         this.deitiesService.clear_CharacterDeities();
@@ -705,7 +684,7 @@ export class CharacterService {
     }
 
     change_Heritage(heritage: Heritage, index = -1) {
-        const character = this.get_Character();
+        const character = this.character();
 
         character.class.processRemovingChangeHeritage(this, index);
 
@@ -726,17 +705,17 @@ export class CharacterService {
         }
 
         character.class.processNewHeritage(this, this.itemsService, index);
-        this.cacheService.reset_CreatureCache(character.typeId);
+        this.cacheService.resetCreatureCache(character.typeId);
     }
 
     change_Background(background: Background) {
-        const character = this.get_Character();
+        const character = this.character();
 
         character.class.processRemovingOldBackground(this);
         character.class.background = new Background();
         character.class.background = Object.assign<Background, Background>(new Background(), JSON.parse(JSON.stringify(background))).recast();
         character.class.processNewBackground(this);
-        this.cacheService.reset_CreatureCache(character.typeId);
+        this.cacheService.resetCreatureCache(character.typeId);
     }
 
     get_CleanItems() {
@@ -851,7 +830,7 @@ export class CharacterService {
                 const customFeats = this.featsService.create_WeaponFeats([item]);
 
                 customFeats.forEach(customFeat => {
-                    const oldFeat = this.get_Character().customFeats.find(existingFeat => existingFeat.name === customFeat.name);
+                    const oldFeat = this.character().customFeats.find(existingFeat => existingFeat.name === customFeat.name);
 
                     if (oldFeat) {
                         this.remove_CustomFeat(oldFeat);
@@ -1006,7 +985,7 @@ export class CharacterService {
         //If there are no weapons left of this name in any inventory, find any custom feat that has it as its subType.
         //These feats are not useful anymore, but the player may wish to keep them.
         //They are marked with canDelete, and the player can decide whether to delete them.
-        const character = this.get_Character();
+        const character = this.character();
         const remainingWeapons: Array<string> = []
             .concat(
                 ...character.inventories
@@ -1034,19 +1013,19 @@ export class CharacterService {
         rune.loreChoices.forEach(choice => {
             //Check if only one (=this) item's rune has this lore (and therefore no other item has already created it on the character), and if so, create it.
             if (
-                this.get_Character().inventories[0]?.allEquipment()
+                this.character().inventories[0]?.allEquipment()
                     .filter(item => item.propertyRunes
                         .some(propertyRune => propertyRune.loreChoices
                             .some(otherchoice => otherchoice.loreName == choice.loreName),
                         ),
                     ).length +
-                this.get_Character().inventories[0]?.allEquipment()
+                this.character().inventories[0]?.allEquipment()
                     .filter(item => item.oilsApplied
                         .some(oil => oil.runeEffect && oil.runeEffect.loreChoices
                             .some(otherchoice => otherchoice.loreName == choice.loreName),
                         ),
                     ).length == 1) {
-                this.get_Character().addLore(this, choice);
+                this.character().addLore(this, choice);
             }
         });
     }
@@ -1055,21 +1034,21 @@ export class CharacterService {
         //Iterate through the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
-            if (this.get_Character().inventories[0]?.allEquipment()
+            if (this.character().inventories[0]?.allEquipment()
                 .filter(item => item.propertyRunes
                     .filter(propertyRune => propertyRune.loreChoices
                         .filter(otherchoice => otherchoice.loreName == choice.loreName)
                         .length)
                     .length)
                 .length +
-                this.get_Character().inventories[0]?.allEquipment()
+                this.character().inventories[0]?.allEquipment()
                     .filter(item => item.oilsApplied
                         .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices
                             .filter(otherchoice => otherchoice.loreName == choice.loreName)
                             .length)
                         .length)
                     .length == 1) {
-                this.get_Character().removeLore(this, choice);
+                this.character().removeLore(this, choice);
             }
         });
     }
@@ -1089,47 +1068,47 @@ export class CharacterService {
         }
 
         if (copper) {
-            this.get_Character().cash[3] += (copper * multiplier);
+            this.character().cash[3] += (copper * multiplier);
 
-            if (this.get_Character().cash[3] < 0) {
-                if (this.get_Character().cash[2] > 0 || this.get_Character().cash[1] > 0 || this.get_Character().cash[0] > 0) {
-                    silver += Math.floor(this.get_Character().cash[3] / 10) * multiplier;
-                    this.get_Character().cash[3] -= Math.floor(this.get_Character().cash[3] / 10) * 10;
+            if (this.character().cash[3] < 0) {
+                if (this.character().cash[2] > 0 || this.character().cash[1] > 0 || this.character().cash[0] > 0) {
+                    silver += Math.floor(this.character().cash[3] / 10) * multiplier;
+                    this.character().cash[3] -= Math.floor(this.character().cash[3] / 10) * 10;
                 }
             }
         }
 
         if (silver) {
-            this.get_Character().cash[2] += (silver * multiplier);
+            this.character().cash[2] += (silver * multiplier);
 
-            if (this.get_Character().cash[2] < 0) {
-                if (this.get_Character().cash[1] > 0 || this.get_Character().cash[0] > 0) {
-                    gold += Math.floor(this.get_Character().cash[2] / 10) * multiplier;
-                    this.get_Character().cash[2] -= Math.floor(this.get_Character().cash[2] / 10) * 10;
+            if (this.character().cash[2] < 0) {
+                if (this.character().cash[1] > 0 || this.character().cash[0] > 0) {
+                    gold += Math.floor(this.character().cash[2] / 10) * multiplier;
+                    this.character().cash[2] -= Math.floor(this.character().cash[2] / 10) * 10;
                 }
             }
         }
 
         if (gold) {
-            this.get_Character().cash[1] += (gold * multiplier);
+            this.character().cash[1] += (gold * multiplier);
 
-            if (this.get_Character().cash[1] < 0) {
-                if (this.get_Character().cash[0] > 0) {
-                    plat += Math.floor(this.get_Character().cash[1] / 10) * multiplier;
-                    this.get_Character().cash[1] -= Math.floor(this.get_Character().cash[1] / 10) * 10;
+            if (this.character().cash[1] < 0) {
+                if (this.character().cash[0] > 0) {
+                    plat += Math.floor(this.character().cash[1] / 10) * multiplier;
+                    this.character().cash[1] -= Math.floor(this.character().cash[1] / 10) * 10;
                 }
             }
         }
 
         if (plat) {
-            this.get_Character().cash[0] += (plat * multiplier);
+            this.character().cash[0] += (plat * multiplier);
 
-            if (this.get_Character().cash[0] < 0) {
+            if (this.character().cash[0] < 0) {
                 this.sort_Cash();
             }
         }
 
-        if (this.get_Character().cash[0] < 0 || this.get_Character().cash[1] < 0 || this.get_Character().cash[2] < 0) {
+        if (this.character().cash[0] < 0 || this.character().cash[1] < 0 || this.character().cash[2] < 0) {
             this.sort_Cash();
         }
 
@@ -1137,9 +1116,9 @@ export class CharacterService {
     }
 
     sort_Cash() {
-        const sum = (this.get_Character().cash[0] * 1000) + (this.get_Character().cash[1] * 100) + (this.get_Character().cash[2] * 10) + (this.get_Character().cash[3]);
+        const sum = (this.character().cash[0] * 1000) + (this.character().cash[1] * 100) + (this.character().cash[2] * 10) + (this.character().cash[3]);
 
-        this.get_Character().cash = [0, 0, 0, 0];
+        this.character().cash = [0, 0, 0, 0];
         this.change_Cash(1, sum);
     }
 
@@ -1228,7 +1207,7 @@ export class CharacterService {
             item.propertyRunes?.forEach(rune => {
                 //Deactivate any active toggled activities of inserted runes.
                 rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-                    this.activitiesProcessingService.activateActivity(this.get_Character(), 'Character', this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
+                    this.activitiesProcessingService.activateActivity(this.character(), 'Character', this, this.conditionsService, this.itemsService, this.spellsService, activity, activity, false);
                 });
             });
         }
@@ -1318,23 +1297,23 @@ export class CharacterService {
                 this.grant_BasicItems();
             }, 500);
         } else {
-            const newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_CleanItemByID('08693211-8daa-11ea-abca-ffb46fbada73')).recast(this.typeService, this.itemsService);
-            const newBasicArmor: Armor = Object.assign(new Armor(), this.itemsService.get_CleanItemByID('89c1a2c2-8e09-11ea-9fab-e92c63c14723')).recast(this.typeService, this.itemsService);
+            const newBasicWeapon: Weapon = Object.assign(new Weapon(), this.itemsService.get_CleanItemByID('08693211-8daa-11ea-abca-ffb46fbada73')).recast(this._typeService, this.itemsService);
+            const newBasicArmor: Armor = Object.assign(new Armor(), this.itemsService.get_CleanItemByID('89c1a2c2-8e09-11ea-9fab-e92c63c14723')).recast(this._typeService, this.itemsService);
 
-            this.basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
-            this.equip_BasicItems(this.get_Character(), false);
-            this.equip_BasicItems(this.get_Companion(), false);
+            this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
+            this.equip_BasicItems(this.character(), false);
+            this.equip_BasicItems(this.companion(), false);
         }
     }
 
     equip_BasicItems(creature: Creature, changeAfter = true) {
-        if (!this.still_loading() && this.basicItems.weapon && this.basicItems.armor && !(creature instanceof Familiar)) {
+        if (!this.stillLoading() && this._basicItems.weapon && this._basicItems.armor && !(creature instanceof Familiar)) {
             if (!creature.inventories[0].weapons.some(weapon => !weapon.broken) && (creature instanceof Character)) {
-                this.grant_InventoryItem(this.basicItems.weapon, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
+                this.grant_InventoryItem(this._basicItems.weapon, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
             }
 
             if (!creature.inventories[0].armors.some(armor => !armor.broken)) {
-                this.grant_InventoryItem(this.basicItems.armor, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
+                this.grant_InventoryItem(this._basicItems.armor, { creature, inventory: creature.inventories[0] }, { changeAfter: false, equipAfter: false });
             }
 
             if (!creature.inventories[0].weapons.some(weapon => weapon.equipped == true)) {
@@ -1352,20 +1331,20 @@ export class CharacterService {
     }
 
     add_CustomSkill(skillName: string, type: string, abilityName: string, locked = false, recallKnowledge = false) {
-        this.get_Character().customSkills.push(new Skill(abilityName, skillName, type, locked, recallKnowledge));
+        this.character().customSkills.push(new Skill(abilityName, skillName, type, locked, recallKnowledge));
     }
 
     remove_CustomSkill(oldSkill: Skill) {
-        this.get_Character().customSkills = this.get_Character().customSkills.filter(skill => skill !== oldSkill);
+        this.character().customSkills = this.character().customSkills.filter(skill => skill !== oldSkill);
     }
 
     public add_CustomFeat(feat: Feat): void {
-        this.get_Character().customFeats.push(feat);
+        this.character().customFeats.push(feat);
         this.refreshService.set_ToChange('Character', 'charactersheet');
     }
 
     public remove_CustomFeat(feat: Feat): void {
-        const character = this.get_Character();
+        const character = this.character();
 
         character.customFeats = character.customFeats.filter(oldFeat => oldFeat !== feat);
     }
@@ -1394,7 +1373,7 @@ export class CharacterService {
 
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (conditionGain.activationPrerequisite) {
-                const activationValue = this.evaluationService.get_ValueFromFormula(conditionGain.activationPrerequisite, { characterService: this, effectsService: this.effectsService }, { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain });
+                const activationValue = this._evaluationService.get_ValueFromFormula(conditionGain.activationPrerequisite, { characterService: this, effectsService: this.effectsService }, { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain });
 
                 if (!activationValue || activationValue == '0' || (typeof activationValue === 'string' && !parseInt(activationValue, 10))) {
                     activate = false;
@@ -1632,25 +1611,25 @@ export class CharacterService {
     }
 
     get_MessageCreature(message: PlayerMessage) {
-        return this.get_Creatures().find(creature => creature.id == message.targetId);
+        return this.allAvailableCreatures().find(creature => creature.id == message.targetId);
     }
 
     get_MessageSender(message: PlayerMessage) {
-        return this.savegameService.getSavegames().find(savegame => savegame.id == message.senderId)?.name;
+        return this._savegameService.getSavegames().find(savegame => savegame.id == message.senderId)?.name;
     }
 
     send_TurnChangeToPlayers() {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
+        if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
             return false;
         }
 
-        this.messageService.get_Time()
+        this._messageService.get_Time()
             .subscribe({
                 next: result => {
                     const timeStamp = result.time;
-                    const character = this.get_Character();
-                    const targets = this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
+                    const character = this.character();
+                    const targets = this._savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
                     const messages: Array<PlayerMessage> = [];
 
                     targets.forEach(target => {
@@ -1669,7 +1648,7 @@ export class CharacterService {
                     });
 
                     if (messages.length) {
-                        this.messageService.send_Messages(messages)
+                        this._messageService.send_Messages(messages)
                             .subscribe({
                                 next: () => {
                                     //Don't notify the user that a turn change was sent. It proved more annoying than useful.
@@ -1677,7 +1656,7 @@ export class CharacterService {
                                 },
                                 error: error => {
                                     if (error.status == 401) {
-                                        this.configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
+                                        this._configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
                                     } else {
                                         this.toastService.show('An error occurred while sending effects. See console for more information.');
                                         console.log(`Error saving effect messages to database: ${ error.message }`);
@@ -1688,7 +1667,7 @@ export class CharacterService {
                 },
                 error: error => {
                     if (error.status == 401) {
-                        this.configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
+                        this._configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
                         console.log(`Error saving effect messages to database: ${ error.message }`);
@@ -1699,7 +1678,7 @@ export class CharacterService {
 
     apply_TurnChangeMessage(messages: Array<PlayerMessage>) {
         //Don't receive messages in manual mode.
-        if (this.get_ManualMode()) {
+        if (this.isManualMode()) {
             return false;
         }
 
@@ -1707,14 +1686,14 @@ export class CharacterService {
         Array.from(new Set(messages.filter(message => message.selected).map(message => message.senderId))).forEach(senderId => {
             let removed = false;
 
-            this.get_Creatures().forEach(creature => {
+            this.allAvailableCreatures().forEach(creature => {
                 this.get_AppliedConditions(creature)
                     .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.durationEndsOnOtherTurnChange)
                     .forEach(existingConditionGain => {
                         removed = this.remove_Condition(creature, existingConditionGain, false);
 
                         if (removed) {
-                            const senderName = this.savegameService.getSavegames().find(savegame => savegame.id == senderId)?.name || 'Unknown';
+                            const senderName = this._savegameService.getSavegames().find(savegame => savegame.id == senderId)?.name || 'Unknown';
 
                             this.toastService.show(`Automatically removed <strong>${ existingConditionGain.name }${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }</strong> condition from <strong>${ creature.name || creature.type }</strong> on turn of <strong>${ senderName }</strong>`);
                             this.refreshService.set_ToChange(creature.type, 'effects');
@@ -1723,33 +1702,33 @@ export class CharacterService {
             });
         });
         messages.forEach(message => {
-            this.messageService.mark_MessageAsIgnored(this, message);
+            this._messageService.mark_MessageAsIgnored(this, message);
         });
     }
 
     send_ConditionToPlayers(targets: Array<SpellTarget>, conditionGain: ConditionGain, activate = true) {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
+        if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
             return false;
         }
 
-        this.messageService.get_Time()
+        this._messageService.get_Time()
             .subscribe({
                 next: result => {
                     const timeStamp = result.time;
-                    const creatures = this.get_Creatures();
+                    const creatures = this.allAvailableCreatures();
                     const messages: Array<PlayerMessage> = [];
 
                     targets.forEach(target => {
                         if (creatures.some(creature => creature.id == target.id)) {
                             //Catch any messages that go to your own creatures
-                            this.add_Condition(this.get_Creature(target.type), conditionGain);
+                            this.add_Condition(this.creatureFromType(target.type), conditionGain);
                         } else {
                             //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                             const message = new PlayerMessage();
 
                             message.recipientId = target.playerId;
-                            message.senderId = this.get_Character().id;
+                            message.senderId = this.character().id;
                             message.targetId = target.id;
 
                             const date = new Date();
@@ -1768,7 +1747,7 @@ export class CharacterService {
                     });
 
                     if (messages.length) {
-                        this.messageService.send_Messages(messages)
+                        this._messageService.send_Messages(messages)
                             .subscribe({
                                 next: () => {
                                     //If messages were sent, send a summary toast.
@@ -1776,7 +1755,7 @@ export class CharacterService {
                                 },
                                 error: error => {
                                     if (error.status == 401) {
-                                        this.configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
+                                        this._configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
                                     } else {
                                         this.toastService.show('An error occurred while sending effects. See console for more information.');
                                         console.log(`Error saving effect messages to database: ${ error.message }`);
@@ -1787,7 +1766,7 @@ export class CharacterService {
                 },
                 error: error => {
                     if (error.status == 401) {
-                        this.configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
+                        this._configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
                         console.log(`Error saving effect messages to database: ${ error.message }`);
@@ -1798,7 +1777,7 @@ export class CharacterService {
 
     apply_MessageConditions(messages: Array<PlayerMessage>) {
         //Don't receive messages in manual mode.
-        if (this.get_ManualMode()) {
+        if (this.isManualMode()) {
             return false;
         }
 
@@ -1841,17 +1820,17 @@ export class CharacterService {
                 }
             }
 
-            this.messageService.mark_MessageAsIgnored(this, message);
+            this._messageService.mark_MessageAsIgnored(this, message);
         });
     }
 
     send_ItemsToPlayer(sender: Creature, target: SpellTarget, item: Item, amount = 0) {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
+        if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
             return false;
         }
 
-        this.messageService.get_Time()
+        this._messageService.get_Time()
             .subscribe({
                 next: result => {
                     const timeStamp = result.time;
@@ -1867,18 +1846,18 @@ export class CharacterService {
                     const message = new PlayerMessage();
 
                     message.recipientId = target.playerId;
-                    message.senderId = this.get_Character().id;
+                    message.senderId = this.character().id;
                     message.targetId = target.id;
 
                     const date = new Date();
 
                     message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     message.timeStamp = timeStamp;
-                    message.offeredItem.push(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(item))).recast(this.typeService, this.itemsService));
+                    message.offeredItem.push(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(item))).recast(this._typeService, this.itemsService));
                     message.itemAmount = amount;
                     message.includedItems = included.items;
                     message.includedInventories = included.inventories;
-                    this.messageService.send_Messages([message])
+                    this._messageService.send_Messages([message])
                         .subscribe({
                             next: () => {
                                 //If the message was sent, send a summary toast.
@@ -1886,7 +1865,7 @@ export class CharacterService {
                             },
                             error: error => {
                                 if (error.status == 401) {
-                                    this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
+                                    this._configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
                                 } else {
                                     this.toastService.show('An error occurred while sending item. See console for more information.');
                                     console.log(`Error saving item message to database: ${ error.message }`);
@@ -1896,7 +1875,7 @@ export class CharacterService {
                 },
                 error: error => {
                     if (error.status == 401) {
-                        this.configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
+                        this._configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
                     } else {
                         this.toastService.show('An error occurred while sending item. See console for more information.');
                         console.log(`Error saving item message to database: ${ error.message }`);
@@ -1907,7 +1886,7 @@ export class CharacterService {
 
     apply_MessageItems(messages: Array<PlayerMessage>) {
         //Don't receive messages in manual mode.
-        if (this.get_ManualMode()) {
+        if (this.isManualMode()) {
             return false;
         }
 
@@ -1945,7 +1924,7 @@ export class CharacterService {
                                 this.refreshService.set_ToChange(targetCreature.type, 'inventory');
                                 this.refreshService.set_Changed(existingItems[0].id);
                             } else {
-                                typedItem.recast(this.typeService, this.itemsService);
+                                typedItem.recast(this._typeService, this.itemsService);
 
                                 const newLength = targetInventory[typedItem.type].push(typedItem);
                                 const addedItem = targetInventory[typedItem.type][newLength - 1];
@@ -2011,17 +1990,17 @@ export class CharacterService {
                 this.send_ItemAcceptedMessage(message, false);
             }
 
-            this.messageService.mark_MessageAsIgnored(this, message);
+            this._messageService.mark_MessageAsIgnored(this, message);
         });
     }
 
     send_ItemAcceptedMessage(message: PlayerMessage, accepted = true) {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.get_GMMode() || this.get_ManualMode() || !this.get_LoggedIn()) {
+        if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
             return false;
         }
 
-        this.messageService.get_Time()
+        this._messageService.get_Time()
             .subscribe({
                 next: result => {
                     const timeStamp = result.time;
@@ -2029,7 +2008,7 @@ export class CharacterService {
                     const response = new PlayerMessage();
 
                     response.recipientId = message.senderId;
-                    response.senderId = this.get_Character().id;
+                    response.senderId = this.character().id;
                     response.targetId = message.senderId;
 
                     const target = this.get_MessageSender(message) || 'sender';
@@ -2045,7 +2024,7 @@ export class CharacterService {
                         response.rejectedItem = message.offeredItem[0].id;
                     }
 
-                    this.messageService.send_Messages([response])
+                    this._messageService.send_Messages([response])
                         .subscribe({
                             next: () => {
                                 //If the message was sent, send a summary toast.
@@ -2057,7 +2036,7 @@ export class CharacterService {
                             },
                             error: error => {
                                 if (error.status == 401) {
-                                    this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
+                                    this._configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
                                 } else {
                                     this.toastService.show('An error occurred while sending response. See console for more information.');
                                     console.log(`Error saving response message to database: ${ error.message }`);
@@ -2067,7 +2046,7 @@ export class CharacterService {
                 },
                 error: error => {
                     if (error.status == 401) {
-                        this.configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
+                        this._configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
                     } else {
                         this.toastService.show('An error occurred while sending response. See console for more information.');
                         console.log(`Error saving response message to database: ${ error.message }`);
@@ -2078,7 +2057,7 @@ export class CharacterService {
 
     apply_ItemAcceptedMessages(messages: Array<PlayerMessage>) {
         //Don't receive messages in manual mode.
-        if (this.get_ManualMode()) {
+        if (this.isManualMode()) {
             return false;
         }
 
@@ -2092,7 +2071,7 @@ export class CharacterService {
                 let foundCreature: Creature;
                 let itemName = 'item';
 
-                this.get_Creatures().forEach(creature => {
+                this.allAvailableCreatures().forEach(creature => {
                     creature.inventories.forEach(inventory => {
                         if (!foundItem) {
                             foundItem = inventory.allItems().find(invItem => invItem.id == (message.acceptedItem || message.rejectedItem));
@@ -2117,23 +2096,23 @@ export class CharacterService {
                 }
             }
 
-            this.messageService.mark_MessageAsIgnored(this, message);
+            this._messageService.mark_MessageAsIgnored(this, message);
         });
         this.refreshService.process_ToChange();
     }
 
     public prepare_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue = 0, conditionHeightened = 0, conditionChoice = '', conditionSpellCastingAbility = '') {
-        this.preparedOnceEffects.push({ creatureType: creature.type, effectGain, conditionValue, conditionHeightened, conditionChoice, conditionSpellCastingAbility });
+        this._preparedOnceEffects.push({ creatureType: creature.type, effectGain, conditionValue, conditionHeightened, conditionChoice, conditionSpellCastingAbility });
     }
 
     public process_PreparedOnceEffects(): void {
         //Make a copy of the prepared OnceEffects and clear the original.
         //Some OnceEffects can cause effects to be regenerated, which calls this function again, so we need to clear them to avoid duplicate applications.
-        const preparedOnceEffects = this.preparedOnceEffects.slice();
+        const preparedOnceEffects = this._preparedOnceEffects.slice();
 
-        this.preparedOnceEffects.length = 0;
+        this._preparedOnceEffects.length = 0;
         preparedOnceEffects.forEach(prepared => {
-            this.process_OnceEffect(this.get_Creature(prepared.creatureType), prepared.effectGain, prepared.conditionValue, prepared.conditionHeightened, prepared.conditionChoice, prepared.conditionSpellCastingAbility);
+            this.process_OnceEffect(this.creatureFromType(prepared.creatureType), prepared.effectGain, prepared.conditionValue, prepared.conditionHeightened, prepared.conditionChoice, prepared.conditionSpellCastingAbility);
         });
     }
 
@@ -2144,7 +2123,7 @@ export class CharacterService {
             //we eval the effect value by sending it to the evaluationService with some additional attributes and receive the resulting effect.
             if (effectGain.value) {
                 const testObject = { spellSource: effectGain.spellSource, value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility };
-                const validationResult = this.evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature, object: testObject, effect: effectGain });
+                const validationResult = this._evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature, object: testObject, effect: effectGain });
 
                 if (validationResult && typeof validationResult === 'number') {
                     value = validationResult;
@@ -2169,9 +2148,9 @@ export class CharacterService {
             recipientIs = 'are';
             recipientHas = 'have';
         } else if (creature instanceof AnimalCompanion) {
-            recipientName = this.get_Companion().name || 'Your animal companion';
+            recipientName = this.companion().name || 'Your animal companion';
         } else if (creature instanceof Familiar) {
-            recipientName = this.get_Familiar().name || 'Your familiar';
+            recipientName = this.familiar().name || 'Your familiar';
         }
 
         switch (effectGain.affected) {
@@ -2184,7 +2163,7 @@ export class CharacterService {
                         break;
                     }
 
-                    this.get_Character().class.focusPoints = Math.min(this.get_Character().class.focusPoints, maxFocusPoints);
+                    this.character().class.focusPoints = Math.min(this.character().class.focusPoints, maxFocusPoints);
                     //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
                     // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
                     (creature as Character).class.focusPoints += value;
@@ -2286,7 +2265,7 @@ export class CharacterService {
                 this.refreshService.set_ToChange(creature.type, 'effects');
                 break;
             case 'Raise Shield': {
-                const shield = this.get_Character().inventories[0].shields.find(shield => shield.equipped);
+                const shield = this.character().inventories[0].shields.find(shield => shield.equipped);
 
                 if (shield) {
                     if (value > 0) {
@@ -2338,7 +2317,7 @@ export class CharacterService {
     }
 
     get_Feats(name = '', type = '') {
-        return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
+        return this.featsService.get_Feats(this.character().customFeats, name, type);
     }
 
     get_Features(name = '') {
@@ -2347,11 +2326,11 @@ export class CharacterService {
 
     get_FeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false) {
         //Use this function very sparingly! See get_All() for details.
-        return this.featsService.get_All(this.get_Character().customFeats, name, type, includeSubTypes, includeCountAs);
+        return this.featsService.get_All(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     get_CharacterFeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false) {
-        return this.featsService.get_CharacterFeats(this.get_Character().customFeats, name, type, includeSubTypes, includeCountAs);
+        return this.featsService.get_CharacterFeats(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     get_CharacterFeatsTaken(
@@ -2372,7 +2351,7 @@ export class CharacterService {
         if (!options.excludeTemporary) {
             return this.featsService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.includeCountAs, filter.automatic);
         } else {
-            return this.get_Character().takenFeats(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.excludeTemporary, options.includeCountAs, filter.automatic);
+            return this.character().takenFeats(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.excludeTemporary, options.includeCountAs, filter.automatic);
         }
     }
 
@@ -2381,10 +2360,10 @@ export class CharacterService {
     }
 
     get_AnimalCompanionLevels() {
-        return this.animalCompanionsService.get_CompanionLevels();
+        return this.animalCompanionsService.companionLevels();
     }
 
-    get_Senses(creature: Creature, charLevel: number = this.get_Character().level, allowTemporary = false) {
+    get_Senses(creature: Creature, charLevel: number = this.character().level, allowTemporary = false) {
         let senses: Array<string> = [];
 
         let ancestrySenses: Array<string>;
@@ -2458,7 +2437,7 @@ export class CharacterService {
     get_FeatsShowingOn(objectName = 'all') {
         return this.get_CharacterFeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
-                (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
+                (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
                     objectName.toLowerCase() == 'all' ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
@@ -2470,7 +2449,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() == 'lore'
                     ),
                 ),
-            ) && feat.have({ creature: this.get_Character() }, { characterService: this }),
+            ) && feat.have({ creature: this.character() }, { characterService: this }),
         );
     }
 
@@ -2478,11 +2457,11 @@ export class CharacterService {
         //Get showon elements from Companion Ancestry and Specialization
         return []
             .concat(
-                [this.get_Companion().class.ancestry]
+                [this.companion().class.ancestry]
                     .filter(ancestry =>
                         ancestry.hints
                             .find(hint =>
-                                (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
+                                (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                                 hint.showon?.split(',')
                                     .find(showon =>
                                         objectName == 'all' ||
@@ -2492,11 +2471,11 @@ export class CharacterService {
                     ),
             )
             .concat(
-                this.get_Companion().class.specializations
+                this.companion().class.specializations
                     .filter(spec =>
                         spec.hints
                             .find(hint =>
-                                (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
+                                (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                                 hint.showon?.split(',')
                                     .find(showon =>
                                         objectName == 'all' ||
@@ -2515,7 +2494,7 @@ export class CharacterService {
         //Get showon elements from Familiar Abilities
         return this.familiarsService.get_FamiliarAbilities().filter(feat =>
             feat.hints.find(hint =>
-                (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
+                (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
                     objectName.toLowerCase() == 'all' ||
                     showon.trim().toLowerCase() == objectName.toLowerCase() ||
@@ -2527,7 +2506,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() == 'lore'
                     ),
                 ),
-            ) && feat.have({ creature: this.get_Familiar() }, { characterService: this }),
+            ) && feat.have({ creature: this.familiar() }, { characterService: this }),
             //Return any feats that include e.g. Companion:Athletics
         )
             .concat(this.get_FeatsShowingOn(`Familiar:${ objectName }`));
@@ -2539,7 +2518,7 @@ export class CharacterService {
             .map(conditionGain => Object.assign(new ConditionSet(), { gain: conditionGain, condition: this.get_Conditions(conditionGain.name)[0] }))
             .filter(conditionSet =>
                 conditionSet.condition?.hints.find(hint =>
-                    (hint.minLevel ? this.get_Character().level >= hint.minLevel : true) &&
+                    (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                     hint.showon?.split(',').find(showon =>
                         objectName.trim().toLowerCase() == 'all' ||
                         showon.trim().toLowerCase() == objectName.toLowerCase() ||
@@ -2558,7 +2537,7 @@ export class CharacterService {
     get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): Array<ActivityGain> {
         const activities: Array<ActivityGain | ItemActivity> = [];
 
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             if (creature instanceof Character) {
                 activities.push(...creature.class.activities.filter(gain => gain.level <= levelNumber));
             }
@@ -2829,10 +2808,10 @@ export class CharacterService {
     get_MaxFocusPoints() {
         let focusPoints = 0;
 
-        this.effectsService.get_AbsolutesOnThis(this.get_Character(), 'Focus Pool').forEach(effect => {
+        this.effectsService.get_AbsolutesOnThis(this.character(), 'Focus Pool').forEach(effect => {
             focusPoints = parseInt(effect.setValue, 10);
         });
-        this.effectsService.get_RelativesOnThis(this.get_Character(), 'Focus Pool').forEach(effect => {
+        this.effectsService.get_RelativesOnThis(this.character(), 'Focus Pool').forEach(effect => {
             focusPoints += parseInt(effect.value, 10);
         });
 
@@ -2852,12 +2831,12 @@ export class CharacterService {
     }
 
     initialize_AnimalCompanion() {
-        const character = this.get_Character();
+        const character = this.character();
 
-        this.cacheService.reset_CreatureCache(1);
+        this.cacheService.resetCreatureCache(1);
 
         if (character.class.animalCompanion) {
-            character.class.animalCompanion = Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this.typeService, this.itemsService);
+            character.class.animalCompanion = Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._typeService, this.itemsService);
             character.class.animalCompanion.class.levels = this.get_AnimalCompanionLevels();
             this.equip_BasicItems(character.class.animalCompanion);
             character.class.animalCompanion.setLevel(this);
@@ -2865,37 +2844,37 @@ export class CharacterService {
     }
 
     cleanup_Familiar() {
-        this.get_Familiar().abilities.feats.forEach(gain => {
-            this.get_Character().takeFeat(this.get_Familiar(), this, undefined, gain.name, false, this.get_Familiar().abilities, undefined);
+        this.familiar().abilities.feats.forEach(gain => {
+            this.character().takeFeat(this.familiar(), this, undefined, gain.name, false, this.familiar().abilities, undefined);
         });
     }
 
     initialize_Familiar() {
-        const character = this.get_Character();
+        const character = this.character();
 
-        this.cacheService.reset_CreatureCache(2);
+        this.cacheService.resetCreatureCache(2);
 
         if (character.class.familiar) {
-            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this.typeService, this.itemsService);
+            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._typeService, this.itemsService);
             this.refreshService.set_ToChange('Familiar', 'all');
         }
     }
 
     initialize() {
-        this.loading = true;
-        this.set_LoadingStatus('Loading extensions');
+        this._loading = true;
+        this.setLoadingStatus('Loading extensions');
 
         const waitForFileServices = setInterval(() => {
-            if (!this.extensionsService.still_loading() && !this.configService.still_loading()) {
+            if (!this._extensionsService.still_loading() && !this._configService.still_loading()) {
                 clearInterval(waitForFileServices);
-                this.set_LoadingStatus('Initializing content');
-                this.me = new Character();
+                this.setLoadingStatus('Initializing content');
+                this._character = new Character();
             }
         }, 100);
     }
 
     reset(id?: string, loadAsGM?: boolean) {
-        this.loading = true;
+        this._loading = true;
         this.cacheService.reset();
         this.traitsService.reset();
         this.activitiesService.reset();
@@ -2906,16 +2885,16 @@ export class CharacterService {
         this.deitiesService.reset();
         this.animalCompanionsService.reset();
         this.familiarsService.reset();
-        this.messageService.reset();
+        this._messageService.reset();
 
         if (id) {
-            this.set_LoadingStatus('Loading character');
+            this.setLoadingStatus('Loading character');
             this.load_CharacterFromDB(id)
                 .subscribe({
                     next: (results: Array<Partial<Character>>) => {
-                        this.loader = results;
+                        this._loader = results;
 
-                        if (this.loader) {
+                        if (this._loader) {
                             this.finish_Loading(loadAsGM);
                         } else {
                             this.toastService.show('The character could not be found in the database.');
@@ -2924,7 +2903,7 @@ export class CharacterService {
                     },
                     error: error => {
                         if (error.status == 401) {
-                            this.configService.on_LoggedOut('Your login is no longer valid. The character could not be loaded. Please try again after logging in.');
+                            this._configService.on_LoggedOut('Your login is no longer valid. The character could not be loaded. Please try again after logging in.');
                             this.cancel_Loading();
                         } else {
                             this.toastService.show('An error occurred while loading the character. See console for more information.');
@@ -2934,25 +2913,25 @@ export class CharacterService {
                     },
                 });
         } else {
-            this.me = new Character();
+            this._character = new Character();
             this.finish_Loading();
         }
     }
 
     load_CharacterFromDB(id: string): Observable<Array<Partial<Character>>> {
-        return this.savegameService.loadCharacter(id);
+        return this._savegameService.loadCharacter(id);
     }
 
     delete_Character(savegame: Savegame) {
-        this.savegameService.deleteCharacter(savegame)
+        this._savegameService.deleteCharacter(savegame)
             .subscribe({
                 next: () => {
                     this.toastService.show(`Deleted ${ savegame.name || 'character' } from database.`);
-                    this.savegameService.reset();
+                    this._savegameService.reset();
                 },
                 error: error => {
                     if (error.status == 401) {
-                        this.configService.on_LoggedOut('Your login is no longer valid. The character could not be deleted. Please try again after logging in.');
+                        this._configService.on_LoggedOut('Your login is no longer valid. The character could not be deleted. Please try again after logging in.');
                     } else {
                         this.toastService.show('An error occurred while deleting the character. See console for more information.');
                         console.log(`Error deleting from database: ${ error.message }`);
@@ -2962,22 +2941,22 @@ export class CharacterService {
     }
 
     finish_Loading(loadAsGM = false) {
-        this.set_LoadingStatus('Initializing character');
+        this.setLoadingStatus('Initializing character');
         //Assign and restore the loaded character.
-        this.me = this.savegameService.processLoadedCharacter(JSON.parse(JSON.stringify(this.loader)), this, this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
-        this.me.GMMode = loadAsGM;
-        this.loader = [];
+        this._character = this._savegameService.processLoadedCharacter(JSON.parse(JSON.stringify(this._loader)), this, this.itemsService, this.classesService, this._historyService, this.animalCompanionsService);
+        this._character.GMMode = loadAsGM;
+        this._loader = [];
         //Set loading to false. The last steps need the characterService to not be loading.
-        this.loading = false;
+        this._loading = false;
         //Set your turn state according to the saved state.
-        this.timeService.setYourTurn(this.get_Character().yourTurn);
+        this.timeService.setYourTurn(this.character().yourTurn);
         //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
-        this.featsService.build_CharacterFeats(this.get_Character());
+        this.featsService.build_CharacterFeats(this.character());
         //Reset cache for all creatures.
         this.cacheService.reset();
         //Set accent color and dark mode according to the settings.
-        this.set_Accent();
-        this.set_Darkmode();
+        this.setAccent();
+        this.setDarkmode();
         //Now that the character is loaded, do some things that require everything to be in working order:
         //Give the character a Fist and an Unarmored™ if they have nothing else, and keep those ready if they should drop their last weapon or armor.
         this.grant_BasicItems();
@@ -2985,20 +2964,20 @@ export class CharacterService {
     }
 
     cancel_Loading() {
-        this.loader = [];
-        this.loading = false;
+        this._loader = [];
+        this._loading = false;
         //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken. These were cleared when trying to load.
-        this.featsService.build_CharacterFeats(this.get_Character());
+        this.featsService.build_CharacterFeats(this.character());
         this.trigger_FinalChange();
     }
 
     trigger_FinalChange() {
         //Update everything once, then effects, and then the player can take over.
         this.refreshService.set_Changed();
-        this.set_LoadingStatus('Loading', false);
+        this.setLoadingStatus('Loading', false);
         this.refreshService.set_ToChange('Character', 'effects');
 
-        if (!this.configService.get_LoggedIn() && !this.configService.get_CannotLogin()) {
+        if (!this._configService.get_LoggedIn() && !this._configService.get_CannotLogin()) {
             this.refreshService.set_ToChange('Character', 'logged-out');
         }
 
@@ -3006,30 +2985,78 @@ export class CharacterService {
     }
 
     save_Character() {
-        this.get_Character().yourTurn = this.timeService.getYourTurn();
+        this.character().yourTurn = this.timeService.getYourTurn();
         this.toastService.show('Saving...');
 
-        const savegame = this.savegameService.prepareCharacterForSaving(this.get_Character(), this.itemsService, this.classesService, this.historyService, this.animalCompanionsService);
+        const savegame = this._savegameService.prepareCharacterForSaving(this.character(), this.itemsService, this.classesService, this._historyService, this.animalCompanionsService);
 
-        this.savegameService.saveCharacter(savegame)
+        this._savegameService.saveCharacter(savegame)
             .subscribe({
                 next: result => {
                     if (result.lastErrorObject && result.lastErrorObject.updatedExisting) {
-                        this.toastService.show(`Saved ${ this.get_Character().name || 'character' }.`);
+                        this.toastService.show(`Saved ${ this.character().name || 'character' }.`);
                     } else {
-                        this.toastService.show(`Created ${ this.get_Character().name || 'character' }.`);
+                        this.toastService.show(`Created ${ this.character().name || 'character' }.`);
                     }
 
-                    this.savegameService.reset();
+                    this._savegameService.reset();
                 }, error: error => {
                     if (error.status == 401) {
-                        this.configService.on_LoggedOut('Your login is no longer valid. The character could not be saved. Please try saving the character again after logging in.');
+                        this._configService.on_LoggedOut('Your login is no longer valid. The character could not be saved. Please try saving the character again after logging in.');
                     } else {
                         this.toastService.show('An error occurred while saving the character. See console for more information.');
                         console.log(`Error saving to database: ${ error.message }`);
                     }
                 },
             });
+    }
+
+    private _rgbAccent(): string {
+        const rgbLength = 4;
+        const rrggbbLength = 7;
+        const redIndex = 0;
+        const greenIndex = 1;
+        const blueIndex = 2;
+
+        const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
+            let result: RegExpExecArray;
+
+            if (hex.length === rgbLength) {
+                result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
+
+                return result ? {
+                    r: parseInt(`${ result[redIndex] }${ result[redIndex] }`, 16),
+                    g: parseInt(`${ result[greenIndex] }${ result[greenIndex] }`, 16),
+                    b: parseInt(`${ result[blueIndex] }${ result[blueIndex] }`, 16),
+                } : null;
+            } else if (hex.length === rrggbbLength) {
+                result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+                return result ? {
+                    r: parseInt(result[redIndex], 16),
+                    g: parseInt(result[greenIndex], 16),
+                    b: parseInt(result[blueIndex], 16),
+                } : null;
+            }
+        };
+
+        if (!this.stillLoading()) {
+            const original = this.character().settings.accent;
+
+            if (original.length === rgbLength || original.length === rrggbbLength) {
+                try {
+                    const rgba = hexToRgb(original);
+
+                    if (rgba) {
+                        return `${ rgba.r }, ${ rgba.g }, ${ rgba.b }`;
+                    }
+                } catch (error) {
+                    return Defaults.colorAccentRGB;
+                }
+            }
+        }
+
+        return Defaults.colorAccentRGB;
     }
 
 }

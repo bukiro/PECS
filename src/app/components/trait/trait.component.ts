@@ -32,7 +32,7 @@ export class TraitComponent {
     }
 
     get_Creature() {
-        return this.characterService.get_Creature(this.creature);
+        return this.characterService.creatureFromType(this.creature);
     }
 
     on_ActivateEffect() {

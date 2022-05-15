@@ -16,10 +16,12 @@ export class SkillsService {
     ) { }
 
     private get_TempSkill(name = '', filter: { type?: string }): Skill {
-        filter = { ability: '',
+        filter = {
+            ability: '',
             type: '',
             locked: undefined,
-            recallKnowledge: undefined };
+            recallKnowledge: undefined
+        };
 
         const skill = this.tempSkills.find(skill =>
             (
@@ -42,9 +44,11 @@ export class SkillsService {
         //Gets all skills, including a provided custom skill list, filtered by name, type and locked.
         //Some exotic skills don't exist until queried. If a named skill is not found, a temporary skill is created for the rest of the session.
         //If you want to check if a skill exists, use noSubstitutions to prevent returning a temporary skill.
-        filter = { type: '',
+        filter = {
+            type: '',
             locked: undefined,
-            noSubstitution: false, ...filter };
+            noSubstitution: false, ...filter
+        };
 
         if (!this.still_loading()) {
             if (name == 'Lore') {
@@ -111,7 +115,7 @@ export class SkillsService {
         Object.keys(data).forEach(key => {
             this.skills.push(...data[key].map((obj: Skill) => Object.assign(new Skill(), obj).recast()));
         });
-        this.skills = this.extensionsService.cleanup_Duplicates(this.skills, 'name', 'skills') as Array<Skill>;
+        this.skills = this.extensionsService.cleanupDuplicates(this.skills, 'name', 'skills') as Array<Skill>;
     }
 
 }
