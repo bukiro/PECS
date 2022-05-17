@@ -325,7 +325,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_Skills(name = '', type = '') {
-        return this.characterService.get_Skills(this.get_Creature(), name, { type });
+        return this.characterService.skills(this.get_Creature(), name, { type });
     }
 
     get_Traits(traitName = '') {
@@ -386,7 +386,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const specialNames: Array<string> = [];
 
         //Monks with Monastic Weaponry can apply Unarmed effects to Monk weapons.
-        if (weapon.traits.includes('Monk') && this.characterService.get_Feats('Monastic Weaponry')[0].have({ creature: this.get_Creature() }, { characterService: this.characterService })) {
+        if (weapon.traits.includes('Monk') && this.characterService.feats('Monastic Weaponry')[0].have({ creature: this.get_Creature() }, { characterService: this.characterService })) {
             specialNames.push('Unarmed Attacks');
         }
 
@@ -448,10 +448,10 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
         this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == 'Hunt Prey').length;
 
-        if (creature === character || (creature instanceof AnimalCompanion && this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Animal Companion (Ranger)' }).length)) {
+        if (creature === character || (creature instanceof AnimalCompanion && this.characterService.characterFeatsTaken(1, character.level, { featName: 'Animal Companion (Ranger)' }).length)) {
             return (
                 (
-                    this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Flurry' }).length &&
+                    this.characterService.characterFeatsTaken(1, character.level, { featName: 'Flurry' }).length &&
                     this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey').length
                 ) ||
                 this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey: Flurry').length
@@ -528,19 +528,19 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         if (map2 && map != '2') {
-            this.characterService.remove_Condition(creature, map2, false);
+            this.characterService.removeCondition(creature, map2, false);
         }
 
         if (map3 && map != '3') {
-            this.characterService.remove_Condition(creature, map3, false);
+            this.characterService.removeCondition(creature, map3, false);
         }
 
         if (map2f && map != '2f') {
-            this.characterService.remove_Condition(creature, map2f, false);
+            this.characterService.removeCondition(creature, map2f, false);
         }
 
         if (map3f && map != '3f') {
-            this.characterService.remove_Condition(creature, map3f, false);
+            this.characterService.removeCondition(creature, map3f, false);
         }
 
         if (mapName) {
@@ -615,23 +615,23 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         if (rap2 && rap != '2') {
-            this.characterService.remove_Condition(creature, rap2, false);
+            this.characterService.removeCondition(creature, rap2, false);
         }
 
         if (rap3 && rap != '3') {
-            this.characterService.remove_Condition(creature, rap3, false);
+            this.characterService.removeCondition(creature, rap3, false);
         }
 
         if (rap4 && rap != '4') {
-            this.characterService.remove_Condition(creature, rap4, false);
+            this.characterService.removeCondition(creature, rap4, false);
         }
 
         if (rap5 && rap != '5') {
-            this.characterService.remove_Condition(creature, rap5, false);
+            this.characterService.removeCondition(creature, rap5, false);
         }
 
         if (rap6 && rap != '6') {
-            this.characterService.remove_Condition(creature, rap6, false);
+            this.characterService.removeCondition(creature, rap6, false);
         }
 
         if (rapChoice) {
@@ -654,7 +654,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 favoredWeapons.push(...deity.favoredWeapon);
             }
 
-            if (this.characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
+            if (this.characterService.characterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
                 favoredWeapons.push(...this.characterService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon || []);
             }
 

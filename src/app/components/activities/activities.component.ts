@@ -158,7 +158,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public get_ClassDCs(): Array<Skill> {
-        return this.characterService.get_Skills(this.get_Creature(), '', { type: 'Class DC' }).filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
+        return this.characterService.skills(this.get_Creature(), '', { type: 'Class DC' }).filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
     }
 
     private get_OwnedActivities(): Array<ActivitySet> {
@@ -173,7 +173,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
                 return name;
             }
         }
-        this.characterService.get_OwnedActivities(this.get_Creature()).forEach(gain => {
+        this.characterService.creatureOwnedActivities(this.get_Creature()).forEach(gain => {
             const activity = gain.originalActivity(this.activitiesService);
 
             activity?.effectiveCooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });

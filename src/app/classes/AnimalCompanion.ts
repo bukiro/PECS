@@ -52,7 +52,7 @@ export class AnimalCompanion extends Creature {
             }
 
             const constitution =
-                services.characterService.get_Abilities('Constitution')[0].baseValue(this, services.characterService, charLevel).result;
+                services.characterService.abilities('Constitution')[0].baseValue(this, services.characterService, charLevel).result;
             const CON: number = Math.floor((constitution - baseline) * half);
 
             classHP = (this.class.hitPoints + CON) * charLevel;
@@ -87,7 +87,7 @@ export class AnimalCompanion extends Creature {
         const advancedLevel = 3;
         let advancedOption = '';
 
-        this.level = Math.min(advancedLevel, Math.max(1, ...characterService.get_CharacterFeatsAndFeatures()
+        this.level = Math.min(advancedLevel, Math.max(1, ...characterService.characterFeatsAndFeatures()
             .filter(feat => feat.gainAnimalCompanion && feat.have({ creature: character }, { characterService }))
             .map(feat => {
                 switch (feat.gainAnimalCompanion) {

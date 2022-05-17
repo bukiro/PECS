@@ -24,6 +24,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { ItemsService } from './items.service';
 import { Weapon } from '../classes/Weapon';
 import { HistoryService } from './history.service';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
 
 @Injectable({
     providedIn: 'root',
@@ -290,7 +291,7 @@ export class FeatsService {
                 feat = characterService.familiarsService.get_FamiliarAbilities(featName)[0];
             } else {
                 //Use characterService.get_FeatsAndFeatures() instead of this.get_All(), because it automatically checks the character's custom feats.
-                feat = characterService.get_FeatsAndFeatures(featName)[0];
+                feat = characterService.featsAndFeatures(featName)[0];
             }
         }
 
@@ -611,7 +612,7 @@ export class FeatsService {
                         const conditionGains = characterService.currentCreatureConditions(character, gain.name).filter(conditionGain => conditionGain.source == gain.source);
 
                         if (conditionGains.length) {
-                            characterService.remove_Condition(character, conditionGains[0], false);
+                            characterService.removeCondition(character, conditionGains[0], false);
                         }
                     });
                 }
@@ -721,7 +722,7 @@ export class FeatsService {
             if (feat.onceEffects) {
                 if (taken) {
                     feat.onceEffects.forEach(effect => {
-                        characterService.prepare_OnceEffect(character, effect);
+                        characterService.prepareOnceEffect(character, effect);
                     });
                 }
             }
@@ -738,7 +739,7 @@ export class FeatsService {
                     }
                 } else {
                     //Reset the familiar
-                    characterService.cleanup_Familiar();
+                    characterService.removeAllFamiliarAbilities();
                     character.class.familiar = new Familiar();
                 }
 
@@ -753,7 +754,7 @@ export class FeatsService {
                 character.class.animalCompanion.class = new AnimalCompanionClass();
 
                 if (taken) {
-                    characterService.initialize_AnimalCompanion();
+                    characterService.initializeAnimalCompanion();
                 }
 
                 this.refreshService.set_ToChange('Companion', 'all');
@@ -777,8 +778,8 @@ export class FeatsService {
                     const specializations = companion.class.specializations.filter(spec => spec.level == level.number);
 
                     if (specializations.length) {
-                        if (specializations.length >= characterService.get_CharacterFeatsTaken(level.number, level.number)
-                            .map(taken => characterService.get_CharacterFeatsAndFeatures(taken.name)[0])
+                        if (specializations.length >= characterService.characterFeatsTaken(level.number, level.number)
+                            .map(taken => characterService.characterFeatsAndFeatures(taken.name)[0])
                             .filter(feat => feat.gainAnimalCompanion == 'Specialized').length
                         ) {
                             companion.class.specializations = companion.class.specializations.filter(spec => spec.name != specializations[specializations.length - 1].name);
@@ -908,7 +909,7 @@ export class FeatsService {
                         newSpellChoice.castingType = spellCasting.castingType;
                         newSpellChoice.source = `Feat: ${ feat.name }`;
 
-                        const familiarLevel = characterService.get_CharacterFeatsAndFeatures()
+                        const familiarLevel = characterService.characterFeatsAndFeatures()
                             .filter(feat => feat.gainFamiliar && feat.have({ creature: character }, { characterService }))
                             .map(feat => character.class.levels.find(level => level.featChoices
                                 .find(choice => choice.feats
@@ -941,7 +942,7 @@ export class FeatsService {
                         newSpellChoice.castingType = spellCasting.castingType;
                         newSpellChoice.source = `Feat: ${ feat.name }`;
 
-                        const familiarLevel = characterService.get_CharacterFeatsAndFeatures()
+                        const familiarLevel = characterService.characterFeatsAndFeatures()
                             .filter(feat => feat.gainFamiliar && feat.have({ creature: character }, { characterService }))
                             .map(feat => character.class.levels.find(level => level.featChoices
                                 .find(choice => choice.feats
@@ -965,7 +966,7 @@ export class FeatsService {
                 'Illusion School', 'Necromancy School', 'Transmutation School', 'Universalist Wizard'].includes(feat.name)) {
                 if (taken) {
                     character.class.spellCasting.filter(casting => casting.castingType == 'Prepared' && casting.className == 'Wizard').forEach(casting => {
-                        const superiorBond = characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Superior Bond' }).length;
+                        const superiorBond = characterService.characterFeatsTaken(1, character.level, { featName: 'Superior Bond' }).length;
 
                         if (feat.name == 'Universalist Wizard') {
                             casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
@@ -1270,7 +1271,7 @@ export class FeatsService {
                     this.loading_features = false;
                 }
             }
-        }, 100);
+        }, Defaults.waitForServiceDelay);
     }
 
     reset() {

@@ -10,4 +10,8 @@ export const Defaults: {
     colorAccent: '#465A8C';
     colorAccentRGB: '25, 118, 210';
     tooltipDelay: 100;
+    maxFocusPoints: 3;
+    maxHeroPoints: 3;
+    mobileBreakpointPx: 992;
+    waitForServiceDelay: 100;
 };

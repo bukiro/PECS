@@ -110,7 +110,7 @@ export class RefreshService {
     }
 
     private get_ActivitiesAffected(creature: Creature, targetName: string, services: { characterService: CharacterService }) {
-        return services.characterService.get_OwnedActivities(creature, creature.level).some(activity => targetName.includes(activity.name));
+        return services.characterService.creatureOwnedActivities(creature, creature.level).some(activity => targetName.includes(activity.name));
     }
 
     set_AbilityToChange(creature: string, ability: string, services: { characterService: CharacterService }): void {

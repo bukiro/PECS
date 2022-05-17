@@ -156,7 +156,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             }
         } else {
             if (flatFooted) {
-                this.characterService.remove_Condition(creature, flatFooted, false);
+                this.characterService.removeCondition(creature, flatFooted, false);
             }
         }
 
@@ -182,7 +182,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             }
         } else {
             if (hidden) {
-                this.characterService.remove_Condition(creature, hidden, false);
+                this.characterService.removeCondition(creature, hidden, false);
             }
         }
 
@@ -229,7 +229,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public get_Skills(type: string): Array<Skill> {
-        return this.characterService.get_Skills(this.get_Creature(), '', { type })
+        return this.characterService.skills(this.get_Creature(), '', { type })
             .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
     }
 

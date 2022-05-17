@@ -177,7 +177,7 @@ export class Health {
             if (currentHP > 0) {
                 characterService.currentCreatureConditions(creature, 'Unconscious').forEach(gain => {
                     hasRemovedUnconscious = true;
-                    characterService.remove_Condition(creature, gain, false);
+                    characterService.removeCondition(creature, gain, false);
                 });
             }
         }
@@ -204,7 +204,7 @@ export class Health {
             if (this.currentHP(creature, characterService, effectsService).result > 0 && dying > 0) {
                 characterService.currentCreatureConditions(creature, 'Dying').forEach(gain => {
                     hasRemovedDying = true;
-                    characterService.remove_Condition(creature, gain, false, increaseWounded);
+                    characterService.removeCondition(creature, gain, false, increaseWounded);
                 });
             }
 
@@ -212,11 +212,11 @@ export class Health {
             if (wake) {
                 characterService.currentCreatureConditions(creature, 'Unconscious', '0 Hit Points').forEach(gain => {
                     hasRemovedUnconscious = true;
-                    characterService.remove_Condition(creature, gain);
+                    characterService.removeCondition(creature, gain);
                 });
                 characterService.currentCreatureConditions(creature, 'Unconscious', 'Dying').forEach(gain => {
                     hasRemovedUnconscious = true;
-                    characterService.remove_Condition(creature, gain, false);
+                    characterService.removeCondition(creature, gain, false);
                 });
             }
         }

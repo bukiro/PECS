@@ -115,13 +115,13 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     get_FeatsShowingOn(name: string, show: boolean): Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat> {
         if (show && name && this.creature == 'Character') {
-            return this.characterService.get_FeatsShowingOn(name)
+            return this.characterService.characterFeatsShowingHintsOnThis(name)
                 .sort((a, b) => this.nameSort(a, b));
         } else if (show && name && this.creature == 'Companion') {
-            return this.characterService.get_CompanionShowingOn(name)
+            return this.characterService.companionElementsShowingHintsOnThis(name)
                 .sort((a, b) => this.nameSort(a, b));
         } else if (show && name && this.creature == 'Familiar') {
-            return this.characterService.get_FamiliarShowingOn(name)
+            return this.characterService.familiarElementsShowingHintsOnThis(name)
                 .sort((a, b) => this.nameSort(a, b));
         } else {
             return [];
@@ -140,7 +140,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     get_ConditionsShowingOn(name: string) {
         if (this.showConditions && name) {
-            return this.characterService.get_ConditionsShowingOn(this.get_Creature(), name)
+            return this.characterService.creatureConditionsShowingHintsOnThis(this.get_Creature(), name)
                 .sort((a, b) => this.nameSort(a.condition, b.condition));
         } else {
             return [];
@@ -149,7 +149,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     get_ActivitiesShowingOn(name: string) {
         if (this.showActivities && name) {
-            return this.characterService.get_ActivitiesShowingOn(this.get_Creature(), name)
+            return this.characterService.creatureActivitiesShowingHintsOnThis(this.get_Creature(), name)
                 .sort((a, b) => this.nameSort(a, b));
         } else {
             return [];
@@ -158,7 +158,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     get_ItemsShowingOn(name: string) {
         if (this.showItems && name) {
-            return this.characterService.get_ItemsShowingOn(this.get_Creature(), name)
+            return this.characterService.creatureItemsShowingHintsOnThis(this.get_Creature(), name)
                 .sort((a, b) => this.nameSort(a, b));
         } else {
             return [];
@@ -167,7 +167,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     get_SpecializationsShowingOn(name: string) {
         if (this.showItems && name) {
-            return this.characterService.get_ArmorSpecializationsShowingOn(this.get_Creature(), name)
+            return this.characterService.creatureArmorSpecializationsShowingHintsOnThis(this.get_Creature(), name)
                 .sort((a, b) => this.nameSort(a, b));
         } else {
             return [];

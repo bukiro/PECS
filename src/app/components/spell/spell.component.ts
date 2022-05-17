@@ -39,7 +39,7 @@ export class SpellComponent implements OnInit, OnDestroy {
     }
 
     get_FeatsShowingOn(spellName: string) {
-        return this.characterService.get_FeatsShowingOn(spellName);
+        return this.characterService.characterFeatsShowingHintsOnThis(spellName);
     }
 
     finish_Loading() {

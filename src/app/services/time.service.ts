@@ -72,7 +72,7 @@ export class TimeService {
         const character = characterService.character();
 
         if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
-            characterService.send_TurnChangeToPlayers();
+            characterService.sendTurnChangeToPlayers();
         }
 
         this._refreshService.process_ToChange();
@@ -85,7 +85,7 @@ export class TimeService {
         const character = characterService.character();
 
         if (character.partyName && character.settings.sendTurnStartMessage && character.settings.sendTurnEndMessage) {
-            characterService.send_TurnChangeToPlayers();
+            characterService.sendTurnChangeToPlayers();
         }
     }
 
@@ -119,7 +119,7 @@ export class TimeService {
                 multiplier += parseInt(effect.value, 10);
             });
             multiplier = Math.max(1, multiplier);
-            characterService.get_Health(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
+            characterService.creatureHealth(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
             this._toastService.show(`${ creature instanceof Character ? 'You' : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`) } gained ${ (heal * multiplier).toString() } HP from resting.`);
             //Reset all "once per day" activity cooldowns.
             this._activitiesTimeService.restActivities(creature, characterService);
@@ -140,7 +140,7 @@ export class TimeService {
                 });
 
                 //Refocus and reset all "until you refocus" spell cooldowns.
-                const maxFocusPoints = characterService.get_MaxFocusPoints();
+                const maxFocusPoints = characterService.maxFocusPoints();
 
                 this.refocus(characterService, conditionsService, itemsService, spellsService, maxFocusPoints, false, false);
                 //Regenerate Snare Specialist formulas.
@@ -200,7 +200,7 @@ export class TimeService {
         }
 
         //Regenerate Focus Points by calling a onceEffect (so we don't have the code twice).
-        characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: `+${ finalRecoverPoints }` }));
+        characterService.processOnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: `+${ finalRecoverPoints }` }));
 
         character.class.focusPointsLast = character.class.focusPoints;
 
@@ -255,8 +255,8 @@ export class TimeService {
                     }
 
                     //If you are at full health and rest for 10 minutes, you lose the wounded condition.
-                    if (creatureTurns >= TimePeriods.TenMinutes && characterService.get_Health(creature).damage == 0) {
-                        characterService.currentCreatureConditions(creature, 'Wounded').forEach(gain => characterService.remove_Condition(creature, gain, false));
+                    if (creatureTurns >= TimePeriods.TenMinutes && characterService.creatureHealth(creature).damage == 0) {
+                        characterService.currentCreatureConditions(creature, 'Wounded').forEach(gain => characterService.removeCondition(creature, gain, false));
                     }
                 }
             }
@@ -364,7 +364,7 @@ export class TimeService {
             return characterService.currentCreatureConditions(creature, '', '', true).some(gain => conditionsService.get_ConditionFromName(gain.name).stopTimeChoiceFilter.some(filter => [gain.choice, 'All'].includes(filter)));
         }
         function MultipleTempHPAvailable(creature: Creature): boolean {
-            return characterService.get_Health(creature).temporaryHP.length > 1;
+            return characterService.creatureHealth(creature).temporaryHP.length > 1;
         }
         function RestingBlockingEffectsActive(creature: Creature): boolean {
             return effectsService.get_EffectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);

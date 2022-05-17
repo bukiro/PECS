@@ -361,7 +361,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             if (this.get_Creatures().some(creature => creature.id == target.id)) {
                 this.itemsService.move_InventoryItemToCreature(this.get_Creature(), target, item, inventory, this.characterService, amount);
             } else {
-                this.characterService.send_ItemsToPlayer(this.get_Creature(), target, item, amount);
+                this.characterService.sendItemsToPlayer(this.get_Creature(), target, item, amount);
             }
 
             this.toggle_Item();
@@ -651,7 +651,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (this.creature == 'Character') {
             const character = this.get_Character();
 
-            return this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: name }).length;
+            return this.characterService.characterFeatsTaken(1, character.level, { featName: name }).length;
         }
     }
 
@@ -680,15 +680,15 @@ export class InventoryComponent implements OnInit, OnDestroy {
         const character: Character = this.get_Character();
         const reasons: Array<string> = [];
 
-        if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Alchemical Crafting' }).length) {
+        if (item.traits.includes('Alchemical') && !this.characterService.characterFeatsTaken(1, character.level, { featName: 'Alchemical Crafting' }).length) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }
 
-        if (item.traits.includes('Magical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Magical Crafting' }).length) {
+        if (item.traits.includes('Magical') && !this.characterService.characterFeatsTaken(1, character.level, { featName: 'Magical Crafting' }).length) {
             reasons.push('You need the Magical Crafting skill feat to create magic items.');
         }
 
-        if (item.traits.includes('Snare') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Snare Crafting' }).length) {
+        if (item.traits.includes('Snare') && !this.characterService.characterFeatsTaken(1, character.level, { featName: 'Snare Crafting' }).length) {
             reasons.push('You need the Snare Crafting skill feat to create snares.');
         }
 
@@ -696,9 +696,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
             reasons.push('The item to craft must be your level or lower.');
         }
 
-        if (item.level >= 16 && (this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 8) {
+        if (item.level >= 16 && (this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 8) {
             reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
-        } else if (item.level >= 9 && (this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 6) {
+        } else if (item.level >= 9 && (this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 6) {
             reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
         }
 
@@ -764,7 +764,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             item instanceof Weapon &&
             item.prof != 'Unarmed Attacks' &&
             (
-                !!this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: 'Titan Mauler' }).length ||
+                !!this.characterService.characterFeatsTaken(1, this.get_Character().level, { featName: 'Titan Mauler' }).length ||
                 !!this.effectsService.get_EffectsOnThis(this.get_Creature(), 'Use Large Weapons').length
             )
         );
@@ -783,7 +783,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                     item.isHandwrapsOfMightyBlows
                 )
             ) &&
-            !!this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: 'Divine Ally: Blade Ally' }).length
+            !!this.characterService.characterFeatsTaken(1, this.get_Character().level, { featName: 'Divine Ally: Blade Ally' }).length
         );
     }
 
@@ -794,7 +794,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 item instanceof Weapon ||
                 item instanceof Shield
             ) &&
-            !!this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: 'Emblazon Armament' }).length
+            !!this.characterService.characterFeatsTaken(1, this.get_Character().level, { featName: 'Emblazon Armament' }).length
         );
     }
 
@@ -809,7 +809,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     get_BattleforgedAllowed(item: Item) {
         return (
-            this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, 'Battleforger').length ||
+            this.characterService.characterFeatsTaken(1, this.get_Character().level, 'Battleforger').length ||
             this.effectsService.get_EffectsOnThis(this.get_Character(), 'Allow Battleforger').length
         ) &&
             (

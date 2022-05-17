@@ -104,7 +104,7 @@ export class Bulk {
 
         if (characterService.stillLoading()) { return result; }
 
-        const str = characterService.get_Abilities('Strength')[0].mod(creature, characterService, effectsService).result;
+        const str = characterService.abilities('Strength')[0].mod(creature, characterService, effectsService).result;
 
         if (str !== 0) {
             result.value += str;
@@ -146,7 +146,7 @@ export class Bulk {
             const str =
                 (creature.typeId === familiarId)
                     ? 0
-                    : characterService.get_Abilities('Strength')[0]
+                    : characterService.abilities('Strength')[0]
                         .mod(creature as Character | AnimalCompanion, characterService, effectsService).result;
 
             if (str !== 0) {

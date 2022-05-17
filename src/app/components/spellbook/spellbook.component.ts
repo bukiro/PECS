@@ -190,7 +190,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_SpellDCs() {
-        return this.characterService.get_Skills(this.get_Character(), '', { type: 'Spell DC' }).filter(skill => skill.level(this.get_Character(), this.characterService) > 0);
+        return this.characterService.skills(this.get_Character(), '', { type: 'Spell DC' }).filter(skill => skill.level(this.get_Character(), this.characterService) > 0);
     }
 
     get_SpellCastings() {
@@ -342,7 +342,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_SignatureSpellsAllowed(casting: SpellCasting) {
-        return this.characterService.get_CharacterFeatsAndFeatures()
+        return this.characterService.characterFeatsAndFeatures()
             .some(feat => feat.allowSignatureSpells.some(gain => gain.className == casting.className) && feat.have({ creature: this.get_Character() }, { characterService: this.characterService }));
     }
 
@@ -403,7 +403,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     private get_MaxFocusPoints() {
-        return this.characterService.get_MaxFocusPoints();
+        return this.characterService.maxFocusPoints();
     }
 
     get_UsedSpellSlots(spellLevel: number, casting: SpellCasting) {
@@ -489,7 +489,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     have_Feat(name: string): boolean {
         const character = this.get_Character();
 
-        return !!this.characterService.get_CharacterFeatsTaken(0, character.level, { featName: name }).length;
+        return !!this.characterService.characterFeatsTaken(0, character.level, { featName: name }).length;
     }
 
     refocus() {
@@ -592,7 +592,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     get_BloodMagicFeats() {
         const character = this.get_Character();
 
-        return this.characterService.get_Feats().filter(feat => feat.bloodMagic.length && feat.have({ creature: character }, { characterService: this.characterService }));
+        return this.characterService.feats().filter(feat => feat.bloodMagic.length && feat.have({ creature: character }, { characterService: this.characterService }));
     }
 
     on_Cast(target = '', activated: boolean, context: { spellParameters: SpellParameters; spellCastingLevelParameters: SpellCastingLevelParameters; spellCastingParameters: SpellCastingParameters; componentParameters: ComponentParameters }, options: { expend?: boolean } = {}) {
@@ -670,7 +670,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             this.characterService.currentCreatureConditions(character, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
                 .forEach(conditionGain => {
                     if (conditionGain.durationIsInstant) {
-                        this.characterService.remove_Condition(character, conditionGain, false);
+                        this.characterService.removeCondition(character, conditionGain, false);
                     }
                 });
         }
@@ -727,7 +727,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         if (['Prepared', 'Spontaneous'].includes(casting.castingType)) {
-            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: `Counterspell (${ casting.castingType })` }).length;
+            return !!this.characterService.characterFeatsTaken(1, character.level, { featName: `Counterspell (${ casting.castingType })` }).length;
         }
     }
 
@@ -735,7 +735,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         if (['Heal', 'Harm'].includes(spell.name)) {
-            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Channel Smite' }).length;
+            return !!this.characterService.characterFeatsTaken(1, character.level, { featName: 'Channel Smite' }).length;
         }
     }
 
@@ -743,9 +743,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         if (['Banishment'].includes(spell.name)) {
-            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Swift Banishment' }).length;
+            return !!this.characterService.characterFeatsTaken(1, character.level, { featName: 'Swift Banishment' }).length;
         } else if (level >= 5 && casting.castingType == 'Prepared') {
-            return !!this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Improved Swift Banishment' }).length;
+            return !!this.characterService.characterFeatsTaken(1, character.level, { featName: 'Improved Swift Banishment' }).length;
         }
     }
 
@@ -788,7 +788,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         this.refreshService.set_ToChange('Character', 'effects');
 
         if (this.have_Feat('Linked Focus')) {
-            this.characterService.process_OnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: '+1' }));
+            this.characterService.processOnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: '+1' }));
         }
 
         const bondedItemCharges = this.effectsService.get_EffectsOnThis(character, 'Free Bonded Item Charge');
@@ -796,7 +796,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         if (bondedItemCharges.length) {
             bondedItemCharges.forEach(effect => {
                 this.characterService.currentCreatureConditions(character, effect.source).forEach(gain => {
-                    this.characterService.remove_Condition(character, gain, false, false);
+                    this.characterService.removeCondition(character, gain, false, false);
                 });
             });
         } else {

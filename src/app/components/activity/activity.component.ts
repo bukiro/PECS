@@ -164,7 +164,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public get_FeatsShowingOn(activityName: string): Array<Feat> {
         if (activityName) {
-            return this.characterService.get_FeatsShowingOn(activityName)
+            return this.characterService.characterFeatsShowingHintsOnThis(activityName)
                 .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
         } else {
             return [];
@@ -173,7 +173,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public get_ConditionsShowingOn(activityName: string): Array<{ gain: ConditionGain; condition: Condition }> {
         if (activityName) {
-            return this.characterService.get_ConditionsShowingOn(this.get_Creature(), activityName)
+            return this.characterService.creatureConditionsShowingHintsOnThis(this.get_Creature(), activityName)
                 .sort((a, b) => (a.condition.name == b.condition.name) ? 0 : ((a.condition.name > b.condition.name) ? 1 : -1));
         } else {
             return [];
@@ -182,7 +182,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public get_ActivitiesShowingOn(objectName: string): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
         if (objectName) {
-            return this.characterService.get_OwnedActivities(this.get_Creature())
+            return this.characterService.creatureOwnedActivities(this.get_Creature())
                 .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesService) }))
                 .filter(set =>
                     set.activity?.hints
@@ -203,7 +203,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         const featData = this.get_Character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (featData) {
-            return this.characterService.get_OwnedActivities(this.get_Creature())
+            return this.characterService.creatureOwnedActivities(this.get_Creature())
                 .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
                 .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesService) }));
         } else {

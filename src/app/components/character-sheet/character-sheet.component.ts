@@ -227,7 +227,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     set_Mobile() {
-        if (this.characterService.get_Mobile() != this.mobile) {
+        if (this.characterService.isMobileView() != this.mobile) {
             this.toggle_Mode('');
             this.mobile = !this.mobile;
         }

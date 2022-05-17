@@ -119,7 +119,7 @@ export class FeatRequirementsService {
 
         if (feat.abilityreq.length) {
             feat.abilityreq.forEach(requirement => {
-                const requiredAbility: Array<Ability> = this._characterService.get_Abilities(requirement.ability);
+                const requiredAbility: Array<Ability> = this._characterService.abilities(requirement.ability);
                 const expected: number = requirement.value;
 
                 if (requiredAbility.length) {
@@ -157,7 +157,7 @@ export class FeatRequirementsService {
 
         if (
             matchingreqs.length &&
-            !!this._characterService.get_CharacterFeatsTaken(1, charLevel, { featName: 'Versatile Performance' }).length
+            !!this._characterService.characterFeatsTaken(1, charLevel, { featName: 'Versatile Performance' }).length
         ) {
             const lowest = Math.min(...matchingreqs.map(requirement => requirement.value));
 
@@ -168,7 +168,7 @@ export class FeatRequirementsService {
             skillreq.forEach(requirement => {
                 const requiredSkillName: string = requirement.skill;
                 const requiredSkill: Array<Skill> =
-                    this._characterService.get_Skills(character, requiredSkillName, {}, { noSubstitutions: true });
+                    this._characterService.skills(character, requiredSkillName, {}, { noSubstitutions: true });
                 const expected: number = requirement.value;
 
                 if (requiredSkill.length) {
@@ -215,7 +215,7 @@ export class FeatRequirementsService {
                         );
                 } else {
                     testcreature = this._characterService.character();
-                    requiredFeats = this._characterService.get_CharacterFeatsAndFeatures(testfeat, '', true, true);
+                    requiredFeats = this._characterService.characterFeatsAndFeatures(testfeat, '', true, true);
                 }
 
                 if (requiredFeats.length) {
@@ -423,7 +423,7 @@ export class FeatRequirementsService {
                 });
                 complexreq.countFeats?.forEach(featreq => {
                     if (!hasThisRequirementFailed) {
-                        let feats: Array<Feat> = this._characterService.get_CharacterFeatsAndFeatures();
+                        let feats: Array<Feat> = this._characterService.characterFeatsAndFeatures();
 
                         if (featreq.query.havingAllOfTraits) {
                             const traits = SplitNames(featreq.query.havingAllOfTraits);
@@ -564,7 +564,7 @@ export class FeatRequirementsService {
                 });
                 complexreq.countSenses?.forEach(sensereq => {
                     if (!hasThisRequirementFailed) {
-                        const allSenses = this._characterService.get_Senses(creature, charLevel, false);
+                        const allSenses = this._characterService.creatureSenses(creature, charLevel, false);
                         const queryResult = ApplyDefaultQuery(sensereq.query, allSenses);
 
                         if (!DoesNumberMatchExpectation(queryResult, sensereq.expected)) {
@@ -827,19 +827,19 @@ export class FeatRequirementsService {
 
                         if (types.length) {
                             types.forEach(type => {
-                                allSkills.push(...this._characterService.get_Skills(creature, '', { type }));
+                                allSkills.push(...this._characterService.skills(creature, '', { type }));
                             });
                         } else if (skillreq.query.allOfNames) {
                             SplitNames(skillreq.query.allOfNames).forEach(name => {
-                                allSkills.push(...this._characterService.get_Skills(creature, name));
+                                allSkills.push(...this._characterService.skills(creature, name));
                             });
                         } else if (skillreq.query.anyOfNames) {
                             SplitNames(skillreq.query.anyOfNames).forEach(name => {
-                                allSkills.push(...this._characterService.get_Skills(creature, name));
+                                allSkills.push(...this._characterService.skills(creature, name));
                             });
                         } else {
                             //The default is 'any'.
-                            allSkills.push(...this._characterService.get_Skills(creature, ''));
+                            allSkills.push(...this._characterService.skills(creature, ''));
                         }
 
                         if (skillreq.query.matchingDivineSkill) {

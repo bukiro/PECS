@@ -311,11 +311,11 @@ export class NewItemPropertyComponent {
             case 'prof':
                 switch (this.get_Parent().type) {
                     case 'weapons':
-                        examples = this.characterService.get_Skills(this.get_Character(), '', { type: 'Weapon Proficiency' }).map(item => item.name);
+                        examples = this.characterService.skills(this.get_Character(), '', { type: 'Weapon Proficiency' }).map(item => item.name);
                         examples.push('Advanced Weapons');
                         break;
                     case 'armors':
-                        examples = this.characterService.get_Skills(this.get_Character(), '', { type: 'Armor Proficiency' }).map(item => item.name);
+                        examples = this.characterService.skills(this.get_Character(), '', { type: 'Armor Proficiency' }).map(item => item.name);
                         examples.push('Light Barding');
                         examples.push('Heavy Barding');
                         break;
@@ -379,7 +379,7 @@ export class NewItemPropertyComponent {
                 break;
             case 'onceEffects affected':
                 examples.push(...['Focus', 'HP', 'Temporary HP']);
-                this.characterService.get_FeatsAndFeatures()
+                this.characterService.featsAndFeatures()
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.affected));
@@ -410,7 +410,7 @@ export class NewItemPropertyComponent {
                     });
                 break;
             case 'onceEffects value':
-                this.characterService.get_FeatsAndFeatures()
+                this.characterService.featsAndFeatures()
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.value));
@@ -441,9 +441,9 @@ export class NewItemPropertyComponent {
                     });
                 break;
             case 'effects affected':
-                examples.push(...this.characterService.get_Skills(this.get_Character()).map(skill => skill.name));
-                examples.push(...this.characterService.get_Abilities().map(ability => ability.name));
-                this.characterService.get_FeatsAndFeatures()
+                examples.push(...this.characterService.skills(this.get_Character()).map(skill => skill.name));
+                examples.push(...this.characterService.abilities().map(ability => ability.name));
+                this.characterService.featsAndFeatures()
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.affected));
@@ -455,12 +455,12 @@ export class NewItemPropertyComponent {
                     });
                 break;
             case 'effects value':
-                this.characterService.get_FeatsAndFeatures()
+                this.characterService.featsAndFeatures()
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.value));
                     });
-                this.characterService.get_FeatsAndFeatures()
+                this.characterService.featsAndFeatures()
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.value));
@@ -497,12 +497,12 @@ export class NewItemPropertyComponent {
                 examples = examples.filter(example => typeof example === 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
                 break;
             case 'effects setvalue':
-                this.characterService.get_FeatsAndFeatures()
+                this.characterService.featsAndFeatures()
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.setValue));
                     });
-                this.characterService.get_FeatsAndFeatures()
+                this.characterService.featsAndFeatures()
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.setValue));
@@ -545,7 +545,7 @@ export class NewItemPropertyComponent {
                     );
                 break;
             case 'effects title':
-                this.characterService.get_FeatsAndFeatures()
+                this.characterService.featsAndFeatures()
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.title));
@@ -582,9 +582,9 @@ export class NewItemPropertyComponent {
                 examples.push(...this.activitiesService.activities().map(activity => activity.name));
                 break;
             case 'showon':
-                examples.push(...this.characterService.get_Skills(this.get_Character()).map(skill => skill.name));
-                examples.push(...this.characterService.get_Abilities().map(ability => ability.name));
-                this.characterService.get_FeatsAndFeatures()
+                examples.push(...this.characterService.skills(this.get_Character()).map(skill => skill.name));
+                examples.push(...this.characterService.abilities().map(ability => ability.name));
+                this.characterService.featsAndFeatures()
                     .filter(feat => feat.hints.length)
                     .forEach(feat => {
                         examples.push(...feat.hints.filter(hint => hint.showon.length).map(hint => hint.showon));

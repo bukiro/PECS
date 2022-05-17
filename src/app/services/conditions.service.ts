@@ -111,7 +111,7 @@ export class ConditionsService {
             //Remove all conditions that were marked for deletion by setting their value to -1. We use while so we don't mess up the index and skip some.
             //Ignore anything that would stop the condition from being removed (i.e. lockedByParent), or we will get stuck in this loop.
             while (activeConditions.some(gain => gain.value == -1)) {
-                characterService.remove_Condition(creature, activeConditions.find(gain => gain.value == -1), false, undefined, undefined, true);
+                characterService.removeCondition(creature, activeConditions.find(gain => gain.value == -1), false, undefined, undefined, true);
             }
 
             //Cleanup overrides, first iteration: If any override comes from a condition that was removed (e.g. as a child of a removed condition), the override is removed as well.
@@ -242,7 +242,7 @@ export class ConditionsService {
                     tempEffect.spellSource = gain.spellSource;
                 }
 
-                characterService.prepare_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
+                characterService.prepareOnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
                 areOnceEffectsPrepared = true;
             });
         }
@@ -264,7 +264,7 @@ export class ConditionsService {
                     tempEffect.spellSource = gain.spellSource;
                 }
 
-                characterService.prepare_OnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
+                characterService.prepareOnceEffect(creature, tempEffect, gain.value, gain.heightened, gain.choice, gain.spellCastingAbility);
                 areOnceEffectsPrepared = true;
             });
         }
@@ -284,7 +284,7 @@ export class ConditionsService {
                         ),
                     )
                     .forEach(conditionGain => {
-                        characterService.remove_Condition(creature, conditionGain, false, end.increaseWounded);
+                        characterService.removeCondition(creature, conditionGain, false, end.increaseWounded);
                     });
             });
         }
@@ -296,7 +296,7 @@ export class ConditionsService {
                 .map(conditionGain => Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast())
                 .forEach(conditionGain => {
                     conditionDidSomething = true;
-                    characterService.remove_Condition(creature, conditionGain, false);
+                    characterService.removeCondition(creature, conditionGain, false);
                 });
         }
 
@@ -403,7 +403,7 @@ export class ConditionsService {
 
         //End the condition's activity if there is one and it is active.
         if (!taken && gain.source) {
-            const activityGains = characterService.get_OwnedActivities(creature, creature.level, true).filter(activityGain => activityGain.active && activityGain.name == gain.source);
+            const activityGains = characterService.creatureOwnedActivities(creature, creature.level, true).filter(activityGain => activityGain.active && activityGain.name == gain.source);
 
             if (activityGains.length) {
                 let activityGain: ActivityGain;
@@ -446,7 +446,7 @@ export class ConditionsService {
 
                         this.refreshService.set_ToChange('Character', 'spellbook');
                     });
-                characterService.get_OwnedActivities(creature, 20, true)
+                characterService.creatureOwnedActivities(creature, 20, true)
                     .filter(activityGain => activityGain.id == gain.sourceGainID && activityGain.active)
                     .forEach(activityGain => {
                         //Tick down the duration and the cooldown.
@@ -566,7 +566,7 @@ export class ConditionsService {
             services.characterService.addCondition(creature, Object.assign(new ConditionGain(), { name, value, source, apply: true }), {}, { noReload: true });
         }
         function remove_Condition(name: string, value: number, source: string) {
-            services.characterService.remove_Condition(creature, Object.assign(new ConditionGain(), { name, value, source, apply: true }), false);
+            services.characterService.removeCondition(creature, Object.assign(new ConditionGain(), { name, value, source, apply: true }), false);
         }
 
         if (creature.inventories[0].weapons.find(weapon => weapon.large && weapon.equipped) && !get_HaveCondition('Clumsy', 'Large Weapon')) {
@@ -614,13 +614,13 @@ export class ConditionsService {
 
                 if (services.characterService.currentCreatureConditions(creature, gain.name, gain.source, true).filter(existingGain => !gain.choice || (existingGain.choice == gain.choice)).length) {
                     if (!activate) {
-                        services.characterService.remove_Condition(creature, gain, false);
+                        services.characterService.removeCondition(creature, gain, false);
                     } else {
                         if (gain.activationPrerequisite) {
                             const testResult = evaluationService.get_ValueFromFormula(gain.activationPrerequisite, { characterService: services.characterService, effectsService: services.effectsService }, { creature, object: gain, parentItem: item });
 
                             if (testResult == '0' || !(parseInt(testResult as string, 10))) {
-                                services.characterService.remove_Condition(creature, gain, false);
+                                services.characterService.removeCondition(creature, gain, false);
                             }
                         }
                     }
@@ -648,7 +648,7 @@ export class ConditionsService {
     remove_GainedItemConditions(creature: Creature, item: Equipment, characterService: CharacterService) {
         function remove_GainedConditions(gain: ConditionGain) {
             if (characterService.currentCreatureConditions(creature, gain.name, gain.source, true).filter(existingGain => !gain.choice || (existingGain.choice == gain.choice)).length) {
-                characterService.remove_Condition(creature, gain, false);
+                characterService.removeCondition(creature, gain, false);
             }
         }
         item.gainConditions.forEach(gain => {
@@ -676,7 +676,7 @@ export class ConditionsService {
             }
 
             if (calculatedBulk.current.value <= calculatedBulk.encumbered.value && !!services.characterService.currentCreatureConditions(creature, 'Encumbered', 'Bulk').length) {
-                services.characterService.remove_Condition(creature, Object.assign(new ConditionGain(), { name: 'Encumbered', value: 0, source: 'Bulk', apply: true }), true);
+                services.characterService.removeCondition(creature, Object.assign(new ConditionGain(), { name: 'Encumbered', value: 0, source: 'Bulk', apply: true }), true);
             }
         }
     }
@@ -788,8 +788,8 @@ export class ConditionsService {
         });
 
         //After resting with full HP, the Wounded condition is removed.
-        if (characterService.get_Health(creature).damage == 0) {
-            creature.conditions.filter(gain => gain.name == 'Wounded').forEach(gain => characterService.remove_Condition(creature, gain, false));
+        if (characterService.creatureHealth(creature).damage == 0) {
+            creature.conditions.filter(gain => gain.name == 'Wounded').forEach(gain => characterService.removeCondition(creature, gain, false));
         }
 
         //If Verdant Metamorphosis is active, remove the following non-permanent conditions after resting: Drained, Enfeebled, Clumsy, Stupefied and all poisons and diseases of 19th level or lower.
@@ -803,7 +803,7 @@ export class ConditionsService {
         }
 
         //After resting, the Fatigued condition is removed (unless locked by its parent), and the value of Doomed and Drained is reduced (unless locked by its parent).
-        creature.conditions.filter(gain => gain.name == 'Fatigued' && !gain.valueLockedByParent).forEach(gain => characterService.remove_Condition(creature, gain), false);
+        creature.conditions.filter(gain => gain.name == 'Fatigued' && !gain.valueLockedByParent).forEach(gain => characterService.removeCondition(creature, gain), false);
         creature.conditions.filter(gain => gain.name == 'Doomed' && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value == 1)).forEach(gain => { gain.value -= 1; });
         creature.conditions.filter(gain => gain.name == 'Drained' && !gain.valueLockedByParent && !(gain.lockedByParent && gain.value == 1)).forEach(gain => {
             gain.value -= 1;
@@ -816,7 +816,7 @@ export class ConditionsService {
                 //If you have Fast Recovery or have activated the effect of Forge-Day's Rest, reduce the value by 2 instead of 1.
                 (
                     (creature instanceof Character) &&
-                    characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Fast Recovery' }).length
+                    characterService.characterFeatsTaken(1, creature.level, { featName: 'Fast Recovery' }).length
                 ) ||
                 characterService.featsService.get_Feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
             ) {
@@ -901,7 +901,7 @@ export class ConditionsService {
                     const originalCondition = characterService.conditions(addCondition.name)[0];
 
                     if (!(addCondition.persistent || originalCondition?.persistent) || addCondition.ignorePersistentAtChoiceChange) {
-                        characterService.remove_Condition(creature, addCondition, false, false, true, true, true);
+                        characterService.removeCondition(creature, addCondition, false, false, true, true, true);
                     }
                 });
             }

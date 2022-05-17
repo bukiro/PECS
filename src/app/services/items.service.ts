@@ -796,7 +796,7 @@ export class ItemsService {
             //One time effects
             if (item.onceEffects) {
                 item.onceEffects.forEach(effect => {
-                    characterService.process_OnceEffect(creature, effect);
+                    characterService.processOnceEffect(creature, effect);
                 });
             }
 
@@ -862,7 +862,7 @@ export class ItemsService {
 
         if (creature instanceof Character) {
             //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
-            if (characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
+            if (characterService.characterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
                 creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
                         characterService.grantInventoryItem(scroll, { creature, inventory: creature.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
@@ -871,7 +871,7 @@ export class ItemsService {
             }
 
             //If you have Battleforger, all your battleforged items are reset.
-            if (characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Battleforger' }).length) {
+            if (characterService.characterFeatsTaken(1, creature.level, { featName: 'Battleforger' }).length) {
                 let attacksChanged = false;
                 let defenseChanged = false;
 

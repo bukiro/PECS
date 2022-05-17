@@ -93,7 +93,7 @@ export class ItemGain {
                         }
 
                         if (
-                            services.characterService.get_CharacterFeatsTaken(
+                            services.characterService.characterFeatsTaken(
                                 1,
                                 creature.level,
                                 { featName: 'Favored Weapon (Syncretism)' },

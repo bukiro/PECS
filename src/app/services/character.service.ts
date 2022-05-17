@@ -1,9 +1,9 @@
-/* eslint-disable max-lines */
 /* eslint-disable complexity */
+/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Skill } from 'src/app/classes/Skill';
-import { Observable } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { Item } from 'src/app/classes/Item';
 import { Class } from 'src/app/classes/Class';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
@@ -82,6 +82,13 @@ import { FloorNumbersLastDigits } from 'src/libs/shared/util/numberUtils';
 import { CopperAmounts, CurrencyIndices } from 'src/libs/shared/definitions/currency';
 import { Condition } from '../classes/Condition';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { HttpStatusCode } from '@angular/common/http';
+import { AC, CoverTypes } from '../classes/AC';
+import { Ability } from '../classes/Ability';
+import { Health } from '../classes/Health';
+import { AnimalCompanionLevel } from '../classes/AnimalCompanionLevel';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 
 interface PreparedOnceEffect {
     creatureType: string;
@@ -91,6 +98,17 @@ interface PreparedOnceEffect {
     conditionChoice: string;
     conditionSpellCastingAbility: string;
 }
+
+interface EffectRecipientPhrases {
+    name: string;
+    pronounCap: string;
+    pronoun: string;
+    pronounGenitive: string;
+    verbIs: string;
+    verbHas: string;
+}
+
+type HintShowingItem = Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material;
 
 enum MenuNames {
     ItemsMenu = 'items',
@@ -365,7 +383,7 @@ export class CharacterService {
 
     public isCompanionAvailable(charLevel: number = this.character().level): boolean {
         //Return any feat that grants an animal companion that you own.
-        return this.get_CharacterFeatsAndFeatures()
+        return this.characterFeatsAndFeatures()
             .some(feat =>
                 feat.gainAnimalCompanion === 'Young' &&
                 feat.have({ creature: this.character() }, { characterService: this }, { charLevel }),
@@ -374,7 +392,7 @@ export class CharacterService {
 
     public isFamiliarAvailable(charLevel: number = this.character().level): boolean {
         //Return any feat that grants an animal companion that you own.
-        return this.get_CharacterFeatsAndFeatures()
+        return this.characterFeatsAndFeatures()
             .some(feat =>
                 feat.gainFamiliar &&
                 feat.have({ creature: this.character() }, { characterService: this }, { charLevel }),
@@ -455,7 +473,7 @@ export class CharacterService {
             }
 
             //Free languages from your base intelligence
-            const baseIntelligence: number = this.get_Abilities('Intelligence')[0]?.baseValue(character, this, 0)?.result;
+            const baseIntelligence: number = this.abilities('Intelligence')[0]?.baseValue(character, this, 0)?.result;
             const baseInt: number = AbilityModFromAbilityValue(baseIntelligence);
 
             if (baseInt > 0) {
@@ -468,8 +486,8 @@ export class CharacterService {
             character.class.levels.filter(level => level.number > 0).forEach(level => {
                 //Collect all feats you have that grant extra free languages, then note on which level you have them.
                 //Add the amount that they would grant you on that level by faking a level for the effect.
-                this.get_CharacterFeatsTaken(level.number, level.number).forEach(taken => {
-                    const feat = this.get_FeatsAndFeatures(taken.name)[0];
+                this.characterFeatsTaken(level.number, level.number).forEach(taken => {
+                    const feat = this.featsAndFeatures(taken.name)[0];
 
                     if (feat) {
                         if (feat.effects.some(effect => effect.affected === 'Max Languages')) {
@@ -490,7 +508,7 @@ export class CharacterService {
 
                 //Also add more languages if INT has been raised (and is positive).
                 //Compare INT on this level with INT on the previous level. Don't do this on Level 0, obviously.
-                const levelIntelligence: number = this.get_Abilities('Intelligence')[0]?.baseValue(character, this, level.number)?.result;
+                const levelIntelligence: number = this.abilities('Intelligence')[0]?.baseValue(character, this, level.number)?.result;
 
                 int.push(AbilityModFromAbilityValue(levelIntelligence));
 
@@ -518,7 +536,7 @@ export class CharacterService {
 
             // If the current INT is positive and higher than the base INT for the current level
             // (e.g. because of an item bonus), add another temporary language source.
-            const currentInt = this.get_Abilities('Intelligence')[0]?.mod(character, this, this.effectsService)?.result;
+            const currentInt = this.abilities('Intelligence')[0]?.mod(character, this, this.effectsService)?.result;
             const diff = currentInt - int[character.level];
 
             if (diff > 0 && currentInt > 0) {
@@ -1252,7 +1270,7 @@ export class CharacterService {
             //If you are unequipping a shield, you should also be lowering it and losing cover
             if (item instanceof Shield) {
                 if (item.takingCover) {
-                    this.get_AC().setCover(creature, 0, item, this, this.conditionsService);
+                    this.ACObject().setCover(creature, 0, item, this, this.conditionsService);
                     item.takingCover = false;
                 }
 
@@ -1604,22 +1622,40 @@ export class CharacterService {
         return false;
     }
 
-    remove_Condition(creature: Creature, conditionGain: ConditionGain, reload = true, increaseWounded = true, keepPersistent = true, ignoreLockedByParent = false, ignoreEndsWithConditions = false) {
-        //Find the correct condition gain to remove. This can be the exact same as the conditionGain parameter, but if it isn't, find the most similar one:
-        //- Find all condition gains with similar name, value and source, then if there are more than one of those:
-        //-- Try finding one that has the exact same attributes.
-        //-- If none is found, find one that has the same duration.
-        //- If none is found or the list has only one, take the first.
+    /**
+     * Try to remove the condition and return whether it was removed.
+     */
+    public removeCondition(
+        creature: Creature,
+        conditionGain: ConditionGain,
+        reload = true,
+        increaseWounded = true,
+        keepPersistent = true,
+        ignoreLockedByParent = false,
+        ignoreEndsWithConditions = false,
+    ): boolean {
+        // Find the correct condition gain to remove.
+        // This can be the exact same as the conditionGain parameter, but if it isn't, find the most similar one:
+        // - Find all condition gains with similar name, value and source, then if there are more than one of those:
+        // -- Try finding one that has the exact same attributes.
+        // -- If none is found, find one that has the same duration.
+        // - If none is found or the list has only one, take the first.
         let oldConditionGain: ConditionGain = creature.conditions.find(gain => gain === conditionGain);
 
         if (!oldConditionGain) {
-            const oldConditionGains: Array<ConditionGain> = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.value == conditionGain.value && gain.source == conditionGain.source);
+            const oldConditionGains: Array<ConditionGain> =
+                creature.conditions
+                    .filter(gain =>
+                        gain.name === conditionGain.name &&
+                        gain.value === conditionGain.value &&
+                        gain.source === conditionGain.source,
+                    );
 
             if (oldConditionGains.length > 1) {
-                oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) == JSON.stringify(conditionGain));
+                oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) === JSON.stringify(conditionGain));
 
                 if (!oldConditionGain) {
-                    oldConditionGain = oldConditionGains.find(gain => gain.duration == conditionGain.duration);
+                    oldConditionGain = oldConditionGains.find(gain => gain.duration === conditionGain.duration);
                 }
             }
 
@@ -1637,24 +1673,44 @@ export class CharacterService {
                 this.refreshService.set_ToChange(creature.type, 'health');
             }
 
-            //Remove the parent lock for all conditions locked by this, so that they can be removed in the next step or later (if persistent).
-            this.remove_LockedByParent(creature, oldConditionGain.id);
+            // Remove the parent lock for all conditions locked by this,
+            // so that they can be removed in the next step or later (if persistent).
+            this.removeLockedByParentFromMatchingConditions(creature, oldConditionGain.id);
             this.currentCreatureConditions(creature, '', oldConditionGain.name, true).filter(gain =>
-                gain.parentID == oldConditionGain.id,
+                gain.parentID === oldConditionGain.id,
             )
                 .forEach(extraCondition => {
                     if (!(keepPersistent && extraCondition.persistent)) {
-                        //Remove child conditions that are not persistent, or remove all if keepPersistent is false.
-                        this.remove_Condition(creature, extraCondition, false, increaseWounded, keepPersistent, ignoreLockedByParent, ignoreEndsWithConditions);
+                        // Remove child conditions that are not persistent, or remove all if keepPersistent is false.
+                        this.removeCondition(
+                            creature,
+                            extraCondition,
+                            false,
+                            increaseWounded,
+                            keepPersistent,
+                            ignoreLockedByParent,
+                            ignoreEndsWithConditions,
+                        );
                     } else if (extraCondition.persistent) {
-                        //If this condition adds persistent conditions, don't remove them, but remove the persistent flag as its parent is gone.
-                        this.remove_Persistent(creature, extraCondition);
+                        // If this condition adds persistent conditions, don't remove them,
+                        // but remove the persistent flag as its parent is gone.
+                        this.removePersistentFromCondition(creature, extraCondition);
                     }
                 });
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1);
-            this.conditionsService.process_Condition(creature, this, this.effectsService, this.itemsService, oldConditionGain, originalCondition, false, increaseWounded, ignoreEndsWithConditions);
+            this.conditionsService.process_Condition(
+                creature,
+                this,
+                this.effectsService,
+                this.itemsService,
+                oldConditionGain,
+                originalCondition,
+                false,
+                increaseWounded,
+                ignoreEndsWithConditions,
+            );
 
-            if (oldConditionGain.source == 'Quick Status') {
+            if (oldConditionGain.source === 'Quick Status') {
                 this.refreshService.set_ToChange(creature.type, 'defense');
                 this.refreshService.set_ToChange(creature.type, 'attacks');
             }
@@ -1672,7 +1728,7 @@ export class CharacterService {
         return false;
     }
 
-    remove_Persistent(creature: Creature, conditionGain: ConditionGain) {
+    public removePersistentFromCondition(creature: Creature, conditionGain: ConditionGain): void {
         //This function removes the persistent attribute from a condition gain, allowing it to be removed normally.
         //Find the correct condition to remove the persistent attribute:
         //- Find all persistent condition gains with similar name, value and source, then if there are more than one of those:
@@ -1680,13 +1736,15 @@ export class CharacterService {
         //-- If none is found, find one that has the same duration.
         //- If none is found or the list has only one, take the first.
         let oldConditionGain: ConditionGain;
-        const oldConditionGains: Array<ConditionGain> = creature.conditions.filter(gain => gain.name == conditionGain.name && gain.source == conditionGain.source && gain.persistent);
+        const oldConditionGains: Array<ConditionGain> =
+            creature.conditions
+                .filter(gain => gain.name === conditionGain.name && gain.source === conditionGain.source && gain.persistent);
 
         if (oldConditionGains.length > 1) {
-            oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) == JSON.stringify(conditionGain));
+            oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) === JSON.stringify(conditionGain));
 
             if (!oldConditionGain) {
-                oldConditionGain = oldConditionGains.find(gain => gain.duration == conditionGain.duration);
+                oldConditionGain = oldConditionGains.find(gain => gain.duration === conditionGain.duration);
             }
         }
 
@@ -1699,34 +1757,36 @@ export class CharacterService {
         }
     }
 
-    remove_LockedByParent(creature: Creature, id: string) {
+    public removeLockedByParentFromMatchingConditions(creature: Creature, id: string): void {
         //This function removes the lockedByParent and valueLockedByParent attributes from all condition gains locked by the given ID.
-        creature.conditions.filter(gain => gain.parentID == id).forEach(gain => {
+        creature.conditions.filter(gain => gain.parentID === id).forEach(gain => {
             gain.lockedByParent = false;
             gain.valueLockedByParent = false;
         });
     }
 
-    get_MessageCreature(message: PlayerMessage) {
-        return this.allAvailableCreatures().find(creature => creature.id == message.targetId);
+    public creatureFromMessage(message: PlayerMessage): Creature {
+        return this.allAvailableCreatures().find(creature => creature.id === message.targetId);
     }
 
-    get_MessageSender(message: PlayerMessage) {
-        return this._savegameService.getSavegames().find(savegame => savegame.id == message.senderId)?.name;
+    public messageSenderName(message: PlayerMessage): string {
+        return this._savegameService.getSavegames().find(savegame => savegame.id === message.senderId)?.name;
     }
 
-    send_TurnChangeToPlayers() {
+    public sendTurnChangeToPlayers(): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
         if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
-            return false;
+            return;
         }
 
         this._messageService.get_Time()
-            .subscribe({
-                next: result => {
+            .pipe(
+                switchMap(result => {
                     const timeStamp = result.time;
                     const character = this.character();
-                    const targets = this._savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id);
+                    const targets =
+                        this._savegameService.getSavegames()
+                            .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id);
                     const messages: Array<PlayerMessage> = [];
 
                     targets.forEach(target => {
@@ -1745,54 +1805,54 @@ export class CharacterService {
                     });
 
                     if (messages.length) {
-                        this._messageService.send_Messages(messages)
-                            .subscribe({
-                                next: () => {
-                                    //Don't notify the user that a turn change was sent. It proved more annoying than useful.
-                                    //this.toastService.show("Sent turn change to " + (messages.length) + " targets.");
-                                },
-                                error: error => {
-                                    if (error.status == 401) {
-                                        this._configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
-                                    } else {
-                                        this.toastService.show('An error occurred while sending effects. See console for more information.');
-                                        console.log(`Error saving effect messages to database: ${ error.message }`);
-                                    }
-                                },
-                            });
+                        return this._messageService.send_Messages(messages);
                     }
-                },
+                }),
+            )
+            .subscribe({
                 error: error => {
-                    if (error.status == 401) {
+                    if (error.status === HttpStatusCode.Unauthorized) {
                         this._configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
-                        console.log(`Error saving effect messages to database: ${ error.message }`);
+                        console.error(`Error saving effect messages to database: ${ error.message }`);
                     }
                 },
             });
     }
 
-    apply_TurnChangeMessage(messages: Array<PlayerMessage>) {
+    public applyTurnChangeMessage(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
         if (this.isManualMode()) {
-            return false;
+            return;
         }
 
         //For each senderId that you have a turnChange message from, remove all conditions that came from this sender and have duration 2.
-        Array.from(new Set(messages.filter(message => message.selected).map(message => message.senderId))).forEach(senderId => {
-            let removed = false;
+        Array.from(new Set(
+            messages
+                .filter(message => message.selected)
+                .map(message => message.senderId),
+        )).forEach(senderId => {
+            let hasConditionBeenRemoved = false;
 
             this.allAvailableCreatures().forEach(creature => {
                 this.currentCreatureConditions(creature)
-                    .filter(existingConditionGain => existingConditionGain.foreignPlayerId == senderId && existingConditionGain.durationEndsOnOtherTurnChange)
+                    .filter(existingConditionGain =>
+                        existingConditionGain.foreignPlayerId === senderId &&
+                        existingConditionGain.durationEndsOnOtherTurnChange,
+                    )
                     .forEach(existingConditionGain => {
-                        removed = this.remove_Condition(creature, existingConditionGain, false);
+                        hasConditionBeenRemoved = this.removeCondition(creature, existingConditionGain, false);
 
-                        if (removed) {
-                            const senderName = this._savegameService.getSavegames().find(savegame => savegame.id == senderId)?.name || 'Unknown';
+                        if (hasConditionBeenRemoved) {
+                            const senderName =
+                                this._savegameService.getSavegames().find(savegame => savegame.id === senderId)?.name || 'Unknown';
 
-                            this.toastService.show(`Automatically removed <strong>${ existingConditionGain.name }${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }</strong> condition from <strong>${ creature.name || creature.type }</strong> on turn of <strong>${ senderName }</strong>`);
+                            this.toastService.show(
+                                `Automatically removed <strong>${ existingConditionGain.name }`
+                                + `${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }`
+                                + `</strong> condition from <strong>${ creature.name || creature.type }`
+                                + `</strong> on turn of <strong>${ senderName }</strong>`);
                             this.refreshService.set_ToChange(creature.type, 'effects');
                         }
                     });
@@ -1803,25 +1863,26 @@ export class CharacterService {
         });
     }
 
-    send_ConditionToPlayers(targets: Array<SpellTarget>, conditionGain: ConditionGain, activate = true) {
+    public sendConditionToPlayers(targets: Array<SpellTarget>, conditionGain: ConditionGain, activate = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
         if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
-            return false;
+            return;
         }
 
         this._messageService.get_Time()
-            .subscribe({
-                next: result => {
+            .pipe(
+                switchMap(result => {
                     const timeStamp = result.time;
                     const creatures = this.allAvailableCreatures();
                     const messages: Array<PlayerMessage> = [];
 
                     targets.forEach(target => {
-                        if (creatures.some(creature => creature.id == target.id)) {
+                        if (creatures.some(creature => creature.id === target.id)) {
                             //Catch any messages that go to your own creatures
                             this.addCondition(this.creatureFromType(target.type), conditionGain);
                         } else {
-                            //Build a message to the correct player and creature, with the timestamp just received from the database connector.
+                            // Build a message to the correct player and creature,
+                            // with the timestamp just received from the database connector.
                             const message = new PlayerMessage();
 
                             message.recipientId = target.playerId;
@@ -1832,7 +1893,9 @@ export class CharacterService {
 
                             message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                             message.timeStamp = timeStamp;
-                            message.gainCondition.push(Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast());
+                            message.gainCondition.push(
+                                Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast(),
+                            );
 
                             if (message.gainCondition.length) {
                                 message.gainCondition[0].foreignPlayerId = message.senderId;
@@ -1844,74 +1907,86 @@ export class CharacterService {
                     });
 
                     if (messages.length) {
-                        this._messageService.send_Messages(messages)
-                            .subscribe({
-                                next: () => {
-                                    //If messages were sent, send a summary toast.
-                                    this.toastService.show(`Sent effects to ${ messages.length } targets.`);
-                                },
-                                error: error => {
-                                    if (error.status == 401) {
-                                        this._configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
-                                    } else {
-                                        this.toastService.show('An error occurred while sending effects. See console for more information.');
-                                        console.log(`Error saving effect messages to database: ${ error.message }`);
-                                    }
-                                },
-                            });
+                        return this._messageService.send_Messages(messages)
+                            .pipe(
+                                tap({
+                                    complete: () => {
+                                        //If messages were sent, send a summary toast.
+                                        this.toastService.show(`Sent effects to ${ messages.length } targets.`);
+                                    },
+                                }),
+                            );
                     }
-                },
+                }),
+            )
+            .subscribe({
                 error: error => {
-                    if (error.status == 401) {
-                        this._configService.on_LoggedOut('Your login is no longer valid; The conditions were not sent. Please try again after logging in; If you have wasted an action or spell this way, you can enable Manual Mode in the settings to restore them.');
+                    if (error.status === HttpStatusCode.Unauthorized) {
+                        this._configService.on_LoggedOut(
+                            'Your login is no longer valid; The conditions were not sent. '
+                            + 'Please try again after logging in; If you have wasted an action or spell this way, '
+                            + 'you can enable Manual Mode in the settings to restore them.',
+                        );
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
-                        console.log(`Error saving effect messages to database: ${ error.message }`);
+                        console.error(`Error saving effect messages to database: ${ error.message }`);
                     }
                 },
             });
     }
 
-    apply_MessageConditions(messages: Array<PlayerMessage>) {
+    public applyMessageConditions(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
         if (this.isManualMode()) {
-            return false;
+            return;
         }
 
-        //Iterate through all messages that have a gainCondition (only one per message will be applied) and either add or remove the appropriate conditions.
-        //The ConditionGains have a foreignPlayerId that allows us to recognize that they came from this player.
+        // Iterate through all messages that have a gainCondition (only one per message will be applied)
+        // and either add or remove the appropriate conditions.
+        // The ConditionGains have a foreignPlayerId that allows us to recognize that they came from this player.
         messages.forEach(message => {
             if (message.selected) {
-                const targetCreature = this.get_MessageCreature(message);
+                const targetCreature = this.creatureFromMessage(message);
 
                 if (message.activateCondition) {
                     if (targetCreature && message.gainCondition.length) {
                         const conditionGain: ConditionGain = message.gainCondition[0];
-                        const conditionAdded = this.addCondition(targetCreature, conditionGain, {}, { noReload: true });
+                        const hasConditionBeenAdded = this.addCondition(targetCreature, conditionGain, {}, { noReload: true });
 
-                        if (conditionAdded) {
-                            const senderName = this.get_MessageSender(message);
+                        if (hasConditionBeenAdded) {
+                            const senderName = this.messageSenderName(message);
 
                             //If a condition was created, send a toast to inform the user.
-                            this.toastService.show(`Added <strong>${ conditionGain.name }${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition to <strong>${ targetCreature.name || targetCreature.type }</strong> (sent by <strong>${ senderName.trim() }</strong>)`);
+                            this.toastService.show(
+                                `Added <strong>${ conditionGain.name }`
+                                + `${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition to <strong>`
+                                + `${ targetCreature.name || targetCreature.type }</strong> (sent by <strong>`
+                                + `${ senderName.trim() }</strong>)`);
                         }
                     }
                 } else {
                     if (targetCreature && message.gainCondition.length) {
                         const conditionGain: ConditionGain = message.gainCondition[0];
-                        let removed = false;
+                        let hasConditionBeenRemoved = false;
 
                         this.currentCreatureConditions(targetCreature, message.gainCondition[0].name)
-                            .filter(existingConditionGain => existingConditionGain.foreignPlayerId == message.senderId && existingConditionGain.source == message.gainCondition[0].source)
+                            .filter(existingConditionGain =>
+                                existingConditionGain.foreignPlayerId === message.senderId &&
+                                existingConditionGain.source === message.gainCondition[0].source,
+                            )
                             .forEach(existingConditionGain => {
-                                removed = this.remove_Condition(targetCreature, existingConditionGain, false);
+                                hasConditionBeenRemoved = this.removeCondition(targetCreature, existingConditionGain, false);
                             });
 
-                        if (removed) {
-                            const senderName = this.get_MessageSender(message);
+                        if (hasConditionBeenRemoved) {
+                            const senderName = this.messageSenderName(message);
 
                             //If a condition was removed, send a toast to inform the user.
-                            this.toastService.show(`Removed <strong>${ conditionGain.name }${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition from <strong>${ targetCreature.name || targetCreature.type }</strong> (added by <strong>${ senderName.trim() }</strong>)`);
+                            this.toastService.show(
+                                `Removed <strong>${ conditionGain.name }`
+                                + `${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition from <strong>`
+                                + `${ targetCreature.name || targetCreature.type }</strong> (added by <strong>`
+                                + `${ senderName.trim() }</strong>)`);
                         }
                     }
                 }
@@ -1921,24 +1996,25 @@ export class CharacterService {
         });
     }
 
-    send_ItemsToPlayer(sender: Creature, target: SpellTarget, item: Item, amount = 0) {
+    public sendItemsToPlayer(sender: Creature, target: SpellTarget, item: Item, amount = 0): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
         if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
-            return false;
+            return;
         }
 
         this._messageService.get_Time()
-            .subscribe({
-                next: result => {
+            .pipe(
+                switchMap(result => {
                     const timeStamp = result.time;
 
                     if (!amount) {
-                        amount == item.amount;
+                        amount = item.amount;
                     }
 
                     this.itemsService.update_GrantingItem(sender, item);
 
-                    const included: { items: Array<Item>; inventories: Array<ItemCollection> } = this.itemsService.pack_GrantingItem(sender, item);
+                    const included: { items: Array<Item>; inventories: Array<ItemCollection> } =
+                        this.itemsService.pack_GrantingItem(sender, item);
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const message = new PlayerMessage();
 
@@ -1950,53 +2026,58 @@ export class CharacterService {
 
                     message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     message.timeStamp = timeStamp;
-                    message.offeredItem.push(Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(item))).recast(this._typeService, this.itemsService));
+                    message.offeredItem.push(
+                        Object.assign(
+                            new Item(),
+                            JSON.parse(JSON.stringify(item))).recast(this._typeService, this.itemsService,
+                        ),
+                    );
                     message.itemAmount = amount;
                     message.includedItems = included.items;
                     message.includedInventories = included.inventories;
-                    this._messageService.send_Messages([message])
-                        .subscribe({
-                            next: () => {
-                                //If the message was sent, send a summary toast.
-                                this.toastService.show(`Sent item offer to <strong>${ target.name }</strong>.`);
-                            },
-                            error: error => {
-                                if (error.status == 401) {
-                                    this._configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
-                                } else {
-                                    this.toastService.show('An error occurred while sending item. See console for more information.');
-                                    console.log(`Error saving item message to database: ${ error.message }`);
-                                }
-                            },
-                        });
-                },
+
+                    return this._messageService.send_Messages([message])
+                        .pipe(
+                            tap({
+                                complete: () => {
+                                    //If the message was sent, send a summary toast.
+                                    this.toastService.show(`Sent item offer to <strong>${ target.name }</strong>.`);
+                                },
+                            }),
+                        );
+                }),
+            )
+            .subscribe({
                 error: error => {
-                    if (error.status == 401) {
-                        this._configService.on_LoggedOut('Your login is no longer valid; The item offer was not sent. Please try again after logging in.');
+                    if (error.status === HttpStatusCode.Unauthorized) {
+                        this._configService.on_LoggedOut(
+                            'Your login is no longer valid; The item offer was not sent. Please try again after logging in.',
+                        );
                     } else {
                         this.toastService.show('An error occurred while sending item. See console for more information.');
-                        console.log(`Error saving item message to database: ${ error.message }`);
+                        console.error(`Error saving item message to database: ${ error.message }`);
                     }
                 },
             });
     }
 
-    apply_MessageItems(messages: Array<PlayerMessage>) {
+    public applyMessageItems(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
         if (this.isManualMode()) {
-            return false;
+            return;
         }
 
         //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.
         messages.forEach(message => {
-            const targetCreature = this.get_MessageCreature(message);
+            const targetCreature = this.creatureFromMessage(message);
 
             if (message.selected) {
-                const sender = this.get_MessageSender(message);
+                const sender = this.messageSenderName(message);
 
                 if (targetCreature && message.offeredItem.length) {
-                    //We can't use grant_InventoryItem, because these items are initialized and possibly bringing their own inventories and gained items.
-                    //We have to process the item directly here.
+                    // We can't use grant_InventoryItem,
+                    // because these items are initialized and possibly bringing their own inventories and gained items.
+                    // We have to process the item directly here.
                     if (targetCreature instanceof Character || targetCreature instanceof AnimalCompanion) {
                         const targetInventory = targetCreature.inventories[0];
                         let addedPrimaryItem: Item;
@@ -2007,10 +2088,17 @@ export class CharacterService {
                             }
 
                             const typedItem = this.itemsService.cast_ItemByType(item);
-                            const existingItems = targetInventory[typedItem.type].filter((existing: Item) => existing.name == typedItem.name && existing.canStack() && !typedItem.expiration);
+                            const existingItems =
+                                targetInventory[typedItem.type]
+                                    .filter((existing: Item) =>
+                                        existing.name === typedItem.name &&
+                                        existing.canStack() &&
+                                        !typedItem.expiration,
+                                    );
 
-                            //If any existing, stackable items are found, add this item's amount on top and finish.
-                            //If no items are found, add the new item to the inventory and process it as a new item (skipping gained items and gained inventories).
+                            // If any existing, stackable items are found, add this item's amount on top and finish.
+                            // If no items are found, add the new item to the inventory
+                            // and process it as a new item (skipping gained items and gained inventories).
                             if (existingItems.length) {
                                 existingItems[0].amount += typedItem.amount;
 
@@ -2078,28 +2166,28 @@ export class CharacterService {
                             text += '.';
                             this.toastService.show(text);
                             //Build a response message that lets the other player know that the item has been accepted.
-                            this.send_ItemAcceptedMessage(message);
+                            this.sendItemAcceptedMessage(message);
                         }
                     }
                 }
             } else {
                 //Build a response message that lets the other player know that the item has been rejected.
-                this.send_ItemAcceptedMessage(message, false);
+                this.sendItemAcceptedMessage(message, false);
             }
 
             this._messageService.mark_MessageAsIgnored(this, message);
         });
     }
 
-    send_ItemAcceptedMessage(message: PlayerMessage, accepted = true) {
+    public sendItemAcceptedMessage(message: PlayerMessage, accepted = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
         if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
-            return false;
+            return;
         }
 
         this._messageService.get_Time()
-            .subscribe({
-                next: result => {
+            .pipe(
+                switchMap(result => {
                     const timeStamp = result.time;
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const response = new PlayerMessage();
@@ -2108,7 +2196,7 @@ export class CharacterService {
                     response.senderId = this.character().id;
                     response.targetId = message.senderId;
 
-                    const target = this.get_MessageSender(message) || 'sender';
+                    const target = this.messageSenderName(message) || 'sender';
                     const date = new Date();
 
                     response.time = `${ date.getHours() }:${ date.getMinutes() }`;
@@ -2121,46 +2209,45 @@ export class CharacterService {
                         response.rejectedItem = message.offeredItem[0].id;
                     }
 
-                    this._messageService.send_Messages([response])
-                        .subscribe({
-                            next: () => {
-                                //If the message was sent, send a summary toast.
-                                if (accepted) {
-                                    this.toastService.show(`Sent acceptance response to <strong>${ target }</strong>.`);
-                                } else {
-                                    this.toastService.show(`Sent rejection response to <strong>${ target }</strong>.`);
-                                }
-                            },
-                            error: error => {
-                                if (error.status == 401) {
-                                    this._configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
-                                } else {
-                                    this.toastService.show('An error occurred while sending response. See console for more information.');
-                                    console.log(`Error saving response message to database: ${ error.message }`);
-                                }
-                            },
-                        });
-                },
+                    return this._messageService.send_Messages([response])
+                        .pipe(
+                            tap({
+                                complete: () => {
+                                    //If the message was sent, send a summary toast.
+                                    if (accepted) {
+                                        this.toastService.show(`Sent acceptance response to <strong>${ target }</strong>.`);
+                                    } else {
+                                        this.toastService.show(`Sent rejection response to <strong>${ target }</strong>.`);
+                                    }
+                                },
+                            }),
+                        );
+                }),
+            )
+            .subscribe({
                 error: error => {
-                    if (error.status == 401) {
-                        this._configService.on_LoggedOut('Your login is no longer valid; The item acceptance message could not be sent. Your companion should drop the item manually.');
+                    if (error.status === HttpStatusCode.Unauthorized) {
+                        this._configService.on_LoggedOut(
+                            'Your login is no longer valid; The item acceptance message could not be sent, '
+                            + 'but you have received the item. Your party member should drop the item manually.',
+                        );
                     } else {
                         this.toastService.show('An error occurred while sending response. See console for more information.');
-                        console.log(`Error saving response message to database: ${ error.message }`);
+                        console.error(`Error saving response message to database: ${ error.message }`);
                     }
                 },
             });
     }
 
-    apply_ItemAcceptedMessages(messages: Array<PlayerMessage>) {
+    public applyItemAcceptedMessages(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
         if (this.isManualMode()) {
-            return false;
+            return;
         }
 
         //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.
         messages.forEach(message => {
-            const sender = this.get_MessageSender(message) || 'The player ';
+            const sender = this.messageSenderName(message) || 'The player ';
 
             if (message.acceptedItem || message.rejectedItem) {
                 let foundItem: Item;
@@ -2171,7 +2258,7 @@ export class CharacterService {
                 this.allAvailableCreatures().forEach(creature => {
                     creature.inventories.forEach(inventory => {
                         if (!foundItem) {
-                            foundItem = inventory.allItems().find(invItem => invItem.id == (message.acceptedItem || message.rejectedItem));
+                            foundItem = inventory.allItems().find(invItem => invItem.id === (message.acceptedItem || message.rejectedItem));
                             foundInventory = inventory;
                             foundCreature = creature;
                         }
@@ -2183,13 +2270,19 @@ export class CharacterService {
                 }
 
                 if (message.acceptedItem) {
-                    this.toastService.show(`<strong>${ sender }</strong> has accepted the <strong>${ itemName }</strong>. The item is dropped from your inventory.`);
+                    this.toastService.show(
+                        `<strong>${ sender }</strong> has accepted the <strong>`
+                        + `${ itemName }</strong>. The item is dropped from your inventory.`,
+                    );
 
                     if (foundItem) {
                         this.dropInventoryItem(foundCreature, foundInventory, foundItem, false, true, true, message.itemAmount);
                     }
                 } else if (message.rejectedItem) {
-                    this.toastService.show(`<strong>${ sender }</strong> has rejected the <strong>${ itemName }</strong>. The item will remain in your inventory.`);
+                    this.toastService.show(
+                        `<strong>${ sender }</strong> has rejected the <strong>`
+                        + `${ itemName }</strong>. The item will remain in your inventory.`,
+                    );
                 }
             }
 
@@ -2198,29 +2291,271 @@ export class CharacterService {
         this.refreshService.process_ToChange();
     }
 
-    public prepare_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue = 0, conditionHeightened = 0, conditionChoice = '', conditionSpellCastingAbility = '') {
-        this._preparedOnceEffects.push({ creatureType: creature.type, effectGain, conditionValue, conditionHeightened, conditionChoice, conditionSpellCastingAbility });
+    public prepareOnceEffect(
+        creature: Creature,
+        effectGain: EffectGain,
+        conditionValue = 0,
+        conditionHeightened = 0,
+        conditionChoice = '',
+        conditionSpellCastingAbility = '',
+    ): void {
+        this._preparedOnceEffects.push({
+            creatureType: creature.type,
+            effectGain,
+            conditionValue,
+            conditionHeightened,
+            conditionChoice,
+            conditionSpellCastingAbility,
+        });
     }
 
-    public process_PreparedOnceEffects(): void {
-        //Make a copy of the prepared OnceEffects and clear the original.
-        //Some OnceEffects can cause effects to be regenerated, which calls this function again, so we need to clear them to avoid duplicate applications.
+    public processPreparedOnceEffects(): void {
+        // Make a copy of the prepared OnceEffects and clear the original.
+        // Some OnceEffects can cause effects to be regenerated, which calls this function again,
+        // so we need to clear them to avoid duplicate applications.
         const preparedOnceEffects = this._preparedOnceEffects.slice();
 
         this._preparedOnceEffects.length = 0;
         preparedOnceEffects.forEach(prepared => {
-            this.process_OnceEffect(this.creatureFromType(prepared.creatureType), prepared.effectGain, prepared.conditionValue, prepared.conditionHeightened, prepared.conditionChoice, prepared.conditionSpellCastingAbility);
+            this.processOnceEffect(
+                this.creatureFromType(prepared.creatureType),
+                prepared.effectGain,
+                prepared.conditionValue,
+                prepared.conditionHeightened,
+                prepared.conditionChoice,
+                prepared.conditionSpellCastingAbility,
+            );
         });
     }
 
-    public process_OnceEffect(creature: Creature, effectGain: EffectGain, conditionValue = 0, conditionHeightened = 0, conditionChoice = '', conditionSpellCastingAbility = '') {
+    public effectRecipientPhrases(creature: Creature): EffectRecipientPhrases {
+        const phrases = {
+            name: '',
+            pronounCap: 'It',
+            pronoun: 'it',
+            pronounGenitive: 'its',
+            verbIs: 'is',
+            verbHas: 'is',
+        };
+
+        if (creature instanceof Character) {
+            phrases.name = 'You';
+            phrases.pronounCap = 'You';
+            phrases.pronoun = 'you';
+            phrases.pronounGenitive = 'your';
+            phrases.verbIs = 'are';
+            phrases.verbHas = 'have';
+        } else if (creature instanceof AnimalCompanion) {
+            phrases.name = this.companion().name || 'Your animal companion';
+        } else if (creature instanceof Familiar) {
+            phrases.name = this.familiar().name || 'Your familiar';
+        }
+
+        return phrases;
+    }
+
+    public changeCharacterFocusPointsWithNotification(value: number): void {
+        const maxFocusPoints = this.maxFocusPoints();
+        const character = this.character();
+
+        if (maxFocusPoints === 0) {
+            this.toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
+
+            return;
+        }
+
+        character.class.focusPoints = Math.min(character.class.focusPoints, maxFocusPoints);
+        // We intentionally add the point after we set the limit.
+        // This allows us to gain focus points with feats and raise the current points
+        // before the limit is increased. The focus points are automatically limited in the spellbook component,
+        // where they are displayed, and when casting focus spells.
+        character.class.focusPoints += value;
+
+        if (value >= 0) {
+            this.toastService.show(`You gained ${ value } focus point${ value === 1 ? '' : 's' }.`);
+        } else {
+            this.toastService.show(`You lost ${ value * -1 } focus point${ value === 1 ? '' : 's' }.`);
+        }
+
+        this.refreshService.set_ToChange('Character', 'spellbook');
+    }
+
+    public changeCreatureTemporaryHPWithNotification(
+        creature: Creature,
+        value: number,
+        context: { source: string; sourceId: string },
+    ): void {
+        const phrases = this.effectRecipientPhrases(creature);
+
+        // When you get temporary HP, some things to process:
+        // - If you already have temporary HP, add this amount to the selection.
+        //   The player needs to choose one amount; they are not cumulative.
+        // - If you are setting temporary HP manually, or if the current amount is 0,
+        //   skip the selection and remove all the other options.
+        // - If you are losing temporary HP, lose only those that come from the same source.
+        // -- If that's the current effective amount, remove all other options
+        //    (if you are "using" your effective temporary HP, we assume that you have made the choice for this amount).
+        // --- If the current amount is 0 after loss, reset the temporary HP.
+        // -- Remove it if it's not the effective amount.
+        if (value > 0) {
+            if (context.source === 'Manual') {
+                creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: '' };
+                creature.health.temporaryHP.length = 1;
+                this.toastService.show(`${ phrases.name } gained ${ value } temporary HP.`);
+            } else if (creature.health.temporaryHP[0].amount === 0) {
+                creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: context.sourceId };
+                creature.health.temporaryHP.length = 1;
+                this.toastService.show(`${ phrases.name } gained ${ value } temporary HP from ${ context.source }.`);
+            } else {
+                creature.health.temporaryHP.push({ amount: value, source: context.source, sourceId: context.sourceId });
+                this.toastService.show(
+                    `${ phrases.name } gained ${ value } temporary HP from ${ context.source }. `
+                    + `${ phrases.name } already had temporary HP and must choose which amount to keep.`,
+                );
+            }
+        } else if (value < 0) {
+            const targetTempHPSet =
+                creature.health.temporaryHP
+                    .find(tempHPSet =>
+                        ((tempHPSet.source === 'Manual') && (context.source === 'Manual')) ||
+                        tempHPSet.sourceId === context.sourceId,
+                    );
+
+            if (targetTempHPSet) {
+                targetTempHPSet.amount += value;
+
+                if (targetTempHPSet === creature.health.temporaryHP[0]) {
+                    creature.health.temporaryHP.length = 1;
+
+                    if (targetTempHPSet.amount <= 0) {
+                        creature.health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
+                    }
+
+                    this.toastService.show(`${ phrases.name } lost ${ value * -1 } temporary HP.`);
+                } else {
+                    if (targetTempHPSet.amount <= 0) {
+                        creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
+                    }
+
+                    this.toastService.show(
+                        `${ phrases.name } lost ${ value * -1 } of the temporary HP gained from ${ context.source }. `
+                        + `This is not the set of temporary HP that ${ phrases.pronoun } ${ phrases.verbIs } currently using.`,
+                    );
+                }
+            }
+        }
+
+        this.refreshService.set_ToChange(creature.type, 'health');
+        //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
+        this.refreshService.set_ToChange('Character', 'health');
+        this.refreshService.set_ToChange('Character', 'time');
+    }
+
+    public changeCreatureHPWithNotification(creature: Creature, value: number, context: { source: string }): void {
+        const phrases = this.effectRecipientPhrases(creature);
+
+        if (value > 0) {
+            const result = creature.health.heal(creature, this, this.effectsService, value, true);
+            let results = '';
+
+            if (result.hasRemovedUnconscious) {
+                results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
+            }
+
+            if (result.hasRemovedDying) {
+                results = ` This removed ${ phrases.pronounGenitive } Dying condition.`;
+            }
+
+            this.toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
+        } else if (value < 0) {
+            const result = creature.health.takeDamage(creature, this, this.effectsService, -value, false);
+            let results = '';
+
+            if (result.hasAddedUnconscious) {
+                results = ` ${ phrases.name } ${ phrases.verbIs } now Unconscious.`;
+            }
+
+            if (result.dyingAddedAmount && context.source !== 'Dead') {
+                results = ` ${ phrases.pronounCap } ${ phrases.verbIs } now Dying ${ result.dyingAddedAmount }.`;
+            }
+
+            if (result.hasRemovedUnconscious) {
+                results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
+            }
+
+            this.toastService.show(`${ phrases.name } lost ${ value * -1 } HP from ${ context.source }.${ results }`);
+        }
+
+        this.refreshService.set_ToChange(creature.type, 'health');
+        this.refreshService.set_ToChange(creature.type, 'effects');
+    }
+
+    public raiseCharacterShieldWithNotification(value: number): void {
+        const equippedShield = this.character().inventories[0].shields.find(shield => shield.equipped);
+
+        if (equippedShield) {
+            if (value > 0) {
+                equippedShield.raised = true;
+                this.toastService.show('Your shield was raised.');
+            } else {
+                equippedShield.raised = false;
+                this.toastService.show('Your shield was lowered.');
+            }
+
+            this.refreshService.set_ToChange('Character', 'defense');
+            this.refreshService.set_ToChange('Character', 'effects');
+        }
+    }
+
+    public changeCreatureCoverWithNotification(creature: Creature, value: number): void {
+        const phrases = this.effectRecipientPhrases(creature);
+
+        this.defenseService.get_AC().setCover(creature, value, null, this, this.conditionsService);
+
+        switch (value) {
+            case CoverTypes.NoCover:
+                this.toastService.show(`${ phrases.name } ${ phrases.verbIs } no longer taking cover.`);
+                break;
+            case CoverTypes.LesserCover:
+                this.toastService.show(`${ phrases.name } now ${ phrases.verbHas } lesser cover.`);
+                break;
+            case CoverTypes.Cover:
+                this.toastService.show(`${ phrases.name } now ${ phrases.verbHas } standard cover.`);
+                break;
+            case CoverTypes.GreaterCover:
+                this.toastService.show(`${ phrases.name } now ${ phrases.verbHas } greater cover.`);
+                break;
+            default: break;
+        }
+    }
+
+    public processOnceEffect(
+        creature: Creature,
+        effectGain: EffectGain,
+        conditionValue = 0,
+        conditionHeightened = 0,
+        conditionChoice = '',
+        conditionSpellCastingAbility = '',
+    ): void {
         let value = 0;
 
         try {
-            //we eval the effect value by sending it to the evaluationService with some additional attributes and receive the resulting effect.
+            // We eval the effect value by sending it to the evaluationService
+            // with some additional attributes and receive the resulting effect.
             if (effectGain.value) {
-                const testObject = { spellSource: effectGain.spellSource, value: conditionValue, heightened: conditionHeightened, choice: conditionChoice, spellCastingAbility: conditionSpellCastingAbility };
-                const validationResult = this._evaluationService.get_ValueFromFormula(effectGain.value, { characterService: this, effectsService: this.effectsService }, { creature, object: testObject, effect: effectGain });
+                const testObject = {
+                    spellSource: effectGain.spellSource,
+                    value: conditionValue,
+                    heightened: conditionHeightened,
+                    choice: conditionChoice,
+                    spellCastingAbility: conditionSpellCastingAbility,
+                };
+                const validationResult =
+                    this._evaluationService.get_ValueFromFormula(
+                        effectGain.value,
+                        { characterService: this, effectsService: this.effectsService },
+                        { creature, object: testObject, effect: effectGain },
+                    );
 
                 if (validationResult && typeof validationResult === 'number') {
                     value = validationResult;
@@ -2230,237 +2565,138 @@ export class CharacterService {
             value = 0;
         }
 
-        let recipientName = '';
-        let recipientName2 = 'It';
-        let recipientName3 = 'it';
-        let recipientGenitive = 'its';
-        let recipientIs = 'is';
-        let recipientHas = 'has';
+        const phrases = {
+            name: '',
+            pronounCap: 'It',
+            pronoun: 'it',
+            pronounGenitive: 'its',
+            verbIs: 'is',
+            verbHas: 'is',
+        };
 
         if (creature instanceof Character) {
-            recipientName = 'You';
-            recipientName2 = 'You';
-            recipientName3 = 'you';
-            recipientGenitive = 'your';
-            recipientIs = 'are';
-            recipientHas = 'have';
+            phrases.name = 'You';
+            phrases.pronounCap = 'You';
+            phrases.pronoun = 'you';
+            phrases.pronounGenitive = 'your';
+            phrases.verbIs = 'are';
+            phrases.verbHas = 'have';
         } else if (creature instanceof AnimalCompanion) {
-            recipientName = this.companion().name || 'Your animal companion';
+            phrases.name = this.companion().name || 'Your animal companion';
         } else if (creature instanceof Familiar) {
-            recipientName = this.familiar().name || 'Your familiar';
+            phrases.name = this.familiar().name || 'Your familiar';
         }
 
         switch (effectGain.affected) {
             case 'Focus Points':
-                if (value) {
-                    const maxFocusPoints = this.get_MaxFocusPoints();
-
-                    if (maxFocusPoints == 0) {
-                        this.toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
-                        break;
-                    }
-
-                    this.character().class.focusPoints = Math.min(this.character().class.focusPoints, maxFocusPoints);
-                    //We intentionally add the point after we set the limit. This allows us to gain focus points with feats and raise the current points
-                    // before the limit is increased. The focus points are automatically limited in the spellbook component, where they are displayed, and when casting focus spells.
-                    (creature as Character).class.focusPoints += value;
-
-                    if (value >= 0) {
-                        this.toastService.show(`You gained ${ value } focus point${ value == 1 ? '' : 's' }.`);
-                    } else {
-                        this.toastService.show(`You lost ${ value * -1 } focus point${ value == 1 ? '' : 's' }.`);
-                    }
-
-                    this.refreshService.set_ToChange('Character', 'spellbook');
-                }
+                this.changeCharacterFocusPointsWithNotification(value);
 
                 break;
             case 'Temporary HP':
-                //When you get temporary HP, some things to process:
-                //- If you already have temporary HP, add this amount to the selection. The player needs to choose one amount; they are not cumulative.
-                //- If you are setting temporary HP manually, or if the current amount is 0, skip the selection and remove all the other options.
-                //- If you are losing temporary HP, lose only those that come from the same source.
-                //-- If that's the current effective amount, remove all other options (if you are "using" your effective temporary HP, we assume that you have made the choice for this amount).
-                //--- If the current amount is 0 after loss, reset the temporary HP.
-                //-- Remove it if it's not the effective amount.
-                if (value > 0) {
-                    if (effectGain.source == 'Manual') {
-                        creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: '' };
-                        creature.health.temporaryHP.length = 1;
-                        this.toastService.show(`${ recipientName } gained ${ value } temporary HP.`);
-                    } else if (creature.health.temporaryHP[0].amount == 0) {
-                        creature.health.temporaryHP[0] = { amount: value, source: effectGain.source, sourceId: effectGain.sourceId };
-                        creature.health.temporaryHP.length = 1;
-                        this.toastService.show(`${ recipientName } gained ${ value } temporary HP from ${ effectGain.source }.`);
-                    } else {
-                        creature.health.temporaryHP.push({ amount: value, source: effectGain.source, sourceId: effectGain.sourceId });
-                        this.toastService.show(`${ recipientName } gained ${ value } temporary HP from ${ effectGain.source }. ${ recipientName2 } already had temporary HP and must choose which amount to keep.`);
-                    }
-                } else if (value < 0) {
-                    const targetTempHPSet = creature.health.temporaryHP.find(tempHPSet => ((tempHPSet.source == 'Manual') && (effectGain.source == 'Manual')) || tempHPSet.sourceId == effectGain.sourceId);
+                this.changeCreatureTemporaryHPWithNotification(
+                    creature,
+                    value,
+                    { source: effectGain.source, sourceId: effectGain.sourceId },
+                );
 
-                    if (targetTempHPSet) {
-                        targetTempHPSet.amount += value;
-
-                        if (targetTempHPSet === creature.health.temporaryHP[0]) {
-                            creature.health.temporaryHP.length = 1;
-
-                            if (targetTempHPSet.amount <= 0) {
-                                creature.health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
-                            }
-
-                            this.toastService.show(`${ recipientName } lost ${ value * -1 } temporary HP.`);
-                        } else {
-                            if (targetTempHPSet.amount <= 0) {
-                                creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
-                            }
-
-                            this.toastService.show(`${ recipientName } lost ${ value * -1 } of the temporary HP gained from ${ effectGain.source }. This is not the set of temporary HP that ${ recipientName3 } ${ recipientIs } currently using.`);
-                        }
-                    }
-                }
-
-                this.refreshService.set_ToChange(creature.type, 'health');
-                //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-                this.refreshService.set_ToChange('Character', 'health');
-                this.refreshService.set_ToChange('Character', 'time');
                 break;
             case 'HP':
-                if (value > 0) {
-                    const result = creature.health.heal(creature, this, this.effectsService, value, true);
-                    let results = '';
+                this.changeCreatureHPWithNotification(creature, value, { source: effectGain.source });
 
-                    if (result.unconsciousRemoved) {
-                        results = ` This removed ${ recipientGenitive } Unconscious condition.`;
-                    }
-
-                    if (result.dyingRemoved) {
-                        results = ` This removed ${ recipientGenitive } Dying condition.`;
-                    }
-
-                    this.toastService.show(`${ recipientName } gained ${ value } HP from ${ effectGain.source }.${ results }`);
-                } else if (value < 0) {
-                    const result = creature.health.takeDamage(creature, this, this.effectsService, -value, false);
-                    let results = '';
-
-                    if (result.hasAddedUnconscious) {
-                        results = ` ${ recipientName } ${ recipientIs } now Unconscious.`;
-                    }
-
-                    if (result.dyingAddedAmount && effectGain.source != 'Dead') {
-                        results = ` ${ recipientName2 } ${ recipientIs } now Dying ${ result.dyingAdded }.`;
-                    }
-
-                    if (result.hasRemovedUnconscious) {
-                        results = ` This removed ${ recipientGenitive } Unconscious condition.`;
-                    }
-
-                    this.toastService.show(`${ recipientName } lost ${ value * -1 } HP from ${ effectGain.source }.${ results }`);
-                }
-
-                this.refreshService.set_ToChange(creature.type, 'health');
-                this.refreshService.set_ToChange(creature.type, 'effects');
                 break;
             case 'Raise Shield': {
-                const shield = this.character().inventories[0].shields.find(shield => shield.equipped);
-
-                if (shield) {
-                    if (value > 0) {
-                        shield.raised = true;
-                        this.toastService.show('Your shield was raised.');
-                    } else {
-                        shield.raised = false;
-                        this.toastService.show('Your shield was lowered.');
-                    }
-
-                    this.refreshService.set_ToChange(creature.type, 'defense');
-                    this.refreshService.set_ToChange(creature.type, 'effects');
-                }
+                this.raiseCharacterShieldWithNotification(value);
 
                 break;
             }
             case 'Cover':
-                this.defenseService.get_AC().setCover(creature, value, null, this, this.conditionsService);
-
-                switch (value) {
-                    case 0:
-                        this.toastService.show(`${ recipientName } ${ recipientIs } no longer taking cover.`);
-                        break;
-                    case 1:
-                        this.toastService.show(`${ recipientName } now ${ recipientHas } lesser cover.`);
-                        break;
-                    case 2:
-                        this.toastService.show(`${ recipientName } now ${ recipientHas } standard cover.`);
-                        break;
-                    case 4:
-                        this.toastService.show(`${ recipientName } now ${ recipientHas } greater cover.`);
-                        break;
-                }
+                this.changeCreatureCoverWithNotification(creature, value);
 
                 break;
+            default: break;
         }
     }
 
-    get_Abilities(name = '') {
+    public abilities(name = ''): Array<Ability> {
         return this.abilitiesService.abilities(name);
     }
 
-    public get_Skills(creature: Creature, name = '', filter: { type?: string; locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}): Array<Skill> {
+    public skills(
+        creature: Creature,
+        name = '',
+        filter: { type?: string; locked?: boolean } = {},
+        options: { noSubstitutions?: boolean } = {},
+    ): Array<Skill> {
         return this.skillsService.get_Skills(creature.customSkills, name, filter, options);
     }
 
-    get_SkillLevelName(level: number, short = false) {
-        return this.skillsService.get_SkillLevelName(level, short);
-    }
-
-    get_Feats(name = '', type = '') {
+    public feats(name = '', type = ''): Array<Feat> {
         return this.featsService.get_Feats(this.character().customFeats, name, type);
     }
 
-    get_Features(name = '') {
+    public features(name = ''): Array<Feat> {
         return this.featsService.get_Features(name);
     }
 
-    get_FeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false) {
+    public featsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
         //Use this function very sparingly! See get_All() for details.
         return this.featsService.get_All(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
-    get_CharacterFeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false) {
+    public characterFeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
         return this.featsService.get_CharacterFeats(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
-    get_CharacterFeatsTaken(
+    public characterFeatsTaken(
         minLevelNumber = 0,
         maxLevelNumber = 0,
         filter: { featName?: string; source?: string; sourceId?: string; locked?: boolean; automatic?: boolean } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
-    ) {
+    ): Array<FeatTaken> {
         filter = {
             locked: undefined,
             automatic: undefined,
             ...filter,
         };
 
-        //get_CharacterFeatsTaken(minLevelNumber = 0, maxLevelNumber = 0, featName = '', source = '', sourceId = '', locked: boolean = undefined, excludeTemporary = false, includeCountAs = false, automatic: boolean = undefined) {
-        //If the feat choice is not needed (i.e. if excludeTemporary is not given), we can get the taken feats quicker from the featsService.
-        //CharacterService.get_CharacterFeatsTaken should be preferred over Character.takenFeats for this reason.
+        // If the feat choice is not needed (i.e. if excludeTemporary is not given),
+        // we can get the taken feats quicker from the featsService.
+        // CharacterService.get_CharacterFeatsTaken should be preferred over Character.takenFeats for this reason.
         if (!options.excludeTemporary) {
-            return this.featsService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.includeCountAs, filter.automatic);
+            return this.featsService.get_CharacterFeatsTaken(
+                minLevelNumber,
+                maxLevelNumber,
+                filter.featName,
+                filter.source,
+                filter.sourceId,
+                filter.locked,
+                options.includeCountAs,
+                filter.automatic,
+            );
         } else {
-            return this.character().takenFeats(minLevelNumber, maxLevelNumber, filter.featName, filter.source, filter.sourceId, filter.locked, options.excludeTemporary, options.includeCountAs, filter.automatic);
+            return this.character().takenFeats(
+                minLevelNumber,
+                maxLevelNumber,
+                filter.featName,
+                filter.source,
+                filter.sourceId,
+                filter.locked,
+                options.excludeTemporary,
+                options.includeCountAs,
+                filter.automatic,
+            );
         }
     }
 
-    get_Health(creature: Creature) {
+    public creatureHealth(creature: Creature): Health {
         return creature.health;
     }
 
-    get_AnimalCompanionLevels() {
+    public animalCompanionLevels(): Array<AnimalCompanionLevel> {
         return this.animalCompanionsService.companionLevels();
     }
 
-    get_Senses(creature: Creature, charLevel: number = this.character().level, allowTemporary = false) {
+    public creatureSenses(creature: Creature, charLevel: number = this.character().level, allowTemporary = false): Array<string> {
         let senses: Array<string> = [];
 
         let ancestrySenses: Array<string>;
@@ -2482,7 +2718,7 @@ export class CharacterService {
                 senses.push(...heritageSenses);
             }
 
-            this.get_CharacterFeatsAndFeatures()
+            this.characterFeatsAndFeatures()
                 .filter(feat => feat.senses?.length && feat.have({ creature }, { characterService: this }, { charLevel }))
                 .forEach(feat => {
                     senses.push(...feat.senses);
@@ -2490,25 +2726,38 @@ export class CharacterService {
         }
 
         if (creature instanceof Familiar) {
-            creature.abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(ability => ability?.senses.length)
+            creature.abilities.feats
+                .map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0])
+                .filter(ability => ability?.senses.length)
                 .forEach(ability => {
                     senses.push(...ability.senses);
                 });
         }
 
         if (allowTemporary) {
-            senses.push(...this.get_EquipmentSenses(creature));
+            senses.push(...this.sensesGrantedByEquipment(creature));
             this.currentCreatureConditions(creature).filter(gain => gain.apply)
                 .forEach(gain => {
                     const condition = this.conditionsService.get_Conditions(gain.name)[0];
 
                     if (condition?.senses.length) {
                         //Add all non-excluding senses.
-                        senses.push(...condition.senses.filter(sense => !sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).map(sense => sense.name));
+                        senses.push(
+                            ...condition.senses
+                                .filter(sense =>
+                                    !sense.excluding &&
+                                    (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice)))
+                                .map(sense => sense.name),
+                        );
                         //Remove all excluding senses.
-                        condition.senses.filter(sense => sense.excluding && (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice))).forEach(sense => {
-                            senses = senses.filter(existingSense => existingSense != sense.name);
-                        });
+                        condition.senses
+                            .filter(sense =>
+                                sense.excluding &&
+                                (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice)),
+                            )
+                            .forEach(sense => {
+                                senses = senses.filter(existingSense => existingSense !== sense.name);
+                            });
                     }
                 });
         }
@@ -2516,7 +2765,7 @@ export class CharacterService {
         return Array.from(new Set(senses));
     }
 
-    get_EquipmentSenses(creature: Creature): Array<string> {
+    public sensesGrantedByEquipment(creature: Creature): Array<string> {
         const senses: Array<string> = [];
 
         creature.inventories[0].allEquipment().filter(equipment => equipment.gainSenses.length && equipment.investedOrEquipped())
@@ -2527,30 +2776,37 @@ export class CharacterService {
         return senses;
     }
 
-    process_Feat(creature: Character | Familiar, feat: Feat, gain: FeatTaken, choice: FeatChoice, level: Level, taken: boolean) {
+    public processFeat(
+        creature: Character | Familiar,
+        feat: Feat,
+        gain: FeatTaken,
+        choice: FeatChoice,
+        level: Level,
+        taken: boolean,
+    ): void {
         this.featsService.process_Feat(creature, this, feat, gain, choice, level, taken);
     }
 
-    get_FeatsShowingOn(objectName = 'all') {
-        return this.get_CharacterFeatsAndFeatures().filter(feat =>
+    public characterFeatsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
+        return this.characterFeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
                 (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
-                    objectName.toLowerCase() == 'all' ||
-                    showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                    objectName.toLowerCase() === 'all' ||
+                    showon.trim().toLowerCase() === objectName.toLowerCase() ||
                     (
                         (
                             objectName.toLowerCase().includes('lore:') ||
                             objectName.toLowerCase().includes(' lore')
                         ) &&
-                        showon.trim().toLowerCase() == 'lore'
+                        showon.trim().toLowerCase() === 'lore'
                     ),
                 ),
             ) && feat.have({ creature: this.character() }, { characterService: this }),
         );
     }
 
-    get_CompanionShowingOn(objectName = 'all') {
+    public companionElementsShowingHintsOnThis(objectName = 'all'): Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat> {
         //Get showon elements from Companion Ancestry and Specialization
         return []
             .concat(
@@ -2561,8 +2817,8 @@ export class CharacterService {
                                 (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                                 hint.showon?.split(',')
                                     .find(showon =>
-                                        objectName == 'all' ||
-                                        showon.trim().toLowerCase() == objectName.toLowerCase(),
+                                        objectName === 'all' ||
+                                        showon.trim().toLowerCase() === objectName.toLowerCase(),
                                     ),
                             ),
                     ),
@@ -2575,63 +2831,65 @@ export class CharacterService {
                                 (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                                 hint.showon?.split(',')
                                     .find(showon =>
-                                        objectName == 'all' ||
-                                        showon.trim().toLowerCase() == objectName.toLowerCase(),
+                                        objectName === 'all' ||
+                                        showon.trim().toLowerCase() === objectName.toLowerCase(),
                                     ),
                             ),
                     ),
             )
             //Return any feats that include e.g. Companion:Athletics
             .concat(
-                this.get_FeatsShowingOn(`Companion:${ objectName }`),
-            ) as Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat>;
+                this.characterFeatsShowingHintsOnThis(`Companion:${ objectName }`),
+            );
     }
 
-    get_FamiliarShowingOn(objectName = 'all') {
+    public familiarElementsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
         //Get showon elements from Familiar Abilities
         return this.familiarsService.get_FamiliarAbilities().filter(feat =>
             feat.hints.find(hint =>
                 (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
-                    objectName.toLowerCase() == 'all' ||
-                    showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                    objectName.toLowerCase() === 'all' ||
+                    showon.trim().toLowerCase() === objectName.toLowerCase() ||
                     (
                         (
                             objectName.toLowerCase().includes('lore:') ||
                             objectName.toLowerCase().includes(' lore')
                         ) &&
-                        showon.trim().toLowerCase() == 'lore'
+                        showon.trim().toLowerCase() === 'lore'
                     ),
                 ),
             ) && feat.have({ creature: this.familiar() }, { characterService: this }),
             //Return any feats that include e.g. Companion:Athletics
         )
-            .concat(this.get_FeatsShowingOn(`Familiar:${ objectName }`));
+            .concat(this.characterFeatsShowingHintsOnThis(`Familiar:${ objectName }`));
     }
 
-    get_ConditionsShowingOn(creature: Creature, objectName = 'all') {
+    public creatureConditionsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<ConditionSet> {
         return this.currentCreatureConditions(creature)
             .filter(conditionGain => conditionGain.apply)
-            .map(conditionGain => Object.assign(new ConditionSet(), { gain: conditionGain, condition: this.conditions(conditionGain.name)[0] }))
+            .map(conditionGain =>
+                Object.assign(new ConditionSet(), { gain: conditionGain, condition: this.conditions(conditionGain.name)[0] }),
+            )
             .filter(conditionSet =>
                 conditionSet.condition?.hints.find(hint =>
                     (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                     hint.showon?.split(',').find(showon =>
-                        objectName.trim().toLowerCase() == 'all' ||
-                        showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                        objectName.trim().toLowerCase() === 'all' ||
+                        showon.trim().toLowerCase() === objectName.toLowerCase() ||
                         (
                             (
                                 objectName.toLowerCase().includes('lore:') ||
                                 objectName.toLowerCase().includes(' lore')
                             ) &&
-                            showon.trim().toLowerCase() == 'lore'
+                            showon.trim().toLowerCase() === 'lore'
                         ),
                     ),
                 ),
             );
     }
 
-    get_OwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): Array<ActivityGain> {
+    public creatureOwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): Array<ActivityGain> {
         const activities: Array<ActivityGain | ItemActivity> = [];
 
         if (!this.stillLoading()) {
@@ -2643,7 +2901,8 @@ export class CharacterService {
                 activities.push(...creature.class?.ancestry?.activities.filter(gain => gain.level <= levelNumber) || []);
             }
 
-            //Get all applied condition gains' activity gains. These were copied from the condition when it was added. Also set the condition gain's spell level to the activity gain.
+            // Get all applied condition gains' activity gains. These were copied from the condition when it was added.
+            // Also set the condition gain's spell level to the activity gain.
             this.currentCreatureConditions(creature, '', '', true).filter(gain => gain.apply)
                 .forEach(gain => {
                     gain.gainActivities.forEach(activityGain => {
@@ -2662,8 +2921,8 @@ export class CharacterService {
                             if (item instanceof Shield && item.emblazonArmament?.length) {
                                 //Only get Emblazon Armament activities if the blessing applies.
                                 activities.push(...item.gainActivities.filter(gain =>
-                                    (item.$emblazonEnergy ? true : gain.source != 'Emblazon Energy') &&
-                                    (item.$emblazonAntimagic ? true : gain.source != 'Emblazon Antimagic'),
+                                    (item.$emblazonEnergy ? true : gain.source !== 'Emblazon Energy') &&
+                                    (item.$emblazonAntimagic ? true : gain.source !== 'Emblazon Antimagic'),
                                 ));
                             } else {
                                 activities.push(...item.gainActivities);
@@ -2717,7 +2976,7 @@ export class CharacterService {
                 });
             } else {
                 //Without the all parameter, get activities only from equipped and invested items and their slotted items.
-                const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(creature);
+                const hasTooManyAeonStonesSlotted = this.itemsService.get_TooManySlottedAeonStones(creature);
 
                 creature.inventories[0]?.allEquipment()
                     .filter(item =>
@@ -2756,7 +3015,7 @@ export class CharacterService {
                         }
 
                         //Get activities from slotted aeon stones, NOW including resonant activities.
-                        if (!tooManySlottedAeonStones && item instanceof WornItem) {
+                        if (!hasTooManyAeonStonesSlotted && item instanceof WornItem) {
                             item.aeonStones.filter(stone => stone.activities.length).forEach(stone => {
                                 activities.push(...stone.activities);
                             });
@@ -2773,48 +3032,53 @@ export class CharacterService {
         }
 
         return activities
-            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
+            .sort((a, b) => SortAlphaNum(a.name, b.name));
     }
 
-    get_ActivitiesShowingOn(creature: Creature, objectName = 'all') {
-        return this.get_OwnedActivities(creature)
+    public creatureActivitiesShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<Activity> {
+        return this.creatureOwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
             .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesService) }))
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
-            .filter((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) => gainAndActivity.activity && (gainAndActivity.gain.active || !gainAndActivity.activity.toggle))
+            .filter((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) =>
+                gainAndActivity.activity &&
+                (
+                    gainAndActivity.gain.active || !gainAndActivity.activity.toggle
+                ),
+            )
             //...and then keep only the activities.
             .map((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) => gainAndActivity.activity)
             .filter(activity =>
                 activity?.hints.find(hint =>
                     hint.showon?.split(',').find(showon =>
-                        objectName.trim().toLowerCase() == 'all' ||
-                        showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                        objectName.trim().toLowerCase() === 'all' ||
+                        showon.trim().toLowerCase() === objectName.toLowerCase() ||
                         (
                             (
                                 objectName.toLowerCase().includes('lore:') ||
                                 objectName.toLowerCase().includes(' lore')
                             ) &&
-                            showon.trim().toLowerCase() == 'lore'
+                            showon.trim().toLowerCase() === 'lore'
                         ),
                     ),
                 ),
             );
     }
 
-    get_ItemsShowingOn(creature: Creature, objectName = 'all') {
-        const returnedItems: Array<Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material> = [];
+    public creatureItemsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<HintShowingItem> {
+        const returnedItems: Array<HintShowingItem> = [];
 
         //Prepare function to add items whose hints match the objectName.
-        function get_Hints(item: Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material, allowResonant: boolean) {
+        const addItemIfHintsMatch = (item: HintShowingItem, allowResonant: boolean): void => {
             if (item.hints
                 .some(hint =>
                     (allowResonant || !hint.resonant) &&
                     hint.showon?.split(',').find(showon =>
-                        objectName.trim().toLowerCase() == 'all' ||
-                        showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                        objectName.trim().toLowerCase() === 'all' ||
+                        showon.trim().toLowerCase() === objectName.toLowerCase() ||
                         (
                             objectName.toLowerCase().includes('lore') &&
-                            showon.trim().toLowerCase() == 'lore'
+                            showon.trim().toLowerCase() === 'lore'
                         ) ||
                         (
                             //Show Emblazon Energy or Emblazon Antimagic Shield Block hint on Shield Block if the shield's blessing applies.
@@ -2822,12 +3086,12 @@ export class CharacterService {
                             (
                                 (
                                     item.$emblazonEnergy &&
-                                    objectName == 'Shield Block' &&
-                                    showon == 'Emblazon Energy Shield Block'
+                                    objectName === 'Shield Block' &&
+                                    showon === 'Emblazon Energy Shield Block'
                                 ) || (
                                     item.$emblazonAntimagic &&
-                                    objectName == 'Shield Block' &&
-                                    showon == 'Emblazon Antimagic Shield Block'
+                                    objectName === 'Shield Block' &&
+                                    showon === 'Emblazon Antimagic Shield Block'
                                 )
                             )
                         ),
@@ -2836,39 +3100,45 @@ export class CharacterService {
             ) {
                 returnedItems.push(item);
             }
-        }
+        };
 
-        const tooManySlottedAeonStones = this.itemsService.get_TooManySlottedAeonStones(creature);
+        const hasTooManyAeonStonesSlotted = this.itemsService.get_TooManySlottedAeonStones(creature);
 
         creature.inventories.forEach(inventory => {
-            inventory.allEquipment().filter(item => (item.equippable ? item.equipped : true) && item.amount && !item.broken && (item.canInvest() ? item.invested : true))
+            inventory.allEquipment()
+                .filter(item =>
+                    (item.equippable ? item.equipped : true) &&
+                    item.amount &&
+                    !item.broken &&
+                    (item.canInvest() ? item.invested : true),
+                )
                 .forEach(item => {
-                    get_Hints(item, false);
+                    addItemIfHintsMatch(item, false);
                     item.oilsApplied.forEach(oil => {
-                        get_Hints(oil, false);
+                        addItemIfHintsMatch(oil, false);
                     });
 
-                    if (!tooManySlottedAeonStones && item instanceof WornItem) {
+                    if (!hasTooManyAeonStonesSlotted && item instanceof WornItem) {
                         item.aeonStones.forEach(stone => {
-                            get_Hints(stone, true);
+                            addItemIfHintsMatch(stone, true);
                         });
                     }
 
                     if ((item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) && item.propertyRunes) {
                         item.propertyRunes.forEach(rune => {
-                            get_Hints(rune as WeaponRune, false);
+                            addItemIfHintsMatch(rune as WeaponRune, false);
                         });
                     }
 
                     if (item instanceof Armor && item.propertyRunes) {
                         (item as Equipment).propertyRunes.forEach(rune => {
-                            get_Hints(rune as ArmorRune, false);
+                            addItemIfHintsMatch(rune as ArmorRune, false);
                         });
                     }
 
                     if (item instanceof Equipment && item.moddable && item.material) {
                         item.material.forEach(material => {
-                            get_Hints(material, false);
+                            addItemIfHintsMatch(material, false);
                         });
                     }
                 });
@@ -2877,7 +3147,7 @@ export class CharacterService {
         return returnedItems;
     }
 
-    get_ArmorSpecializationsShowingOn(creature: Creature, objectName = 'all') {
+    public creatureArmorSpecializationsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<Specialization> {
         if (creature instanceof Character) {
             return creature.inventories[0].armors.find(armor => armor.equipped).armorSpecializations(creature, this)
                 .filter(spec =>
@@ -2885,14 +3155,14 @@ export class CharacterService {
                         .find(hint =>
                             hint.showon.split(',')
                                 .find(showon =>
-                                    objectName.trim().toLowerCase() == 'all' ||
-                                    showon.trim().toLowerCase() == objectName.toLowerCase() ||
+                                    objectName.trim().toLowerCase() === 'all' ||
+                                    showon.trim().toLowerCase() === objectName.toLowerCase() ||
                                     (
                                         (
                                             objectName.toLowerCase().includes('lore:') ||
                                             objectName.toLowerCase().includes(' lore')
                                         ) &&
-                                        showon.trim().toLowerCase() == 'lore'
+                                        showon.trim().toLowerCase() === 'lore'
                                     ),
                                 ),
                         ),
@@ -2902,7 +3172,7 @@ export class CharacterService {
         }
     }
 
-    get_MaxFocusPoints() {
+    public maxFocusPoints(): number {
         let focusPoints = 0;
 
         this.effectsService.get_AbsolutesOnThis(this.character(), 'Focus Pool').forEach(effect => {
@@ -2912,44 +3182,39 @@ export class CharacterService {
             focusPoints += parseInt(effect.value, 10);
         });
 
-        return Math.min(focusPoints, 3);
+        return Math.min(focusPoints, Defaults.maxFocusPoints);
     }
 
-    get_AC() {
+    public ACObject(): AC {
         return this.defenseService.get_AC();
     }
 
-    get_Mobile() {
-        return (window.innerWidth < 992);
+    public isMobileView(): boolean {
+        return (window.innerWidth < Defaults.mobileBreakpointPx);
     }
 
-    set_ToChangeByEffectTargets(creature: Creature, targets: Array<string>) {
+    public prepareViewChangeByEffectTargets(creature: Creature, targets: Array<string>): void {
         this.refreshService.set_ToChangeByEffectTargets(targets, { creature });
     }
 
-    initialize_AnimalCompanion() {
+    public initializeAnimalCompanion(): void {
         const character = this.character();
 
         this.cacheService.resetCreatureCache(1);
 
         if (character.class.animalCompanion) {
-            character.class.animalCompanion = Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._typeService, this.itemsService);
-            character.class.animalCompanion.class.levels = this.get_AnimalCompanionLevels();
+            character.class.animalCompanion =
+                Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._typeService, this.itemsService);
+            character.class.animalCompanion.class.levels = this.animalCompanionLevels();
             this._equipBasicItems(character.class.animalCompanion);
             character.class.animalCompanion.setLevel(this);
         }
     }
 
-    cleanup_Familiar() {
-        this.familiar().abilities.feats.forEach(gain => {
-            this.character().takeFeat(this.familiar(), this, undefined, gain.name, false, this.familiar().abilities, undefined);
-        });
-    }
-
-    initialize_Familiar() {
+    public initializeFamiliar(): void {
         const character = this.character();
 
-        this.cacheService.resetCreatureCache(2);
+        this.cacheService.resetCreatureCache(CreatureTypeIds.Familiar);
 
         if (character.class.familiar) {
             character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._typeService, this.itemsService);
@@ -2957,7 +3222,16 @@ export class CharacterService {
         }
     }
 
-    initialize() {
+    public removeAllFamiliarAbilities(): void {
+        const familiar = this.familiar();
+        const abilityNames = familiar.abilities.feats.map(gain => gain.name);
+
+        abilityNames.forEach(abilityName => {
+            this.character().takeFeat(familiar, this, undefined, abilityName, false, familiar.abilities, undefined);
+        });
+    }
+
+    public initialize(): void {
         this._loading = true;
         this.setLoadingStatus('Loading extensions');
 
@@ -2967,10 +3241,10 @@ export class CharacterService {
                 this.setLoadingStatus('Initializing content');
                 this._character = new Character();
             }
-        }, 100);
+        }, Defaults.waitForServiceDelay);
     }
 
-    reset(id?: string, loadAsGM?: boolean) {
+    public reset(id?: string, loadAsGM?: boolean): void {
         this._loading = true;
         this.cacheService.reset();
         this.traitsService.reset();
@@ -2986,40 +3260,38 @@ export class CharacterService {
 
         if (id) {
             this.setLoadingStatus('Loading character');
-            this.load_CharacterFromDB(id)
+            this._savegameService.loadCharacter(id)
                 .subscribe({
                     next: (results: Array<Partial<Character>>) => {
                         this._loader = results;
 
                         if (this._loader) {
-                            this.finish_Loading(loadAsGM);
+                            this.finishLoading(loadAsGM);
                         } else {
                             this.toastService.show('The character could not be found in the database.');
-                            this.cancel_Loading();
+                            this._cancelLoading();
                         }
                     },
                     error: error => {
-                        if (error.status == 401) {
-                            this._configService.on_LoggedOut('Your login is no longer valid. The character could not be loaded. Please try again after logging in.');
-                            this.cancel_Loading();
+                        if (error.status === HttpStatusCode.Unauthorized) {
+                            this._configService.on_LoggedOut(
+                                'Your login is no longer valid. The character could not be loaded. Please try again after logging in.',
+                            );
+                            this._cancelLoading();
                         } else {
                             this.toastService.show('An error occurred while loading the character. See console for more information.');
-                            console.log(`Error loading character from database: ${ error.message }`);
-                            this.cancel_Loading();
+                            console.error(`Error loading character from database: ${ error.message }`);
+                            this._cancelLoading();
                         }
                     },
                 });
         } else {
             this._character = new Character();
-            this.finish_Loading();
+            this.finishLoading();
         }
     }
 
-    load_CharacterFromDB(id: string): Observable<Array<Partial<Character>>> {
-        return this._savegameService.loadCharacter(id);
-    }
-
-    delete_Character(savegame: Savegame) {
+    public deleteCharacter(savegame: Savegame): void {
         this._savegameService.deleteCharacter(savegame)
             .subscribe({
                 next: () => {
@@ -3027,65 +3299,62 @@ export class CharacterService {
                     this._savegameService.reset();
                 },
                 error: error => {
-                    if (error.status == 401) {
-                        this._configService.on_LoggedOut('Your login is no longer valid. The character could not be deleted. Please try again after logging in.');
+                    if (error.status === HttpStatusCode.Unauthorized) {
+                        this._configService.on_LoggedOut(
+                            'Your login is no longer valid. The character could not be deleted. Please try again after logging in.',
+                        );
                     } else {
                         this.toastService.show('An error occurred while deleting the character. See console for more information.');
-                        console.log(`Error deleting from database: ${ error.message }`);
+                        console.error(`Error deleting from database: ${ error.message }`);
                     }
                 },
             });
     }
 
-    finish_Loading(loadAsGM = false) {
+    public finishLoading(loadAsGM = false): void {
         this.setLoadingStatus('Initializing character');
         //Assign and restore the loaded character.
-        this._character = this._savegameService.processLoadedCharacter(JSON.parse(JSON.stringify(this._loader)), this, this.itemsService, this.classesService, this._historyService, this.animalCompanionsService);
+        this._character =
+            this._savegameService.processLoadedCharacter(
+                JSON.parse(JSON.stringify(this._loader)),
+                this,
+                this.itemsService,
+                this.classesService,
+                this._historyService,
+                this.animalCompanionsService,
+            );
         this._character.GMMode = loadAsGM;
         this._loader = [];
-        //Set loading to false. The last steps need the characterService to not be loading.
+        // Set loading to false. The last steps need the characterService to not be loading.
         this._loading = false;
-        //Set your turn state according to the saved state.
+        // Set your turn state according to the saved state.
         this.timeService.setYourTurn(this.character().yourTurn);
-        //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
+        // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
         this.featsService.build_CharacterFeats(this.character());
-        //Reset cache for all creatures.
+        // Reset cache for all creatures.
         this.cacheService.reset();
-        //Set accent color and dark mode according to the settings.
+        // Set accent color and dark mode according to the settings.
         this.setAccent();
         this.setDarkmode();
-        //Now that the character is loaded, do some things that require everything to be in working order:
-        //Give the character a Fist and an Unarmored™ if they have nothing else, and keep those ready if they should drop their last weapon or armor.
+        // Now that the character is loaded, do some things that require everything to be in working order:
+        // Give the character a Fist and an Unarmored™ if they have nothing else,
+        // and keep those ready if they should drop their last weapon or armor.
         this._grantBasicItems();
-        this.trigger_FinalChange();
+        this._refreshAfterLoading();
     }
 
-    cancel_Loading() {
-        this._loader = [];
-        this._loading = false;
-        //Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken. These were cleared when trying to load.
-        this.featsService.build_CharacterFeats(this.character());
-        this.trigger_FinalChange();
-    }
-
-    trigger_FinalChange() {
-        //Update everything once, then effects, and then the player can take over.
-        this.refreshService.set_Changed();
-        this.setLoadingStatus('Loading', false);
-        this.refreshService.set_ToChange('Character', 'effects');
-
-        if (!this._configService.get_LoggedIn() && !this._configService.get_CannotLogin()) {
-            this.refreshService.set_ToChange('Character', 'logged-out');
-        }
-
-        this.refreshService.process_ToChange();
-    }
-
-    save_Character() {
+    public saveCharacter(): void {
         this.character().yourTurn = this.timeService.getYourTurn();
         this.toastService.show('Saving...');
 
-        const savegame = this._savegameService.prepareCharacterForSaving(this.character(), this.itemsService, this.classesService, this._historyService, this.animalCompanionsService);
+        const savegame =
+            this._savegameService.prepareCharacterForSaving(
+                this.character(),
+                this.itemsService,
+                this.classesService,
+                this._historyService,
+                this.animalCompanionsService,
+            );
 
         this._savegameService.saveCharacter(savegame)
             .subscribe({
@@ -3098,14 +3367,39 @@ export class CharacterService {
 
                     this._savegameService.reset();
                 }, error: error => {
-                    if (error.status == 401) {
-                        this._configService.on_LoggedOut('Your login is no longer valid. The character could not be saved. Please try saving the character again after logging in.');
+                    if (error.status === HttpStatusCode.Unauthorized) {
+                        this._configService.on_LoggedOut(
+                            'Your login is no longer valid. The character could not be saved. '
+                            + 'Please try saving the character again after logging in.',
+                        );
                     } else {
                         this.toastService.show('An error occurred while saving the character. See console for more information.');
-                        console.log(`Error saving to database: ${ error.message }`);
+                        console.error(`Error saving to database: ${ error.message }`);
                     }
                 },
             });
+    }
+
+    private _cancelLoading(): void {
+        this._loader = [];
+        this._loading = false;
+        // Fill a runtime variable with all the feats the character has taken,
+        // and another with the level at which they were taken. These were cleared when trying to load.
+        this.featsService.build_CharacterFeats(this.character());
+        this._refreshAfterLoading();
+    }
+
+    private _refreshAfterLoading(): void {
+        //Update everything once, then effects, and then the player can take over.
+        this.refreshService.set_Changed();
+        this.setLoadingStatus('Loading', false);
+        this.refreshService.set_ToChange('Character', 'effects');
+
+        if (!this._configService.get_LoggedIn() && !this._configService.get_CannotLogin()) {
+            this.refreshService.set_ToChange('Character', 'logged-out');
+        }
+
+        this.refreshService.process_ToChange();
     }
 
     private _rgbAccent(): string {
@@ -3209,7 +3503,6 @@ export class CharacterService {
 
     private _grantBasicItems(): void {
         //This function depends on the items being loaded, and it will wait forever for them!
-        const waitDelay = 100;
         const waitForItemsService = setInterval(() => {
             if (!this._extensionsService.still_loading() && !this._configService.still_loading()) {
                 clearInterval(waitForItemsService);
@@ -3229,7 +3522,7 @@ export class CharacterService {
                 this._equipBasicItems(this.character(), false);
                 this._equipBasicItems(this.companion(), false);
             }
-        }, waitDelay);
+        }, Defaults.waitForServiceDelay);
     }
 
     private _equipBasicItems(creature: Creature, changeAfter = true): void {

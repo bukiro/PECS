@@ -520,9 +520,9 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
         switch (propertyData.examples) {
             case 'effects affected':
-                examples.push(...this.characterService.get_Skills(this.get_Character()).map((skill: Skill) => skill.name));
-                examples.push(...this.characterService.get_Abilities().map((ability: Ability) => ability.name));
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length)
+                examples.push(...this.characterService.skills(this.get_Character()).map((skill: Skill) => skill.name));
+                examples.push(...this.characterService.abilities().map((ability: Ability) => ability.name));
+                this.characterService.featsAndFeatures().filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.affected));
                     });
@@ -532,11 +532,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     });
                 break;
             case 'effects value':
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length)
+                this.characterService.featsAndFeatures().filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.value));
                     });
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length)
+                this.characterService.featsAndFeatures().filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.value));
                     });
@@ -569,11 +569,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                 examples = examples.filter(example => typeof example === 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
                 break;
             case 'effects setvalue':
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.onceEffects.length)
+                this.characterService.featsAndFeatures().filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.setValue));
                     });
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length)
+                this.characterService.featsAndFeatures().filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.setValue));
                     });
@@ -606,7 +606,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                 examples = examples.filter(example => typeof example === 'string' && !example.toLowerCase().includes('object') && !example.toLowerCase().includes('heightened') && !example.toLowerCase().includes('value'));
                 break;
             case 'effects title':
-                this.characterService.get_FeatsAndFeatures().filter(feat => feat.effects.length)
+                this.characterService.featsAndFeatures().filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.title));
                     });

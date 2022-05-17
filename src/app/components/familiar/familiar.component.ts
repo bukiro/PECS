@@ -95,7 +95,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     set_Mobile() {
-        this.mobile = this.characterService.get_Mobile();
+        this.mobile = this.characterService.isMobileView();
     }
 
     public ngOnInit(): void {

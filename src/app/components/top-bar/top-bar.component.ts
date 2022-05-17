@@ -11,6 +11,7 @@ import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
 
 @Component({
     selector: 'app-top-bar',
@@ -182,7 +183,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     save() {
-        this.characterService.save_Character();
+        this.characterService.saveCharacter();
     }
 
     get_Messages() {
@@ -243,11 +244,11 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_MessageCreature(message: PlayerMessage) {
-        return this.characterService.get_MessageCreature(message);
+        return this.characterService.creatureFromMessage(message);
     }
 
     get_MessageSender(message: PlayerMessage) {
-        return this.characterService.get_MessageSender(message);
+        return this.characterService.messageSender(message);
     }
 
     get_ItemMessageIncluded(message: PlayerMessage) {
@@ -280,8 +281,8 @@ export class TopBarComponent implements OnInit, OnDestroy {
                         this.refreshService.set_ToChange(creature.type, 'effects');
                     }
                 });
-                this.characterService.apply_MessageConditions(this.newMessages.filter(message => message.gainCondition.length));
-                this.characterService.apply_MessageItems(this.newMessages.filter(message => message.offeredItem.length));
+                this.characterService.applyMessageConditions(this.newMessages.filter(message => message.gainCondition.length));
+                this.characterService.applyMessageItems(this.newMessages.filter(message => message.offeredItem.length));
                 this.newMessages.length = 0;
                 this.refreshService.set_ToChange('Character', 'top-bar');
                 this.refreshService.process_ToChange();
@@ -370,7 +371,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                 clearInterval(waitUntilReady);
                 this.finish_Loading();
             }
-        }, 500);
+        }, Defaults.waitForServiceDelay);
     }
 
     private changeSubscription: Subscription;

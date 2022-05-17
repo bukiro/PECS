@@ -482,7 +482,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
+        return this.characterService.characterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
     }
 
     get_LearningAvailable() {
@@ -513,7 +513,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             const learned: number = this.get_FormulasLearned('', 'snarespecialist').length;
             let available = 0;
             const character = this.get_Character();
-            const crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
+            const crafting = this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
 
             if (crafting >= 4) {
                 available += 3;
@@ -577,7 +577,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
             if (this.have_Feat('Snare Specialist')) {
                 const character = this.get_Character();
-                const crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
+                const crafting = this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
 
                 if (crafting >= 4) {
                     available += 3;
@@ -604,7 +604,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     get_ScrollSavantDCLevel() {
         const character = this.get_Character();
 
-        return Math.max(...this.characterService.get_Skills(character)
+        return Math.max(...this.characterService.skills(character)
             .filter(skill => skill.name.includes('Arcane Spell DC'))
             .map(skill => skill.level(character, this.characterService, character.level)), 0);
     }

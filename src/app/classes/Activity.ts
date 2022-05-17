@@ -226,7 +226,7 @@ export class Activity {
                                 (targetNumber.minLevel === remainingLevelNumber) &&
                                 (
                                     targetNumber.featreq &&
-                                    characterService.get_CharacterFeatsTaken(1, character.level, { featName: targetNumber.featreq }).length
+                                    characterService.characterFeatsTaken(1, character.level, { featName: targetNumber.featreq }).length
                                 ));
 
                         if (!targetNumberResult) {
@@ -244,7 +244,7 @@ export class Activity {
                 targetNumberResult =
                     this.targetNumbers.find(targetNumber =>
                         targetNumber.featreq &&
-                        !!characterService.get_CharacterFeatsTaken(1, character.level, { featName: targetNumber.featreq }).length,
+                        !!characterService.characterFeatsTaken(1, character.level, { featName: targetNumber.featreq }).length,
                     );
 
                 return targetNumberResult?.number || this.targetNumbers[0].number;
@@ -312,7 +312,7 @@ export class Activity {
         if (this.cooldown !== cooldown) {
             const maxLevel = 20;
 
-            services.characterService.get_OwnedActivities(context.creature, maxLevel, true)
+            services.characterService.creatureOwnedActivities(context.creature, maxLevel, true)
                 .filter(gain => gain.name === this.name)
                 .forEach(gain => {
                     gain.activeCooldown = Math.min(gain.activeCooldown, cooldown);

@@ -305,7 +305,7 @@ export class Condition {
                                 requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testFeat);
                             } else {
                                 testCreature = character;
-                                requiredFeat = characterService.get_CharacterFeatsAndFeatures(testFeat, '', true);
+                                requiredFeat = characterService.characterFeatsAndFeatures(testFeat, '', true);
                             }
 
                             if (

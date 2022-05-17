@@ -245,7 +245,7 @@ export class Class {
             // We collect all Gnome feats that grant a primal spell, and for all of those spells that you own,
             // set the spell tradition to Primal on the character:
             if (heritage.name.includes('Wellspring Gnome')) {
-                const feats: Array<string> = characterService.get_Feats('', 'Gnome')
+                const feats: Array<string> = characterService.feats('', 'Gnome')
                     .filter(feat =>
                         feat.gainSpellChoice.filter(choice =>
                             choice.castingType === 'Innate' &&
@@ -337,7 +337,7 @@ export class Class {
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
             if (heritage.name.includes('Wellspring Gnome')) {
-                const feats: Array<string> = characterService.get_Feats('', 'Gnome')
+                const feats: Array<string> = characterService.feats('', 'Gnome')
                     .filter(feat => feat.gainSpellChoice.some(choice => choice.castingType === 'Innate' && choice.tradition === 'Primal'))
                     .map(feat => feat.name);
 
@@ -415,7 +415,7 @@ export class Class {
             });
 
             if (this.background.loreChoices[0].loreName) {
-                if (characterService.get_Skills(
+                if (characterService.skills(
                     character,
                     `Lore: ${ this.background.loreChoices[0].loreName }`,
                     {},

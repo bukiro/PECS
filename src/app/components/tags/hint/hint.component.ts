@@ -164,7 +164,7 @@ export class HintComponent {
             if (replaceSource.source) {
                 switch (replaceSource.type) {
                     case 'feat':
-                        return this.characterService.get_FeatsAndFeatures(replaceSource.source)[0] || this.object;
+                        return this.characterService.featsAndFeatures(replaceSource.source)[0] || this.object;
                 }
             }
         }

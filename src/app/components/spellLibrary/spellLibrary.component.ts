@@ -198,7 +198,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     get_School() {
-        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level).find(taken =>
+        return this.characterService.characterFeatsTaken(1, this.get_Character().level).find(taken =>
             ['Abjuration School', 'Conjuration School', 'Divination School', 'Enchantment School', 'Evocation School',
                 'Illusion School', 'Necromancy School', 'Transmutation School', 'Universalist Wizard'].includes(taken.name),
         )?.name || '';
@@ -469,7 +469,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
+        return this.characterService.characterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
     }
 
     get_SpellMasteryAvailable(casting: SpellCasting) {
@@ -575,7 +575,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                         break;
                 }
 
-                return this.characterService.get_Skills(character, skill)[0].level(character, this.characterService, character.level) >= 2;
+                return this.characterService.skills(character, skill)[0].level(character, this.characterService, character.level) >= 2;
             } else {
                 return false;
             }

@@ -358,7 +358,7 @@ export class Weapon extends Equipment {
         const proficiencyChanges: Array<ProficiencyChange> = [];
 
         if (creature instanceof Character) {
-            characterService.get_CharacterFeatsAndFeatures()
+            characterService.characterFeatsAndFeatures()
                 .filter(feat => feat.changeProficiency.length && feat.have({ creature }, { characterService }, { charLevel }))
                 .forEach(feat => {
                     proficiencyChanges.push(...feat.changeProficiency.filter(change =>
@@ -412,11 +412,11 @@ export class Weapon extends Equipment {
         //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
         if (this.useHighestAttackProficiency) {
             const highestProficiencySkill =
-                characterService.get_Skills(creature, 'Highest Attack Proficiency', { type: 'Specific Weapon Proficiency' });
+                characterService.skills(creature, 'Highest Attack Proficiency', { type: 'Specific Weapon Proficiency' });
 
             levels.push(
                 (
-                    characterService.get_Skills(creature, this.name)[0] ||
+                    characterService.skills(creature, this.name)[0] ||
                     highestProficiencySkill[0]
                 ).level(creature, characterService, charLevel) ||
                 0,
@@ -425,14 +425,14 @@ export class Weapon extends Equipment {
 
         //Weapon name, e.g. Demon Sword.
         levels.push(
-            characterService.get_Skills(creature, this.name, { type: 'Specific Weapon Proficiency' })[0]
+            characterService.skills(creature, this.name, { type: 'Specific Weapon Proficiency' })[0]
                 .level(creature, characterService, charLevel) ||
             0,
         );
         //Weapon base, e.g. Longsword.
         levels.push(
             this.weaponBase
-                ? characterService.get_Skills(creature, this.weaponBase, { type: 'Specific Weapon Proficiency' })[0]
+                ? characterService.skills(creature, this.weaponBase, { type: 'Specific Weapon Proficiency' })[0]
                     .level(creature, characterService, charLevel)
                 : 0,
         );
@@ -442,17 +442,17 @@ export class Weapon extends Equipment {
         const profAndGroup = `${ prof.split(' ')[0] } ${ this.group }`;
 
         levels.push(
-            characterService.get_Skills(creature, profAndGroup, { type: 'Specific Weapon Proficiency' })[0]
+            characterService.skills(creature, profAndGroup, { type: 'Specific Weapon Proficiency' })[0]
                 .level(creature, characterService, charLevel) ||
             0,
         );
         //Proficiency, e.g. Martial Weapons.
-        levels.push(characterService.get_Skills(creature, prof)[0]?.level(creature, characterService, charLevel) || 0);
+        levels.push(characterService.skills(creature, prof)[0]?.level(creature, characterService, charLevel) || 0);
         //Any traits, e.g. Monk. Will include, for instance, "Thrown 20 ft", so we also test the first word of any multi-word trait.
         levels.push(
             ...this.traits
                 .map(trait =>
-                    characterService.get_Skills(creature, trait, { type: 'Specific Weapon Proficiency' })[0]
+                    characterService.skills(creature, trait, { type: 'Specific Weapon Proficiency' })[0]
                         .level(creature, characterService, charLevel) ||
                     0,
                 ),
@@ -460,7 +460,7 @@ export class Weapon extends Equipment {
         levels.push(
             ...this.traits
                 .filter(trait => trait.includes(' '))
-                .map(trait => characterService.get_Skills(creature, trait.split(' ')[0], { type: 'Specific Weapon Proficiency' })[0]
+                .map(trait => characterService.skills(creature, trait.split(' ')[0], { type: 'Specific Weapon Proficiency' })[0]
                     .level(creature, characterService, charLevel) ||
                     0,
                 ),
@@ -468,7 +468,7 @@ export class Weapon extends Equipment {
         // Favored Weapon.
         levels.push(
             this.isFavoredWeapon(creature, characterService)
-                ? characterService.get_Skills(creature, 'Favored Weapon', { type: 'Favored Weapon' })[0]
+                ? characterService.skills(creature, 'Favored Weapon', { type: 'Favored Weapon' })[0]
                     .level(creature, characterService, charLevel)
                 : 0,
         );
@@ -482,11 +482,11 @@ export class Weapon extends Equipment {
         if (runeSource.propertyRunes.some(rune => rune.name === 'Ancestral Echoing')) {
             // First, we get all the weapon proficiencies...
             const skills: Array<number> =
-                characterService.get_Skills(creature, '', { type: 'Weapon Proficiency' })
+                characterService.skills(creature, '', { type: 'Weapon Proficiency' })
                     .map(skill => skill.level(creature, characterService, charLevel));
 
             skills.push(
-                ...characterService.get_Skills(creature, '', { type: 'Specific Weapon Proficiency' })
+                ...characterService.skills(creature, '', { type: 'Specific Weapon Proficiency' })
                     .map(skill => skill.level(creature, characterService, charLevel)),
             );
             //Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
@@ -498,11 +498,11 @@ export class Weapon extends Equipment {
         if (this.oilsApplied.some(oil => oil.runeEffect && oil.runeEffect.name === 'Ancestral Echoing')) {
             // First, we get all the weapon proficiencies...
             const skills: Array<number> =
-                characterService.get_Skills(creature, '', { type: 'Weapon Proficiency' })
+                characterService.skills(creature, '', { type: 'Weapon Proficiency' })
                     .map(skill => skill.level(creature, characterService, charLevel));
 
             skills.push(
-                ...characterService.get_Skills(creature, '', { type: 'Specific Weapon Proficiency' })
+                ...characterService.skills(creature, '', { type: 'Specific Weapon Proficiency' })
                     .map(skill => skill.level(creature, characterService, charLevel)));
             // Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
             bestSkillLevel = Math.min(skillLevel + skillLevelBaseStep, Math.max(...skills));
@@ -519,8 +519,8 @@ export class Weapon extends Equipment {
         //Calculates the attack bonus for a melee or ranged attack with this weapon.
         let explain = '';
         const charLevel = characterService.character().level;
-        const str = characterService.get_Abilities('Strength')[0].mod(creature, characterService, effectsService).result;
-        const dex = characterService.get_Abilities('Dexterity')[0].mod(creature, characterService, effectsService).result;
+        const str = characterService.abilities('Strength')[0].mod(creature, characterService, effectsService).result;
+        const dex = characterService.abilities('Dexterity')[0].mod(creature, characterService, effectsService).result;
         const runeSource = this.runeSource(creature, range);
         const traits = this.effectiveTraits(characterService, creature);
         const skillLevel = this.profLevel(creature, characterService, runeSource.propertyRunes);
@@ -703,7 +703,7 @@ export class Weapon extends Equipment {
         if (this.prof === WeaponProficiencies.Unarmed) {
             const character = characterService.character();
 
-            if (characterService.get_CharacterFeatsTaken(0, character.level, { featName: 'Powerful Fist' }).length) {
+            if (characterService.characterFeatsTaken(0, character.level, { featName: 'Powerful Fist' }).length) {
                 hasPowerfulFist = true;
             }
         }
@@ -793,7 +793,7 @@ export class Weapon extends Equipment {
 
         if (
             creature instanceof Character &&
-            characterService.get_CharacterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
+            characterService.characterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
         ) {
             if (characterService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon
                 .some(favoredWeapon =>
@@ -824,8 +824,8 @@ export class Weapon extends Equipment {
 
         let diceExplain = `Base dice: ${ this.dicenum ? `${ this.dicenum }d` : '' }${ this.dicesize }`;
         let bonusExplain = '';
-        const str = characterService.get_Abilities('Strength')[0].mod(creature, characterService, effectsService).result;
-        const dex = characterService.get_Abilities('Dexterity')[0].mod(creature, characterService, effectsService).result;
+        const str = characterService.abilities('Strength')[0].mod(creature, characterService, effectsService).result;
+        const dex = characterService.abilities('Dexterity')[0].mod(creature, characterService, effectsService).result;
         const penalties: Array<Effect> = [];
         const bonuses: Array<Effect> = [];
         const absolutes: Array<Effect> = [];
@@ -916,7 +916,7 @@ export class Weapon extends Equipment {
                 const character = characterService.character();
 
                 if (
-                    characterService.get_CharacterFeatsTaken(0, character.level, { featName: 'Diamond Fists' }).length &&
+                    characterService.characterFeatsTaken(0, character.level, { featName: 'Diamond Fists' }).length &&
                     this.traits.includes('Forceful')
                 ) {
                     calculatedRelativeDiceNumEffects.push(
@@ -956,7 +956,7 @@ export class Weapon extends Equipment {
             // Champions get increased dice size via Deific Weapon for unarmed attacks with d4 damage
             // or simple weapons as long as they are their deity's favored weapon.
             if (((dicesize === DiceSizes.D4 && this.prof === WeaponProficiencies.Unarmed) || this.prof === WeaponProficiencies.Simple) &&
-                characterService.get_CharacterFeatsAndFeatures('Deific Weapon')[0]?.have({ creature }, { characterService })) {
+                characterService.characterFeatsAndFeatures('Deific Weapon')[0]?.have({ creature }, { characterService })) {
                 if (this.isFavoredWeapon(creature, characterService)) {
                     const newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
 
@@ -982,7 +982,7 @@ export class Weapon extends Equipment {
             // Clerics get increased dice size via Deadly Simplicity for unarmed attacks with less than d6 damage
             // or simple weapons as long as they are their deity's favored weapon.
             if (((dicesize < DiceSizes.D6 && this.prof === WeaponProficiencies.Unarmed) || this.prof === WeaponProficiencies.Simple) &&
-                characterService.get_Feats('Deadly Simplicity')[0]?.have({ creature }, { characterService })) {
+                characterService.feats('Deadly Simplicity')[0]?.have({ creature }, { characterService })) {
                 if (this.isFavoredWeapon(creature, characterService)) {
                     let newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
 
@@ -1091,7 +1091,7 @@ export class Weapon extends Equipment {
                 //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
                 if (traits.includes('Finesse') &&
                     creature instanceof Character &&
-                    characterService.get_CharacterFeatsTaken(1, creature.level, { featName: 'Thief Racket' }).length) {
+                    characterService.characterFeatsTaken(1, creature.level, { featName: 'Thief Racket' }).length) {
                     //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
                     //The Enfeebled condition affects all Strength damage
                     const strEffects = effectsService.get_RelativesOnThis(creature, 'Strength-based Checks and DCs');
@@ -1405,7 +1405,7 @@ export class Weapon extends Equipment {
             const runeSource = this.runeSource(creature, range);
             const skillLevel = this.profLevel(creature, characterService, runeSource.propertyRunes);
 
-            characterService.get_CharacterFeatsAndFeatures()
+            characterService.characterFeatsAndFeatures()
                 .filter(feat => feat.gainSpecialization.length && feat.have({ creature: character }, { characterService }))
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
@@ -1423,7 +1423,7 @@ export class Weapon extends Equipment {
                         (!spec.skillLevel || skillLevel >= spec.skillLevel) &&
                         (
                             !spec.featreq ||
-                            characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]
+                            characterService.characterFeatsAndFeatures(spec.featreq)[0]
                                 ?.have({ creature: character }, { characterService }, { charLevel: character.level })
                         ),
                     ));
@@ -1512,7 +1512,7 @@ export class Weapon extends Equipment {
     }
     private _effectiveShoddy(creature: Creature, characterService: CharacterService): number {
         //Shoddy items have a -2 penalty to Attack, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
+        if (this.shoddy && characterService.feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
             this.$shoddy = ShoddyPenalties.NotShoddy;
 
             return this.$shoddy;

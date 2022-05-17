@@ -62,7 +62,7 @@ export class SpellsService {
 
         /* eslint-disable @typescript-eslint/no-unused-vars */
         function Skill_Level(name: string) {
-            return characterService.get_Skills(Character, name)[0]?.level(Character, characterService);
+            return characterService.skills(Character, name)[0]?.level(Character, characterService);
         }
         //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level (and don't have a dynamic level).
         highestSpellLevel = Math.max(...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= Character.level).map(spellChoice => spellChoice.level));
@@ -187,7 +187,7 @@ export class SpellsService {
                                 newConditionGain.choice = context.gain.overrideChoices.find(overrideChoice => overrideChoice.condition == condition.name && condition.$choices.includes(overrideChoice.choice)).choice;
                             } else if (newConditionGain.choiceBySubType) {
                                 //If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType, set the choice to that feat's subType as long as it's a valid choice for the condition.
-                                const subType = (services.characterService.get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have({ creature: context.creature }, { characterService: services.characterService })));
+                                const subType = (services.characterService.characterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true).find(feat => feat.superType == newConditionGain.choiceBySubType && feat.have({ creature: context.creature }, { characterService: services.characterService })));
 
                                 if (subType && condition.choices.some(choice => choice.name == subType.subType)) {
                                     newConditionGain.choice = subType.subType;
@@ -357,7 +357,7 @@ export class SpellsService {
                                     newConditionGain.duration += 2;
                                 }
 
-                                services.characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as Array<SpellTarget>, newConditionGain);
+                                services.characterService.sendConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget && !creatures.some(creature => creature.id == target.id)) as Array<SpellTarget>, newConditionGain);
                             }
                         }
                     });
@@ -370,10 +370,10 @@ export class SpellsService {
                             services.characterService.currentCreatureConditions(target as Creature, conditionGain.name)
                                 .filter(existingConditionGain => existingConditionGain.source == conditionGain.source && existingConditionGain.sourceGainID == (context.gain?.id || ''))
                                 .forEach(existingConditionGain => {
-                                    services.characterService.remove_Condition(target as Creature, existingConditionGain, false);
+                                    services.characterService.removeCondition(target as Creature, existingConditionGain, false);
                                 });
                         });
-                        services.characterService.send_ConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>, conditionGain, false);
+                        services.characterService.sendConditionToPlayers(conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>, conditionGain, false);
                     });
                 }
             }
@@ -384,7 +384,7 @@ export class SpellsService {
         if (conditionsToRemove.length) {
             services.characterService.currentCreatureConditions(context.creature, '', '', true).filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
                 .forEach(conditionGain => {
-                    services.characterService.remove_Condition(context.creature, conditionGain, false);
+                    services.characterService.removeCondition(context.creature, conditionGain, false);
                 });
         }
 

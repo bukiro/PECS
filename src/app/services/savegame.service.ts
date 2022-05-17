@@ -804,7 +804,7 @@ export class SavegameService {
                 const firstPathChoice = character.class?.levels?.[7]?.featChoices?.find(choice => choice.id == '7-Path to Perfection-Monk-2') || null;
 
                 if (!firstPathChoice?.feats.length) {
-                    const firstPathFeat = characterService.get_Feats(`Path to Perfection: ${ firstPath }`)[0];
+                    const firstPathFeat = characterService.feats(`Path to Perfection: ${ firstPath }`)[0];
 
                     if (firstPathFeat) {
                         character.takeFeat(character, characterService, firstPathFeat, firstPathFeat.name, true, firstPathChoice, false);
@@ -816,7 +816,7 @@ export class SavegameService {
                 const secondChoice = character.class?.levels?.[11]?.featChoices?.find(choice => choice.id == '11-Second Path to Perfection-Monk-0') || null;
 
                 if (!secondChoice?.feats.length) {
-                    const secondPathFeat = characterService.get_Feats(`Second Path to Perfection: ${ secondPath }`)[0];
+                    const secondPathFeat = characterService.feats(`Second Path to Perfection: ${ secondPath }`)[0];
 
                     if (secondPathFeat) {
                         character.takeFeat(character, characterService, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
@@ -828,7 +828,7 @@ export class SavegameService {
                 const thirdPathChoice = character.class?.levels?.[15]?.featChoices?.find(choice => choice.id == '15-Third Path to Perfection-Monk-2') || null;
 
                 if (!thirdPathChoice?.feats.length) {
-                    const thirdPathFeat = characterService.get_Feats(`Third Path to Perfection: ${ thirdPath }`)[0];
+                    const thirdPathFeat = characterService.feats(`Third Path to Perfection: ${ thirdPath }`)[0];
 
                     if (thirdPathFeat) {
                         character.takeFeat(character, characterService, thirdPathFeat, thirdPathFeat.name, true, thirdPathChoice, false);
@@ -893,7 +893,7 @@ export class SavegameService {
                 data: Array<FeatData>;
             }
 
-            const baseFeats = characterService.get_Feats().filter(feat => feat.lorebase || feat.weaponfeatbase)
+            const baseFeats = characterService.feats().filter(feat => feat.lorebase || feat.weaponfeatbase)
                 .map(feat => feat.name.toLowerCase());
 
             characterService.featsService.build_CharacterFeats(character);

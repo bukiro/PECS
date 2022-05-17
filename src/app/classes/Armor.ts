@@ -275,10 +275,10 @@ export class Armor extends Equipment {
 
         let skillLevel = 0;
         const armorLevel =
-            characterService.get_Skills(creature, this.name, { type: 'Specific Weapon Proficiency' })[0]
+            characterService.skills(creature, this.name, { type: 'Specific Weapon Proficiency' })[0]
                 .level(creature, characterService, charLevel);
         const proficiencyLevel =
-            characterService.get_Skills(creature, this.effectiveProficiency(creature, characterService))[0]
+            characterService.skills(creature, this.effectiveProficiency(creature, characterService))[0]
                 .level(creature, characterService, charLevel);
 
         //Add either the armor category proficiency or the armor proficiency, whichever is better
@@ -295,7 +295,7 @@ export class Armor extends Equipment {
             const character = creature as Character;
             const skillLevel = this.profLevel(character, characterService);
 
-            characterService.get_CharacterFeatsAndFeatures()
+            characterService.characterFeatsAndFeatures()
                 .filter(feat => feat.gainSpecialization.length && feat.have({ creature: character }, { characterService }))
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
@@ -309,7 +309,7 @@ export class Armor extends Equipment {
                         (!spec.skillLevel || skillLevel >= spec.skillLevel) &&
                         (
                             !spec.featreq ||
-                            characterService.get_CharacterFeatsAndFeatures(spec.featreq)[0]
+                            characterService.characterFeatsAndFeatures(spec.featreq)[0]
                                 ?.have({ creature: character }, { characterService })
                         ),
                     ));
@@ -346,7 +346,7 @@ export class Armor extends Equipment {
     }
     private _effectiveShoddy(creature: Creature, characterService: CharacterService): number {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.get_Feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
+        if (this.shoddy && characterService.feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
             this.$shoddy = ShoddyPenalties.NotShoddy;
         } else if (this.shoddy) {
             this.$shoddy = ShoddyPenalties.Shoddy;

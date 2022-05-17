@@ -18,7 +18,7 @@ export interface CalculatedAC {
     value: { result: number; explain: string };
 }
 
-enum CoverTypes {
+export enum CoverTypes {
     NoCover = 0,
     LesserCover = 1,
     Cover = 2,
@@ -78,15 +78,15 @@ export class AC {
         }
 
         if (lesserCover && cover !== CoverTypes.LesserCover) {
-            characterService.remove_Condition(creature, lesserCover, false);
+            characterService.removeCondition(creature, lesserCover, false);
         }
 
         if (standardCover && cover !== CoverTypes.Cover) {
-            characterService.remove_Condition(creature, standardCover, false);
+            characterService.removeCondition(creature, standardCover, false);
         }
 
         if (greaterCover && cover !== CoverTypes.GreaterCover) {
-            characterService.remove_Condition(creature, greaterCover, false);
+            characterService.removeCondition(creature, greaterCover, false);
         }
 
         if (coverChoice) {
@@ -232,7 +232,7 @@ export class AC {
         if (!isBaseArmorBonusSet && !!armors.length) {
             const armor = armors[0];
             const charLevel = characterService.character().level;
-            const dex = characterService.get_Abilities('Dexterity')[0].mod(armorCreature, characterService, effectsService).result;
+            const dex = characterService.abilities('Dexterity')[0].mod(armorCreature, characterService, effectsService).result;
             //Get the profiency with either this armor or its category.
             //Familiars have the same AC as the Character before circumstance or status effects.
             const skillLevel = armor.profLevel(armorCreature, characterService);

@@ -114,7 +114,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     private reset_ChoiceArea(): void {
         //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first,
         // and it would cause the top bar to scroll away in mobile mode.
-        if (!this.characterService.get_Mobile()) {
+        if (!this.characterService.isMobileView()) {
             document.getElementById('spells-choiceArea-top')?.scrollIntoView({ behavior: 'smooth' });
         }
     }

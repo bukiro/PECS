@@ -152,7 +152,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     reset_ChoiceArea() {
         //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first,
         // and it would cause the top bar to scroll away in mobile mode.
-        if (!this.characterService.get_Mobile()) {
+        if (!this.characterService.isMobileView()) {
             document.getElementById('character-choiceArea-top').scrollIntoView({ behavior: 'smooth' });
         }
     }
@@ -373,11 +373,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     delete_CharacterFromDB(savegame: Savegame) {
-        this.characterService.delete_Character(savegame);
+        this.characterService.deleteCharacter(savegame);
     }
 
     save_CharacterToDB() {
-        this.characterService.save_Character();
+        this.characterService.saveCharacter();
     }
 
     open_DeleteModal(content, savegame: Savegame) {
@@ -520,7 +520,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.get_CharacterFeatsAndFeatures().filter(feat => feat.onceEffects.length && feat.have({ creature: character }, { characterService: this.characterService }, { charLevel: newLevel, minLevel: (oldLevel + 1) }, { excludeTemporary: true }))
                 .forEach(feat => {
                     feat.onceEffects.forEach(effect => {
-                        this.characterService.prepare_OnceEffect(character, effect);
+                        this.characterService.prepareOnceEffect(character, effect);
                     });
                 });
         }
@@ -706,7 +706,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Abilities(name = '') {
-        return this.characterService.get_Abilities(name);
+        return this.characterService.abilities(name);
     }
 
     get_AvailableAbilities(choice: AbilityChoice, levelNumber: number) {
@@ -832,7 +832,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             locked: undefined, ...filter,
         };
 
-        return this.characterService.get_Skills(this.get_Character(), name, filter, options);
+        return this.characterService.skills(this.get_Character(), name, filter, options);
     }
 
     size(size: number) {
@@ -946,13 +946,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_DifferentWorldsData(levelNumber: number): Array<FeatData> {
-        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Different Worlds' }).length) {
+        if (this.characterService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Different Worlds' }).length) {
             return this.get_Character().class.filteredFeatData(levelNumber, levelNumber, { featName: 'Different Worlds' });
         }
     }
 
     get_BlessedBloodAvailable(levelNumber: number) {
-        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Blessed Blood' }).length;
+        return this.characterService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Blessed Blood' }).length;
     }
 
     get_BlessedBloodDeitySpells() {
@@ -987,7 +987,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_SplinterFaithAvailable(levelNumber: number) {
-        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Splinter Faith' }).length;
+        return this.characterService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Splinter Faith' }).length;
     }
 
     get_SplinterFaithDomains() {
@@ -1063,7 +1063,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         //Return all heritages you have gained on this specific level.
         return []
             .concat(
-                ...this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
+                ...this.characterService.characterFeatsTaken(levelNumber, levelNumber)
                     .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
                     .filter(feat =>
                         feat &&
@@ -1153,7 +1153,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_FuseStanceData(levelNumber: number): Array<FeatData> {
-        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Fuse Stance' }).length) {
+        if (this.characterService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Fuse Stance' }).length) {
             return this.get_Character().class.filteredFeatData(levelNumber, levelNumber, 'Fuse Stance');
         }
     }
@@ -1177,7 +1177,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
         const anyRestrictedStances = existingStances.some(example => example.gainConditions.some(gain => restrictedConditions.includes(gain.name)));
 
-        this.characterService.get_OwnedActivities(this.get_Character(), levelNumber)
+        this.characterService.creatureOwnedActivities(this.get_Character(), levelNumber)
             .map(activity => activities.find(example => example.name == activity.name))
             .filter(activity => activity && activity.name != 'Fused Stance')
             .forEach(activity => {
@@ -1225,7 +1225,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_SyncretismData(levelNumber: number) {
-        if (this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber, { featName: 'Syncretism' }).length) {
+        if (this.characterService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Syncretism' }).length) {
             return this.get_Character().class.filteredFeatData(levelNumber, levelNumber, 'Syncretism');
         }
     }
@@ -1251,7 +1251,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName = '', source = '', sourceId = '', locked: boolean = undefined, filter = '', automatic: boolean = undefined) {
         const character = this.get_Character();
 
-        return this.characterService.get_CharacterFeatsTaken(minLevelNumber, maxLevelNumber, { featName, source, sourceId, locked, automatic })
+        return this.characterService.characterFeatsTaken(minLevelNumber, maxLevelNumber, { featName, source, sourceId, locked, automatic })
             .filter(taken =>
                 !filter ||
                 (filter == 'feature') == (taken.source == character.class.name || (taken.locked && taken.source.includes(' Dedication'))),
@@ -1464,7 +1464,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_CompanionAvailable(levelNumber: number) {
         //Return whether you have taken a feat this level that granted you an animal companion.
-        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
+        return this.characterService.characterFeatsTaken(levelNumber, levelNumber)
             .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
             .some(feat => feat && feat.gainAnimalCompanion == 'Young');
     }
@@ -1487,7 +1487,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
             if (specializations.length) { character.class.animalCompanion.class.specializations = specializations; }
 
-            this.characterService.initialize_AnimalCompanion();
+            this.characterService.initializeAnimalCompanion();
             this.refreshService.process_ToChange();
         }
     }
@@ -1543,7 +1543,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_CompanionSpecializationsAvailable(levelNumber: number) {
         //Return how many feats you have taken this level that granted you an animal companion specialization.
-        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
+        return this.characterService.characterFeatsTaken(levelNumber, levelNumber)
             .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
             .filter(feat => feat && feat.gainAnimalCompanion == 'Specialized').length;
     }
@@ -1574,7 +1574,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_FamiliarAvailable(levelNumber: number) {
         //Return whether you have taken a feat this level that granted you a familiar.
-        return this.characterService.get_CharacterFeatsTaken(levelNumber, levelNumber)
+        return this.characterService.characterFeatsTaken(levelNumber, levelNumber)
             .map(taken => this.get_CharacterFeatsAndFeatures(taken.name)[0])
             .some(feat => feat && feat.gainFamiliar);
     }
@@ -1590,14 +1590,14 @@ export class CharacterComponent implements OnInit, OnDestroy {
             const originClass = character.class.familiar.originClass;
             const id = character.class.familiar.id;
 
-            this.characterService.cleanup_Familiar();
+            this.characterService.removeAllFamiliarAbilities();
             character.class.familiar = new Familiar();
 
             if (originClass) { character.class.familiar.originClass = originClass; }
 
             if (id) { character.class.familiar.id = id; }
 
-            this.characterService.initialize_Familiar();
+            this.characterService.initializeFamiliar();
             this.refreshService.process_ToChange();
         }
     }
@@ -1628,7 +1628,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     get_AnimalCompanionAbilities(type: AnimalCompanionAncestry) {
         const abilities: [{ name: string; modifier: string }] = [{ name: '', modifier: '' }];
 
-        this.characterService.get_Abilities().forEach(ability => {
+        this.characterService.abilities().forEach(ability => {
             const name = ability.name.substr(0, 3);
             let modifier = 0;
             const classboosts = this.get_Companion().class.levels[1].abilityChoices[0].boosts.filter(boost => boost.name == ability.name);

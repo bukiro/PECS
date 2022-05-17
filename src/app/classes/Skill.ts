@@ -319,7 +319,7 @@ export class Skill {
                 // apply the best of these proficiencies to your innate spells, too.
                 if (this.name.includes('Innate') && this.name.includes('Spell DC')) {
                     const spellDCs =
-                        characterService.get_Skills(creature)
+                        characterService.skills(creature)
                             .filter(skill => skill !== this && skill.name.includes('Spell DC') && !skill.name.includes('Innate'));
 
                     skillLevel =
@@ -335,7 +335,7 @@ export class Skill {
                 // (i.e. "Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons,
                 // you also gain that proficiency in...").
                 // We check whether you meet the minimum proficiency level for the copy by comparing your skillLevel up to this point.
-                characterService.get_CharacterFeatsAndFeatures()
+                characterService.characterFeatsAndFeatures()
                     .filter(feat => feat.copyProficiency.length && feat.have({ creature }, { characterService }, { charLevel }))
                     .forEach(feat => {
                         proficiencyCopies.push(...feat.copyProficiency.filter(copy =>

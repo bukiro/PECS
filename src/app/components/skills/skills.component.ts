@@ -106,7 +106,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
         const creature = this.get_Creature();
 
-        return this.characterService.get_Skills(creature, name, filter)
+        return this.characterService.skills(creature, name, filter)
             .filter(skill =>
                 skill.name.includes('Lore') ?
                     skill.level(creature, this.characterService, creature.level) :
@@ -128,7 +128,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.characterService.character().level, { featName: name }).length;
+        return this.characterService.characterFeatsTaken(1, this.characterService.character().level, { featName: name }).length;
     }
 
     get_Activities(name = '') {
@@ -140,7 +140,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         const unique: Array<string> = [];
 
         if (this.get_Character().settings.showSkillActivities) {
-            this.characterService.get_OwnedActivities(this.get_Creature()).forEach(activity => {
+            this.characterService.creatureOwnedActivities(this.get_Creature()).forEach(activity => {
                 activity.originalActivity(this.activitiesService)?.effectiveCooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
 
                 if (!unique.includes(activity.name)) {
@@ -159,7 +159,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Senses() {
-        return this.characterService.get_Senses(this.get_Creature(), undefined, true);
+        return this.characterService.creatureSenses(this.get_Creature(), undefined, true);
     }
 
     get_Speeds() {

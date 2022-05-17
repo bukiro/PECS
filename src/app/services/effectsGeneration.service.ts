@@ -26,6 +26,7 @@ import { Specialization } from 'src/app/classes/Specialization';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemsService } from 'src/app/services/items.service';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -301,7 +302,7 @@ export class EffectsGenerationService {
     private collect_ActivityEffectHints(creature: Creature, services: { readonly characterService: CharacterService }): Array<HintEffectsObject> {
         const hintSets: Array<HintEffectsObject> = [];
 
-        services.characterService.get_OwnedActivities(creature, creature.level, true).filter(activity => activity.active)
+        services.characterService.creatureOwnedActivities(creature, creature.level, true).filter(activity => activity.active)
             .forEach(activity => {
                 activity.originalActivity(this.activitiesService)?.hints?.forEach(hint => {
                     hintSets.push({ hint, objectName: activity.name });
@@ -440,7 +441,7 @@ export class EffectsGenerationService {
         //Add skill and speed penalties from armor strength requirements and certain traits.
         if (!options.ignoreArmorPenalties) {
             //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
-            const strength = (context.creature instanceof Familiar) ? 0 : services.characterService.get_Abilities('Strength')[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
+            const strength = (context.creature instanceof Familiar) ? 0 : services.characterService.abilities('Strength')[0].value(context.creature as Character | AnimalCompanion, services.characterService, this.effectsService).result;
             const name = armor.effectiveName();
             const skillPenalty = armor.effectiveSkillPenalty();
             const skillPenaltyString = skillPenalty.toString();
@@ -963,7 +964,7 @@ export class EffectsGenerationService {
         }
 
         //Process all prepared onceEffects.
-        services.characterService.process_PreparedOnceEffects();
+        services.characterService.processPreparedOnceEffects();
         //Process all prepared changes or changes that were skipped previously.
         this.refreshService.process_ToChange();
     }
@@ -1004,7 +1005,7 @@ export class EffectsGenerationService {
                         });
                 }
             }
-        }, 100);
+        }, Defaults.waitForServiceDelay);
     }
 
 }

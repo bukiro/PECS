@@ -162,8 +162,8 @@ export class MessageService {
 
         //Apply turn change messages automatically, then invalidate these messages and return the rest.
         if (newMessages.length) {
-            characterService.apply_TurnChangeMessage(newMessages.filter(message => message.turnChange));
-            characterService.apply_ItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
+            characterService.applyTurnChangeMessage(newMessages.filter(message => message.turnChange));
+            characterService.applyItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
             this.refreshService.process_ToChange();
             newMessages.filter(message => message.turnChange).forEach(message => {
                 this.mark_MessageAsIgnored(characterService, message);
@@ -182,8 +182,8 @@ export class MessageService {
         messages.forEach(message => {
             message.selected = true;
         });
-        characterService.apply_MessageConditions(messages.filter(message => message.gainCondition.length));
-        characterService.apply_MessageItems(messages.filter(message => message.offeredItem.length));
+        characterService.applyMessageConditions(messages.filter(message => message.gainCondition.length));
+        characterService.applyMessageItems(messages.filter(message => message.offeredItem.length));
         messages.forEach(message => {
             this.mark_MessageAsIgnored(characterService, message);
         });
@@ -256,11 +256,11 @@ export class MessageService {
     }
 
     get_MessageCreature(characterService: CharacterService, message: PlayerMessage) {
-        return characterService.get_MessageCreature(message);
+        return characterService.creatureFromMessage(message);
     }
 
     get_MessageSender(characterService: CharacterService, message: PlayerMessage) {
-        return characterService.get_MessageSender(message);
+        return characterService.messageSender(message);
     }
 
     start_MessageInterval(characterService: CharacterService) {

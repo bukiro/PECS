@@ -189,7 +189,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     remove_Condition(conditionGain: ConditionGain) {
-        this.characterService.remove_Condition(this.get_Creature(), conditionGain, true);
+        this.characterService.removeCondition(this.get_Creature(), conditionGain, true);
         this.refreshService.set_Changed('close-popovers');
     }
 

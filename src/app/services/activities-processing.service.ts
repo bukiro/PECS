@@ -273,7 +273,7 @@ export class ActivitiesProcessingService {
                         effect.source = activity.name;
                     }
 
-                    services.characterService.process_OnceEffect(context.creature, effect);
+                    services.characterService.processOnceEffect(context.creature, effect);
                 });
             }
 
@@ -326,7 +326,7 @@ export class ActivitiesProcessingService {
                             const subType =
                                 (
                                     services.characterService
-                                        .get_CharacterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true)
+                                        .characterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true)
                                         .find(feat =>
                                             feat.superType === newConditionGain.choiceBySubType &&
                                             feat.have({ creature: context.creature }, { characterService: services.characterService }),
@@ -544,7 +544,7 @@ export class ActivitiesProcessingService {
                                 newConditionGain.duration += TimePeriods.UntilOtherCharactersTurn;
                             }
 
-                            services.characterService.send_ConditionToPlayers(
+                            services.characterService.sendConditionToPlayers(
                                 conditionTargets.filter(target =>
                                     target instanceof SpellTarget &&
                                     !creatures.some(listCreature => listCreature.id === target.id),
@@ -664,7 +664,7 @@ export class ActivitiesProcessingService {
             services.characterService.currentCreatureConditions(context.creature, '', '', true)
                 .filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
                 .forEach(conditionGain => {
-                    services.characterService.remove_Condition(context.creature, conditionGain, false);
+                    services.characterService.removeCondition(context.creature, conditionGain, false);
                 });
         }
 
@@ -739,10 +739,10 @@ export class ActivitiesProcessingService {
                                     existingConditionGain.sourceGainID === (context.gain?.id || ''),
                                 )
                                 .forEach(existingConditionGain => {
-                                    services.characterService.remove_Condition(target as Creature, existingConditionGain, false);
+                                    services.characterService.removeCondition(target as Creature, existingConditionGain, false);
                                 });
                         });
-                    services.characterService.send_ConditionToPlayers(
+                    services.characterService.sendConditionToPlayers(
                         conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>, conditionGain, false,
                     );
                 });

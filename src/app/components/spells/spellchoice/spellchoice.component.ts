@@ -205,7 +205,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         ) {
             const signatureSpellGains: Array<SignatureSpellGain> = [];
 
-            this.characterService.get_CharacterFeatsAndFeatures()
+            this.characterService.characterFeatsAndFeatures()
                 .filter(feat => feat.allowSignatureSpells.length && feat.have({ creature: this.get_Character() }, { characterService: this.characterService }))
                 .forEach(feat => {
                     signatureSpellGains.push(...feat.allowSignatureSpells.filter(gain => gain.className == this.spellCasting.className));
@@ -257,7 +257,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
+        return this.characterService.characterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
     }
 
     is_TradedIn() {
@@ -484,7 +484,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                         break;
                 }
 
-                return this.characterService.get_Skills(character, skill)[0].level(character, this.characterService, character.level) >= 2;
+                return this.characterService.skills(character, skill)[0].level(character, this.characterService, character.level) >= 2;
             } else {
                 return false;
             }
@@ -567,7 +567,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         //Define some functions for choices with a dynamic available value.
         /* eslint-disable @typescript-eslint/no-unused-vars */
         const Highest_Spell_Level = () => this.get_HighestSpellLevel();
-        const Modifier = (name: string) => this.characterService.get_Abilities(name)[0].mod(this.get_Character(), this.characterService, this.effectsService).result;
+        const Modifier = (name: string) => this.characterService.abilities(name)[0].mod(this.get_Character(), this.characterService, this.effectsService).result;
         const Has_Feat = (name: string) =>
             //Return number of times you have the feat. The number is needed for calculations; boolean is not enough.
             this.have_Feat(name)

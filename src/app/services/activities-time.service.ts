@@ -27,7 +27,7 @@ export class ActivitiesTimeService {
         // Get all owned activity gains that have a cooldown active or have a current duration of -2 (until rest).
         // Get the original activity information, and if its cooldown is exactly one day or until rest (-2),
         // the activity gain's cooldown is reset.
-        characterService.get_OwnedActivities(creature)
+        characterService.creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown !== 0 || gain.duration === TimePeriods.UntilRest)
             .forEach(gain => {
                 const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesService);
@@ -69,7 +69,7 @@ export class ActivitiesTimeService {
     public refocusActivities(creature: Creature, characterService: CharacterService): void {
         //Get all owned activity gains that have a cooldown or a current duration of -3 (until refocus).
         //Get the original activity information, and if its cooldown is until refocus (-3), the activity gain's cooldown is reset.
-        characterService.get_OwnedActivities(creature)
+        characterService.creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => [gain.activeCooldown, gain.duration].includes(TimePeriods.UntilRefocus))
             .forEach(gain => {
                 const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesService);
@@ -114,7 +114,7 @@ export class ActivitiesTimeService {
         spellsService: SpellsService,
         turns = 10,
     ): void {
-        characterService.get_OwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration)
+        characterService.creatureOwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration)
             .forEach(gain => {
                 //Tick down the duration and the cooldown by the amount of turns.
                 const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesService);

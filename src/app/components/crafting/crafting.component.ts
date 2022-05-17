@@ -231,15 +231,15 @@ export class CraftingComponent implements OnInit, OnDestroy {
         const character: Character = this.get_Character();
         const reasons: Array<string> = [];
 
-        if (item.traits.includes('Alchemical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Alchemical Crafting' }).length) {
+        if (item.traits.includes('Alchemical') && !this.characterService.characterFeatsTaken(1, character.level, { featName: 'Alchemical Crafting' }).length) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }
 
-        if (item.traits.includes('Magical') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Magical Crafting' }).length) {
+        if (item.traits.includes('Magical') && !this.characterService.characterFeatsTaken(1, character.level, { featName: 'Magical Crafting' }).length) {
             reasons.push('You need the Magical Crafting skill feat to create magic items.');
         }
 
-        if (item.traits.includes('Snare') && !this.characterService.get_CharacterFeatsTaken(1, character.level, { featName: 'Snare Crafting' }).length) {
+        if (item.traits.includes('Snare') && !this.characterService.characterFeatsTaken(1, character.level, { featName: 'Snare Crafting' }).length) {
             reasons.push('You need the Snare Crafting skill feat to create snares.');
         }
 
@@ -247,9 +247,9 @@ export class CraftingComponent implements OnInit, OnDestroy {
             reasons.push('The item to craft must be your level or lower.');
         }
 
-        if (item.level >= 16 && (this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 8) {
+        if (item.level >= 16 && (this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 8) {
             reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
-        } else if (item.level >= 9 && (this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 6) {
+        } else if (item.level >= 9 && (this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 6) {
             reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
         }
 
@@ -272,7 +272,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.get_CharacterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
+        return this.characterService.characterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
     }
 
     get_SnareSpecialistPreparations() {
@@ -280,7 +280,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
             const prepared: number = this.get_FormulasLearned().reduce((sum, current) => sum + current.snareSpecialistPrepared, 0);
             let available = 0;
             const character = this.get_Character();
-            const crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
+            const crafting = this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
 
             if (crafting >= 4) {
                 available += 4;

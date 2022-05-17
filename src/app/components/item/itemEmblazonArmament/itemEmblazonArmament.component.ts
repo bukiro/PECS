@@ -39,7 +39,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     }
 
     get_EmblazonDivinity() {
-        return !!this.characterService.get_CharacterFeatsTaken(0, this.get_Character().level, { featName: 'Emblazon Divinity' }).length;
+        return !!this.characterService.characterFeatsTaken(0, this.get_Character().level, { featName: 'Emblazon Divinity' }).length;
     }
 
     get_Displayed(type: string) {
@@ -50,11 +50,11 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         } else {
             switch (type) {
                 case 'emblazonArmament':
-                    return this.characterService.get_CharacterFeatsTaken(0, character.level, { featName: 'Emblazon Armament' }).length;
+                    return this.characterService.characterFeatsTaken(0, character.level, { featName: 'Emblazon Armament' }).length;
                 case 'emblazonEnergy':
-                    return this.characterService.get_CharacterFeatsTaken(0, character.level, { featName: 'Emblazon Energy' }).length;
+                    return this.characterService.characterFeatsTaken(0, character.level, { featName: 'Emblazon Energy' }).length;
                 case 'emblazonAntimagic':
-                    return this.characterService.get_CharacterFeatsTaken(0, character.level, { featName: 'Emblazon Antimagic' }).length;
+                    return this.characterService.characterFeatsTaken(0, character.level, { featName: 'Emblazon Antimagic' }).length;
             }
         }
 

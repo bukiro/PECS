@@ -131,14 +131,14 @@ export class EvaluationService {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                return characterService.get_Abilities(name)[0]?.value((Creature as AnimalCompanion | Character), characterService, effectsService).result;
+                return characterService.abilities(name)[0]?.value((Creature as AnimalCompanion | Character), characterService, effectsService).result;
             }
         }
         function Modifier(name: string) {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                return characterService.get_Abilities(name)[0]?.mod((Creature as AnimalCompanion | Character), characterService, effectsService).result;
+                return characterService.abilities(name)[0]?.mod((Creature as AnimalCompanion | Character), characterService, effectsService).result;
             }
         }
         function BaseSize() {
@@ -148,17 +148,17 @@ export class EvaluationService {
             return (Creature as AnimalCompanion | Character | Familiar).effectiveSize(effectsService, { asNumber });
         }
         function Skill(name: string) {
-            return characterService.get_Skills(Creature, name)[0]?.baseValue((Creature as AnimalCompanion | Character), characterService, abilitiesService, effectsService, Level).result;
+            return characterService.skills(Creature, name)[0]?.baseValue((Creature as AnimalCompanion | Character), characterService, abilitiesService, effectsService, Level).result;
         }
         function Skill_Level(name: string) {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                return characterService.get_Skills(Creature, name)[0]?.level((Creature as AnimalCompanion | Character), characterService, Level);
+                return characterService.skills(Creature, name)[0]?.level((Creature as AnimalCompanion | Character), characterService, Level);
             }
         }
         function Skills_Of_Type(name: string): Array<Skill> {
-            return characterService.get_Skills(Creature, '', { type: name });
+            return characterService.skills(Creature, '', { type: name });
         }
         function Has_Speed(name: string): boolean {
             //This tests if you have a certain speed, either from your ancestry or from absolute effects.
@@ -176,7 +176,7 @@ export class EvaluationService {
             return characterService.currentCreatureConditions(Creature, name, '', true);
         }
         function Owned_Activities(name: string): Array<ActivityGain> {
-            return characterService.get_OwnedActivities(Creature).filter(gain => gain.name === name);
+            return characterService.creatureOwnedActivities(Creature).filter(gain => gain.name === name);
         }
         function Armor() {
             if (Creature === Familiar) {
@@ -210,7 +210,7 @@ export class EvaluationService {
             if (creature == 'Familiar') {
                 return familiarsService.get_FamiliarAbilities(name).filter(feat => feat.have({ creature: Familiar }, { characterService }, { charLevel: Level })).length;
             } else if (creature == 'Character') {
-                return characterService.get_CharacterFeatsTaken(1, Level, { featName: name }).length;
+                return characterService.characterFeatsTaken(1, Level, { featName: name }).length;
             } else {
                 return 0;
             }
@@ -219,7 +219,7 @@ export class EvaluationService {
             if (creature == 'Familiar') {
                 return familiarsService.get_FamiliarAbilities().filter(feat => feat.have({ creature: Familiar }, { characterService }, { charLevel: Level }));
             } else if (creature == 'Character') {
-                return characterService.get_CharacterFeatsTaken(1, Level);
+                return characterService.characterFeatsTaken(1, Level);
             } else {
                 return 0;
             }

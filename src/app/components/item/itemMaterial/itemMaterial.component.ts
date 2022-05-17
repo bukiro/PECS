@@ -88,7 +88,7 @@ export class ItemMaterialComponent implements OnInit {
             const character = this.get_Character();
 
             charLevel = character.level;
-            crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
+            crafting = this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
         }
 
         //Disable all materials whose requirements are not met.
@@ -195,7 +195,7 @@ export class ItemMaterialComponent implements OnInit {
             const character = this.get_Character();
 
             charLevel = character.level;
-            crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
+            crafting = this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
         }
 
         //Disable all materials whose requirements are not met.
@@ -288,7 +288,7 @@ export class ItemMaterialComponent implements OnInit {
             const character = this.get_Character();
 
             charLevel = character.level;
-            crafting = this.characterService.get_Skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
+            crafting = this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
         }
 
         //Disable all materials whose requirements are not met.

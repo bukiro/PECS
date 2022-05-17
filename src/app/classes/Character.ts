@@ -79,7 +79,7 @@ export class Character extends Creature {
             const baseline = 10;
             const half = 0.5;
             const constitution =
-                services.characterService.get_Abilities('Constitution')[0].baseValue(this, services.characterService, charLevel).result;
+                services.characterService.abilities('Constitution')[0].baseValue(this, services.characterService, charLevel).result;
             //TO-DO: Move this calculation to a utility function
             const CON: number = Math.floor((constitution - baseline) * half);
 
@@ -538,7 +538,7 @@ export class Character extends Creature {
 
             // If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
             // We have to create that skill here then
-            if (!characterService.get_Skills(this, skillName, {}, { noSubstitutions: true }).length) {
+            if (!characterService.skills(this, skillName, {}, { noSubstitutions: true }).length) {
                 if (skillName.includes('Class DC')) {
                     switch (skillName) {
                         case 'Alchemist Class DC':
@@ -557,7 +557,7 @@ export class Character extends Creature {
                             characterService.addCustomSkill(
                                 skillName,
                                 'Class DC',
-                                characterService.get_Feats(choice.source.replace('Feat: ', ''))[0].subType,
+                                characterService.feats(choice.source.replace('Feat: ', ''))[0].subType,
                             );
                             break;
                     }
@@ -611,7 +611,7 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange('Character', 'featchoices');
             characterService.refreshService.set_ToChange('Character', 'skillchoices');
 
-            switch (characterService.get_Skills(characterService.character(), skillName)[0].type) {
+            switch (characterService.skills(characterService.character(), skillName)[0].type) {
                 case 'Skill':
                     characterService.refreshService.set_ToChange('Character', 'skills');
                     break;
@@ -678,7 +678,7 @@ export class Character extends Creature {
             characterService.refreshService.set_ToChange('Character', 'featchoices');
             characterService.refreshService.set_ToChange('Character', 'skillchoices');
 
-            switch (characterService.get_Skills(characterService.character(), skillName)[0]?.type) {
+            switch (characterService.skills(characterService.character(), skillName)[0]?.type) {
                 case 'Skill':
                     characterService.refreshService.set_ToChange('Character', 'skills');
                     characterService.refreshService.set_ToChange('Character', 'individualskills', 'all');
@@ -808,7 +808,7 @@ export class Character extends Creature {
                 ));
             const gain = choice.feats[newLength - 1];
 
-            characterService.process_Feat(creature, feat, gain, choice, level, taken);
+            characterService.processFeat(creature, feat, gain, choice, level, taken);
         } else {
             const choiceFeats = choice.feats;
             const gain = choiceFeats.find(existingFeat =>
@@ -816,7 +816,7 @@ export class Character extends Creature {
                 existingFeat.locked === locked,
             );
 
-            characterService.process_Feat(creature, feat, gain, choice, level, taken);
+            characterService.processFeat(creature, feat, gain, choice, level, taken);
             choiceFeats.splice(choiceFeats.indexOf(gain, 1));
         }
     }
@@ -1337,8 +1337,8 @@ export class Character extends Creature {
         const feats: Array<Feat> = [];
         const hintSets: Array<{ hint: Hint; objectName: string }> = [];
 
-        characterService.get_CharacterFeatsTaken(0, this.level)
-            .map(gain => characterService.get_FeatsAndFeatures(gain.name)[0])
+        characterService.characterFeatsTaken(0, this.level)
+            .map(gain => characterService.featsAndFeatures(gain.name)[0])
             .filter(feat => feat && feat.have({ creature: this }, { characterService }))
             .forEach(feat => {
                 feats.push(feat);
@@ -1356,12 +1356,12 @@ export class Character extends Creature {
     ): number {
         context = { level: this.level, ...context };
 
-        return services.characterService.get_CharacterFeatsTaken(1, context.level, { featName }).length;
+        return services.characterService.characterFeatsTaken(1, context.level, { featName }).length;
     }
     private _addLoreFeats(characterService: CharacterService, loreName: string): void {
         // There are particular feats that need to be cloned for every individual lore skill (mainly Assurance).
         // They are marked as lorebase==true.
-        characterService.get_Feats().filter(feat => feat.lorebase === 'Lore')
+        characterService.feats().filter(feat => feat.lorebase === 'Lore')
             .forEach(lorebaseFeat => {
                 const newFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(JSON.stringify(lorebaseFeat))).recast();
 

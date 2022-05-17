@@ -20,6 +20,7 @@ import { SavegameService } from 'src/app/services/savegame.service';
 import { SkillsService } from 'src/app/services/skills.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { TraitsService } from 'src/app/services/traits.service';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
 
 @Injectable({
     providedIn: 'root',
@@ -53,7 +54,6 @@ export class AppInitService {
     }
 
     public init(): void {
-        const waitDelay = 100;
 
         this._characterService.initialize();
         this._refreshService.initialize();
@@ -80,7 +80,7 @@ export class AppInitService {
                 this._customEffectsService.initialize();
                 this._effectsGenerationService.initialize(this._characterService);
             }
-        }, waitDelay);
+        }, Defaults.waitForServiceDelay);
         const waitForLoadServices = setInterval(() => {
             if (
                 !(
@@ -100,9 +100,9 @@ export class AppInitService {
                 )
             ) {
                 clearInterval(waitForLoadServices);
-                this._characterService.finish_Loading();
+                this._characterService.finishLoading();
             }
-        }, waitDelay);
+        }, Defaults.waitForServiceDelay);
     }
 
 }

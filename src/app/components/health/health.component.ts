@@ -99,13 +99,13 @@ export class HealthComponent implements OnInit, OnDestroy {
         if (!this.characterService.currentCreatureConditions(this.get_Creature(), 'Dead').length) {
             this.characterService.addCondition(this.get_Creature(), Object.assign(new ConditionGain(), { name: 'Dead', source: reason }), {}, { noReload: true });
             this.characterService.currentCreatureConditions(this.get_Creature(), 'Doomed').forEach(gain => {
-                this.characterService.remove_Condition(this.get_Creature(), gain, false);
+                this.characterService.removeCondition(this.get_Creature(), gain, false);
             });
         }
     }
 
     get_Health() {
-        return this.characterService.get_Health(this.get_Creature());
+        return this.characterService.creatureHealth(this.get_Creature());
     }
 
     calculate_Health() {
@@ -159,7 +159,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     on_HeroPointRecover() {
         this.characterService.currentCreatureConditions(this.get_Creature(), 'Dying').forEach(gain => {
-            this.characterService.remove_Condition(this.get_Creature(), gain, false, false, false);
+            this.characterService.removeCondition(this.get_Creature(), gain, false, false, false);
         });
         this.get_Character().heroPoints = 0;
         this.refreshService.set_ToChange(this.creature, 'effects');
@@ -169,7 +169,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     on_HealWounded() {
         this.characterService.currentCreatureConditions(this.get_Creature(), 'Wounded').forEach(gain => {
-            this.characterService.remove_Condition(this.get_Creature(), gain, false);
+            this.characterService.removeCondition(this.get_Creature(), gain, false);
         });
         this.refreshService.set_ToChange(this.creature, 'effects');
         this.refreshService.process_ToChange();
@@ -177,7 +177,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     get_NumbToDeath() {
         if (this.get_Creature() instanceof Character) {
-            return this.characterService.get_CharacterFeatsTaken(0, this.get_Character().level, { featName: 'Numb to Death' }).length;
+            return this.characterService.characterFeatsTaken(0, this.get_Character().level, { featName: 'Numb to Death' }).length;
         } else {
             return 0;
         }

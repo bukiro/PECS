@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIDs.d copy';
+import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ChangeTracker } from '../classes/ChangeTracker';
 

@@ -160,7 +160,7 @@ export class Feat {
         };
 
         if (context.creature instanceof Character) {
-            return services.characterService.get_CharacterFeatsTaken(
+            return services.characterService.characterFeatsTaken(
                 filter.minLevel,
                 filter.charLevel,
                 { featName: this.name },

@@ -4,6 +4,7 @@ import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Skill } from 'src/app/classes/Skill';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 
 @Component({
     selector: 'app-skillchoice',
@@ -88,7 +89,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_Abilities(name = '') {
-        return this.characterService.get_Abilities(name);
+        return this.characterService.abilities(name);
     }
 
     get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}) {
@@ -97,15 +98,15 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
             locked: undefined, ...filter,
         };
 
-        return this.characterService.get_Skills(this.get_Character(), name, filter);
+        return this.characterService.skills(this.get_Character(), name, filter);
     }
 
     get_SkillLevel(skill: Skill) {
         return skill.level(this.get_Character(), this.characterService, this.levelNumber, true);
     }
 
-    get_SkillLevelName(skillLevel: number, short = false) {
-        return this.characterService.get_SkillLevelName(skillLevel, short);
+    get_SkillLevelName(skillLevel: number, shortForm = false) {
+        return SkillLevelName(skillLevel, { shortForm });
     }
 
     get_INT(levelNumber: number) {
