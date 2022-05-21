@@ -3225,7 +3225,7 @@ export class CharacterService {
         this.setLoadingStatus('Loading extensions');
 
         const waitForFileServices = setInterval(() => {
-            if (!this._extensionsService.still_loading() && !this._configService.stillLoading) {
+            if (!this._extensionsService.stillLoading() && !this._configService.stillLoading) {
                 clearInterval(waitForFileServices);
                 this.setLoadingStatus('Initializing content');
                 this._character = new Character();
@@ -3493,7 +3493,7 @@ export class CharacterService {
     private _grantBasicItems(): void {
         //This function depends on the items being loaded, and it will wait forever for them!
         const waitForItemsService = setInterval(() => {
-            if (!this._extensionsService.still_loading() && !this._configService.stillLoading) {
+            if (!this._extensionsService.stillLoading() && !this._configService.stillLoading) {
                 clearInterval(waitForItemsService);
 
                 const newBasicWeapon: Weapon =

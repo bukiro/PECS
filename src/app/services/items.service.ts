@@ -1020,11 +1020,11 @@ export class ItemsService {
         this.loading = true;
         //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
         this.load(json_itemproperties, 'itemProperties', ItemProperty, 'meta');
-        this.itemProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.itemProperties, ['group', 'parent', 'key'], 'custom item properties') as Array<ItemProperty>;
+        this.itemProperties = this.extensionsService.cleanupDuplicatesWithMultipleIdentifiers(this.itemProperties, ['group', 'parent', 'key'], 'custom item properties') as Array<ItemProperty>;
         this.load(json_armormaterials, 'armorMaterials', ArmorMaterial, 'meta');
         this.armorMaterials = this.extensionsService.cleanupDuplicates(this.armorMaterials, 'name', 'armor materials') as Array<ArmorMaterial>;
         this.load(json_shieldmaterials, 'shieldMaterials', ShieldMaterial, 'meta');
-        this.shieldMaterials = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.shieldMaterials, ['name', 'itemFilter'], 'shield materials') as Array<ShieldMaterial>;
+        this.shieldMaterials = this.extensionsService.cleanupDuplicatesWithMultipleIdentifiers(this.shieldMaterials, ['name', 'itemFilter'], 'shield materials') as Array<ShieldMaterial>;
         this.load(json_weaponmaterials, 'weaponMaterials', WeaponMaterial, 'meta');
         this.weaponMaterials = this.extensionsService.cleanupDuplicates(this.weaponMaterials, 'name', 'weapon materials') as Array<WeaponMaterial>;
         this.load(json_specializations, 'specializations', Specialization, 'meta');

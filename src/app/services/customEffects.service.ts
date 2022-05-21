@@ -50,7 +50,7 @@ export class CustomEffectsService {
             this._effectProperties.push(...data[key].map((obj: ItemProperty) => Object.assign(new ItemProperty(), obj).recast()));
         });
         this._effectProperties =
-            this._extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(
+            this._extensionsService.cleanupDuplicatesWithMultipleIdentifiers(
                 this._effectProperties,
                 ['parent', 'key'],
                 'custom effect properties',
