@@ -1437,7 +1437,7 @@ export class CharacterService {
             //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
             if (workingGain.activationPrerequisite) {
                 const activationValue =
-                    this._evaluationService.get_ValueFromFormula(
+                    this._evaluationService.valueFromFormula(
                         workingGain.activationPrerequisite,
                         { characterService: this, effectsService: this.effectsService },
                         { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: workingGain },
@@ -2540,7 +2540,7 @@ export class CharacterService {
                     spellCastingAbility: conditionSpellCastingAbility,
                 };
                 const validationResult =
-                    this._evaluationService.get_ValueFromFormula(
+                    this._evaluationService.valueFromFormula(
                         effectGain.value,
                         { characterService: this, effectsService: this.effectsService },
                         { creature, object: testObject, effect: effectGain },

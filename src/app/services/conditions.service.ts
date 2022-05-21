@@ -779,7 +779,7 @@ export class ConditionsService {
                         services.characterService.removeCondition(creature, gain, false);
                     } else {
                         if (gain.activationPrerequisite) {
-                            const testResult = evaluationService.get_ValueFromFormula(
+                            const testResult = evaluationService.valueFromFormula(
                                 gain.activationPrerequisite,
                                 { characterService: services.characterService, effectsService: services.effectsService },
                                 { creature, object: gain, parentItem: item },

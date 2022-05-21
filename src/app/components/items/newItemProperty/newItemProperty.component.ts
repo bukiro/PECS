@@ -106,7 +106,7 @@ export class NewItemPropertyComponent {
 
         if (this.propertyKey == 'value' && this.propertyData.parent == 'effects') {
             if (value && value != '0') {
-                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
+                const validationResult = this.evaluationService.valueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
 
                 if (validationResult && validationResult != '0' && (parseInt(validationResult, 10) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult, 10)) {
@@ -123,7 +123,7 @@ export class NewItemPropertyComponent {
             }
         } else if (this.propertyKey == 'setValue' && this.propertyData.parent == 'effects') {
             if (value && value != '0') {
-                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
+                const validationResult = this.evaluationService.valueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
 
                 if (validationResult && validationResult != '0' && (parseInt(validationResult, 10) || parseFloat(validationResult, 10))) {
                     if (parseFloat(validationResult) == parseInt(validationResult, 10)) {
@@ -140,7 +140,7 @@ export class NewItemPropertyComponent {
             }
         } else if (this.propertyKey == 'value' && this.propertyData.parent == 'onceEffects') {
             if (value && value != '0') {
-                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
+                const validationResult = this.evaluationService.valueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
 
                 if (validationResult && validationResult != '0' && (parseInt(validationResult) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) == parseInt(validationResult)) {

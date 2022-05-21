@@ -355,10 +355,10 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         let penalty = false;
 
         if (effect.setValue) {
-            result = this.evaluationService.get_ValueFromFormula(effect.setValue, { characterService: this.characterService, effectsService: this.effectsService }, { creature, effect });
+            result = this.evaluationService.valueFromFormula(effect.setValue, { characterService: this.characterService, effectsService: this.effectsService }, { creature, effect });
             penalty = false;
         } else if (effect.value) {
-            result = this.evaluationService.get_ValueFromFormula(effect.value, { characterService: this.characterService, effectsService: this.effectsService }, { creature, effect });
+            result = this.evaluationService.valueFromFormula(effect.value, { characterService: this.characterService, effectsService: this.effectsService }, { creature, effect });
 
             if (!isNaN(result as number)) {
                 penalty = (result < 0) == (effect.affected != 'Bulk');
@@ -443,7 +443,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
         if (propertyData.key == 'value' && propertyData.parent == 'effects') {
             if (value && value != '0') {
-                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
+                const validationResult = this.evaluationService.valueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || '0';
 
                 if (validationResult && validationResult != '0' && (parseInt(validationResult, 10) || parseFloat(validationResult, 10))) {
                     if (parseFloat(validationResult) == parseInt(validationResult, 10)) {
@@ -460,7 +460,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
             }
         } else if (propertyData.key == 'setValue' && propertyData.parent == 'effects') {
             if (value && value != '0') {
-                const validationResult = this.evaluationService.get_ValueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
+                const validationResult = this.evaluationService.valueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Character() })?.toString() || null;
 
                 if (validationResult && (parseInt(validationResult, 10) || parseFloat(validationResult, 10)) || parseInt(validationResult, 10) == 0) {
                     if (parseFloat(validationResult, 10) == parseInt(validationResult, 10)) {

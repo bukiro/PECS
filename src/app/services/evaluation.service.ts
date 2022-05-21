@@ -1,28 +1,31 @@
 import { Injectable } from '@angular/core';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Creature } from 'src/app/classes/Creature';
+import { Creature as CreatureModel } from 'src/app/classes/Creature';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';
-import { Character } from 'src/app/classes/Character';
-import { Familiar } from 'src/app/classes/Familiar';
-import { Speed } from 'src/app/classes/Speed';
+import { Speed as SpeedModel } from 'src/app/classes/Speed';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { EffectGain } from '../classes/EffectGain';
 import { Equipment } from '../classes/Equipment';
 import { ActivityGain } from '../classes/ActivityGain';
-import { Skill } from '../classes/Skill';
+import { Skill as SkillModel } from '../classes/Skill';
+import { Armor as ArmorModel } from '../classes/Armor';
+import { Shield as ShieldModel } from '../classes/Shield';
+import { Weapon } from '../classes/Weapon';
+import { WornItem } from '../classes/WornItem';
+import { FeatTaken } from '../character-creation/definitions/models/FeatTaken';
+import { Deity as DeityModel } from '../classes/Deity';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
-    get_Name?: () => string;
+    effectiveName?: () => string;
     name?: string;
 }
 interface FormulaContext {
-    readonly creature: Creature;
+    readonly creature: CreatureModel;
     readonly object?: FormulaObject | Partial<ConditionGain>;
     readonly parentConditionGain?: ConditionGain;
     readonly parentItem?: Item | Material;
@@ -40,15 +43,15 @@ interface FormulaOptions {
 export class EvaluationService {
 
     constructor(
-        private readonly abilitiesService: AbilitiesDataService,
-        private readonly familiarsService: FamiliarsService,
+        private readonly _abilitiesService: AbilitiesDataService,
+        private readonly _familiarsService: FamiliarsService,
     ) { }
 
-    private get_TestSpeed(name: string): Speed {
-        return (new Speed(name));
-    }
-
-    public get_ValueFromFormula(formula: string, services: { readonly characterService: CharacterService; readonly effectsService: EffectsService }, context: FormulaContext, options: FormulaOptions = {}): number | string | null {
+    public valueFromFormula(
+        formula: string,
+        services: { readonly characterService: CharacterService; readonly effectsService: EffectsService },
+        context: FormulaContext, options: FormulaOptions = {},
+    ): number | string | null {
         context = {
             creature: context.creature,
             object: null,
@@ -65,16 +68,17 @@ export class EvaluationService {
         /* eslint-disable @typescript-eslint/no-unused-vars */
         const effectsService = services.effectsService;
         const characterService = services.characterService;
-        const abilitiesService = this.abilitiesService;
-        const familiarsService = this.familiarsService;
-        const Creature: Creature = context.creature;
+        const abilitiesService = this._abilitiesService;
+        const familiarsService = this._familiarsService;
+        const Creature = context.creature;
         const Character = characterService.character();
         const Companion = characterService.companion();
-        const Familiar: Familiar = characterService.familiar();
+        const Familiar = characterService.familiar();
         const object = context.object;
         const effect = context.effect;
         const parentItem = context.parentItem;
-        //Using pretendCharacterLevel helps determine what the formula's result would be on a certain character level other than the current.
+        // Using pretendCharacterLevel helps determine what the formula's result
+        // would be on a certain character level other than the current.
         const Level: number = options.pretendCharacterLevel || Character.level;
         //Some values specific to conditions for effect values
         let Duration: number = (object as Partial<ConditionGain>)?.duration || null;
@@ -112,126 +116,139 @@ export class EvaluationService {
         }
 
         //Some Functions for effect values
-        function Temporary_HP(source = '', sourceId = '') {
+        /* eslint-disable @typescript-eslint/naming-convention */
+        const Temporary_HP = (source = '', sourceId = ''): number => {
             if (sourceId) {
-                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.sourceId == sourceId).amount;
+                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.sourceId === sourceId).amount;
             } else if (source) {
-                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.source == source).amount;
+                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.source === source).amount;
             } else {
                 return Creature.health.temporaryHP[0].amount;
             }
-        }
-        function Current_HP() {
-            return Creature.health.currentHP(Creature, characterService, effectsService).result;
-        }
-        function Max_HP() {
-            return Creature.health.maxHP(Creature, characterService, effectsService).result;
-        }
-        function Ability(name: string) {
+        };
+        const Current_HP = (): number => (
+            Creature.health.currentHP(Creature, characterService, effectsService).result
+        );
+        const Max_HP = (): number => (
+            Creature.health.maxHP(Creature, characterService, effectsService).result
+        );
+        const Ability = (name: string): number => {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                return characterService.abilities(name)[0]?.value((Creature as AnimalCompanion | Character), characterService, effectsService).result;
+                return characterService.abilities(name)[0]
+                    ?.value(Creature, characterService, effectsService).result;
             }
-        }
-        function Modifier(name: string) {
+        };
+
+        const Modifier = (name: string): number => {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                return characterService.abilities(name)[0]?.mod((Creature as AnimalCompanion | Character), characterService, effectsService).result;
+                return characterService.abilities(name)[0]
+                    ?.mod(Creature, characterService, effectsService).result;
             }
-        }
-        function BaseSize() {
-            return (Creature as AnimalCompanion | Character | Familiar).baseSize();
-        }
-        function Size(asNumber = false) {
-            return (Creature as AnimalCompanion | Character | Familiar).effectiveSize(effectsService, { asNumber });
-        }
-        function Skill(name: string) {
-            return characterService.skills(Creature, name)[0]?.baseValue((Creature as AnimalCompanion | Character), characterService, abilitiesService, effectsService, Level).result;
-        }
-        function Skill_Level(name: string) {
+        };
+        const BaseSize = (): number => (
+            Creature.baseSize()
+        );
+        const Size = (asNumber = false): string | number => (
+            Creature.effectiveSize(effectsService, { asNumber })
+        );
+        const Skill = (name: string): number => (
+            characterService.skills(Creature, name)[0]
+                ?.baseValue(Creature, characterService, abilitiesService, effectsService, Level).result
+        );
+        const Skill_Level = (name: string): number => {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                return characterService.skills(Creature, name)[0]?.level((Creature as AnimalCompanion | Character), characterService, Level);
+                return characterService.skills(Creature, name)[0]
+                    ?.level(Creature, characterService, Level);
             }
-        }
-        function Skills_Of_Type(name: string): Array<Skill> {
-            return characterService.skills(Creature, '', { type: name });
-        }
-        function Has_Speed(name: string): boolean {
+        };
+        const Skills_Of_Type = (name: string): Array<SkillModel> => (
+            characterService.skills(Creature, '', { type: name })
+        );
+        const Has_Speed = (name: string): boolean => (
             //This tests if you have a certain speed, either from your ancestry or from absolute effects.
             // Bonuses and penalties are ignored, since you shouldn't get a bonus to a speed you don't have.
-            return Creature.speeds.some(speed => speed.name === name) ||
-                effectsService.absoluteEffectsOnThis(Creature, name).some(effect => !context.effectSourceName || effect.source !== context.effectSourceName);
-        }
-
-        const Speed = (name: string): number => (this.get_TestSpeed(name))?.value(Creature, characterService, effectsService).result || 0;
-
-        function Has_Condition(name: string): boolean {
-            return !!characterService.currentCreatureConditions(Creature, name, '', true).length;
-        }
-        function Owned_Conditions(name: string): Array<ConditionGain> {
-            return characterService.currentCreatureConditions(Creature, name, '', true);
-        }
-        function Owned_Activities(name: string): Array<ActivityGain> {
-            return characterService.creatureOwnedActivities(Creature).filter(gain => gain.name === name);
-        }
-        function Armor() {
+            Creature.speeds.some(speed => speed.name === name) ||
+            effectsService.absoluteEffectsOnThis(Creature, name)
+                .some(absoluteEffect => !context.effectSourceName || absoluteEffect.source !== context.effectSourceName)
+        );
+        const Speed = (name: string): number => (
+            (this._testSpeed(name))?.value(Creature, characterService, effectsService).result || 0
+        );
+        const Has_Condition = (name: string): boolean => (
+            !!characterService.currentCreatureConditions(Creature, name, '', true).length
+        );
+        const Owned_Conditions = (name: string): Array<ConditionGain> => (
+            characterService.currentCreatureConditions(Creature, name, '', true)
+        );
+        const Owned_Activities = (name: string): Array<ActivityGain> => (
+            characterService.creatureOwnedActivities(Creature).filter(gain => gain.name === name)
+        );
+        const Armor = (): ArmorModel => {
             if (Creature === Familiar) {
                 return null;
             } else {
                 return Creature.inventories[0].armors.find(armor => armor.equipped);
             }
-        }
-        function Shield() {
+        };
+        const Shield = (): ShieldModel => {
             if (Creature === Familiar) {
                 return null;
             } else {
                 return Creature.inventories[0].shields.find(shield => shield.equipped);
             }
-        }
-        function Weapons() {
+        };
+        const Weapons = (): Array<Weapon> => {
             if (Creature === Familiar) {
                 return null;
             } else {
                 return Creature.inventories[0].weapons.filter(weapon => weapon.equipped);
             }
-        }
-        function WornItems() {
+        };
+        const WornItems = (): Array<WornItem> => {
             if (Creature === Familiar) {
                 return null;
             } else {
                 return Creature.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped());
             }
-        }
-        function Has_Feat(creature: string, name: string) {
-            if (creature == 'Familiar') {
-                return familiarsService.get_FamiliarAbilities(name).filter(feat => feat.have({ creature: Familiar }, { characterService }, { charLevel: Level })).length;
-            } else if (creature == 'Character') {
+        };
+        const Has_Feat = (creatureType: string, name: string): number => {
+            if (creatureType === 'Familiar') {
+                return familiarsService.get_FamiliarAbilities(name)
+                    .filter(feat => feat.have({ creature: Familiar }, { characterService }, { charLevel: Level })).length;
+            } else if (creatureType === 'Character') {
                 return characterService.characterFeatsTaken(1, Level, { featName: name }).length;
             } else {
                 return 0;
             }
-        }
-        function Feats_Taken(creature: string) {
-            if (creature == 'Familiar') {
-                return familiarsService.get_FamiliarAbilities().filter(feat => feat.have({ creature: Familiar }, { characterService }, { charLevel: Level }));
-            } else if (creature == 'Character') {
+        };
+        const Feats_Taken = (creatureType: string): Array<FeatTaken> => {
+            if (creatureType === 'Familiar') {
+                return Familiar.abilities.feats
+                    .filter(feat =>
+                        familiarsService.get_FamiliarAbilities(feat.name)[0]
+                            ?.have({ creature: Familiar }, { characterService }, { charLevel: Level }),
+                    );
+            } else if (creatureType === 'Character') {
                 return characterService.characterFeatsTaken(1, Level);
             } else {
-                return 0;
+                return [];
             }
-        }
-        function SpellcastingModifier() {
+        };
+        const SpellcastingModifier = (): number => {
             if (SpellCastingAbility) {
-                return abilitiesService.abilities(SpellCastingAbility)?.[0]?.mod(Character, characterService, effectsService, Level).result || 0;
+                return abilitiesService.abilities(SpellCastingAbility)[0]
+                    ?.mod(Character, characterService, effectsService, Level).result || 0;
             } else {
                 return 0;
             }
-        }
-        function Has_Heritage(name: string) {
+        };
+        const Has_Heritage = (name: string): boolean => {
             const allHeritages: Array<string> = Character.class?.heritage ?
                 [
                     Character.class.heritage.name.toLowerCase(),
@@ -248,27 +265,29 @@ export class EvaluationService {
                 [];
 
             return allHeritages.includes(name);
-        }
-        function Deities() {
-            return characterService.currentCharacterDeities(Character);
-        }
-        function Deity() {
-            return characterService.currentCharacterDeities(Character)[0];
-        }
+        };
+        const Deities = (): Array<DeityModel> => (
+            characterService.currentCharacterDeities(Character)
+        );
+        const Deity = (): DeityModel => (
+            characterService.currentCharacterDeities(Character)[0]
+        );
         /* eslint-enable @typescript-eslint/no-unused-vars */
+        /* eslint-enable @typescript-eslint/naming-convention */
         //This function is to avoid evaluating a string like "01" as a base-8 number.
-        function CleanupLeadingZeroes(text: string) {
+        const cleanupLeadingZeroes = (text: string): string => {
             let cleanedText = text;
 
-            while (cleanedText[0] == '0' && cleanedText != '0') {
-                cleanedText = cleanedText.substr(1);
+            while (cleanedText[0] === '0' && cleanedText !== '0') {
+                cleanedText = cleanedText.substring(1);
             }
 
             return cleanedText;
-        }
+        };
 
         try {
-            const result: number | string | null = eval(CleanupLeadingZeroes(formula));
+            // eslint-disable-next-line no-eval
+            const result: number | string | null = eval(cleanupLeadingZeroes(formula));
 
             if (result == null || typeof result === 'string' || typeof result === 'number') {
                 return result;
@@ -279,6 +298,10 @@ export class EvaluationService {
             return null;
         }
 
+    }
+
+    private _testSpeed(name: string): SpeedModel {
+        return (new SpeedModel(name));
     }
 
 }
