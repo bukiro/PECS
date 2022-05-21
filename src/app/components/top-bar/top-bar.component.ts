@@ -51,23 +51,23 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_Database() {
-        return this.configService.get_HasDBConnectionURL();
+        return this.configService.hasDBConnectionURL();
     }
 
     get_LoggingIn() {
-        return this.configService.get_LoggingIn();
+        return this.configService.isLoggingIn();
     }
 
     get_LoggedIn() {
-        return this.configService.get_LoggedIn();
+        return this.configService.isLoggedIn();
     }
 
     get_CannotLogin() {
-        return this.configService.get_CannotLogin();
+        return this.configService.cannotLogin();
     }
 
     get_LoggedOutMessage() {
-        return this.configService.get_LoggedOutMessage();
+        return this.configService.loggedOutMessage();
     }
 
     get_Savegames() {
@@ -233,7 +233,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                     },
                     error: error => {
                         if (error.status == 401) {
-                            this.configService.on_LoggedOut('Your login is no longer valid. New effects could not be checked. Please try again after logging in.');
+                            this.configService.logout('Your login is no longer valid. New effects could not be checked. Please try again after logging in.');
                         } else {
                             this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
                             console.log(`Error cleaning up messages: ${ error.message }`);
@@ -327,7 +327,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                 if (result == 'OK click') {
                     this.passwordFailed = false;
                     this.modalOpen = false;
-                    this.configService.get_Login(this.password, this.characterService, this.savegameService);
+                    this.configService.login(this.password, this.characterService, this.savegameService);
                     this.password = '';
                 }
             }, () => {
@@ -367,7 +367,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         const waitUntilReady = setInterval(() => {
-            if (this.get_Database() || this.configService.still_loading()) {
+            if (this.get_Database() || this.configService.stillLoading()) {
                 clearInterval(waitUntilReady);
                 this.finish_Loading();
             }

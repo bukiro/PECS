@@ -46,23 +46,23 @@ export class MessageService {
     }
 
     load_Messages(recipientId: string): Observable<Array<string>> {
-        return this.http.get<Array<string>>(`${ this.configService.get_DBConnectionURL() }/loadMessages/${ recipientId }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<Array<string>>(`${ this.configService.dBConnectionURL() }/loadMessages/${ recipientId }`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.xAccessToken() }) });
     }
 
     cleanup_OldMessages() {
-        return this.http.get<Array<string>>(`${ this.configService.get_DBConnectionURL() }/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<Array<string>>(`${ this.configService.dBConnectionURL() }/cleanupMessages`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.xAccessToken() }) });
     }
 
     load_TimeFromConnector(): Observable<{ time: number }> {
-        return this.http.get<{ time: number }>(`${ this.configService.get_DBConnectionURL() }/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.get<{ time: number }>(`${ this.configService.dBConnectionURL() }/time`, { headers: new HttpHeaders({ 'x-access-Token': this.configService.xAccessToken() }) });
     }
 
     delete_MessageFromDB(message: PlayerMessage): Observable<Array<string>> {
-        return this.http.post<Array<string>>(`${ this.configService.get_DBConnectionURL() }/deleteMessage`, { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<Array<string>>(`${ this.configService.dBConnectionURL() }/deleteMessage`, { id: message.id }, { headers: new HttpHeaders({ 'x-access-Token': this.configService.xAccessToken() }) });
     }
 
     save_MessagesToDB(messages: Array<PlayerMessage>): Observable<Array<string>> {
-        return this.http.post<Array<string>>(`${ this.configService.get_DBConnectionURL() }/saveMessages/`, messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.get_XAccessToken() }) });
+        return this.http.post<Array<string>>(`${ this.configService.dBConnectionURL() }/saveMessages/`, messages, { headers: new HttpHeaders({ 'x-access-Token': this.configService.xAccessToken() }) });
     }
 
     finish_loading(loader: Array<string>) {
@@ -111,7 +111,7 @@ export class MessageService {
                     this.checkingMessages = false;
 
                     if (error.status == 401) {
-                        this.configService.on_LoggedOut('Your login is no longer valid; Messages have not been loaded.');
+                        this.configService.logout('Your login is no longer valid; Messages have not been loaded.');
                     } else {
                         let text = 'An error occurred while searching for new messages. See console for more information.';
 
@@ -227,7 +227,7 @@ export class MessageService {
                                 }
 
                                 if (error.status == 401) {
-                                    this.configService.on_LoggedOut('Your login is no longer valid.');
+                                    this.configService.logout('Your login is no longer valid.');
                                 } else if (!errorMessage) {
                                     errorMessage = true;
 

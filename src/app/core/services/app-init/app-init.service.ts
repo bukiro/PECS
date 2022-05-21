@@ -61,7 +61,7 @@ export class AppInitService {
         this._configService.initialize(this._characterService, this._savegameService);
 
         const waitForFileServices = setInterval(() => {
-            if (!this._extensionsService.still_loading() && !this._configService.still_loading()) {
+            if (!this._extensionsService.still_loading() && !this._configService.stillLoading()) {
                 clearInterval(waitForFileServices);
                 this._traitsService.initialize();
                 this._abilitiesService.initialize();

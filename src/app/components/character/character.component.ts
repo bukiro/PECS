@@ -289,7 +289,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     onRetryLogin() {
-        this.configService.get_Login('', this.characterService, this.savegameService);
+        this.configService.login('', this.characterService, this.savegameService);
     }
 
     get_SavegamesInitializing() {
@@ -297,19 +297,19 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_LoggingIn() {
-        return this.configService.get_LoggingIn();
+        return this.configService.isLoggingIn();
     }
 
     get_Database() {
-        return this.configService.get_HasDBConnectionURL();
+        return this.configService.hasDBConnectionURL();
     }
 
     get_LoggedIn() {
-        return this.configService.get_LoggedIn();
+        return this.configService.isLoggedIn();
     }
 
     get_CannotLogin() {
-        return this.configService.get_CannotLogin();
+        return this.configService.cannotLogin();
     }
 
     get_Savegames() {

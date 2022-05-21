@@ -196,7 +196,7 @@ export class SavegameService {
         this._refreshService.set_Changed('charactersheet');
         this._refreshService.set_Changed('top-bar');
 
-        if (this._configService.get_HasDBConnectionURL() && this._configService.get_LoggedIn()) {
+        if (this._configService.hasDBConnectionURL() && this._configService.isLoggedIn()) {
             this._loadAllCharacters()
                 .subscribe({
                     next: (results: Array<Partial<Character & DatabaseCharacter>>) => {
@@ -204,7 +204,7 @@ export class SavegameService {
                     },
                     error: error => {
                         if (error.status == HttpStatus.InvalidLogin) {
-                            this._configService.on_LoggedOut('Your login is no longer valid.');
+                            this._configService.logout('Your login is no longer valid.');
                         } else {
                             console.log(`Error loading characters from database: ${ error.message }`);
                             this._savegames = [];
@@ -227,22 +227,22 @@ export class SavegameService {
 
     public loadCharacter(id: string): Observable<Array<Partial<Character>>> {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.get<Array<Partial<Character>>>(`${ this._configService.get_DBConnectionURL() }/loadCharacter/${ id }`, { headers: new HttpHeaders({ 'x-access-Token': this._configService.get_XAccessToken() }) });
+        return this._http.get<Array<Partial<Character>>>(`${ this._configService.dBConnectionURL() }/loadCharacter/${ id }`, { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken() }) });
     }
 
     public deleteCharacter(savegame: Savegame): Observable<Array<string>> {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.post<Array<string>>(`${ this._configService.get_DBConnectionURL() }/deleteCharacter`, { id: savegame.id }, { headers: new HttpHeaders({ 'x-access-Token': this._configService.get_XAccessToken() }) });
+        return this._http.post<Array<string>>(`${ this._configService.dBConnectionURL() }/deleteCharacter`, { id: savegame.id }, { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken() }) });
     }
 
     public saveCharacter(savegame: Partial<Character>): Observable<SaveCharacterResponse> {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.post<SaveCharacterResponse>(`${ this._configService.get_DBConnectionURL() }/saveCharacter`, savegame, { headers: new HttpHeaders({ 'x-access-Token': this._configService.get_XAccessToken() }) });
+        return this._http.post<SaveCharacterResponse>(`${ this._configService.dBConnectionURL() }/saveCharacter`, savegame, { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken() }) });
     }
 
     private _loadAllCharacters(): Observable<Array<Partial<Character>>> {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.get<Array<Partial<Character>>>(`${ this._configService.get_DBConnectionURL() }/listCharacters`, { headers: new HttpHeaders({ 'x-access-Token': this._configService.get_XAccessToken() }) });
+        return this._http.get<Array<Partial<Character>>>(`${ this._configService.dBConnectionURL() }/listCharacters`, { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken() }) });
     }
 
     /* eslint-disable @typescript-eslint/no-explicit-any */

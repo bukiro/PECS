@@ -1,204 +1,222 @@
-import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
 import { CharacterService } from 'src/app/services/character.service';
 import { SavegameService } from 'src/app/services/savegame.service';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { map, Observable, of, switchMap } from 'rxjs';
+
+interface LoginToken {
+    token: string | false;
+}
 
 @Injectable({
     providedIn: 'root',
 })
 export class ConfigService {
 
-    private dataServiceURL: string;
-    private localDataService = false;
-    private loading = false;
-    private xAccessToken = 'testtoken';
-    private loggingIn = false;
-    private loggedIn = false;
-    private cannotLogin = false;
-    private loggedOutMessage = '';
-    private updateAvailable = '';
-    private readonly updateURL = 'http://api.github.com/repos/bukiro/PECS/releases/latest';
+    private _dataServiceURL: string;
+    private _localDataService = false;
+    private _initialized = false;
+    private _xAccessToken = 'testtoken';
+    private _loggingIn = false;
+    private _loggedIn = false;
+    private _cannotLogin = false;
+    private _loggedOutMessage = '';
+    private _updateAvailable = '';
+    private readonly _updateURL = 'http://api.github.com/repos/bukiro/PECS/releases/latest';
 
     constructor(
-        private readonly httpClient: HttpClient,
-        private readonly refreshService: RefreshService,
+        private readonly _httpClient: HttpClient,
+        private readonly _refreshService: RefreshService,
     ) { }
 
-    still_loading() {
-        return this.loading;
+    public get stillLoading(): boolean {
+        return this._loggingIn || !this._initialized;
     }
 
-    get_LoggingIn() {
-        return this.loggingIn;
+    public get isLoggingIn(): boolean {
+        return this._loggingIn;
     }
 
-    get_LoggedIn() {
-        return this.loggedIn;
+    public get isLoggedIn(): boolean {
+        return this._loggedIn;
     }
 
-    get_CannotLogin() {
-        return this.cannotLogin;
+    public get cannotLogin(): boolean {
+        return this._cannotLogin;
     }
 
-    get_LoggedOutMessage() {
-        return this.loggedOutMessage;
+    public get loggedOutMessage(): string {
+        return this._loggedOutMessage;
     }
 
-    get_XAccessToken() {
-        return this.xAccessToken;
+    public get xAccessToken(): string {
+        return this._xAccessToken;
     }
 
-    get_HasDBConnectionURL() {
-        return this.dataServiceURL || this.localDataService;
+    public get hasDBConnectionURL(): boolean {
+        return !!this._dataServiceURL || !!this._localDataService;
     }
 
-    get_DBConnectionURL() {
-        if (this.dataServiceURL) {
-            return this.dataServiceURL;
+    public get dBConnectionURL(): string {
+        if (this._dataServiceURL) {
+            return this._dataServiceURL;
         } else {
             return '';
         }
     }
 
-    get_UpdateAvailable() {
-        return this.updateAvailable;
+    public get updateAvailable(): string {
+        return this._updateAvailable;
     }
 
-    login(password = '') {
-        return this.httpClient.post<{ token: string | false }>(`${ this.get_DBConnectionURL() }/login`, { password: Md5.hashStr(password) });
-    }
-
-    get_Login(password = '', characterService: CharacterService, savegameService: SavegameService) {
+    public login(password = '', characterService: CharacterService, savegameService: SavegameService): void {
         //We set loggingIn to true, which changes buttons in the character builder and the top-bar, so we need to update those.
-        this.loggingIn = true;
+        this._loggingIn = true;
         characterService.setLoadingStatus('Connecting');
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.process_ToChange();
-        //Try logging in. You will receive false if the password was wrong, a random token if it was correct, or a token of "no-login-required" if no password is needed.
-        this.login(password)
+        this._refreshService.set_ToChange('Character', 'charactersheet');
+        this._refreshService.process_ToChange();
+        // Try logging in. Return values are:
+        // - false if the password was wrong
+        // - a randomized token if it was correct
+        // - a token of "no-login-required" if no password is needed
+        this._httpLogin(password)
             .subscribe({
-                next: (result: { token: string | false }) => {
-                    this.cannotLogin = false;
+                next: result => {
+                    this._cannotLogin = false;
 
-                    if (result.token != false) {
-                        this.xAccessToken = result.token;
-                        this.loggedIn = true;
-                        this.loggingIn = false;
-                        this.loggedOutMessage = '';
-                        this.refreshService.set_ToChange('Character', 'charactersheet');
-                        this.refreshService.set_ToChange('Character', 'top-bar');
-                        this.refreshService.process_ToChange();
+                    if (result.token !== false) {
+                        this._xAccessToken = result.token;
+                        this._loggedIn = true;
+                        this._loggingIn = false;
+                        this._loggedOutMessage = '';
+                        this._refreshService.set_ToChange('Character', 'charactersheet');
+                        this._refreshService.set_ToChange('Character', 'top-bar');
+                        this._refreshService.process_ToChange();
                         savegameService.reset();
                     } else {
-                        this.loggedIn = false;
+                        this._loggedIn = false;
+                        this._loggingIn = false;
 
                         if (password) {
-                            this.refreshService.set_ToChange('Character', 'password-failed');
+                            this._refreshService.set_ToChange('Character', 'password-failed');
                         } else {
-                            this.refreshService.set_ToChange('Character', 'logged-out');
+                            this._refreshService.set_ToChange('Character', 'logged-out');
                         }
 
-                        this.refreshService.process_ToChange();
+                        this._refreshService.process_ToChange();
                     }
-
-                    this.loading = false;
                 }, error: error => {
-                    console.log(`Error logging in: ${ error.message }`);
+                    console.error(`Error logging in: ${ error.message }`);
 
-                    if (error.status == 0) {
-                        characterService.toastService.show('The configured database is not available. Characters can\'t be saved or loaded.');
+                    if (error.status === 0) {
+                        characterService.toastService.show(
+                            'The configured database is not available. Characters can\'t be saved or loaded.',
+                        );
                     }
 
-                    this.cannotLogin = true;
-                    this.loggingIn = false;
-                    this.loading = false;
-                    this.refreshService.set_ToChange('Character', 'charactersheet');
-                    this.refreshService.set_ToChange('Character', 'top-bar');
-                    this.refreshService.process_ToChange();
+                    this._cannotLogin = true;
+                    this._loggingIn = false;
+                    this._initialized = true;
+                    this._refreshService.set_ToChange('Character', 'charactersheet');
+                    this._refreshService.set_ToChange('Character', 'top-bar');
+                    this._refreshService.process_ToChange();
                 },
             });
     }
 
-    on_LoggedOut(notification = '') {
-        this.loggedIn = false;
-        this.loggedOutMessage = notification;
-        this.refreshService.set_ToChange('Character', 'character-sheet');
-        this.refreshService.set_ToChange('Character', 'top-bar');
-        this.refreshService.set_ToChange('Character', 'logged-out');
-        this.refreshService.process_ToChange();
+    public logout(notification = ''): void {
+        this._loggedIn = false;
+        this._loggedOutMessage = notification;
+        this._refreshService.set_ToChange('Character', 'character-sheet');
+        this._refreshService.set_ToChange('Character', 'top-bar');
+        this._refreshService.set_ToChange('Character', 'logged-out');
+        this._refreshService.process_ToChange();
     }
 
-    initialize(characterService: CharacterService, savegameService: SavegameService) {
-        //Initialize only once.
-        if (!this.dataServiceURL && !this.localDataService) {
-            this.loading = true;
+    public initialize(characterService: CharacterService, savegameService: SavegameService): void {
+        const headers = new HttpHeaders().set('Cache-Control', 'no-cache')
+            .set('Pragma', 'no-cache');
 
-            const headers = new HttpHeaders().set('Cache-Control', 'no-cache')
-                .set('Pragma', 'no-cache');
-
-            this.httpClient.request(new HttpRequest('HEAD', 'assets/config.json', headers))
-                .subscribe({
-                    next: (response: HttpResponse<unknown>) => {
-                        if (response.status) {
-                            if (response.status == 200) {
-                                this.httpClient.get('assets/config.json', { headers })
-                                    .subscribe({
-                                        next: data => {
-                                            const config = JSON.parse(JSON.stringify(data));
-
-                                            this.dataServiceURL = config.dataServiceURL || config.dbConnectionURL || '';
-                                            this.localDataService = config.localDataService || config.localDBConnector;
-                                        },
-                                        error: error => {
-                                            throw error;
-                                        },
-                                        complete: () => {
-                                            //Establish a connection to the data service and check whether login is required.
-                                            this.get_Login('', characterService, savegameService);
-                                        },
-                                    });
-                            } else {
-                                //If there is any result other than 200, assume that we are working with a local data service.
-                                //Run Login to check whether login is required.
-                                this.get_Login('', characterService, savegameService);
-                            }
-                        }
-                    },
-                    error: error => {
-                        if (error.status == 404) {
-                            console.error('No config file was found. See assets/config.json.example for more information.');
+        this._httpClient.request(new HttpRequest('HEAD', 'assets/config.json', headers))
+            .pipe(
+                switchMap((response: HttpResponse<unknown>) => {
+                    if (response.status) {
+                        if (response.status === HttpStatusCode.Ok) {
+                            return this._httpClient.get('assets/config.json', { headers });
                         } else {
-                            throw error;
+                            //If there was any result other than 200, we can assume that we are working with a local data service.
+                            //In that case, login will run without a dataServiceURL.
+                            return of(undefined);
                         }
+                    }
+                }),
+                map((data: object | undefined) => {
+                    if (data) {
+                        const config = JSON.parse(JSON.stringify(data));
 
-                        this.loading = false;
-                    },
-                });
-            this.httpClient.get(this.updateURL)
-                .subscribe({
-                    next: response => {
-                        const cvs = package_json.version.split('.').map(version => parseInt(version, 10));
-                        const availableVersion = JSON.parse(JSON.stringify(response)).tag_name?.replace('v', '') || 'n/a';
+                        this._dataServiceURL = config.dataServiceURL || config.dbConnectionURL || '';
+                        this._localDataService = config.localDataService || config.localDBConnector;
+                    }
 
-                        if (availableVersion != 'n/a') {
-                            const avs = availableVersion.split('.').map(version => parseInt(version, 10));
+                    //Establish a connection to the data service and do a dummy login to check whether login is required.
+                    this.login('', characterService, savegameService);
+                    this._initialized = true;
+                }),
+            )
+            .subscribe({
+                error: error => {
+                    if (error.status === HttpStatusCode.NotFound) {
+                        console.error('No config file was found. See assets/config.json.example for more information.');
+                    } else {
+                        throw error;
+                    }
 
-                            if (avs[0] > cvs[0] || (avs[0] == cvs[0] && avs[1] > cvs[1]) || (avs[0] == cvs[0] && avs[1] == cvs[1] && avs[2] > cvs[2])) {
-                                this.updateAvailable = availableVersion;
-                            }
-                        } else {
-                            this.updateAvailable = availableVersion;
+                    this._initialized = true;
+                },
+            });
+
+        this._httpClient.get(this._updateURL)
+            .subscribe({
+                next: response => {
+                    const cvs = package_json.version.split('.').map(version => parseInt(version, 10));
+                    const availableVersion = JSON.parse(JSON.stringify(response)).tag_name?.replace('v', '') || 'n/a';
+
+                    if (availableVersion !== 'n/a') {
+                        const avs = availableVersion.split('.').map(version => parseInt(version, 10));
+                        const majorVersionIndex = 0;
+                        const versionIndex = 1;
+                        const minorVersionIndex = 2;
+
+                        if (
+                            avs[majorVersionIndex] > cvs[majorVersionIndex] ||
+                            (
+                                avs[majorVersionIndex] === cvs[majorVersionIndex] &&
+                                avs[versionIndex] > cvs[versionIndex]
+                            ) ||
+                            (
+                                avs[majorVersionIndex] === cvs[majorVersionIndex] &&
+                                avs[versionIndex] === cvs[versionIndex] &&
+                                avs[minorVersionIndex] > cvs[minorVersionIndex]
+                            )
+                        ) {
+                            this._updateAvailable = availableVersion;
                         }
-                    },
-                    error: () => {
-                        console.warn('Could not contact github to check for new version.');
-                        this.updateAvailable = 'n/a';
-                    },
-                });
-        }
+                    } else {
+                        this._updateAvailable = availableVersion;
+                    }
+                },
+                error: () => {
+                    console.warn('Could not contact github to check for new version.');
+                    this._updateAvailable = 'n/a';
+                },
+            });
+    }
+
+    private _httpLogin(password = ''): Observable<LoginToken> {
+        return this._httpClient.post<LoginToken>(`${ this.dBConnectionURL }/login`, { password: Md5.hashStr(password) });
     }
 
 }

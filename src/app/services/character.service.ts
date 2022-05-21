@@ -378,7 +378,7 @@ export class CharacterService {
     }
 
     public isLoggedIn(): boolean {
-        return this._configService.get_LoggedIn();
+        return this._configService.isLoggedIn();
     }
 
     public isCompanionAvailable(charLevel: number = this.character().level): boolean {
@@ -1812,7 +1812,7 @@ export class CharacterService {
             .subscribe({
                 error: error => {
                     if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.on_LoggedOut('Your login is no longer valid; The event was not sent.');
+                        this._configService.logout('Your login is no longer valid; The event was not sent.');
                     } else {
                         this.toastService.show('An error occurred while sending effects. See console for more information.');
                         console.error(`Error saving effect messages to database: ${ error.message }`);
@@ -1922,7 +1922,7 @@ export class CharacterService {
             .subscribe({
                 error: error => {
                     if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.on_LoggedOut(
+                        this._configService.logout(
                             'Your login is no longer valid; The conditions were not sent. '
                             + 'Please try again after logging in; If you have wasted an action or spell this way, '
                             + 'you can enable Manual Mode in the settings to restore them.',
@@ -2050,7 +2050,7 @@ export class CharacterService {
             .subscribe({
                 error: error => {
                     if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.on_LoggedOut(
+                        this._configService.logout(
                             'Your login is no longer valid; The item offer was not sent. Please try again after logging in.',
                         );
                     } else {
@@ -2227,7 +2227,7 @@ export class CharacterService {
             .subscribe({
                 error: error => {
                     if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.on_LoggedOut(
+                        this._configService.logout(
                             'Your login is no longer valid; The item acceptance message could not be sent, '
                             + 'but you have received the item. Your party member should drop the item manually.',
                         );
@@ -3236,7 +3236,7 @@ export class CharacterService {
         this.setLoadingStatus('Loading extensions');
 
         const waitForFileServices = setInterval(() => {
-            if (!this._extensionsService.still_loading() && !this._configService.still_loading()) {
+            if (!this._extensionsService.still_loading() && !this._configService.stillLoading()) {
                 clearInterval(waitForFileServices);
                 this.setLoadingStatus('Initializing content');
                 this._character = new Character();
@@ -3274,7 +3274,7 @@ export class CharacterService {
                     },
                     error: error => {
                         if (error.status === HttpStatusCode.Unauthorized) {
-                            this._configService.on_LoggedOut(
+                            this._configService.logout(
                                 'Your login is no longer valid. The character could not be loaded. Please try again after logging in.',
                             );
                             this._cancelLoading();
@@ -3300,7 +3300,7 @@ export class CharacterService {
                 },
                 error: error => {
                     if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.on_LoggedOut(
+                        this._configService.logout(
                             'Your login is no longer valid. The character could not be deleted. Please try again after logging in.',
                         );
                     } else {
@@ -3368,7 +3368,7 @@ export class CharacterService {
                     this._savegameService.reset();
                 }, error: error => {
                     if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.on_LoggedOut(
+                        this._configService.logout(
                             'Your login is no longer valid. The character could not be saved. '
                             + 'Please try saving the character again after logging in.',
                         );
@@ -3395,7 +3395,7 @@ export class CharacterService {
         this.setLoadingStatus('Loading', false);
         this.refreshService.set_ToChange('Character', 'effects');
 
-        if (!this._configService.get_LoggedIn() && !this._configService.get_CannotLogin()) {
+        if (!this._configService.isLoggedIn() && !this._configService.cannotLogin()) {
             this.refreshService.set_ToChange('Character', 'logged-out');
         }
 
@@ -3504,7 +3504,7 @@ export class CharacterService {
     private _grantBasicItems(): void {
         //This function depends on the items being loaded, and it will wait forever for them!
         const waitForItemsService = setInterval(() => {
-            if (!this._extensionsService.still_loading() && !this._configService.still_loading()) {
+            if (!this._extensionsService.still_loading() && !this._configService.stillLoading()) {
                 clearInterval(waitForItemsService);
 
                 const newBasicWeapon: Weapon =

@@ -30,7 +30,7 @@ export class AboutComponent implements OnInit {
     }
 
     get_UpdateAvailable() {
-        const updateAvailable = this.configService.get_UpdateAvailable();
+        const updateAvailable = this.configService.updateAvailable();
 
         if (updateAvailable == 'n/a') {
             return [{ available: false, desc: 'PECS was unable to check for new versions.' }];
