@@ -481,7 +481,7 @@ export class CharacterService {
                     if (feat) {
                         if (feat.effects.some(effect => effect.affected === 'Max Languages')) {
                             const effects =
-                                this._effectsGenerationService.get_EffectsFromObject(
+                                this._effectsGenerationService.effectsFromEffectObject(
                                     feat,
                                     { characterService: this },
                                     { creature: character },
