@@ -926,11 +926,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Feats(name = '', type = '') {
-        return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
+        return this.featsService.feats(this.get_Character().customFeats, name, type);
     }
 
     get_CharacterFeatsAndFeatures(name = '', type = '') {
-        return this.featsService.get_CharacterFeats(this.get_Character().customFeats, name, type);
+        return this.featsService.characterFeats(this.get_Character().customFeats, name, type);
     }
 
     get_Activities(name = '') {

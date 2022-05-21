@@ -18,7 +18,7 @@ const positiveNumbersOnly = new Set([
 })
 export class InputValidationService {
 
-    public static positiveNumbersOnly(event: KeyboardEvent) {
+    public static positiveNumbersOnly(event: KeyboardEvent): boolean {
         return positiveNumbersOnly.has(event.key);
     }
 

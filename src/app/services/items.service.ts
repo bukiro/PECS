@@ -909,7 +909,7 @@ export class ItemsService {
             }
 
             //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
-            characterService.featsService.get_CharacterFeats(creature.customFeats)
+            characterService.featsService.characterFeats(creature.customFeats)
                 .filter(feat => feat.gainItems.some(gain => gain.on == 'rest') && feat.have({ creature }, { characterService }))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {

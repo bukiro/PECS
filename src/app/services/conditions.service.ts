@@ -1095,7 +1095,7 @@ export class ConditionsService {
                         (creature instanceof Character) &&
                         characterService.characterFeatsTaken(1, creature.level, { featName: 'Fast Recovery' }).length
                     ) ||
-                    characterService.featsService.get_Feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
+                    characterService.featsService.feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
                 ) {
                     gain.value -= 1;
 

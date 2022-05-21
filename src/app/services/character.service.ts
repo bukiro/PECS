@@ -863,7 +863,7 @@ export class CharacterService {
             }
 
             if (item instanceof Weapon) {
-                const customFeats = this.featsService.create_WeaponFeats([item]);
+                const customFeats = this.featsService.createWeaponFeats([item]);
 
                 customFeats.forEach(customFeat => {
                     const oldFeat = this.character().customFeats.find(existingFeat => existingFeat.name === customFeat.name);
@@ -2620,20 +2620,20 @@ export class CharacterService {
     }
 
     public feats(name = '', type = ''): Array<Feat> {
-        return this.featsService.get_Feats(this.character().customFeats, name, type);
+        return this.featsService.feats(this.character().customFeats, name, type);
     }
 
     public features(name = ''): Array<Feat> {
-        return this.featsService.get_Features(name);
+        return this.featsService.features(name);
     }
 
     public featsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
         //Use this function very sparingly! See get_All() for details.
-        return this.featsService.get_All(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
+        return this.featsService.featsAndFeatures(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     public characterFeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
-        return this.featsService.get_CharacterFeats(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
+        return this.featsService.characterFeats(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     public characterFeatsTaken(
@@ -2652,7 +2652,7 @@ export class CharacterService {
         // we can get the taken feats quicker from the featsService.
         // CharacterService.get_CharacterFeatsTaken should be preferred over Character.takenFeats for this reason.
         if (!options.excludeTemporary) {
-            return this.featsService.get_CharacterFeatsTaken(
+            return this.featsService.characterFeatsTaken(
                 minLevelNumber,
                 maxLevelNumber,
                 filter.featName,
@@ -2773,7 +2773,7 @@ export class CharacterService {
         level: Level,
         taken: boolean,
     ): void {
-        this.featsService.process_Feat(creature, this, feat, gain, choice, level, taken);
+        this.featsService.processFeat(creature, this, feat, gain, choice, level, taken);
     }
 
     public characterFeatsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
@@ -3319,7 +3319,7 @@ export class CharacterService {
         // Set your turn state according to the saved state.
         this.timeService.setYourTurn(this.character().yourTurn);
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
-        this.featsService.build_CharacterFeats(this.character());
+        this.featsService.buildCharacterFeats(this.character());
         // Reset cache for all creatures.
         this.cacheService.reset();
         // Set accent color and dark mode according to the settings.
@@ -3374,7 +3374,7 @@ export class CharacterService {
         this._loading = false;
         // Fill a runtime variable with all the feats the character has taken,
         // and another with the level at which they were taken. These were cleared when trying to load.
-        this.featsService.build_CharacterFeats(this.character());
+        this.featsService.buildCharacterFeats(this.character());
         this._refreshAfterLoading();
     }
 

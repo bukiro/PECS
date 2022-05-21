@@ -198,7 +198,7 @@ export class HistoryService {
         }
     }
 
-    load(source, target: string, type: string) {
+    load(source, target: '_ancestries' | '_backgrounds' | '_heritages', type: string) {
         this[target] = [];
 
         const data = this.extensionsService.extend(source, target);

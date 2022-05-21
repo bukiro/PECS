@@ -23,111 +23,144 @@ import { WornItem } from '../classes/WornItem';
 export class ItemRolesService {
 
     public getItemRoles(item: Item): ItemRoles {
-        const asArmor = this.itemAsArmor(item);
-        const asWeapon = this.itemAsWeapon(item);
+        const asArmor = this._itemAsArmor(item);
+        const asWeapon = this._itemAsWeapon(item);
 
         return {
             item,
-            asConsumable: this.itemAsConsumable(item),
-            asGenericConsumable: this.itemAsGenericConsumable(item),
-            asDrinkableConsumable: this.itemAsDrinkableConsumable(item),
-            asImmediateStoredSpellItem: this.itemAsImmediateStoredSpellItem(item),
-            asEquipment: this.itemAsEquipment(item),
+            asConsumable: this._itemAsConsumable(item),
+            asGenericConsumable: this._itemAsGenericConsumable(item),
+            asDrinkableConsumable: this._itemAsDrinkableConsumable(item),
+            asImmediateStoredSpellItem: this._itemAsImmediateStoredSpellItem(item),
+            asEquipment: this._itemAsEquipment(item),
             asArmor,
             asWeapon,
-            asWand: this.itemAsWand(item),
-            asWornItem: this.itemAsWornItem(item),
-            asShield: this.itemAsShield(item),
-            asMaterialChangeable: this.itemAsMaterialChangeable(item),
-            asRuneChangeable: this.itemAsRuneChangeable(item),
-            asTalismanChangeable: this.itemAsTalismanChangeable(item),
-            asStatusChangeable: this.itemAsStatusChangeable(item),
-            asStackable: this.itemAsStackable(item),
-            asEmblazonArmamentChangeable: this.itemAsEmblazonArmamentChangeable(item),
-            hasEmblazonArmament: this.itemHasEmblazonArmament(item),
-            hasEmblazonAntimagic: this.itemHasEmblazonAntimagic(item),
-            emblazonEnergyChoice: this.itemEmblazonEnergyChoice(item),
-            stack: this.itemStack(item),
+            asWand: this._itemAsWand(item),
+            asWornItem: this._itemAsWornItem(item),
+            asShield: this._itemAsShield(item),
+            asMaterialChangeable: this._itemAsMaterialChangeable(item),
+            asRuneChangeable: this._itemAsRuneChangeable(item),
+            asTalismanChangeable: this._itemAsTalismanChangeable(item),
+            asStatusChangeable: this._itemAsStatusChangeable(item),
+            asStackable: this._itemAsStackable(item),
+            asEmblazonArmamentChangeable: this._itemAsEmblazonArmamentChangeable(item),
+            hasEmblazonArmament: this._itemHasEmblazonArmament(item),
+            hasEmblazonAntimagic: this._itemHasEmblazonAntimagic(item),
+            emblazonEnergyChoice: this._itemEmblazonEnergyChoice(item),
+            stack: this._itemStack(item),
         };
     }
 
-    private itemAsConsumable(item: Item): Consumable {
+    private _itemAsConsumable(item: Item): Consumable {
         return item instanceof Consumable ? item : null;
     }
 
-    private itemAsEquipment(item: Item): Equipment {
+    private _itemAsEquipment(item: Item): Equipment {
         return item instanceof Equipment ? item : null;
     }
 
-    private itemAsGenericConsumable(item: Item): Consumable {
-        return (item instanceof Consumable && !(item instanceof AlchemicalElixir || item instanceof Potion || item instanceof Scroll || item instanceof Oil || item instanceof Talisman)) ? item : null;
+    private _itemAsGenericConsumable(item: Item): Consumable {
+        return (
+            item instanceof Consumable &&
+            !(
+                item instanceof AlchemicalElixir ||
+                item instanceof Potion ||
+                item instanceof Scroll ||
+                item instanceof Oil ||
+                item instanceof Talisman
+            )
+        )
+            ? item
+            : null;
     }
 
-    private itemAsDrinkableConsumable(item: Item): Consumable {
+    private _itemAsDrinkableConsumable(item: Item): Consumable {
         return (item instanceof AlchemicalElixir || item instanceof Potion) ? item : null;
     }
 
-    private itemAsImmediateStoredSpellItem(item: Item): Item {
-        return (item.storedSpells.length && !(item instanceof WeaponRune || item instanceof ArmorRune || item instanceof Oil)) ? item : null;
+    private _itemAsImmediateStoredSpellItem(item: Item): Item {
+        return (
+            item.storedSpells.length &&
+            !(
+                item instanceof WeaponRune ||
+                item instanceof ArmorRune ||
+                item instanceof Oil
+            )
+        )
+            ? item
+            : null;
     }
 
-    private itemAsArmor(item: Item): Armor {
+    private _itemAsArmor(item: Item): Armor {
         return item instanceof Armor ? item : null;
     }
 
-    private itemAsWeapon(item: Item): Weapon {
+    private _itemAsWeapon(item: Item): Weapon {
         return item instanceof Weapon ? item : null;
     }
 
-    private itemAsWornItem(item: Item): WornItem {
+    private _itemAsWornItem(item: Item): WornItem {
         return item instanceof WornItem ? item : null;
     }
 
-    private itemAsShield(item: Item): Shield {
+    private _itemAsShield(item: Item): Shield {
         return item instanceof Shield ? item : null;
     }
 
-    private itemAsWand(item: Item): Wand {
+    private _itemAsWand(item: Item): Wand {
         return item instanceof Wand ? item : null;
     }
 
-    private itemAsMaterialChangeable(item: Item): Armor | Shield | Weapon {
+    private _itemAsMaterialChangeable(item: Item): Armor | Shield | Weapon {
         return (item instanceof Armor || item instanceof Shield || item instanceof Weapon) ? item : null;
     }
 
-    private itemAsRuneChangeable(item: Item): Armor | Weapon | WornItem {
-        return (item instanceof Armor || item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) ? item : null;
+    private _itemAsRuneChangeable(item: Item): Armor | Weapon | WornItem {
+        return (
+            item instanceof Armor ||
+            item instanceof Weapon ||
+            (item instanceof WornItem && item.isHandwrapsOfMightyBlows)
+        )
+            ? item
+            : null;
     }
 
-    private itemAsTalismanChangeable(item: Item): Armor | Shield | Weapon | WornItem {
-        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon || (item instanceof WornItem && (item.isBracersOfArmor || item.isHandwrapsOfMightyBlows))) ? item : null;
+    private _itemAsTalismanChangeable(item: Item): Armor | Shield | Weapon | WornItem {
+        return (
+            item instanceof Armor ||
+            item instanceof Shield ||
+            item instanceof Weapon ||
+            (item instanceof WornItem && (item.isBracersOfArmor || item.isHandwrapsOfMightyBlows))
+        )
+            ? item
+            : null;
     }
 
-    private itemAsStatusChangeable(item: Item): Equipment {
+    private _itemAsStatusChangeable(item: Item): Equipment {
         return (item instanceof Equipment && !['Fist', 'Unarmored'].includes(item.name)) ? item : null;
     }
 
-    private itemAsStackable(item: Item): Item {
+    private _itemAsStackable(item: Item): Item {
         return item.canStack() ? item : null;
     }
 
-    private itemAsEmblazonArmamentChangeable(item: Item): Shield | Weapon {
+    private _itemAsEmblazonArmamentChangeable(item: Item): Shield | Weapon {
         return (item instanceof Shield || item instanceof Weapon) ? item : null;
     }
 
-    private itemHasEmblazonArmament(item: Item): boolean {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type == 'emblazonArmament');
+    private _itemHasEmblazonArmament(item: Item): boolean {
+        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type === 'emblazonArmament');
     }
 
-    private itemEmblazonEnergyChoice(item: Item): string {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.find(ea => ea.type == 'emblazonEnergy')?.choice;
+    private _itemEmblazonEnergyChoice(item: Item): string {
+        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.find(ea => ea.type === 'emblazonEnergy')?.choice;
     }
 
-    private itemHasEmblazonAntimagic(item: Item): boolean {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type == 'emblazonAntimagic');
+    private _itemHasEmblazonAntimagic(item: Item): boolean {
+        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type === 'emblazonAntimagic');
     }
 
-    private itemStack(item: Item): number {
+    private _itemStack(item: Item): number {
         return (item instanceof Consumable || item instanceof AdventuringGear) ? item.stack : 1;
     }
 

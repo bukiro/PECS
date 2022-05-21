@@ -10,16 +10,20 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 export class TraitsService {
 
     private _traits: Array<Trait> = [];
-    private _loading = false;
+    private _initialized = false;
     private readonly _traitsMap = new Map<string, Trait>();
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
     ) { }
 
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
+
     public getTraitFromName(name: string): Trait {
         //Returns a named trait from the map.
-        return this._traitsMap.get(name.toLowerCase()) || this._getReplacementTrait(name);
+        return this._traitsMap.get(name.toLowerCase()) || this._replacementTrait(name);
     }
 
     public getTraits(traitName = ''): Array<Trait> {
@@ -29,16 +33,17 @@ export class TraitsService {
             if (traitName) {
                 const trait = this.getTraitFromName(traitName);
 
-                if (trait?.name == traitName) {
+                if (trait?.name === traitName) {
                     return [trait];
                 }
             }
 
-            //Some trait instances have information after the trait name, so we allow traits that are included in the name as long as they have the dynamic attribute.
+            // Some trait instances have information after the trait name,
+            // so we allow traits that are included in the name as long as they have the dynamic attribute.
             const traits = this._traits
                 .filter(trait =>
                     !traitName ||
-                    trait.name == traitName ||
+                    trait.name === traitName ||
                     (
                         trait.dynamic &&
                         traitName.includes(`${ trait.name } `)
@@ -50,7 +55,7 @@ export class TraitsService {
             }
         }
 
-        return [this._getReplacementTrait()];
+        return [this._replacementTrait()];
     }
 
     public getTraitsForThis(creature: Creature, name: string): Array<Trait> {
@@ -60,11 +65,11 @@ export class TraitsService {
             return this._traits.filter(trait =>
                 trait.hints.some(hint =>
                     hint.showon.split(',').some(showon =>
-                        showon.trim().toLowerCase() == name.toLowerCase() ||
-                        showon.trim().toLowerCase() == (`${ creature.type }:${ name }`).toLowerCase() ||
+                        showon.trim().toLowerCase() === name.toLowerCase() ||
+                        showon.trim().toLowerCase() === (`${ creature.type }:${ name }`).toLowerCase() ||
                         (
                             name.toLowerCase().includes('lore') &&
-                            showon.trim().toLowerCase() == 'lore'
+                            showon.trim().toLowerCase() === 'lore'
                         ),
                     ),
                 )
@@ -75,20 +80,12 @@ export class TraitsService {
         }
     }
 
-    stillLoading(): boolean {
-        return (this._loading);
-    }
-
     public initialize(): void {
-        //Initialize only once.
-        if (!this._traits.length) {
-            this._loading = true;
-            this._loadTraits();
-            this._traits.forEach(trait => {
-                this._traitsMap.set(trait.name.toLowerCase(), trait);
-            });
-            this._loading = false;
-        }
+        this._loadTraits();
+        this._traits.forEach(trait => {
+            this._traitsMap.set(trait.name.toLowerCase(), trait);
+        });
+        this._initialized = true;
     }
 
     public reset(): void {
@@ -110,8 +107,11 @@ export class TraitsService {
         this._traits = this._extensionsService.cleanupDuplicates(this._traits, 'name', 'traits') as Array<Trait>;
     }
 
-    private _getReplacementTrait(name?: string): Trait {
-        return Object.assign(new Trait(), { name: 'Trait not found', desc: `${ name ? name : 'The requested trait' } does not exist in the traits list.` });
+    private _replacementTrait(name?: string): Trait {
+        return Object.assign(
+            new Trait(),
+            { name: 'Trait not found', desc: `${ name ? name : 'The requested trait' } does not exist in the traits list.` },
+        );
     }
 
 }

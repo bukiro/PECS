@@ -896,11 +896,11 @@ export class SavegameService {
             const baseFeats = characterService.feats().filter(feat => feat.lorebase || feat.weaponfeatbase)
                 .map(feat => feat.name.toLowerCase());
 
-            characterService.featsService.build_CharacterFeats(character);
+            characterService.featsService.buildCharacterFeats(character);
             //Only proceed with feats that were not generated from lore or weapon feat bases, and that have data.
             character.customFeats.filter((feat: Feat & OldFeatWithData) => !baseFeats.includes(feat.name.toLowerCase()) && feat.data && Object.keys(feat.data).length).forEach((feat: Feat & OldFeatWithData) => {
                 //For each time you have this feat (should be exactly one), add its data to the class object.
-                characterService.featsService.get_CharacterFeatsTakenWithLevel(0, 0, feat.name, '', '', undefined, false, false).forEach(taken => {
+                characterService.featsService.characterFeatsTakenWithLevel(0, 0, feat.name, '', '', undefined, false, false).forEach(taken => {
                     const newFeatData = new FeatData(taken.level, feat.name, taken.gain.sourceId, JSON.parse(JSON.stringify(feat.data)));
 
                     character.class.featData.push(newFeatData);
@@ -1025,7 +1025,7 @@ export class SavegameService {
         //Feats that are generated based on item store weapons are stored in the featsService starting in 1.0.16.
         // These feats can be removed from the character's customfeats.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < 16) {
-            const weaponFeats = this._featsService.get_Feats([]).filter(feat => feat.generatedWeaponFeat);
+            const weaponFeats = this._featsService.feats([]).filter(feat => feat.generatedWeaponFeat);
 
             character.customFeats.forEach(characterFeat => {
                 if (weaponFeats.some(feat => feat.name === characterFeat.name)) {
