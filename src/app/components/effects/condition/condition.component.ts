@@ -129,7 +129,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
-        this.conditionsService.change_ConditionChoice(this.get_Creature(), gain, condition, oldChoice, this.characterService, this.itemsService);
+        this.conditionsService.changeConditionChoice(this.get_Creature(), gain, condition, oldChoice, this.characterService, this.itemsService);
         this.refreshService.process_ToChange();
         this.update_Condition();
     }
@@ -149,14 +149,14 @@ export class ConditionComponent implements OnInit, OnDestroy {
         const creature = this.get_Creature();
         const typeFilter = selection.typeFilter.map(filter => filter.toLowerCase());
         const nameFilter = selection.nameFilter.map(filter => filter.toLowerCase());
-        const filteredConditions = this.conditionsService.get_Conditions().filter(libraryCondition =>
+        const filteredConditions = this.conditionsService.conditions().filter(libraryCondition =>
             (typeFilter.length ? typeFilter.includes(libraryCondition.type.toLowerCase()) : true) &&
             (nameFilter.length ? nameFilter.includes(libraryCondition.name.toLowerCase()) : true),
         )
             .map(libraryCondition => libraryCondition.name.toLowerCase());
 
         return Array.from(new Set(
-            this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+            this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
                 .map(conditionGain => conditionGain.name)
                 .filter(conditionName =>
                     (conditionName.toLowerCase() != gain.name.toLowerCase()) &&
@@ -169,7 +169,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     change_ConditionStage(gain: ConditionGain, condition: Condition, choices: Array<string>, change: number) {
-        this.conditionsService.change_ConditionStage(this.get_Creature(), gain, condition, choices, change, this.characterService, this.itemsService);
+        this.conditionsService.changeConditionStage(this.get_Creature(), gain, condition, choices, change, this.characterService, this.itemsService);
         this.refreshService.process_ToChange();
         this.update_Condition();
     }

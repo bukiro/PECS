@@ -117,7 +117,7 @@ export class SavegameService {
             }
 
             //Restore the class last, so we don't null its components (ancestry, animal companion etc.)
-            character.class = classesService.restore_ClassFromSave(character.class);
+            character.class = classesService.restoreClassFromSave(character.class);
         }
 
         character.recast(this._typeService, itemsService);
@@ -148,7 +148,7 @@ export class SavegameService {
         //Go through all the items, class, ancestry, heritage, background and compare every element to its library equivalent, skipping the properties listed in .save
         //Everything that is the same as the library item gets deleted.
         if (savegame.class.name) {
-            savegame.class = classesService.clean_ClassForSave(savegame.class);
+            savegame.class = classesService.cleanClassForSave(savegame.class);
 
             if (savegame.class.ancestry?.name) {
                 savegame.class.ancestry = historyService.clean_AncestryForSave(savegame.class.ancestry);

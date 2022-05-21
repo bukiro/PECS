@@ -124,7 +124,7 @@ export class TimeService {
             //Reset all "once per day" activity cooldowns.
             this._activitiesTimeService.restActivities(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".
-            conditionsService.rest(creature, characterService);
+            conditionsService.restConditions(creature, characterService);
             //Remove all items that expire when you make your daily preparations.
             itemsService.rest(creature, characterService);
 
@@ -176,7 +176,7 @@ export class TimeService {
             //Reset all "until you refocus" activity cooldowns.
             this._activitiesTimeService.refocusActivities(creature, characterService);
             //Reset all conditions that are "until you refocus".
-            conditionsService.refocus(creature);
+            conditionsService.refocusConditions(creature);
             //Remove all items that expire when you refocus.
             itemsService.refocus(creature, characterService);
         });
@@ -212,7 +212,7 @@ export class TimeService {
     public tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns = 10, reload = true): void {
         characterService.allAvailableCreatures().forEach(creature => {
             //If any conditions are currently stopping time, process these first before continuing with the rest.
-            const timeStopDurations: Array<number> = creature.conditions.filter(gain => gain.apply && conditionsService.get_ConditionFromName(gain.name).isStoppingTime(gain)).map(gain => gain.duration);
+            const timeStopDurations: Array<number> = creature.conditions.filter(gain => gain.apply && conditionsService.conditionFromName(gain.name).isStoppingTime(gain)).map(gain => gain.duration);
 
             //If any time stopping condition is permanent, no time passes at all.
             if (!timeStopDurations.includes(-1)) {
@@ -227,7 +227,7 @@ export class TimeService {
                         this._refreshService.set_ToChange(creature.type, 'health');
                     }
 
-                    conditionsService.tick_Conditions(creature, timeStopDuration, this._yourTurn, characterService, itemsService);
+                    conditionsService.tickConditions(creature, timeStopDuration, this._yourTurn, characterService, itemsService);
                     this._refreshService.set_ToChange(creature.type, 'effects');
                 }
 
@@ -243,7 +243,7 @@ export class TimeService {
                             this._refreshService.set_ToChange(creature.type, 'health');
                         }
 
-                        conditionsService.tick_Conditions(creature, creatureTurns, this._yourTurn, characterService, itemsService);
+                        conditionsService.tickConditions(creature, creatureTurns, this._yourTurn, characterService, itemsService);
                         this._refreshService.set_ToChange(creature.type, 'effects');
                     }
 
@@ -358,10 +358,10 @@ export class TimeService {
         const effectsService = this._effectsService;
 
         function AfflictionOnsetsWithinDuration(creature: Creature): boolean {
-            return characterService.currentCreatureConditions(creature, '', '', true).some(gain => (!conditionsService.get_ConditionFromName(gain.name).automaticStages && !gain.paused && gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.durationIsInstant);
+            return characterService.currentCreatureConditions(creature, '', '', true).some(gain => (!conditionsService.conditionFromName(gain.name).automaticStages && !gain.paused && gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.durationIsInstant);
         }
         function TimeStopConditionsActive(creature: Creature): boolean {
-            return characterService.currentCreatureConditions(creature, '', '', true).some(gain => conditionsService.get_ConditionFromName(gain.name).stopTimeChoiceFilter.some(filter => [gain.choice, 'All'].includes(filter)));
+            return characterService.currentCreatureConditions(creature, '', '', true).some(gain => conditionsService.conditionFromName(gain.name).stopTimeChoiceFilter.some(filter => [gain.choice, 'All'].includes(filter)));
         }
         function MultipleTempHPAvailable(creature: Creature): boolean {
             return characterService.creatureHealth(creature).temporaryHP.length > 1;

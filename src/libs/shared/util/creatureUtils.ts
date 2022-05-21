@@ -1,4 +1,5 @@
 import { CreatureSizes } from '../definitions/creatureSizes';
+import { CreatureTypeIds } from '../definitions/creatureTypeIds';
 
 export const CreatureSizeName = (size: number): string => {
     switch (size) {
@@ -16,5 +17,18 @@ export const CreatureSizeName = (size: number): string => {
             return 'Gargantuan';
         default:
             return 'Medium';
+    }
+};
+
+export const CreatureTypeIDFromType = (creatureType: 'Character' | 'Companion' | 'Familiar'): CreatureTypeIds => {
+    switch (creatureType) {
+        case 'Character':
+            return CreatureTypeIds.Character;
+        case 'Companion':
+            return CreatureTypeIds.AnimalCompanion;
+        case 'Familiar':
+            return CreatureTypeIds.Familiar;
+        default:
+            return CreatureTypeIds.Character;
     }
 };

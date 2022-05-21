@@ -446,24 +446,24 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const creature = this.get_Creature();
         const character = this.characterService.character();
 
-        this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == 'Hunt Prey').length;
+        this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == 'Hunt Prey').length;
 
         if (creature === character || (creature instanceof AnimalCompanion && this.characterService.characterFeatsTaken(1, character.level, { featName: 'Animal Companion (Ranger)' }).length)) {
             return (
                 (
                     this.characterService.characterFeatsTaken(1, character.level, { featName: 'Flurry' }).length &&
-                    this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey').length
+                    this.conditionsService.currentCreatureConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey').length
                 ) ||
-                this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey: Flurry').length
+                this.conditionsService.currentCreatureConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey: Flurry').length
             );
         } else {
-            return this.conditionsService.get_AppliedConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey: Flurry').length;
+            return this.conditionsService.currentCreatureConditions(character, this.characterService, character.conditions, true).filter(gain => gain.name == 'Hunt Prey: Flurry').length;
         }
     }
 
     get_MultipleAttackPenalty() {
         const creature = this.get_Creature();
-        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => ['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'].includes(gain.name) && gain.source == 'Quick Status');
 
         for (const gain of conditions) {
@@ -487,7 +487,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     set_MultipleAttackPenalty(map: '1' | '2' | '3' | '2f' | '3f') {
         const creature = this.get_Creature();
-        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => ['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'].includes(gain.name) && gain.source == 'Quick Status');
         const map2 = conditions.find(gain => gain.name == 'Multiple Attack Penalty' && gain.choice == 'Second Attack');
         const map3 = conditions.find(gain => gain.name == 'Multiple Attack Penalty' && gain.choice == 'Third Attack');
@@ -554,7 +554,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     get_RangePenalty() {
         const creature = this.get_Creature();
-        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => gain.name == 'Range Penalty' && gain.source == 'Quick Status');
 
         for (const gain of conditions) {
@@ -572,7 +572,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     set_RangePenalty(rap: '1' | '2' | '3' | '4' | '5' | '6') {
         const creature = this.get_Creature();
-        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => gain.name == 'Range Penalty' && gain.source == 'Quick Status');
         const rap2 = conditions.find(gain => gain.choice == 'Second Range Increment');
         const rap3 = conditions.find(gain => gain.choice == 'Third Range Increment');

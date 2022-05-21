@@ -210,7 +210,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                             !this.get_Character().settings.noFriendlyCasterConditions
                     ) ||
                     (
-                        this.conditionsService.get_Conditions()
+                        this.conditionsService.conditions()
                             .filter(condition => gainConditions.some(gain => gain.name == condition.name && gain.targetFilter == 'caster'))
                             .some(condition =>
                                 condition.hasEffects() ||

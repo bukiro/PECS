@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-dynamic-delete */
 import { Injectable } from '@angular/core';
 import { Class } from 'src/app/classes/Class';
 import * as json_classes from 'src/assets/json/classes';
@@ -10,52 +11,48 @@ import { ItemsService } from 'src/app/services/items.service';
 })
 export class ClassesService {
 
-    classes: Array<Class> = [];
-    private loading = false;
-    private readonly classesMap = new Map<string, Class>();
+    private _classes: Array<Class> = [];
+    private _initialized = false;
+    private readonly _classesMap = new Map<string, Class>();
 
     constructor(
-        private readonly typeService: TypeService,
-        private readonly itemsService: ItemsService,
-        private readonly extensionsService: ExtensionsService,
+        private readonly _typeService: TypeService,
+        private readonly _itemsService: ItemsService,
+        private readonly _extensionsService: ExtensionsService,
     ) { }
 
-    private get_ReplacementClass(name?: string): Class {
-        return Object.assign(new Class(), { name: 'Class not found', desc: `${ name ? name : 'The requested class' } does not exist in the class list.` });
-    }
-
-    get_ClassFromName(name: string): Class {
+    public classFromName(name: string): Class {
         //Returns a named class from the map.
-        return this.classesMap.get(name.toLowerCase()) || this.get_ReplacementClass(name);
+        return this._classesMap.get(name.toLowerCase()) || this._replacementClass(name);
     }
 
-    get_Classes(name = '') {
-        if (!this.still_loading()) {
+    public classes(name = ''): Array<Class> {
+        if (!this.stillLoading()) {
             if (name) {
-                return [this.get_ClassFromName(name)];
+                return [this.classFromName(name)];
             } else {
-                return this.classes.filter($class => $class.name == name || name == '');
+                return this._classes.filter($class => !name || $class.name === name);
             }
         } else { return [new Class()]; }
     }
 
-    still_loading() {
-        return (this.loading);
+    public stillLoading(): boolean {
+        return !this._initialized;
     }
 
-    restore_ClassFromSave(classObj: Class) {
+    public restoreClassFromSave(classObj: Class): Class {
         let restoredClass: Class;
 
         if (classObj.name) {
-            const libraryObject = this.get_Classes(classObj.name)[0];
+            const libraryObject = this.classes(classObj.name)[0];
 
             if (libraryObject) {
                 //Make a safe copy of the library object.
                 //Then map the restored object onto the copy and keep that.
                 try {
-                    restoredClass = this.typeService.merge(libraryObject, classObj);
+                    restoredClass = this._typeService.merge(libraryObject, classObj);
                 } catch (e) {
-                    console.log(`Failed reassigning: ${ e }`);
+                    console.error(`Failed restoring class: ${ e }`);
                 }
             }
         }
@@ -63,61 +60,65 @@ export class ClassesService {
         return restoredClass || classObj;
     }
 
-    clean_ClassForSave($class: Class) {
+    public cleanClassForSave($class: Class): void {
         if ($class.name) {
-            const libraryObject = this.get_Classes($class.name)[0];
+            const libraryObject = this.classes($class.name)[0];
 
             if (libraryObject) {
                 Object.keys($class).forEach(key => {
-                    if (key != 'name') {
-                        //If the Object has a name, and a library item can be found with that name, compare the property with the library item
-                        //If they have the same value, delete the property from the item - it can be recovered during loading via the name.
-                        if (JSON.stringify($class[key]) == JSON.stringify(libraryObject[key])) {
+                    if (key !== 'name') {
+                        // If the Object has a name, and a library item can be found with that name,
+                        // compare the property with the library item
+                        // If they have the same value, delete the property from the item - it can be recovered during loading via the name.
+                        if (JSON.stringify($class[key]) === JSON.stringify(libraryObject[key])) {
                             delete $class[key];
                         }
                     }
                 });
 
                 //Perform the same step for each level.
-                if ($class.levels) {
-                    for (let index = 0; index < $class.levels.length; index++) {
-                        Object.keys($class.levels[index]).forEach(key => {
-                            if (key != 'number') {
-                                if (JSON.stringify($class.levels[index][key]) == JSON.stringify(libraryObject.levels[index][key])) {
-                                    delete $class.levels[index][key];
-                                }
+                $class.levels.forEach((level, index) => {
+                    Object.keys(level).forEach(key => {
+                        if (key !== 'number') {
+                            if (JSON.stringify(level[key]) === JSON.stringify(libraryObject.levels[index][key])) {
+                                delete level[key];
                             }
-                        });
-                    }
-                }
+                        }
+                    });
+                });
             }
         }
-
-        return $class;
     }
 
-    initialize() {
-        //Initialize only once.
-        if (!this.classes.length) {
-            this.loading = true;
-            this.load_Classes();
-            this.classesMap.clear();
-            this.classes.forEach($class => {
-                this.classesMap.set($class.name.toLowerCase(), $class);
-            });
-            this.loading = false;
-        }
+    public initialize(): void {
+        this._loadClasses();
+        this._classesMap.clear();
+        this._classes.forEach($class => {
+            this._classesMap.set($class.name.toLowerCase(), $class);
+        });
+        this._initialized = true;
     }
 
-    load_Classes() {
-        this.classes = [];
+    private _replacementClass(name?: string): Class {
+        return Object.assign(
+            new Class(),
+            { name: 'Class not found', desc: `${ name ? name : 'The requested class' } does not exist in the class list.` },
+        );
+    }
 
-        const data = this.extensionsService.extend(json_classes, 'classes');
+    private _loadClasses(): void {
+        this._classes = [];
+
+        const data = this._extensionsService.extend(json_classes, 'classes');
 
         Object.keys(data).forEach(key => {
-            this.classes.push(...data[key].map((obj: Class) => Object.assign(new Class(), obj).recast(this.typeService, this.itemsService)));
+            this._classes.push(
+                ...data[key].map((obj: Class) =>
+                    Object.assign(new Class(), obj).recast(this._typeService, this._itemsService),
+                ),
+            );
         });
-        this.classes = this.extensionsService.cleanupDuplicates(this.classes, 'name', 'classes') as Array<Class>;
+        this._classes = this._extensionsService.cleanupDuplicates(this._classes, 'name', 'classes') as Array<Class>;
     }
 
 }

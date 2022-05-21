@@ -89,8 +89,8 @@ export class AppInitService {
                     this._activitiesService.stillLoading() ||
                     this._featsService.still_loading() ||
                     this._historyService.still_loading() ||
-                    this._classesService.still_loading() ||
-                    this._conditionsService.still_loading() ||
+                    this._classesService.stillLoading() ||
+                    this._conditionsService.stillLoading() ||
                     this._spellsService.still_loading() ||
                     this._skillsService.still_loading() ||
                     this._itemsService.still_loading() ||

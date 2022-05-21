@@ -296,7 +296,7 @@ export class ActivitiesProcessingService {
                     conditionGain.source = activity.name;
 
                     const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
-                    const condition = services.conditionsService.get_ConditionFromName(conditionGain.name);
+                    const condition = services.conditionsService.conditionFromName(conditionGain.name);
 
                     if (
                         condition.endConditions.some(endCondition =>

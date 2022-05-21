@@ -32,9 +32,10 @@ import { Hint } from 'src/app/classes/Hint';
 import { SkillLevels } from '../../libs/shared/definitions/skillLevels';
 import { SpellLearned } from './SpellLearned';
 import { Defaults } from '../../libs/shared/definitions/defaults';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 export class Character extends Creature {
-    public readonly type = 'Character';
+    public readonly type = CreatureTypes.Character;
     public readonly typeId = 0;
     public appVersionMajor = 0;
     public appVersion = 0;

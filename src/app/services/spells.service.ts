@@ -175,7 +175,7 @@ export class SpellsService {
 
                     conditions.forEach((conditionGain, conditionIndex) => {
                         const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
-                        const condition = services.conditionsService.get_Conditions(conditionGain.name)[0];
+                        const condition = services.conditionsService.conditions(conditionGain.name)[0];
 
                         //Unless the conditionGain has a choice set, try to set it by various factors.
                         if (!conditionGain.choice) {

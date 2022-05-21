@@ -124,7 +124,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     get_Domains() {
         const character = this.get_Character();
-        const archetypesDeityFocused = this.get_ArchetypeFeats().some(feat => this.classesService.get_ClassFromName(feat.archetype).deityFocused);
+        const archetypesDeityFocused = this.get_ArchetypeFeats().some(feat => this.classesService.classFromName(feat.archetype).deityFocused);
 
         if (character.class.deityFocused || archetypesDeityFocused) {
             const deity = this.characterService.currentCharacterDeities(character)[0];
@@ -157,7 +157,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     get_Edicts() {
         const character = this.get_Character();
-        const archetypesShowDeityEdicts = this.get_ArchetypeFeats().some(feat => this.classesService.get_ClassFromName(feat.archetype).showDeityEdicts);
+        const archetypesShowDeityEdicts = this.get_ArchetypeFeats().some(feat => this.classesService.classFromName(feat.archetype).showDeityEdicts);
 
         if (character.class.showDeityEdicts || archetypesShowDeityEdicts) {
             //Collect edicts from all deities you have (usually one);
@@ -177,7 +177,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
 
         const deityAnathema: Array<string> = [];
-        const archetypesShowDeityAnathema = this.get_ArchetypeFeats().some(feat => this.classesService.get_ClassFromName(feat.archetype).showDeityAnathema);
+        const archetypesShowDeityAnathema = this.get_ArchetypeFeats().some(feat => this.classesService.classFromName(feat.archetype).showDeityAnathema);
 
         if (character.class.showDeityAnathema || archetypesShowDeityAnathema) {
             //If your Collect anathema from all deities you have (usually one);

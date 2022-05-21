@@ -35,7 +35,7 @@ export class AC {
         conditionsService: ConditionsService,
     ): void {
         const conditions: Array<ConditionGain> =
-            conditionsService.get_AppliedConditions(creature, characterService, creature.conditions, true)
+            conditionsService.currentCreatureConditions(creature, characterService, creature.conditions, true)
                 .filter(gain => gain.name === 'Cover' && gain.source === 'Quick Status');
         const lesserCover = conditions.find(gain => gain.name === 'Cover' && gain.choice === 'Lesser');
         const standardCover = conditions.find(gain => gain.name === 'Cover' && gain.choice === 'Standard');

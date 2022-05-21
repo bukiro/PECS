@@ -121,7 +121,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     get_Conditions(name = '') {
-        return this.conditionsService.get_Conditions(name);
+        return this.conditionsService.conditions(name);
     }
 
     get_AppliedEffects() {
@@ -167,7 +167,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     get_TimeStopped() {
-        return this.get_AppliedConditions(true, true).some(gain => this.conditionsService.get_ConditionFromName(gain.name).isStoppingTime(gain));
+        return this.get_AppliedConditions(true, true).some(gain => this.conditionsService.conditionFromName(gain.name).isStoppingTime(gain));
     }
 
     on_IgnoreEffect(effect: Effect, ignore: boolean) {

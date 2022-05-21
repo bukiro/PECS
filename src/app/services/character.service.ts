@@ -435,7 +435,7 @@ export class CharacterService {
     }
 
     public characterClasses(name: string): Array<Class> {
-        return this.classesService.get_Classes(name);
+        return this.classesService.classes(name);
     }
 
     public deities(name = ''): Array<Deity> {
@@ -983,7 +983,7 @@ export class CharacterService {
                 } else if (item.invested && item.canInvest()) {
                     this.investItem(creature, inventory, item as Equipment, false, false);
                 } else if (!item.equippable && !item.canInvest()) {
-                    this.conditionsService.remove_GainedItemConditions(creature, item, this);
+                    this.conditionsService.removeGainedItemConditions(creature, item, this);
                 }
 
                 if (item.propertyRunes) {
@@ -1290,7 +1290,7 @@ export class CharacterService {
 
             //If the item can't be un-invested, make sure you lose the conditions you gained from equipping it.
             if (!item.canInvest()) {
-                this.conditionsService.remove_GainedItemConditions(creature, item, this);
+                this.conditionsService.removeGainedItemConditions(creature, item, this);
             }
 
             item.propertyRunes?.forEach(rune => {
@@ -1367,7 +1367,7 @@ export class CharacterService {
                     false,
                 );
             });
-            this.conditionsService.remove_GainedItemConditions(creature, item, this);
+            this.conditionsService.removeGainedItemConditions(creature, item, this);
             this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
         }
 
@@ -1418,12 +1418,12 @@ export class CharacterService {
     }
 
     public conditions(name = '', type = ''): Array<Condition> {
-        return this.conditionsService.get_Conditions(name, type);
+        return this.conditionsService.conditions(name, type);
     }
 
     public currentCreatureConditions(creature: Creature, name = '', source = '', readonly = false): Array<ConditionGain> {
         //Returns ConditionGain[] with apply=true/false for each
-        return this.conditionsService.get_AppliedConditions(creature, this, creature.conditions, readonly).filter(condition =>
+        return this.conditionsService.currentCreatureConditions(creature, this, creature.conditions, readonly).filter(condition =>
             (!name || condition.name === name) &&
             (!source || condition.source === source),
         );
@@ -1598,13 +1598,13 @@ export class CharacterService {
                 }
 
                 if (newLength) {
-                    this.conditionsService.process_Condition(
+                    this.conditionsService.processCondition(
                         creature,
                         this,
                         this.effectsService,
                         this.itemsService,
                         workingGain,
-                        this.conditionsService.get_Conditions(workingGain.name)[0],
+                        this.conditionsService.conditions(workingGain.name)[0],
                         true,
                     );
                     this.refreshService.set_ToChange(creature.type, 'effects');
@@ -1698,7 +1698,7 @@ export class CharacterService {
                     }
                 });
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1);
-            this.conditionsService.process_Condition(
+            this.conditionsService.processCondition(
                 creature,
                 this,
                 this.effectsService,
@@ -2738,7 +2738,7 @@ export class CharacterService {
             senses.push(...this.sensesGrantedByEquipment(creature));
             this.currentCreatureConditions(creature).filter(gain => gain.apply)
                 .forEach(gain => {
-                    const condition = this.conditionsService.get_Conditions(gain.name)[0];
+                    const condition = this.conditionsService.conditions(gain.name)[0];
 
                     if (condition?.senses.length) {
                         //Add all non-excluding senses.

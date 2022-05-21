@@ -151,7 +151,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.conditionsService.still_loading() || this.characterService.stillLoading();
+        return this.conditionsService.stillLoading() || this.characterService.stillLoading();
     }
 
     toggleConditionsMenu() {
@@ -260,7 +260,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_Conditions(name = '', type = '') {
-        return this.conditionsService.get_Conditions(name, type);
+        return this.conditionsService.conditions(name, type);
     }
 
     get_HeightenedDescription(condition: Condition) {

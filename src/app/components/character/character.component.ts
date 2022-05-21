@@ -1369,7 +1369,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Conditions(name = '') {
-        return this.conditionsService.get_Conditions(name);
+        return this.conditionsService.conditions(name);
     }
 
     get_Heritages(name = '', ancestryName = '') {

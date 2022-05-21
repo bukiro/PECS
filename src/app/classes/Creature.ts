@@ -15,6 +15,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
 import { CharacterService } from '../services/character.service';
 import { CreatureSizeName } from '../../libs/shared/util/creatureUtils';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 export interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;
@@ -25,7 +26,7 @@ export class Creature {
     public name = '';
     public alignment = 'Neutral';
     public id = uuidv4();
-    public type: 'Character' | 'Companion' | 'Familiar' = 'Character';
+    public type: CreatureTypes = CreatureTypes.Character;
     public typeId = 0;
     public level = 1;
     public customSkills: Array<Skill> = [];

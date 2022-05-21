@@ -372,7 +372,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
 
         spell.heightenedConditions(levelNumber)
-            .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }))
+            .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.conditions(conditionGain.name)[0] }))
             .forEach((conditionSet, index) => {
                 //Create the temporary list of currently available choices.
                 conditionSet.condition?.effectiveChoices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : levelNumber));

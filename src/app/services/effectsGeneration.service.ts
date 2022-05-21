@@ -928,8 +928,8 @@ export class EffectsGenerationService {
 
     private run_EffectGenerationPreflightUpdates(creature: Creature, services: { readonly characterService: CharacterService }): void {
         //Add or remove conditions depending on your equipment. This is called here to ensure that the conditions exist before their effects are generated.
-        this.conditionsService.generate_BulkConditions(creature, { characterService: services.characterService, effectsService: this.effectsService });
-        this.conditionsService.generate_ItemConditions(creature, { characterService: services.characterService, effectsService: this.effectsService, itemsService: this.itemsService });
+        this.conditionsService.generateBulkConditions(creature, { characterService: services.characterService, effectsService: this.effectsService });
+        this.conditionsService.generateItemGrantedConditions(creature, { characterService: services.characterService, effectsService: this.effectsService, itemsService: this.itemsService });
         //Update item modifiers that influence their effectiveness and effects.
         this.update_ItemModifiers(creature, services);
     }

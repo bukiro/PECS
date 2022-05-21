@@ -112,7 +112,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
             const spell = this.spellsService.get_Spells(spellCast.name)[0];
 
             spell.heightenedConditions(spellCast.level)
-                .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.get_Conditions(conditionGain.name)[0] }))
+                .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.conditions(conditionGain.name)[0] }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
                     conditionSet.condition?.effectiveChoices(this.characterService, true, spellCast.level);

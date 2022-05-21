@@ -103,7 +103,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     public get_Cover(): number {
         const creature = this.get_Creature();
-        const conditions: Array<ConditionGain> = this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        const conditions: Array<ConditionGain> = this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
             .filter(gain => gain.name == 'Cover' && gain.source == 'Quick Status');
 
         if (conditions.some(gain => gain.name == 'Cover' && gain.choice == 'Greater')) {
@@ -140,7 +140,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     public get_FlatFooted(): ConditionGain {
         const creature = this.get_Creature();
 
-        return this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        return this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
             .find(gain => gain.name == 'Flat-Footed' && gain.source == 'Quick Status');
     }
 
@@ -166,7 +166,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     public get_Hidden(): ConditionGain {
         const creature = this.get_Creature();
 
-        return this.conditionsService.get_AppliedConditions(creature, this.characterService, creature.conditions, true)
+        return this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
             .find(gain => gain.name == 'Hidden' && gain.source == 'Quick Status');
     }
 

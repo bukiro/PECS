@@ -8,9 +8,10 @@ import { Skill } from 'src/app/classes/Skill';
 import { TypeService } from 'src/app/services/type.service';
 import { Defaults } from '../../libs/shared/definitions/defaults';
 import { CreatureSizes } from '../../libs/shared/definitions/creatureSizes';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 export class Familiar extends Creature {
-    public readonly type = 'Familiar';
+    public readonly type = CreatureTypes.Familiar;
     public readonly typeId = 2;
     public abilities: FeatChoice = Object.assign(new FeatChoice(), {
         available: Defaults.familiarAbilities,

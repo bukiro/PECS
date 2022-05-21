@@ -10,6 +10,7 @@ import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Hint } from 'src/app/classes/Hint';
 import { SkillIncrease } from './SkillIncrease';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
@@ -18,7 +19,7 @@ export class AnimalCompanion extends Creature {
         new Skill('', 'Heavy Barding', 'Armor Proficiency'),
     ];
     public species = '';
-    public readonly type = 'Companion';
+    public type: CreatureTypes = CreatureTypes.AnimalCompanion;
     public readonly typeId = 1;
     public recast(typeService: TypeService, itemsService: ItemsService): AnimalCompanion {
         super.recast(typeService, itemsService);

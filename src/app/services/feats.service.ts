@@ -511,7 +511,7 @@ export class FeatsService {
                             //Allow adding Spellchoices without a class to automatically add the correct class.
                             // This finds the correct class either from the choice (if its type is a class name) or from the character's main class.
                             if (!insertSpellChoice.className) {
-                                const classNames: Array<string> = characterService.classesService.get_Classes().map(characterclass => characterclass.name);
+                                const classNames: Array<string> = characterService.classesService.classes().map(characterclass => characterclass.name);
 
                                 if (classNames.includes(choice.type)) {
                                     insertSpellChoice.className = choice.type;
