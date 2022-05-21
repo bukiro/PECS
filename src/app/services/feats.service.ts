@@ -1112,7 +1112,7 @@ export class FeatsService {
 
             //Syncretism changes your deities and needs to clear out the runtime variables and update general.
             if (feat.name == 'Syncretism') {
-                characterService.deitiesService.clear_CharacterDeities();
+                characterService.deitiesService.clearCharacterDeities();
                 this.refreshService.set_ToChange(creature.type, 'general');
             }
 

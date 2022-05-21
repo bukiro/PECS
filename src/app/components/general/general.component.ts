@@ -136,7 +136,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
                     .concat(...(domainFeats.map(feat => feat.gainDomains)),
                 );
 
-                return domains.map(domain => this.deitiesService.get_Domains(domain)[0] || new Domain());
+                return domains.map(domain => this.deitiesService.domains(domain)[0] || new Domain());
             } else {
                 return [];
             }

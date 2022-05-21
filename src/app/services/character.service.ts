@@ -439,11 +439,11 @@ export class CharacterService {
     }
 
     public deities(name = ''): Array<Deity> {
-        return this.deitiesService.get_Deities(name);
+        return this.deitiesService.deities(name);
     }
 
     public currentCharacterDeities(character: Character, source = '', level: number = character.level): Array<Deity> {
-        return this.deitiesService.get_CharacterDeities(this, character, source, level);
+        return this.deitiesService.currentCharacterDeities(this, character, source, level);
     }
 
     public creatureSpeeds(creature: Creature, name = ''): Array<Speed> {
@@ -679,7 +679,7 @@ export class CharacterService {
         character.class.processRemovingOldClass(this);
         character.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class))).recast(this._typeService, this.itemsService);
         character.class.processNewClass(this, this.itemsService);
-        this.deitiesService.clear_CharacterDeities();
+        this.deitiesService.clearCharacterDeities();
         this.cacheService.resetCreatureCache(character.typeId);
         this.refreshService.set_Changed();
     }
@@ -700,7 +700,7 @@ export class CharacterService {
         const character = this.character();
 
         character.class.deity = deity.name;
-        this.deitiesService.clear_CharacterDeities();
+        this.deitiesService.clearCharacterDeities();
         this.refreshService.set_ToChange('Character', 'general');
         this.refreshService.set_ToChange('Character', 'spells', 'clear');
         this.refreshService.set_ToChange('Character', 'spellchoices');

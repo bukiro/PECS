@@ -7,38 +7,45 @@ import { Domain } from 'src/app/classes/Domain';
 import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 
+interface CharacterDeitySet {
+    deity: Deity;
+    source: string;
+    level: number;
+}
+
 @Injectable({
     providedIn: 'root',
 })
 export class DeitiesService {
 
-    private deities: Array<Deity> = [];
-    private domains: Array<Domain> = [];
-    private loading = false;
+    private _deities: Array<Deity> = [];
+    private _domains: Array<Domain> = [];
+    private _initialized = false;
     //The character's deity or deities get loaded into $characterDeities whenever it is queried and empty.
-    private $characterDeities: Array<{ deity: Deity; source: string; level: number }> = [];
-    private readonly deitiesMap = new Map<string, Deity>();
+    private _$characterDeities: Array<CharacterDeitySet> = [];
+    private readonly _deitiesMap = new Map<string, Deity>();
 
     constructor(
-        private readonly extensionsService: ExtensionsService,
+        private readonly _extensionsService: ExtensionsService,
     ) { }
 
-    private get_ReplacementDeity(name?: string): Deity {
-        return Object.assign(new Deity(), { name: 'Deity not found', desc: `${ name ? name : 'The requested deity' } does not exist in the deities list.` });
-    }
-
-    get_DeityFromName(name: string): Deity {
+    public deityFromName(name: string): Deity {
         //Returns a named deity from the map.
-        return this.deitiesMap.get(name.toLowerCase()) || this.get_ReplacementDeity(name);
+        return this._deitiesMap.get(name.toLowerCase()) || this._replacementDeity(name);
     }
 
-    get_CharacterDeities(characterService: CharacterService, character: Character, source = '', level: number = character.level): Array<Deity> {
-        if (!this.$characterDeities.length && character.class.deity) {
+    public currentCharacterDeities(
+        characterService: CharacterService,
+        character: Character,
+        source = '',
+        level: number = character.level,
+    ): Array<Deity> {
+        if (!this._$characterDeities.length && character.class.deity) {
             //Recreate the character deities list from the main deity and the Syncretism feat data.
-            const mainDeity = this.get_Deities(character.class.deity)[0];
+            const mainDeity = this.deities(character.class.deity)[0];
 
             if (mainDeity) {
-                this.$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
+                this._$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
 
                 const syncretismFeat = characterService.characterFeatsTaken(0, level, { featName: 'Syncretism' }).length;
 
@@ -48,79 +55,87 @@ export class DeitiesService {
 
                     if (syncretismDeity) {
                         const levelNumber = data.level;
-                        const secondDeity = this.get_Deities(syncretismDeity)[0];
+                        const secondDeity = this.deities(syncretismDeity)[0];
 
                         if (secondDeity) {
-                            this.$characterDeities.push({ deity: secondDeity, source: 'syncretism', level: levelNumber });
+                            this._$characterDeities.push({ deity: secondDeity, source: 'syncretism', level: levelNumber });
                         }
                     }
                 }
             }
         }
 
-        return this.$characterDeities.filter(deitySet => deitySet.level <= level && (!source || deitySet.source == source)).map(deitySet => deitySet.deity);
+        return this._$characterDeities
+            .filter(deitySet => deitySet.level <= level && (!source || deitySet.source === source))
+            .map(deitySet => deitySet.deity);
     }
 
-    clear_CharacterDeities(): void {
-        this.$characterDeities.length = 0;
+    public clearCharacterDeities(): void {
+        this._$characterDeities.length = 0;
     }
 
-    get_Deities(name = ''): Array<Deity> {
-        if (!this.still_loading()) {
+    public deities(name = ''): Array<Deity> {
+        if (!this.stillLoading()) {
             //If a name is given, try to find a deity by that name in the index map. This should be much quicker.
             if (name) {
-                return [this.get_DeityFromName(name)];
+                return [this.deityFromName(name)];
             } else {
-                return this.deities.filter(deity => deity.name.toLowerCase() == name.toLowerCase() || name == '');
+                return this._deities.filter(deity => !name || deity.name.toLowerCase() === name.toLowerCase());
             }
-        } else { return [this.get_ReplacementDeity()]; }
+        } else { return [this._replacementDeity()]; }
     }
 
-    get_Domains(name = ''): Array<Domain> {
-        if (!this.still_loading()) {
-            return this.domains.filter(domain => domain.name.toLowerCase() == name.toLowerCase() || name == '');
+    public domains(name = ''): Array<Domain> {
+        if (!this.stillLoading()) {
+            return this._domains.filter(domain => !name || domain.name.toLowerCase() === name.toLowerCase());
         } else { return [new Domain()]; }
     }
 
-    still_loading() {
-        return (this.loading);
+    public stillLoading(): boolean {
+        return !this._initialized;
     }
 
-    initialize() {
-        this.loading = true;
-        this.load_Deities();
-        this.load_Domains();
-        this.deitiesMap.clear();
-        this.deities.forEach(deity => {
-            this.deitiesMap.set(deity.name.toLowerCase(), deity);
+    public initialize(): void {
+        this._loadDeities();
+        this._loadDomains();
+        this._deitiesMap.clear();
+        this._deities.forEach(deity => {
+            this._deitiesMap.set(deity.name.toLowerCase(), deity);
         });
-        this.loading = false;
+        this._initialized = true;
     }
 
-    reset() {
-        this.clear_CharacterDeities();
+    public reset(): void {
+        this.clearCharacterDeities();
     }
 
-    load_Deities() {
-        this.deities = [];
+    private _replacementDeity(name?: string): Deity {
+        return Object.assign(
+            new Deity(),
+            { name: 'Deity not found', desc: `${ name ? name : 'The requested deity' } does not exist in the deities list.` },
+        );
+    }
 
-        const data = this.extensionsService.extend(json_deities, 'deities');
+    private _loadDeities(): void {
+        this._deities = [];
+
+        const data = this._extensionsService.extend(json_deities, 'deities');
 
         Object.keys(data).forEach(key => {
-            this.deities.push(...data[key].map((obj: Deity) => Object.assign(new Deity(), obj).recast()));
+            this._deities.push(...data[key].map((obj: Deity) => Object.assign(new Deity(), obj).recast()));
         });
-        this.deities = this.extensionsService.cleanupDuplicates(this.deities, 'name', 'deities') as Array<Deity>;
+        this._deities = this._extensionsService.cleanupDuplicates(this._deities, 'name', 'deities') as Array<Deity>;
     }
 
-    load_Domains() {
-        this.domains = [];
+    private _loadDomains(): void {
+        this._domains = [];
 
-        const data = this.extensionsService.extend(json_domains, 'domains');
+        const data = this._extensionsService.extend(json_domains, 'domains');
 
         Object.keys(data).forEach(key => {
-            this.domains.push(...data[key].map((obj: Domain) => Object.assign(new Domain(), obj).recast()));
+            this._domains.push(...data[key].map((obj: Domain) => Object.assign(new Domain(), obj).recast()));
         });
-        this.domains = this.extensionsService.cleanupDuplicates(this.domains, 'name', 'domains') as Array<Domain>;
+        this._domains = this._extensionsService.cleanupDuplicates(this._domains, 'name', 'domains') as Array<Domain>;
     }
 
 }

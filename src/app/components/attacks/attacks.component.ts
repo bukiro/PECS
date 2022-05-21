@@ -647,7 +647,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const creature = this.get_Creature();
 
         if (creature instanceof Character && creature.class?.deity && creature.class.deityFocused) {
-            const deity = this.deitiesService.get_CharacterDeities(this.characterService, creature)[0];
+            const deity = this.deitiesService.currentCharacterDeities(this.characterService, creature)[0];
             const favoredWeapons: Array<string> = [];
 
             if (deity && deity.favoredWeapon.length) {

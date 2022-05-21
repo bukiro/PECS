@@ -83,7 +83,7 @@ export class ActivitiesDataService {
         return item;
     }
 
-    stillLoading(): boolean {
+    public stillLoading(): boolean {
         return (!this._initialized);
     }
 

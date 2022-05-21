@@ -22,7 +22,7 @@ export class AbilitiesDataService {
         }
     }
 
-    stillLoading(): boolean {
+    public stillLoading(): boolean {
         return (!this._initialized);
     }
 

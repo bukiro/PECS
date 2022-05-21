@@ -405,7 +405,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Alignments() {
-        const deity: Deity = this.get_Character().class?.deity ? this.deitiesService.get_Deities(this.get_Character().class.deity)[0] : null;
+        const deity: Deity = this.get_Character().class?.deity ? this.deitiesService.deities(this.get_Character().class.deity)[0] : null;
         const alignments = [
             '',
             'Lawful Good',
@@ -1006,9 +1006,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
             if (deity) {
                 return []
-                    .concat(deity.domains.map((domain, index) => ({ title: index ? '' : 'Deity\'s Domains', type: 1, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() })))
-                    .concat(deity.alternateDomains.map((domain, index) => ({ title: index ? '' : 'Deity\'s Alternate Domains', type: 2, domain: this.deitiesService.get_Domains(domain)[0] || new Domain() })))
-                    .concat(this.deitiesService.get_Domains().filter(domain => !deity.domains.includes(domain.name) && !deity.alternateDomains.includes(domain.name))
+                    .concat(deity.domains.map((domain, index) => ({ title: index ? '' : 'Deity\'s Domains', type: 1, domain: this.deitiesService.domains(domain)[0] || new Domain() })))
+                    .concat(deity.alternateDomains.map((domain, index) => ({ title: index ? '' : 'Deity\'s Alternate Domains', type: 2, domain: this.deitiesService.domains(domain)[0] || new Domain() })))
+                    .concat(this.deitiesService.domains().filter(domain => !deity.domains.includes(domain.name) && !deity.alternateDomains.includes(domain.name))
                         .map((domain, index) => ({ title: index ? '' : 'Other Domains', type: 3, domain }))) as
                     Array<{ title: string; type: number; domain: Domain }>;
             }
@@ -1241,7 +1241,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             data.setValue('deity', '');
         }
 
-        this.characterService.deitiesService.clear_CharacterDeities();
+        this.characterService.deitiesService.clearCharacterDeities();
         this.refreshService.set_ToChange('Character', 'charactersheet');
         this.refreshService.set_ToChange('Character', 'featchoices');
         this.refreshService.set_ToChange('Character', 'general');
@@ -1316,7 +1316,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const wordFilter = this.deityWordFilter.toLowerCase();
 
         //Certain classes need to choose a deity allowing their alignment.
-        return this.deitiesService.get_Deities(name).filter(deity =>
+        return this.deitiesService.deities(name).filter(deity =>
             (
                 showOtherOptions ||
                 (
