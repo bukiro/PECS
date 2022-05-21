@@ -2510,7 +2510,7 @@ export class CharacterService {
     public changeCreatureCoverWithNotification(creature: Creature, value: number): void {
         const phrases = this.effectRecipientPhrases(creature);
 
-        this.defenseService.get_AC().setCover(creature, value, null, this, this.conditionsService);
+        this.defenseService.armorClass().setCover(creature, value, null, this, this.conditionsService);
 
         switch (value) {
             case CoverTypes.NoCover:
@@ -3186,7 +3186,7 @@ export class CharacterService {
     }
 
     public ACObject(): AC {
-        return this.defenseService.get_AC();
+        return this.defenseService.armorClass();
     }
 
     public isMobileView(): boolean {

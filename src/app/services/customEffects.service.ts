@@ -10,18 +10,18 @@ import { RefreshService } from 'src/app/services/refresh.service';
 })
 export class CustomEffectsService {
 
-    private effectProperties: Array<ItemProperty> = [];
+    private _effectProperties: Array<ItemProperty> = [];
 
     constructor(
-        private readonly extensionsService: ExtensionsService,
-        private readonly refreshService: RefreshService,
+        private readonly _extensionsService: ExtensionsService,
+        private readonly _refreshService: RefreshService,
     ) { }
 
-    public get get_EffectProperties(): Array<ItemProperty> {
-        return this.effectProperties;
+    public get effectProperties(): Array<ItemProperty> {
+        return this._effectProperties;
     }
 
-    tick_CustomEffects(creature: Creature, turns: number): void {
+    public tickCustomEffects(creature: Creature, turns: number): void {
         //Tick down all custom effects and set them to remove when they expire.
         creature.effects.filter(gain => gain.duration > 0).forEach(gain => {
             //Tick down all custom effects and set them to remove when they expire.
@@ -31,28 +31,30 @@ export class CustomEffectsService {
                 gain.type = 'DELETE';
             }
 
-            this.refreshService.set_ToChange(creature.type, 'effects');
+            this._refreshService.set_ToChange(creature.type, 'effects');
         });
         //Remove all effects that were marked for removal.
-        creature.effects = creature.effects.filter(gain => gain.type != 'DELETE');
+        creature.effects = creature.effects.filter(gain => gain.type !== 'DELETE');
     }
 
-    initialize(): void {
-        //Initialize effect properties only once.
-        if (!this.effectProperties.length) {
-            this.load_EffectProperties();
-        }
+    public initialize(): void {
+        this._loadEffectProperties();
     }
 
-    private load_EffectProperties(): void {
-        this.effectProperties = [];
+    private _loadEffectProperties(): void {
+        this._effectProperties = [];
 
-        const data = this.extensionsService.extend(json_effectproperties, 'effectProperties');
+        const data = this._extensionsService.extend(json_effectproperties, 'effectProperties');
 
         Object.keys(data).forEach(key => {
-            this.effectProperties.push(...data[key].map((obj: ItemProperty) => Object.assign(new ItemProperty(), obj).recast()));
+            this._effectProperties.push(...data[key].map((obj: ItemProperty) => Object.assign(new ItemProperty(), obj).recast()));
         });
-        this.effectProperties = this.extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(this.effectProperties, ['parent', 'key'], 'custom effect properties') as Array<ItemProperty>;
+        this._effectProperties =
+            this._extensionsService.cleanup_DuplicatesWithMultipleIdentifiers(
+                this._effectProperties,
+                ['parent', 'key'],
+                'custom effect properties',
+            ) as Array<ItemProperty>;
     }
 
 }

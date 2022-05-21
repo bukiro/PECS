@@ -10,21 +10,19 @@ import { WornItem } from '../classes/WornItem';
 })
 export class DefenseService {
 
-    AC: AC = new AC();
+    //TO-DO: These functions can honestly go somewhere else, maybe the future inventoryservice.
+    // DefenseService can take over all the functions of the AC class and make that redundant.
+    public readonly armorClass: AC = new AC();
 
-    get_AC() {
-        return this.AC;
-    }
-
-    public get_EquippedArmor(creature: Creature): Array<Armor> {
+    public equippedCreatureArmor(creature: Creature): Array<Armor> {
         return creature.inventories[0].armors.filter(armor => armor.equipped);
     }
 
-    public get_EquippedBracersOfArmor(creature: Creature): Array<WornItem> {
+    public equippedCreatureBracersOfArmor(creature: Creature): Array<WornItem> {
         return creature.inventories[0].wornitems.filter(wornItem => wornItem.isBracersOfArmor && wornItem.investedOrEquipped());
     }
 
-    public get_EquippedShield(creature: Creature): Array<Shield> {
+    public equippedCreatureShield(creature: Creature): Array<Shield> {
         return creature.inventories[0].shields.filter(shield => shield.equipped && !shield.broken);
     }
 

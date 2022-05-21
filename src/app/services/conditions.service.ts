@@ -595,7 +595,7 @@ export class ConditionsService {
 
         //Leave cover behind shield if the Cover condition is removed.
         if (condition.name === 'Cover' && (!taken || (gain.choice !== 'Greater'))) {
-            characterService.defenseService.get_EquippedShield(creature).forEach(shield => {
+            characterService.defenseService.equippedCreatureShield(creature).forEach(shield => {
                 if (shield.takingCover) {
                     shield.takingCover = false;
                     this._refreshService.set_ToChange(creature.type, 'defense');

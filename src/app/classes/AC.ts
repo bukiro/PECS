@@ -227,7 +227,7 @@ export class AC {
             explain = `${ effect.source }: ${ effect.setValue }`;
         });
 
-        const armors = defenseService.get_EquippedArmor(armorCreature);
+        const armors = defenseService.equippedCreatureArmor(armorCreature);
 
         if (!isBaseArmorBonusSet && !!armors.length) {
             const armor = armors[0];

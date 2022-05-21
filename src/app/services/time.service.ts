@@ -247,7 +247,7 @@ export class TimeService {
                         this._refreshService.set_ToChange(creature.type, 'effects');
                     }
 
-                    this._customEffectsService.tick_CustomEffects(creature, creatureTurns);
+                    this._customEffectsService.tickCustomEffects(creature, creatureTurns);
                     itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, creatureTurns);
 
                     if (creature instanceof Character) {

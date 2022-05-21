@@ -346,7 +346,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_EffectsProperty() {
-        return this.customEffectsService.get_EffectProperties.find(property => !property.parent && property.key == 'effects');
+        return this.customEffectsService.effectProperties.find(property => !property.parent && property.key == 'effects');
     }
 
     get_EffectValue(creature: Creature, effect: EffectGain) {
@@ -506,7 +506,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         const customEffectsService = this.customEffectsService;
 
         function get_PropertyData(key: string) {
-            return customEffectsService.get_EffectProperties.find(property => property.key == key);
+            return customEffectsService.effectProperties.find(property => property.key == key);
         }
 
         return Object.keys(this.newEffect)

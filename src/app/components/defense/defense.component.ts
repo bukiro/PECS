@@ -90,7 +90,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     private get_AC(): AC {
-        return this.defenseService.get_AC();
+        return this.defenseService.armorClass();
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -191,8 +191,8 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     public get_EquippedArmor(): Array<Armor | WornItem> {
         return []
-            .concat(this.defenseService.get_EquippedArmor(this.get_Creature()))
-            .concat(this.defenseService.get_EquippedBracersOfArmor(this.get_Creature()));
+            .concat(this.defenseService.equippedCreatureArmor(this.get_Creature()))
+            .concat(this.defenseService.equippedCreatureBracersOfArmor(this.get_Creature()));
     }
 
     public get_HintRunes(armor: Armor | WornItem): Array<ArmorRune> {
@@ -209,7 +209,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public get_EquippedShield(): Array<Shield> {
-        return this.defenseService.get_EquippedShield(this.get_Creature());
+        return this.defenseService.equippedCreatureShield(this.get_Creature());
     }
 
     public on_ShieldHPChange(shield: Shield, amount: number): void {
