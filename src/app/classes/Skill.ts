@@ -153,22 +153,22 @@ export class Skill {
     public absolutes(creature: Creature, effectsService: EffectsService, isDC = false, level = 0, ability = ''): Array<Effect> {
         const namesList = this.effectNamesList(creature, isDC, level, ability);
 
-        return effectsService.get_AbsolutesOnThese(creature, namesList);
+        return effectsService.absoluteEffectsOnThese(creature, namesList);
     }
     public relatives(creature: Creature, effectsService: EffectsService, isDC = false, level = 0, ability = ''): Array<Effect> {
         const namesList = this.effectNamesList(creature, isDC, level, ability);
 
-        return effectsService.get_RelativesOnThese(creature, namesList);
+        return effectsService.relativeEffectsOnThese(creature, namesList);
     }
     public showBonuses(creature: Creature, effectsService: EffectsService, isDC = false, level = 0, ability = ''): boolean {
         const namesList = this.effectNamesList(creature, isDC, level, ability);
 
-        return effectsService.show_BonusesOnThese(creature, namesList);
+        return effectsService.doBonusEffectsExistOnThese(creature, namesList);
     }
     public showPenalties(creature: Creature, effectsService: EffectsService, isDC = false, level = 0, ability = ''): boolean {
         const namesList = this.effectNamesList(creature, isDC, level, ability);
 
-        return effectsService.show_PenaltiesOnThese(creature, namesList);
+        return effectsService.doPenaltyEffectsExistOnThese(creature, namesList);
     }
     public modifierAbility(creature: Creature, characterService: CharacterService): string {
         if (creature instanceof Familiar) {
@@ -294,7 +294,7 @@ export class Skill {
                 }
             }
 
-            const absoluteEffects = excludeTemporary ? [] : effectsService.get_AbsolutesOnThese(creature, effectTargetList);
+            const absoluteEffects = excludeTemporary ? [] : effectsService.absoluteEffectsOnThese(creature, effectTargetList);
 
             if (absoluteEffects.length) {
                 //If the skill is set by an effect, we can skip every other calculation.
@@ -372,7 +372,7 @@ export class Skill {
             }
 
             //Add any relative proficiency level bonuses.
-            const relativeEffects = excludeTemporary ? [] : effectsService.get_RelativesOnThese(creature, effectTargetList);
+            const relativeEffects = excludeTemporary ? [] : effectsService.relativeEffectsOnThese(creature, effectTargetList);
 
             relativeEffects.forEach(effect => {
                 if ([

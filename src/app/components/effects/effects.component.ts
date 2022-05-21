@@ -117,7 +117,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     get_Effects() {
-        return this.effectsService.get_Effects(this.creature);
+        return this.effectsService.effects(this.creature);
     }
 
     get_Conditions(name = '') {

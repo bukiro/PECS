@@ -45,7 +45,7 @@ export class ObjectEffectsComponent {
     }
 
     get_BonusTypes() {
-        return this.effectsService.bonusTypes.map(type => type == 'untyped' ? '' : type);
+        return this.effectsService._bonusTypes.map(type => type == 'untyped' ? '' : type);
     }
 
     new_CustomEffectOnThis() {

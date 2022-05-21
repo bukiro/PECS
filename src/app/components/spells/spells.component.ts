@@ -293,7 +293,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     private get_AllowSwitchingPreparedSpells(): boolean {
-        return !!this.effectsService.get_ToggledOnThis(this.get_Character(), 'Allow Switching Prepared Spells').length;
+        return !!this.effectsService.toggledEffectsOnThis(this.get_Character(), 'Allow Switching Prepared Spells').length;
     }
 
     private get_SpellCastings(): Array<SpellCasting> {

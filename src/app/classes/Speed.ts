@@ -15,30 +15,30 @@ export class Speed {
     }
     public relatives(creature: Creature, effectsService: EffectsService, name: string, both = false): Array<Effect> {
         if (both && name !== 'Speed') {
-            return effectsService.get_RelativesOnThese(creature, [name, 'Speed']);
+            return effectsService.relativeEffectsOnThese(creature, [name, 'Speed']);
         } else {
-            return effectsService.get_RelativesOnThis(creature, name);
+            return effectsService.relativeEffectsOnThis(creature, name);
         }
     }
     public absolutes(creature: Creature, effectsService: EffectsService, name: string, both = false): Array<Effect> {
         if (both && name !== 'Speed') {
-            return effectsService.get_AbsolutesOnThese(creature, [name, 'Speed']);
+            return effectsService.absoluteEffectsOnThese(creature, [name, 'Speed']);
         } else {
-            return effectsService.get_AbsolutesOnThis(creature, name);
+            return effectsService.absoluteEffectsOnThis(creature, name);
         }
     }
     public showBonuses(creature: Creature, effectsService: EffectsService, name: string, both = false): boolean {
         if (both && name !== 'Speed') {
-            return effectsService.show_BonusesOnThese(creature, [name, 'Speed']);
+            return effectsService.doBonusEffectsExistOnThese(creature, [name, 'Speed']);
         } else {
-            return effectsService.show_BonusesOnThis(creature, name);
+            return effectsService.doBonusEffectsExistOnThis(creature, name);
         }
     }
     public showPenalties(creature: Creature, effectsService: EffectsService, name: string, both = false): boolean {
         if (both && name !== 'Speed') {
-            return effectsService.show_PenaltiesOnThese(creature, [name, 'Speed']);
+            return effectsService.doPenaltyEffectsExistOnThese(creature, [name, 'Speed']);
         } else {
-            return effectsService.show_PenaltiesOnThis(creature, name);
+            return effectsService.doPenaltyEffectsExistOnThis(creature, name);
         }
     }
     public baseValue(

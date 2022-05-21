@@ -57,13 +57,13 @@ export class Creature {
     public effectiveSize(effectsService: EffectsService, options: { asNumber?: boolean } = {}): string | number {
         let size: number = this.baseSize();
 
-        const setSizeEffects = effectsService.get_AbsolutesOnThis(this, 'Size');
+        const setSizeEffects = effectsService.absoluteEffectsOnThis(this, 'Size');
 
         if (setSizeEffects.length) {
             size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue, 10)));
         }
 
-        const sizeEffects = effectsService.get_RelativesOnThis(this, 'Size');
+        const sizeEffects = effectsService.relativeEffectsOnThis(this, 'Size');
 
         sizeEffects.forEach(effect => {
             size += parseInt(effect.value, 10);

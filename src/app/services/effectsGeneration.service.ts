@@ -228,7 +228,7 @@ export class EffectsGenerationService {
         let foreignEffects: Array<Effect> = [];
 
         ['Character', 'Companion', 'Familiar'].filter(otherCreatureType => otherCreatureType != creature.type).forEach(otherCreatureType => {
-            foreignEffects = foreignEffects.concat(this.effectsService.get_Effects(otherCreatureType).all.filter(effect => effect.creature == creature.id));
+            foreignEffects = foreignEffects.concat(this.effectsService.effects(otherCreatureType).all.filter(effect => effect.creature == creature.id));
         });
 
         return foreignEffects;
@@ -649,7 +649,7 @@ export class EffectsGenerationService {
         targets.forEach(target => {
             //Apply all untyped relative effects, but only the highest bonus and lowest penalty for each type for this target.
             //We only apply effects if the decision hasn't already been made (that is, if apply == undefined)
-            this.effectsService.get_TypeFilteredEffects(effects
+            this.effectsService.reduceEffectsByType(effects
                 .filter(effect =>
                     effect.target == target && effect.apply == undefined && effect.value,
                 ))
@@ -658,7 +658,7 @@ export class EffectsGenerationService {
                 });
             //Apply only the highest absolute effect for each type for this target.
             // (There aren't any absolute penalties, and absolute effects are usually untyped.)
-            this.effectsService.get_TypeFilteredEffects(effects
+            this.effectsService.reduceEffectsByType(effects
                 .filter(effect =>
                     effect.target == target && effect.apply == undefined && effect.setValue,
                 ), { absolutes: true })
@@ -676,7 +676,7 @@ export class EffectsGenerationService {
         function ignoreEffectExists(type: string, effectType: string): boolean {
             return effects.some(effect => !effect.ignored && effect.target.toLowerCase() == `ignore ${ type.toLowerCase() } ${ effectType.toLowerCase() }`);
         }
-        this.effectsService.bonusTypes.forEach(type => {
+        this.effectsService._bonusTypes.forEach(type => {
             if (ignoreEffectExists(type, 'bonuses and penalties')) {
                 effects.filter(effect => effect.type == type).forEach(effect => {
                     effect.apply = false;
@@ -688,7 +688,7 @@ export class EffectsGenerationService {
         }
         //If there is an effect that says to ignore all <type> effects, bonuses or penalties [to a target],
         // all effects (or bonuses or penalties) to that target (or all targets) with that type are disabled.
-        this.effectsService.bonusTypes.forEach(type => {
+        this.effectsService._bonusTypes.forEach(type => {
             effects
                 .filter(effect => !effect.ignored && specificIgnoreEffectExists(type, 'effects') || specificIgnoreEffectExists(type, 'bonuses and penalties'))
                 .forEach(ignoreeffect => {
@@ -736,7 +736,7 @@ export class EffectsGenerationService {
                 });
         });
         //If an effect with the target "Ignore <name>" exists without a type, all effects of that name are disabled.
-        effects.filter(effect => !effect.ignored && effect.target.toLowerCase().includes('ignore ') && !this.effectsService.bonusTypes.some(type => effect.target.toLowerCase().includes(type.toLowerCase()))).forEach(ignoreEffect => {
+        effects.filter(effect => !effect.ignored && effect.target.toLowerCase().includes('ignore ') && !this.effectsService._bonusTypes.some(type => effect.target.toLowerCase().includes(type.toLowerCase()))).forEach(ignoreEffect => {
             const target = ignoreEffect.target.toLowerCase().replace('ignore ', '');
 
             effects.filter(effect => effect.target.toLowerCase() == target).forEach(effect => {
@@ -906,12 +906,12 @@ export class EffectsGenerationService {
         //When the effects are unchanged after the second or any subsequent run, the generation is finished.
 
         function effectsChanged(effectsService: EffectsService) {
-            return (JSON.stringify(effectsService.get_Effects(context.creature.type).all)) != (JSON.stringify(effects));
+            return (JSON.stringify(effectsService.effects(context.creature.type).all)) != (JSON.stringify(effects));
         }
 
         if (effectsChanged(this.effectsService)) {
-            this.refreshService.set_ToChangeByEffects(effects, this.effectsService.get_Effects(context.creature.type).all, context);
-            this.effectsService.replace_Effects(context.creature.type, effects);
+            this.refreshService.set_ToChangeByEffects(effects, this.effectsService.effects(context.creature.type).all, context);
+            this.effectsService.replaceCreatureEffects(context.creature.type, effects);
 
             if (!services.characterService.stillLoading) {
                 return this.generate_Effects(context.creature.type, services, { secondRun: true });

@@ -1048,7 +1048,7 @@ export class ConditionsService {
         // - all poisons and diseases of 19th level or lower.
         const verdantMetamorphosisMaxAfflictionLevel = 19;
 
-        if (characterService.effectsService.get_EffectsOnThis(creature, 'Verdant Metamorphosis').length) {
+        if (characterService.effectsService.effectsOnThis(creature, 'Verdant Metamorphosis').length) {
             creature.conditions
                 .filter(gain =>
                     gain.duration !== -1 &&
@@ -1106,7 +1106,7 @@ export class ConditionsService {
             });
 
         //If an effect with "X After Rest" is active, the condition is added.
-        characterService.effectsService.get_Effects(creature.type).all
+        characterService.effectsService.effects(creature.type).all
             .filter(effect => !effect.ignored && effect.apply && effect.target.toLowerCase().includes(' after rest'))
             .forEach(effect => {
                 const regex = new RegExp(' after rest', 'ig');

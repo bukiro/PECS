@@ -627,7 +627,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_BonusTypes() {
-        return this.effectsService.bonusTypes.map(type => type == 'untyped' ? '' : type);
+        return this.effectsService._bonusTypes.map(type => type == 'untyped' ? '' : type);
     }
 
     public ngOnInit(): void {

@@ -226,13 +226,13 @@ export class ActivitiesProcessingService {
                 context.gain.duration = activity.maxDuration;
                 //If an effect changes the duration of this activitiy, change the duration here.
                 services.effectsService
-                    .get_AbsolutesOnThis(context.creature, `${ activity.name } Duration`)
+                    .absoluteEffectsOnThis(context.creature, `${ activity.name } Duration`)
                     .forEach(effect => {
                         context.gain.duration = parseInt(effect.setValue, 10);
                         conditionsToRemove.push(effect.source);
                     });
                 services.effectsService
-                    .get_RelativesOnThis(context.creature, `${ activity.name } Duration`)
+                    .relativeEffectsOnThis(context.creature, `${ activity.name } Duration`)
                     .forEach(effect => {
                         context.gain.duration += parseInt(effect.value, 10);
                         conditionsToRemove.push(effect.source);
@@ -418,7 +418,7 @@ export class ActivitiesProcessingService {
                             let effectDuration: number = newConditionGain.duration || 0;
 
                             services.effectsService
-                                .get_AbsolutesOnThis(
+                                .absoluteEffectsOnThis(
                                     context.creature,
                                     `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`,
                                 )
@@ -429,7 +429,7 @@ export class ActivitiesProcessingService {
 
                             if (effectDuration > 0) {
                                 services.effectsService
-                                    .get_RelativesOnThis(
+                                    .relativeEffectsOnThis(
                                         context.creature,
                                         `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`,
                                     ).forEach(effect => {
@@ -467,13 +467,13 @@ export class ActivitiesProcessingService {
                             let effectValue: number = newConditionGain.value || 0;
 
                             services.effectsService
-                                .get_AbsolutesOnThis(context.creature, `${ condition.name } Value`)
+                                .absoluteEffectsOnThis(context.creature, `${ condition.name } Value`)
                                 .forEach(effect => {
                                     effectValue = parseInt(effect.setValue, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
                             services.effectsService
-                                .get_RelativesOnThis(context.creature, `${ condition.name } Value`)
+                                .relativeEffectsOnThis(context.creature, `${ condition.name } Value`)
                                 .forEach(effect => {
                                     effectValue += parseInt(effect.value, 10);
                                     conditionsToRemove.push(effect.source);

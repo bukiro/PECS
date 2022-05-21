@@ -82,7 +82,7 @@ export class ActivityGain {
             }
         }
 
-        const disablingEffects = services.effectsService.get_EffectsOnThis(context.creature, `${ this.name } Disabled`);
+        const disablingEffects = services.effectsService.effectsOnThis(context.creature, `${ this.name } Disabled`);
 
         if (disablingEffects.length) {
             return `Disabled by: ${ disablingEffects.map(effect => effect.source).join(', ') } `;

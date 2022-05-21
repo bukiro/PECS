@@ -512,7 +512,7 @@ export class CharacterService {
             // and it could delete your chosen languages.
             //Check if you have already collected this effect by finding a languageSource with the same source and amount.
             //Only if a source cannot be found, add the effect as a temporary source (level = -2).
-            this.effectsService.get_RelativesOnThis(this.character(), 'Max Languages').forEach(effect => {
+            this.effectsService.relativeEffectsOnThis(this.character(), 'Max Languages').forEach(effect => {
                 if (parseInt(effect.value, 10) > 0) {
                     const matchingSource =
                         languageSources.find(source => source.name === effect.source && source.amount === parseInt(effect.value, 10));
@@ -3164,10 +3164,10 @@ export class CharacterService {
     public maxFocusPoints(): number {
         let focusPoints = 0;
 
-        this.effectsService.get_AbsolutesOnThis(this.character(), 'Focus Pool').forEach(effect => {
+        this.effectsService.absoluteEffectsOnThis(this.character(), 'Focus Pool').forEach(effect => {
             focusPoints = parseInt(effect.setValue, 10);
         });
-        this.effectsService.get_RelativesOnThis(this.character(), 'Focus Pool').forEach(effect => {
+        this.effectsService.relativeEffectsOnThis(this.character(), 'Focus Pool').forEach(effect => {
             focusPoints += parseInt(effect.value, 10);
         });
 

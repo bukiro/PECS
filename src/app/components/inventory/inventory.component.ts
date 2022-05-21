@@ -475,13 +475,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
             explain = 'Base limit: 2';
         }
 
-        this.effectsService.get_AbsolutesOnThis(this.get_Creature(), 'Max Invested').forEach(effect => {
+        this.effectsService.absoluteEffectsOnThis(this.get_Creature(), 'Max Invested').forEach(effect => {
             maxInvest = parseInt(effect.setValue, 10);
             explain = `${ effect.source }: ${ effect.setValue }`;
             absolutes = true;
             effects.push(effect);
         });
-        this.effectsService.get_RelativesOnThis(this.get_Creature(), 'Max Invested').forEach(effect => {
+        this.effectsService.relativeEffectsOnThis(this.get_Creature(), 'Max Invested').forEach(effect => {
             maxInvest += parseInt(effect.value, 10);
             explain += `\n${ effect.source }: ${ effect.value }`;
 
@@ -765,7 +765,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             item.prof != 'Unarmed Attacks' &&
             (
                 !!this.characterService.characterFeatsTaken(1, this.get_Character().level, { featName: 'Titan Mauler' }).length ||
-                !!this.effectsService.get_EffectsOnThis(this.get_Creature(), 'Use Large Weapons').length
+                !!this.effectsService.effectsOnThis(this.get_Creature(), 'Use Large Weapons').length
             )
         );
     }
@@ -810,7 +810,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     get_BattleforgedAllowed(item: Item) {
         return (
             this.characterService.characterFeatsTaken(1, this.get_Character().level, 'Battleforger').length ||
-            this.effectsService.get_EffectsOnThis(this.get_Character(), 'Allow Battleforger').length
+            this.effectsService.effectsOnThis(this.get_Character(), 'Allow Battleforger').length
         ) &&
             (
                 (

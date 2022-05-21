@@ -224,7 +224,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     get_Resistances() {
         //There should be no absolutes in resistances. If there are, they will be treated as relatives here.
-        const effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
+        const effects = this.effectsService.effects(this.creature).all.filter(effect =>
             effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes('resistance') ||
                 effect.target.toLowerCase().includes('hardness')) && effect.apply && !effect.ignored);
         const resistances: Array<{ target: string; value: number; source: string }> = [];
@@ -263,7 +263,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     get_Immunities() {
-        const effects = this.effectsService.get_Effects(this.creature).all.filter(effect =>
+        const effects = this.effectsService.effects(this.creature).all.filter(effect =>
             effect.creature == this.get_Creature().id && (effect.target.toLowerCase().includes('immunity')));
         const immunities: Array<{ target: string; source: string }> = [];
 
@@ -281,15 +281,15 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     get_AbsolutesOnThis(name: string) {
-        return this.effectsService.get_AbsolutesOnThis(this.get_Creature(), name);
+        return this.effectsService.absoluteEffectsOnThis(this.get_Creature(), name);
     }
 
     show_BonusesOnThis(name: string) {
-        return this.effectsService.show_BonusesOnThis(this.get_Creature(), name);
+        return this.effectsService.doBonusEffectsExistOnThis(this.get_Creature(), name);
     }
 
     show_PenaltiesOnThis(name: string) {
-        return this.effectsService.show_PenaltiesOnThis(this.get_Creature(), name);
+        return this.effectsService.doPenaltyEffectsExistOnThis(this.get_Creature(), name);
     }
 
     public ngOnInit(): void {

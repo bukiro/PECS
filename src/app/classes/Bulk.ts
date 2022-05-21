@@ -50,16 +50,16 @@ export class Bulk {
         return result;
     }
     private _absolutes(creature: Creature, effectsService: EffectsService, name: string): Array<Effect> {
-        return effectsService.get_AbsolutesOnThis(creature, name);
+        return effectsService.absoluteEffectsOnThis(creature, name);
     }
     private _relatives(creature: Creature, effectsService: EffectsService, name: string): Array<Effect> {
-        return effectsService.get_RelativesOnThis(creature, name);
+        return effectsService.relativeEffectsOnThis(creature, name);
     }
     private _bonuses(creature: Creature, effectsService: EffectsService, name: string): boolean {
-        return effectsService.show_BonusesOnThis(creature, name);
+        return effectsService.doBonusEffectsExistOnThis(creature, name);
     }
     private _penalties(creature: Creature, effectsService: EffectsService, name: string): boolean {
-        return effectsService.show_PenaltiesOnThis(creature, name);
+        return effectsService.doPenaltyEffectsExistOnThis(creature, name);
     }
     private _current(
         creature: Creature,

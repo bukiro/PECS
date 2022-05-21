@@ -129,28 +129,28 @@ export class AC {
         ];
     }
     private _absolutes(creature: Creature, effectsService: EffectsService): Array<Effect> {
-        return effectsService.get_AbsolutesOnThese(creature, this._namesList());
+        return effectsService.absoluteEffectsOnThese(creature, this._namesList());
     }
     private _relatives(creature: Creature, character: Character, effectsService: EffectsService): Array<Effect> {
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         if (creature instanceof Familiar) {
             const effects =
-                effectsService.get_RelativesOnThese(character, this._namesList())
+                effectsService.relativeEffectsOnThese(character, this._namesList())
                     .filter(effect => effect.type !== 'circumstance' && effect.type !== 'status')
                     .concat(
-                        ...effectsService.get_RelativesOnThese(creature, this._namesList())
+                        ...effectsService.relativeEffectsOnThese(creature, this._namesList())
                             .filter(effect => effect.type === 'circumstance' || effect.type === 'status'),
                     );
 
             return effects;
         } else {
-            return effectsService.get_RelativesOnThese(creature, this._namesList());
+            return effectsService.relativeEffectsOnThese(creature, this._namesList());
         }
     }
     private _bonuses(creature: Creature, effectsService: EffectsService): boolean {
         //We need to copy show_BonusesOnThese and adapt it because Familiars only apply their own status and circumstance effects.
         if (creature instanceof Familiar) {
-            return effectsService.get_Effects(creature.type).bonuses.some(effect =>
+            return effectsService.effects(creature.type).bonuses.some(effect =>
                 effect.creature === creature.id &&
                 effect.apply &&
                 !effect.ignored &&
@@ -160,13 +160,13 @@ export class AC {
                     .includes(effect.target.toLowerCase()),
             );
         } else {
-            return effectsService.show_BonusesOnThese(creature, this._namesList());
+            return effectsService.doBonusEffectsExistOnThese(creature, this._namesList());
         }
     }
     private _penalties(creature: Creature, effectsService: EffectsService): boolean {
         //We need to copy show_PenaltiesOnThese and adapt it because Familiars only apply their own status and circumstance effects.
         if (creature instanceof Familiar) {
-            return effectsService.get_Effects(creature.type).penalties.some(effect =>
+            return effectsService.effects(creature.type).penalties.some(effect =>
                 effect.creature === creature.id &&
                 effect.apply &&
                 !effect.ignored &&
@@ -176,7 +176,7 @@ export class AC {
                     .includes(effect.target.toLowerCase()),
             );
         } else {
-            return effectsService.show_PenaltiesOnThese(creature, this._namesList());
+            return effectsService.doPenaltyEffectsExistOnThese(creature, this._namesList());
         }
     }
     private _value(
@@ -248,14 +248,14 @@ export class AC {
             //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
             let dexcap = armor.effectiveDexCap();
 
-            effectsService.get_AbsolutesOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
+            effectsService.absoluteEffectsOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
                 //The dexterity modifier should only become worse through effects.
                 if (dexcap === -1 || parseInt(effect.setValue, 10) < dexcap) {
                     dexcap = Math.max(0, parseInt(effect.setValue, 10));
                     explain += `\n${ effect.source }: Dexterity modifier cap ${ dexcap }`;
                 }
             });
-            effectsService.get_RelativesOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
+            effectsService.relativeEffectsOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
                 //The dexterity modifier should only become worse through effects.
                 if (parseInt(effect.value, 10) < 0) {
                     dexcap = Math.max(0, dexcap + parseInt(effect.value, 10));
@@ -338,7 +338,7 @@ export class AC {
         //Sum up the effects
         let effectsSum = 0;
 
-        characterService.effectsService.get_TypeFilteredEffects(clonedRelatives)
+        characterService.effectsService.reduceEffectsByType(clonedRelatives)
             .forEach(effect => {
                 effectsSum += parseInt(effect.value, 10);
                 explain += `\n${ effect.source }: ${ effect.value }`;

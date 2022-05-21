@@ -274,7 +274,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             traits = ['Plant'].concat(traits.filter(trait => !['Humanoid', 'Animal', 'Fungus'].includes(trait)));
         }
 
-        this.effectsService.get_ToggledOnThese(character, ['Character Gain Trait', 'Character Lose Trait']).filter(effect => effect.title)
+        this.effectsService.toggledEffectsOnThese(character, ['Character Gain Trait', 'Character Lose Trait']).filter(effect => effect.title)
             .forEach(effect => {
                 if (effect.target.toLowerCase().includes('gain trait')) {
                     traits.push(effect.title);

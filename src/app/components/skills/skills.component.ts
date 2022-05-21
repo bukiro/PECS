@@ -173,7 +173,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
         //We don't process the values yet - for now we just collect all Speeds that are mentioned in effects.
         // Since we pick up every effect that includes "Speed", but we don't want "Ignore Circumstance Penalties To Speed" to show up, we filter out "Ignore".
-        const speedEffects = this.effectsService.get_Effects(this.creature).all
+        const speedEffects = this.effectsService.effects(this.creature).all
             .filter(effect =>
                 effect.apply &&
                 !effect.toggle &&

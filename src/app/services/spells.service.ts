@@ -111,11 +111,11 @@ export class SpellsService {
         if (!options.expendOnly && activated && spell.sustained) {
             context.gain.active = true;
             //If an effect changes the duration of this spell, change the duration here only if it is sustained.
-            services.characterService.effectsService.get_AbsolutesOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]).forEach(effect => {
+            services.characterService.effectsService.absoluteEffectsOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]).forEach(effect => {
                 customDuration = parseInt(effect.setValue, 10);
                 conditionsToRemove.push(effect.source);
             });
-            services.characterService.effectsService.get_RelativesOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]).forEach(effect => {
+            services.characterService.effectsService.relativeEffectsOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`]).forEach(effect => {
                 customDuration += parseInt(effect.value, 10);
                 conditionsToRemove.push(effect.source);
             });
@@ -273,13 +273,13 @@ export class SpellsService {
                                 //Check if an effect changes the duration of this condition.
                                 let effectDuration: number = newConditionGain.duration || 0;
 
-                                services.characterService.effectsService.get_AbsolutesOnThese(context.creature, ['Next Spell Duration', `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`]).forEach(effect => {
+                                services.characterService.effectsService.absoluteEffectsOnThese(context.creature, ['Next Spell Duration', `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`]).forEach(effect => {
                                     effectDuration = parseInt(effect.setValue, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
 
                                 if (effectDuration > 0) {
-                                    services.characterService.effectsService.get_RelativesOnThese(context.creature, ['Next Spell Duration', `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`]).forEach(effect => {
+                                    services.characterService.effectsService.relativeEffectsOnThese(context.creature, ['Next Spell Duration', `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`]).forEach(effect => {
                                         effectDuration += parseInt(effect.value, 10);
                                         conditionsToRemove.push(effect.source);
                                     });
@@ -307,11 +307,11 @@ export class SpellsService {
                                 //Apply effects that change the value of this condition.
                                 let effectValue: number = newConditionGain.value || 0;
 
-                                services.characterService.effectsService.get_AbsolutesOnThis(context.creature, `${ condition.name } Value`).forEach(effect => {
+                                services.characterService.effectsService.absoluteEffectsOnThis(context.creature, `${ condition.name } Value`).forEach(effect => {
                                     effectValue = parseInt(effect.setValue, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
-                                services.characterService.effectsService.get_RelativesOnThis(context.creature, `${ condition.name } Value`).forEach(effect => {
+                                services.characterService.effectsService.relativeEffectsOnThis(context.creature, `${ condition.name } Value`).forEach(effect => {
                                     effectValue += parseInt(effect.value, 10);
                                     conditionsToRemove.push(effect.source);
                                 });

@@ -130,8 +130,8 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     get_EffectsOnThis(name: string) {
         if (this.showEffects && name) {
-            return this.effectsService.get_AbsolutesOnThis(this.get_Creature(), name)
-                .concat(this.effectsService.get_RelativesOnThis(this.get_Creature(), name))
+            return this.effectsService.absoluteEffectsOnThis(this.get_Creature(), name)
+                .concat(this.effectsService.relativeEffectsOnThis(this.get_Creature(), name))
                 .sort((a, b) => (a.source == b.source) ? 0 : ((a.source > b.source) ? 1 : -1));
         } else {
             return [];

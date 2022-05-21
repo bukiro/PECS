@@ -164,7 +164,7 @@ export class EvaluationService {
             //This tests if you have a certain speed, either from your ancestry or from absolute effects.
             // Bonuses and penalties are ignored, since you shouldn't get a bonus to a speed you don't have.
             return Creature.speeds.some(speed => speed.name === name) ||
-                effectsService.get_AbsolutesOnThis(Creature, name).some(effect => !context.effectSourceName || effect.source !== context.effectSourceName);
+                effectsService.absoluteEffectsOnThis(Creature, name).some(effect => !context.effectSourceName || effect.source !== context.effectSourceName);
         }
 
         const Speed = (name: string): number => (this.get_TestSpeed(name))?.value(Creature, characterService, effectsService).result || 0;

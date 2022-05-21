@@ -266,11 +266,11 @@ export class Weapon extends Equipment {
                 `${ this.prof } Reach`,
             ];
 
-            effectsService.get_AbsolutesOnThese(creature, list)
+            effectsService.absoluteEffectsOnThese(creature, list)
                 .forEach(effect => {
                     newReach = parseInt(effect.setValue, 10);
                 });
-            effectsService.get_RelativesOnThese(creature, list)
+            effectsService.relativeEffectsOnThese(creature, list)
                 .forEach(effect => {
                     newReach += parseInt(effect.value, 10);
                 });
@@ -318,7 +318,7 @@ export class Weapon extends Equipment {
         }
 
         namesList.push(...namesList.map(name => name.replace('Gain Trait', 'Lose Trait')));
-        characterService.effectsService.get_ToggledOnThese(creature, namesList).filter(effect => effect.title)
+        characterService.effectsService.toggledEffectsOnThese(creature, namesList).filter(effect => effect.title)
             .forEach(effect => {
                 if (effect.target.toLowerCase().includes('gain trait')) {
                     traits.push(effect.title);
@@ -542,7 +542,7 @@ export class Weapon extends Equipment {
         //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
         //The Clumsy condition affects all Dexterity attacks.
         const dexEffects =
-            effectsService.get_RelativesOnThese(creature, ['Dexterity-based Checks and DCs', 'Dexterity-based Attack Rolls']);
+            effectsService.relativeEffectsOnThese(creature, ['Dexterity-based Checks and DCs', 'Dexterity-based Attack Rolls']);
         const dexPenalty: Array<Effect> = [];
         let dexPenaltySum = 0;
 
@@ -557,7 +557,7 @@ export class Weapon extends Equipment {
         });
 
         //The Enfeebled condition affects all Strength attacks
-        const strEffects = effectsService.get_RelativesOnThese(creature, ['Strength-based Checks and DCs', 'Strength-based Attack Rolls']);
+        const strEffects = effectsService.relativeEffectsOnThese(creature, ['Strength-based Checks and DCs', 'Strength-based Attack Rolls']);
         const strPenalty: Array<Effect> = [];
         let strPenaltySum = 0;
 
@@ -639,10 +639,10 @@ export class Weapon extends Equipment {
             traitEffects.push(...realTrait.objectBoundEffects(activation, ['Attack']));
         });
         //Add absolute effects
-        effectsService.get_TypeFilteredEffects(
+        effectsService.reduceEffectsByType(
             traitEffects
                 .filter(effect => effect.setValue)
-                .concat(effectsService.get_AbsolutesOnThese(creature, effectsListAttackRolls)),
+                .concat(effectsService.absoluteEffectsOnThese(creature, effectsListAttackRolls)),
             { absolutes: true },
         )
             .forEach(effect => {
@@ -722,11 +722,11 @@ export class Weapon extends Equipment {
 
         // Because of the Potency and Shoddy Effects, we need to filter the types a second time,
         // even though get_RelativesOnThese comes pre-filtered.
-        effectsService.get_TypeFilteredEffects(
+        effectsService.reduceEffectsByType(
             calculatedEffects
                 .concat(
                     traitEffects.filter(effect => effect.value !== '0'),
-                    effectsService.get_RelativesOnThese(creature, effectsListAttackRolls),
+                    effectsService.relativeEffectsOnThese(creature, effectsListAttackRolls),
                 ),
         )
             .forEach(effect => {
@@ -846,11 +846,11 @@ export class Weapon extends Equipment {
             let dicenumMultiplier = 1;
             const effectPhrasesDiceNumberMult = effectPhrases('Dice Number Multiplier');
 
-            effectsService.get_AbsolutesOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
+            effectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
                 dicenumMultiplier = parseInt(effect.setValue, 10);
                 diceExplain += `\n${ effect.source }: Dice number multiplier ${ dicenumMultiplier }`;
             });
-            effectsService.get_RelativesOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
+            effectsService.relativeEffectsOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
                 dicenumMultiplier += parseInt(effect.value, 10);
                 diceExplain +=
                     `\n${ effect.source }: Dice number multiplier ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }`
@@ -896,11 +896,11 @@ export class Weapon extends Equipment {
 
                 traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Number']));
             });
-            effectsService.get_TypeFilteredEffects(
+            effectsService.reduceEffectsByType(
                 calculatedAbsoluteDiceNumEffects
                     .concat(
                         traitEffects.filter(effect => effect.setValue),
-                        effectsService.get_AbsolutesOnThese(creature, effectPhrasesDiceNumber),
+                        effectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceNumber),
                     ),
                 { absolutes: true },
             )
@@ -935,10 +935,10 @@ export class Weapon extends Equipment {
                 }
             }
 
-            effectsService.get_TypeFilteredEffects(
+            effectsService.reduceEffectsByType(
                 calculatedRelativeDiceNumEffects
                     .concat(traitEffects.filter(effect => effect.value !== '0'))
-                    .concat(effectsService.get_RelativesOnThese(creature, effectPhrasesDiceNumber)),
+                    .concat(effectsService.relativeEffectsOnThese(creature, effectPhrasesDiceNumber)),
             )
                 .forEach(effect => {
                     dicenum += parseInt(effect.value, 10);
@@ -1022,18 +1022,18 @@ export class Weapon extends Equipment {
             //Apply dice size effects.
             const effectPhrasesDiceSize = effectPhrases('Dice Size');
 
-            effectsService.get_TypeFilteredEffects(
+            effectsService.reduceEffectsByType(
                 calculatedAbsoluteDiceSizeEffects
                     .concat(traitEffects.filter(effect => effect.setValue))
-                    .concat(effectsService.get_AbsolutesOnThese(creature, effectPhrasesDiceSize)),
+                    .concat(effectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceSize)),
                 { absolutes: true })
                 .forEach(effect => {
                     dicesize = parseInt(effect.setValue, 10);
                     diceExplain += `\n${ effect.source }: Dice size d${ dicesize }`;
                 });
-            effectsService.get_TypeFilteredEffects(
+            effectsService.reduceEffectsByType(
                 traitEffects.filter(effect => effect.value !== '0')
-                    .concat(effectsService.get_RelativesOnThese(creature, effectPhrasesDiceSize)),
+                    .concat(effectsService.relativeEffectsOnThese(creature, effectPhrasesDiceSize)),
             )
                 .forEach(effect => {
                     dicesize += parseInt(effect.value, 10);
@@ -1094,7 +1094,7 @@ export class Weapon extends Equipment {
                     characterService.characterFeatsTaken(1, creature.level, { featName: 'Thief Racket' }).length) {
                     //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
                     //The Enfeebled condition affects all Strength damage
-                    const strEffects = effectsService.get_RelativesOnThis(creature, 'Strength-based Checks and DCs');
+                    const strEffects = effectsService.relativeEffectsOnThis(creature, 'Strength-based Checks and DCs');
                     let strPenaltySum = 0;
 
                     strEffects.forEach(effect => {
@@ -1102,7 +1102,7 @@ export class Weapon extends Equipment {
                     });
 
                     //The Clumsy condition affects all Dexterity damage
-                    const dexEffects = effectsService.get_RelativesOnThis(creature, 'Dexterity-based Checks and DCs');
+                    const dexEffects = effectsService.relativeEffectsOnThis(creature, 'Dexterity-based Checks and DCs');
                     let dexPenaltySum = 0;
 
                     dexEffects.forEach(effect => {
@@ -1246,7 +1246,7 @@ export class Weapon extends Equipment {
             );
         }
 
-        effectsService.get_AbsolutesOnThese(creature, effectPhrasesDamage)
+        effectsService.absoluteEffectsOnThese(creature, effectPhrasesDamage)
             .forEach(effect => {
                 if (effect.show) {
                     absolutes.push(
@@ -1261,7 +1261,7 @@ export class Weapon extends Equipment {
                 bonusExplain = `\n${ effect.source }: Bonus damage ${ parseInt(effect.setValue, 10) }`;
             });
 
-        if (!effectsService.get_EffectsOnThis(creature, `Ignore Bonus Damage on ${ this.name }`).length) {
+        if (!effectsService.effectsOnThis(creature, `Ignore Bonus Damage on ${ this.name }`).length) {
             let effectBonus = 0;
             let abilityName = '';
 
@@ -1317,7 +1317,7 @@ export class Weapon extends Equipment {
             // All "...Damage per Die" effects are converted to just "...Damage" (by multiplying with the dice number)
             // and then re-processed with the rest of the damage effects.
             traitEffects.filter(effect => effect.value !== '0')
-                .concat(effectsService.get_RelativesOnThese(creature, perDieList))
+                .concat(effectsService.relativeEffectsOnThese(creature, perDieList))
                 .forEach(effect => {
                     const effectValue = parseInt(effect.value, 10) * dicenum;
                     const newEffect = Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(effect))).recast();
@@ -1327,9 +1327,9 @@ export class Weapon extends Equipment {
                     calculatedDamageEffects.push(newEffect);
                 });
             //Now collect and apply the type-filtered effects on this weapon's damage, including the pregenerated ones.
-            effectsService.get_TypeFilteredEffects(
+            effectsService.reduceEffectsByType(
                 calculatedDamageEffects
-                    .concat(effectsService.get_RelativesOnThese(creature, effectPhrasesDamage)),
+                    .concat(effectsService.relativeEffectsOnThese(creature, effectPhrasesDamage)),
             )
                 .forEach(effect => {
                     if (effect.show) {
@@ -1633,7 +1633,7 @@ export class Weapon extends Equipment {
             effectPhrasesExtraDamage.push(`${ agile } Thrown Weapon Extra Damage`);
         }
 
-        effectsService.get_ToggledOnThese(creature, effectPhrasesExtraDamage).filter(effect => effect.title)
+        effectsService.toggledEffectsOnThese(creature, effectPhrasesExtraDamage).filter(effect => effect.title)
             .forEach(effect => {
                 extraDamage += `\n${ !['+', '-'].includes(effect.title.substr(0, 1)) ? '+' : '' }${ effect.title }`;
             });

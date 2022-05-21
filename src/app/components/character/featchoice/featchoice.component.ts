@@ -187,10 +187,10 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         if (this.creature == 'Familiar') {
             let available = choice.available;
 
-            this.effectsService.get_AbsolutesOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
+            this.effectsService.absoluteEffectsOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
                 available = parseInt(effect.setValue, 10);
             });
-            this.effectsService.get_RelativesOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
+            this.effectsService.relativeEffectsOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
                 available += parseInt(effect.value, 10);
             });
 

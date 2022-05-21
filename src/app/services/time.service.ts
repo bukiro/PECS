@@ -48,14 +48,14 @@ export class TimeService {
         if (!characterService.character().settings.manualMode) {
             characterService.allAvailableCreatures().forEach(creature => {
 
-                effectsService.get_AbsolutesOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
+                effectsService.absoluteEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
                     fastHealing = parseInt(effect.setValue, 10);
                 });
-                effectsService.get_RelativesOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
+                effectsService.relativeEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
                     fastHealing += parseInt(effect.value, 10);
                 });
 
-                if (!this._effectsService.get_EffectsOnThis(creature, 'Time Stop').length) {
+                if (!this._effectsService.effectsOnThis(creature, 'Time Stop').length) {
                     if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
                         this._refreshService.set_ToChange(creature.type, 'health');
                         creature.health.heal(creature, characterService, effectsService, fastHealing);
@@ -103,19 +103,19 @@ export class TimeService {
 
             let heal: number = con * charLevel;
 
-            this._effectsService.get_AbsolutesOnThis(creature, 'Resting HP Gain').forEach(effect => {
+            this._effectsService.absoluteEffectsOnThis(creature, 'Resting HP Gain').forEach(effect => {
                 heal = parseInt(effect.setValue, 10);
             });
-            this._effectsService.get_RelativesOnThis(creature, 'Resting HP Gain').forEach(effect => {
+            this._effectsService.relativeEffectsOnThis(creature, 'Resting HP Gain').forEach(effect => {
                 heal += parseInt(effect.value, 10);
             });
 
             let multiplier = 1;
 
-            this._effectsService.get_AbsolutesOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
+            this._effectsService.absoluteEffectsOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
                 multiplier = parseInt(effect.setValue, 10);
             });
-            this._effectsService.get_RelativesOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
+            this._effectsService.relativeEffectsOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
                 multiplier += parseInt(effect.value, 10);
             });
             multiplier = Math.max(1, multiplier);
@@ -190,7 +190,7 @@ export class TimeService {
 
         if (finalRecoverPoints < maximumFocusPoints) {
             //Several feats recover more focus points if you spent at least that amount since the last time refocusing. Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
-            characterService.effectsService.get_AbsolutesOnThis(character, 'Refocus Bonus Points').forEach(effect => {
+            characterService.effectsService.absoluteEffectsOnThis(character, 'Refocus Bonus Points').forEach(effect => {
                 const points = parseInt(effect.setValue, 10);
 
                 if (focusPointsLast - focusPoints >= points) {
@@ -367,7 +367,7 @@ export class TimeService {
             return characterService.creatureHealth(creature).temporaryHP.length > 1;
         }
         function RestingBlockingEffectsActive(creature: Creature): boolean {
-            return effectsService.get_EffectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
+            return effectsService.effectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
         }
         characterService.allAvailableCreatures().forEach(creature => {
             if (AfflictionOnsetsWithinDuration(creature)) {

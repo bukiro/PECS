@@ -292,12 +292,12 @@ export class Spell {
                 list.push('Cantrip Spell Levels');
             }
 
-            services.effectsService.get_AbsolutesOnThese(context.creature, list).forEach(effect => {
+            services.effectsService.absoluteEffectsOnThese(context.creature, list).forEach(effect => {
                 if (parseInt(effect.setValue, 10)) {
                     level = parseInt(effect.setValue, 10);
                 }
             });
-            services.effectsService.get_RelativesOnThese(context.creature, list).forEach(effect => {
+            services.effectsService.relativeEffectsOnThese(context.creature, list).forEach(effect => {
                 if (parseInt(effect.value, 10)) {
                     level += parseInt(effect.value, 10);
                 }

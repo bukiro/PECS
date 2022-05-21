@@ -475,7 +475,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             }
 
             if (casting.className) {
-                this.effectsService.get_RelativesOnThis(this.get_Character(), `${ casting.className } ${ casting.castingType } Level ${ spellLevel } Spell Slots`).forEach(effect => {
+                this.effectsService.relativeEffectsOnThis(this.get_Character(), `${ casting.className } ${ casting.castingType } Level ${ spellLevel } Spell Slots`).forEach(effect => {
                     spellslots += parseInt(effect.value, 10);
                 });
             }
@@ -525,7 +525,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_ExternallyDisabled(spell: Spell, choice: SpellChoice): boolean {
-        return !!(this.effectsService.get_EffectsOnThis(this.get_Character(), `${ spell.name } Disabled`).length + this.effectsService.get_EffectsOnThis(this.get_Character(), `${ choice.source.replace('Feat: ', '') } Disabled`).length);
+        return !!(this.effectsService.effectsOnThis(this.get_Character(), `${ spell.name } Disabled`).length + this.effectsService.effectsOnThis(this.get_Character(), `${ choice.source.replace('Feat: ', '') } Disabled`).length);
     }
 
     cannot_Cast(context: { spellCastingLevelParameters: SpellCastingLevelParameters; spellCastingParameters: SpellCastingParameters; choice: SpellChoice; gain: SpellGain; externallyDisabled: boolean }) {
@@ -602,19 +602,19 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         //If an effect changes whether a spell resource will get used, mark this here and mark any matching condition for removal. The conditions will be removed if they have duration 1, regardless of whether the effect was used.
         const conditionsToRemove: Array<string> = [];
 
-        this.characterService.effectsService.get_AbsolutesOnThis(character, 'Spell Slot Preservation').forEach(effect => {
+        this.characterService.effectsService.absoluteEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
             highestSpellPreservationLevel = parseInt(effect.setValue, 10);
             conditionsToRemove.push(effect.source);
         });
-        this.characterService.effectsService.get_RelativesOnThis(character, 'Spell Slot Preservation').forEach(effect => {
+        this.characterService.effectsService.relativeEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
             highestSpellPreservationLevel += parseInt(effect.value, 10);
             conditionsToRemove.push(effect.source);
         });
-        this.characterService.effectsService.get_AbsolutesOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
+        this.characterService.effectsService.absoluteEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
             highestNoDurationSpellPreservationLevel = parseInt(effect.setValue, 10);
             conditionsToRemove.push(effect.source);
         });
-        this.characterService.effectsService.get_RelativesOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
+        this.characterService.effectsService.relativeEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
             highestNoDurationSpellPreservationLevel += parseInt(effect.value, 10);
             conditionsToRemove.push(effect.source);
         });
@@ -751,7 +751,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     can_Restore(spellCastingParameters: SpellCastingParameters, level: number, hasSuperiorBond: boolean): boolean {
         //True if you have the "Free Bonded Item Charge" effect (usually from Bond Conversation)
-        if (this.effectsService.get_EffectsOnThis(this.get_Character(), 'Free Bonded Item Charge').length) {
+        if (this.effectsService.effectsOnThis(this.get_Character(), 'Free Bonded Item Charge').length) {
             return true;
         }
 
@@ -791,7 +791,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             this.characterService.processOnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: '+1' }));
         }
 
-        const bondedItemCharges = this.effectsService.get_EffectsOnThis(character, 'Free Bonded Item Charge');
+        const bondedItemCharges = this.effectsService.effectsOnThis(character, 'Free Bonded Item Charge');
 
         if (bondedItemCharges.length) {
             bondedItemCharges.forEach(effect => {
