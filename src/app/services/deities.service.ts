@@ -29,6 +29,10 @@ export class DeitiesService {
         private readonly _extensionsService: ExtensionsService,
     ) { }
 
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
+
     public deityFromName(name: string): Deity {
         //Returns a named deity from the map.
         return this._deitiesMap.get(name.toLowerCase()) || this._replacementDeity(name);
@@ -75,7 +79,7 @@ export class DeitiesService {
     }
 
     public deities(name = ''): Array<Deity> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             //If a name is given, try to find a deity by that name in the index map. This should be much quicker.
             if (name) {
                 return [this.deityFromName(name)];
@@ -86,13 +90,9 @@ export class DeitiesService {
     }
 
     public domains(name = ''): Array<Domain> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._domains.filter(domain => !name || domain.name.toLowerCase() === name.toLowerCase());
         } else { return [new Domain()]; }
-    }
-
-    public stillLoading(): boolean {
-        return !this._initialized;
     }
 
     public initialize(): void {

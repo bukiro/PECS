@@ -239,7 +239,7 @@ export class Skill {
         charLevel: number = characterService.character().level,
         excludeTemporary = false,
     ): number {
-        if (characterService.stillLoading()) { return 0; }
+        if (characterService.stillLoading) { return 0; }
 
         if (creature instanceof Familiar) {
             return ['Perception', 'Acrobatics', 'Stealth'].includes(this.name)
@@ -406,7 +406,7 @@ export class Skill {
         let explain = '';
         let ability = '';
 
-        if (!characterService.stillLoading()) {
+        if (!characterService.stillLoading) {
             if (creature instanceof Familiar) {
                 //Familiars have special rules:
                 //- Saves are equal to the character's before applying circumstance or status effects.
@@ -484,7 +484,7 @@ export class Skill {
         let result = 0;
         let explain = '';
 
-        if (!characterService.stillLoading()) {
+        if (!characterService.stillLoading) {
             result = baseValue.result;
             explain = baseValue.explain;
 

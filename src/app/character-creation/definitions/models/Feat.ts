@@ -151,7 +151,7 @@ export class Feat {
         filter: { charLevel?: number; minLevel?: number } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
     ): number {
-        if (services.characterService?.stillLoading()) { return 0; }
+        if (services.characterService?.stillLoading) { return 0; }
 
         filter = {
             charLevel: services.characterService.character().level,

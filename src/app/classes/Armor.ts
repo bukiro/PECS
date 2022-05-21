@@ -269,7 +269,7 @@ export class Armor extends Equipment {
         charLevel: number = characterService.character().level,
         options: { itemStore?: boolean } = {},
     ): number {
-        if (characterService.stillLoading()) { return 0; }
+        if (characterService.stillLoading) { return 0; }
 
         this.armoredSkirt(creature, options);
 

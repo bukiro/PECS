@@ -58,7 +58,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.stillLoading();
+        return this.characterService.stillLoading;
     }
 
     trackByIndex(index: number): number {

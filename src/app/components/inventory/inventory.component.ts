@@ -97,7 +97,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.stillLoading();
+        return this.characterService.stillLoading;
     }
 
     set_ItemsMenuTarget(target: string) {

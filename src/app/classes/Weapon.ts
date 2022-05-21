@@ -401,7 +401,7 @@ export class Weapon extends Equipment {
         charLevel: number = characterService.character().level,
         options: { preparedProficiency?: string } = {},
     ): number {
-        if (characterService.stillLoading()) { return 0; }
+        if (characterService.stillLoading) { return 0; }
 
         let skillLevel = 0;
         const prof = options.preparedProficiency || this.effectiveProficiency(creature, characterService, charLevel);

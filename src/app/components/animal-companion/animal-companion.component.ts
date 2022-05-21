@@ -38,7 +38,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return (this.characterService.stillLoading() || this.animalCompanionsService.stillLoading());
+        return (this.characterService.stillLoading || this.animalCompanionsService.stillLoading);
     }
 
     toggleCompanionMenu() {

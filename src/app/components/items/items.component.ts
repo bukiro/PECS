@@ -660,7 +660,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.itemsService.still_loading() || this.characterService.stillLoading();
+        return this.itemsService.still_loading() || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

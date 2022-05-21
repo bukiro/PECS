@@ -2,23 +2,24 @@ import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 
 @Injectable({
     providedIn: 'root',
 })
 export class DiceService {
 
-    private diceResults: Array<DiceResult> = [];
+    private _diceResults: Array<DiceResult> = [];
 
     constructor(
-        private readonly refreshService: RefreshService,
+        private readonly _refreshService: RefreshService,
     ) { }
 
-    get_DiceResults() {
-        return this.diceResults;
+    public get diceResults(): Array<DiceResult> {
+        return this._diceResults;
     }
 
-    roll(amount: number, size: number, bonus: number, characterService: CharacterService, newChain = true, type = '') {
+    public roll(amount: number, size: number, bonus: number, characterService: CharacterService, newChain = true, type = ''): void {
         if (newChain) {
             this.unselectAll();
         }
@@ -55,25 +56,25 @@ export class DiceService {
             diceResult.rolls.push(Math.ceil(Math.random() * size));
         }
 
-        this.diceResults.unshift(diceResult);
+        this._diceResults.unshift(diceResult);
 
-        if (characterService.diceMenuState() == 'out') {
-            characterService.toggleMenu('dice');
+        if (characterService.diceMenuState() === 'out') {
+            characterService.toggleMenu(MenuNames.DiceMenu);
         }
 
-        this.refreshService.set_ToChange('character', 'dice');
-        this.refreshService.set_ToChange('character', 'character-sheet');
-        this.refreshService.set_ToChange('character', 'top-bar');
+        this._refreshService.set_ToChange('character', 'dice');
+        this._refreshService.set_ToChange('character', 'character-sheet');
+        this._refreshService.set_ToChange('character', 'top-bar');
     }
 
-    unselectAll() {
-        this.diceResults.forEach(diceResult => {
+    public unselectAll(): void {
+        this._diceResults.forEach(diceResult => {
             diceResult.included = false;
         });
     }
 
-    clear() {
-        this.diceResults.length = 0;
+    public clear(): void {
+        this._diceResults.length = 0;
     }
 
 }

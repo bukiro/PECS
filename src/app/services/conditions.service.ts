@@ -41,6 +41,10 @@ export class ConditionsService {
         private readonly _refreshService: RefreshService,
     ) { }
 
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
+
     public replacementCondition(name?: string): Condition {
         return Object.assign(
             new Condition(),
@@ -54,7 +58,7 @@ export class ConditionsService {
     }
 
     public conditions(name = '', type = ''): Array<Condition> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             //If only a name is given, try to find a condition by that name in the index map. This should be much quicker.
             if (name && !type) {
                 return [this.conditionFromName(name)];
@@ -1321,10 +1325,6 @@ export class ConditionsService {
                 this.changeConditionChoice(creature, gain, condition, oldChoice, characterService, itemsService);
             }
         }
-    }
-
-    public stillLoading(): boolean {
-        return !this._initialized;
     }
 
     public initialize(): void {

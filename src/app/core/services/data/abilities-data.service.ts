@@ -14,16 +14,16 @@ export class AbilitiesDataService {
         private readonly _extensionsService: ExtensionsService,
     ) { }
 
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
+
     public abilities(name = ''): Array<Ability> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._abilities.filter(ability => !name || ability.name === name);
         } else {
             return [new Ability()];
         }
-    }
-
-    public stillLoading(): boolean {
-        return (!this._initialized);
     }
 
     public initialize(): void {

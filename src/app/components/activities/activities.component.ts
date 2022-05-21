@@ -134,7 +134,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.activitiesService.stillLoading() || this.characterService.stillLoading();
+        return this.activitiesService.stillLoading || this.characterService.stillLoading;
     }
 
     public get_Creature(): Creature {

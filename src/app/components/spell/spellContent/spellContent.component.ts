@@ -57,7 +57,7 @@ export class SpellContentComponent implements OnInit, OnDestroy {
     }
 
     finish_Loading() {
-        if (this.characterService.stillLoading()) {
+        if (this.characterService.stillLoading) {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
             this.changeSubscription = this.refreshService.get_Changed

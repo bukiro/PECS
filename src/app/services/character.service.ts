@@ -89,6 +89,7 @@ import { Health } from '../classes/Health';
 import { AnimalCompanionLevel } from '../classes/AnimalCompanionLevel';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 
 interface PreparedOnceEffect {
     creatureType: string;
@@ -109,18 +110,6 @@ interface EffectRecipientPhrases {
 }
 
 type HintShowingItem = Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material;
-
-enum MenuNames {
-    ItemsMenu = 'items',
-    CraftingMenu = 'crafting',
-    CharacterMenu = 'character',
-    CompanionMenu = 'companion',
-    FamiliarMenu = 'familiar',
-    SpellsMenu = 'spells',
-    SpellLibraryMenu = 'spelllibrary',
-    ConditionsMenu = 'conditions',
-    DiceMenu = 'dice',
-}
 
 @Injectable({
     providedIn: 'root',
@@ -204,11 +193,11 @@ export class CharacterService {
         tooltipConfig.triggers = 'hover:click';
     }
 
-    public stillLoading(): boolean {
+    public get stillLoading(): boolean {
         return this._loading;
     }
 
-    public loadingStatus(): string {
+    public get loadingStatus(): string {
         return this._loadingStatus;
     }
 
@@ -221,7 +210,7 @@ export class CharacterService {
     }
 
     public darkmode(): boolean {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this.character().settings.darkmode;
         } else {
             return true;
@@ -328,7 +317,7 @@ export class CharacterService {
     }
 
     public character(): Character {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._character;
         } else { return new Character(); }
     }
@@ -378,7 +367,7 @@ export class CharacterService {
     }
 
     public isLoggedIn(): boolean {
-        return this._configService.isLoggedIn();
+        return this._configService.isLoggedIn;
     }
 
     public isCompanionAvailable(charLevel: number = this.character().level): boolean {
@@ -403,7 +392,7 @@ export class CharacterService {
         companionAvailable: boolean = this.isCompanionAvailable(),
         familiarAvailable: boolean = this.isFamiliarAvailable(),
     ): Array<Creature> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             if (companionAvailable && familiarAvailable) {
                 return ([] as Array<Creature>).concat(this.character()).concat(this.companion())
                     .concat(this.familiar());
@@ -2510,7 +2499,7 @@ export class CharacterService {
     public changeCreatureCoverWithNotification(creature: Creature, value: number): void {
         const phrases = this.effectRecipientPhrases(creature);
 
-        this.defenseService.armorClass().setCover(creature, value, null, this, this.conditionsService);
+        this.defenseService.armorClass.setCover(creature, value, null, this, this.conditionsService);
 
         switch (value) {
             case CoverTypes.NoCover:
@@ -2892,7 +2881,7 @@ export class CharacterService {
     public creatureOwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): Array<ActivityGain> {
         const activities: Array<ActivityGain | ItemActivity> = [];
 
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             if (creature instanceof Character) {
                 activities.push(...creature.class.activities.filter(gain => gain.level <= levelNumber));
             }
@@ -3186,7 +3175,7 @@ export class CharacterService {
     }
 
     public ACObject(): AC {
-        return this.defenseService.armorClass();
+        return this.defenseService.armorClass;
     }
 
     public isMobileView(): boolean {
@@ -3236,7 +3225,7 @@ export class CharacterService {
         this.setLoadingStatus('Loading extensions');
 
         const waitForFileServices = setInterval(() => {
-            if (!this._extensionsService.still_loading() && !this._configService.stillLoading()) {
+            if (!this._extensionsService.still_loading() && !this._configService.stillLoading) {
                 clearInterval(waitForFileServices);
                 this.setLoadingStatus('Initializing content');
                 this._character = new Character();
@@ -3395,7 +3384,7 @@ export class CharacterService {
         this.setLoadingStatus('Loading', false);
         this.refreshService.set_ToChange('Character', 'effects');
 
-        if (!this._configService.isLoggedIn() && !this._configService.cannotLogin()) {
+        if (!this._configService.isLoggedIn && !this._configService.cannotLogin) {
             this.refreshService.set_ToChange('Character', 'logged-out');
         }
 
@@ -3431,7 +3420,7 @@ export class CharacterService {
             }
         };
 
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             const original = this.character().settings.accent;
 
             if (original.length === rgbLength || original.length === rrggbbLength) {
@@ -3504,7 +3493,7 @@ export class CharacterService {
     private _grantBasicItems(): void {
         //This function depends on the items being loaded, and it will wait forever for them!
         const waitForItemsService = setInterval(() => {
-            if (!this._extensionsService.still_loading() && !this._configService.stillLoading()) {
+            if (!this._extensionsService.still_loading() && !this._configService.stillLoading) {
                 clearInterval(waitForItemsService);
 
                 const newBasicWeapon: Weapon =
@@ -3526,7 +3515,7 @@ export class CharacterService {
     }
 
     private _equipBasicItems(creature: Creature, changeAfter = true): void {
-        if (!this.stillLoading() && this._basicItems.weapon && this._basicItems.armor && !(creature instanceof Familiar)) {
+        if (!this.stillLoading && this._basicItems.weapon && this._basicItems.armor && !(creature instanceof Familiar)) {
             if (!creature.inventories[0].weapons.some(weapon => !weapon.broken) && (creature instanceof Character)) {
                 this.grantInventoryItem(
                     this._basicItems.weapon,

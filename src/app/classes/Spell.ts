@@ -217,7 +217,7 @@ export class Spell {
         characterService: CharacterService,
         spellLevel: number = SpellLevelFromCharLevel(characterService.character().level),
     ): boolean {
-        if (characterService.stillLoading()) { return false; }
+        if (characterService.stillLoading) { return false; }
 
         if (spellLevel === -1) {
             spellLevel = SpellLevelFromCharLevel(characterService.character().level);

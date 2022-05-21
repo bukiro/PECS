@@ -56,7 +56,7 @@ export class Ability {
         if (creature instanceof Familiar) {
             return { result: 0, explain: '' };
         } else {
-            if (characterService.stillLoading()) {
+            if (characterService.stillLoading) {
                 return { result: abilityDefaultBaseValue, explain: 'Base value: 10' };
             }
 

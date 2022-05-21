@@ -234,7 +234,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.skillsService.still_loading() || this.characterService.stillLoading();
+        return this.skillsService.still_loading() || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

@@ -23,7 +23,7 @@ export class TraitsService {
     }
 
     public getTraits(traitName = ''): Array<Trait> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
             //If no trait is found with that exact name, continue the search, considering composite trait names.
             if (traitName) {
@@ -54,7 +54,7 @@ export class TraitsService {
     }
 
     public getTraitsForThis(creature: Creature, name: string): Array<Trait> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             //Return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory
             //uses the haveOn() method of Trait that returns any equipment that has this trait
             return this._traits.filter(trait =>

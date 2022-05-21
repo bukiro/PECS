@@ -25,13 +25,17 @@ export class ActivitiesDataService {
         private readonly _refreshService: RefreshService,
     ) { }
 
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
+
     public activityFromName(name: string): Activity {
         //Returns a named activity from the map.
         return this._activitiesMap.get(name.toLowerCase()) || this._replacementActivity(name);
     }
 
     public activities(name = ''): Array<Activity> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             //If only a name is given, try to find an activity by that name in the index map. This should be much quicker.
             if (name) {
                 return [this.activityFromName(name)];
@@ -81,10 +85,6 @@ export class ActivitiesDataService {
         });
 
         return item;
-    }
-
-    public stillLoading(): boolean {
-        return (!this._initialized);
     }
 
     public initialize(): void {

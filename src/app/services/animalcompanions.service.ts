@@ -28,20 +28,24 @@ export class AnimalCompanionsService {
         private readonly _typeService: TypeService,
     ) { }
 
+    public get stillLoading(): boolean {
+        return !(this._ancestriesInitialized && this._levelsInitialized && this._specializationsInitialized);
+    }
+
     public companionTypes(name = ''): Array<AnimalCompanionAncestry> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._companionAncestries.filter(animalCompanion => !name || animalCompanion.name === name);
         } else { return [new AnimalCompanionAncestry()]; }
     }
 
     public companionLevels(): Array<AnimalCompanionLevel> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._companionLevels;
         } else { return [new AnimalCompanionLevel()]; }
     }
 
     public companionSpecializations(name = ''): Array<AnimalCompanionSpecialization> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._companionSpecializations.filter(spec => !name || spec.name === name);
         } else { return [new AnimalCompanionSpecialization()]; }
     }
@@ -182,10 +186,6 @@ export class AnimalCompanionsService {
 
     public removeSpecialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization): void {
         companion.class.specializations = companion.class.specializations.filter(specialization => specialization.name !== spec.name);
-    }
-
-    public stillLoading(): boolean {
-        return !(this._ancestriesInitialized && this._levelsInitialized && this._specializationsInitialized);
     }
 
     public initialize(): void {

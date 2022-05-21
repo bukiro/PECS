@@ -913,7 +913,7 @@ export class EffectsGenerationService {
             this.refreshService.set_ToChangeByEffects(effects, this.effectsService.get_Effects(context.creature.type).all, context);
             this.effectsService.replace_Effects(context.creature.type, effects);
 
-            if (!services.characterService.stillLoading()) {
+            if (!services.characterService.stillLoading) {
                 return this.generate_Effects(context.creature.type, services, { secondRun: true });
             } else {
                 return false;
@@ -972,7 +972,7 @@ export class EffectsGenerationService {
     initialize(characterService: CharacterService): void {
         //Only start subscribing to effects refreshing commands after the character has finished loading.
         const waitForCharacterService = setInterval(() => {
-            if (!characterService.stillLoading()) {
+            if (!characterService.stillLoading) {
                 clearInterval(waitForCharacterService);
 
                 //Subscribe to updates only once.

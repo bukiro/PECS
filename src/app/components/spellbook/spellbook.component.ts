@@ -156,7 +156,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.stillLoading();
+        return this.characterService.stillLoading;
     }
 
     get_Traits(name = '') {

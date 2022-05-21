@@ -76,7 +76,7 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.abilitiesService.stillLoading() || this.characterService.stillLoading();
+        return this.abilitiesService.stillLoading || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

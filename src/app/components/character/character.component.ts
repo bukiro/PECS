@@ -293,7 +293,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_SavegamesInitializing() {
-        return this.savegameService.stillLoading();
+        return this.savegameService.stillLoading;
     }
 
     get_LoggingIn() {
@@ -1708,7 +1708,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.stillLoading();
+        return this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

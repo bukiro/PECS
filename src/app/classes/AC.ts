@@ -187,7 +187,7 @@ export class AC {
         absolutes: Array<Effect> = undefined,
         relatives: Array<Effect> = undefined,
     ): { result: number; explain: string } {
-        if (characterService.stillLoading()) { return { result: 0, explain: '' }; }
+        if (characterService.stillLoading) { return { result: 0, explain: '' }; }
 
         //Get the bonus from the worn armor. This includes the basic 10
         let basicBonus = 10;

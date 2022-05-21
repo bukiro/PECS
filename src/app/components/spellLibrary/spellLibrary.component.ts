@@ -597,7 +597,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.spellsService.still_loading() || this.characterService.stillLoading();
+        return this.spellsService.still_loading() || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

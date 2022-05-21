@@ -151,7 +151,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.conditionsService.stillLoading() || this.characterService.stillLoading();
+        return this.conditionsService.stillLoading || this.characterService.stillLoading;
     }
 
     toggleConditionsMenu() {

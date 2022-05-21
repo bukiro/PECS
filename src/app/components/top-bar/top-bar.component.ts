@@ -87,7 +87,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_SavegamesInitializing() {
-        return this.savegameService.stillLoading();
+        return this.savegameService.stillLoading;
     }
 
     set_Changed() {
@@ -169,7 +169,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.stillLoading();
+        return this.characterService.stillLoading;
     }
 
     get_IsBlankCharacter() {
@@ -367,7 +367,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         const waitUntilReady = setInterval(() => {
-            if (this.get_Database() || this.configService.stillLoading()) {
+            if (this.get_Database() || this.configService.stillLoading) {
                 clearInterval(waitUntilReady);
                 this.finish_Loading();
             }

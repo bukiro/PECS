@@ -316,7 +316,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.characterService.stillLoading();
+        return this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

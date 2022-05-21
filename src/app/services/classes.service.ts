@@ -21,23 +21,23 @@ export class ClassesService {
         private readonly _extensionsService: ExtensionsService,
     ) { }
 
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
+
     public classFromName(name: string): Class {
         //Returns a named class from the map.
         return this._classesMap.get(name.toLowerCase()) || this._replacementClass(name);
     }
 
     public classes(name = ''): Array<Class> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             if (name) {
                 return [this.classFromName(name)];
             } else {
                 return this._classes.filter($class => !name || $class.name === name);
             }
         } else { return [new Class()]; }
-    }
-
-    public stillLoading(): boolean {
-        return !this._initialized;
     }
 
     public restoreClassFromSave(classObj: Class): Class {

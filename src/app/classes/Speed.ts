@@ -48,7 +48,7 @@ export class Speed {
         options: { ignoreRelatives?: boolean } = {},
     ): { result: number; explain: string } {
         //Gets the basic speed and adds all effects
-        if (characterService.stillLoading()) { return { result: 0, explain: '' }; }
+        if (characterService.stillLoading) { return { result: 0, explain: '' }; }
 
         //Get the base speed from the ancestry.
         const baseValue = creature.baseSpeed(this.name);

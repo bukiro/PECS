@@ -924,7 +924,7 @@ export class FeatRequirementsService {
             context.charLevel = context.choiceLevel;
         }
 
-        if (this._characterService.stillLoading()) { return false; }
+        if (this._characterService.stillLoading) { return false; }
 
         //Don't check the level if skipLevel is set. This is used for subFeats, where the superFeat's levelreq is enough.
         const isLevelreqMet: boolean =

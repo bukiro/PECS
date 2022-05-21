@@ -46,7 +46,7 @@ export class DiceComponent implements OnInit {
     }
 
     get_DiceResults() {
-        return this.diceService.get_DiceResults();
+        return this.diceService.diceResults();
     }
 
     roll(amount: number, size: number) {
