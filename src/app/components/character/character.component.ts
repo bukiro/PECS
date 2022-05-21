@@ -607,7 +607,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             //or if you have the cantrip connection or spell battery familiar ability.
         } else if (this.characterService.isFamiliarAvailable()) {
             this.refreshService.set_ToChange('Familiar', 'all');
-            this.get_Familiar().abilities.feats.map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0]).filter(feat => feat)
+            this.get_Familiar().abilities.feats.map(gain => this.familiarsService.familiarAbilities(gain.name)[0]).filter(feat => feat)
                 .forEach(feat => {
                     if (feat.name == 'Cantrip Connection') {
                         this.refreshService.set_ToChange('Character', 'spellbook');

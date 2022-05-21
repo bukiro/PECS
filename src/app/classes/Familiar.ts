@@ -64,7 +64,7 @@ export class Familiar extends Creature {
         const feats: Array<Feat> = [];
         const hintSets: Array<{ hint: Hint; objectName: string }> = [];
 
-        characterService.familiarsService.get_FamiliarAbilities().filter(ability => ability.have({ creature: this }, { characterService }))
+        characterService.familiarsService.familiarAbilities().filter(ability => ability.have({ creature: this }, { characterService }))
             .filter(ability => ability.effects?.length || ability.hints?.length)
             .forEach(ability => {
                 feats.push(ability);

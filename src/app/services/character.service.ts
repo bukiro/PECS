@@ -2716,7 +2716,7 @@ export class CharacterService {
 
         if (creature instanceof Familiar) {
             creature.abilities.feats
-                .map(gain => this.familiarsService.get_FamiliarAbilities(gain.name)[0])
+                .map(gain => this.familiarsService.familiarAbilities(gain.name)[0])
                 .filter(ability => ability?.senses.length)
                 .forEach(ability => {
                     senses.push(...ability.senses);
@@ -2834,7 +2834,7 @@ export class CharacterService {
 
     public familiarElementsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
         //Get showon elements from Familiar Abilities
-        return this.familiarsService.get_FamiliarAbilities().filter(feat =>
+        return this.familiarsService.familiarAbilities().filter(feat =>
             feat.hints.find(hint =>
                 (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
@@ -3225,7 +3225,7 @@ export class CharacterService {
         this.setLoadingStatus('Loading extensions');
 
         const waitForFileServices = setInterval(() => {
-            if (!this._extensionsService.stillLoading() && !this._configService.stillLoading) {
+            if (!this._extensionsService.stillLoading && !this._configService.stillLoading) {
                 clearInterval(waitForFileServices);
                 this.setLoadingStatus('Initializing content');
                 this._character = new Character();
@@ -3493,7 +3493,7 @@ export class CharacterService {
     private _grantBasicItems(): void {
         //This function depends on the items being loaded, and it will wait forever for them!
         const waitForItemsService = setInterval(() => {
-            if (!this._extensionsService.stillLoading() && !this._configService.stillLoading) {
+            if (!this._extensionsService.stillLoading && !this._configService.stillLoading) {
                 clearInterval(waitForItemsService);
 
                 const newBasicWeapon: Weapon =

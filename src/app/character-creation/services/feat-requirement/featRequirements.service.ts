@@ -210,7 +210,7 @@ export class FeatRequirementsService {
                     testcreature = this._characterService.familiar();
                     testfeat = featreq.split('Familiar:')[1].trim();
                     requiredFeats =
-                        this._characterService.familiarsService.get_FamiliarAbilities().filter(ability =>
+                        this._characterService.familiarsService.familiarAbilities().filter(ability =>
                             [ability.name.toLowerCase(), ability.superType.toLowerCase()].includes(testfeat.toLowerCase()),
                         );
                 } else {

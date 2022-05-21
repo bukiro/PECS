@@ -8,50 +8,47 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 })
 export class FamiliarsService {
 
-    private familiarAbilities: Array<Feat> = [];
-    private loading_familiarAbilities = false;
+    private _familiarAbilities: Array<Feat> = [];
+    private _initialized = false;
 
     constructor(
-        private readonly extensionsService: ExtensionsService,
+        private readonly _extensionsService: ExtensionsService,
     ) { }
 
-    still_loading() {
-        return (this.loading_familiarAbilities);
+    public get stillLoading(): boolean {
+        return !this._initialized;
     }
 
-    get_FamiliarAbilities(name = '') {
-        if (!this.still_loading()) {
-            return this.familiarAbilities.filter(ability => ability.name.toLowerCase() == name.toLowerCase() || name == '');
+    public familiarAbilities(name = ''): Array<Feat> {
+        if (!this.stillLoading) {
+            return this._familiarAbilities.filter(ability => ability.name.toLowerCase() === name.toLowerCase() || name === '');
         } else { return [new Feat()]; }
     }
 
-    initialize() {
-        //Initialize only once, but cleanup active effects everytime thereafter.
-        if (!this.familiarAbilities.length) {
-            this.loading_familiarAbilities = true;
-            this.load_Abilities();
-            this.loading_familiarAbilities = false;
-        }
+    public initialize(): void {
+        this._loadAbilities();
+        this._initialized = true;
     }
 
-    reset() {
+    public reset(): void {
         //Disable any active hint effects when loading a character.
-        this.familiarAbilities.forEach(ability => {
+        this._familiarAbilities.forEach(ability => {
             ability.hints?.forEach(hint => {
                 hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
             });
         });
     }
 
-    load_Abilities() {
-        this.familiarAbilities = [];
+    private _loadAbilities(): void {
+        this._familiarAbilities = [];
 
-        const data = this.extensionsService.extend(json_abilities, 'familiarAbilities');
+        const data = this._extensionsService.extend(json_abilities, 'familiarAbilities');
 
         Object.keys(data).forEach(key => {
-            this.familiarAbilities.push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
+            this._familiarAbilities.push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
         });
-        this.familiarAbilities = this.extensionsService.cleanupDuplicates(this.familiarAbilities, 'name', 'familiar abilities') as Array<Feat>;
+        this._familiarAbilities =
+            this._extensionsService.cleanupDuplicates(this._familiarAbilities, 'name', 'familiar abilities') as Array<Feat>;
     }
 
 }

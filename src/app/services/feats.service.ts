@@ -288,7 +288,7 @@ export class FeatsService {
 
         if (!feat && featName) {
             if (creature instanceof Familiar) {
-                feat = characterService.familiarsService.get_FamiliarAbilities(featName)[0];
+                feat = characterService.familiarsService.familiarAbilities(featName)[0];
             } else {
                 //Use characterService.get_FeatsAndFeatures() instead of this.get_All(), because it automatically checks the character's custom feats.
                 feat = characterService.featsAndFeatures(featName)[0];

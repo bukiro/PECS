@@ -302,7 +302,7 @@ export class Condition {
                             if (featreq.includes('Familiar:')) {
                                 testCreature = characterService.familiar();
                                 testFeat = featreq.split('Familiar:')[1].trim();
-                                requiredFeat = characterService.familiarsService.get_FamiliarAbilities(testFeat);
+                                requiredFeat = characterService.familiarsService.familiarAbilities(testFeat);
                             } else {
                                 testCreature = character;
                                 requiredFeat = characterService.characterFeatsAndFeatures(testFeat, '', true);

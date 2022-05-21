@@ -204,7 +204,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         if (this.creature == 'Character') {
             return this.featsService.get_Feats(this.get_Character().customFeats, name, type);
         } else if (this.creature == 'Familiar') {
-            return this.familiarsService.get_FamiliarAbilities(name);
+            return this.familiarsService.familiarAbilities(name);
         }
     }
 
@@ -212,7 +212,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         if (this.creature == 'Character') {
             return this.featsService.get_CharacterFeats(this.get_Character().customFeats, name, type);
         } else if (this.creature == 'Familiar') {
-            return this.familiarsService.get_FamiliarAbilities(name);
+            return this.familiarsService.familiarAbilities(name);
         }
     }
 

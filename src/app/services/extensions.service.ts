@@ -21,6 +21,13 @@ export class ExtensionsService {
         private readonly _httpClient: HttpClient,
     ) { }
 
+    public get stillLoading(): boolean {
+        return (
+            this._finishedLoading === 0 ||
+            (this._remainingToLoad - this._finishedLoading !== 0)
+        );
+    }
+
     public initialize(): void {
         this.extensions = {};
         this._remainingToLoad++;
@@ -72,13 +79,6 @@ export class ExtensionsService {
         this._loadExtensions('assets/json/weaponmaterials', 'weaponMaterials');
 
         this._finishedLoading++;
-    }
-
-    public stillLoading(): boolean {
-        return (
-            this._finishedLoading === 0 ||
-            (this._remainingToLoad - this._finishedLoading !== 0)
-        );
     }
 
     public extend(data: { [fileContent: string]: Array<unknown> }, name: string): { [key: string]: Array<unknown> } {

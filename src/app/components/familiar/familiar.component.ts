@@ -37,7 +37,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return (this.characterService.stillLoading || this.familiarsService.still_loading());
+        return (this.characterService.stillLoading || this.familiarsService.stillLoading);
     }
 
     toggleFamiliarMenu() {

@@ -82,7 +82,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     get_FamiliarAbilities(name: string) {
-        return this.familiarsService.get_FamiliarAbilities(name);
+        return this.familiarsService.familiarAbilities(name);
     }
 
     get_CompanionSpecies() {
