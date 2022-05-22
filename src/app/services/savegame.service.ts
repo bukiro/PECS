@@ -90,15 +90,15 @@ export class SavegameService {
         //This allows us to save a lot of traffic at saving by removing all data from certain objects that is the unchanged from in their original template.
         if (character.class.name) {
             if (character.class.ancestry && character.class.ancestry.name) {
-                character.class.ancestry = historyService.restore_AncestryFromSave(character.class.ancestry);
+                character.class.ancestry = historyService.restoreAncestryFromSave(character.class.ancestry);
             }
 
             if (character.class.heritage && character.class.heritage.name) {
-                character.class.heritage = historyService.restore_HeritageFromSave(character.class.heritage);
+                character.class.heritage = historyService.restoreHeritageFromSave(character.class.heritage);
             }
 
             if (character.class.background && character.class.background.name) {
-                character.class.background = historyService.restore_BackgroundFromSave(character.class.background);
+                character.class.background = historyService.restoreBackgroundFromSave(character.class.background);
             }
 
             if (character.class.animalCompanion) {
@@ -151,15 +151,15 @@ export class SavegameService {
             savegame.class = classesService.cleanClassForSave(savegame.class);
 
             if (savegame.class.ancestry?.name) {
-                savegame.class.ancestry = historyService.clean_AncestryForSave(savegame.class.ancestry);
+                savegame.class.ancestry = historyService.cleanAncestryForSave(savegame.class.ancestry);
             }
 
             if (savegame.class.heritage?.name) {
-                savegame.class.heritage = historyService.clean_HeritageForSave(savegame.class.heritage);
+                savegame.class.heritage = historyService.cleanHeritageForSave(savegame.class.heritage);
             }
 
             if (savegame.class.background?.name) {
-                savegame.class.background = historyService.clean_BackgroundForSave(savegame.class.background);
+                savegame.class.background = historyService.cleanBackgroundForSave(savegame.class.background);
             }
 
             if (savegame.class.animalCompanion) {

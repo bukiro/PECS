@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-dynamic-delete */
 import { Injectable } from '@angular/core';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
@@ -12,62 +13,62 @@ import { TypeService } from 'src/app/services/type.service';
     providedIn: 'root',
 })
 export class HistoryService {
-    private readonly ancestries: Array<Ancestry> = [];
-    private readonly heritages: Array<Heritage> = [];
-    private readonly backgrounds: Array<Background> = [];
-    private loading_ancestries = false;
-    private loading_backgrounds = false;
-    private loading_heritages = false;
+    private _ancestries: Array<Ancestry> = [];
+    private _heritages: Array<Heritage> = [];
+    private _backgrounds: Array<Background> = [];
+    private _initialized = false;
 
     constructor(
-        private readonly typeService: TypeService,
-        private readonly extensionsService: ExtensionsService,
+        private readonly _typeService: TypeService,
+        private readonly _extensionsService: ExtensionsService,
     ) { }
 
-    get_Ancestries(name = '') {
-        if (!this.loading_ancestries) {
-            return this.ancestries.filter(ancestry => (ancestry.name == name || name == ''));
+    public ancestries(name = ''): Array<Ancestry> {
+        if (this._initialized) {
+            return this._ancestries.filter(ancestry => !name || ancestry.name === name);
         } else { return [new Ancestry()]; }
     }
 
-    get_Heritages(name = '', ancestryName = '') {
-        if (!this.loading_heritages) {
-            return this.heritages.filter(heritage => (heritage.name == name || name == '')
-                && (ancestryName == '' || this.get_Ancestries(ancestryName)[0].heritages.includes(heritage.name)));
+    public heritages(name = '', ancestryName = ''): Array<Heritage> {
+        if (this._initialized) {
+            return this._heritages.filter(heritage =>
+                (!name || heritage.name === name) &&
+                (!ancestryName || this.ancestries(ancestryName)[0].heritages.includes(heritage.name)),
+            );
         } else { return [new Heritage()]; }
     }
 
-    get_HeritagesAndSubtypes(name = '') {
-        if (!this.loading_heritages) {
+    public heritagesAndSubtypes(name = ''): Array<Heritage> {
+        if (this._initialized) {
             const heritages: Array<Heritage> = [];
 
-            heritages.push(...this.heritages);
+            heritages.push(...this._heritages);
             heritages.forEach(heritage => {
                 heritages.push(...heritage.subTypes);
             });
 
-            return heritages.filter(heritage => (heritage.name == name || name == ''));
+            return heritages.filter(heritage => !name || heritage.name === name);
         } else { return [new Heritage()]; }
     }
 
-    get_Backgrounds(name = '') {
-        if (!this.loading_backgrounds) {
-            return this.backgrounds.filter(background => (background.name == name || name == ''));
+    public backgrounds(name = ''): Array<Background> {
+        if (this._initialized) {
+            return this._backgrounds.filter(background => !name || background.name === name);
         } else { return [new Background()]; }
     }
 
-    restore_AncestryFromSave(ancestry: Ancestry) {
+    public restoreAncestryFromSave(ancestry: Ancestry): Ancestry {
         let restoredAncestry: Ancestry;
 
         if (ancestry.name) {
-            const libraryObject = this.get_Ancestries(ancestry.name)[0];
+            const libraryObject = this.ancestries(ancestry.name)[0];
 
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredAncestry = this.typeService.merge(libraryObject, ancestry);
+                    restoredAncestry = this._typeService.merge(libraryObject, ancestry);
                 } catch (e) {
-                    console.log(`Failed restoring ancestry: ${ e }`);
+                    console.error(`Failed restoring ancestry: ${ e }`);
                 }
             }
         }
@@ -75,16 +76,18 @@ export class HistoryService {
         return restoredAncestry || ancestry;
     }
 
-    clean_AncestryForSave(ancestry: Ancestry) {
+    public cleanAncestryForSave(ancestry: Ancestry): Ancestry {
         if (ancestry.name) {
-            const libraryObject = this.get_Ancestries(ancestry.name)[0];
+            const libraryObject = this.ancestries(ancestry.name)[0];
 
             if (libraryObject) {
                 Object.keys(ancestry).forEach(key => {
-                    if (key != 'name') {
-                        //If the Object has a name, and a library item can be found with that name, compare the property with the library item
-                        //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
-                        if (JSON.stringify(ancestry[key]) == JSON.stringify(libraryObject[key])) {
+                    if (key !== 'name') {
+                        // If the Object has a name, and a library item can be found with that name,
+                        // compare the property with the library item
+                        // If they have the same value, delete the property from the item
+                        // - it can be recovered during loading from the refId.
+                        if (JSON.stringify(ancestry[key]) === JSON.stringify(libraryObject[key])) {
                             delete ancestry[key];
                         }
                     }
@@ -95,18 +98,18 @@ export class HistoryService {
         return ancestry;
     }
 
-    restore_HeritageFromSave(heritage: Heritage) {
+    public restoreHeritageFromSave(heritage: Heritage): Heritage {
         let restoredHeritage: Heritage;
 
         if (heritage.name) {
-            const libraryObject = this.get_HeritagesAndSubtypes(heritage.name)[0];
+            const libraryObject = this.heritagesAndSubtypes(heritage.name)[0];
 
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredHeritage = this.typeService.merge(libraryObject, heritage);
+                    restoredHeritage = this._typeService.merge(libraryObject, heritage);
                 } catch (e) {
-                    console.log(`Failed reassigning: ${ e }`);
+                    console.error(`Failed restoring heritage: ${ e }`);
                 }
             }
         }
@@ -114,16 +117,18 @@ export class HistoryService {
         return restoredHeritage || heritage;
     }
 
-    clean_HeritageForSave(heritage: Heritage) {
+    public cleanHeritageForSave(heritage: Heritage): Heritage {
         if (heritage.name) {
-            const libraryObject = this.get_HeritagesAndSubtypes(heritage.name)[0];
+            const libraryObject = this.heritagesAndSubtypes(heritage.name)[0];
 
             if (libraryObject) {
                 Object.keys(heritage).forEach(key => {
-                    if (key != 'name') {
-                        //If the Object has a name, and a library item can be found with that name, compare the property with the library item
-                        //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
-                        if (JSON.stringify(heritage[key]) == JSON.stringify(libraryObject[key])) {
+                    if (key !== 'name') {
+                        // If the Object has a name, and a library item can be found with that name,
+                        // compare the property with the library item
+                        // If they have the same value, delete the property from the item
+                        // - it can be recovered during loading from the refId.
+                        if (JSON.stringify(heritage[key]) === JSON.stringify(libraryObject[key])) {
                             delete heritage[key];
                         }
                     }
@@ -134,18 +139,18 @@ export class HistoryService {
         return heritage;
     }
 
-    restore_BackgroundFromSave(background: Background) {
+    public restoreBackgroundFromSave(background: Background): Background {
         let mergedBackground: Background;
 
         if (background.name) {
-            const libraryObject = this.get_Backgrounds(background.name)[0];
+            const libraryObject = this.backgrounds(background.name)[0];
 
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    mergedBackground = this.typeService.merge(libraryObject, background);
+                    mergedBackground = this._typeService.merge(libraryObject, background);
                 } catch (e) {
-                    console.log(`Failed reassigning: ${ e }`);
+                    console.error(`Failed restoring background: ${ e }`);
                 }
             }
         }
@@ -153,16 +158,18 @@ export class HistoryService {
         return mergedBackground || background;
     }
 
-    clean_BackgroundForSave(background: Background) {
+    public cleanBackgroundForSave(background: Background): Background {
         if (background.name) {
-            const libraryObject = this.get_Backgrounds(background.name)[0];
+            const libraryObject = this.backgrounds(background.name)[0];
 
             if (libraryObject) {
                 Object.keys(background).forEach(key => {
-                    if (key != 'name') {
-                        //If the Object has a name, and a library item can be found with that name, compare the property with the library item
-                        //If they have the same value, delete the property from the item - it can be recovered during loading from the refId.
-                        if (JSON.stringify(background[key]) == JSON.stringify(libraryObject[key])) {
+                    if (key !== 'name') {
+                        // If the Object has a name, and a library item can be found with that name,
+                        // compare the property with the library item
+                        // If they have the same value, delete the property from the item
+                        // - it can be recovered during loading from the refId.
+                        if (JSON.stringify(background[key]) === JSON.stringify(libraryObject[key])) {
                             delete background[key];
                         }
                     }
@@ -173,55 +180,36 @@ export class HistoryService {
         return background;
     }
 
-    still_loading() {
-        return (this.loading_ancestries || this.loading_backgrounds || this.loading_heritages);
+    public stillLoading(): boolean {
+        return !this._initialized;
     }
 
-    initialize() {
-        //Initialize only once.
-        if (!this.ancestries.length) {
-            this.loading_ancestries = true;
-            this.load(json_ancestries, 'ancestries', 'Ancestry');
-            this.loading_ancestries = false;
-        }
+    public initialize(): void {
+        this._ancestries = this._load(json_ancestries, 'ancestries', Ancestry.prototype);
+        this._backgrounds = this._load(json_backgrounds, 'backgrounds', Background.prototype);
+        this._heritages = this._load(json_heritages, 'heritages', Heritage.prototype);
 
-        if (!this.backgrounds.length) {
-            this.loading_backgrounds = true;
-            this.load(json_backgrounds, 'backgrounds', 'Background');
-            this.loading_backgrounds = false;
-        }
-
-        if (!this.heritages.length) {
-            this.loading_heritages = true;
-            this.load(json_heritages, 'heritages', 'Heritage');
-            this.loading_heritages = false;
-        }
+        this._initialized = true;
     }
 
-    load(source, target: '_ancestries' | '_backgrounds' | '_heritages', type: string) {
-        this[target] = [];
+    private _load<T extends Ancestry | Background | Heritage>(
+        data: { [fileContent: string]: Array<unknown> },
+        target: 'ancestries' | 'backgrounds' | 'heritages',
+        prototype: T,
+    ): Array<T> {
+        let resultingData: Array<T> = [];
 
-        const data = this.extensionsService.extend(source, target);
+        const extendedData = this._extensionsService.extend(data, target);
 
-        switch (type) {
-            case 'Ancestry':
-                Object.keys(data).forEach(key => {
-                    this[target].push(...data[key].map((obj: Ancestry) => Object.assign(new Ancestry(), obj).recast()));
-                });
-                break;
-            case 'Background':
-                Object.keys(data).forEach(key => {
-                    this[target].push(...data[key].map((obj: Background) => Object.assign(new Background(), obj).recast()));
-                });
-                break;
-            case 'Heritage':
-                Object.keys(data).forEach(key => {
-                    this[target].push(...data[key].map((obj: Heritage) => Object.assign(new Heritage(), obj).recast()));
-                });
-                break;
-        }
+        Object.keys(extendedData).forEach(filecontent => {
+            resultingData.push(...extendedData[filecontent].map(entry =>
+                Object.assign(Object.create(prototype), entry).recast(),
+            ));
+        });
 
-        this[target] = this.extensionsService.cleanupDuplicates(this[target], 'name', target);
+        resultingData = this._extensionsService.cleanupDuplicates(resultingData, 'name', target);
+
+        return resultingData;
     }
 
 }

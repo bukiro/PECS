@@ -125,7 +125,7 @@ export class FeatsService {
             }
 
             if (feat.subType.includes('Ancestry')) {
-                const ancestries: Array<string> = this._historyService.get_Ancestries().map(ancestry => ancestry.name);
+                const ancestries: Array<string> = this._historyService.ancestries().map(ancestry => ancestry.name);
 
                 featweapons = featweapons.filter(weapon => weapon.traits.some(trait => ancestries.includes(trait)));
             }
@@ -1340,7 +1340,7 @@ export class FeatsService {
                 clearInterval(waitForItemsService);
 
 
-                this._load(json_feats, '_feats');
+                this._feats = this._load(json_feats, 'feats');
 
                 // Create feats that are based on weapons in the store.
                 const customFeats = this.createWeaponFeats();
@@ -1352,7 +1352,7 @@ export class FeatsService {
                     this._featsMap.set(feat.name.toLowerCase(), feat);
                 });
 
-                this._load(json_features, '_features');
+                this._features = this._load(json_features, 'features');
                 this._featuresMap.clear();
                 // Add all features to the features map, including custom feats.
                 this._features.forEach(feature => {
@@ -1474,15 +1474,23 @@ export class FeatsService {
         );
     }
 
-    private _load(source, target: '_features' | '_feats'): void {
-        this[target] = [];
+    private _load(
+        data: { [fileContent: string]: Array<unknown> },
+        target: 'features' | 'feats',
+    ): Array<Feat> {
+        let resultingData: Array<Feat> = [];
 
-        const data = this._extensionsService.extend(source, target);
+        const extendedData = this._extensionsService.extend(data, target);
 
-        Object.keys(data).forEach(key => {
-            this[target].push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
+        Object.keys(extendedData).forEach(filecontent => {
+            resultingData.push(...extendedData[filecontent].map(entry =>
+                Object.assign(Object.create(Feat), entry).recast(),
+            ));
         });
-        this[target] = this._extensionsService.cleanupDuplicates(this[target], 'name', target);
+
+        resultingData = this._extensionsService.cleanupDuplicates(resultingData, 'name', target);
+
+        return resultingData;
     }
 
 }

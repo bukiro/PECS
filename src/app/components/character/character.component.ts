@@ -1283,7 +1283,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Ancestries(name = '') {
-        return this.historyService.get_Ancestries(name);
+        return this.historyService.ancestries(name);
     }
 
     get_AvailableAncestries() {
@@ -1373,7 +1373,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Heritages(name = '', ancestryName = '') {
-        return this.historyService.get_Heritages(name, ancestryName);
+        return this.historyService.heritages(name, ancestryName);
     }
 
     get_SubHeritageNames(heritage: Heritage) {
@@ -1419,7 +1419,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Backgrounds(name = '') {
-        return this.historyService.get_Backgrounds(name).filter(background =>
+        return this.historyService.backgrounds(name).filter(background =>
             !background.subType &&
             (!this.adventureBackgrounds ? !background.adventurePath : true) &&
             (!this.regionalBackgrounds ? !background.region : true),
@@ -1440,7 +1440,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_SubBackgrounds(superType = '') {
-        return this.historyService.get_Backgrounds().filter(background => background.superType == superType);
+        return this.historyService.backgrounds().filter(background => background.superType == superType);
     }
 
     get_SubBackgroundNames(superType: string) {
