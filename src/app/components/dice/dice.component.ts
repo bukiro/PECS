@@ -108,7 +108,7 @@ export class DiceComponent implements OnInit {
     }
 
     on_SendToFoundry(creature: string) {
-        this.integrationsService.send_RollToFoundry(creature, '', this.get_DiceResults(), this.characterService);
+        this.integrationsService.sendRollToFoundry(creature, '', this.get_DiceResults(), this.characterService);
     }
 
     unselectAll() {
