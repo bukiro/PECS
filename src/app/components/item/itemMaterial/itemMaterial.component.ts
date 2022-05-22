@@ -71,7 +71,7 @@ export class ItemMaterialComponent implements OnInit {
         const item: Armor = this.item as Armor;
         const allMaterials: Array<{ material: ArmorMaterial; disabled?: boolean }> = [];
 
-        this.itemsService.get_ArmorMaterials().forEach(material => {
+        this.itemsService.armorMaterials().forEach(material => {
             allMaterials.push({ material });
         });
         //Set all materials to disabled that have the same name as any that is already equipped.
@@ -178,7 +178,7 @@ export class ItemMaterialComponent implements OnInit {
         const item: Shield = this.item as Shield;
         const allMaterials: Array<{ material: ShieldMaterial; disabled?: boolean }> = [];
 
-        this.itemsService.get_ShieldMaterials().forEach(material => {
+        this.itemsService.shieldMaterials().forEach(material => {
             allMaterials.push({ material });
         });
         //Set all materials to disabled that have the same name as any that is already equipped.
@@ -271,7 +271,7 @@ export class ItemMaterialComponent implements OnInit {
         const item: Weapon = this.item as Weapon;
         const allMaterials: Array<{ material: WeaponMaterial; disabled?: boolean }> = [];
 
-        this.itemsService.get_WeaponMaterials().forEach(material => {
+        this.itemsService.weaponMaterials().forEach(material => {
             allMaterials.push({ material });
         });
         //Set all materials to disabled that have the same name as any that is already equipped.

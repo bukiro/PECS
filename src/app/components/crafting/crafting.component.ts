@@ -194,7 +194,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     get_Items() {
-        return this.itemsService.get_CraftingItems();
+        return this.itemsService.craftingItems();
     }
 
     get_InventoryItemSets(type: string) {

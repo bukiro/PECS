@@ -46,7 +46,7 @@ export class ItemTalismansComponent implements OnInit {
     }
 
     get_CleanItems() {
-        return this.itemsService.get_CleanItems();
+        return this.itemsService.cleanItems();
     }
 
     get_Slots() {

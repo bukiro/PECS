@@ -78,7 +78,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Speed } from '../classes/Speed';
 import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { Specialization } from '../classes/Specialization';
-import { FloorNumbersLastDigits } from 'src/libs/shared/util/numberUtils';
+import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
 import { CopperAmounts, CurrencyIndices } from 'src/libs/shared/definitions/currency';
 import { Condition } from '../classes/Condition';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -733,11 +733,11 @@ export class CharacterService {
     }
 
     public cleanItems(): ItemCollection {
-        return this.itemsService.get_CleanItems();
+        return this.itemsService.cleanItems();
     }
 
     public itemGroupSpecializations(group = ''): Array<Specialization> {
-        return this.itemsService.get_Specializations(group);
+        return this.itemsService.specializations(group);
     }
 
     public creatureInvestedItems(creature: Creature): Array<Equipment> {
@@ -774,7 +774,7 @@ export class CharacterService {
         this.refreshService.set_ToChange('Character', 'top-bar');
 
         const newInventoryItem =
-            this.itemsService.initialize_Item(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
+            this.itemsService.initializeItem(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
         let returnedItem: Item;
         // Check if this item already exists in the inventory, and if it is stackable and doesn't expire.
         // Don't make that check if this item expires.
@@ -1125,7 +1125,7 @@ export class CharacterService {
                 )
             ) {
                 silver += Math.floor(this.character().cash[CurrencyIndices.Copper] / decimal) * multiplier;
-                this.character().cash[CurrencyIndices.Copper] -= FloorNumbersLastDigits(this.character().cash[CurrencyIndices.Copper], 1);
+                this.character().cash[CurrencyIndices.Copper] -= CutOffDecimals(this.character().cash[CurrencyIndices.Copper], 1);
             }
 
         }
@@ -1141,7 +1141,7 @@ export class CharacterService {
                 )
             ) {
                 gold += Math.floor(this.character().cash[CurrencyIndices.Silver] / decimal) * multiplier;
-                this.character().cash[CurrencyIndices.Silver] -= FloorNumbersLastDigits(this.character().cash[CurrencyIndices.Silver], 1);
+                this.character().cash[CurrencyIndices.Silver] -= CutOffDecimals(this.character().cash[CurrencyIndices.Silver], 1);
             }
         }
 
@@ -1153,7 +1153,7 @@ export class CharacterService {
                 this.character().cash[CurrencyIndices.Platinum] > 0
             ) {
                 plat += Math.floor(this.character().cash[CurrencyIndices.Gold] / decimal) * multiplier;
-                this.character().cash[CurrencyIndices.Gold] -= FloorNumbersLastDigits(this.character().cash[CurrencyIndices.Gold], 1);
+                this.character().cash[CurrencyIndices.Gold] -= CutOffDecimals(this.character().cash[CurrencyIndices.Gold], 1);
             }
         }
 
@@ -2000,10 +2000,10 @@ export class CharacterService {
                         amount = item.amount;
                     }
 
-                    this.itemsService.update_GrantingItem(sender, item);
+                    this.itemsService.updateGrantingItemBeforeTransfer(sender, item);
 
                     const included: { items: Array<Item>; inventories: Array<ItemCollection> } =
-                        this.itemsService.pack_GrantingItem(sender, item);
+                        this.itemsService.packGrantingItemForTransfer(sender, item);
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const message = new PlayerMessage();
 
@@ -2076,7 +2076,7 @@ export class CharacterService {
                                 item.amount = message.itemAmount;
                             }
 
-                            const typedItem = this.itemsService.cast_ItemByType(item);
+                            const typedItem = this.itemsService.castItemByType(item);
                             const existingItems =
                                 targetInventory[typedItem.type]
                                     .filter((existing: Item) =>
@@ -3477,7 +3477,7 @@ export class CharacterService {
                     if (!invItem.markedForDeletion) {
                         found++;
                         this.itemsService
-                            .move_InventoryItemLocally(creature, invItem, creature.inventories[0], inv, this, invItem.amount, true);
+                            .moveItemLocally(creature, invItem, creature.inventories[0], inv, this, invItem.amount, true);
                     }
                 });
         });
@@ -3499,12 +3499,12 @@ export class CharacterService {
                 const newBasicWeapon: Weapon =
                     Object.assign(
                         new Weapon(),
-                        this.itemsService.get_CleanItemByID('08693211-8daa-11ea-abca-ffb46fbada73'),
+                        this.itemsService.cleanItemByID('08693211-8daa-11ea-abca-ffb46fbada73'),
                     ).recast(this._typeService, this.itemsService);
                 const newBasicArmor: Armor =
                     Object.assign(
                         new Armor(),
-                        this.itemsService.get_CleanItemByID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
+                        this.itemsService.cleanItemByID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
                     ).recast(this._typeService, this.itemsService);
 
                 this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };

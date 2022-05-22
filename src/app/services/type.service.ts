@@ -221,14 +221,14 @@ export class TypeService {
 
     public restoreItem(object: Item, itemsService: ItemsService = null): Item {
         if (itemsService && object.refId && !object.restoredFromSave) {
-            const libraryItem = itemsService.get_CleanItemByID(object.refId);
+            const libraryItem = itemsService.cleanItemByID(object.refId);
             let mergedObject = object;
 
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
                 try {
                     mergedObject = this.merge(libraryItem, mergedObject) as typeof libraryItem;
-                    mergedObject = itemsService.cast_ItemByType(mergedObject, libraryItem.type);
+                    mergedObject = itemsService.castItemByType(mergedObject, libraryItem.type);
 
                     //Disable any active hint effects when loading an item.
                     if (mergedObject instanceof Equipment) {

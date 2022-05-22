@@ -371,7 +371,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_Items() {
-        return this.itemsService.get_Items();
+        return this.itemsService.storeItems();
     }
 
     get_Inventories() {

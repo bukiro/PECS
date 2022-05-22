@@ -1064,7 +1064,7 @@ export class ConditionsService {
                     this.conditions(gain.name)?.[0]?.type === 'afflictions',
                 ).forEach(gain => {
                     if (
-                        !characterService.itemsService.get_CleanItems().alchemicalpoisons
+                        !characterService.itemsService.cleanItems().alchemicalpoisons
                             .some(poison => gain.name.includes(poison.name) && poison.level > verdantMetamorphosisMaxAfflictionLevel)
                     ) {
                         gain.value = -1;

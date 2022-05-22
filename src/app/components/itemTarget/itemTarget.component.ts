@@ -175,14 +175,14 @@ export class ItemTargetComponent implements OnInit {
 
     get_CannotFit(target: ItemCollection | SpellTarget) {
         if (target instanceof ItemCollection) {
-            return this.itemsService.get_CannotFit(this.get_Creature(), this.item, target, { including: !this.excluding, amount: this.selectedAmount });
+            return this.itemsService.cannotFitItemInContainer(this.get_Creature(), this.item, target, { including: !this.excluding, amount: this.selectedAmount });
         }
 
         return false;
     }
 
     get_ContainedBulkString(item: Item) {
-        const containedBulk = this.itemsService.get_ContainedBulk(this.get_Creature(), item, null, true);
+        const containedBulk = this.itemsService.totalItemBulk(this.get_Creature(), item, null, true);
         const fullBulk = Math.floor(containedBulk);
         const lightBulk = (containedBulk * 10 - fullBulk * 10);
 

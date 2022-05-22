@@ -271,15 +271,15 @@ export class ItemsComponent implements OnInit, OnDestroy {
         }
 
         if (this.get_ShowPurpose() == 'formulas') {
-            return this.itemsService.get_CraftingItems();
+            return this.itemsService.craftingItems();
         } else {
-            return this.itemsService.get_Items();
+            return this.itemsService.storeItems();
         }
 
     }
 
     get_CopyItems(type: string) {
-        return this.itemsService.get_CleanItems()[type]
+        return this.itemsService.cleanItems()[type]
             .filter((item: Item) => !item.hide)
             .sort((a: Item, b: Item) => (a.name > b.name) ? 1 : -1);
     }
@@ -410,13 +410,13 @@ export class ItemsComponent implements OnInit, OnDestroy {
         }
 
         if (this.newItem) {
-            this.newItem = this.itemsService.initialize_Item(this.newItem, { preassigned: true, newId: false, resetPropertyRunes: false }) as Equipment | Consumable;
+            this.newItem = this.itemsService.initializeItem(this.newItem, { preassigned: true, newId: false, resetPropertyRunes: false }) as Equipment | Consumable;
         }
     }
 
     get_NewItemProperties() {
         function get_PropertyData(key: string, itemsService: ItemsService) {
-            return itemsService.get_ItemProperties().find(property => !property.parent && property.key == key);
+            return itemsService.itemProperties().find(property => !property.parent && property.key == key);
         }
 
         return Object.keys(this.newItem)
@@ -426,7 +426,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     copy_Item(item: Equipment | Consumable) {
-        this.newItem = this.itemsService.initialize_Item(JSON.parse(JSON.stringify(item))) as Equipment | Consumable;
+        this.newItem = this.itemsService.initializeItem(JSON.parse(JSON.stringify(item))) as Equipment | Consumable;
         this.toggle_Item();
     }
 

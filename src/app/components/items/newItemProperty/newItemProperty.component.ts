@@ -70,7 +70,7 @@ export class NewItemPropertyComponent {
     }
 
     get_Items() {
-        return this.itemsService.get_Items();
+        return this.itemsService.storeItems();
     }
 
     get_Character() {
@@ -93,7 +93,7 @@ export class NewItemPropertyComponent {
             }
 
             const existingItems = this.get_Inventories()[0][this.newItem.type].filter((existing: Item) => existing.name == value);
-            const existingCleanItems = this.itemsService.get_CleanItems()[this.newItem.type].filter((existing: Item) => existing.name == value);
+            const existingCleanItems = this.itemsService.cleanItems()[this.newItem.type].filter((existing: Item) => existing.name == value);
 
             if (existingItems.length && existingItems.some((existing: Item) => existing.canStack())) {
                 this.validationError = `If you use this name, this item will be added to the ${ existingItems[0].name } stack in your inventory. All changes you make here will be lost.`;
@@ -264,7 +264,7 @@ export class NewItemPropertyComponent {
     get_NewItemSubProperties(object: object) {
         return Object.keys(object)
             .map(key =>
-                this.itemsService.get_ItemProperties().filter(property => property.parent == this.propertyData.key && property.key == key)[0],
+                this.itemsService.itemProperties().filter(property => property.parent == this.propertyData.key && property.key == key)[0],
             )
             .filter(property => property != undefined)
             .sort((a, b) => (a.group + a.priority == b.group + b.priority) ? 0 : ((a.group + a.priority > b.group + b.priority) ? 1 : -1));
@@ -660,7 +660,7 @@ export class NewItemPropertyComponent {
                 examples.push('Chaotic', 'Chaotic Evil', 'Chaotic Good', 'Evil', 'Good', 'Lawful', 'Lawful Evil', 'Lawful Good', 'Neutral', 'Neutral Evil', 'Neutral Good', '!Chaotic', '!Chaotic Evil', '!Chaotic Good', '!Evil', '!Good', '!Lawful', '!Lawful Evil', '!Lawful Good', '!Neutral', '!Neutral Evil', '!Neutral Good');
                 break;
             case 'gainitems name':
-                examples = this.itemsService.get_Items()[this.get_Parent().type].map((item: Item) => item.name);
+                examples = this.itemsService.storeItems()[this.get_Parent().type].map((item: Item) => item.name);
                 break;
             case 'gainitems on':
                 examples = ['', 'equip', 'grant', 'use'];
@@ -693,11 +693,11 @@ export class NewItemPropertyComponent {
     }
 
     get_ItemSets() {
-        return this.itemsService.get_Items().names;
+        return this.itemsService.storeItems().names;
     }
 
     set_ItemType() {
-        this.get_Parent().name = this.itemsService.get_Items()[this.get_Parent().type][0].name;
+        this.get_Parent().name = this.itemsService.storeItems()[this.get_Parent().type][0].name;
     }
 
 }

@@ -90,11 +90,11 @@ export class Armor extends Equipment {
 
         if (this.moddable) {
             if (this.potencyRune) {
-                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.potency === this.potencyRune).price;
+                price += itemsService.cleanItems().armorrunes.find(rune => rune.potency === this.potencyRune).price;
             }
 
             if (this.resilientRune) {
-                price += itemsService.get_CleanItems().armorrunes.find(rune => rune.resilient === this.resilientRune).price;
+                price += itemsService.cleanItems().armorrunes.find(rune => rune.resilient === this.resilientRune).price;
             }
 
             price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);

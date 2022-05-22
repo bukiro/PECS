@@ -102,7 +102,7 @@ export class FeatsService {
         });
     }
 
-    public createWeaponFeats(weapons: Array<Weapon> = this._itemsService.get_ItemsOfType('weapons')): Array<Feat> {
+    public createWeaponFeats(weapons: Array<Weapon> = this._itemsService.cleanItemsOfType('weapons')): Array<Feat> {
         const weaponFeats = this._feats.filter(feat => feat.weaponfeatbase);
         const resultingFeats: Array<Feat> = [];
 

@@ -107,7 +107,7 @@ export class ItemGain {
 
                         if (favoredWeaponNames.length) {
                             const favoredWeapons: Array<Weapon> =
-                                services.itemsService.get_CleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
+                                services.itemsService.cleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
 
                             if (favoredWeapons.length) {
                                 const grantedItemIDs: Array<string> = [];
@@ -141,7 +141,7 @@ export class ItemGain {
             }
         } else {
             const newItem: Item =
-                services.itemsService.get_CleanItems()[this.type.toLowerCase()].find((item: Item) => this.isMatchingItem(item));
+                services.itemsService.cleanItems()[this.type.toLowerCase()].find((item: Item) => this.isMatchingItem(item));
 
             if (newItem) {
                 if (newItem.canStack()) {

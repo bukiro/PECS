@@ -213,7 +213,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_Items() {
-        return this.itemsService.get_Items();
+        return this.itemsService.storeItems();
     }
 
     sort_ItemSet(itemSet: Array<Item>) {
@@ -356,7 +356,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     move_InventoryItem(item: Item, inventory: ItemCollection, target: ItemCollection | SpellTarget, amount: number, including: boolean, reload = true) {
         if (target instanceof ItemCollection) {
-            this.itemsService.move_InventoryItemLocally(this.get_Creature(), item, target, inventory, this.characterService, amount, including);
+            this.itemsService.moveItemLocally(this.get_Creature(), item, target, inventory, this.characterService, amount, including);
         } else if (target instanceof SpellTarget) {
             if (this.get_Creatures().some(creature => creature.id == target.id)) {
                 this.itemsService.move_InventoryItemToCreature(this.get_Creature(), target, item, inventory, this.characterService, amount);
@@ -388,12 +388,12 @@ export class InventoryComponent implements OnInit, OnDestroy {
             const item = source[itemKey][event.previousIndex];
 
             if (source && target && item && this.can_Drop(item)) {
-                const cannotMove = this.itemsService.get_CannotMove(this.get_Creature(), item, target);
+                const cannotMove = this.itemsService.cannotMoveItem(this.get_Creature(), item, target);
 
                 if (cannotMove) {
                     this.toastService.show(`${ cannotMove } The item was not moved.`);
                 } else {
-                    this.itemsService.move_InventoryItemLocally(this.get_Creature(), item, target, source, this.characterService, item.amount, true);
+                    this.itemsService.moveItemLocally(this.get_Creature(), item, target, source, this.characterService, item.amount, true);
                     this.refreshService.set_Changed('close-popovers');
                     this.refreshService.set_Changed(item.id);
                     this.refreshService.set_ToChange(this.creature, 'inventory');
@@ -670,7 +670,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         if (type == 'snarespecialist') {
             return this.get_FormulasLearned()
                 .filter(learned => learned.snareSpecialistPrepared)
-                .map(learned => ({ learned, item: this.itemsService.get_CleanItemByID(learned.id) as Snare }))
+                .map(learned => ({ learned, item: this.itemsService.cleanItemByID(learned.id) as Snare }))
                 .sort((a, b) => (a.item.name == b.item.name) ? 0 : ((a.item.name > b.item.name) ? 1 : -1));
         }
     }

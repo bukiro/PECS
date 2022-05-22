@@ -118,11 +118,11 @@ export class WornItem extends Equipment {
 
         if (this.moddable) {
             if (this.potencyRune) {
-                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.potency === this.potencyRune).price;
+                price += itemsService.cleanItems().weaponrunes.find(rune => rune.potency === this.potencyRune).price;
             }
 
             if (this.strikingRune) {
-                price += itemsService.get_CleanItems().weaponrunes.find(rune => rune.striking === this.strikingRune).price;
+                price += itemsService.cleanItems().weaponrunes.find(rune => rune.striking === this.strikingRune).price;
             }
 
             price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);

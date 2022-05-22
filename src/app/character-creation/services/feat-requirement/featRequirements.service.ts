@@ -794,13 +794,13 @@ export class FeatRequirementsService {
 
                             favoredWeapons = favoredWeapons.filter(weaponName => {
                                 let weapon =
-                                    this._characterService.itemsService.get_CleanItems().weapons.find(cleanWeapon => (
+                                    this._characterService.itemsService.cleanItems().weapons.find(cleanWeapon => (
                                         cleanWeapon.name.toLowerCase() === weaponName.toLowerCase()
                                     ));
 
                                 if (!weapon) {
                                     weapon =
-                                        this._characterService.itemsService.get_CleanItems().weapons.find(cleanWeapon => (
+                                        this._characterService.itemsService.cleanItems().weapons.find(cleanWeapon => (
                                             cleanWeapon.weaponBase.toLowerCase() === weaponName.toLowerCase()
                                         ));
                                 }
