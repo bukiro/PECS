@@ -153,8 +153,8 @@ export class HealthComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
     }
 
     on_HeroPointRecover() {
@@ -162,17 +162,17 @@ export class HealthComponent implements OnInit, OnDestroy {
             this.characterService.removeCondition(this.get_Creature(), gain, false, false, false);
         });
         this.get_Character().heroPoints = 0;
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.set_ToChange(this.creature, 'general');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.prepareDetailToChange(this.creature, 'general');
+        this.refreshService.processPreparedChanges();
     }
 
     on_HealWounded() {
         this.characterService.currentCreatureConditions(this.get_Creature(), 'Wounded').forEach(gain => {
             this.characterService.removeCondition(this.get_Creature(), gain, false);
         });
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
     }
 
     get_NumbToDeath() {
@@ -185,41 +185,41 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     on_Heal(dying: number) {
         this.get_Health().heal(this.get_Creature(), this.characterService, this.effectsService, this.damage, true, true, dying);
-        this.refreshService.set_ToChange(this.creature, 'health');
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'health');
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
     }
 
     on_NumbToDeath(dying: number) {
         this.get_Health().heal(this.get_Creature(), this.characterService, this.effectsService, this.get_Character().level, true, false, dying);
-        this.refreshService.set_ToChange(this.creature, 'health');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'health');
+        this.refreshService.processPreparedChanges();
     }
 
     on_TakeDamage(wounded: number, dying: number) {
         this.get_Health().takeDamage(this.get_Creature(), this.characterService, this.effectsService, this.damage, this.nonlethal, wounded, dying);
-        this.refreshService.set_ToChange(this.creature, 'health');
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'health');
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
     }
 
     set_TempHP(amount: number) {
         this.get_Health().temporaryHP[0] = { amount, source: 'Manual', sourceId: '' };
         this.get_Health().temporaryHP.length = 1;
-        this.refreshService.set_ToChange(this.creature, 'health');
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'health');
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
     }
 
     on_TempHPSelected(tempSet: { amount: number; source: string; sourceId: string }) {
         this.get_Health().temporaryHP[0] = tempSet;
         this.get_Health().temporaryHP.length = 1;
-        this.refreshService.set_ToChange(this.creature, 'health');
-        this.refreshService.set_ToChange(this.creature, 'effects');
+        this.refreshService.prepareDetailToChange(this.creature, 'health');
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
         //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-        this.refreshService.set_ToChange('Character', 'health');
-        this.refreshService.set_ToChange('Character', 'time');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'health');
+        this.refreshService.prepareDetailToChange('Character', 'time');
+        this.refreshService.processPreparedChanges();
     }
 
     get_Resistances() {
@@ -293,13 +293,13 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['health', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['health', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

@@ -115,8 +115,8 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.conditionsTileMode = !this.get_Character().settings.conditionsTileMode;
-        this.refreshService.set_ToChange('Character', 'conditions');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'conditions');
+        this.refreshService.processPreparedChanges();
     }
 
     get_TileMode() {
@@ -405,9 +405,9 @@ export class ConditionsComponent implements OnInit, OnDestroy {
             newEffect.maxDuration = newEffect.duration = duration + (this.endOn == this.timeService.getYourTurn() ? 0 : 5);
         }
 
-        this.refreshService.set_ToChange(creature.type, 'effects');
-        this.refreshService.set_ToChange(creature.type, 'conditions');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(creature.type, 'effects');
+        this.refreshService.prepareDetailToChange(creature.type, 'conditions');
+        this.refreshService.processPreparedChanges();
     }
 
     new_CustomEffect(creature: Creature) {
@@ -416,15 +416,15 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     remove_Effect(creature: Creature, effect: EffectGain) {
         creature.effects.splice(creature.effects.indexOf(effect), 1);
-        this.refreshService.set_ToChange(creature.type, 'effects');
-        this.refreshService.set_ToChange(creature.type, 'conditions');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(creature.type, 'effects');
+        this.refreshService.prepareDetailToChange(creature.type, 'conditions');
+        this.refreshService.processPreparedChanges();
     }
 
     update_Effects(creature: Creature) {
-        this.refreshService.set_ToChange(creature.type, 'effects');
-        this.refreshService.set_ToChange(creature.type, 'conditions');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(creature.type, 'effects');
+        this.refreshService.prepareDetailToChange(creature.type, 'conditions');
+        this.refreshService.processPreparedChanges();
     }
 
     validate(creature: Creature, effect: EffectGain) {
@@ -631,13 +631,13 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['conditions', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['conditions', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

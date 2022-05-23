@@ -143,7 +143,7 @@ export class Armor extends Equipment {
         const newValues = [this.$affectedByArmoredSkirt, this.$shoddy];
 
         if (oldValues.some((previous, index) => previous !== newValues[index])) {
-            services.refreshService.set_ToChange(creature.type, 'inventory');
+            services.refreshService.prepareDetailToChange(creature.type, 'inventory');
         }
     }
     public armoredSkirt(creature: Creature, options: { itemStore?: boolean } = {}): AdventuringGear {

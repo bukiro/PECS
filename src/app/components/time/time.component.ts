@@ -78,13 +78,13 @@ export class TimeComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['time', 'all', 'character'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['time', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

@@ -31,7 +31,7 @@ export class CustomEffectsService {
                 gain.type = 'DELETE';
             }
 
-            this._refreshService.set_ToChange(creature.type, 'effects');
+            this._refreshService.prepareDetailToChange(creature.type, 'effects');
         });
         //Remove all effects that were marked for removal.
         creature.effects = creature.effects.filter(gain => gain.type !== 'DELETE');

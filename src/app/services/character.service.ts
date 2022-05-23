@@ -205,7 +205,7 @@ export class CharacterService {
         this._loadingStatus = status || 'Loading';
 
         if (refreshTopBar) {
-            this.refreshService.set_Changed('top-bar');
+            this.refreshService.setComponentChanged('top-bar');
         }
     }
 
@@ -229,11 +229,11 @@ export class CharacterService {
         if (menu) {
             if (this._menuState[menu] === 'out') {
                 this._menuState[menu] = 'in';
-                this.refreshService.set_Changed(this._menuMatchingComponent[menu]);
+                this.refreshService.setComponentChanged(this._menuMatchingComponent[menu]);
             } else {
                 this._menuState[menu] = 'out';
                 setTimeout(() => {
-                    this.refreshService.set_Changed(this._menuMatchingComponent[menu]);
+                    this.refreshService.setComponentChanged(this._menuMatchingComponent[menu]);
                 }, refreshDelay);
             }
 
@@ -248,14 +248,14 @@ export class CharacterService {
                 if (this._menuState[menuName] === 'in') {
                     this._menuState[menuName] = 'out';
                     setTimeout(() => {
-                        this.refreshService.set_Changed(this._menuMatchingComponent[menuName]);
+                        this.refreshService.setComponentChanged(this._menuMatchingComponent[menuName]);
                     }, refreshDelay);
                 }
             }
         });
 
-        this.refreshService.set_Changed('top-bar');
-        this.refreshService.process_ToChange();
+        this.refreshService.setComponentChanged('top-bar');
+        this.refreshService.processPreparedChanges();
     }
 
     public characterMenuState(): 'in' | 'out' {
@@ -300,7 +300,7 @@ export class CharacterService {
 
     public setItemsMenuTarget(target: 'Character' | 'Companion' | 'Familiar' = 'Character'): void {
         this._itemsMenuTarget = target;
-        this.refreshService.set_Changed('itemstore');
+        this.refreshService.setComponentChanged('itemstore');
     }
 
     public creatureFromType(type: string): Character | AnimalCompanion | Familiar {
@@ -670,7 +670,7 @@ export class CharacterService {
         character.class.processNewClass(this, this.itemsService);
         this.deitiesService.clearCharacterDeities();
         this.cacheService.resetCreatureCache(character.typeId);
-        this.refreshService.set_Changed();
+        this.refreshService.setComponentChanged();
     }
 
     public changeAncestry(ancestry: Ancestry, itemsService: ItemsService): void {
@@ -690,11 +690,11 @@ export class CharacterService {
 
         character.class.deity = deity.name;
         this.deitiesService.clearCharacterDeities();
-        this.refreshService.set_ToChange('Character', 'general');
-        this.refreshService.set_ToChange('Character', 'spells', 'clear');
-        this.refreshService.set_ToChange('Character', 'spellchoices');
-        this.refreshService.set_ToChange('Character', 'featchoices');
-        this.refreshService.set_ToChange('Character', 'attacks');
+        this.refreshService.prepareDetailToChange('Character', 'general');
+        this.refreshService.prepareDetailToChange('Character', 'spells', 'clear');
+        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
+        this.refreshService.prepareDetailToChange('Character', 'featchoices');
+        this.refreshService.prepareDetailToChange('Character', 'attacks');
     }
 
     public changeHeritage(heritage: Heritage, index = -1): void {
@@ -769,9 +769,9 @@ export class CharacterService {
             newPropertyRunes: [],
             ...options,
         };
-        this.refreshService.set_ToChange(context.creature.type, 'inventory');
-        this.refreshService.set_ToChange(context.creature.type, 'effects');
-        this.refreshService.set_ToChange('Character', 'top-bar');
+        this.refreshService.prepareDetailToChange(context.creature.type, 'inventory');
+        this.refreshService.prepareDetailToChange(context.creature.type, 'effects');
+        this.refreshService.prepareDetailToChange('Character', 'top-bar');
 
         const newInventoryItem =
             this.itemsService.initializeItem(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
@@ -803,7 +803,7 @@ export class CharacterService {
             existingItems[0].amount += intAmount;
             returnedItem = existingItems[0];
             //Update gridicons of the expanded item.
-            this.refreshService.set_ToChange('Character', returnedItem.id);
+            this.refreshService.prepareDetailToChange('Character', returnedItem.id);
         } else {
             const newInventoryLength = context.inventory[newInventoryItem.type].push(newInventoryItem);
 
@@ -821,7 +821,7 @@ export class CharacterService {
         }
 
         if (options.changeAfter) {
-            this.refreshService.process_ToChange();
+            this.refreshService.processPreparedChanges();
         }
 
         return returnedItem;
@@ -836,19 +836,19 @@ export class CharacterService {
         skipGrantedItems = false,
         skipGainedInventories = false,
     ): void {
-        this.refreshService.set_ToChange(creature.type, 'inventory');
+        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
 
         //Disable activities on equipment and runes. Refresh all affected components.
         if (((item instanceof Equipment) || (item instanceof Rune)) && item.activities?.length) {
             item.activities.forEach(activity => {
                 activity.active = false;
-                this.refreshService.set_HintsToChange(creature, activity.hints, { characterService: this });
+                this.refreshService.prepareChangesByHints(creature, activity.hints, { characterService: this });
             });
-            this.refreshService.set_ToChange(creature.type, 'activities');
+            this.refreshService.prepareDetailToChange(creature.type, 'activities');
         }
 
         if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-            this.refreshService.set_HintsToChange(creature, item.hints, { characterService: this });
+            this.refreshService.prepareChangesByHints(creature, item.hints, { characterService: this });
         }
 
         if (item instanceof Equipment) {
@@ -856,7 +856,7 @@ export class CharacterService {
                 item.gainActivities.forEach(gain => {
                     gain.active = false;
                 });
-                this.refreshService.set_ToChange(creature.type, 'activities');
+                this.refreshService.prepareDetailToChange(creature.type, 'activities');
             }
 
             if (equip && Object.prototype.hasOwnProperty.call(item, 'equipped') && item.equippable) {
@@ -914,7 +914,7 @@ export class CharacterService {
         }
 
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
-            this.refreshService.set_ToChange(creature.type, 'attacks');
+            this.refreshService.prepareDetailToChange(creature.type, 'attacks');
         }
     }
 
@@ -934,17 +934,17 @@ export class CharacterService {
         }
 
         item.markedForDeletion = true;
-        this.refreshService.set_ToChange(creature.type, 'inventory');
-        this.refreshService.set_ToChange(creature.type, 'effects');
-        this.refreshService.set_ToChange('Character', 'top-bar');
-        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
+        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
+        this.refreshService.prepareDetailToChange(creature.type, 'effects');
+        this.refreshService.prepareDetailToChange('Character', 'top-bar');
+        this.refreshService.prepareChangesByItem(creature, item, { characterService: this, activitiesService: this.activitiesService });
 
         if (amount < item.amount) {
             item.amount -= amount;
-            this.refreshService.set_ToChange('Character', item.id);
+            this.refreshService.prepareDetailToChange('Character', item.id);
         } else {
             if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-                this.refreshService.set_HintsToChange(creature, item.hints, { characterService: this });
+                this.refreshService.prepareChangesByHints(creature, item.hints, { characterService: this });
             }
 
             if ((item instanceof Equipment) || (item instanceof Rune)) {
@@ -1039,14 +1039,14 @@ export class CharacterService {
         item.markedForDeletion = false;
 
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
-            this.refreshService.set_ToChange(creature.type, 'attacks');
+            this.refreshService.prepareDetailToChange(creature.type, 'attacks');
         }
 
         if (changeAfter) {
-            this.refreshService.process_ToChange();
+            this.refreshService.processPreparedChanges();
         }
 
-        this.refreshService.set_Changed(item.id);
+        this.refreshService.setComponentChanged(item.id);
     }
 
     public addRuneLore(rune: Rune): void {
@@ -1172,7 +1172,7 @@ export class CharacterService {
             this.sortCash();
         }
 
-        this.refreshService.set_ToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange('Character', 'inventory');
     }
 
     public sortCash(): void {
@@ -1216,8 +1216,8 @@ export class CharacterService {
             item.equipped = false;
         }
 
-        this.refreshService.set_ToChange(creature.type, 'inventory');
-        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
+        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
+        this.refreshService.prepareChangesByItem(creature, item, { characterService: this, activitiesService: this.activitiesService });
 
         if (!isEquippedAtBeginning && item.equipped) {
             if (item instanceof Armor) {
@@ -1300,17 +1300,17 @@ export class CharacterService {
         }
 
         if (changeAfter) {
-            this.refreshService.process_ToChange();
+            this.refreshService.processPreparedChanges();
         }
     }
 
     public investItem(creature: Creature, inventory: ItemCollection, item: Equipment, invest = true, changeAfter = true): void {
         item.invested = invest;
-        this.refreshService.set_ToChange(creature.type, 'inventory');
-        this.refreshService.set_ToChange(creature.type, item.id);
+        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
+        this.refreshService.prepareDetailToChange(creature.type, item.id);
 
         if (item instanceof WornItem && item.gainSpells.length) {
-            this.refreshService.set_ToChange(creature.type, 'spellbook');
+            this.refreshService.prepareDetailToChange(creature.type, 'spellbook');
         }
 
         //Items are automatically equipped if they are invested.
@@ -1318,7 +1318,7 @@ export class CharacterService {
             if (!item.equipped) {
                 this.equipItem(creature, inventory, item, true, false);
             } else {
-                this.refreshService.set_ItemViewChanges(
+                this.refreshService.prepareChangesByItem(
                     creature,
                     item,
                     { characterService: this, activitiesService: this.activitiesService },
@@ -1356,14 +1356,14 @@ export class CharacterService {
                 );
             });
             this.conditionsService.removeGainedItemConditions(creature, item, this);
-            this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
+            this.refreshService.prepareChangesByItem(creature, item, { characterService: this, activitiesService: this.activitiesService });
         }
 
         //If a wayfinder is invested or uninvested, all other invested wayfinders need to run updates as well,
         // Because too many invested wayfinders disable each other's aeon stones.
         if (item instanceof WornItem && item.aeonStones.length) {
             creature.inventories[0].wornitems.filter(wornItem => wornItem !== item && wornItem.aeonStones.length).forEach(wornItem => {
-                this.refreshService.set_ItemViewChanges(
+                this.refreshService.prepareChangesByItem(
                     creature,
                     wornItem,
                     { characterService: this, activitiesService: this.activitiesService },
@@ -1372,7 +1372,7 @@ export class CharacterService {
         }
 
         if (changeAfter) {
-            this.refreshService.process_ToChange();
+            this.refreshService.processPreparedChanges();
         }
     }
 
@@ -1382,8 +1382,8 @@ export class CharacterService {
         }
 
         this.itemsService.processConsumable(creature, this, this.conditionsService, this.spellsService, item);
-        this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
-        this.refreshService.set_ToChange(creature.type, 'inventory');
+        this.refreshService.prepareChangesByItem(creature, item, { characterService: this, activitiesService: this.activitiesService });
+        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
     }
 
     public addCustomSkill(skillName: string, type: string, abilityName: string, locked = false, recallKnowledge = false): void {
@@ -1396,7 +1396,7 @@ export class CharacterService {
 
     public addCustomFeat(feat: Feat): void {
         this.character().customFeats.push(feat);
-        this.refreshService.set_ToChange('Character', 'charactersheet');
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
     }
 
     public removeCustomFeat(feat: Feat): void {
@@ -1485,8 +1485,8 @@ export class CharacterService {
                 }
 
                 if (workingGain.nextStage) {
-                    this.refreshService.set_ToChange(creature.type, 'time');
-                    this.refreshService.set_ToChange(creature.type, 'health');
+                    this.refreshService.prepareDetailToChange(creature.type, 'time');
+                    this.refreshService.prepareDetailToChange(creature.type, 'health');
                 }
 
                 if (workingGain.heightened < originalCondition.minLevel) {
@@ -1542,7 +1542,7 @@ export class CharacterService {
                                 existingGain.persistent = true;
                             }
                         });
-                        this.refreshService.set_ToChange(creature.type, 'effects');
+                        this.refreshService.prepareDetailToChange(creature.type, 'effects');
                     } else {
                         if (!workingGain.value) {
                             workingGain.value = workingGain.addValue;
@@ -1595,11 +1595,11 @@ export class CharacterService {
                         this.conditionsService.conditions(workingGain.name)[0],
                         true,
                     );
-                    this.refreshService.set_ToChange(creature.type, 'effects');
-                    this.refreshService.set_ToChange(creature.type, 'effects-component');
+                    this.refreshService.prepareDetailToChange(creature.type, 'effects');
+                    this.refreshService.prepareDetailToChange(creature.type, 'effects-component');
 
                     if (!options.noReload) {
-                        this.refreshService.process_ToChange();
+                        this.refreshService.processPreparedChanges();
                     }
 
                     return true;
@@ -1657,8 +1657,8 @@ export class CharacterService {
         //If this condition is locked by its parent, it can't be removed.
         if (oldConditionGain && (ignoreLockedByParent || !oldConditionGain.lockedByParent)) {
             if (oldConditionGain.nextStage || oldConditionGain.durationIsInstant) {
-                this.refreshService.set_ToChange(creature.type, 'time');
-                this.refreshService.set_ToChange(creature.type, 'health');
+                this.refreshService.prepareDetailToChange(creature.type, 'time');
+                this.refreshService.prepareDetailToChange(creature.type, 'health');
             }
 
             // Remove the parent lock for all conditions locked by this,
@@ -1699,15 +1699,15 @@ export class CharacterService {
             );
 
             if (oldConditionGain.source === 'Quick Status') {
-                this.refreshService.set_ToChange(creature.type, 'defense');
-                this.refreshService.set_ToChange(creature.type, 'attacks');
+                this.refreshService.prepareDetailToChange(creature.type, 'defense');
+                this.refreshService.prepareDetailToChange(creature.type, 'attacks');
             }
 
-            this.refreshService.set_ToChange(creature.type, 'effects');
-            this.refreshService.set_ToChange(creature.type, 'effects-component');
+            this.refreshService.prepareDetailToChange(creature.type, 'effects');
+            this.refreshService.prepareDetailToChange(creature.type, 'effects-component');
 
             if (reload) {
-                this.refreshService.process_ToChange();
+                this.refreshService.processPreparedChanges();
             }
 
             return true;
@@ -1841,7 +1841,7 @@ export class CharacterService {
                                 + `${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }`
                                 + `</strong> condition from <strong>${ creature.name || creature.type }`
                                 + `</strong> on turn of <strong>${ senderName }</strong>`);
-                            this.refreshService.set_ToChange(creature.type, 'effects');
+                            this.refreshService.prepareDetailToChange(creature.type, 'effects');
                         }
                     });
             });
@@ -2094,15 +2094,15 @@ export class CharacterService {
                                     addedPrimaryItem = existingItems[0];
                                 }
 
-                                this.refreshService.set_ToChange(targetCreature.type, 'inventory');
-                                this.refreshService.set_Changed(existingItems[0].id);
+                                this.refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
+                                this.refreshService.setComponentChanged(existingItems[0].id);
                             } else {
                                 typedItem.recast(this._typeService, this.itemsService);
 
                                 const newLength = targetInventory[typedItem.type].push(typedItem);
                                 const addedItem = targetInventory[typedItem.type][newLength - 1];
 
-                                this.refreshService.set_ToChange(targetCreature.type, 'inventory');
+                                this.refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
 
                                 if (item.id === message.offeredItem[0].id) {
                                     addedPrimaryItem = addedItem;
@@ -2276,7 +2276,7 @@ export class CharacterService {
 
             this._messageService.markMessageAsIgnored(this, message);
         });
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     public prepareOnceEffect(
@@ -2365,7 +2365,7 @@ export class CharacterService {
             this.toastService.show(`You lost ${ value * -1 } focus point${ value === 1 ? '' : 's' }.`);
         }
 
-        this.refreshService.set_ToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange('Character', 'spellbook');
     }
 
     public changeCreatureTemporaryHPWithNotification(
@@ -2433,10 +2433,10 @@ export class CharacterService {
             }
         }
 
-        this.refreshService.set_ToChange(creature.type, 'health');
+        this.refreshService.prepareDetailToChange(creature.type, 'health');
         //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-        this.refreshService.set_ToChange('Character', 'health');
-        this.refreshService.set_ToChange('Character', 'time');
+        this.refreshService.prepareDetailToChange('Character', 'health');
+        this.refreshService.prepareDetailToChange('Character', 'time');
     }
 
     public changeCreatureHPWithNotification(creature: Creature, value: number, context: { source: string }): void {
@@ -2474,8 +2474,8 @@ export class CharacterService {
             this.toastService.show(`${ phrases.name } lost ${ value * -1 } HP from ${ context.source }.${ results }`);
         }
 
-        this.refreshService.set_ToChange(creature.type, 'health');
-        this.refreshService.set_ToChange(creature.type, 'effects');
+        this.refreshService.prepareDetailToChange(creature.type, 'health');
+        this.refreshService.prepareDetailToChange(creature.type, 'effects');
     }
 
     public raiseCharacterShieldWithNotification(value: number): void {
@@ -2490,8 +2490,8 @@ export class CharacterService {
                 this.toastService.show('Your shield was lowered.');
             }
 
-            this.refreshService.set_ToChange('Character', 'defense');
-            this.refreshService.set_ToChange('Character', 'effects');
+            this.refreshService.prepareDetailToChange('Character', 'defense');
+            this.refreshService.prepareDetailToChange('Character', 'effects');
         }
     }
 
@@ -3182,7 +3182,7 @@ export class CharacterService {
     }
 
     public prepareViewChangeByEffectTargets(creature: Creature, targets: Array<string>): void {
-        this.refreshService.set_ToChangeByEffectTargets(targets, { creature });
+        this.refreshService.prepareChangesByEffectTargets(targets, { creature });
     }
 
     public initializeAnimalCompanion(): void {
@@ -3206,7 +3206,7 @@ export class CharacterService {
 
         if (character.class.familiar) {
             character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._typeService, this.itemsService);
-            this.refreshService.set_ToChange('Familiar', 'all');
+            this.refreshService.prepareDetailToChange('Familiar', 'all');
         }
     }
 
@@ -3379,15 +3379,15 @@ export class CharacterService {
 
     private _refreshAfterLoading(): void {
         //Update everything once, then effects, and then the player can take over.
-        this.refreshService.set_Changed();
+        this.refreshService.setComponentChanged();
         this.setLoadingStatus('Loading', false);
-        this.refreshService.set_ToChange('Character', 'effects');
+        this.refreshService.prepareDetailToChange('Character', 'effects');
 
         if (!this._configService.isLoggedIn && !this._configService.cannotLogin) {
-            this.refreshService.set_ToChange('Character', 'logged-out');
+            this.refreshService.prepareDetailToChange('Character', 'logged-out');
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     private _rgbAccent(): string {

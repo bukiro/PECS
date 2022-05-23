@@ -16,10 +16,12 @@ export class ToastService {
     ) { }
 
     public show(text: string, options: { onClickCreature?: string; onClickAction?: string } = {}): void {
-        options = { onClickCreature: '',
-            onClickAction: '', ...options };
+        options = {
+            onClickCreature: '',
+            onClickAction: '', ...options
+        };
         this.toasts.push({ text, ...options });
-        this._refreshService.set_Changed('toasts');
+        this._refreshService.setComponentChanged('toasts');
     }
 
     public remove(toast: Toast): void {

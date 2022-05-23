@@ -53,7 +53,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     set_Changed(target: string) {
-        this.refreshService.set_Changed(target);
+        this.refreshService.setComponentChanged(target);
     }
 
     get_Character() {
@@ -100,13 +100,13 @@ export class FamiliarComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.set_Mobile();
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['familiar', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'familiar' && ['familiar', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

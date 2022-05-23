@@ -90,8 +90,8 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.skillsTileMode = !this.get_Character().settings.skillsTileMode;
-        this.refreshService.set_ToChange('Character', 'skills');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'skills');
+        this.refreshService.processPreparedChanges();
     }
 
     get_TileMode() {
@@ -238,13 +238,13 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['skills', 'alls', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['skills', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

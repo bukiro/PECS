@@ -128,7 +128,7 @@ export class ItemAeonStonesComponent implements OnInit {
 
         this.set_ToChange(stone);
         this.set_AeonStoneNames();
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     remove_AeonStone(index: number) {
@@ -143,7 +143,7 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     set_ToChange(stone: WornItem) {
-        this.refreshService.set_ItemViewChanges(this.get_Character(), stone, { characterService: this.characterService, activitiesService: this.activitiesService });
+        this.refreshService.prepareChangesByItem(this.get_Character(), stone, { characterService: this.characterService, activitiesService: this.activitiesService });
     }
 
     get_Title(stone: WornItem) {

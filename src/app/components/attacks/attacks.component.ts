@@ -221,26 +221,26 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     on_EquipmentChange(item: Equipment) {
-        this.refreshService.set_ItemViewChanges(this.get_Creature(), item, { characterService: this.characterService, activitiesService: this.activitiesService });
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareChangesByItem(this.get_Creature(), item, { characterService: this.characterService, activitiesService: this.activitiesService });
+        this.refreshService.processPreparedChanges();
     }
 
     on_TalismanUse(weapon: Weapon, talisman: Talisman, index: number, preserve = false) {
-        this.refreshService.set_ToChange(this.creature, 'attacks');
+        this.refreshService.prepareDetailToChange(this.creature, 'attacks');
         this.characterService.useConsumable(this.get_Creature(), talisman, preserve);
 
         if (!preserve) {
             weapon.talismans.splice(index, 1);
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     on_PoisonUse(weapon: Weapon, poison: AlchemicalPoison) {
-        this.refreshService.set_ToChange(this.creature, 'attacks');
+        this.refreshService.prepareDetailToChange(this.creature, 'attacks');
         this.characterService.useConsumable(this.get_Creature(), poison);
         weapon.poisonsApplied.length = 0;
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_AmmoTypes(): Array<string> {
@@ -313,8 +313,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
         this.characterService.useConsumable(this.get_Creature(), item as Consumable);
 
         if (item.canStack()) {
-            this.refreshService.set_ToChange(this.creature, 'attacks');
-            this.refreshService.process_ToChange();
+            this.refreshService.prepareDetailToChange(this.creature, 'attacks');
+            this.refreshService.processPreparedChanges();
         } else {
             this.characterService.dropInventoryItem(this.get_Creature(), inv, item, true);
         }
@@ -549,7 +549,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             this.characterService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_RangePenalty() {
@@ -640,7 +640,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             this.characterService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_FavoredWeapons() {
@@ -665,13 +665,13 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['attacks', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['attacks', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

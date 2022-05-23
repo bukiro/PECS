@@ -266,7 +266,7 @@ export class EffectsGenerationService {
         const waitForCharacterService = setInterval(() => {
             if (!characterService.stillLoading) {
                 clearInterval(waitForCharacterService);
-                this._refreshService.get_Changed
+                this._refreshService.componentChanged$
                     .subscribe(target => {
                         if (['effects', 'all', 'Character', 'Companion', 'Familiar'].includes(target)) {
                             if (['Character', 'Companion', 'Familiar'].includes(target)) {
@@ -285,7 +285,7 @@ export class EffectsGenerationService {
 
                         }
                     });
-                this._refreshService.get_ViewChanged
+                this._refreshService.detailChanged$
                     .subscribe(target => {
                         if (['effects', 'all'].includes(target.target)) {
                             this._updateEffectsAndConditions(target.creature, { characterService });
@@ -1300,7 +1300,7 @@ export class EffectsGenerationService {
         );
 
         if (areEffectsChanged) {
-            this._refreshService.set_ToChangeByEffects(effects, this._effectsService.effects(context.creature.type).all, context);
+            this._refreshService.prepareChangesByEffects(effects, this._effectsService.effects(context.creature.type).all, context);
             this._effectsService.replaceCreatureEffects(context.creature.type, effects);
 
             if (!services.characterService.stillLoading) {
@@ -1365,7 +1365,7 @@ export class EffectsGenerationService {
         //Process all prepared onceEffects.
         services.characterService.processPreparedOnceEffects();
         //Process all prepared changes or changes that were skipped previously.
-        this._refreshService.process_ToChange();
+        this._refreshService.processPreparedChanges();
     }
 
 }

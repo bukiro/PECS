@@ -31,8 +31,8 @@ export class ToastContainerComponent {
 
     on_Click(toast: Toast) {
         if (toast.onClickAction) {
-            this.refreshService.set_ToChange(toast.onClickCreature || 'Character', toast.onClickAction);
-            this.refreshService.process_ToChange();
+            this.refreshService.prepareDetailToChange(toast.onClickCreature || 'Character', toast.onClickAction);
+            this.refreshService.processPreparedChanges();
         }
 
         this.toastService.remove(toast);
@@ -42,13 +42,13 @@ export class ToastContainerComponent {
         if (this.characterService.stillLoading) {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
-            this.changeSubscription = this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.componentChanged$
                 .subscribe(target => {
                     if (['toasts', 'all'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.detailChanged$
                 .subscribe(view => {
                     if (['toasts', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

@@ -87,16 +87,16 @@ export class ConditionComponent implements OnInit, OnDestroy {
     set_ConditionDuration(gain: ConditionGain, turns: number) {
         gain.duration = turns;
         gain.maxDuration = gain.duration;
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
         this.update_Condition();
     }
 
     change_ConditionDuration(gain: ConditionGain, turns: number) {
         gain.duration += turns;
         gain.maxDuration = gain.duration;
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
         this.update_Condition();
     }
 
@@ -115,8 +115,8 @@ export class ConditionComponent implements OnInit, OnDestroy {
         }
 
         gain.showValue = false;
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
         this.update_Condition();
     }
 
@@ -130,7 +130,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
         this.conditionsService.changeConditionChoice(this.get_Creature(), gain, condition, oldChoice, this.characterService, this.itemsService);
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
         this.update_Condition();
     }
 
@@ -170,13 +170,13 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     change_ConditionStage(gain: ConditionGain, condition: Condition, choices: Array<string>, change: number) {
         this.conditionsService.changeConditionStage(this.get_Creature(), gain, condition, choices, change, this.characterService, this.itemsService);
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
         this.update_Condition();
     }
 
     change_OtherConditionSelection() {
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
         this.update_Condition();
     }
 
@@ -190,7 +190,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     remove_Condition(conditionGain: ConditionGain) {
         this.characterService.removeCondition(this.get_Creature(), conditionGain, true);
-        this.refreshService.set_Changed('close-popovers');
+        this.refreshService.setComponentChanged('close-popovers');
     }
 
     public get_Activities(name = ''): Array<Activity> {
@@ -218,18 +218,18 @@ export class ConditionComponent implements OnInit, OnDestroy {
     update_Condition() {
         //This updates any gridicon that has this condition gain's id set as its update id.
         if (this.conditionGain.id) {
-            this.refreshService.set_Changed(this.conditionGain.id);
+            this.refreshService.setComponentChanged(this.conditionGain.id);
         }
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (target == 'effects' || target == 'all' || target == this.creature) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature == this.creature && ['effects', 'all'].includes(view.target)) {
                     this.changeDetector.detectChanges();

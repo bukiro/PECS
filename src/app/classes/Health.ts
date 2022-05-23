@@ -67,8 +67,8 @@ export class Health {
         if (sum < 0) {
             this.damage = Math.max(0, this.damage + sum);
             sum = 0;
-            characterService.refreshService.set_ToChange(creature.type, 'health');
-            characterService.refreshService.process_ToChange();
+            characterService.refreshService.prepareDetailToChange(creature.type, 'health');
+            characterService.refreshService.processPreparedChanges();
         }
 
         explain += `\nDamage taken: ${ this.damage }`;

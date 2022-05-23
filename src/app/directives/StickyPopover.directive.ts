@@ -43,13 +43,13 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     }
 
     private finish_Loading(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (target == 'close-popovers' && super.isOpen()) {
                     super.close();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.target == 'close-popovers' && super.isOpen()) {
                     super.close();

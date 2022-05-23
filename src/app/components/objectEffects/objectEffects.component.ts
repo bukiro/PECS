@@ -58,8 +58,8 @@ export class ObjectEffectsComponent {
     }
 
     update_Effects() {
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
     }
 
     get_IsFormula(value: string) {

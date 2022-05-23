@@ -224,7 +224,7 @@ export class MessageService {
                     // otherwise only announce that new messages are available, then update the component to show the number on the button.
                     if (newMessages.length && characterService.get_Character().settings.applyMessagesAutomatically) {
                         this._applyMessagesAutomatically(characterService, newMessages);
-                        this._refreshService.set_Changed('top-bar');
+                        this._refreshService.setComponentChanged('top-bar');
                     } else if (newMessages.length) {
                         this.addNewMessages(newMessages);
                         this._toastService.show(
@@ -232,7 +232,7 @@ export class MessageService {
                             + `${ newMessages.length !== 1 ? 's are' : ' is' } available.`,
                             { onClickCreature: 'character', onClickAction: 'check-messages-manually' },
                         );
-                        this._refreshService.set_Changed('top-bar');
+                        this._refreshService.setComponentChanged('top-bar');
                     }
 
                     this._checkingMessages = false;
@@ -305,7 +305,7 @@ export class MessageService {
         if (newMessages.length) {
             characterService.applyTurnChangeMessage(newMessages.filter(message => message.turnChange));
             characterService.applyItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
-            this._refreshService.process_ToChange();
+            this._refreshService.processPreparedChanges();
             newMessages.filter(message => message.turnChange).forEach(message => {
                 this.markMessageAsIgnored(characterService, message);
             });
@@ -324,8 +324,8 @@ export class MessageService {
         messages.forEach(message => {
             this.markMessageAsIgnored(characterService, message);
         });
-        this._refreshService.set_ToChange('Character', 'top-bar');
-        this._refreshService.process_ToChange();
+        this._refreshService.prepareDetailToChange('Character', 'top-bar');
+        this._refreshService.processPreparedChanges();
     }
 
 }

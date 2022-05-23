@@ -534,13 +534,13 @@ export class ItemRunesComponent implements OnInit {
                 break;
         }
 
-        this.refreshService.set_ToChange('Character', this.item.id);
+        this.refreshService.prepareDetailToChange('Character', this.item.id);
 
         if (this.item.equipped) {
-            this.refreshService.set_ToChange('Character', 'attacks');
+            this.refreshService.prepareDetailToChange('Character', 'attacks');
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
         this.update_Item();
     }
 
@@ -607,10 +607,10 @@ export class ItemRunesComponent implements OnInit {
         }
 
         if (this.item.equipped) {
-            this.refreshService.set_ToChange('Character', 'defense');
+            this.refreshService.prepareDetailToChange('Character', 'defense');
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
         this.update_Item();
     }
 
@@ -649,10 +649,10 @@ export class ItemRunesComponent implements OnInit {
             }
         }
 
-        this.refreshService.set_ToChange('Character', 'inventory');
-        this.refreshService.set_ToChange('Character', 'attacks');
+        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange('Character', 'attacks');
         this.set_PropertyRuneNames();
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
         this.update_Item();
     }
 
@@ -705,10 +705,10 @@ export class ItemRunesComponent implements OnInit {
             }
         }
 
-        this.refreshService.set_ToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange('Character', 'inventory');
         this.set_ToChange(rune as ArmorRune);
         this.set_PropertyRuneNames();
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
         this.update_Item();
     }
 
@@ -765,7 +765,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     set_ToChange(rune: ArmorRune) {
-        this.refreshService.set_ItemViewChanges(this.get_Character(), rune, { characterService: this.characterService, activitiesService: this.activitiesService });
+        this.refreshService.prepareChangesByItem(this.get_Character(), rune, { characterService: this.characterService, activitiesService: this.activitiesService });
     }
 
     set_PropertyRuneNames() {
@@ -800,7 +800,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     update_Item() {
-        this.refreshService.set_Changed(this.item.id);
+        this.refreshService.setComponentChanged(this.item.id);
     }
 
     public ngOnInit(): void {

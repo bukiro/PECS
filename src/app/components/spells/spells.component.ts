@@ -65,8 +65,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public toggle_TileMode(): void {
         this.get_Character().settings.spellsTileMode = !this.get_Character().settings.spellsTileMode;
-        this.refreshService.set_ToChange('Character', 'spellchoices');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
+        this.refreshService.processPreparedChanges();
     }
 
     public get_Minimized(): boolean {
@@ -342,13 +342,13 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['spells', 'all', 'character'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['spells', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

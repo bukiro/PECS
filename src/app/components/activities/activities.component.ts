@@ -125,8 +125,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     public toggle_TileMode(): void {
         this.get_Character().settings.activitiesTileMode = !this.get_Character().settings.activitiesTileMode;
-        this.refreshService.set_ToChange('Character', 'activities');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'activities');
+        this.refreshService.processPreparedChanges();
     }
 
     public get_TileMode(): boolean {
@@ -210,13 +210,13 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (target == 'activities' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

@@ -280,17 +280,17 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 break;
         }
 
-        this.refreshService.set_ToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange('Character', 'inventory');
 
         if (this.item instanceof Weapon) {
-            this.refreshService.set_ToChange('Character', 'attacks');
+            this.refreshService.prepareDetailToChange('Character', 'attacks');
         } else {
-            this.refreshService.set_ToChange('Character', 'activities');
-            this.refreshService.set_ToChange('Character', 'effects');
-            this.refreshService.set_ToChange('Character', 'defense');
+            this.refreshService.prepareDetailToChange('Character', 'activities');
+            this.refreshService.prepareDetailToChange('Character', 'effects');
+            this.refreshService.prepareDetailToChange('Character', 'defense');
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_Deity(type: string) {

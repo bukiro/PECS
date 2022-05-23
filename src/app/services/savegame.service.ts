@@ -193,8 +193,8 @@ export class SavegameService {
     public reset(): void {
         this._loading = true;
         //At this time, the save and load buttons are disabled, and we refresh the character builder and the menu bar so that the browser knows.
-        this._refreshService.set_Changed('charactersheet');
-        this._refreshService.set_Changed('top-bar');
+        this._refreshService.setComponentChanged('charactersheet');
+        this._refreshService.setComponentChanged('top-bar');
 
         if (this._configService.hasDBConnectionURL() && this._configService.isLoggedIn()) {
             this._loadAllCharacters()
@@ -212,9 +212,9 @@ export class SavegameService {
                             this._loading = false;
                             //If the character list couldn't be loaded, the save and load buttons are re-enabled (but will disable on their own because of the error).
                             // We refresh the character builder and the menu bar to update the buttons.
-                            this._refreshService.set_Changed('charactersheet');
-                            this._refreshService.set_Changed('top-bar');
-                            this._refreshService.set_Changed();
+                            this._refreshService.setComponentChanged('charactersheet');
+                            this._refreshService.setComponentChanged('top-bar');
+                            this._refreshService.setComponentChanged();
                         }
                     },
                 });
@@ -1103,10 +1103,10 @@ export class SavegameService {
         if (this._loading) { this._loading = false; }
 
         //Refresh the character builder and menu bar to update the save and load buttons, now that they are enabled again.
-        this._refreshService.set_Changed('charactersheet');
-        this._refreshService.set_Changed('top-bar');
+        this._refreshService.setComponentChanged('charactersheet');
+        this._refreshService.setComponentChanged('top-bar');
         //Also update the charactersheet that the character builder is attached to, so it is properly displayed after loading the page.
-        this._refreshService.set_Changed('character-sheet');
+        this._refreshService.setComponentChanged('character-sheet');
     }
 
 }

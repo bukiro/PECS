@@ -375,13 +375,13 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     finish_Loading() {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (target == 'activities' || target == 'spellbook' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'spellbook', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

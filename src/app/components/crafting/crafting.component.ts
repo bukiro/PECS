@@ -74,8 +74,8 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.craftingTileMode = !this.get_Character().settings.craftingTileMode;
-        this.refreshService.set_ToChange('Character', 'crafting');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'crafting');
+        this.refreshService.processPreparedChanges();
     }
 
     get_TileMode() {
@@ -189,7 +189,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         this.characterService.changeCash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
 
         if (changeafter) {
-            this.refreshService.set_Changed('inventory');
+            this.refreshService.setComponentChanged('inventory');
         }
     }
 
@@ -307,9 +307,9 @@ export class CraftingComponent implements OnInit, OnDestroy {
             this.get_FormulasLearned(item.id)[0].snareSpecialistPrepared += amount;
         }
 
-        this.refreshService.set_ToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange('Character', 'inventory');
         //this.refreshService.set_ToChange("Character", "crafting");
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_PreparedForQuickCrafting(item: Item) {
@@ -325,13 +325,13 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['crafting', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['crafting', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

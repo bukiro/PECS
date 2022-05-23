@@ -212,7 +212,7 @@ export class QuickdiceComponent {
             }
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_Description() {

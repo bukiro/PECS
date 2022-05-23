@@ -143,8 +143,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.spellbookTileMode = !this.get_Character().settings.spellbookTileMode;
-        this.refreshService.set_ToChange('Character', 'spellbook');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'spellbook');
+        this.refreshService.processPreparedChanges();
     }
 
     get_TileMode() {
@@ -628,7 +628,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             }
 
             //Update effects because Channeled Succor gets disabled after you expend all your divine font heal spells.
-            this.refreshService.set_ToChange('Character', 'effects');
+            this.refreshService.prepareDetailToChange('Character', 'effects');
         } else if (context.spellParameters.choice.cooldown) {
             //Spells with a cooldown don't use any resources. They will start their cooldown in spell processing.
         } else {
@@ -720,7 +720,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     can_Counterspell(casting: SpellCasting): boolean {
@@ -785,7 +785,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
         const character = this.get_Character();
 
-        this.refreshService.set_ToChange('Character', 'effects');
+        this.refreshService.prepareDetailToChange('Character', 'effects');
 
         if (this.have_Feat('Linked Focus')) {
             this.characterService.processOnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: '+1' }));
@@ -810,7 +810,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         }
 
         gain.prepared = true;
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     can_Reprepare(level: number, spell: Spell, casting: SpellCasting): boolean {
@@ -828,9 +828,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     on_Reprepare(gain: SpellGain) {
-        this.refreshService.set_ToChange('Character', 'effects');
+        this.refreshService.prepareDetailToChange('Character', 'effects');
         gain.prepared = true;
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     is_SignatureSpell(casting: SpellCasting, taken: SpellGain): boolean {
@@ -864,13 +864,13 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['spellbook', 'all', 'character'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['spellbook', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

@@ -185,7 +185,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
             if (!this.get_Skills(increase.name)[0].isLegal(this.get_Character(), this.characterService, levelNumber, choice.maxRank)) {
                 if (!increase.locked) {
                     this.get_Character().increaseSkill(this.characterService, increase.name, false, choice, increase.locked);
-                    this.refreshService.process_ToChange();
+                    this.refreshService.processPreparedChanges();
                 } else {
                     anytrue += 1;
                 }
@@ -277,7 +277,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         if (boost && this.get_Character().settings.autoCloseChoices && (choice.increases.length == maxAvailable - 1)) { this.toggle_List(''); }
 
         this.get_Character().increaseSkill(this.characterService, skillName, boost, choice, locked);
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     remove_BonusSkillChoice(choice: SkillChoice) {
@@ -286,7 +286,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         });
         this.get_Character().removeSkillChoice(choice);
         this.toggle_List('');
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     public ngOnInit(): void {
@@ -294,13 +294,13 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
             this.levelNumber = this.get_Character().level;
         }
 
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['skillchoices', 'all', 'character'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['skillchoices', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

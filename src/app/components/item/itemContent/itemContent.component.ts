@@ -87,8 +87,8 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     }
 
     on_LanguageUpdate() {
-        this.refreshService.set_ToChange('Character', 'general');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'general');
+        this.refreshService.processPreparedChanges();
     }
 
     public has_ShownData(): boolean {
@@ -97,13 +97,13 @@ export class ItemContentComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.item.id) {
-            this.changeSubscription = this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.componentChanged$
                 .subscribe(target => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.detailChanged$
                 .subscribe(view => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();

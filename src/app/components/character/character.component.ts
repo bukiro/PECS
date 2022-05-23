@@ -245,9 +245,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.characterTileMode = !this.get_Character().settings.characterTileMode;
-        this.refreshService.set_ToChange('Character', 'featchoices');
-        this.refreshService.set_ToChange('Character', 'skillchoices');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'featchoices');
+        this.refreshService.prepareDetailToChange('Character', 'skillchoices');
+        this.refreshService.processPreparedChanges();
     }
 
     get_TileMode() {
@@ -271,17 +271,17 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     onManualMode() {
         //Manual mode changes some buttons on some components, so we need to refresh these.
-        this.refreshService.set_ToChange('Character', 'activities');
-        this.refreshService.set_ToChange('Companion', 'activities');
-        this.refreshService.set_ToChange('Familiar', 'activities');
-        this.refreshService.set_ToChange('Character', 'health');
-        this.refreshService.set_ToChange('Companion', 'health');
-        this.refreshService.set_ToChange('Familiar', 'health');
-        this.refreshService.set_ToChange('Character', 'inventory');
-        this.refreshService.set_ToChange('Companion', 'inventory');
-        this.refreshService.set_ToChange('Character', 'spellbook');
-        this.refreshService.set_ToChange('Character', 'top-bar');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'activities');
+        this.refreshService.prepareDetailToChange('Companion', 'activities');
+        this.refreshService.prepareDetailToChange('Familiar', 'activities');
+        this.refreshService.prepareDetailToChange('Character', 'health');
+        this.refreshService.prepareDetailToChange('Companion', 'health');
+        this.refreshService.prepareDetailToChange('Familiar', 'health');
+        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange('Companion', 'inventory');
+        this.refreshService.prepareDetailToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange('Character', 'top-bar');
+        this.refreshService.processPreparedChanges();
     }
 
     onRetryDatabaseConnection() {
@@ -454,44 +454,44 @@ export class CharacterComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.refreshService.set_ToChange('Character', 'abilities');
-        this.refreshService.set_ToChange('Character', 'individualskills', 'all');
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'abilities');
+        this.refreshService.prepareDetailToChange('Character', 'individualskills', 'all');
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.processPreparedChanges();
     }
 
     onAbilityChange(name: string) {
-        this.refreshService.set_AbilityToChange('Character', name, { characterService: this.characterService });
+        this.refreshService.prepareChangesByAbility('Character', name, { characterService: this.characterService });
     }
 
     set_Changed(target = '') {
-        this.refreshService.set_Changed(target);
+        this.refreshService.setComponentChanged(target);
     }
 
     onLanguageChange() {
-        this.refreshService.set_ToChange('Character', 'general');
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'general');
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.processPreparedChanges();
     }
 
     onNameChange() {
-        this.refreshService.set_ToChange('Character', 'general');
-        this.refreshService.set_ToChange('Character', 'top-bar');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'general');
+        this.refreshService.prepareDetailToChange('Character', 'top-bar');
+        this.refreshService.processPreparedChanges();
     }
 
     onAlignmentChange() {
-        this.refreshService.set_ToChange('Character', 'general');
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.set_ToChange('Character', 'featchoices');
-        this.refreshService.set_ToChange('Character', 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'general');
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.prepareDetailToChange('Character', 'featchoices');
+        this.refreshService.prepareDetailToChange('Character', 'effects');
+        this.refreshService.processPreparedChanges();
     }
 
     onHiddenFeatsChange() {
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.set_ToChange('Character', 'featchoices');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.prepareDetailToChange('Character', 'featchoices');
+        this.refreshService.processPreparedChanges();
     }
 
     positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -532,14 +532,14 @@ export class CharacterComponent implements OnInit, OnDestroy {
         character.class.levels.filter(level => level.number >= lowerLevel && level.number <= higherLevel).forEach(level => {
             level.featChoices.forEach(choice => {
                 if (choice.showOnSheet) {
-                    this.refreshService.set_ToChange('Character', 'activities');
+                    this.refreshService.prepareDetailToChange('Character', 'activities');
                 }
             });
         });
         character.class.levels.forEach(level => {
             level.featChoices.forEach(choice => {
                 if (choice.showOnCurrentLevel) {
-                    this.refreshService.set_ToChange('Character', 'featchoices');
+                    this.refreshService.prepareDetailToChange('Character', 'featchoices');
                 }
 
                 choice.feats.forEach(taken => {
@@ -547,74 +547,74 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 });
             });
         });
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.set_ToChange('Character', 'character-sheet');
-        this.refreshService.set_ToChange('Character', 'effects');
-        this.refreshService.set_ToChange('Character', 'top-bar');
-        this.refreshService.set_ToChange('Character', 'health');
-        this.refreshService.set_ToChange('Character', 'defense');
-        this.refreshService.set_ToChange('Character', 'attacks');
-        this.refreshService.set_ToChange('Character', 'general');
-        this.refreshService.set_ToChange('Character', 'individualspells', 'all');
-        this.refreshService.set_ToChange('Character', 'activities');
-        this.refreshService.set_ToChange('Character', 'spells');
-        this.refreshService.set_ToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.prepareDetailToChange('Character', 'character-sheet');
+        this.refreshService.prepareDetailToChange('Character', 'effects');
+        this.refreshService.prepareDetailToChange('Character', 'top-bar');
+        this.refreshService.prepareDetailToChange('Character', 'health');
+        this.refreshService.prepareDetailToChange('Character', 'defense');
+        this.refreshService.prepareDetailToChange('Character', 'attacks');
+        this.refreshService.prepareDetailToChange('Character', 'general');
+        this.refreshService.prepareDetailToChange('Character', 'individualspells', 'all');
+        this.refreshService.prepareDetailToChange('Character', 'activities');
+        this.refreshService.prepareDetailToChange('Character', 'spells');
+        this.refreshService.prepareDetailToChange('Character', 'spellbook');
         character.abilityBoosts(lowerLevel, higherLevel).forEach(boost => {
-            this.refreshService.set_ToChange('Character', 'abilities');
+            this.refreshService.prepareDetailToChange('Character', 'abilities');
             this.cacheService.setAbilityChanged(boost.name, { creatureTypeId: 0, minLevel: lowerLevel });
         });
         character.skillIncreases(this.characterService, lowerLevel, higherLevel).forEach(increase => {
-            this.refreshService.set_ToChange('Character', 'skillchoices');
-            this.refreshService.set_ToChange('Character', 'individualSkills', increase.name);
+            this.refreshService.prepareDetailToChange('Character', 'skillchoices');
+            this.refreshService.prepareDetailToChange('Character', 'individualSkills', increase.name);
             this.cacheService.setSkillChanged(increase.name, { creatureTypeId: 0, minLevel: lowerLevel });
         });
         this.get_CharacterFeatsAndFeatures().filter(feat => feat.have({ creature: character }, { characterService: this.characterService }, { charLevel: higherLevel, minLevel: lowerLevel }, { excludeTemporary: true }))
             .forEach(feat => {
                 this.cacheService.setFeatChanged(feat.name, { creatureTypeId: 0, minLevel: lowerLevel });
-                this.refreshService.set_HintsToChange(character, feat.hints, { characterService: this.characterService });
+                this.refreshService.prepareChangesByHints(character, feat.hints, { characterService: this.characterService });
 
                 if (feat.gainAbilityChoice.length) {
-                    this.refreshService.set_ToChange('Character', 'abilities');
+                    this.refreshService.prepareDetailToChange('Character', 'abilities');
                 }
 
                 if (feat.gainSpellCasting.length || feat.gainSpellChoice.length) {
-                    this.refreshService.set_ToChange('Character', 'spellbook');
+                    this.refreshService.prepareDetailToChange('Character', 'spellbook');
                 }
 
                 if (feat.superType == 'Adopted Ancestry') {
-                    this.refreshService.set_ToChange('Character', 'general');
+                    this.refreshService.prepareDetailToChange('Character', 'general');
                 } else if (feat.name == 'Different Worlds') {
-                    this.refreshService.set_ToChange('Character', 'general');
+                    this.refreshService.prepareDetailToChange('Character', 'general');
                 }
 
                 if (feat.senses.length) {
-                    this.refreshService.set_ToChange('Character', 'skills');
+                    this.refreshService.prepareDetailToChange('Character', 'skills');
                 }
             });
 
         //Reload spellbook if spells were learned between the levels,
         if (character.learnedSpells().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
-            this.refreshService.set_ToChange('Character', 'spellbook');
+            this.refreshService.prepareDetailToChange('Character', 'spellbook');
             //if spells were taken between the levels,
         } else if (character.takenSpells(lowerLevel, higherLevel, { characterService: this.characterService }).length) {
-            this.refreshService.set_ToChange('Character', 'spellbook');
+            this.refreshService.prepareDetailToChange('Character', 'spellbook');
             //if any spells have a dynamic level dependent on the character level,
         } else if (character.takenSpells(0, 20, { characterService: this.characterService })
             .concat(character.allGrantedEquipmentSpells())
             .some(taken => taken.choice.dynamicLevel.toLowerCase().includes('level'))
         ) {
-            this.refreshService.set_ToChange('Character', 'spellbook');
+            this.refreshService.prepareDetailToChange('Character', 'spellbook');
             //or if you have the cantrip connection or spell battery familiar ability.
         } else if (this.characterService.isFamiliarAvailable()) {
-            this.refreshService.set_ToChange('Familiar', 'all');
+            this.refreshService.prepareDetailToChange('Familiar', 'all');
             this.get_Familiar().abilities.feats.map(gain => this.familiarsService.familiarAbilities(gain.name)[0]).filter(feat => feat)
                 .forEach(feat => {
                     if (feat.name == 'Cantrip Connection') {
-                        this.refreshService.set_ToChange('Character', 'spellbook');
+                        this.refreshService.prepareDetailToChange('Character', 'spellbook');
                     }
 
                     if (feat.name == 'Spell Battery') {
-                        this.refreshService.set_ToChange('Character', 'spellbook');
+                        this.refreshService.prepareDetailToChange('Character', 'spellbook');
                     }
                 });
         }
@@ -624,20 +624,20 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
 
         if (this.characterService.isFamiliarAvailable(newLevel)) {
-            this.refreshService.set_ToChange('Familiar', 'featchoices');
+            this.refreshService.prepareDetailToChange('Familiar', 'featchoices');
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     onUpdateSkills() {
-        this.refreshService.set_ToChange('Character', 'skills');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'skills');
+        this.refreshService.processPreparedChanges();
     }
 
     onUpdateSpellbook() {
-        this.refreshService.set_ToChange('Character', 'spellbook');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'spellbook');
+        this.refreshService.processPreparedChanges();
     }
 
     get_LanguagesAvailable(levelNumber = 0) {
@@ -747,7 +747,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             if (this.abilityIllegal(levelNumber, this.get_Abilities(boost.name)[0])) {
                 if (!boost.locked) {
                     this.get_Character().boostAbility(this.characterService, boost.name, false, choice, boost.locked);
-                    this.refreshService.process_ToChange();
+                    this.refreshService.processPreparedChanges();
                 } else {
                     anytrue += 1;
                 }
@@ -818,8 +818,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (boost && this.get_Character().settings.autoCloseChoices && choice.boosts.length == choice.available - ((this.get_Character().baseValues.length) ? choice.baseValuesLost : 0) - 1) { this.toggle_List(''); }
 
         this.get_Character().boostAbility(this.characterService, abilityName, boost, choice, locked);
-        this.refreshService.set_AbilityToChange('Character', abilityName, { characterService: this.characterService });
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareChangesByAbility('Character', abilityName, { characterService: this.characterService });
+        this.refreshService.processPreparedChanges();
     }
 
     get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source = '', sourceId = '', locked: boolean = undefined) {
@@ -917,12 +917,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.get_Character().removeLore(this.characterService, choice);
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     onLoreNameChange() {
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.processPreparedChanges();
     }
 
     get_Feats(name = '', type = '') {
@@ -982,8 +982,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.get_Character().removeSpellListSpell(spell.name, 'Feat: Blessed Blood', levelNumber);
         }
 
-        this.refreshService.set_ToChange('Character', 'spells');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'spells');
+        this.refreshService.processPreparedChanges();
     }
 
     get_SplinterFaithAvailable(levelNumber: number) {
@@ -1054,8 +1054,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 }
             }
 
-            this.refreshService.set_ToChange('Character', 'general');
-            this.refreshService.process_ToChange();
+            this.refreshService.prepareDetailToChange('Character', 'general');
+            this.refreshService.processPreparedChanges();
         }
     }
 
@@ -1094,8 +1094,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.characterService.changeHeritage(new Heritage(), index);
         }
 
-        this.refreshService.set_ToChange('Character', 'all');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'all');
+        this.refreshService.processPreparedChanges();
     }
 
     onDifferentWorldsBackgroundChange(levelNumber: number, data: FeatData, background: Background, checkedEvent: Event) {
@@ -1103,7 +1103,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const character = this.get_Character();
         const level = character.class.levels[levelNumber];
 
-        this.refreshService.set_ToChange('Character', 'general');
+        this.refreshService.prepareDetailToChange('Character', 'general');
 
         if (checked) {
             if (this.get_Character().settings.autoCloseChoices) { this.toggle_List(''); }
@@ -1149,7 +1149,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_FuseStanceData(levelNumber: number): Array<FeatData> {
@@ -1203,8 +1203,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     onFuseStanceNameChange() {
-        this.refreshService.set_ToChange('Character', 'activities');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'activities');
+        this.refreshService.processPreparedChanges();
     }
 
     onFuseStanceStanceChange(data: FeatData, stance: string, checkedEvent: Event) {
@@ -1220,8 +1220,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
             data.setValue('stances', stances.filter((existingStance: string) => existingStance != stance));
         }
 
-        this.refreshService.set_ToChange('Character', 'activities');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'activities');
+        this.refreshService.processPreparedChanges();
     }
 
     get_SyncretismData(levelNumber: number) {
@@ -1242,10 +1242,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
 
         this.characterService.deitiesService.clearCharacterDeities();
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.set_ToChange('Character', 'featchoices');
-        this.refreshService.set_ToChange('Character', 'general');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.prepareDetailToChange('Character', 'featchoices');
+        this.refreshService.prepareDetailToChange('Character', 'general');
+        this.refreshService.processPreparedChanges();
     }
 
     get_FeatsTaken(minLevelNumber: number, maxLevelNumber: number, featName = '', source = '', sourceId = '', locked: boolean = undefined, filter = '', automatic: boolean = undefined) {
@@ -1305,8 +1305,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.characterService.changeAncestry(new Ancestry(), this.itemsService);
         }
 
-        this.refreshService.set_ToChange('Character', 'all');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'all');
+        this.refreshService.processPreparedChanges();
     }
 
     get_AvailableDeities(name = '', syncretism = false, charLevel: number = this.get_Character().level) {
@@ -1365,7 +1365,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.characterService.changeDeity(new Deity());
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_Conditions(name = '') {
@@ -1414,8 +1414,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.characterService.changeHeritage(new Heritage());
         }
 
-        this.refreshService.set_ToChange('Character', 'all');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'all');
+        this.refreshService.processPreparedChanges();
     }
 
     get_Backgrounds(name = '') {
@@ -1458,8 +1458,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.characterService.changeBackground(new Background());
         }
 
-        this.refreshService.set_ToChange('Character', 'all');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'all');
+        this.refreshService.processPreparedChanges();
     }
 
     get_CompanionAvailable(levelNumber: number) {
@@ -1488,7 +1488,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             if (specializations.length) { character.class.animalCompanion.class.specializations = specializations; }
 
             this.characterService.initializeAnimalCompanion();
-            this.refreshService.process_ToChange();
+            this.refreshService.processPreparedChanges();
         }
     }
 
@@ -1515,9 +1515,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.animalCompanionsService.changeType(this.get_Companion(), new AnimalCompanionAncestry());
         }
 
-        this.refreshService.set_ToChange('Companion', 'all');
+        this.refreshService.prepareDetailToChange('Companion', 'all');
         this.cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     onSpecializationChange(spec: AnimalCompanionSpecialization, checkedEvent: Event, levelNumber: number) {
@@ -1533,12 +1533,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.animalCompanionsService.removeSpecialization(this.get_Companion(), spec);
         }
 
-        this.refreshService.set_ToChange('Companion', 'abilities');
-        this.refreshService.set_ToChange('Companion', 'skills');
-        this.refreshService.set_ToChange('Companion', 'attacks');
-        this.refreshService.set_ToChange('Companion', 'defense');
+        this.refreshService.prepareDetailToChange('Companion', 'abilities');
+        this.refreshService.prepareDetailToChange('Companion', 'skills');
+        this.refreshService.prepareDetailToChange('Companion', 'attacks');
+        this.refreshService.prepareDetailToChange('Companion', 'defense');
         this.cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_CompanionSpecializationsAvailable(levelNumber: number) {
@@ -1598,7 +1598,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             if (id) { character.class.familiar.id = id; }
 
             this.characterService.initializeFamiliar();
-            this.refreshService.process_ToChange();
+            this.refreshService.processPreparedChanges();
         }
     }
 
@@ -1611,9 +1611,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.get_Familiar().speeds[1].name = 'Land Speed';
         }
 
-        this.refreshService.set_ToChange('Familiar', 'general');
-        this.refreshService.set_ToChange('Familiar', 'familiarabilities');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Familiar', 'general');
+        this.refreshService.prepareDetailToChange('Familiar', 'familiarabilities');
+        this.refreshService.processPreparedChanges();
     }
 
     is_FamiliarSwimmer() {
@@ -1655,11 +1655,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     remove_BonusAbilityChoice(choice: AbilityChoice) {
         choice.boosts.forEach(boost => {
             this.get_Character().boostAbility(this.characterService, boost.name, false, choice, false);
-            this.refreshService.set_AbilityToChange('Character', boost.name, { characterService: this.characterService });
+            this.refreshService.prepareChangesByAbility('Character', boost.name, { characterService: this.characterService });
         });
         this.get_Character().removeAbilityChoice(choice);
         this.toggle_List('');
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     add_BonusSkillChoice(level: Level, type: 'Perception' | 'Save' | 'Skill') {
@@ -1704,7 +1704,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
 
         this.toggle_List('');
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     public still_loading(): boolean {
@@ -1712,13 +1712,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['character', 'all', 'charactersheet'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['charactersheet', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

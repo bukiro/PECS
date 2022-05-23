@@ -92,9 +92,9 @@ export class Shield extends Equipment {
         const newValues = [this.$shoddy, this.$shieldAlly, this.$emblazonArmament, this.$emblazonEnergy, this.$emblazonAntimagic];
 
         if (oldValues.some((previous, index) => previous !== newValues[index])) {
-            services.refreshService.set_ToChange(creature.type, this.id);
-            services.refreshService.set_ToChange(creature.type, 'defense');
-            services.refreshService.set_ToChange(creature.type, 'inventory');
+            services.refreshService.prepareDetailToChange(creature.type, this.id);
+            services.refreshService.prepareDetailToChange(creature.type, 'defense');
+            services.refreshService.prepareDetailToChange(creature.type, 'inventory');
         }
     }
     public effectiveHardness(): number {

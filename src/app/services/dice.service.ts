@@ -62,9 +62,9 @@ export class DiceService {
             characterService.toggleMenu(MenuNames.DiceMenu);
         }
 
-        this._refreshService.set_ToChange('character', 'dice');
-        this._refreshService.set_ToChange('character', 'character-sheet');
-        this._refreshService.set_ToChange('character', 'top-bar');
+        this._refreshService.prepareDetailToChange('character', 'dice');
+        this._refreshService.prepareDetailToChange('character', 'character-sheet');
+        this._refreshService.prepareDetailToChange('character', 'top-bar');
     }
 
     public unselectAll(): void {

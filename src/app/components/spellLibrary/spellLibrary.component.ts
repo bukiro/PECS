@@ -85,7 +85,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     set_Changed(target: string) {
-        this.refreshService.set_Changed(target);
+        this.refreshService.setComponentChanged(target);
     }
 
     check_Filter() {
@@ -110,8 +110,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.spellLibraryTileMode = !this.get_Character().settings.spellLibraryTileMode;
-        this.refreshService.set_ToChange('Character', 'spelllibrary');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'spelllibrary');
+        this.refreshService.processPreparedChanges();
     }
 
     get_TileMode() {
@@ -441,8 +441,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
         if (this.get_Character().settings.autoCloseChoices) { this.toggle_Item(); }
 
-        this.refreshService.set_ToChange('Character', 'spellchoices');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
+        this.refreshService.processPreparedChanges();
     }
 
     unlearn_Spell(spell: Spell) {
@@ -542,7 +542,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         newSpellTaken.source = 'Feat: Spell Mastery';
         newChoice.spells.push(newSpellTaken);
         this.get_Character().addSpellChoice(this.characterService, spell.levelreq, newChoice);
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     remove_SpellMasterySpell(casting: SpellCasting, spell: Spell) {
@@ -552,7 +552,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             this.get_Character().removeSpellChoice(this.characterService, oldChoice);
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_EsotericPolymathAllowed(casting: SpellCasting, tradition: string) {
@@ -601,13 +601,13 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['spelllibrary', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['spelllibrary', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

@@ -78,17 +78,17 @@ export class ItemPoisonsComponent {
 
             this.newPoison = { poison: new AlchemicalPoison(), inv: null };
             this.newPoison.poison.name = '';
-            this.refreshService.set_ToChange('Character', 'inventory');
-            this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
-            this.refreshService.process_ToChange();
+            this.refreshService.prepareDetailToChange('Character', 'inventory');
+            this.refreshService.prepareChangesByItem(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
+            this.refreshService.processPreparedChanges();
         }
     }
 
     remove_Poison(index: number) {
         this.item.poisonsApplied.splice(index, 1);
-        this.refreshService.set_ToChange('Character', 'inventory');
-        this.refreshService.set_ItemViewChanges(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this.refreshService.prepareChangesByItem(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
+        this.refreshService.processPreparedChanges();
     }
 
 }

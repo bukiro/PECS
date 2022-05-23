@@ -712,7 +712,7 @@ export class ItemsService {
     ): void {
         if (targetInventory && targetInventory !== inventory && targetInventory.itemId !== item.id) {
             this.updateGrantingItemBeforeTransfer(creature, item);
-            this._refreshService.set_ToChange('Character', item.id);
+            this._refreshService.prepareDetailToChange('Character', item.id);
 
             //Only move the item locally if the item still exists in the inventory.
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
@@ -756,7 +756,7 @@ export class ItemsService {
                     this._moveItemsGrantedByThisItem(creature, movedItem, targetInventory, inventory, characterService);
                 }
 
-                this._refreshService.set_ItemViewChanges(
+                this._refreshService.prepareChangesByItem(
                     creature,
                     movedItem,
                     { characterService, activitiesService: this._activitiesService },
@@ -794,7 +794,7 @@ export class ItemsService {
                 if (existingItems.length) {
                     existingItems[0].amount += includedItem.amount;
                     //Update the item's gridicon to reflect its changed amount.
-                    this._refreshService.set_Changed(existingItems[0].id);
+                    this._refreshService.setComponentChanged(existingItems[0].id);
                 } else {
                     const movedItem = this.castItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this._typeService, this);
                     const newLength = targetInventory[includedItem.type].push(movedItem);
@@ -818,10 +818,10 @@ export class ItemsService {
                 characterService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
             }
 
-            this._refreshService.set_ToChange(toCreature.type, 'inventory');
-            this._refreshService.set_ToChange(creature.type, 'inventory');
-            this._refreshService.set_ToChange(toCreature.type, 'effects');
-            this._refreshService.set_ToChange(creature.type, 'effects');
+            this._refreshService.prepareDetailToChange(toCreature.type, 'inventory');
+            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
+            this._refreshService.prepareDetailToChange(toCreature.type, 'effects');
+            this._refreshService.prepareDetailToChange(creature.type, 'effects');
         }
     }
 
@@ -897,7 +897,7 @@ export class ItemsService {
             itemsToDrop.forEach(item => {
                 characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
-            this._refreshService.set_ToChange(creature.type, 'inventory');
+            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
             //Grant items that are granted by other items on rest.
             inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped())
@@ -956,11 +956,11 @@ export class ItemsService {
                 });
 
                 if (shouldAttacksRefresh) {
-                    this._refreshService.set_ToChange('Character', 'attacks');
+                    this._refreshService.prepareDetailToChange('Character', 'attacks');
                 }
 
                 if (shouldDefenseRefresh) {
-                    this._refreshService.set_ToChange('Character', 'defense');
+                    this._refreshService.prepareDetailToChange('Character', 'defense');
                 }
             }
 
@@ -982,7 +982,7 @@ export class ItemsService {
             itemsToDrop.forEach(item => {
                 characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
-            this._refreshService.set_ToChange(creature.type, 'inventory');
+            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
         });
     }
 
@@ -1024,25 +1024,25 @@ export class ItemsService {
                         }
                     }
 
-                    this._refreshService.set_ToChange(creature.type, 'inventory');
+                    this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
                     if (item instanceof Shield && item.equipped) {
-                        this._refreshService.set_ToChange(creature.type, 'attacks');
+                        this._refreshService.prepareDetailToChange(creature.type, 'attacks');
                     }
 
                     if ((item instanceof Armor || item instanceof Shield) && item.equipped) {
-                        this._refreshService.set_ToChange(creature.type, 'defense');
+                        this._refreshService.prepareDetailToChange(creature.type, 'defense');
                     }
                 });
             inv.wands.filter(wand => wand.cooldown > 0).forEach(wand => {
                 wand.cooldown = Math.max(wand.cooldown - turns, 0);
-                this._refreshService.set_ToChange(creature.type, 'inventory');
+                this._refreshService.prepareDetailToChange(creature.type, 'inventory');
             });
 
             itemsToDrop.forEach(item => {
                 characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
-            this._refreshService.set_ToChange(creature.type, 'inventory');
+            this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
             inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length)
                 .forEach(item => {
@@ -1053,14 +1053,14 @@ export class ItemsService {
                             oil.name = 'DELETE';
                         }
 
-                        this._refreshService.set_ToChange(creature.type, 'inventory');
+                        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
                         if (item instanceof Weapon && item.equipped) {
-                            this._refreshService.set_ToChange(creature.type, 'attacks');
+                            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
                         }
 
                         if ((item instanceof Armor || item instanceof Shield) && item.equipped) {
-                            this._refreshService.set_ToChange(creature.type, 'defense');
+                            this._refreshService.prepareDetailToChange(creature.type, 'defense');
                         }
                     });
                     item.oilsApplied = item.oilsApplied.filter(oil => oil.name !== 'DELETE');

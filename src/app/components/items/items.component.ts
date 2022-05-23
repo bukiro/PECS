@@ -125,8 +125,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.itemsTileMode = !this.get_Character().settings.itemsTileMode;
-        this.refreshService.set_ToChange('Character', 'items');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'items');
+        this.refreshService.processPreparedChanges();
     }
 
     get_TileMode() {
@@ -261,7 +261,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         this.characterService.changeCash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
 
         if (changeafter) {
-            this.refreshService.set_Changed('inventory');
+            this.refreshService.setComponentChanged('inventory');
         }
     }
 
@@ -664,13 +664,13 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['items', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (['items', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

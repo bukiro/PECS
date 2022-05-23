@@ -160,7 +160,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     public get_Hidden(): ConditionGain {
@@ -186,7 +186,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             }
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     public get_EquippedArmor(): Array<Armor | WornItem> {
@@ -223,9 +223,9 @@ export class DefenseComponent implements OnInit, OnDestroy {
             shield.broken = false;
         }
 
-        this.refreshService.set_ToChange(this.creature, 'inventory');
-        this.refreshService.set_ToChange(this.creature, 'defense');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'inventory');
+        this.refreshService.prepareDetailToChange(this.creature, 'defense');
+        this.refreshService.processPreparedChanges();
     }
 
     public get_Skills(type: string): Array<Skill> {
@@ -246,14 +246,14 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public on_TalismanUse(item: Armor | Shield | WornItem, talisman: Talisman, index: number, preserve = false): void {
-        this.refreshService.set_ToChange(this.creature, 'defense');
+        this.refreshService.prepareDetailToChange(this.creature, 'defense');
         this.characterService.useConsumable(this.get_Creature() as Character | AnimalCompanion, talisman, preserve);
 
         if (!preserve) {
             item.talismans.splice(index, 1);
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     public get_SpecialShowon(item: Armor | Shield | WornItem, savingThrows = false): Array<string> {
@@ -311,8 +311,8 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     private set_DefenseChanged(): void {
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
     }
 
     public still_loading(): boolean {
@@ -320,13 +320,13 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['defense', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['defense', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

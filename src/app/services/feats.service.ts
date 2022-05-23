@@ -283,10 +283,10 @@ export class FeatsService {
                 }
             }
 
-            this._refreshService.set_HintsToChange(creature, feat.hints, { characterService });
+            this._refreshService.prepareChangesByHints(creature, feat.hints, { characterService });
 
             if (feat.effects.length) {
-                this._refreshService.set_ToChange(creature.type, 'effects');
+                this._refreshService.prepareDetailToChange(creature.type, 'effects');
             }
 
             //Gain another feat
@@ -322,7 +322,7 @@ export class FeatsService {
                             });
 
                             if (insertedFeatChoice.showOnSheet) {
-                                this._refreshService.set_ToChange(creature.type, 'activities');
+                                this._refreshService.prepareDetailToChange(creature.type, 'activities');
                             }
                         }
                     });
@@ -332,7 +332,7 @@ export class FeatsService {
                         // since you didn't get the choice in the first place.
                         if (oldFeatChoice.insertClass ? (character.class.name === oldFeatChoice.insertClass) : true) {
                             if (oldFeatChoice.showOnSheet) {
-                                this._refreshService.set_ToChange(creature.type, 'activities');
+                                this._refreshService.prepareDetailToChange(creature.type, 'activities');
                             }
 
                             const levelChoices: Array<FeatChoice> =
@@ -384,10 +384,10 @@ export class FeatsService {
                     });
                 }
 
-                this._refreshService.set_ToChange(creature.type, 'abilities');
+                this._refreshService.prepareDetailToChange(creature.type, 'abilities');
                 feat.gainAbilityChoice.forEach(abilityChoice => {
                     abilityChoice.boosts.forEach(boost => {
-                        this._refreshService.set_AbilityToChange(creature.type, boost.name, { characterService });
+                        this._refreshService.prepareChangesByAbility(creature.type, boost.name, { characterService });
                     });
                 });
 
@@ -454,7 +454,7 @@ export class FeatsService {
                             });
 
                             if (newChoice.showOnSheet) {
-                                this._refreshService.set_ToChange(creature.type, 'skills');
+                                this._refreshService.prepareDetailToChange(creature.type, 'skills');
                             }
                         }
                     });
@@ -480,7 +480,7 @@ export class FeatsService {
                                 character.removeSkillChoice(oldChoice);
 
                                 if (oldChoice.showOnSheet) {
-                                    this._refreshService.set_ToChange(creature.type, 'skills');
+                                    this._refreshService.prepareDetailToChange(creature.type, 'skills');
                                 }
                             }
                         }
@@ -508,7 +508,7 @@ export class FeatsService {
                     });
                 }
 
-                this._refreshService.set_ToChange('Character', 'top-bar');
+                this._refreshService.prepareDetailToChange('Character', 'top-bar');
             }
 
             //Gain spell or spell choice
@@ -560,7 +560,7 @@ export class FeatsService {
                     });
                 }
 
-                this._refreshService.set_ToChange('Character', 'top-bar');
+                this._refreshService.prepareDetailToChange('Character', 'top-bar');
             }
 
             //Gain lore
@@ -704,7 +704,7 @@ export class FeatsService {
                     });
                 }
 
-                this._refreshService.set_ToChange('Character', 'general');
+                this._refreshService.prepareDetailToChange('Character', 'general');
             }
 
             //Custom data feats need to be copied to custom feats, and their data initialized.
@@ -793,8 +793,8 @@ export class FeatsService {
                     character.class.familiar = new Familiar();
                 }
 
-                this._refreshService.set_ToChange('Familiar', 'all');
-                this._refreshService.set_ToChange('Character', 'top-bar');
+                this._refreshService.prepareDetailToChange('Familiar', 'all');
+                this._refreshService.prepareDetailToChange('Character', 'top-bar');
             }
 
             //Feats that grant an animal companion.
@@ -807,8 +807,8 @@ export class FeatsService {
                     characterService.initializeAnimalCompanion();
                 }
 
-                this._refreshService.set_ToChange('Companion', 'all');
-                this._refreshService.set_ToChange('Character', 'top-bar');
+                this._refreshService.prepareDetailToChange('Companion', 'all');
+                this._refreshService.prepareDetailToChange('Character', 'top-bar');
             }
 
             //Feats that level up the animal companion to Mature or an advanced option (like Nimble or Savage).
@@ -816,7 +816,7 @@ export class FeatsService {
                 const companion = characterService.companion();
 
                 companion.setLevel(characterService);
-                this._refreshService.set_ToChange('Companion', 'all');
+                this._refreshService.prepareDetailToChange('Companion', 'all');
             }
 
             //Feats that grant an animal companion specialization.
@@ -837,7 +837,7 @@ export class FeatsService {
                         }
                     }
 
-                    this._refreshService.set_ToChange('Companion', 'all');
+                    this._refreshService.prepareDetailToChange('Companion', 'all');
                 }
             }
 
@@ -912,7 +912,7 @@ export class FeatsService {
                 }
 
                 characterService.updateLanguageList();
-                this._refreshService.set_ToChange('Character', 'general');
+                this._refreshService.prepareDetailToChange('Character', 'general');
             }
 
             //Bargain Hunter adds to your starting cash at level 1
@@ -927,7 +927,7 @@ export class FeatsService {
                     }
                 }
 
-                this._refreshService.set_ToChange('Character', 'inventory');
+                this._refreshService.prepareDetailToChange('Character', 'inventory');
             }
 
             //Different Worlds
@@ -1068,8 +1068,8 @@ export class FeatsService {
                         spellChoice.spellBlending = [0, 0, 0];
                     });
                 });
-                this._refreshService.set_ToChange(creature.type, 'spells');
-                this._refreshService.set_ToChange(creature.type, 'spellbook');
+                this._refreshService.prepareDetailToChange(creature.type, 'spells');
+                this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Infinite Possibilities.
@@ -1079,8 +1079,8 @@ export class FeatsService {
                         spellChoice.infinitePossibilities = false;
                     });
                 });
-                this._refreshService.set_ToChange(creature.type, 'spells');
-                this._refreshService.set_ToChange(creature.type, 'spellbook');
+                this._refreshService.prepareDetailToChange(creature.type, 'spells');
+                this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Adapted Cantrip.
@@ -1091,8 +1091,8 @@ export class FeatsService {
                     });
                 });
                 character.class.spellBook = character.class.spellBook.filter(learned => learned.source !== 'adaptedcantrip');
-                this._refreshService.set_ToChange(creature.type, 'spells');
-                this._refreshService.set_ToChange(creature.type, 'spellbook');
+                this._refreshService.prepareDetailToChange(creature.type, 'spells');
+                this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Adaptive Adept.
@@ -1103,8 +1103,8 @@ export class FeatsService {
                     });
                 });
                 character.class.spellBook = character.class.spellBook.filter(learned => learned.source !== 'adaptiveadept');
-                this._refreshService.set_ToChange(creature.type, 'spells');
-                this._refreshService.set_ToChange(creature.type, 'spellbook');
+                this._refreshService.prepareDetailToChange(creature.type, 'spells');
+                this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Giant Instinct.
@@ -1114,8 +1114,8 @@ export class FeatsService {
                         weapon.large = false;
                     });
                 });
-                this._refreshService.set_ToChange(creature.type, 'inventory');
-                this._refreshService.set_ToChange(creature.type, 'attacks');
+                this._refreshService.prepareDetailToChange(creature.type, 'inventory');
+                this._refreshService.prepareDetailToChange(creature.type, 'attacks');
             }
 
             //Reset changes made with Blade Ally.
@@ -1129,8 +1129,8 @@ export class FeatsService {
                         wornItem.bladeAlly = false;
                         wornItem.bladeAllyRunes = [];
                     });
-                    this._refreshService.set_ToChange(creature.type, 'inventory');
-                    this._refreshService.set_ToChange(creature.type, 'attacks');
+                    this._refreshService.prepareDetailToChange(creature.type, 'inventory');
+                    this._refreshService.prepareDetailToChange(creature.type, 'attacks');
                 });
             }
 
@@ -1149,9 +1149,9 @@ export class FeatsService {
                                     .spellCombinationAllowed = true;
                             }
                         });
-                    this._refreshService.set_ToChange(creature.type, 'spells');
-                    this._refreshService.set_ToChange(creature.type, 'spellchoices');
-                    this._refreshService.set_ToChange(creature.type, 'spellbook');
+                    this._refreshService.prepareDetailToChange(creature.type, 'spells');
+                    this._refreshService.prepareDetailToChange(creature.type, 'spellchoices');
+                    this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
                 } else {
                     character.class.spellCasting
                         .filter(casting => casting.className === 'Wizard' && casting.castingType === 'Prepared')
@@ -1164,18 +1164,18 @@ export class FeatsService {
                                     spellChoice.spells.forEach(spellGain => spellGain.combinationSpellName = '');
                                 });
                         });
-                    this._refreshService.set_ToChange(creature.type, 'spells');
-                    this._refreshService.set_ToChange(creature.type, 'spellchoices');
-                    this._refreshService.set_ToChange(creature.type, 'spellbook');
+                    this._refreshService.prepareDetailToChange(creature.type, 'spells');
+                    this._refreshService.prepareDetailToChange(creature.type, 'spellchoices');
+                    this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
                 }
             }
 
             //Reset changes made with Arcane Evolution.
             if (feat.name.includes('Arcane Evolution')) {
                 character.class.spellBook = character.class.spellBook.filter(learned => learned.source !== 'arcaneevolution');
-                this._refreshService.set_ToChange(creature.type, 'spells');
-                this._refreshService.set_ToChange(creature.type, 'spellchoices');
-                this._refreshService.set_ToChange(creature.type, 'spellbook');
+                this._refreshService.prepareDetailToChange(creature.type, 'spells');
+                this._refreshService.prepareDetailToChange(creature.type, 'spellchoices');
+                this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
             }
 
             //Reset changes made with Spell Mastery
@@ -1183,8 +1183,8 @@ export class FeatsService {
                 character.class.spellCasting.forEach(casting => {
                     casting.spellChoices = casting.spellChoices.filter(spellChoice => spellChoice.source !== 'Feat: Spell Mastery');
                 });
-                this._refreshService.set_ToChange(creature.type, 'spells');
-                this._refreshService.set_ToChange(creature.type, 'spellbook');
+                this._refreshService.prepareDetailToChange(creature.type, 'spells');
+                this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
             }
 
             //Disable any hints when losing a feat
@@ -1197,19 +1197,19 @@ export class FeatsService {
                 characterService.currentCharacterDeities(character).forEach(deity => {
                     deity.clearTemporaryDomains();
                 });
-                this._refreshService.set_ToChange(creature.type, 'general');
+                this._refreshService.prepareDetailToChange(creature.type, 'general');
             }
 
             //Syncretism changes your deities and needs to clear out the runtime variables and update general.
             if (feat.name === 'Syncretism') {
                 characterService.deitiesService.clearCharacterDeities();
-                this._refreshService.set_ToChange(creature.type, 'general');
+                this._refreshService.prepareDetailToChange(creature.type, 'general');
             }
 
             //Feats that grant language effects should update the language list.
             if (feat.effects.some(effect => effect.affected === 'Max Languages')) {
                 characterService.updateLanguageList();
-                this._refreshService.set_ToChange(creature.type, 'charactersheet');
+                this._refreshService.prepareDetailToChange(creature.type, 'charactersheet');
             }
 
             //Losing a stance needs to update Fuse Stance.
@@ -1232,39 +1232,39 @@ export class FeatsService {
 
             //Familiar abilities should update the familiar's general information.
             if (creature instanceof Familiar) {
-                this._refreshService.set_ToChange(creature.type, 'general');
+                this._refreshService.prepareDetailToChange(creature.type, 'general');
             }
 
             //Snare Specialists and following feats change inventory aspects.
             if (feat.name === 'Snare Specialist' || feat.featreq.includes('Snare Specialist')) {
-                this._refreshService.set_ToChange(creature.type, 'inventory');
+                this._refreshService.prepareDetailToChange(creature.type, 'inventory');
             }
 
             //Arcane Breadth gives hardcoded spell slots and needs to update the spellbook menu.
             if (feat.name === 'Arcane Breadth') {
-                this._refreshService.set_ToChange(creature.type, 'spells');
+                this._refreshService.prepareDetailToChange(creature.type, 'spells');
             }
 
             //Versatile Font gives hardcoded spells and needs to update the spells menu and any currently open spell choices.
             if (feat.name === 'Versatile Font') {
-                this._refreshService.set_ToChange(creature.type, 'spellchoices');
-                this._refreshService.set_ToChange(creature.type, 'spells');
+                this._refreshService.prepareDetailToChange(creature.type, 'spellchoices');
+                this._refreshService.prepareDetailToChange(creature.type, 'spells');
             }
 
             //Verdant Metamorphosis changes your traits and needs to update general.
             if (feat.name === 'Verdant Metamorphosis') {
-                this._refreshService.set_ToChange(creature.type, 'general');
+                this._refreshService.prepareDetailToChange(creature.type, 'general');
             }
 
             //Numb to Death changes needs to update health.
             if (feat.name === 'Numb to Death') {
-                this._refreshService.set_ToChange(creature.type, 'health');
+                this._refreshService.prepareDetailToChange(creature.type, 'health');
             }
 
             //Feats that grant specializations or change proficiencies need to update defense and attacks.
             if (feat.gainSpecialization || feat.copyProficiency.length || feat.changeProficiency.length) {
-                this._refreshService.set_ToChange(creature.type, 'defense');
-                this._refreshService.set_ToChange(creature.type, 'attacks');
+                this._refreshService.prepareDetailToChange(creature.type, 'defense');
+                this._refreshService.prepareDetailToChange(creature.type, 'attacks');
 
                 if (feat.changeProficiency.length) {
                     characterService.cacheService.setProficiencyChangesChanged(
@@ -1279,57 +1279,57 @@ export class FeatsService {
                 }
 
                 feat.changeProficiency.forEach(change => {
-                    if (change.name) { this._refreshService.set_ToChange(creature.type, 'individualskills', change.name); }
+                    if (change.name) { this._refreshService.prepareDetailToChange(creature.type, 'individualskills', change.name); }
 
-                    if (change.group) { this._refreshService.set_ToChange(creature.type, 'individualskills', change.group); }
+                    if (change.group) { this._refreshService.prepareDetailToChange(creature.type, 'individualskills', change.group); }
 
-                    if (change.trait) { this._refreshService.set_ToChange(creature.type, 'individualskills', change.name); }
+                    if (change.trait) { this._refreshService.prepareDetailToChange(creature.type, 'individualskills', change.name); }
                 });
                 feat.copyProficiency.forEach(change => {
-                    if (change.name) { this._refreshService.set_ToChange(creature.type, 'individualskills', change.name); }
+                    if (change.name) { this._refreshService.prepareDetailToChange(creature.type, 'individualskills', change.name); }
                 });
             }
 
             //Feats that grant tenets and anathema need to update general.
             if (feat.tenets.length || feat.anathema.length) {
-                this._refreshService.set_ToChange(creature.type, 'general');
+                this._refreshService.prepareDetailToChange(creature.type, 'general');
             }
 
             //Feats that grant senses need to update skills.
             if (feat.senses.length) {
-                this._refreshService.set_ToChange(creature.type, 'skills');
+                this._refreshService.prepareDetailToChange(creature.type, 'skills');
             }
 
             //Archetype " Breadth" spells need to update spells.
             if (feat.name.includes(' Breadth')) {
-                this._refreshService.set_ToChange(creature.type, 'spells');
+                this._refreshService.prepareDetailToChange(creature.type, 'spells');
             }
 
             //Class choices update general.
             if (choice.specialChoice) {
-                this._refreshService.set_ToChange(creature.type, 'general');
+                this._refreshService.prepareDetailToChange(creature.type, 'general');
             }
 
             //Feats that add domains update general.
             if (feat.gainDomains.length) {
-                this._refreshService.set_ToChange(creature.type, 'general');
+                this._refreshService.prepareDetailToChange(creature.type, 'general');
             }
 
             //Update the areas where feat choices can be made.
             if (creature instanceof Familiar) {
-                this._refreshService.set_ToChange('Familiar', 'familiarabilities');
+                this._refreshService.prepareDetailToChange('Familiar', 'familiarabilities');
             } else {
-                this._refreshService.set_ToChange('Character', 'charactersheet');
-                this._refreshService.set_ToChange('Character', 'activities');
+                this._refreshService.prepareDetailToChange('Character', 'charactersheet');
+                this._refreshService.prepareDetailToChange('Character', 'activities');
             }
 
             // Some hardcoded effects change depending on feats.
             // There is no good way to resolve this, so we calculate the effects whenever we take a feat.
-            this._refreshService.set_ToChange(creature.type, 'effects');
+            this._refreshService.prepareDetailToChange(creature.type, 'effects');
 
             //Condition choices can be dependent on feats, so we need to update spellbook and activities.
-            this._refreshService.set_ToChange(creature.type, 'spellbook');
-            this._refreshService.set_ToChange(creature.type, 'activities');
+            this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
+            this._refreshService.prepareDetailToChange(creature.type, 'activities');
 
         }
     }

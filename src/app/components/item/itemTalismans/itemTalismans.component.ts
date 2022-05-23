@@ -154,19 +154,19 @@ export class ItemTalismansComponent implements OnInit {
             }
         }
 
-        this.refreshService.set_ToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange('Character', 'inventory');
 
         if (this.item instanceof Weapon) {
-            this.refreshService.set_ToChange('Character', 'attacks');
+            this.refreshService.prepareDetailToChange('Character', 'attacks');
         }
 
         if (this.item instanceof Armor || this.item instanceof Shield || this.item instanceof WornItem) {
-            this.refreshService.set_ToChange('Character', 'defense');
+            this.refreshService.prepareDetailToChange('Character', 'defense');
         }
 
         this.set_TalismanNames();
-        this.refreshService.set_ToChange('Character', this.item.id);
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', this.item.id);
+        this.refreshService.processPreparedChanges();
     }
 
     remove_Talisman(index: number) {

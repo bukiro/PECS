@@ -500,13 +500,13 @@ export class GridIconComponent implements OnInit, OnDestroy {
 
     finish_Loading() {
         if (this.updateId) {
-            this.changeSubscription = this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.componentChanged$
                 .subscribe(target => {
                     if (target == this.updateId || (target == 'effects' && this.condition)) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.detailChanged$
                 .subscribe(view => {
                     if (view.target == this.updateId || (view.target.toLowerCase() == 'effects' && this.condition)) {
                         this.changeDetector.detectChanges();

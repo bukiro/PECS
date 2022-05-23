@@ -155,7 +155,7 @@ export class ItemMaterialComponent implements OnInit {
         }
 
         this.set_MaterialNames();
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
         this.update_Item();
     }
 
@@ -248,7 +248,7 @@ export class ItemMaterialComponent implements OnInit {
         }
 
         this.set_MaterialNames();
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
         this.update_Item();
     }
 
@@ -355,7 +355,7 @@ export class ItemMaterialComponent implements OnInit {
         }
 
         this.set_MaterialNames();
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
         this.update_Item();
     }
 
@@ -431,7 +431,7 @@ export class ItemMaterialComponent implements OnInit {
     }
 
     update_Item() {
-        this.refreshService.set_Changed(this.item.id);
+        this.refreshService.setComponentChanged(this.item.id);
     }
 
     public ngOnInit(): void {

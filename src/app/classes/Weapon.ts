@@ -195,9 +195,9 @@ export class Weapon extends Equipment {
         const newValues = [this.$shoddy, this.$emblazonArmament, this.$emblazonEnergy, this.$emblazonAntimagic];
 
         if (oldValues.some((previous, index) => previous !== newValues[index])) {
-            services.refreshService.set_ToChange(creature.type, this.id);
-            services.refreshService.set_ToChange(creature.type, 'attacks');
-            services.refreshService.set_ToChange(creature.type, 'inventory');
+            services.refreshService.prepareDetailToChange(creature.type, this.id);
+            services.refreshService.prepareDetailToChange(creature.type, 'attacks');
+            services.refreshService.prepareDetailToChange(creature.type, 'inventory');
         }
     }
     public runeSource(creature: Creature, range: string): RuneSourceSet {
@@ -338,10 +338,10 @@ export class Weapon extends Equipment {
             this.$traits = traits;
             changed.forEach(changedTrait => {
                 characterService.traitsService.getTraits(changedTrait).forEach(trait => {
-                    characterService.refreshService.set_HintsToChange(creature, trait.hints, { characterService });
+                    characterService.refreshService.prepareChangesByHints(creature, trait.hints, { characterService });
                 });
             });
-            characterService.refreshService.process_ToChange();
+            characterService.refreshService.processPreparedChanges();
         }
 
         return traits;

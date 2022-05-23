@@ -103,7 +103,7 @@ export class ItemTalismanCordsComponent implements OnInit {
 
         this.set_ToChange();
         this.set_TalismanCordNames();
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     remove_TalismanCord(index: number) {
@@ -116,17 +116,17 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     set_ToChange() {
-        this.refreshService.set_ToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange('Character', 'inventory');
 
         if (this.item instanceof Weapon) {
-            this.refreshService.set_ToChange('Character', 'attacks');
+            this.refreshService.prepareDetailToChange('Character', 'attacks');
         }
 
         if (this.item instanceof Armor || this.item instanceof Shield || this.item instanceof WornItem) {
-            this.refreshService.set_ToChange('Character', 'defense');
+            this.refreshService.prepareDetailToChange('Character', 'defense');
         }
 
-        this.refreshService.set_ToChange('Character', this.item.id);
+        this.refreshService.prepareDetailToChange('Character', this.item.id);
     }
 
     set_TalismanCordNames() {

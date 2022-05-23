@@ -91,7 +91,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     set_Changed() {
-        this.refreshService.set_Changed();
+        this.refreshService.setComponentChanged();
     }
 
     get_Darkmode() {
@@ -100,8 +100,8 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     toggle_Menu(menu: string) {
         this.characterService.toggleMenu(menu);
-        this.refreshService.set_ToChange('Character', 'character-sheet');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'character-sheet');
+        this.refreshService.processPreparedChanges();
     }
 
     get_ItemsMenuState() {
@@ -278,14 +278,14 @@ export class TopBarComponent implements OnInit, OnDestroy {
                 //Prepare to refresh the effects of all affected creatures;
                 this.characterService.allAvailableCreatures().forEach(creature => {
                     if (this.newMessages.some(message => message.id == creature.id)) {
-                        this.refreshService.set_ToChange(creature.type, 'effects');
+                        this.refreshService.prepareDetailToChange(creature.type, 'effects');
                     }
                 });
                 this.characterService.applyMessageConditions(this.newMessages.filter(message => message.gainCondition.length));
                 this.characterService.applyMessageItems(this.newMessages.filter(message => message.offeredItem.length));
                 this.newMessages.length = 0;
-                this.refreshService.set_ToChange('Character', 'top-bar');
-                this.refreshService.process_ToChange();
+                this.refreshService.prepareDetailToChange('Character', 'top-bar');
+                this.refreshService.processPreparedChanges();
                 this.modalOpen = false;
             }
         }, () => {
@@ -339,13 +339,13 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     finish_Loading() {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['top-bar', 'all', 'character'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'character' && ['top-bar', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

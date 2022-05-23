@@ -115,7 +115,7 @@ export class AnimalCompanion extends Creature {
         }
 
         characterService.cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
-        characterService.refreshService.set_ToChange('Companion', 'all');
+        characterService.refreshService.prepareDetailToChange('Companion', 'all');
     }
     public abilityBoosts(
         minLevelNumber: number,

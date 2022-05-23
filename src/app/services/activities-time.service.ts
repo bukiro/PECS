@@ -60,8 +60,8 @@ export class ActivitiesTimeService {
                 }
 
                 activity.showonSkill?.split(',').forEach(skillName => {
-                    this._refreshService.set_ToChange(creature.type, 'skills');
-                    this._refreshService.set_ToChange(creature.type, 'individualskills', skillName.trim());
+                    this._refreshService.prepareDetailToChange(creature.type, 'skills');
+                    this._refreshService.prepareDetailToChange(creature.type, 'individualskills', skillName.trim());
                 });
             });
     }
@@ -100,8 +100,8 @@ export class ActivitiesTimeService {
                 }
 
                 activity.showonSkill?.split(',').forEach(skillName => {
-                    this._refreshService.set_ToChange(creature.type, 'skills');
-                    this._refreshService.set_ToChange(creature.type, 'individualskills', skillName.trim());
+                    this._refreshService.prepareDetailToChange(creature.type, 'skills');
+                    this._refreshService.prepareDetailToChange(creature.type, 'individualskills', skillName.trim());
                 });
             });
     }
@@ -121,7 +121,7 @@ export class ActivitiesTimeService {
                 // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
                 let remainingTurns = turns;
 
-                this._refreshService.set_ToChange(creature.type, 'activities');
+                this._refreshService.prepareDetailToChange(creature.type, 'activities');
 
                 if (gain.duration > 0) {
                     const difference = Math.min(gain.duration, remainingTurns);
@@ -161,12 +161,12 @@ export class ActivitiesTimeService {
                 }
 
                 if (gain instanceof ItemActivity) {
-                    this._refreshService.set_ToChange(creature.type, 'inventory');
+                    this._refreshService.prepareDetailToChange(creature.type, 'inventory');
                 }
 
                 activity.showonSkill?.split(',').forEach(skillName => {
-                    this._refreshService.set_ToChange(creature.type, 'skills');
-                    this._refreshService.set_ToChange(creature.type, 'individualskills', skillName.trim());
+                    this._refreshService.prepareDetailToChange(creature.type, 'skills');
+                    this._refreshService.prepareDetailToChange(creature.type, 'individualskills', skillName.trim());
                 });
             });
     }

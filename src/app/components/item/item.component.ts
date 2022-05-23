@@ -99,14 +99,14 @@ export class ItemComponent implements OnInit, OnDestroy {
         }
 
         if (this.item instanceof Armor || this.item instanceof Shield) {
-            this.refreshService.set_ToChange(this.creature, 'defense');
+            this.refreshService.prepareDetailToChange(this.creature, 'defense');
         }
 
         if (this.item instanceof Weapon) {
-            this.refreshService.set_ToChange(this.creature, 'attacks');
+            this.refreshService.prepareDetailToChange(this.creature, 'attacks');
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     on_PoisonUse(poison: AlchemicalPoison) {
@@ -114,10 +114,10 @@ export class ItemComponent implements OnInit, OnDestroy {
 
         if (this.item instanceof Weapon) {
             this.item.poisonsApplied.length = 0;
-            this.refreshService.set_ToChange(this.creature, 'attacks');
+            this.refreshService.prepareDetailToChange(this.creature, 'attacks');
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_DoublingRingsOptions(ring: string) {
@@ -130,15 +130,15 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     on_DoublingRingsChange() {
-        this.refreshService.set_ToChange(this.creature, 'inventory');
+        this.refreshService.prepareDetailToChange(this.creature, 'inventory');
 
         const ironItem = this.get_DoublingRingsOptions('iron').find(weapon => weapon.id == this.item.data[0].value);
 
         if (ironItem && this.item.invested) {
-            this.refreshService.set_ItemViewChanges(this.get_Creature(), ironItem, { characterService: this.characterService, activitiesService: this.activitiesService });
+            this.refreshService.prepareChangesByItem(this.get_Creature(), ironItem, { characterService: this.characterService, activitiesService: this.activitiesService });
         }
 
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     get_RingOfWizardrySlotName(wizardrySlot: RingOfWizardrySlot) {
@@ -212,7 +212,7 @@ export class ItemComponent implements OnInit, OnDestroy {
                 newSpellGain.ringOfWizardry = (wizardrySlotIndex + 1);
                 newSpellGain.source = item.name;
                 item.gainSpells.push(newSpellGain);
-                this.refreshService.set_ToChange('Character', 'Spells');
+                this.refreshService.prepareDetailToChange('Character', 'Spells');
             } else if (castingType.toLowerCase() == 'spontaneous') {
                 const newEffectGain = new EffectGain();
 
@@ -220,14 +220,14 @@ export class ItemComponent implements OnInit, OnDestroy {
                 newEffectGain.value = '1';
                 newEffectGain.source = `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`;
                 item.effects.push(newEffectGain);
-                this.refreshService.set_ToChange('Character', 'effects');
+                this.refreshService.prepareDetailToChange('Character', 'effects');
             }
         }
 
         //Close any open spell choices.
-        this.refreshService.set_ToChange('Character', 'spells', 'clear');
-        this.refreshService.set_ToChange('Character', 'spellbook');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'spells', 'clear');
+        this.refreshService.prepareDetailToChange('Character', 'spellbook');
+        this.refreshService.processPreparedChanges();
     }
 
     get_TalismanCordOptions(item: WornItem, index: number) {
@@ -316,30 +316,30 @@ export class ItemComponent implements OnInit, OnDestroy {
             spellChoice.spells.shift();
         }
 
-        this.refreshService.set_ToChange('Character', 'spellchoices');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
+        this.refreshService.processPreparedChanges();
     }
 
     on_ChoiceChange() {
-        this.refreshService.set_ItemViewChanges(this.get_Creature(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareChangesByItem(this.get_Creature(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
+        this.refreshService.processPreparedChanges();
         this.update_Item();
     }
 
     update_Item() {
         //This updates any gridicon that has this item's id set as its update id.
-        this.refreshService.set_Changed(this.item.id);
+        this.refreshService.setComponentChanged(this.item.id);
     }
 
     finish_Loading() {
         if (this.item.id) {
-            this.changeSubscription = this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.componentChanged$
                 .subscribe(target => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.detailChanged$
                 .subscribe(view => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();

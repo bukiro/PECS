@@ -57,7 +57,7 @@ export class TimeService {
 
                 if (!this._effectsService.effectsOnThis(creature, 'Time Stop').length) {
                     if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
-                        this._refreshService.set_ToChange(creature.type, 'health');
+                        this._refreshService.prepareDetailToChange(creature.type, 'health');
                         creature.health.heal(creature, characterService, effectsService, fastHealing);
                         this._toastService.show(`${ creature instanceof Character ? 'You' : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`) } gained ${ (fastHealing).toString() } HP from fast healing.`);
                     }
@@ -75,7 +75,7 @@ export class TimeService {
             characterService.sendTurnChangeToPlayers();
         }
 
-        this._refreshService.process_ToChange();
+        this._refreshService.processPreparedChanges();
     }
 
     public endTurn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService): void {
@@ -94,8 +94,8 @@ export class TimeService {
 
         this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.EightHours, false);
         characterService.allAvailableCreatures().forEach(creature => {
-            this._refreshService.set_ToChange(creature.type, 'health');
-            this._refreshService.set_ToChange(creature.type, 'effects');
+            this._refreshService.prepareDetailToChange(creature.type, 'health');
+            this._refreshService.prepareDetailToChange(creature.type, 'effects');
 
             let con = 1;
 
@@ -147,7 +147,7 @@ export class TimeService {
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
                 });
-                this._refreshService.set_ToChange('Character', 'inventory');
+                this._refreshService.prepareDetailToChange('Character', 'inventory');
                 //Regenerate bonded item charges.
                 character.class.spellCasting.filter(casting => casting.castingType == 'Prepared' && casting.className == 'Wizard').forEach(casting => {
                     const superiorBond = character.hasFeat('Superior Bond', { characterService });
@@ -161,7 +161,7 @@ export class TimeService {
             }
         });
 
-        this._refreshService.process_ToChange();
+        this._refreshService.processPreparedChanges();
     }
 
     public refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, recoverPoints = 1, reload = true, tick = true): void {
@@ -205,7 +205,7 @@ export class TimeService {
         character.class.focusPointsLast = character.class.focusPoints;
 
         if (reload) {
-            this._refreshService.process_ToChange();
+            this._refreshService.processPreparedChanges();
         }
     }
 
@@ -223,12 +223,12 @@ export class TimeService {
 
                 if (timeStopDuration) {
                     if (creature.conditions.filter(gain => gain.nextStage > 0)) {
-                        this._refreshService.set_ToChange(creature.type, 'time');
-                        this._refreshService.set_ToChange(creature.type, 'health');
+                        this._refreshService.prepareDetailToChange(creature.type, 'time');
+                        this._refreshService.prepareDetailToChange(creature.type, 'health');
                     }
 
                     conditionsService.tickConditions(creature, timeStopDuration, this._yourTurn, characterService, itemsService);
-                    this._refreshService.set_ToChange(creature.type, 'effects');
+                    this._refreshService.prepareDetailToChange(creature.type, 'effects');
                 }
 
                 const creatureTurns = turns - timeStopDuration;
@@ -239,12 +239,12 @@ export class TimeService {
 
                     if (creature.conditions.length) {
                         if (creature.conditions.filter(gain => gain.nextStage > 0)) {
-                            this._refreshService.set_ToChange(creature.type, 'time');
-                            this._refreshService.set_ToChange(creature.type, 'health');
+                            this._refreshService.prepareDetailToChange(creature.type, 'time');
+                            this._refreshService.prepareDetailToChange(creature.type, 'health');
                         }
 
                         conditionsService.tickConditions(creature, creatureTurns, this._yourTurn, characterService, itemsService);
-                        this._refreshService.set_ToChange(creature.type, 'effects');
+                        this._refreshService.prepareDetailToChange(creature.type, 'effects');
                     }
 
                     this._customEffectsService.tickCustomEffects(creature, creatureTurns);
@@ -264,7 +264,7 @@ export class TimeService {
         this._yourTurn = (this._yourTurn + turns) % TimePeriods.Turn;
 
         if (reload) {
-            this._refreshService.process_ToChange();
+            this._refreshService.processPreparedChanges();
         }
     }
 

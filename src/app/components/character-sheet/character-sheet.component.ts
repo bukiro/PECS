@@ -209,13 +209,13 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         if (this.characterService.stillLoading) {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
-            this.changeSubscription = this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.componentChanged$
                 .subscribe(target => {
                     if (['character-sheet', 'all', 'character'].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.detailChanged$
                 .subscribe(view => {
                     if (view.creature.toLowerCase() == 'character' && ['character-sheet', 'all'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

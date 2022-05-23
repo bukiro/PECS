@@ -28,9 +28,9 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     minimize() {
         this.characterService.character().settings.companionMinimized = !this.characterService.character().settings.companionMinimized;
-        this.refreshService.set_ToChange('Companion', 'companion');
-        this.refreshService.set_ToChange('Companion', 'abilities');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Companion', 'companion');
+        this.refreshService.prepareDetailToChange('Companion', 'abilities');
+        this.refreshService.processPreparedChanges();
     }
 
     get_Minimized() {
@@ -54,7 +54,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     set_Changed(target: string) {
-        this.refreshService.set_Changed(target);
+        this.refreshService.setComponentChanged(target);
     }
 
     //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
@@ -84,13 +84,13 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         this.set_Mobile();
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['companion', 'all'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == 'companion' && ['companion', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

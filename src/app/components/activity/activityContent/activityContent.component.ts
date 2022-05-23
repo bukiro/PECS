@@ -138,19 +138,19 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     }
 
     on_EffectChoiceChange() {
-        this.refreshService.set_ToChange(this.creature, 'inventory');
-        this.refreshService.set_ToChange(this.creature, 'activities');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'inventory');
+        this.refreshService.prepareDetailToChange(this.creature, 'activities');
+        this.refreshService.processPreparedChanges();
     }
 
     finish_Loading() {
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['activities', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
                     this.changeDetector.detectChanges();

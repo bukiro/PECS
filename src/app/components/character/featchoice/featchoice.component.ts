@@ -441,7 +441,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                         anytrue += 1;
                     }
 
-                    this.refreshService.process_ToChange();
+                    this.refreshService.processPreparedChanges();
                 }
             }
         });
@@ -485,7 +485,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             featsToTake.forEach(featSet => {
                 this.get_Character().takeFeat(this.get_Creature(), this.characterService, featSet.feat, featSet.feat.name, true, choice, false, true);
             });
-            this.refreshService.process_ToChange();
+            this.refreshService.processPreparedChanges();
         }
 
         //If all available feats have been taken, no alternative choices remain, and none of the taken feats were taken manually, the choice will not be displayed.
@@ -647,16 +647,16 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         if (taken && this.get_Character().settings.autoCloseChoices && (choice.feats.length == this.get_Available(choice) - 1)) { this.toggle_List(''); }
 
         this.get_Character().takeFeat(this.get_Creature(), this.characterService, feat, feat.name, taken, choice, locked);
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.set_ToChange('Character', 'featchoices');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.prepareDetailToChange('Character', 'featchoices');
+        this.refreshService.processPreparedChanges();
     }
 
     remove_CustomFeat(feat: Feat) {
         this.characterService.removeCustomFeat(feat);
-        this.refreshService.set_ToChange('Character', 'charactersheet');
-        this.refreshService.set_ToChange('Character', 'featchoices');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.prepareDetailToChange('Character', 'featchoices');
+        this.refreshService.processPreparedChanges();
     }
 
     remove_BonusFeatChoice(choice: FeatChoice) {
@@ -672,19 +672,19 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         }
 
         this.toggle_List('');
-        this.refreshService.process_ToChange();
+        this.refreshService.processPreparedChanges();
     }
 
     public ngOnInit(): void {
         this.featLevel = this.get_ChoiceLevel(this.choice);
-        this.changeSubscription = this.refreshService.get_Changed
+        this.changeSubscription = this.refreshService.componentChanged$
             .subscribe(target => {
                 if (['featchoices', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                     this.featLevel = this.get_ChoiceLevel(this.choice);
                     this.changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.get_ViewChanged
+        this.viewChangeSubscription = this.refreshService.detailChanged$
             .subscribe(view => {
                 if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['featchoices', 'all'].includes(view.target.toLowerCase())) {
                     this.featLevel = this.get_ChoiceLevel(this.choice);

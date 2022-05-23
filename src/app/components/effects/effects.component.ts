@@ -183,21 +183,21 @@ export class EffectsComponent implements OnInit, OnDestroy {
             );
         }
 
-        this.refreshService.set_ToChange(this.creature, 'effects');
-        this.refreshService.process_ToChange();
+        this.refreshService.prepareDetailToChange(this.creature, 'effects');
+        this.refreshService.processPreparedChanges();
     }
 
     finish_Loading() {
         if (this.characterService.stillLoading) {
             setTimeout(() => this.finish_Loading(), 500);
         } else {
-            this.changeSubscription = this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.componentChanged$
                 .subscribe(target => {
                     if (['effects', 'all', 'effects-component', this.creature.toLowerCase()].includes(target.toLowerCase())) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.detailChanged$
                 .subscribe(view => {
                     if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['effects', 'all', 'effects-component'].includes(view.target.toLowerCase())) {
                         this.changeDetector.detectChanges();

@@ -98,7 +98,7 @@ export class SpellsService {
         if (activated && context.choice?.cooldown && !context.gain.activeCooldown) {
             //Start cooldown.
             context.gain.activeCooldown = context.choice.cooldown;
-            this.refreshService.set_ToChange(context.creature.type, 'spellbook');
+            this.refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
         }
 
         if (context.choice?.charges) {
@@ -120,7 +120,7 @@ export class SpellsService {
                 conditionsToRemove.push(effect.source);
             });
             context.gain.duration = customDuration || spell.sustained;
-            this.refreshService.set_ToChange(context.creature.type, 'spellbook');
+            this.refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
             context.gain.selectedTarget = context.target;
         } else if (!options.expendOnly && activated && context.activityGain?.active) {
             context.gain.active = true;
@@ -390,7 +390,7 @@ export class SpellsService {
 
         //The Heal Spell from the Divine Font should update effects, because Channeled Succor depends on it.
         if (spell.name == 'Heal' && context.choice?.source == 'Divine Font') {
-            this.refreshService.set_ToChange('Character', 'effects');
+            this.refreshService.prepareDetailToChange('Character', 'effects');
         }
     }
 
@@ -420,10 +420,10 @@ export class SpellsService {
         character.class.spellCasting.filter(casting => casting.className == 'Sorcerer' && casting.castingType == 'Spontaneous').forEach(casting => {
             casting.spellChoices.filter(choice => choice.source == 'Feat: Occult Evolution').forEach(choice => {
                 choice.spells.length = 0;
-                this.refreshService.set_ToChange('Character', 'spellchoices');
+                this.refreshService.prepareDetailToChange('Character', 'spellchoices');
             });
         });
-        this.refreshService.set_ToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange('Character', 'spellbook');
     }
 
     refocus(character: Character, characterService: CharacterService) {
@@ -438,7 +438,7 @@ export class SpellsService {
                     taken.gain.chargesUsed = 0;
                 }
             });
-        this.refreshService.set_ToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange('Character', 'spellbook');
     }
 
     tick_Spells(character: Character, characterService: CharacterService, itemsService: ItemsService, conditionsService: ConditionsService, turns = 10) {
@@ -462,7 +462,7 @@ export class SpellsService {
                     }
                 }
 
-                this.refreshService.set_ToChange('Character', 'spellbook');
+                this.refreshService.prepareDetailToChange('Character', 'spellbook');
 
                 if (taken.gain.activeCooldown) {
                     taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0);

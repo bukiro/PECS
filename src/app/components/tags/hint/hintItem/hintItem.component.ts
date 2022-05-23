@@ -48,13 +48,13 @@ export class HintItemComponent implements OnInit {
 
     finish_Loading() {
         if (this.item.id) {
-            this.changeSubscription = this.refreshService.get_Changed
+            this.changeSubscription = this.refreshService.componentChanged$
                 .subscribe(target => {
                     if (target == this.item.id) {
                         this.changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.get_ViewChanged
+            this.viewChangeSubscription = this.refreshService.detailChanged$
                 .subscribe(view => {
                     if (view.target == this.item.id) {
                         this.changeDetector.detectChanges();

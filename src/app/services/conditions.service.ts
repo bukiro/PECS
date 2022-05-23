@@ -269,10 +269,10 @@ export class ConditionsService {
     ): void {
         //Prepare components for refresh.
         if (condition.gainActivities.length) {
-            this._refreshService.set_ToChange(creature.type, 'activities');
+            this._refreshService.prepareDetailToChange(creature.type, 'activities');
         }
 
-        this._refreshService.set_HintsToChange(creature, condition.hints, { characterService });
+        this._refreshService.prepareChangesByHints(creature, condition.hints, { characterService });
 
         if (taken) {
             gain.maxDuration = gain.duration;
@@ -425,8 +425,8 @@ export class ConditionsService {
         //Gain Items
         if (creature) {
             if (condition.gainItems.length) {
-                this._refreshService.set_ToChange(creature.type, 'attacks');
-                this._refreshService.set_ToChange(creature.type, 'inventory');
+                this._refreshService.prepareDetailToChange(creature.type, 'attacks');
+                this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
                 if (taken) {
                     gain.gainItems = condition.heightenedItemGains(gain.heightened)
@@ -502,7 +502,7 @@ export class ConditionsService {
                 }
             }
 
-            this._refreshService.set_ToChange(creature.type, 'health');
+            this._refreshService.prepareDetailToChange(creature.type, 'health');
         }
 
         //End the condition's activity if there is one and it is active.
@@ -564,7 +564,7 @@ export class ConditionsService {
                             );
                         }
 
-                        this._refreshService.set_ToChange('Character', 'spellbook');
+                        this._refreshService.prepareDetailToChange('Character', 'spellbook');
                     });
                 characterService.creatureOwnedActivities(creature, Defaults.maxCharacterLevel, true)
                     .filter(activityGain => activityGain.id === gain.sourceGainID && activityGain.active)
@@ -587,7 +587,7 @@ export class ConditionsService {
                             );
                         }
 
-                        this._refreshService.set_ToChange('Character', 'activities');
+                        this._refreshService.prepareDetailToChange('Character', 'activities');
                     });
             }
         }
@@ -602,45 +602,45 @@ export class ConditionsService {
             characterService.defenseService.equippedCreatureShield(creature).forEach(shield => {
                 if (shield.takingCover) {
                     shield.takingCover = false;
-                    this._refreshService.set_ToChange(creature.type, 'defense');
+                    this._refreshService.prepareDetailToChange(creature.type, 'defense');
                 }
             });
         }
 
         //If one-time-Effects are prepared, effects should be generated. Prepared one-time-effects get processed after effects generation.
         if (areOnceEffectsPrepared) {
-            this._refreshService.set_ToChange(creature.type, 'effects');
+            this._refreshService.prepareDetailToChange(creature.type, 'effects');
         }
 
         //Changing senses should update senses.
         if (condition.senses.length) {
-            this._refreshService.set_ToChange(creature.type, 'skills');
+            this._refreshService.prepareDetailToChange(creature.type, 'skills');
         }
 
         //Update Health when Wounded changes.
         if (condition.name === 'Wounded') {
-            this._refreshService.set_ToChange(creature.type, 'health');
+            this._refreshService.prepareDetailToChange(creature.type, 'health');
         }
 
         //Update Attacks when Hunt Prey or Flurry changes.
         if (['Hunt Prey', 'Hunt Prey: Flurry'].includes(condition.name)) {
-            this._refreshService.set_ToChange(creature.type, 'attacks');
+            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
         }
 
         //Update Attacks if attack restrictions apply.
         if (condition.attackRestrictions.length) {
-            this._refreshService.set_ToChange(creature.type, 'attacks');
+            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
         }
 
         //Update Defense if Defense conditions are changed.
         if (gain.source === 'Defense') {
-            this._refreshService.set_ToChange(creature.type, 'defense');
+            this._refreshService.prepareDetailToChange(creature.type, 'defense');
         }
 
         //Update Time and Health if the condition needs attention.
         if (gain.durationIsInstant) {
-            this._refreshService.set_ToChange(creature.type, 'time');
-            this._refreshService.set_ToChange(creature.type, 'health');
+            this._refreshService.prepareDetailToChange(creature.type, 'time');
+            this._refreshService.prepareDetailToChange(creature.type, 'health');
         }
 
         //Show a notification if a new condition has no duration and did nothing, because it will be removed in the next cycle.
@@ -1228,7 +1228,7 @@ export class ConditionsService {
 
             //If the current duration is locking the time buttons, refresh the time bar after the change.
             if (gain.durationIsInstant || gain.nextStage) {
-                this._refreshService.set_ToChange('Character', 'time');
+                this._refreshService.prepareDetailToChange('Character', 'time');
             }
 
             // If the current duration is the default duration of the previous choice,
@@ -1257,7 +1257,7 @@ export class ConditionsService {
 
             //If the new duration is locking the time buttons, refresh the time bar after the change.
             if (gain.durationIsInstant) {
-                this._refreshService.set_ToChange('Character', 'time');
+                this._refreshService.prepareDetailToChange('Character', 'time');
             }
 
             //Show a notification if the new condition has no duration and did nothing, because it will be removed in the next cycle.
@@ -1269,18 +1269,18 @@ export class ConditionsService {
 
         }
 
-        this._refreshService.set_ToChange(creature.type, 'effects');
+        this._refreshService.prepareDetailToChange(creature.type, 'effects');
 
         if (condition.attackRestrictions.length) {
-            this._refreshService.set_ToChange(creature.type, 'attacks');
+            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
         }
 
         if (condition.senses.length) {
-            this._refreshService.set_ToChange(creature.type, 'skills');
+            this._refreshService.prepareDetailToChange(creature.type, 'skills');
         }
 
         gain.showChoices = false;
-        this._refreshService.set_HintsToChange(creature, condition.hints, { characterService });
+        this._refreshService.prepareChangesByHints(creature, condition.hints, { characterService });
     }
 
     public changeConditionStage(
@@ -1295,9 +1295,9 @@ export class ConditionsService {
         if (change === 0) {
             //If no change, the condition remains, but the onset is reset.
             gain.nextStage = condition.timeToNextStage(gain.choice);
-            this._refreshService.set_ToChange(creature.type, 'time');
-            this._refreshService.set_ToChange(creature.type, 'health');
-            this._refreshService.set_ToChange(creature.type, 'effects');
+            this._refreshService.prepareDetailToChange(creature.type, 'time');
+            this._refreshService.prepareDetailToChange(creature.type, 'health');
+            this._refreshService.prepareDetailToChange(creature.type, 'effects');
         } else {
             let newIndex = choices.indexOf(gain.choice) + change;
 
@@ -1315,8 +1315,8 @@ export class ConditionsService {
                 gain.nextStage = condition.timeToNextStage(newChoice);
 
                 if (gain.nextStage) {
-                    this._refreshService.set_ToChange(creature.type, 'time');
-                    this._refreshService.set_ToChange(creature.type, 'health');
+                    this._refreshService.prepareDetailToChange(creature.type, 'time');
+                    this._refreshService.prepareDetailToChange(creature.type, 'health');
                 }
 
                 const oldChoice = gain.choice;

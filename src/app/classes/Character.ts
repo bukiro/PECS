@@ -168,9 +168,9 @@ export class Character extends Creature {
             choice.boosts = choice.boosts.filter(boost => boost !== oldBoost);
         }
 
-        characterService.refreshService.set_ToChange('Character', 'charactersheet');
-        characterService.refreshService.set_ToChange('Character', 'abilities');
-        characterService.refreshService.set_ToChange('Character', 'individualskills', 'all');
+        characterService.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        characterService.refreshService.prepareDetailToChange('Character', 'abilities');
+        characterService.refreshService.prepareDetailToChange('Character', 'individualskills', 'all');
     }
     public addAbilityChoice(level: Level, newChoice: AbilityChoice): AbilityChoice {
         const existingChoices = level.abilityChoices.filter(choice => choice.source === newChoice.source);
@@ -229,15 +229,15 @@ export class Character extends Creature {
             newSpellCasting.charLevelAvailable = Math.max(newSpellCasting.charLevelAvailable, level.number);
         }
 
-        characterService.refreshService.set_ToChange('Character', 'spellbook');
-        characterService.refreshService.set_ToChange('Character', 'spells');
+        characterService.refreshService.prepareDetailToChange('Character', 'spellbook');
+        characterService.refreshService.prepareDetailToChange('Character', 'spells');
 
         return this.class.spellCasting[newLength - 1];
     }
     public removeSpellCasting(characterService: CharacterService, oldCasting: SpellCasting): void {
         this.class.spellCasting = this.class.spellCasting.filter(casting => casting !== oldCasting);
-        characterService.refreshService.set_ToChange('Character', 'spellbook');
-        characterService.refreshService.set_ToChange('Character', 'spells');
+        characterService.refreshService.prepareDetailToChange('Character', 'spellbook');
+        characterService.refreshService.prepareDetailToChange('Character', 'spells');
     }
     public addLoreChoice(level: Level, newChoice: LoreChoice): LoreChoice {
         const existingChoices = level.loreChoices.filter(choice => choice.source === newChoice.source);
@@ -311,8 +311,8 @@ export class Character extends Creature {
                     Math.max(1, Math.min(...spellCasting.spellChoices.map(existingChoice => existingChoice.charLevelAvailable)));
             }
 
-            characterService.refreshService.set_ToChange('Character', 'spells');
-            characterService.refreshService.set_ToChange('Character', 'spellbook');
+            characterService.refreshService.prepareDetailToChange('Character', 'spells');
+            characterService.refreshService.prepareDetailToChange('Character', 'spellbook');
 
             return choice;
         } else {
@@ -328,14 +328,14 @@ export class Character extends Creature {
         this.class.spellCasting.filter(casting => !casting.spellChoices.length).forEach(casting => {
             casting.charLevelAvailable = 0;
         });
-        characterService.refreshService.set_ToChange('Character', 'spells');
-        characterService.refreshService.set_ToChange('Character', 'spellbook');
+        characterService.refreshService.prepareDetailToChange('Character', 'spells');
+        characterService.refreshService.prepareDetailToChange('Character', 'spellbook');
     }
     public gainActivity(characterService: CharacterService, newGain: ActivityGain, levelNumber: number): ActivityGain {
         const newLength = this.class.activities.push(newGain);
 
         this.class.activities[newLength - 1].level = levelNumber;
-        characterService.refreshService.set_ToChange('Character', 'activities');
+        characterService.refreshService.prepareDetailToChange('Character', 'activities');
 
         return this.class.activities[newLength - 1];
     }
@@ -364,7 +364,7 @@ export class Character extends Creature {
         }
 
         a.splice(a.indexOf(oldGain), 1);
-        characterService.refreshService.set_ToChange('Character', 'activities');
+        characterService.refreshService.prepareDetailToChange('Character', 'activities');
     }
     public skillIncreases(
         characterService: CharacterService,
@@ -479,8 +479,8 @@ export class Character extends Creature {
             characterService.cacheService.setSkillChanged('Any Spell DC', { creatureTypeId: 0, minLevel: level });
         }
 
-        characterService.refreshService.set_ToChange('Character', 'individualskills', skillName);
-        characterService.refreshService.set_ToChange('Character', 'skillchoices', skillName);
+        characterService.refreshService.prepareDetailToChange('Character', 'individualskills', skillName);
+        characterService.refreshService.prepareDetailToChange('Character', 'skillchoices', skillName);
 
         if (train) {
             // The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
@@ -609,34 +609,34 @@ export class Character extends Creature {
             }
 
             // Set components to update according to the skill type.
-            characterService.refreshService.set_ToChange('Character', 'featchoices');
-            characterService.refreshService.set_ToChange('Character', 'skillchoices');
+            characterService.refreshService.prepareDetailToChange('Character', 'featchoices');
+            characterService.refreshService.prepareDetailToChange('Character', 'skillchoices');
 
             switch (characterService.skills(characterService.character(), skillName)[0].type) {
                 case 'Skill':
-                    characterService.refreshService.set_ToChange('Character', 'skills');
+                    characterService.refreshService.prepareDetailToChange('Character', 'skills');
                     break;
                 case 'Perception':
-                    characterService.refreshService.set_ToChange('Character', 'skills');
+                    characterService.refreshService.prepareDetailToChange('Character', 'skills');
                     break;
                 case 'Save':
-                    characterService.refreshService.set_ToChange('Character', 'defense');
+                    characterService.refreshService.prepareDetailToChange('Character', 'defense');
                     break;
                 case 'Armor Proficiency':
-                    characterService.refreshService.set_ToChange('Character', 'defense');
+                    characterService.refreshService.prepareDetailToChange('Character', 'defense');
                     break;
                 case 'Weapon Proficiency':
-                    characterService.refreshService.set_ToChange('Character', 'attacks');
+                    characterService.refreshService.prepareDetailToChange('Character', 'attacks');
                     break;
                 case 'Specific Weapon Proficiency':
-                    characterService.refreshService.set_ToChange('Character', 'attacks');
+                    characterService.refreshService.prepareDetailToChange('Character', 'attacks');
                     break;
                 case 'Spell DC':
-                    characterService.refreshService.set_ToChange('Character', 'general');
-                    characterService.refreshService.set_ToChange('Character', 'spellbook');
+                    characterService.refreshService.prepareDetailToChange('Character', 'general');
+                    characterService.refreshService.prepareDetailToChange('Character', 'spellbook');
                     break;
                 case 'Class DC':
-                    characterService.refreshService.set_ToChange('Character', 'general');
+                    characterService.refreshService.prepareDetailToChange('Character', 'general');
                     break;
                 default: break;
             }
@@ -644,14 +644,14 @@ export class Character extends Creature {
             // Set components to update according to the skill name.
             switch (skillName) {
                 case 'Crafting':
-                    characterService.refreshService.set_ToChange('Character', 'crafting');
-                    characterService.refreshService.set_ToChange('Character', 'inventory');
+                    characterService.refreshService.prepareDetailToChange('Character', 'crafting');
+                    characterService.refreshService.prepareDetailToChange('Character', 'inventory');
                     break;
                 default: break;
             }
 
             // Some effects depend on skill levels, so we refresh effects when changing skills.
-            characterService.refreshService.set_ToChange('Character', 'effects');
+            characterService.refreshService.prepareDetailToChange('Character', 'effects');
         } else {
             // If you are deselecting a skill that you increased with Skilled Heritage at level 1,
             // you also lose the skill increase at level 5.
@@ -676,35 +676,35 @@ export class Character extends Creature {
             }
 
             //Set components to update according to the skill type.
-            characterService.refreshService.set_ToChange('Character', 'featchoices');
-            characterService.refreshService.set_ToChange('Character', 'skillchoices');
+            characterService.refreshService.prepareDetailToChange('Character', 'featchoices');
+            characterService.refreshService.prepareDetailToChange('Character', 'skillchoices');
 
             switch (characterService.skills(characterService.character(), skillName)[0]?.type) {
                 case 'Skill':
-                    characterService.refreshService.set_ToChange('Character', 'skills');
-                    characterService.refreshService.set_ToChange('Character', 'individualskills', 'all');
+                    characterService.refreshService.prepareDetailToChange('Character', 'skills');
+                    characterService.refreshService.prepareDetailToChange('Character', 'individualskills', 'all');
                     break;
                 case 'Perception':
-                    characterService.refreshService.set_ToChange('Character', 'skills');
+                    characterService.refreshService.prepareDetailToChange('Character', 'skills');
                     break;
                 case 'Save':
-                    characterService.refreshService.set_ToChange('Character', 'defense');
+                    characterService.refreshService.prepareDetailToChange('Character', 'defense');
                     break;
                 case 'Armor Proficiency':
-                    characterService.refreshService.set_ToChange('Character', 'defense');
+                    characterService.refreshService.prepareDetailToChange('Character', 'defense');
                     break;
                 case 'Weapon Proficiency':
-                    characterService.refreshService.set_ToChange('Character', 'attacks');
+                    characterService.refreshService.prepareDetailToChange('Character', 'attacks');
                     break;
                 case 'Specific Weapon Proficiency':
-                    characterService.refreshService.set_ToChange('Character', 'attacks');
+                    characterService.refreshService.prepareDetailToChange('Character', 'attacks');
                     break;
                 case 'Spell DC':
-                    characterService.refreshService.set_ToChange('Character', 'general');
-                    characterService.refreshService.set_ToChange('Character', 'spellbook');
+                    characterService.refreshService.prepareDetailToChange('Character', 'general');
+                    characterService.refreshService.prepareDetailToChange('Character', 'spellbook');
                     break;
                 case 'Class DC':
-                    characterService.refreshService.set_ToChange('Character', 'general');
+                    characterService.refreshService.prepareDetailToChange('Character', 'general');
                     break;
                 default: break;
             }
@@ -712,14 +712,14 @@ export class Character extends Creature {
             //Set components to update according to the skill name.
             switch (skillName) {
                 case 'Crafting':
-                    characterService.refreshService.set_ToChange('Character', 'crafting');
-                    characterService.refreshService.set_ToChange('Character', 'inventory');
+                    characterService.refreshService.prepareDetailToChange('Character', 'crafting');
+                    characterService.refreshService.prepareDetailToChange('Character', 'inventory');
                     break;
                 default: break;
             }
 
             //Some effects depend on skill levels, so we refresh effects when changing skills.
-            characterService.refreshService.set_ToChange('Character', 'effects');
+            characterService.refreshService.prepareDetailToChange('Character', 'effects');
 
             //Remove custom skill if previously created and this was the last increase of it
             const customSkills = characterService.character().customSkills.filter(skill => skill.name === skillName);
@@ -1027,7 +1027,7 @@ export class Character extends Creature {
             choice.spells.splice(choice.spells.indexOf(oldChoice), 1);
         }
 
-        characterService.refreshService.set_ToChange('Character', 'spellbook');
+        characterService.refreshService.prepareDetailToChange('Character', 'spellbook');
     }
     public learnSpell(spell: Spell, source: string): void {
         if (!this.class?.spellBook.find(learned => learned.name === spell.name)) {
@@ -1379,8 +1379,8 @@ export class Character extends Creature {
                 newFeat.hide = false;
                 newFeat.generatedLoreFeat = true;
                 characterService.addCustomFeat(newFeat);
-                characterService.refreshService.set_ToChange('Character', 'skills');
-                characterService.refreshService.set_ToChange('Character', 'charactersheet');
+                characterService.refreshService.prepareDetailToChange('Character', 'skills');
+                characterService.refreshService.prepareDetailToChange('Character', 'charactersheet');
             });
     }
     private _removeLoreFeats(characterService: CharacterService, loreName: string): void {
@@ -1397,8 +1397,8 @@ export class Character extends Creature {
             });
         }
 
-        characterService.refreshService.set_ToChange('Character', 'skills');
-        characterService.refreshService.set_ToChange('Character', 'charactersheet');
+        characterService.refreshService.prepareDetailToChange('Character', 'skills');
+        characterService.refreshService.prepareDetailToChange('Character', 'charactersheet');
     }
     private _classLevel(number: number): Level {
         return this.class.levels[number];

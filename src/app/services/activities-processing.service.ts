@@ -45,14 +45,14 @@ export class ActivitiesProcessingService {
         // Find item, if it exists.
         const item: Equipment | Rune = this._activitiesDataService.itemFromActivityGain(creature, gain);
 
-        if (item) { this._refreshService.set_ToChange(creature.type, 'inventory'); }
+        if (item) { this._refreshService.prepareDetailToChange(creature.type, 'inventory'); }
 
         if (activity.hints.length) {
-            this._refreshService.set_HintsToChange(creature, activity.hints, { characterService });
+            this._refreshService.prepareChangesByHints(creature, activity.hints, { characterService });
         }
 
-        this._refreshService.set_ToChange(creature.type, 'activities');
-        this._refreshService.set_ToChange(creature.type, gain.id);
+        this._refreshService.prepareDetailToChange(creature.type, 'activities');
+        this._refreshService.prepareDetailToChange(creature.type, gain.id);
 
         const targets: Array<Creature | SpellTarget> = [];
 
@@ -121,7 +121,7 @@ export class ActivitiesProcessingService {
         }
 
         if (changeAfter) {
-            this._refreshService.process_ToChange();
+            this._refreshService.processPreparedChanges();
         }
     }
 
@@ -143,7 +143,7 @@ export class ActivitiesProcessingService {
         },
     ): void {
         if (activity.hints.length) {
-            this._refreshService.set_HintsToChange(context.creature, activity.hints, { characterService: services.characterService });
+            this._refreshService.prepareChangesByHints(context.creature, activity.hints, { characterService: services.characterService });
         }
 
         let shouldClosePopupsAfterActivation = false;
@@ -669,7 +669,7 @@ export class ActivitiesProcessingService {
         }
 
         if (shouldClosePopupsAfterActivation) {
-            this._refreshService.set_ToChange(context.creature.type, 'close-popovers');
+            this._refreshService.prepareDetailToChange(context.creature.type, 'close-popovers');
         }
     }
 
@@ -689,7 +689,7 @@ export class ActivitiesProcessingService {
         },
     ): void {
         if (activity.hints.length) {
-            this._refreshService.set_HintsToChange(context.creature, activity.hints, { characterService: services.characterService });
+            this._refreshService.prepareChangesByHints(context.creature, activity.hints, { characterService: services.characterService });
         }
 
         if (activity.cooldownAfterEnd) {

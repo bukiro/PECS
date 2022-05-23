@@ -99,7 +99,7 @@ export class AC {
             characterService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
-        characterService.refreshService.process_ToChange();
+        characterService.refreshService.processPreparedChanges();
     }
     public calculate(
         creature: Creature,
