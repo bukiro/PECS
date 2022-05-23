@@ -2615,7 +2615,7 @@ export class CharacterService {
         filter: { type?: string; locked?: boolean } = {},
         options: { noSubstitutions?: boolean } = {},
     ): Array<Skill> {
-        return this.skillsService.get_Skills(creature.customSkills, name, filter, options);
+        return this.skillsService.skills(creature.customSkills, name, filter, options);
     }
 
     public feats(name = '', type = ''): Array<Feat> {
