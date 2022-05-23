@@ -83,7 +83,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_NewConditionMessages() {
-        return this.messageService.get_NewMessages(this.characterService);
+        return this.messageService.newMessages(this.characterService);
     }
 
     get_SavegamesInitializing() {
@@ -199,27 +199,27 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
         if (this.get_Character().settings.checkMessagesAutomatically) {
             //If the app checks for messages automatically, you don't need to check again manually. Just open the Dialog if messages exist, or let us know if not.
-            if (this.messageService.get_NewMessages(this.characterService).length) {
+            if (this.messageService.newMessages(this.characterService).length) {
                 this.open_NewMessagesModal();
             } else {
                 this.toastService.show('No new effects are available.');
             }
         } else {
             //Clean up old messages, then check for new messages, then open the dialog if any are found.
-            this.messageService.cleanup_OldMessages()
+            this.messageService.cleanupMessagesOnConnector()
                 .subscribe({
                     next: () => {
-                        this.messageService.load_Messages(this.characterService.character().id)
+                        this.messageService.loadMessagesFromConnector(this.characterService.character().id)
                             .subscribe({
                                 next: (results: Array<string>) => {
                                     //Get any new messages.
-                                    const newMessages = this.messageService.process_Messages(this.characterService, results);
+                                    const newMessages = this.messageService._processNewMessages(this.characterService, results);
 
                                     //Add them to the list of new messages.
-                                    this.messageService.add_NewMessages(newMessages);
+                                    this.messageService.addNewMessages(newMessages);
 
                                     //If any exist, start the dialog. Otherwise give an appropriate response.
-                                    if (this.messageService.get_NewMessages(this.characterService).length) {
+                                    if (this.messageService.newMessages(this.characterService).length) {
                                         this.open_NewMessagesModal();
                                     } else {
                                         this.toastService.show('No new effects are available.');

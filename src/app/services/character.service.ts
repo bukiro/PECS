@@ -1767,7 +1767,7 @@ export class CharacterService {
             return;
         }
 
-        this._messageService.get_Time()
+        this._messageService.timeFromConnector()
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
@@ -1793,7 +1793,7 @@ export class CharacterService {
                     });
 
                     if (messages.length) {
-                        return this._messageService.send_Messages(messages);
+                        return this._messageService.sendMessagesToConnector(messages);
                     }
                 }),
             )
@@ -1847,7 +1847,7 @@ export class CharacterService {
             });
         });
         messages.forEach(message => {
-            this._messageService.mark_MessageAsIgnored(this, message);
+            this._messageService.markMessageAsIgnored(this, message);
         });
     }
 
@@ -1857,7 +1857,7 @@ export class CharacterService {
             return;
         }
 
-        this._messageService.get_Time()
+        this._messageService.timeFromConnector()
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
@@ -1895,7 +1895,7 @@ export class CharacterService {
                     });
 
                     if (messages.length) {
-                        return this._messageService.send_Messages(messages)
+                        return this._messageService.sendMessagesToConnector(messages)
                             .pipe(
                                 tap({
                                     complete: () => {
@@ -1980,7 +1980,7 @@ export class CharacterService {
                 }
             }
 
-            this._messageService.mark_MessageAsIgnored(this, message);
+            this._messageService.markMessageAsIgnored(this, message);
         });
     }
 
@@ -1990,7 +1990,7 @@ export class CharacterService {
             return;
         }
 
-        this._messageService.get_Time()
+        this._messageService.timeFromConnector()
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
@@ -2024,7 +2024,7 @@ export class CharacterService {
                     message.includedItems = included.items;
                     message.includedInventories = included.inventories;
 
-                    return this._messageService.send_Messages([message])
+                    return this._messageService.sendMessagesToConnector([message])
                         .pipe(
                             tap({
                                 complete: () => {
@@ -2163,7 +2163,7 @@ export class CharacterService {
                 this.sendItemAcceptedMessage(message, false);
             }
 
-            this._messageService.mark_MessageAsIgnored(this, message);
+            this._messageService.markMessageAsIgnored(this, message);
         });
     }
 
@@ -2173,7 +2173,7 @@ export class CharacterService {
             return;
         }
 
-        this._messageService.get_Time()
+        this._messageService.timeFromConnector()
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
@@ -2197,7 +2197,7 @@ export class CharacterService {
                         response.rejectedItem = message.offeredItem[0].id;
                     }
 
-                    return this._messageService.send_Messages([response])
+                    return this._messageService.sendMessagesToConnector([response])
                         .pipe(
                             tap({
                                 complete: () => {
@@ -2274,7 +2274,7 @@ export class CharacterService {
                 }
             }
 
-            this._messageService.mark_MessageAsIgnored(this, message);
+            this._messageService.markMessageAsIgnored(this, message);
         });
         this.refreshService.process_ToChange();
     }
