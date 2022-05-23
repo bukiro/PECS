@@ -97,7 +97,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     public get_ActivityParameters(): ActivityParameters {
         const creature = this.get_Creature();
         const maxCharges = this.activity.maxCharges({ creature }, { effectsService: this.effectsService });
-        const tooManySlottedAeonStones = (this.item instanceof WornItem && this.item.isSlottedAeonStone && this.itemsService.get_TooManySlottedAeonStones(this.get_Creature()));
+        const tooManySlottedAeonStones = (this.item instanceof WornItem && this.item.isSlottedAeonStone && this.itemsService.hasTooManySlottedAeonStones(this.get_Creature()));
         const resonantAllowed = (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !tooManySlottedAeonStones);
 
         return {

@@ -806,17 +806,18 @@ export class CharacterService {
             this.refreshService.set_ToChange('Character', returnedItem.id);
         } else {
             const newInventoryLength = context.inventory[newInventoryItem.type].push(newInventoryItem);
-            const newItem = context.inventory[newInventoryItem.type][newInventoryLength - 1];
+
+            returnedItem = context.inventory[newInventoryItem.type][newInventoryLength - 1];
 
             if (context.amount > 1) {
-                newItem.amount = context.amount;
+                returnedItem.amount = context.amount;
             }
 
             if (options.expiration) {
-                newItem.expiration = options.expiration;
+                returnedItem.expiration = options.expiration;
             }
 
-            returnedItem = this.processGrantedItem(context.creature, newItem, context.inventory, options.equipAfter, options.resetRunes);
+            this.processGrantedItem(context.creature, returnedItem, context.inventory, options.equipAfter, options.resetRunes);
         }
 
         if (options.changeAfter) {
@@ -834,7 +835,7 @@ export class CharacterService {
         resetRunes = true,
         skipGrantedItems = false,
         skipGainedInventories = false,
-    ): Item {
+    ): void {
         this.refreshService.set_ToChange(creature.type, 'inventory');
 
         //Disable activities on equipment and runes. Refresh all affected components.
@@ -915,8 +916,6 @@ export class CharacterService {
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
             this.refreshService.set_ToChange(creature.type, 'attacks');
         }
-
-        return item;
     }
 
     public dropInventoryItem(
@@ -1382,7 +1381,7 @@ export class CharacterService {
             item.amount--;
         }
 
-        this.itemsService.process_Consumable(creature, this, this.conditionsService, this.spellsService, item);
+        this.itemsService.processConsumable(creature, this, this.conditionsService, this.spellsService, item);
         this.refreshService.set_ItemViewChanges(creature, item, { characterService: this, activitiesService: this.activitiesService });
         this.refreshService.set_ToChange(creature.type, 'inventory');
     }
@@ -2965,7 +2964,7 @@ export class CharacterService {
                 });
             } else {
                 //Without the all parameter, get activities only from equipped and invested items and their slotted items.
-                const hasTooManyAeonStonesSlotted = this.itemsService.get_TooManySlottedAeonStones(creature);
+                const hasTooManyAeonStonesSlotted = this.itemsService.hasTooManySlottedAeonStones(creature);
 
                 creature.inventories[0]?.allEquipment()
                     .filter(item =>
@@ -3091,7 +3090,7 @@ export class CharacterService {
             }
         };
 
-        const hasTooManyAeonStonesSlotted = this.itemsService.get_TooManySlottedAeonStones(creature);
+        const hasTooManyAeonStonesSlotted = this.itemsService.hasTooManySlottedAeonStones(creature);
 
         creature.inventories.forEach(inventory => {
             inventory.allEquipment()

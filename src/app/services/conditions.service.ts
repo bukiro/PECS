@@ -804,7 +804,7 @@ export class ConditionsService {
                 refreshPermanentConditions(item, this._evaluationService, item);
             });
 
-        if (services.characterService.itemsService.get_TooManySlottedAeonStones(creature)) {
+        if (services.characterService.itemsService.hasTooManySlottedAeonStones(creature)) {
             creature.inventories[0].wornitems.filter(item => item.isWayfinder).forEach(item => {
                 item.aeonStones.forEach(stone => {
                     refreshPermanentConditions(stone, this._evaluationService, item);

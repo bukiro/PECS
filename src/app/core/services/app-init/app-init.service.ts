@@ -93,7 +93,7 @@ export class AppInitService {
                     this._conditionsService.stillLoading ||
                     this._spellsService.still_loading() ||
                     this._skillsService.still_loading() ||
-                    this._itemsService.still_loading() ||
+                    this._itemsService.stillLoading() ||
                     this._deitiesService.stillLoading ||
                     this._animalCompanionsService.stillLoading ||
                     this._familiarsService.stillLoading

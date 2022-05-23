@@ -1336,7 +1336,7 @@ export class FeatsService {
 
     public initialize(): void {
         const waitForItemsService = setInterval(() => {
-            if (!this._itemsService.still_loading()) {
+            if (!this._itemsService.stillLoading()) {
                 clearInterval(waitForItemsService);
 
 

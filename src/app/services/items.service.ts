@@ -76,15 +76,22 @@ import * as json_weapons from 'src/assets/json/items/weapons';
 import * as json_wornitems from 'src/assets/json/items/wornitems';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+
+type AnyItemType =
+    ArmorRune | WeaponRune | Oil | AdventuringGear | AlchemicalBomb | AlchemicalElixir | AlchemicalPoison
+    | AlchemicalTool | Ammunition | Armor | HeldItem | MaterialItem | OtherConsumable
+    | OtherConsumableBomb | Potion | Scroll | Shield | Snare | Talisman | Wand | Weapon | WornItem;
 
 @Injectable({
     providedIn: 'root',
 })
 export class ItemsService {
 
-    private _storeItems: ItemCollection;
-    private _cleanItems: ItemCollection;
-    private _craftingItems: ItemCollection;
+    private readonly _cleanItems: ItemCollection = new ItemCollection();
+    private _storeItems: ItemCollection = new ItemCollection();
+    private _craftingItems: ItemCollection = new ItemCollection();
     private _itemProperties: Array<ItemProperty> = [];
     private _armorMaterials: Array<ArmorMaterial> = [];
     private _shieldMaterials: Array<ShieldMaterial> = [];
@@ -100,75 +107,75 @@ export class ItemsService {
     ) { }
 
     public storeItems(): ItemCollection {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._storeItems;
         } else { return new ItemCollection(); }
     }
 
     public cleanItems(): ItemCollection {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._cleanItems;
         } else { return new ItemCollection(); }
     }
 
     public craftingItems(): ItemCollection {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._craftingItems;
         } else { return new ItemCollection(); }
     }
 
     public storeItemByID(id: string): Item {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._storeItems.allItems().find(item => item.id === id);
         } else { return null; }
     }
 
     public cleanItemByID(id: string): Item {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._cleanItems.allItems().find(item => item.id === id);
         } else { return null; }
     }
 
     public craftingItemByID(id: string): Item {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._craftingItems.allItems().find(item => item.id === id);
         } else { return null; }
     }
 
     public itemProperties(): Array<ItemProperty> {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._itemProperties;
         } else { return [new ItemProperty()]; }
     }
 
     public armorMaterials(): Array<ArmorMaterial> {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._armorMaterials;
         } else { return [new ArmorMaterial()]; }
     }
 
     public shieldMaterials(): Array<ShieldMaterial> {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._shieldMaterials;
         } else { return [new ShieldMaterial()]; }
     }
 
     public weaponMaterials(): Array<WeaponMaterial> {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._weaponMaterials;
         } else { return [new WeaponMaterial()]; }
     }
 
     public specializations(group = ''): Array<Specialization> {
-        if (!this.still_loading()) {
+        if (!this.stillLoading()) {
             return this._specializations.filter(spec =>
                 !group || spec.name.toLowerCase() === group.toLowerCase(),
             );
         } else { return [new Specialization()]; }
     }
 
-    public cleanItemsOfType(type: string, name = ''): Array<Item> {
-        if (!this.still_loading()) {
+    public cleanItemsOfType<T extends AnyItemType>(type: string, name = ''): Array<T> {
+        if (!this.stillLoading()) {
             return this._cleanItems[type].filter((item: Item) =>
                 !name || item.name.toLowerCase() === name.toLowerCase(),
             );
@@ -758,8 +765,15 @@ export class ItemsService {
         }
     }
 
-    move_InventoryItemToCreature(creature: Creature, targetCreature: SpellTarget, item: Item, inventory: ItemCollection, characterService: CharacterService, amount = item.amount) {
-        if (creature.type != targetCreature.type) {
+    public moveInventoryItemToLocalCreature(
+        creature: Creature,
+        targetCreature: SpellTarget,
+        item: Item,
+        inventory: ItemCollection,
+        characterService: CharacterService,
+        amount = item.amount,
+    ): void {
+        if (creature.type !== targetCreature.type) {
             this.updateGrantingItemBeforeTransfer(creature, item);
 
             const included = this.packGrantingItemForTransfer(creature, item);
@@ -773,7 +787,8 @@ export class ItemsService {
                 let existingItems: Array<Item> = [];
 
                 if (!includedItem.expiration && includedItem.canStack()) {
-                    existingItems = targetInventory[includedItem.type].filter((existing: Item) => existing.name == includedItem.name && existing.canStack() && !includedItem.expiration);
+                    existingItems = targetInventory[includedItem.type]
+                        .filter((existing: Item) => existing.name === includedItem.name && existing.canStack() && !includedItem.expiration);
                 }
 
                 if (existingItems.length) {
@@ -785,12 +800,12 @@ export class ItemsService {
                     const newLength = targetInventory[includedItem.type].push(movedItem);
                     const newItem = targetInventory[includedItem.type][newLength - 1];
 
-                    targetInventory[includedItem.type][newLength - 1] = characterService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
+                    characterService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
                 }
             });
             //Add included inventories and process all items inside them.
-            included.inventories.forEach(inventory => {
-                const newLength = toCreature.inventories.push(inventory);
+            included.inventories.forEach(includedInventory => {
+                const newLength = toCreature.inventories.push(includedInventory);
                 const newInventory = toCreature.inventories[newLength - 1];
 
                 newInventory.allItems().forEach(invItem => {
@@ -810,12 +825,20 @@ export class ItemsService {
         }
     }
 
-    public get_TooManySlottedAeonStones(creature: Creature): boolean {
+    public hasTooManySlottedAeonStones(creature: Creature): boolean {
         //If more than one wayfinder with slotted aeon stones is invested, you do not gain the benefits of any of them.
-        return creature.inventories[0].wornitems.filter(item => item.isWayfinder && item.investedOrEquipped() && item.aeonStones.length).length >= 2;
+        return creature.inventories[0].wornitems
+            .filter(item => item.isWayfinder && item.investedOrEquipped() && item.aeonStones.length)
+            .length > Defaults.maxInvestedAeonStones;
     }
 
-    process_Consumable(creature: Creature, characterService: CharacterService, conditionsService: ConditionsService, spellsService: SpellsService, item: Consumable) {
+    public processConsumable(
+        creature: Creature,
+        characterService: CharacterService,
+        conditionsService: ConditionsService,
+        spellsService: SpellsService,
+        item: Consumable,
+    ): void {
 
         //Consumables don't do anything in manual mode, except be used up.
         if (!characterService.isManualMode()) {
@@ -854,7 +877,11 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length) {
                 item.gainItems.forEach(gainItem => {
-                    gainItem.grantGrantedItem(creature, { sourceName: item.effectiveName(), grantingItem: item }, { characterService, itemsService: this });
+                    gainItem.grantGrantedItem(
+                        creature,
+                        { sourceName: item.effectiveName(), grantingItem: item },
+                        { characterService, itemsService: this },
+                    );
                 });
             }
 
@@ -862,27 +889,25 @@ export class ItemsService {
 
     }
 
-    rest(creature: Creature, characterService: CharacterService) {
+    public restItems(creature: Creature, characterService: CharacterService): void {
         creature.inventories.forEach(inv => {
-            inv.allItems().filter(item => item.expiration == -2)
-                .forEach(item => {
-                    item.name = 'DELETE';
-                });
+            const itemsToDrop = inv.allItems().filter(item => item.expiration === TimePeriods.UntilRest);
 
-            //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
-            while (inv.allItems().some(item => item.name == 'DELETE')) {
-                inv.allItems().filter(item => item.name == 'DELETE')
-                    .forEach(item => {
-                        characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
-                    });
-                this._refreshService.set_ToChange(creature.type, 'inventory');
-            }
+            //TO-DO: Verify that this still works without the while loop.
+            itemsToDrop.forEach(item => {
+                characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
+            });
+            this._refreshService.set_ToChange(creature.type, 'inventory');
 
             //Grant items that are granted by other items on rest.
             inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped())
                 .forEach(item => {
-                    item.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
-                        gainItem.grantGrantedItem(creature, { sourceName: item.effectiveName(), grantingItem: item }, { characterService, itemsService: this });
+                    item.gainItems.filter(gain => gain.on === 'rest').forEach(gainItem => {
+                        gainItem.grantGrantedItem(
+                            creature,
+                            { sourceName: item.effectiveName(), grantingItem: item },
+                            { characterService, itemsService: this },
+                        );
                     });
                 });
         });
@@ -892,102 +917,110 @@ export class ItemsService {
             if (characterService.characterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
                 creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
-                        characterService.grantInventoryItem(scroll, { creature, inventory: creature.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
+                        characterService.grantInventoryItem(
+                            scroll,
+                            { creature, inventory: creature.inventories[0] },
+                            { resetRunes: false, changeAfter: false, equipAfter: false },
+                        );
                     });
                 });
             }
 
             //If you have Battleforger, all your battleforged items are reset.
             if (characterService.characterFeatsTaken(1, creature.level, { featName: 'Battleforger' }).length) {
-                let attacksChanged = false;
-                let defenseChanged = false;
+                let shouldAttacksRefresh = false;
+                let shouldDefenseRefresh = false;
 
                 creature.inventories.forEach(inv => {
                     inv.weapons.forEach(weapon => {
                         if (weapon.battleforged) {
-                            attacksChanged = true;
+                            shouldAttacksRefresh = true;
                         }
 
                         weapon.battleforged = false;
                     });
                     inv.armors.forEach(armor => {
                         if (armor.battleforged) {
-                            defenseChanged = true;
+                            shouldDefenseRefresh = true;
                         }
 
                         armor.battleforged = false;
                     });
                     inv.wornitems.forEach(wornitem => {
                         if (wornitem.battleforged) {
-                            attacksChanged = true;
+                            shouldAttacksRefresh = true;
                         }
 
                         wornitem.battleforged = false;
                     });
                 });
 
-                if (attacksChanged) {
+                if (shouldAttacksRefresh) {
                     this._refreshService.set_ToChange('Character', 'attacks');
                 }
 
-                if (defenseChanged) {
+                if (shouldDefenseRefresh) {
                     this._refreshService.set_ToChange('Character', 'defense');
                 }
             }
 
             //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
             characterService.featsService.characterFeats(creature.customFeats)
-                .filter(feat => feat.gainItems.some(gain => gain.on == 'rest') && feat.have({ creature }, { characterService }))
+                .filter(feat => feat.gainItems.some(gain => gain.on === 'rest') && feat.have({ creature }, { characterService }))
                 .forEach(feat => {
-                    feat.gainItems.filter(gain => gain.on == 'rest').forEach(gainItem => {
+                    feat.gainItems.filter(gain => gain.on === 'rest').forEach(gainItem => {
                         gainItem.grantGrantedItem(creature, { sourceName: feat.name }, { characterService, itemsService: this });
                     });
                 });
         }
     }
 
-    refocus(creature: Creature, characterService: CharacterService) {
+    public refocusItems(creature: Creature, characterService: CharacterService): void {
         creature.inventories.forEach(inv => {
-            inv.allItems().filter(item => item.expiration == -3)
-                .forEach(item => {
-                    item.name = 'DELETE';
-                });
+            const itemsToDrop = inv.allItems().filter(item => item.expiration === TimePeriods.UntilRefocus);
 
-            //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
-            while (inv.allItems().some(item => item.name == 'DELETE')) {
-                inv.allItems().filter(item => item.name == 'DELETE')
-                    .forEach(item => {
-                        characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
-                    });
-                this._refreshService.set_ToChange(creature.type, 'inventory');
-            }
+            itemsToDrop.forEach(item => {
+                characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
+            });
+            this._refreshService.set_ToChange(creature.type, 'inventory');
         });
     }
 
-    tick_Items(creature: Creature, characterService: CharacterService, turns: number) {
+    public tickItems(creature: Creature, characterService: CharacterService, turns: number): void {
         creature.inventories.forEach(inv => {
             //Tick down and remove all items that expire.
-            function expirationApplies(item: Item): boolean {
+            const itemsToDrop: Array<Item> = [];
+
+            const expirationApplies = (item: Item): boolean => {
                 switch (item.expiresOnlyIf) {
                     case 'equipped': return item.investedOrEquipped();
                     case 'unequipped': return !item.investedOrEquipped();
                     default: return true;
                 }
-            }
+            };
+
             inv.allItems().filter(item => item.expiration > 0 && expirationApplies(item))
                 .forEach(item => {
                     item.expiration -= turns;
 
                     if (item.expiration <= 0) {
-                        item.name = 'DELETE';
+                        itemsToDrop.push(item);
 
                         if (item instanceof Equipment && item.gainInventory.length) {
                             //If a temporary container is destroyed, return all contained items to the main inventory.
-                            creature.inventories.filter(inv => inv.itemId == item.id).forEach(inv => {
-                                inv.allItems().forEach(invItem => {
-                                    this.moveItemLocally(creature, invItem, creature.inventories[0], inv, characterService);
+                            creature.inventories
+                                .filter(creatureInventory => creatureInventory.itemId === item.id)
+                                .forEach(creatureInventory => {
+                                    creatureInventory.allItems().forEach(invItem => {
+                                        this.moveItemLocally(
+                                            creature,
+                                            invItem,
+                                            creature.inventories[0],
+                                            creatureInventory,
+                                            characterService,
+                                        );
+                                    });
                                 });
-                            });
                         }
                     }
 
@@ -1006,18 +1039,14 @@ export class ItemsService {
                 this._refreshService.set_ToChange(creature.type, 'inventory');
             });
 
-            //Removing an item brings the index out of order, and some items may be skipped. We just keep deleting items named DELETE until none are left.
-            while (inv.allItems().some(item => item.name == 'DELETE')) {
-                inv.allItems().filter(item => item.name == 'DELETE')
-                    .forEach(item => {
-                        characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
-                    });
-                this._refreshService.set_ToChange(creature.type, 'inventory');
-            }
+            itemsToDrop.forEach(item => {
+                characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
+            });
+            this._refreshService.set_ToChange(creature.type, 'inventory');
 
             inv.allItems().filter(item => item.oilsApplied && item.oilsApplied.length)
                 .forEach(item => {
-                    item.oilsApplied.filter(oil => oil.duration != -1).forEach(oil => {
+                    item.oilsApplied.filter(oil => oil.duration !== TimePeriods.Permanent).forEach(oil => {
                         oil.duration -= turns;
 
                         if (oil.duration <= 0) {
@@ -1034,73 +1063,123 @@ export class ItemsService {
                             this._refreshService.set_ToChange(creature.type, 'defense');
                         }
                     });
-                    item.oilsApplied = item.oilsApplied.filter(oil => oil.name != 'DELETE');
+                    item.oilsApplied = item.oilsApplied.filter(oil => oil.name !== 'DELETE');
                 });
         });
     }
 
-    still_loading() {
+    public stillLoading(): boolean {
         return !this._initialized;
     }
 
-    initialize() {
+    public initialize(): void {
         //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
-        this.load(json_itemproperties, 'itemProperties', ItemProperty, 'meta');
-        this._itemProperties = this._extensionsService.cleanupDuplicatesWithMultipleIdentifiers(this._itemProperties, ['group', 'parent', 'key'], 'custom item properties') as Array<ItemProperty>;
-        this.load(json_armormaterials, 'armorMaterials', ArmorMaterial, 'meta');
-        this._armorMaterials = this._extensionsService.cleanupDuplicates(this._armorMaterials, 'name', 'armor materials') as Array<ArmorMaterial>;
-        this.load(json_shieldmaterials, 'shieldMaterials', ShieldMaterial, 'meta');
-        this._shieldMaterials = this._extensionsService.cleanupDuplicatesWithMultipleIdentifiers(this._shieldMaterials, ['name', 'itemFilter'], 'shield materials') as Array<ShieldMaterial>;
-        this.load(json_weaponmaterials, 'weaponMaterials', WeaponMaterial, 'meta');
-        this._weaponMaterials = this._extensionsService.cleanupDuplicates(this._weaponMaterials, 'name', 'weapon materials') as Array<WeaponMaterial>;
-        this.load(json_specializations, 'specializations', Specialization, 'meta');
-        this._specializations = this._extensionsService.cleanupDuplicates(this._specializations, 'name', 'armor and weapon specializations') as Array<Specialization>;
-
-        this._storeItems = new ItemCollection();
-        this._cleanItems = new ItemCollection();
-        this._craftingItems = new ItemCollection();
+        this._itemProperties = this._loadMeta(json_itemproperties, 'itemProperties', new ItemProperty());
+        this._itemProperties =
+            this._extensionsService.cleanupDuplicatesWithMultipleIdentifiers(
+                this._itemProperties,
+                ['group', 'parent', 'key'],
+                'custom item properties',
+            ) as Array<ItemProperty>;
+        this._armorMaterials = this._loadMeta(json_armormaterials, 'armorMaterials', new ArmorMaterial());
+        this._armorMaterials =
+            this._extensionsService.cleanupDuplicates(
+                this._armorMaterials,
+                'name',
+                'armor materials',
+            ) as Array<ArmorMaterial>;
+        this._shieldMaterials = this._loadMeta(json_shieldmaterials, 'shieldMaterials', new ShieldMaterial());
+        this._shieldMaterials =
+            this._extensionsService.cleanupDuplicatesWithMultipleIdentifiers(
+                this._shieldMaterials,
+                ['name', 'itemFilter'],
+                'shield materials',
+            ) as Array<ShieldMaterial>;
+        this._weaponMaterials = this._loadMeta(json_weaponmaterials, 'weaponMaterials', new WeaponMaterial());
+        this._weaponMaterials =
+            this._extensionsService.cleanupDuplicates(
+                this._weaponMaterials,
+                'name',
+                'weapon materials',
+            ) as Array<WeaponMaterial>;
+        this._specializations = this._loadMeta(json_specializations, 'specializations', new Specialization());
+        this._specializations =
+            this._extensionsService.cleanupDuplicates(
+                this._specializations,
+                'name',
+                'armor and weapon specializations',
+            ) as Array<Specialization>;
 
         //Runes need to load before other items, because their content is copied into items that bear them.
-        this.load(json_armorrunes, 'armorrunes', ArmorRune, 'item', 'armor runes');
-        this.load(json_weaponrunes, 'weaponrunes', WeaponRune, 'item', 'weapon runes');
+        this._cleanItems.armorrunes =
+            this._loadItemType(json_armorrunes, 'armorrunes', new ArmorRune(), 'armor runes');
+        this._cleanItems.weaponrunes = this._loadItemType(json_weaponrunes, 'weaponrunes', new WeaponRune(), 'weapon runes');
         //Oils need to load after WeaponRunes, because they have to copy some of them.
-        this.load(json_oils, 'oils', Oil, 'item', 'oils');
+        this._cleanItems.oils = this._loadItemType(json_oils, 'oils', new Oil(), 'oils');
 
-        this.load(json_adventuringgear, 'adventuringgear', AdventuringGear, 'item', 'adventuring gear');
-        this.load(json_alchemicalbombs, 'alchemicalbombs', AlchemicalBomb, 'item', 'alchemical bombs');
-        this.load(json_alchemicalelixirs, 'alchemicalelixirs', AlchemicalElixir, 'item', 'alchemical elixirs');
-        this.load(json_alchemicalpoisons, 'alchemicalpoisons', AlchemicalPoison, 'item', 'alchemical poisons');
-        this.load(json_alchemicaltools, 'alchemicaltools', AlchemicalTool, 'item', 'alchemical tools');
-        this.load(json_ammunition, 'ammunition', Ammunition, 'item', 'ammunition');
-        this.load(json_armors, 'armors', Armor, 'item', 'armors');
-        this.load(json_helditems, 'helditems', HeldItem, 'item', 'held items');
-        this.load(json_materialitems, 'materialitems', MaterialItem, 'item', 'materials');
-        this.load(json_otherconsumables, 'otherconsumables', OtherConsumable, 'item', 'other consumables');
-        this.load(json_otherconsumablesbombs, 'otherconsumablesbombs', OtherConsumableBomb, 'item', 'other consumables (bombs)');
-        this.load(json_potions, 'potions', Potion, 'item', 'potions');
-        this.load(json_scrolls, 'scrolls', Scroll, 'item', 'scrolls');
-        this.load(json_shields, 'shields', Shield, 'item', 'shields');
-        this.load(json_snares, 'snares', Snare, 'item', 'snares');
-        this.load(json_talismans, 'talismans', Talisman, 'item', 'talismans');
-        this.load(json_wands, 'wands', Wand, 'item', 'wands');
-        this.load(json_weapons, 'weapons', Weapon, 'item', 'weapons');
-        this.load(json_wornitems, 'wornitems', WornItem, 'item', 'worn items');
-
-        /*
-        this.load(json_REPLACE0, "REPLACE0", REPLACE1, "item");
-        */
+        this._cleanItems.adventuringgear =
+            this._loadItemType(json_adventuringgear, 'adventuringgear', new AdventuringGear(), 'adventuring gear');
+        this._cleanItems.alchemicalbombs =
+            this._loadItemType(json_alchemicalbombs, 'alchemicalbombs', new AlchemicalBomb(), 'alchemical bombs');
+        this._cleanItems.alchemicalelixirs =
+            this._loadItemType(json_alchemicalelixirs, 'alchemicalelixirs', new AlchemicalElixir(), 'alchemical elixirs');
+        this._cleanItems.alchemicalpoisons =
+            this._loadItemType(json_alchemicalpoisons, 'alchemicalpoisons', new AlchemicalPoison(), 'alchemical poisons');
+        this._cleanItems.alchemicaltools =
+            this._loadItemType(json_alchemicaltools, 'alchemicaltools', new AlchemicalTool(), 'alchemical tools');
+        this._cleanItems.ammunition =
+            this._loadItemType(json_ammunition, 'ammunition', new Ammunition(), 'ammunition');
+        this._cleanItems.armors =
+            this._loadItemType(json_armors, 'armors', new Armor(), 'armors');
+        this._cleanItems.helditems =
+            this._loadItemType(json_helditems, 'helditems', new HeldItem(), 'held items');
+        this._cleanItems.materialitems =
+            this._loadItemType(json_materialitems, 'materialitems', new MaterialItem(), 'materials');
+        this._cleanItems.otherconsumables =
+            this._loadItemType(json_otherconsumables, 'otherconsumables', new OtherConsumable(), 'other consumables');
+        this._cleanItems.otherconsumablesbombs =
+            this._loadItemType(json_otherconsumablesbombs, 'otherconsumablesbombs', new OtherConsumableBomb(), 'other consumables (bombs)');
+        this._cleanItems.potions =
+            this._loadItemType(json_potions, 'potions', new Potion(), 'potions');
+        this._cleanItems.scrolls =
+            this._loadItemType(json_scrolls, 'scrolls', new Scroll(), 'scrolls');
+        this._cleanItems.shields =
+            this._loadItemType(json_shields, 'shields', new Shield(), 'shields');
+        this._cleanItems.snares =
+            this._loadItemType(json_snares, 'snares', new Snare(), 'snares');
+        this._cleanItems.talismans =
+            this._loadItemType(json_talismans, 'talismans', new Talisman(), 'talismans');
+        this._cleanItems.wands =
+            this._loadItemType(json_wands, 'wands', new Wand(), 'wands');
+        this._cleanItems.weapons =
+            this._loadItemType(json_weapons, 'weapons', new Weapon(), 'weapons');
+        this._cleanItems.wornitems =
+            this._loadItemType(json_wornitems, 'wornitems', new WornItem(), 'worn items');
 
         //Make a copy of clean items for shop items and crafting items.
-        this._storeItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this._cleanItems))).recast(this._typeService, this);
-        this._craftingItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this._cleanItems))).recast(this._typeService, this);
+        this._storeItems = Object.assign(
+            new ItemCollection(),
+            JSON.parse(JSON.stringify(this._cleanItems)),
+        ).recast(this._typeService, this);
+        this._craftingItems = Object.assign(
+            new ItemCollection(),
+            JSON.parse(JSON.stringify(this._cleanItems)),
+        ).recast(this._typeService, this);
 
         this._initialized = true;
     }
 
-    reset() {
+    public reset(): void {
         //Reset items and crafting items from clean items.
-        this._storeItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this._cleanItems))).recast(this._typeService, this);
-        this._craftingItems = Object.assign<ItemCollection, ItemCollection>(new ItemCollection(), JSON.parse(JSON.stringify(this._cleanItems))).recast(this._typeService, this);
+        this._storeItems = Object.assign(
+            new ItemCollection(),
+            JSON.parse(JSON.stringify(this._cleanItems)),
+        ).recast(this._typeService, this);
+        this._craftingItems = Object.assign(
+            new ItemCollection(),
+            JSON.parse(JSON.stringify(this._cleanItems)),
+        ).recast(this._typeService, this);
+
         //Disable any active hint effects when loading a character, and reinitialize the hints.
         this._specializations.forEach(spec => {
             spec.recast();
@@ -1165,29 +1244,47 @@ export class ItemsService {
         });
     }
 
-    load(source, target: string, type, category: 'item' | 'meta', listName = '') {
-        let data;
+    private _loadItemType<T extends AnyItemType>(
+        data: { [fileContent: string]: Array<unknown> },
+        target: string,
+        prototype: T,
+        listName = '',
+    ): Array<T> {
+        let resultingData: Array<T> = [];
 
-        switch (category) {
-            case 'item':
-                this._cleanItems[target] = [];
-                this._storeItems[target] = [];
-                this._craftingItems[target] = [];
-                data = this._extensionsService.extend(source, `items_${ target }`);
-                //Initialize all clean items. Recasting happens in the initialization, and the store and crafting items will be copied and recast afterwards.
-                Object.keys(data).forEach(key => {
-                    this._cleanItems[target].push(...data[key].map((obj: Item) => this.initializeItem(Object.assign(new type(), obj), { preassigned: true, newId: false, resetPropertyRunes: true })));
-                });
-                this._cleanItems[target] = this._extensionsService.cleanupDuplicates(this._cleanItems[target], 'id', listName);
-                break;
-            case 'meta':
-                this[target] = [];
-                data = this._extensionsService.extend(source, target);
-                Object.keys(data).forEach(key => {
-                    this[target].push(...data[key].map(obj => Object.assign(new type(), obj).recast()));
-                });
-                break;
-        }
+        const extendedData = data = this._extensionsService.extend(data, `items_${ target }`);
+
+        //Initialize all clean items. Recasting happens in the initialization,
+        // and the store and crafting items will be copied and recast afterwards.
+        Object.keys(extendedData).forEach(key => {
+            resultingData.push(...data[key].map(entry =>
+                this.initializeItem(
+                    Object.assign(Object.create(prototype), entry),
+                    { preassigned: true, newId: false, resetPropertyRunes: true },
+                ) as T,
+            ));
+        });
+        resultingData = this._extensionsService.cleanupDuplicates(resultingData, 'id', listName);
+
+        return resultingData;
+    }
+
+    private _loadMeta<T extends ArmorMaterial | ShieldMaterial | WeaponMaterial | Specialization | ItemProperty>(
+        data: { [fileContent: string]: Array<unknown> },
+        target: string,
+        prototype: T,
+    ): Array<T> {
+        const resultingData: Array<T> = [];
+
+        const extendedData = this._extensionsService.extend(data, target);
+
+        Object.keys(extendedData).forEach(filecontent => {
+            resultingData.push(...extendedData[filecontent].map(entry =>
+                Object.assign(Object.create(prototype), entry).recast(),
+            ));
+        });
+
+        return resultingData;
     }
 
 }

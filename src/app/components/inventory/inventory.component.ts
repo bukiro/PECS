@@ -359,7 +359,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             this.itemsService.moveItemLocally(this.get_Creature(), item, target, inventory, this.characterService, amount, including);
         } else if (target instanceof SpellTarget) {
             if (this.get_Creatures().some(creature => creature.id == target.id)) {
-                this.itemsService.move_InventoryItemToCreature(this.get_Creature(), target, item, inventory, this.characterService, amount);
+                this.itemsService.moveInventoryItemToLocalCreature(this.get_Creature(), target, item, inventory, this.characterService, amount);
             } else {
                 this.characterService.sendItemsToPlayer(this.get_Creature(), target, item, amount);
             }
@@ -625,7 +625,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_TooManySlottedAeonStones(item: Item) {
-        return (item instanceof WornItem && item.isWayfinder && item.aeonStones.length && item.investedOrEquipped() && this.itemsService.get_TooManySlottedAeonStones(this.get_Creature()));
+        return (item instanceof WornItem && item.isWayfinder && item.aeonStones.length && item.investedOrEquipped() && this.itemsService.hasTooManySlottedAeonStones(this.get_Creature()));
     }
 
     get_Price(item: Item) {

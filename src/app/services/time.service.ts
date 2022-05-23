@@ -126,7 +126,7 @@ export class TimeService {
             //Reset all conditions that are "until the next time you make your daily preparations".
             conditionsService.restConditions(creature, characterService);
             //Remove all items that expire when you make your daily preparations.
-            itemsService.rest(creature, characterService);
+            itemsService.restItems(creature, characterService);
 
             //For the Character, reset all "once per day" spells, and regenerate spell slots, prepared formulas and bonded item charges.
             if (creature instanceof Character) {
@@ -178,7 +178,7 @@ export class TimeService {
             //Reset all conditions that are "until you refocus".
             conditionsService.refocusConditions(creature);
             //Remove all items that expire when you refocus.
-            itemsService.refocus(creature, characterService);
+            itemsService.refocusItems(creature, characterService);
         });
 
         //Reset all "once per day" spell cooldowns and re-prepare spells.
@@ -248,7 +248,7 @@ export class TimeService {
                     }
 
                     this._customEffectsService.tickCustomEffects(creature, creatureTurns);
-                    itemsService.tick_Items((creature as AnimalCompanion | Character), characterService, creatureTurns);
+                    itemsService.tickItems((creature as AnimalCompanion | Character), characterService, creatureTurns);
 
                     if (creature instanceof Character) {
                         spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, creatureTurns);

@@ -321,7 +321,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.itemsService.still_loading() || this.characterService.stillLoading;
+        return this.itemsService.stillLoading() || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

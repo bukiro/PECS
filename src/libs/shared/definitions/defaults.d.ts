@@ -14,4 +14,6 @@ export const Defaults: {
     maxHeroPoints: 3;
     mobileBreakpointPx: 992;
     waitForServiceDelay: 100;
+    maxInvestedItems: 10;
+    maxInvestedAeonStones: 1;
 };

@@ -952,7 +952,7 @@ export class Character extends Creature {
             (options.cantripAllowed || (!services.characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes('Cantrip')))
         );
 
-        const hasTooManySlottedAeonStones = services.itemsService.get_TooManySlottedAeonStones(this);
+        const hasTooManySlottedAeonStones = services.itemsService.hasTooManySlottedAeonStones(this);
 
         this.inventories[0].allEquipment()
             .filter(equipment => equipment.investedOrEquipped())
