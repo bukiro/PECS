@@ -1,7 +1,7 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { SpellsService } from 'src/app/services/spells.service';
@@ -41,7 +41,13 @@ export class TimeService {
         this._yourTurn = yourTurn;
     }
 
-    public startTurn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, effectsService: EffectsService): void {
+    public startTurn(
+        characterService: CharacterService,
+        conditionsService: ConditionsService,
+        itemsService: ItemsService,
+        spellsService: SpellsService,
+        effectsService: EffectsService,
+    ): void {
         //Apply Fast Healing.
         let fastHealing = 0;
 
@@ -59,7 +65,12 @@ export class TimeService {
                     if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
                         this._refreshService.prepareDetailToChange(creature.type, 'health');
                         creature.health.heal(creature, characterService, effectsService, fastHealing);
-                        this._toastService.show(`${ creature instanceof Character ? 'You' : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`) } gained ${ (fastHealing).toString() } HP from fast healing.`);
+                        this._toastService.show(
+                            `${ creature instanceof Character
+                                ? 'You'
+                                : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`)
+                            } gained ${ (fastHealing).toString() } HP from fast healing.`,
+                        );
                     }
                 }
 
@@ -78,7 +89,12 @@ export class TimeService {
         this._refreshService.processPreparedChanges();
     }
 
-    public endTurn(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService): void {
+    public endTurn(
+        characterService: CharacterService,
+        conditionsService: ConditionsService,
+        itemsService: ItemsService,
+        spellsService: SpellsService,
+    ): void {
         this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
@@ -89,7 +105,12 @@ export class TimeService {
         }
     }
 
-    public rest(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService): void {
+    public rest(
+        characterService: CharacterService,
+        conditionsService: ConditionsService,
+        itemsService: ItemsService,
+        spellsService: SpellsService,
+    ): void {
         const charLevel: number = characterService.character().level;
 
         this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.EightHours, false);
@@ -99,7 +120,12 @@ export class TimeService {
 
             let con = 1;
 
-            con = Math.max(characterService.abilitiesService.abilities('Constitution')[0].mod(creature, characterService, characterService.effectsService).result, 1);
+            con = Math.max(
+                characterService.abilitiesService
+                    .abilities('Constitution')[0]
+                    .mod(creature, characterService, characterService.effectsService).result,
+                1,
+            );
 
             let heal: number = con * charLevel;
 
@@ -119,8 +145,13 @@ export class TimeService {
                 multiplier += parseInt(effect.value, 10);
             });
             multiplier = Math.max(1, multiplier);
-            characterService.creatureHealth(creature).heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
-            this._toastService.show(`${ creature instanceof Character ? 'You' : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`) } gained ${ (heal * multiplier).toString() } HP from resting.`);
+            creature.health.heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
+            this._toastService.show(
+                `${ creature instanceof Character
+                    ? 'You'
+                    : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`)
+                } gained ${ (heal * multiplier).toString() } HP from resting.`,
+            );
             //Reset all "once per day" activity cooldowns.
             this._activitiesTimeService.restActivities(creature, characterService);
             //Reset all conditions that are "until the next time you make your daily preparations".
@@ -149,22 +180,32 @@ export class TimeService {
                 });
                 this._refreshService.prepareDetailToChange('Character', 'inventory');
                 //Regenerate bonded item charges.
-                character.class.spellCasting.filter(casting => casting.castingType == 'Prepared' && casting.className == 'Wizard').forEach(casting => {
-                    const superiorBond = character.hasFeat('Superior Bond', { characterService });
+                character.class.spellCasting
+                    .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')
+                    .forEach(casting => {
+                        const superiorBond = character.hasFeat('Superior Bond', { characterService });
 
-                    if (character.hasFeat('Universalist Wizard', { characterService })) {
-                        casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-                    } else {
-                        casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                    }
-                });
+                        if (character.hasFeat('Universalist Wizard', { characterService })) {
+                            casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+                        } else {
+                            casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        }
+                    });
             }
         });
 
         this._refreshService.processPreparedChanges();
     }
 
-    public refocus(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, recoverPoints = 1, reload = true, tick = true): void {
+    public refocus(
+        characterService: CharacterService,
+        conditionsService: ConditionsService,
+        itemsService: ItemsService,
+        spellsService: SpellsService,
+        recoverPoints = 1,
+        reload = true,
+        tick = true,
+    ): void {
         if (tick) {
             this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.TenMinutes, false);
         }
@@ -189,7 +230,8 @@ export class TimeService {
         let finalRecoverPoints = recoverPoints;
 
         if (finalRecoverPoints < maximumFocusPoints) {
-            //Several feats recover more focus points if you spent at least that amount since the last time refocusing. Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
+            // Several feats recover more focus points if you spent at least that amount since the last time refocusing.
+            // Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
             characterService.effectsService.absoluteEffectsOnThis(character, 'Refocus Bonus Points').forEach(effect => {
                 const points = parseInt(effect.setValue, 10);
 
@@ -200,7 +242,10 @@ export class TimeService {
         }
 
         //Regenerate Focus Points by calling a onceEffect (so we don't have the code twice).
-        characterService.processOnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: `+${ finalRecoverPoints }` }));
+        characterService.processOnceEffect(
+            character,
+            Object.assign(new EffectGain(), { affected: 'Focus Points', value: `+${ finalRecoverPoints }` }),
+        );
 
         character.class.focusPointsLast = character.class.focusPoints;
 
@@ -209,10 +254,19 @@ export class TimeService {
         }
     }
 
-    public tick(characterService: CharacterService, conditionsService: ConditionsService, itemsService: ItemsService, spellsService: SpellsService, turns = 10, reload = true): void {
+    public tick(
+        characterService: CharacterService,
+        conditionsService: ConditionsService,
+        itemsService: ItemsService,
+        spellsService: SpellsService,
+        turns = 10,
+        reload = true,
+    ): void {
         characterService.allAvailableCreatures().forEach(creature => {
             //If any conditions are currently stopping time, process these first before continuing with the rest.
-            const timeStopDurations: Array<number> = creature.conditions.filter(gain => gain.apply && conditionsService.conditionFromName(gain.name).isStoppingTime(gain)).map(gain => gain.duration);
+            const timeStopDurations = creature.conditions
+                .filter(gain => gain.apply && conditionsService.conditionFromName(gain.name).isStoppingTime(gain))
+                .map(gain => gain.duration);
 
             //If any time stopping condition is permanent, no time passes at all.
             if (!timeStopDurations.includes(-1)) {
@@ -234,8 +288,16 @@ export class TimeService {
                 const creatureTurns = turns - timeStopDuration;
 
                 if (creatureTurns > 0) {
-                    //Tick activities before conditions because activities can end conditions, which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
-                    this._activitiesTimeService.tickActivities(creature, characterService, conditionsService, itemsService, spellsService, creatureTurns);
+                    // Tick activities before conditions because activities can end conditions,
+                    // which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
+                    this._activitiesTimeService.tickActivities(
+                        creature,
+                        characterService,
+                        conditionsService,
+                        itemsService,
+                        spellsService,
+                        creatureTurns,
+                    );
 
                     if (creature.conditions.length) {
                         if (creature.conditions.filter(gain => gain.nextStage > 0)) {
@@ -255,8 +317,10 @@ export class TimeService {
                     }
 
                     //If you are at full health and rest for 10 minutes, you lose the wounded condition.
-                    if (creatureTurns >= TimePeriods.TenMinutes && characterService.creatureHealth(creature).damage == 0) {
-                        characterService.currentCreatureConditions(creature, 'Wounded').forEach(gain => characterService.removeCondition(creature, gain, false));
+                    if (creatureTurns >= TimePeriods.TenMinutes && creature.health.damage === 0) {
+                        characterService
+                            .currentCreatureConditions(creature, 'Wounded')
+                            .forEach(gain => characterService.removeCondition(creature, gain, false));
                     }
                 }
             }
@@ -269,16 +333,26 @@ export class TimeService {
     }
 
     public getDurationDescription(duration: number, includeTurnState = true, inASentence = false, short = false): string {
-        if (duration == TimePeriods.UntilRefocus) {
-            return inASentence ? 'until you refocus' : 'Until you refocus';
-        } else if (duration == TimePeriods.UntilRest) {
-            return inASentence ? 'until the next time you make your daily preparations' : 'Until the next time you make your daily preparations';
-        } else if (duration == TimePeriods.Permanent) {
-            return inASentence ? 'permanently' : 'Permanent';
-        } else if (duration == TimePeriods.UntilOtherCharactersTurn) {
-            return inASentence ? 'until another character\'s turn' : 'Ends on another character\'s turn';
+        if (duration === TimePeriods.UntilRefocus) {
+            return inASentence
+                ? 'until you refocus'
+                : 'Until you refocus';
+        } else if (duration === TimePeriods.UntilRest) {
+            return inASentence
+                ? 'until the next time you make your daily preparations'
+                : 'Until the next time you make your daily preparations';
+        } else if (duration === TimePeriods.Permanent) {
+            return inASentence
+                ? 'permanently'
+                : 'Permanent';
+        } else if (duration === TimePeriods.UntilOtherCharactersTurn) {
+            return inASentence
+                ? 'until another character\'s turn'
+                : 'Ends on another character\'s turn';
         } else if ([TimePeriods.UntilResolved, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(duration)) {
-            return inASentence ? 'until resolved' : 'Until resolved';
+            return inASentence
+                ? 'until resolved'
+                : 'Until resolved';
         } else {
             let returnString = '';
             let workingDuration = duration;
@@ -287,13 +361,17 @@ export class TimeService {
 
             workingDuration -= remainder;
 
-            if (workingDuration == TimePeriods.HalfTurn) {
-                if (this.getYourTurn() == TimePeriods.HalfTurn) {
-                    return inASentence ? 'for rest of turn' : 'Rest of turn';
+            if (workingDuration === TimePeriods.HalfTurn) {
+                if (this.getYourTurn() === TimePeriods.HalfTurn) {
+                    return inASentence
+                        ? 'for rest of turn'
+                        : 'Rest of turn';
                 }
 
-                if (this.getYourTurn() == TimePeriods.NoTurn) {
-                    return inASentence ? 'until start of next turn' : 'To start of next turn';
+                if (this.getYourTurn() === TimePeriods.NoTurn) {
+                    return inASentence
+                        ? 'until start of next turn'
+                        : 'To start of next turn';
                 }
             }
 
@@ -331,19 +409,21 @@ export class TimeService {
                 workingDuration %= TimePeriods.Turn;
             }
 
-            if (includeTurnState && workingDuration == TimePeriods.HalfTurn && this.getYourTurn() == TimePeriods.HalfTurn) {
+            if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this.getYourTurn() === TimePeriods.HalfTurn) {
                 returnString += ' to end of turn';
             }
 
-            if (includeTurnState && workingDuration == TimePeriods.HalfTurn && this.getYourTurn() == TimePeriods.NoTurn) {
+            if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this.getYourTurn() === TimePeriods.NoTurn) {
                 returnString += ' to start of turn';
             }
 
-            if (!returnString || returnString == 'for ') {
-                returnString = inASentence ? 'for 0 turns' : '0 turns';
+            if (!returnString || returnString === 'for ') {
+                returnString = inASentence
+                    ? 'for 0 turns'
+                    : '0 turns';
             }
 
-            if (remainder == 1) {
+            if (remainder === 1) {
                 returnString += ', then until resolved';
             }
 
@@ -351,39 +431,74 @@ export class TimeService {
         }
     }
 
-    public getWaitingDescription(duration: number, services: { characterService: CharacterService; conditionsService: ConditionsService }, options: { includeResting: boolean }): string {
+    public getWaitingDescription(
+        duration: number,
+        services: { characterService: CharacterService; conditionsService: ConditionsService },
+        options: { includeResting: boolean },
+    ): string {
         let result = '';
         const characterService = services.characterService;
         const conditionsService = services.conditionsService;
         const effectsService = this._effectsService;
 
-        function AfflictionOnsetsWithinDuration(creature: Creature): boolean {
-            return characterService.currentCreatureConditions(creature, '', '', true).some(gain => (!conditionsService.conditionFromName(gain.name).automaticStages && !gain.paused && gain.nextStage < duration && gain.nextStage > 0) || gain.nextStage == -1 || gain.durationIsInstant);
-        }
-        function TimeStopConditionsActive(creature: Creature): boolean {
-            return characterService.currentCreatureConditions(creature, '', '', true).some(gain => conditionsService.conditionFromName(gain.name).stopTimeChoiceFilter.some(filter => [gain.choice, 'All'].includes(filter)));
-        }
-        function MultipleTempHPAvailable(creature: Creature): boolean {
-            return characterService.creatureHealth(creature).temporaryHP.length > 1;
-        }
-        function RestingBlockingEffectsActive(creature: Creature): boolean {
-            return effectsService.effectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
-        }
+        const AfflictionOnsetsWithinDuration = (creature: Creature): boolean =>
+            characterService
+                .currentCreatureConditions(creature, '', '', true)
+                .some(gain =>
+                    (
+                        !conditionsService.conditionFromName(gain.name).automaticStages &&
+                        !gain.paused &&
+                        gain.nextStage < duration &&
+                        gain.nextStage > 0
+                    ) ||
+                    gain.nextStage === -1 ||
+                    gain.durationIsInstant);
+
+        const TimeStopConditionsActive = (creature: Creature): boolean =>
+            characterService
+                .currentCreatureConditions(creature, '', '', true)
+                .some(gain =>
+                    conditionsService
+                        .conditionFromName(gain.name)
+                        .stopTimeChoiceFilter
+                        .some(filter => [gain.choice, 'All'].includes(filter)),
+                );
+        const MultipleTempHPAvailable = (creature: Creature): boolean =>
+            creature.health.temporaryHP.length > 1;
+        const RestingBlockingEffectsActive = (creature: Creature): boolean =>
+            effectsService.effectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
+
         characterService.allAvailableCreatures().forEach(creature => {
             if (AfflictionOnsetsWithinDuration(creature)) {
-                result = `One or more conditions${ creature instanceof Character ? '' : ` on your ${ creature.type }` } need to be resolved before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
+                result =
+                    `One or more conditions${ creature instanceof Character
+                        ? ''
+                        : ` on your ${ creature.type }`
+                    } need to be resolved before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
             }
 
             if (options.includeResting && TimeStopConditionsActive(creature)) {
-                result = `Time is stopped for ${ creature instanceof Character ? ' you' : ` your ${ creature.type }` }, and you cannot ${ options.includeResting ? 'rest' : 'continue' } until this effect has ended.`;
+                result =
+                    `Time is stopped for ${ creature instanceof Character
+                        ? ' you'
+                        : ` your ${ creature.type }`
+                    }, and you cannot ${ options.includeResting ? 'rest' : 'continue' } until this effect has ended.`;
             }
 
             if (MultipleTempHPAvailable(creature)) {
-                result = `You need to select one set of temporary Hit Points${ creature instanceof Character ? '' : ` on your ${ creature.type }` } before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
+                result =
+                    `You need to select one set of temporary Hit Points${ creature instanceof Character
+                        ? ''
+                        : ` on your ${ creature.type }`
+                    } before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
             }
 
             if (options.includeResting && RestingBlockingEffectsActive(creature)) {
-                result = `An effect${ creature instanceof Character ? '' : ` on your ${ creature.type }` } is keeping you from resting.`;
+                result =
+                    `An effect${ creature instanceof Character
+                        ? ''
+                        : ` on your ${ creature.type }`
+                    } is keeping you from resting.`;
             }
         });
 

@@ -1034,7 +1034,7 @@ export class ConditionsService {
         });
 
         //After resting with full HP, the Wounded condition is removed.
-        if (characterService.creatureHealth(creature).damage === 0) {
+        if (creature.health.damage === 0) {
             creature.conditions
                 .filter(gain => gain.name === 'Wounded')
                 .forEach(gain => characterService.removeCondition(creature, gain, false));

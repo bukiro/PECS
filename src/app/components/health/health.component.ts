@@ -105,7 +105,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     get_Health() {
-        return this.characterService.creatureHealth(this.get_Creature());
+        return this.get_Creature().health;
     }
 
     calculate_Health() {
