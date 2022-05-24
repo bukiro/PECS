@@ -77,7 +77,10 @@
             "files": "*.html",
             "extends": [
                 "@team23/eslint-config-team23-angular"
-            ]
+            ],
+            "rules": {
+                "@angular-eslint/template/no-call-expression": "off"
+            }
         }
     ],
     "env": {
