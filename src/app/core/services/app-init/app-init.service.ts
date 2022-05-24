@@ -56,7 +56,6 @@ export class AppInitService {
     public init(): void {
 
         this._characterService.initialize();
-        this._refreshService.initialize();
         this._extensionsService.initialize();
         this._configService.initialize(this._characterService, this._savegameService);
 

@@ -557,7 +557,8 @@ export class Weapon extends Equipment {
         });
 
         //The Enfeebled condition affects all Strength attacks
-        const strEffects = effectsService.relativeEffectsOnThese(creature, ['Strength-based Checks and DCs', 'Strength-based Attack Rolls']);
+        const strEffects =
+            effectsService.relativeEffectsOnThese(creature, ['Strength-based Checks and DCs', 'Strength-based Attack Rolls']);
         const strPenalty: Array<Effect> = [];
         let strPenaltySum = 0;
 

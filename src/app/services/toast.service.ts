@@ -18,7 +18,8 @@ export class ToastService {
     public show(text: string, options: { onClickCreature?: string; onClickAction?: string } = {}): void {
         options = {
             onClickCreature: '',
-            onClickAction: '', ...options
+            onClickAction: '',
+            ...options,
         };
         this.toasts.push({ text, ...options });
         this._refreshService.setComponentChanged('toasts');
