@@ -127,7 +127,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     get_Spells(name = '') {
-        return this.spellsService.get_Spells(name);
+        return this.spellsService.spells(name);
     }
 
     get_SpellsFromSource() {
@@ -597,7 +597,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public still_loading(): boolean {
-        return this.spellsService.still_loading() || this.characterService.stillLoading;
+        return this.spellsService.stillLoading() || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

@@ -248,7 +248,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public get_FixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
         return spellCastingLevelParameters.fixedSpellSets.map(spellSet => {
-            const spell = this.spellsService.get_Spells(spellSet.gain.name)[0];
+            const spell = this.spellsService.spells(spellSet.gain.name)[0];
 
             if (!spell) {
                 return null;
@@ -334,7 +334,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     private get_DynamicLevel(choice: SpellChoice, casting: SpellCasting): number {
-        return this.spellsService.get_DynamicSpellLevel(casting, choice, this.characterService);
+        return this.spellsService.dynamicSpellLevel(casting, choice, this.characterService);
     }
 
     public still_loading(): boolean {

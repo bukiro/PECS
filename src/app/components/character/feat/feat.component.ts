@@ -102,7 +102,7 @@ export class FeatComponent {
     }
 
     get_Spells(name = '') {
-        return this.spellsService.get_Spells(name);
+        return this.spellsService.spells(name);
     }
 
     get_SpellLevel(levelNumber: number) {

@@ -3181,10 +3181,6 @@ export class CharacterService {
         return (window.innerWidth < Defaults.mobileBreakpointPx);
     }
 
-    public prepareViewChangeByEffectTargets(creature: Creature, targets: Array<string>): void {
-        this.refreshService.prepareChangesByEffectTargets(targets, { creature });
-    }
-
     public initializeAnimalCompanion(): void {
         const character = this.character();
 

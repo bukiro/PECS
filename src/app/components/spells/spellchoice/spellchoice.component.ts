@@ -124,7 +124,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_Spells(name = '', type = '', tradition = '') {
-        return this.spellsService.get_Spells(name, type, tradition);
+        return this.spellsService.spells(name, type, tradition);
     }
 
     capitalize(text: string) {
@@ -558,7 +558,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_DynamicLevel(choice: SpellChoice = this.choice) {
-        return this.spellsService.get_DynamicSpellLevel(this.spellCasting, choice, this.characterService);
+        return this.spellsService.dynamicSpellLevel(this.spellCasting, choice, this.characterService);
     }
 
     get_Available() {
@@ -627,20 +627,20 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         let allSpells: Array<{ spell: Spell; borrowed: boolean }>;
         //Get spells from your spellbook if the casting the choice requires it, otherwise get all spells.
         //If you are preparing spellbook spells because of the casting, and borrowing is active, get all spells and mark all spells as borrowed that aren't in the spellbook.
-        const spellBookSpells: Array<Spell> = this.spellsService.get_Spells().filter(spell =>
+        const spellBookSpells: Array<Spell> = this.spellsService.spells().filter(spell =>
             character.class.spellBook.find((learned: SpellLearned) => learned.name == spell.name),
         );
 
         if (this.spellCasting?.spellBookOnly) {
             if (this.allowBorrow) {
-                allSpells = this.spellsService.get_Spells().map(spell => ({ spell, borrowed: (!spellBookSpells.some(spellBookSpell => spellBookSpell.name == spell.name)) }));
+                allSpells = this.spellsService.spells().map(spell => ({ spell, borrowed: (!spellBookSpells.some(spellBookSpell => spellBookSpell.name == spell.name)) }));
             } else {
                 allSpells = spellBookSpells.map(spell => ({ spell, borrowed: false }));
             }
         } else if (this.choice.spellBookOnly) {
             allSpells = spellBookSpells.map(spell => ({ spell, borrowed: false }));
         } else {
-            allSpells = this.spellsService.get_Spells().map(spell => ({ spell, borrowed: false }));
+            allSpells = this.spellsService.spells().map(spell => ({ spell, borrowed: false }));
         }
 
         //Filter the list by the filter given in the choice.
@@ -671,23 +671,23 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     const adaptedcantrip = this.spellCasting.spellChoices.find(choice => choice.source == 'Feat: Adapted Cantrip').spells[0];
 
                     if (adaptedcantrip) {
-                        const originalSpell = this.spellsService.get_Spells(adaptedcantrip.name)[0];
+                        const originalSpell = this.spellsService.spells(adaptedcantrip.name)[0];
 
                         if (originalSpell) {
                             spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes(this.spellCasting.tradition) && spell.spell.traditions.some(tradition => originalSpell.traditions.includes(tradition)) && !spell.spell.traditions.includes('Focus')));
                         }
                     }
-                } else if (choice.crossbloodedEvolution && !(traditionFilter && choice.spells.some(takenSpell => !this.spellsService.get_Spells(takenSpell.name)[0]?.traditions.includes(traditionFilter)))) {
+                } else if (choice.crossbloodedEvolution && !(traditionFilter && choice.spells.some(takenSpell => !this.spellsService.spells(takenSpell.name)[0]?.traditions.includes(traditionFilter)))) {
                     //With Crossblooded Evolution, you can choose spells of any tradition, unless you already have one of a different tradition than your own.
                     spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes('Focus')));
                 } else if (choice.source.includes('Divine Font') && this.have_Feat('Versatile Font')) {
                     //With Versatile Font, you can choose both Harm and Heal in the Divine Font spell slot.
                     if (!choice.filter.includes('Harm')) {
-                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Harm').map(spell => ({ spell, borrowed: false }))));
+                        spells.push(...allSpells.concat(this.spellsService.spells('Harm').map(spell => ({ spell, borrowed: false }))));
                     }
 
                     if (!choice.filter.includes('Heal')) {
-                        spells.push(...allSpells.concat(this.spellsService.get_Spells('Heal').map(spell => ({ spell, borrowed: false }))));
+                        spells.push(...allSpells.concat(this.spellsService.spells('Heal').map(spell => ({ spell, borrowed: false }))));
                     }
                 } else if (traditionFilter) {
                     //If the tradition filter comes from the spellcasting, also include all spells that are on the spell list regardless of their tradition.
@@ -783,7 +783,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         }
 
         //If any locked or borrowed spells remain that aren't in the list, add them to the list.
-        const librarySpells = this.spellsService.get_Spells();
+        const librarySpells = this.spellsService.spells();
 
         choice.spells.filter(spell =>
             (spell.locked || spell.borrowed) &&

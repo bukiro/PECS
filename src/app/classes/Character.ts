@@ -856,7 +856,7 @@ export class Character extends Creature {
         filter.source = filter.source?.toLowerCase();
 
         const dynamicLevel = (choice: SpellChoice, casting: SpellCasting, characterService: CharacterService): number => (
-            characterService.spellsService.get_DynamicSpellLevel(casting, choice, characterService)
+            characterService.spellsService.dynamicSpellLevel(casting, choice, characterService)
         );
         const choiceLevelMatches = (choice: SpellChoice): boolean => (
             choice.charLevelAvailable >= minLevelNumber && choice.charLevelAvailable <= maxLevelNumber
@@ -877,9 +877,9 @@ export class Character extends Creature {
             ((filter.locked === undefined) || gain.locked === filter.locked) &&
             (
                 !(filter.signatureAllowed && gain.signatureSpell) ||
-                (filter.spellLevel >= services.characterService.spellsService.get_Spells(gain.name)[0]?.levelreq)
+                (filter.spellLevel >= services.characterService.spellsService.spells(gain.name)[0]?.levelreq)
             ) &&
-            (filter.cantripAllowed || (!services.characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes('Cantrip')))
+            (filter.cantripAllowed || (!services.characterService.spellsService.spells(gain.name)[0]?.traits.includes('Cantrip')))
         );
 
         if (this.class) {
@@ -949,7 +949,7 @@ export class Character extends Creature {
             (choice.castingType ? choice.castingType === casting.castingType : true)
         );
         const spellMatches = (gain: SpellGain): boolean => (
-            (options.cantripAllowed || (!services.characterService.spellsService.get_Spells(gain.name)[0]?.traits.includes('Cantrip')))
+            (options.cantripAllowed || (!services.characterService.spellsService.spells(gain.name)[0]?.traits.includes('Cantrip')))
         );
 
         const hasTooManySlottedAeonStones = services.itemsService.hasTooManySlottedAeonStones(this);

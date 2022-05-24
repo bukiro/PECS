@@ -76,12 +76,12 @@ export class RefreshService {
             if (this._preparedToChange.some(view => view.creature === creature && view.target === 'all')) {
                 //If "all" is updated for a creature, skip everything else.
                 this._clearPreparedChanges(creature);
-                this._setViewChanged({ creature, target: 'all', subtarget: '' });
+                this._setDetailChanged({ creature, target: 'all', subtarget: '' });
             } else if (this._preparedToChange.some(view => view.creature === creature && view.target === 'effects')) {
                 // If "effects" is updated for a creature, keep everything else for later,
                 // as effects may stack up more of the others and will update again afterwards.
                 this._preparedToChange = this._preparedToChange.filter(view => !(view.creature === creature && view.target === 'effects'));
-                this._setViewChanged({ creature, target: 'effects', subtarget: '' });
+                this._setDetailChanged({ creature, target: 'effects', subtarget: '' });
             } else {
                 // For the rest, copy the toChange list and clear it,
                 // so we don't get a loop if set_ViewChanged() causes more calls of process_ToChange().
@@ -92,7 +92,7 @@ export class RefreshService {
 
                 this._clearPreparedChanges(creature);
                 uniqueOthers.forEach(view => {
-                    this._setViewChanged(view);
+                    this._setDetailChanged(view);
                 });
             }
         });
@@ -223,7 +223,62 @@ export class RefreshService {
         }
     }
 
-    public prepareChangesByEffectTargets(targets: Array<string>, context: { creature: Creature }): void {
+    public prepareChangesByEffects(newEffects: Array<Effect>, oldEffects: Array<Effect>, context: { creature: Creature }): void {
+        //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
+        // or old effects have been removed.
+
+        const changedEffects: Array<Effect> = [];
+
+        // Collect all new feats that don't exist in the old list or old feats that don't exist in the new list
+        // - that is, everything that has changed.
+        newEffects.forEach(newEffect => {
+            if (!oldEffects.some(oldEffect => JSON.stringify(oldEffect) === JSON.stringify(newEffect))) {
+                changedEffects.push(newEffect);
+            }
+        });
+        oldEffects.forEach(oldEffect => {
+            if (!newEffects.some(newEffect => JSON.stringify(newEffect) === JSON.stringify(oldEffect))) {
+                changedEffects.push(oldEffect);
+            }
+        });
+
+        //Update various components depending on effect targets.
+        this._prepareChangesByEffectTargets(changedEffects.map(effect => effect.target), context);
+
+        changedEffects.forEach(effect => {
+            this._cacheService.setEffectChanged(effect.target, { creatureTypeId: context.creature.typeId });
+        });
+
+        //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
+        if (
+            context.creature.inventories[0].weapons.some(weapon =>
+                weapon.equipped &&
+                changedEffects.some(effect => effect.target.toLowerCase() === weapon.name.toLowerCase()),
+            )
+        ) {
+            this.prepareDetailToChange(context.creature.type, 'attacks');
+        }
+
+        if (
+            context.creature.inventories[0].armors.some(armor =>
+                armor.equipped &&
+                changedEffects.some(effect => effect.target.toLowerCase() === armor.name.toLowerCase()),
+            )
+        ) {
+            this.prepareDetailToChange(context.creature.type, 'defense');
+        }
+
+        if (
+            context.creature.inventories[0].shields.some(shield =>
+                shield.equipped &&
+                changedEffects.some(effect => effect.target.toLowerCase() === shield.name.toLowerCase()),
+            )
+        ) {
+            this.prepareDetailToChange(context.creature.type, 'defense');
+        }
+    }
+
+    private _prepareChangesByEffectTargets(targets: Array<string>, context: { creature: Creature }): void {
         //Setup lists of names and what they should update.
         const general: Array<string> = ['Max Languages', 'Size'].map(name => name.toLowerCase());
         const generalWildcard: Array<string> = [].map(name => name.toLowerCase());
@@ -373,61 +428,6 @@ export class RefreshService {
         });
     }
 
-    public prepareChangesByEffects(newEffects: Array<Effect>, oldEffects: Array<Effect>, context: { creature: Creature }): void {
-        //Set refresh commands for all components of the application depending on whether there are new effects affecting their data,
-        // or old effects have been removed.
-
-        const changedEffects: Array<Effect> = [];
-
-        // Collect all new feats that don't exist in the old list or old feats that don't exist in the new list
-        // - that is, everything that has changed.
-        newEffects.forEach(newEffect => {
-            if (!oldEffects.some(oldEffect => JSON.stringify(oldEffect) === JSON.stringify(newEffect))) {
-                changedEffects.push(newEffect);
-            }
-        });
-        oldEffects.forEach(oldEffect => {
-            if (!newEffects.some(newEffect => JSON.stringify(newEffect) === JSON.stringify(oldEffect))) {
-                changedEffects.push(oldEffect);
-            }
-        });
-
-        //Update various components depending on effect targets.
-        this.prepareChangesByEffectTargets(changedEffects.map(effect => effect.target), context);
-
-        changedEffects.forEach(effect => {
-            this._cacheService.setEffectChanged(effect.target, { creatureTypeId: context.creature.typeId });
-        });
-
-        //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
-        if (
-            context.creature.inventories[0].weapons.some(weapon =>
-                weapon.equipped &&
-                changedEffects.some(effect => effect.target.toLowerCase() === weapon.name.toLowerCase()),
-            )
-        ) {
-            this.prepareDetailToChange(context.creature.type, 'attacks');
-        }
-
-        if (
-            context.creature.inventories[0].armors.some(armor =>
-                armor.equipped &&
-                changedEffects.some(effect => effect.target.toLowerCase() === armor.name.toLowerCase()),
-            )
-        ) {
-            this.prepareDetailToChange(context.creature.type, 'defense');
-        }
-
-        if (
-            context.creature.inventories[0].shields.some(shield =>
-                shield.equipped &&
-                changedEffects.some(effect => effect.target.toLowerCase() === shield.name.toLowerCase()),
-            )
-        ) {
-            this.prepareDetailToChange(context.creature.type, 'defense');
-        }
-    }
-
     private _clearPreparedChanges(creatureType = 'all'): void {
         this._preparedToChange = this._preparedToChange
             .filter(view =>
@@ -436,7 +436,7 @@ export class RefreshService {
             );
     }
 
-    private _setViewChanged(view: { creature: string; target: string; subtarget: string }): void {
+    private _setDetailChanged(view: { creature: string; target: string; subtarget: string }): void {
         this._detailChanged.next(view);
     }
 

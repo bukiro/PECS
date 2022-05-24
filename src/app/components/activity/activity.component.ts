@@ -212,7 +212,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     private get_Spells(name = '', type = '', tradition = ''): Array<Spell> {
-        return this.spellsService.get_Spells(name, type, tradition);
+        return this.spellsService.spells(name, type, tradition);
     }
 
     public get_ActivityConditions(): Array<{ gain: ConditionGain; condition: Condition }> {

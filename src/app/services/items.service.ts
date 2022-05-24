@@ -862,10 +862,10 @@ export class ItemsService {
                 item.castSpells.forEach((cast: SpellCast) => {
                     cast.spellGain.duration = cast.duration;
 
-                    const librarySpell = spellsService.get_Spells(cast.name)[0];
+                    const librarySpell = spellsService.spells(cast.name)[0];
 
                     if (librarySpell) {
-                        characterService.spellsService.process_Spell(librarySpell, true,
+                        characterService.spellsService.processSpell(librarySpell, true,
                             { characterService, itemsService: this, conditionsService },
                             { creature, target: creature.type, gain: cast.spellGain, level: cast.level },
                             { manual: true },

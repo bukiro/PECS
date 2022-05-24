@@ -569,7 +569,7 @@ export class ActivitiesProcessingService {
                 }
 
                 context.gain.castSpells.forEach((cast, spellCastIndex) => {
-                    const librarySpell = services.spellsService.get_Spells(cast.name)[0];
+                    const librarySpell = services.spellsService.spells(cast.name)[0];
 
                     if (librarySpell) {
                         if (context.gain.spellEffectChoices[spellCastIndex].length) {
@@ -587,7 +587,7 @@ export class ActivitiesProcessingService {
 
                         cast.spellGain.selectedTarget = context.targetType;
 
-                        services.characterService.spellsService.process_Spell(
+                        services.characterService.spellsService.processSpell(
                             librarySpell,
                             true,
                             {
@@ -751,7 +751,7 @@ export class ActivitiesProcessingService {
             //Disable toggled spells
             if (activity.castSpells) {
                 context.gain.castSpells.forEach(cast => {
-                    const librarySpell = services.spellsService.get_Spells(cast.name)[0];
+                    const librarySpell = services.spellsService.spells(cast.name)[0];
 
                     if (librarySpell) {
                         if (cast.overrideChoices.length) {
@@ -763,7 +763,7 @@ export class ActivitiesProcessingService {
                             cast.spellGain.duration = cast.duration;
                         }
 
-                        services.characterService.spellsService.process_Spell(
+                        services.characterService.spellsService.processSpell(
                             librarySpell,
                             false,
                             {

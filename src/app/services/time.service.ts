@@ -133,7 +133,7 @@ export class TimeService {
                 const character = creature as Character;
 
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
-                spellsService.rest(character, characterService);
+                spellsService.restSpells(character, characterService);
                 //Regenerate spell slots.
                 character.class.spellCasting.forEach(casting => {
                     casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -182,7 +182,7 @@ export class TimeService {
         });
 
         //Reset all "once per day" spell cooldowns and re-prepare spells.
-        spellsService.refocus(character, characterService);
+        spellsService.refocusSpells(character, characterService);
 
         const focusPoints = character.class.focusPoints;
         const focusPointsLast = character.class.focusPointsLast;
@@ -251,7 +251,7 @@ export class TimeService {
                     itemsService.tickItems((creature as AnimalCompanion | Character), characterService, creatureTurns);
 
                     if (creature instanceof Character) {
-                        spellsService.tick_Spells((creature as Character), characterService, itemsService, conditionsService, creatureTurns);
+                        spellsService.tickSpells((creature as Character), characterService, itemsService, conditionsService, creatureTurns);
                     }
 
                     //If you are at full health and rest for 10 minutes, you lose the wounded condition.

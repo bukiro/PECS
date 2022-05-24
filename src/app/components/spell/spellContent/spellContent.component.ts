@@ -53,7 +53,7 @@ export class SpellContentComponent implements OnInit, OnDestroy {
     }
 
     get_Spells(name: string) {
-        return this.spellsService.get_Spells(name);
+        return this.spellsService.spells(name);
     }
 
     finish_Loading() {

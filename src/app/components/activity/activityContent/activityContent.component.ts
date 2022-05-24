@@ -85,7 +85,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
             return [];
         }
 
-        return this.spellsService.get_Spells(name, type, tradition);
+        return this.spellsService.spells(name, type, tradition);
     }
 
     get_SpellCasts() {
@@ -109,7 +109,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
                 gain.spellEffectChoices.push([]);
             }
 
-            const spell = this.spellsService.get_Spells(spellCast.name)[0];
+            const spell = this.spellsService.spells(spellCast.name)[0];
 
             spell.heightenedConditions(spellCast.level)
                 .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.conditions(conditionGain.name)[0] }))

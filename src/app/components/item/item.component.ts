@@ -78,7 +78,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     get_Spells(name = '', type = '', tradition = '') {
-        return this.spellsService.get_Spells(name, type, tradition);
+        return this.spellsService.spells(name, type, tradition);
     }
 
     get_GainedSpellLevel(spell: Spell, context: { gain: SpellGain; choice: SpellChoice }) {
@@ -306,7 +306,7 @@ export class ItemComponent implements OnInit, OnDestroy {
             if (spell) {
                 const tempGain: SpellGain = new SpellGain();
 
-                this.spellsService.process_Spell(spell, true,
+                this.spellsService.processSpell(spell, true,
                     { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
                     { creature: this.get_Creature('Character'), target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
                     { manual: true },

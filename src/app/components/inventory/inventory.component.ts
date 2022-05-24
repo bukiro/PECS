@@ -563,7 +563,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             const spell = this.get_Spells(spellName)[0];
 
             if (spell && (!(item instanceof Wand && item.overcharged) || this.get_ManualMode())) {
-                this.characterService.spellsService.process_Spell(spell, true,
+                this.characterService.spellsService.processSpell(spell, true,
                     { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
                     { creature: this.get_Character(), choice: spellChoice, target: creature, gain: item.storedSpells[0].spells[0], level: spellChoice.level },
                     { manual: true },
@@ -741,7 +741,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_Spells(name = '', type = '', tradition = '') {
-        return this.spellsService.get_Spells(name, type, tradition);
+        return this.spellsService.spells(name, type, tradition);
     }
 
     get_ItemSpell(item: Item) {

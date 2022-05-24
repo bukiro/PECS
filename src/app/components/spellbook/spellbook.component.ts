@@ -338,7 +338,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_DynamicLevel(choice: SpellChoice, casting: SpellCasting) {
-        return this.spellsService.get_DynamicSpellLevel(casting, choice, this.characterService);
+        return this.spellsService.dynamicSpellLevel(casting, choice, this.characterService);
     }
 
     get_SignatureSpellsAllowed(casting: SpellCasting) {
@@ -364,7 +364,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_Spells(name: string) {
-        return this.spellsService.get_Spells(name);
+        return this.spellsService.spells(name);
     }
 
     get_SpellConditions(spell: Spell, levelNumber: number, gain: SpellGain) {
@@ -702,7 +702,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             });
         }
 
-        this.spellsService.process_Spell(context.spellParameters.spell, activated,
+        this.spellsService.processSpell(context.spellParameters.spell, activated,
             { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
             { creature: character, target, casting: context.spellCastingParameters.casting, choice: context.spellParameters.choice, gain: context.spellParameters.gain, level: context.spellCastingLevelParameters.level },
             { manual: true, expendOnly: options.expend },
@@ -712,7 +712,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             const secondSpell = this.get_Spells(context.spellParameters.gain.combinationSpellName)[0];
 
             if (secondSpell) {
-                this.spellsService.process_Spell(secondSpell, activated,
+                this.spellsService.processSpell(secondSpell, activated,
                     { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
                     { creature: character, target, casting: context.spellCastingParameters.casting, choice: context.spellParameters.choice, gain: context.spellParameters.gain, level: context.spellCastingLevelParameters.level },
                     { manual: true, expendOnly: options.expend },

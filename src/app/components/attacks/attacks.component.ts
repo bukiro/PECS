@@ -280,7 +280,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     get_Spells(name = '', type = '', tradition = '') {
-        return this.characterService.spellsService.get_Spells(name, type, tradition);
+        return this.characterService.spellsService.spells(name, type, tradition);
     }
 
     onConsumableUse(item: Ammunition | AlchemicalBomb | OtherConsumableBomb | Snare, inv: ItemCollection) {
@@ -299,7 +299,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                         target = 'Character';
                     }
 
-                    this.characterService.spellsService.process_Spell(spell, true,
+                    this.characterService.spellsService.processSpell(spell, true,
                         { characterService: this.characterService, itemsService: this.characterService.itemsService, conditionsService: this.characterService.conditionsService },
                         { creature: this.get_Character(), target, gain: tempGain, level: spellChoice.level },
                         { manual: true },
