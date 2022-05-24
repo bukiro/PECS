@@ -1,7 +1,7 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngFor="let traits of [item.get_Traits(characterService, get_Creature())]; trackBy:trackByIndex">
     <div class="newrow left-aligned tags" *ngIf="traits.length">
-        <app-trait *ngFor="let trait of traits; trackBy:trackByIndex;"
-            [name]="trait" [trait]="get_Traits(trait)[0]">
+        <app-trait *ngFor="let trait of traits; trackBy:trackByIndex;" [name]="trait" [trait]="get_Traits(trait)[0]">
         </app-trait>
     </div>
 </ng-container>

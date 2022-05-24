@@ -1,9 +1,11 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="vlist">
     <header class="subsectionHeader">
         Custom effects on {{objectName}}
     </header>
     <button class="newrow center-aligned" (click)="new_CustomEffectOnThis()">Add effect</button>
-    <div class="newrow list-item" *ngFor="let effect of get_CustomEffectsOnThis(); let index = index; trackBy:trackByIndex;">
+    <div class="newrow list-item"
+        *ngFor="let effect of get_CustomEffectsOnThis(); let index = index; trackBy:trackByIndex;">
         <ng-template #FormulaTemplate>
             <strong>Formula</strong>
             {{effect.setValue || effect.value || ''}}

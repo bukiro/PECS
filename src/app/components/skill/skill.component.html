@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container
     *ngFor="let calculatedSkill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService, get_Character().level, isDC)]; trackBy:trackByIndex;">
     <div class="list-item" [ngClass]="{'fullsize-only':(calculatedSkill.value.result === 0)}"

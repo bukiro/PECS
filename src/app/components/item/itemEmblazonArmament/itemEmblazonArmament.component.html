@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!--Changing Blade Ally Status-->
 <div class="list-item newrow">
     <header class="subsectionHeader">
@@ -63,7 +64,8 @@
                 <div class="newrow left-aligned">
                     <span [ngbPopover]="disabled">
                         <input id="{{item.id}}emblazonEnergy" type="checkbox" [(ngModel)]="emblazonEnergyActivated"
-                            (ngModelChange)="on_Change('emblazonEnergy', emblazonDivinity)" [disabled]="disabled !== ''">
+                            (ngModelChange)="on_Change('emblazonEnergy', emblazonDivinity)"
+                            [disabled]="disabled !== ''">
                         <label for="{{item.id}}emblazonEnergy">
                             <i class='ra ra-bolt-shield'></i>
                             Emblazon Energy

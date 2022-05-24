@@ -2,12 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-
 import { AppComponent } from 'src/app/app.component';
-
 import { AbilitiesComponent } from 'src/app/components/abilities/abilities.component';
 import { TopBarComponent } from 'src/app/components/top-bar/top-bar.component';
 import { SkillsComponent } from 'src/app/components/skills/skills.component';

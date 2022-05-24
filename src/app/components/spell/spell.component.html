@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="newrow lower" *ngIf="spell">
     <div class="newrow left-aligned">
         <app-trait *ngFor="let trait of spell.traits; trackBy:trackByIndex;" [name]="trait"

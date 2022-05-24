@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngFor="let activityParameters of [get_ActivityParameters()]; trackBy: trackByIndex;">
     <div class="newrow" *ngIf="allowActivate">
         <!-- Buttons if the activity does anything, including activating a cooldown or toggling the activity status. -->
@@ -27,7 +28,7 @@
             </ng-container>
         </ng-container>
         <!-- Activity with no effect, not even toggled. This button literally does nothing. -->
-        <ng-container *ngIf="!activity.can_Activate()">
+        <ng-container *ngIf="!activity.canActivate()">
             <button class="newrow center-aligned" [ngbTooltip]="'The activity has no automatic effects and no target.'">
                 <span>Activate <i class='bi-peace' *ngIf="!get_ManualMode()"></i></span>
             </button>

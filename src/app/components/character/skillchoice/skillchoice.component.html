@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngFor="let listID of [choice.id]; trackBy:trackByIndex;">
     <ng-container *ngFor="let maxAvailable of [get_Available()]; trackBy:trackByIndex;">
         <ng-container *ngFor="let buttonTitle of [get_ButtonTitle(maxAvailable)]; trackBy:trackByIndex;">

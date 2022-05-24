@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="list-item newrow">
     <p>
         Welcome to PECS, a largely automated character tool for Pathfinder RPG 2nd Edition. This tool is meant to allow
@@ -55,7 +56,8 @@
             <app-description *ngFor="let split of hint.desc.split('\n\n'); trackBy:trackByIndex" [text]="split">
             </app-description>
             <div class="newrow list-item center-aligned" *ngFor="let image of hint.images; trackBy:trackByIndex">
-                <img style="max-width:100%; flex-grow: 0;" title="{{hint.header}}" src="assets/img/about/{{image.file}}">
+                <img style="max-width:100%; flex-grow: 0;" title="{{hint.header}}"
+                    src="assets/img/about/{{image.file}}">
                 <span class="newrow center-aligned" *ngIf="image.title">{{image.title}}</span>
             </div>
         </div>

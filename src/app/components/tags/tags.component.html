@@ -1,8 +1,10 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container *ngFor="let allTags of [get_AllTags()]; trackBy:trackByIndex;">
     <div class="fullsize-only newrow left-aligned" *ngIf="allTags.count > 0">
         <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackByIndex;">
             <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackByIndex;">
-                <app-hint [creature]="creature" [color]="'trait'" [object]="trait" [objectName]="traitSet.setName" [sourceBook]="trait.sourceBook"
+                <app-hint [creature]="creature" [color]="'trait'" [object]="trait" [objectName]="traitSet.setName"
+                    [sourceBook]="trait.sourceBook"
                     [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true).join(', ') + ')'">
                 </app-hint>
             </ng-container>

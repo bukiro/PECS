@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-template #Split let-split="split">
     <app-quickdice *ngIf="split.includes('dice=')" [diceString]="split.replace('dice=','')" [casting]="casting">
     </app-quickdice>

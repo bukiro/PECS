@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div id="{{creature}}-effects-height" class="attributeBox" [ngClass]="{'snug':!fullDisplay}">
     <ng-container *ngFor="let timeStopped of [get_TimeStopped()]; trackBy: trackByIndex">
         <ng-template #conditionTemplate let-conditionGain="conditionGain">
