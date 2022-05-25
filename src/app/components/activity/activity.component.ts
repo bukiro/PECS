@@ -25,6 +25,8 @@ import { Spell } from 'src/app/classes/Spell';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Trait } from 'src/app/classes/Trait';
 import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -50,186 +52,187 @@ interface ActivitySpellSet {
 export class ActivityComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature = 'Character';
+    public creature = 'Character';
     @Input()
-    activity: Activity | ItemActivity;
+    public activity: Activity | ItemActivity;
     @Input()
-    gain: ActivityGain | ItemActivity;
+    public gain: ActivityGain | ItemActivity;
     @Input()
-    allowActivate = false;
+    public allowActivate = false;
     @Input()
-    isSubItem = false;
+    public isSubItem = false;
     @Input()
-    closeAfterActivation = false;
+    public closeAfterActivation = false;
 
-    item: Equipment | Rune;
+    public item: Equipment | Rune;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly traitsService: TraitsService,
-        private readonly spellsService: SpellsService,
-        private readonly activitiesService: ActivitiesDataService,
-        private readonly activitiesProcessingService: ActivitiesProcessingService,
-        private readonly timeService: TimeService,
-        private readonly itemsService: ItemsService,
-        private readonly conditionsService: ConditionsService,
-        private readonly effectsService: EffectsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _traitsService: TraitsService,
+        private readonly _spellsService: SpellsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesProcessingService: ActivitiesProcessingService,
+        private readonly _timeService: TimeService,
+        private readonly _itemsService: ItemsService,
+        private readonly _conditionsService: ConditionsService,
+        private readonly _effectsService: EffectsService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get isManualMode(): boolean {
+        return this._characterService.isManualMode();
     }
 
-    private get_Creature(creature: string = this.creature): Creature {
-        return this.characterService.creatureFromType(creature);
-    }
-
-    public get_Character(): Character {
-        return this.characterService.character();
-    }
-
-    public get_ManualMode(): boolean {
-        return this.characterService.isManualMode();
-    }
-
-    public get_ActivityParameters(): ActivityParameters {
-        const creature = this.get_Creature();
-        const maxCharges = this.activity.maxCharges({ creature }, { effectsService: this.effectsService });
-        const tooManySlottedAeonStones = (this.item instanceof WornItem && this.item.isSlottedAeonStone && this.itemsService.hasTooManySlottedAeonStones(this.get_Creature()));
-        const resonantAllowed = (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !tooManySlottedAeonStones);
-
-        return {
-            maxCharges,
-            cooldown: this.activity.effectiveCooldown({ creature }, { characterService: this.characterService, effectsService: this.effectsService }),
-            disabled: this.gain?.disabled({ creature, maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }) || '',
-            activitySpell: this.get_ActivitySpell(),
-            tooManySlottedAeonStones,
-            resonantAllowed,
-        };
-    }
-
-    public get_Resonant(): boolean {
+    public get isResonant(): boolean {
         return (this.activity instanceof ItemActivity && this.activity.resonant);
     }
 
-    private get_ActivitySpell(): ActivitySpellSet {
-        if (this.activity.castSpells.length) {
-            const spell = this.get_Spells(this.activity.castSpells[0].name)[0];
+    public character(): Character {
+        return this._characterService.character();
+    }
 
-            if (spell) {
-                return { spell, gain: this.activity.castSpells[0].spellGain, cast: this.activity.castSpells[0] };
-            } else {
-                return null;
-            }
+    public activityParameters(): ActivityParameters {
+        const creature = this._currentCreature();
+        const maxCharges = this.activity.maxCharges({ creature }, { effectsService: this._effectsService });
+        const hasTooManySlottedAeonStones =
+            (
+                this.item instanceof WornItem &&
+                this.item.isSlottedAeonStone &&
+                this._itemsService.hasTooManySlottedAeonStones(this._currentCreature())
+            );
+        const isResonantAllowed =
+            (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !hasTooManySlottedAeonStones);
+
+        return {
+            maxCharges,
+            cooldown: this.activity.effectiveCooldown(
+                { creature },
+                { characterService: this._characterService, effectsService: this._effectsService },
+            ),
+            disabled: this.gain?.disabled(
+                { creature, maxCharges },
+                { effectsService: this._effectsService, timeService: this._timeService },
+            ) || '',
+            activitySpell: this._activitySpell(),
+            tooManySlottedAeonStones: hasTooManySlottedAeonStones,
+            resonantAllowed: isResonantAllowed,
+        };
+    }
+
+    public onActivate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, target: string): void {
+        if (gain.name === 'Fused Stance') {
+            this._onActivateFuseStance(activated);
         } else {
-            return null;
+            this._activitiesProcessingService.activateActivity(
+                this._currentCreature(),
+                target,
+                this._characterService,
+                this._conditionsService,
+                this._itemsService,
+                this._spellsService,
+                gain,
+                activity,
+                activated,
+            );
         }
     }
 
-    public on_Activate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, target: string): void {
-        if (gain.name == 'Fused Stance') {
-            this.on_ActivateFuseStance(activated);
-        } else {
-            this.activitiesProcessingService.activateActivity(this.get_Creature(), target, this.characterService, this.conditionsService, this.itemsService, this.spellsService, gain, activity, activated);
-        }
-    }
-
-    private on_ActivateFuseStance(activated: boolean): void {
-        this.gain.active = activated;
-        this.get_FusedStances().forEach(set => {
-            if (set.gain && set.activity && activated != set.gain.active) {
-                this.activitiesProcessingService.activateActivity(this.get_Creature(), 'Character', this.characterService, this.conditionsService, this.itemsService, this.spellsService, set.gain, set.activity, activated);
-            }
-        });
-    }
-
-    public on_ManualRestoreCharge(): void {
+    public onManualRestoreCharge(): void {
         this.gain.chargesUsed = Math.max(this.gain.chargesUsed - 1, 0);
 
-        if (this.gain.chargesUsed == 0) {
+        if (this.gain.chargesUsed === 0) {
             this.gain.activeCooldown = 0;
         }
     }
 
-    public on_ManualEndCooldown(): void {
+    public onManualEndCooldown(): void {
         this.gain.activeCooldown = 0;
         this.gain.chargesUsed = 0;
     }
 
-    public get_Traits(traitName = ''): Array<Trait> {
-        return this.traitsService.traits(traitName);
+    public traitFromName(traitName: string): Trait {
+        return this._traitsService.traitFromName(traitName);
     }
 
-    public get_FeatsShowingOn(activityName: string): Array<Feat> {
+    public characterFeatsShowingHintsOnThis(activityName: string): Array<Feat> {
         if (activityName) {
-            return this.characterService.characterFeatsShowingHintsOnThis(activityName)
-                .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
+            return this._characterService.characterFeatsShowingHintsOnThis(activityName)
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];
         }
     }
 
-    public get_ConditionsShowingOn(activityName: string): Array<{ gain: ConditionGain; condition: Condition }> {
+    public conditionsShowingHintsOnThis(activityName: string): Array<{ gain: ConditionGain; condition: Condition }> {
         if (activityName) {
-            return this.characterService.creatureConditionsShowingHintsOnThis(this.get_Creature(), activityName)
-                .sort((a, b) => (a.condition.name == b.condition.name) ? 0 : ((a.condition.name > b.condition.name) ? 1 : -1));
+            return this._characterService.creatureConditionsShowingHintsOnThis(this._currentCreature(), activityName)
+                .sort((a, b) => SortAlphaNum(a.condition.name, b.condition.name));
         } else {
             return [];
         }
     }
 
-    public get_ActivitiesShowingOn(objectName: string): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
+    public activitiesShowingHintsOnThis(
+        objectName: string,
+    ): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
         if (objectName) {
-            return this.characterService.creatureOwnedActivities(this.get_Creature())
-                .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesService) }))
+            return this._characterService.creatureOwnedActivities(this._currentCreature())
+                .map(gain => ({ gain, activity: gain.originalActivity(this._activitiesService) }))
                 .filter(set =>
                     set.activity?.hints
                         .some(hint =>
                             hint.showon.split(',')
                                 .some(showon =>
-                                    showon.trim().toLowerCase() == objectName.toLowerCase(),
+                                    showon.trim().toLowerCase() === objectName.toLowerCase(),
                                 ),
                         ),
                 )
-                .sort((a, b) => (a.activity.name == b.activity.name) ? 0 : ((a.activity.name > b.activity.name) ? 1 : -1));
+                .sort((a, b) => SortAlphaNum(a.activity.name, b.activity.name));
         } else {
             return [];
         }
     }
 
-    public get_FusedStances(): Array<{ gain: ItemActivity | ActivityGain; activity: Activity }> {
-        const featData = this.get_Character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
+    public fusedStances(): Array<{ gain: ItemActivity | ActivityGain; activity: Activity }> {
+        const featData = this.character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (featData) {
-            return this.characterService.creatureOwnedActivities(this.get_Creature())
+            return this._characterService.creatureOwnedActivities(this._currentCreature())
                 .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
-                .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesService) }));
+                .map(gain => ({ gain, activity: gain.originalActivity(this._activitiesService) }));
         } else {
             return [];
         }
     }
 
-    private get_Spells(name = '', type = '', tradition = ''): Array<Spell> {
-        return this.spellsService.spells(name, type, tradition);
-    }
-
-    public get_ActivityConditions(): Array<{ gain: ConditionGain; condition: Condition }> {
-        //For all conditions that are included with this activity, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
+    public activityConditions(): Array<{ gain: ConditionGain; condition: Condition }> {
+        // For all conditions that are included with this activity,
+        // create an effectChoice on the gain and set it to the default choice, if any.
+        // Add the name for later copyChoiceFrom actions.
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
         const gain = this.gain;
 
         if (gain) {
             this.activity.gainConditions
-                .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.conditions(conditionGain.name)[0] }))
+                .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
-                    conditionSet.condition?.effectiveChoices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : conditionSet.condition.minLevel));
-                    //Add the condition to the selection list. Conditions with no choices, with hideChoices or with copyChoiceFrom will not be displayed.
+                    conditionSet.condition?.effectiveChoices(
+                        this._characterService,
+                        true,
+                        (conditionSet.gain.heightened ? conditionSet.gain.heightened : conditionSet.condition.minLevel),
+                    );
+                    // Add the condition to the selection list.
+                    // Conditions with no choices, with hideChoices or with copyChoiceFrom will not be displayed.
                     conditionSets.push(conditionSet);
 
-                    //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                    // Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices,
+                    // insert or replace that choice on the gain.
                     while (conditionSet.condition && !gain.effectChoices.length || gain.effectChoices.length < index - 1) {
                         gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                     }
@@ -243,7 +246,10 @@ export class ActivityComponent implements OnInit, OnDestroy {
         return conditionSets;
     }
 
-    public get_ShowConditionChoice(conditionSet: { gain: ConditionGain; condition: Condition }, context: { tooManySlottedAeonStones: boolean; resonantAllowed: boolean }): boolean {
+    public shownConditionChoice(
+        conditionSet: { gain: ConditionGain; condition: Condition },
+        context: { tooManySlottedAeonStones: boolean; resonantAllowed: boolean },
+    ): boolean {
         return this.allowActivate &&
             conditionSet.condition &&
             conditionSet.condition.$choices.length &&
@@ -255,25 +261,10 @@ export class ActivityComponent implements OnInit, OnDestroy {
             (conditionSet.gain.resonant ? context.resonantAllowed : true);
     }
 
-    public on_EffectChoiceChange(): void {
-        this.refreshService.prepareDetailToChange(this.creature, 'inventory');
-        this.refreshService.prepareDetailToChange(this.creature, 'activities');
-        this.refreshService.processPreparedChanges();
-    }
-
-    private finish_Loading(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
-            .subscribe(target => {
-                if (['activities', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+    public onEffectChoiceChange(): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
+        this._refreshService.prepareDetailToChange(this.creature, 'activities');
+        this._refreshService.processPreparedChanges();
     }
 
     public ngOnInit(): void {
@@ -281,16 +272,72 @@ export class ActivityComponent implements OnInit, OnDestroy {
             this.allowActivate = false;
         }
 
-        this.item = this.activitiesService.itemFromActivityGain(this.get_Creature(), this.gain);
-        this.finish_Loading();
+        this.item = this._activitiesService.itemFromActivityGain(this._currentCreature(), this.gain);
+        this._subscribeToChanges();
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
-
     public ngOnDestroy(): void {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _currentCreature(creature: string = this.creature): Creature {
+        return this._characterService.creatureFromType(creature);
+    }
+
+    private _activitySpell(): ActivitySpellSet {
+        if (this.activity.castSpells.length) {
+            const spell = this._spellFromName(this.activity.castSpells[0].name)[0];
+
+            if (spell) {
+                return { spell, gain: this.activity.castSpells[0].spellGain, cast: this.activity.castSpells[0] };
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    private _onActivateFuseStance(activated: boolean): void {
+        this.gain.active = activated;
+        this.fusedStances().forEach(set => {
+            if (set.gain && set.activity && activated !== set.gain.active) {
+                this._activitiesProcessingService.activateActivity(
+                    this._currentCreature(),
+                    'Character',
+                    this._characterService,
+                    this._conditionsService,
+                    this._itemsService,
+                    this._spellsService,
+                    set.gain,
+                    set.activity,
+                    activated,
+                );
+            }
+        });
+    }
+
+    private _spellFromName(name: string): Spell {
+        return this._spellsService.spellFromName(name);
+    }
+
+    private _subscribeToChanges(): void {
+        this._changeSubscription = this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (['activities', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+        this._viewChangeSubscription = this._refreshService.detailChanged$
+            .subscribe(view => {
+                if (
+                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                    ['activities', 'all'].includes(view.target.toLowerCase())
+                ) {
+                    this._changeDetector.detectChanges();
+                }
+            });
     }
 
 }

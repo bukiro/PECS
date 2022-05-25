@@ -1,8 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngFor="let activityParameters of [get_ActivityParameters()]; trackBy: trackByIndex;">
+<ng-container *ngIf="activityParameters() as activityParameters">
     <div class="newrow" *ngIf="allowActivate">
         <!-- Buttons if the activity does anything, including activating a cooldown or toggling the activity status. -->
-        <ng-container *ngIf="activity.can_Activate()">
+        <ng-container *ngIf="activity.canActivate()">
             <!-- Spell targets if a spell is cast by this activity. -->
             <ng-container *ngIf="activityParameters.activitySpell">
                 <app-spellTarget class="newrow vlist" [creature]="creature"
@@ -13,30 +13,29 @@
                     [effectiveSpellLevel]="activityParameters.activitySpell.cast.level || activityParameters.activitySpell.spell.levelreq"
                     [spellCast]="activityParameters.activitySpell.cast" [showDismiss]="true"
                     [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
-                    (castMessage)="on_Activate(gain, activity, $event.activated, $event.target)">
+                    (castMessage)="onActivate(gain, activity, $event.activated, $event.target)">
                 </app-spellTarget>
             </ng-container>
             <!-- Activity targets if no spell is cast. -->
             <ng-container *ngIf="!activityParameters.activitySpell">
                 <app-spellTarget class="newrow vlist" [creature]="creature" [activity]="activity"
                     [phrase]="'Activate' + (activityParameters.maxCharges ? ' (' + (activityParameters.maxCharges - gain.chargesUsed) + ' of ' + activityParameters.maxCharges + ' charges)' : '')"
-                    [gain]="gain" [cannotCast]="activityParameters.disabled"
-                    [effectiveSpellLevel]="get_Character().level" [showDismiss]="true"
-                    [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
-                    (castMessage)="on_Activate(gain, activity, $event.activated, $event.target)">
+                    [gain]="gain" [cannotCast]="activityParameters.disabled" [effectiveSpellLevel]="character().level"
+                    [showDismiss]="true" [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
+                    (castMessage)="onActivate(gain, activity, $event.activated, $event.target)">
                 </app-spellTarget>
             </ng-container>
         </ng-container>
         <!-- Activity with no effect, not even toggled. This button literally does nothing. -->
         <ng-container *ngIf="!activity.canActivate()">
             <button class="newrow center-aligned" [ngbTooltip]="'The activity has no automatic effects and no target.'">
-                <span>Activate <i class='bi-peace' *ngIf="!get_ManualMode()"></i></span>
+                <span>Activate <i class='bi-peace' *ngIf="!isManualMode"></i></span>
             </button>
         </ng-container>
     </div>
     <!-- Unslotted Aeon Stone warning -->
     <button class="newrow list-item" disabled
-        *ngIf="get_Resonant() && !(isSubItem || activityParameters.resonantAllowed) && !activityParameters.tooManySlottedAeonStones">
+        *ngIf="isResonant && !(isSubItem || activityParameters.resonantAllowed) && !activityParameters.tooManySlottedAeonStones">
         <strong>
             Slot this item into a Wayfinder to unlock this activation.
         </strong>
@@ -45,38 +44,38 @@
     <div class="newrow list-item problem" *ngIf="activityParameters.tooManySlottedAeonStones">
         You have aeon stones slotted in too many wayfinders. All effects of these aeon stones are disabled.
     </div>
-    <ng-container *ngIf="get_ManualMode() && allowActivate">
+    <ng-container *ngIf="isManualMode && allowActivate">
         <!-- End cooldown and restore charges button in manual mode-->
         <ng-container *ngIf="gain.activeCooldown">
-            <button class="center-aligned" (click)="on_ManualEndCooldown()">
+            <button class="center-aligned" (click)="onManualEndCooldown()">
                 <span>End cooldown</span>
             </button>
         </ng-container>
         <!-- Restore charges button in manual mode-->
         <ng-container *ngIf="gain.chargesUsed">
-            <button class="center-aligned" (click)="on_ManualRestoreCharge()">
+            <button class="center-aligned" (click)="onManualRestoreCharge()">
                 <span>Restore charge</span>
             </button>
         </ng-container>
     </ng-container>
     <div class="newrow left-aligned">
-        <app-trait *ngFor="let trait of activity.traits; trackBy:trackByIndex;" [name]="trait"
-            [trait]="get_Traits(trait)[0]">
+        <app-trait *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;" [name]="trait"
+            [trait]="traitFromName(trait)">
         </app-trait>
-        <app-trait *ngFor="let trait of activity.get_ActivationTraits(); trackBy:trackByIndex;" [name]="trait"
-            [trait]="get_Traits(trait)[0]" [extraDescription]="'(This trait was derived from the action components.)'">
+        <app-trait *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;" [name]="trait"
+            [trait]="traitFromName(trait)" [extraDescription]="'(This trait was derived from the action components.)'">
         </app-trait>
         <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </div>
     <ng-container
-        *ngFor="let conditionSet of get_ActivityConditions(); let conditionSetIndex = index; trackBy:trackByIndex">
+        *ngFor="let conditionSet of activityConditions(); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
         <div class="newrow list-item left-aligned"
-            *ngIf="get_ShowConditionChoice(conditionSet, {tooManySlottedAeonStones: activityParameters.tooManySlottedAeonStones, resonantAllowed: activityParameters.resonantAllowed})">
+            *ngIf="shownConditionChoice(conditionSet, {tooManySlottedAeonStones: activityParameters.tooManySlottedAeonStones, resonantAllowed: activityParameters.resonantAllowed})">
             <span>{{conditionSet.condition.name}} effect selection:
                 <select [(ngModel)]="gain.effectChoices[conditionSetIndex].choice"
-                    (ngModelChange)="on_EffectChoiceChange()">
-                    <option *ngFor="let choice of conditionSet.condition._choices; trackBy:trackByIndex;"
+                    (ngModelChange)="onEffectChoiceChange()">
+                    <option *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackers.trackByIndex;"
                         [ngValue]="choice">
                         {{choice}}
                     </option>
@@ -93,27 +92,28 @@
         <!--Only show related feats and conditions if this activity is not currently being shown on another object - that is, if it's allowed to be activated.-->
         <ng-container *ngIf="allowActivate">
             <div class="list-item newrow left-aligned"
-                *ngFor="let feat of get_FeatsShowingOn(activity.name); trackBy:trackByIndex;">
+                *ngFor="let feat of characterFeatsShowingHintsOnThis(activity.name); trackBy:trackers.trackByIndex;">
                 <header class="spellHeader">{{feat.name}}</header>
                 <div class="newrow left-aligned">
-                    <app-trait *ngFor="let trait of feat.traits; trackBy:trackByIndex;" [name]="trait"
-                        [trait]="get_Traits(trait)[0]">
+                    <app-trait *ngFor="let trait of feat.traits; trackBy:trackers.trackByIndex;" [name]="trait"
+                        [trait]="traitFromName(trait)">
                     </app-trait>
                 </div>
-                <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackByIndex;">
+                <div class="newrow left-aligned"
+                    *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
                     <app-description class="newrow" [text]="desc"></app-description>
                 </div>
             </div>
             <div class="newrow left-aligned"
-                *ngFor="let conditionSet of get_ConditionsShowingOn(activity.name); trackBy:trackByIndex;">
+                *ngFor="let conditionSet of conditionsShowingHintsOnThis(activity.name); trackBy:trackers.trackByIndex;">
                 <header class="spellHeader">{{conditionSet.condition.name}}</header>
                 <div class="newrow left-aligned"
-                    *ngFor="let desc of conditionSet.condition.heightenedText(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackByIndex;">
+                    *ngFor="let desc of conditionSet.condition.heightenedText(conditionSet.condition.desc, conditionSet.gain.heightened).split('\n\n'); trackBy:trackers.trackByIndex;">
                     <app-description class="newrow" [text]="desc"></app-description>
                 </div>
             </div>
             <div class="list-item newrow left-aligned"
-                *ngFor="let activitySet of get_ActivitiesShowingOn(activity.name); trackBy:trackByIndex;">
+                *ngFor="let activitySet of activitiesShowingHintsOnThis(activity.name); trackBy:trackers.trackByIndex;">
                 <header class="spellHeader">
                     {{activitySet.activity.name}}
                     <app-actionIcons *ngIf="activitySet.activity.actions" [actionString]="activitySet.activity.actions">
@@ -126,7 +126,7 @@
             </div>
             <ng-container *ngIf="gain.name === 'Fused Stance'">
                 <div class="list-item newrow left-aligned"
-                    *ngFor="let fusedSet of get_FusedStances(); trackBy:trackByIndex;">
+                    *ngFor="let fusedSet of fusedStances(); trackBy:trackers.trackByIndex;">
                     <header class="spellHeader">
                         {{fusedSet.activity.name}}
                         <app-actionIcons *ngIf="fusedSet.activity.actions" [actionString]="fusedSet.activity.actions">

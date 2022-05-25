@@ -21,7 +21,7 @@ import { Character } from 'src/app/classes/Character';
 @Component({
     selector: 'app-activityContent',
     templateUrl: './activityContent.component.html',
-    styleUrls: ['./activityContent.component.css'],
+    styleUrls: ['./activityContent.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityContentComponent implements OnInit, OnDestroy {
