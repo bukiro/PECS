@@ -1,10 +1,11 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngFor="let phrase of get_Phrases(); trackBy:trackByIndex;">
-    <span class="actionIcon action1A" *ngIf="phrase==='1A'"></span>
-    <span class="actionIcon action2A" *ngIf="phrase==='2A'"></span>
-    <span class="actionIcon action3A" *ngIf="phrase==='3A'"></span>
-    <span class="actionIcon actionFree" *ngIf="phrase==='Free'"></span>
-    <span class="actionIcon actionReaction" *ngIf="phrase==='Reaction'"></span>
-    <span class="lower" *ngIf="!['Free','Reaction','1A','2A','3A'].includes(phrase)"
-        [innerHtml]="' '+phrase+' '"></span>
+<ng-container *ngFor="let phrase of phrases(); trackBy:trackers.trackByIndex;">
+    <ng-container [ngSwitch]="phrase">
+        <span class="actionIcon action1A" *ngSwitchCase="'1A'"></span>
+        <span class="actionIcon action2A" *ngSwitchCase="'2A'"></span>
+        <span class="actionIcon action3A" *ngSwitchCase="'3A'"></span>
+        <span class="actionIcon actionFree" *ngSwitchCase="'Free'"></span>
+        <span class="actionIcon actionReaction" *ngSwitchCase="'Reaction'"></span>
+        <span class="lower" *ngSwitchDefault [innerHtml]="' '+phrase+' '"></span>
+    </ng-container>
 </ng-container>

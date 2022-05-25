@@ -1,21 +1,23 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Trackers } from 'src/libs/shared/util/trackers';
 
 @Component({
     selector: 'app-actionIcons',
     templateUrl: './actionIcons.component.html',
     styleUrls: ['./actionIcons.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionIconsComponent {
 
     @Input()
-    actionString = '';
+    public actionString = '';
 
-    get_Phrases() {
+    constructor(
+        public trackers: Trackers,
+    ) { }
+
+    public phrases(): Array<string> {
         return this.actionString?.split(' ') || [];
-    }
-
-    trackByIndex(index: number): number {
-        return index;
     }
 
 }

@@ -1,9 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Ability } from 'src/app/classes/Ability';
+import { Character } from 'src/app/classes/Character';
+import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Component({
     selector: 'app-abilities',
@@ -14,89 +18,87 @@ import { RefreshService } from 'src/app/services/refresh.service';
 export class AbilitiesComponent implements OnInit, OnDestroy {
 
     @Input()
-    public creature = 'Character';
+    public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
     @Input()
     public sheetSide = 'left';
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
+        private readonly _changeDetector: ChangeDetectorRef,
         public abilitiesService: AbilitiesDataService,
         public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
+        private readonly _refreshService: RefreshService,
         public effectsService: EffectsService,
     ) { }
 
-    minimize() {
+    public minimize(): void {
         this.characterService.character().settings.abilitiesMinimized = !this.characterService.character().settings.abilitiesMinimized;
     }
 
-    get_Minimized() {
-        switch (this.creature) {
-            case 'Character':
-                return this.characterService.character().settings.abilitiesMinimized;
-            case 'Companion':
-                return this.characterService.character().settings.companionMinimized;
-        }
+    public isMinimized(): boolean {
+        return this.creature === CreatureTypes.AnimalCompanion
+            ? this.characterService.character().settings.companionMinimized
+            : this.characterService.character().settings.abilitiesMinimized;
     }
 
-    trackByIndex(index: number): number {
+    public trackByIndex(index: number): number {
         return index;
     }
 
-    get_Character() {
+    public character(): Character {
         return this.characterService.character();
     }
 
-    get_Creature() {
+    public currentCreature(): Creature {
         return this.characterService.creatureFromType(this.creature);
     }
 
-    get_CalculatedIndex() {
-        switch (this.creature) {
-            case 'Character':
-                return 0;
-            case 'Companion':
-                return 1;
-        }
-    }
+    public abilities(subset = 0): Array<Ability> {
+        const all = 0;
+        const firstThree = 1;
+        const lastThree = 2;
+        const thirdAbility = 2;
 
-    get_Abilities(subset = 0) {
         switch (subset) {
-            case 0:
+            case all:
                 return this.abilitiesService.abilities();
-            case 1:
-                return this.abilitiesService.abilities().filter((ability, index) => index <= 2);
-            case 2:
-                return this.abilitiesService.abilities().filter((ability, index) => index >= 3);
+            case firstThree:
+                return this.abilitiesService.abilities().filter((_ability, index) => index <= thirdAbility);
+            case lastThree:
+                return this.abilitiesService.abilities().filter((_ability, index) => index > thirdAbility);
+            default:
+                return this.abilitiesService.abilities();
         }
 
     }
 
-    public still_loading(): boolean {
+    public stillLoading(): boolean {
         return this.abilitiesService.stillLoading || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['abilities', 'all', this.creature.toLowerCase()].includes(target)) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['abilities', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                if (
+                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                    ['abilities', 'all'].includes(view.target.toLowerCase())
+                ) {
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
     }
 
 }
