@@ -180,7 +180,7 @@ export class RefreshService {
         services: { characterService: CharacterService; activitiesService: ActivitiesDataService },
     ): void {
         this.prepareDetailToChange(creature.type, item.id);
-        item.traits.map(trait => this._traitsService.getTraitFromName(trait)).forEach(trait => {
+        item.traits.map(trait => this._traitsService.traitFromName(trait)).forEach(trait => {
             this.prepareChangesByHints(creature, trait.hints, services);
         });
 

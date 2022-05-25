@@ -14,6 +14,9 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Spell } from 'src/app/classes/Spell';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Trait } from 'src/app/classes/Trait';
+import { Character } from 'src/app/classes/Character';
 
 @Component({
     selector: 'app-activityContent',
@@ -24,71 +27,54 @@ import { Spell } from 'src/app/classes/Spell';
 export class ActivityContentComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature = 'Character';
+    public creature = 'Character';
     @Input()
-    activity: Activity | ItemActivity;
+    public activity: Activity | ItemActivity;
     @Input()
-    gain: ActivityGain | ItemActivity;
+    public gain: ActivityGain | ItemActivity;
     @Input()
-    allowActivate = false;
+    public allowActivate = false;
     @Input()
-    cooldown = 0;
+    public cooldown = 0;
     @Input()
-    maxCharges = 0;
+    public maxCharges = 0;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly traitsService: TraitsService,
-        private readonly spellsService: SpellsService,
-        private readonly activitiesService: ActivitiesDataService,
-        private readonly timeService: TimeService,
-        private readonly conditionsService: ConditionsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _traitsService: TraitsService,
+        private readonly _spellsService: SpellsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _timeService: TimeService,
+        private readonly _conditionsService: ConditionsService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get isManualMode(): boolean {
+        return this._characterService.isManualMode();
     }
 
-    get_Traits(traitName = '') {
-        return this.traitsService.getTraits(traitName);
+    public traitFromName(traitName: string): Trait {
+        return this._traitsService.traitFromName(traitName);
     }
 
-    get_Character() {
-        return this.characterService.character();
+    public spellFromName(name: string): Spell {
+        return this._spellsService.spellFromName(name);
     }
 
-    get_ManualMode() {
-        return this.characterService.isManualMode();
+    public durationDescription(duration: number, includeTurnState = true, inASentence = false): string {
+        return this._timeService.durationDescription(duration, includeTurnState, inASentence);
     }
 
-    get_CompanionAvailable() {
-        return this.characterService.isCompanionAvailable();
+    public activities(name: string): Array<Activity> {
+        return this._activitiesService.activities(name);
     }
 
-    get_FamiliarAvailable() {
-        return this.characterService.isFamiliarAvailable();
-    }
-
-    get_Duration(duration: number, includeTurnState = true, inASentence = false) {
-        return this.timeService.getDurationDescription(duration, includeTurnState, inASentence);
-    }
-
-    public get_Activities(name: string): Array<Activity> {
-        return this.activitiesService.activities(name);
-    }
-
-    public get_Spells(name = '', type = '', tradition = ''): Array<Spell> {
-        //If there is a mistake in writing the activity, it shouldn't return ALL spells.
-        if (!name && !type && !tradition) {
-            return [];
-        }
-
-        return this.spellsService.spells(name, type, tradition);
-    }
-
-    get_SpellCasts() {
+    public spellCasts(): Array<SpellCast> {
         if (this.gain) {
             while (this.gain.spellEffectChoices.length < this.activity.castSpells.length) {
                 this.gain.spellEffectChoices.push([]);
@@ -98,8 +84,10 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         return this.activity.castSpells;
     }
 
-    get_SpellConditions(spellCast: SpellCast, spellCastIndex: number) {
-        //For all conditions that are included with this spell on this level, create an effectChoice on the gain at the index of this spellCast and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
+    public spellConditions(spellCast: SpellCast, spellCastIndex: number): Array<{ gain: ConditionGain; condition: Condition }> {
+        // For all conditions that are included with this spell on this level,
+        // create an effectChoice on the gain at the index of this spellCast and set it to the default choice, if any.
+        // Add the name for later copyChoiceFrom actions.
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
         const gain = this.gain;
 
@@ -109,23 +97,27 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
                 gain.spellEffectChoices.push([]);
             }
 
-            const spell = this.spellsService.spells(spellCast.name)[0];
+            const spell = this._spellsService.spells(spellCast.name)[0];
 
             spell.heightenedConditions(spellCast.level)
-                .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.conditions(conditionGain.name)[0] }))
+                .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
-                    conditionSet.condition?.effectiveChoices(this.characterService, true, spellCast.level);
+                    conditionSet.condition?.effectiveChoices(this._characterService, true, spellCast.level);
                     //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                     conditionSets.push(conditionSet);
 
-                    //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                    // Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices,
+                    // insert or replace that choice on the gain.
                     while (!gain.spellEffectChoices[spellCastIndex].length || gain.spellEffectChoices[spellCastIndex].length < index - 1) {
-                        gain.spellEffectChoices[spellCastIndex].push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
+                        gain.spellEffectChoices[spellCastIndex].push(
+                            { condition: conditionSet.condition.name, choice: conditionSet.condition.choice },
+                        );
                     }
 
                     if (!conditionSet.condition.$choices.includes(gain.spellEffectChoices[spellCastIndex]?.[index]?.choice)) {
-                        gain.spellEffectChoices[spellCastIndex][index] = { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
+                        gain.spellEffectChoices[spellCastIndex][index] =
+                            { condition: conditionSet.condition.name, choice: conditionSet.condition.choice };
                     }
                 });
         }
@@ -133,45 +125,49 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         return conditionSets;
     }
 
-    get_HeightenedDescription() {
-        return this.activity.heightenedText(this.activity.desc, this.gain?.heightened || this.get_Character().level);
+    public heightenedDescription(): string {
+        return this.activity.heightenedText(this.activity.desc, this.gain?.heightened || this._character().level);
     }
 
-    on_EffectChoiceChange() {
-        this.refreshService.prepareDetailToChange(this.creature, 'inventory');
-        this.refreshService.prepareDetailToChange(this.creature, 'activities');
-        this.refreshService.processPreparedChanges();
-    }
-
-    finish_Loading() {
-        this.changeSubscription = this.refreshService.componentChanged$
-            .subscribe(target => {
-                if (['activities', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
+    public onEffectChoiceChange(): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
+        this._refreshService.prepareDetailToChange(this.creature, 'activities');
+        this._refreshService.processPreparedChanges();
     }
 
     public ngOnInit(): void {
         if (this.activity.displayOnly) {
             this.allowActivate = false;
         } else {
-            this.finish_Loading();
+            this._subscribeToChanges();
         }
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    private _subscribeToChanges(): void {
+        this._changeSubscription = this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (['activities', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+        this._viewChangeSubscription = this._refreshService.detailChanged$
+            .subscribe(view => {
+                if (
+                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                    ['activities', 'all'].includes(view.target.toLowerCase())
+                ) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+    }
+
+    private _character(): Character {
+        return this._characterService.character();
     }
 
 }

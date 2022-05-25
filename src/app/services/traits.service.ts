@@ -21,17 +21,17 @@ export class TraitsService {
         return !this._initialized;
     }
 
-    public getTraitFromName(name: string): Trait {
+    public traitFromName(name: string): Trait {
         //Returns a named trait from the map.
         return this._traitsMap.get(name.toLowerCase()) || this._replacementTrait(name);
     }
 
-    public getTraits(traitName = ''): Array<Trait> {
+    public traits(traitName = ''): Array<Trait> {
         if (!this.stillLoading) {
             //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
             //If no trait is found with that exact name, continue the search, considering composite trait names.
             if (traitName) {
-                const trait = this.getTraitFromName(traitName);
+                const trait = this.traitFromName(traitName);
 
                 if (trait?.name === traitName) {
                     return [trait];
@@ -58,7 +58,7 @@ export class TraitsService {
         return [this._replacementTrait()];
     }
 
-    public getTraitsForThis(creature: Creature, name: string): Array<Trait> {
+    public traitsForThis(creature: Creature, name: string): Array<Trait> {
         if (!this.stillLoading) {
             //Return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory
             //uses the haveOn() method of Trait that returns any equipment that has this trait

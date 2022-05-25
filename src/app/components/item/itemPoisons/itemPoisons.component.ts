@@ -46,7 +46,7 @@ export class ItemPoisonsComponent {
     }
 
     get_Duration(turns: number) {
-        return this.timeService.getDurationDescription(turns);
+        return this.timeService.durationDescription(turns);
     }
 
     get_Poisons() {

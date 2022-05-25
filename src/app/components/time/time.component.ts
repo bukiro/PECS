@@ -50,7 +50,7 @@ export class TimeComponent implements OnInit, OnDestroy {
     }
 
     get_Duration(duration: number, includeTurnState = true, short = false) {
-        return this.timeService.getDurationDescription(duration, includeTurnState, false, short);
+        return this.timeService.durationDescription(duration, includeTurnState, false, short);
     }
 
     get_Waiting(duration: number) {

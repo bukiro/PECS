@@ -154,7 +154,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(traitName = '') {
-        return this.traitsService.getTraits(traitName);
+        return this.traitsService.traits(traitName);
     }
 
     get_ButtonTitle(availableFeats: number) {

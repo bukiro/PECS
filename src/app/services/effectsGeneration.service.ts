@@ -349,7 +349,7 @@ export class EffectsGenerationService {
     ): Array<HintEffectsObject> {
         const hintSets: Array<HintEffectsObject> = [];
 
-        services.characterService.traitsService.getTraits().filter(trait => trait.hints.length && trait.itemsWithThisTrait(creature).length)
+        services.characterService.traitsService.traits().filter(trait => trait.hints.length && trait.itemsWithThisTrait(creature).length)
             .forEach(trait => {
                 trait.hints.forEach(hint => {
                     hintSets.push({ hint, objectName: trait.name });

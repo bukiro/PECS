@@ -120,7 +120,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(name = '') {
-        return this.traitsService.getTraits(name);
+        return this.traitsService.traits(name);
     }
 
     get_Spells(name = '', type = '', tradition = '') {

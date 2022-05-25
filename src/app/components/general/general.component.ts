@@ -287,7 +287,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(name = '') {
-        return this.traitsService.getTraits(name);
+        return this.traitsService.traits(name);
     }
 
     public ngOnInit(): void {

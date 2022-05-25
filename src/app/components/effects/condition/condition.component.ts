@@ -73,11 +73,11 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(traitName = '') {
-        return this.traitsService.getTraits(traitName);
+        return this.traitsService.traits(traitName);
     }
 
     get_Duration(duration: number) {
-        return this.timeService.getDurationDescription(duration);
+        return this.timeService.durationDescription(duration);
     }
 
     get_IsInformationalCondition() {

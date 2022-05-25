@@ -6,7 +6,7 @@
 <div class="list-item lower newrow problem" *ngIf="activity.inputRequired">
     <strong>Player input required:</strong>
     <div class="newrow left-aligned"
-        *ngFor="let inputRequired of activity.inputRequired.split('\n\n'); trackBy:trackByIndex;">
+        *ngFor="let inputRequired of activity.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;">
         <app-description class="newrow" [text]="inputRequired"></app-description>
     </div>
 </div>
@@ -16,13 +16,13 @@
         <strong>Frequency</strong>
         <span *ngIf="cooldown === activity.cooldown">&nbsp;{{activity.frequency}}</span>
         <span class="absolute" *ngIf="cooldown !== activity.cooldown">&nbsp;{{maxCharges ? maxCharges + "
-            times every " : "once every "}}{{get_Duration(cooldown, false, false)}}</span>
+            times every " : "once every "}}{{durationDescription(cooldown, false, false)}}</span>
     </span>
 </div>
 <div class="newrow left-aligned" *ngIf="cooldown && activity.cooldownAfterEnd">
     <span>
         <strong>Cooldown after use</strong>
-        <span [ngClass]="{'absolute':cooldown !== activity.cooldown}">&nbsp;{{get_Duration(cooldown, false,
+        <span [ngClass]="{'absolute':cooldown !== activity.cooldown}">&nbsp;{{durationDescription(cooldown, false,
             false)}}</span>
     </span>
 </div>
@@ -44,7 +44,8 @@
         {{activity.requirements}}
     </span>
 </div>
-<div class="newrow left-aligned" *ngFor="let desc of get_HeightenedDescription().split('\n\n'); trackBy:trackByIndex;">
+<div class="newrow left-aligned"
+    *ngFor="let desc of heightenedDescription().split('\n\n'); trackBy:trackers.trackByIndex;">
     <app-description class="newrow" [text]="desc"></app-description>
 </div>
 <div class="newrow gap-text left-aligned" *ngIf="activity.critsuccess">
@@ -67,8 +68,9 @@
     <strong>Special</strong>
     {{activity.specialdesc}}
 </div>
-<div class="list-item left-aligned" *ngFor="let shownActivityName of activity.showActivities; trackBy:trackByIndex;">
-    <ng-container *ngFor="let shownActivity of get_Activities(shownActivityName); trackBy:trackByIndex;">
+<div class="list-item left-aligned"
+    *ngFor="let shownActivityName of activity.showActivities; trackBy:trackers.trackByIndex;">
+    <ng-container *ngFor="let shownActivity of activities(shownActivityName); trackBy:trackers.trackByIndex;">
         <header class="spellHeader">
             {{shownActivity.name}}
             <app-actionIcons *ngIf="shownActivity.actions" [actionString]="shownActivity.actions">
@@ -76,11 +78,11 @@
             {{shownActivity.activationType.toString()}}
         </header>
         <div class="newrow left-aligned">
-            <app-trait *ngFor="let trait of activity.traits; trackBy:trackByIndex;" [name]="trait"
-                [trait]="get_Traits(trait)[0]">
+            <app-trait *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;" [name]="trait"
+                [trait]="traitFromName(trait)">
             </app-trait>
-            <app-trait *ngFor="let trait of activity.get_ActivationTraits(); trackBy:trackByIndex;" [name]="trait"
-                [trait]="get_Traits(trait)[0]"
+            <app-trait *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;" [name]="trait"
+                [trait]="traitFromName(trait)"
                 [extraDescription]="'(This trait was derived from the action components.)'">
             </app-trait>
         </div>
@@ -89,8 +91,8 @@
     </ng-container>
 </div>
 <div class="list-item newrow left-aligned"
-    *ngFor="let cast of get_SpellCasts(); let spellCastIndex = index; trackBy:trackByIndex;">
-    <ng-container *ngFor="let spell of get_Spells(cast.name); trackBy:trackByIndex;">
+    *ngFor="let cast of spellCasts(); let spellCastIndex = index; trackBy:trackers.trackByIndex;">
+    <ng-container *ngIf="spellFromName(cast.name) as spell">
         <header class="spellHeader">
             {{spell.name}}
             <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
@@ -99,13 +101,14 @@
         </header>
         <ng-container *ngIf="allowActivate">
             <ng-container
-                *ngFor="let conditionSet of get_SpellConditions(cast, spellCastIndex); let conditionSetIndex = index; trackBy:trackByIndex">
+                *ngFor="let conditionSet of spellConditions(cast, spellCastIndex); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
                 <div class="newrow list-item left-aligned"
-                    *ngIf="!cast.hideChoices.includes(conditionSet.condition.name) && conditionSet.condition._choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
+                    *ngIf="!cast.hideChoices.includes(conditionSet.condition.name) && conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
                     <span>{{conditionSet.condition.name}} effect selection:
                         <select [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionSetIndex].choice"
-                            (ngModelChange)="on_EffectChoiceChange()">
-                            <option *ngFor="let choice of conditionSet.condition._choices; trackBy:trackByIndex;"
+                            (ngModelChange)="onEffectChoiceChange()">
+                            <option
+                                *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackers.trackByIndex;"
                                 [ngValue]="choice">
                                 {{choice}}
                             </option>
@@ -115,11 +118,11 @@
             </ng-container>
         </ng-container>
         <div class="newrow left-aligned">
-            <app-trait *ngFor="let trait of spell.traits; trackBy:trackByIndex;" [name]="trait"
-                [trait]="get_Traits(trait)[0]">
+            <app-trait *ngFor="let trait of spell.traits; trackBy:trackers.trackByIndex;" [name]="trait"
+                [trait]="traitFromName(trait)">
             </app-trait>
-            <app-trait *ngFor="let trait of spell.get_ActivationTraits(); trackBy:trackByIndex;" [name]="trait"
-                [trait]="get_Traits(trait)[0]"
+            <app-trait *ngFor="let trait of spell.activationTraits(); trackBy:trackers.trackByIndex;" [name]="trait"
+                [trait]="traitFromName(trait)"
                 [extraDescription]="'(This trait was derived from the action components.)'">
             </app-trait>
         </div>
@@ -127,8 +130,8 @@
         </app-spellContent>
     </ng-container>
 </div>
-<div class="list-item left-aligned" *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackByIndex;">
-    <ng-container *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
+<div class="list-item left-aligned" *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackers.trackByIndex;">
+    <ng-container *ngIf="spellFromName(shownSpellSet.name) as shownSpell">
         <header class="spellHeader">
             {{shownSpell.name}}
             <app-actionIcons *ngIf="shownSpell.actions" [actionString]="shownSpell.actions">
@@ -136,11 +139,11 @@
             {{shownSpell.castType.toString()}}
         </header>
         <div class="newrow left-aligned">
-            <app-trait *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;" [name]="trait"
-                [trait]="get_Traits(trait)[0]">
+            <app-trait *ngFor="let trait of shownSpell.traits; trackBy:trackers.trackByIndex;" [name]="trait"
+                [trait]="traitFromName(trait)">
             </app-trait>
-            <app-trait *ngFor="let trait of shownSpell.get_ActivationTraits(); trackBy:trackByIndex;" [name]="trait"
-                [trait]="get_Traits(trait)[0]"
+            <app-trait *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackers.trackByIndex;"
+                [name]="trait" [trait]="traitFromName(trait)"
                 [extraDescription]="'(This trait was derived from the action components.)'">
             </app-trait>
         </div>

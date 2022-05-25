@@ -256,7 +256,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(traitName = '') {
-        return this.traitsService.getTraits(traitName);
+        return this.traitsService.traits(traitName);
     }
 
     get_Conditions(name = '', type = '') {
@@ -317,7 +317,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_Duration(duration: number = this.get_ConditionDuration(), inASentence = false) {
-        return this.timeService.getDurationDescription(duration, true, inASentence);
+        return this.timeService.durationDescription(duration, true, inASentence);
     }
 
     add_Condition(creature: Creature, condition: Condition, duration: number = this.get_ConditionDuration(false), includeTurnState = true) {

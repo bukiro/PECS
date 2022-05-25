@@ -448,11 +448,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(traitName = '') {
-        return this.traitsService.getTraits(traitName);
+        return this.traitsService.traits(traitName);
     }
 
     get_Duration(turns: number) {
-        return this.timeService.getDurationDescription(turns);
+        return this.timeService.durationDescription(turns);
     }
 
     get_CalculatedBulk() {

@@ -160,7 +160,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(name = '') {
-        return this.traitsService.getTraits(name);
+        return this.traitsService.traits(name);
     }
 
     get_HasSpells() {
@@ -521,7 +521,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_Duration(turns: number, includeTurnState = true, inASentence = false) {
-        return this.timeService.getDurationDescription(turns, includeTurnState, inASentence);
+        return this.timeService.durationDescription(turns, includeTurnState, inASentence);
     }
 
     get_ExternallyDisabled(spell: Spell, choice: SpellChoice): boolean {

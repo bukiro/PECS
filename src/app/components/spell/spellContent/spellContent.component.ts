@@ -35,7 +35,7 @@ export class SpellContentComponent implements OnInit, OnDestroy {
     }
 
     get_Traits(name = '') {
-        return this.traitsService.getTraits(name);
+        return this.traitsService.traits(name);
     }
 
     get_Heightened(desc: string) {

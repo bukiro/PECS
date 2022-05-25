@@ -89,7 +89,7 @@ export class ItemAeonStonesComponent implements OnInit {
         if (stone.activities && stone.activities.length && stone.activities.some(activity => activity.resonant && activity.activeCooldown)) {
             const lowestCooldown = Math.min(...stone.activities.filter(activity => activity.resonant && activity.activeCooldown).map(activity => activity.activeCooldown));
 
-            return ` (Cooldown: ${ this.timeService.getDurationDescription(lowestCooldown) })`;
+            return ` (Cooldown: ${ this.timeService.durationDescription(lowestCooldown) })`;
         } else {
             return '';
         }

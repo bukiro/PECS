@@ -332,7 +332,7 @@ export class TimeService {
         }
     }
 
-    public getDurationDescription(duration: number, includeTurnState = true, inASentence = false, short = false): string {
+    public durationDescription(duration: number, includeTurnState = true, inASentence = false, short = false): string {
         if (duration === TimePeriods.UntilRefocus) {
             return inASentence
                 ? 'until you refocus'

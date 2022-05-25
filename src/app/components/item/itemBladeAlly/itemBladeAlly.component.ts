@@ -56,7 +56,7 @@ export class ItemBladeAllyComponent implements OnInit {
         if (rune.activities && rune.activities.length && rune.activities.some(activity => activity.activeCooldown)) {
             const lowestCooldown = Math.min(...rune.activities.filter(activity => activity.activeCooldown).map(activity => activity.activeCooldown));
 
-            return ` (Cooldown ${ this.timeService.getDurationDescription(lowestCooldown) })`;
+            return ` (Cooldown ${ this.timeService.durationDescription(lowestCooldown) })`;
         } else {
             return '';
         }

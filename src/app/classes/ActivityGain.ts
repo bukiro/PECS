@@ -74,7 +74,7 @@ export class ActivityGain {
 
         if (this.chargesUsed >= context.maxCharges) {
             if (this.activeCooldown) {
-                const durationDescription = services.timeService.getDurationDescription(this.activeCooldown, true, false);
+                const durationDescription = services.timeService.durationDescription(this.activeCooldown, true, false);
 
                 return `${ context.maxCharges ? 'Recharged in:' : 'Cooldown:' } ${ durationDescription }`;
             } else if (context.maxCharges) {

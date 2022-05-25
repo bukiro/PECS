@@ -337,7 +337,7 @@ export class Weapon extends Equipment {
 
             this.$traits = traits;
             changed.forEach(changedTrait => {
-                characterService.traitsService.getTraits(changedTrait).forEach(trait => {
+                characterService.traitsService.traits(changedTrait).forEach(trait => {
                     characterService.refreshService.prepareChangesByHints(creature, trait.hints, { characterService });
                 });
             });
@@ -635,7 +635,7 @@ export class Weapon extends Equipment {
         const traitEffects: Array<Effect> = [];
 
         this.activatedTraitsActivations().forEach(activation => {
-            const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
+            const realTrait = characterService.traitsService.traits(activation.trait)[0];
 
             traitEffects.push(...realTrait.objectBoundEffects(activation, ['Attack']));
         });
@@ -893,7 +893,7 @@ export class Weapon extends Equipment {
             const traitEffects = [];
 
             this.activatedTraitsActivations().forEach(activation => {
-                const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
+                const realTrait = characterService.traitsService.traits(activation.trait)[0];
 
                 traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Number']));
             });
@@ -1015,7 +1015,7 @@ export class Weapon extends Equipment {
             const traitEffects = [];
 
             this.activatedTraitsActivations().forEach(activation => {
-                const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
+                const realTrait = characterService.traitsService.traits(activation.trait)[0];
 
                 traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Size']));
             });
@@ -1295,7 +1295,7 @@ export class Weapon extends Equipment {
             const traitEffects = [];
 
             this.activatedTraitsActivations().forEach(activation => {
-                const realTrait = characterService.traitsService.getTraits(activation.trait)[0];
+                const realTrait = characterService.traitsService.traits(activation.trait)[0];
 
                 traitEffects.push(...realTrait.objectBoundEffects(activation, ['Damage per Die']));
             });
