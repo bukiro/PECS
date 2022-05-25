@@ -7,7 +7,7 @@ import { Creature } from './Creature';
 import { Effect } from './Effect';
 import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 
-interface CalculatedAbility {
+export interface CalculatedAbility {
     absolutes: boolean;
     baseValue: { result: number; explain: string };
     bonuses: boolean;

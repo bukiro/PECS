@@ -12,6 +12,9 @@ import { Activity } from 'src/app/classes/Activity';
 import { TimeService } from 'src/app/services/time.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 
 interface ActivitySet {
     name: string;
@@ -31,7 +34,7 @@ interface ActivityParameter {
 @Component({
     selector: 'app-activities',
     templateUrl: './activities.component.html',
-    styleUrls: ['./activities.component.css'],
+    styleUrls: ['./activities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivitiesComponent implements OnInit, OnDestroy {
@@ -40,155 +43,165 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     public creature = 'Character';
     @Input()
     public sheetSide = 'left';
-    private showActivity = '';
-    private showItem = '';
-    private showFeatChoice = '';
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _showActivity = '';
+    private _showItem = '';
+    private _showFeatChoice = '';
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly effectsService: EffectsService,
-        private readonly timeService: TimeService,
-        private readonly refreshService: RefreshService,
-        private readonly activitiesService: ActivitiesDataService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _effectsService: EffectsService,
+        private readonly _timeService: TimeService,
+        private readonly _refreshService: RefreshService,
+        private readonly _activitiesService: ActivitiesDataService,
+        public trackers: Trackers,
     ) { }
 
+    public get isMinimized(): boolean {
+        return this.creature === CreatureTypes.AnimalCompanion
+            ? this._characterService.character().settings.companionMinimized
+            : this._characterService.character().settings.abilitiesMinimized;
+    }
+
+    public get isTileMode(): boolean {
+        return this._character().settings.activitiesTileMode;
+    }
+
     public minimize(): void {
-        this.characterService.character().settings.activitiesMinimized = !this.characterService.character().settings.activitiesMinimized;
+        this._characterService.character().settings.activitiesMinimized = !this._characterService.character().settings.activitiesMinimized;
     }
 
-    public get_Minimized(): boolean {
-        switch (this.creature) {
-            case 'Character':
-                return this.characterService.character().settings.activitiesMinimized;
-            case 'Companion':
-                return this.characterService.character().settings.companionMinimized;
-        }
-    }
-
-    public trackByIndex(index: number): number {
-        return index;
-    }
-
-    public toggle_Activity(id: string): void {
-        if (this.showActivity == id) {
-            this.showActivity = '';
+    public toggleShownActivity(id: string): void {
+        if (this._showActivity === id) {
+            this._showActivity = '';
         } else {
-            this.showActivity = id;
-            this.showFeatChoice = '';
+            this._showActivity = id;
+            this._showFeatChoice = '';
         }
     }
 
-    public get_ShowActivity(): string {
-        return this.showActivity;
+    public shownActivity(): string {
+        return this._showActivity;
     }
 
-    private toggle_Item(name: string) {
-        if (this.showItem == name) {
-            this.showItem = '';
-        } else {
-            this.showItem = name;
-        }
+    public receiveShownFeatChoiceMessage(name: string): void {
+        this._toggleShownFeatChoice(name);
     }
 
-    private toggle_FeatChoice(name = ''): void {
-        if (this.showFeatChoice == name) {
-            this.showFeatChoice = '';
-        } else {
-            this.showFeatChoice = name;
-            this.showActivity = '';
-        }
+    public receiveShownFeatMessage(name: string): void {
+        this._toggleShownItem(name);
     }
 
-    public receive_FeatChoiceMessage(name: string): void {
-        this.toggle_FeatChoice(name);
+    public shownItem(): string {
+        return this._showItem;
     }
 
-    public receive_FeatMessage(name: string): void {
-        this.toggle_Item(name);
+    public shownFeatChoice(): string {
+        return this._showFeatChoice;
     }
 
-    public get_ShowItem(): string {
-        return this.showItem;
+    public toggleTileMode(): void {
+        this._character().settings.activitiesTileMode = !this._character().settings.activitiesTileMode;
+        this._refreshService.prepareDetailToChange('Character', 'activities');
+        this._refreshService.processPreparedChanges();
     }
 
-    public get_ShowFeatChoice(): string {
-        return this.showFeatChoice;
+    public stillLoading(): boolean {
+        return this._activitiesService.stillLoading || this._characterService.stillLoading;
     }
 
-    private get_Character(): Character {
-        return this.characterService.character();
+    public currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
     }
 
-    public toggle_TileMode(): void {
-        this.get_Character().settings.activitiesTileMode = !this.get_Character().settings.activitiesTileMode;
-        this.refreshService.prepareDetailToChange('Character', 'activities');
-        this.refreshService.processPreparedChanges();
-    }
-
-    public get_TileMode(): boolean {
-        return this.get_Character().settings.activitiesTileMode;
-    }
-
-    public still_loading(): boolean {
-        return this.activitiesService.stillLoading || this.characterService.stillLoading;
-    }
-
-    public get_Creature(): Creature {
-        return this.characterService.creatureFromType(this.creature);
-    }
-
-    public get_ActivityParameters(): Array<ActivityParameter> {
-        return this.get_OwnedActivities().map(gainSet => {
-            const creature = this.get_Creature();
-            const maxCharges = gainSet.activity.maxCharges({ creature }, { effectsService: this.effectsService });
+    public activityParameters(): Array<ActivityParameter> {
+        return this._ownedActivities().map(gainSet => {
+            const creature = this.currentCreature();
+            const maxCharges = gainSet.activity.maxCharges({ creature }, { effectsService: this._effectsService });
 
             return {
                 name: gainSet.name,
                 gain: gainSet.gain,
                 activity: gainSet.activity,
                 maxCharges,
-                disabled: gainSet.gain.disabled({ creature, maxCharges }, { effectsService: this.effectsService, timeService: this.timeService }),
+                disabled: gainSet.gain.disabled(
+                    { creature, maxCharges },
+                    { effectsService: this._effectsService, timeService: this._timeService },
+                ),
                 hostile: gainSet.activity.isHostile(),
             };
         });
     }
 
-    public get_ClassDCs(): Array<Skill> {
-        return this.characterService.skills(this.get_Creature(), '', { type: 'Class DC' }).filter(skill => skill.level(this.get_Creature(), this.characterService) > 0);
+    public classDCs(): Array<Skill> {
+        return this._characterService
+            .skills(this.currentCreature(), '', { type: 'Class DC' })
+            .filter(skill => skill.level(this.currentCreature(), this._characterService) > 0);
     }
 
-    private get_OwnedActivities(): Array<ActivitySet> {
-        const activities: Array<ActivitySet> = [];
-        const unique: Array<string> = [];
-        const fuseStanceName = this.get_FuseStanceName();
+    public temporaryFeatChoices(): Array<FeatChoice> {
+        const choices: Array<FeatChoice> = [];
 
-        function activityName(name: string) {
-            if (!!fuseStanceName && name === 'Fused Stance') {
-                return fuseStanceName;
-            } else {
-                return name;
-            }
+        if (this.creature === 'Character') {
+            (this.currentCreature() as Character).class.levels
+                .filter(level => level.number <= this.currentCreature().level)
+                .forEach(level => {
+                    choices.push(...level.featChoices.filter(choice => choice.showOnSheet));
+                });
         }
-        this.characterService.creatureOwnedActivities(this.get_Creature()).forEach(gain => {
-            const activity = gain.originalActivity(this.activitiesService);
 
-            activity?.effectiveCooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
-
-            if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
-                unique.push(gain.name);
-                activities.push({ name: activityName(gain.name), gain, activity });
-            }
-        });
-
-        return activities.sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
+        return choices;
     }
 
-    private get_FuseStanceName(): string {
-        const data = this.get_Character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
+    public ngOnInit(): void {
+        this._changeSubscription = this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (target === 'activities' || target === 'all' || target.toLowerCase() === this.creature.toLowerCase()) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+        this._viewChangeSubscription = this._refreshService.detailChanged$
+            .subscribe(view => {
+                if (
+                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                    ['activities', 'all'].includes(view.target.toLowerCase())
+                ) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+    }
+
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _toggleShownItem(name: string): void {
+        if (this._showItem === name) {
+            this._showItem = '';
+        } else {
+            this._showItem = name;
+        }
+    }
+
+    private _toggleShownFeatChoice(name = ''): void {
+        if (this._showFeatChoice === name) {
+            this._showFeatChoice = '';
+        } else {
+            this._showFeatChoice = name;
+            this._showActivity = '';
+        }
+    }
+
+    private _character(): Character {
+        return this._characterService.character();
+    }
+
+    private _fuseStanceName(): string {
+        const data = this._character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (data) {
             return data.valueAsString('name') || 'Fused Stance';
@@ -197,36 +210,34 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         }
     }
 
-    public get_TemporaryFeatChoices(): Array<FeatChoice> {
-        const choices: Array<FeatChoice> = [];
+    private _ownedActivities(): Array<ActivitySet> {
+        const activities: Array<ActivitySet> = [];
+        const unique: Array<string> = [];
+        const fuseStanceName = this._fuseStanceName();
 
-        if (this.creature == 'Character') {
-            (this.get_Creature() as Character).class.levels.filter(level => level.number <= this.get_Creature().level).forEach(level => {
-                choices.push(...level.featChoices.filter(choice => choice.showOnSheet));
-            });
-        }
+        const activityName = (name: string): string => {
+            if (!!fuseStanceName && name === 'Fused Stance') {
+                return fuseStanceName;
+            } else {
+                return name;
+            }
+        };
 
-        return choices;
-    }
+        this._characterService.creatureOwnedActivities(this.currentCreature()).forEach(gain => {
+            const activity = gain.originalActivity(this._activitiesService);
 
-    public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
-            .subscribe(target => {
-                if (target == 'activities' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-    }
+            activity?.effectiveCooldown(
+                { creature: this.currentCreature() },
+                { characterService: this._characterService, effectsService: this._effectsService },
+            );
 
-    public ngOnDestroy(): void {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+            if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
+                unique.push(gain.name);
+                activities.push({ name: activityName(gain.name), gain, activity });
+            }
+        });
+
+        return activities.sort((a, b) => SortAlphaNum(a.name, b.name));
     }
 
 }

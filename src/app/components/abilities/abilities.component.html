@@ -1,18 +1,19 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <button class="minimizebutton lower"
-    [ngbTooltip]="get_Minimized() ? 'Click to show all information.' : 'Click to show compact information.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()" *ngIf="creature==='Character'">
-    <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
-    <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
+    [ngbTooltip]="isMinimized ? 'Click to show all information.' : 'Click to show compact information.'"
+    [ngClass]="{'fancy-button':isMinimized}" (click)="minimize()" *ngIf="creature==='Character'">
+    <i class='bi-arrows-collapse' *ngIf="isMinimized"></i>
+    <i class='bi-arrows-expand' *ngIf="!isMinimized"></i>
 </button>
 <div id="{{creature}}-abilities-height" class="attributeBox">
     <header class="sectionHeader box-header">Abilities</header>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading()">
-        <ng-container *ngIf="!get_Minimized()">
-            <div class="list-item" *ngFor="let ability of get_Abilities(); trackBy:trackByIndex;">
-                <ng-container
-                    *ngFor="let calculatedAbility of [ability.calculate(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
+    <ng-template #LoadingTemplate>
+        <div class="loading">Loading</div>
+    </ng-template>
+    <ng-container *ngIf="!stillLoading(); else LoadingTemplate">
+        <ng-container *ngIf="!isMinimized">
+            <div class="list-item" *ngFor="let ability of abilities(); trackBy:trackers.trackByIndex;">
+                <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
                     <ng-template #EffectsPopoverContent>
                         <div class="fullsize-only newrow">
                             <app-objectEffects [creature]="creature" [objectName]="ability.name"></app-objectEffects>
@@ -48,13 +49,12 @@
                 </ng-container>
             </div>
         </ng-container>
-        <ng-container *ngIf="get_Minimized()">
-            <div class="list-item newrow" *ngFor="let subset of [1,2]; trackBy:trackByIndex;">
+        <ng-container *ngIf="isMinimized">
+            <div class="list-item newrow" *ngFor="let subset of [1,2]; trackBy:trackers.trackByIndex;">
                 <span class="hlist"
                     [ngClass]="{'left-aligned':index === 0, 'center-aligned':index === 1, 'right-aligned':index === 2}"
-                    *ngFor="let ability of get_Abilities(subset); let index = index; trackBy:trackByIndex;">
-                    <ng-container
-                        *ngFor="let calculatedAbility of [ability.calculate(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
+                    *ngFor="let ability of abilities(subset); let index = index; trackBy:trackers.trackByIndex;">
+                    <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
                         <strong>{{ability.name.substring(0, 3).toUpperCase()}}</strong>
                         <div class="value" [ngbPopover]="calculatedAbility.mod.explain"
                             [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}">

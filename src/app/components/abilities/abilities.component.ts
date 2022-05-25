@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Ability } from 'src/app/classes/Ability';
+import { Ability, CalculatedAbility } from 'src/app/classes/Ability';
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
@@ -8,11 +8,12 @@ import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trackers } from 'src/libs/shared/util/trackers';
 
 @Component({
     selector: 'app-abilities',
     templateUrl: './abilities.component.html',
-    styleUrls: ['./abilities.component.css'],
+    styleUrls: ['./abilities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AbilitiesComponent implements OnInit, OnDestroy {
@@ -27,32 +28,29 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        public abilitiesService: AbilitiesDataService,
-        public characterService: CharacterService,
+        private readonly _abilitiesService: AbilitiesDataService,
+        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        public effectsService: EffectsService,
+        private readonly _effectsService: EffectsService,
+        public trackers: Trackers,
     ) { }
 
-    public minimize(): void {
-        this.characterService.character().settings.abilitiesMinimized = !this.characterService.character().settings.abilitiesMinimized;
-    }
-
-    public isMinimized(): boolean {
+    public get isMinimized(): boolean {
         return this.creature === CreatureTypes.AnimalCompanion
-            ? this.characterService.character().settings.companionMinimized
-            : this.characterService.character().settings.abilitiesMinimized;
+            ? this._characterService.character().settings.companionMinimized
+            : this._characterService.character().settings.abilitiesMinimized;
     }
 
-    public trackByIndex(index: number): number {
-        return index;
+    public minimize(): void {
+        this._characterService.character().settings.abilitiesMinimized = !this._characterService.character().settings.abilitiesMinimized;
     }
 
     public character(): Character {
-        return this.characterService.character();
+        return this._characterService.character();
     }
 
     public currentCreature(): Creature {
-        return this.characterService.creatureFromType(this.creature);
+        return this._characterService.creatureFromType(this.creature);
     }
 
     public abilities(subset = 0): Array<Ability> {
@@ -63,19 +61,22 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
         switch (subset) {
             case all:
-                return this.abilitiesService.abilities();
+                return this._abilitiesService.abilities();
             case firstThree:
-                return this.abilitiesService.abilities().filter((_ability, index) => index <= thirdAbility);
+                return this._abilitiesService.abilities().filter((_ability, index) => index <= thirdAbility);
             case lastThree:
-                return this.abilitiesService.abilities().filter((_ability, index) => index > thirdAbility);
+                return this._abilitiesService.abilities().filter((_ability, index) => index > thirdAbility);
             default:
-                return this.abilitiesService.abilities();
+                return this._abilitiesService.abilities();
         }
+    }
 
+    public calculateAbility(ability: Ability): CalculatedAbility {
+        return ability.calculate(this.currentCreature(), this._characterService, this._effectsService);
     }
 
     public stillLoading(): boolean {
-        return this.abilitiesService.stillLoading || this.characterService.stillLoading;
+        return this._abilitiesService.stillLoading || this._characterService.stillLoading;
     }
 
     public ngOnInit(): void {

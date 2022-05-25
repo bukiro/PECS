@@ -4,7 +4,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 @Component({
     selector: 'app-actionIcons',
     templateUrl: './actionIcons.component.html',
-    styleUrls: ['./actionIcons.component.css'],
+    styleUrls: ['./actionIcons.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionIconsComponent {
