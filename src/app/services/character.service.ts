@@ -147,6 +147,7 @@ export class CharacterService {
     private _loading = false;
     private _basicItems: { weapon: Weapon; armor: Armor } = { weapon: null, armor: null };
     private _isFirstLoad = true;
+    private _characterLoadedOrCreated = false;
     private _loadingStatus = 'Loading';
     private _preparedOnceEffects: Array<PreparedOnceEffect> = [];
 
@@ -219,6 +220,14 @@ export class CharacterService {
 
     public isFirstLoad(): boolean {
         return this._isFirstLoad;
+    }
+
+    public characterLoadedOrCreated(): boolean {
+        return this._characterLoadedOrCreated;
+    }
+
+    public setCharacterLoadedOrCreated(): void {
+        this._characterLoadedOrCreated = true;
     }
 
     public toggleMenu(menu?: MenuNames): void {
@@ -342,7 +351,7 @@ export class CharacterService {
             !character.name &&
             !character.partyName &&
             !character.experiencePoints &&
-            !character.alignment &&
+            character.alignment === 'Neutral' &&
             !character.baseValues.length &&
             character.inventories.length <= characterStartingInventoryAmount &&
             // The character is not blank if any inventory has more than 0 items (more than 2 for the first)
@@ -3137,7 +3146,7 @@ export class CharacterService {
 
     public creatureArmorSpecializationsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<Specialization> {
         if (creature instanceof Character) {
-            return creature.inventories[0].armors.find(armor => armor.equipped).armorSpecializations(creature, this)
+            return creature.inventories[0].armors.find(armor => armor.equipped)?.armorSpecializations(creature, this)
                 .filter(spec =>
                     spec?.hints
                         .find(hint =>
@@ -3154,7 +3163,7 @@ export class CharacterService {
                                     ),
                                 ),
                         ),
-                );
+                ) || [];
         } else {
             return [];
         }
@@ -3229,7 +3238,9 @@ export class CharacterService {
     }
 
     public reset(id?: string, loadAsGM?: boolean): void {
+        this.setLoadingStatus('Resetting character');
         this._loading = true;
+        this.refreshService.setComponentChanged('charactersheet');
         this.cacheService.reset();
         this.traitsService.reset();
         this.activitiesService.reset();
@@ -3384,6 +3395,7 @@ export class CharacterService {
         }
 
         this.refreshService.processPreparedChanges();
+        this.refreshService.setComponentChanged();
     }
 
     private _rgbAccent(): string {

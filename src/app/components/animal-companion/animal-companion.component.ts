@@ -3,6 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { AnimalCompanionsService } from 'src/app/services/animalcompanions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { DisplayService } from 'src/app/services/display.service';
 
 @Component({
     selector: 'app-animal-companion',
@@ -79,7 +80,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     set_Mobile() {
-        this.mobile = this.characterService.isMobileView();
+        this.mobile = DisplayService.isMobile;
     }
 
     public ngOnInit(): void {

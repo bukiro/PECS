@@ -18,9 +18,18 @@
     </button>
 </div>
 <div id="spells-height" class="itembox vlist">
-    <button class="itembox-close-button list-item center-aligned" (click)="toggle_SpellMenu()">
-        <header class="sectionHeader">Back to Character Sheet</header>
-    </button>
+    <div class="itembox-close-button" *ngIf="!(get_Mobile() && get_ShowContent()); else ListCloseButton">
+        <button class="list-item center-aligned" (click)="toggle_SpellMenu()">
+            <header class="sectionHeader">Back to Character Sheet</header>
+        </button>
+    </div>
+    <ng-template #ListCloseButton>
+        <div class="itembox-close-button">
+            <button class="list-item center-aligned" (click)="toggle_Choice('')">
+                <header class="sectionHeader">Close</header>
+            </button>
+        </div>
+    </ng-template>
     <div class="loading" *ngIf="still_loading()">Loading</div>
     <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()==='in'">
         <ng-container *ngFor="let componentParameters of [get_ComponentParameters()]; trackBy:trackByIndex;">
@@ -152,8 +161,6 @@
                 </div>
                 <div class="charactersheet-column" [ngClass]="{'mobile-hide': get_ShowContent() === null}">
                     <div id="spells-choiceArea-top" style="margin-top:-.3em;"></div>
-                    <button (click)="toggle_Choice('')" class="choiceclosebutton"
-                        *ngIf="get_ShowContent()">Close</button>
                     <!--Spell Choice content-->
                     <ng-container *ngFor="let choiceContent of get_ActiveChoiceContent(); trackBy:trackByID;">
                         <app-spellchoice (showChoiceMessage)="receive_ChoiceMessage($event)"
