@@ -6,7 +6,10 @@
 html {
     --accent: 70, 90, 140;
     /* swiping to navigate is prohibited */
+    position: relative;
+    height: 100%;
     overscroll-behavior-x: none;
+    overflow: hidden;
 }
 
 .darkmode {
@@ -24,8 +27,10 @@ html {
 /* Body */
 
 body {
+    position: relative;
     margin: 0;
-    overflow-y: hidden;
+    height: 100%;
+    overflow: hidden;
     --textcolor: #616161;
     background-color: #333333;
     color: #616161;
@@ -34,6 +39,7 @@ body {
     background-clip: border-box;
     /* swiping to navigate is prohibited */
     overscroll-behavior-x: none;
+    
 }
 
 i {
@@ -741,7 +747,7 @@ LAYOUT
 app-root {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
 }
 
 router-outlet+* {
@@ -1668,6 +1674,10 @@ GRIDICONS
     padding: 3px;
 }
 
+.icon-list>.filler {
+    flex-grow: 1;
+}
+
 /* Container for a big icon or checkbox on the left and max-width content on the right */
 
 .gridicon-fullsizebox, .list-item.gridicon-fullsizebox {
@@ -1958,7 +1968,7 @@ button.character-choice,
 #character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) app-featchoice .featchoice-container,
 #character-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) app-skillchoice .featchoice-container,
 #spells-height > .charactersheet-column-container > .charactersheet-column:not(:first-child) app-spellchoice .featchoice-container {
-    height: 100%;
+    height: calc(100% - 1px);
 }
 
 /* Character app choice columns for tile mode */

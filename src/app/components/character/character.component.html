@@ -17,11 +17,19 @@
     </button>
 </div>
 <div id="character-height" class="itembox vlist">
-    <div class="itembox-close-button" [ngbTooltip]="get_IsBlankCharacter() ? 'Create your character first!' : ''">
+    <div class="itembox-close-button" [ngbTooltip]="get_IsBlankCharacter() ? 'Create your character first!' : ''"
+        *ngIf="!(get_Mobile() && get_ShowList()); else ListCloseButton">
         <button class="list-item center-aligned" [disabled]="get_IsBlankCharacter()" (click)="toggleCharacterMenu()">
             <header class="sectionHeader">{{get_CloseButtonTitle()}}</header>
         </button>
     </div>
+    <ng-template #ListCloseButton>
+        <div class="itembox-close-button">
+            <button class="list-item center-aligned" (click)="toggle_List('')">
+                <header class="sectionHeader">Close</header>
+            </button>
+        </div>
+    </ng-template>
     <div class="charactersheet-column-container">
         <div class="charactersheet-column">
             <div class="loading" *ngIf="still_loading()">Loading</div>
@@ -77,7 +85,7 @@
                                         Load Character
                                     </button>
                                 </div>
-                                <div class="list-item" *ngIf="!get_GMMode()">
+                                <div class="list-item" *ngIf="!get_GMMode() && get_CharacterLoadedOrCreated()">
                                     <button class="newrow" (click)="save_CharacterToDB()"
                                         [disabled]="get_IsBlankCharacter()">
                                         Save Character
@@ -87,7 +95,7 @@
                         </ng-container>
                     </ng-container>
                 </ng-container>
-                <div class="list-item">
+                <div class="list-item" *ngIf="get_CharacterLoadedOrCreated()">
                     <button class="newrow" (click)="toggle_List('settings')"
                         [ngClass]="{'activechoice':get_ShowList()==='settings'}">
                         Settings
@@ -159,8 +167,8 @@
                                             [superTitle]="'icon-bi-file-earmark-arrow-down'">
                                         </app-gridIcon>
                                     </button>
-                                    <button *ngIf="!get_GMMode()" (click)="save_CharacterToDB()"
-                                        [disabled]="get_IsBlankCharacter()">
+                                    <button *ngIf="!get_GMMode() && get_CharacterLoadedOrCreated()"
+                                        (click)="save_CharacterToDB()" [disabled]="get_IsBlankCharacter()">
                                         <app-gridIcon
                                             [ngbTooltip]="get_IsBlankCharacter() ? 'No changes to character yet.' : 'Save Character'"
                                             [subTitle]="'Save'" [superTitle]="'icon-bi-file-earmark-arrow-up'">
@@ -170,10 +178,12 @@
                             </ng-container>
                         </ng-container>
                     </ng-container>
-                    <button (click)="toggle_List('settings')" [ngClass]="{'activechoice':get_ShowList()==='settings'}">
+                    <button *ngIf="get_CharacterLoadedOrCreated()" (click)="toggle_List('settings')"
+                        [ngClass]="{'activechoice':get_ShowList()==='settings'}">
                         <app-gridIcon [ngbTooltip]="'Settings'" [subTitle]="'Settings'" [superTitle]="'icon-bi-gear'">
                         </app-gridIcon>
                     </button>
+                    <div class="filler"></div>
                     <button (click)="toggle_List('licenses')" [ngClass]="{'activechoice':get_ShowList()==='licenses'}">
                         <app-gridIcon [ngbTooltip]="'Licenses'" [subTitle]="'Licenses'" [superTitle]="'§'">
                         </app-gridIcon>
@@ -184,7 +194,8 @@
                     </button>
                 </div>
             </div>
-            <ng-container *ngIf="!still_loading() && get_CharacterMenuState() === 'in'">
+            <ng-container
+                *ngIf="!still_loading() && get_CharacterMenuState() === 'in' && get_CharacterLoadedOrCreated()">
                 <div class="list-item">
                     <strong>Experience Points</strong>
                     <span class="hlist">
@@ -212,20 +223,24 @@
                         </select>
                     </span>
                 </div>
-                <header class="subsectionHeader">Show Level</header>
-                <!--Level selection-->
                 <div class="list-item">
-                    <div class="levelBox fullwidth levelBoxTop">
-                        <button class="center-aligned" (click)="toggle_Level(0)"
-                            [ngClass]="{'fancy-button':get_ShowLevel()===0}">Everything</button>
-                        <button class="center-aligned" (click)="toggle_Level(-1)"
-                            [ngClass]="{'fancy-button':get_ShowLevel()===-1}">History</button>
-                    </div>
-                    <div class="levelBox fullwidth">
-                        <button class="center-aligned"
-                            *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
-                            (click)="toggle_Level(levelNumber)" [disabled]="!get_Character().class.name"
-                            [ngClass]="{'fancy-button':get_ShowLevel()===levelNumber}">{{levelNumber}}</button>
+                    <button [ngClass]="{'fancy-button': get_ShowLevelFilter()}" (click)="toggle_LevelFilter()">
+                        Filter levels
+                    </button>
+                    <!--Level selection-->
+                    <div class="list-item" [ngbCollapse]="!get_ShowLevelFilter()">
+                        <div class="levelBox fullwidth levelBoxTop">
+                            <button class="center-aligned" (click)="toggle_Level(0)"
+                                [ngClass]="{'fancy-button':get_ShowLevel()===0}">Everything</button>
+                            <button class="center-aligned" (click)="toggle_Level(-1)"
+                                [ngClass]="{'fancy-button':get_ShowLevel()===-1}">History</button>
+                        </div>
+                        <div class="levelBox fullwidth">
+                            <button class="center-aligned"
+                                *ngFor="let levelNumber of [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]; trackBy:trackByIndex;"
+                                (click)="toggle_Level(levelNumber)" [disabled]="!get_Character().class.name"
+                                [ngClass]="{'fancy-button':get_ShowLevel()===levelNumber}">{{levelNumber}}</button>
+                        </div>
                     </div>
                 </div>
                 <app-tags [creature]="'Character'" [objectName]="'Character'" [showTraits]=true [showFeats]=true
@@ -1173,7 +1188,6 @@
         </div>
         <div class="charactersheet-column" [ngClass]="{'mobile-hide':get_ShowList()===''}">
             <div id="character-choiceArea-top" style="margin-top:-.3em"></div>
-            <button (click)="toggle_List('')" class="choiceclosebutton" *ngIf="get_ShowList()">Close</button>
             <!--Choice content and templates-->
             <!--Load character content-->
             <ng-container *ngIf="get_ShowList()==='load'">
@@ -2235,31 +2249,29 @@
                             *ngFor="let checked of [!!get_AbilityTakenByThis(ability, abilityContent.choice, abilityContent.levelNumber)]; trackBy:trackByIndex">
                             <ng-container
                                 *ngFor="let disabled of [!!this.cannotBoost(ability, abilityContent.levelNumber, abilityContent.choice).length || (abilityContent.choice.boosts.length === get_MaxAvailable(abilityContent.choice) && !checked)]; trackBy:trackByIndex">
-                                <div class="newrow list-item"
+                                <div class="list-item gridicon-fullsizebox"
                                     [ngClass]="{'selected':checked, 'problem':abilityIllegal(abilityContent.levelNumber, ability)}">
-                                    <div class="gridicon-fullsizebox">
-                                        <input id="{{ability.name}}" type="checkbox" class="character-choice"
-                                            (change)="onAbilityBoost(ability.name, $event, abilityContent.choice, false)"
-                                            [checked]="checked" [disabled]="disabled">
-                                        <div class="gridicon-fullsizebox"
-                                            *ngFor="let baseValue of [ability.baseValue(get_Character(), characterService, abilityContent.levelNumber)]; trackBy:trackByIndex;">
-                                            <app-gridIcon [title]="ability.name" [ngbPopover]="baseValue.explain"
-                                                triggers="hover:click" [openDelay]=1
-                                                [superTitle]="baseValue.result.toString()">
-                                            </app-gridIcon>
-                                            <header class="sectionHeader">
-                                                <span>{{ability.name}}&nbsp;</span>
-                                                <cite class="problem"
-                                                    *ngFor="let reason of cannotBoost(ability, abilityContent.levelNumber, abilityContent.choice); trackBy:trackByIndex;">
-                                                    {{reason}}
-                                                </cite>
-                                                <cite class="problem"
-                                                    *ngIf="abilityIllegal(abilityContent.levelNumber, ability)"
-                                                    [ngbPopover]="'Abilities cannot be raised above 18 on level 1.'">
-                                                    Limit reached
-                                                </cite>
-                                            </header>
-                                        </div>
+                                    <input id="{{ability.name}}" type="checkbox" class="character-choice"
+                                        (change)="onAbilityBoost(ability.name, $event, abilityContent.choice, false)"
+                                        [checked]="checked" [disabled]="disabled">
+                                    <div class="gridicon-fullsizebox"
+                                        *ngFor="let baseValue of [ability.baseValue(get_Character(), characterService, abilityContent.levelNumber)]; trackBy:trackByIndex;">
+                                        <app-gridIcon [title]="ability.name" [ngbPopover]="baseValue.explain"
+                                            triggers="hover:click" [openDelay]=1
+                                            [superTitle]="baseValue.result.toString()">
+                                        </app-gridIcon>
+                                        <header class="sectionHeader">
+                                            <span>{{ability.name}}&nbsp;</span>
+                                            <cite class="problem"
+                                                *ngFor="let reason of cannotBoost(ability, abilityContent.levelNumber, abilityContent.choice); trackBy:trackByIndex;">
+                                                {{reason}}
+                                            </cite>
+                                            <cite class="problem"
+                                                *ngIf="abilityIllegal(abilityContent.levelNumber, ability)"
+                                                [ngbPopover]="'Abilities cannot be raised above 18 on level 1.'">
+                                                Limit reached
+                                            </cite>
+                                        </header>
                                     </div>
                                 </div>
                             </ng-container>
@@ -2971,7 +2983,8 @@
                                                             <input type="checkbox"
                                                                 (change)="onAdditionalHeritageChange(heritage, $event, heritageIndex)"
                                                                 [checked]="checked" [disabled]="disabled"
-                                                                hidden>{{checked ? "Remove" : "Choose"}}
+                                                                hidden>{{checked ?
+                                                            "Remove" : "Choose"}}
                                                         </label>
                                                     </div>
                                                     <div class="newrow left-aligned tags">

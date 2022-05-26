@@ -82,6 +82,7 @@ export class CharacterService {
     private loading = false;
     private basicItems: { weapon: Weapon, armor: Armor } = { weapon: null, armor: null };
     private firstTime = true;
+    private characterLoadedOrCreated = false;
     private loadingStatus = 'Loading';
     private preparedOnceEffects: { creatureType: string, effectGain: EffectGain, conditionValue: number, conditionHeightened: number, conditionChoice: string, conditionSpellCastingAbility: string }[] = [];
 
@@ -163,6 +164,14 @@ export class CharacterService {
 
     get_FirstTime() {
         return this.firstTime;
+    }
+
+    get_CharacterLoadedOrCreated() {
+        return this.characterLoadedOrCreated;
+    }
+
+    set_CharacterLoadedOrCreated() {
+        this.characterLoadedOrCreated = true;
     }
 
     toggle_Menu(menu = '') {
@@ -349,7 +358,7 @@ export class CharacterService {
             !character.name &&
             !character.partyName &&
             !character.experiencePoints &&
-            !character.alignment &&
+            character.alignment === 'Neutral' &&
             !character.baseValues.length &&
             character.inventories.length <= 2 &&
             //The character is not blank if any inventory has more than 0 items (more than 2 for the first) or if any item is not one of the basic items.
@@ -2462,7 +2471,7 @@ export class CharacterService {
 
     get_ArmorSpecializationsShowingOn(creature: Creature, objectName = 'all') {
         if (creature instanceof Character) {
-            return creature.inventories[0].armors.find(armor => armor.equipped).get_ArmorSpecialization(creature, this)
+            return creature.inventories[0].armors.find(armor => armor.equipped)?.get_ArmorSpecialization(creature, this)
                 .filter(spec =>
                     spec?.hints
                         .find(hint =>
@@ -2479,7 +2488,7 @@ export class CharacterService {
                                     )
                                 )
                         )
-                );
+                ) || [];
         } else {
             return [];
         }
@@ -2498,10 +2507,6 @@ export class CharacterService {
 
     get_AC() {
         return this.defenseService.get_AC();
-    }
-
-    get_Mobile() {
-        return (window.innerWidth < 992);
     }
 
     set_ToChangeByEffectTargets(creature: Creature, targets: string[]) {
@@ -2547,7 +2552,9 @@ export class CharacterService {
     }
 
     reset(id?: string, loadAsGM?: boolean) {
+        this.set_LoadingStatus('Resetting character');
         this.loading = true;
+        this.refreshService.set_Changed('charactersheet');
         this.cacheService.reset();
         this.traitsService.reset();
         this.activitiesService.reset();
@@ -2653,6 +2660,7 @@ export class CharacterService {
             this.refreshService.set_ToChange('Character', 'logged-out');
         }
         this.refreshService.process_ToChange();
+        this.refreshService.set_Changed();
     }
 
     save_Character() {

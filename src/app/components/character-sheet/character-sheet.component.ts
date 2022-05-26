@@ -3,6 +3,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { DisplayService } from 'src/app/services/display.service';
 
 @Component({
     selector: 'app-character-sheet',
@@ -226,7 +227,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     set_Mobile() {
-        if (this.characterService.get_Mobile() != this.mobile) {
+        if (DisplayService.isMobile != this.mobile) {
             this.toggle_Mode('');
             this.mobile = !this.mobile;
         }
@@ -248,11 +249,13 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     @HostListener('window:resize', ['$event'])
     onResize() {
         this.set_Mobile();
+        DisplayService.setPageHeight();
     }
 
     @HostListener('window:orientationchange', ['$event'])
     onRotate() {
         this.set_Mobile();
+        DisplayService.setPageHeight();
     }
 
 }

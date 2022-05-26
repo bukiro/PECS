@@ -355,7 +355,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                 clearInterval(waitUntilReady);
                 this.finish_Loading();
             }
-        }, 500);
+        }, 100);
     }
 
     private changeSubscription: Subscription;

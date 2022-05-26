@@ -8,6 +8,7 @@ import { ConditionsService } from 'src/app/services/conditions.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { DeitiesService } from 'src/app/services/deities.service';
+import { DisplayService } from 'src/app/services/display.service';
 import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
@@ -57,6 +58,7 @@ export class AppInitService {
         this.refreshService.initialize();
         this.extensionsService.initialize();
         this.configService.initialize(this.characterService, this.savegameService);
+        DisplayService.setPageHeight();
         const waitForFileServices = setInterval(() => {
             if (!this.extensionsService.still_loading() && !this.configService.still_loading()) {
                 clearInterval(waitForFileServices);

@@ -46,6 +46,7 @@ import { CacheService } from 'src/app/services/cache.service';
 import { Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
+import { DisplayService } from 'src/app/services/display.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string, source?: string };
 
@@ -61,6 +62,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     private showLevel = 0;
     private showItem = '';
     private showList = '';
+    private showLevelFilter = false;
     private showContent: ShowContent = null;
     private showContentLevelNumber = 0;
     private showFixedChangesLevelNumber = 0;
@@ -104,6 +106,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.characterService.get_Character().settings.characterMinimized;
     }
 
+    get_Mobile() {
+        return DisplayService.isMobile;
+    }
+
     get_GMMode() {
         return this.characterService.get_GMMode();
     }
@@ -114,6 +120,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_CharacterMenuState() {
         return this.characterService.get_CharacterMenuState();
+    }
+
+    get_CharacterLoadedOrCreated() {
+        return this.characterService.get_CharacterLoadedOrCreated();
     }
 
     toggle_Level(levelNumber: number) {
@@ -149,10 +159,14 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
+    toggle_LevelFilter() {
+        this.showLevelFilter = !this.showLevelFilter;
+    }
+
     reset_ChoiceArea() {
         //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first,
         // and it would cause the top bar to scroll away in mobile mode.
-        if (!this.characterService.get_Mobile()) {
+        if (!DisplayService.isMobile) {
             document.getElementById('character-choiceArea-top').scrollIntoView({ behavior: 'smooth' });
         }
     }
@@ -175,6 +189,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     get_ShowList() {
         return this.showList;
+    }
+
+    get_ShowLevelFilter() {
+        return this.showLevelFilter;
     }
 
     get_ActiveChoiceContent(choiceType = '') {
@@ -264,8 +282,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     onNewCharacter() {
-        this.toggle_List('');
-        this.characterService.reset_Character();
+        if (this.characterService.get_CharacterLoadedOrCreated()) {
+            this.toggle_List('');
+            this.characterService.reset_Character();
+        } else {
+            this.characterService.set_CharacterLoadedOrCreated();
+        }
     }
 
     onManualMode() {
@@ -359,6 +381,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     load_CharacterFromDB(savegame: Savegame) {
+        this.characterService.set_CharacterLoadedOrCreated();
         this.toggleCharacterMenu();
         this.characterService.reset_Character(savegame.id, this.loadAsGM);
     }
@@ -1551,6 +1574,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        //Start with the about page in desktop mode, and without it on mobile.
+        this.showList = (window.innerWidth < 992) ? '' : 'about';
         this.changeSubscription = this.refreshService.get_Changed
             .subscribe((target) => {
                 if (['character', 'all', 'charactersheet'].includes(target.toLowerCase())) {
@@ -1563,8 +1588,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
                     this.changeDetector.detectChanges();
                 }
             });
-        //Start with the about page in desktop mode, and without it on mobile.
-        this.showList = (window.innerWidth < 992) ? '' : 'about';
     }
 
     private changeSubscription: Subscription;

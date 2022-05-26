@@ -10,6 +10,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
 import { ItemsService } from 'src/app/services/items.service';
+import { DisplayService } from 'src/app/services/display.service';
 
 type ComponentParameters = {
     allowSwitchingPreparedSpells: boolean,
@@ -69,6 +70,10 @@ export class SpellsComponent implements OnInit, OnDestroy {
         this.refreshService.process_ToChange();
     }
 
+    get_Mobile() {
+        return DisplayService.isMobile;
+    }
+
     public get_Minimized(): boolean {
         return this.characterService.get_Character().settings.spellsMinimized;
     }
@@ -114,7 +119,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     private reset_ChoiceArea(): void {
         //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first,
         // and it would cause the top bar to scroll away in mobile mode.
-        if (!this.characterService.get_Mobile()) {
+        if (!DisplayService.isMobile) {
             document.getElementById('spells-choiceArea-top')?.scrollIntoView({ behavior: 'smooth' });
         }
     }

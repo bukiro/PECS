@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CharacterService } from 'src/app/services/character.service';
+import { DisplayService } from 'src/app/services/display.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -93,7 +94,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     set_Mobile() {
-        this.mobile = this.characterService.get_Mobile();
+        this.mobile = DisplayService.isMobile;
     }
 
     public ngOnInit(): void {
