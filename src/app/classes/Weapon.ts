@@ -25,7 +25,7 @@ import { MaxSkillLevel, skillLevelBaseStep } from 'src/libs/shared/definitions/s
 import { SignNumber } from 'src/libs/shared/util/numberUtils';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 
-interface AttackResult {
+export interface AttackResult {
     range: string;
     attackResult: number;
     explain: string;
@@ -34,13 +34,14 @@ interface AttackResult {
     bonuses: Array<Effect>;
     absolutes: Array<Effect>;
 }
-interface DamageResult {
+export interface DamageResult {
     damageResult: string;
     explain: string;
     penalties: Array<Effect>;
     bonuses: Array<Effect>;
     absolutes: Array<Effect>;
 }
+
 interface RuneSourceSet {
     fundamentalRunes: Weapon | WornItem;
     propertyRunes: Weapon | WornItem;
@@ -61,7 +62,7 @@ enum ShoddyPenalties {
 
 export class Weapon extends Equipment {
     //Weapons should be type "weapons" to be found in the database
-    public readonly type = 'weapons';
+    public type = 'weapons';
     //Weapons are usually moddable.
     public moddable = true;
     /** What type of ammo is used? (Bolts, arrows...) */

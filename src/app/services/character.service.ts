@@ -1427,6 +1427,10 @@ export class CharacterService {
         );
     }
 
+    public creatureHasCondition(creature: Creature, name: string): boolean {
+        return !!this.currentCreatureConditions(creature, name, '', true).length;
+    }
+
     public addCondition(
         creature: Creature,
         gain: ConditionGain,
@@ -2645,9 +2649,13 @@ export class CharacterService {
         return this.featsService.characterFeats(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
+    public characterHasFeat(name: string, levelNumber: number = this._character.level): boolean {
+        return !!this.characterFeatsTaken(0, levelNumber, { featName: name }, { includeCountAs: true }).length;
+    }
+
     public characterFeatsTaken(
         minLevelNumber = 0,
-        maxLevelNumber = 0,
+        maxLevelNumber = this._character.level,
         filter: { featName?: string; source?: string; sourceId?: string; locked?: boolean; automatic?: boolean } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
     ): Array<FeatTaken> {

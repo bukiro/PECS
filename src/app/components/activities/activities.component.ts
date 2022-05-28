@@ -83,12 +83,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public toggleShownActivity(id: string): void {
-        if (this._showActivity === id) {
-            this._showActivity = '';
-        } else {
-            this._showActivity = id;
-            this._showFeatChoice = '';
-        }
+        this._showActivity = this._showActivity = id ? '' : id;
     }
 
     public shownActivity(): string {
@@ -184,11 +179,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     private _toggleShownItem(name: string): void {
-        if (this._showItem === name) {
-            this._showItem = '';
-        } else {
-            this._showItem = name;
-        }
+        this._showItem = this._showItem === name ? '' : name;
     }
 
     private _toggleShownFeatChoice(name = ''): void {

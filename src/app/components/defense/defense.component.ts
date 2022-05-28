@@ -237,10 +237,6 @@ export class DefenseComponent implements OnInit, OnDestroy {
         return this.traitsService.traits(traitName);
     }
 
-    public get_TalismanTitle(talisman: Talisman): string {
-        return (talisman.trigger ? `Trigger: ${ talisman.trigger }\n\n` : '') + talisman.desc;
-    }
-
     public get_HaveMatchingTalismanCord(item: Armor | Shield | WornItem, talisman: Talisman): boolean {
         return item.talismanCords.some(cord => cord.isCompatibleWithTalisman(talisman));
     }

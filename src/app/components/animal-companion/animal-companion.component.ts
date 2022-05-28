@@ -73,11 +73,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     public toggleShowMode(type: string): void {
-        if (this._showMode === type) {
-            this._showMode = '';
-        } else {
-            this._showMode = type;
-        }
+        this._showMode = this._showMode === type ? '' : type;
     }
 
     public showMode(): string {

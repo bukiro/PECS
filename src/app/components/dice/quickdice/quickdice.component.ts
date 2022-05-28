@@ -4,6 +4,7 @@ import { DiceService } from 'src/app/services/dice.service';
 import { IntegrationsService } from 'src/app/services/integrations.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Component({
     selector: 'app-quickdice',
@@ -13,19 +14,19 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 export class QuickdiceComponent {
 
     @Input()
-    private readonly diceNum = 0;
+    public diceNum = 0;
     @Input()
-    private readonly diceSize = 0;
+    public diceSize = 0;
     @Input()
-    private readonly bonus = 0;
+    public bonus = 0;
     @Input()
-    private readonly type = '';
+    public type = '';
     @Input()
-    private readonly diceString = '';
+    public diceString = '';
     @Input()
-    private readonly casting: SpellCasting = null;
+    public casting: SpellCasting = null;
     @Input()
-    private readonly creature = 'Character';
+    public creature = 'Character';
 
     constructor(
         private readonly characterService: CharacterService,
