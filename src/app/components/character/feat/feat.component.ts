@@ -1,55 +1,55 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { CharacterService } from 'src/app/services/character.service';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { SpellsService } from 'src/app/services/spells.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { FeatRequirementsService } from 'src/app/character-creation/services/feat-requirement/featRequirements.service';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Trait } from 'src/app/classes/Trait';
+import { FeatRequirements } from 'src/app/character-creation/definitions/models/featRequirements';
+import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
+import { Activity } from 'src/app/classes/Activity';
+import { Spell } from 'src/app/classes/Spell';
 
 @Component({
     selector: 'app-feat',
     templateUrl: './feat.component.html',
     styleUrls: ['./feat.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeatComponent {
 
     @Input()
-    feat: Feat;
+    public feat: Feat;
     @Input()
-    choice: FeatChoice;
+    public choice: FeatChoice;
     @Input()
-    levelNumber: number;
+    public levelNumber: number;
     @Input()
-    featLevel: number;
+    public featLevel: number;
+    public spellLevelFromCharLevel = SpellLevelFromCharLevel;
 
     constructor(
-        public characterService: CharacterService,
-        private readonly spellsService: SpellsService,
-        private readonly activitiesService: ActivitiesDataService,
-        private readonly traitsService: TraitsService,
-        private readonly featRequirementsService: FeatRequirementsService,
+        private readonly _spellsService: SpellsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _traitsService: TraitsService,
+        private readonly _featRequirementsService: FeatRequirementsService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
-    }
-
-    get_Traits(traitName = '') {
-        return this.traitsService.traits(traitName);
-    }
-
-    get_FeatRequirements(choice: FeatChoice, feat: Feat) {
-        const ignoreRequirementsList: Array<string> = this.featRequirementsService.createIgnoreRequirementList(feat, this.levelNumber, choice);
-        const result: Array<{ met?: boolean; ignored?: boolean; desc?: string }> = [];
+    public featRequirements(choice: FeatChoice, feat: Feat): Array<FeatRequirements.FeatRequirementResult> {
+        const ignoreRequirementsList: Array<string> =
+            this._featRequirementsService.createIgnoreRequirementList(feat, this.levelNumber, choice);
+        const result: Array<FeatRequirements.FeatRequirementResult> = [];
 
         if (feat.levelreq) {
-            result.push(this.featRequirementsService.meetsLevelReq(feat, this.featLevel));
+            result.push(this._featRequirementsService.meetsLevelReq(feat, this.featLevel));
             result[result.length - 1].ignored = ignoreRequirementsList.includes('levelreq');
         }
 
         if (feat.abilityreq.length) {
-            this.featRequirementsService.meetsAbilityReq(feat, this.levelNumber).forEach(req => {
+            this._featRequirementsService.meetsAbilityReq(feat, this.levelNumber).forEach(req => {
                 result.push({ met: true, desc: ', ' });
                 result.push(req);
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('abilityreq');
@@ -57,8 +57,8 @@ export class FeatComponent {
         }
 
         if (feat.skillreq.length) {
-            this.featRequirementsService.meetsSkillReq(feat, this.levelNumber).forEach((req, index) => {
-                if (index == 0) {
+            this._featRequirementsService.meetsSkillReq(feat, this.levelNumber).forEach((req, index) => {
+                if (index === 0) {
                     result.push({ met: true, desc: ', ' });
                 } else {
                     result.push({ met: true, desc: ' or ' });
@@ -70,7 +70,7 @@ export class FeatComponent {
         }
 
         if (feat.featreq.length) {
-            this.featRequirementsService.meetsFeatReq(feat, this.levelNumber).forEach(req => {
+            this._featRequirementsService.meetsFeatReq(feat, this.levelNumber).forEach(req => {
                 result.push({ met: true, desc: ', ' });
                 result.push(req);
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('featreq');
@@ -78,7 +78,7 @@ export class FeatComponent {
         }
 
         if (feat.heritagereq) {
-            this.featRequirementsService.meetsHeritageReq(feat, this.levelNumber).forEach(req => {
+            this._featRequirementsService.meetsHeritageReq(feat, this.levelNumber).forEach(req => {
                 result.push({ met: true, desc: ', ' });
                 result.push(req);
                 result[result.length - 1].ignored = ignoreRequirementsList.includes('heritagereq');
@@ -87,26 +87,30 @@ export class FeatComponent {
 
         if (feat.complexreqdesc) {
             result.push({ met: true, desc: ', ' });
-            result.push(this.featRequirementsService.meetsComplexReq(feat.complexreq, { feat, desc: feat.complexreqdesc }, { charLevel: this.levelNumber }));
+            result.push(this._featRequirementsService.meetsComplexReq(
+                feat.complexreq,
+                { feat, desc: feat.complexreqdesc },
+                { charLevel: this.levelNumber },
+            ));
         }
 
-        if (result.length > 1 && result[0].desc == ', ') {
+        if (result.length > 1 && result[0].desc === ', ') {
             result.shift();
         }
 
         return result;
     }
 
-    get_Activities(name = '') {
-        return this.activitiesService.activities(name);
+    public activityFromName(name: string): Activity {
+        return this._activitiesService.activityFromName(name);
     }
 
-    get_Spells(name = '') {
-        return this.spellsService.spells(name);
+    public spellFromName(name: string): Spell {
+        return this._spellsService.spellFromName(name);
     }
 
-    get_SpellLevel(levelNumber: number) {
-        return Math.ceil(levelNumber / 2);
+    public traitFromName(traitName: string): Trait {
+        return this._traitsService.traitFromName(traitName);
     }
 
 }

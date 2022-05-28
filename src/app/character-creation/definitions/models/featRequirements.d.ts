@@ -99,6 +99,7 @@ export namespace FeatRequirements {
     export interface FeatRequirementResult {
         met: boolean;
         desc: string;
+        ignored?: boolean;
     }
 }
 
