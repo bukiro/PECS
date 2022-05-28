@@ -150,7 +150,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         return this.endOn;
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.conditionsService.stillLoading || this.characterService.stillLoading;
     }
 
@@ -163,7 +163,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_CompanionAvailable() {
@@ -175,11 +175,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     get_Companion() {
-        return this.characterService.companion();
+        return this.characterService.companion;
     }
 
     get_Familiar() {
-        return this.characterService.familiar();
+        return this.characterService.familiar;
     }
 
     get_Creatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined) {

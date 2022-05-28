@@ -61,7 +61,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     ) { }
 
     public minimize(): void {
-        this.characterService.character().settings.spellsMinimized = !this.characterService.character().settings.spellsMinimized;
+        this.characterService.character.settings.spellsMinimized = !this.characterService.character.settings.spellsMinimized;
     }
 
     public toggle_TileMode(): void {
@@ -75,11 +75,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public get_Minimized(): boolean {
-        return this.characterService.character().settings.spellsMinimized;
+        return this.characterService.character.settings.spellsMinimized;
     }
 
     public get_TileMode(): boolean {
-        return this.characterService.character().settings.spellsTileMode;
+        return this.characterService.character.settings.spellsTileMode;
     }
 
     public toggle_SpellMenu(): void {
@@ -165,7 +165,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public get_Character(): Character {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     public get_ComponentParameters(): ComponentParameters {
@@ -342,7 +342,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         return this.spellsService.dynamicSpellLevel(casting, choice, this.characterService);
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 

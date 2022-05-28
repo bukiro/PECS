@@ -23,8 +23,8 @@
                 {{calculatedAC.value.result}}
             </span>
         </header>
-        <div class="loading" *ngIf="still_loading()">Loading</div>
-        <ng-container *ngIf="!still_loading()">
+        <div class="loading" *ngIf="stillLoading">Loading</div>
+        <ng-container *ngIf="!stillLoading">
             <app-tags [creature]="creature" [objectName]="'AC'" [showTraits]=true [showFeats]=true [showItems]=true
                 [showActivities]=true [showConditions]=true [showEffects]=false
                 [specialEffects]="calculatedAC.relatives.concat(calculatedAC.absolutes)">
@@ -283,14 +283,14 @@
                         </div>
                     </div>
                 </ng-container>
-                <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</header>
+                <header class="sectionHeader fullsize-only box-header" *ngIf="!stillLoading">Saving Throws</header>
                 <app-tags [creature]="creature" [objectName]="'Saving Throws'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true
                     [specialNames]="get_SpecialShowon(null, true)"></app-tags>
                 <ng-container *ngFor="let skill of get_Skills('Save'); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>
                 </ng-container>
-                <ng-container *ngIf="!still_loading()">
+                <ng-container *ngIf="!stillLoading">
                     <header class="sectionHeader fullsize-only box-header">Armor Proficiencies</header>
                     <ng-container *ngFor="let skill of get_Skills('Armor Proficiency'); trackBy:trackByIndex;">
                         <app-skill class="fullsize-only" [creature]="creature" [skill]=skill [showValue]=false>
@@ -299,7 +299,7 @@
                 </ng-container>
             </ng-container>
             <ng-container *ngIf="creature === 'Familiar'">
-                <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Saving Throws</header>
+                <header class="sectionHeader fullsize-only box-header" *ngIf="!stillLoading">Saving Throws</header>
                 <ng-container *ngFor="let skill of get_Skills('Save'); trackBy:trackByIndex;">
                     <app-skill [creature]="creature" [skill]=skill></app-skill>
                 </ng-container>

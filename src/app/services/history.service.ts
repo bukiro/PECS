@@ -180,7 +180,7 @@ export class HistoryService {
         return background;
     }
 
-    public stillLoading(): boolean {
+    public get stillLoading(): boolean {
         return !this._initialized;
     }
 

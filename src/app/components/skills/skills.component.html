@@ -18,8 +18,8 @@
     </button>
 </div>
 <div id="{{creature}}-skills-height" class="attributeBox">
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading()">
+    <div class="loading" *ngIf="stillLoading">Loading</div>
+    <ng-container *ngIf="!stillLoading">
         <header class="sectionHeader box-header">Perception</header>
         <ng-container *ngFor="let activityGains of [get_OwnedActivities()]; trackBy:trackByIndex;">
             <ng-container *ngFor="let skill of get_Skills('', {type: 'Perception'}); trackBy:trackByIndex;">

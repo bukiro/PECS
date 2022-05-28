@@ -58,6 +58,10 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         return this._characterService.isManualMode();
     }
 
+    private get _character(): Character {
+        return this._characterService.character;
+    }
+
     public traitFromName(traitName: string): Trait {
         return this._traitsService.traitFromName(traitName);
     }
@@ -126,7 +130,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     }
 
     public heightenedDescription(): string {
-        return this.activity.heightenedText(this.activity.desc, this.gain?.heightened || this._character().level);
+        return this.activity.heightenedText(this.activity.desc, this.gain?.heightened || this._character.level);
     }
 
     public onEffectChoiceChange(): void {
@@ -164,10 +168,6 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
                     this._changeDetector.detectChanges();
                 }
             });
-    }
-
-    private _character(): Character {
-        return this._characterService.character();
     }
 
 }

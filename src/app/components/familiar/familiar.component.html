@@ -9,9 +9,9 @@
     <button class="itembox-close-button list-item center-aligned" (click)="toggleFamiliarMenu()">
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div class="loading" *ngIf="stillLoading">Loading</div>
     <div class="familiar-box"
-        *ngIf="!still_loading() && get_Character().class && get_FamiliarAvailable() && get_FamiliarMenuState()==='in'">
+        *ngIf="!stillLoading && get_Character().class && get_FamiliarAvailable() && get_FamiliarMenuState()==='in'">
         <!--Desktop-only view-->
         <ng-container *ngIf="!mobile">
             <app-effects [creature]="'Familiar'" [sheetSide]="'center'" id="Familiar-effects"
@@ -60,7 +60,7 @@
                     <i class="ra ra-lightning-bolt"></i>
                 </button>
             </div>
-            <ng-container *ngIf="!still_loading()">
+            <ng-container *ngIf="!stillLoading">
                 <div class="charactersheet-column-container desktop-hide">
                     <div class="charactersheet-column">
                         <app-general id="Character-general" class="charactersheet-app" [creature]="'Familiar'"

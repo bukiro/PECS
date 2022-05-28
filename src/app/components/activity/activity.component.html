@@ -20,7 +20,7 @@
             <ng-container *ngIf="!activityParameters.activitySpell">
                 <app-spellTarget class="newrow vlist" [creature]="creature" [activity]="activity"
                     [phrase]="'Activate' + (activityParameters.maxCharges ? ' (' + (activityParameters.maxCharges - gain.chargesUsed) + ' of ' + activityParameters.maxCharges + ' charges)' : '')"
-                    [gain]="gain" [cannotCast]="activityParameters.disabled" [effectiveSpellLevel]="character().level"
+                    [gain]="gain" [cannotCast]="activityParameters.disabled" [effectiveSpellLevel]="character.level"
                     [showDismiss]="true" [dismissPhrase]="activity.sustained ? 'Stop Sustaining' : 'Deactivate'"
                     (castMessage)="onActivate(gain, activity, $event.activated, $event.target)">
                 </app-spellTarget>

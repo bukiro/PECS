@@ -41,7 +41,7 @@ export class ItemMaterialComponent implements OnInit {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_IsUnarmored(item: Item) {

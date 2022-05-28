@@ -99,11 +99,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.characterMinimized = !this.characterService.character().settings.characterMinimized;
+        this.characterService.character.settings.characterMinimized = !this.characterService.character.settings.characterMinimized;
     }
 
     get_Minimized() {
-        return this.characterService.character().settings.characterMinimized;
+        return this.characterService.character.settings.characterMinimized;
     }
 
     get_Mobile() {
@@ -696,7 +696,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_MaxAvailable(choice: AbilityChoice) {
@@ -1493,12 +1493,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Companion() {
-        return this.characterService.character().class.animalCompanion;
+        return this.characterService.character.class.animalCompanion;
     }
 
     onNewCompanion() {
-        if (this.characterService.character().class.animalCompanion) {
-            const character = this.characterService.character();
+        if (this.characterService.character.class.animalCompanion) {
+            const character = this.characterService.character;
             //Keep the specializations and ID; When the animal companion is reset, any later feats and specializations still remain, and foreign effects still need to apply.
             const id = character.class.animalCompanion.id;
             const specializations: Array<AnimalCompanionSpecialization> = character.class.animalCompanion.class.specializations;
@@ -1603,12 +1603,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Familiar() {
-        return this.characterService.character().class.familiar;
+        return this.characterService.character.class.familiar;
     }
 
     onNewFamiliar() {
         if (this.get_Character().class.familiar) {
-            const character = this.characterService.character();
+            const character = this.characterService.character;
             //Preserve the origin class and set it again after resetting. Also preserve the ID so that old foreign effects still match.
             const originClass = character.class.familiar.originClass;
             const id = character.class.familiar.id;
@@ -1730,7 +1730,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this.refreshService.processPreparedChanges();
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 

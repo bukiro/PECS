@@ -32,7 +32,7 @@ export class Ability {
         creature: Creature,
         characterService: CharacterService,
         effectsService: EffectsService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
     ): CalculatedAbility {
         const result = {
             absolutes: !!this._absolutes(creature, effectsService, this.name).length,
@@ -51,7 +51,7 @@ export class Ability {
     public baseValue(
         creature: Creature,
         characterService: CharacterService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
     ): { result: number; explain: string } {
         if (creature instanceof Familiar) {
             return { result: 0, explain: '' };
@@ -102,7 +102,7 @@ export class Ability {
         creature: Creature,
         characterService: CharacterService,
         effectsService: EffectsService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
     ): { result: number; explain: string } {
         //Calculates the ability with all active effects
         if (creature instanceof Familiar) {
@@ -131,7 +131,7 @@ export class Ability {
         creature: Creature,
         characterService: CharacterService,
         effectsService: EffectsService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
     ): { result: number; explain: string } {
         if (creature instanceof Familiar) {
             return { result: 0, explain: '' };

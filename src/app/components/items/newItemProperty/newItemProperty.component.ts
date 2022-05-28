@@ -74,7 +74,7 @@ export class NewItemPropertyComponent {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     private get_Inventories(): Array<ItemCollection> {

@@ -257,7 +257,7 @@ export class FeatsService {
         level: Level,
         taken: boolean,
     ): void {
-        const character = characterService.character();
+        const character = characterService.character;
         const featName = gain?.name || feat?.name || '';
 
         if (!feat && featName) {
@@ -529,7 +529,7 @@ export class FeatsService {
                                 if (classNames.includes(choice.type)) {
                                     insertSpellChoice.className = choice.type;
                                 } else {
-                                    insertSpellChoice.className = characterService.character().class.name;
+                                    insertSpellChoice.className = characterService.character.class.name;
                                 }
                             }
 
@@ -812,8 +812,8 @@ export class FeatsService {
             }
 
             //Feats that level up the animal companion to Mature or an advanced option (like Nimble or Savage).
-            if (feat.gainAnimalCompanion && !['Young', 'Specialized'].includes(feat.gainAnimalCompanion) && characterService.companion()) {
-                const companion = characterService.companion();
+            if (feat.gainAnimalCompanion && !['Young', 'Specialized'].includes(feat.gainAnimalCompanion) && characterService.companion) {
+                const companion = characterService.companion;
 
                 companion.setLevel(characterService);
                 this._refreshService.prepareDetailToChange('Companion', 'all');
@@ -821,7 +821,7 @@ export class FeatsService {
 
             //Feats that grant an animal companion specialization.
             if (feat.gainAnimalCompanion === 'Specialized') {
-                const companion = characterService.companion();
+                const companion = characterService.companion;
 
                 if (!taken) {
                     //Remove the latest specialization chosen on this level, only if all choices are taken.
@@ -960,7 +960,7 @@ export class FeatsService {
             //Cantrip Connection
             if (feat.name === 'Cantrip Connection') {
                 const spellCasting = character.class.spellCasting
-                    .find(casting => casting.className === characterService.familiar().originClass && casting.castingType !== 'Focus');
+                    .find(casting => casting.className === characterService.familiar.originClass && casting.castingType !== 'Focus');
 
                 if (taken) {
                     if (spellCasting) {
@@ -999,7 +999,7 @@ export class FeatsService {
             //Spell Battery
             if (feat.name === 'Spell Battery') {
                 const spellCasting = character.class.spellCasting
-                    .find(casting => casting.className === characterService.familiar().originClass && casting.castingType !== 'Focus');
+                    .find(casting => casting.className === characterService.familiar.originClass && casting.castingType !== 'Focus');
 
                 if (taken) {
                     if (spellCasting) {
@@ -1336,7 +1336,7 @@ export class FeatsService {
 
     public initialize(): void {
         const waitForItemsService = setInterval(() => {
-            if (!this._itemsService.stillLoading()) {
+            if (!this._itemsService.stillLoading) {
                 clearInterval(waitForItemsService);
 
 

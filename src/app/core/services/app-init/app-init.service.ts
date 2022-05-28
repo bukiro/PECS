@@ -88,12 +88,12 @@ export class AppInitService {
                     this._abilitiesService.stillLoading ||
                     this._activitiesService.stillLoading ||
                     this._featsService.stillLoading ||
-                    this._historyService.stillLoading() ||
+                    this._historyService.stillLoading ||
                     this._classesService.stillLoading ||
                     this._conditionsService.stillLoading ||
-                    this._spellsService.stillLoading() ||
-                    this._skillsService.stillLoading() ||
-                    this._itemsService.stillLoading() ||
+                    this._spellsService.stillLoading ||
+                    this._skillsService.stillLoading ||
+                    this._itemsService.stillLoading ||
                     this._deitiesService.stillLoading ||
                     this._animalCompanionsService.stillLoading ||
                     this._familiarsService.stillLoading

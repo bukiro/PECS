@@ -38,7 +38,7 @@ export class SpellsService {
     }
 
     public spells(name = '', type = '', tradition = ''): Array<Spell> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             //If only a name is given, try to find a spell by that name in the index map. This should be much quicker.
             if (name && !type && !tradition) {
                 return [this.spellFromName(name)];
@@ -57,7 +57,7 @@ export class SpellsService {
     public dynamicSpellLevel(casting: SpellCasting, choice: SpellChoice, characterService: CharacterService): number {
         //highestSpellLevel is used in the eval() process.
         let highestSpellLevel = 1;
-        const Character = characterService.character();
+        const Character = characterService.character;
 
         /* eslint-disable @typescript-eslint/no-unused-vars */
         /* eslint-disable @typescript-eslint/naming-convention */
@@ -174,13 +174,13 @@ export class SpellsService {
                     targets.push(context.creature);
                     break;
                 case 'Character':
-                    targets.push(services.characterService.character());
+                    targets.push(services.characterService.character);
                     break;
                 case 'Companion':
-                    targets.push(services.characterService.companion());
+                    targets.push(services.characterService.companion);
                     break;
                 case 'Familiar':
-                    targets.push(services.characterService.familiar());
+                    targets.push(services.characterService.familiar);
                     break;
                 case 'Selected':
                     if (context.gain) {
@@ -290,8 +290,8 @@ export class SpellsService {
                                     (
                                         (
                                             spell.isHostile() ?
-                                                services.characterService.character().settings.noHostileCasterConditions :
-                                                services.characterService.character().settings.noFriendlyCasterConditions
+                                                services.characterService.character.settings.noHostileCasterConditions :
+                                                services.characterService.character.settings.noFriendlyCasterConditions
                                         ) &&
                                         (
                                             !condition.hasEffects() &&
@@ -624,7 +624,7 @@ export class SpellsService {
             });
     }
 
-    public stillLoading(): boolean {
+    public get stillLoading(): boolean {
         return !this._initialized;
     }
 

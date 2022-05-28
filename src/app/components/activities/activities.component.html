@@ -19,8 +19,8 @@
 </div>
 <div id="{{creature}}-activities-height" class="attributeBox">
     <header class="sectionHeader box-header">Actions and Activities</header>
-    <div class="loading" *ngIf="stillLoading()">Loading</div>
-    <ng-container *ngIf="!stillLoading()">
+    <div class="loading" *ngIf="stillLoading">Loading</div>
+    <ng-container *ngIf="!stillLoading">
         <app-tags [creature]="creature" [objectName]="'Activities'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <ng-template #EffectsPopoverContent>

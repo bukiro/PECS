@@ -82,21 +82,21 @@ export class InventoryComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.inventoryMinimized = !this.characterService.character().settings.inventoryMinimized;
+        this.characterService.character.settings.inventoryMinimized = !this.characterService.character.settings.inventoryMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.character().settings.inventoryMinimized;
+                return this.characterService.character.settings.inventoryMinimized;
             case 'Companion':
-                return this.characterService.character().settings.companionMinimized;
+                return this.characterService.character.settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.character().settings.familiarMinimized;
+                return this.characterService.character.settings.familiarMinimized;
         }
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 
@@ -159,7 +159,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_Creature(creature: string = this.creature) {
@@ -633,7 +633,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public have_Funds(sum = 0): boolean {
-        const character = this.characterService.character();
+        const character = this.characterService.character;
         const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
 
         return (sum <= funds);
@@ -716,7 +716,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             amount = item.stack;
         }
 
-        this.characterService.grantInventoryItem(item, { creature: this.characterService.character(), inventory: this.characterService.character().inventories[0], amount }, { resetRunes: false });
+        this.characterService.grantInventoryItem(item, { creature: this.characterService.character, inventory: this.characterService.character.inventories[0], amount }, { resetRunes: false });
 
         if (type == 'snarespecialist') {
             learned.snareSpecialistAvailable--;

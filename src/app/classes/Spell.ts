@@ -126,7 +126,7 @@ export class Spell {
             return -1;
         }
 
-        const character = characterService.character();
+        const character = characterService.character;
         let resultingTargetNumber: SpellTargetNumber;
 
         // This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any).
@@ -195,7 +195,7 @@ export class Spell {
     }
     public meetsLevelReq(
         characterService: CharacterService,
-        spellLevel: number = SpellLevelFromCharLevel(characterService.character().level),
+        spellLevel: number = SpellLevelFromCharLevel(characterService.character.level),
     ): { met: boolean; desc: string } {
         //If the spell has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
@@ -215,12 +215,12 @@ export class Spell {
     }
     public canChoose(
         characterService: CharacterService,
-        spellLevel: number = SpellLevelFromCharLevel(characterService.character().level),
+        spellLevel: number = SpellLevelFromCharLevel(characterService.character.level),
     ): boolean {
         if (characterService.stillLoading) { return false; }
 
         if (spellLevel === -1) {
-            spellLevel = SpellLevelFromCharLevel(characterService.character().level);
+            spellLevel = SpellLevelFromCharLevel(characterService.character.level);
         }
 
         const isLevelreqMet = this.meetsLevelReq(characterService, spellLevel).met;
@@ -261,7 +261,7 @@ export class Spell {
         let level = context.baseLevel;
 
         //If needed, calculate the dynamic effective spell level.
-        const Character = services.characterService.character();
+        const Character = services.characterService.character;
 
         if (context.gain.dynamicEffectiveSpellLevel) {
             try {

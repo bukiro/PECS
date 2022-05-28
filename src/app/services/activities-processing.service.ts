@@ -66,13 +66,13 @@ export class ActivitiesProcessingService {
                     targets.push(creature);
                     break;
                 case 'Character':
-                    targets.push(characterService.character());
+                    targets.push(characterService.character);
                     break;
                 case 'Companion':
-                    targets.push(characterService.companion());
+                    targets.push(characterService.companion);
                     break;
                 case 'Familiar':
-                    targets.push(characterService.familiar());
+                    targets.push(characterService.familiar);
                     break;
                 case 'Selected':
                     if (gain) {
@@ -375,8 +375,8 @@ export class ActivitiesProcessingService {
                                 (
                                     (
                                         activity.isHostile() ?
-                                            services.characterService.character().settings.noHostileCasterConditions :
-                                            services.characterService.character().settings.noFriendlyCasterConditions
+                                            services.characterService.character.settings.noHostileCasterConditions :
+                                            services.characterService.character.settings.noFriendlyCasterConditions
                                     ) &&
                                     (
                                         !condition.hasEffects() &&

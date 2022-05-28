@@ -29,8 +29,8 @@
         </ng-container>
         <app-tags [creature]="creature" [objectName]="'Health'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <div class="loading" *ngIf="still_loading()">Loading</div>
-        <ng-container *ngIf="!still_loading()">
+        <div class="loading" *ngIf="stillLoading">Loading</div>
+        <ng-container *ngIf="!stillLoading">
             <div [ngbTooltip]="get_Waiting(48000) || 'Rest for 8 hours and make your daily preparations.'">
                 <button class="list-item center-aligned" (click)="rest()" [disabled]="get_Waiting(48000).length"
                     *ngIf="creature==='Character'">

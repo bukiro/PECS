@@ -54,17 +54,17 @@ export class DefenseComponent implements OnInit, OnDestroy {
     ) { }
 
     public minimize(): void {
-        this.characterService.character().settings.defenseMinimized = !this.characterService.character().settings.defenseMinimized;
+        this.characterService.character.settings.defenseMinimized = !this.characterService.character.settings.defenseMinimized;
     }
 
     public get_Minimized(): boolean {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.character().settings.defenseMinimized;
+                return this.characterService.character.settings.defenseMinimized;
             case 'Companion':
-                return this.characterService.character().settings.companionMinimized;
+                return this.characterService.character.settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.character().settings.familiarMinimized;
+                return this.characterService.character.settings.familiarMinimized;
         }
     }
 
@@ -82,7 +82,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     private get_Character(): Character {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     private get_Creature(): Creature {
@@ -315,7 +315,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         this.refreshService.processPreparedChanges();
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 

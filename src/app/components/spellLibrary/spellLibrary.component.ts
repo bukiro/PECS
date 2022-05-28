@@ -119,11 +119,11 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     get_SpellbookMinimized() {
-        return this.characterService.character().settings.spellbookMinimized;
+        return this.characterService.character.settings.spellbookMinimized;
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_Spells(name = '') {
@@ -596,8 +596,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         }
     }
 
-    public still_loading(): boolean {
-        return this.spellsService.stillLoading() || this.characterService.stillLoading;
+    public get stillLoading(): boolean {
+        return this.spellsService.stillLoading || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

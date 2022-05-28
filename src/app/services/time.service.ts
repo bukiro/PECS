@@ -51,7 +51,7 @@ export class TimeService {
         //Apply Fast Healing.
         let fastHealing = 0;
 
-        if (!characterService.character().settings.manualMode) {
+        if (!characterService.character.settings.manualMode) {
             characterService.allAvailableCreatures().forEach(creature => {
 
                 effectsService.absoluteEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
@@ -80,7 +80,7 @@ export class TimeService {
         this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
-        const character = characterService.character();
+        const character = characterService.character;
 
         if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
             characterService.sendTurnChangeToPlayers();
@@ -98,7 +98,7 @@ export class TimeService {
         this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
-        const character = characterService.character();
+        const character = characterService.character;
 
         if (character.partyName && character.settings.sendTurnStartMessage && character.settings.sendTurnEndMessage) {
             characterService.sendTurnChangeToPlayers();
@@ -111,7 +111,7 @@ export class TimeService {
         itemsService: ItemsService,
         spellsService: SpellsService,
     ): void {
-        const charLevel: number = characterService.character().level;
+        const charLevel: number = characterService.character.level;
 
         this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.EightHours, false);
         characterService.allAvailableCreatures().forEach(creature => {
@@ -210,7 +210,7 @@ export class TimeService {
             this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.TenMinutes, false);
         }
 
-        const character = characterService.character();
+        const character = characterService.character;
         const maximumFocusPoints = 3;
 
         characterService.allAvailableCreatures().forEach(creature => {

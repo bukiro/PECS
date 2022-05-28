@@ -87,7 +87,7 @@ export class FeatRequirementsService {
 
     public meetsLevelReq(
         feat: Feat,
-        charLevel: number = this._characterService.character().level,
+        charLevel: number = this._characterService.character.level,
     ): FeatRequirements.FeatRequirementResult {
         //If the feat has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
@@ -108,13 +108,13 @@ export class FeatRequirementsService {
 
     public meetsAbilityReq(
         feat: Feat,
-        charLevel: number = this._characterService.character().level,
+        charLevel: number = this._characterService.character.level,
     ): Array<FeatRequirements.FeatRequirementResult> {
         // If the feat has an abilityreq, split it into the ability and the requirement (they come in objects {ability, value}),
         // then check if that ability's baseValue() meets the requirement.
         // Ability requirements are checked without temporary bonuses or penalties
         // Returns an array of [requirement met, requirement description]
-        const character = this._characterService.character();
+        const character = this._characterService.character;
         const result: Array<{ met: boolean; desc: string }> = [];
 
         if (feat.abilityreq.length) {
@@ -141,13 +141,13 @@ export class FeatRequirementsService {
 
     public meetsSkillReq(
         feat: Feat,
-        charLevel: number = this._characterService.character().level,
+        charLevel: number = this._characterService.character.level,
     ): Array<FeatRequirements.FeatRequirementResult> {
         //If the feat has a skillreq, first split it into all different requirements,
         //Then check if each one of these requirements {skill, value} are met by the skill's level
         //When evaluating the result, these should be treated as OR requirements - you never need two skillreqs for a feat.
         //Returns an array of [requirement met, requirement description]
-        const character = this._characterService.character();
+        const character = this._characterService.character;
         const result: Array<{ met: boolean; desc: string }> = [];
         const skillreq = JSON.parse(JSON.stringify(feat.skillreq)) as Array<FeatRequirements.SkillRequirement>;
         // The Versatile Performance feat allows to use Performance instead of Deception,
@@ -192,7 +192,7 @@ export class FeatRequirementsService {
 
     public meetsFeatReq(
         feat: Feat,
-        charLevel: number = this._characterService.character().level,
+        charLevel: number = this._characterService.character.level,
     ): Array<FeatRequirements.FeatRequirementResult> {
         //If the feat has a featreq, check if you meet that (or a feat that has this supertype).
         //Returns [requirement met, requirement description]
@@ -207,14 +207,14 @@ export class FeatRequirementsService {
                 let testfeat = featreq;
 
                 if (featreq.includes('Familiar:')) {
-                    testcreature = this._characterService.familiar();
+                    testcreature = this._characterService.familiar;
                     testfeat = featreq.split('Familiar:')[1].trim();
                     requiredFeats =
                         this._characterService.familiarsService.familiarAbilities().filter(ability =>
                             [ability.name.toLowerCase(), ability.superType.toLowerCase()].includes(testfeat.toLowerCase()),
                         );
                 } else {
-                    testcreature = this._characterService.character();
+                    testcreature = this._characterService.character;
                     requiredFeats = this._characterService.characterFeatsAndFeatures(testfeat, '', true, true);
                 }
 
@@ -244,13 +244,13 @@ export class FeatRequirementsService {
 
     public meetsHeritageReq(
         feat: Feat,
-        charLevel: number = this._characterService.character().level,
+        charLevel: number = this._characterService.character.level,
     ): Array<FeatRequirements.FeatRequirementResult> {
         // If the feat has a heritagereq, check if your heritage matches that.
         // Requirements like "irongut goblin heritage or razortooth goblin heritage"
         // are split into each heritage and succeed if either matches your heritage.
         // Returns [requirement met, requirement description]
-        const character = this._characterService.character();
+        const character = this._characterService.character;
         const result: Array<{ met: boolean; desc: string }> = [];
         const allHeritages: Array<string> = character.class?.heritage ?
             [
@@ -294,7 +294,7 @@ export class FeatRequirementsService {
             return { met: true, desc: '' };
         }
 
-        const character: Character = this._characterService.character();
+        const character: Character = this._characterService.character;
         // charLevel is usually the level on which you want to take the feat.
         // If none is given, the current character level is used for calculations.
         const charLevel = filter.charLevel || character.level;
@@ -616,7 +616,7 @@ export class FeatRequirementsService {
                         }
 
                         if (spellcastingreq.query.beingOfFamiliarsClass) {
-                            const familiar = this._characterService.isFamiliarAvailable() ? this._characterService.familiar() : null;
+                            const familiar = this._characterService.isFamiliarAvailable() ? this._characterService.familiar : null;
 
                             if (familiar) {
                                 spellCastings = spellCastings
@@ -866,7 +866,7 @@ export class FeatRequirementsService {
 
                 if (complexreq.hasAnimalCompanion && !hasThisRequirementFailed) {
                     const companions: Array<AnimalCompanion> =
-                        this._characterService.isCompanionAvailable() ? [this._characterService.companion()] : [];
+                        this._characterService.isCompanionAvailable() ? [this._characterService.companion] : [];
                     const queryResult = companions.length;
 
                     if (!DoesNumberMatchExpectation(queryResult, complexreq.hasAnimalCompanion)) {
@@ -876,7 +876,7 @@ export class FeatRequirementsService {
 
                 if (complexreq.hasFamiliar && !hasThisRequirementFailed) {
                     const familiars: Array<Familiar> =
-                        this._characterService.isFamiliarAvailable() ? [this._characterService.familiar()] : [];
+                        this._characterService.isFamiliarAvailable() ? [this._characterService.familiar] : [];
                     const queryResult = familiars.length;
 
                     if (!DoesNumberMatchExpectation(queryResult, complexreq.hasFamiliar)) {
@@ -902,7 +902,7 @@ export class FeatRequirementsService {
         context: { choiceLevel?: number; charLevel?: number } = {},
         options: { skipLevel?: boolean; ignoreRequirementsList?: Array<string> } = {},
     ): boolean {
-        const characterLevel = this._characterService.character().level;
+        const characterLevel = this._characterService.character.level;
 
         context = {
             choiceLevel: characterLevel,

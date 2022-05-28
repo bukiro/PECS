@@ -42,7 +42,7 @@ export class MessageService {
     }
 
     public markMessageAsIgnored(characterService: CharacterService, message: PlayerMessage): void {
-        characterService.character().ignoredMessages.push({ id: message.id, ttl: ignoredMessageTTL });
+        characterService.character.ignoredMessages.push({ id: message.id, ttl: ignoredMessageTTL });
     }
 
     public initialize(characterService: CharacterService): void {
@@ -162,7 +162,7 @@ export class MessageService {
         setInterval(() => {
 
             if (
-                characterService.character().settings.checkMessagesAutomatically &&
+                characterService.character.settings.checkMessagesAutomatically &&
                 !characterService.isManualMode() &&
                 characterService.isLoggedIn()
             ) {
@@ -196,7 +196,7 @@ export class MessageService {
     }
 
     private _ignoredMessages(characterService: CharacterService): Array<{ id: string; ttl: number }> {
-        return characterService.character().ignoredMessages;
+        return characterService.character.ignoredMessages;
     }
 
     private _deleteMessageFromConnector(message: PlayerMessage): Observable<Array<string>> {
@@ -291,7 +291,7 @@ export class MessageService {
             }
         });
         //Remove all ignored messages that don't match a new message, as you don't need them anymore.
-        characterService.character().ignoredMessages = this._ignoredMessages(characterService).filter(message =>
+        characterService.character.ignoredMessages = this._ignoredMessages(characterService).filter(message =>
             newMessages.some(newMessage => newMessage.id === message.id) ||
             this._newMessages.some(newMessage => newMessage.id === message.id),
         );

@@ -105,7 +105,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     public get_Character(): Character {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     private get_CompanionAvailable(): boolean {
@@ -113,7 +113,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     public get_Companion(): AnimalCompanion {
-        return this.characterService.companion();
+        return this.characterService.companion;
     }
 
     private get_FamiliarAvailable(): boolean {
@@ -121,7 +121,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     public get_Familiar(): Familiar {
-        return this.characterService.familiar();
+        return this.characterService.familiar;
     }
 
     get_ManualMode() {

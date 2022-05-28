@@ -15,7 +15,7 @@
     <button class="itembox-close-button list-item center-aligned" (click)="toggleSpellLibraryMenu()">
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
+    <div class="loading" *ngIf="stillLoading">Loading</div>
     <ng-container *ngIf="get_SpellLibraryMenuState()==='in'">
         <div class="charactersheet-column-container">
             <div class="charactersheet-column">

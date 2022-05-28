@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Ability, CalculatedAbility } from 'src/app/classes/Ability';
-import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
@@ -37,20 +36,20 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
     public get isMinimized(): boolean {
         return this.creature === CreatureTypes.AnimalCompanion
-            ? this._characterService.character().settings.companionMinimized
-            : this._characterService.character().settings.abilitiesMinimized;
+            ? this._characterService.character.settings.companionMinimized
+            : this._characterService.character.settings.abilitiesMinimized;
+    }
+
+    public get stillLoading(): boolean {
+        return this._abilitiesService.stillLoading || this._characterService.stillLoading;
+    }
+
+    private get _currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
     }
 
     public minimize(): void {
-        this._characterService.character().settings.abilitiesMinimized = !this._characterService.character().settings.abilitiesMinimized;
-    }
-
-    public character(): Character {
-        return this._characterService.character();
-    }
-
-    public currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        this._characterService.character.settings.abilitiesMinimized = !this._characterService.character.settings.abilitiesMinimized;
     }
 
     public abilities(subset = 0): Array<Ability> {
@@ -72,11 +71,7 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     }
 
     public calculateAbility(ability: Ability): CalculatedAbility {
-        return ability.calculate(this.currentCreature(), this._characterService, this._effectsService);
-    }
-
-    public stillLoading(): boolean {
-        return this._abilitiesService.stillLoading || this._characterService.stillLoading;
+        return ability.calculate(this._currentCreature, this._characterService, this._effectsService);
     }
 
     public ngOnInit(): void {

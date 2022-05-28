@@ -579,7 +579,7 @@ export class Character extends Creature {
                         case 'Monk':
                             // For Monks, add the tradition to the Monk spellcasting abilities.
                             // The tradition is the second word of the skill name.
-                            characterService.character().class.spellCasting
+                            characterService.character.class.spellCasting
                                 .filter(casting => casting.className === 'Monk').forEach(casting => {
                                     casting.tradition = skillName.split(' ')[1] as 'Divine' | 'Occult';
                                 });
@@ -612,7 +612,7 @@ export class Character extends Creature {
             characterService.refreshService.prepareDetailToChange('Character', 'featchoices');
             characterService.refreshService.prepareDetailToChange('Character', 'skillchoices');
 
-            switch (characterService.skills(characterService.character(), skillName)[0].type) {
+            switch (characterService.skills(characterService.character, skillName)[0].type) {
                 case 'Skill':
                     characterService.refreshService.prepareDetailToChange('Character', 'skills');
                     break;
@@ -679,7 +679,7 @@ export class Character extends Creature {
             characterService.refreshService.prepareDetailToChange('Character', 'featchoices');
             characterService.refreshService.prepareDetailToChange('Character', 'skillchoices');
 
-            switch (characterService.skills(characterService.character(), skillName)[0]?.type) {
+            switch (characterService.skills(characterService.character, skillName)[0]?.type) {
                 case 'Skill':
                     characterService.refreshService.prepareDetailToChange('Character', 'skills');
                     characterService.refreshService.prepareDetailToChange('Character', 'individualskills', 'all');
@@ -722,7 +722,7 @@ export class Character extends Creature {
             characterService.refreshService.prepareDetailToChange('Character', 'effects');
 
             //Remove custom skill if previously created and this was the last increase of it
-            const customSkills = characterService.character().customSkills.filter(skill => skill.name === skillName);
+            const customSkills = characterService.character.customSkills.filter(skill => skill.name === skillName);
             const maxLevel = 20;
 
             if (customSkills.length && !this.skillIncreases(characterService, 1, maxLevel, skillName).length) {
@@ -730,7 +730,7 @@ export class Character extends Creature {
 
                 //For Monks, remove the tradition from the Monk spellcasting abilities if you removed the Monk Divine/Occult Spell DC.
                 if (skillName.includes('Monk') && skillName.includes('Spell DC')) {
-                    characterService.character().class.spellCasting.filter(casting => casting.className === 'Monk').forEach(casting => {
+                    characterService.character.class.spellCasting.filter(casting => casting.className === 'Monk').forEach(casting => {
                         casting.tradition = '';
                     });
                 }
@@ -1083,7 +1083,7 @@ export class Character extends Creature {
     public removeLore(characterService: CharacterService, source: LoreChoice): void {
         //Remove the original Lore training
         for (let increase = 0; increase < source.initialIncreases; increase++) {
-            characterService.character().increaseSkill(characterService, `Lore: ${ source.loreName }`, false, source, true);
+            characterService.character.increaseSkill(characterService, `Lore: ${ source.loreName }`, false, source, true);
         }
 
         //Go through all levels and remove skill increases for this lore from their respective sources
@@ -1112,7 +1112,7 @@ export class Character extends Creature {
             }
         });
 
-        const loreSkill: Skill = characterService.character().customSkills.find(skill => skill.name === `Lore: ${ source.loreName }`);
+        const loreSkill: Skill = characterService.character.customSkills.find(skill => skill.name === `Lore: ${ source.loreName }`);
 
         if (loreSkill) {
             characterService.removeCustomSkill(loreSkill);
@@ -1126,7 +1126,7 @@ export class Character extends Creature {
 
         //Create as many skill increases as the source's initialIncreases value
         for (let increase = 0; increase < source.initialIncreases; increase++) {
-            characterService.character().increaseSkill(characterService, `Lore: ${ source.loreName }`, true, source, true);
+            characterService.character.increaseSkill(characterService, `Lore: ${ source.loreName }`, true, source, true);
         }
 
         //The Additional Lore feat grants a skill increase on Levels 3, 7 and 15 that can only be applied to this lore.
@@ -1389,7 +1389,7 @@ export class Character extends Creature {
         //If we find any custom feat that has lorebase == "Lore: "+lorename,
         //  That feat was created when the lore was assigned, and can be removed.
         //We build our own reference array first, because otherwise the forEach-index would get messed up while we remove feats.
-        loreFeats.push(...characterService.character().customFeats.filter(feat => feat.lorebase === `Lore: ${ loreName }`));
+        loreFeats.push(...characterService.character.customFeats.filter(feat => feat.lorebase === `Lore: ${ loreName }`));
 
         if (loreFeats.length) {
             loreFeats.forEach(loreFeat => {

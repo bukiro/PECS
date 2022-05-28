@@ -90,6 +90,7 @@ import { AnimalCompanionLevel } from '../classes/AnimalCompanionLevel';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 
 interface PreparedOnceEffect {
     creatureType: string;
@@ -117,15 +118,15 @@ type HintShowingItem = Equipment | Oil | WornItem | ArmorRune | WeaponRune | Mat
 export class CharacterService {
 
     private readonly _menuState = {
-        [MenuNames.ItemsMenu]: 'out' as 'in' | 'out',
-        [MenuNames.CraftingMenu]: 'out' as 'in' | 'out',
-        [MenuNames.CharacterMenu]: 'in' as 'in' | 'out',
-        [MenuNames.CompanionMenu]: 'out' as 'in' | 'out',
-        [MenuNames.FamiliarMenu]: 'out' as 'in' | 'out',
-        [MenuNames.SpellsMenu]: 'out' as 'in' | 'out',
-        [MenuNames.SpellLibraryMenu]: 'out' as 'in' | 'out',
-        [MenuNames.ConditionsMenu]: 'out' as 'in' | 'out',
-        [MenuNames.DiceMenu]: 'out' as 'in' | 'out',
+        [MenuNames.ItemsMenu]: 'out' as MenuState,
+        [MenuNames.CraftingMenu]: 'out' as MenuState,
+        [MenuNames.CharacterMenu]: 'in' as MenuState,
+        [MenuNames.CompanionMenu]: 'out' as MenuState,
+        [MenuNames.FamiliarMenu]: 'out' as MenuState,
+        [MenuNames.SpellsMenu]: 'out' as MenuState,
+        [MenuNames.SpellLibraryMenu]: 'out' as MenuState,
+        [MenuNames.ConditionsMenu]: 'out' as MenuState,
+        [MenuNames.DiceMenu]: 'out' as MenuState,
     };
 
     private readonly _menuMatchingComponent = {
@@ -202,6 +203,20 @@ export class CharacterService {
         return this._loadingStatus;
     }
 
+    public get character(): Character {
+        if (!this.stillLoading) {
+            return this._character;
+        } else { return new Character(); }
+    }
+
+    public get companion(): AnimalCompanion {
+        return this.character.class?.animalCompanion || new AnimalCompanion();
+    }
+
+    public get familiar(): Familiar {
+        return this.character.class?.familiar || new Familiar();
+    }
+
     public setLoadingStatus(status: string, refreshTopBar = true): void {
         this._loadingStatus = status || 'Loading';
 
@@ -212,7 +227,7 @@ export class CharacterService {
 
     public darkmode(): boolean {
         if (!this.stillLoading) {
-            return this.character().settings.darkmode;
+            return this.character.settings.darkmode;
         } else {
             return true;
         }
@@ -267,39 +282,39 @@ export class CharacterService {
         this.refreshService.processPreparedChanges();
     }
 
-    public characterMenuState(): 'in' | 'out' {
+    public characterMenuState(): MenuState {
         return this._menuState.character;
     }
 
-    public companionMenuState(): 'in' | 'out' {
+    public companionMenuState(): MenuState {
         return this._menuState.companion;
     }
 
-    public familiarMenuState(): 'in' | 'out' {
+    public familiarMenuState(): MenuState {
         return this._menuState.familiar;
     }
 
-    public itemsMenuState(): 'in' | 'out' {
+    public itemsMenuState(): MenuState {
         return this._menuState.items;
     }
 
-    public craftingMenuState(): 'in' | 'out' {
+    public craftingMenuState(): MenuState {
         return this._menuState.crafting;
     }
 
-    public spellsMenuState(): 'in' | 'out' {
+    public spellsMenuState(): MenuState {
         return this._menuState.spells;
     }
 
-    public spellLibraryMenuState(): 'in' | 'out' {
+    public spellLibraryMenuState(): MenuState {
         return this._menuState.spelllibrary;
     }
 
-    public conditionsMenuState(): 'in' | 'out' {
+    public conditionsMenuState(): MenuState {
         return this._menuState.conditions;
     }
 
-    public diceMenuState(): 'in' | 'out' {
+    public diceMenuState(): MenuState {
         return this._menuState.dice;
     }
 
@@ -315,34 +330,20 @@ export class CharacterService {
     public creatureFromType(type: string): Character | AnimalCompanion | Familiar {
         switch (type.toLowerCase()) {
             case 'character':
-                return this.character();
+                return this.character;
             case 'companion':
-                return this.companion();
+                return this.companion;
             case 'familiar':
-                return this.familiar();
+                return this.familiar;
             default:
                 return new Character();
         }
     }
 
-    public character(): Character {
-        if (!this.stillLoading) {
-            return this._character;
-        } else { return new Character(); }
-    }
-
-    public companion(): AnimalCompanion {
-        return this.character().class?.animalCompanion || new AnimalCompanion();
-    }
-
-    public familiar(): Familiar {
-        return this.character().class?.familiar || new Familiar();
-    }
-
     public isBlankCharacter(): boolean {
         // The character is blank if textboxes haven't been used, no class and no basevalues have been chosen,
         // and no items have been added other than the starter items.
-        const character = this.character();
+        const character = this.character;
         const characterStartingInventoryAmount = 2;
         const characterStartingItemAmount = 2;
 
@@ -368,32 +369,32 @@ export class CharacterService {
     }
 
     public isGMMode(): boolean {
-        return this.character().GMMode;
+        return this.character.GMMode;
     }
 
     public isManualMode(): boolean {
-        return this.character().settings.manualMode;
+        return this.character.settings.manualMode;
     }
 
     public isLoggedIn(): boolean {
         return this._configService.isLoggedIn;
     }
 
-    public isCompanionAvailable(charLevel: number = this.character().level): boolean {
+    public isCompanionAvailable(charLevel: number = this.character.level): boolean {
         //Return any feat that grants an animal companion that you own.
         return this.characterFeatsAndFeatures()
             .some(feat =>
                 feat.gainAnimalCompanion === 'Young' &&
-                feat.have({ creature: this.character() }, { characterService: this }, { charLevel }),
+                feat.have({ creature: this.character }, { characterService: this }, { charLevel }),
             );
     }
 
-    public isFamiliarAvailable(charLevel: number = this.character().level): boolean {
+    public isFamiliarAvailable(charLevel: number = this.character.level): boolean {
         //Return any feat that grants an animal companion that you own.
         return this.characterFeatsAndFeatures()
             .some(feat =>
                 feat.gainFamiliar &&
-                feat.have({ creature: this.character() }, { characterService: this }, { charLevel }),
+                feat.have({ creature: this.character }, { characterService: this }, { charLevel }),
             );
     }
 
@@ -403,14 +404,14 @@ export class CharacterService {
     ): Array<Creature> {
         if (!this.stillLoading) {
             if (companionAvailable && familiarAvailable) {
-                return ([] as Array<Creature>).concat(this.character()).concat(this.companion())
-                    .concat(this.familiar());
+                return ([] as Array<Creature>).concat(this.character).concat(this.companion)
+                    .concat(this.familiar);
             } else if (companionAvailable) {
-                return ([] as Array<Creature>).concat(this.character()).concat(this.companion());
+                return ([] as Array<Creature>).concat(this.character).concat(this.companion);
             } else if (familiarAvailable) {
-                return ([] as Array<Creature>).concat(this.character()).concat(this.familiar());
+                return ([] as Array<Creature>).concat(this.character).concat(this.familiar);
             } else {
-                return ([] as Array<Creature>).concat(this.character());
+                return ([] as Array<Creature>).concat(this.character);
             }
         } else { return [new Character()]; }
     }
@@ -454,7 +455,7 @@ export class CharacterService {
         // so that new languages aren't thrown out before the effects are generated.
         // Don't call this function in situations where effects are going to change,
         // but haven't been generated yet - or you may lose languages.
-        const character = this.character();
+        const character = this.character;
         const noLevel = -1;
         const temporarySourceLevel = -2;
 
@@ -521,7 +522,7 @@ export class CharacterService {
             // and it could delete your chosen languages.
             //Check if you have already collected this effect by finding a languageSource with the same source and amount.
             //Only if a source cannot be found, add the effect as a temporary source (level = -2).
-            this.effectsService.relativeEffectsOnThis(this.character(), 'Max Languages').forEach(effect => {
+            this.effectsService.relativeEffectsOnThis(this.character, 'Max Languages').forEach(effect => {
                 if (parseInt(effect.value, 10) > 0) {
                     const matchingSource =
                         languageSources.find(source => source.name === effect.source && source.amount === parseInt(effect.value, 10));
@@ -669,7 +670,7 @@ export class CharacterService {
 
     public changeClass($class: Class): void {
         //Cleanup Heritage, Ancestry, Background and class skills
-        const character = this.character();
+        const character = this.character;
 
         character.class.processRemovingOldHeritage(this);
         character.class.processRemovingOldAncestry(this);
@@ -683,7 +684,7 @@ export class CharacterService {
     }
 
     public changeAncestry(ancestry: Ancestry, itemsService: ItemsService): void {
-        const character = this.character();
+        const character = this.character;
 
         this.changeHeritage(new Heritage());
         character.class.processRemovingOldAncestry(this);
@@ -695,7 +696,7 @@ export class CharacterService {
     }
 
     public changeDeity(deity: Deity): void {
-        const character = this.character();
+        const character = this.character;
 
         character.class.deity = deity.name;
         this.deitiesService.clearCharacterDeities();
@@ -707,7 +708,7 @@ export class CharacterService {
     }
 
     public changeHeritage(heritage: Heritage, index = -1): void {
-        const character = this.character();
+        const character = this.character;
 
         character.class.processRemovingOldHeritage(this, index);
 
@@ -732,7 +733,7 @@ export class CharacterService {
     }
 
     public changeBackground(background: Background): void {
-        const character = this.character();
+        const character = this.character;
 
         character.class.processRemovingOldBackground(this);
         character.class.background = new Background();
@@ -876,7 +877,7 @@ export class CharacterService {
                 const customFeats = this.featsService.createWeaponFeats([item]);
 
                 customFeats.forEach(customFeat => {
-                    const oldFeat = this.character().customFeats.find(existingFeat => existingFeat.name === customFeat.name);
+                    const oldFeat = this.character.customFeats.find(existingFeat => existingFeat.name === customFeat.name);
 
                     if (oldFeat) {
                         this.removeCustomFeat(oldFeat);
@@ -1064,19 +1065,19 @@ export class CharacterService {
             // Check if only one (=this) item's rune has this lore
             // (and therefore no other item has already created it on the character), and if so, create it.
             if (
-                this.character().inventories[0]?.allEquipment()
+                this.character.inventories[0]?.allEquipment()
                     .filter(item => item.propertyRunes
                         .some(propertyRune => propertyRune.loreChoices
                             .some(otherchoice => otherchoice.loreName === choice.loreName),
                         ),
                     ).length +
-                this.character().inventories[0]?.allEquipment()
+                this.character.inventories[0]?.allEquipment()
                     .filter(item => item.oilsApplied
                         .some(oil => oil.runeEffect && oil.runeEffect.loreChoices
                             .some(otherchoice => otherchoice.loreName === choice.loreName),
                         ),
                     ).length === 1) {
-                this.character().addLore(this, choice);
+                this.character.addLore(this, choice);
             }
         });
     }
@@ -1085,21 +1086,21 @@ export class CharacterService {
         //Iterate through the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
-            if (this.character().inventories[0]?.allEquipment()
+            if (this.character.inventories[0]?.allEquipment()
                 .filter(item => item.propertyRunes
                     .filter(propertyRune => propertyRune.loreChoices
                         .filter(otherchoice => otherchoice.loreName === choice.loreName)
                         .length)
                     .length)
                 .length +
-                this.character().inventories[0]?.allEquipment()
+                this.character.inventories[0]?.allEquipment()
                     .filter(item => item.oilsApplied
                         .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices
                             .filter(otherchoice => otherchoice.loreName === choice.loreName)
                             .length)
                         .length)
                     .length === 1) {
-                this.character().removeLore(this, choice);
+                this.character.removeLore(this, choice);
             }
         });
     }
@@ -1122,61 +1123,61 @@ export class CharacterService {
         }
 
         if (copper) {
-            this.character().cash[CurrencyIndices.Copper] += (copper * multiplier);
+            this.character.cash[CurrencyIndices.Copper] += (copper * multiplier);
 
             if (
-                this.character().cash[CurrencyIndices.Copper] < 0 &&
+                this.character.cash[CurrencyIndices.Copper] < 0 &&
                 (
-                    this.character().cash[CurrencyIndices.Silver] > 0 ||
-                    this.character().cash[CurrencyIndices.Gold] > 0 ||
-                    this.character().cash[CurrencyIndices.Platinum] > 0
+                    this.character.cash[CurrencyIndices.Silver] > 0 ||
+                    this.character.cash[CurrencyIndices.Gold] > 0 ||
+                    this.character.cash[CurrencyIndices.Platinum] > 0
                 )
             ) {
-                silver += Math.floor(this.character().cash[CurrencyIndices.Copper] / decimal) * multiplier;
-                this.character().cash[CurrencyIndices.Copper] -= CutOffDecimals(this.character().cash[CurrencyIndices.Copper], 1);
+                silver += Math.floor(this.character.cash[CurrencyIndices.Copper] / decimal) * multiplier;
+                this.character.cash[CurrencyIndices.Copper] -= CutOffDecimals(this.character.cash[CurrencyIndices.Copper], 1);
             }
 
         }
 
         if (silver) {
-            this.character().cash[CurrencyIndices.Silver] += (silver * multiplier);
+            this.character.cash[CurrencyIndices.Silver] += (silver * multiplier);
 
             if (
-                this.character().cash[CurrencyIndices.Silver] < 0 &&
+                this.character.cash[CurrencyIndices.Silver] < 0 &&
                 (
-                    this.character().cash[CurrencyIndices.Gold] > 0 ||
-                    this.character().cash[CurrencyIndices.Platinum] > 0
+                    this.character.cash[CurrencyIndices.Gold] > 0 ||
+                    this.character.cash[CurrencyIndices.Platinum] > 0
                 )
             ) {
-                gold += Math.floor(this.character().cash[CurrencyIndices.Silver] / decimal) * multiplier;
-                this.character().cash[CurrencyIndices.Silver] -= CutOffDecimals(this.character().cash[CurrencyIndices.Silver], 1);
+                gold += Math.floor(this.character.cash[CurrencyIndices.Silver] / decimal) * multiplier;
+                this.character.cash[CurrencyIndices.Silver] -= CutOffDecimals(this.character.cash[CurrencyIndices.Silver], 1);
             }
         }
 
         if (gold) {
-            this.character().cash[1] += (gold * multiplier);
+            this.character.cash[1] += (gold * multiplier);
 
             if (
-                this.character().cash[CurrencyIndices.Gold] < 0 &&
-                this.character().cash[CurrencyIndices.Platinum] > 0
+                this.character.cash[CurrencyIndices.Gold] < 0 &&
+                this.character.cash[CurrencyIndices.Platinum] > 0
             ) {
-                plat += Math.floor(this.character().cash[CurrencyIndices.Gold] / decimal) * multiplier;
-                this.character().cash[CurrencyIndices.Gold] -= CutOffDecimals(this.character().cash[CurrencyIndices.Gold], 1);
+                plat += Math.floor(this.character.cash[CurrencyIndices.Gold] / decimal) * multiplier;
+                this.character.cash[CurrencyIndices.Gold] -= CutOffDecimals(this.character.cash[CurrencyIndices.Gold], 1);
             }
         }
 
         if (plat) {
-            this.character().cash[CurrencyIndices.Platinum] += (plat * multiplier);
+            this.character.cash[CurrencyIndices.Platinum] += (plat * multiplier);
 
-            if (this.character().cash[CurrencyIndices.Platinum] < 0) {
+            if (this.character.cash[CurrencyIndices.Platinum] < 0) {
                 this.sortCash();
             }
         }
 
         if (
-            this.character().cash[CurrencyIndices.Platinum] < 0 ||
-            this.character().cash[CurrencyIndices.Gold] < 0 ||
-            this.character().cash[CurrencyIndices.Silver] < 0
+            this.character.cash[CurrencyIndices.Platinum] < 0 ||
+            this.character.cash[CurrencyIndices.Gold] < 0 ||
+            this.character.cash[CurrencyIndices.Silver] < 0
         ) {
             this.sortCash();
         }
@@ -1186,12 +1187,12 @@ export class CharacterService {
 
     public sortCash(): void {
         const sum =
-            (this.character().cash[CurrencyIndices.Platinum] * CopperAmounts.CopperInPlatinum)
-            + (this.character().cash[CurrencyIndices.Gold] * CopperAmounts.CopperInGold)
-            + (this.character().cash[CurrencyIndices.Silver] * CopperAmounts.CopperInSilver)
-            + (this.character().cash[CurrencyIndices.Copper]);
+            (this.character.cash[CurrencyIndices.Platinum] * CopperAmounts.CopperInPlatinum)
+            + (this.character.cash[CurrencyIndices.Gold] * CopperAmounts.CopperInGold)
+            + (this.character.cash[CurrencyIndices.Silver] * CopperAmounts.CopperInSilver)
+            + (this.character.cash[CurrencyIndices.Copper]);
 
-        this.character().cash = [0, 0, 0, 0];
+        this.character.cash = [0, 0, 0, 0];
         this.changeCash(1, sum);
     }
 
@@ -1294,7 +1295,7 @@ export class CharacterService {
                 //Deactivate any active toggled activities of inserted runes.
                 rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
                     this.activitiesProcessingService.activateActivity(
-                        this.character(),
+                        this.character,
                         'Character',
                         this,
                         this.conditionsService,
@@ -1396,20 +1397,20 @@ export class CharacterService {
     }
 
     public addCustomSkill(skillName: string, type: string, abilityName: string, locked = false, recallKnowledge = false): void {
-        this.character().customSkills.push(new Skill(abilityName, skillName, type, locked, recallKnowledge));
+        this.character.customSkills.push(new Skill(abilityName, skillName, type, locked, recallKnowledge));
     }
 
     public removeCustomSkill(oldSkill: Skill): void {
-        this.character().customSkills = this.character().customSkills.filter(skill => skill !== oldSkill);
+        this.character.customSkills = this.character.customSkills.filter(skill => skill !== oldSkill);
     }
 
     public addCustomFeat(feat: Feat): void {
-        this.character().customFeats.push(feat);
+        this.character.customFeats.push(feat);
         this.refreshService.prepareDetailToChange('Character', 'charactersheet');
     }
 
     public removeCustomFeat(feat: Feat): void {
-        const character = this.character();
+        const character = this.character;
 
         character.customFeats = character.customFeats.filter(oldFeat => oldFeat !== feat);
     }
@@ -1780,7 +1781,7 @@ export class CharacterService {
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
-                    const character = this.character();
+                    const character = this.character;
                     const targets =
                         this._savegameService.getSavegames()
                             .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id);
@@ -1883,7 +1884,7 @@ export class CharacterService {
                             const message = new PlayerMessage();
 
                             message.recipientId = target.playerId;
-                            message.senderId = this.character().id;
+                            message.senderId = this.character.id;
                             message.targetId = target.id;
 
                             const date = new Date();
@@ -2016,7 +2017,7 @@ export class CharacterService {
                     const message = new PlayerMessage();
 
                     message.recipientId = target.playerId;
-                    message.senderId = this.character().id;
+                    message.senderId = this.character.id;
                     message.targetId = target.id;
 
                     const date = new Date();
@@ -2190,7 +2191,7 @@ export class CharacterService {
                     const response = new PlayerMessage();
 
                     response.recipientId = message.senderId;
-                    response.senderId = this.character().id;
+                    response.senderId = this.character.id;
                     response.targetId = message.senderId;
 
                     const target = this.messageSenderName(message) || 'sender';
@@ -2343,9 +2344,9 @@ export class CharacterService {
             phrases.verbIs = 'are';
             phrases.verbHas = 'have';
         } else if (creature instanceof AnimalCompanion) {
-            phrases.name = this.companion().name || 'Your animal companion';
+            phrases.name = this.companion.name || 'Your animal companion';
         } else if (creature instanceof Familiar) {
-            phrases.name = this.familiar().name || 'Your familiar';
+            phrases.name = this.familiar.name || 'Your familiar';
         }
 
         return phrases;
@@ -2353,7 +2354,7 @@ export class CharacterService {
 
     public changeCharacterFocusPointsWithNotification(value: number): void {
         const maxFocusPoints = this.maxFocusPoints();
-        const character = this.character();
+        const character = this.character;
 
         if (maxFocusPoints === 0) {
             this.toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
@@ -2488,7 +2489,7 @@ export class CharacterService {
     }
 
     public raiseCharacterShieldWithNotification(value: number): void {
-        const equippedShield = this.character().inventories[0].shields.find(shield => shield.equipped);
+        const equippedShield = this.character.inventories[0].shields.find(shield => shield.equipped);
 
         if (equippedShield) {
             if (value > 0) {
@@ -2579,9 +2580,9 @@ export class CharacterService {
             phrases.verbIs = 'are';
             phrases.verbHas = 'have';
         } else if (creature instanceof AnimalCompanion) {
-            phrases.name = this.companion().name || 'Your animal companion';
+            phrases.name = this.companion.name || 'Your animal companion';
         } else if (creature instanceof Familiar) {
-            phrases.name = this.familiar().name || 'Your familiar';
+            phrases.name = this.familiar.name || 'Your familiar';
         }
 
         switch (effectGain.affected) {
@@ -2628,7 +2629,7 @@ export class CharacterService {
     }
 
     public feats(name = '', type = ''): Array<Feat> {
-        return this.featsService.feats(this.character().customFeats, name, type);
+        return this.featsService.feats(this.character.customFeats, name, type);
     }
 
     public features(name = ''): Array<Feat> {
@@ -2637,11 +2638,11 @@ export class CharacterService {
 
     public featsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
         //Use this function very sparingly! See get_All() for details.
-        return this.featsService.featsAndFeatures(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
+        return this.featsService.featsAndFeatures(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     public characterFeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
-        return this.featsService.characterFeats(this.character().customFeats, name, type, includeSubTypes, includeCountAs);
+        return this.featsService.characterFeats(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     public characterFeatsTaken(
@@ -2671,7 +2672,7 @@ export class CharacterService {
                 filter.automatic,
             );
         } else {
-            return this.character().takenFeats(
+            return this.character.takenFeats(
                 minLevelNumber,
                 maxLevelNumber,
                 filter.featName,
@@ -2693,7 +2694,7 @@ export class CharacterService {
         return this.animalCompanionsService.companionLevels();
     }
 
-    public creatureSenses(creature: Creature, charLevel: number = this.character().level, allowTemporary = false): Array<string> {
+    public creatureSenses(creature: Creature, charLevel: number = this.character.level, allowTemporary = false): Array<string> {
         let senses: Array<string> = [];
 
         let ancestrySenses: Array<string>;
@@ -2787,7 +2788,7 @@ export class CharacterService {
     public characterFeatsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
         return this.characterFeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
-                (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
+                (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
                     objectName.toLowerCase() === 'all' ||
                     showon.trim().toLowerCase() === objectName.toLowerCase() ||
@@ -2799,7 +2800,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() === 'lore'
                     ),
                 ),
-            ) && feat.have({ creature: this.character() }, { characterService: this }),
+            ) && feat.have({ creature: this.character }, { characterService: this }),
         );
     }
 
@@ -2807,11 +2808,11 @@ export class CharacterService {
         //Get showon elements from Companion Ancestry and Specialization
         return []
             .concat(
-                [this.companion().class.ancestry]
+                [this.companion.class.ancestry]
                     .filter(ancestry =>
                         ancestry.hints
                             .find(hint =>
-                                (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
+                                (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                                 hint.showon?.split(',')
                                     .find(showon =>
                                         objectName === 'all' ||
@@ -2821,11 +2822,11 @@ export class CharacterService {
                     ),
             )
             .concat(
-                this.companion().class.specializations
+                this.companion.class.specializations
                     .filter(spec =>
                         spec.hints
                             .find(hint =>
-                                (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
+                                (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                                 hint.showon?.split(',')
                                     .find(showon =>
                                         objectName === 'all' ||
@@ -2844,7 +2845,7 @@ export class CharacterService {
         //Get showon elements from Familiar Abilities
         return this.familiarsService.familiarAbilities().filter(feat =>
             feat.hints.find(hint =>
-                (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
+                (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
                     objectName.toLowerCase() === 'all' ||
                     showon.trim().toLowerCase() === objectName.toLowerCase() ||
@@ -2856,7 +2857,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() === 'lore'
                     ),
                 ),
-            ) && feat.have({ creature: this.familiar() }, { characterService: this }),
+            ) && feat.have({ creature: this.familiar }, { characterService: this }),
             //Return any feats that include e.g. Companion:Athletics
         )
             .concat(this.characterFeatsShowingHintsOnThis(`Familiar:${ objectName }`));
@@ -2870,7 +2871,7 @@ export class CharacterService {
             )
             .filter(conditionSet =>
                 conditionSet.condition?.hints.find(hint =>
-                    (hint.minLevel ? this.character().level >= hint.minLevel : true) &&
+                    (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                     hint.showon?.split(',').find(showon =>
                         objectName.trim().toLowerCase() === 'all' ||
                         showon.trim().toLowerCase() === objectName.toLowerCase() ||
@@ -3172,10 +3173,10 @@ export class CharacterService {
     public maxFocusPoints(): number {
         let focusPoints = 0;
 
-        this.effectsService.absoluteEffectsOnThis(this.character(), 'Focus Pool').forEach(effect => {
+        this.effectsService.absoluteEffectsOnThis(this.character, 'Focus Pool').forEach(effect => {
             focusPoints = parseInt(effect.setValue, 10);
         });
-        this.effectsService.relativeEffectsOnThis(this.character(), 'Focus Pool').forEach(effect => {
+        this.effectsService.relativeEffectsOnThis(this.character, 'Focus Pool').forEach(effect => {
             focusPoints += parseInt(effect.value, 10);
         });
 
@@ -3191,7 +3192,7 @@ export class CharacterService {
     }
 
     public initializeAnimalCompanion(): void {
-        const character = this.character();
+        const character = this.character;
 
         this.cacheService.resetCreatureCache(1);
 
@@ -3205,7 +3206,7 @@ export class CharacterService {
     }
 
     public initializeFamiliar(): void {
-        const character = this.character();
+        const character = this.character;
 
         this.cacheService.resetCreatureCache(CreatureTypeIds.Familiar);
 
@@ -3216,11 +3217,11 @@ export class CharacterService {
     }
 
     public removeAllFamiliarAbilities(): void {
-        const familiar = this.familiar();
+        const familiar = this.familiar;
         const abilityNames = familiar.abilities.feats.map(gain => gain.name);
 
         abilityNames.forEach(abilityName => {
-            this.character().takeFeat(familiar, this, undefined, abilityName, false, familiar.abilities, undefined);
+            this.character.takeFeat(familiar, this, undefined, abilityName, false, familiar.abilities, undefined);
         });
     }
 
@@ -3323,9 +3324,9 @@ export class CharacterService {
         // Set loading to false. The last steps need the characterService to not be loading.
         this._loading = false;
         // Set your turn state according to the saved state.
-        this.timeService.setYourTurn(this.character().yourTurn);
+        this.timeService.setYourTurn(this.character.yourTurn);
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
-        this.featsService.buildCharacterFeats(this.character());
+        this.featsService.buildCharacterFeats(this.character);
         // Reset cache for all creatures.
         this.cacheService.reset();
         // Set accent color and dark mode according to the settings.
@@ -3339,12 +3340,12 @@ export class CharacterService {
     }
 
     public saveCharacter(): void {
-        this.character().yourTurn = this.timeService.getYourTurn();
+        this.character.yourTurn = this.timeService.getYourTurn();
         this.toastService.show('Saving...');
 
         const savegame =
             this._savegameService.prepareCharacterForSaving(
-                this.character(),
+                this.character,
                 this.itemsService,
                 this.classesService,
                 this._historyService,
@@ -3355,9 +3356,9 @@ export class CharacterService {
             .subscribe({
                 next: result => {
                     if (result.lastErrorObject && result.lastErrorObject.updatedExisting) {
-                        this.toastService.show(`Saved ${ this.character().name || 'character' }.`);
+                        this.toastService.show(`Saved ${ this.character.name || 'character' }.`);
                     } else {
-                        this.toastService.show(`Created ${ this.character().name || 'character' }.`);
+                        this.toastService.show(`Created ${ this.character.name || 'character' }.`);
                     }
 
                     this._savegameService.reset();
@@ -3380,7 +3381,7 @@ export class CharacterService {
         this._loading = false;
         // Fill a runtime variable with all the feats the character has taken,
         // and another with the level at which they were taken. These were cleared when trying to load.
-        this.featsService.buildCharacterFeats(this.character());
+        this.featsService.buildCharacterFeats(this.character);
         this._refreshAfterLoading();
     }
 
@@ -3428,7 +3429,7 @@ export class CharacterService {
         };
 
         if (!this.stillLoading) {
-            const original = this.character().settings.accent;
+            const original = this.character.settings.accent;
 
             if (original.length === rgbLength || original.length === rrggbbLength) {
                 try {
@@ -3450,7 +3451,7 @@ export class CharacterService {
         //If there are no weapons left of this name in any inventory, find any custom feat that has it as its subType.
         //These feats are not useful anymore, but the player may wish to keep them.
         //They are marked with canDelete, and the player can decide whether to delete them.
-        const character = this.character();
+        const character = this.character;
         const remainingWeapons: Array<string> = []
             .concat(
                 ...character.inventories
@@ -3515,8 +3516,8 @@ export class CharacterService {
                     ).recast(this._typeService, this.itemsService);
 
                 this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
-                this._equipBasicItems(this.character(), false);
-                this._equipBasicItems(this.companion(), false);
+                this._equipBasicItems(this.character, false);
+                this._equipBasicItems(this.companion, false);
             }
         }, Defaults.waitForServiceDelay);
     }

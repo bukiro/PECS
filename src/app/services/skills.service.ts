@@ -35,7 +35,7 @@ export class SkillsService {
             ...options,
         };
 
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             if (name === 'Lore') {
                 return this._skills.concat(customSkills).filter(skill =>
                     (
@@ -67,7 +67,7 @@ export class SkillsService {
         } else { return [new Skill()]; }
     }
 
-    public stillLoading(): boolean {
+    public get stillLoading(): boolean {
         return !this._initialized;
     }
 

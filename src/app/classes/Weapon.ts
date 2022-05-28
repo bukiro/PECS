@@ -349,7 +349,7 @@ export class Weapon extends Equipment {
     public effectiveProficiency(
         creature: Character | AnimalCompanion,
         characterService: CharacterService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
     ): string {
         let proficiency = this.prof;
         // Some feats allow you to apply another proficiency to certain weapons, e.g.:
@@ -398,7 +398,7 @@ export class Weapon extends Equipment {
         creature: Character | AnimalCompanion,
         characterService: CharacterService,
         runeSource: Weapon | WornItem,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
         options: { preparedProficiency?: string } = {},
     ): number {
         if (characterService.stillLoading) { return 0; }
@@ -518,7 +518,7 @@ export class Weapon extends Equipment {
     ): AttackResult {
         //Calculates the attack bonus for a melee or ranged attack with this weapon.
         let explain = '';
-        const charLevel = characterService.character().level;
+        const charLevel = characterService.character.level;
         const str = characterService.abilities('Strength')[0].mod(creature, characterService, effectsService).result;
         const dex = characterService.abilities('Dexterity')[0].mod(creature, characterService, effectsService).result;
         const runeSource = this.runeSource(creature, range);
@@ -702,7 +702,7 @@ export class Weapon extends Equipment {
         let hasPowerfulFist = false;
 
         if (this.prof === WeaponProficiencies.Unarmed) {
-            const character = characterService.character();
+            const character = characterService.character;
 
             if (characterService.characterFeatsTaken(0, character.level, { featName: 'Powerful Fist' }).length) {
                 hasPowerfulFist = true;
@@ -914,7 +914,7 @@ export class Weapon extends Equipment {
 
             //Diamond Fists adds the forceful trait to your unarmed attacks, but if one already has the trait, it gains one damage die.
             if (this.prof === WeaponProficiencies.Unarmed) {
-                const character = characterService.character();
+                const character = characterService.character;
 
                 if (
                     characterService.characterFeatsTaken(0, character.level, { featName: 'Diamond Fists' }).length &&

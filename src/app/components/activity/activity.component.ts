@@ -92,8 +92,8 @@ export class ActivityComponent implements OnInit, OnDestroy {
         return (this.activity instanceof ItemActivity && this.activity.resonant);
     }
 
-    public character(): Character {
-        return this._characterService.character();
+    public get character(): Character {
+        return this._characterService.character;
     }
 
     public activityParameters(): ActivityParameters {
@@ -199,7 +199,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     public fusedStances(): Array<{ gain: ItemActivity | ActivityGain; activity: Activity }> {
-        const featData = this.character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
+        const featData = this.character.class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (featData) {
             return this._characterService.creatureOwnedActivities(this._currentCreature())

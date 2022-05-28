@@ -67,7 +67,7 @@ export class Skill {
         characterService: CharacterService,
         abilitiesService: AbilitiesDataService,
         effectsService: EffectsService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
         isDC = false,
     ): CalculatedSkill {
         const level = this.level(creature, characterService, charLevel);
@@ -172,7 +172,7 @@ export class Skill {
     }
     public modifierAbility(creature: Creature, characterService: CharacterService): string {
         if (creature instanceof Familiar) {
-            const character = characterService.character();
+            const character = characterService.character;
 
             // For Familiars, get the correct ability by identifying the non-innate spellcasting
             // with the same class name as the Familiar's originClass and retrieving its key ability.
@@ -185,7 +185,7 @@ export class Skill {
             if (this.ability) {
                 return this.ability;
             } else {
-                const character = characterService.character();
+                const character = characterService.character;
                 const cachedAbility = this.$ability.get(`${ creature.type }-${ character.level }`);
 
                 if (cachedAbility) {
@@ -236,7 +236,7 @@ export class Skill {
     public level(
         creature: Creature,
         characterService: CharacterService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
         excludeTemporary = false,
     ): number {
         if (characterService.stillLoading) { return 0; }
@@ -399,7 +399,7 @@ export class Skill {
         characterService: CharacterService,
         abilitiesService: AbilitiesDataService,
         effectsService: EffectsService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
         skillLevel: number = this.level((creature as AnimalCompanion | Character), characterService, charLevel),
     ): SkillBaseValue {
         let result = 0;
@@ -412,7 +412,7 @@ export class Skill {
                 //- Saves are equal to the character's before applying circumstance or status effects.
                 //- Perception, Acrobatics and Stealth are equal to the character level plus spellcasting modifier (or Charisma).
                 //- All others (including attacks) are equal to the character level.
-                const character = characterService.character();
+                const character = characterService.character;
 
                 if (['Fortitude', 'Reflex', 'Will'].includes(this.name)) {
                     const charBaseValue = this.baseValue(character, characterService, abilitiesService, effectsService, charLevel);
@@ -476,7 +476,7 @@ export class Skill {
         characterService: CharacterService,
         abilitiesService: AbilitiesDataService,
         effectsService: EffectsService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
         isDC = false,
         baseValue: SkillBaseValue = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel),
     ): { result: number; explain: string } {
@@ -508,7 +508,7 @@ export class Skill {
             //Familiars apply the characters skill value (before circumstance and status effects) on saves
             //We get this by calculating the skill's baseValue and adding effects that aren't circumstance or status effects.
             if (creature instanceof Familiar) {
-                const character = characterService.character();
+                const character = characterService.character;
 
                 if (['Fortitude', 'Reflex', 'Will'].includes(this.name)) {
                     this.absolutes(character, effectsService, isDC, baseValue.skillLevel, baseValue.ability).forEach(effect => {

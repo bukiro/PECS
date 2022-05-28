@@ -30,8 +30,8 @@
             </button>
         </div>
     </ng-template>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading() && get_Character().class && get_SpellsMenuState()==='in'">
+    <div class="loading" *ngIf="stillLoading">Loading</div>
+    <ng-container *ngIf="!stillLoading && get_Character().class && get_SpellsMenuState()==='in'">
         <ng-container *ngFor="let componentParameters of [get_ComponentParameters()]; trackBy:trackByIndex;">
             <div class="charactersheet-column-container">
                 <div class="charactersheet-column">

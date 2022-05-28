@@ -154,7 +154,7 @@ export class Feat {
         if (services.characterService?.stillLoading) { return 0; }
 
         filter = {
-            charLevel: services.characterService.character().level,
+            charLevel: services.characterService.character.level,
             minLevel: 1,
             ...filter,
         };

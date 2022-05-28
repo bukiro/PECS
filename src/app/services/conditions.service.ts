@@ -544,7 +544,7 @@ export class ConditionsService {
 
         //End the condition's spell or activity if there is one and it is active.
         if (!taken && gain.sourceGainID) {
-            const character = characterService.character();
+            const character = characterService.character;
 
             //If no other conditions have this ConditionGain's sourceGainID, find the matching Spellgain or ActivityGain and disable it.
             if (
@@ -662,7 +662,7 @@ export class ConditionsService {
             return;
         }
 
-        const character = services.characterService.character();
+        const character = services.characterService.character;
 
         let hasFoundSpeedRune = false;
         let shouldApplyAlignmentRunePenalty = false;

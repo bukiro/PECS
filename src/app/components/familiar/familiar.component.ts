@@ -29,15 +29,15 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.familiarMinimized = !this.characterService.character().settings.familiarMinimized;
+        this.characterService.character.settings.familiarMinimized = !this.characterService.character.settings.familiarMinimized;
         this.set_Changed('Familiar');
     }
 
     get_Minimized() {
-        return this.characterService.character().settings.familiarMinimized;
+        return this.characterService.character.settings.familiarMinimized;
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return (this.characterService.stillLoading || this.familiarsService.stillLoading);
     }
 
@@ -58,7 +58,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_FamiliarAvailable() {
@@ -66,7 +66,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     get_Familiar() {
-        return this.characterService.familiar();
+        return this.characterService.familiar;
     }
 
     toggle_Mode(type: string) {

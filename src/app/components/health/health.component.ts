@@ -49,21 +49,21 @@ export class HealthComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.healthMinimized = !this.characterService.character().settings.healthMinimized;
+        this.characterService.character.settings.healthMinimized = !this.characterService.character.settings.healthMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.character().settings.healthMinimized;
+                return this.characterService.character.settings.healthMinimized;
             case 'Companion':
-                return this.characterService.character().settings.companionMinimized;
+                return this.characterService.character.settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.character().settings.familiarMinimized;
+                return this.characterService.character.settings.familiarMinimized;
         }
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 
@@ -72,7 +72,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_ManualMode() {

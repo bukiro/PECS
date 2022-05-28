@@ -266,7 +266,7 @@ export class Armor extends Equipment {
     public profLevel(
         creature: Character | AnimalCompanion,
         characterService: CharacterService,
-        charLevel: number = characterService.character().level,
+        charLevel: number = characterService.character.level,
         options: { itemStore?: boolean } = {},
     ): number {
         if (characterService.stillLoading) { return 0; }

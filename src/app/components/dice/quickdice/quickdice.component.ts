@@ -35,12 +35,12 @@ export class QuickdiceComponent {
     ) { }
 
     get_FoundryVTTRollDirectly() {
-        return this.characterService.character().settings.foundryVTTSendRolls && this.characterService.character().settings.foundryVTTUrl && this.characterService.character().settings.foundryVTTRollDirectly;
+        return this.characterService.character.settings.foundryVTTSendRolls && this.characterService.character.settings.foundryVTTUrl && this.characterService.character.settings.foundryVTTRollDirectly;
     }
 
     get_SpellCastingModifier() {
         const ability = this.casting?.ability || 'Charisma';
-        const character = this.characterService.character();
+        const character = this.characterService.character;
 
         return this.characterService.abilitiesService.abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
     }
@@ -69,7 +69,7 @@ export class QuickdiceComponent {
         if (diceString.toLowerCase().includes('charlevel')) {
             return diceString.split(' ').map(part => {
                 if (part.toLowerCase() == 'charlevel') {
-                    return this.characterService.character().level;
+                    return this.characterService.character.level;
                 } else {
                     return part;
                 }
@@ -114,7 +114,7 @@ export class QuickdiceComponent {
                     }
 
                     if (abilityName) {
-                        const character = this.characterService.character();
+                        const character = this.characterService.character;
 
                         return this.characterService.abilitiesService.abilities(abilityName)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result.toString() || '0';
                     } else {

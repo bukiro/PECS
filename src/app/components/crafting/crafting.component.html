@@ -15,8 +15,8 @@
     <button class="itembox-close-button list-item center-aligned" (click)="toggleCraftingMenu()">
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading() && get_CraftingMenuState()==='in'">
+    <div class="loading" *ngIf="stillLoading">Loading</div>
+    <ng-container *ngIf="!stillLoading && get_CraftingMenuState()==='in'">
         <div class="charactersheet-column-container">
             <div class="charactersheet-column">
                 <div class="list-item">

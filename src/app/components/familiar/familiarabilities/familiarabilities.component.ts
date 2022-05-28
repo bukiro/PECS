@@ -28,7 +28,7 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_FamiliarAvailable() {
@@ -36,7 +36,7 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
     }
 
     get_Familiar() {
-        return this.characterService.familiar();
+        return this.characterService.familiar;
     }
 
     public ngOnInit(): void {

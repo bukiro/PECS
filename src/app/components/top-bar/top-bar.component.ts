@@ -141,7 +141,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_CompanionAvailable() {
@@ -161,14 +161,14 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_Companion() {
-        return this.characterService.companion();
+        return this.characterService.companion;
     }
 
     get_Familiar() {
-        return this.characterService.familiar();
+        return this.characterService.familiar;
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 
@@ -209,7 +209,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
             this.messageService.cleanupMessagesOnConnector()
                 .subscribe({
                     next: () => {
-                        this.messageService.loadMessagesFromConnector(this.characterService.character().id)
+                        this.messageService.loadMessagesFromConnector(this.characterService.character.id)
                             .subscribe({
                                 next: (results: Array<string>) => {
                                     //Get any new messages.

@@ -42,17 +42,17 @@ export class EffectsComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.effectsMinimized = !this.characterService.character().settings.effectsMinimized;
+        this.characterService.character.settings.effectsMinimized = !this.characterService.character.settings.effectsMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.character().settings.effectsMinimized;
+                return this.characterService.character.settings.effectsMinimized;
             case 'Companion':
-                return this.characterService.character().settings.companionMinimized;
+                return this.characterService.character.settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.character().settings.familiarMinimized;
+                return this.characterService.character.settings.familiarMinimized;
         }
     }
 

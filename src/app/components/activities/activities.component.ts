@@ -62,16 +62,24 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     public get isMinimized(): boolean {
         return this.creature === CreatureTypes.AnimalCompanion
-            ? this._characterService.character().settings.companionMinimized
-            : this._characterService.character().settings.abilitiesMinimized;
+            ? this._characterService.character.settings.companionMinimized
+            : this._characterService.character.settings.abilitiesMinimized;
     }
 
     public get isTileMode(): boolean {
-        return this._character().settings.activitiesTileMode;
+        return this._character.settings.activitiesTileMode;
+    }
+
+    public get stillLoading(): boolean {
+        return this._activitiesService.stillLoading || this._characterService.stillLoading;
+    }
+
+    private get _character(): Character {
+        return this._characterService.character;
     }
 
     public minimize(): void {
-        this._characterService.character().settings.activitiesMinimized = !this._characterService.character().settings.activitiesMinimized;
+        this._characterService.character.settings.activitiesMinimized = !this._characterService.character.settings.activitiesMinimized;
     }
 
     public toggleShownActivity(id: string): void {
@@ -104,13 +112,9 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public toggleTileMode(): void {
-        this._character().settings.activitiesTileMode = !this._character().settings.activitiesTileMode;
+        this._character.settings.activitiesTileMode = !this._character.settings.activitiesTileMode;
         this._refreshService.prepareDetailToChange('Character', 'activities');
         this._refreshService.processPreparedChanges();
-    }
-
-    public stillLoading(): boolean {
-        return this._activitiesService.stillLoading || this._characterService.stillLoading;
     }
 
     public currentCreature(): Creature {
@@ -196,12 +200,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         }
     }
 
-    private _character(): Character {
-        return this._characterService.character();
-    }
-
     private _fuseStanceName(): string {
-        const data = this._character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
+        const data = this._character.class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (data) {
             return data.valueAsString('name') || 'Fused Stance';

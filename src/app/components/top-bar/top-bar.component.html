@@ -1,8 +1,8 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div id="top-bar" class="newrow">
     <header class="mainHeader mobile-hide" [ngbTooltip]="'Pathfinder Excessive Character Sheet'">P.E.C.S.</header>
-    <button class="fancy-button loading" *ngIf="still_loading()">{{get_LoadingButtonTitle()}}</button>
-    <ng-container *ngIf="!still_loading()">
+    <button class="fancy-button loading" *ngIf="stillLoading">{{get_LoadingButtonTitle()}}</button>
+    <ng-container *ngIf="!stillLoading">
         <button [ngClass]="{'fancy-button':get_CharacterMenuState()==='out'}" (click)="toggle_Menu('character')">
             <i class="ra ra-player"></i>
             <div class="mobile-hide">

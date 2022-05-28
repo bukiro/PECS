@@ -42,7 +42,7 @@ export class DiceComponent implements OnInit {
     }
 
     get_FoundryVTTSendRolls() {
-        return this.characterService.character().settings.foundryVTTSendRolls && this.characterService.character().settings.foundryVTTUrl;
+        return this.characterService.character.settings.foundryVTTSendRolls && this.characterService.character.settings.foundryVTTUrl;
     }
 
     get_DiceResults() {

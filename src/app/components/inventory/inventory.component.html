@@ -19,8 +19,8 @@
 </div>
 <div id="{{creature}}-inventory-height" class="attributeBox">
     <header class="sectionHeader box-header">Inventory</header>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading()">
+    <div class="loading" *ngIf="stillLoading">Loading</div>
+    <ng-container *ngIf="!stillLoading">
         <button class="fullsize-only list-item center-aligned" *ngIf="!itemStore"
             (click)="set_ItemsMenuTarget(creature); toggle_Menu('items')">
             Get Items

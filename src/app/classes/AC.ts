@@ -107,7 +107,7 @@ export class AC {
         defenseService: DefenseService,
         effectsService: EffectsService,
     ): CalculatedAC {
-        const character = characterService.character();
+        const character = characterService.character;
         const absolutes: Array<Effect> = this._absolutes(creature, effectsService);
         const relatives: Array<Effect> = this._relatives(creature, character, effectsService);
 
@@ -192,7 +192,7 @@ export class AC {
         //Get the bonus from the worn armor. This includes the basic 10
         let basicBonus = 10;
         let explain = 'DC Basis: 10';
-        const character: Character = characterService.character();
+        const character: Character = characterService.character;
         //Familiars calculate their AC based on the character.
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         const armorCreature: AnimalCompanion | Character =
@@ -231,7 +231,7 @@ export class AC {
 
         if (!isBaseArmorBonusSet && !!armors.length) {
             const armor = armors[0];
-            const charLevel = characterService.character().level;
+            const charLevel = characterService.character.level;
             const dex = characterService.abilities('Dexterity')[0].mod(armorCreature, characterService, effectsService).result;
             //Get the profiency with either this armor or its category.
             //Familiars have the same AC as the Character before circumstance or status effects.

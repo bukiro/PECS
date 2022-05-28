@@ -43,21 +43,21 @@ export class GeneralComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.generalMinimized = !this.characterService.character().settings.generalMinimized;
+        this.characterService.character.settings.generalMinimized = !this.characterService.character.settings.generalMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.character().settings.generalMinimized;
+                return this.characterService.character.settings.generalMinimized;
             case 'Companion':
-                return this.characterService.character().settings.companionMinimized;
+                return this.characterService.character.settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.character().settings.familiarMinimized;
+                return this.characterService.character.settings.familiarMinimized;
         }
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 
@@ -70,15 +70,15 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_Companion() {
-        return this.characterService.companion();
+        return this.characterService.companion;
     }
 
     get_Familiar() {
-        return this.characterService.familiar();
+        return this.characterService.familiar;
     }
 
     get_FamiliarAbilities(name: string) {

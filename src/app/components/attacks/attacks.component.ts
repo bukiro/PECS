@@ -64,15 +64,15 @@ export class AttacksComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.attacksMinimized = !this.characterService.character().settings.attacksMinimized;
+        this.characterService.character.settings.attacksMinimized = !this.characterService.character.settings.attacksMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.character().settings.attacksMinimized;
+                return this.characterService.character.settings.attacksMinimized;
             case 'Companion':
-                return this.characterService.character().settings.companionMinimized;
+                return this.characterService.character.settings.companionMinimized;
         }
     }
 
@@ -80,12 +80,12 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return this.characterService.isManualMode();
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_Creature(type: string = this.creature) {
@@ -444,7 +444,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     get_FlurryAllowed() {
         const creature = this.get_Creature();
-        const character = this.characterService.character();
+        const character = this.characterService.character;
 
         this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true).filter(gain => gain.name == 'Hunt Prey').length;
 

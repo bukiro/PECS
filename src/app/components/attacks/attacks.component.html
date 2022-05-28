@@ -20,8 +20,8 @@
         </span>
         Attacks
     </header>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading()">
+    <div class="loading" *ngIf="stillLoading">Loading</div>
+    <ng-container *ngIf="!stillLoading">
         <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <div class="list-item newrow">
@@ -412,7 +412,7 @@
                 </ng-container>
             </div>
         </ng-container>
-        <header class="sectionHeader fullsize-only box-header" *ngIf="!still_loading()">Weapon Proficiencies</header>
+        <header class="sectionHeader fullsize-only box-header" *ngIf="!stillLoading">Weapon Proficiencies</header>
         <app-tags [creature]="creature" [objectName]="'Weapon Proficiencies'" [showTraits]=true [showFeats]=true
             [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
         <ng-container *ngFor="let skill of get_Skills('', 'Weapon Proficiency'); trackBy:trackByIndex;">

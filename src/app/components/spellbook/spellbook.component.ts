@@ -93,11 +93,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.spellbookMinimized = !this.characterService.character().settings.spellbookMinimized;
+        this.characterService.character.settings.spellbookMinimized = !this.characterService.character.settings.spellbookMinimized;
     }
 
     get_Minimized() {
-        return this.characterService.character().settings.spellbookMinimized;
+        return this.characterService.character.settings.spellbookMinimized;
     }
 
     toggle_Spell(id = '') {
@@ -138,7 +138,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     toggle_TileMode() {
@@ -155,7 +155,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return this.characterService.isManualMode();
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 
@@ -178,7 +178,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_Companion() {
-        return this.characterService.companion();
+        return this.characterService.companion;
     }
 
     get_FamiliarAvailable() {
@@ -186,7 +186,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_Familiar() {
-        return this.characterService.familiar();
+        return this.characterService.familiar;
     }
 
     get_SpellDCs() {

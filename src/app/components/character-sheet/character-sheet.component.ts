@@ -66,7 +66,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         return this.showMode;
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 
@@ -123,73 +123,73 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     get_CharacterMinimized() {
-        return this.characterService.character().settings.characterMinimized;
+        return this.characterService.character.settings.characterMinimized;
     }
 
     get_CompanionMinimized() {
-        return this.characterService.character().settings.companionMinimized;
+        return this.characterService.character.settings.companionMinimized;
     }
 
     get_FamiliarMinimized() {
-        return this.characterService.character().settings.familiarMinimized;
+        return this.characterService.character.settings.familiarMinimized;
     }
 
     get_SpellsMinimized() {
-        return this.characterService.character().settings.spellsMinimized;
+        return this.characterService.character.settings.spellsMinimized;
     }
 
     get_SpellLibraryMinimized() {
-        return this.characterService.character().settings.spelllibraryMinimized;
+        return this.characterService.character.settings.spelllibraryMinimized;
     }
 
     get_GeneralMinimized() {
-        return this.characterService.character().settings.generalMinimized;
+        return this.characterService.character.settings.generalMinimized;
     }
 
     get_EffectsMinimized() {
-        return this.characterService.character().settings.effectsMinimized;
+        return this.characterService.character.settings.effectsMinimized;
     }
 
     get_AbilitiesMinimized() {
-        return this.characterService.character().settings.abilitiesMinimized;
+        return this.characterService.character.settings.abilitiesMinimized;
     }
 
     get_HealthMinimized() {
-        return this.characterService.character().settings.healthMinimized;
+        return this.characterService.character.settings.healthMinimized;
     }
 
     get_DefenseMinimized() {
-        return this.characterService.character().settings.defenseMinimized;
+        return this.characterService.character.settings.defenseMinimized;
     }
 
     get_AttacksMinimized() {
-        return this.characterService.character().settings.attacksMinimized;
+        return this.characterService.character.settings.attacksMinimized;
     }
 
     get_SkillsMinimized() {
-        return this.characterService.character().settings.skillsMinimized;
+        return this.characterService.character.settings.skillsMinimized;
     }
 
     get_InventoryMinimized() {
-        return this.characterService.character().settings.inventoryMinimized;
+        return this.characterService.character.settings.inventoryMinimized;
     }
 
     get_ActivitiesMinimized() {
-        return this.characterService.character().settings.activitiesMinimized;
+        return this.characterService.character.settings.activitiesMinimized;
     }
 
     get_SpellbookMinimized() {
-        return this.characterService.character().settings.spellbookMinimized;
+        return this.characterService.character.settings.spellbookMinimized;
     }
 
     get_TimeMinimized() {
-        return this.characterService.character().settings.timeMinimized;
+        return this.characterService.character.settings.timeMinimized;
     }
 
     get_ClassOrder(fightingStyle: string) {
         //Returns whether the fightingStyle (attacks or spells) should be first or second for this class (0 or 1).
         //This checks whether you have a primary spellcasting for your class from level 1, and if so, spells should be first.
-        if (this.characterService.character().defaultSpellcasting()?.charLevelAvailable == 1) {
+        if (this.characterService.character.defaultSpellcasting()?.charLevelAvailable == 1) {
             switch (fightingStyle) {
                 case 'attacks':
                     return 1;

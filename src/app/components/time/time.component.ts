@@ -38,11 +38,11 @@ export class TimeComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.timeMinimized = !this.characterService.character().settings.timeMinimized;
+        this.characterService.character.settings.timeMinimized = !this.characterService.character.settings.timeMinimized;
     }
 
     get_Minimized() {
-        return this.characterService.character().settings.timeMinimized;
+        return this.characterService.character.settings.timeMinimized;
     }
 
     trackByIndex(index: number): number {
@@ -57,7 +57,7 @@ export class TimeComponent implements OnInit, OnDestroy {
         return this.timeService.getWaitingDescription(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: false });
     }
 
-    public still_loading(): boolean {
+    public get stillLoading(): boolean {
         return this.characterService.stillLoading;
     }
 

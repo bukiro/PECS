@@ -79,7 +79,7 @@ export class ItemGain {
         services: { characterService: CharacterService; itemsService: ItemsService },
     ): void {
         if (this.special) {
-            const character = services.characterService.character();
+            const character = services.characterService.character;
             const deities = services.characterService.currentCharacterDeities(character);
 
             switch (this.special) {

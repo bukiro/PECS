@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <app-toast-container aria-live="polite" aria-atomic="true"></app-toast-container>
-<div id="charactersheet" class="charactersheet" *ngIf="!still_loading()">
+<div id="charactersheet" class="charactersheet" *ngIf="!stillLoading">
     <!--Desktop-only views-->
     <div class="charactersheet-app charactersheet-row mobile-hide" id="desktop-tabs" *ngIf="!mobile">
         <button
@@ -17,7 +17,7 @@
         <button [ngClass]="{'fancy-button':get_ShowMode()==='ConditionsEffects'}"
             (click)="toggle_Mode('ConditionsEffects')">Conditions & Effects</button>
     </div>
-    <ng-container *ngIf="!still_loading() && get_ShowMode() !== 'ConditionsEffects' && !mobile">
+    <ng-container *ngIf="!stillLoading && get_ShowMode() !== 'ConditionsEffects' && !mobile">
         <app-time class="charactersheet-app charactersheet-row mobile-hide" [sheetSide]="'center'"
             [showTurn]="(['','Encounter'].includes(get_ShowMode()))" [showTime]="(get_ShowMode() !== 'Encounter')"
             [ngClass]="{'minimized':(get_TimeMinimized())}"></app-time>
@@ -123,7 +123,7 @@
             <i class="bi-clock"></i>
         </button>
     </div>
-    <ng-container *ngIf="!still_loading() && get_ShowMode() !== 'ConditionsEffects' && mobile">
+    <ng-container *ngIf="!stillLoading && get_ShowMode() !== 'ConditionsEffects' && mobile">
         <div class="charactersheet-column-container desktop-hide">
             <div class="charactersheet-column">
                 <app-general id="Character-general" class="charactersheet-app" [sheetSide]="'center'"
@@ -170,19 +170,19 @@
     </ng-container>
 </div>
 <!--Slide-in menus-->
-<app-items [@slideInOut]="get_ItemsMenuState()" *ngIf="!still_loading()">
+<app-items [@slideInOut]="get_ItemsMenuState()" *ngIf="!stillLoading">
 </app-items>
-<app-crafting [@slideInOut]="get_CraftingMenuState()" *ngIf="!still_loading()">
+<app-crafting [@slideInOut]="get_CraftingMenuState()" *ngIf="!stillLoading">
 </app-crafting>
 <app-spells [ngClass]="{'minimized':(get_SpellsMinimized())}" [@slideInOut]="get_SpellsMenuState()"
-    *ngIf="!still_loading()"></app-spells>
-<app-spellLibrary [@slideInOut]="get_SpellLibraryMenuState()" *ngIf="!still_loading()"></app-spellLibrary>
-<app-conditions [@slideInOut]="get_ConditionsMenuState()" *ngIf="!still_loading()"></app-conditions>
+    *ngIf="!stillLoading"></app-spells>
+<app-spellLibrary [@slideInOut]="get_SpellLibraryMenuState()" *ngIf="!stillLoading"></app-spellLibrary>
+<app-conditions [@slideInOut]="get_ConditionsMenuState()" *ngIf="!stillLoading"></app-conditions>
 <app-character [ngClass]="{'minimized':(get_CharacterMinimized())}" [@slideInOut]="get_CharacterMenuState()"
-    *ngIf="!still_loading()"></app-character>
+    *ngIf="!stillLoading"></app-character>
 <app-animal-companion [ngClass]="{'minimized':(get_CompanionMinimized())}" [@slideInOut]="get_CompanionMenuState()"
-    *ngIf="!still_loading() && get_CompanionAvailable()">
+    *ngIf="!stillLoading && get_CompanionAvailable()">
 </app-animal-companion>
 <app-familiar [ngClass]="{'minimized':(get_FamiliarMinimized())}" [@slideInOut]="get_FamiliarMenuState()"
-    *ngIf="!still_loading() && get_FamiliarAvailable()"></app-familiar>
+    *ngIf="!stillLoading && get_FamiliarAvailable()"></app-familiar>
 <app-dice [@slideInOutVert]="get_DiceMenuState()"></app-dice>

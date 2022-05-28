@@ -33,7 +33,7 @@
     </ng-template>
     <div class="charactersheet-column-container">
         <div class="charactersheet-column">
-            <div class="loading" *ngIf="still_loading()">Loading</div>
+            <div class="loading" *ngIf="stillLoading">Loading</div>
             <!--Management list mode-->
             <ng-container *ngIf="!get_TileMode()">
                 <div class="list-item">
@@ -196,7 +196,7 @@
                 </div>
             </div>
             <ng-container
-                *ngIf="!still_loading() && get_CharacterMenuState() === 'in' && get_CharacterLoadedOrCreated()">
+                *ngIf="!stillLoading && get_CharacterMenuState() === 'in' && get_CharacterLoadedOrCreated()">
                 <div class="list-item">
                     <strong>Experience Points</strong>
                     <span class="hlist">

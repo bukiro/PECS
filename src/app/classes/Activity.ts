@@ -208,7 +208,7 @@ export class Activity {
             return -1;
         }
 
-        const character = characterService.character();
+        const character = characterService.character;
         let targetNumberResult: SpellTargetNumber;
 
         // This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any).

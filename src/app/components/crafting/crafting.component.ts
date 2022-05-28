@@ -69,7 +69,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     get_InventoryMinimized() {
-        return this.characterService.character().settings.inventoryMinimized;
+        return this.characterService.character.settings.inventoryMinimized;
     }
 
     toggle_TileMode() {
@@ -95,7 +95,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     toggle_Item(id = '') {
@@ -175,7 +175,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     have_Funds(sum = ((this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC))) {
-        const character = this.characterService.character();
+        const character = this.characterService.character;
         const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
 
         if (sum <= funds) {
@@ -198,7 +198,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     get_InventoryItemSets(type: string) {
-        return this.characterService.character().inventories.map(inventory => inventory[type]);
+        return this.characterService.character.inventories.map(inventory => inventory[type]);
     }
 
     get_VisibleItems(items: Array<Item>) {
@@ -264,7 +264,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         }
 
         item.crafted = true;
-        this.characterService.grantInventoryItem(item, { creature: this.characterService.character(), inventory: this.characterService.character().inventories[0], amount }, { resetRunes: false });
+        this.characterService.grantInventoryItem(item, { creature: this.characterService.character, inventory: this.characterService.character.inventories[0], amount }, { resetRunes: false });
     }
 
     get_FormulasLearned(id = '', source = '') {
@@ -320,8 +320,8 @@ export class CraftingComponent implements OnInit, OnDestroy {
         }
     }
 
-    public still_loading(): boolean {
-        return this.itemsService.stillLoading() || this.characterService.stillLoading;
+    public get stillLoading(): boolean {
+        return this.itemsService.stillLoading || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

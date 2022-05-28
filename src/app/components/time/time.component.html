@@ -6,8 +6,8 @@
     <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
 </button>
 <div id="time">
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading()">
+    <div class="loading" *ngIf="stillLoading">Loading</div>
+    <ng-container *ngIf="!stillLoading">
         <div *ngIf="showTurn" class="list-item center-aligned">
             <div [ngbTooltip]="get_Waiting(5)">
                 <button (click)="start_Turn()" [disabled]="get_YourTurn() === 5 || get_Waiting(5).length">

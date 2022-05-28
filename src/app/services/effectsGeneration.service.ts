@@ -95,9 +95,9 @@ export class EffectsGenerationService {
         const objectEffects: Array<Effect> = [];
         //Get the object name unless a name is enforced.
         let source: string = options.name ? options.name : (object.effectiveName ? object.effectiveName() : object.name);
-        const Character = services.characterService.character();
-        const Companion = services.characterService.companion();
-        const Familiar = services.characterService.familiar();
+        const Character = services.characterService.character;
+        const Companion = services.characterService.companion;
+        const Familiar = services.characterService.familiar;
         const evaluationService = this._evaluationService;
         const effectsService = this._effectsService;
 

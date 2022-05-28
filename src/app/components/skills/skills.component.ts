@@ -42,17 +42,17 @@ export class SkillsComponent implements OnInit, OnDestroy {
     ) { }
 
     minimize() {
-        this.characterService.character().settings.skillsMinimized = !this.characterService.character().settings.skillsMinimized;
+        this.characterService.character.settings.skillsMinimized = !this.characterService.character.settings.skillsMinimized;
     }
 
     get_Minimized() {
         switch (this.creature) {
             case 'Character':
-                return this.characterService.character().settings.skillsMinimized;
+                return this.characterService.character.settings.skillsMinimized;
             case 'Companion':
-                return this.characterService.character().settings.companionMinimized;
+                return this.characterService.character.settings.companionMinimized;
             case 'Familiar':
-                return this.characterService.character().settings.familiarMinimized;
+                return this.characterService.character.settings.familiarMinimized;
         }
     }
 
@@ -120,7 +120,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     get_Creature() {
@@ -128,7 +128,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     have_Feat(name: string) {
-        return this.characterService.characterFeatsTaken(1, this.characterService.character().level, { featName: name }).length;
+        return this.characterService.characterFeatsTaken(1, this.characterService.character.level, { featName: name }).length;
     }
 
     get_Activities(name = '') {
@@ -233,8 +233,8 @@ export class SkillsComponent implements OnInit, OnDestroy {
         }
     }
 
-    public still_loading(): boolean {
-        return this.skillsService.stillLoading() || this.characterService.stillLoading;
+    public get stillLoading(): boolean {
+        return this.skillsService.stillLoading || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

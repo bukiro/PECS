@@ -83,7 +83,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     get_InventoryMinimized() {
-        return this.characterService.character().settings.inventoryMinimized;
+        return this.characterService.character.settings.inventoryMinimized;
     }
 
     trackByIndex(index: number): number {
@@ -91,7 +91,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     get_Character() {
-        return this.characterService.character();
+        return this.characterService.character;
     }
 
     toggle_Item(id = '') {
@@ -247,7 +247,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     have_Funds(sum = ((this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC))) {
-        const character = this.characterService.character();
+        const character = this.characterService.character;
         const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
 
         if (sum <= funds) {
@@ -287,7 +287,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     get_InventoryItems(type: string) {
         const items = [];
 
-        this.characterService.character().inventories.map(inventory => inventory[type]).forEach(itemSet => {
+        this.characterService.character.inventories.map(inventory => inventory[type]).forEach(itemSet => {
             items.push(...itemSet);
         });
 
@@ -644,7 +644,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     prepare_Scroll(scroll: Item) {
         const casting = this.get_ScrollSavantCasting();
         const tempInv = new ItemCollection();
-        const newScroll = this.characterService.grantInventoryItem(scroll, { creature: this.characterService.character(), inventory: tempInv, amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: false }) as Scroll;
+        const newScroll = this.characterService.grantInventoryItem(scroll, { creature: this.characterService.character, inventory: tempInv, amount: 1 }, { resetRunes: false, changeAfter: false, equipAfter: false }) as Scroll;
 
         newScroll.expiration = -2;
         newScroll.price = 0;
@@ -659,8 +659,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
         casting.scrollSavant = casting.scrollSavant.filter(oldScroll => oldScroll !== scroll);
     }
 
-    public still_loading(): boolean {
-        return this.itemsService.stillLoading() || this.characterService.stillLoading;
+    public get stillLoading(): boolean {
+        return this.itemsService.stillLoading || this.characterService.stillLoading;
     }
 
     public ngOnInit(): void {

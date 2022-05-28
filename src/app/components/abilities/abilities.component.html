@@ -10,7 +10,7 @@
     <ng-template #LoadingTemplate>
         <div class="loading">Loading</div>
     </ng-template>
-    <ng-container *ngIf="!stillLoading(); else LoadingTemplate">
+    <ng-container *ngIf="!stillLoading; else LoadingTemplate">
         <ng-container *ngIf="!isMinimized">
             <div class="list-item" *ngFor="let ability of abilities(); trackBy:trackers.trackByIndex;">
                 <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">

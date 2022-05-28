@@ -70,7 +70,7 @@ export class Class {
         return this;
     }
     public processRemovingOldClass(characterService: CharacterService): void {
-        const character = characterService.character();
+        const character = characterService.character;
 
         //Of each granted Item, find the item with the stored id and drop it.
         this.gainItems.forEach(freeItem => {
@@ -92,7 +92,7 @@ export class Class {
     }
     public processNewClass(characterService: CharacterService, itemsService: ItemsService): void {
         if (this.name) {
-            const character = characterService.character();
+            const character = characterService.character;
 
             //Grant all items and save their id in the ItemGain.
             this.gainItems.forEach(freeItem => {
@@ -119,7 +119,7 @@ export class Class {
     }
     public processRemovingOldAncestry(characterService: CharacterService): void {
         if (this.ancestry.name) {
-            const character = characterService.character();
+            const character = characterService.character;
             const level = this.levels[1];
 
             this.languages = this.languages.filter(language => language.source !== this.ancestry.name);
@@ -150,7 +150,7 @@ export class Class {
     }
     public processNewAncestry(characterService: CharacterService, itemsService: ItemsService): void {
         if (this.ancestry.name) {
-            const character = characterService.character();
+            const character = characterService.character;
             const level = this.levels[1];
 
             this.languages.push(
@@ -188,7 +188,7 @@ export class Class {
 
         if (heritage?.name) {
             const level = this.levels[1];
-            const character = characterService.character();
+            const character = characterService.character;
 
             heritage.ancestries.forEach(ancestryListing => {
                 const a = this.ancestry.ancestries;
@@ -272,7 +272,7 @@ export class Class {
         }
 
         if (heritage?.name) {
-            const character = characterService.character();
+            const character = characterService.character;
             const level = this.levels[1];
 
             this.ancestry.traits.push(...heritage.traits);
@@ -355,7 +355,7 @@ export class Class {
     public processRemovingOldBackground(characterService: CharacterService): void {
         if (this.background.name) {
             const level = this.levels[1];
-            const character = characterService.character();
+            const character = characterService.character;
 
             level.skillChoices = level.skillChoices.filter(choice => choice.source !== 'Background');
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source !== 'Background');
@@ -389,7 +389,7 @@ export class Class {
     public processNewBackground(characterService: CharacterService): void {
         if (this.background.name) {
             const level = this.levels[1];
-            const character = characterService.character();
+            const character = characterService.character;
 
             level.abilityChoices.push(...this.background.abilityChoices);
             level.skillChoices.push(...this.background.skillChoices);

@@ -209,7 +209,7 @@ export class SavegameService {
         return savegame;
     }
 
-    public stillLoading(): boolean {
+    public get stillLoading(): boolean {
         return this._loading;
     }
 

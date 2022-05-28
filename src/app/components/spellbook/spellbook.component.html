@@ -19,8 +19,8 @@
 </div>
 <div id="spellbook-height" class="attributeBox">
     <header class="sectionHeader box-header">Spells</header>
-    <div class="loading" *ngIf="still_loading()">Loading</div>
-    <ng-container *ngIf="!still_loading()">
+    <div class="loading" *ngIf="stillLoading">Loading</div>
+    <ng-container *ngIf="!stillLoading">
         <app-tags [creature]="'Character'" [objectName]="'Spellbook'" [showTraits]=true [showFeats]=true
             [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
         <button class="fullsize-only center-aligned list-item" *ngIf="get_HasSpells()"

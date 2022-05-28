@@ -107,67 +107,67 @@ export class ItemsService {
     ) { }
 
     public storeItems(): ItemCollection {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._storeItems;
         } else { return new ItemCollection(); }
     }
 
     public cleanItems(): ItemCollection {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._cleanItems;
         } else { return new ItemCollection(); }
     }
 
     public craftingItems(): ItemCollection {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._craftingItems;
         } else { return new ItemCollection(); }
     }
 
     public storeItemByID(id: string): Item {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._storeItems.allItems().find(item => item.id === id);
         } else { return null; }
     }
 
     public cleanItemByID(id: string): Item {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._cleanItems.allItems().find(item => item.id === id);
         } else { return null; }
     }
 
     public craftingItemByID(id: string): Item {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._craftingItems.allItems().find(item => item.id === id);
         } else { return null; }
     }
 
     public itemProperties(): Array<ItemProperty> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._itemProperties;
         } else { return [new ItemProperty()]; }
     }
 
     public armorMaterials(): Array<ArmorMaterial> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._armorMaterials;
         } else { return [new ArmorMaterial()]; }
     }
 
     public shieldMaterials(): Array<ShieldMaterial> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._shieldMaterials;
         } else { return [new ShieldMaterial()]; }
     }
 
     public weaponMaterials(): Array<WeaponMaterial> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._weaponMaterials;
         } else { return [new WeaponMaterial()]; }
     }
 
     public specializations(group = ''): Array<Specialization> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._specializations.filter(spec =>
                 !group || spec.name.toLowerCase() === group.toLowerCase(),
             );
@@ -175,7 +175,7 @@ export class ItemsService {
     }
 
     public cleanItemsOfType<T extends AnyItemType>(type: string, name = ''): Array<T> {
-        if (!this.stillLoading()) {
+        if (!this.stillLoading) {
             return this._cleanItems[type].filter((item: Item) =>
                 !name || item.name.toLowerCase() === name.toLowerCase(),
             );
@@ -1068,7 +1068,7 @@ export class ItemsService {
         });
     }
 
-    public stillLoading(): boolean {
+    public get stillLoading(): boolean {
         return !this._initialized;
     }
 

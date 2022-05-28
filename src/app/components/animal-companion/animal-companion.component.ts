@@ -4,6 +4,10 @@ import { AnimalCompanionsService } from 'src/app/services/animalcompanions.servi
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { DisplayService } from 'src/app/services/display.service';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { Character } from 'src/app/classes/Character';
+import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Component({
     selector: 'app-animal-companion',
@@ -14,104 +18,95 @@ import { DisplayService } from 'src/app/services/display.service';
 export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     public hover = '';
-    private showMode = '';
-    public mobile = false;
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    public isMobile = false;
+    public CreatureTypesEnum = CreatureTypes;
+    private _showMode = '';
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly animalCompanionsService: AnimalCompanionsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _animalCompanionsService: AnimalCompanionsService,
     ) { }
 
-    minimize() {
-        this.characterService.character().settings.companionMinimized = !this.characterService.character().settings.companionMinimized;
-        this.refreshService.prepareDetailToChange('Companion', 'companion');
-        this.refreshService.prepareDetailToChange('Companion', 'abilities');
-        this.refreshService.processPreparedChanges();
+    public get isMinimized(): boolean {
+        return this._characterService.character.settings.companionMinimized;
     }
 
-    get_Minimized() {
-        return this.characterService.character().settings.companionMinimized;
+    public get character(): Character {
+        return this._characterService.character;
     }
 
-    public still_loading(): boolean {
-        return (this.characterService.stillLoading || this.animalCompanionsService.stillLoading);
+    public get stillLoading(): boolean {
+        return (this._characterService.stillLoading || this._animalCompanionsService.stillLoading);
     }
 
-    toggleCompanionMenu() {
-        this.characterService.toggleMenu('companion');
+    public get companionMenuState(): MenuState {
+        return this._characterService.companionMenuState();
     }
 
-    get_Character() {
-        return this.characterService.character();
-    }
-
-    get_CompanionMenuState() {
-        return this.characterService.companionMenuState();
-    }
-
-    set_Changed(target: string) {
-        this.refreshService.setComponentChanged(target);
-    }
-
-    //If you don't use trackByIndex on certain inputs, you lose focus everytime the value changes. I don't get that, but I'm using it now.
-    trackByIndex(index: number): number {
-        return index;
-    }
-
-    get_CompanionAvailable() {
-        return this.characterService.isCompanionAvailable();
-    }
-
-    toggle_Mode(type: string) {
-        if (this.showMode == type) {
-            this.showMode = '';
-        } else {
-            this.showMode = type;
-        }
-    }
-
-    get_ShowMode() {
-        return this.showMode;
-    }
-
-    set_Mobile() {
-        this.mobile = DisplayService.isMobile;
-    }
-
-    public ngOnInit(): void {
-        this.set_Mobile();
-        this.changeSubscription = this.refreshService.componentChanged$
-            .subscribe(target => {
-                if (['companion', 'all'].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() == 'companion' && ['companion', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-    }
-
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public get isCompanionAvailable(): boolean {
+        return this._characterService.isCompanionAvailable();
     }
 
     @HostListener('window:resize', ['$event'])
-    onResize() {
-        this.set_Mobile();
+    public onResize(): void {
+        this._setMobile();
     }
 
     @HostListener('window:orientationchange', ['$event'])
-    onRotate() {
-        this.set_Mobile();
+    public onRotate(): void {
+        this._setMobile();
+    }
+
+    public minimize(): void {
+        this._characterService.character.settings.companionMinimized = !this._characterService.character.settings.companionMinimized;
+        this._refreshService.prepareDetailToChange('Companion', 'companion');
+        this._refreshService.prepareDetailToChange('Companion', 'abilities');
+        this._refreshService.processPreparedChanges();
+    }
+
+    public toggleCompanionMenu(): void {
+        this._characterService.toggleMenu(MenuNames.CompanionMenu);
+    }
+
+    public toggleShowMode(type: string): void {
+        if (this._showMode === type) {
+            this._showMode = '';
+        } else {
+            this._showMode = type;
+        }
+    }
+
+    public showMode(): string {
+        return this._showMode;
+    }
+
+    public ngOnInit(): void {
+        this._setMobile();
+        this._changeSubscription = this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (['companion', 'all'].includes(target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+        this._viewChangeSubscription = this._refreshService.detailChanged$
+            .subscribe(view => {
+                if (view.creature.toLowerCase() === 'companion' && ['companion', 'all'].includes(view.target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+    }
+
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _setMobile(): void {
+        this.isMobile = DisplayService.isMobile;
     }
 
 }

@@ -71,9 +71,9 @@ export class EvaluationService {
         const abilitiesService = this._abilitiesService;
         const familiarsService = this._familiarsService;
         const Creature = context.creature;
-        const Character = characterService.character();
-        const Companion = characterService.companion();
-        const Familiar = characterService.familiar();
+        const Character = characterService.character;
+        const Companion = characterService.companion;
+        const Familiar = characterService.familiar;
         const object = context.object;
         const effect = context.effect;
         const parentItem = context.parentItem;
