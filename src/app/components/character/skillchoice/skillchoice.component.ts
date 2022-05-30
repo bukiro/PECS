@@ -5,6 +5,29 @@ import { Skill } from 'src/app/classes/Skill';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
+import { Character } from 'src/app/classes/Character';
+import { Ability } from 'src/app/classes/Ability';
+import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+
+interface SkillChoiceParameters {
+    listId: string;
+    allowedIncreases: number;
+    buttonTitle: string;
+    cleared: boolean;
+}
+
+interface SkillParameters {
+    skill: Skill;
+    increased: boolean;
+    skillLevel: number;
+    checked: boolean;
+    disabled: boolean;
+}
 
 @Component({
     selector: 'app-skillchoice',
@@ -15,33 +38,45 @@ import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 export class SkillchoiceComponent implements OnInit, OnDestroy {
 
     @Input()
-    choice: SkillChoice;
+    public choice: SkillChoice;
     @Input()
-    showChoice = '';
+    public showChoice = '';
+    @Input()
+    public levelNumber = 0;
+    @Input()
+    public excludeTemporary = false;
+    @Input()
+    public showTitle = true;
+    @Input()
+    public showContent = true;
+    @Input()
+    public tileMode = false;
     @Output()
-    showSkillChoiceMessage = new EventEmitter<{ name: string; levelNumber: number; choice: SkillChoice }>();
-    @Input()
-    levelNumber = 0;
-    @Input()
-    excludeTemporary = false;
-    @Input()
-    showTitle = true;
-    @Input()
-    showContent = true;
-    @Input()
-    tileMode = false;
+    public readonly showSkillChoiceMessage = new EventEmitter<{ name: string; levelNumber: number; choice: SkillChoice }>();
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    public areAnyIncreasesIllegal = false;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _abilitiesService: AbilitiesDataService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        public trackers: Trackers,
     ) { }
 
-    toggle_List(name = '') {
-        if (this.showChoice == name || name == '') {
+    public get isTileMode(): boolean {
+        return this.tileMode;
+    }
+
+    public get character(): Character {
+        return this._characterService.character;
+    }
+
+    public toggleShownList(name = ''): void {
+        if (this.showChoice === name || name === '') {
             this.showChoice = '';
             this.showSkillChoiceMessage.emit({ name: this.showChoice, levelNumber: 0, choice: null });
         } else {
@@ -50,177 +85,121 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_ShowChoice() {
+    public shownChoice(): string {
         return this.showChoice;
     }
 
-    trackByIndex(index: number): number {
-        return index;
-    }
-
-    get_TileMode() {
-        return this.tileMode;
-    }
-
-    get_Character() {
-        return this.characterService.character;
-    }
-
-    get_ButtonTitle(maxAvailable: number) {
-        let title = 'Skill ';
-
-        if (this.choice.maxRank == 2) {
-            title += 'Training';
-        } else {
-            title += 'Increase';
-        }
-
-        title += ` (${ this.choice.source })`;
-
-        if (maxAvailable > 1) {
-            title += `: ${ this.choice.increases.length }/${ maxAvailable }`;
-        } else {
-            if (this.choice.increases.length) {
-                title += `: ${ this.choice.increases[0].name }`;
+    public gridIconTitle(allowedIncreases: number): string {
+        if (this.choice.increases.length && allowedIncreases > 0) {
+            if (allowedIncreases === 1) {
+                return this.choice.increases[0].name;
+            } else {
+                return this.choice.increases.length.toString();
             }
         }
 
-        return title;
+        return '';
     }
 
-    get_Abilities(name = '') {
-        return this.characterService.abilities(name);
-    }
-
-    get_Skills(name = '', filter: { type?: string; locked?: boolean } = {}) {
-        filter = {
-            type: '',
-            locked: undefined, ...filter,
-        };
-
-        return this.characterService.skills(this.get_Character(), name, filter);
-    }
-
-    get_SkillLevel(skill: Skill) {
-        return skill.level(this.get_Character(), this.characterService, this.levelNumber, true);
-    }
-
-    get_SkillLevelName(skillLevel: number, shortForm = false) {
+    public skillLevelName(skillLevel: number, shortForm = false): string {
         return SkillLevelName(skillLevel, { shortForm });
     }
 
-    get_INT(levelNumber: number) {
-        if (!levelNumber) {
-            return 0;
-        }
+    public skillChoiceParameters(): SkillChoiceParameters {
+        this._removeIllegalIncreases();
 
-        //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
-        const intelligence: number = this.get_Abilities('Intelligence')[0].baseValue(this.get_Character(), this.characterService, levelNumber).result;
-        const INT: number = Math.floor((intelligence - 10) / 2);
+        const listId = this.choice.id;
+        const allowedIncreases = this._allowedIncreasesAmount();
+        const buttonTitle = this._buttonTitle(allowedIncreases);
+        const isCleared = this.choice.increases.length === allowedIncreases;
 
-        return INT;
+        return {
+            listId,
+            allowedIncreases,
+            buttonTitle,
+            cleared: isCleared,
+        };
     }
 
-    get_SkillINTBonus() {
-        //Allow INT more skills if INT has been raised since the last level.
-        const levelNumber = parseInt(this.choice.id.split('-')[0], 10);
+    public availableSkillsParameters(choice: SkillChoice, levelNumber: number, allowedIncreases: number): Array<SkillParameters> {
+        const character = this.character;
 
-        if (this.choice.source == 'Intelligence') {
-            return this.get_INT(levelNumber) - this.get_INT(levelNumber - 1);
-        } else {
-            return 0;
-        }
-    }
-
-    get_Available() {
-        return this.choice.available + this.get_SkillINTBonus();
-    }
-
-    get_AvailableSkills(choice: SkillChoice, levelNumber: number, maxAvailable: number) {
-        let skills = this.get_Skills('', { type: choice.type, locked: false });
-
-        if (choice.filter.length) {
-            //Only filter the choice if enough of the filtered skills can be raised.
-            if (choice.filter.map(skillName => this.get_Skills(skillName)[0]).filter(skill => skill && !this.cannotIncrease(skill, levelNumber, choice).length).length >= maxAvailable) {
-                skills = skills.filter(skill => choice.filter.includes(skill.name));
-            }
-        }
-
-        if (choice.minRank) {
-            const character = this.get_Character();
-
-            skills = skills.filter(skill => skill.level(character, this.characterService, levelNumber) >= choice.minRank);
-        }
-
-        if (skills.length) {
-            const showOtherOptions = this.get_Character().settings.showOtherOptions;
-
-            return skills
-                .filter(skill => (
-                    this.skillIncreasedByThis(skill, choice) ||
+        return this._availableSkills(choice, levelNumber, allowedIncreases)
+            .map(skill => {
+                const isIncreasedByThisChoice = this._skillIncreasedByThisChoice(skill, choice);
+                const skillLevel = skill.level(character, this._characterService, this.levelNumber, true);
+                const shouldBeChecked = isIncreasedByThisChoice || (skillLevel >= choice.maxRank);
+                const shouldBeDisabled =
+                    !!this._skillLockedByThisChoice(skill, choice) ||
                     (
                         (
-                            showOtherOptions ||
-                            choice.increases.length < maxAvailable
-                        ) &&
-                        //Don't show unavailable skills if this choice is visible on the character sheet.
-                        (choice.showOnSheet ? !this.cannotIncrease(skill, levelNumber, choice).length : true)
-                    )
-                ))
-                .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
-        }
+                            (choice.increases.length >= allowedIncreases) ||
+                            !!this.cannotIncreaseSkill(skill, levelNumber, choice).length
+                        ) && !isIncreasedByThisChoice
+                    );
+
+                return {
+                    skill,
+                    increased: isIncreasedByThisChoice,
+                    skillLevel,
+                    checked: shouldBeChecked,
+                    disabled: shouldBeDisabled,
+                };
+            });
     }
 
-    someIllegal(choice: SkillChoice) {
-        let anytrue = 0;
+    public skillTooHigh(skill: Skill): boolean {
+        const character = this.character;
 
-        choice.increases.forEach(increase => {
-            let levelNumber = parseInt(choice.id.split('-')[0], 10);
-
-            //Temporary choices are compared to the character level, not their own.
-            if (choice.showOnSheet) {
-                levelNumber = this.get_Character().level;
-            }
-
-            if (!this.get_Skills(increase.name)[0].isLegal(this.get_Character(), this.characterService, levelNumber, choice.maxRank)) {
-                if (!increase.locked) {
-                    this.get_Character().increaseSkill(this.characterService, increase.name, false, choice, increase.locked);
-                    this.refreshService.processPreparedChanges();
-                } else {
-                    anytrue += 1;
-                }
-            }
-        });
-
-        return anytrue;
+        return !skill.isLegal(character, this._characterService, this.levelNumber) ||
+            (
+                !skill.isLegal(character, this._characterService, this.levelNumber, this.choice.maxRank) &&
+                this._skillIncreasedByThisChoice(skill, this.choice)
+            );
     }
 
-    cannotIncrease(skill: Skill, levelNumber: number, choice: SkillChoice) {
+    public cannotIncreaseSkill(skill: Skill, levelNumber: number, choice: SkillChoice): Array<string> {
         //Returns a string of reasons why the skill cannot be increased, or []. Test the length of the return if you need a boolean.
         const maxRank: number = choice.maxRank;
         const reasons: Array<string> = [];
 
         //The skill may have been increased by the same source, but as a fixed rule.
-        if (choice.increases.some(increase => increase.name == skill.name && increase.locked)) {
+        if (choice.increases.some(increase => increase.name === skill.name && increase.locked)) {
             const locked = 'Fixed increase.';
 
             reasons.push(locked);
         }
 
-        //If this skill was trained by a feat on a higher level, it can't be raised on this level.
-        //This prevents losing the feat bonus or raising the skill too high.
-        //An exception is made for Additional Lore and Gnome Obsession, which can be raised on Level 2/3, 7 and 15 no matter when you learned them.
-        const allIncreases = this.get_SkillIncreases(levelNumber + 1, 20, skill.name, '', '', undefined, true);
+        // If this skill was trained by a feat on a higher level, it can't be raised on this level.
+        // This prevents losing the feat bonus or raising the skill too high.
+        // An exception is made for Additional Lore and Gnome Obsession,
+        // which can be raised on Level 2/3, 7 and 15 no matter when you learned them.
+        const allIncreases =
+            this.character.skillIncreases(
+                this._characterService,
+                levelNumber + 1,
+                Defaults.maxCharacterLevel,
+                skill.name,
+                '',
+                '',
+                undefined,
+                true,
+            );
 
         if (allIncreases.length) {
-            if (allIncreases[0].locked && allIncreases[0].source.includes('Feat: ') && !['Feat: Additional Lore', 'Feat: Gnome Obsession'].includes(allIncreases[0].source)) {
+            if (
+                allIncreases[0].locked &&
+                allIncreases[0].source.includes('Feat: ') &&
+                !['Feat: Additional Lore', 'Feat: Gnome Obsession'].includes(allIncreases[0].source)
+            ) {
                 const trainedOnHigherLevelByFeat = `Trained on a higher level by ${ allIncreases[0].source }.`;
 
                 reasons.push(trainedOnHigherLevelByFeat);
             }
 
-            //If this is a temporary choice, and the character has raised the skill higher than the temporary choice allows, the choice is illegal.
-            if (choice.showOnSheet && allIncreases.length * 2 > choice.maxRank) {
+            // If this is a temporary choice, and the character has raised the skill higher
+            // than the temporary choice allows, the choice is illegal.
+            if (choice.showOnSheet && allIncreases.length * skillLevelBaseStep > choice.maxRank) {
                 const trainedOnHigherLevel = 'Trained on a higher level.';
 
                 reasons.push(trainedOnHigherLevel);
@@ -234,14 +213,20 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         let cannotIncreaseHigher = '';
 
         //You can never raise a skill higher than Legendary (8)
-        if (skill.level(this.get_Character(), this.characterService, levelNumber, true) == 8 && !this.skillIncreasedByThis(skill, choice)) {
+        if (
+            skill.level(this.character, this._characterService, levelNumber, true) === SkillLevels.Legendary &&
+            !this._skillIncreasedByThisChoice(skill, choice)
+        ) {
             cannotIncreaseHigher = 'Cannot increase any higher.';
             reasons.push(cannotIncreaseHigher);
-        } else if (!skill.canIncrease(this.get_Character(), this.characterService, levelNumber, maxRank) && !this.skillIncreasedByThis(skill, choice)) {
-            if (!skill.canIncrease(this.get_Character(), this.characterService, levelNumber)) {
+        } else if (
+            !skill.canIncrease(this.character, this._characterService, levelNumber, maxRank) &&
+            !this._skillIncreasedByThisChoice(skill, choice)
+        ) {
+            if (!skill.canIncrease(this.character, this._characterService, levelNumber)) {
                 cannotIncreaseHigher = 'Highest rank at this level.';
             } else {
-                if (choice.maxRank == 2) {
+                if (choice.maxRank === SkillLevels.Trained) {
                     cannotIncreaseHigher = 'Already trained.';
                 } else {
                     cannotIncreaseHigher = 'Highest rank for this increase.';
@@ -252,65 +237,192 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         }
 
         //You can never raise Bardic Lore
-        if (skill.name == 'Lore: Bardic') {
+        if (skill.name === 'Lore: Bardic') {
             reasons.push('Cannot increase with skill training.');
         }
 
         return reasons;
     }
 
-    skillIncreasedByThis(skill: Skill, choice: SkillChoice) {
-        return choice.increases.filter(increase => increase.name == skill.name).length;
+    public onSkillIncrease(skillName: string, event: Event, choice: SkillChoice, locked = false, maxAvailable: number): void {
+        const hasBeenIncreased = (event.target as HTMLInputElement).checked;
+
+        if (
+            hasBeenIncreased &&
+            this.character.settings.autoCloseChoices &&
+            (choice.increases.length === maxAvailable - 1)
+        ) { this.toggleShownList(''); }
+
+        this.character.increaseSkill(this._characterService, skillName, hasBeenIncreased, choice, locked);
+        this._refreshService.processPreparedChanges();
     }
 
-    skillLockedByThis(skill: Skill, choice: SkillChoice) {
-        return choice.increases.filter(increase => increase.name == skill.name && increase.locked).length;
-    }
-
-    get_SkillIncreases(minLevelNumber: number, maxLevelNumber: number, skillName: string, source = '', sourceId = '', locked: boolean = undefined, excludeTemporary = false) {
-        return this.get_Character().skillIncreases(this.characterService, minLevelNumber, maxLevelNumber, skillName, source, sourceId, locked, excludeTemporary);
-    }
-
-    on_SkillIncrease(skillName: string, event: Event, choice: SkillChoice, locked = false, maxAvailable: number) {
-        const boost = (event.target as HTMLInputElement).checked;
-
-        if (boost && this.get_Character().settings.autoCloseChoices && (choice.increases.length == maxAvailable - 1)) { this.toggle_List(''); }
-
-        this.get_Character().increaseSkill(this.characterService, skillName, boost, choice, locked);
-        this.refreshService.processPreparedChanges();
-    }
-
-    remove_BonusSkillChoice(choice: SkillChoice) {
+    public removeBonusSkillChoice(choice: SkillChoice): void {
         choice.increases.forEach(increase => {
-            this.get_Character().increaseSkill(this.characterService, increase.name, false, choice, false);
+            this.character.increaseSkill(this._characterService, increase.name, false, choice, false);
         });
-        this.get_Character().removeSkillChoice(choice);
-        this.toggle_List('');
-        this.refreshService.processPreparedChanges();
+        this.character.removeSkillChoice(choice);
+        this.toggleShownList('');
+        this._refreshService.processPreparedChanges();
     }
 
     public ngOnInit(): void {
         if (!this.levelNumber) {
-            this.levelNumber = this.get_Character().level;
+            this.levelNumber = this.character.level;
         }
 
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['skillchoices', 'all', 'character'].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature.toLowerCase() == 'character' && ['skillchoices', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                if (view.creature.toLowerCase() === 'character' && ['skillchoices', 'all'].includes(view.target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _skills(name = '', filter: { type?: string; locked?: boolean } = {}): Array<Skill> {
+        filter = {
+            type: '',
+            locked: undefined, ...filter,
+        };
+
+        return this._characterService.skills(this.character, name, filter);
+    }
+
+    private _buttonTitle(allowedIncreases: number): string {
+        let title = 'Skill ';
+
+        if (this.choice.maxRank === SkillLevels.Trained) {
+            title += 'Training';
+        } else {
+            title += 'Increase';
+        }
+
+        title += ` (${ this.choice.source })`;
+
+        if (allowedIncreases > 1) {
+            title += `: ${ this.choice.increases.length }/${ allowedIncreases }`;
+        } else {
+            if (this.choice.increases.length) {
+                title += `: ${ this.choice.increases[0].name }`;
+            }
+        }
+
+        return title;
+    }
+
+    private _intelligenceModifier(levelNumber: number): number {
+        if (levelNumber <= 0) {
+            return 0;
+        }
+
+        //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
+        const intelligence: number =
+            this._abilityFromName('Intelligence').baseValue(this.character, this._characterService, levelNumber).result;
+        const INT: number = AbilityModFromAbilityValue(intelligence);
+
+        return INT;
+    }
+
+    private _abilityFromName(name: string): Ability {
+        return this._abilitiesService.abilities(name)[0];
+    }
+
+    private _intelligenceBonusToAllowedIncreases(): number {
+        //Allow INT more skills if INT has been raised since the last level.
+        const levelNumber = parseInt(this.choice.id.split('-')[0], 10);
+
+        if (this.choice.source === 'Intelligence') {
+            return this._intelligenceModifier(levelNumber) - this._intelligenceModifier(levelNumber - 1);
+        } else {
+            return 0;
+        }
+    }
+
+    private _allowedIncreasesAmount(): number {
+        return this.choice.available + this._intelligenceBonusToAllowedIncreases();
+    }
+
+    private _removeIllegalIncreases(): void {
+        let areAnyLockedIncreasesIllegal = false;
+
+        this.choice.increases.forEach(increase => {
+            let levelNumber = parseInt(this.choice.id.split('-')[0], 10);
+
+            //Temporary choices are compared to the character level, not their own.
+            if (this.choice.showOnSheet) {
+                levelNumber = this.character.level;
+            }
+
+            if (!this._skills(increase.name)[0].isLegal(this.character, this._characterService, levelNumber, this.choice.maxRank)) {
+                if (!increase.locked) {
+                    this.character.increaseSkill(this._characterService, increase.name, false, this.choice, increase.locked);
+                    this._refreshService.processPreparedChanges();
+                } else {
+                    areAnyLockedIncreasesIllegal = true;
+                }
+            }
+        });
+
+        this.areAnyIncreasesIllegal = areAnyLockedIncreasesIllegal;
+    }
+
+    private _availableSkills(choice: SkillChoice, levelNumber: number, maxAvailable: number): Array<Skill> {
+        let skills = this._skills('', { type: choice.type, locked: false });
+
+        if (choice.filter.length) {
+            //Only filter the choice if enough of the filtered skills can be raised.
+            if (
+                choice.filter
+                    .map(skillName => this._skills(skillName)[0])
+                    .filter(skill => skill && !this.cannotIncreaseSkill(skill, levelNumber, choice).length)
+                    .length >= maxAvailable
+            ) {
+                skills = skills.filter(skill => choice.filter.includes(skill.name));
+            }
+        }
+
+        if (choice.minRank) {
+            const character = this.character;
+
+            skills = skills.filter(skill => skill.level(character, this._characterService, levelNumber) >= choice.minRank);
+        }
+
+        if (skills.length) {
+            const shouldShowOtherOptions = this.character.settings.showOtherOptions;
+
+            return skills
+                .filter(skill => (
+                    this._skillIncreasedByThisChoice(skill, choice) ||
+                    (
+                        (
+                            shouldShowOtherOptions ||
+                            choice.increases.length < maxAvailable
+                        ) &&
+                        //Don't show unavailable skills if this choice is visible on the character sheet.
+                        (choice.showOnSheet ? !this.cannotIncreaseSkill(skill, levelNumber, choice).length : true)
+                    )
+                ))
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
+        }
+    }
+
+    private _skillIncreasedByThisChoice(skill: Skill, choice: SkillChoice): boolean {
+        return !!choice.increases.filter(increase => increase.name === skill.name).length;
+    }
+
+    private _skillLockedByThisChoice(skill: Skill, choice: SkillChoice): boolean {
+        return !!choice.increases.filter(increase => increase.name === skill.name && increase.locked).length;
     }
 
 }

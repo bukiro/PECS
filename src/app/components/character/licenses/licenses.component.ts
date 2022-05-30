@@ -1,29 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import cup from 'src/assets/json/licenses/cup.json';
 import ogl from 'src/assets/json/licenses/ogl.json';
 import ogl15 from 'src/assets/json/licenses/ogl15.json';
+import { Trackers } from 'src/libs/shared/util/trackers';
 
 @Component({
     selector: 'app-licenses',
     templateUrl: './licenses.component.html',
     styleUrls: ['./licenses.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LicensesComponent implements OnInit {
+export class LicensesComponent {
 
-    cup: { title: string; desc: string } = cup;
-    ogl: Array<{ title: string; desc: string }> = [];
-    ogl15: Array<{ header: string; lines: Array<{ title: string; desc: string }> }> = [];
 
-    trackByIndex(index: number): number {
-        return index;
-    }
+    public cup: { title: string; desc: string } = cup;
+    public ogl: Array<{ title: string; desc: string }> = ogl;
+    public ogl15: Array<{ header: string; lines: Array<{ title: string; desc: string }> }> = ogl15;
 
-    public ngOnInit(): void {
-        Object.keys(ogl).forEach(key => {
-            this.ogl.push({ title: ogl[key].title, desc: ogl[key].desc });
-        });
-        Object.keys(ogl15).forEach(key => {
-            this.ogl15.push({ header: ogl15[key].header, lines: ogl15[key].lines.map(line => ({ title: line.title, desc: line.desc })) });
-        });
-    }
+    constructor(
+        public trackers: Trackers,
+    ) { }
 }
