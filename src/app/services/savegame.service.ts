@@ -54,8 +54,10 @@ export class SavegameService {
         private readonly _typeService: TypeService,
         private readonly _refreshService: RefreshService,
         private readonly _featsService: FeatsService,
-    ) {
+    ) { }
 
+    public get stillLoading(): boolean {
+        return this._loading;
     }
 
     public getSavegames(): Array<Savegame> {
@@ -207,10 +209,6 @@ export class SavegameService {
         this._trimForSaving(savegame, itemsService);
 
         return savegame;
-    }
-
-    public get stillLoading(): boolean {
-        return this._loading;
     }
 
     public reset(): void {
