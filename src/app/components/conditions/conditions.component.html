@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="window-button-container">
-    <button class="tilemodebutton" [ngClass]="{'fancy-button':get_TileMode()}" (click)="toggle_TileMode()"
-        [ngbTooltip]="get_TileMode() ? 'Click to enable list layout' : 'Click to enable tiled layout'">
+    <button class="tilemodebutton" [ngClass]="{'fancy-button':isTileMode}" (click)="toggleTileMode()"
+        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'">
         <!--Content is css only-->
         <div>
             <div> </div>
@@ -16,411 +16,413 @@
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
     <div class="loading" *ngIf="stillLoading">Loading</div>
-    <ng-container *ngIf="!stillLoading && get_ConditionsMenuState()==='in'">
-        <div class="charactersheet-column-container">
-            <div class="charactersheet-column">
-                <header class="sectionHeader">Duration: {{get_Duration()}}</header>
-                <div class="vlist">
-                    <div class="list-item">
-                        <div class="newrow">
-                            <button class="center-aligned" [ngClass]="{'fancy-button': permanent}"
-                                (click)="set_Permanent(-1)">Permanent</button>
-                            <button class="center-aligned" [ngClass]="{'fancy-button': untilRest}"
-                                (click)="set_Permanent(-2)">Until your preparations</button>
-                            <button class="center-aligned" [ngClass]="{'fancy-button': untilRefocus}"
-                                (click)="set_Permanent(-3)">Until you refocus</button>
-                        </div>
-                        <div class="newrow">
-                            <button class="center-aligned" (click)="add_Day(-1)">-1 Day</button>
-                            <button class="center-aligned" (click)="add_Day(1)">+1 Day</button>
-                        </div>
-                        <div class="newrow center-aligned">
-                            <div class="slider-container" [style.--name]="'\'Hours\''">
-                                <input class="slider" type="range" min="0" max="23" [(ngModel)]="hours"
-                                    (ngModelChange)="set_NonPermanent()">
-                            </div>
-                            <div class="slider-container" [style.--name]="'\'Minutes\''">
-                                <input class="slider" type="range" min="0" max="59" [(ngModel)]="minutes"
-                                    (ngModelChange)="set_NonPermanent()">
-                            </div>
-                            <div class="slider-container" [style.--name]="'\'Turns\''">
-                                <input class="slider" type="range" min="0" max="9" [(ngModel)]="turns"
-                                    (ngModelChange)="set_NonPermanent()">
-                            </div>
-                        </div>
-                        <div class="newrow">
-                            <button class="center-aligned no-animation" [ngClass]="{'fancy-button':endOn===5}">
-                                <label class="fullwidth center-aligned">
-                                    <input name="endsOnRadio" id="turnStartRadio" type="radio" [(ngModel)]="endOn"
-                                        [value]="5" hidden>End on turn start
-                                </label>
-                            </button>
-                            <button class="center-aligned no-animation" [ngClass]="{'fancy-button':endOn===0}">
-                                <label class="fullwidth center-aligned">
-                                    <input name="endsOnRadio" id="turnEndRadio" type="radio" [(ngModel)]="endOn"
-                                        [value]="0" hidden>End on turn end
-                                </label>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <button (click)="toggle_Purpose('conditions')"
-                            [ngClass]="{'fancy-button':get_ShowPurpose()==='conditions'}">Add Conditions</button>
-                        <button (click)="toggle_Purpose('customeffects')"
-                            [ngClass]="{'fancy-button':get_ShowPurpose()==='customeffects'}">Custom Effects</button>
-                    </div>
-                </div>
-                <div class="fullsize-scroll-box vlist">
-                    <ng-container *ngIf="get_ShowPurpose()==='conditions'">
-                        <header class="sectionHeader">Add Conditions</header>
+    <ng-container *ngIf="!stillLoading && conditionsMenuState()==='in'">
+        <ng-container *ngIf="componentParameters() as componentParameters">
+            <div class="charactersheet-column-container">
+                <div class="charactersheet-column">
+                    <header class="sectionHeader">Duration: {{durationDescription()}}</header>
+                    <div class="vlist">
                         <div class="list-item">
-                            <strong>Find (in Name or Description)</strong>
-                            <span class="hlist">
-                                <input type=text [(ngModel)]="wordFilter" (keypress)=check_Filter() />
-                                <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
-                                <button (click)="wordFilter='';check_Filter()">Clear</button>
-                            </span>
-                        </div>
-                        <ng-container
-                            *ngFor="let set of ['Generic','Activities','Afflictions','Alchemical Elixirs','Alchemical Tools','Ammunition','Blood Magic','Feats','Held Items','Other Consumables','Potions','Spells','Talismans','Weapons','Worn Items']; trackBy:trackByIndex;">
-                            <ng-container
-                                *ngFor="let visibleConditions of [get_VisibleConditionsSet(set)]; trackBy:trackByIndex;">
-                                <button class="list-item" (click)="toggle_List(set)"
-                                    [ngClass]="{'fancy-button':get_ShowList()===set||get_ShowList()==='All'}"
-                                    *ngIf="visibleConditions.length">
-                                    <header class="sectionHeader">{{set}}</header>
+                            <div class="newrow">
+                                <button class="center-aligned" [ngClass]="{'fancy-button': permanent}"
+                                    (click)="setSpecialDuration(-1)">Permanent</button>
+                                <button class="center-aligned" [ngClass]="{'fancy-button': untilRest}"
+                                    (click)="setSpecialDuration(-2)">Until your preparations</button>
+                                <button class="center-aligned" [ngClass]="{'fancy-button': untilRefocus}"
+                                    (click)="setSpecialDuration(-3)">Until you refocus</button>
+                            </div>
+                            <div class="newrow">
+                                <button class="center-aligned" (click)="incDays(-1)">-1 Day</button>
+                                <button class="center-aligned" (click)="incDays(1)">+1 Day</button>
+                            </div>
+                            <div class="newrow center-aligned">
+                                <div class="slider-container" [style.--name]="'\'Hours\''">
+                                    <input class="slider" type="range" min="0" max="23" [(ngModel)]="hours"
+                                        (ngModelChange)="setLinearDuration()">
+                                </div>
+                                <div class="slider-container" [style.--name]="'\'Minutes\''">
+                                    <input class="slider" type="range" min="0" max="59" [(ngModel)]="minutes"
+                                        (ngModelChange)="setLinearDuration()">
+                                </div>
+                                <div class="slider-container" [style.--name]="'\'Turns\''">
+                                    <input class="slider" type="range" min="0" max="9" [(ngModel)]="turns"
+                                        (ngModelChange)="setLinearDuration()">
+                                </div>
+                            </div>
+                            <div class="newrow">
+                                <button class="center-aligned no-animation" [ngClass]="{'fancy-button':endOn===5}">
+                                    <label class="fullwidth center-aligned">
+                                        <input name="endsOnRadio" id="turnStartRadio" type="radio" [(ngModel)]="endOn"
+                                            [value]="5" hidden>End on turn start
+                                    </label>
                                 </button>
-                                <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'list-item':!get_TileMode()}"
-                                    *ngIf="visibleConditions.length && (get_ShowList()===set||get_ShowList()==='All')">
-                                    <div class="newrow list-item"
-                                        *ngIf="visibleConditions.length >= 80 && get_ShowList()!=='All'"
-                                        (click)="set_Range(-1)">
-                                        <button class="center-aligned" [disabled]="range <= 0">
-                                            Previous 40
-                                        </button>
-                                        <header class="newrow subsectionHeader center-aligned">
-                                            Showing {{(range * 40) + 1}}-{{(((range + 1) * 40) >=
-                                            visibleConditions.length) ?
-                                            visibleConditions.length : ((range + 1) * 40)}} of
-                                            {{visibleConditions.length}}
-                                        </header>
-                                    </div>
-                                    <ng-container
-                                        *ngFor="let condition of visibleConditions; let conditionIndex = index; trackBy:trackByIndex;">
+                                <button class="center-aligned no-animation" [ngClass]="{'fancy-button':endOn===0}">
+                                    <label class="fullwidth center-aligned">
+                                        <input name="endsOnRadio" id="turnEndRadio" type="radio" [(ngModel)]="endOn"
+                                            [value]="0" hidden>End on turn end
+                                    </label>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="list-item">
+                            <button (click)="toggleShownPurpose('conditions')"
+                                [ngClass]="{'fancy-button':shownPurpose()==='conditions'}">Add Conditions</button>
+                            <button (click)="toggleShownPurpose('customeffects')"
+                                [ngClass]="{'fancy-button':shownPurpose()==='customeffects'}">Custom Effects</button>
+                        </div>
+                    </div>
+                    <div class="fullsize-scroll-box vlist">
+                        <ng-container *ngIf="shownPurpose()==='conditions'">
+                            <header class="sectionHeader">Add Conditions</header>
+                            <div class="list-item">
+                                <strong>Find (in Name or Description)</strong>
+                                <span class="hlist">
+                                    <input type=text [(ngModel)]="wordFilter" (keypress)="closeFilterIfTooShort()" />
+                                    <button (click)="setFilterForAll()" [disabled]="wordFilter.length < 5">Show
+                                        All</button>
+                                    <button (click)="wordFilter='';closeFilterIfTooShort()">Clear</button>
+                                </span>
+                            </div>
+                            <ng-container *ngFor="let typeSet of conditionTypes; trackBy:trackers.trackByIndex;">
+                                <ng-container *ngIf="visibleConditionsOfType(typeSet) as visibleConditions">
+                                    <button class="list-item" (click)="toggleShownList(typeSet.label)"
+                                        [ngClass]="{'fancy-button':[typeSet, 'All'].includes(shownList())}"
+                                        *ngIf="visibleConditions.length">
+                                        <header class="sectionHeader">{{typeSet.label}}</header>
+                                    </button>
+                                    <div [ngClass]="{'icon-list left-aligned':isTileMode, 'list-item':!isTileMode}"
+                                        *ngIf="visibleConditions.length && [typeSet.label, 'All'].includes(shownList())">
+                                        <div class="newrow list-item"
+                                            *ngIf="visibleConditions.length >= 80 && shownList()!=='All'"
+                                            (click)="incRange(-1)">
+                                            <button class="center-aligned" [disabled]="range <= 0">
+                                                Previous 40
+                                            </button>
+                                            <header class="newrow subsectionHeader center-aligned">
+                                                {{shownItemRangeDesc(visibleConditions, range)}}
+                                            </header>
+                                        </div>
                                         <ng-container
-                                            *ngIf="visibleConditions.length < 80 || get_ShowList()==='All' || (conditionIndex >= (range * 40) && conditionIndex < ((range + 1) * 40 ))">
-                                            <ng-template #ConditionTitleTemplate>
-                                                <span *ngIf="!get_TileMode()">
-                                                    <i class="value bi-patch-plus bonus" *ngIf="condition.buff"
-                                                        [ngbTooltip]="'Positive condition'"></i>
-                                                    <i class="value bi-patch-minus-fill penalty" *ngIf="!condition.buff"
-                                                        [ngbTooltip]="'Negative condition'"></i>
-                                                </span>
-                                                {{condition.name}}
-                                            </ng-template>
-                                            <ng-template #ConditionTemplate>
-                                                <header class="spellHeader" *ngIf="get_TileMode()">
-                                                    <ng-container *ngTemplateOutlet="ConditionTitleTemplate">
-                                                    </ng-container>
-                                                </header>
-                                                <div class="newrow"
-                                                    *ngIf="condition.hasValue && !(!permanent && condition.name === 'Stunned')">
-                                                    <span>
-                                                        Value: <select [(ngModel)]="value">
-                                                            <option
-                                                                *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
-                                                                [ngValue]="valueNumber">{{valueNumber}}
-                                                            </option>
-                                                        </select><br>
+                                            *ngFor="let condition of visibleConditions; let conditionIndex = index; trackBy:trackers.trackByIndex;">
+                                            <ng-container
+                                                *ngIf="isConditionShown(visibleConditions, conditionIndex, range)">
+                                                <ng-template #ConditionTitleTemplate>
+                                                    <span *ngIf="!isTileMode">
+                                                        <i class="value bi-patch-plus bonus" *ngIf="condition.buff"
+                                                            [ngbTooltip]="'Positive condition'"></i>
+                                                        <i class="value bi-patch-minus-fill penalty"
+                                                            *ngIf="!condition.buff"
+                                                            [ngbTooltip]="'Negative condition'"></i>
                                                     </span>
-                                                </div>
-                                                <div class="newrow" *ngIf="condition.type === 'spells'">
-                                                    <span>
-                                                        Spell level: <select [(ngModel)]="heightened">
-                                                            <option
-                                                                *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
-                                                                [ngValue]="valueNumber"
-                                                                [disabled]="valueNumber < condition.minLevel">
-                                                                {{(valueNumber >= condition.minLevel || valueNumber !==
-                                                                heightened ) ? valueNumber : condition.minLevel}}
-                                                            </option>
-                                                        </select><br>
-                                                    </span>
-                                                </div>
-                                                <div class="newrow" *ngIf="condition.name === 'Persistent Damage'">
-                                                    <span>
-                                                        Damage type and amount: <input type="text" id="persistentDamage"
-                                                            [(ngModel)]="condition.choice" maxLength="30">
-                                                    </span>
-                                                </div>
-                                                <div class="newrow" *ngIf="condition.choices.length">
-                                                    <span>Effect selection:
-                                                        <select [(ngModel)]="condition.choice">
-                                                            <option
-                                                                *ngFor="let choice of get_ConditionChoices(condition); trackBy:trackByIndex;"
-                                                                [ngValue]="choice">
-                                                                {{choice}}
-                                                            </option>
-                                                        </select>
-                                                    </span>
-                                                </div>
-                                                <ng-container *ngIf="!condition.restricted">
-                                                    <ng-container
-                                                        *ngFor="let defaultDuration of [condition.get_DefaultDuration(condition.choice, heightened)]; trackBy:trackByIndex">
-                                                        <ng-container
-                                                            *ngFor="let companionAvailable of [get_CompanionAvailable()]; trackBy:trackByIndex;">
-                                                            <ng-container
-                                                                *ngFor="let familiarAvailable of [get_FamiliarAvailable()]; trackBy:trackByIndex;">
-                                                                <div class="newrow"
-                                                                    *ngIf="!condition.restricted && defaultDuration !== null">
-                                                                    <strong style="margin-bottom:0;">
-                                                                        Add
-                                                                        {{get_Duration(defaultDuration.duration, true)}}
-                                                                        ({{defaultDuration.source}})
-                                                                    </strong>
-                                                                    <div class="newrow">
-                                                                        <button
-                                                                            (click)="add_Condition(get_Character(), condition, defaultDuration.duration, false)">
-                                                                            to {{get_Character().name || "Character"}}
-                                                                        </button>
-                                                                        <button
-                                                                            (click)="add_Condition(get_Companion(), condition, defaultDuration.duration, false)"
-                                                                            *ngIf="companionAvailable">
-                                                                            to {{get_Companion().name ||
-                                                                            "Animal Companion"}}
-                                                                        </button>
-                                                                        <button
-                                                                            (click)="add_Condition(get_Familiar(), condition, defaultDuration.duration, false)"
-                                                                            *ngIf="familiarAvailable">
-                                                                            to {{get_Familiar().name || "Familiar"}}
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="newrow" *ngIf="!condition.restricted">
-                                                                    <strong style="margin-bottom:0;">
-                                                                        Add
-                                                                        {{get_Duration(get_ConditionDuration(), true)}}
-                                                                    </strong>
-                                                                    <div class="newrow">
-                                                                        <button
-                                                                            (click)="add_Condition(get_Character(), condition)">
-                                                                            to {{get_Character().name || "Character"}}
-                                                                        </button>
-                                                                        <button
-                                                                            (click)="add_Condition(get_Companion(), condition)"
-                                                                            *ngIf="companionAvailable">
-                                                                            to {{get_Companion().name ||
-                                                                            "Animal Companion"}}
-                                                                        </button>
-                                                                        <button
-                                                                            (click)="add_Condition(get_Familiar(), condition)"
-                                                                            *ngIf="familiarAvailable">
-                                                                            to {{get_Familiar().name || "Familiar"}}
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </ng-container>
-                                                        </ng-container>
-                                                    </ng-container>
-                                                </ng-container>
-                                                <div class="newrow left-aligned" *ngIf="condition.sourceBook">
-                                                    <strong>Source</strong>
-                                                    <i>{{condition.sourceBook}}</i>
-                                                </div>
-                                                <ng-container
-                                                    *ngFor="let desc of get_HeightenedDescription(condition).split('\n\n'); trackBy:trackByIndex;">
-                                                    <app-description class="newrow" [text]="desc"></app-description>
-                                                </ng-container>
-                                                <div class="newrow" *ngIf="condition.inputRequired">
-                                                    <div class="list-item lower">
-                                                        <strong>Player input required:</strong>
-                                                        <div class="newrow left-aligned"
-                                                            *ngFor="let inputRequired of condition.inputRequired.split('\n\n'); trackBy:trackByIndex;">
-                                                            <app-description class="newrow" [text]="inputRequired">
-                                                            </app-description>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </ng-template>
-                                            <ng-container *ngIf="!get_TileMode()">
-                                                <div class="list-item">
-                                                    <button class="newrow sublist-toggle left-aligned"
-                                                        (click)="toggle_Item(condition.name)">
+                                                    {{condition.name}}
+                                                </ng-template>
+                                                <ng-template #ConditionTemplate>
+                                                    <header class="spellHeader" *ngIf="isTileMode">
                                                         <ng-container *ngTemplateOutlet="ConditionTitleTemplate">
                                                         </ng-container>
-                                                    </button>
-                                                    <div class="list-item sublist"
-                                                        *ngIf="get_ShowItem()===condition.name">
-                                                        <ng-container *ngTemplateOutlet="ConditionTemplate">
-                                                        </ng-container>
+                                                    </header>
+                                                    <div class="newrow"
+                                                        *ngIf="condition.hasValue && !(!permanent && condition.name === 'Stunned')">
+                                                        <span>
+                                                            Value: <select [(ngModel)]="value">
+                                                                <option
+                                                                    *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
+                                                                    [ngValue]="valueNumber">{{valueNumber}}
+                                                                </option>
+                                                            </select><br>
+                                                        </span>
                                                     </div>
-                                                </div>
-                                            </ng-container>
-                                            <ng-container *ngIf="get_TileMode()">
-                                                <button [ngbPopover]="ConditionTemplate"
-                                                    [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
-                                                    triggers="click" (click)="toggle_Item('')">
-                                                    <app-gridIcon [ngbTooltip]="condition.name" [title]="condition.name"
-                                                        [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
-                                                    </app-gridIcon>
-                                                </button>
+                                                    <div class="newrow" *ngIf="condition.type === 'spells'">
+                                                        <span>
+                                                            Spell level: <select [(ngModel)]="heightened">
+                                                                <option
+                                                                    *ngFor="let valueNumber of [1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
+                                                                    [ngValue]="valueNumber"
+                                                                    [disabled]="valueNumber < condition.minLevel">
+                                                                    {{(valueNumber >= condition.minLevel || valueNumber
+                                                                    !==
+                                                                    heightened ) ? valueNumber : condition.minLevel}}
+                                                                </option>
+                                                            </select><br>
+                                                        </span>
+                                                    </div>
+                                                    <div class="newrow" *ngIf="condition.name === 'Persistent Damage'">
+                                                        <span>
+                                                            Damage type and amount: <input type="text"
+                                                                id="persistentDamage" [(ngModel)]="condition.choice"
+                                                                maxLength="30">
+                                                        </span>
+                                                    </div>
+                                                    <div class="newrow" *ngIf="condition.choices.length">
+                                                        <span>Effect selection:
+                                                            <select [(ngModel)]="condition.choice">
+                                                                <option
+                                                                    *ngFor="let choice of effectiveConditionChoices(condition); trackBy:trackers.trackByIndex;"
+                                                                    [ngValue]="choice">
+                                                                    {{choice}}
+                                                                </option>
+                                                            </select>
+                                                        </span>
+                                                    </div>
+                                                    <ng-container *ngIf="!condition.restricted">
+                                                        <ng-container
+                                                            *ngIf="condition.defaultDuration(condition.choice, heightened) as defaultDuration">
+                                                            <div class="newrow" *ngIf="!condition.restricted">
+                                                                <strong style="margin-bottom:0;">
+                                                                    Add
+                                                                    {{durationDescription(defaultDuration.duration,
+                                                                    true)}}
+                                                                    ({{defaultDuration.source}})
+                                                                </strong>
+                                                                <div class="newrow">
+                                                                    <button
+                                                                        (click)="onAddCondition(character, condition, defaultDuration.duration, false)">
+                                                                        to {{character.name || "Character"}}
+                                                                    </button>
+                                                                    <button
+                                                                        (click)="onAddCondition(companion, condition, defaultDuration.duration, false)"
+                                                                        *ngIf="componentParameters.isCompanionAvailable">
+                                                                        to {{companion.name || "Animal Companion"}}
+                                                                    </button>
+                                                                    <button
+                                                                        (click)="onAddCondition(familiar, condition, defaultDuration.duration, false)"
+                                                                        *ngIf="componentParameters.isFamiliarAvailable">
+                                                                        to {{familiar.name || "Familiar"}}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                        <div class="newrow" *ngIf="!condition.restricted">
+                                                            <strong style="margin-bottom:0;">
+                                                                Add
+                                                                {{durationDescription(effectiveDuration(), true)}}
+                                                            </strong>
+                                                            <div class="newrow">
+                                                                <button (click)="onAddCondition(character, condition)">
+                                                                    to {{character.name || "Character"}}
+                                                                </button>
+                                                                <button (click)="onAddCondition(companion, condition)"
+                                                                    *ngIf="componentParameters.isCompanionAvailable">
+                                                                    to {{companion.name ||
+                                                                    "Animal Companion"}}
+                                                                </button>
+                                                                <button (click)="onAddCondition(familiar, condition)"
+                                                                    *ngIf="componentParameters.isFamiliarAvailable">
+                                                                    to {{familiar.name || "Familiar"}}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                    <div class="newrow left-aligned" *ngIf="condition.sourceBook">
+                                                        <strong>Source</strong>
+                                                        <i>{{condition.sourceBook}}</i>
+                                                    </div>
+                                                    <ng-container
+                                                        *ngFor="let desc of heightenedConditionDescription(condition).split('\n\n'); trackBy:trackers.trackByIndex;">
+                                                        <app-description class="newrow" [text]="desc"></app-description>
+                                                    </ng-container>
+                                                    <div class="newrow" *ngIf="condition.inputRequired">
+                                                        <div class="list-item lower">
+                                                            <strong>Player input required:</strong>
+                                                            <div class="newrow left-aligned"
+                                                                *ngFor="let inputRequired of condition.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;">
+                                                                <app-description class="newrow" [text]="inputRequired">
+                                                                </app-description>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                                <ng-container *ngIf="!isTileMode">
+                                                    <div class="list-item">
+                                                        <button class="newrow sublist-toggle left-aligned"
+                                                            (click)="toggleShownItem(condition.name)">
+                                                            <ng-container *ngTemplateOutlet="ConditionTitleTemplate">
+                                                            </ng-container>
+                                                        </button>
+                                                        <div class="list-item sublist"
+                                                            *ngIf="shownItem()===condition.name">
+                                                            <ng-container *ngTemplateOutlet="ConditionTemplate">
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-container *ngIf="isTileMode">
+                                                    <button [ngbPopover]="ConditionTemplate"
+                                                        [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}"
+                                                        triggers="click" (click)="toggleShownItem('')">
+                                                        <app-gridIcon [ngbTooltip]="condition.name"
+                                                            [title]="condition.name"
+                                                            [ngClass]="{'penalty':!condition.buff, 'bonus':condition.buff}">
+                                                        </app-gridIcon>
+                                                    </button>
+                                                </ng-container>
                                             </ng-container>
                                         </ng-container>
-                                    </ng-container>
-                                    <div class="newrow list-item"
-                                        *ngIf="visibleConditions.length >= 80 && get_ShowList()!=='All'">
-                                        <button class="center-aligned"
-                                            [disabled]="(range + 1) * 40 >= visibleConditions.length"
-                                            (click)="set_Range(1)">
-                                            Next 40
-                                        </button>
-                                    </div>
-                                </div>
-                            </ng-container>
-                        </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="get_ShowPurpose()==='customeffects'">
-                        <header class="sectionHeader">Custom Effects</header>
-                        <ng-container *ngFor="let creature of get_Creatures(); trackBy:trackByIndex;">
-                            <button class="list-item" (click)="toggle_List('customEffects'+creature.type)">
-                                <header class="sectionHeader">Custom effects on {{creature.type}}</header>
-                            </button>
-                            <div class="list-item" *ngIf="get_ShowList()==='customEffects'+creature.type">
-                                <button class="newrow center-aligned" (click)="new_CustomEffect(creature)">
-                                    Add effect
-                                </button>
-                                <ng-container
-                                    *ngFor="let effect of creature.effects; let index = index; trackBy:trackByIndex;">
-                                    <div class="list-item">
-                                        <ng-template #FormulaTemplate>
-                                            <strong>Formula</strong>
-                                            {{effect.setValue || effect.value || ''}}
-                                        </ng-template>
-                                        <div class="newrow">
-                                            <span class="hlist">
-                                                <strong class="no-shadow">Target</strong>
-                                                <input type="text" id="customEffectAffected{{creature.type}}{{index}}"
-                                                    maxLength="30" [(ngModel)]="effect.affected"
-                                                    (blur)="update_Effects(creature)">
-                                            </span>
-                                        </div>
-                                        <div class="newrow">
-                                            <span class="hlist">
-                                                <strong class="no-shadow">Granted by</strong>
-                                                <input type="text" id="customEffectSource{{creature.type}}{{index}}"
-                                                    maxLength="30" [(ngModel)]="effect.source"
-                                                    (blur)="update_Effects(creature)">
-                                            </span>
-                                            <span class="hlist">
-                                                <strong class="no-shadow">Type</strong>
-                                                <select [(ngModel)]="effect.type"
-                                                    (ngModelChange)="update_Effects(creature)">
-                                                    <option
-                                                        *ngFor="let type of get_BonusTypes(); trackBy:trackByIndex;">
-                                                        {{type}}
-                                                    </option>
-                                                </select>
-                                            </span>
-                                            <span class="hlist">
-                                                <strong class="no-shadow">Value</strong>
-                                                <ng-container
-                                                    *ngIf="!effect.toggle && (effect.setValue || (effect.value && get_IsFormula(effect.value)))">
-                                                    <span>
-                                                        <span class="value"
-                                                            *ngFor="let value of [get_EffectValue(creature, effect)]; trackBy:trackByIndex;"
-                                                            [ngClass]="{'absolute':effect.setValue, 'bonus':!effect.setValue && !value.penalty, 'penalty':!effect.setValue && value.penalty}">
-                                                            {{value.value}}
-                                                        </span>
-                                                        <i [ngbPopover]="FormulaTemplate"
-                                                            *ngIf="get_IsFormula(effect.setValue ? effect.setValue : effect.value)"
-                                                            class="bi-calculator"></i>
-                                                    </span>
-                                                </ng-container>
-                                                <ng-container *ngIf="effect.toggle">
-                                                    <span class="value absolute">
-                                                        on
-                                                    </span>
-                                                </ng-container>
-                                                <ng-container
-                                                    *ngIf="!effect.toggle && !effect.setValue && !get_IsFormula(effect.value)">
-                                                    <input type="number" class="number4"
-                                                        id="customEffectValue{{creature.type}}{{index}}" maxLength="30"
-                                                        [(ngModel)]="effect.value" (blur)="validate(creature, effect)">
-                                                </ng-container>
-                                            </span>
-                                            <button style="flex-basis:auto;flex-grow:0;"
-                                                (click)="remove_Effect(creature, effect)">Remove</button>
+                                        <div class="newrow list-item"
+                                            *ngIf="visibleConditions.length >= 80 && shownList()!=='All'">
+                                            <button class="center-aligned"
+                                                [disabled]="(range + 1) * 40 >= visibleConditions.length"
+                                                (click)="incRange(1)">
+                                                Next 40
+                                            </button>
                                         </div>
                                     </div>
                                 </ng-container>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="shownPurpose()==='customeffects'">
+                            <header class="sectionHeader">Custom Effects</header>
+                            <ng-container
+                                *ngFor="let creature of allAvailableCreatures(); trackBy:trackers.trackByIndex;">
+                                <button class="list-item" (click)="toggleShownList('customEffects'+creature.type)">
+                                    <header class="sectionHeader">Custom effects on {{creature.type}}</header>
+                                </button>
+                                <div class="list-item" *ngIf="shownList()==='customEffects'+creature.type">
+                                    <button class="newrow center-aligned" (click)="onNewCustomEffect(creature)">
+                                        Add effect
+                                    </button>
+                                    <ng-container
+                                        *ngFor="let effect of creature.effects; let index = index; trackBy:trackers.trackByIndex;">
+                                        <div class="list-item">
+                                            <ng-template #FormulaTemplate>
+                                                <strong>Formula</strong>
+                                                {{effect.setValue || effect.value || ''}}
+                                            </ng-template>
+                                            <div class="newrow">
+                                                <span class="hlist">
+                                                    <strong class="no-shadow">Target</strong>
+                                                    <input type="text"
+                                                        id="customEffectAffected{{creature.type}}{{index}}"
+                                                        maxLength="30" [(ngModel)]="effect.affected"
+                                                        (blur)="refreshEffects(creature)">
+                                                </span>
+                                            </div>
+                                            <div class="newrow">
+                                                <span class="hlist">
+                                                    <strong class="no-shadow">Granted by</strong>
+                                                    <input type="text" id="customEffectSource{{creature.type}}{{index}}"
+                                                        maxLength="30" [(ngModel)]="effect.source"
+                                                        (blur)="refreshEffects(creature)">
+                                                </span>
+                                                <span class="hlist">
+                                                    <strong class="no-shadow">Type</strong>
+                                                    <select [(ngModel)]="effect.type"
+                                                        (ngModelChange)="refreshEffects(creature)">
+                                                        <option
+                                                            *ngFor="let type of bonusTypes(); trackBy:trackers.trackByIndex;">
+                                                            {{type}}
+                                                        </option>
+                                                    </select>
+                                                </span>
+                                                <span class="hlist">
+                                                    <strong class="no-shadow">Value</strong>
+                                                    <ng-container
+                                                        *ngIf="!effect.toggle && (effect.setValue || (effect.value && isValueFormula(effect.value)))">
+                                                        <span>
+                                                            <span class="value"
+                                                                *ngIf="effectiveEffectValue(creature, effect) as effectiveValue; trackBy:trackers.trackByIndex;"
+                                                                [ngClass]="{'absolute':effect.setValue, 'bonus':!effect.setValue && !effectiveValue.penalty, 'penalty':!effect.setValue && effectiveValue.penalty}">
+                                                                {{effectiveValue.value}}
+                                                            </span>
+                                                            <i [ngbPopover]="FormulaTemplate"
+                                                                *ngIf="isValueFormula(effect.setValue ? effect.setValue : effect.value)"
+                                                                class="bi-calculator"></i>
+                                                        </span>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="effect.toggle">
+                                                        <span class="value absolute">
+                                                            on
+                                                        </span>
+                                                    </ng-container>
+                                                    <ng-container
+                                                        *ngIf="!effect.toggle && !effect.setValue && !isValueFormula(effect.value)">
+                                                        <input type="number" class="number4"
+                                                            id="customEffectValue{{creature.type}}{{index}}"
+                                                            maxLength="30" [(ngModel)]="effect.value"
+                                                            (blur)="validate(creature, effect)">
+                                                    </ng-container>
+                                                </span>
+                                                <button style="flex-basis:auto;flex-grow:0;"
+                                                    (click)="onRemoveEffect(creature, effect)">Remove</button>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                            <button class="list-item" (click)="toggleShownList('addCustomEffect')"
+                                *ngIf="shownPurpose()==='customeffects'">
+                                <header class="sectionHeader">Create advanced custom effect</header>
+                            </button>
+                            <div class="newrow list-item"
+                                *ngIf="shownPurpose()==='customeffects' && shownList()==='addCustomEffect'">
+                                <div class="newrow list-item"
+                                    *ngFor="let property of customEffectProperties(); let index = index; trackBy:trackers.trackByIndex;">
+                                    <div class="newrow left-aligned">
+                                        <strong [ngbPopover]="property.desc" triggers="hover:click">{{property.name}} <i
+                                                class="bi-question-circle"></i></strong>
+                                    </div>
+                                    <div class="newrow">
+                                        <input class="newrow" type="text" [(ngModel)]="newEffect[property.key]"
+                                            (blur)="validateAdvancedEffect(property, index)"
+                                            *ngIf="!property.type && !property.locked">
+                                        <textarea class="newrow" rows=3 [(ngModel)]="newEffect[property.key]"
+                                            *ngIf="property.type==='textarea'"></textarea>
+                                        <input type="checkbox" [(ngModel)]="newEffect[property.key]"
+                                            *ngIf="property.type==='checkbox'">
+                                        <input type="number" [(ngModel)]="newEffect[property.key]"
+                                            (blur)="validateAdvancedEffect(property, index)"
+                                            *ngIf="property.type==='number'">
+                                    </div>
+                                    <div class="newrow" *ngIf="validationError[index]">
+                                        <span class="problem">{{validationError[index]}}</span>
+                                    </div>
+                                    <div class="newrow" *ngIf="validationResult[index]">
+                                        <span>Current result: {{validationResult[index]}}</span>
+                                    </div>
+                                    <div class="list-item" style="margin: initial 0"
+                                        *ngIf="property.type!=='textarea' && property.type!=='checkbox'">
+                                        <select class="newrow left-aligned" [(ngModel)]="newEffect[property.key]"
+                                            [disabled]="!effectPropertyExamples(property).length"
+                                            (ngModelChange)="validateAdvancedEffect(property, index)">
+                                            <option
+                                                *ngFor="let example of effectPropertyExamples(property); trackBy:trackers.trackByIndex;"
+                                                [ngValue]="example">
+                                                {{example}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div *ngFor="let creature of allAvailableCreatures(); trackBy:trackers.trackByIndex"
+                                    [ngbTooltip]="isEffectInvalid()">
+                                    <button class="list-item newrow" (click)="onAddEffect(creature)"
+                                        [disabled]="isEffectInvalid()">
+                                        Add to {{creature.name || creature.type}}
+                                    </button>
+                                </div>
                             </div>
                         </ng-container>
-                        <button class="list-item" (click)="toggle_List('addCustomEffect')"
-                            *ngIf="get_ShowPurpose()==='customeffects'">
-                            <header class="sectionHeader">Create advanced custom effect</header>
-                        </button>
-                        <div class="newrow list-item"
-                            *ngIf="get_ShowPurpose()==='customeffects' && get_ShowList()==='addCustomEffect'">
-                            <div class="newrow list-item"
-                                *ngFor="let property of get_CustomEffectProperties(); let index = index; trackBy:trackByIndex;">
-                                <div class="newrow left-aligned">
-                                    <strong [ngbPopover]="property.desc" triggers="hover:click">{{property.name}} <i
-                                            class="bi-question-circle"></i></strong>
-                                </div>
-                                <div class="newrow">
-                                    <input class="newrow" type="text" [(ngModel)]="newEffect[property.key]"
-                                        (blur)="validate_AdvancedEffect(property, index)"
-                                        *ngIf="!property.type && !property.locked">
-                                    <textarea class="newrow" rows=3 [(ngModel)]="newEffect[property.key]"
-                                        *ngIf="property.type==='textarea'"></textarea>
-                                    <input type="checkbox" [(ngModel)]="newEffect[property.key]"
-                                        *ngIf="property.type==='checkbox'">
-                                    <input type="number" [(ngModel)]="newEffect[property.key]"
-                                        (blur)="validate_AdvancedEffect(property, index)"
-                                        *ngIf="property.type==='number'">
-                                </div>
-                                <div class="newrow" *ngIf="validationError[index]">
-                                    <span class="problem">{{validationError[index]}}</span>
-                                </div>
-                                <div class="newrow" *ngIf="validationResult[index]">
-                                    <span>Current result: {{validationResult[index]}}</span>
-                                </div>
-                                <div class="list-item" style="margin: initial 0"
-                                    *ngIf="property.type!=='textarea' && property.type!=='checkbox'">
-                                    <select class="newrow left-aligned" [(ngModel)]="newEffect[property.key]"
-                                        [disabled]="!get_Examples(property).length"
-                                        (ngModelChange)="validate_AdvancedEffect(property, index)">
-                                        <option *ngFor="let example of get_Examples(property); trackBy:trackByIndex;"
-                                            [ngValue]="example">
-                                            {{example}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div *ngFor="let creature of get_Creatures(); trackBy:trackByIndex"
-                                [ngbTooltip]="get_EffectInvalid()">
-                                <button class="list-item newrow" (click)="add_Effect(creature)"
-                                    [disabled]="get_EffectInvalid()">
-                                    Add to {{creature.name || creature.type}}
-                                </button>
-                            </div>
-                        </div>
-                    </ng-container>
+                    </div>
+                </div>
+                <div class="charactersheet-column mobile-hide">
+                    <div class="list-item newrow"
+                        *ngIf="componentParameters.isCompanionAvailable || componentParameters.isFamiliarAvailable">
+                        <button class="center-aligned"
+                            [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.Character}"
+                            (click)="toggleShownCreature(creatureTypesEnum.Character)">Character</button>
+                        <button class="center-aligned"
+                            [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.AnimalCompanion}"
+                            *ngIf="componentParameters.isCompanionAvailable"
+                            (click)="toggleShownCreature(creatureTypesEnum.AnimalCompanion)">Companion</button>
+                        <button class="center-aligned"
+                            [ngClass]="{'fancy-button':shownCreature()===creatureTypesEnum.Familiar}"
+                            *ngIf="componentParameters.isFamiliarAvailable"
+                            (click)="toggleShownCreature(creatureTypesEnum.Familiar)">Familiar</button>
+                    </div>
+                    <app-effects class="fullwidth" [creature]="shownCreature()" [fullDisplay]="true"
+                        [sheetSide]="'right'">
+                    </app-effects>
                 </div>
             </div>
-            <div class="charactersheet-column mobile-hide">
-                <div class="list-item newrow" *ngIf="get_CompanionAvailable() || get_FamiliarAvailable()">
-                    <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()==='Character'}"
-                        (click)="toggle_Creature('Character')">Character</button>
-                    <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()==='Companion'}"
-                        *ngIf="get_CompanionAvailable()" (click)="toggle_Creature('Companion')">Companion</button>
-                    <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()==='Familiar'}"
-                        *ngIf="get_FamiliarAvailable()" (click)="toggle_Creature('Familiar')">Familiar</button>
-                </div>
-                <app-effects class="fullwidth" [creature]="get_ShowCreature()" [fullDisplay]="true"
-                    [sheetSide]="'right'">
-                </app-effects>
-            </div>
-        </div>
+        </ng-container>
     </ng-container>
 </div>

@@ -374,15 +374,12 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                     this.isAnySubFeatTakenByThisChoice(allSubFeats, featSet.feat, choice),
                 )
                 .sort((a, b) => {
-                    // Sort by level, then name. Divide level by 100 to create leading zeroes (and not sort 10 before 2),
-                    // then cut it down to 3 digits. 0 will be 0.00.
+                    // Sort by level, then name. Add leading zeroes to the level for better sorting.
                     // For skill feat choices and general feat choices, sort by the associated skill (if exactly one), then level and name.
                     // Feats with less or more required skills are sorted first.
-                    const tenth = .1;
-                    const centi = .01;
-                    const firstThreeDigitsLength = 4;
-                    const sortLevelA = ((a.feat.levelreq || tenth) * centi).toString().substring(0, firstThreeDigitsLength);
-                    const sortLevelB = ((b.feat.levelreq || tenth) * centi).toString().substring(0, firstThreeDigitsLength);
+                    const threeDigitsLength = 3;
+                    const sortLevelA = a.feat.levelreq.toString().padStart(threeDigitsLength, '0');
+                    const sortLevelB = b.feat.levelreq.toString().padStart(threeDigitsLength, '0');
                     let sort_a = sortLevelA + a.feat.name;
                     let sort_b = sortLevelB + b.feat.name;
 

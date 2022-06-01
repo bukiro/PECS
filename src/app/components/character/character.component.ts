@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ClassesService } from 'src/app/services/classes.service';
@@ -1738,7 +1739,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         //Start with the about page in desktop mode, and without it on mobile.
         this.showList = (window.innerWidth < 992) ? '' : 'about';
         this.changeSubscription = this.refreshService.get_Changed
-            .subscribe((target) => {
+            .subscribe(target => {
                 if (['character', 'all', 'charactersheet'].includes(target.toLowerCase())) {
                     this.changeDetector.detectChanges();
                 }
