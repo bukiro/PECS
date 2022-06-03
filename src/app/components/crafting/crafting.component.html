@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="window-button-container">
-    <button class="tilemodebutton" [ngClass]="{'fancy-button':get_TileMode()}" (click)="toggle_TileMode()"
-        [ngbTooltip]="get_TileMode() ? 'Click to enable list layout' : 'Click to enable tiled layout'">
+    <button class="tilemodebutton" [ngClass]="{'fancy-button':isTileMode}" (click)="toggleTileMode()"
+        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'">
         <!--Content is css only-->
         <div>
             <div> </div>
@@ -16,24 +16,24 @@
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
     <div class="loading" *ngIf="stillLoading">Loading</div>
-    <ng-container *ngIf="!stillLoading && get_CraftingMenuState()==='in'">
+    <ng-container *ngIf="!stillLoading && craftingMenuState()==='in'">
         <div class="charactersheet-column-container">
             <div class="charactersheet-column">
                 <div class="list-item">
                     <strong>Find (in Name, Description or Traits)</strong>
                     <span class="hlist">
-                        <input type=text [(ngModel)]="wordFilter" (ngModelChange)=check_Filter() />
-                        <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
-                        <button (click)="wordFilter='';check_Filter()">Clear</button>
+                        <input type=text [(ngModel)]="wordFilter" (ngModelChange)=closeFilterIfTooShort() />
+                        <button (click)="setFilterForAll()" [disabled]="wordFilter.length < 5">Show All</button>
+                        <button (click)="wordFilter='';closeFilterIfTooShort()">Clear</button>
                     </span>
                 </div>
                 <div class="list-item">
                     <strong>Sort by</strong>
                     <div class="newrow">
-                        <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowSorting()==='name'}"
-                            (click)="toggle_Sorting('name')">Name</button>
-                        <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowSorting()==='level'}"
-                            (click)="toggle_Sorting('level')">Level</button>
+                        <button class="center-aligned" [ngClass]="{'fancy-button':shownSorting()==='name'}"
+                            (click)="toggleShownSorting('name')">Name</button>
+                        <button class="center-aligned" [ngClass]="{'fancy-button':shownSorting()==='sortLevel'}"
+                            (click)="toggleShownSorting('sortLevel')">Level</button>
                     </div>
                 </div>
                 <div class="fullsize-scroll-box vlist">
@@ -41,112 +41,107 @@
                     <div class="list-item">
                         <div class="newrow">
                             <strong>Platinum</strong>
-                            <input class="number4" type="number" [(ngModel)]="cashP"
+                            <input class="number4" type="number" [(ngModel)]="cash.platinum"
                                 (keypress)="positiveNumbersOnly($event)">
                             <strong>Gold</strong>
-                            <input class="number4" type="number" [(ngModel)]="cashG"
+                            <input class="number4" type="number" [(ngModel)]="cash.gold"
                                 (keypress)="positiveNumbersOnly($event)">
                             <strong>Silver</strong>
-                            <input class="number4" type="number" [(ngModel)]="cashS"
+                            <input class="number4" type="number" [(ngModel)]="cash.silver"
                                 (keypress)="positiveNumbersOnly($event)">
                             <strong>Copper</strong>
-                            <input class="number4 center-aligned" type="number" [(ngModel)]="cashC"
+                            <input class="number4 center-aligned" type="number" [(ngModel)]="cash.copper"
                                 (keypress)="positiveNumbersOnly($event)">
                         </div>
                         <div class="newrow">
                             <span>
-                                <button (click)="change_Cash(1, 0, true)"
-                                    [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0">Gain</button>
+                                <button (click)="addCash(1, 0, true)" [disabled]="isCashInvalid()">Gain</button>
                             </span>
                             <span>
-                                <button (click)="change_Cash(-1, 0, true)"
-                                    [disabled]="cashP < 0 || cashG < 0 || cashS < 0 || cashC < 0"
-                                    [disabled]="!have_Funds()">Spend</button>
+                                <button (click)="addCash(-1, 0, true)" [disabled]="isCashInvalid()"
+                                    [disabled]="!hasFunds()">Spend</button>
                             </span>
                         </div>
                     </div>
-                    <ng-container *ngFor="let items of [get_Items()]; trackBy:trackByIndex;">
-                        <ng-container *ngIf="have_Feat('Snare Specialist')">
-                            <ng-container
-                                *ngFor="let preparations of [get_SnareSpecialistPreparations()]; trackBy:trackByIndex;">
-                                <header class="sectionHeader">Snare Specialist</header>
-                                <div class="list-item">
-                                    You can prepare {{preparations.available - preparations.prepared}} of
-                                    {{preparations.available}} snares for quick deployment.
-                                </div>
-                                <ng-container
-                                    *ngFor="let snares of [get_VisibleItems(items.snares)]; trackBy:trackByIndex;">
-                                    <ng-container *ngFor="let listID of ['snarespecialist']; trackBy:trackByIndex;">
-                                        <button class="list-item" [ngClass]="{'invisible':!snares.length}"
-                                            (click)="toggle_List(listID)">
-                                            <header class="sectionHeader">Snares</header>
-                                        </button>
-                                        <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
-                                            [ngClass]="{'invisible':!snares.length}"
-                                            *ngIf="get_ShowList()===listID||get_ShowList()==='All'">
-                                            <ng-container *ngFor="let item of snares; trackBy:trackByIndex;">
-                                                <ng-container
-                                                    *ngFor="let preparedAmount of [get_PreparedForQuickCrafting(item)]; trackBy:trackByIndex">
-                                                    <ng-template #SnareTemplate>
-                                                        <header class="spellHeader newrow" *ngIf="get_TileMode()">
-                                                            {{preparedAmount}}
-                                                            {{item.get_Name()}}
-                                                        </header>
-                                                        <span>
-                                                            <button class="center-aligned"
-                                                                (click)="on_PrepareForQuickCrafting(item, -1)"
-                                                                [disabled]="!preparedAmount">
-                                                                -
-                                                            </button>
-                                                            <button class="center-aligned"
-                                                                (click)="on_PrepareForQuickCrafting(item, 1)"
-                                                                [disabled]="preparations.available <= preparations.prepared">
-                                                                +
-                                                            </button>
-                                                            Prepare for quick deployment
-                                                        </span>
-                                                        <app-item class="lower" [item]=item [itemStore]=true></app-item>
-                                                    </ng-template>
-                                                    <ng-container *ngIf="!get_TileMode()">
-                                                        <div class="list-item"
-                                                            *ngFor="let inventoryID of [listID+item.id]; trackBy:trackByIndex;">
-                                                            <button class="newrow sublist-toggle"
-                                                                [ngClass]="{'fancy-button':preparedAmount}"
-                                                                (click)="toggle_Item(inventoryID)">
-                                                                <span>
-                                                                    {{preparedAmount}}
-                                                                    {{item.get_Name()}}
-                                                                </span>
-                                                                <span>
-                                                                    {{(item.level) ? "Level "+item.level : "&nbsp;"}}
-                                                                </span>
-                                                            </button>
-                                                            <div class="list-item sublist lower"
-                                                                [ngClass]="{'fancy-list':preparedAmount}"
-                                                                *ngIf=" get_ShowItem()===inventoryID">
-                                                                <ng-container *ngTemplateOutlet="SnareTemplate">
-                                                                </ng-container>
-                                                            </div>
-                                                        </div>
+                    <ng-container *ngIf="craftingItems() as items">
+                        <ng-container *ngIf="snareSpecialistParameters(items.snares) as snareSpecialistParameters">
+                            <header class="sectionHeader">Snare Specialist</header>
+                            <div class="list-item">
+                                You can prepare {{snareSpecialistParameters.available -
+                                snareSpecialistParameters.prepared}} of
+                                {{snareSpecialistParameters.available}} snares for quick deployment.
+                            </div>
+
+                            <ng-container *ngIf="'snarespecialist' as listID">
+                                <button class="list-item"
+                                    [ngClass]="{'invisible':!snareSpecialistParameters.snares.length}"
+                                    (click)="toggleShownList(listID)">
+                                    <header class="sectionHeader">Snares</header>
+                                </button>
+                                <div [ngClass]="{'icon-list':isTileMode, 'list-item':!isTileMode}"
+                                    [ngClass]="{'invisible':!snareSpecialistParameters.snares.length}"
+                                    *ngIf="[listID, 'all'].includes(shownList())">
+                                    <ng-container
+                                        *ngFor="let snareParameters of snareParameters(snareSpecialistParameters.snares); trackBy:trackers.trackByIndex;">
+                                        <ng-template #SnareTemplate>
+                                            <header class="spellHeader newrow" *ngIf="isTileMode">
+                                                {{snareParameters.preparedAmount}}
+                                                {{snareParameters.snare.effectiveName()}}
+                                            </header>
+                                            <span>
+                                                <button class="center-aligned"
+                                                    (click)="onPrepareForQuickCrafting(snareParameters.snare, -1)"
+                                                    [disabled]="!snareParameters.preparedAmount">
+                                                    -
+                                                </button>
+                                                <button class="center-aligned"
+                                                    (click)="onPrepareForQuickCrafting(snareParameters.snare, 1)"
+                                                    [disabled]="snareSpecialistParameters.available <= snareSpecialistParameters.prepared">
+                                                    +
+                                                </button>
+                                                Prepare for quick deployment
+                                            </span>
+                                            <app-item class="lower" [item]=snareParameters.snare [itemStore]=true>
+                                            </app-item>
+                                        </ng-template>
+                                        <ng-container *ngIf="!isTileMode">
+                                            <div class="list-item" *ngif="[listID+item.id] as inventoryID">
+                                                <button class="newrow sublist-toggle"
+                                                    [ngClass]="{'fancy-button':snareParameters.preparedAmount}"
+                                                    (click)="toggleShownItem(inventoryID)">
+                                                    <span>
+                                                        {{snareParameters.preparedAmount}}
+                                                        {{snareParameters.snare.effectiveName()}}
+                                                    </span>
+                                                    <span>
+                                                        {{(snareParameters.snare.level) ? "Level
+                                                        "+snareParameters.snare.level : "&nbsp;"}}
+                                                    </span>
+                                                </button>
+                                                <div class="list-item sublist lower"
+                                                    [ngClass]="{'fancy-list':snareParameters.preparedAmount}"
+                                                    *ngIf=" shownItem()===inventoryID">
+                                                    <ng-container *ngTemplateOutlet="SnareTemplate">
                                                     </ng-container>
-                                                    <ng-container *ngIf="get_TileMode()">
-                                                        <button [ngbPopover]="SnareTemplate" triggers="click"
-                                                            [ngClass]="{'fancy-button':preparedAmount}"
-                                                            (click)="toggle_Item()">
-                                                            <app-gridIcon [ngClass]="{'fancy-button':preparedAmount}"
-                                                                [ngbTooltip]="(preparedAmount ? preparedAmount + ' ' : '') + item.get_Name({itemStore:true}) + (item.level ? ' (Level ' + item.level + ')' : '')"
-                                                                [subTitle]="preparedAmount.toString()"
-                                                                [title]="item.gridIconTitle()"
-                                                                [detail]="(item.traits.includes('Rare') ? 'R' : (item.traits.includes('Uncommon') ? 'U' : (item.traits.includes('Unique') ? 'Q' : ''))) + (item.level || '')"
-                                                                [item]="item">
-                                                            </app-gridIcon>
-                                                        </button>
-                                                    </ng-container>
-                                                </ng-container>
-                                            </ng-container>
-                                        </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="isTileMode">
+                                            <button [ngbPopover]="SnareTemplate" triggers="click"
+                                                [ngClass]="{'fancy-button':snareParameters.preparedAmount}"
+                                                (click)="toggleShownItem()">
+                                                <app-gridIcon
+                                                    [ngClass]="{'fancy-button':snareParameters.preparedAmount}"
+                                                    [ngbTooltip]="(snareParameters.preparedAmount ? snareParameters.preparedAmount + ' ' : '') + snareParameters.snare.effectiveName({itemStore:true}) + (snareParameters.snare.level ? ' (Level ' + snareParameters.snare.level + ')' : '')"
+                                                    [subTitle]="snareParameters.preparedAmount.toString()"
+                                                    [title]="snareParameters.snare.gridIconTitle()"
+                                                    [detail]="(snareParameters.snare.traits.includes('Rare') ? 'R' : (snareParameters.snare.traits.includes('Uncommon') ? 'U' : (snareParameters.snare.traits.includes('Unique') ? 'Q' : ''))) + (snareParameters.snare.level || '')"
+                                                    [item]="snareParameters.snare">
+                                                </app-gridIcon>
+                                            </button>
+                                        </ng-container>
                                     </ng-container>
-                                </ng-container>
+                                </div>
                             </ng-container>
                         </ng-container>
                         <header class="sectionHeader">Craft Items</header>
@@ -166,62 +161,58 @@
                                 <i class="bi-question-circle"></i>
                             </strong>
                         </div>
-                        <ng-container *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
-                            <ng-container *ngFor="let listID of [''+(index*1000+1000)]; trackBy:trackByIndex;">
-                                <ng-container
-                                    *ngFor="let visibleItems of [get_VisibleItems(items[itemSet.key])]; trackBy:trackByIndex;">
+                        <ng-container
+                            *ngFor="let itemSet of items.names; let index = index; trackBy:trackers.trackByIndex;">
+                            <ng-container *ngIf="''+(index*1000+1000) as listID">
+                                <ng-container *ngIf="visibleItems(items[itemSet.key]) as visibleItems">
                                     <button class="list-item"
                                         [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
-                                        (click)="toggle_List(listID)">
+                                        (click)="toggleShownList(listID)">
                                         <header class="sectionHeader">{{itemSet.name}}</header>
                                     </button>
-                                    <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
+                                    <div [ngClass]="{'icon-list':isTileMode, 'list-item':!isTileMode}"
                                         [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
-                                        *ngIf="get_ShowList()===listID||get_ShowList()==='All'">
+                                        *ngIf="[listID, 'all'].includes(shownList())">
                                         <div class="newrow list-item"
-                                            *ngIf="visibleItems.length >= 80 && get_ShowList()!=='All'"
-                                            (click)="set_Range(-1)">
+                                            *ngIf="visibleItems.length >= 80 && shownList()!=='all'"
+                                            (click)="incRange(-1)">
                                             <button class="center-aligned" [disabled]="range <= 0">
                                                 Previous 40
                                             </button>
                                             <header class="newrow subsectionHeader center-aligned">
-                                                Showing {{(range * 40) + 1}}-{{(((range + 1) * 40) >=
-                                                visibleItems.length) ? visibleItems.length : ((range + 1) *
-                                                40)}} of {{visibleItems.length}}
+                                                {{shownItemRangeDesc(visibleItems, range)}}
                                             </header>
                                         </div>
                                         <ng-container
-                                            *ngFor="let itemParameters of get_ItemParameters(visibleItems); let itemIndex = index; trackBy:trackByIndex;">
-                                            <ng-container
-                                                *ngIf="visibleItems.length < 80 || get_ShowList()==='All' || (itemIndex >= (range * 40) && itemIndex < ((range + 1) * 40 ))">
+                                            *ngFor="let itemParameters of visibleItemParameters(visibleItems); let itemIndex = index; trackBy:trackers.trackByIndex;">
+                                            <ng-container *ngIf="isItemShown(visibleItems, itemIndex, range)">
                                                 <ng-template #ItemTitleTemplate>
                                                     <span>
                                                         <i class="value bi-x penalty"
-                                                            *ngIf="!get_TileMode() && itemParameters.canUse === false"
+                                                            *ngIf="!isTileMode && itemParameters.canUse === false"
                                                             [ngbTooltip]="'You are not trained with this item.'">
                                                         </i>
                                                         <i class="value bi-check2 bonus"
-                                                            *ngIf="!get_TileMode() && itemParameters.canUse"
+                                                            *ngIf="!isTileMode && itemParameters.canUse"
                                                             [ngbTooltip]="'You are trained with this item.'">
                                                         </i>
-                                                        {{itemParameters.item.get_Name()}}
+                                                        {{itemParameters.item.effectiveName()}}
                                                     </span>
                                                     <span style="flex-basis:auto;flex-grow:0;">
                                                         <span *ngIf="itemParameters.item.level">
                                                             {{"Level "+itemParameters.item.level}}
                                                         </span>
                                                         <span *ngIf="itemParameters.asArmor">
-                                                            {{itemParameters.asArmor.get_Title({itemStore:
-                                                            true})}}
+                                                            {{itemParameters.asArmor.title({itemStore: true})}}
                                                         </span>
                                                         <span *ngIf="itemParameters.asWeapon">
-                                                            {{itemParameters.asWeapon.get_Title()}}
+                                                            {{itemParameters.asWeapon.title()}}
                                                         </span>
                                                     </span>
                                                 </ng-template>
                                                 <ng-template #ItemTooltipTemplate>
                                                     <span>
-                                                        {{itemParameters.item.get_Name({itemStore:true})}}
+                                                        {{itemParameters.item.effectiveName({itemStore:true})}}
                                                     </span>
                                                     <span *ngIf="itemParameters.item.level">
                                                         |
@@ -233,23 +224,23 @@
                                                         |
                                                     </span>
                                                     <span *ngIf="itemParameters.asArmor">
-                                                        {{itemParameters.asArmor.get_Title({itemStore: true})}}
+                                                        {{itemParameters.asArmor.title({itemStore: true})}}
                                                     </span>
                                                     <span *ngIf="itemParameters.asWeapon">
-                                                        {{itemParameters.asWeapon.get_Title()}}
+                                                        {{itemParameters.asWeapon.title()}}
                                                     </span>
                                                 </ng-template>
                                                 <ng-template #ItemTemplate>
-                                                    <header class="spellHeader newrow" *ngIf="get_TileMode()">
+                                                    <header class="spellHeader newrow" *ngIf="isTileMode">
                                                         <ng-container *ngTemplateOutlet="ItemTitleTemplate">
                                                         </ng-container>
                                                     </header>
                                                     <ng-container>
                                                         <div class="newrow"
-                                                            [ngbTooltip]="cannot_Craft(itemParameters.item).join('\n')">
+                                                            [ngbTooltip]="cannotCraftItem(itemParameters.item).join('\n')">
                                                             <button class="newrow center-aligned"
-                                                                (click)="grant_Item(itemParameters.item)"
-                                                                [disabled]="cannot_Craft(itemParameters.item).length">
+                                                                (click)="grantInventoryItem(itemParameters.item)"
+                                                                [disabled]="cannotCraftItem(itemParameters.item).length">
                                                                 Craft {{itemParameters.stack > 1 ?
                                                                 itemParameters.stack+" "
                                                                 : ""}}using Craft activity
@@ -269,26 +260,26 @@
                                                     <app-item class="lower" [item]="itemParameters.item"
                                                         [itemStore]=true></app-item>
                                                 </ng-template>
-                                                <ng-container *ngIf="!get_TileMode()">
+                                                <ng-container *ngIf="!isTileMode">
                                                     <div class="list-item"
-                                                        *ngFor="let inventoryID of [listID+itemParameters.item.id]; trackBy:trackByIndex;">
-                                                        <ng-container *ngIf="!get_TileMode()"></ng-container>
+                                                        *ngIf="(listID+itemParameters.item.id) as inventoryID">
+                                                        <ng-container *ngIf="!isTileMode"></ng-container>
                                                         <button class="newrow sublist-toggle"
-                                                            (click)="toggle_Item(inventoryID)">
+                                                            (click)="toggleShownItem(inventoryID)">
                                                             <ng-container *ngTemplateOutlet="ItemTitleTemplate">
                                                             </ng-container>
                                                         </button>
                                                         <div class="list-item sublist lower"
-                                                            *ngIf="get_ShowItem()===inventoryID">
+                                                            *ngIf="shownItem()===inventoryID">
                                                             <ng-container *ngTemplateOutlet="ItemTemplate">
                                                             </ng-container>
                                                         </div>
                                                     </div>
                                                 </ng-container>
-                                                <ng-container *ngIf="get_TileMode()">
+                                                <ng-container *ngIf="isTileMode">
                                                     <button [ngbPopover]="ItemTemplate" triggers="click"
                                                         [ngClass]="{'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
-                                                        (click)="toggle_Item()">
+                                                        (click)="toggleShownItem()">
                                                         <app-gridIcon [updateId]="itemParameters.item.id"
                                                             [ngClass]="{'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
                                                             [ngbTooltip]="ItemTooltipTemplate"
@@ -301,10 +292,10 @@
                                             </ng-container>
                                         </ng-container>
                                         <div class="newrow list-item"
-                                            *ngIf="visibleItems.length >= 80 && get_ShowList()!=='All'">
+                                            *ngIf="visibleItems.length >= 80 && shownList()!=='all'">
                                             <button class="center-aligned"
                                                 [disabled]="(range + 1) * 40 >= visibleItems.length"
-                                                (click)="set_Range(1)">
+                                                (click)="incRange(1)">
                                                 Next 40
                                             </button>
                                         </div>
@@ -317,7 +308,7 @@
             </div>
             <div class="charactersheet-column mobile-hide">
                 <app-inventory [itemStore]="true" id="ItemStore-inventory" [sheetSide]="'right'"
-                    [ngClass]="{'minimized':(get_InventoryMinimized())}"></app-inventory>
+                    [ngClass]="{'minimized':isInventoryMinimized}"></app-inventory>
             </div>
         </div>
     </ng-container>

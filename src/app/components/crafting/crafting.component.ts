@@ -3,8 +3,6 @@ import { ItemsService } from 'src/app/services/items.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
-import { Weapon } from 'src/app/classes/Weapon';
-import { Armor } from 'src/app/classes/Armor';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Consumable } from 'src/app/classes/Consumable';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -12,8 +10,19 @@ import { Subscription } from 'rxjs';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
 import { ItemRolesService } from 'src/app/services/itemRoles.service';
-import { Shield } from 'src/app/classes/Shield';
-import { WornItem } from 'src/app/classes/WornItem';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { CopperAmounts, CurrencyIndices } from 'src/libs/shared/definitions/currency';
+import { ItemCollection } from 'src/app/classes/ItemCollection';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { FormulaLearned } from 'src/app/classes/FormulaLearned';
+import { Snare } from 'src/app/classes/Snare';
+
+const itemsPerPage = 40;
+
+type SortingOption = 'sortLevel' | 'name';
 
 interface ItemParameters extends ItemRoles {
     canUse: boolean;
@@ -27,156 +36,162 @@ interface ItemParameters extends ItemRoles {
 })
 export class CraftingComponent implements OnInit, OnDestroy {
 
-    private showList = '';
-    private showItem = '';
     public id = 0;
     public wordFilter = '';
-    public sorting: 'level' | 'name' = 'level';
+    public sorting: SortingOption = 'sortLevel';
     public creature = 'Character';
-    public cashP = 0;
-    public cashG = 0;
-    public cashS = 0;
-    public cashC = 0;
+    public cash = {
+        platinum: 0,
+        gold: 0,
+        silver: 0,
+        copper: 0,
+    };
     public range = 0;
+    private _showList = '';
+    private _showItem = '';
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly itemsService: ItemsService,
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly itemRolesService: ItemRolesService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _itemsService: ItemsService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _itemRolesService: ItemRolesService,
+        public trackers: Trackers,
     ) { }
 
-    set_Range(amount: number) {
+    public get stillLoading(): boolean {
+        return this._itemsService.stillLoading || this._characterService.stillLoading;
+    }
+
+    public get isInventoryMinimized(): boolean {
+        return this._characterService.character.settings.inventoryMinimized;
+    }
+
+    public get isTileMode(): boolean {
+        return this._character.settings.craftingTileMode;
+    }
+
+    private get _character(): Character {
+        return this._characterService.character;
+    }
+
+    //TO-DO: create list and pagination component for these lists
+    public incRange(amount: number): void {
         this.range += amount;
     }
 
-    toggle_List(type: string) {
-        if (this.showList == type) {
-            this.showList = '';
-        } else {
-            this.showList = type;
-        }
+    public shownItemRangeDesc(visibleConditions: Array<Item>, range: number): string {
+        const currentFirstItem = (range * itemsPerPage) + 1;
+        const currentLastItem =
+            (((range + 1) * itemsPerPage) >= visibleConditions.length)
+                ? visibleConditions.length
+                : ((range + 1) * itemsPerPage);
+
+        return `Showing ${ currentFirstItem }-${ currentLastItem } of ${ visibleConditions.length } `;
+    }
+
+    public toggleShownList(type: string): void {
+        this._showList = this._showList === type ? '' : type;
 
         this.range = 0;
     }
 
-    get_ShowList() {
-        return this.showList;
+    public shownList(): string {
+        return this._showList;
     }
 
-    get_InventoryMinimized() {
-        return this.characterService.character.settings.inventoryMinimized;
+    public toggleTileMode(): void {
+        this._character.settings.craftingTileMode = !this._character.settings.craftingTileMode;
+        this._refreshService.prepareDetailToChange('Character', 'crafting');
+        this._refreshService.processPreparedChanges();
     }
 
-    toggle_TileMode() {
-        this.get_Character().settings.craftingTileMode = !this.get_Character().settings.craftingTileMode;
-        this.refreshService.prepareDetailToChange('Character', 'crafting');
-        this.refreshService.processPreparedChanges();
-    }
-
-    get_TileMode() {
-        return this.get_Character().settings.craftingTileMode;
-    }
-
-    toggle_Sorting(type) {
+    public toggleShownSorting(type: SortingOption): void {
         this.sorting = type;
     }
 
-    get_ShowSorting() {
+    public shownSorting(): SortingOption {
         return this.sorting;
     }
 
-    trackByIndex(index: number): number {
-        return index;
+    public isItemShown(visibleItems: Array<Item>, conditionIndex: number, range: number): boolean {
+        return (
+            visibleItems.length < (itemsPerPage + itemsPerPage) ||
+            this.shownList() === 'all' ||
+            (
+                conditionIndex >= (range * itemsPerPage) &&
+                conditionIndex < (range + 1) * itemsPerPage
+            )
+        );
     }
 
-    get_Character() {
-        return this.characterService.character;
+    public toggleShownItem(id: string = ''): void {
+        this._showItem = this._showItem === id ? '' : id;
     }
 
-    toggle_Item(id = '') {
-        if (this.showItem == id) {
-            this.showItem = '';
-        } else {
-            this.showItem = id;
+    public shownItem(): string {
+        return this._showItem;
+    }
+
+    public closeFilterIfTooShort(): void {
+        const minWordFilterLength = 5;
+
+        if (this.wordFilter.length < minWordFilterLength && this._showList) {
+            this._showList = '';
         }
     }
 
-    get_ShowItem() {
-        return this.showItem;
-    }
-
-    get_CraftingMenuState() {
-        return this.characterService.craftingMenuState();
-    }
-
-    check_Filter() {
-        if (this.wordFilter.length < 5 && this.showList == 'All') {
-            this.showList = '';
-        }
-    }
-
-    set_Filter() {
+    public setFilterForAll(): void {
         if (this.wordFilter) {
-            this.showList = 'All';
+            this._showList = 'all';
         }
     }
 
-    toggleCraftingMenu() {
-        this.characterService.toggleMenu('crafting');
+    public toggleCraftingMenu(): void {
+        this._characterService.toggleMenu(MenuNames.CraftingMenu);
     }
 
-    positiveNumbersOnly(event: KeyboardEvent): boolean {
+    public craftingMenuState(): MenuState {
+        return this._characterService.craftingMenuState();
+    }
+
+    public positiveNumbersOnly(event: KeyboardEvent): boolean {
         return InputValidationService.positiveNumbersOnly(event);
     }
 
-    get_ItemParameters(itemList: Array<Item>): Array<ItemParameters> {
-        const character = this.get_Character();
+    public visibleItemParameters(itemList: Array<Item>): Array<ItemParameters> {
+        const character = this._character;
 
         return itemList.map(item => {
-            const itemRoles = this.itemRolesService.getItemRoles(item);
-            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)?.effectiveProficiency(character, this.characterService) || '';
+            const itemRoles = this._itemRolesService.getItemRoles(item);
+            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)?.effectiveProficiency(character, this._characterService) || '';
 
             return {
                 ...itemRoles,
-                canUse: this.get_CanUse(itemRoles, proficiency),
+                canUse: this._canUseItem(itemRoles, proficiency),
             };
         });
     }
 
-    public itemAsMaterialChangeable(item: Item): Armor | Shield | Weapon {
-        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon) ? item : null;
+    public effectivePrice(item: Item): number {
+        return item.effectivePrice(this._itemsService);
     }
 
-    public itemAsRuneChangeable(item: Item): Armor | Weapon | WornItem {
-        return (item instanceof Armor || item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) ? item : null;
-    }
-
-    private get_CanUse(itemRoles: ItemRoles, proficiency: string): boolean {
-        const character = this.get_Character();
-
-        if (itemRoles.asWeapon) {
-            return itemRoles.asWeapon.profLevel(character, this.characterService, itemRoles.asWeapon, character.level, { preparedProficiency: proficiency }) > 0;
-        }
-
-        if (itemRoles.asArmor) {
-            return itemRoles.asArmor.profLevel(character, this.characterService, character.level, { itemStore: true }) > 0;
-        }
-
-        return undefined;
-    }
-
-    get_Price(item: Item) {
-        return item.effectivePrice(this.itemsService);
-    }
-
-    have_Funds(sum = ((this.cashP * 1000) + (this.cashG * 100) + (this.cashS * 10) + (this.cashC))) {
-        const character = this.characterService.character;
-        const funds = (character.cash[0] * 1000) + (character.cash[1] * 100) + (character.cash[2] * 10) + (character.cash[3]);
+    public hasFunds(sum = (
+        (this.cash.platinum * CopperAmounts.CopperInPlatinum)
+        + (this.cash.gold * CopperAmounts.CopperInGold)
+        + (this.cash.silver * CopperAmounts.CopperInSilver)
+        + (this.cash.copper)
+    )): boolean {
+        const character = this._characterService.character;
+        const funds =
+            (character.cash[CurrencyIndices.Platinum] * CopperAmounts.CopperInPlatinum)
+            + (character.cash[CurrencyIndices.Gold] * CopperAmounts.CopperInGold)
+            + (character.cash[CurrencyIndices.Silver] * CopperAmounts.CopperInSilver)
+            + (character.cash[CurrencyIndices.Copper]);
 
         if (sum <= funds) {
             return true;
@@ -185,31 +200,32 @@ export class CraftingComponent implements OnInit, OnDestroy {
         }
     }
 
-    change_Cash(multiplier = 1, sum = 0, changeafter = false) {
-        this.characterService.changeCash(multiplier, sum, this.cashP, this.cashG, this.cashS, this.cashC);
+    public isCashInvalid(): boolean {
+        return this.cash.platinum < 0 || this.cash.gold < 0 || this.cash.silver < 0 || this.cash.copper < 0;
+    }
+
+    public addCash(multiplier = 1, sum = 0, changeafter = false): void {
+        this._characterService.addCash(multiplier, sum, this.cash);
 
         if (changeafter) {
-            this.refreshService.setComponentChanged('inventory');
+            this._refreshService.setComponentChanged('inventory');
         }
     }
 
-    get_Items() {
-        return this.itemsService.craftingItems();
+    public craftingItems(): ItemCollection {
+        return this._itemsService.craftingItems();
     }
 
-    get_InventoryItemSets(type: string) {
-        return this.characterService.character.inventories.map(inventory => inventory[type]);
-    }
-
-    get_VisibleItems(items: Array<Item>) {
-        const have_CraftingBook = this.get_Character().inventories.find(inv => inv.adventuringgear.find(gear => gear.name == 'Basic Crafter\'s Book'));
+    public visibleItems(items: Array<Item>): Array<Item> {
+        const hasCraftingBook =
+            this._character.inventories.find(inv => inv.adventuringgear.find(gear => gear.name === 'Basic Crafter\'s Book'));
 
         return items
             .filter((item: Item) =>
                 (
-                    this.get_FormulasLearned(item.id).length ||
+                    this._learnedFormulas(item.id).length ||
                     (
-                        item.level == 0 && have_CraftingBook
+                        item.level === 0 && hasCraftingBook
                     )
                 ) &&
                 !item.hide &&
@@ -223,23 +239,34 @@ export class CraftingComponent implements OnInit, OnDestroy {
                         item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
                     )
                 ),
-            ).sort((a, b) => (a[this.sorting] == b[this.sorting]) ? 0 : (a[this.sorting] < b[this.sorting]) ? -1 : 1);
+            ).sort((a, b) => SortAlphaNum(a[this.sorting], b[this.sorting]));
     }
 
-    cannot_Craft(item: Item) {
+    public cannotCraftItem(item: Item): Array<string> {
         //Return any reasons why you cannot craft an item.
-        const character: Character = this.get_Character();
+        const character: Character = this._character;
         const reasons: Array<string> = [];
+        const legendaryRequiringLevel = 16;
+        const masterRequiringLevel = 9;
 
-        if (item.traits.includes('Alchemical') && !this.characterService.characterFeatsTaken(1, character.level, { featName: 'Alchemical Crafting' }).length) {
+        if (
+            item.traits.includes('Alchemical') &&
+            !this._characterService.characterFeatsTaken(1, character.level, { featName: 'Alchemical Crafting' }).length
+        ) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }
 
-        if (item.traits.includes('Magical') && !this.characterService.characterFeatsTaken(1, character.level, { featName: 'Magical Crafting' }).length) {
+        if (
+            item.traits.includes('Magical') &&
+            !this._characterService.characterFeatsTaken(1, character.level, { featName: 'Magical Crafting' }).length
+        ) {
             reasons.push('You need the Magical Crafting skill feat to create magic items.');
         }
 
-        if (item.traits.includes('Snare') && !this.characterService.characterFeatsTaken(1, character.level, { featName: 'Snare Crafting' }).length) {
+        if (
+            item.traits.includes('Snare') &&
+            !this._characterService.characterFeatsTaken(1, character.level, { featName: 'Snare Crafting' }).length
+        ) {
             reasons.push('You need the Snare Crafting skill feat to create snares.');
         }
 
@@ -247,16 +274,21 @@ export class CraftingComponent implements OnInit, OnDestroy {
             reasons.push('The item to craft must be your level or lower.');
         }
 
-        if (item.level >= 16 && (this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 8) {
-            reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
-        } else if (item.level >= 9 && (this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0) < 6) {
-            reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
+        if (item.level >= masterRequiringLevel) {
+            const craftingSkillLevel =
+                this._characterService.skills(character, 'Crafting')[0]?.level(character, this._characterService, character.level) || 0;
+
+            if (item.level >= legendaryRequiringLevel && craftingSkillLevel < SkillLevels.Legendary) {
+                reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
+            } else if (item.level >= masterRequiringLevel && craftingSkillLevel < SkillLevels.Master) {
+                reasons.push('You must be a master in Crafting to craft items of 9th level or higher.');
+            }
         }
 
         return reasons;
     }
 
-    grant_Item(item: Item) {
+    public grantInventoryItem(item: Item): void {
         let amount = 1;
 
         if (item instanceof AdventuringGear || item instanceof Consumable) {
@@ -264,83 +296,121 @@ export class CraftingComponent implements OnInit, OnDestroy {
         }
 
         item.crafted = true;
-        this.characterService.grantInventoryItem(item, { creature: this.characterService.character, inventory: this.characterService.character.inventories[0], amount }, { resetRunes: false });
+        this._characterService.grantInventoryItem(
+            item,
+            { creature: this._characterService.character, inventory: this._characterService.character.inventories[0], amount },
+            { resetRunes: false },
+        );
     }
 
-    get_FormulasLearned(id = '', source = '') {
-        return this.get_Character().learnedFormulas(id, source);
-    }
-
-    have_Feat(name: string) {
-        return this.characterService.characterFeatsTaken(1, this.get_Character().level, { featName: name }).length;
-    }
-
-    get_SnareSpecialistPreparations() {
-        if (this.have_Feat('Snare Specialist')) {
-            const prepared: number = this.get_FormulasLearned().reduce((sum, current) => sum + current.snareSpecialistPrepared, 0);
+    public snareSpecialistParameters(snares: Array<Snare>): { available: number; prepared: number; snares: Array<Snare> } {
+        if (this._characterHasFeat('Snare Specialist')) {
+            const prepared: number = this._learnedFormulas().reduce((sum, current) => sum + current.snareSpecialistPrepared, 0);
             let available = 0;
-            const character = this.get_Character();
-            const crafting = this.characterService.skills(character, 'Crafting')[0]?.level(character, this.characterService, character.level) || 0;
+            const character = this._character;
+            const craftingSkillLevel =
+                this._characterService.skills(character, 'Crafting')[0]?.level(character, this._characterService, character.level) || 0;
+            const ubiquitousSnaresMultiplier = 2;
 
-            if (crafting >= 4) {
-                available += 4;
+            switch (craftingSkillLevel) {
+                case SkillLevels.Expert:
+                    available += SkillLevels.Expert;
+                    break;
+                case SkillLevels.Master:
+                    available += SkillLevels.Master;
+                    break;
+                case SkillLevels.Legendary:
+                    available += SkillLevels.Legendary;
+                    break;
+                default: break;
             }
 
-            if (crafting >= 6) {
-                available += 2;
+            if (this._characterHasFeat('Ubiquitous Snares')) {
+                available *= ubiquitousSnaresMultiplier;
             }
 
-            if (crafting >= 8) {
-                available += 2;
-            }
-
-            if (this.have_Feat('Ubiquitous Snares')) {
-                available *= 2;
-            }
-
-            return { available, prepared };
+            return { available, prepared, snares: this.visibleItems(snares) as Array<Snare> };
         }
     }
 
-    on_PrepareForQuickCrafting(item: Item, amount: number) {
-        if (this.get_FormulasLearned(item.id).length) {
-            this.get_FormulasLearned(item.id)[0].snareSpecialistPrepared += amount;
+    public snareParameters(snares: Array<Snare>): Array<{ snare: Snare; preparedAmount: number }> {
+        return snares.map(snare => ({
+            snare,
+            preparedAmount: this.amountOfItemPreparedForQuickCrafting(snare),
+        }));
+    }
+
+    public onPrepareForQuickCrafting(item: Item, amount: number): void {
+        if (this._learnedFormulas(item.id).length) {
+            this._learnedFormulas(item.id)[0].snareSpecialistPrepared += amount;
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this._refreshService.prepareDetailToChange('Character', 'inventory');
         //this.refreshService.set_ToChange("Character", "crafting");
-        this.refreshService.processPreparedChanges();
+        this._refreshService.processPreparedChanges();
     }
 
-    get_PreparedForQuickCrafting(item: Item) {
-        if (this.get_FormulasLearned(item.id).length) {
-            return this.get_FormulasLearned(item.id)[0].snareSpecialistPrepared;
+    public amountOfItemPreparedForQuickCrafting(item: Item): number {
+        if (this._learnedFormulas(item.id).length) {
+            return this._learnedFormulas(item.id)[0].snareSpecialistPrepared;
         } else {
             return 0;
         }
     }
 
-    public get stillLoading(): boolean {
-        return this.itemsService.stillLoading || this.characterService.stillLoading;
-    }
-
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['crafting', 'all'].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['crafting', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                if (
+                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                    ['crafting', 'all'].includes(view.target.toLowerCase())
+                ) {
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _canUseItem(itemRoles: ItemRoles, proficiency: string): boolean {
+        const character = this._character;
+
+        if (itemRoles.asWeapon) {
+            return itemRoles.asWeapon.profLevel(
+                character,
+                this._characterService,
+                itemRoles.asWeapon,
+                character.level,
+                { preparedProficiency: proficiency },
+            ) > 0;
+        }
+
+        if (itemRoles.asArmor) {
+            return itemRoles.asArmor.profLevel(
+                character,
+                this._characterService,
+                character.level,
+                { itemStore: true },
+            ) > 0;
+        }
+
+        return undefined;
+    }
+
+    private _learnedFormulas(id = '', source = ''): Array<FormulaLearned> {
+        return this._character.learnedFormulas(id, source);
+    }
+
+    private _characterHasFeat(name: string): boolean {
+        return this._characterService.characterHasFeat(name);
     }
 }

@@ -78,22 +78,23 @@
                                 <strong>Find (in Name or Description)</strong>
                                 <span class="hlist">
                                     <input type=text [(ngModel)]="wordFilter" (keypress)="closeFilterIfTooShort()" />
-                                    <button (click)="setFilterForAll()" [disabled]="wordFilter.length < 5">Show
-                                        All</button>
+                                    <button (click)="setFilterForAll()" [disabled]="wordFilter.length < 5">
+                                        Show All
+                                    </button>
                                     <button (click)="wordFilter='';closeFilterIfTooShort()">Clear</button>
                                 </span>
                             </div>
                             <ng-container *ngFor="let typeSet of conditionTypes; trackBy:trackers.trackByIndex;">
                                 <ng-container *ngIf="visibleConditionsOfType(typeSet) as visibleConditions">
                                     <button class="list-item" (click)="toggleShownList(typeSet.label)"
-                                        [ngClass]="{'fancy-button':[typeSet, 'All'].includes(shownList())}"
+                                        [ngClass]="{'fancy-button':[typeSet, 'all'].includes(shownList())}"
                                         *ngIf="visibleConditions.length">
                                         <header class="sectionHeader">{{typeSet.label}}</header>
                                     </button>
                                     <div [ngClass]="{'icon-list left-aligned':isTileMode, 'list-item':!isTileMode}"
-                                        *ngIf="visibleConditions.length && [typeSet.label, 'All'].includes(shownList())">
+                                        *ngIf="visibleConditions.length && [typeSet.label, 'all'].includes(shownList())">
                                         <div class="newrow list-item"
-                                            *ngIf="visibleConditions.length >= 80 && shownList()!=='All'"
+                                            *ngIf="visibleConditions.length >= 80 && shownList()!=='all'"
                                             (click)="incRange(-1)">
                                             <button class="center-aligned" [disabled]="range <= 0">
                                                 Previous 40
@@ -259,7 +260,7 @@
                                             </ng-container>
                                         </ng-container>
                                         <div class="newrow list-item"
-                                            *ngIf="visibleConditions.length >= 80 && shownList()!=='All'">
+                                            *ngIf="visibleConditions.length >= 80 && shownList()!=='all'">
                                             <button class="center-aligned"
                                                 [disabled]="(range + 1) * 40 >= visibleConditions.length"
                                                 (click)="incRange(1)">

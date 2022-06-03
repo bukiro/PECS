@@ -120,6 +120,11 @@ export class Item {
     public restoredFromSave = false;
     public PFSnote = '';
     public inputRequired = '';
+    public get sortLevel(): string {
+        const twoDigits = 2;
+
+        return this.level.toString().padStart(twoDigits, '0');
+    }
     public recast(typeService: TypeService, itemsService: ItemsService): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.

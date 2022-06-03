@@ -159,7 +159,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     public isConditionShown(visibleConditions: Array<Condition>, conditionIndex: number, range: number): boolean {
         return (
             visibleConditions.length < (itemsPerPage + itemsPerPage) ||
-            this.shownList() === 'All' ||
+            this.shownList() === 'all' ||
             (
                 conditionIndex >= (range * itemsPerPage) &&
                 conditionIndex < (range + 1) * itemsPerPage
@@ -218,7 +218,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     public setFilterForAll(): void {
         if (this.wordFilter) {
-            this._showList = 'All';
+            this._showList = 'all';
         }
     }
 

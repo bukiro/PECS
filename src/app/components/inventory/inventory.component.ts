@@ -640,7 +640,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     change_Cash(multiplier = 1, sum = 0, changeafter = false) {
-        this.characterService.changeCash(multiplier, sum);
+        this.characterService.addCash(multiplier, sum);
 
         if (changeafter) {
             this.refreshService.processPreparedChanges();

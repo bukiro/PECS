@@ -1105,25 +1105,37 @@ export class CharacterService {
         });
     }
 
-    public changeCash(multiplier = 1, sum: number, plat = 0, gold = 0, silver = 0, copper = 0): void {
+    public addCash(
+        multiplier = 1,
+        sum: number,
+        amounts: { platinum?: number; gold?: number; silver?: number; copper?: number } = {},
+    ): void {
+        amounts = {
+            platinum: 0,
+            gold: 0,
+            silver: 0,
+            copper: 0,
+            ...amounts,
+        };
+
         const platIn100Plat = 100;
         const decimal = 10;
 
         if (sum) {
             //Resolve a sum (in copper) into platinum, gold, silver and copper.
             // Gold is prioritised - only gold amounts over 1000 are exchanged for platinum.
-            plat = gold = silver = copper = 0;
-            plat = Math.floor(sum / CopperAmounts.CopperIn100Platinum) * platIn100Plat;
+            amounts.platinum = amounts.gold = amounts.silver = amounts.copper = 0;
+            amounts.platinum = Math.floor(sum / CopperAmounts.CopperIn100Platinum) * platIn100Plat;
             sum %= CopperAmounts.CopperIn100Platinum;
-            gold = Math.floor(sum / CopperAmounts.CopperInGold);
+            amounts.gold = Math.floor(sum / CopperAmounts.CopperInGold);
             sum %= CopperAmounts.CopperInGold;
-            silver = Math.floor(sum / CopperAmounts.CopperInSilver);
+            amounts.silver = Math.floor(sum / CopperAmounts.CopperInSilver);
             sum %= CopperAmounts.CopperInSilver;
-            copper = sum;
+            amounts.copper = sum;
         }
 
-        if (copper) {
-            this.character.cash[CurrencyIndices.Copper] += (copper * multiplier);
+        if (amounts.copper) {
+            this.character.cash[CurrencyIndices.Copper] += (amounts.copper * multiplier);
 
             if (
                 this.character.cash[CurrencyIndices.Copper] < 0 &&
@@ -1133,14 +1145,14 @@ export class CharacterService {
                     this.character.cash[CurrencyIndices.Platinum] > 0
                 )
             ) {
-                silver += Math.floor(this.character.cash[CurrencyIndices.Copper] / decimal) * multiplier;
+                amounts.silver += Math.floor(this.character.cash[CurrencyIndices.Copper] / decimal) * multiplier;
                 this.character.cash[CurrencyIndices.Copper] -= CutOffDecimals(this.character.cash[CurrencyIndices.Copper], 1);
             }
 
         }
 
-        if (silver) {
-            this.character.cash[CurrencyIndices.Silver] += (silver * multiplier);
+        if (amounts.silver) {
+            this.character.cash[CurrencyIndices.Silver] += (amounts.silver * multiplier);
 
             if (
                 this.character.cash[CurrencyIndices.Silver] < 0 &&
@@ -1149,25 +1161,25 @@ export class CharacterService {
                     this.character.cash[CurrencyIndices.Platinum] > 0
                 )
             ) {
-                gold += Math.floor(this.character.cash[CurrencyIndices.Silver] / decimal) * multiplier;
+                amounts.gold += Math.floor(this.character.cash[CurrencyIndices.Silver] / decimal) * multiplier;
                 this.character.cash[CurrencyIndices.Silver] -= CutOffDecimals(this.character.cash[CurrencyIndices.Silver], 1);
             }
         }
 
-        if (gold) {
-            this.character.cash[1] += (gold * multiplier);
+        if (amounts.gold) {
+            this.character.cash[1] += (amounts.gold * multiplier);
 
             if (
                 this.character.cash[CurrencyIndices.Gold] < 0 &&
                 this.character.cash[CurrencyIndices.Platinum] > 0
             ) {
-                plat += Math.floor(this.character.cash[CurrencyIndices.Gold] / decimal) * multiplier;
+                amounts.platinum += Math.floor(this.character.cash[CurrencyIndices.Gold] / decimal) * multiplier;
                 this.character.cash[CurrencyIndices.Gold] -= CutOffDecimals(this.character.cash[CurrencyIndices.Gold], 1);
             }
         }
 
-        if (plat) {
-            this.character.cash[CurrencyIndices.Platinum] += (plat * multiplier);
+        if (amounts.platinum) {
+            this.character.cash[CurrencyIndices.Platinum] += (amounts.platinum * multiplier);
 
             if (this.character.cash[CurrencyIndices.Platinum] < 0) {
                 this.sortCash();
@@ -1193,7 +1205,7 @@ export class CharacterService {
             + (this.character.cash[CurrencyIndices.Copper]);
 
         this.character.cash = [0, 0, 0, 0];
-        this.changeCash(1, sum);
+        this.addCash(1, sum);
     }
 
     public equipItem(
