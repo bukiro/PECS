@@ -19,10 +19,20 @@ import { Subscription } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
-import { AC, CalculatedAC } from 'src/app/classes/AC';
+import { AC, CalculatedAC, CoverTypes } from 'src/app/classes/AC';
 import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+
+interface ComponentParameters {
+    calculatedAC: CalculatedAC;
+    cover: number;
+    flatFooted: ConditionGain;
+    hidden: ConditionGain;
+}
 
 @Component({
     selector: 'app-defense',
@@ -33,169 +43,147 @@ import { InputValidationService } from 'src/app/services/inputValidation.service
 export class DefenseComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
     public sheetSide = 'left';
     public shieldDamage = 0;
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly defenseService: DefenseService,
-        private readonly traitsService: TraitsService,
-        private readonly conditionsService: ConditionsService,
-        public effectsService: EffectsService,
-        public abilitiesService: AbilitiesDataService,
-        public toastService: ToastService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _defenseService: DefenseService,
+        private readonly _traitsService: TraitsService,
+        private readonly _conditionsService: ConditionsService,
+        private readonly _effectsService: EffectsService,
+        private readonly _abilitiesService: AbilitiesDataService,
+        private readonly _toastService: ToastService,
+        public trackers: Trackers,
     ) { }
 
-    public minimize(): void {
-        this.characterService.character.settings.defenseMinimized = !this.characterService.character.settings.defenseMinimized;
+    public get stillLoading(): boolean {
+        return this._characterService.stillLoading;
     }
 
-    public get_Minimized(): boolean {
+    public get isMinimized(): boolean {
         switch (this.creature) {
-            case 'Character':
-                return this.characterService.character.settings.defenseMinimized;
-            case 'Companion':
-                return this.characterService.character.settings.companionMinimized;
-            case 'Familiar':
-                return this.characterService.character.settings.familiarMinimized;
+            case CreatureTypes.AnimalCompanion:
+                return this._characterService.character.settings.companionMinimized;
+            case CreatureTypes.Familiar:
+                return this._characterService.character.settings.familiarMinimized;
+            default:
+                return this._characterService.character.settings.defenseMinimized;
         }
     }
 
-    public trackByIndex(index: number): number {
-        return index;
+    private get _character(): Character {
+        return this._characterService.character;
     }
 
-    public get_ArmorSpecialization(armor: Armor | WornItem): Array<Specialization> {
+    private get _currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
+    }
+
+    private get _armorClass(): AC {
+        return this._defenseService.armorClass;
+    }
+
+    public minimize(): void {
+        this._characterService.character.settings.defenseMinimized = !this._characterService.character.settings.defenseMinimized;
+    }
+
+    public armorSpecialization(armor: Armor | WornItem): Array<Specialization> {
         if (armor instanceof Armor) {
-            return armor.armorSpecializations(this.get_Creature(), this.characterService);
+            return armor.armorSpecializations(this._currentCreature, this._characterService);
         }
 
         //No armor specializations for bracers of armor.
         return [];
     }
 
-    private get_Character(): Character {
-        return this.characterService.character;
-    }
-
-    private get_Creature(): Creature {
-        return this.characterService.creatureFromType(this.creature);
-    }
-
-    private get_AC(): AC {
-        return this.defenseService.armorClass();
-    }
-
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
         return InputValidationService.positiveNumbersOnly(event);
     }
 
-    public get_CalculatedAC(): CalculatedAC {
-        return this.get_AC().calculate(this.get_Creature(), this.characterService, this.defenseService, this.effectsService);
+    public componentParameters(): ComponentParameters {
+        return {
+            calculatedAC: this.calculatedAC(),
+            cover: this._currentCover(),
+            flatFooted: this._currentFlatFooted(),
+            hidden: this._currentHidden(),
+        };
     }
 
-    public get_Cover(): number {
-        const creature = this.get_Creature();
-        const conditions: Array<ConditionGain> = this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
-            .filter(gain => gain.name == 'Cover' && gain.source == 'Quick Status');
-
-        if (conditions.some(gain => gain.name == 'Cover' && gain.choice == 'Greater')) {
-            return 4;
-        }
-
-        if (conditions.some(gain => gain.name == 'Cover' && gain.choice == 'Standard')) {
-            return 2;
-        }
-
-        if (conditions.some(gain => gain.name == 'Cover' && gain.choice == 'Lesser')) {
-            return 1;
-        }
-
-        return 0;
+    public calculatedAC(): CalculatedAC {
+        return this._armorClass.calculate(this._currentCreature, this._characterService, this._defenseService, this._effectsService);
     }
 
-    public set_Cover(cover: number, shield: Shield = null): void {
-        this.get_AC().setCover(this.get_Creature(), cover, shield, this.characterService, this.conditionsService);
+    public onSetCover(cover: number, shield: Shield = null): void {
+        this._armorClass.setCover(this._currentCreature, cover, shield, this._characterService, this._conditionsService);
     }
 
-    public raise_Shield(raised = false, shield: Shield): void {
+    public onRaiseShield(raised = false, shield: Shield): void {
         if (shield) {
             shield.raised = raised;
 
             if (!raised && shield.takingCover) {
-                this.set_Cover(0, shield);
+                this.onSetCover(0, shield);
             }
 
-            this.set_DefenseChanged();
+            this._setDefenseChanged();
         }
     }
 
-    public get_FlatFooted(): ConditionGain {
-        const creature = this.get_Creature();
-
-        return this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
-            .find(gain => gain.name == 'Flat-Footed' && gain.source == 'Quick Status');
-    }
-
-    public set_FlatFooted(active: boolean): void {
-        const creature = this.get_Creature();
-        const flatFooted = this.get_FlatFooted();
+    public onSetFlatFooted(active: boolean): void {
+        const creature = this._currentCreature;
+        const flatFooted = this._currentFlatFooted();
 
         if (active) {
             if (!flatFooted) {
-                const newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: 'Flat-Footed', source: 'Quick Status', duration: -1, locked: true });
+                const newCondition: ConditionGain =
+                    Object.assign(new ConditionGain(), { name: 'Flat-Footed', source: 'Quick Status', duration: -1, locked: true });
 
-                this.characterService.addCondition(creature, newCondition, {}, { noReload: true });
+                this._characterService.addCondition(creature, newCondition, {}, { noReload: true });
             }
         } else {
             if (flatFooted) {
-                this.characterService.removeCondition(creature, flatFooted, false);
+                this._characterService.removeCondition(creature, flatFooted, false);
             }
         }
 
-        this.refreshService.processPreparedChanges();
+        this._refreshService.processPreparedChanges();
     }
 
-    public get_Hidden(): ConditionGain {
-        const creature = this.get_Creature();
-
-        return this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
-            .find(gain => gain.name == 'Hidden' && gain.source == 'Quick Status');
-    }
-
-    public set_Hidden(active: boolean): void {
-        const creature = this.get_Creature();
-        const hidden = this.get_Hidden();
+    public onSetHidden(active: boolean): void {
+        const creature = this._currentCreature;
+        const hidden = this._currentHidden();
 
         if (active) {
             if (!hidden) {
-                const newCondition: ConditionGain = Object.assign(new ConditionGain(), { name: 'Hidden', source: 'Quick Status', duration: -1, locked: true });
+                const newCondition: ConditionGain =
+                    Object.assign(new ConditionGain(), { name: 'Hidden', source: 'Quick Status', duration: -1, locked: true });
 
-                this.characterService.addCondition(creature, newCondition, {}, { noReload: true });
+                this._characterService.addCondition(creature, newCondition, {}, { noReload: true });
             }
         } else {
             if (hidden) {
-                this.characterService.removeCondition(creature, hidden, false);
+                this._characterService.removeCondition(creature, hidden, false);
             }
         }
 
-        this.refreshService.processPreparedChanges();
+        this._refreshService.processPreparedChanges();
     }
 
-    public get_EquippedArmor(): Array<Armor | WornItem> {
+    public equippedArmor(): Array<Armor | WornItem> {
         return []
-            .concat(this.defenseService.equippedCreatureArmor(this.get_Creature()))
-            .concat(this.defenseService.equippedCreatureBracersOfArmor(this.get_Creature()));
+            .concat(this._defenseService.equippedCreatureArmor(this._currentCreature))
+            .concat(this._defenseService.equippedCreatureBracersOfArmor(this._currentCreature));
     }
 
-    public get_HintRunes(armor: Armor | WornItem): Array<ArmorRune> {
+    public hintShowingRunes(armor: Armor | WornItem): Array<ArmorRune> {
         //Return all runes and rune-emulating oil effects that have a hint to show
         const runes: Array<ArmorRune> = [];
 
@@ -204,55 +192,62 @@ export class DefenseComponent implements OnInit, OnDestroy {
         return runes;
     }
 
-    public get_HeightenedHint(hint: Hint): string {
-        return hint.heightenedText(hint.desc, this.get_Character().level);
+    public heightenedHintText(hint: Hint): string {
+        return hint.heightenedText(hint.desc, this._character.level);
     }
 
-    public get_EquippedShield(): Array<Shield> {
-        return this.defenseService.equippedCreatureShield(this.get_Creature());
+    public equippedShield(): Array<Shield> {
+        return this._defenseService.equippedCreatureShield(this._currentCreature);
     }
 
-    public on_ShieldHPChange(shield: Shield, amount: number): void {
+    public onChangeShieldHP(shield: Shield, amount: number): void {
         shield.damage += amount;
 
         if (shield.currentHitPoints() < shield.effectiveBrokenThreshold()) {
             shield.broken = true;
-            this.characterService.equipItem(this.get_Creature() as Character | AnimalCompanion, this.get_Creature().inventories[0], shield, false, false, true);
-            this.toastService.show('Your shield broke and was unequipped.');
+            this._characterService.equipItem(
+                this._currentCreature as Character | AnimalCompanion,
+                this._currentCreature.inventories[0],
+                shield,
+                false,
+                false,
+                true,
+            );
+            this._toastService.show('Your shield broke and was unequipped.');
         } else {
             shield.broken = false;
         }
 
-        this.refreshService.prepareDetailToChange(this.creature, 'inventory');
-        this.refreshService.prepareDetailToChange(this.creature, 'defense');
-        this.refreshService.processPreparedChanges();
+        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
+        this._refreshService.prepareDetailToChange(this.creature, 'defense');
+        this._refreshService.processPreparedChanges();
     }
 
-    public get_Skills(type: string): Array<Skill> {
-        return this.characterService.skills(this.get_Creature(), '', { type })
-            .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
+    public skillsOfType(type: string): Array<Skill> {
+        return this._characterService.skills(this._currentCreature, '', { type })
+            .sort((a, b) => SortAlphaNum(a.name, b.name));
     }
 
-    public get_Traits(traitName = ''): Array<Trait> {
-        return this.traitsService.traits(traitName);
+    public traitFromName(traitName: string): Trait {
+        return this._traitsService.traitFromName(traitName);
     }
 
-    public get_HaveMatchingTalismanCord(item: Armor | Shield | WornItem, talisman: Talisman): boolean {
+    public hasMatchingTalismanCord(item: Armor | Shield | WornItem, talisman: Talisman): boolean {
         return item.talismanCords.some(cord => cord.isCompatibleWithTalisman(talisman));
     }
 
-    public on_TalismanUse(item: Armor | Shield | WornItem, talisman: Talisman, index: number, preserve = false): void {
-        this.refreshService.prepareDetailToChange(this.creature, 'defense');
-        this.characterService.useConsumable(this.get_Creature() as Character | AnimalCompanion, talisman, preserve);
+    public onTalismanUse(item: Armor | Shield | WornItem, talisman: Talisman, index: number, preserve = false): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'defense');
+        this._characterService.useConsumable(this._currentCreature as Character | AnimalCompanion, talisman, preserve);
 
         if (!preserve) {
             item.talismans.splice(index, 1);
         }
 
-        this.refreshService.processPreparedChanges();
+        this._refreshService.processPreparedChanges();
     }
 
-    public get_SpecialShowon(item: Armor | Shield | WornItem, savingThrows = false): Array<string> {
+    public specialShowOnNames(item: Armor | Shield | WornItem, savingThrows = false): Array<string> {
         //Under certain circumstances, some Feats apply to Armnor, Shield or Saving Throws independently of their name.
         //Return names that get_FeatsShowingOn should run on.
         const specialNames: Array<string> = [];
@@ -261,7 +256,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             //Shields with Emblazon Armament get tagged as "Emblazon Armament Shield".
             if (item instanceof Shield && item.$emblazonArmament) {
                 item.emblazonArmament.forEach(ea => {
-                    if (ea.type == 'emblazonArmament') {
+                    if (ea.type === 'emblazonArmament') {
                         specialNames.push('Emblazon Armament Shield');
                     }
                 });
@@ -270,7 +265,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             //Shields with Emblazon Energy get tagged as "Emblazon Energy Shield <Choice>".
             if (item instanceof Shield && item.$emblazonEnergy) {
                 item.emblazonArmament.forEach(ea => {
-                    if (ea.type == 'emblazonEnergy') {
+                    if (ea.type === 'emblazonEnergy') {
                         specialNames.push(`Emblazon Energy Shield ${ ea.choice }`);
                     }
                 });
@@ -279,7 +274,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             //Shields with Emblazon Antimagic get tagged as "Emblazon Antimagic Shield".
             if (item instanceof Shield && item.$emblazonAntimagic) {
                 item.emblazonArmament.forEach(ea => {
-                    if (ea.type == 'emblazonAntimagic') {
+                    if (ea.type === 'emblazonAntimagic') {
                         specialNames.push('Emblazon Antimagic Shield');
                     }
                 });
@@ -288,15 +283,15 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
         //Return the same name for Saving Throws if the shield applies.
         if (savingThrows) {
-            this.get_EquippedShield().forEach(shield => {
+            this.equippedShield().forEach(shield => {
                 if (shield.$emblazonEnergy) {
-                    shield.emblazonArmament.filter(ea => ea.type == 'emblazonEnergy').forEach(ea => {
+                    shield.emblazonArmament.filter(ea => ea.type === 'emblazonEnergy').forEach(ea => {
                         specialNames.push(`Emblazon Energy Shield ${ ea.choice }`);
                     });
                 }
 
                 if (shield.$emblazonAntimagic) {
-                    shield.emblazonArmament.filter(ea => ea.type == 'emblazonAntimagic').forEach(() => {
+                    shield.emblazonArmament.filter(ea => ea.type === 'emblazonAntimagic').forEach(() => {
                         specialNames.push('Emblazon Antimagic Shield');
                     });
                 }
@@ -306,33 +301,57 @@ export class DefenseComponent implements OnInit, OnDestroy {
         return specialNames;
     }
 
-    private set_DefenseChanged(): void {
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
-    }
-
-    public get stillLoading(): boolean {
-        return this.characterService.stillLoading;
-    }
-
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['defense', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['defense', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                if (view.creature.toLowerCase() === this.creature.toLowerCase() && ['defense', 'all'].includes(view.target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
     public ngOnDestroy(): void {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _setDefenseChanged(): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
+    }
+
+    private _currentCover(): number {
+        const creature = this._currentCreature;
+        const conditions: Array<ConditionGain> =
+            this._characterService.currentCreatureConditions(creature, 'Cover', 'Quick Status', true);
+
+        if (conditions.some(gain => gain.choice === 'Greater')) {
+            return CoverTypes.GreaterCover;
+        }
+
+        if (conditions.some(gain => gain.choice === 'Standard')) {
+            return CoverTypes.Cover;
+        }
+
+        if (conditions.some(gain => gain.choice === 'Lesser')) {
+            return CoverTypes.LesserCover;
+        }
+
+        return CoverTypes.NoCover;
+    }
+
+    private _currentHidden(): ConditionGain {
+        return this._characterService.currentCreatureConditions(this._currentCreature, 'Hidden', 'Quick Status', true)[0];
+    }
+
+    private _currentFlatFooted(): ConditionGain {
+        return this._characterService.currentCreatureConditions(this._currentCreature, 'Flat-Footed', 'Quick Status', true)[0];
     }
 
 }
