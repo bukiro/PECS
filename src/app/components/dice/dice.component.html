@@ -3,7 +3,7 @@
     <button class="list-item center-aligned" (click)="toggleDiceMenu()">
         <header class="sectionHeader">Close</header>
     </button>
-    <div *ngIf="get_DiceMenuState()==='in'" class="list-item" style="gap:8px;">
+    <div *ngIf="diceMenuState==='in'" class="list-item" style="gap:8px;">
         <div>
             <button class="center-aligned" (click)="roll(1, 4)" [ngbTooltip]="'Roll 1d4'">
                 <app-diceIcons-D4></app-diceIcons-D4>
@@ -80,19 +80,18 @@
             </div>
         </div>
     </div>
-    <div [ngbCollapse]="!get_DiceResults().length">
+    <div [ngbCollapse]="!!diceResults.length">
         <div class="list-item center-aligned vlist">
             <header class="sectionHeader box-header dice-result" style="font-size: 3em;">
-                {{get_TotalSum()}}
+                {{totalDiceSum()}}
             </header>
-            <div class="newrow" *ngIf="get_FoundryVTTSendRolls()">
+            <div class="newrow" *ngIf="canSendRollsToFoundryVTT()">
                 <span class="hlist center-aligned">
                     <strong>Send roll to Foundry VTT: </strong>
-                    <ng-container
-                        *ngFor="let creatureType of ['Character','Companion','Familiar']; trackBy:trackByIndex">
-                        <button *ngFor="let creature of get_Creature(creatureType); trackBy:trackByIndex"
+                    <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackers.trackByIndex">
+                        <button *ngIf="creatureFromType(creatureType) as creature"
                             [ngbTooltip]="'Send as ' + (creature.name || creature.type) + '.'"
-                            (click)="on_SendToFoundry(creatureType)">
+                            (click)="sendRollToFoundry(creatureType)">
                             <i class="ra ra-player" *ngIf="creature.type === 'Character'"></i>
                             <i class="ra ra-wolf-howl" *ngIf="creature.type === 'Companion'"></i>
                             <i class="ra ra-raven" *ngIf="creature.type === 'Familiar'"></i>
@@ -102,16 +101,16 @@
             </div>
             <div class="fullsize-scroll-box vlist" style="max-height: 30vh;">
                 <div class="list-item newrow" [ngClass]="{'notapplied': !result.included}"
-                    *ngFor="let result of get_DiceResults(); trackBy:trackByIndex">
+                    *ngFor="let result of diceResults; trackBy:trackers.trackByIndex">
                     <span>
                         {{result.desc}}
                     </span>
                     <strong [ngClass]="{'variable': result.included}">
                         <input type="checkbox" [(ngModel)]="result.included">&nbsp;
-                        {{get_DiceSum(result)}}{{result.type ? " " + result.type : ""}}
+                        {{diceResultSum(result)}}{{result.type ? " " + result.type : ""}}
                     </strong>
                     <span>
-                        <span *ngFor="let roll of result.rolls; let index = index; trackBy:trackByIndex">
+                        <span *ngFor="let roll of result.rolls; let index = index; trackBy:trackers.trackByIndex">
                             {{index !== 0 ? "+" : ""}}
                             <span class="value" style="padding: 0 .25em"
                                 [ngClass]="{'penalty': roll === 1, 'bonus': roll === result.diceSize}">
@@ -119,7 +118,7 @@
                             </span>
                         </span>
                         <strong *ngIf="result.bonus">
-                            {{result.bonus > 0 ? "+ " + result.bonus : "- " + (result.bonus * -1)}}
+                            {{signedBonus(result.bonus)}}
                         </strong>
                     </span>
                 </div>
@@ -135,24 +134,24 @@
                 </button>
             </div>
             <header class="sectionHeader">Health Operations</header>
-            <ng-container *ngFor="let creatureType of ['Character','Companion','Familiar']; trackBy:trackByIndex">
+            <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackers.trackByIndex">
                 <div class="newrow center-aligned"
-                    *ngFor="let creature of get_Creature(creatureType); trackBy:trackByIndex">
-                    <button class="center-aligned" (click)="on_Heal(creature)">
+                    *ngIf="creatureFromType(creatureType) as creature">
+                    <button class="center-aligned" (click)="onHeal(creature)">
                         <span class="mobile-hide">Heal {{creature.name || creatureType}}</span>
                         <i class="ra ra-health desktop-hide"></i>
                         <i class="ra ra-player desktop-hide" *ngIf="creatureType==='Character'"></i>
                         <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType==='Companion'"></i>
                         <i class="ra ra-raven desktop-hide" *ngIf="creatureType==='Familiar'"></i>
                     </button>
-                    <button class="center-aligned" (click)="on_TakeDamage(creature)">
+                    <button class="center-aligned" (click)="onTakeDamage(creature)">
                         <span class="mobile-hide">Damage {{creature.name || creatureType}}</span>
                         <i class="ra ra-axe-swing desktop-hide"></i>
                         <i class="ra ra-player desktop-hide" *ngIf="creatureType==='Character'"></i>
                         <i class="ra ra-wolf-howl desktop-hide" *ngIf="creatureType==='Companion'"></i>
                         <i class="ra ra-raven desktop-hide" *ngIf="creatureType==='Familiar'"></i>
                     </button>
-                    <button class="center-aligned" (click)="set_TempHP(creature)">
+                    <button class="center-aligned" (click)="setTempHP(creature)">
                         <span class="mobile-hide">Set as Temp HP for {{creature.name || creatureType}}</span>
                         <i class="ra ra-health-increase desktop-hide"></i>
                         <i class="ra ra-player desktop-hide" *ngIf="creatureType==='Character'"></i>

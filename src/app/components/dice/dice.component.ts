@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { DiceService } from 'src/app/services/dice.service';
@@ -6,6 +6,12 @@ import { DiceResult } from 'src/app/classes/DiceResult';
 import { IntegrationsService } from 'src/app/services/integrations.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+
+const defaultDiceNum = 5;
 
 @Component({
     selector: 'app-dice',
@@ -13,130 +19,135 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./dice.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DiceComponent implements OnInit {
+export class DiceComponent implements OnInit, OnDestroy {
 
-    public diceNum = 5;
+    public diceNum = defaultDiceNum;
     public bonus = 0;
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly diceService: DiceService,
-        private readonly integrationsService: IntegrationsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _diceService: DiceService,
+        private readonly _integrationsService: IntegrationsService,
+        public trackers: Trackers,
     ) { }
 
-    toggleDiceMenu() {
-        this.characterService.toggleMenu('dice');
+    public get diceMenuState(): MenuState {
+        return this._characterService.diceMenuState();
     }
 
-    get_DiceMenuState() {
-        return this.characterService.diceMenuState();
+    public get diceResults(): Array<DiceResult> {
+        return this._diceService.diceResults;
     }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get allCreatureTypes(): Array<CreatureTypes> {
+        return Object.values(CreatureTypes);
     }
 
-    get_FoundryVTTSendRolls() {
-        return this.characterService.character.settings.foundryVTTSendRolls && this.characterService.character.settings.foundryVTTUrl;
+    public toggleDiceMenu(): void {
+        this._characterService.toggleMenu(MenuNames.DiceMenu);
     }
 
-    get_DiceResults() {
-        return this.diceService.diceResults();
+    public canSendRollsToFoundryVTT(): boolean {
+        return this._characterService.character.settings.foundryVTTSendRolls && !!this._characterService.character.settings.foundryVTTUrl;
     }
 
-    roll(amount: number, size: number) {
-        this.diceService.roll(amount, size, this.bonus, this.characterService, false);
+    public roll(amount: number, size: number): void {
+        this._diceService.roll(amount, size, this.bonus, this._characterService, false);
         this.bonus = 0;
-        this.refreshService.processPreparedChanges();
+        this._refreshService.processPreparedChanges();
     }
 
-    get_Creature(creatureType: string) {
-        if (creatureType == 'Companion') {
-            return this.characterService.isCompanionAvailable() ? [this.characterService.creatureFromType(creatureType)] : [];
+    public signedBonus(bonus: number): string {
+        return bonus > 0 ? `+ ${ bonus }` : `- ${ bonus * -1 }`;
+    }
+
+    public creatureFromType(creatureType: CreatureTypes): Creature {
+        if (creatureType === CreatureTypes.AnimalCompanion) {
+            return this._characterService.isCompanionAvailable() ? this._characterService.creatureFromType(creatureType) : null;
         }
 
-        if (creatureType == 'Familiar') {
-            return this.characterService.isFamiliarAvailable() ? [this.characterService.creatureFromType(creatureType)] : [];
+        if (creatureType === CreatureTypes.Familiar) {
+            return this._characterService.isFamiliarAvailable() ? this._characterService.creatureFromType(creatureType) : null;
         }
 
-        return [this.characterService.creatureFromType(creatureType)];
+        return this._characterService.creatureFromType(creatureType);
     }
 
-    on_Heal(creature: Creature) {
-        const amount = this.get_TotalSum();
-        const dying = creature.health.dying(creature, this.characterService);
+    public onHeal(creature: Creature): void {
+        const amount = this.totalDiceSum();
+        const dying = creature.health.dying(creature, this._characterService);
 
-        creature.health.heal(creature, this.characterService, this.characterService.effectsService, amount, true, true, dying);
-        this.refreshService.prepareDetailToChange(creature.type, 'health');
-        this.refreshService.prepareDetailToChange(creature.type, 'effects');
-        this.refreshService.processPreparedChanges();
+        creature.health.heal(creature, this._characterService, this._characterService.effectsService, amount, true, true, dying);
+        this._refreshHealth(creature.type);
     }
 
-    on_TakeDamage(creature: Creature) {
-        const amount = this.get_TotalSum();
-        const wounded = creature.health.wounded(creature, this.characterService);
-        const dying = creature.health.dying(creature, this.characterService);
+    public onTakeDamage(creature: Creature): void {
+        const amount = this.totalDiceSum();
+        const wounded = creature.health.wounded(creature, this._characterService);
+        const dying = creature.health.dying(creature, this._characterService);
 
-        creature.health.takeDamage(creature, this.characterService, this.characterService.effectsService, amount, false, wounded, dying);
-        this.refreshService.prepareDetailToChange(creature.type, 'health');
-        this.refreshService.prepareDetailToChange(creature.type, 'effects');
-        this.refreshService.processPreparedChanges();
+        creature.health.takeDamage(creature, this._characterService, this._characterService.effectsService, amount, false, wounded, dying);
+        this._refreshHealth(creature.type);
     }
 
-    set_TempHP(creature: Creature) {
-        const amount = this.get_TotalSum();
+    public setTempHP(creature: Creature): void {
+        const amount = this.totalDiceSum();
 
         creature.health.temporaryHP[0] = { amount, source: 'Manual', sourceId: '' };
         creature.health.temporaryHP.length = 1;
-        this.refreshService.prepareDetailToChange(creature.type, 'health');
-        this.refreshService.prepareDetailToChange(creature.type, 'effects');
-        this.refreshService.processPreparedChanges();
+        this._refreshHealth(creature.type);
     }
 
-    get_DiceSum(diceResult: DiceResult) {
+    public diceResultSum(diceResult: DiceResult): number {
         return diceResult.rolls.reduce((a, b) => a + b, 0) + diceResult.bonus;
     }
 
-    get_TotalSum() {
-        return this.get_DiceResults().filter(diceResult => diceResult.included)
-            .reduce((a, b) => a + this.get_DiceSum(b), 0);
+    public totalDiceSum(): number {
+        return this.diceResults.filter(diceResult => diceResult.included)
+            .reduce((a, b) => a + this.diceResultSum(b), 0);
     }
 
-    on_SendToFoundry(creature: string) {
-        this.integrationsService.sendRollToFoundry(creature, '', this.get_DiceResults(), this.characterService);
+    public sendRollToFoundry(creatureType: CreatureTypes): void {
+        this._integrationsService.sendRollToFoundry(creatureType, '', this.diceResults, this._characterService);
     }
 
-    unselectAll() {
-        this.diceService.unselectAll();
+    public unselectAll(): void {
+        this._diceService.unselectAll();
     }
 
-    clear() {
-        this.diceService.clear();
+    public clear(): void {
+        this._diceService.clear();
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['dice', 'all'].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
                 if (['dice', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _refreshHealth(creatureType: CreatureTypes): void {
+        this._refreshService.prepareDetailToChange(creatureType, 'health');
+        this._refreshService.prepareDetailToChange(creatureType, 'effects');
+        this._refreshService.processPreparedChanges();
     }
 
 }

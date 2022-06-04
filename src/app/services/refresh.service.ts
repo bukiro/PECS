@@ -23,6 +23,7 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CacheService } from 'src/app/services/cache.service';
 import { ActivitiesDataService } from '../core/services/data/activities-data.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 interface DetailToChange {
     creature: string;
@@ -67,7 +68,7 @@ export class RefreshService {
         this._componentChanged.next(target);
     }
 
-    public prepareDetailToChange(creature = 'Character', target = 'all', subtarget = ''): void {
+    public prepareDetailToChange(creature: CreatureTypes = CreatureTypes.Character, target = 'all', subtarget = ''): void {
         this._preparedToChange.push({ creature, target, subtarget });
     }
 
@@ -121,7 +122,7 @@ export class RefreshService {
         this.prepareDetailToChange(creature.type, 'character-sheet');
     }
 
-    public prepareChangesByAbility(creature: string, ability: string, services: { characterService: CharacterService }): void {
+    public prepareChangesByAbility(creatureType: CreatureTypes, ability: string, services: { characterService: CharacterService }): void {
         //Set refresh commands for all components of the application depending this ability.
         const abilities: Array<string> = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
         const attacks: Array<string> = ['Dexterity', 'Strength'];
@@ -132,44 +133,44 @@ export class RefreshService {
         const spells: Array<string> = ['Intelligence', 'Charisma', 'Wisdom'];
 
         //Prepare changes for everything that should be updated according to the ability.
-        this.prepareDetailToChange(creature, 'abilities');
+        this.prepareDetailToChange(creatureType, 'abilities');
 
         if (abilities.includes(ability)) {
-            this.prepareDetailToChange(creature, 'abilities');
-            this.prepareDetailToChange(creature, 'individualskills', ability);
+            this.prepareDetailToChange(creatureType, 'abilities');
+            this.prepareDetailToChange(creatureType, 'individualskills', ability);
         }
 
         if (attacks.includes(ability)) {
-            this.prepareDetailToChange(creature, 'attacks');
+            this.prepareDetailToChange(creatureType, 'attacks');
         }
 
         if (defense.includes(ability)) {
-            this.prepareDetailToChange(creature, 'defense');
+            this.prepareDetailToChange(creatureType, 'defense');
         }
 
         if (general.includes(ability)) {
-            this.prepareDetailToChange(creature, 'general');
+            this.prepareDetailToChange(creatureType, 'general');
         }
 
         if (health.includes(ability)) {
-            this.prepareDetailToChange(creature, 'health');
+            this.prepareDetailToChange(creatureType, 'health');
         }
 
         if (inventory.includes(ability)) {
-            this.prepareDetailToChange(creature, 'inventory');
+            this.prepareDetailToChange(creatureType, 'inventory');
         }
 
         if (spells.includes(ability)) {
-            this.prepareDetailToChange(creature, 'spells');
-            this.prepareDetailToChange(creature, 'spellbook');
-            this.prepareDetailToChange(creature, 'spellchoices');
+            this.prepareDetailToChange(creatureType, 'spells');
+            this.prepareDetailToChange(creatureType, 'spellbook');
+            this.prepareDetailToChange(creatureType, 'spellchoices');
         }
 
-        this.prepareDetailToChange(creature, 'effects');
-        this.prepareDetailToChange('Character', 'charactersheet');
+        this.prepareDetailToChange(creatureType, 'effects');
+        this.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
 
         if (ability === 'Intelligence') {
-            this.prepareDetailToChange('Character', 'skillchoices');
+            this.prepareDetailToChange(CreatureTypes.Character, 'skillchoices');
             services.characterService.updateLanguageList();
         }
     }
@@ -423,7 +424,7 @@ export class RefreshService {
             //Specific triggers
             if (lowerCaseTarget === 'familiar abilities') {
                 //Familiar abilities effects need to update the familiar's featchoices.
-                this.prepareDetailToChange('Familiar', 'featchoices');
+                this.prepareDetailToChange(CreatureTypes.Familiar, 'featchoices');
             }
         });
     }
