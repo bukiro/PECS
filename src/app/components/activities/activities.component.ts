@@ -108,7 +108,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     public toggleTileMode(): void {
         this._character.settings.activitiesTileMode = !this._character.settings.activitiesTileMode;
-        this._refreshService.prepareDetailToChange('Character', 'activities');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
         this._refreshService.processPreparedChanges();
     }
 

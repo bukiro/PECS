@@ -66,7 +66,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public toggle_TileMode(): void {
         this.get_Character().settings.spellsTileMode = !this.get_Character().settings.spellsTileMode;
-        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
         this.refreshService.processPreparedChanges();
     }
 

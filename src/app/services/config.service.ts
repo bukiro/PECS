@@ -76,7 +76,7 @@ export class ConfigService {
         //We set loggingIn to true, which changes buttons in the character builder and the top-bar, so we need to update those.
         this._loggingIn = true;
         characterService.setLoadingStatus('Connecting');
-        this._refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
         this._refreshService.processPreparedChanges();
         // Try logging in. Return values are:
         // - false if the password was wrong
@@ -92,8 +92,8 @@ export class ConfigService {
                         this._loggedIn = true;
                         this._loggingIn = false;
                         this._loggedOutMessage = '';
-                        this._refreshService.prepareDetailToChange('Character', 'charactersheet');
-                        this._refreshService.prepareDetailToChange('Character', 'top-bar');
+                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
+                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
                         this._refreshService.processPreparedChanges();
                         savegameService.reset();
                     } else {
@@ -101,9 +101,9 @@ export class ConfigService {
                         this._loggingIn = false;
 
                         if (password) {
-                            this._refreshService.prepareDetailToChange('Character', 'password-failed');
+                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'password-failed');
                         } else {
-                            this._refreshService.prepareDetailToChange('Character', 'logged-out');
+                            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'logged-out');
                         }
 
                         this._refreshService.processPreparedChanges();
@@ -120,8 +120,8 @@ export class ConfigService {
                     this._cannotLogin = true;
                     this._loggingIn = false;
                     this._initialized = true;
-                    this._refreshService.prepareDetailToChange('Character', 'charactersheet');
-                    this._refreshService.prepareDetailToChange('Character', 'top-bar');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
                     this._refreshService.processPreparedChanges();
                 },
             });
@@ -130,9 +130,9 @@ export class ConfigService {
     public logout(notification = ''): void {
         this._loggedIn = false;
         this._loggedOutMessage = notification;
-        this._refreshService.prepareDetailToChange('Character', 'character-sheet');
-        this._refreshService.prepareDetailToChange('Character', 'top-bar');
-        this._refreshService.prepareDetailToChange('Character', 'logged-out');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'logged-out');
         this._refreshService.processPreparedChanges();
     }
 

@@ -125,7 +125,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.itemsTileMode = !this.get_Character().settings.itemsTileMode;
-        this.refreshService.prepareDetailToChange('Character', 'items');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'items');
         this.refreshService.processPreparedChanges();
     }
 

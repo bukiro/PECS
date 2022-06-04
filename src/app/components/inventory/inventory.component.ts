@@ -142,11 +142,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.inventoryTileMode = !this.get_Character().settings.inventoryTileMode;
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
-        this.refreshService.prepareDetailToChange('Companion', 'inventory');
-        this.refreshService.prepareDetailToChange('Familiar', 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'inventory');
         //Inventory Tile Mode affects snares on the attacks component.
-        this.refreshService.prepareDetailToChange('Character', 'attacks');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
         this.refreshService.processPreparedChanges();
     }
 
@@ -587,7 +587,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 }
             } else {
                 spellChoice.spells.shift();
-                this.refreshService.prepareDetailToChange('Character', 'spellchoices');
+                this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
             }
         }
 
@@ -722,7 +722,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             learned.snareSpecialistAvailable--;
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
         this.refreshService.processPreparedChanges();
     }
 

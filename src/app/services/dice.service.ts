@@ -62,9 +62,9 @@ export class DiceService {
             characterService.toggleMenu(MenuNames.DiceMenu);
         }
 
-        this._refreshService.prepareDetailToChange('character', 'dice');
-        this._refreshService.prepareDetailToChange('character', 'character-sheet');
-        this._refreshService.prepareDetailToChange('character', 'top-bar');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'dice');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
     }
 
     public unselectAll(): void {

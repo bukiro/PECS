@@ -110,7 +110,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.spellLibraryTileMode = !this.get_Character().settings.spellLibraryTileMode;
-        this.refreshService.prepareDetailToChange('Character', 'spelllibrary');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spelllibrary');
         this.refreshService.processPreparedChanges();
     }
 
@@ -441,7 +441,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
         if (this.get_Character().settings.autoCloseChoices) { this.toggle_Item(); }
 
-        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
         this.refreshService.processPreparedChanges();
     }
 

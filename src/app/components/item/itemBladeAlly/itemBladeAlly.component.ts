@@ -172,12 +172,12 @@ export class ItemBladeAllyComponent implements OnInit {
             }
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
-        this.refreshService.prepareDetailToChange('Character', 'attacks');
-        this.refreshService.prepareDetailToChange('Character', this.item.id);
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, this.item.id);
 
         if (rune.activities?.length) {
-            this.refreshService.prepareDetailToChange('Character', 'activities');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
         }
 
         this.set_PropertyRuneNames();
@@ -189,7 +189,7 @@ export class ItemBladeAllyComponent implements OnInit {
         const oldRune: Rune = weapon.bladeAllyRunes[0];
 
         if (oldRune.activities?.length) {
-            this.refreshService.prepareDetailToChange('Character', 'activities');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
         }
 
         //Deactivate any active toggled activities of the removed rune.

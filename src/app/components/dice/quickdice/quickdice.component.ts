@@ -1,15 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { DiceService } from 'src/app/services/dice.service';
 import { IntegrationsService } from 'src/app/services/integrations.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { EffectsService } from 'src/app/services/effects.service';
 
 @Component({
     selector: 'app-quickdice',
     templateUrl: './quickdice.component.html',
     styleUrls: ['./quickdice.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuickdiceComponent {
 
@@ -29,59 +30,182 @@ export class QuickdiceComponent {
     public creature = 'Character';
 
     constructor(
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly diceService: DiceService,
-        private readonly integrationsService: IntegrationsService,
+        private readonly _characterService: CharacterService,
+        private readonly _effectsService: EffectsService,
+        private readonly _refreshService: RefreshService,
+        private readonly _diceService: DiceService,
+        private readonly _integrationsService: IntegrationsService,
     ) { }
 
-    get_FoundryVTTRollDirectly() {
-        return this.characterService.character.settings.foundryVTTSendRolls && this.characterService.character.settings.foundryVTTUrl && this.characterService.character.settings.foundryVTTRollDirectly;
+    public roll(forceLocal = false): void {
+        if (!forceLocal && this._canRollInFoundryVTT()) {
+            //If the roll is to be made in a Foundry VTT session, build a formula here, then send it to Foundry.
+            if (this.diceNum && this.diceSize) {
+                //A simple formula is built from diceNum d diceSize +/- bonus.
+                let formula = `${ this.diceNum }d${ this.diceSize }`;
+
+                if (this.bonus) {
+                    if (this.bonus > 0) {
+                        formula += ` + ${ this.bonus }`;
+                    } else {
+                        formula += ` - ${ this.bonus * -1 }`;
+                    }
+                }
+
+                this._integrationsService.sendRollToFoundry(this.creature, formula, [], this._characterService);
+            } else if (this.diceString) {
+                let diceString = this.diceString.split('\n').join(' ');
+
+                diceString = this._cleanDiceString(diceString);
+
+                const formulaParts: Array<string> = [];
+
+                // For an existing diceString, we need to make sure there is no flavor text included.
+                // Only #d#, #, + or - are kept and sent to Foundry.
+                diceString.split(' ').map(part => part.trim())
+                    .forEach(dicePart => {
+                        if (dicePart.match('^[0-9]+d[0-9]+$') || dicePart === '+' || dicePart === '-' || dicePart.match('^[0-9]+$')) {
+                            formulaParts.push(dicePart);
+                        }
+                    });
+                this._integrationsService.sendRollToFoundry(this.creature, formulaParts.join(' '), [], this._characterService);
+            }
+        } else {
+            if (this.diceNum && this.diceSize) {
+                this._diceService.roll(
+                    this.diceNum,
+                    this.diceSize,
+                    this.bonus,
+                    this._characterService,
+                    true,
+                    (this.type ? ` ${ this._expandDamageTypes(this.type) }` : ''),
+                );
+            } else if (this.diceString) {
+                let diceString = this.diceString.split('\n').join(' ');
+
+                diceString = this._cleanDiceString(diceString);
+
+                const diceRolls: Array<{ diceNum: number; diceSize: number; bonus: number; type: string }> = [];
+                let index = 0;
+                let arithmetic = '';
+
+                diceString.trim().split(' ')
+                    .map(part => part.trim())
+                    .forEach(dicePart => {
+                        if (dicePart.match('^[0-9]+d[0-9]+$')) {
+                            if (!diceRolls.length || diceRolls[index].diceNum || diceRolls[index].diceSize || diceRolls[index].type) {
+                                index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
+                            }
+
+                            diceRolls[index].diceNum = parseInt(dicePart.split('d')[0], 10);
+                            diceRolls[index].diceSize = parseInt(dicePart.split('d')[1], 10);
+                        } else if (dicePart === '+' || dicePart === '-') {
+                            arithmetic = dicePart;
+                        } else if (dicePart.match('^[0-9]+$')) {
+                            //Bonuses accumulate on the current roll until a type is given.
+                            //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
+                            //If no roll exists yet, create one.
+                            if (!diceRolls.length || diceRolls[index].type) {
+                                index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
+                            }
+
+                            if (arithmetic) {
+                                diceRolls[index].bonus += parseInt(arithmetic + dicePart, 10);
+                                arithmetic = '';
+                            } else {
+                                diceRolls[index].bonus = parseInt(dicePart, 10);
+                            }
+                        } else {
+                            if (diceRolls[index]) {
+                                diceRolls[index].type += ` ${ dicePart }`;
+                            }
+                        }
+                    });
+                diceRolls.forEach((diceRoll, rollIndex) => {
+                    this._diceService.roll(
+                        diceRoll.diceNum,
+                        diceRoll.diceSize,
+                        diceRoll.bonus,
+                        this._characterService,
+                        rollIndex === 0,
+                        diceRoll.type,
+                    );
+                });
+            }
+        }
+
+        this._refreshService.processPreparedChanges();
     }
 
-    get_SpellCastingModifier() {
-        const ability = this.casting?.ability || 'Charisma';
-        const character = this.characterService.character;
+    public description(): string {
+        if (this.diceString) {
+            let diceString = this.diceString.split('\n').join(' ');
 
-        return this.characterService.abilitiesService.abilities(ability)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result || 0;
+            diceString = this._cleanDiceString(diceString);
+
+            return diceString;
+        } else if (this.diceNum && this.diceSize) {
+            let description = `${ this.diceNum }d${ this.diceSize }`;
+
+            if (this.bonus) {
+                if (this.bonus > 0) {
+                    description += ` + ${ this.bonus }`;
+                } else {
+                    description += ` - ${ this.bonus * -1 }`;
+                }
+            }
+
+            if (this.type) {
+                description += ` ${ this._expandDamageTypes(this.type) }`;
+            }
+
+            return description;
+        }
     }
 
-    cleanup_DiceString(diceString: string) {
-        let cleanedUpDiceString = this.space_ArithmeticSymbols(diceString);
+    private _canRollInFoundryVTT(): boolean {
+        return this._characterService.character.settings.foundryVTTSendRolls &&
+            this._characterService.character.settings.foundryVTTUrl &&
+            this._characterService.character.settings.foundryVTTRollDirectly;
+    }
 
-        cleanedUpDiceString = this.expand_DamageTypes(cleanedUpDiceString);
-        cleanedUpDiceString = this.replace_Modifiers(cleanedUpDiceString);
-        cleanedUpDiceString = this.replace_AbilityModifiers(cleanedUpDiceString);
+    private _cleanDiceString(diceString: string): string {
+        let cleanedUpDiceString = this._spaceArithmeticSymbols(diceString);
+
+        cleanedUpDiceString = this._expandDamageTypes(cleanedUpDiceString);
+        cleanedUpDiceString = this._replaceModifiers(cleanedUpDiceString);
+        cleanedUpDiceString = this._replaceAbilityModifiers(cleanedUpDiceString);
 
         return cleanedUpDiceString;
     }
 
-    space_ArithmeticSymbols(text: string) {
+    private _spaceArithmeticSymbols(text: string): string {
         return text.replace(/\+/g, ' + ').replace(/-/g, ' - ')
             .replace(/\s+/g, ' ');
     }
 
-    expand_DamageTypes(diceString: string) {
+    private _expandDamageTypes(diceString: string): string {
         return diceString.replace(/( |^|\/)B( |$|\/)/g, '$1Bludgeoning$2').replace(/( |^|\/)P( |$|\/)/g, '$1Piercing$2')
             .replace(/( |^|\/)S( |$|\/)/g, '$1Slashing$2');
     }
 
-    replace_Modifiers(diceString: string) {
+    private _replaceModifiers(diceString: string): string {
         if (diceString.toLowerCase().includes('charlevel')) {
-            return diceString.split(' ').map(part => {
-                if (part.toLowerCase() == 'charlevel') {
-                    return this.characterService.character.level;
-                } else {
-                    return part;
-                }
-            })
+            return diceString
+                .split(' ').map(part => {
+                    if (part.toLowerCase() === 'charlevel') {
+                        return this._characterService.character.level;
+                    } else {
+                        return part;
+                    }
+                })
                 .join(' ');
         } else {
             return diceString;
         }
     }
 
-    replace_AbilityModifiers(diceString: string) {
+    private _replaceAbilityModifiers(diceString: string): string {
         if (diceString.toLowerCase().includes('mod')) {
             //If any ability modifiers are named in this dicestring, replace them with the real modifier.
             return diceString.split(' ').map(part => {
@@ -115,9 +239,15 @@ export class QuickdiceComponent {
                     }
 
                     if (abilityName) {
-                        const character = this.characterService.character;
+                        const character = this._characterService.character;
 
-                        return this.characterService.abilitiesService.abilities(abilityName)?.[0]?.mod(character, this.characterService, this.characterService.effectsService, character.level).result.toString() || '0';
+                        return this._characterService.abilitiesService.abilities(abilityName)?.[0]
+                            ?.mod(
+                                character,
+                                this._characterService,
+                                this._effectsService,
+                                character.level,
+                            ).result.toString() || '0';
                     } else {
                         return '0';
                     }
@@ -128,117 +258,6 @@ export class QuickdiceComponent {
                 .join(' ');
         } else {
             return diceString;
-        }
-    }
-
-    roll(forceLocal = false) {
-        if (!forceLocal && this.get_FoundryVTTRollDirectly()) {
-            //If the roll is to be made in a Foundry VTT session, build a formula here, then send it to Foundry.
-            if (this.diceNum && this.diceSize) {
-                //A simple formula is built from diceNum d diceSize +/- bonus.
-                let formula = `${ this.diceNum }d${ this.diceSize }`;
-
-                if (this.bonus) {
-                    if (this.bonus > 0) {
-                        formula += ` + ${ this.bonus }`;
-                    } else {
-                        formula += ` - ${ this.bonus * -1 }`;
-                    }
-                }
-
-                this.integrationsService.sendRollToFoundry(this.creature, formula, [], this.characterService);
-            } else if (this.diceString) {
-                let diceString = this.diceString.split('\n').join(' ');
-
-                diceString = this.cleanup_DiceString(diceString);
-
-                const formulaParts: Array<string> = [];
-
-                //For an existing diceString, we need to make sure there is no flavor text included. Only #d#, #, + or - are kept and sent to Foundry.
-                diceString.split(' ').map(part => part.trim())
-                    .forEach(dicePart => {
-                        if (dicePart.match('^[0-9]+d[0-9]+$') || dicePart == '+' || dicePart == '-' || dicePart.match('^[0-9]+$')) {
-                            formulaParts.push(dicePart);
-                        }
-                    });
-                this.integrationsService.sendRollToFoundry(this.creature, formulaParts.join(' '), [], this.characterService);
-            }
-        } else {
-            if (this.diceNum && this.diceSize) {
-                this.diceService.roll(this.diceNum, this.diceSize, this.bonus, this.characterService, true, (this.type ? ` ${ this.expand_DamageTypes(this.type) }` : ''));
-            } else if (this.diceString) {
-                let diceString = this.diceString.split('\n').join(' ');
-
-                diceString = this.cleanup_DiceString(diceString);
-
-                const diceRolls: Array<{ diceNum: number; diceSize: number; bonus: number; type: string }> = [];
-                let index = 0;
-                let arithmetic = '';
-
-                diceString.trim().split(' ')
-                    .map(part => part.trim())
-                    .forEach(dicePart => {
-                        if (dicePart.match('^[0-9]+d[0-9]+$')) {
-                            if (!diceRolls.length || diceRolls[index].diceNum || diceRolls[index].diceSize || diceRolls[index].type) {
-                                index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
-                            }
-
-                            diceRolls[index].diceNum = parseInt(dicePart.split('d')[0], 10);
-                            diceRolls[index].diceSize = parseInt(dicePart.split('d')[1], 10);
-                        } else if (dicePart == '+' || dicePart == '-') {
-                            arithmetic = dicePart;
-                        } else if (dicePart.match('^[0-9]+$')) {
-                            //Bonuses accumulate on the current roll until a type is given.
-                            //That means that 5 + 1d6 + 5 Fire + 5 Force will create two rolls: (1d6 + 10) Fire and 5 Force.
-                            //If no roll exists yet, create one.
-                            if (!diceRolls.length || diceRolls[index].type) {
-                                index = diceRolls.push({ diceNum: 0, diceSize: 0, bonus: 0, type: '' }) - 1;
-                            }
-
-                            if (arithmetic) {
-                                diceRolls[index].bonus += parseInt(arithmetic + dicePart, 10);
-                                arithmetic = '';
-                            } else {
-                                diceRolls[index].bonus = parseInt(dicePart, 10);
-                            }
-                        } else {
-                            if (diceRolls[index]) {
-                                diceRolls[index].type += ` ${ dicePart }`;
-                            }
-                        }
-                    });
-                diceRolls.forEach((diceRoll, index) => {
-                    this.diceService.roll(diceRoll.diceNum, diceRoll.diceSize, diceRoll.bonus, this.characterService, index == 0, diceRoll.type);
-                });
-            }
-        }
-
-        this.refreshService.processPreparedChanges();
-    }
-
-    get_Description() {
-        if (this.diceString) {
-            let diceString = this.diceString.split('\n').join(' ');
-
-            diceString = this.cleanup_DiceString(diceString);
-
-            return diceString;
-        } else if (this.diceNum && this.diceSize) {
-            let description = `${ this.diceNum }d${ this.diceSize }`;
-
-            if (this.bonus) {
-                if (this.bonus > 0) {
-                    description += ` + ${ this.bonus }`;
-                } else {
-                    description += ` - ${ this.bonus * -1 }`;
-                }
-            }
-
-            if (this.type) {
-                description += ` ${ this.expand_DamageTypes(this.type) }`;
-            }
-
-            return description;
         }
     }
 

@@ -105,7 +105,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     public toggleTileMode(): void {
         this._character.settings.craftingTileMode = !this._character.settings.craftingTileMode;
-        this._refreshService.prepareDetailToChange('Character', 'crafting');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'crafting');
         this._refreshService.processPreparedChanges();
     }
 
@@ -345,7 +345,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
             this._learnedFormulas(item.id)[0].snareSpecialistPrepared += amount;
         }
 
-        this._refreshService.prepareDetailToChange('Character', 'inventory');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
         //this.refreshService.set_ToChange("Character", "crafting");
         this._refreshService.processPreparedChanges();
     }

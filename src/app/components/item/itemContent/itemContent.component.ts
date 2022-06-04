@@ -87,7 +87,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     }
 
     on_LanguageUpdate() {
-        this.refreshService.prepareDetailToChange('Character', 'general');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
         this.refreshService.processPreparedChanges();
     }
 

@@ -212,7 +212,7 @@ export class ItemComponent implements OnInit, OnDestroy {
                 newSpellGain.ringOfWizardry = (wizardrySlotIndex + 1);
                 newSpellGain.source = item.name;
                 item.gainSpells.push(newSpellGain);
-                this.refreshService.prepareDetailToChange('Character', 'Spells');
+                this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'Spells');
             } else if (castingType.toLowerCase() == 'spontaneous') {
                 const newEffectGain = new EffectGain();
 
@@ -220,13 +220,13 @@ export class ItemComponent implements OnInit, OnDestroy {
                 newEffectGain.value = '1';
                 newEffectGain.source = `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`;
                 item.effects.push(newEffectGain);
-                this.refreshService.prepareDetailToChange('Character', 'effects');
+                this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
             }
         }
 
         //Close any open spell choices.
-        this.refreshService.prepareDetailToChange('Character', 'spells', 'clear');
-        this.refreshService.prepareDetailToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         this.refreshService.processPreparedChanges();
     }
 
@@ -316,7 +316,7 @@ export class ItemComponent implements OnInit, OnDestroy {
             spellChoice.spells.shift();
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
         this.refreshService.processPreparedChanges();
     }
 

@@ -712,7 +712,7 @@ export class ItemsService {
     ): void {
         if (targetInventory && targetInventory !== inventory && targetInventory.itemId !== item.id) {
             this.updateGrantingItemBeforeTransfer(creature, item);
-            this._refreshService.prepareDetailToChange('Character', item.id);
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
 
             //Only move the item locally if the item still exists in the inventory.
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
@@ -956,11 +956,11 @@ export class ItemsService {
                 });
 
                 if (shouldAttacksRefresh) {
-                    this._refreshService.prepareDetailToChange('Character', 'attacks');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
                 }
 
                 if (shouldDefenseRefresh) {
-                    this._refreshService.prepareDetailToChange('Character', 'defense');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
                 }
             }
 

@@ -324,7 +324,7 @@ export class MessageService {
         messages.forEach(message => {
             this.markMessageAsIgnored(characterService, message);
         });
-        this._refreshService.prepareDetailToChange('Character', 'top-bar');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
         this._refreshService.processPreparedChanges();
     }
 

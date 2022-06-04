@@ -193,7 +193,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     public toggleTileMode(): void {
         this.character.settings.conditionsTileMode = !this.character.settings.conditionsTileMode;
-        this._refreshService.prepareDetailToChange('Character', 'conditions');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'conditions');
         this._refreshService.processPreparedChanges();
     }
 

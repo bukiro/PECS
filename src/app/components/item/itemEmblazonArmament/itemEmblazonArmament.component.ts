@@ -280,14 +280,14 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 break;
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
 
         if (this.item instanceof Weapon) {
-            this.refreshService.prepareDetailToChange('Character', 'attacks');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
         } else {
-            this.refreshService.prepareDetailToChange('Character', 'activities');
-            this.refreshService.prepareDetailToChange('Character', 'effects');
-            this.refreshService.prepareDetailToChange('Character', 'defense');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
         }
 
         this.refreshService.processPreparedChanges();

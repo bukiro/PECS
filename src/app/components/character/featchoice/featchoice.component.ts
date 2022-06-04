@@ -535,15 +535,15 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         ) { this.toggleShownList(''); }
 
         this._character.takeFeat(this._currentCreature, this._characterService, feat, feat.name, isTaken, choice, locked);
-        this._refreshService.prepareDetailToChange('Character', 'charactersheet');
-        this._refreshService.prepareDetailToChange('Character', 'featchoices');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
         this._refreshService.processPreparedChanges();
     }
 
     public removeObsoleteCustomFeat(feat: Feat): void {
         this._characterService.removeCustomFeat(feat);
-        this._refreshService.prepareDetailToChange('Character', 'charactersheet');
-        this._refreshService.prepareDetailToChange('Character', 'featchoices');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
         this._refreshService.processPreparedChanges();
     }
 

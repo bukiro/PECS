@@ -143,7 +143,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.spellbookTileMode = !this.get_Character().settings.spellbookTileMode;
-        this.refreshService.prepareDetailToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         this.refreshService.processPreparedChanges();
     }
 
@@ -628,7 +628,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             }
 
             //Update effects because Channeled Succor gets disabled after you expend all your divine font heal spells.
-            this.refreshService.prepareDetailToChange('Character', 'effects');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
         } else if (context.spellParameters.choice.cooldown) {
             //Spells with a cooldown don't use any resources. They will start their cooldown in spell processing.
         } else {
@@ -785,7 +785,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     on_Restore(gain: SpellGain, casting: SpellCasting, level: number) {
         const character = this.get_Character();
 
-        this.refreshService.prepareDetailToChange('Character', 'effects');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
 
         if (this.have_Feat('Linked Focus')) {
             this.characterService.processOnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: '+1' }));
@@ -828,7 +828,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     on_Reprepare(gain: SpellGain) {
-        this.refreshService.prepareDetailToChange('Character', 'effects');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
         gain.prepared = true;
         this.refreshService.processPreparedChanges();
     }

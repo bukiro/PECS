@@ -123,7 +123,7 @@ export class Class {
             const level = this.levels[1];
 
             this.languages = this.languages.filter(language => language.source !== this.ancestry.name);
-            characterService.refreshService.prepareDetailToChange('Character', 'general');
+            characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
             level.abilityChoices = level.abilityChoices.filter(availableBoost => availableBoost.source !== 'Ancestry');
             //Of each granted Item, find the item with the stored id and drop it.
             this.ancestry.gainItems.forEach(freeItem => {
@@ -157,10 +157,10 @@ export class Class {
                 ...this.ancestry.languages
                     .map(language => Object.assign(new LanguageGain(), { name: language, locked: true, source: this.ancestry.name })),
             );
-            characterService.refreshService.prepareDetailToChange('Character', 'general');
+            characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
             level.abilityChoices.push(...this.ancestry.abilityChoices);
             level.featChoices.push(...this.ancestry.featChoices);
-            characterService.refreshService.prepareDetailToChange('Character', 'charactersheet');
+            characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
             //Grant all items and save their id in the ItemGain.
             this.ancestry.gainItems.forEach(freeItem => {
                 freeItem.grantGrantedItem(character, {}, { characterService, itemsService });
@@ -197,8 +197,8 @@ export class Class {
             });
             heritage.traits.forEach(traitListing => {
                 this.ancestry.traits = this.ancestry.traits.filter(trait => trait !== traitListing);
-                characterService.refreshService.prepareDetailToChange('Character', 'general');
-                characterService.refreshService.prepareDetailToChange('Character', 'charactersheet');
+                characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
+                characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
             });
             // Of each granted Item, find the item with the stored id and drop it.
             heritage.gainItems.forEach(freeItem => {

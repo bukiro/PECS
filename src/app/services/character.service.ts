@@ -91,6 +91,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 interface PreparedOnceEffect {
     creatureType: string;
@@ -700,11 +701,11 @@ export class CharacterService {
 
         character.class.deity = deity.name;
         this.deitiesService.clearCharacterDeities();
-        this.refreshService.prepareDetailToChange('Character', 'general');
-        this.refreshService.prepareDetailToChange('Character', 'spells', 'clear');
-        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
-        this.refreshService.prepareDetailToChange('Character', 'featchoices');
-        this.refreshService.prepareDetailToChange('Character', 'attacks');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
     }
 
     public changeHeritage(heritage: Heritage, index = -1): void {
@@ -781,7 +782,7 @@ export class CharacterService {
         };
         this.refreshService.prepareDetailToChange(context.creature.type, 'inventory');
         this.refreshService.prepareDetailToChange(context.creature.type, 'effects');
-        this.refreshService.prepareDetailToChange('Character', 'top-bar');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
 
         const newInventoryItem =
             this.itemsService.initializeItem(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
@@ -813,7 +814,7 @@ export class CharacterService {
             existingItems[0].amount += intAmount;
             returnedItem = existingItems[0];
             //Update gridicons of the expanded item.
-            this.refreshService.prepareDetailToChange('Character', returnedItem.id);
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, returnedItem.id);
         } else {
             const newInventoryLength = context.inventory[newInventoryItem.type].push(newInventoryItem);
 
@@ -946,12 +947,12 @@ export class CharacterService {
         item.markedForDeletion = true;
         this.refreshService.prepareDetailToChange(creature.type, 'inventory');
         this.refreshService.prepareDetailToChange(creature.type, 'effects');
-        this.refreshService.prepareDetailToChange('Character', 'top-bar');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
         this.refreshService.prepareChangesByItem(creature, item, { characterService: this, activitiesService: this.activitiesService });
 
         if (amount < item.amount) {
             item.amount -= amount;
-            this.refreshService.prepareDetailToChange('Character', item.id);
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
         } else {
             if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
                 this.refreshService.prepareChangesByHints(creature, item.hints, { characterService: this });
@@ -1194,7 +1195,7 @@ export class CharacterService {
             this.sortCash();
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
     }
 
     public sortCash(): void {
@@ -1418,7 +1419,7 @@ export class CharacterService {
 
     public addCustomFeat(feat: Feat): void {
         this.character.customFeats.push(feat);
-        this.refreshService.prepareDetailToChange('Character', 'charactersheet');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
     }
 
     public removeCustomFeat(feat: Feat): void {
@@ -2391,7 +2392,7 @@ export class CharacterService {
             this.toastService.show(`You lost ${ value * -1 } focus point${ value === 1 ? '' : 's' }.`);
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
     }
 
     public changeCreatureTemporaryHPWithNotification(
@@ -2461,8 +2462,8 @@ export class CharacterService {
 
         this.refreshService.prepareDetailToChange(creature.type, 'health');
         //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-        this.refreshService.prepareDetailToChange('Character', 'health');
-        this.refreshService.prepareDetailToChange('Character', 'time');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
     }
 
     public changeCreatureHPWithNotification(creature: Creature, value: number, context: { source: string }): void {
@@ -2516,8 +2517,8 @@ export class CharacterService {
                 this.toastService.show('Your shield was lowered.');
             }
 
-            this.refreshService.prepareDetailToChange('Character', 'defense');
-            this.refreshService.prepareDetailToChange('Character', 'effects');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
         }
     }
 
@@ -3232,7 +3233,7 @@ export class CharacterService {
 
         if (character.class.familiar) {
             character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._typeService, this.itemsService);
-            this.refreshService.prepareDetailToChange('Familiar', 'all');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
         }
     }
 
@@ -3409,10 +3410,10 @@ export class CharacterService {
         //Update everything once, then effects, and then the player can take over.
         this.refreshService.setComponentChanged();
         this.setLoadingStatus('Loading', false);
-        this.refreshService.prepareDetailToChange('Character', 'effects');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
 
         if (!this._configService.isLoggedIn && !this._configService.cannotLogin) {
-            this.refreshService.prepareDetailToChange('Character', 'logged-out');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'logged-out');
         }
 
         this.refreshService.processPreparedChanges();

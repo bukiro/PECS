@@ -78,7 +78,7 @@ export class ItemPoisonsComponent {
 
             this.newPoison = { poison: new AlchemicalPoison(), inv: null };
             this.newPoison.poison.name = '';
-            this.refreshService.prepareDetailToChange('Character', 'inventory');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
             this.refreshService.prepareChangesByItem(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
             this.refreshService.processPreparedChanges();
         }
@@ -86,7 +86,7 @@ export class ItemPoisonsComponent {
 
     remove_Poison(index: number) {
         this.item.poisonsApplied.splice(index, 1);
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
         this.refreshService.prepareChangesByItem(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
         this.refreshService.processPreparedChanges();
     }

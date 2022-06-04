@@ -178,7 +178,7 @@ export class TimeService {
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
                 });
-                this._refreshService.prepareDetailToChange('Character', 'inventory');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
                 //Regenerate bonded item charges.
                 character.class.spellCasting
                     .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')

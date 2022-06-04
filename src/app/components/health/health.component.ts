@@ -217,8 +217,8 @@ export class HealthComponent implements OnInit, OnDestroy {
         this.refreshService.prepareDetailToChange(this.creature, 'health');
         this.refreshService.prepareDetailToChange(this.creature, 'effects');
         //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-        this.refreshService.prepareDetailToChange('Character', 'health');
-        this.refreshService.prepareDetailToChange('Character', 'time');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
         this.refreshService.processPreparedChanges();
     }
 

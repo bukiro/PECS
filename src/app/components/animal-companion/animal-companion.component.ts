@@ -63,8 +63,8 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     public minimize(): void {
         this._characterService.character.settings.companionMinimized = !this._characterService.character.settings.companionMinimized;
-        this._refreshService.prepareDetailToChange('Companion', 'companion');
-        this._refreshService.prepareDetailToChange('Companion', 'abilities');
+        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'companion');
+        this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'abilities');
         this._refreshService.processPreparedChanges();
     }
 

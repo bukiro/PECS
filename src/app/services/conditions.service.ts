@@ -24,6 +24,7 @@ import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { CreatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Injectable({
     providedIn: 'root',
@@ -564,7 +565,7 @@ export class ConditionsService {
                             );
                         }
 
-                        this._refreshService.prepareDetailToChange('Character', 'spellbook');
+                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
                     });
                 characterService.creatureOwnedActivities(creature, Defaults.maxCharacterLevel, true)
                     .filter(activityGain => activityGain.id === gain.sourceGainID && activityGain.active)
@@ -587,7 +588,7 @@ export class ConditionsService {
                             );
                         }
 
-                        this._refreshService.prepareDetailToChange('Character', 'activities');
+                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
                     });
             }
         }
@@ -1228,7 +1229,7 @@ export class ConditionsService {
 
             //If the current duration is locking the time buttons, refresh the time bar after the change.
             if (gain.durationIsInstant || gain.nextStage) {
-                this._refreshService.prepareDetailToChange('Character', 'time');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
             }
 
             // If the current duration is the default duration of the previous choice,
@@ -1257,7 +1258,7 @@ export class ConditionsService {
 
             //If the new duration is locking the time buttons, refresh the time bar after the change.
             if (gain.durationIsInstant) {
-                this._refreshService.prepareDetailToChange('Character', 'time');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
             }
 
             //Show a notification if the new condition has no duration and did nothing, because it will be removed in the next cycle.

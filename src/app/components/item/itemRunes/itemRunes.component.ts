@@ -534,10 +534,10 @@ export class ItemRunesComponent implements OnInit {
                 break;
         }
 
-        this.refreshService.prepareDetailToChange('Character', this.item.id);
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, this.item.id);
 
         if (this.item.equipped) {
-            this.refreshService.prepareDetailToChange('Character', 'attacks');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
         }
 
         this.refreshService.processPreparedChanges();
@@ -607,7 +607,7 @@ export class ItemRunesComponent implements OnInit {
         }
 
         if (this.item.equipped) {
-            this.refreshService.prepareDetailToChange('Character', 'defense');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
         }
 
         this.refreshService.processPreparedChanges();
@@ -649,8 +649,8 @@ export class ItemRunesComponent implements OnInit {
             }
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
-        this.refreshService.prepareDetailToChange('Character', 'attacks');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
         this.set_PropertyRuneNames();
         this.refreshService.processPreparedChanges();
         this.update_Item();
@@ -705,7 +705,7 @@ export class ItemRunesComponent implements OnInit {
             }
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
         this.set_ToChange(rune as ArmorRune);
         this.set_PropertyRuneNames();
         this.refreshService.processPreparedChanges();

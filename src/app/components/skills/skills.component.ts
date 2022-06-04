@@ -90,7 +90,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     toggle_TileMode() {
         this.get_Character().settings.skillsTileMode = !this.get_Character().settings.skillsTileMode;
-        this.refreshService.prepareDetailToChange('Character', 'skills');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
         this.refreshService.processPreparedChanges();
     }
 

@@ -251,8 +251,8 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     on_SignatureSpell() {
-        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
-        this.refreshService.prepareDetailToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         this.refreshService.processPreparedChanges();
     }
 
@@ -531,7 +531,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
 
     on_CrossbloodedEvolution() {
         this.refreshService.setComponentChanged('spellchoices');
-        this.refreshService.prepareDetailToChange('Character', 'spellbook');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         this.refreshService.processPreparedChanges();
     }
 
@@ -778,7 +778,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         choice.spells = this.choice.spells.filter(spell => spell.locked || spell.borrowed || spells.some(availableSpell => availableSpell.spell.name == spell.name));
 
         if (choice.spells.length < spellNumber) {
-            this.refreshService.prepareDetailToChange('Character', 'spellbook');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
             this.refreshService.processPreparedChanges();
         }
 
@@ -990,14 +990,14 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         //The Interweave Dispel feat is dependent on having Dispel in your repertoire, so we update that here.
         if (spellName == 'Dispel Magic' && !taken) {
             if (this.have_Feat('Interweave Dispel')) {
-                this.refreshService.prepareDetailToChange('Character', 'featchoices');
+                this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
             }
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'spells');
-        this.refreshService.prepareDetailToChange('Character', 'spellchoices');
-        this.refreshService.prepareDetailToChange('Character', 'spellbook');
-        this.refreshService.prepareDetailToChange('Character', 'effects');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
         this.refreshService.processPreparedChanges();
     }
 

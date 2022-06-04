@@ -154,18 +154,18 @@ export class ItemTalismansComponent implements OnInit {
             }
         }
 
-        this.refreshService.prepareDetailToChange('Character', 'inventory');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
 
         if (this.item instanceof Weapon) {
-            this.refreshService.prepareDetailToChange('Character', 'attacks');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
         }
 
         if (this.item instanceof Armor || this.item instanceof Shield || this.item instanceof WornItem) {
-            this.refreshService.prepareDetailToChange('Character', 'defense');
+            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
         }
 
         this.set_TalismanNames();
-        this.refreshService.prepareDetailToChange('Character', this.item.id);
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, this.item.id);
         this.refreshService.processPreparedChanges();
     }
 

@@ -508,7 +508,7 @@ export class FeatsService {
                     });
                 }
 
-                this._refreshService.prepareDetailToChange('Character', 'top-bar');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
             }
 
             //Gain spell or spell choice
@@ -560,7 +560,7 @@ export class FeatsService {
                     });
                 }
 
-                this._refreshService.prepareDetailToChange('Character', 'top-bar');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
             }
 
             //Gain lore
@@ -704,7 +704,7 @@ export class FeatsService {
                     });
                 }
 
-                this._refreshService.prepareDetailToChange('Character', 'general');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
             }
 
             //Custom data feats need to be copied to custom feats, and their data initialized.
@@ -793,8 +793,8 @@ export class FeatsService {
                     character.class.familiar = new Familiar();
                 }
 
-                this._refreshService.prepareDetailToChange('Familiar', 'all');
-                this._refreshService.prepareDetailToChange('Character', 'top-bar');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
             }
 
             //Feats that grant an animal companion.
@@ -807,8 +807,8 @@ export class FeatsService {
                     characterService.initializeAnimalCompanion();
                 }
 
-                this._refreshService.prepareDetailToChange('Companion', 'all');
-                this._refreshService.prepareDetailToChange('Character', 'top-bar');
+                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
             }
 
             //Feats that level up the animal companion to Mature or an advanced option (like Nimble or Savage).
@@ -816,7 +816,7 @@ export class FeatsService {
                 const companion = characterService.companion;
 
                 companion.setLevel(characterService);
-                this._refreshService.prepareDetailToChange('Companion', 'all');
+                this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
             }
 
             //Feats that grant an animal companion specialization.
@@ -837,7 +837,7 @@ export class FeatsService {
                         }
                     }
 
-                    this._refreshService.prepareDetailToChange('Companion', 'all');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
                 }
             }
 
@@ -912,7 +912,7 @@ export class FeatsService {
                 }
 
                 characterService.updateLanguageList();
-                this._refreshService.prepareDetailToChange('Character', 'general');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
             }
 
             //Bargain Hunter adds to your starting cash at level 1
@@ -927,7 +927,7 @@ export class FeatsService {
                     }
                 }
 
-                this._refreshService.prepareDetailToChange('Character', 'inventory');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
             }
 
             //Different Worlds
@@ -1317,10 +1317,10 @@ export class FeatsService {
 
             //Update the areas where feat choices can be made.
             if (creature instanceof Familiar) {
-                this._refreshService.prepareDetailToChange('Familiar', 'familiarabilities');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'familiarabilities');
             } else {
-                this._refreshService.prepareDetailToChange('Character', 'charactersheet');
-                this._refreshService.prepareDetailToChange('Character', 'activities');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
             }
 
             // Some hardcoded effects change depending on feats.

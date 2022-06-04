@@ -100,7 +100,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     toggle_Menu(menu: string) {
         this.characterService.toggleMenu(menu);
-        this.refreshService.prepareDetailToChange('Character', 'character-sheet');
+        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');
         this.refreshService.processPreparedChanges();
     }
 
@@ -284,7 +284,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                 this.characterService.applyMessageConditions(this.newMessages.filter(message => message.gainCondition.length));
                 this.characterService.applyMessageItems(this.newMessages.filter(message => message.offeredItem.length));
                 this.newMessages.length = 0;
-                this.refreshService.prepareDetailToChange('Character', 'top-bar');
+                this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
                 this.refreshService.processPreparedChanges();
                 this.modalOpen = false;
             }

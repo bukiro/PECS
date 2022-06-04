@@ -532,7 +532,7 @@ export class SpellsService {
 
         //The Heal Spell from the Divine Font should update effects, because Channeled Succor depends on it.
         if (spell.name === 'Heal' && context.choice?.source === 'Divine Font') {
-            this._refreshService.prepareDetailToChange('Character', 'effects');
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
         }
     }
 
@@ -564,10 +564,10 @@ export class SpellsService {
             .forEach(casting => {
                 casting.spellChoices.filter(choice => choice.source === 'Feat: Occult Evolution').forEach(choice => {
                     choice.spells.length = 0;
-                    this._refreshService.prepareDetailToChange('Character', 'spellchoices');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
                 });
             });
-        this._refreshService.prepareDetailToChange('Character', 'spellbook');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
     }
 
     public refocusSpells(character: CharacterModel, characterService: CharacterService): void {
@@ -582,7 +582,7 @@ export class SpellsService {
                     taken.gain.chargesUsed = 0;
                 }
             });
-        this._refreshService.prepareDetailToChange('Character', 'spellbook');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
     }
 
     public tickSpells(
@@ -612,7 +612,7 @@ export class SpellsService {
                     }
                 }
 
-                this._refreshService.prepareDetailToChange('Character', 'spellbook');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
 
                 if (taken.gain.activeCooldown) {
                     taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0);
