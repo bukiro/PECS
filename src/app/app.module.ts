@@ -45,12 +45,12 @@ import { CraftingComponent } from 'src/app/components/crafting/crafting.componen
 import { ItemMaterialComponent } from 'src/app/components/item/itemMaterial/itemMaterial.component';
 import { ItemPoisonsComponent } from 'src/app/components/item/itemPoisons/itemPoisons.component';
 import { DiceComponent } from 'src/app/components/dice/dice.component';
-import { DiceIcons_D4Component } from 'src/app/components/dice/diceIcons_D4/diceIcons_D4.component';
-import { DiceIcons_D6Component } from 'src/app/components/dice/diceIcons_D6/diceIcons_D6.component';
-import { DiceIcons_D8Component } from 'src/app/components/dice/diceIcons_D8/diceIcons_D8.component';
-import { DiceIcons_D10Component } from 'src/app/components/dice/diceIcons_D10/diceIcons_D10.component';
-import { DiceIcons_D12Component } from 'src/app/components/dice/diceIcons_D12/diceIcons_D12.component';
-import { DiceIcons_D20Component } from 'src/app/components/dice/diceIcons_D20/diceIcons_D20.component';
+import { DiceIconsD4Component } from 'src/app/components/dice/diceIcons-D4/diceIcons-D4.component';
+import { DiceIconsD6Component } from 'src/app/components/dice/diceIcons-D6/diceIcons-D6.component';
+import { DiceIconsD8Component } from 'src/app/components/dice/diceIcons-D8/diceIcons-D8.component';
+import { DiceIconsD10Component } from 'src/app/components/dice/diceIcons-D10/diceIcons-D10.component';
+import { DiceIconsD12Component } from 'src/app/components/dice/diceIcons-D12/diceIcons-D12.component';
+import { DiceIconsD20Component } from 'src/app/components/dice/diceIcons-D20/diceIcons-D20.component';
 import { SkillchoiceComponent } from 'src/app/components/character/skillchoice/skillchoice.component';
 import { ItemBladeAllyComponent } from 'src/app/components/item/itemBladeAlly/itemBladeAlly.component';
 import { HintComponent } from 'src/app/components/tags/hint/hint.component';
@@ -119,12 +119,12 @@ import { AppInitService } from './core/services/app-init/app-init.service';
         ItemMaterialComponent,
         ItemPoisonsComponent,
         DiceComponent,
-        DiceIcons_D4Component,
-        DiceIcons_D6Component,
-        DiceIcons_D8Component,
-        DiceIcons_D10Component,
-        DiceIcons_D12Component,
-        DiceIcons_D20Component,
+        DiceIconsD4Component,
+        DiceIconsD6Component,
+        DiceIconsD8Component,
+        DiceIconsD10Component,
+        DiceIconsD12Component,
+        DiceIconsD20Component,
         SkillchoiceComponent,
         ItemBladeAllyComponent,
         ConditionComponent,

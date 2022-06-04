@@ -35,7 +35,7 @@
             (click)="toggle_Menu('conditions')">Conditions</button>
         <button [ngClass]="{'fancy-button':get_DiceMenuState()==='out'}" [ngbTooltip]="'Dice'"
             (click)="toggle_Menu('dice')">
-            <app-diceIcons_D20></app-diceIcons_D20>
+            <app-diceIcons-D20></app-diceIcons-D20>
         </button>
         <span *ngIf="get_SavegamesInitializing() || get_LoggingIn()" style="flex-grow: initial"
             [ngbTooltip]="'Connecting to database...'">
