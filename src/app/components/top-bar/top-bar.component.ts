@@ -95,7 +95,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_Darkmode() {
-        return this.characterService.darkmode();
+        return this.characterService.isDarkmode;
     }
 
     toggle_Menu(menu: string) {
@@ -153,11 +153,11 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     get_GMMode() {
-        return this.characterService.isGMMode();
+        return this.characterService.isGMMode;
     }
 
     get_ManualMode() {
-        return this.characterService.isManualMode();
+        return this.characterService.isManualMode;
     }
 
     get_Companion() {

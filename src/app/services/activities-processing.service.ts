@@ -57,7 +57,7 @@ export class ActivitiesProcessingService {
         const targets: Array<Creature | SpellTarget> = [];
 
         //In manual mode, targets, conditions, one time effects and spells are not processed, and targets are not needed.
-        if (!characterService.isManualMode()) {
+        if (!characterService.isManualMode) {
 
             //Find out if target was given. If no target is set, conditions will not be applied.
             //Everything else (one time effects and gained items) automatically applies to the activating creature.
@@ -264,7 +264,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!services.characterService.isManualMode()) {
+        if (!services.characterService.isManualMode) {
 
             //One time effects
             if (activity.onceEffects) {
@@ -721,7 +721,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!services.characterService.isManualMode()) {
+        if (!services.characterService.isManualMode) {
 
             //Remove applied conditions.
             //The condition source is the activity name.

@@ -1,35 +1,33 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div id="{{creature}}-effects-height" class="attributeBox" [ngClass]="{'snug':!fullDisplay}">
-    <ng-container *ngFor="let timeStopped of [get_TimeStopped()]; trackBy: trackByIndex">
+    <ng-container *ngIf="componentParameters() as componentParameters">
         <ng-template #conditionTemplate let-conditionGain="conditionGain">
             <div style="display:flex"
                 [ngClass]="{'attention':(conditionGain.durationIsInstant) || (conditionGain.nextStage === -1)}"
-                *ngFor="let condition of [get_Conditions(conditionGain.name)[0]]; trackBy:trackByIndex;">
-                <ng-container
-                    *ngFor="let stoppedInTime of [timeStopped && !condition.get_IsStoppingTime(conditionGain)]; trackBy:trackByIndex">
-                    <ng-template #conditionContent>
-                        <app-condition class="newrow" (showItemMessage)="receive_ItemMessage($event)"
-                            [creature]="creature" [conditionGain]="conditionGain" [condition]="condition"
-                            [showItem]="get_ShowItem()" [fullDisplay]="fullDisplay">
-                        </app-condition>
-                    </ng-template>
-                    <div [stickyPopover]="conditionContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
-                        <app-gridIcon [updateId]="conditionGain.id" class="condition"
-                            [ngClass]="{'penalty':!stoppedInTime && !condition.buff, 'bonus':!stoppedInTime && condition.buff, 'inactive-button':stoppedInTime}"
-                            placement="right bottom top" [condition]="conditionGain" [originalCondition]="condition"
-                            [superTitle]="get_ConditionSuperTitle(conditionGain, condition)"
-                            [ngbTooltip]="conditionGain.name" [openDelay]=0>
-                        </app-gridIcon>
-                    </div>
-                    <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
-                        <app-gridIcon [updateId]="conditionGain.id" class="condition" [condition]="conditionGain"
-                            [originalCondition]="condition"
-                            [superTitle]="get_ConditionSuperTitle(conditionGain, condition)"
-                            [ngClass]="{'penalty':!stoppedInTime && !condition.buff, 'bonus':!stoppedInTime && condition.buff, 'inactive-button':stoppedInTime}">
-                        </app-gridIcon>
-                        <ng-container *ngTemplateOutlet="conditionContent"></ng-container>
-                    </div>
-                </ng-container>
+                *ngIf="conditionParameters(conditionGain, componentParameters.isTimeStopped) as conditionParameters">
+                <ng-template #conditionContent>
+                    <app-condition class="newrow" (showItemMessage)="receiveShownItemMessage($event)"
+                        [creature]="creature" [conditionGain]="conditionGain"
+                        [condition]="conditionParameters.condition" [showItem]="shownItem()"
+                        [fullDisplay]="fullDisplay">
+                    </app-condition>
+                </ng-template>
+                <div [stickyPopover]="conditionContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
+                    <app-gridIcon [updateId]="conditionGain.id" class="condition"
+                        [ngClass]="conditionClasses(conditionParameters)" placement="right bottom top"
+                        [condition]="conditionGain" [originalCondition]="conditionParameters.condition"
+                        [superTitle]="conditionSuperTitle(conditionGain, conditionParameters.condition)"
+                        [ngbTooltip]="conditionGain.name" [openDelay]=0>
+                    </app-gridIcon>
+                </div>
+                <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
+                    <app-gridIcon [updateId]="conditionGain.id" class="condition" [condition]="conditionGain"
+                        [originalCondition]="conditionParameters.condition"
+                        [superTitle]="conditionSuperTitle(conditionGain, conditionParameters.condition)"
+                        [ngClass]="conditionClasses(conditionParameters)">
+                    </app-gridIcon>
+                    <ng-container *ngTemplateOutlet="conditionContent"></ng-container>
+                </div>
             </div>
         </ng-template>
         <ng-template #effectTemplate let-effect="effect">
@@ -39,7 +37,7 @@
                         <strong class="no-shadow"
                             [ngClass]="{'penalty':effect.penalty, 'bonus':(!effect.penalty && !effect.setValue && !effect.toggle), 'absolute':(effect.setValue || effect.toggle)}">
                             {{effect.target}}
-                            {{effect.get_DisplayTitle(true)}}
+                            {{effect.displayTitle(true)}}
                         </strong>
                     </span>
                 </div>
@@ -58,7 +56,7 @@
                 <div class="newrow" *ngIf="effect.duration">
                     <span>
                         <strong>Duration</strong>
-                        {{effect.duration ? get_Duration(effect.duration) : ''}}
+                        {{effect.duration ? durationDescription(effect.duration) : ''}}
                     </span>
                 </div>
                 <div class="newrow">
@@ -74,10 +72,10 @@
                 </div>
                 <span>
                     <button [ngbTooltip]="'Ignore effects on ' + effect.target + ' from ' + effect.source"
-                        *ngIf="!effect.ignored" (click)="on_IgnoreEffect(effect, true)">
+                        *ngIf="!effect.ignored" (click)="onIgnoreEffect(effect, true)">
                         Ignore
                     </button>
-                    <button *ngIf="effect.ignored" (click)="on_IgnoreEffect(effect, false)">
+                    <button *ngIf="effect.ignored" (click)="onIgnoreEffect(effect, false)">
                         Stop ignoring
                     </button>
                 </span>
@@ -85,7 +83,7 @@
             <div [ngbPopover]="effectContent" triggers="click" *ngIf="!fullDisplay" style="display:flex;">
                 <app-gridIcon class="effect" [effect]="effect" placement="left bottom top"
                     [ngClass]="{'penalty':!effect.toggle && effect.penalty && !effect.ignored, 'bonus':!effect.toggle && !effect.penalty && !effect.setValue && !effect.ignored, 'absolute':(effect.toggle || effect.setValue) && !effect.ignored, 'inactive-button':effect.ignored}"
-                    [ngbTooltip]="effect.target + ' ' + effect.get_DisplayTitle(true)" [openDelay]=0>
+                    [ngbTooltip]="effect.target + ' ' + effect.displayTitle(true)" [openDelay]=0>
                 </app-gridIcon>
             </div>
             <div class="list-item gridicon-fullsizebox" *ngIf="fullDisplay">
@@ -106,7 +104,7 @@
                         <header class="sectionHeader box-header">Conditions</header>
                     </div>
                     <ng-container
-                        *ngFor="let conditionGain of get_AppliedConditions(true, true); trackBy:trackByConditionGainID;">
+                        *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, true, true); trackBy:trackers.trackByObjectId;">
                         <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
                         </ng-container>
                     </ng-container>
@@ -115,7 +113,8 @@
                     <div class="icon-list-title" style="left: 0">
                         <header class="sectionHeader box-header">Effects</header>
                     </div>
-                    <ng-container *ngFor="let effect of get_AppliedEffects(); trackBy:trackByUniqueEffect;">
+                    <ng-container
+                        *ngFor="let effect of appliedEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
                         <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                     </ng-container>
                 </div>
@@ -130,7 +129,7 @@
                     Active Conditions
                 </header>
                 <ng-container
-                    *ngFor="let conditionGain of get_AppliedConditions(true); trackBy:trackByConditionGainID;">
+                    *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, true); trackBy:trackers.trackByObjectId;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
                     </ng-container>
                 </ng-container>
@@ -139,7 +138,8 @@
                 <header class="subsectionHeader">
                     Active Effects
                 </header>
-                <ng-container *ngFor="let effect of get_AppliedEffects(); trackBy:trackByUniqueEffect;">
+                <ng-container
+                    *ngFor="let effect of appliedEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
             </div>
@@ -148,7 +148,7 @@
                     Inactive Conditions
                 </header>
                 <ng-container
-                    *ngFor="let conditionGain of get_AppliedConditions(false); trackBy:trackByConditionGainID;">
+                    *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, false); trackBy:trackers.trackByObjectId;">
                     <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}">
                     </ng-container>
                 </ng-container>
@@ -157,7 +157,8 @@
                 <header class="subsectionHeader">
                     Inactive Effects
                 </header>
-                <ng-container *ngFor="let effect of get_NotAppliedEffects(); trackBy:trackByUniqueEffect;">
+                <ng-container
+                    *ngFor="let effect of notAppliedEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
             </div>
@@ -165,7 +166,8 @@
                 <header class="subsectionHeader">
                     Hidden Effects
                 </header>
-                <ng-container *ngFor="let effect of get_HiddenEffects(); trackBy:trackByUniqueEffect;">
+                <ng-container
+                    *ngFor="let effect of hiddenEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
                     <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
                 </ng-container>
             </div>

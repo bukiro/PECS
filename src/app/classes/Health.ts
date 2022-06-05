@@ -138,7 +138,7 @@ export class Health {
         let hasRemovedUnconscious = false;
 
         //Don't process conditions in manual mode.
-        if (!characterService.isManualMode()) {
+        if (!characterService.isManualMode) {
             //Then, if you have reached 0 HP with lethal damage, get dying 1+wounded
             //Dying and maxDying are compared in the Conditions service when Dying is added
             if (!nonlethal && currentHP === 0) {
@@ -199,7 +199,7 @@ export class Health {
         let hasRemovedUnconscious = false;
 
         //Don't process conditions in manual mode.
-        if (!characterService.isManualMode()) {
+        if (!characterService.isManualMode) {
             //Recover from Dying and get Wounded++
             if (this.currentHP(creature, characterService, effectsService).result > 0 && dying > 0) {
                 characterService.currentCreatureConditions(creature, 'Dying').forEach(gain => {

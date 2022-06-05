@@ -163,7 +163,7 @@ export class MessageService {
 
             if (
                 characterService.character.settings.checkMessagesAutomatically &&
-                !characterService.isManualMode() &&
+                !characterService.isManualMode &&
                 characterService.isLoggedIn()
             ) {
                 minuteTimer--;

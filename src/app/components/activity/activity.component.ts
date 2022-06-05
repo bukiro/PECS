@@ -85,7 +85,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     ) { }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode();
+        return this._characterService.isManualMode;
     }
 
     public get isResonant(): boolean {

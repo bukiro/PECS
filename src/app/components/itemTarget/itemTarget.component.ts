@@ -53,7 +53,7 @@ export class ItemTargetComponent implements OnInit {
     }
 
     get_ManualMode() {
-        return this.characterService.isManualMode();
+        return this.characterService.isManualMode;
     }
 
     open_ItemTargetModal(content) {
@@ -81,7 +81,7 @@ export class ItemTargetComponent implements OnInit {
                 });
         }
 
-        if (character.partyName && !this.excluding && !this.characterService.isGMMode() && !this.characterService.isManualMode()) {
+        if (character.partyName && !this.excluding && !this.characterService.isGMMode && !this.characterService.isManualMode) {
             //Only allow selecting other players if you are in a party.
             this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id)
                 .forEach(savegame => {

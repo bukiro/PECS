@@ -841,7 +841,7 @@ export class ItemsService {
     ): void {
 
         //Consumables don't do anything in manual mode, except be used up.
-        if (!characterService.isManualMode()) {
+        if (!characterService.isManualMode) {
 
             //One time effects
             if (item.onceEffects) {

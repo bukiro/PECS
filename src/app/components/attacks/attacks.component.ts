@@ -80,7 +80,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode();
+        return this._characterService.isManualMode;
     }
 
     public get stillLoading(): boolean {

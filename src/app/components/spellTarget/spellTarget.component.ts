@@ -125,7 +125,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     get_ManualMode() {
-        return this.characterService.isManualMode();
+        return this.characterService.isManualMode;
     }
 
     public get_Parameters(): ComponentParameters {

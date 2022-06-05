@@ -3,12 +3,28 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { TimeService } from 'src/app/services/time.service';
-import { TraitsService } from 'src/app/services/traits.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Effect } from 'src/app/classes/Effect';
 import { Condition } from 'src/app/classes/Condition';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Creature } from 'src/app/classes/Creature';
+import { EffectCollection } from 'src/app/classes/EffectCollection';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+
+interface ComponentParameters {
+    effects: Array<Effect>;
+    conditions: Array<ConditionGain>;
+    isTimeStopped: boolean;
+}
+
+interface ConditionParameters {
+    condition: Condition;
+    isStoppedInTime: boolean;
+}
 
 @Component({
     selector: 'app-effects',
@@ -19,138 +35,153 @@ import { Subscription } from 'rxjs';
 export class EffectsComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
     public fullDisplay = false;
     @Input()
     public sheetSide = 'left';
+
     public showApplied = true;
     public showNotApplied = false;
     public showHidden = false;
     public showItem = '';
-    public Math = Math;
-    public parseInt = parseInt;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly traitsService: TraitsService,
-        private readonly effectsService: EffectsService,
-        private readonly characterService: CharacterService,
-        private readonly conditionsService: ConditionsService,
-        private readonly refreshService: RefreshService,
-        private readonly timeService: TimeService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _effectsService: EffectsService,
+        private readonly _characterService: CharacterService,
+        private readonly _conditionsService: ConditionsService,
+        private readonly _refreshService: RefreshService,
+        private readonly _timeService: TimeService,
+        public trackers: Trackers,
     ) { }
 
-    minimize() {
-        this.characterService.character.settings.effectsMinimized = !this.characterService.character.settings.effectsMinimized;
-    }
-
-    get_Minimized() {
+    public get isMinimized(): boolean {
         switch (this.creature) {
-            case 'Character':
-                return this.characterService.character.settings.effectsMinimized;
-            case 'Companion':
-                return this.characterService.character.settings.companionMinimized;
-            case 'Familiar':
-                return this.characterService.character.settings.familiarMinimized;
+            case CreatureTypes.AnimalCompanion:
+                return this._characterService.character.settings.companionMinimized;
+            case CreatureTypes.Familiar:
+                return this._characterService.character.settings.familiarMinimized;
+            default:
+                return this._characterService.character.settings.effectsMinimized;
         }
     }
 
-    toggle_Item(name: string) {
-        if (this.showItem == name) {
-            this.showItem = '';
-        } else {
-            this.showItem = name;
-        }
+    public get isManualMode(): boolean {
+        return this._characterService.isManualMode;
     }
 
-    get_ShowItem() {
+    private get _currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
+    }
+
+    public minimize(): void {
+        this._characterService.character.settings.effectsMinimized = !this._characterService.character.settings.effectsMinimized;
+    }
+
+    public toggleShownItem(name: string): void {
+        this.showItem = this.showItem === name ? '' : name;
+    }
+
+    public shownItem(): string {
         return this.showItem;
     }
 
-    get_Darkmode() {
-        return this.characterService.darkmode();
+    public receiveShownItemMessage(name: string): void {
+        this.toggleShownItem(name);
     }
 
-    receive_ItemMessage(name: string) {
-        this.toggle_Item(name);
-    }
-
-    trackByIndex(index: number): number {
-        return index;
-    }
-
-    trackByConditionGainID(index: number, obj: ConditionGain): string {
-        return obj.id;
-    }
-
-    trackByUniqueEffect(index: number, obj: Effect): string {
-        return obj.target + obj.setValue + obj.value + (obj.toggle ? 'true' : 'false') + (obj.penalty ? 'true' : 'false') + index.toString();
-    }
-
-    get_ManualMode() {
-        return this.characterService.isManualMode();
-    }
-
-    get_Creature() {
-        return this.characterService.creatureFromType(this.creature);
-    }
-
-    toggle_Applied() {
+    public toggleShowApplied(): void {
         this.showApplied = !this.showApplied;
     }
 
-    toggle_NotApplied() {
+    public toggleShowNotApplied(): void {
         this.showNotApplied = !this.showNotApplied;
     }
 
-    toggle_Hidden() {
+    public toggleShowHidden(): void {
         this.showHidden = !this.showHidden;
     }
 
-    get_ToggledCount() {
-        return ((this.showApplied && 1) + (this.showNotApplied && 1) + (this.showHidden && 1));
+    public countToggledViews(): number {
+        return (this.showApplied ? 1 : 0) + (this.showNotApplied ? 1 : 0) + (this.showHidden ? 1 : 0);
     }
 
-    get_Traits(traitName = '') {
-        return this.traitsService.traits(traitName);
+    public componentParameters(): ComponentParameters {
+        const conditions = this._characterService.currentCreatureConditions(this._currentCreature);
+        const isTimeStopped = this._isTimeStopped(conditions);
+        const effects = this._creatureEffects().all;
+
+        return {
+            effects,
+            conditions,
+            isTimeStopped,
+        };
     }
 
-    get_Effects() {
-        return this.effectsService.effects(this.creature);
+    public conditionFromName(name: string): Condition {
+        return this._conditionsService.conditionFromName(name);
     }
 
-    get_Conditions(name = '') {
-        return this.conditionsService.conditions(name);
+    public appliedEffects(effects: Array<Effect>): Array<Effect> {
+        return effects
+            .filter(effect => effect.creature === this._currentCreature.id && effect.apply && effect.show)
+            .sort((a, b) => SortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
-    get_AppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && effect.show)
-            .sort((a, b) => (`${ a.target }-${ a.setValue }-${ a.value }` == `${ b.target }-${ b.setValue }-${ b.value }`) ? 0 : ((`${ a.target }-${ a.setValue }-${ a.value }` > `${ b.target }-${ b.setValue }-${ b.value }`) ? 1 : -1));
+    public notAppliedEffects(effects: Array<Effect>): Array<Effect> {
+        return effects
+            .filter(effect => effect.creature === this._currentCreature.id && !effect.apply)
+            .sort((a, b) => SortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
-    get_NotAppliedEffects() {
-        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && !effect.apply);
+    //TO-DO: Add an explanation why these are hidden.
+    public hiddenEffects(effects: Array<Effect>): Array<Effect> {
+        return effects
+            .filter(effect => effect.creature === this._currentCreature.id && effect.apply && !effect.show)
+            .sort((a, b) => SortAlphaNum(`${ a.target }-${ a.setValue }-${ a.value }`, `${ b.target }-${ b.setValue }-${ b.value }`));
     }
 
-    get_HiddenEffects() {
-        return this.get_Effects().all.filter(effect => effect.creature == this.get_Creature().id && effect.apply && !effect.show);
+    public appliedConditions(
+        conditions: Array<ConditionGain>,
+        apply: boolean,
+        forceAllowInstantConditions: boolean = false,
+    ): Array<ConditionGain> {
+        return conditions
+            .filter(gain =>
+                gain.apply === apply ||
+                (forceAllowInstantConditions && gain.durationIsInstant) ||
+                (forceAllowInstantConditions && gain.nextStage === -1),
+            );
     }
 
-    get_AppliedConditions(apply: boolean, instant = false) {
-        return this.characterService.currentCreatureConditions(this.get_Creature())
-            .filter(gain => gain.apply == apply || (instant && gain.durationIsInstant) || (instant && gain.nextStage == -1));
+    public conditionParameters(conditionGain: ConditionGain, isTimeStopped: boolean): ConditionParameters {
+        const condition = this.conditionFromName(conditionGain.name);
+
+        return {
+            condition,
+            isStoppedInTime: isTimeStopped && !condition.isStoppingTime(conditionGain),
+        };
     }
 
-    get_Duration(duration: number) {
-        return this.timeService.durationDescription(duration);
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    public conditionClasses(conditionParameters: ConditionParameters): { penalty: boolean; bonus: boolean; 'inactive-button': boolean } {
+        return {
+            penalty: !conditionParameters.isStoppedInTime && !conditionParameters.condition.buff,
+            bonus: !conditionParameters.isStoppedInTime && conditionParameters.condition.buff,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            'inactive-button': conditionParameters.isStoppedInTime,
+        };
     }
 
-    get_IsInformationalCondition(conditionGain: ConditionGain, condition: Condition) {
-        return condition.isInformationalCondition(this.get_Creature(), this.characterService, conditionGain);
+    public durationDescription(duration: number): string {
+        return this._timeService.durationDescription(duration);
     }
 
-    get_ConditionSuperTitle(conditionGain: ConditionGain, condition: Condition) {
+    public conditionSuperTitle(conditionGain: ConditionGain, condition: Condition): string {
         if (condition.isStoppingTime(conditionGain)) {
             return 'icon-ra ra-hourglass';
         }
@@ -159,65 +190,70 @@ export class EffectsComponent implements OnInit, OnDestroy {
             return 'icon-bi-pause-circle';
         }
 
-        if (condition.isInformationalCondition(this.get_Creature(), this.characterService, conditionGain)) {
+        if (condition.isInformationalCondition(this._currentCreature, this._characterService, conditionGain)) {
             return 'icon-bi-info-circle';
         }
 
         return '';
     }
 
-    get_TimeStopped() {
-        return this.get_AppliedConditions(true, true).some(gain => this.conditionsService.conditionFromName(gain.name).isStoppingTime(gain));
-    }
-
-    on_IgnoreEffect(effect: Effect, ignore: boolean) {
+    public onIgnoreEffect(effect: Effect, ignore: boolean): void {
         if (ignore) {
-            this.get_Creature().ignoredEffects.push(effect);
+            this._currentCreature.ignoredEffects.push(effect);
         } else {
-            this.get_Creature().ignoredEffects = this.get_Creature().ignoredEffects.filter(ignoredEffect =>
+            this._currentCreature.ignoredEffects = this._currentCreature.ignoredEffects.filter(ignoredEffect =>
                 !(
-                    ignoredEffect.creature == effect.creature &&
-                    ignoredEffect.target == effect.target &&
-                    ignoredEffect.source == effect.source
+                    ignoredEffect.creature === effect.creature &&
+                    ignoredEffect.target === effect.target &&
+                    ignoredEffect.source === effect.source
                 ),
             );
         }
 
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
     }
 
-    finish_Loading() {
-        if (this.characterService.stillLoading) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.componentChanged$
+    public ngOnInit(): void {
+        this._subscribeToChanges();
+    }
+
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _subscribeToChanges(): void {
+        const waitForCharacterService = setInterval(() => {
+            clearInterval(waitForCharacterService);
+
+            this._changeSubscription = this._refreshService.componentChanged$
                 .subscribe(target => {
                     if (['effects', 'all', 'effects-component', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
+                        this._changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.detailChanged$
+            this._viewChangeSubscription = this._refreshService.detailChanged$
                 .subscribe(view => {
-                    if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['effects', 'all', 'effects-component'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
+                    if (
+                        view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                        ['effects', 'all', 'effects-component'].includes(view.target.toLowerCase())
+                    ) {
+                        this._changeDetector.detectChanges();
                     }
                 });
 
             return true;
-        }
+        }, Defaults.waitForServiceDelay);
     }
 
-    public ngOnInit(): void {
-        this.finish_Loading();
+    private _creatureEffects(): EffectCollection {
+        return this._effectsService.effects(this.creature);
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
-
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    private _isTimeStopped(conditions: Array<ConditionGain>): boolean {
+        return this.appliedConditions(conditions, true, true)
+            .some(gain => this._conditionsService.conditionFromName(gain.name).isStoppingTime(gain));
     }
 
 }

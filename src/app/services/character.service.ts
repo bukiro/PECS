@@ -218,19 +218,25 @@ export class CharacterService {
         return this.character.class?.familiar || new Familiar();
     }
 
+    public get isDarkmode(): boolean {
+        if (!this.stillLoading) {
+            return this.character.settings.darkmode;
+        } else { return true; }
+    }
+
+    public get isGMMode(): boolean {
+        return this.character.GMMode;
+    }
+
+    public get isManualMode(): boolean {
+        return this.character.settings.manualMode;
+    }
+
     public setLoadingStatus(status: string, refreshTopBar = true): void {
         this._loadingStatus = status || 'Loading';
 
         if (refreshTopBar) {
             this.refreshService.setComponentChanged('top-bar');
-        }
-    }
-
-    public darkmode(): boolean {
-        if (!this.stillLoading) {
-            return this.character.settings.darkmode;
-        } else {
-            return true;
         }
     }
 
@@ -369,14 +375,6 @@ export class CharacterService {
         );
     }
 
-    public isGMMode(): boolean {
-        return this.character.GMMode;
-    }
-
-    public isManualMode(): boolean {
-        return this.character.settings.manualMode;
-    }
-
     public isLoggedIn(): boolean {
         return this._configService.isLoggedIn;
     }
@@ -427,7 +425,7 @@ export class CharacterService {
     }
 
     public setDarkmode(): void {
-        if (this.darkmode()) {
+        if (this.isDarkmode) {
             document.body.classList.add('darkmode');
         } else {
             document.body.classList.remove('darkmode');
@@ -1790,7 +1788,7 @@ export class CharacterService {
 
     public sendTurnChangeToPlayers(): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
+        if (this.isGMMode || this.isManualMode || !this.isLoggedIn()) {
             return;
         }
 
@@ -1838,7 +1836,7 @@ export class CharacterService {
 
     public applyTurnChangeMessage(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this.isManualMode()) {
+        if (this.isManualMode) {
             return;
         }
 
@@ -1880,7 +1878,7 @@ export class CharacterService {
 
     public sendConditionToPlayers(targets: Array<SpellTarget>, conditionGain: ConditionGain, activate = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
+        if (this.isGMMode || this.isManualMode || !this.isLoggedIn()) {
             return;
         }
 
@@ -1952,7 +1950,7 @@ export class CharacterService {
 
     public applyMessageConditions(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this.isManualMode()) {
+        if (this.isManualMode) {
             return;
         }
 
@@ -2013,7 +2011,7 @@ export class CharacterService {
 
     public sendItemsToPlayer(sender: Creature, target: SpellTarget, item: Item, amount = 0): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
+        if (this.isGMMode || this.isManualMode || !this.isLoggedIn()) {
             return;
         }
 
@@ -2078,7 +2076,7 @@ export class CharacterService {
 
     public applyMessageItems(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this.isManualMode()) {
+        if (this.isManualMode) {
             return;
         }
 
@@ -2196,7 +2194,7 @@ export class CharacterService {
 
     public sendItemAcceptedMessage(message: PlayerMessage, accepted = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.isGMMode() || this.isManualMode() || !this.isLoggedIn()) {
+        if (this.isGMMode || this.isManualMode || !this.isLoggedIn()) {
             return;
         }
 
@@ -2256,7 +2254,7 @@ export class CharacterService {
 
     public applyItemAcceptedMessages(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this.isManualMode()) {
+        if (this.isManualMode) {
             return;
         }
 

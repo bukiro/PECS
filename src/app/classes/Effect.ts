@@ -1,4 +1,7 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export class Effect {
+    public id = uuidv4();
     public ignored = false;
     public creature = '';
     public type = '';

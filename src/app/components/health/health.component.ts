@@ -76,7 +76,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     get_ManualMode() {
-        return this.characterService.isManualMode();
+        return this.characterService.isManualMode;
     }
 
     trackByIndex(index: number): number {
@@ -112,7 +112,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         const calculatedHealth = this.get_Health().calculate(this.get_Creature(), this.characterService, this.effectsService);
 
         //Don't do anything about your dying status in manual mode.
-        if (!this.characterService.isManualMode()) {
+        if (!this.characterService.isManualMode) {
             if (calculatedHealth.dying >= calculatedHealth.maxDying) {
                 if (this.characterService.currentCreatureConditions(this.get_Creature(), 'Doomed').length) {
                     this.die('Doomed');

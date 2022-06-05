@@ -164,7 +164,7 @@ export class SpellsService {
         }
 
         //In manual mode, targets and conditions are not processed.
-        if (!options.expendOnly && !services.characterService.isManualMode()) {
+        if (!options.expendOnly && !services.characterService.isManualMode) {
 
             //Find out if target was given. If no target is set, most effects will not be applied.
             const targets: Array<Creature | SpellTarget> = [];

@@ -112,7 +112,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_GMMode() {
-        return this.characterService.isGMMode();
+        return this.characterService.isGMMode;
     }
 
     toggleCharacterMenu() {

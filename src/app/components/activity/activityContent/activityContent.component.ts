@@ -55,7 +55,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     ) { }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode();
+        return this._characterService.isManualMode;
     }
 
     private get _character(): Character {

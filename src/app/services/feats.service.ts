@@ -29,6 +29,7 @@ import { HistoryService } from './history.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Injectable({
     providedIn: 'root',
@@ -1338,7 +1339,6 @@ export class FeatsService {
         const waitForItemsService = setInterval(() => {
             if (!this._itemsService.stillLoading) {
                 clearInterval(waitForItemsService);
-
 
                 this._feats = this._load(json_feats, 'feats');
 

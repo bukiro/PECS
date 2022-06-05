@@ -659,7 +659,7 @@ export class ConditionsService {
     ): void {
         //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
         //Conditions caused by equipment are not calculated in manual mode.
-        if (services.characterService.isManualMode()) {
+        if (services.characterService.isManualMode) {
             return;
         }
 
@@ -847,7 +847,7 @@ export class ConditionsService {
     ): void {
         //Calculate whether the creature is encumbered and add or remove the condition.
         //Encumbered conditions are not calculated in manual mode.
-        if (!services.characterService.isManualMode()) {
+        if (!services.characterService.isManualMode) {
             const bulk = creature.bulk;
             const calculatedBulk = bulk.calculate(creature, services.characterService, services.effectsService);
 

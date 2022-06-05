@@ -155,7 +155,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     get_ManualMode() {
-        return this.characterService.isManualMode();
+        return this.characterService.isManualMode;
     }
 
     get_Character() {

@@ -152,7 +152,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     get_ManualMode() {
-        return this.characterService.isManualMode();
+        return this.characterService.isManualMode;
     }
 
     public get stillLoading(): boolean {
