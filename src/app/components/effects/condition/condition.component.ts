@@ -13,6 +13,17 @@ import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Activity } from 'src/app/classes/Activity';
 import { EffectsService } from 'src/app/services/effects.service';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { ItemActivity } from 'src/app/classes/ItemActivity';
+
+interface ActivityParameters {
+    gain: ActivityGain | ItemActivity;
+    activity: Activity | ItemActivity;
+    maxCharges: number;
+    canNotActivate: boolean;
+    isHostile: boolean;
+}
 
 @Component({
     selector: 'app-condition',
@@ -23,119 +34,119 @@ import { EffectsService } from 'src/app/services/effects.service';
 export class ConditionComponent implements OnInit, OnDestroy {
 
     @Input()
-    conditionGain: ConditionGain;
+    public conditionGain: ConditionGain;
     @Input()
-    condition: Condition;
+    public condition: Condition;
     @Input()
-    showItem = '';
+    public showItem = '';
     @Input()
-    creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    fullDisplay = false;
+    public fullDisplay = false;
     @Output()
-    showItemMessage = new EventEmitter<string>();
+    public readonly showItemMessage = new EventEmitter<string>();
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService,
-        public effectsService: EffectsService,
-        private readonly refreshService: RefreshService,
-        private readonly timeService: TimeService,
-        private readonly itemsService: ItemsService,
-        private readonly conditionsService: ConditionsService,
-        private readonly traitsService: TraitsService,
-        private readonly activitiesService: ActivitiesDataService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _effectsService: EffectsService,
+        private readonly _refreshService: RefreshService,
+        private readonly _timeService: TimeService,
+        private readonly _itemsService: ItemsService,
+        private readonly _conditionsService: ConditionsService,
+        private readonly _traitsService: TraitsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        public trackers: Trackers,
     ) { }
 
-    toggle_Item(name: string) {
-        if (this.showItem == name) {
-            this.showItem = '';
-        } else {
-            this.showItem = name;
-        }
+    private get _currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
+    }
+
+    public toggleShownItem(name: string): void {
+        this.showItem = this.showItem === name ? '' : name;
 
         this.showItemMessage.emit(this.showItem);
     }
 
-    get_ShowItem() {
+    public shownItem(): string {
         return this.showItem;
     }
 
-    get_Creature() {
-        return this.characterService.creatureFromType(this.creature) as Creature;
+    public durationDescription(duration: number): string {
+        return this._timeService.durationDescription(duration);
     }
 
-    trackByIndex(index: number): number {
-        return index;
+    public isInformationalCondition(): boolean {
+        return this.condition.isInformationalCondition(this._currentCreature, this._characterService, this.conditionGain);
     }
 
-    get_Traits(traitName = '') {
-        return this.traitsService.traits(traitName);
-    }
-
-    get_Duration(duration: number) {
-        return this.timeService.durationDescription(duration);
-    }
-
-    get_IsInformationalCondition() {
-        return this.condition.isInformationalCondition(this.get_Creature(), this.characterService, this.conditionGain);
-    }
-
-    set_ConditionDuration(gain: ConditionGain, turns: number) {
+    public setConditionDuration(gain: ConditionGain, turns: number): void {
         gain.duration = turns;
         gain.maxDuration = gain.duration;
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
-        this.update_Condition();
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
+        this._updateCondition();
     }
 
-    change_ConditionDuration(gain: ConditionGain, turns: number) {
+    public incConditionDuration(gain: ConditionGain, turns: number): void {
         gain.duration += turns;
         gain.maxDuration = gain.duration;
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
-        this.update_Condition();
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
+        this._updateCondition();
     }
 
-    change_ConditionValue(gain: ConditionGain, oldValue: number, change = 0) {
-        if (change) {
-            gain.value += change;
-        } else {
-            change = gain.value - oldValue;
-        }
+    public setConditionValue(gain: ConditionGain, set: number): void {
+        this.incConditionValue(gain, set - gain.value);
+    }
 
-        if (gain.name == 'Drained' && change < 0) {
+    public incConditionValue(gain: ConditionGain, change: number): void {
+        gain.value += change;
+
+        if (gain.name === 'Drained' && change < 0) {
             //When you lower your drained value, you regain Max HP, but not the lost HP.
             //Because HP is Max HP - Damage, we increase damage to represent not regaining the HP.
             //We subtract level*change from damage because change is negative.
-            this.get_Creature().health.damage == Math.max(0, (this.get_Creature().health.damage - (this.get_Creature().level * change)));
+            this._currentCreature.health.damage =
+                Math.max(0, (this._currentCreature.health.damage - (this._currentCreature.level * change)));
         }
 
         gain.showValue = false;
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
-        this.update_Condition();
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
+        this._updateCondition();
     }
 
-    change_ConditionRadius(gain: ConditionGain, change: number) {
+    public incConditionRadius(gain: ConditionGain, change: number): void {
         gain.radius += change;
     }
 
-    get_ConditionChoices(gain: ConditionGain, condition: Condition) {
-        return condition.effectiveChoices(this.characterService, gain.source != 'Manual', gain.heightened);
+    public conditionChoices(gain: ConditionGain, condition: Condition): Array<string> {
+        return condition.effectiveChoices(this._characterService, gain.source !== 'Manual', gain.heightened);
     }
 
-    change_ConditionChoice(gain: ConditionGain, condition: Condition, oldChoice: string) {
-        this.conditionsService.changeConditionChoice(this.get_Creature(), gain, condition, oldChoice, this.characterService, this.itemsService);
-        this.refreshService.processPreparedChanges();
-        this.update_Condition();
+    public changeConditionChoice(gain: ConditionGain, condition: Condition, newChoice: string): void {
+        const oldChoice = gain.choice;
+
+        gain.choice = newChoice;
+        this._conditionsService.changeConditionChoice(
+            this._currentCreature,
+            gain,
+            condition,
+            oldChoice,
+            this._characterService,
+            this._itemsService,
+        );
+        this._refreshService.processPreparedChanges();
+        this._updateCondition();
     }
 
-    public prepare_SelectOtherConditions(gain: ConditionGain, condition: Condition): Array<OtherConditionSelection> {
-        condition.selectOtherConditions.forEach((selection, index) => {
+    public prepareSelectingOtherConditions(gain: ConditionGain, condition: Condition): Array<OtherConditionSelection> {
+        condition.selectOtherConditions.forEach((_selection, index) => {
             //Ensure that the condition gain has a place for each selection in its array.
             if (gain.selectedOtherConditions.length <= index) {
                 gain.selectedOtherConditions.push('');
@@ -145,21 +156,21 @@ export class ConditionComponent implements OnInit, OnDestroy {
         return condition.selectOtherConditions;
     }
 
-    public get_SelectOtherConditionOptions(selection: OtherConditionSelection, gain: ConditionGain, index: number): Array<string> {
-        const creature = this.get_Creature();
+    public selectOtherConditionOptions(selection: OtherConditionSelection, gain: ConditionGain, index: number): Array<string> {
+        const creature = this._currentCreature;
         const typeFilter = selection.typeFilter.map(filter => filter.toLowerCase());
         const nameFilter = selection.nameFilter.map(filter => filter.toLowerCase());
-        const filteredConditions = this.conditionsService.conditions().filter(libraryCondition =>
+        const filteredConditions = this._conditionsService.conditions().filter(libraryCondition =>
             (typeFilter.length ? typeFilter.includes(libraryCondition.type.toLowerCase()) : true) &&
             (nameFilter.length ? nameFilter.includes(libraryCondition.name.toLowerCase()) : true),
         )
             .map(libraryCondition => libraryCondition.name.toLowerCase());
 
         return Array.from(new Set(
-            this.conditionsService.currentCreatureConditions(creature, this.characterService, creature.conditions, true)
+            this._conditionsService.currentCreatureConditions(creature, this._characterService, creature.conditions, true)
                 .map(conditionGain => conditionGain.name)
                 .filter(conditionName =>
-                    (conditionName.toLowerCase() != gain.name.toLowerCase()) &&
+                    (conditionName.toLowerCase() !== gain.name.toLowerCase()) &&
                     (
                         (typeFilter.length || nameFilter.length) ? filteredConditions.includes(conditionName.toLowerCase()) : true
                     ),
@@ -168,19 +179,27 @@ export class ConditionComponent implements OnInit, OnDestroy {
         )).sort();
     }
 
-    change_ConditionStage(gain: ConditionGain, condition: Condition, choices: Array<string>, change: number) {
-        this.conditionsService.changeConditionStage(this.get_Creature(), gain, condition, choices, change, this.characterService, this.itemsService);
-        this.refreshService.processPreparedChanges();
-        this.update_Condition();
+    public setConditionStage(gain: ConditionGain, condition: Condition, choices: Array<string>, change: number): void {
+        this._conditionsService.changeConditionStage(
+            this._currentCreature,
+            gain,
+            condition,
+            choices,
+            change,
+            this._characterService,
+            this._itemsService,
+        );
+        this._refreshService.processPreparedChanges();
+        this._updateCondition();
     }
 
-    change_OtherConditionSelection() {
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
-        this.update_Condition();
+    public changeOtherConditionSelection(): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
+        this._updateCondition();
     }
 
-    get_HeightenedDescription() {
+    public heightenedConditionDescription(): string {
         if (this.conditionGain) {
             return this.condition.heightenedText(this.condition.desc, this.conditionGain.heightened);
         } else {
@@ -188,58 +207,82 @@ export class ConditionComponent implements OnInit, OnDestroy {
         }
     }
 
-    remove_Condition(conditionGain: ConditionGain) {
-        this.characterService.removeCondition(this.get_Creature(), conditionGain, true);
-        this.refreshService.setComponentChanged('close-popovers');
+    public removeCondition(conditionGain: ConditionGain): void {
+        this._characterService.removeCondition(this._currentCreature, conditionGain, true);
+        this._refreshService.setComponentChanged('close-popovers');
     }
 
-    public get_Activities(name = ''): Array<Activity> {
-        //Don't show all existing activities if a name is missing.
-        if (!name) {
-            return [];
-        }
-
-        return this.activitiesService.activities(name);
-    }
-
-    public get_ConditionActivities(): Array<ActivityGain> {
+    public conditionActivitiesParameters(): Array<ActivityParameters> {
         if (this.conditionGain) {
             this.conditionGain.gainActivities.forEach(activityGain => {
                 activityGain.heightened = this.conditionGain.heightened;
-                activityGain.originalActivity(this.activitiesService)?.effectiveCooldown({ creature: this.get_Creature() }, { characterService: this.characterService, effectsService: this.effectsService });
+                activityGain.originalActivity(this._activitiesService)?.effectiveCooldown(
+                    { creature: this._currentCreature },
+                    { characterService: this._characterService, effectsService: this._effectsService },
+                );
             });
 
-            return this.conditionGain.gainActivities;
+            return this.conditionGain.gainActivities.map(gain => {
+                const activity = this._activityFromName(gain.name);
+                const maxCharges = activity.maxCharges({ creature: this._currentCreature }, { effectsService: this._effectsService });
+                const canNotActivate = ((gain.activeCooldown ? (maxCharges === gain.chargesUsed) : false) && !gain.active);
+                const isHostile = activity.isHostile();
+
+                return {
+                    gain,
+                    activity,
+                    maxCharges,
+                    canNotActivate,
+                    isHostile,
+                };
+            });
         } else {
             return [];
         }
     }
 
-    update_Condition() {
-        //This updates any gridicon that has this condition gain's id set as its update id.
-        if (this.conditionGain.id) {
-            this.refreshService.setComponentChanged(this.conditionGain.id);
-        }
+    /* eslint-disable @typescript-eslint/naming-convention */
+    public activityClasses(
+        activityParameters: ActivityParameters,
+    ): { 'fancy-button': boolean; 'inactive-button': boolean; penalty: boolean; bonus: boolean } {
+        return {
+            'fancy-button': activityParameters.gain.active,
+            'inactive-button': activityParameters.canNotActivate,
+            penalty: !activityParameters.canNotActivate && activityParameters.isHostile,
+            bonus: !activityParameters.canNotActivate && !activityParameters.isHostile,
+        };
+        /* eslint-enable @typescript-eslint/naming-convention */
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
-                if (target == 'effects' || target == 'all' || target == this.creature) {
-                    this.changeDetector.detectChanges();
+                if (target === 'effects' || target === 'all' || target === this.creature) {
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature == this.creature && ['effects', 'all'].includes(view.target)) {
-                    this.changeDetector.detectChanges();
+                if (view.creature === this.creature && ['effects', 'all'].includes(view.target)) {
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _activityFromName(name: string): Activity {
+        return this._activitiesService.activityFromName(name);
+    }
+
+    private _updateCondition(): void {
+        //This updates any gridicon that has this condition gain's id set as its update id.
+        if (this.conditionGain.id) {
+            this._refreshService.setComponentChanged(this.conditionGain.id);
+        }
     }
 
 }
