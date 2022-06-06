@@ -12,7 +12,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 @Component({
     selector: 'app-animal-companion',
     templateUrl: './animal-companion.component.html',
-    styleUrls: ['./animal-companion.component.css'],
+    styleUrls: ['./animal-companion.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimalCompanionComponent implements OnInit, OnDestroy {

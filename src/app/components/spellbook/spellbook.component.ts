@@ -67,7 +67,7 @@ interface SpellParameters {
 @Component({
     selector: 'app-spellbook',
     templateUrl: './spellbook.component.html',
-    styleUrls: ['./spellbook.component.css'],
+    styleUrls: ['./spellbook.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellbookComponent implements OnInit, OnDestroy {

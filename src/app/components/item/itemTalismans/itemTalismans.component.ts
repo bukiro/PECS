@@ -20,7 +20,7 @@ interface TalismanOption {
 @Component({
     selector: 'app-itemTalismans',
     templateUrl: './itemTalismans.component.html',
-    styleUrls: ['./itemTalismans.component.css'],
+    styleUrls: ['./itemTalismans.component.scss'],
 })
 export class ItemTalismansComponent implements OnInit {
 

@@ -16,7 +16,7 @@ const defaultDiceNum = 5;
 @Component({
     selector: 'app-dice',
     templateUrl: './dice.component.html',
-    styleUrls: ['./dice.component.css'],
+    styleUrls: ['./dice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiceComponent implements OnInit, OnDestroy {

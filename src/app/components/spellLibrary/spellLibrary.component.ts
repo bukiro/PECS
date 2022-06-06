@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-spellLibrary',
     templateUrl: './spellLibrary.component.html',
-    styleUrls: ['./spellLibrary.component.css'],
+    styleUrls: ['./spellLibrary.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellLibraryComponent implements OnInit, OnDestroy {

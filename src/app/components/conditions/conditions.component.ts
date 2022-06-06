@@ -42,7 +42,7 @@ interface ConditionType {
 @Component({
     selector: 'app-conditions',
     templateUrl: './conditions.component.html',
-    styleUrls: ['./conditions.component.css'],
+    styleUrls: ['./conditions.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConditionsComponent implements OnInit, OnDestroy {

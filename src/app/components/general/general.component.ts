@@ -15,7 +15,7 @@ import { ItemsService } from 'src/app/services/items.service';
 @Component({
     selector: 'app-general',
     templateUrl: './general.component.html',
-    styleUrls: ['./general.component.css'],
+    styleUrls: ['./general.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralComponent implements OnInit, OnDestroy {

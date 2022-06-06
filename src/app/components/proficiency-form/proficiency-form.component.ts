@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-proficiency-form',
     templateUrl: './proficiency-form.component.html',
-    styleUrls: ['./proficiency-form.component.css'],
+    styleUrls: ['./proficiency-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ProficiencyFormComponent implements OnInit {

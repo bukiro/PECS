@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-spellchoice',
     templateUrl: './spellchoice.component.html',
-    styleUrls: ['./spellchoice.component.css'],
+    styleUrls: ['./spellchoice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellchoiceComponent implements OnInit, OnDestroy {

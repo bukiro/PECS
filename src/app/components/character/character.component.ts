@@ -54,7 +54,7 @@ type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id:
 @Component({
     selector: 'app-character',
     templateUrl: './character.component.html',
-    styleUrls: ['./character.component.css'],
+    styleUrls: ['./character.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterComponent implements OnInit, OnDestroy {

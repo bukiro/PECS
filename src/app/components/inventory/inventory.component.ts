@@ -47,7 +47,7 @@ interface ItemParameters extends ItemRoles {
 @Component({
     selector: 'app-inventory',
     templateUrl: './inventory.component.html',
-    styleUrls: ['./inventory.component.css'],
+    styleUrls: ['./inventory.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InventoryComponent implements OnInit, OnDestroy {

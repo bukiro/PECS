@@ -12,7 +12,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 @Component({
     selector: 'app-itemPoisons',
     templateUrl: './itemPoisons.component.html',
-    styleUrls: ['./itemPoisons.component.css'],
+    styleUrls: ['./itemPoisons.component.scss'],
 })
 export class ItemPoisonsComponent {
 

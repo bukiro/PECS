@@ -29,7 +29,7 @@ interface ConditionParameters {
 @Component({
     selector: 'app-effects',
     templateUrl: './effects.component.html',
-    styleUrls: ['./effects.component.css'],
+    styleUrls: ['./effects.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EffectsComponent implements OnInit, OnDestroy {

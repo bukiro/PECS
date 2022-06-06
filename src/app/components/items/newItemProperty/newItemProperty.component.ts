@@ -27,7 +27,7 @@ import { Consumable } from 'src/app/classes/Consumable';
 @Component({
     selector: 'app-newItemProperty',
     templateUrl: './newItemProperty.component.html',
-    styleUrls: ['./newItemProperty.component.css'],
+    styleUrls: ['./newItemProperty.component.scss'],
 })
 export class NewItemPropertyComponent {
 

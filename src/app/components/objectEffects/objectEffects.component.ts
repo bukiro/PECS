@@ -8,7 +8,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 @Component({
     selector: 'app-objectEffects',
     templateUrl: './objectEffects.component.html',
-    styleUrls: ['./objectEffects.component.css'],
+    styleUrls: ['./objectEffects.component.scss'],
 })
 export class ObjectEffectsComponent {
 

@@ -14,7 +14,7 @@ import { Item } from 'src/app/classes/Item';
 @Component({
     selector: 'app-itemMaterial',
     templateUrl: './itemMaterial.component.html',
-    styleUrls: ['./itemMaterial.component.css'],
+    styleUrls: ['./itemMaterial.component.scss'],
 })
 export class ItemMaterialComponent implements OnInit {
 

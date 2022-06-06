@@ -13,7 +13,7 @@ import { Shield } from 'src/app/classes/Shield';
 @Component({
     selector: 'app-itemTalismanCords',
     templateUrl: './itemTalismanCords.component.html',
-    styleUrls: ['./itemTalismanCords.component.css'],
+    styleUrls: ['./itemTalismanCords.component.scss'],
 })
 export class ItemTalismanCordsComponent implements OnInit {
 

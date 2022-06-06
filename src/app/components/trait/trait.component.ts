@@ -7,7 +7,7 @@ import { Item } from 'src/app/classes/Item';
 @Component({
     selector: 'app-trait',
     templateUrl: './trait.component.html',
-    styleUrls: ['./trait.component.css'],
+    styleUrls: ['./trait.component.scss'],
 })
 export class TraitComponent {
 

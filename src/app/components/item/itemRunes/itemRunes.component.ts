@@ -20,7 +20,7 @@ import { ActivitiesProcessingService } from 'src/app/services/activities-process
 @Component({
     selector: 'app-itemRunes',
     templateUrl: './itemRunes.component.html',
-    styleUrls: ['./itemRunes.component.css'],
+    styleUrls: ['./itemRunes.component.scss'],
 })
 export class ItemRunesComponent implements OnInit {
 

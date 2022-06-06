@@ -32,7 +32,7 @@ interface SkillParameters {
 @Component({
     selector: 'app-skillchoice',
     templateUrl: './skillchoice.component.html',
-    styleUrls: ['./skillchoice.component.css'],
+    styleUrls: ['./skillchoice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkillchoiceComponent implements OnInit, OnDestroy {

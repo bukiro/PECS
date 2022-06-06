@@ -13,7 +13,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 @Component({
     selector: 'app-itemOils',
     templateUrl: './itemOils.component.html',
-    styleUrls: ['./itemOils.component.css'],
+    styleUrls: ['./itemOils.component.scss'],
 })
 export class ItemOilsComponent {
 

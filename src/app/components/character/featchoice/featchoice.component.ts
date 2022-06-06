@@ -31,7 +31,7 @@ interface FeatParameters {
 @Component({
     selector: 'app-featchoice',
     templateUrl: './featchoice.component.html',
-    styleUrls: ['./featchoice.component.css'],
+    styleUrls: ['./featchoice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeatchoiceComponent implements OnInit, OnDestroy {

@@ -31,7 +31,7 @@ interface ItemParameters extends ItemRoles {
 @Component({
     selector: 'app-crafting',
     templateUrl: './crafting.component.html',
-    styleUrls: ['./crafting.component.css'],
+    styleUrls: ['./crafting.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CraftingComponent implements OnInit, OnDestroy {

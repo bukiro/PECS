@@ -10,7 +10,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 @Component({
     selector: 'app-itemContent',
     templateUrl: './itemContent.component.html',
-    styleUrls: ['./itemContent.component.css'],
+    styleUrls: ['./itemContent.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemContentComponent implements OnInit, OnDestroy {

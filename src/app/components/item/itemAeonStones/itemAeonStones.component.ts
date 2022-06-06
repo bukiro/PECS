@@ -11,7 +11,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 @Component({
     selector: 'app-itemAeonStones',
     templateUrl: './itemAeonStones.component.html',
-    styleUrls: ['./itemAeonStones.component.css'],
+    styleUrls: ['./itemAeonStones.component.scss'],
 })
 export class ItemAeonStonesComponent implements OnInit {
 

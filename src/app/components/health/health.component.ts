@@ -14,7 +14,7 @@ import { InputValidationService } from 'src/app/services/inputValidation.service
 @Component({
     selector: 'app-health',
     templateUrl: './health.component.html',
-    styleUrls: ['./health.component.css'],
+    styleUrls: ['./health.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HealthComponent implements OnInit, OnDestroy {

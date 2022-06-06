@@ -46,7 +46,7 @@ interface ActivitySpellSet {
 @Component({
     selector: 'app-activity',
     templateUrl: './activity.component.html',
-    styleUrls: ['./activity.component.css'],
+    styleUrls: ['./activity.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityComponent implements OnInit, OnDestroy {

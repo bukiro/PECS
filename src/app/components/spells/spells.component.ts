@@ -36,7 +36,7 @@ interface SpellParameters {
 @Component({
     selector: 'app-spells',
     templateUrl: './spells.component.html',
-    styleUrls: ['./spells.component.css'],
+    styleUrls: ['./spells.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellsComponent implements OnInit, OnDestroy {

@@ -27,7 +27,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 @Component({
     selector: 'app-item',
     templateUrl: './item.component.html',
-    styleUrls: ['./item.component.css'],
+    styleUrls: ['./item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemComponent implements OnInit, OnDestroy {

@@ -16,7 +16,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 @Component({
     selector: 'app-top-bar',
     templateUrl: './top-bar.component.html',
-    styleUrls: ['./top-bar.component.css'],
+    styleUrls: ['./top-bar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopBarComponent implements OnInit, OnDestroy {

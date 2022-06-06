@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-spell',
     templateUrl: './spell.component.html',
-    styleUrls: ['./spell.component.css'],
+    styleUrls: ['./spell.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellComponent implements OnInit, OnDestroy {

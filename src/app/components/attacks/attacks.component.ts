@@ -44,7 +44,7 @@ interface WeaponParameters {
 @Component({
     selector: 'app-attacks',
     templateUrl: './attacks.component.html',
-    styleUrls: ['./attacks.component.css'],
+    styleUrls: ['./attacks.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttacksComponent implements OnInit, OnDestroy {

@@ -37,7 +37,7 @@ interface ComponentParameters {
 @Component({
     selector: 'app-defense',
     templateUrl: './defense.component.html',
-    styleUrls: ['./defense.component.css'],
+    styleUrls: ['./defense.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DefenseComponent implements OnInit, OnDestroy {

@@ -15,7 +15,7 @@ import { Spell } from 'src/app/classes/Spell';
 @Component({
     selector: 'app-feat',
     templateUrl: './feat.component.html',
-    styleUrls: ['./feat.component.css'],
+    styleUrls: ['./feat.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeatComponent {

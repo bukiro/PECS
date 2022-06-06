@@ -6,7 +6,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 @Component({
     selector: 'app-familiarabilities',
     templateUrl: './familiarabilities.component.html',
-    styleUrls: ['./familiarabilities.component.css'],
+    styleUrls: ['./familiarabilities.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FamiliarabilitiesComponent implements OnInit, OnDestroy {

@@ -9,7 +9,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 @Component({
     selector: 'app-familiar',
     templateUrl: './familiar.component.html',
-    styleUrls: ['./familiar.component.css'],
+    styleUrls: ['./familiar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FamiliarComponent implements OnInit, OnDestroy {

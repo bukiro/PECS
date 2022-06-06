@@ -7,7 +7,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 @Component({
     selector: 'app-licenses',
     templateUrl: './licenses.component.html',
-    styleUrls: ['./licenses.component.css'],
+    styleUrls: ['./licenses.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LicensesComponent {

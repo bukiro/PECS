@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
 @Component({
     selector: 'app-skill',
     templateUrl: './skill.component.html',
-    styleUrls: ['./skill.component.css'],
+    styleUrls: ['./skill.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkillComponent implements OnInit, OnDestroy {
