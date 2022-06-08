@@ -1,7 +1,7 @@
 <div id="familiarabilities-height" class="attributeBox">
     <header class="sectionHeader box-header">Familiar Abilities</header>
     <!--Feat choices-->
-    <app-featchoice class="newrow" [creature]="'Familiar'" [choice]="get_Familiar().abilities"
-        [levelNumber]="get_Character().level" [showTitle]="true" [showContent]="true" [showChoice]="''" [showFeat]="''">
+    <app-featchoice class="newrow" [creature]="CreatureTypesEnum.Familiar" [choice]="familiar.abilities"
+        [levelNumber]="character.level" [showTitle]="true" [showContent]="true" [showChoice]="''" [showFeat]="''">
     </app-featchoice>
 </div>

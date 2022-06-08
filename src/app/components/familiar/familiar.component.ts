@@ -10,7 +10,6 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
-import { Trackers } from 'src/libs/shared/util/trackers';
 
 @Component({
     selector: 'app-familiar',
@@ -33,7 +32,6 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _familiarsService: FamiliarsService,
         private readonly _effectsService: EffectsService,
-        public trackers: Trackers,
     ) { }
 
     public get stillLoading(): boolean {
