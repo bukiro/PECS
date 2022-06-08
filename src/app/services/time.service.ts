@@ -15,6 +15,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { Creature } from 'src/app/classes/Creature';
 import { TimePeriods } from '../../libs/shared/definitions/timePeriods';
 import { ActivitiesTimeService } from './activities-time.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Injectable({
     providedIn: 'root',
@@ -431,7 +432,7 @@ export class TimeService {
         }
     }
 
-    public getWaitingDescription(
+    public waitingDescription(
         duration: number,
         services: { characterService: CharacterService; conditionsService: ConditionsService },
         options: { includeResting: boolean },

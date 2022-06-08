@@ -52,7 +52,7 @@ export class TimeComponent implements OnInit, OnDestroy {
     }
 
     get_Waiting(duration: number) {
-        return this.timeService.getWaitingDescription(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: false });
+        return this.timeService.waitingDescription(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: false });
     }
 
     public get stillLoading(): boolean {

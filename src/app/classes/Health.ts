@@ -3,7 +3,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 
-interface CalculatedHealth {
+export interface CalculatedHealth {
     maxHP: { result: number; explain: string };
     currentHP: { result: number; explain: string };
     wounded: number;
