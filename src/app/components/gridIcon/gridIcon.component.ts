@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
@@ -15,6 +16,9 @@ import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 
 @Component({
     selector: 'app-gridIcon',
@@ -24,52 +28,55 @@ import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 })
 export class GridIconComponent implements OnInit, OnDestroy {
 
+    //TO-DO: This component should be much dumber.
+    // Create wrappers for the different objects that build a gridIcon, and let them create the title, subTitle, superTitle etc.
+
     @Input()
-    title = '';
+    public title = '';
     @Input()
-    detail = '';
+    public detail = '';
     @Input()
-    subTitle = '';
+    public subTitle = '';
     @Input()
-    superTitle = '';
+    public superTitle = '';
     @Input()
-    type: '' | 'Condition' | 'Feat' = '';
+    public type: '' | 'Condition' | 'Feat' = '';
     @Input()
-    desc = '';
+    public desc = '';
     @Input()
-    shortDesc = '';
+    public shortDesc = '';
     @Input()
-    condition: ConditionGain = null;
+    public condition: ConditionGain = null;
     @Input()
-    originalCondition: Condition = null;
+    public originalCondition: Condition = null;
     @Input()
-    feat: Feat = null;
+    public feat: Feat = null;
     @Input()
-    effect: Effect = null;
+    public effect: Effect = null;
     @Input()
-    spell: Spell = null;
+    public spell: Spell = null;
     @Input()
-    activity: Activity = null;
+    public activity: Activity = null;
     @Input()
-    activityGain: ActivityGain | ItemActivity = null;
+    public activityGain: ActivityGain | ItemActivity = null;
     @Input()
-    item: Item = null;
+    public item: Item = null;
     @Input()
-    itemStore = false;
+    public itemStore = false;
     //The gridicon will refresh if this ID is updated by this.refreshService.set_Changed().
     @Input()
-    updateId: string;
+    public updateId: string;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly refreshService: RefreshService,
-        private readonly changeDetector: ChangeDetectorRef,
+        private readonly _refreshService: RefreshService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
-    }
-
-    get_IconSubTitle() {
+    public iconSubTitle(): string {
         let subTitle = this.subTitle;
 
         if (subTitle.includes('noparse|')) {
@@ -79,22 +86,25 @@ export class GridIconComponent implements OnInit, OnDestroy {
         if (this.condition?.duration || this.effect?.duration) {
             const duration = this.condition?.duration || this.effect?.duration || 0;
 
-            if (duration < 10) {
+            if (duration < TimePeriods.Turn) {
                 switch (duration) {
-                    case -3:
+                    case TimePeriods.UntilRefocus:
                         return '<i class=\'bi-eye-fill\'></i>';
-                    case -2:
+                    case TimePeriods.UntilRest:
                         return '<i class=\'bi-sunrise-fill\'></i>';
-                    case -1:
+                    case TimePeriods.Permanent:
                         return '<i class=\'bi-arrow-repeat\'></i>';
-                    case 0:
+                    case TimePeriods.NoTurn:
                         return '';
-                    case 1:
+                    case TimePeriods.UntilResolved:
                         return '<i class=\'bi-exclamation-diamond-fill\'></i>';
-                    case 2:
+                    case TimePeriods.UntilOtherCharactersTurn:
                         return '<i class=\'bi-person-plus-fill\'></i>';
-                    case 5:
+                    case TimePeriods.UntilResolvedAndOtherCharactersTurn:
+                        return '<i class=\'bi-exclamation-diamond-fill\'></i>';
+                    case TimePeriods.HalfTurn:
                         return '<i class=\'bi-play-fill\'></i>';
+                    default: break;
                 }
             }
         }
@@ -155,8 +165,10 @@ export class GridIconComponent implements OnInit, OnDestroy {
 
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
         subTitle = subTitle.split('|').map(split => {
-            if (split.substring(0, 5) == 'icon-') {
-                return `<i class='${ split.substring(5) }'></i>`;
+            const iconPhraseLength = 5;
+
+            if (split.substring(0, iconPhraseLength) === 'icon-') {
+                return `<i class='${ split.substring(iconPhraseLength) }'></i>`;
             } else {
                 return split;
             }
@@ -166,25 +178,7 @@ export class GridIconComponent implements OnInit, OnDestroy {
         return subTitle;
     }
 
-    get_IsOneWordTitle() {
-        let title: string = this.title;
-
-        if (this.feat) {
-            if (this.feat.subType) {
-                title = this.title || this.feat.superType;
-            } else {
-                title = this.title || this.feat.name;
-            }
-        } else if (this.condition) {
-            title = this.title || this.condition.name;
-        } else if (this.effect) {
-            title = this.title || this.effect.target;
-        }
-
-        return !title.includes(' ');
-    }
-
-    get_IconTitle() {
+    public iconTitle(): string {
         let iconTitle: string = this.title;
 
         if (iconTitle.includes('noparse|')) {
@@ -213,43 +207,57 @@ export class GridIconComponent implements OnInit, OnDestroy {
 
             if (iconTitle) {
                 if (!iconTitle.includes(' ')) {
-                    //If the title does not contain spaces, and is not just a number, keep only letters and return the first 3 letters.
-                    //Return numbers unchanged
+                    // If the title does not contain spaces, and is not just a number, keep only letters and return the first 3 letters.
+                    // Return numbers unchanged.
+                    const firstThreeLetters = 3;
+
                     if (isNaN(parseInt(iconTitle, 10))) {
-                        iconTitle = iconTitle.replace(/[^A-Z]/gi, '').substring(0, 3);
+                        iconTitle = iconTitle.replace(/[^A-Z]/gi, '').substring(0, firstThreeLetters);
                     }
                 } else if (iconTitle.match('.*[A-Z].*')) {
-                    //If the title has spaces and contains capital letters, keep only capital letters and return the first 4.
+                    // If the title has spaces and contains capital letters, keep only capital letters and return the first 6.
+                    const firstSixLetters = 6;
+
                     iconTitle = iconTitle.replace(/[^A-Z ]/g, '').split(' ')
                         .map(part => part.substring(0, 1))
                         .join('')
-                        .substring(0, 6);
+                        .substring(0, firstSixLetters);
                 } else if (iconTitle.match('.*[A-Za-z].*')) {
-                    //If the title has spaces and contains no capital letters, keep only the first letters of every word and return the first 4.
+                    // If the title has spaces and contains no capital letters,
+                    // keep only the first letters of every word and return the first 4.
+                    const firstSixLetters = 6;
+
                     iconTitle = iconTitle.replace(/[^A-Z ]/gi, '').split(' ')
                         .map(part => part.substring(0, 1))
                         .join('')
                         .toUpperCase()
-                        .substring(0, 6);
+                        .substring(0, firstSixLetters);
                 }
             }
         }
 
-        if (iconTitle.length >= 6) {
+        const threeThreeBreakpoint = 6;
+        const twoThreeBreakpoint = 5;
+        const twoTwoBreakpoint = 4;
+        const three = 3;
+        const two = 2;
+
+        if (iconTitle.length >= threeThreeBreakpoint) {
             //If the title is 6 letters or more, break them into 3+3.
-            iconTitle = `${ iconTitle.substring(0, 3) }<br />${ iconTitle.substring(3, 6) }`;
-        } else if (iconTitle.length == 5) {
+            iconTitle = `${ iconTitle.substring(0, three) }<br />${ iconTitle.substring(three, threeThreeBreakpoint) }`;
+        } else if (iconTitle.length === twoThreeBreakpoint) {
             //If the title is 5 letters or more, break them into 2+3.
-            iconTitle = `${ iconTitle.substring(0, 2) }<br />${ iconTitle.substring(2, 5) }`;
-        } else if (iconTitle.length == 4) {
+            iconTitle = `${ iconTitle.substring(0, two) }<br />${ iconTitle.substring(two, twoThreeBreakpoint) }`;
+        } else if (iconTitle.length === twoTwoBreakpoint) {
             //If the title is 4 letters or more, break them into 2+2.
-            iconTitle = `${ iconTitle.substring(0, 2) }<br />${ iconTitle.substring(2, 4) }`;
+            iconTitle = `${ iconTitle.substring(0, two) }<br />${ iconTitle.substring(two, twoTwoBreakpoint) }`;
         }
 
         return iconTitle;
     }
 
-    get_IconDetail() {
+    public iconDetail(): string {
+        const iconDetailMaxLength = 2;
         let iconDetail: string = this.detail;
 
         if (iconDetail.includes('noparse|')) {
@@ -262,12 +270,14 @@ export class GridIconComponent implements OnInit, OnDestroy {
             }
         } else if (this.condition && !iconDetail) {
             //For condition stages, leave only the number.
-            if (this.condition.choice.substring(0, 6) == 'Stage ') {
+            const stagePhraseLength = 6;
+
+            if (this.condition.choice.substring(0, stagePhraseLength) === 'Stage ') {
                 iconDetail = this.condition.choice.replace('tage ', '');
 
                 return iconDetail;
-            } else if (this.condition.name == 'Persistent Damage') {
-                iconDetail = this.condition.choice.split(' ')[0].substring(0, 6);
+            } else if (this.condition.name === 'Persistent Damage') {
+                iconDetail = this.condition.choice.split(' ')[0].substring(0, stagePhraseLength);
 
                 return iconDetail;
             } else {
@@ -281,13 +291,13 @@ export class GridIconComponent implements OnInit, OnDestroy {
                     iconDetail = iconDetail.replace(/[^A-Z ]/g, '').split(' ')
                         .map(part => part.substring(0, 1))
                         .join('')
-                        .substring(0, 2);
+                        .substring(0, iconDetailMaxLength);
                 } else {
                     iconDetail = iconDetail.replace(/[^a-z ]/gi, '').split(' ')
                         .map(part => part.substring(0, 1))
                         .join('')
                         .toUpperCase()
-                        .substring(0, 2);
+                        .substring(0, iconDetailMaxLength);
                 }
             } else {
                 iconDetail = parseInt(iconDetail, 10).toString();
@@ -297,7 +307,7 @@ export class GridIconComponent implements OnInit, OnDestroy {
         return iconDetail;
     }
 
-    get_IconSuperTitle() {
+    public iconSuperTitle(): string {
         let superTitle: string = this.superTitle;
 
         if (superTitle.includes('noparse|')) {
@@ -307,8 +317,10 @@ export class GridIconComponent implements OnInit, OnDestroy {
         //Convert icon- names into a <i> with that icon. Icons can be separated with |.
         // There should only be one icon, ideally.
         superTitle = superTitle.split('|').map(split => {
-            if (split.substring(0, 5) == 'icon-') {
-                return `<i class='${ split.substring(5) }'></i>`;
+            const iconPhraseLength = 5;
+
+            if (split.substring(0, iconPhraseLength) === 'icon-') {
+                return `<i class='${ split.substring(iconPhraseLength) }'></i>`;
             } else {
                 return split;
             }
@@ -333,7 +345,7 @@ export class GridIconComponent implements OnInit, OnDestroy {
             } else if (this.effect.value) {
                 superTitle = this.effect.value;
             }
-        } else if (this.condition?.durationIsInstant || this.condition?.nextStage == -1) {
+        } else if (this.condition?.durationIsInstant || this.condition?.nextStage === -1) {
             //If a condition has a duration of 1, it needs to be handled immediately, and we show an exclamation diamond to point that out.
             return '<i class=\'bi-exclamation-diamond\'></i>';
         } else if (this.condition?.lockedByParent || this.condition?.valueLockedByParent) {
@@ -375,15 +387,16 @@ export class GridIconComponent implements OnInit, OnDestroy {
                         return '<i class=\'ra ra-spear-head\'></i>';
                     case 'Sword':
                         return '<i class=\'ra ra-sword\'></i>';
+                    default: break;
                 }
             }
 
             if (this.itemStore) {
-                if ((this.item instanceof Consumable || this.item instanceof AdventuringGear) && this.item.stack != 1) {
+                if ((this.item instanceof Consumable || this.item instanceof AdventuringGear) && this.item.stack !== 1) {
                     return this.item.stack.toString();
                 }
             } else {
-                if (this.item instanceof Consumable || this.item.amount != 1) {
+                if (this.item instanceof Consumable || this.item.amount !== 1) {
                     return this.item.amount.toString();
                 }
             }
@@ -394,31 +407,37 @@ export class GridIconComponent implements OnInit, OnDestroy {
         }
 
         //Only show a supertitle if it has 2 or fewer characters, or is an icon.
-        if (superTitle.length <= 2 || superTitle.includes('<i')) {
+        const showSuperTitleBreakpoint = 2;
+
+        if (superTitle.length <= showSuperTitleBreakpoint || superTitle.includes('<i')) {
             return superTitle;
         } else {
             return '';
         }
     }
 
-    get_IconValue() {
+    public iconValue(): string {
+        const maxIconValueLength = 6;
+        const minIconValueLength = 2;
+
         if (this.activity?.iconValueOverride) {
-            return this.activity.iconValueOverride.substring(0, 6);
+            return this.activity.iconValueOverride.substring(0, maxIconValueLength);
         }
 
-        //Show condition value, and show effect values over 2 characters, trimmed to 6 characters. Shorter effect values will be shown as SuperTitle instead.
+        // Show condition value, and show effect values over 2 characters, trimmed to 6 characters.
+        // Shorter effect values will be shown as SuperTitle instead.
         if (this.condition?.value) {
-            if (this.condition.name == 'Stunned' && this.condition.duration != -1) {
+            if (this.condition.name === 'Stunned' && this.condition.duration !== -1) {
                 return '';
             } else {
                 return this.condition.value.toString();
             }
-        } else if (this.effect?.title?.length > 2) {
-            return this.effect.title.split(' (')[0].split(':')[0].substring(0, 6);
-        } else if (this.effect?.setValue?.length > 2) {
-            return this.effect.setValue.substring(0, 6);
-        } else if (this.effect?.value?.length > 2) {
-            return this.effect.value.substring(0, 6);
+        } else if (this.effect?.title?.length > minIconValueLength) {
+            return this.effect.title.split(' (')[0].split(':')[0].substring(0, maxIconValueLength);
+        } else if (this.effect?.setValue?.length > minIconValueLength) {
+            return this.effect.setValue.substring(0, maxIconValueLength);
+        } else if (this.effect?.value?.length > minIconValueLength) {
+            return this.effect.value.substring(0, maxIconValueLength);
         }
 
         if (this.item) {
@@ -435,15 +454,16 @@ export class GridIconComponent implements OnInit, OnDestroy {
                     const striking = (this.item as Equipment).effectiveStriking();
 
                     switch (striking) {
-                        case 1:
+                        case BasicRuneLevels.First:
                             value += 'S';
                             break;
-                        case 2:
+                        case BasicRuneLevels.Second:
                             value += 'GS';
                             break;
-                        case 3:
+                        case BasicRuneLevels.Third:
                             value += 'MS';
                             break;
+                        default: break;
                     }
                 }
 
@@ -451,15 +471,16 @@ export class GridIconComponent implements OnInit, OnDestroy {
                     const resilient = (this.item as Equipment).effectiveResilient();
 
                     switch (resilient) {
-                        case 1:
+                        case BasicRuneLevels.First:
                             value += 'R';
                             break;
-                        case 2:
+                        case BasicRuneLevels.Second:
                             value += 'GR';
                             break;
-                        case 3:
+                        case BasicRuneLevels.Third:
                             value += 'MR';
                             break;
+                        default: break;
                     }
                 }
 
@@ -476,21 +497,24 @@ export class GridIconComponent implements OnInit, OnDestroy {
         return '';
     }
 
-    get_DurationOverlays() {
+    public durationOverlays(): Array<{ offset: number; percentage: number; over50: number }> {
         if (this.condition?.duration || this.effect?.duration) {
+            const percent = 100;
+            const half = 50;
+
             const duration = (this.condition || this.effect).duration || 0;
             const maxDuration = (this.condition || this.effect).maxDuration || 0;
-            const percentage = 100 - Math.floor((duration / maxDuration) * 100);
+            const percentage = percent - Math.floor((duration / maxDuration) * percent);
 
-            if (percentage > 50) {
+            if (percentage > half) {
                 return [
-                    { offset: 0, percentage: 50, over50: 1 },
-                    { offset: 50, percentage: percentage - 50, over50: 0 },
+                    { offset: 0, percentage: half, over50: 1 },
+                    { offset: half, percentage: percentage - half, over50: 0 },
                 ];
             } else {
                 return [
                     { offset: 0, percentage, over50: 0 },
-                    { offset: 50, percentage: 0, over50: 0 },
+                    { offset: half, percentage: 0, over50: 0 },
                 ];
             }
         } else {
@@ -498,33 +522,44 @@ export class GridIconComponent implements OnInit, OnDestroy {
         }
     }
 
-    finish_Loading() {
+    public ngOnInit(): void {
         if (this.updateId) {
-            this.changeSubscription = this.refreshService.componentChanged$
+            this._changeSubscription = this._refreshService.componentChanged$
                 .subscribe(target => {
-                    if (target == this.updateId || (target == 'effects' && this.condition)) {
-                        this.changeDetector.detectChanges();
+                    if (target === this.updateId || (target === 'effects' && this.condition)) {
+                        this._changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.detailChanged$
+            this._viewChangeSubscription = this._refreshService.detailChanged$
                 .subscribe(view => {
-                    if (view.target == this.updateId || (view.target.toLowerCase() == 'effects' && this.condition)) {
-                        this.changeDetector.detectChanges();
+                    if (view.target === this.updateId || (view.target.toLowerCase() === 'effects' && this.condition)) {
+                        this._changeDetector.detectChanges();
                     }
                 });
         }
     }
 
-    public ngOnInit(): void {
-        this.finish_Loading();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _isOneWordTitle(): boolean {
+        let title: string = this.title;
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+        if (this.feat) {
+            if (this.feat.subType) {
+                title = this.title || this.feat.superType;
+            } else {
+                title = this.title || this.feat.name;
+            }
+        } else if (this.condition) {
+            title = this.title || this.condition.name;
+        } else if (this.effect) {
+            title = this.title || this.effect.target;
+        }
+
+        return !title.includes(' ');
     }
 
 }

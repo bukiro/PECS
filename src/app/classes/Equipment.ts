@@ -17,13 +17,7 @@ import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterService } from 'src/app/services/character.service';
-
-enum RuneLevels {
-    None = 0,
-    First = 1,
-    Second = 2,
-    Third = 3,
-}
+import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 
 export class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -64,13 +58,13 @@ export class Equipment extends Item {
      */
     public moddable = false;
     /** Potency Rune level for weapons and armor. */
-    public potencyRune = RuneLevels.None;
+    public potencyRune = BasicRuneLevels.None;
     /** Property Runes for weapons and armor. */
     public propertyRunes: Array<Rune> = [];
     /** Blade Ally Runes can be emulated on weapons and handwraps. */
     public bladeAllyRunes: Array<Rune> = [];
     /** Resilient Rune level for armor. */
-    public resilientRune = RuneLevels.None;
+    public resilientRune = BasicRuneLevels.None;
     /** Is the name input visible in the inventory. */
     public showName = false;
     /** Is the rune selection visible in the inventory. */
@@ -78,7 +72,7 @@ export class Equipment extends Item {
     /** Is the status selection visible in the inventory. */
     public showStatus = false;
     /** Striking Rune level for weapons. */
-    public strikingRune = RuneLevels.None;
+    public strikingRune = BasicRuneLevels.None;
     /** Store any talismans attached to this item. */
     public talismans: Array<Talisman> = [];
     /** List any Talisman Cords attached to this item. */
@@ -96,7 +90,7 @@ export class Equipment extends Item {
         //Material can allow you to have four runes instead of three.
         const extraRune = this.material?.[0]?.extraRune || 0;
 
-        if (this.potencyRune === RuneLevels.Third && extraRune) {
+        if (this.potencyRune === BasicRuneLevels.Third && extraRune) {
             for (let index = 0; index < extraRune; index++) {
                 runes++;
             }
@@ -226,13 +220,13 @@ export class Equipment extends Item {
     }
     public strikingTitle(striking: number): string {
         switch (striking) {
-            case RuneLevels.None:
+            case BasicRuneLevels.None:
                 return '';
-            case RuneLevels.First:
+            case BasicRuneLevels.First:
                 return 'Striking';
-            case RuneLevels.Second:
+            case BasicRuneLevels.Second:
                 return 'Greater Striking';
-            case RuneLevels.Third:
+            case BasicRuneLevels.Third:
                 return 'Major Striking';
             default:
                 return '';
@@ -244,13 +238,13 @@ export class Equipment extends Item {
     }
     public resilientTitle(resilient: number): string {
         switch (resilient) {
-            case RuneLevels.None:
+            case BasicRuneLevels.None:
                 return '';
-            case RuneLevels.First:
+            case BasicRuneLevels.First:
                 return 'Resilient';
-            case RuneLevels.Second:
+            case BasicRuneLevels.Second:
                 return 'Greater Resilient';
-            case RuneLevels.Third:
+            case BasicRuneLevels.Third:
                 return 'Major Resilient';
             default:
                 return '';

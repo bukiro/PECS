@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngFor="let iconValueResult of [get_IconValue()]; trackBy:trackByIndex">
+<ng-container *ngIf="iconValue() as iconValueResult">
     <ng-container *ngIf="iconValueResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate">
     </ng-container>
     <ng-template #InnerHtmlDivTemplate>
@@ -11,7 +11,7 @@
             [ngStyle]="{'color': effect ? 'inherit' : ''}">{{iconValueResult}}</span>
     </ng-template>
 </ng-container>
-<ng-container *ngFor="let iconDetailResult of [get_IconDetail()]; trackBy:trackByIndex">
+<ng-container *ngIf="iconDetail() as iconDetailResult">
     <ng-container *ngIf="iconDetailResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate">
     </ng-container>
     <ng-template #InnerHtmlDivTemplate>
@@ -21,7 +21,7 @@
         <span class="iconDetail disable-text-selection">{{iconDetailResult}}</span>
     </ng-template>
 </ng-container>
-<ng-container *ngFor="let iconSuperTitleResult of [get_IconSuperTitle()]; trackBy:trackByIndex">
+<ng-container *ngIf="iconSuperTitle() as iconSuperTitleResult">
     <span class="iconSuperTitle disable-text-selection" *ngIf="iconSuperTitleResult">
         <ng-container *ngIf="iconSuperTitleResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate">
         </ng-container>
@@ -33,7 +33,7 @@
         </ng-template>
     </span>
 </ng-container>
-<ng-container *ngFor="let iconTitleResult of [get_IconTitle()]; trackBy:trackByIndex">
+<ng-container *ngIf="iconTitle() as iconTitleResult">
     <span class="iconTitle disable-text-selection" *ngIf="iconTitleResult">
         <ng-container *ngIf="iconTitleResult.includes('<'); then InnerHtmlDivTemplate; else TextDivTemplate">
         </ng-container>
@@ -45,7 +45,7 @@
         </ng-template>
     </span>
 </ng-container>
-<ng-container *ngFor="let iconSubTitleResult of [get_IconSubTitle()]; trackBy:trackByIndex">
+<ng-container *ngIf="iconSubTitle() as iconSubTitleResult">
     <ng-container
         *ngIf="iconSubTitleResult.includes('<') || iconSubTitleResult.includes('|'); then InnerHtmlDivTemplate; else TextDivTemplate">
     </ng-container>
@@ -65,7 +65,7 @@
     </ng-template>
 </ng-container>
 <ng-container *ngIf="condition?.maxDuration > 0 || effect?.duration > 0">
-    <ng-container *ngFor="let overlay of get_DurationOverlays(); trackBy:trackByIndex;">
+    <ng-container *ngFor="let overlay of durationOverlays(); trackBy:trackers.trackByIndex;">
         <div class="gridicon-time-overlay" [style.--offset]="overlay.offset" [style.--percentage]="overlay.percentage"
             [style.--over50]="overlay.over50" [ngClass]="{'transition5':!overlay.over50}"></div>
     </ng-container>
