@@ -55,9 +55,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
     @Input()
     creature = 'Character';
     @Input()
-    public sheetSide = 'left';
-    @Input()
     public itemStore = false;
+
     private showItem = '';
     private showList = '';
     public shieldDamage = 0;

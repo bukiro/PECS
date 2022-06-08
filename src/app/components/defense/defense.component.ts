@@ -44,8 +44,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
-    @Input()
-    public sheetSide = 'left';
+
     public shieldDamage = 0;
 
     private _changeSubscription: Subscription;

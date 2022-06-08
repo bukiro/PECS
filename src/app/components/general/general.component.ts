@@ -24,8 +24,6 @@ export class GeneralComponent implements OnInit, OnDestroy {
     creature = 'Character';
     @Input()
     public showMinimizeButton = true;
-    @Input()
-    public sheetSide = 'left';
 
     private changeSubscription: Subscription;
     private viewChangeSubscription: Subscription;

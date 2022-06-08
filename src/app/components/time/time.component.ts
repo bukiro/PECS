@@ -20,8 +20,6 @@ export class TimeComponent implements OnInit, OnDestroy {
     public showTurn = true;
     @Input()
     public showTime = true;
-    @Input()
-    public sheetSide = 'center';
 
     private changeSubscription: Subscription;
     private viewChangeSubscription: Subscription;

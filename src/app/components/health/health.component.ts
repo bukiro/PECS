@@ -23,8 +23,6 @@ export class HealthComponent implements OnInit, OnDestroy {
     creature = 'Character';
     @Input()
     public showMinimizeButton = true;
-    @Input()
-    public sheetSide = 'left';
 
     public damageSliderMax = 1;
 

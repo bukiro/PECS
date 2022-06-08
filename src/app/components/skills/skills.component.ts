@@ -23,8 +23,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     @Input()
     creature = 'Character';
-    @Input()
-    public sheetSide = 'left';
+
     private showList = '';
     private showAction = '';
 

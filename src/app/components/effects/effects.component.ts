@@ -38,8 +38,6 @@ export class EffectsComponent implements OnInit, OnDestroy {
     public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
     public fullDisplay = false;
-    @Input()
-    public sheetSide = 'left';
 
     public showApplied = true;
     public showNotApplied = false;

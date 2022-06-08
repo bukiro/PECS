@@ -14,9 +14,6 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 })
 export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
 
-    @Input()
-    public sheetSide = 'left';
-
     public CreatureTypesEnum = CreatureTypes;
 
     private _changeSubscription: Subscription;

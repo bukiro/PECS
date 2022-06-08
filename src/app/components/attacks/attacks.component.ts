@@ -51,8 +51,6 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
-    @Input()
-    public sheetSide = 'left';
     public onlyAttacks: Array<AttackRestriction> = [];
     public forbiddenAttacks: Array<AttackRestriction> = [];
     public showRestricted = false;

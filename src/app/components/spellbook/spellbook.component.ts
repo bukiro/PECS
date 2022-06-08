@@ -72,8 +72,6 @@ interface SpellParameters {
 })
 export class SpellbookComponent implements OnInit, OnDestroy {
 
-    @Input()
-    public sheetSide = 'left';
     private showSpell = '';
     private showList = '';
 

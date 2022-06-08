@@ -473,7 +473,7 @@
                     <button class="center-aligned" [ngClass]="{'fancy-button':get_ShowCreature()==='Familiar'}"
                         *ngIf="get_FamiliarAvailable()" (click)="toggle_Creature('Familiar')">Familiar</button>
                 </div>
-                <app-inventory [itemStore]="true" id="ItemStore-inventory" [sheetSide]="'right'" [creature]="creature"
+                <app-inventory [itemStore]="true" id="ItemStore-inventory" [creature]="creature"
                     [ngClass]="{'minimized':(get_InventoryMinimized())}" style="position:relative"></app-inventory>
             </div>
         </div>

@@ -41,8 +41,6 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     @Input()
     public creature = 'Character';
-    @Input()
-    public sheetSide = 'left';
 
     private _showActivity = '';
     private _showItem = '';

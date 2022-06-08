@@ -15,27 +15,27 @@
         <!--Desktop-only view-->
         <ng-container *ngIf="!isMobile">
             <app-effects [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-effects"
-                class="charactersheet-app charactersheet-row mobile-hide" [sheetSide]="'center'">
+                class="charactersheet-app charactersheet-row mobile-hide">
             </app-effects>
             <div class="charactersheet-column-container mobile-hide">
                 <div class="charactersheet-column">
-                    <app-general [creature]="CreatureTypesEnum.AnimalCompanion" [sheetSide]="'left'" id="Companion-general"
+                    <app-general [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-general"
                         class="charactersheet-app"></app-general>
-                    <app-health [creature]="CreatureTypesEnum.AnimalCompanion" [sheetSide]="'left'" id="Companion-health"
+                    <app-health [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-health"
                         class="charactersheet-app"></app-health>
-                    <app-skills [creature]="CreatureTypesEnum.AnimalCompanion" [sheetSide]="'left'" id="Companion-skills"
+                    <app-skills [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-skills"
                         class="charactersheet-app"></app-skills>
-                    <app-activities [creature]="CreatureTypesEnum.AnimalCompanion" [sheetSide]="'left'" id="Companion-activities"
+                    <app-activities [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-activities"
                         class="charactersheet-app"></app-activities>
                 </div>
                 <div class="charactersheet-column">
-                    <app-abilities [creature]="CreatureTypesEnum.AnimalCompanion" [sheetSide]="'right'" id="Companion-abilities"
+                    <app-abilities [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-abilities"
                         class="charactersheet-app"></app-abilities>
-                    <app-defense [creature]="CreatureTypesEnum.AnimalCompanion" [sheetSide]="'right'" id="Companion-defense"
+                    <app-defense [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-defense"
                         class="charactersheet-app"></app-defense>
-                    <app-attacks [creature]="CreatureTypesEnum.AnimalCompanion" [sheetSide]="'right'" id="Companion-attacks"
+                    <app-attacks [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-attacks"
                         class="charactersheet-app"></app-attacks>
-                    <app-inventory [creature]="CreatureTypesEnum.AnimalCompanion" [sheetSide]="'right'" id="Companion-inventory"
+                    <app-inventory [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-inventory"
                         class="charactersheet-app"></app-inventory>
                 </div>
             </div>
@@ -73,40 +73,43 @@
             <ng-container *ngIf="!stillLoading">
                 <div class="charactersheet-column-container desktop-hide">
                     <div class="charactersheet-column">
-                        <app-general id="Character-general" class="charactersheet-app" [creature]="CreatureTypesEnum.AnimalCompanion"
-                            [sheetSide]="'center'" [ngClass]="{'minimized':(isMinimized)}"
+                        <app-general id="Character-general" class="charactersheet-app"
+                            [creature]="CreatureTypesEnum.AnimalCompanion" [ngClass]="{'minimized':(isMinimized)}"
                             *ngIf="!showMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(showMode())">
                         </app-general>
-                        <app-abilities id="Character-abilities" class="charactersheet-app" [creature]="CreatureTypesEnum.AnimalCompanion"
-                            [sheetSide]="'center'" [ngClass]="{'minimized':(isMinimized)}" *ngIf="!showMode()">
+                        <app-abilities id="Character-abilities" class="charactersheet-app"
+                            [creature]="CreatureTypesEnum.AnimalCompanion" [ngClass]="{'minimized':(isMinimized)}"
+                            *ngIf="!showMode()">
                         </app-abilities>
-                        <app-health id="Character-health" class="charactersheet-app" [creature]="CreatureTypesEnum.AnimalCompanion"
-                            [sheetSide]="'center'" [showMinimizeButton]="(showMode() !== 'Downtime')"
+                        <app-health id="Character-health" class="charactersheet-app"
+                            [creature]="CreatureTypesEnum.AnimalCompanion"
+                            [showMinimizeButton]="(showMode() !== 'Downtime')"
                             [ngClass]="{'minimized':(isMinimized || (showMode() === 'Downtime'))}"
                             *ngIf="showMode()==='Health'">
                         </app-health>
-                        <app-defense id="Character-defense" class="charactersheet-app" [creature]="CreatureTypesEnum.AnimalCompanion"
-                            [sheetSide]="'center'" [ngClass]="{'minimized':(isMinimized)}"
+                        <app-defense id="Character-defense" class="charactersheet-app"
+                            [creature]="CreatureTypesEnum.AnimalCompanion" [ngClass]="{'minimized':(isMinimized)}"
                             *ngIf="showMode()==='Defense'">
                         </app-defense>
-                        <app-attacks id="Character-attacks" class="charactersheet-app" [creature]="CreatureTypesEnum.AnimalCompanion"
-                            [sheetSide]="'center'" [ngClass]="{'minimized':(isMinimized)}"
+                        <app-attacks id="Character-attacks" class="charactersheet-app"
+                            [creature]="CreatureTypesEnum.AnimalCompanion" [ngClass]="{'minimized':(isMinimized)}"
                             *ngIf="showMode()==='Attacks'">
                         </app-attacks>
-                        <app-skills id="Character-skills" class="charactersheet-app" [creature]="CreatureTypesEnum.AnimalCompanion"
-                            [sheetSide]="'center'" [ngClass]="{'minimized':(isMinimized)}"
+                        <app-skills id="Character-skills" class="charactersheet-app"
+                            [creature]="CreatureTypesEnum.AnimalCompanion" [ngClass]="{'minimized':(isMinimized)}"
                             *ngIf="showMode()==='Skills'">
                         </app-skills>
-                        <app-activities id="Character-activities" class="charactersheet-app" [creature]="CreatureTypesEnum.AnimalCompanion"
-                            [sheetSide]="'center'" [ngClass]="{'minimized':(isMinimized)}"
+                        <app-activities id="Character-activities" class="charactersheet-app"
+                            [creature]="CreatureTypesEnum.AnimalCompanion" [ngClass]="{'minimized':(isMinimized)}"
                             *ngIf="showMode()==='Actions'">
                         </app-activities>
-                        <app-inventory id="Character-inventory" class="charactersheet-app" [creature]="CreatureTypesEnum.AnimalCompanion"
-                            [sheetSide]="'center'" [ngClass]="{'minimized':(isMinimized)}"
+                        <app-inventory id="Character-inventory" class="charactersheet-app"
+                            [creature]="CreatureTypesEnum.AnimalCompanion" [ngClass]="{'minimized':(isMinimized)}"
                             *ngIf="showMode()==='Inventory'">
                         </app-inventory>
-                        <app-effects id="Character-effects" class="charactersheet-app" [creature]="CreatureTypesEnum.AnimalCompanion"
-                            [fullDisplay]="true" [sheetSide]="'center'" *ngIf="showMode()==='ConditionsEffects'">
+                        <app-effects id="Character-effects" class="charactersheet-app"
+                            [creature]="CreatureTypesEnum.AnimalCompanion" [fullDisplay]="true"
+                            *ngIf="showMode()==='ConditionsEffects'">
                         </app-effects>
                     </div>
                 </div>

@@ -19,8 +19,6 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
-    @Input()
-    public sheetSide = 'left';
 
     private _changeSubscription: Subscription;
     private _viewChangeSubscription: Subscription;
