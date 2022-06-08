@@ -60,8 +60,9 @@ export class RefreshService {
         return this._detailChanged$;
     }
 
+    //TO-DO: Make this lowercase so the subscriptions don't have to
     public setComponentChanged(target = 'all'): void {
-        if (['Character', 'Companion', 'Familiar', 'all'].includes(target)) {
+        if (['character', 'companion', 'familiar', 'all'].includes(target.toLowerCase())) {
             this._clearPreparedChanges(target);
         }
 

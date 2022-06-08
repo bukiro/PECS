@@ -1,10 +1,16 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Character } from 'src/app/classes/Character';
+import { Familiar } from 'src/app/classes/Familiar';
 import { CharacterService } from 'src/app/services/character.service';
 import { DisplayService } from 'src/app/services/display.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { Trackers } from 'src/libs/shared/util/trackers';
 
 @Component({
     selector: 'app-familiar',
@@ -14,120 +20,110 @@ import { RefreshService } from 'src/app/services/refresh.service';
 })
 export class FamiliarComponent implements OnInit, OnDestroy {
 
-    private showMode = '';
-    public mobile = false;
+    public isMobile = false;
+    public CreatureTypesEnum = CreatureTypes;
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _showMode = '';
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly familiarsService: FamiliarsService,
-        private readonly effectsService: EffectsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _familiarsService: FamiliarsService,
+        private readonly _effectsService: EffectsService,
+        public trackers: Trackers,
     ) { }
 
-    minimize() {
-        this.characterService.character.settings.familiarMinimized = !this.characterService.character.settings.familiarMinimized;
-        this.set_Changed('Familiar');
-    }
-
-    get_Minimized() {
-        return this.characterService.character.settings.familiarMinimized;
-    }
-
     public get stillLoading(): boolean {
-        return (this.characterService.stillLoading || this.familiarsService.stillLoading);
+        return (this._characterService.stillLoading || this._familiarsService.stillLoading);
     }
 
-    toggleFamiliarMenu() {
-        this.characterService.toggleMenu('familiar');
+    public get isMinimized(): boolean {
+        return this._characterService.character.settings.familiarMinimized;
     }
 
-    get_FamiliarMenuState() {
-        return this.characterService.familiarMenuState();
+    public get familiarMenuState(): MenuState {
+        return this._characterService.familiarMenuState();
     }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get character(): Character {
+        return this._characterService.character;
     }
 
-    set_Changed(target: string) {
-        this.refreshService.setComponentChanged(target);
+    public get isFamiliarAvailable(): boolean {
+        return this._characterService.isFamiliarAvailable();
     }
 
-    get_Character() {
-        return this.characterService.character;
+    public get familiar(): Familiar {
+        return this._characterService.familiar;
     }
 
-    get_FamiliarAvailable() {
-        return this.characterService.isFamiliarAvailable();
+    @HostListener('window:resize', ['$event'])
+    public onResize(): void {
+        this._setMobile();
     }
 
-    get_Familiar() {
-        return this.characterService.familiar;
+    @HostListener('window:orientationchange', ['$event'])
+    public onRotate(): void {
+        this._setMobile();
     }
 
-    toggle_Mode(type: string) {
-        if (this.showMode == type) {
-            this.showMode = '';
-        } else {
-            this.showMode = type;
-        }
+    public minimize(): void {
+        this._characterService.character.settings.familiarMinimized = !this._characterService.character.settings.familiarMinimized;
+        this._refreshService.setComponentChanged('Familiar');
     }
 
-    get_ShowMode() {
-        return this.showMode;
+    public toggleFamiliarMenu(): void {
+        this._characterService.toggleMenu(MenuNames.FamiliarMenu);
     }
 
-    get_FamiliarAbilitiesFinished() {
-        const choice = this.get_Familiar().abilities;
+    public toggleShownMode(type: string): void {
+        this._showMode = this._showMode === type ? '' : type;
+    }
+
+    public shownMode(): string {
+        return this._showMode;
+    }
+
+    public areFamiliarAbilitiesFinished(): boolean {
+        const choice = this.familiar.abilities;
         let available = choice.available;
 
-        this.effectsService.absoluteEffectsOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
+        this._effectsService.absoluteEffectsOnThis(this.character, 'Familiar Abilities').forEach(effect => {
             available = parseInt(effect.setValue, 10);
         });
-        this.effectsService.relativeEffectsOnThis(this.get_Character(), 'Familiar Abilities').forEach(effect => {
+        this._effectsService.relativeEffectsOnThis(this.character, 'Familiar Abilities').forEach(effect => {
             available += parseInt(effect.value, 10);
         });
 
         return choice.feats.length >= available;
     }
 
-    set_Mobile() {
-        this.mobile = DisplayService.isMobile;
-    }
-
     public ngOnInit(): void {
-        this.set_Mobile();
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._setMobile();
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['familiar', 'all'].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature.toLowerCase() == 'familiar' && ['familiar', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                if (view.creature.toLowerCase() === 'familiar' && ['familiar', 'all'].includes(view.target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
     }
 
-    @HostListener('window:resize', ['$event'])
-    onResize() {
-        this.set_Mobile();
-    }
-
-    @HostListener('window:orientationchange', ['$event'])
-    onRotate() {
-        this.set_Mobile();
+    private _setMobile(): void {
+        this.isMobile = DisplayService.isMobile;
     }
 
 }

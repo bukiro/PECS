@@ -14,7 +14,7 @@
         *ngIf="!stillLoading && character.class && isCompanionAvailable && companionMenuState === 'in'">
         <!--Desktop-only view-->
         <ng-container *ngIf="!isMobile">
-            <app-effects [creature]="'Companion'" id="Companion-effects"
+            <app-effects [creature]="CreatureTypesEnum.AnimalCompanion" id="Companion-effects"
                 class="charactersheet-app charactersheet-row mobile-hide" [sheetSide]="'center'">
             </app-effects>
             <div class="charactersheet-column-container mobile-hide">
