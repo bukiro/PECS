@@ -9,6 +9,13 @@ import { Creature } from './Creature';
 import { ItemGainOnOptions } from '../../libs/shared/definitions/itemGainOptions';
 import { HintEffectsObject } from '../services/effectsGeneration.service';
 
+export interface TraitActivation {
+    trait: string;
+    active: boolean;
+    active2: boolean;
+    active3: boolean;
+}
+
 export class Item {
     public readonly save: Array<string> = [
         'refId',

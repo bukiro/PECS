@@ -1,50 +1,57 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Trait } from 'src/app/classes/Trait';
-import { Item } from 'src/app/classes/Item';
+import { Item, TraitActivation } from 'src/app/classes/Item';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Creature } from 'src/app/classes/Creature';
 
 @Component({
     selector: 'app-trait',
     templateUrl: './trait.component.html',
     styleUrls: ['./trait.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TraitComponent {
 
     @Input()
-    creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    trait: Trait;
+    public trait: Trait;
     @Input()
-    name: string;
+    public name: string;
     @Input()
-    item: Item = null;
+    public item: Item = null;
     @Input()
-    extraDescription: string;
+    public extraDescription: string;
 
     constructor(
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
     }
 
-    get_Creature() {
-        return this.characterService.creatureFromType(this.creature);
+    public onActivateEffect(): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
     }
 
-    on_ActivateEffect() {
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
-    }
-
-    get_ObjectTraitActivations() {
+    public objectTraitActivations(): Array<TraitActivation> {
         if (this.item) {
             this.item.prepareTraitActivations();
 
-            return this.item.traitActivations.filter(activation => activation.trait == this.trait.name || (this.trait.dynamic && activation.trait.includes(this.trait.name)));
+            return this.item.traitActivations.filter(activation =>
+                activation.trait === this.trait.name ||
+                (
+                    this.trait.dynamic &&
+                    activation.trait.includes(this.trait.name)
+                ),
+            );
         }
 
         return [];

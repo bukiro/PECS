@@ -6,13 +6,14 @@
             <strong>Source</strong>
             <i>{{trait.sourceBook}}</i>
         </div>
-        <app-description [text]="split" *ngFor="let split of trait.desc.split('\n\n'); trackBy:trackByIndex;">
+        <app-description [text]="split" *ngFor="let split of trait.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
         </app-description>
         <div class="newrow left-aligned" *ngIf="extraDescription">
             {{extraDescription}}
         </div>
         <ng-container *ngIf="trait.objectEffects && trait.objectEffects.length && item">
-            <app-description [text]="split" *ngFor="let split of trait.effectDesc.split('\n\n'); trackBy:trackByIndex;">
+            <app-description [text]="split"
+                *ngFor="let split of trait.effectDesc.split('\n\n'); trackBy:trackers.trackByIndex;">
             </app-description>
         </ng-container>
     </ng-template>
@@ -20,13 +21,13 @@
         {{extraDescription ? "+ " : ""}}{{name || trait.name}}
     </span>
     <ng-container *ngIf="trait.objectEffects && trait.objectEffects.length && item">
-        <ng-container *ngFor="let activation of get_ObjectTraitActivations(); trackBy:trackByIndex;">
-            <input type="checkbox" [(ngModel)]="activation.active" (ngModelChange)="on_ActivateEffect()"
+        <ng-container *ngFor="let activation of objectTraitActivations(); trackBy:trackers.trackByIndex;">
+            <input type="checkbox" [(ngModel)]="activation.active" (ngModelChange)="onActivateEffect()"
                 [ngbTooltip]="'Activate any effects of this trait.'" triggers="hover">
-            <input type="checkbox" [(ngModel)]="activation.active2" (ngModelChange)="on_ActivateEffect()"
+            <input type="checkbox" [(ngModel)]="activation.active2" (ngModelChange)="onActivateEffect()"
                 *ngIf="trait.extraActivations > 0" [ngbTooltip]="'Activate the second level of this trait\'s effects.'"
                 triggers="hover">
-            <input type="checkbox" [(ngModel)]="activation.active3" (ngModelChange)="on_ActivateEffect()"
+            <input type="checkbox" [(ngModel)]="activation.active3" (ngModelChange)="onActivateEffect()"
                 *ngIf="trait.extraActivations > 1" [ngbTooltip]="'Activate the third level of this trait\'s effects.'"
                 triggers="hover">
         </ng-container>
