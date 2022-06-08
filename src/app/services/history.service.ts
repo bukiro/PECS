@@ -23,6 +23,10 @@ export class HistoryService {
         private readonly _extensionsService: ExtensionsService,
     ) { }
 
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
+
     public ancestries(name = ''): Array<Ancestry> {
         if (this._initialized) {
             return this._ancestries.filter(ancestry => !name || ancestry.name === name);
@@ -178,10 +182,6 @@ export class HistoryService {
         }
 
         return background;
-    }
-
-    public get stillLoading(): boolean {
-        return !this._initialized;
     }
 
     public initialize(): void {

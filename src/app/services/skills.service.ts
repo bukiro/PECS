@@ -15,6 +15,10 @@ export class SkillsService {
         private readonly _extensionsService: ExtensionsService,
     ) { }
 
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
+
     public skills(
         customSkills: Array<Skill>,
         name = '',
@@ -65,10 +69,6 @@ export class SkillsService {
                 return [];
             }
         } else { return [new Skill()]; }
-    }
-
-    public get stillLoading(): boolean {
-        return !this._initialized;
     }
 
     public initialize(): void {

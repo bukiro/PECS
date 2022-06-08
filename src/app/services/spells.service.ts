@@ -17,6 +17,7 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Injectable({
     providedIn: 'root',
@@ -31,6 +32,10 @@ export class SpellsService {
         private readonly _extensionsService: ExtensionsService,
         private readonly _refreshService: RefreshService,
     ) { }
+
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
 
     public spellFromName(name: string): Spell {
         //Returns a named spell from the map.
@@ -622,10 +627,6 @@ export class SpellsService {
                     taken.gain.chargesUsed = 0;
                 }
             });
-    }
-
-    public get stillLoading(): boolean {
-        return !this._initialized;
     }
 
     public initialize(): void {

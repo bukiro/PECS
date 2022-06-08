@@ -78,6 +78,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 type AnyItemType =
     ArmorRune | WeaponRune | Oil | AdventuringGear | AlchemicalBomb | AlchemicalElixir | AlchemicalPoison
@@ -105,6 +106,10 @@ export class ItemsService {
         private readonly _activitiesService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
     ) { }
+
+    public get stillLoading(): boolean {
+        return !this._initialized;
+    }
 
     public storeItems(): ItemCollection {
         if (!this.stillLoading) {
@@ -1066,10 +1071,6 @@ export class ItemsService {
                     item.oilsApplied = item.oilsApplied.filter(oil => oil.name !== 'DELETE');
                 });
         });
-    }
-
-    public get stillLoading(): boolean {
-        return !this._initialized;
     }
 
     public initialize(): void {
