@@ -542,7 +542,7 @@ export class CharacterService {
             }
 
             //Remove all free languages that have not been filled.
-            character.class.languages = character.class.languages.sort().filter(language => !(language.name === '' && !language.locked));
+            character.class.languages = character.class.languages.sort().filter(language => language.name || language.locked);
 
             // Make a new list of all the free languages.
             // We will pick and sort the free languages from here into the character language list.
@@ -2993,7 +2993,7 @@ export class CharacterService {
                 });
             } else {
                 //Without the all parameter, get activities only from equipped and invested items and their slotted items.
-                const hasTooManyAeonStonesSlotted = this.itemsService.hasTooManySlottedAeonStones(creature);
+                const hasTooManySlottedAeonStones = this.itemsService.hasTooManySlottedAeonStones(creature);
 
                 creature.inventories[0]?.allEquipment()
                     .filter(item =>
@@ -3032,7 +3032,7 @@ export class CharacterService {
                         }
 
                         //Get activities from slotted aeon stones, NOW including resonant activities.
-                        if (!hasTooManyAeonStonesSlotted && item instanceof WornItem) {
+                        if (!hasTooManySlottedAeonStones && item instanceof WornItem) {
                             item.aeonStones.filter(stone => stone.activities.length).forEach(stone => {
                                 activities.push(...stone.activities);
                             });
@@ -3119,7 +3119,7 @@ export class CharacterService {
             }
         };
 
-        const hasTooManyAeonStonesSlotted = this.itemsService.hasTooManySlottedAeonStones(creature);
+        const hasTooManySlottedAeonStones = this.itemsService.hasTooManySlottedAeonStones(creature);
 
         creature.inventories.forEach(inventory => {
             inventory.allEquipment()
@@ -3135,7 +3135,7 @@ export class CharacterService {
                         addItemIfHintsMatch(oil, false);
                     });
 
-                    if (!hasTooManyAeonStonesSlotted && item instanceof WornItem) {
+                    if (!hasTooManySlottedAeonStones && item instanceof WornItem) {
                         item.aeonStones.forEach(stone => {
                             addItemIfHintsMatch(stone, true);
                         });

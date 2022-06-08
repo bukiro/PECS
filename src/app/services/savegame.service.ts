@@ -523,7 +523,7 @@ export class SavegameService {
                             '046845de-4cb0-411a-9f6e-85a669e5e12b',
                         ].includes(invItem.refId) && invItem.activities) {
                             invItem.activities = invItem.activities
-                                .filter(activity => !(activity.castSpells.length && activity.actions === ''));
+                                .filter(activity => !(!activity.actions && activity.castSpells.length));
                         }
 
                         if (invItem.refId === '88de530a-913b-11ea-bb37-0242ac130002') {
@@ -542,7 +542,7 @@ export class SavegameService {
                             ?.filter(aeonStone => aeonStone.refId === '046845de-4cb0-411a-9f6e-85a669e5e12b' && aeonStone.activities)
                             .forEach(aeonStone => {
                                 aeonStone.activities =
-                                    aeonStone.activities.filter(activity => !(activity.castSpells.length && activity.actions === ''));
+                                    aeonStone.activities.filter(activity => !(!activity.actions && activity.castSpells.length));
                             });
                     });
                 });

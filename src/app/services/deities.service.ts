@@ -33,9 +33,31 @@ export class DeitiesService {
         return !this._initialized;
     }
 
+    public deities(name = ''): Array<Deity> {
+        if (!this.stillLoading) {
+            //If a name is given, try to find a deity by that name in the index map. This should be much quicker.
+            if (name) {
+                return [this.deityFromName(name)];
+            } else {
+                return this._deities.filter(deity => !name || deity.name.toLowerCase() === name.toLowerCase());
+            }
+        } else { return [this._replacementDeity()]; }
+    }
+
     public deityFromName(name: string): Deity {
         //Returns a named deity from the map.
         return this._deitiesMap.get(name.toLowerCase()) || this._replacementDeity(name);
+    }
+
+    public domains(name = ''): Array<Domain> {
+        if (!this.stillLoading) {
+            return this._domains.filter(domain => !name || domain.name.toLowerCase() === name.toLowerCase());
+        } else { return [new Domain()]; }
+    }
+
+    public domainFromName(name: string): Domain {
+        return this._domains.find(domain => domain.name.toLowerCase() === name.toLowerCase()) ||
+            this._replacementDomain(name);
     }
 
     public currentCharacterDeities(
@@ -78,23 +100,6 @@ export class DeitiesService {
         this._$characterDeities.length = 0;
     }
 
-    public deities(name = ''): Array<Deity> {
-        if (!this.stillLoading) {
-            //If a name is given, try to find a deity by that name in the index map. This should be much quicker.
-            if (name) {
-                return [this.deityFromName(name)];
-            } else {
-                return this._deities.filter(deity => !name || deity.name.toLowerCase() === name.toLowerCase());
-            }
-        } else { return [this._replacementDeity()]; }
-    }
-
-    public domains(name = ''): Array<Domain> {
-        if (!this.stillLoading) {
-            return this._domains.filter(domain => !name || domain.name.toLowerCase() === name.toLowerCase());
-        } else { return [new Domain()]; }
-    }
-
     public initialize(): void {
         this._loadDeities();
         this._loadDomains();
@@ -113,6 +118,13 @@ export class DeitiesService {
         return Object.assign(
             new Deity(),
             { name: 'Deity not found', desc: `${ name ? name : 'The requested deity' } does not exist in the deities list.` },
+        );
+    }
+
+    private _replacementDomain(name?: string): Domain {
+        return Object.assign(
+            new Domain(),
+            { name: 'Domain not found', desc: `${ name ? name : 'The requested domain' } does not exist in the domains list.` },
         );
     }
 

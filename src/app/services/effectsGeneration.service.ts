@@ -866,7 +866,7 @@ export class EffectsGenerationService {
 
             effect.value = (parseInt(effect.value, 10) + speedPenaltyReduction).toString();
 
-            if (effect.value === '0' || effect.value === '') {
+            if (!effect.value || !effect.value) {
                 effect.apply = false;
                 effect.source = `${ effect.source } (Cancelled by Unburdened Iron)`;
             } else {

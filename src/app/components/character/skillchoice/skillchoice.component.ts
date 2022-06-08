@@ -75,8 +75,8 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         return this._characterService.character;
     }
 
-    public toggleShownList(name = ''): void {
-        if (this.showChoice === name || name === '') {
+    public toggleShownList(name: string): void {
+        if (!name || this.showChoice === name) {
             this.showChoice = '';
             this.showSkillChoiceMessage.emit({ name: this.showChoice, levelNumber: 0, choice: null });
         } else {

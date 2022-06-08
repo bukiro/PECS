@@ -137,11 +137,11 @@ export class AnimalCompanion extends Creature {
             levels.forEach((level: AnimalCompanionLevel | AnimalCompanionAncestry) => {
                 level.abilityChoices.forEach(choice => {
                     choice.boosts.filter(boost =>
-                        (boost.name === abilityName || abilityName === '') &&
-                        (boost.type === type || type === '') &&
-                        (boost.source === source || source === '') &&
-                        (boost.sourceId === sourceId || sourceId === '') &&
-                        (boost.locked === locked || locked === undefined),
+                        (!abilityName || boost.name === abilityName) &&
+                        (!type || boost.type === type) &&
+                        (!source || boost.source === source) &&
+                        (!sourceId || boost.sourceId === sourceId) &&
+                        (locked === undefined || boost.locked === locked),
                     ).forEach(boost => {
                         boosts.push(boost);
                     });
@@ -158,11 +158,11 @@ export class AnimalCompanion extends Creature {
                 spec.abilityChoices.forEach(choice => {
                     if ((choice.source === 'First specialization') ? index === 0 : true) {
                         choice.boosts.filter(boost =>
-                            (boost.name === abilityName || abilityName === '') &&
-                            (boost.type === type || type === '') &&
-                            (boost.source === source || source === '') &&
-                            (boost.sourceId === sourceId || sourceId === '') &&
-                            (boost.locked === locked || locked === undefined),
+                            (!abilityName || boost.name === abilityName) &&
+                            (!type || boost.type === type) &&
+                            (!source || boost.source === source) &&
+                            (!sourceId || boost.sourceId === sourceId) &&
+                            (locked === undefined || boost.locked === locked),
                         ).forEach(boost => {
                             boosts.push(boost);
                         });

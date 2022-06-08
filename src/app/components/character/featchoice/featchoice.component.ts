@@ -108,8 +108,8 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         this.showFeatMessage.emit(this.showFeat);
     }
 
-    public toggleShownList(name = ''): void {
-        if (this.showChoice === name || name === '') {
+    public toggleShownList(name?: string): void {
+        if (!name || this.showChoice === name) {
             this.showChoice = '';
             this.showFeatChoiceMessage.emit({ name: this.showChoice, levelNumber: 0, choice: null });
         } else {

@@ -20,6 +20,7 @@ import { TypeService } from 'src/app/services/type.service';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { AdditionalHeritage } from './AdditionalHeritage';
 import { Defaults } from '../../libs/shared/definitions/defaults';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 export class Class {
     public disabled = '';

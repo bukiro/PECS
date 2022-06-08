@@ -133,11 +133,11 @@ export class Character extends Creature {
             levels.forEach(level => {
                 level.abilityChoices.forEach(choice => {
                     choice.boosts.filter(boost =>
-                        (boost.name === abilityName || abilityName === '') &&
-                        (boost.type === type || type === '') &&
-                        (boost.source === source || source === '') &&
-                        (boost.sourceId === sourceId || sourceId === '') &&
-                        (boost.locked === locked || locked === undefined),
+                        (!abilityName || boost.name === abilityName) &&
+                        (!type || boost.type === type) &&
+                        (!source || boost.source === source) &&
+                        (!sourceId || boost.sourceId === sourceId) &&
+                        (locked === undefined || boost.locked === locked),
                     ).forEach(boost => {
                         boosts.push(boost);
                     });
@@ -291,8 +291,8 @@ export class Character extends Creature {
             .find(casting =>
                 casting.castingType === insertChoice.castingType &&
                 (
-                    casting.className === insertChoice.className ||
-                    insertChoice.className === ''
+                    !insertChoice.className ||
+                    casting.className === insertChoice.className
                 ),
             );
 
@@ -423,9 +423,9 @@ export class Character extends Creature {
                     choices.forEach(choice => {
                         choice.increases.filter(increase =>
                             (increase.name === skillName) &&
-                            (increase.source === source || source === '') &&
-                            (increase.sourceId === sourceId || sourceId === '') &&
-                            (increase.locked === locked || locked === undefined),
+                            (!source || increase.source === source) &&
+                            (!sourceId || increase.sourceId === sourceId) &&
+                            (locked === undefined || increase.locked === locked),
                         ).forEach(increase => {
                             increases.push(increase);
                         });
@@ -435,9 +435,9 @@ export class Character extends Creature {
                 //Get all matching skill increases from the choices
                 choices.forEach(choice => {
                     choice.increases.filter(increase =>
-                        (increase.source === source || source === '') &&
-                        (increase.sourceId === sourceId || sourceId === '') &&
-                        (increase.locked === locked || locked === undefined),
+                        (!source || increase.source === source) &&
+                        (!sourceId || increase.sourceId === sourceId) &&
+                        (locked === undefined || increase.locked === locked),
                     ).forEach(increase => {
                         increases.push(increase);
                     });

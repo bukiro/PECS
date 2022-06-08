@@ -19,10 +19,15 @@ export class FamiliarsService {
         return !this._initialized;
     }
 
-    public familiarAbilities(name = ''): Array<Feat> {
+    public familiarAbilities(name?: string): Array<Feat> {
         if (!this.stillLoading) {
-            return this._familiarAbilities.filter(ability => ability.name.toLowerCase() === name.toLowerCase() || name === '');
+            return this._familiarAbilities.filter(ability => !name || ability.name.toLowerCase() === name.toLowerCase());
         } else { return [new Feat()]; }
+    }
+
+    public familiarAbilityFromName(name: string): Feat {
+        return this._familiarAbilities.find(ability => ability.name.toLowerCase() === name.toLowerCase()) ||
+            this._replacementAbility(name);
     }
 
     public initialize(): void {
@@ -37,6 +42,16 @@ export class FamiliarsService {
                 hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
             });
         });
+    }
+
+    private _replacementAbility(name?: string): Feat {
+        return Object.assign(
+            new Feat(),
+            {
+                name: 'Familiar ability not found',
+                desc: `${ name ? name : 'The requested familiar ability' } does not exist in the feat and features lists.`,
+            },
+        );
     }
 
     private _loadAbilities(): void {
