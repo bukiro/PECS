@@ -223,25 +223,25 @@ export class EffectsComponent implements OnInit, OnDestroy {
 
     private _subscribeToChanges(): void {
         const waitForCharacterService = setInterval(() => {
-            clearInterval(waitForCharacterService);
+            if (!this._characterService.stillLoading) {
+                clearInterval(waitForCharacterService);
 
-            this._changeSubscription = this._refreshService.componentChanged$
-                .subscribe(target => {
-                    if (['effects', 'all', 'effects-component', this.creature.toLowerCase()].includes(target.toLowerCase())) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-            this._viewChangeSubscription = this._refreshService.detailChanged$
-                .subscribe(view => {
-                    if (
-                        view.creature.toLowerCase() === this.creature.toLowerCase() &&
-                        ['effects', 'all', 'effects-component'].includes(view.target.toLowerCase())
-                    ) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-
-            return true;
+                this._changeSubscription = this._refreshService.componentChanged$
+                    .subscribe(target => {
+                        if (['effects', 'all', 'effects-component', this.creature.toLowerCase()].includes(target.toLowerCase())) {
+                            this._changeDetector.detectChanges();
+                        }
+                    });
+                this._viewChangeSubscription = this._refreshService.detailChanged$
+                    .subscribe(view => {
+                        if (
+                            view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                            ['effects', 'all', 'effects-component'].includes(view.target.toLowerCase())
+                        ) {
+                            this._changeDetector.detectChanges();
+                        }
+                    });
+            }
         }, Defaults.waitForServiceDelay);
     }
 

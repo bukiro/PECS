@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
-interface Toast {
+export interface Toast {
     text: string;
-    onClickCreature?: string;
+    onClickCreature?: CreatureTypes;
     onClickAction?: string;
 }
 
@@ -15,12 +16,7 @@ export class ToastService {
         private readonly _refreshService: RefreshService,
     ) { }
 
-    public show(text: string, options: { onClickCreature?: string; onClickAction?: string } = {}): void {
-        options = {
-            onClickCreature: '',
-            onClickAction: '',
-            ...options,
-        };
+    public show(text: string, options: { onClickCreature?: CreatureTypes; onClickAction?: string } = {}): void {
         this.toasts.push({ text, ...options });
         this._refreshService.setComponentChanged('toasts');
     }

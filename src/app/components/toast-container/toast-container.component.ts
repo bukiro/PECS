@@ -1,74 +1,71 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { ToastService } from 'src/app/services/toast.service';
-
-interface Toast {
-    text: string;
-    onClickCreature?: string;
-    onClickAction?: string;
-}
+import { Toast, ToastService } from 'src/app/services/toast.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trackers } from 'src/libs/shared/util/trackers';
 
 @Component({
     selector: 'app-toast-container',
     templateUrl: './toast-container.component.html',
-    host: { '[class.ngb-toasts]': 'true' },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ToastContainerComponent {
+export class ToastContainerComponent implements OnInit, OnDestroy {
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        public toastService: ToastService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _toastService: ToastService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get toasts(): Array<Toast> {
+        return this._toastService.toasts;
     }
 
-    on_Click(toast: Toast) {
+    public onClick(toast: Toast): void {
         if (toast.onClickAction) {
-            this.refreshService.prepareDetailToChange(toast.onClickCreature || 'Character', toast.onClickAction);
-            this.refreshService.processPreparedChanges();
+            this._refreshService.prepareDetailToChange(toast.onClickCreature || CreatureTypes.Character, toast.onClickAction);
+            this._refreshService.processPreparedChanges();
         }
 
-        this.toastService.remove(toast);
+        this._toastService.remove(toast);
     }
 
-    finish_Loading() {
-        if (this.characterService.stillLoading) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.componentChanged$
-                .subscribe(target => {
-                    if (['toasts', 'all'].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.detailChanged$
-                .subscribe(view => {
-                    if (['toasts', 'all'].includes(view.target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-
-            return true;
-        }
+    public remove(toast: Toast): void {
+        this._toastService.remove(toast);
     }
 
     public ngOnInit(): void {
-        this.finish_Loading();
+        const waitForCharacterService = setInterval(() => {
+            if (!this._characterService.stillLoading) {
+                clearInterval(waitForCharacterService);
+
+                this._changeSubscription = this._refreshService.componentChanged$
+                    .subscribe(target => {
+                        if (['toasts', 'all'].includes(target.toLowerCase())) {
+                            this._changeDetector.detectChanges();
+                        }
+                    });
+                this._viewChangeSubscription = this._refreshService.detailChanged$
+                    .subscribe(view => {
+                        if (['toasts', 'all'].includes(view.target.toLowerCase())) {
+                            this._changeDetector.detectChanges();
+                        }
+                    });
+
+            }
+        });
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
-
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
     }
 
 }
