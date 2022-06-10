@@ -58,10 +58,10 @@ export class TraitsService {
         return [this._replacementTrait()];
     }
 
-    public traitsForThis(creature: Creature, name: string): Array<Trait> {
+    public traitsShowingHintsOnThis(creature: Creature, name: string): Array<Trait> {
         if (!this.stillLoading) {
-            //Return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory
-            //uses the haveOn() method of Trait that returns any equipment that has this trait
+            // Return all traits that are set to SHOW ON this named object and that are on any equipped equipment in your inventory.
+            // Uses the itemsWithThisTrait() method of Trait that returns any equipment that has this trait.
             return this._traits.filter(trait =>
                 trait.hints.some(hint =>
                     hint.showon.split(',').some(showon =>

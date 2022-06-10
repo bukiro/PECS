@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -9,65 +9,82 @@ import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { Condition } from 'src/app/classes/Condition';
-import { Item } from 'src/app/classes/Item';
-import { Material } from 'src/app/classes/Material';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Activity } from 'src/app/classes/Activity';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Creature } from 'src/app/classes/Creature';
+import { Trait } from 'src/app/classes/Trait';
+import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
+import { ConditionSet } from 'src/app/classes/ConditionSet';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+
+interface TagCollection {
+    count: number;
+    traits: Array<{ setName: string; traits: Array<Trait> }>;
+    feats: Array<{ setName: string; feats: Array<Feat> }>;
+    companionElements: Array<{ setName: string; elements: Array<AnimalCompanionSpecialization | AnimalCompanionAncestry | Feat> }>;
+    familiarElements: Array<{ setName: string; elements: Array<Feat> }>;
+    items: Array<{ setName: string; items: Array<HintShowingItem> }>;
+    specializations: Array<{ setName: string; specializations: Array<Specialization> }>;
+    activities: Array<{ setName: string; activities: Array<Activity> }>;
+    conditions: Array<{ setName: string; conditionSets: Array<ConditionSet> }>;
+    effects: Array<Effect>;
+}
 
 @Component({
     selector: 'app-tags',
     templateUrl: './tags.component.html',
     styleUrls: ['./tags.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagsComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    objectName = '';
+    public objectName = '';
     @Input()
-    showTraits = false;
+    public showTraits = false;
     @Input()
-    showFeats = false;
+    public showFeats = false;
     @Input()
-    showItems = false;
+    public showItems = false;
     @Input()
-    showActivities = false;
+    public showActivities = false;
     @Input()
-    showConditions = false;
+    public showConditions = false;
     @Input()
-    showEffects = false;
+    public showEffects = false;
     @Input()
-    specialNames: Array<string> = [];
+    public specialNames: Array<string> = [];
     @Input()
-    specialEffects: Array<Effect> = [];
+    public specialEffects: Array<Effect> = [];
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly traitsService: TraitsService,
-        private readonly effectsService: EffectsService,
-        private readonly timeService: TimeService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _traitsService: TraitsService,
+        private readonly _effectsService: EffectsService,
+        private readonly _timeService: TimeService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
     }
 
-    get_Creature() {
-        return this.characterService.creatureFromType(this.creature);
-    }
-
-    get_AllTags() {
-        const allTags = {
+    public collectAllTags(): TagCollection {
+        const allTags: TagCollection = {
             count: 0,
             traits: [],
             feats: [],
+            companionElements: [],
+            familiarElements: [],
             items: [],
             specializations: [],
             activities: [],
@@ -75,14 +92,47 @@ export class TagsComponent implements OnInit, OnDestroy {
             effects: [],
         };
 
-        allTags.traits = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, traits: this.get_TraitsForThis(name) }));
-        allTags.feats = [this.objectName].concat(this.specialNames).map((name, index) => ({ setName: name, feats: this.get_FeatsShowingOn(name, index == 0 ? this.showFeats : true) }));
-        allTags.items = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, items: this.get_ItemsShowingOn(name) }));
-        allTags.specializations = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, specializations: this.get_SpecializationsShowingOn(name) }));
-        allTags.activities = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, activities: this.get_ActivitiesShowingOn(name) }));
-        allTags.conditions = [this.objectName].concat(this.specialNames).map(name => ({ setName: name, conditionSets: this.get_ConditionsShowingOn(name) }));
-        allTags.effects = this.get_EffectsOnThis(this.objectName).concat(this.specialEffects);
-        allTags.count = allTags.traits.reduce((a, b) => a + b.traits.length, 0) +
+        allTags.traits =
+            [this.objectName]
+                .concat(this.specialNames)
+                .map(name => ({ setName: name, traits: this._traitsShowingHintsOnThis(name) }));
+        allTags.feats =
+            [this.objectName]
+                .concat(this.specialNames)
+                .map((name, index) => ({ setName: name, feats: this._featsShowingHintsOnThis(name, index === 0 ? this.showFeats : true) }));
+        allTags.companionElements =
+            [this.objectName]
+                .concat(this.specialNames)
+                .map((name, index) =>
+                    ({ setName: name, elements: this._companionElementsShowingHintsOnThis(name, index === 0 ? this.showFeats : true) }),
+                );
+        allTags.familiarElements =
+            [this.objectName]
+                .concat(this.specialNames)
+                .map((name, index) =>
+                    ({ setName: name, elements: this._familiarElementsShowingHintsOnThis(name, index === 0 ? this.showFeats : true) }),
+                );
+        allTags.items =
+            [this.objectName]
+                .concat(this.specialNames)
+                .map(name => ({ setName: name, items: this._itemsShowingHintsOnThis(name) }));
+        allTags.specializations =
+            [this.objectName]
+                .concat(this.specialNames)
+                .map(name => ({ setName: name, specializations: this._specializationsShowingHintsOnThis(name) }));
+        allTags.activities =
+            [this.objectName]
+                .concat(this.specialNames)
+                .map(name => ({ setName: name, activities: this._activitiesShowingHintsOnThis(name) }));
+        allTags.conditions =
+            [this.objectName]
+                .concat(this.specialNames)
+                .map(name => ({ setName: name, conditionSets: this._conditionsShowingHintsOnThis(name) }));
+        allTags.effects =
+            this._effectsShowingHintsOnThis(this.objectName)
+                .concat(this.specialEffects);
+        allTags.count =
+            allTags.traits.reduce((a, b) => a + b.traits.length, 0) +
             allTags.feats.reduce((a, b) => a + b.feats.length, 0) +
             allTags.items.reduce((a, b) => a + b.items.length, 0) +
             allTags.specializations.reduce((a, b) => a + b.specializations.length, 0) +
@@ -93,114 +143,122 @@ export class TagsComponent implements OnInit, OnDestroy {
         return allTags;
     }
 
-    get_Duration(duration: number) {
-        return this.timeService.durationDescription(duration);
+    public durationDescription(duration: number): string {
+        return this._timeService.durationDescription(duration);
     }
 
-    get_TraitsForThis(name: string) {
-        if (this.showTraits && name) {
-            return this.traitsService.traitsForThis(this.get_Creature(), name)
-                .sort((a, b) => (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1));
-        } else {
-            return [];
-        }
-    }
-
-    nameSort(
-        a: AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat | Condition | Item | Material | Specialization | Activity,
-        b: AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat | Condition | Item | Material | Specialization | Activity,
-    ) {
-        return (a.name == b.name) ? 0 : ((a.name > b.name) ? 1 : -1);
-    }
-
-    get_FeatsShowingOn(name: string, show: boolean): Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat> {
-        if (show && name && this.creature == 'Character') {
-            return this.characterService.characterFeatsShowingHintsOnThis(name)
-                .sort((a, b) => this.nameSort(a, b));
-        } else if (show && name && this.creature == 'Companion') {
-            return this.characterService.companionElementsShowingHintsOnThis(name)
-                .sort((a, b) => this.nameSort(a, b));
-        } else if (show && name && this.creature == 'Familiar') {
-            return this.characterService.familiarElementsShowingHintsOnThis(name)
-                .sort((a, b) => this.nameSort(a, b));
-        } else {
-            return [];
-        }
-    }
-
-    get_EffectsOnThis(name: string) {
-        if (this.showEffects && name) {
-            return this.effectsService.absoluteEffectsOnThis(this.get_Creature(), name)
-                .concat(this.effectsService.relativeEffectsOnThis(this.get_Creature(), name))
-                .sort((a, b) => (a.source == b.source) ? 0 : ((a.source > b.source) ? 1 : -1));
-        } else {
-            return [];
-        }
-    }
-
-    get_ConditionsShowingOn(name: string) {
-        if (this.showConditions && name) {
-            return this.characterService.creatureConditionsShowingHintsOnThis(this.get_Creature(), name)
-                .sort((a, b) => this.nameSort(a.condition, b.condition));
-        } else {
-            return [];
-        }
-    }
-
-    get_ActivitiesShowingOn(name: string) {
-        if (this.showActivities && name) {
-            return this.characterService.creatureActivitiesShowingHintsOnThis(this.get_Creature(), name)
-                .sort((a, b) => this.nameSort(a, b));
-        } else {
-            return [];
-        }
-    }
-
-    get_ItemsShowingOn(name: string) {
-        if (this.showItems && name) {
-            return this.characterService.creatureItemsShowingHintsOnThis(this.get_Creature(), name)
-                .sort((a, b) => this.nameSort(a, b));
-        } else {
-            return [];
-        }
-    }
-
-    get_SpecializationsShowingOn(name: string) {
-        if (this.showItems && name) {
-            return this.characterService.creatureArmorSpecializationsShowingHintsOnThis(this.get_Creature(), name)
-                .sort((a, b) => this.nameSort(a, b));
-        } else {
-            return [];
-        }
-    }
-
-    on_ActivateEffect() {
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
+    public onActivateEffect(): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['tags', 'all', this.creature, this.objectName].includes(target)) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature == this.creature &&
+                if (view.creature === this.creature &&
                     (
-                        view.target == 'all' ||
-                        (view.target == 'tags' && [this.objectName, ...this.specialNames, 'all'].includes(view.subtarget))
+                        view.target === 'all' ||
+                        (view.target === 'tags' && [this.objectName, ...this.specialNames, 'all'].includes(view.subtarget))
                     )) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _traitsShowingHintsOnThis(name: string): Array<Trait> {
+        if (this.showTraits && name) {
+            return this._traitsService.traitsShowingHintsOnThis(this.currentCreature, name)
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
+        } else {
+            return [];
+        }
+    }
+
+    private _featsShowingHintsOnThis(name: string, show: boolean): Array<Feat> {
+        if (show && name && this.creature === CreatureTypes.Character) {
+            return this._characterService.characterFeatsShowingHintsOnThis(name)
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
+        } else {
+            return [];
+        }
+    }
+
+    private _companionElementsShowingHintsOnThis(
+        name: string,
+        show: boolean,
+    ): Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat> {
+        if (show && name && this.creature === CreatureTypes.AnimalCompanion) {
+            return this._characterService.companionElementsShowingHintsOnThis(name)
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
+        } else {
+            return [];
+        }
+    }
+
+    private _familiarElementsShowingHintsOnThis(name: string, show: boolean): Array<Feat> {
+        if (show && name && this.creature === CreatureTypes.Familiar) {
+            return this._characterService.familiarElementsShowingHintsOnThis(name)
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
+        } else {
+            return [];
+        }
+    }
+
+    private _effectsShowingHintsOnThis(name: string): Array<Effect> {
+        if (this.showEffects && name) {
+            return this._effectsService.absoluteEffectsOnThis(this.currentCreature, name)
+                .concat(this._effectsService.relativeEffectsOnThis(this.currentCreature, name))
+                .sort((a, b) => SortAlphaNum(a.source, b.source));
+        } else {
+            return [];
+        }
+    }
+
+    private _conditionsShowingHintsOnThis(name: string): Array<ConditionSet> {
+        if (this.showConditions && name) {
+            return this._characterService.creatureConditionsShowingHintsOnThis(this.currentCreature, name)
+                .sort((a, b) => SortAlphaNum(a.condition.name, b.condition.name));
+        } else {
+            return [];
+        }
+    }
+
+    private _activitiesShowingHintsOnThis(name: string): Array<Activity> {
+        if (this.showActivities && name) {
+            return this._characterService.creatureActivitiesShowingHintsOnThis(this.currentCreature, name)
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
+        } else {
+            return [];
+        }
+    }
+
+    private _itemsShowingHintsOnThis(name: string): Array<HintShowingItem> {
+        if (this.showItems && name) {
+            return this._characterService.creatureItemsShowingHintsOnThis(this.currentCreature, name)
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
+        } else {
+            return [];
+        }
+    }
+
+    private _specializationsShowingHintsOnThis(name: string): Array<Specialization> {
+        if (this.showItems && name) {
+            return this._characterService.creatureArmorSpecializationsShowingHintsOnThis(this.currentCreature, name)
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
+        } else {
+            return [];
+        }
     }
 
 }

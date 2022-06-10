@@ -1,55 +1,69 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngFor="let allTags of [get_AllTags()]; trackBy:trackByIndex;">
+<ng-container *ngIf="collectAllTags() as allTags">
     <div class="fullsize-only newrow left-aligned" *ngIf="allTags.count > 0">
-        <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackByIndex;">
-            <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackByIndex;">
+        <ng-container *ngFor="let traitSet of allTags.traits; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let trait of traitSet.traits; trackBy:trackers.trackByIndex;">
                 <app-hint [creature]="creature" [color]="'trait'" [object]="trait" [objectName]="traitSet.setName"
                     [sourceBook]="trait.sourceBook"
-                    [description]="trait.name +' ('+ trait.haveOn(get_Creature(), this.characterService, true).join(', ') + ')'">
+                    [description]="trait.name +' ('+ trait.itemsWithThisTrait(currentCreature, true).join(', ') + ')'">
                 </app-hint>
             </ng-container>
         </ng-container>
-        <ng-container *ngFor="let featSet of allTags.feats; trackBy:trackByIndex;">
-            <ng-container *ngFor="let feat of featSet.feats; trackBy:trackByIndex;">
+        <ng-container *ngFor="let featSet of allTags.feats; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let feat of featSet.feats; trackBy:trackers.trackByIndex;">
                 <app-hint [creature]="creature" [color]="'feat'" [object]="feat" [objectName]="featSet.setName"
                     [description]="feat.displayName || feat.name">
                 </app-hint>
             </ng-container>
         </ng-container>
-        <ng-container *ngFor="let itemSet of allTags.items; trackBy:trackByIndex;">
-            <ng-container *ngFor="let item of itemSet.items; trackBy:trackByIndex;">
+        <ng-container *ngFor="let elementSet of allTags.companionElements; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let element of elementSet.elements; trackBy:trackers.trackByIndex;">
+                <app-hint [creature]="creature" [color]="'feat'" [object]="element" [objectName]="elementSet.setName"
+                    [description]="element.name">
+                </app-hint>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngFor="let elementSet of allTags.familiarElements; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let element of elementSet.elements; trackBy:trackers.trackByIndex;">
+                <app-hint [creature]="creature" [color]="'feat'" [object]="element" [objectName]="elementSet.setName"
+                    [description]="element.displayName || element.name">
+                </app-hint>
+            </ng-container>
+        </ng-container>
+        <ng-container *ngFor="let itemSet of allTags.items; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let item of itemSet.items; trackBy:trackers.trackByIndex;">
                 <app-hint [creature]="creature" [color]="'item'" [object]="item" [objectName]="itemSet.setName"
                     [description]="item.name">
                 </app-hint>
             </ng-container>
         </ng-container>
-        <ng-container *ngFor="let specializationSet of allTags.specializations; trackBy:trackByIndex;">
-            <ng-container *ngFor="let spec of specializationSet.specializations; trackBy:trackByIndex;">
+        <ng-container *ngFor="let specializationSet of allTags.specializations; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let spec of specializationSet.specializations; trackBy:trackers.trackByIndex;">
                 <app-hint [creature]="creature" [color]="'item'" [object]="spec"
                     [objectName]="specializationSet.setName" [description]="spec.name">
                 </app-hint>
             </ng-container>
         </ng-container>
-        <ng-container *ngFor="let activitySet of allTags.activities; trackBy:trackByIndex;">
-            <ng-container *ngFor="let activity of activitySet.activities; trackBy:trackByIndex;">
+        <ng-container *ngFor="let activitySet of allTags.activities; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let activity of activitySet.activities; trackBy:trackers.trackByIndex;">
                 <app-hint [creature]="creature" [color]="'activity'" [object]="activity"
                     [objectName]="activitySet.setName" [description]="activity.name"></app-hint>
             </ng-container>
         </ng-container>
-        <ng-container *ngFor="let conditionSets of allTags.conditions; trackBy:trackByIndex;">
-            <ng-container *ngFor="let conditionSet of conditionSets.conditionSets; trackBy:trackByIndex;">
+        <ng-container *ngFor="let conditionSets of allTags.conditions; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let conditionSet of conditionSets.conditionSets; trackBy:trackers.trackByIndex;">
                 <app-hint [creature]="creature" [color]="'condition'" [object]="conditionSet"
                     [objectName]="conditionSets.setName" [description]="conditionSet.condition.name">
                 </app-hint>
             </ng-container>
         </ng-container>
-        <ng-container *ngFor="let effect of allTags.effects; trackBy:trackByIndex;">
+        <ng-container *ngFor="let effect of allTags.effects; trackBy:trackers.trackByIndex;">
             <ng-template #effectPopover>
                 <div class="newrow">
                     <span>
                         <strong
                             [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}">
-                            {{effect.target}} {{effect.get_DisplayTitle(true)}}
+                            {{effect.target}} {{effect.displayTitle(true)}}
                         </strong>
                     </span>
                 </div>
@@ -62,7 +76,7 @@
                 <div class="newrow" *ngIf="effect.duration">
                     <span>
                         <strong>Duration</strong>
-                        {{effect.duration ? get_Duration(effect.duration) : ''}}
+                        {{effect.duration ? durationDescription(effect.duration) : ''}}
                     </span>
                 </div>
                 <div class="newrow">
@@ -82,7 +96,7 @@
             <cite class="effect"
                 [ngClass]="{'penalty':effect.penalty, 'bonus':!effect.penalty && !effect.setValue, 'absolute':effect.setValue}"
                 [ngbPopover]="effectPopover">
-                {{effect.get_DisplayTitle(false)}}
+                {{effect.displayTitle(false)}}
                 ({{effect.source}})
             </cite>
         </ng-container>

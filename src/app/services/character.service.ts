@@ -59,7 +59,6 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { MessageService } from 'src/app/services/message.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { Material } from 'src/app/classes/Material';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
@@ -92,6 +91,7 @@ import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
 
 interface PreparedOnceEffect {
     creatureType: string;
@@ -110,8 +110,6 @@ interface EffectRecipientPhrases {
     verbIs: string;
     verbHas: string;
 }
-
-type HintShowingItem = Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material;
 
 @Injectable({
     providedIn: 'root',
