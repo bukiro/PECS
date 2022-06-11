@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
@@ -17,55 +17,54 @@ import { Material } from 'src/app/classes/Material';
 import { Oil } from 'src/app/classes/Oil';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Condition } from 'src/app/classes/Condition';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Creature } from 'src/app/classes/Creature';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trait } from 'src/app/classes/Trait';
 
-type HintObject = Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string; hints: Array<Hint> };
+type HintObject =
+    Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string; hints: Array<Hint> };
 
 @Component({
     selector: 'app-hint',
     templateUrl: './hint.component.html',
     styleUrls: ['./hint.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HintComponent {
 
     @Input()
-    creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    object: HintObject = null;
+    public object: HintObject = null;
     @Input()
-    objectName = '';
+    public objectName = '';
     @Input()
-    sourceBook = '';
+    public sourceBook = '';
     @Input()
-    description = '';
+    public description = '';
     @Input()
-    noFilter = false;
+    public noFilter = false;
     @Input()
-    color = '';
+    public color = '';
 
     constructor(
-        public characterService: CharacterService,
-        public effectsService: EffectsService,
-        private readonly refreshService: RefreshService,
-        private readonly traitsService: TraitsService,
+        private readonly _characterService: CharacterService,
+        private readonly _effectsService: EffectsService,
+        private readonly _refreshService: RefreshService,
+        private readonly _traitsService: TraitsService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get character(): Character {
+        return this._characterService.character;
     }
 
-    get_Creature() {
-        return this.characterService.creatureFromType(this.creature);
+    private get _currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
     }
 
-    public get_Character(): Character {
-        return this.characterService.character;
-    }
-
-    get_CharacterLevel() {
-        return this.characterService.character.level;
-    }
-
-    get_Hints(): Array<Hint> {
+    public hints(): Array<Hint> {
         if (this.noFilter) {
             return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints);
         }
@@ -75,13 +74,13 @@ export class HintComponent {
 
         return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints)
             .filter((hint: Hint) =>
-                (hint.minLevel ? this.get_CharacterLevel() >= hint.minLevel : true) &&
+                (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                 (
                     this.object instanceof ConditionSet ?
                         (
                             (
                                 hint.conditionChoiceFilter.length ?
-                                    (hint.conditionChoiceFilter.includes('-') && this.object.gain.choice == '') ||
+                                    (!this.object.gain.choice && hint.conditionChoiceFilter.includes('-')) ||
                                     (hint.conditionChoiceFilter.includes(this.object.gain.choice)) :
                                     true
                             )
@@ -93,11 +92,11 @@ export class HintComponent {
             .filter((hint: Hint) =>
                 hint.showon.split(',')
                     .some(showon =>
-                        showon.trim().toLowerCase() == this.objectName.toLowerCase() ||
-                        showon.trim().toLowerCase() == (`${ this.creature }:${ this.objectName }`).toLowerCase() ||
+                        showon.trim().toLowerCase() === this.objectName.toLowerCase() ||
+                        showon.trim().toLowerCase() === (`${ this.creature }:${ this.objectName }`).toLowerCase() ||
                         (
                             this.objectName.toLowerCase().includes('lore') &&
-                            showon.trim().toLowerCase() == 'lore'
+                            showon.trim().toLowerCase() === 'lore'
                         ) ||
                         (
                             //Show Emblazon Energy or Emblazon Antimagic Shield Block hint on Shield Block if the shield's blessing applies.
@@ -105,12 +104,12 @@ export class HintComponent {
                             (
                                 (
                                     isEmblazonArmamentShield.$emblazonEnergy &&
-                                    this.objectName == 'Shield Block' &&
-                                    showon == 'Emblazon Energy Shield Block'
+                                    this.objectName === 'Shield Block' &&
+                                    showon === 'Emblazon Energy Shield Block'
                                 ) || (
                                     isEmblazonArmamentShield.$emblazonAntimagic &&
-                                    this.objectName == 'Shield Block' &&
-                                    showon == 'Emblazon Antimagic Shield Block'
+                                    this.objectName === 'Shield Block' &&
+                                    showon === 'Emblazon Antimagic Shield Block'
                                 )
                             )
                         ),
@@ -118,9 +117,9 @@ export class HintComponent {
             );
     }
 
-    get_HintDescription(hint: Hint) {
+    public hintDescription(hint: Hint): string {
         if (hint.desc) {
-            return this.get_HeightenedHint(hint);
+            return this._heightenedHintDescription(hint);
         } else {
             if (this.object instanceof ConditionSet) {
                 return this.object.condition.heightenedText(this.object.condition.desc, this.object.gain.heightened);
@@ -130,16 +129,7 @@ export class HintComponent {
         }
     }
 
-    get_HeightenedHint(hint: Hint) {
-        //Spell conditions have their hints heightened to their spell level, everything else is heightened to the character level.
-        if (this.object instanceof ConditionSet && this.object.condition.minLevel) {
-            return hint.heightenedText(hint.desc, this.object.gain.heightened);
-        } else {
-            return hint.heightenedText(hint.desc, this.characterService.character.level);
-        }
-    }
-
-    get_HintChoice(hint: Hint) {
+    public hintChoice(hint: Hint): string {
         //Only for condition hints, append the choice if the hint only showed up because of the choice.
         if (this.object instanceof ConditionSet && hint.conditionChoiceFilter.length) {
             return `: ${ this.object.gain.choice }`;
@@ -148,23 +138,24 @@ export class HintComponent {
         return '';
     }
 
-    on_ActivateEffect() {
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
+    public onActivateEffect(): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
     }
 
-    get_Traits(traitName = '') {
-        return this.traitsService.traits(traitName);
+    public traitFromName(traitName: string): Trait {
+        return this._traitsService.traitFromName(traitName);
     }
 
-    get_Source(hint: Hint) {
+    public hintSource(hint: Hint): HintObject {
         if (hint.replaceSource.length) {
             const replaceSource = hint.replaceSource[0];
 
             if (replaceSource.source) {
                 switch (replaceSource.type) {
                     case 'feat':
-                        return this.characterService.featsAndFeatures(replaceSource.source)[0] || this.object;
+                        return this._characterService.featsAndFeatures(replaceSource.source)[0] || this.object;
+                    default: break;
                 }
             }
         }
@@ -217,10 +208,31 @@ export class HintComponent {
     }
 
     public objectAsDescOnly(object: HintObject): { desc: string } {
-        if (!(this.objectAsFeat(object) || this.objectAsActivity(object) || this.objectAsConditionSet(object) || this.objectAsItem(object))) {
+        if (
+            !this.objectAsFeat(object) &&
+            !this.objectAsActivity(object) &&
+            !this.objectAsConditionSet(object) &&
+            !this.objectAsItem(object)
+        ) {
             return Object.prototype.hasOwnProperty.call(object, 'desc') ? object as { desc: string } : null;
         } else {
             return null;
+        }
+    }
+
+    public activityCooldown(activity: Activity): number {
+        return activity.effectiveCooldown(
+            { creature: this._currentCreature },
+            { characterService: this._characterService, effectsService: this._effectsService },
+        );
+    }
+
+    private _heightenedHintDescription(hint: Hint): string {
+        //Spell conditions have their hints heightened to their spell level, everything else is heightened to the character level.
+        if (this.object instanceof ConditionSet && this.object.condition.minLevel) {
+            return hint.heightenedText(hint.desc, this.object.gain.heightened);
+        } else {
+            return hint.heightenedText(hint.desc, this._characterService.character.level);
         }
     }
 
