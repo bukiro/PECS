@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { TraitsService } from 'src/app/services/traits.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
@@ -7,6 +7,19 @@ import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { EffectsService } from 'src/app/services/effects.service';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trait } from 'src/app/classes/Trait';
+import { Activity } from 'src/app/classes/Activity';
+import { Equipment } from 'src/app/classes/Equipment';
+import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { Rune } from 'src/app/classes/Rune';
+
+interface ItemParameters {
+    item: Item;
+    asGrantingActivities: Equipment;
+    asHavingItemActivities: Equipment | Rune;
+}
 
 @Component({
     selector: 'app-hintItem',
@@ -14,65 +27,80 @@ import { EffectsService } from 'src/app/services/effects.service';
     styleUrls: ['./hintItem.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HintItemComponent implements OnInit {
+export class HintItemComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    item: Item | any;
+    public item: Item;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        public characterService: CharacterService,
-        public effectsService: EffectsService,
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly traitsService: TraitsService,
-        private readonly activitiesService: ActivitiesDataService,
-        private readonly refreshService: RefreshService,
+        private readonly _characterService: CharacterService,
+        private readonly _effectsService: EffectsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _traitsService: TraitsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _refreshService: RefreshService,
+        private readonly _itemRolesService: ItemRolesService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
     }
 
-    get_Creature(creature: string = this.creature) {
-        return this.characterService.creatureFromType(creature) as Creature;
+    public itemParameters(): ItemParameters {
+        const itemRoles = this._itemRolesService.getItemRoles(this.item);
+
+        return {
+            item: this.item,
+            asGrantingActivities: itemRoles.asEquipment,
+            asHavingItemActivities: this.item instanceof Rune ? this.item : itemRoles.asEquipment,
+        };
     }
 
-    get_Traits(name = '') {
-        return this.traitsService.traits(name);
+    public itemTraits(): Array<string> {
+        return this.item.effectiveTraits(this._characterService, this.currentCreature);
     }
 
-    get_Activities(name = '') {
-        return this.activitiesService.activities(name);
+    public traitFromName(name: string): Trait {
+        return this._traitsService.traitFromName(name);
     }
 
-    finish_Loading() {
+    public activityFromName(name: string): Activity {
+        return this._activitiesService.activityFromName(name);
+    }
+
+    public activityCooldown(activity: Activity): number {
+        return activity.effectiveCooldown(
+            { creature: this.currentCreature },
+            { characterService: this._characterService, effectsService: this._effectsService },
+        );
+    }
+
+    public ngOnInit(): void {
         if (this.item.id) {
-            this.changeSubscription = this.refreshService.componentChanged$
+            this._changeSubscription = this._refreshService.componentChanged$
                 .subscribe(target => {
-                    if (target == this.item.id) {
-                        this.changeDetector.detectChanges();
+                    if (target === this.item.id) {
+                        this._changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.detailChanged$
+            this._viewChangeSubscription = this._refreshService.detailChanged$
                 .subscribe(view => {
-                    if (view.target == this.item.id) {
-                        this.changeDetector.detectChanges();
+                    if (view.target === this.item.id) {
+                        this._changeDetector.detectChanges();
                     }
                 });
         }
     }
 
-    public ngOnInit(): void {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
-
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
     }
 
 }
