@@ -19,9 +19,19 @@ import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SpellCast } from 'src/app/classes/SpellCast';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trackers } from 'src/libs/shared/util/trackers';
 
 interface ComponentParameters {
-    bloodMagicTrigger: string; canActivate: boolean; canActivateWithoutTarget: boolean; targetNumber: number; target: string;
+    bloodMagicTrigger: string;
+    shouldBloodMagicApply: boolean;
+    canActivate: boolean;
+    canActivateWithoutTarget: boolean;
+    targetNumber: number;
+    target: string;
+    bloodMagicWarningWithTarget: string;
+    bloodMagicWarningWithoutTarget: string;
+    bloodMagicWarningManualMode: string;
 }
 
 @Component({
@@ -33,51 +43,56 @@ interface ComponentParameters {
 export class SpellTargetComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature: string;
+    public creature: CreatureTypes;
     @Input()
-    spell: Spell;
+    public spell: Spell;
     @Input()
-    activity: Activity | ItemActivity;
+    public activity: Activity | ItemActivity;
     @Input()
-    gain: SpellGain | ActivityGain | ItemActivity;
+    public gain: SpellGain | ActivityGain | ItemActivity;
     @Input()
-    parentActivity: Activity | ItemActivity;
+    public parentActivity: Activity | ItemActivity;
     @Input()
-    parentActivityGain: ActivityGain | ItemActivity = null;
+    public parentActivityGain: ActivityGain | ItemActivity = null;
     @Input()
-    spellCast: SpellCast = null;
+    public spellCast: SpellCast = null;
     @Input()
-    casting: SpellCasting = null;
+    public casting: SpellCasting = null;
     @Input()
-    cannotCast = '';
+    public cannotCast = '';
     @Input()
-    cannotExpend = '';
+    public cannotExpend = '';
     @Input()
-    showExpend = false;
+    public showExpend = false;
     @Input()
-    effectiveSpellLevel = 0;
+    public effectiveSpellLevel = 0;
     @Input()
-    bloodMagicFeats: Array<Feat> = [];
+    public bloodMagicFeats: Array<Feat> = [];
     @Input()
-    phrase = 'Cast';
+    public phrase = 'Cast';
     @Input()
-    showActions = false;
+    public showActions = false;
     @Input()
-    showDismiss = false;
+    public showDismiss = false;
     @Input()
-    dismissPhrase = '';
+    public dismissPhrase = '';
+
     @Output()
-    castMessage = new EventEmitter<{ target: string; activated: boolean; options: { expend?: boolean } }>();
+    public readonly castMessage = new EventEmitter<{ target: string; activated: boolean; options: { expend?: boolean } }>();
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly conditionsService: ConditionsService,
-        private readonly timeService: TimeService,
-        private readonly savegameService: SavegameService,
-        private readonly modalService: NgbModal,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _conditionsService: ConditionsService,
+        private readonly _timeService: TimeService,
+        private readonly _savegameService: SavegameService,
+        private readonly _modalService: NgbModal,
         public modal: NgbActiveModal,
+        public trackers: Trackers,
     ) { }
 
     public get action(): Activity | Spell {
@@ -92,53 +107,299 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         return this.parentActivityGain?.active || this.gain.active;
     }
 
-    private get target(): string {
-        return (this.spellCast?.target || '') || (this.parentActivityGain instanceof ItemActivity ? this.parentActivityGain.target : '') || this.action.target || 'self';
+    public get character(): Character {
+        return this._characterService.character;
     }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get companion(): AnimalCompanion {
+        return this._characterService.companion;
     }
 
-    on_Cast(target: string, activated: boolean, options: { expend?: boolean } = {}) {
+    public get familiar(): Familiar {
+        return this._characterService.familiar;
+    }
+
+    public get isManualMode(): boolean {
+        return this._characterService.isManualMode;
+    }
+
+    private get _target(): string {
+        return this.spellCast?.target ||
+            (this.parentActivityGain instanceof ItemActivity ? this.parentActivityGain.target : false) ||
+            this.action.target ||
+            'self';
+    }
+
+    private get _isCompanionAvailable(): boolean {
+        return this._characterService.isCompanionAvailable();
+    }
+
+    private get _isFamiliarAvailable(): boolean {
+        return this._characterService.isFamiliarAvailable();
+    }
+
+    private get _isGainActive(): boolean {
+        return this.actionGain.active;
+    }
+
+    public onCast(target: string, activated: boolean, options: { expend?: boolean } = {}): void {
         this.castMessage.emit({ target, activated, options });
     }
 
-    public get_Character(): Character {
-        return this.characterService.character;
+    public componentParameters(): ComponentParameters {
+        const bloodMagicTrigger = this._bloodMagicTrigger();
+        const canActivate = this._canActivate();
+        const canActivateWithoutTarget = this._canActivate(true);
+        const targetNumber = this.action.allowedTargetNumber(this.effectiveSpellLevel, this._characterService);
+        const target = this._target;
+        const shouldBloodMagicApply = bloodMagicTrigger && !this.asSpellGain()?.ignoreBloodMagicTrigger;
+        const bloodMagicWarningWithTarget =
+            shouldBloodMagicApply
+                ? `Casting this spell will trigger ${ bloodMagicTrigger }.`
+                : (
+                    canActivate
+                        ? ''
+                        : `The ${ this.spell ? 'spell' : 'activity' } has no automatic effects.`
+                );
+        const bloodMagicWarningWithoutTarget =
+            shouldBloodMagicApply
+                ? `Casting this spell will trigger ${ bloodMagicTrigger }.`
+                : (
+                    !canActivateWithoutTarget
+                        ? `${ this.spell ? 'Cast' : 'Activate' } with no specific target.`
+                        : `The ${ this.spell ? 'spell' : 'activity' } has no automatic effects.`
+                );
+        const bloodMagicWarningManualMode =
+            shouldBloodMagicApply
+                ? (`Casting this spell will trigger ${ bloodMagicTrigger }.`)
+                : '';
+
+        return {
+            bloodMagicTrigger,
+            shouldBloodMagicApply,
+            canActivate,
+            canActivateWithoutTarget,
+            targetNumber,
+            target,
+            bloodMagicWarningWithTarget,
+            bloodMagicWarningWithoutTarget,
+            bloodMagicWarningManualMode,
+        };
     }
 
-    private get_CompanionAvailable(): boolean {
-        return this.characterService.isCompanionAvailable();
+    public asSpellGain(): SpellGain {
+        return this.gain instanceof SpellGain ? this.gain : null;
     }
 
-    public get_Companion(): AnimalCompanion {
-        return this.characterService.companion;
+    public canTargetSelf(): boolean {
+        return (
+            !this._isGainActive &&
+            !this._canCasterNotBeTargeted() &&
+            this._canTargetList(['self', 'ally']) &&
+            !this._isHostile(true)
+        );
     }
 
-    private get_FamiliarAvailable(): boolean {
-        return this.characterService.isFamiliarAvailable();
+    public canTargetCharacter(): boolean {
+        return (
+            !this._isGainActive &&
+            this.creature !== CreatureTypes.Character &&
+            this._canTargetList(['ally']) &&
+            !this._isHostile(true)
+        );
     }
 
-    public get_Familiar(): Familiar {
-        return this.characterService.familiar;
+    public canTargetCompanion(): boolean {
+        return (
+            !this._isGainActive &&
+            this.creature !== CreatureTypes.AnimalCompanion &&
+            this._canTargetList(['companion']) &&
+            this._isCompanionAvailable &&
+            !this._isHostile(true)
+        );
     }
 
-    get_ManualMode() {
-        return this.characterService.isManualMode;
+    public canTargetFamiliar(): boolean {
+        return (
+            !this._isGainActive &&
+            this.creature !== CreatureTypes.Familiar &&
+            this._canTargetList(['familiar']) &&
+            this._isFamiliarAvailable &&
+            !this._isHostile(true)
+        );
     }
 
-    public get_Parameters(): ComponentParameters {
-        const bloodMagicTrigger = this.get_BloodMagicTrigger();
-        const canActivate = this.can_Activate();
-        const canActivateWithoutTarget = this.can_Activate(true);
-        const targetNumber = this.action.targetNumber(this.effectiveSpellLevel, this.characterService);
-        const target = this.target;
-
-        return { bloodMagicTrigger, canActivate, canActivateWithoutTarget, targetNumber, target };
+    public canTargetAlly(targetNumber: number): boolean {
+        return (
+            !this._isGainActive &&
+            targetNumber !== 0 &&
+            this._canTargetList(['ally', 'area', 'familiar', 'companion']) &&
+            !this._isHostile(true)
+        );
     }
 
-    private get_BloodMagicTrigger(): string {
+    public onOpenSpellTargetModal(content): void {
+        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
+            if (result === 'Cast click') {
+                this.onCast('Selected', true);
+            }
+        });
+    }
+
+    public spellTargets(): Array<SpellTarget> {
+        //Collect all possible targets for a spell/activity (allies only).
+        //Hostile spells and activities don't get targets.
+        if (this.action.isHostile(true)) {
+            return [];
+        }
+
+        const newTargets: Array<SpellTarget> = [];
+        const character = this.character;
+
+        this._characterService.allAvailableCreatures().forEach(creature => {
+            newTargets.push(
+                Object.assign(
+                    new SpellTarget(),
+                    {
+                        name: creature.name || creature.type,
+                        id: creature.id,
+                        playerId: character.id,
+                        type: creature.type,
+                        selected: (this.gain.targets.find(target => target.id === creature.id)?.selected || false),
+                        isPlayer: creature === character,
+                    }));
+        });
+
+        //Make all party members available for selection only if you are in a party.
+        if (character.partyName) {
+            this._savegameService.getSavegames()
+                .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
+                .forEach(savegame => {
+                    newTargets.push(
+                        Object.assign(
+                            new SpellTarget(),
+                            {
+                                name: savegame.name || 'Unnamed',
+                                id: savegame.id,
+                                playerId: savegame.id,
+                                type: 'Character',
+                                selected: (this.gain.targets.find(target => target.id === savegame.id)?.selected || false),
+                            },
+                        ),
+                    );
+
+                    if (savegame.companionId) {
+                        newTargets.push(
+                            Object.assign(
+                                new SpellTarget(),
+                                {
+                                    name: savegame.companionName || 'Companion',
+                                    id: savegame.companionId,
+                                    playerId: savegame.id,
+                                    type: 'Companion',
+                                    selected: (this.gain.targets.find(target => target.id === savegame.companionId)?.selected || false),
+                                },
+                            ),
+                        );
+                    }
+
+                    if (savegame.familiarId) {
+                        newTargets.push(
+                            Object.assign(
+                                new SpellTarget(),
+                                {
+                                    name: savegame.familiarName || 'Familiar',
+                                    id: savegame.familiarId,
+                                    playerId: savegame.id,
+                                    type: 'Familiar',
+                                    selected: (this.gain.targets.find(target => target.id === savegame.familiarId)?.selected || false),
+                                },
+                            ),
+                        );
+                    }
+                });
+        }
+
+        this.gain.targets = newTargets;
+
+        return this.gain.targets;
+    }
+
+    public onSelectAllTargets(event: Event): void {
+        const shouldSelectAll = (event.target as HTMLInputElement).checked;
+
+        if (shouldSelectAll) {
+            this.gain.targets.forEach(target => {
+                if (!target.isPlayer || !this.action.cannotTargetCaster) {
+                    target.selected = true;
+                }
+            });
+        } else {
+            this.gain.targets.forEach(target => {
+                target.selected = false;
+            });
+        }
+    }
+
+    public areAllTargetsSelected(targetNumber): boolean {
+        if (targetNumber === -1) {
+            return (
+                this.gain.targets.filter(target => target.selected).length >=
+                this.gain.targets.length - (this.action.cannotTargetCaster ? 1 : 0)
+            );
+        } else {
+            return (
+                this.gain.targets.filter(target => target.selected).length >=
+                Math.min(this.gain.targets.length - (this.action.cannotTargetCaster ? 1 : 0), targetNumber)
+            );
+        }
+    }
+
+    public deactivatePhrase(): string {
+        let phrase = this.dismissPhrase || 'Dismiss <span class=\'actionIcon action1A\'></span> or Stop Sustaining';
+
+        if (this.parentActivityGain?.duration) {
+            phrase += ` (Duration: ${ this.durationDescription(this.parentActivityGain?.duration) })`;
+        } else if (this.gain.duration) {
+            phrase += ` (Duration: ${ this.durationDescription(this.gain?.duration) })`;
+        }
+
+        return phrase;
+    }
+
+    public durationDescription(turns: number, includeTurnState = true, inASentence = false): string {
+        return this._timeService.durationDescription(turns, includeTurnState, inASentence);
+    }
+
+    public ngOnInit(): void {
+        this._changeSubscription = this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (
+                    target === 'activities' ||
+                    target === 'spellbook' ||
+                    target === 'all' ||
+                    target.toLowerCase() === this.creature.toLowerCase()
+                ) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+        this._viewChangeSubscription = this._refreshService.detailChanged$
+            .subscribe(view => {
+                if (
+                    view.creature.toLowerCase() === this.creature.toLowerCase() &&
+                    ['activities', 'spellbook', 'all'].includes(view.target.toLowerCase())
+                ) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+    }
+
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _bloodMagicTrigger(): string {
         if (this.spell) {
             let bloodMagicTrigger = '';
 
@@ -169,15 +430,12 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_IsSpellGain() {
-        return this.gain instanceof SpellGain ? this.gain : null;
-    }
-
-    private can_Activate(noTarget = false): boolean {
+    private _canActivate(noTarget = false): boolean {
         //Return whether this spell or activity
         // - causes any blood magic effect or
         // - causes any target conditions and has a target or
-        // - causes any caster conditions and caster conditions are not disabled in general, or any of the caster conditions are not disabled.
+        // - causes any caster conditions and caster conditions are not disabled in general,
+        //   or any of the caster conditions are not disabled.
         // - in case of an activity, adds items or onceeffects (which are independent of the target)
         let gainConditions: Array<ConditionGain> = [];
 
@@ -188,10 +446,10 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         }
 
         return (
-            !!this.get_BloodMagicTrigger().length ||
+            !!this._bloodMagicTrigger().length ||
             (
                 !noTarget &&
-                gainConditions.some(gain => gain.targetFilter != 'caster')
+                gainConditions.some(gain => gain.targetFilter !== 'caster')
             ) ||
             (
                 this.activity &&
@@ -202,16 +460,18 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                 )
             ) ||
             (
-                gainConditions.some(gain => gain.targetFilter == 'caster') &&
+                gainConditions.some(gain => gain.targetFilter === 'caster') &&
                 (
                     (
                         this.action.isHostile() ?
-                            !this.get_Character().settings.noHostileCasterConditions :
-                            !this.get_Character().settings.noFriendlyCasterConditions
+                            !this.character.settings.noHostileCasterConditions :
+                            !this.character.settings.noFriendlyCasterConditions
                     ) ||
                     (
-                        this.conditionsService.conditions()
-                            .filter(condition => gainConditions.some(gain => gain.name == condition.name && gain.targetFilter == 'caster'))
+                        this._conditionsService.conditions()
+                            .filter(condition =>
+                                gainConditions.some(gain => gain.name === condition.name && gain.targetFilter === 'caster'),
+                            )
                             .some(condition =>
                                 condition.hasEffects() ||
                                 condition.isChangeable(),
@@ -222,13 +482,9 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         );
     }
 
-    private get gainActive(): boolean {
-        return this.actionGain.active;
-    }
-
-    private cannotTargetCaster(): boolean {
+    private _canCasterNotBeTargeted(): boolean {
         return (
-            this.target != 'self' &&
+            this._target !== 'self' &&
             (
                 this.action.cannotTargetCaster ||
                 this.parentActivity?.cannotTargetCaster
@@ -236,169 +492,12 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         );
     }
 
-    private isHostile(ignoreOverride = false): boolean {
+    private _isHostile(ignoreOverride = false): boolean {
         return this.action.isHostile(ignoreOverride);
     }
 
-    private canTarget(list: Array<string>): boolean {
-        return list.includes(this.target);
-    }
-
-    public can_TargetSelf(): boolean {
-        return (
-            !this.gainActive &&
-            !this.cannotTargetCaster() &&
-            this.canTarget(['self', 'ally']) &&
-            !this.isHostile(true)
-        );
-    }
-
-    public can_TargetCharacter(): boolean {
-        return (
-            !this.gainActive &&
-            this.creature != 'Character' &&
-            this.canTarget(['ally']) &&
-            !this.isHostile(true)
-        );
-    }
-
-    public can_TargetCompanion(): boolean {
-        return (
-            !this.gainActive &&
-            this.creature != 'Companion' &&
-            this.canTarget(['companion']) &&
-            this.get_CompanionAvailable() &&
-            !this.isHostile(true)
-        );
-    }
-
-    public can_TargetFamiliar(): boolean {
-        return (
-            !this.gainActive &&
-            this.creature != 'Familiar' &&
-            this.canTarget(['familiar']) &&
-            this.get_FamiliarAvailable() &&
-            !this.isHostile(true)
-        );
-    }
-
-    public can_TargetAlly(targetNumber: number): boolean {
-        return (
-            !this.gainActive &&
-            targetNumber != 0 &&
-            this.canTarget(['ally', 'area', 'familiar', 'companion']) &&
-            !this.isHostile(true)
-        );
-    }
-
-    open_SpellTargetModal(content) {
-        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
-            if (result == 'Cast click') {
-                this.on_Cast('Selected', true);
-            }
-        });
-    }
-
-    get_SpellTargets() {
-        //Collect all possible targets for a spell/activity (allies only).
-        //Hostile spells and activities don't get targets.
-        if (this.action.isHostile(true)) {
-            return [];
-        }
-
-        const newTargets: Array<SpellTarget> = [];
-        const character = this.get_Character();
-
-        this.characterService.allAvailableCreatures().forEach(creature => {
-            newTargets.push(Object.assign(new SpellTarget(), { name: creature.name || creature.type, id: creature.id, playerId: character.id, type: creature.type, selected: (this.gain.targets.find(target => target.id == creature.id)?.selected || false), isPlayer: creature === character }));
-        });
-
-        if (character.partyName) {
-            //Only allow selecting other players if you are in a party.
-            this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id)
-                .forEach(savegame => {
-                    newTargets.push(Object.assign(new SpellTarget(), { name: savegame.name || 'Unnamed', id: savegame.id, playerId: savegame.id, type: 'Character', selected: (this.gain.targets.find(target => target.id == savegame.id)?.selected || false) }));
-
-                    if (savegame.companionId) {
-                        newTargets.push(Object.assign(new SpellTarget(), { name: savegame.companionName || 'Companion', id: savegame.companionId, playerId: savegame.id, type: 'Companion', selected: (this.gain.targets.find(target => target.id == savegame.companionId)?.selected || false) }));
-                    }
-
-                    if (savegame.familiarId) {
-                        newTargets.push(Object.assign(new SpellTarget(), { name: savegame.familiarName || 'Familiar', id: savegame.familiarId, playerId: savegame.id, type: 'Familiar', selected: (this.gain.targets.find(target => target.id == savegame.familiarId)?.selected || false) }));
-                    }
-                });
-        }
-
-        this.gain.targets = newTargets;
-
-        return this.gain.targets;
-    }
-
-    on_SelectAllTargets(event: Event) {
-        const checked = (<HTMLInputElement>event.target).checked;
-
-        if (checked) {
-            this.gain.targets.forEach(target => {
-                if (!target.isPlayer || !this.action.cannotTargetCaster) {
-                    target.selected = true;
-                }
-            });
-        } else {
-            this.gain.targets.forEach(target => {
-                target.selected = false;
-            });
-        }
-    }
-
-    get_AllTargetsSelected(targetNumber) {
-        if (targetNumber == -1) {
-            return (this.gain.targets.filter(target => target.selected).length >= this.gain.targets.length - (this.action.cannotTargetCaster ? 1 : 0));
-        } else {
-            return (this.gain.targets.filter(target => target.selected).length >= Math.min(this.gain.targets.length - (this.action.cannotTargetCaster ? 1 : 0), targetNumber));
-        }
-    }
-
-    get_DeactivatePhrase() {
-        let phrase = this.dismissPhrase || 'Dismiss <span class=\'actionIcon action1A\'></span> or Stop Sustaining';
-
-        if (this.parentActivityGain?.duration) {
-            phrase += ` (Duration: ${ this.get_Duration(this.parentActivityGain?.duration) })`;
-        } else if (this.gain.duration) {
-            phrase += ` (Duration: ${ this.get_Duration(this.gain?.duration) })`;
-        }
-
-        return phrase;
-    }
-
-    get_Duration(turns: number, includeTurnState = true, inASentence = false) {
-        return this.timeService.durationDescription(turns, includeTurnState, inASentence);
-    }
-
-    finish_Loading() {
-        this.changeSubscription = this.refreshService.componentChanged$
-            .subscribe(target => {
-                if (target == 'activities' || target == 'spellbook' || target == 'all' || target.toLowerCase() == this.creature.toLowerCase()) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() == this.creature.toLowerCase() && ['activities', 'spellbook', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-    }
-
-    public ngOnInit(): void {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
-
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    private _canTargetList(list: Array<string>): boolean {
+        return list.includes(this._target);
     }
 
 }

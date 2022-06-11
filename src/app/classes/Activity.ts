@@ -202,7 +202,7 @@ export class Activity {
             )
         );
     }
-    public targetNumber(levelNumber: number, characterService: CharacterService): number {
+    public allowedTargetNumber(levelNumber: number, characterService: CharacterService): number {
         //You can select any number of targets for an area spell.
         if (this.target === ActivityTargetOptions.Area) {
             return -1;
