@@ -11,6 +11,11 @@ import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
 import { ItemsService } from 'src/app/services/items.service';
 import { DisplayService } from 'src/app/services/display.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -41,147 +46,145 @@ interface SpellParameters {
 })
 export class SpellsComponent implements OnInit, OnDestroy {
 
-    private showSpell = '';
-    private showChoice = '';
     public allowBorrow = false;
-    private showContent: SpellChoice = null;
-    private showSpellCasting: SpellCasting = null;
-    private showContentLevelNumber = 0;
+    public CreatureTypesEnum = CreatureTypes;
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _showSpell = '';
+    private _showChoice = '';
+    private _showContent: SpellChoice = null;
+    private _showSpellCasting: SpellCasting = null;
+    private _showContentLevelNumber = 0;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly itemsService: ItemsService,
-        private readonly refreshService: RefreshService,
-        private readonly spellsService: SpellsService,
-        private readonly effectsService: EffectsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _itemsService: ItemsService,
+        private readonly _refreshService: RefreshService,
+        private readonly _spellsService: SpellsService,
+        private readonly _effectsService: EffectsService,
+        public trackers: Trackers,
     ) { }
 
-    public minimize(): void {
-        this.characterService.character.settings.spellsMinimized = !this.characterService.character.settings.spellsMinimized;
-    }
-
-    public toggle_TileMode(): void {
-        this.get_Character().settings.spellsTileMode = !this.get_Character().settings.spellsTileMode;
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-        this.refreshService.processPreparedChanges();
-    }
-
-    get_Mobile() {
+    public get isMobile(): boolean {
         return DisplayService.isMobile;
     }
 
-    public get_Minimized(): boolean {
-        return this.characterService.character.settings.spellsMinimized;
+    public get isMinimized(): boolean {
+        return this._characterService.character.settings.spellsMinimized;
     }
 
-    public get_TileMode(): boolean {
-        return this.characterService.character.settings.spellsTileMode;
+    public get isTileMode(): boolean {
+        return this._characterService.character.settings.spellsTileMode;
     }
 
-    public toggle_SpellMenu(): void {
-        this.characterService.toggleMenu('spells');
+    public get character(): Character {
+        return this._characterService.character;
     }
 
-    public get_SpellsMenuState(): string {
-        return this.characterService.spellsMenuState();
+    public get stillLoading(): boolean {
+        return this._characterService.stillLoading;
     }
 
-    public toggle_Spell(name: string): void {
-        if (this.showSpell == name) {
-            this.showSpell = '';
+    public minimize(): void {
+        this._characterService.character.settings.spellsMinimized = !this._characterService.character.settings.spellsMinimized;
+    }
+
+    public toggleTileMode(): void {
+        this.character.settings.spellsTileMode = !this.character.settings.spellsTileMode;
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
+        this._refreshService.processPreparedChanges();
+    }
+
+    public toggleSpellMenu(): void {
+        this._characterService.toggleMenu(MenuNames.SpellsMenu);
+    }
+
+    public spellsMenuState(): string {
+        return this._characterService.spellsMenuState();
+    }
+
+    public toggleShownSpell(name: string): void {
+        this._showSpell = this._showSpell === name ? '' : name;
+    }
+
+    public toggleShownChoice(name: string, levelNumber = 0, content: SpellChoice = null, casting: SpellCasting = null): void {
+        // Set the currently shown list name, level number and content
+        // so that the correct choice with the correct data can be shown in the choice area.
+        if (this._showChoice === name &&
+            (!levelNumber || this._showContentLevelNumber === levelNumber) &&
+            (!content || JSON.stringify(this._showContent) === JSON.stringify(content))
+        ) {
+            this._showChoice = '';
+            this._showContentLevelNumber = 0;
+            this._showContent = null;
+            this._showSpellCasting = null;
         } else {
-            this.showSpell = name;
+            this._showChoice = name;
+            this._showContentLevelNumber = levelNumber;
+            this._showContent = content;
+            this._showSpellCasting = casting;
+            this._resetChoiceArea();
         }
     }
 
-    public toggle_Choice(name: string, levelNumber = 0, content: SpellChoice = null, casting: SpellCasting = null): void {
-        //Set the currently shown list name, level number and content so that the correct choice with the correct data can be shown in the choice area.
-        if (this.showChoice == name &&
-            (!levelNumber || this.showContentLevelNumber == levelNumber) &&
-            (!content || JSON.stringify(this.showContent) == JSON.stringify(content))) {
-            this.showChoice = '';
-            this.showContentLevelNumber = 0;
-            this.showContent = null;
-            this.showSpellCasting = null;
-        } else {
-            this.showChoice = name;
-            this.showContentLevelNumber = levelNumber;
-            this.showContent = content;
-            this.showSpellCasting = casting;
-            this.reset_ChoiceArea();
-        }
+    public receiveShownChoiceMessage(message: { name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }): void {
+        this.toggleShownChoice(message.name, message.levelNumber, message.choice, message.casting);
     }
 
-    private reset_ChoiceArea(): void {
-        //Scroll up to the top of the choice area. This is only needed in desktop mode, where you can switch between choices without closing the first,
-        // and it would cause the top bar to scroll away in mobile mode.
-        if (!DisplayService.isMobile) {
-            document.getElementById('spells-choiceArea-top')?.scrollIntoView({ behavior: 'smooth' });
-        }
+    public receiveShownSpellMessage(name: string): void {
+        this.toggleShownSpell(name);
     }
 
-    public receive_ChoiceMessage(message: { name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }): void {
-        this.toggle_Choice(message.name, message.levelNumber, message.choice, message.casting);
+    public shownChoice(): string {
+        return this._showChoice;
     }
 
-    public receive_SpellMessage(name: string): void {
-        this.toggle_Spell(name);
+    public shownSpell(): string {
+        return this._showSpell;
     }
 
-    public get_ShowChoice(): string {
-        return this.showChoice;
+    public shownContent(): SpellChoice {
+        return this._showContent;
     }
 
-    public get_ShowSpell(): string {
-        return this.showSpell;
-    }
-
-    public get_ShowContent(): SpellChoice {
-        return this.showContent;
-    }
-
-    public get_ActiveChoiceContent(): Array<{ name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }> {
+    public activeChoiceContent(): { name: string; id: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting } {
         //Get the currently shown spell choice with levelNumber and spellcasting.
         //Also get the currently shown list name for compatibility.
-        if (this.get_ShowContent()) {
-            return [{ name: this.get_ShowChoice(), levelNumber: this.showContentLevelNumber, choice: this.showContent, casting: this.showSpellCasting }];
+        if (this.shownContent()) {
+            return {
+                name: this.shownChoice(),
+                id: this._showContent.id,
+                levelNumber: this._showContentLevelNumber,
+                choice: this._showContent,
+                casting: this._showSpellCasting,
+            };
         } else {
-            return [];
+            return null;
         }
     }
 
-    public trackByIndex(index: number): number {
-        return index;
-    }
-
-    public trackByID(index: number, obj: { name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }): string {
-        //Track spell choices by id, so that when the selected choice changes, the choice area content is updated.
-        // The choice area content is only ever one choice, so the index would always be 0.
-        return obj.choice.id;
-    }
-
-    public get_Character(): Character {
-        return this.characterService.character;
-    }
-
-    public get_ComponentParameters(): ComponentParameters {
+    public componentParameters(): ComponentParameters {
         return {
-            allowSwitchingPreparedSpells: this.get_AllowSwitchingPreparedSpells(),
-            hasSpellChoices: this.get_HasSpellChoices(),
+            allowSwitchingPreparedSpells: this._canPreparedSpellsBeSwitched(),
+            hasSpellChoices: this._doesCharacterHaveAnySpellChoices(),
         };
     }
 
-    public get_SpellCastingParameters(): Array<SpellCastingParameters> {
-        return this.get_SpellCastings().map(casting => {
-            const equipmentSpells = this.get_Character().grantedEquipmentSpells(casting, { characterService: this.characterService, itemsService: this.itemsService }, { cantripAllowed: true, emptyChoiceAllowed: true });
+    public spellCastingParameters(): Array<SpellCastingParameters> {
+        return this._allSpellCastings().map(casting => {
+            const equipmentSpells =
+                this.character.grantedEquipmentSpells(
+                    casting,
+                    { characterService: this._characterService, itemsService: this._itemsService },
+                    { cantripAllowed: true, emptyChoiceAllowed: true },
+                );
             //Don't list castings that have no spells available.
             const castingAvailable = (
                 casting.charLevelAvailable &&
-                casting.charLevelAvailable <= this.get_Character().level
+                casting.charLevelAvailable <= this.character.level
             ) || equipmentSpells.length;
 
             if (!castingAvailable) {
@@ -191,69 +194,36 @@ export class SpellsComponent implements OnInit, OnDestroy {
             return {
                 casting,
                 equipmentSpells,
-                needSpellBook: this.get_NeedSpellbook(casting),
-                maxSpellLevel: this.get_MaxSpellLevel(casting, equipmentSpells),
+                needSpellBook: this._doesCastingNeedSpellbook(casting),
+                maxSpellLevel: this._maxSpellLevelOfCasting(casting, equipmentSpells),
             };
         })
             .filter(castingParameters => castingParameters);
     }
 
-    public get_SpellCastingLevelParameters(spellCastingParameters: SpellCastingParameters): Array<SpellCastingLevelParameters> {
-        return [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].filter(level => level <= spellCastingParameters.maxSpellLevel).map(level => {
-            const availableSpellChoices = this.get_AvailableSpellChoices(spellCastingParameters, level);
-            const fixedSpellSets = this.get_FixedSpellsByLevel(spellCastingParameters, level);
+    public spellCastingLevelParameters(spellCastingParameters: SpellCastingParameters): Array<SpellCastingLevelParameters> {
+        return (Object.values(SpellLevels) as Array<number>)
+            .filter(level => level <= spellCastingParameters.maxSpellLevel)
+            .map(level => {
+                const availableSpellChoices = this._availableSpellChoicesAtThisLevel(spellCastingParameters, level);
+                const fixedSpellSets = this._fixedSpellsAtThisLevel(spellCastingParameters, level);
 
-            if (!(availableSpellChoices.length + fixedSpellSets.length)) {
-                return null;
-            }
+                if (!(availableSpellChoices.length + fixedSpellSets.length)) {
+                    return null;
+                }
 
-            return {
-                level,
-                availableSpellChoices,
-                fixedSpellSets,
-            };
-        })
+                return {
+                    level,
+                    availableSpellChoices,
+                    fixedSpellSets,
+                };
+            })
             .filter(spellCastingLevelParameters => spellCastingLevelParameters);
     }
 
-    private get_AvailableSpellChoices(spellCastingParameters: SpellCastingParameters, levelNumber: number): Array<SpellChoice> {
-        //Get all spellchoices that have this spell level and are available at this character level.
-        const character = this.get_Character();
-
-        return spellCastingParameters.casting.spellChoices
-            .filter(choice => choice.charLevelAvailable <= character.level && !choice.showOnSheet)
-            .concat(Array.from(new Set(spellCastingParameters.equipmentSpells.map(spellSet => spellSet.choice))))
-            .filter(choice =>
-                (choice.dynamicLevel ? this.get_DynamicLevel(choice, spellCastingParameters.casting) : choice.level) == levelNumber,
-            );
-    }
-
-    private get_FixedSpellsByLevel(spellCastingParameters: SpellCastingParameters, levelNumber: number): Array<{ choice: SpellChoice; gain: SpellGain }> {
-        const character = this.get_Character();
-
-        if (levelNumber == -1) {
-            if (spellCastingParameters.casting.castingType == 'Focus') {
-                return character.takenSpells(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, locked: true, signatureAllowed: false, cantripAllowed: false })
-                    .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
-            } else {
-                return [];
-            }
-        } else {
-            return character.takenSpells(1, character.level, { characterService: this.characterService }, { spellLevel: levelNumber, spellCasting: spellCastingParameters.casting, locked: true, signatureAllowed: false, cantripAllowed: true })
-                .concat(...spellCastingParameters.equipmentSpells
-                    .filter(spellSet =>
-                        spellSet.gain &&
-                        spellSet.gain.locked &&
-                        (spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, spellCastingParameters.casting) : spellSet.choice.level) == levelNumber,
-                    ),
-                )
-                .sort((a, b) => (a.gain.name == b.gain.name) ? 0 : ((a.gain.name > b.gain.name) ? 1 : -1));
-        }
-    }
-
-    public get_FixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
+    public fixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
         return spellCastingLevelParameters.fixedSpellSets.map(spellSet => {
-            const spell = this.spellsService.spells(spellSet.gain.name)[0];
+            const spell = this._spellsService.spells(spellSet.gain.name)[0];
 
             if (!spell) {
                 return null;
@@ -267,42 +237,74 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }).filter(spellParameter => spellParameter);
     }
 
-    private get_MaxSpellLevel(casting: SpellCasting, equipmentSpells: Array<{ choice: SpellChoice; gain: SpellGain }>): number {
-        //Get the available spell level of this casting. This is the highest spell level of the spell choices that are available at your character level.
-        //Focus spells are heightened to half your level rounded up.
-        //Dynamic spell levels need to be evaluated.
-        //Non-Focus spellcastings need to consider spells granted by items.
-        const character = this.get_Character();
+    public ngOnInit(): void {
+        this._changeSubscription = this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (['spells', 'all', 'character'].includes(target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+        this._viewChangeSubscription = this._refreshService.detailChanged$
+            .subscribe(view => {
+                if (view.creature.toLowerCase() === 'character' && ['spells', 'all'].includes(view.target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
 
-        if (casting.castingType == 'Focus') {
-            return this.get_Character().maxSpellLevel();
+                    if (view.subtarget === 'clear') {
+                        this.toggleShownChoice('');
+                    }
+                }
+            });
+    }
+
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
+
+    private _maxSpellLevelOfCasting(casting: SpellCasting, equipmentSpells: Array<{ choice: SpellChoice; gain: SpellGain }>): number {
+        // Get the available spell level of this casting.
+        // This is the highest spell level of the spell choices that are available at your character level.
+        // Focus spells are heightened to half your level rounded up.
+        // Dynamic spell levels need to be evaluated.
+        // Non-Focus spellcastings need to consider spells granted by items.
+        const character = this.character;
+
+        if (casting.castingType === 'Focus') {
+            return this.character.maxSpellLevel();
         }
 
         return Math.max(
             ...equipmentSpells
-                .map(spellSet => spellSet.choice.dynamicLevel ? this.get_DynamicLevel(spellSet.choice, casting) : spellSet.choice.level),
+                .map(spellSet => spellSet.choice.dynamicLevel ? this._dynamicSpellLevel(spellSet.choice, casting) : spellSet.choice.level),
             ...casting.spellChoices.filter(spellChoice => spellChoice.charLevelAvailable <= character.level)
-                .map(spellChoice => spellChoice.dynamicLevel ? this.get_DynamicLevel(spellChoice, casting) : spellChoice.level),
+                .map(spellChoice => spellChoice.dynamicLevel ? this._dynamicSpellLevel(spellChoice, casting) : spellChoice.level),
             0,
         );
     }
 
-    private get_HasSpellChoices(): boolean {
-        const character = this.get_Character();
+    private _doesCharacterHaveAnySpellChoices(): boolean {
+        const character = this.character;
 
-        return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => (choice.available || choice.dynamicAvailable) && choice.charLevelAvailable <= character.level));
+        return character.class?.spellCasting
+            .some(casting =>
+                casting.spellChoices
+                    .some(choice =>
+                        (choice.available || choice.dynamicAvailable) &&
+                        choice.charLevelAvailable <= character.level,
+                    ),
+            );
     }
 
-    private get_NeedSpellbook(casting: SpellCasting): boolean {
+    private _doesCastingNeedSpellbook(casting: SpellCasting): boolean {
         return casting.spellBookOnly || casting.spellChoices.some(choice => choice.spellBookOnly);
     }
 
-    private get_AllowSwitchingPreparedSpells(): boolean {
-        return !!this.effectsService.toggledEffectsOnThis(this.get_Character(), 'Allow Switching Prepared Spells').length;
+    private _canPreparedSpellsBeSwitched(): boolean {
+        return !!this._effectsService.toggledEffectsOnThis(this.character, 'Allow Switching Prepared Spells').length;
     }
 
-    private get_SpellCastings(): Array<SpellCasting> {
-        const character = this.get_Character();
+    private _allSpellCastings(): Array<SpellCasting> {
+        const character = this.character;
 
         enum CastingTypeSort {
             Innate,
@@ -311,19 +313,21 @@ export class SpellsComponent implements OnInit, OnDestroy {
             Spontaneous
         }
 
+        // Spread the list into a new array so it doesn't get sorted on the character.
+        // This would lead to problems when loading the character.
         return [...character.class.spellCasting]
             .sort((a, b) => {
-                if (a.className == 'Innate' && b.className != 'Innate') {
+                if (a.className === 'Innate' && b.className !== 'Innate') {
                     return -1;
                 }
 
-                if (a.className != 'Innate' && b.className == 'Innate') {
+                if (a.className !== 'Innate' && b.className === 'Innate') {
                     return 1;
                 }
 
-                if (a.className == b.className) {
+                if (a.className === b.className) {
                     return (
-                        (CastingTypeSort[a.castingType] + a.tradition == CastingTypeSort[b.castingType] + b.tradition) ? 0 :
+                        (CastingTypeSort[a.castingType] + a.tradition === CastingTypeSort[b.castingType] + b.tradition) ? 0 :
                             (
                                 (CastingTypeSort[a.castingType] + a.tradition > CastingTypeSort[b.castingType] + b.tradition) ? 1 : -1
                             )
@@ -338,36 +342,83 @@ export class SpellsComponent implements OnInit, OnDestroy {
             });
     }
 
-    private get_DynamicLevel(choice: SpellChoice, casting: SpellCasting): number {
-        return this.spellsService.dynamicSpellLevel(casting, choice, this.characterService);
+    private _dynamicSpellLevel(choice: SpellChoice, casting: SpellCasting): number {
+        return this._spellsService.dynamicSpellLevel(casting, choice, this._characterService);
     }
 
-    public get stillLoading(): boolean {
-        return this.characterService.stillLoading;
+    private _resetChoiceArea(): void {
+        // Scroll up to the top of the choice area. This is only needed in desktop mode,
+        // where you can switch between choices without closing the first,
+        // and it would cause the top bar to scroll away in mobile mode.
+        if (!DisplayService.isMobile) {
+            document.getElementById('spells-choiceArea-top')?.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 
-    public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
-            .subscribe(target => {
-                if (['spells', 'all', 'character'].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() == 'character' && ['spells', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+    private _availableSpellChoicesAtThisLevel(spellCastingParameters: SpellCastingParameters, levelNumber: number): Array<SpellChoice> {
+        //Get all spellchoices that have this spell level and are available at this character level.
+        const character = this.character;
 
-                    if (view.subtarget == 'clear') {
-                        this.toggle_Choice('');
-                    }
-                }
-            });
+        return spellCastingParameters.casting.spellChoices
+            .filter(choice => choice.charLevelAvailable <= character.level && !choice.showOnSheet)
+            .concat(Array.from(new Set(spellCastingParameters.equipmentSpells.map(spellSet => spellSet.choice))))
+            .filter(choice =>
+                (choice.dynamicLevel ? this._dynamicSpellLevel(choice, spellCastingParameters.casting) : choice.level) === levelNumber,
+            );
     }
 
-    public ngOnDestroy(): void {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    private _fixedSpellsAtThisLevel(
+        spellCastingParameters: SpellCastingParameters,
+        levelNumber: number,
+    ): Array<{ choice: SpellChoice; gain: SpellGain }> {
+        const character = this.character;
+
+        if (levelNumber === -1) {
+            if (spellCastingParameters.casting.castingType === 'Focus') {
+                return character
+                    .takenSpells(
+                        1,
+                        character.level,
+                        { characterService: this._characterService },
+                        {
+                            spellLevel: levelNumber,
+                            spellCasting: spellCastingParameters.casting,
+                            locked: true,
+                            signatureAllowed: false,
+                            cantripAllowed: false,
+                        },
+                    )
+                    .sort((a, b) => SortAlphaNum(a.gain.name, b.gain.name));
+            } else {
+                return [];
+            }
+        } else {
+            return character
+                .takenSpells(
+                    1,
+                    character.level,
+                    { characterService: this._characterService },
+                    {
+                        spellLevel: levelNumber,
+                        spellCasting: spellCastingParameters.casting,
+                        locked: true,
+                        signatureAllowed: false,
+                        cantripAllowed: true,
+                    },
+                )
+                .concat(...spellCastingParameters.equipmentSpells
+                    .filter(spellSet =>
+                        spellSet.gain &&
+                        spellSet.gain.locked &&
+                        (
+                            spellSet.choice.dynamicLevel
+                                ? this._dynamicSpellLevel(spellSet.choice, spellCastingParameters.casting)
+                                : spellSet.choice.level
+                        ) === levelNumber,
+                    ),
+                )
+                .sort((a, b) => SortAlphaNum(a.gain.name, b.gain.name));
+        }
     }
 
 }
