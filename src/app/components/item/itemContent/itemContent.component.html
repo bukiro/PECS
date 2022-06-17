@@ -23,7 +23,7 @@
     <span *ngIf="item.acbonus">
         <strong>AC Bonus</strong>
         <ng-container
-            *ngFor="let acBonus of [item.get_ACBonus ? item.get_ACBonus() : item.acbonus]; trackBy:trackByIndex;">
+            *ngFor="let acBonus of [item.get_ACBonus ? item.get_ACBonus() : item.acbonus]; trackBy:trackers.trackByIndex;">
             <span [ngClass]="{'penalty':acBonus < item.acbonus, 'bonus':acBonus > item.acbonus}">
                 {{acBonus}}{{item.coverbonus ? " (4)" : ""}}
             </span>
@@ -31,7 +31,7 @@
     </span>
     <span *ngIf="(item.type === 'armors' && (item.get_DexCap ? item.get_DexCap() : item.dexcap) !== -1)">
         <strong>Dex Cap</strong>
-        <ng-container *ngFor="let dexCap of [item.get_DexCap ? item.get_DexCap() : item.dexcap]; trackBy:trackByIndex;">
+        <ng-container *ngFor="let dexCap of [item.get_DexCap ? item.get_DexCap() : item.dexcap]; trackBy:trackers.trackByIndex;">
             <span
                 [ngClass]="{'penalty':dexCap < item.dexcap, 'bonus':dexCap > item.dexcap || (!dexCap && item.dexcap)}">
                 {{dexCap}}
@@ -41,7 +41,7 @@
     <span *ngIf="item.skillpenalty">
         <strong>Check Penalty</strong>
         <ng-container
-            *ngFor="let skillPenalty of [item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty]; trackBy:trackByIndex;">
+            *ngFor="let skillPenalty of [item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty]; trackBy:trackers.trackByIndex;">
             <span [ngClass]="{'penalty':skillPenalty < item.skillpenalty, 'bonus':skillPenalty > item.skillpenalty}">
                 {{skillPenalty}}
             </span>
@@ -50,7 +50,7 @@
     <span *ngIf="item.speedpenalty">
         <strong>Speed Penalty</strong>
         <ng-container
-            *ngFor="let speedPenalty of [item.get_SpeedPenalty ? item.get_SpeedPenalty() : item.speedpenalty]; trackBy:trackByIndex;">
+            *ngFor="let speedPenalty of [item.get_SpeedPenalty ? item.get_SpeedPenalty() : item.speedpenalty]; trackBy:trackers.trackByIndex;">
             <span [ngClass]="{'penalty':speedPenalty < item.speedpenalty, 'bonus':speedPenalty > item.speedpenalty}">
                 {{speedPenalty}}
             </span>
@@ -59,7 +59,7 @@
     <span *ngIf="(item.get_Strength ? item.get_Strength() : item.strength)">
         <strong>Strength</strong>
         <ng-container
-            *ngFor="let strength of [item.get_Strength ? item.get_Strength() : item.strength]; trackBy:trackByIndex;">
+            *ngFor="let strength of [item.get_Strength ? item.get_Strength() : item.strength]; trackBy:trackers.trackByIndex;">
             <span [ngClass]="{'penalty':strength > item.strength, 'bonus':strength < item.strength}">
                 {{strength}}
             </span>
@@ -86,7 +86,7 @@
     <span *ngIf="item.hardness">
         <strong>Hardness</strong>
         <ng-container
-            *ngFor="let hardness of [item.get_Hardness ? item.get_Hardness() : item.hardness]; trackBy:trackByIndex;">
+            *ngFor="let hardness of [item.get_Hardness ? item.get_Hardness() : item.hardness]; trackBy:trackers.trackByIndex;">
             <span [ngClass]="{'penalty':hardness < item.hardness, 'bonus':hardness > item.hardness}">
                 {{hardness}}
             </span>
@@ -94,13 +94,13 @@
     </span>
     <span *ngIf="item.hitpoints">
         <strong>HP</strong><strong *ngIf="item.brokenThreshold"> (BT)</strong>
-        <ng-container *ngFor="let maxHP of [item.get_MaxHP ? item.get_MaxHP() : item.hitpoints]; trackBy:trackByIndex;">
+        <ng-container *ngFor="let maxHP of [item.get_MaxHP ? item.get_MaxHP() : item.hitpoints]; trackBy:trackers.trackByIndex;">
             <span [ngClass]="{'penalty':maxHP < item.hitpoints, 'bonus':maxHP > item.hitpoints}">
                 {{maxHP}}
             </span>
         </ng-container>
         <ng-container
-            *ngFor="let brokenThreshold of [item.get_BrokenThreshold ? item.get_BrokenThreshold() : item.brokenThreshold]; trackBy:trackByIndex;">
+            *ngFor="let brokenThreshold of [item.get_BrokenThreshold ? item.get_BrokenThreshold() : item.brokenThreshold]; trackBy:trackers.trackByIndex;">
             <span *ngIf="item.brokenThreshold"
                 [ngClass]="{'penalty':brokenThreshold < item.brokenThreshold, 'bonus':brokenThreshold > item.brokenThreshold}">
                 ({{brokenThreshold}})
@@ -151,12 +151,12 @@
 </div>
 <div class="newrow left-aligned">
     <hr class="newrow">
-    <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackByIndex;">
+    <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
         <app-description class="newrow" [text]="desc"></app-description>
     </ng-container>
-    <ng-container *ngFor="let languageGains of [get_LanguageGains()]; trackBy:trackByIndex;">
+    <ng-container *ngFor="let languageGains of [get_LanguageGains()]; trackBy:trackers.trackByIndex;">
         <div class="newrow list-item" *ngIf="languageGains.length">
-            <ng-container *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackByIndex;">
+            <ng-container *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackers.trackByIndex;">
                 <div class="newrow">
                     <strong>{{gainLanguage.title}}</strong>
                     <input id="{{item.id}}language{{languageIndex}}name" type="text" [(ngModel)]="gainLanguage.name"
@@ -169,7 +169,7 @@
         </div>
     </ng-container>
     <div class="newrow list-item" *ngIf="has_ShownData()">
-        <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackByIndex;">
+        <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackers.trackByIndex;">
             <div class="newrow" *ngIf="data.show">
                 <strong>{{data.name}}</strong>
                 <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value"
@@ -200,7 +200,7 @@
             <strong>Maximum Duration</strong>
             {{item.maxDuration}}
         </span>
-        <ng-container *ngFor="let stage of item.stages; let stageIndex = index; trackBy:trackByIndex;">
+        <ng-container *ngFor="let stage of item.stages; let stageIndex = index; trackBy:trackers.trackByIndex;">
             <span *ngIf="stageIndex > 0">
                 <strong>Stage {{stageIndex}}</strong>
                 {{item.stages[stageIndex]}}
@@ -261,7 +261,7 @@
     <div class="list-item newrow problem" *ngIf="item.inputRequired">
         <strong>Player input required:</strong>
         <div class="newrow left-aligned"
-            *ngFor="let inputRequired of item.inputRequired.split('\n\n'); trackBy:trackByIndex;">
+            *ngFor="let inputRequired of item.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;">
             <app-description class="newrow" [text]="inputRequired">
             </app-description>
         </div>

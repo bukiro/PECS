@@ -39,7 +39,7 @@
                 (click)="sort_Cash();">Sort</button>
         </div>
         <header class="subsectionHeader">Bulk</header>
-        <ng-container *ngFor="let calculatedBulk of [get_CalculatedBulk()]; trackBy:trackByIndex;">
+        <ng-container *ngFor="let calculatedBulk of [get_CalculatedBulk()]; trackBy:trackers.trackByIndex;">
             <div class="list-item">
                 <div class="newrow">
                     <strong>Bulk</strong>
@@ -115,9 +115,9 @@
                 <div class="newrow" *ngIf="!get_PreparedItems('snarespecialist').length">
                     You don't have any snares prepared for quick deployment.
                 </div>
-                <ng-container *ngFor="let preparedItem of get_PreparedItems('snarespecialist'); trackBy:trackByIndex;">
+                <ng-container *ngFor="let preparedItem of get_PreparedItems('snarespecialist'); trackBy:trackers.trackByIndex;">
                     <div class="list-item"
-                        *ngFor="let inventoryID of ['snarespecialist'+preparedItem.item.id]; trackBy:trackByIndex;">
+                        *ngFor="let inventoryID of ['snarespecialist'+preparedItem.item.id]; trackBy:trackers.trackByIndex;">
                         <button class="newrow sublist-toggle" (click)="toggle_Item(inventoryID)"
                             [ngClass]="{'inactive-button':!preparedItem.learned.snareSpecialistAvailable}">
                             <span>{{preparedItem.learned.snareSpecialistAvailable}}
@@ -154,7 +154,7 @@
                 <app-objectEffects [creature]="creature" [objectName]="'Max Invested'"></app-objectEffects>
             </div>
         </ng-template>
-        <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackByIndex;">
+        <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackers.trackByIndex;">
             <strong>Invested</strong>
             <div class="value" [ngClass]="{'problem':(get_Invested() > maxInvested.value)}">
                 {{get_Invested()}}
@@ -176,7 +176,7 @@
         </div>
         <div class="vlist" cdkDropListGroup>
             <ng-container
-                *ngFor="let inventory of get_Inventories(creature); let inventoryIndex = index; trackBy:trackByIndex;">
+                *ngFor="let inventory of get_Inventories(creature); let inventoryIndex = index; trackBy:trackers.trackByIndex;">
                 <div class="list-item" [ngClass]="{'fullsize-only':inventoryIndex > 1}">
                     <header class="sectionHeader fullsize-only newrow">{{get_InventoryName(inventory)}}
                         <span *ngIf="inventory.bulkLimit && inventory.bulkLimit % 1 === 0">
@@ -191,9 +191,9 @@
                         *ngIf="get_IsEmptyInventory(inventory)"
                         [ngStyle]="{'min-height': get_TileMode() ? null : '2em', 'display': get_TileMode() ? null : 'flex'}">
                     </div>
-                    <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackByIndex;">
+                    <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackers.trackByIndex;">
                         <ng-container
-                            *ngFor="let itemList of [sort_ItemSet(inventory[itemSet.key])]; trackBy:trackByIndex">
+                            *ngFor="let itemList of [sort_ItemSet(inventory[itemSet.key])]; trackBy:trackers.trackByIndex">
                             <header class="subsectionHeader newrow" *ngIf="inventory[itemSet.key].length">
                                 {{itemSet.name}}
                             </header>
@@ -205,7 +205,7 @@
                                 <ng-container
                                     *ngFor="let itemParameters of get_ItemParameters(itemList); trackBy:trackByItemID;">
                                     <ng-container
-                                        *ngFor="let containedItems of [get_ContainedItems(itemParameters.item)]; trackBy:trackByIndex;">
+                                        *ngFor="let containedItems of [get_ContainedItems(itemParameters.item)]; trackBy:trackers.trackByIndex;">
                                         <ng-template #ItemIconsTemplate>
                                             <span [ngbTooltip]="itemParameters.asEquipment?.material[0]?.name"
                                                 *ngIf="itemParameters.asEquipment?.material?.length">
@@ -321,7 +321,7 @@
                                             <ng-container
                                                 *ngIf="itemParameters.item.amount !== undefined && itemParameters.asImmediateStoredSpellItem">
                                                 <ng-container
-                                                    *ngFor="let itemSpell of get_ItemSpell(itemParameters.item); trackBy:trackByIndex;">
+                                                    *ngFor="let itemSpell of get_ItemSpell(itemParameters.item); trackBy:trackers.trackByIndex;">
                                                     <app-spellTarget class="newrow vlist" [creature]="creature"
                                                         [phrase]="(itemParameters.asWand?.cooldown) ? 'Overcharge (Cooldown ' + get_Duration(itemParameters.asWand.cooldown) + ') and cast' : 'Cast'"
                                                         [showActions]="true" [spell]="itemSpell.spell"
@@ -870,7 +870,7 @@
                                             </app-item>
                                         </ng-template>
                                         <ng-container
-                                            *ngFor="let inventoryID of [itemParameters.item.id]; trackBy:trackByIndex;">
+                                            *ngFor="let inventoryID of [itemParameters.item.id]; trackBy:trackers.trackByIndex;">
                                             <ng-container *ngIf="!get_TileMode()">
                                                 <div class="list-item" cdkDrag [cdkDragData]="itemParameters.item"
                                                     [cdkDragDisabled]="!can_Drop(itemParameters.item)">
@@ -913,7 +913,7 @@
                     <button class="fullsize-only newrow center-aligned"
                         (click)="add_NewOtherItem(inventory)">Add</button>
                     <div class="fullsize-only list-item"
-                        *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackByIndex;">
+                        *ngFor="let item of inventory.otheritems; let index = index; trackBy:trackers.trackByIndex;">
                         <strong>Name</strong>
                         <input id="miscellaneousItemName{{inventoryIndex}}_{{index}}" type="text"
                             [(ngModel)]="item.name">

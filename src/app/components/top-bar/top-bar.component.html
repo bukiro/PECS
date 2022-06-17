@@ -111,9 +111,9 @@
             </label>
         </div>
         <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
-            <ng-container *ngFor="let message of newMessages; trackBy:trackByIndex">
-                <ng-container *ngFor="let creature of [get_MessageCreature(message)]; trackBy:trackByIndex">
-                    <ng-container *ngFor="let sender of [get_MessageSender(message)]; trackBy:trackByIndex">
+            <ng-container *ngFor="let message of newMessages; trackBy:trackers.trackByIndex">
+                <ng-container *ngFor="let creature of [get_MessageCreature(message)]; trackBy:trackers.trackByIndex">
+                    <ng-container *ngFor="let sender of [get_MessageSender(message)]; trackBy:trackers.trackByIndex">
                         <ng-container *ngIf="creature && (message.gainCondition.length || message.offeredItem.length)">
                             <div class="list-item gridicon-fullsizebox">
                                 <input id="message{{message.id}}" class="character-choice" type="checkbox"

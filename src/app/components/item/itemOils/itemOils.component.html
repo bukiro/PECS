@@ -3,14 +3,14 @@
     <div class="newrow">
         <strong>Apply oil</strong>
         <select [(ngModel)]="newOil" (ngModelChange)="add_Oil()">
-            <option *ngFor="let oil of get_Oils(); trackBy:trackByIndex;" [ngValue]="oil">
+            <option *ngFor="let oil of get_Oils(); trackBy:trackers.trackByIndex;" [ngValue]="oil">
                 {{oil.oil.amount !== 1 ? oil.oil.amount + " " : ""}}{{oil.oil.get_Name()}}
             </option>
         </select>
     </div>
     <div class="newrow" *ngIf="item.oilsApplied.length">
         <strong>Applied oils</strong>
-        <div class="newrow" *ngFor="let oil of item.oilsApplied; let index = index; trackBy:trackByIndex;">
+        <div class="newrow" *ngFor="let oil of item.oilsApplied; let index = index; trackBy:trackers.trackByIndex;">
             <span>
                 {{oil.get_Name()}} ({{get_Duration(oil.duration)}})
             </span>

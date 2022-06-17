@@ -30,7 +30,7 @@
                 <div class="list-item">
                     <strong>Show spells from</strong>
                     <select [(ngModel)]="spellSource">
-                        <option *ngFor="let source of ['spell library','your spellbook']; trackBy:trackByIndex;"
+                        <option *ngFor="let source of ['spell library','your spellbook']; trackBy:trackers.trackByIndex;"
                             [ngValue]="source">
                             {{source}}
                         </option>
@@ -42,7 +42,7 @@
                     </strong>
                     <span>
                         <select [(ngModel)]="showLevel">
-                            <option *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
+                            <option *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
                                 [ngValue]="levelOption">
                                 {{levelOption === 0 ? "Default" : levelOption}}
                             </option>
@@ -75,32 +75,32 @@
                     </button>
                 </div>
                 <div class="fullsize-scroll-box vlist">
-                    <ng-container *ngFor="let wizardCasting of [get_WizardSpellCasting()]; trackBy:trackByIndex;">
-                        <ng-container *ngFor="let bardCasting of [get_BardSpellCasting()]; trackBy:trackByIndex;">
+                    <ng-container *ngFor="let wizardCasting of [get_WizardSpellCasting()]; trackBy:trackers.trackByIndex;">
+                        <ng-container *ngFor="let bardCasting of [get_BardSpellCasting()]; trackBy:trackers.trackByIndex;">
                             <ng-container
-                                *ngFor="let sorcererCasting of [get_SorcererSpellCasting()]; trackBy:trackByIndex;">
+                                *ngFor="let sorcererCasting of [get_SorcererSpellCasting()]; trackBy:trackers.trackByIndex;">
                                 <ng-container
-                                    *ngFor="let descblock of [get_LearningAvailable(wizardCasting, bardCasting, sorcererCasting)]; trackBy:trackByIndex;">
+                                    *ngFor="let descblock of [get_LearningAvailable(wizardCasting, bardCasting, sorcererCasting)]; trackBy:trackers.trackByIndex;">
                                     <div class="list-item" *ngIf="descblock.length">
                                         <ng-container
-                                            *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
+                                            *ngFor="let desc of descblock.split('\n\n'); trackBy:trackers.trackByIndex;">
                                             <app-description class="newrow" [text]="desc"></app-description>
                                         </ng-container>
                                     </div>
                                 </ng-container>
                                 <ng-container
-                                    *ngFor="let descblock of [get_SpellMasteryAvailable(wizardCasting)]; trackBy:trackByIndex;">
+                                    *ngFor="let descblock of [get_SpellMasteryAvailable(wizardCasting)]; trackBy:trackers.trackByIndex;">
                                     <div class="list-item" *ngIf="descblock.length">
                                         <ng-container
-                                            *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
+                                            *ngFor="let desc of descblock.split('\n\n'); trackBy:trackers.trackByIndex;">
                                             <app-description class="newrow" [text]="desc"></app-description>
                                         </ng-container>
                                     </div>
                                 </ng-container>
                                 <ng-container
-                                    *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackByIndex;">
+                                    *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackers.trackByIndex;">
                                     <ng-container
-                                        *ngFor="let visibleSpells of [get_VisibleSpells(level)]; trackBy:trackByIndex;">
+                                        *ngFor="let visibleSpells of [get_VisibleSpells(level)]; trackBy:trackers.trackByIndex;">
                                         <button class="list-item" (click)="toggle_List(level)"
                                             [ngClass]="{'fancy-button':get_ShowList()===level||get_ShowList()===-2}"
                                             *ngIf="visibleSpells.length">
@@ -123,7 +123,7 @@
                                                 </header>
                                             </div>
                                             <ng-container
-                                                *ngFor="let spell of visibleSpells; let spellIndex = index; trackBy:trackByIndex;">
+                                                *ngFor="let spell of visibleSpells; let spellIndex = index; trackBy:trackers.trackByIndex;">
                                                 <ng-container
                                                     *ngIf="visibleSpells.length < 80 || get_ShowList()===-2 || (spellIndex >= (range * 40) && spellIndex < ((range + 1) * 40 ))">
                                                     <ng-template #SpellTemplate>
@@ -177,7 +177,7 @@
                                                         </button>
                                                         <button class="newrow center-aligned"
                                                             (click)="unlearn_Spell(spell)" [disabled]=""
-                                                            *ngFor="let learned of get_SpellsLearned(spell.name); trackBy:trackByIndex;">
+                                                            *ngFor="let learned of get_SpellsLearned(spell.name); trackBy:trackers.trackByIndex;">
                                                             Unlearn {{get_LearnedSpellSource(learned.source)}}
                                                         </button>
                                                         <button class="newrow center-aligned"
@@ -200,7 +200,7 @@
                                                             <span>
                                                                 <select [(ngModel)]="showLevel">
                                                                     <option
-                                                                        *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackByIndex;"
+                                                                        *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
                                                                         [disabled]="levelOption && spell.levelreq > levelOption"
                                                                         [ngValue]="levelOption">
                                                                         {{levelOption === 0 ? "Default (" +

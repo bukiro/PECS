@@ -6,14 +6,14 @@
             {{item.poisonsApplied.length ? 'Replace' : 'Apply'}} poison
         </strong>
         <select [(ngModel)]="newPoison" (ngModelChange)="add_Poison()">
-            <option *ngFor="let poison of get_Poisons(); trackBy:trackByIndex;" [ngValue]="poison">
+            <option *ngFor="let poison of get_Poisons(); trackBy:trackers.trackByIndex;" [ngValue]="poison">
                 {{poison.poison.amount !== 1 ? poison.poison.amount + " " : ""}}{{poison.poison.get_Name()}}
             </option>
         </select>
     </div>
     <div class="newrow" *ngIf="item.poisonsApplied.length">
         <strong>Applied poison</strong>
-        <div class="newrow" *ngFor="let poison of item.poisonsApplied; let index = index; trackBy:trackByIndex;">
+        <div class="newrow" *ngFor="let poison of item.poisonsApplied; let index = index; trackBy:trackers.trackByIndex;">
             <span>{{poison.get_Name()}}</span>
             <button class="lower" (click)="remove_Poison(index)">Spend/Remove</button>
         </div>

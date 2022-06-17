@@ -6,7 +6,7 @@
             <strong>Material</strong>
             <select [(ngModel)]="newArmorMaterial[0]" (ngModelChange)="add_ArmorMaterial()">
                 <ng-container
-                    *ngFor="let material of get_InitialArmorMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
+                    *ngFor="let material of get_InitialArmorMaterials(); let initialRuneIndex = index; trackBy:trackers.trackByIndex;">
                     <option [ngValue]="material" *ngIf="initialRuneIndex === 0" [selected]=!item.material[0]>
                         <!--Blank option to deselect-->
                     </option>
@@ -17,7 +17,7 @@
                     </optgroup>
                 </ng-container>
                 <optgroup label="Available materials" *ngIf="get_ArmorMaterials().length">
-                    <option *ngFor="let material of get_ArmorMaterials(); trackBy:trackByIndex;" [ngValue]="material"
+                    <option *ngFor="let material of get_ArmorMaterials(); trackBy:trackers.trackByIndex;" [ngValue]="material"
                         [disabled]="material.disabled" title="{{get_Title(material.material)}}">
                         {{material.material.name}}
                     </option>
@@ -25,7 +25,7 @@
             </select>
         </div>
         <ng-container *ngIf="craftingStation">
-            <ng-container *ngFor="let material of item.material; trackBy:trackByIndex;">
+            <ng-container *ngFor="let material of item.material; trackBy:trackers.trackByIndex;">
                 <div class="newrow" *ngIf="material.craftRequirement">
                     <span>
                         <strong>Craft Requirement&nbsp;</strong>
@@ -40,7 +40,7 @@
             <strong>Material</strong>
             <select [(ngModel)]="newShieldMaterial[0]" (ngModelChange)="add_ShieldMaterial()">
                 <ng-container
-                    *ngFor="let material of get_InitialShieldMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
+                    *ngFor="let material of get_InitialShieldMaterials(); let initialRuneIndex = index; trackBy:trackers.trackByIndex;">
                     <option [ngValue]="material" *ngIf="initialRuneIndex === 0" [selected]=!item.material[0]>
                         <!--Blank option to deselect-->
                     </option>
@@ -51,7 +51,7 @@
                     </optgroup>
                 </ng-container>
                 <optgroup label="Available materials" *ngIf="get_ShieldMaterials().length">
-                    <option *ngFor="let material of get_ShieldMaterials(); trackBy:trackByIndex;" [ngValue]="material"
+                    <option *ngFor="let material of get_ShieldMaterials(); trackBy:trackers.trackByIndex;" [ngValue]="material"
                         [disabled]="material.disabled" title="{{get_Title(material.material)}}">
                         {{material.material.name}}
                     </option>
@@ -59,7 +59,7 @@
             </select>
         </div>
         <ng-container *ngIf="craftingStation">
-            <ng-container *ngFor="let material of item.material; trackBy:trackByIndex;">
+            <ng-container *ngFor="let material of item.material; trackBy:trackers.trackByIndex;">
                 <div class="newrow" *ngIf="material.craftRequirement">
                     <span>
                         <strong>Craft Requirement&nbsp;</strong>
@@ -74,7 +74,7 @@
             <strong>Material</strong>
             <select [(ngModel)]="newWeaponMaterial[0]" (ngModelChange)="add_WeaponMaterial()">
                 <ng-container
-                    *ngFor="let material of get_InitialWeaponMaterials(); let initialRuneIndex = index; trackBy:trackByIndex;">
+                    *ngFor="let material of get_InitialWeaponMaterials(); let initialRuneIndex = index; trackBy:trackers.trackByIndex;">
                     <option [ngValue]="material" *ngIf="initialRuneIndex === 0" [selected]=!item.material[0]>
                         <!--Blank option to deselect-->
                     </option>
@@ -85,7 +85,7 @@
                     </optgroup>
                 </ng-container>
                 <optgroup label="Available materials" *ngIf="get_WeaponMaterials().length">
-                    <option *ngFor="let material of get_WeaponMaterials(); trackBy:trackByIndex;" [ngValue]="material"
+                    <option *ngFor="let material of get_WeaponMaterials(); trackBy:trackers.trackByIndex;" [ngValue]="material"
                         [disabled]="material.disabled" title="{{get_Title(material.material)}}">
                         {{material.material.name}}
                     </option>
@@ -93,7 +93,7 @@
             </select>
         </div>
         <ng-container *ngIf="craftingStation">
-            <ng-container *ngFor="let material of item.material; trackBy:trackByIndex;">
+            <ng-container *ngFor="let material of item.material; trackBy:trackers.trackByIndex;">
                 <div class="newrow" *ngIf="material.craftRequirement">
                     <span>
                         <strong>Craft Requirement&nbsp;</strong>

@@ -1,12 +1,12 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!--Changing Aeon Stones-->
-<div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
+<div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackers.trackByIndex;">
     <strong *ngIf="index === 0">Aeon Stones</strong>
     <span *ngIf="index !== 0">&nbsp;</span>
     <select [(ngModel)]="newAeonStone[index]" (change)="add_AeonStone(index)"
         [disabled]="!item.aeonStones[index-1] && index > 0">
         <ng-container
-            *ngFor="let stone of get_InitialAeonStones(index); let initialStoneIndex = index; trackBy:trackByIndex;">
+            *ngFor="let stone of get_InitialAeonStones(index); let initialStoneIndex = index; trackBy:trackers.trackByIndex;">
             <option [ngValue]="stone" *ngIf="initialStoneIndex === 0">
 
             </option>
@@ -16,10 +16,10 @@
                 </option>
             </optgroup>
         </ng-container>
-        <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackByIndex;">
+        <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackers.trackByIndex;">
             <optgroup label="{{itemStore ? 'Available stones' : inv.get_Name(characterService)}}"
                 *ngIf="get_AeonStones(inv).length">
-                <option *ngFor="let stone of get_AeonStones(inv); trackBy:trackByIndex;" [ngValue]="stone"
+                <option *ngFor="let stone of get_AeonStones(inv); trackBy:trackers.trackByIndex;" [ngValue]="stone"
                     title="{{get_Title(stone.aeonStone)}}">
                     {{stone.aeonStone.amount > 1 ? stone.aeonStone.amount+" " :
                     ""}}{{stone.aeonStone.name}}{{get_AeonStoneCooldown(stone.aeonStone)}}

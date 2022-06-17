@@ -21,8 +21,8 @@
     <div class="loading" *ngIf="stillLoading">Loading</div>
     <ng-container *ngIf="!stillLoading">
         <header class="sectionHeader box-header">Perception</header>
-        <ng-container *ngFor="let activityGains of [get_OwnedActivities()]; trackBy:trackByIndex;">
-            <ng-container *ngFor="let skill of get_Skills('', {type: 'Perception'}); trackBy:trackByIndex;">
+        <ng-container *ngFor="let activityGains of [get_OwnedActivities()]; trackBy:trackers.trackByIndex;">
+            <ng-container *ngFor="let skill of get_Skills('', {type: 'Perception'}); trackBy:trackers.trackByIndex;">
                 <app-skill [creature]="creature" [skill]=skill [minimized]="get_Minimized()"
                     [relatedActivityGains]="get_SkillActivities(activityGains, skill.name)"
                     [showAction]="get_ShowAction()" (showActionMessage)="receive_ActionMessage($event)"></app-skill>
@@ -30,7 +30,7 @@
             <div class="vlist">
                 <header class="subsectionHeader">Senses</header>
                 <div class="list-item lower" [ngbPopover]="get_SenseDesc(sense)"
-                    *ngFor="let sense of get_Senses(); trackBy:trackByIndex;">
+                    *ngFor="let sense of get_Senses(); trackBy:trackers.trackByIndex;">
                     {{sense}}
                 </div>
             </div>
@@ -41,7 +41,7 @@
                 <app-tags [creature]="creature" [objectName]="'Attacks'" [showTraits]=true [showFeats]=true
                     [showItems]=true [showActivities]=true [showConditions]=true></app-tags>
                 <ng-container
-                    *ngFor="let skill of get_Skills('', {type: 'Familiar Proficiency'}); trackBy:trackByIndex;">
+                    *ngFor="let skill of get_Skills('', {type: 'Familiar Proficiency'}); trackBy:trackers.trackByIndex;">
                     <app-skill [creature]="creature" [minimized]="get_Minimized()" [skill]=skill></app-skill>
                 </ng-container>
             </ng-container>
@@ -70,9 +70,9 @@
                 </span>
                 Movement
             </header>
-            <ng-container *ngFor="let speed of get_Speeds(); trackBy:trackByIndex;">
+            <ng-container *ngFor="let speed of get_Speeds(); trackBy:trackers.trackByIndex;">
                 <div class="list-item"
-                    *ngFor="let calculatedSpeed of [speed.value(get_Creature(), characterService, effectsService)]; trackBy:trackByIndex;">
+                    *ngFor="let calculatedSpeed of [speed.value(get_Creature(), characterService, effectsService)]; trackBy:trackers.trackByIndex;">
                     <div class="newrow">
                         <span>
                             <strong>{{(speed.name==="Speed") ? "All Speeds" : speed.name}}</strong>
@@ -95,7 +95,7 @@
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <header class="sectionHeader box-header">Skills</header>
             <!--Skill Increases-->
-            <ng-container *ngFor="let choice of get_SkillChoices(); trackBy:trackByIndex;">
+            <ng-container *ngFor="let choice of get_SkillChoices(); trackBy:trackers.trackByIndex;">
                 <app-skillchoice (showSkillChoiceMessage)="receive_ChoiceMessage($event)" [showTitle]="true"
                     [showContent]="true" [choice]="choice" [showChoice]="get_ShowList()">
                 </app-skillchoice>
@@ -104,7 +104,7 @@
                 [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
             <app-tags [creature]="creature" [objectName]="'Skill Checks'" [showTraits]=true [showFeats]=true
                 [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-            <ng-container *ngFor="let skill of get_Skills('', {type: 'Skill'}); trackBy:trackByIndex;">
+            <ng-container *ngFor="let skill of get_Skills('', {type: 'Skill'}); trackBy:trackers.trackByIndex;">
                 <app-skill [creature]="creature" [skill]=skill [minimized]="get_Minimized()"
                     [relatedActivityGains]="get_SkillActivities(activityGains, skill.name)"
                     [showAction]="get_ShowAction()" (showActionMessage)="receive_ActionMessage($event)"></app-skill>

@@ -5,7 +5,7 @@
     </header>
     <button class="newrow center-aligned" (click)="new_CustomEffectOnThis()">Add effect</button>
     <div class="newrow list-item"
-        *ngFor="let effect of get_CustomEffectsOnThis(); let index = index; trackBy:trackByIndex;">
+        *ngFor="let effect of get_CustomEffectsOnThis(); let index = index; trackBy:trackers.trackByIndex;">
         <ng-template #FormulaTemplate>
             <strong>Formula</strong>
             {{effect.setValue || effect.value || ''}}
@@ -18,7 +18,7 @@
         <span class="hlist">
             <strong class="no-shadow">Type</strong>
             <select [(ngModel)]="effect.type" (ngModelChange)="update_Effects()">
-                <option *ngFor="let type of get_BonusTypes(); trackBy:trackByIndex;">
+                <option *ngFor="let type of get_BonusTypes(); trackBy:trackers.trackByIndex;">
                     {{type}}
                 </option>
             </select>
@@ -27,7 +27,7 @@
             <strong class="no-shadow">Value</strong>
             <ng-container *ngIf="effect.setValue || (effect.value && get_IsFormula(effect.value))">
                 <span>
-                    <span class="value" *ngFor="let value of [get_EffectValue(effect)]; trackBy:trackByIndex;"
+                    <span class="value" *ngFor="let value of [get_EffectValue(effect)]; trackBy:trackers.trackByIndex;"
                         [ngClass]="{'absolute':value[0]==='=', 'bonus':value[0]==='+', 'penalty':value[0]==='-'}">
                         {{value}}
                     </span>

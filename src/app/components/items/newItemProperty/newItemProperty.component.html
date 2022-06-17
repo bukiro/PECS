@@ -11,7 +11,7 @@
         <button (click)="add_NewItemObject()">
             Add
         </button>
-        <div class="list-item" *ngFor="let object of get_Parent()[propertyKey]; let i = index; trackBy:trackByIndex;">
+        <div class="list-item" *ngFor="let object of get_Parent()[propertyKey]; let i = index; trackBy:trackers.trackByIndex;">
             <span>
                 {{i+1}}
             </span>
@@ -21,7 +21,7 @@
                 </button>
             </span>
             <ng-container *ngIf="get_IsObject(object)">
-                <ng-container *ngFor="let subProperty of get_NewItemSubProperties(object); trackBy:trackByIndex;">
+                <ng-container *ngFor="let subProperty of get_NewItemSubProperties(object); trackBy:trackers.trackByIndex;">
                     <app-newItemProperty [propertyData]=subProperty [propertyKey]=subProperty.key
                         [parents]=parents.concat(propertyKey,i.toString()) [newItem]=newItem>
                     </app-newItemProperty>
@@ -59,7 +59,7 @@
         !(propertyData.parent === 'gainItems' && propertyData.key === 'type')">
             <select class="newrow left-aligned" [(ngModel)]="get_Parent()[propertyKey]"
                 [disabled]="!get_Examples().length" (ngModelChange)="validate()">
-                <option *ngFor="let example of get_Examples(); trackBy:trackByIndex;" [ngValue]="example">
+                <option *ngFor="let example of get_Examples(); trackBy:trackers.trackByIndex;" [ngValue]="example">
                     {{example}}
                 </option>
             </select>
@@ -68,7 +68,7 @@
             *ngIf="propertyData.parent === 'gainItems' && propertyData.key === 'type'">
             <select class="newrow left-aligned" [(ngModel)]="get_Parent()[propertyKey]"
                 (ngModelChange)="set_ItemType()">
-                <option *ngFor="let itemset of get_ItemSets(); trackBy:trackByIndex;" [ngValue]="itemset.key">
+                <option *ngFor="let itemset of get_ItemSets(); trackBy:trackers.trackByIndex;" [ngValue]="itemset.key">
                     {{itemset.name}}
                 </option>
             </select>

@@ -4,10 +4,10 @@
     <header class="subsectionHeader">
         Emblazon Armament
     </header>
-    <ng-container *ngFor="let emblazonDivinity of [get_EmblazonDivinity()]; trackBy:trackByIndex">
+    <ng-container *ngFor="let emblazonDivinity of [get_EmblazonDivinity()]; trackBy:trackers.trackByIndex">
         <ng-container *ngIf="get_Displayed('emblazonArmament')">
             <ng-container
-                *ngFor="let disabled of [get_Disabled('emblazonArmament', emblazonDivinity)]; trackBy:trackByIndex">
+                *ngFor="let disabled of [get_Disabled('emblazonArmament', emblazonDivinity)]; trackBy:trackers.trackByIndex">
                 <ng-template #EmblazonArmamentTemplate>
                     <p [innerHtml]="get_Description(emblazonDivinity)"></p>
                     <ul>
@@ -41,7 +41,7 @@
         </ng-container>
         <ng-container *ngIf="get_Displayed('emblazonEnergy')">
             <ng-container
-                *ngFor="let disabled of [get_Disabled('emblazonEnergy', emblazonDivinity)]; trackBy:trackByIndex">
+                *ngFor="let disabled of [get_Disabled('emblazonEnergy', emblazonDivinity)]; trackBy:trackers.trackByIndex">
                 <ng-template #EmblazonEnergyTemplate>
                     <p [innerHtml]="get_Description(emblazonDivinity)"></p>
                     <ul>
@@ -72,7 +72,7 @@
                         </label>
                         <select [(ngModel)]="emblazonEnergyChoice"
                             [disabled]="disabled || !!item.emblazonArmament.length">
-                            <option *ngFor="let option of emblazonEnergyChoices; trackBy:trackByIndex">
+                            <option *ngFor="let option of emblazonEnergyChoices; trackBy:trackers.trackByIndex">
                                 {{option}}
                             </option>
                         </select>
@@ -86,7 +86,7 @@
         </ng-container>
         <ng-container *ngIf="get_Displayed('emblazonAntimagic')">
             <ng-container
-                *ngFor="let disabled of [get_Disabled('emblazonAntimagic', emblazonDivinity)]; trackBy:trackByIndex">
+                *ngFor="let disabled of [get_Disabled('emblazonAntimagic', emblazonDivinity)]; trackBy:trackers.trackByIndex">
                 <ng-template #EmblazonAntimagicTemplate>
                     <p [innerHtml]="get_Description(emblazonDivinity)"></p>
                     <ul>

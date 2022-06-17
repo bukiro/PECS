@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <ng-container
-    *ngFor="let calculatedSkill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService, get_Character().level, isDC)]; trackBy:trackByIndex;">
+    *ngFor="let calculatedSkill of [skill.calculate(get_Creature(), this.characterService,this.abilitiesService,this.effectsService, get_Character().level, isDC)]; trackBy:trackers.trackByIndex;">
     <div class="list-item" [ngClass]="{'fullsize-only':(calculatedSkill.value.result === 0)}"
         *ngIf="minimized ? (calculatedSkill.value.result !== 0) : !(calculatedSkill.value.result === 0 && creature === 'Companion')">
         <div class="newrow">
@@ -57,12 +57,12 @@
         </div>
         <div class="fullwidth" *ngIf="relatedActivityGains.length"
             [ngClass]="{'icon-list':get_TileMode(), 'vlist':!get_TileMode()}">
-            <ng-container *ngFor="let gain of relatedActivityGains; let activityIndex = index; trackBy:trackByIndex;">
-                <ng-container *ngFor="let activity of [get_OriginalActivity(gain)]; trackBy:trackByIndex;">
+            <ng-container *ngFor="let gain of relatedActivityGains; let activityIndex = index; trackBy:trackers.trackByIndex;">
+                <ng-container *ngFor="let activity of [get_OriginalActivity(gain)]; trackBy:trackers.trackByIndex;">
                     <ng-container
-                        *ngFor="let maxCharges of [activity.maxCharges({ creature: get_Creature() }, { effectsService: this.effectsService })]; trackBy:trackByIndex;">
+                        *ngFor="let maxCharges of [activity.maxCharges({ creature: get_Creature() }, { effectsService: this.effectsService })]; trackBy:trackers.trackByIndex;">
                         <ng-container
-                            *ngFor="let cannotActivate of [((gain.activeCooldown ? (maxCharges === gain.chargesUsed) : false) && !gain.active)]; trackBy:trackByIndex;">
+                            *ngFor="let cannotActivate of [((gain.activeCooldown ? (maxCharges === gain.chargesUsed) : false) && !gain.active)]; trackBy:trackers.trackByIndex;">
                             <ng-template #ActivityTitleTemplate>
                                 <span *ngIf="!get_TileMode()">
                                     <i class="value bi-patch-plus bonus" *ngIf="!activity.get_IsHostile()"
@@ -86,7 +86,7 @@
                             </ng-template>
                             <ng-container *ngIf="!get_TileMode()">
                                 <div class="list-item"
-                                    *ngFor="let activityID of [skill.name+activityIndex]; trackBy:trackByIndex;">
+                                    *ngFor="let activityID of [skill.name+activityIndex]; trackBy:trackers.trackByIndex;">
                                     <button class="newrow left-aligned sublist-toggle"
                                         [ngClass]="{'fancy-button':gain.active, 'inactive-button':((gain.activeCooldown ? (maxCharges === gain.chargesUsed) : false) && !gain.active)}"
                                         (click)="toggle_Action(activityID)">

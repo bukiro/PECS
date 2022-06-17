@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngFor="let targets of [get_ItemTargets()]; trackBy:trackByIndex">
+<ng-container *ngFor="let targets of [get_ItemTargets()]; trackBy:trackers.trackByIndex">
     <ng-template #ItemTargetModal let-modal>
         <div class="modal-header">
             <header class="sectionHeader modal-title" id="modal-title">Move item
@@ -45,7 +45,7 @@
                         </span>
                     </span>
                 </div>
-                <ng-container *ngFor="let target of targets; trackBy:trackByIndex">
+                <ng-container *ngFor="let target of targets; trackBy:trackers.trackByIndex">
                     <div class="list-item newrow">
                         <span class="hlist" style="font-size: 1.5em;">
                             <i class="ra ra-hive-emblem" *ngIf="get_TargetType(target)==='Inventory'"
@@ -60,7 +60,7 @@
                             <span>{{get_ContainerBulk(target)}}</span>
                         </span>
                         <span style="flex-grow:0"
-                            *ngFor="let cannotMove of [get_CannotMove(target)]; trackBy:trackByIndex"
+                            *ngFor="let cannotMove of [get_CannotMove(target)]; trackBy:trackers.trackByIndex"
                             [ngbTooltip]="cannotMove">
                             <button class="btn inactive-button" *ngIf="get_IsSameInventory(target)"
                                 disabled>Current</button>

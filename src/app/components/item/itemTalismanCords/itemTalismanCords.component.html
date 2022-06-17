@@ -1,13 +1,13 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!--Changing Talisman Cords-->
 <div class="list-item">
-    <div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
+    <div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackers.trackByIndex;">
         <strong *ngIf="index === 0">Attach Talisman Cord</strong>
         <span *ngIf="index !== 0">&nbsp;</span>
         <select [(ngModel)]="newTalismanCord[index]" (change)="add_TalismanCord(index)"
             [disabled]="!item.talismanCords[index-1] && index > 0">
             <ng-container
-                *ngFor="let cord of get_InitialTalismanCords(index); let initialCordIndex = index; trackBy:trackByIndex;">
+                *ngFor="let cord of get_InitialTalismanCords(index); let initialCordIndex = index; trackBy:trackers.trackByIndex;">
                 <option [ngValue]="cord" *ngIf="initialCordIndex === 0">
 
                 </option>
@@ -18,9 +18,9 @@
                     </option>
                 </optgroup>
             </ng-container>
-            <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackByIndex;">
+            <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackers.trackByIndex;">
                 <optgroup label="{{inv.get_Name(characterService)}}" *ngIf="get_TalismanCords(inv).length">
-                    <option *ngFor="let cord of get_TalismanCords(inv); trackBy:trackByIndex;" [ngValue]="cord">
+                    <option *ngFor="let cord of get_TalismanCords(inv); trackBy:trackers.trackByIndex;" [ngValue]="cord">
                         {{cord.talismanCord.amount > 1 ? cord.talismanCord.amount : ""}}
                         {{cord.talismanCord.name}}
                         ({{get_TalismanCordSchools(cord.talismanCord)}})

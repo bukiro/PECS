@@ -33,7 +33,7 @@
                 <app-objectEffects [creature]="'Character'" [objectName]="'Spell DCs'"></app-objectEffects>
             </div>
         </ng-template>
-        <ng-container *ngFor="let skill of get_SpellDCs(); let index = index; trackBy:trackByIndex;">
+        <ng-container *ngFor="let skill of get_SpellDCs(); let index = index; trackBy:trackers.trackByIndex;">
             <header class="sectionHeader fullsize-only" *ngIf="index === 0">
                 <span class="fullsize-only" [ngbPopover]="SpellAttacksEffectsPopoverContent"
                     #SpellAttacksEffectsPopover="ngbPopover" triggers="click">
@@ -47,8 +47,8 @@
         </ng-container>
         <app-tags [creature]="'Character'" [objectName]="'Spell DC'" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
-        <ng-container *ngFor="let componentParameters of [get_ComponentParameters()]; trackBy:trackByIndex">
-            <ng-container *ngFor="let spellCastingParameters of get_SpellCastingParameters(); trackBy:trackByIndex;">
+        <ng-container *ngFor="let componentParameters of [get_ComponentParameters()]; trackBy:trackers.trackByIndex">
+            <ng-container *ngFor="let spellCastingParameters of get_SpellCastingParameters(); trackBy:trackers.trackByIndex;">
                 <header class="sectionHeader">
                     {{(spellCastingParameters.casting.className + (spellCastingParameters.casting.castingType !=
                     "Innate"
@@ -122,7 +122,7 @@
                     </div>
                 </header>
                 <ng-container
-                    *ngFor="let spellCastingLevelParameters of get_SpellCastingLevelParameters(spellCastingParameters, componentParameters); trackBy:trackByIndex;">
+                    *ngFor="let spellCastingLevelParameters of get_SpellCastingLevelParameters(spellCastingParameters, componentParameters); trackBy:trackers.trackByIndex;">
                     <div class="list-item newrow" style="background-color:transparent"
                         *ngIf="(spellCastingLevelParameters.spellTakenList.length || spellCastingLevelParameters.temporaryChoiceList.length)">
                         <strong>
@@ -193,7 +193,7 @@
                             Temporary Spell Selections
                         </header>
                         <div class="list-item"
-                            *ngFor="let choice of spellCastingLevelParameters.temporaryChoiceList; let choicesIndex = index; trackBy:trackByIndex;">
+                            *ngFor="let choice of spellCastingLevelParameters.temporaryChoiceList; let choicesIndex = index; trackBy:trackers.trackByIndex;">
                             <app-spellchoice class="newrow" (showChoiceMessage)="receive_ChoiceMessage($event)"
                                 (showSpellMessage)="receive_SpellMessage($event)"
                                 [spellCasting]="spellCastingParameters.casting" [choice]="choice"
@@ -206,7 +206,7 @@
                     <div [ngClass]="{'icon-list':get_TileMode(), 'list-item':!get_TileMode()}"
                         *ngIf="spellCastingLevelParameters.spellTakenList.length">
                         <ng-container
-                            *ngFor="let spellParameters of get_SpellParameters(spellCastingLevelParameters, spellCastingParameters); let spellIndex = index; trackBy:trackByIndex;">
+                            *ngFor="let spellParameters of get_SpellParameters(spellCastingLevelParameters, spellCastingParameters); let spellIndex = index; trackBy:trackers.trackByIndex;">
                             <ng-template #SpellTitleTemplate>
                                 <span *ngIf="!get_TileMode()">
                                     <i class="value bi-patch-plus bonus" *ngIf="!spellParameters.isHostile"
@@ -365,7 +365,7 @@
                                     </button>
                                 </div>
                                 <ng-container
-                                    *ngFor="let conditionSet of get_SpellConditions(spellParameters.spell, spellParameters.effectiveSpellLevel, spellParameters.gain); let conditionSetIndex = index; trackBy:trackByIndex">
+                                    *ngFor="let conditionSet of get_SpellConditions(spellParameters.spell, spellParameters.effectiveSpellLevel, spellParameters.gain); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
                                     <div class="newrow list-item left-aligned"
                                         *ngIf="conditionSet.condition && conditionSet.condition._choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices">
                                         <span>
@@ -373,7 +373,7 @@
                                             <select
                                                 [(ngModel)]="spellParameters.gain.effectChoices[conditionSetIndex].choice">
                                                 <option
-                                                    *ngFor="let choice of conditionSet.condition._choices; trackBy:trackByIndex;"
+                                                    *ngFor="let choice of conditionSet.condition._choices; trackBy:trackers.trackByIndex;"
                                                     [ngValue]="choice">
                                                     {{choice}}
                                                 </option>
@@ -401,7 +401,7 @@
                                         [casting]="spellCastingParameters.casting">
                                     </app-spell>
                                     <ng-container
-                                        *ngFor="let secondSpell of get_Spells(spellParameters.gain.combinationSpellName); trackBy:trackByIndex;">
+                                        *ngFor="let secondSpell of get_Spells(spellParameters.gain.combinationSpellName); trackBy:trackers.trackByIndex;">
                                         <header class="spellHeader left-aligned">
                                             {{secondSpell.name}}
                                             <app-actionIcons [actionString]="secondSpell.actions">

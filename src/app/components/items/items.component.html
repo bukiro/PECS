@@ -94,9 +94,9 @@
                     <app-tags [creature]="creature" [objectName]="'ItemStore'" [showTraits]=true [showFeats]=true
                         [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
                     </app-tags>
-                    <ng-container *ngFor="let items of [get_Items(true)]; trackBy:trackByIndex;">
+                    <ng-container *ngFor="let items of [get_Items(true)]; trackBy:trackers.trackByIndex;">
                         <ng-container
-                            *ngFor="let creatureType of (get_ShowCreature()==='Character' ? ['Character','Companion'] : ['Companion','Character']);trackBy:trackByIndex">
+                            *ngFor="let creatureType of (get_ShowCreature()==='Character' ? ['Character','Companion'] : ['Companion','Character']);trackBy:trackers.trackByIndex">
                             <header class="sectionHeader"
                                 *ngIf="get_ShowPurpose()==='items' || get_ShowCreature()!=='Character'">
                                 Get {{creatureType === "Companion" ? "Companion " : ""}}Items
@@ -113,10 +113,10 @@
                             <ng-container
                                 *ngIf="get_ShowPurpose()==='formulas' && creatureType === 'Character' && get_ShowCreature()==='Character'">
                                 <ng-container
-                                    *ngFor="let descblock of [get_LearningAvailable()]; trackBy:trackByIndex;">
+                                    *ngFor="let descblock of [get_LearningAvailable()]; trackBy:trackers.trackByIndex;">
                                     <div class="list-item" *ngIf="descblock.length">
                                         <ng-container
-                                            *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
+                                            *ngFor="let desc of descblock.split('\n\n'); trackBy:trackers.trackByIndex;">
                                             <app-description class="newrow" [text]="desc"></app-description>
                                         </ng-container>
                                     </div>
@@ -126,12 +126,12 @@
                             <!--Scroll Savant-->
                             <ng-container *ngIf="get_ShowPurpose()==='scrollsavant' && creatureType === 'Character'">
                                 <ng-container
-                                    *ngFor="let casting of [get_ScrollSavantCasting()]; trackBy:trackByIndex;">
+                                    *ngFor="let casting of [get_ScrollSavantCasting()]; trackBy:trackers.trackByIndex;">
                                     <ng-container
-                                        *ngFor="let descblock of [get_ScrollSavantAvailable()]; trackBy:trackByIndex;">
+                                        *ngFor="let descblock of [get_ScrollSavantAvailable()]; trackBy:trackers.trackByIndex;">
                                         <div class="list-item" *ngIf="descblock.length">
                                             <ng-container
-                                                *ngFor="let desc of descblock.split('\n\n'); trackBy:trackByIndex;">
+                                                *ngFor="let desc of descblock.split('\n\n'); trackBy:trackers.trackByIndex;">
                                                 <app-description class="newrow" [text]="desc"></app-description>
                                             </ng-container>
                                         </div>
@@ -146,9 +146,9 @@
                                     </div>
                                     <div class="list-item" *ngIf="casting.scrollSavant.length">
                                         <ng-container
-                                            *ngFor="let scroll of get_SortByName(casting.scrollSavant); trackBy:trackByIndex;">
+                                            *ngFor="let scroll of get_SortByName(casting.scrollSavant); trackBy:trackers.trackByIndex;">
                                             <div class="list-item"
-                                                *ngFor="let inventoryID of ['scrollsavant'+scroll.id]; trackBy:trackByIndex;">
+                                                *ngFor="let inventoryID of ['scrollsavant'+scroll.id]; trackBy:trackers.trackByIndex;">
                                                 <button class="newrow sublist-toggle fancy-button"
                                                     (click)="toggle_Item(inventoryID)">
                                                     <span>
@@ -175,11 +175,11 @@
                             <ng-container
                                 *ngIf="get_ShowPurpose()!=='createcustomitem' || get_ShowCreature()!=='Character'">
                                 <ng-container
-                                    *ngFor="let itemSet of items.names; let index = index; trackBy:trackByIndex;">
+                                    *ngFor="let itemSet of items.names; let index = index; trackBy:trackers.trackByIndex;">
                                     <ng-container
-                                        *ngFor="let listID of [creatureType+(index*1000+1000)]; trackBy:trackByIndex;">
+                                        *ngFor="let listID of [creatureType+(index*1000+1000)]; trackBy:trackers.trackByIndex;">
                                         <ng-container
-                                            *ngFor="let visibleItems of [get_VisibleItems(items[itemSet.key], creatureType)]; trackBy:trackByIndex;">
+                                            *ngFor="let visibleItems of [get_VisibleItems(items[itemSet.key], creatureType)]; trackBy:trackers.trackByIndex;">
                                             <button class="list-item"
                                                 [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
                                                 (click)="toggle_List(listID)">
@@ -204,7 +204,7 @@
                                                     </header>
                                                 </div>
                                                 <ng-container
-                                                    *ngFor="let itemParameters of get_ItemParameters(visibleItems); let itemIndex = index; trackBy:trackByIndex;">
+                                                    *ngFor="let itemParameters of get_ItemParameters(visibleItems); let itemIndex = index; trackBy:trackers.trackByIndex;">
                                                     <ng-container
                                                         *ngIf="visibleItems.length < 80 || get_ShowList()==='All' || (itemIndex >= (range * 40) && itemIndex < ((range + 1) * 40 ))">
                                                         <ng-template #ItemTitleTemplate>
@@ -336,7 +336,7 @@
                                                                 </button>
                                                                 <button class="newrow center-aligned"
                                                                     (click)="unlearn_Formula(itemParameters.item)"
-                                                                    *ngFor="let learned of get_FormulasLearned(itemParameters.item.id); trackBy:trackByIndex;">
+                                                                    *ngFor="let learned of get_FormulasLearned(itemParameters.item.id); trackBy:trackers.trackByIndex;">
                                                                     Unlearn formula
                                                                     {{get_LearnedFormulaSource(learned.source)}}
                                                                 </button>
@@ -346,7 +346,7 @@
                                                             </app-item>
                                                         </ng-template>
                                                         <ng-container
-                                                            *ngFor="let inventoryID of [listID+itemParameters.item.id]; trackBy:trackByIndex;">
+                                                            *ngFor="let inventoryID of [listID+itemParameters.item.id]; trackBy:trackers.trackByIndex;">
                                                             <ng-container *ngIf="!get_TileMode()">
                                                                 <div class="list-item">
                                                                     <button class="newrow sublist-toggle"
@@ -398,12 +398,12 @@
                         <ng-container
                             *ngIf="get_ShowPurpose()==='createcustomitem' && get_ShowCreature()==='Character'">
                             <header class="sectionHeader">Create custom item</header>
-                            <ng-container *ngFor="let listID of [get_ID()*1000]; trackBy:trackByIndex;">
+                            <ng-container *ngFor="let listID of [get_ID()*1000]; trackBy:trackers.trackByIndex;">
                                 <div class="list-item">
                                     <span><strong>Type</strong></span>
                                     <span>
                                         <select [(ngModel)]="newItemType" (ngModelChange)="initialize_NewItem()">
-                                            <option *ngFor="let name of get_NewItemFilter(); trackBy:trackByIndex;"
+                                            <option *ngFor="let name of get_NewItemFilter(); trackBy:trackers.trackByIndex;"
                                                 [ngValue]="name.key">
                                                 {{name.name}}
                                             </option>
@@ -412,7 +412,7 @@
                                 </div>
                                 <ng-container *ngIf="newItem">
                                     <div class="list-item"
-                                        *ngFor="let inventoryID of [(listID+get_ID()).toString()]; trackBy:trackByIndex;">
+                                        *ngFor="let inventoryID of [(listID+get_ID()).toString()]; trackBy:trackers.trackByIndex;">
                                         <button class="newrow sublist-toggle center-aligned"
                                             (click)="toggle_Item(inventoryID)">
                                             Copy existing item
@@ -420,14 +420,14 @@
                                         <div class="list-item sublist lower" *ngIf="get_ShowItem()===inventoryID">
                                             <header class="subsectionHeader">New Items</header>
                                             <div class="list-item"
-                                                *ngFor="let item of get_CopyItems(newItemType); trackBy:trackByIndex;">
+                                                *ngFor="let item of get_CopyItems(newItemType); trackBy:trackers.trackByIndex;">
                                                 <button class="newrow center-aligned" (click)="copy_Item(item)">
                                                     {{item.get_Name()}}
                                                 </button>
                                             </div>
                                             <header class="subsectionHeader">Inventory Items</header>
                                             <div class="list-item"
-                                                *ngFor="let item of get_InventoryItems(newItemType); trackBy:trackByIndex;">
+                                                *ngFor="let item of get_InventoryItems(newItemType); trackBy:trackers.trackByIndex;">
                                                 <button class="newrow center-aligned" (click)="copy_Item(item)">
                                                     {{item.get_Name()}}
                                                 </button>
@@ -435,7 +435,7 @@
                                         </div>
                                     </div>
                                     <ng-container
-                                        *ngFor="let property of get_NewItemProperties(); trackBy:trackByIndex;">
+                                        *ngFor="let property of get_NewItemProperties(); trackBy:trackers.trackByIndex;">
                                         <ng-container
                                             *ngIf="!(property.key === 'equippable' && !newItem['allowEquippable'])">
                                             <app-newItemProperty [propertyData]=property [propertyKey]=property.key

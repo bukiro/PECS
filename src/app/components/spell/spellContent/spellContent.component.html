@@ -2,7 +2,7 @@
 <div class="list-item lower newrow problem" *ngIf="spell.inputRequired">
     <strong>Player input required:</strong>
     <div class="newrow left-aligned"
-        *ngFor="let inputRequired of spell.inputRequired.split('\n\n'); trackBy:trackByIndex;">
+        *ngFor="let inputRequired of spell.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;">
         <app-description class="newrow" [text]="inputRequired">
         </app-description>
     </div>
@@ -74,7 +74,7 @@
         {{spell.duration}}
     </span>
 </div>
-<div class="newrow left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackByIndex;">
+<div class="newrow left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackers.trackByIndex;">
     <app-description class="newrow" [text]="desc" [casting]="casting"></app-description>
 </div>
 <div class="newrow gap-text lower left-aligned" *ngIf="spell.critsuccess">
@@ -95,18 +95,18 @@
 </div>
 <ng-container *ngIf="spell.desc2">
     <div class="newrow left-aligned"
-        *ngFor="let desc of get_Heightened(spell.desc2).split('\n\n'); trackBy:trackByIndex;">
+        *ngFor="let desc of get_Heightened(spell.desc2).split('\n\n'); trackBy:trackers.trackByIndex;">
         <app-description class="newrow" [text]="desc" [casting]="casting"></app-description>
     </div>
 </ng-container>
-<div class="newrow left-aligned" *ngFor="let heightened of spell.heightened; trackBy:trackByIndex;">
+<div class="newrow left-aligned" *ngFor="let heightened of spell.heightened; trackBy:trackers.trackByIndex;">
     <span>
         <strong>Heightened {{heightened.level}}</strong>
         {{heightened.desc}}
     </span>
 </div>
-<div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackByIndex;">
-    <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackByIndex;">
+<div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackers.trackByIndex;">
+    <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackers.trackByIndex;">
         <header class="spellHeader left-aligned">
             {{shownSpell.name}}
             <app-actionIcons *ngIf="shownSpell.actions" [actionString]="shownSpell.actions">
@@ -114,10 +114,10 @@
             {{shownSpell.castType.toString()}}
         </header>
         <div class="newrow left-aligned">
-            <app-trait *ngFor="let trait of shownSpell.traits; trackBy:trackByIndex;" [name]="trait"
+            <app-trait *ngFor="let trait of shownSpell.traits; trackBy:trackers.trackByIndex;" [name]="trait"
                 [trait]="get_Traits(trait)[0]">
             </app-trait>
-            <app-trait *ngFor="let trait of shownSpell.get_ActivationTraits(); trackBy:trackByIndex;" [name]="trait"
+            <app-trait *ngFor="let trait of shownSpell.get_ActivationTraits(); trackBy:trackers.trackByIndex;" [name]="trait"
                 [trait]="get_Traits(trait)[0]"
                 [extraDescription]="'(This trait was derived from the action components.)'">
             </app-trait>

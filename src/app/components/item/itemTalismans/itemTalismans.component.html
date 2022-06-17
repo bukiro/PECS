@@ -2,7 +2,7 @@
 <!--Changing Talismans-->
 
 <div class="list-item">
-    <div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackByIndex;">
+    <div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackers.trackByIndex;">
         <strong *ngIf="index === 0">Affix Talisman</strong>
         <span *ngIf="index !== 0">&nbsp;</span>
         <select [(ngModel)]="newTalisman[index]" (change)="add_Talisman(index)"
@@ -15,7 +15,7 @@
                 </option>
             </ng-template>
             <ng-container
-                *ngFor="let talisman of get_InitialTalismans(index); let initialTalismanIndex = index; trackBy:trackByIndex;">
+                *ngFor="let talisman of get_InitialTalismans(index); let initialTalismanIndex = index; trackBy:trackers.trackByIndex;">
                 <option [ngValue]="talisman" *ngIf="initialTalismanIndex === 0">
 
                 </option>
@@ -23,10 +23,10 @@
                     <ng-container *ngTemplateOutlet="TalismanTemplate; context: {$implicit: talisman}"></ng-container>
                 </optgroup>
             </ng-container>
-            <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackByIndex;">
+            <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackers.trackByIndex;">
                 <optgroup label="{{itemStore ? 'Available talismans' : inv.get_Name(characterService)}}"
                     *ngIf="get_Talismans(inv).length">
-                    <ng-container *ngFor="let talisman of get_Talismans(inv); trackBy:trackByIndex;">
+                    <ng-container *ngFor="let talisman of get_Talismans(inv); trackBy:trackers.trackByIndex;">
                         <ng-container *ngTemplateOutlet="TalismanTemplate; context: {$implicit: talisman}">
                         </ng-container>
                     </ng-container>
