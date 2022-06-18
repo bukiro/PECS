@@ -9,6 +9,7 @@ import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { SpellGain } from './SpellGain';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 
 export class Spell {
     public actions = '1A';
@@ -76,7 +77,7 @@ export class Spell {
      */
     public cannotTargetCaster = false;
     public singleTarget = false;
-    public traditions: Array<string> = [];
+    public traditions: Array<SpellTraditions | ''> = [];
     public traits: Array<string> = [];
     public trigger = '';
     public requirements = '';
@@ -284,7 +285,7 @@ export class Spell {
                 `${ this.name } Spell Level`,
             ];
 
-            if (this.traditions.includes('Focus')) {
+            if (this.traditions.includes(SpellTraditions.Focus)) {
                 list.push('Focus Spell Levels');
             }
 

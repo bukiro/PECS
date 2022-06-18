@@ -25,6 +25,8 @@ import { Item } from '../classes/Item';
 import { Feat } from '../character-creation/definitions/models/Feat';
 import { Equipment } from '../classes/Equipment';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 
 interface DatabaseCharacter {
     _id: string;
@@ -597,8 +599,12 @@ export class SavegameService {
             }
 
             //Remove the Divine Font spell choice from the initial spell choices, if it exists.
-            const spellCasting = character.class.spellCasting
-                ?.find(casting => casting.className === 'Cleric' && casting.castingType === 'Prepared' && casting.tradition === 'Divine')
+            const spellCasting =
+                character.class.spellCasting?.find(casting =>
+                    casting.className === 'Cleric' &&
+                    casting.castingType === SpellCastingTypes.Prepared &&
+                    casting.tradition === SpellTraditions.Divine,
+                )
                 || null;
 
             if (spellCasting) {

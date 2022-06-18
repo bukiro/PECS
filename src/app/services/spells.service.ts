@@ -18,6 +18,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 
 @Injectable({
     providedIn: 'root',
@@ -42,7 +43,7 @@ export class SpellsService {
         return this._spellsMap.get(name.toLowerCase()) || this._replacementSpell(name);
     }
 
-    public spells(name = '', type = '', tradition = ''): Array<Spell> {
+    public spells(name = '', type = '', tradition: (SpellTraditions | '') = ''): Array<Spell> {
         if (!this.stillLoading) {
             //If only a name is given, try to find a spell by that name in the index map. This should be much quicker.
             if (name && !type && !tradition) {

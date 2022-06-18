@@ -19,6 +19,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { Snare } from 'src/app/classes/Snare';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 const itemsPerPage = 40;
 
@@ -83,14 +84,14 @@ export class CraftingComponent implements OnInit, OnDestroy {
         this.range += amount;
     }
 
-    public shownItemRangeDesc(visibleConditions: Array<Item>, range: number): string {
+    public shownItemRangeDesc(visibleitems: Array<Item>, range: number): string {
         const currentFirstItem = (range * itemsPerPage) + 1;
         const currentLastItem =
-            (((range + 1) * itemsPerPage) >= visibleConditions.length)
-                ? visibleConditions.length
+            (((range + 1) * itemsPerPage) >= visibleitems.length)
+                ? visibleitems.length
                 : ((range + 1) * itemsPerPage);
 
-        return `Showing ${ currentFirstItem }-${ currentLastItem } of ${ visibleConditions.length } `;
+        return `Showing ${ currentFirstItem }-${ currentLastItem } of ${ visibleitems.length } `;
     }
 
     public toggleShownList(type: string): void {

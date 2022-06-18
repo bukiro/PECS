@@ -33,6 +33,7 @@ import { SkillLevels } from '../../libs/shared/definitions/skillLevels';
 import { SpellLearned } from './SpellLearned';
 import { Defaults } from '../../libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 
 export class Character extends Creature {
     public readonly type = CreatureTypes.Character;
@@ -284,7 +285,7 @@ export class Character extends Creature {
         }
 
         if (insertChoice.castingType === 'Default') {
-            insertChoice.castingType = this.defaultSpellcasting()?.castingType || 'Innate';
+            insertChoice.castingType = this.defaultSpellcasting()?.castingType;
         }
 
         const spellCasting = this.class.spellCasting
@@ -581,7 +582,7 @@ export class Character extends Creature {
                             // The tradition is the second word of the skill name.
                             characterService.character.class.spellCasting
                                 .filter(casting => casting.className === 'Monk').forEach(casting => {
-                                    casting.tradition = skillName.split(' ')[1] as 'Divine' | 'Occult';
+                                    casting.tradition = skillName.split(' ')[1] as SpellTraditions;
                                 });
                             characterService.addCustomSkill(skillName, 'Spell DC', 'Wisdom');
                             break;

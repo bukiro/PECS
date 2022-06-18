@@ -1,7 +1,7 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="window-button-container">
-    <button class="tilemodebutton" [ngClass]="{'fancy-button':get_TileMode()}" (click)="toggle_TileMode()"
-        [ngbTooltip]="get_TileMode() ? 'Click to enable list layout' : 'Click to enable tiled layout'">
+    <button class="tilemodebutton" [ngClass]="{'fancy-button':isTileMode}" (click)="toggleTileMode()"
+        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'">
         <!--Content is css only-->
         <div>
             <div> </div>
@@ -16,21 +16,23 @@
         <header class="sectionHeader">Back to Character Sheet</header>
     </button>
     <div class="loading" *ngIf="stillLoading">Loading</div>
-    <ng-container *ngIf="get_SpellLibraryMenuState()==='in'">
+    <ng-container *ngIf="spellLibraryMenuState==='in'">
         <div class="charactersheet-column-container">
             <div class="charactersheet-column">
                 <div class="list-item">
                     <strong>Find (in Name, Description or Traits)</strong>
                     <span class="hlist">
-                        <input id="SpellsWordFilter" type=text [(ngModel)]="wordFilter" (keypress)=check_Filter() />
-                        <button (click)="set_Filter()" [disabled]="wordFilter.length < 5">Show All</button>
-                        <button (click)="wordFilter='';check_Filter()">Clear</button>
+                        <input id="SpellsWordFilter" type=text [(ngModel)]="wordFilter"
+                            (keypress)="closeFilterIfTooShort()" />
+                        <button (click)="setFilterForAll()" [disabled]="wordFilter.length < 5">Show All</button>
+                        <button (click)="wordFilter=''; closeFilterIfTooShort()">Clear</button>
                     </span>
                 </div>
                 <div class="list-item">
                     <strong>Show spells from</strong>
                     <select [(ngModel)]="spellSource">
-                        <option *ngFor="let source of ['spell library','your spellbook']; trackBy:trackers.trackByIndex;"
+                        <option
+                            *ngFor="let source of ['spell library','your spellbook']; trackBy:trackers.trackByIndex;"
                             [ngValue]="source">
                             {{source}}
                         </option>
@@ -50,250 +52,181 @@
                     </span>
                 </div>
                 <div class="list-item">
-                    <button (click)="toggle_Tradition('')" [ngClass]="{'fancy-button':(get_ShowTradition()==='')}">
+                    <button (click)="toggleTraditionFilter('')"
+                        [ngClass]="{'fancy-button':(shownTraditionFilter()==='')}">
                         All except Focus
                     </button>
-                    <button (click)="toggle_Tradition('Arcane')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Arcane')}">
-                        Arcane
-                    </button>
-                    <button (click)="toggle_Tradition('Divine')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Divine')}">
-                        Divine
-                    </button>
-                    <button (click)="toggle_Tradition('Occult')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Occult')}">
-                        Occult
-                    </button>
-                    <button (click)="toggle_Tradition('Primal')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Primal')}">
-                        Primal
-                    </button>
-                    <button (click)="toggle_Tradition('Focus')"
-                        [ngClass]="{'fancy-button':(get_ShowTradition()==='Focus')}">
-                        Focus
+                    <button *ngFor="let tradition of spellTraditions; trackBy:trackers.trackByIndex"
+                        (click)="toggleTraditionFilter(tradition)"
+                        [ngClass]="{'fancy-button':(shownTraditionFilter()===tradition)}">
+                        {{tradition}}
                     </button>
                 </div>
                 <div class="fullsize-scroll-box vlist">
-                    <ng-container *ngFor="let wizardCasting of [get_WizardSpellCasting()]; trackBy:trackers.trackByIndex;">
-                        <ng-container *ngFor="let bardCasting of [get_BardSpellCasting()]; trackBy:trackers.trackByIndex;">
+                    <ng-container *ngIf="componentParameters() as componentParameters">
+                        <div class="list-item"
+                            *ngIf="availableForLearningDescription(componentParameters.wizardCasting, componentParameters.bardCasting, componentParameters.sorcererCasting) as availableForLearningDescription">
+                            <app-description class="newrow"
+                                *ngFor="let desc of availableForLearningDescription.split('\n\n'); trackBy:trackers.trackByIndex;"
+                                [text]="desc"></app-description>
+                        </div>
+                        <div class="list-item"
+                            *ngIf="spellMasteryAvailableDescription(componentParameters.wizardCasting) as spellMasteryAvailableDescription">
+                            <app-description class="newrow"
+                                *ngFor="let desc of spellMasteryAvailableDescription.split('\n\n'); trackBy:trackers.trackByIndex;"
+                                [text]="desc"></app-description>
+                        </div>
+                        <ng-container
+                            *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackers.trackByIndex;">
                             <ng-container
-                                *ngFor="let sorcererCasting of [get_SorcererSpellCasting()]; trackBy:trackers.trackByIndex;">
-                                <ng-container
-                                    *ngFor="let descblock of [get_LearningAvailable(wizardCasting, bardCasting, sorcererCasting)]; trackBy:trackers.trackByIndex;">
-                                    <div class="list-item" *ngIf="descblock.length">
-                                        <ng-container
-                                            *ngFor="let desc of descblock.split('\n\n'); trackBy:trackers.trackByIndex;">
-                                            <app-description class="newrow" [text]="desc"></app-description>
-                                        </ng-container>
-                                    </div>
-                                </ng-container>
-                                <ng-container
-                                    *ngFor="let descblock of [get_SpellMasteryAvailable(wizardCasting)]; trackBy:trackers.trackByIndex;">
-                                    <div class="list-item" *ngIf="descblock.length">
-                                        <ng-container
-                                            *ngFor="let desc of descblock.split('\n\n'); trackBy:trackers.trackByIndex;">
-                                            <app-description class="newrow" [text]="desc"></app-description>
-                                        </ng-container>
-                                    </div>
-                                </ng-container>
-                                <ng-container
-                                    *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackers.trackByIndex;">
-                                    <ng-container
-                                        *ngFor="let visibleSpells of [get_VisibleSpells(level)]; trackBy:trackers.trackByIndex;">
-                                        <button class="list-item" (click)="toggle_List(level)"
-                                            [ngClass]="{'fancy-button':get_ShowList()===level||get_ShowList()===-2}"
-                                            *ngIf="visibleSpells.length">
-                                            <header class="sectionHeader" *ngIf="level === 0">Cantrips</header>
-                                            <header class="sectionHeader" *ngIf="level > 0">{{"Level "+level}}</header>
+                                *ngif="visibleSpellsofLevel(level) as visibleSpells">
+                                <button class="list-item" (click)="toggleShownList(level)"
+                                    [ngClass]="{'fancy-button':[-2,level].includes(shownList())}"
+                                    *ngIf="visibleSpells.length">
+                                    <header class="sectionHeader" *ngIf="level === 0">Cantrips</header>
+                                    <header class="sectionHeader" *ngIf="level > 0">{{"Level "+level}}</header>
+                                </button>
+                                <div [ngClass]="{'icon-list left-aligned':isTileMode, 'list-item':!isTileMode}"
+                                    *ngIf="visibleSpells.length && [-2,level].includes(shownList())">
+                                    <div class="newrow list-item" *ngIf="visibleSpells.length >= 80 && shownList()!==-2"
+                                        (click)="incRange(-1)">
+                                        <button class="center-aligned" [disabled]="range <= 0">
+                                            Previous 40
                                         </button>
-                                        <div [ngClass]="{'icon-list left-aligned':get_TileMode(), 'list-item':!get_TileMode()}"
-                                            *ngIf="visibleSpells.length && get_ShowList()===level||get_ShowList()===-2">
-                                            <div class="newrow list-item"
-                                                *ngIf="visibleSpells.length >= 80 && get_ShowList()!==-2"
-                                                (click)="set_Range(-1)">
-                                                <button class="center-aligned" [disabled]="range <= 0">
-                                                    Previous 40
-                                                </button>
-                                                <header class="newrow subsectionHeader center-aligned">
-                                                    Showing {{(range * 40) + 1}}-{{(((range + 1) * 40) >=
-                                                    visibleSpells.length) ?
-                                                    visibleSpells.length : ((range + 1) * 40)}} of
-                                                    {{visibleSpells.length}}
+                                        <header class="newrow subsectionHeader center-aligned">
+                                            {{shownItemRangeDesc(visibleSpells, range)}}
+                                        </header>
+                                    </div>
+                                    <ng-container
+                                        *ngFor="let spell of visibleSpells; let spellIndex = index; trackBy:trackers.trackByIndex;">
+                                        <ng-container *ngIf="isSpellShown(visibleSpells, spellIndex, range)">
+                                            <ng-template #SpellTemplate>
+                                                <header class="spellHeader" *ngIf="isTileMode">
+                                                    {{spell.name}}
+                                                    <app-actionIcons *ngIf="spell.actions"
+                                                        [actionString]="spell.actions">
+                                                    </app-actionIcons>
+                                                    {{spell.castType}}
                                                 </header>
-                                            </div>
-                                            <ng-container
-                                                *ngFor="let spell of visibleSpells; let spellIndex = index; trackBy:trackers.trackByIndex;">
+                                                <button class="newRow center-aligned"
+                                                    *ngFor="let learningOption of availableSpellLearningOptions(spell, level, componentParameters.wizardCasting, componentParameters.bardCasting, componentParameters.sorcererCasting); trackBy:trackers.trackByIndex"
+                                                    (click)="learnSpell(spell, learningOption.key)"
+                                                    [disabled]="learningOption.disabled">
+                                                    {{learningOption.title}}
+                                                </button>
+                                                <button class="newrow center-aligned" (click)="unlearnSpell(spell)"
+                                                    [disabled]="" *ngIf="isSpellLearned(spell.name) as learned">
+                                                    Unlearn {{learnedSpellSource(learned.source)}}
+                                                </button>
                                                 <ng-container
-                                                    *ngIf="visibleSpells.length < 80 || get_ShowList()===-2 || (spellIndex >= (range * 40) && spellIndex < ((range + 1) * 40 ))">
-                                                    <ng-template #SpellTemplate>
-                                                        <header class="spellHeader" *ngIf="get_TileMode()">
-                                                            {{spell.name}}
-                                                            <app-actionIcons *ngIf="spell.actions"
-                                                                [actionString]="spell.actions">
-                                                            </app-actionIcons>
-                                                            {{spell.castType}}
-                                                        </header>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="learn_Spell(spell, 'wizard')"
-                                                            [disabled]="!can_Learn(wizardCasting, level, spell, 'wizard')"
-                                                            *ngIf="get_AvailableForLearning(wizardCasting, spell)">
-                                                            Learn as Wizard
-                                                        </button>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="learn_Spell(spell, 'school')"
-                                                            [disabled]="!can_Learn(wizardCasting, level, spell, 'school')"
-                                                            *ngIf="get_AvailableForLearning(wizardCasting, spell)">
-                                                            Learn via School
-                                                        </button>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="learn_Spell(spell, 'esotericpolymath')"
-                                                            [disabled]="!can_Learn(bardCasting, level, spell, 'esotericpolymath')"
-                                                            *ngIf="get_AvailableForLearning(bardCasting, spell)">
-                                                            Learn via Esoteric Polymath
-                                                        </button>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="learn_Spell(spell, 'arcaneevolution')"
-                                                            [disabled]="!can_Learn(sorcererCasting, level, spell, 'arcaneevolution')"
-                                                            *ngIf="get_AvailableForLearning(sorcererCasting, spell)">
-                                                            Learn via Arcane Evolution
-                                                        </button>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="learn_Spell(spell, 'adaptedcantrip')"
-                                                            [disabled]="!can_Learn(wizardCasting, level, spell, 'adaptedcantrip')"
-                                                            *ngIf="get_AvailableForLearning(wizardCasting, spell, true)">
-                                                            Learn via Adapted Cantrip
-                                                        </button>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="learn_Spell(spell, 'adaptiveadept')"
-                                                            [disabled]="!can_Learn(wizardCasting, level, spell, 'adaptiveadept')"
-                                                            *ngIf="get_AvailableForLearning(wizardCasting, spell, false, true)">
-                                                            Learn via Adaptive Adept
-                                                        </button>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="learn_Spell(spell, 'free')"
-                                                            *ngIf="!get_SpellsLearned(spell.name).length && !spell.traditions.includes('Focus')">
-                                                            Learn using Learn A Spell activity
-                                                        </button>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="unlearn_Spell(spell)" [disabled]=""
-                                                            *ngFor="let learned of get_SpellsLearned(spell.name); trackBy:trackers.trackByIndex;">
-                                                            Unlearn {{get_LearnedSpellSource(learned.source)}}
-                                                        </button>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="add_SpellMasterySpell(spell)"
-                                                            [disabled]="!get_SpellMasteryAllowed(wizardCasting, level, spell)"
-                                                            *ngIf="get_AvailableForSpellMastery(wizardCasting, spell)">
-                                                            <i class='ra ra-crown'></i>&nbsp;Add to Spell Mastery
-                                                            selection
-                                                        </button>
-                                                        <button class="newrow center-aligned"
-                                                            (click)="remove_SpellMasterySpell(wizardCasting, spell)"
-                                                            *ngIf="get_SpellMasterySelected(wizardCasting, spell)">
-                                                            <i class='ra ra-crown'></i>&nbsp;Remove from Spell Mastery
-                                                            selection
-                                                        </button>
-                                                        <div class="list-item">
-                                                            <strong>
-                                                                Show spell on level
-                                                            </strong>
-                                                            <span>
-                                                                <select [(ngModel)]="showLevel">
-                                                                    <option
-                                                                        *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
-                                                                        [disabled]="levelOption && spell.levelreq > levelOption"
-                                                                        [ngValue]="levelOption">
-                                                                        {{levelOption === 0 ? "Default (" +
-                                                                        spell.levelreq + ")" : levelOption}}
-                                                                    </option>
-                                                                </select>
-                                                            </span>
-                                                        </div>
-                                                        <app-spell [spell]="spell"
-                                                            [spellLevel]="showLevel ? showLevel : level">
-                                                        </app-spell>
-                                                    </ng-template>
-                                                    <ng-template #SpellTitleTemplate>
-                                                        <span *ngIf="!get_TileMode()">
-                                                            <i class="value bi-patch-plus bonus"
-                                                                *ngIf="!spell.isHostile()"
-                                                                [ngbTooltip]="'Beneficial spell'"></i>
-                                                            <i class="value bi-patch-minus-fill penalty"
-                                                                *ngIf="spell.isHostile()"
-                                                                [ngbTooltip]="'Hostile spell'"></i>
+                                                    *ngIf="componentParameters.wizardCasting as wizardCasting">
+                                                    <button class="newrow center-aligned"
+                                                        (click)="addSpellToSpellMastery(spell)"
+                                                        [disabled]="!isSpellMasteryAllowedForSpell(wizardCasting, level, spell)"
+                                                        *ngIf="canSpellBeSelectedForSpellMastery(wizardCasting, spell)">
+                                                        <i class='ra ra-crown'></i>
+                                                        Add to Spell Mastery selection
+                                                    </button>
+                                                    <button class="newrow center-aligned"
+                                                        (click)="removeSpellFromSpellMastery(wizardCasting, spell)"
+                                                        *ngIf="isSpellSelectedForSpellMastery(wizardCasting, spell)">
+                                                        <i class='ra ra-crown'></i>
+                                                        Remove from Spell Mastery selection
+                                                    </button>
+                                                </ng-container>
+                                                <div class="list-item">
+                                                    <strong>
+                                                        Show spell on level
+                                                    </strong>
+                                                    <span>
+                                                        <select [(ngModel)]="showLevel">
+                                                            <option
+                                                                *ngFor="let levelOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
+                                                                [disabled]="levelOption && spell.levelreq > levelOption"
+                                                                [ngValue]="levelOption">
+                                                                {{levelOption === 0 ? "Default (" +
+                                                                spell.levelreq + ")" : levelOption}}
+                                                            </option>
+                                                        </select>
+                                                    </span>
+                                                </div>
+                                                <app-spell [spell]="spell" [spellLevel]="showLevel ? showLevel : level">
+                                                </app-spell>
+                                            </ng-template>
+                                            <ng-template #SpellTitleTemplate>
+                                                <span *ngIf="!isTileMode">
+                                                    <i class="value bi-patch-plus bonus" *ngIf="!spell.isHostile()"
+                                                        [ngbTooltip]="'Beneficial spell'"></i>
+                                                    <i class="value bi-patch-minus-fill penalty"
+                                                        *ngIf="spell.isHostile()" [ngbTooltip]="'Hostile spell'"></i>
+                                                </span>
+                                                <span>
+                                                    {{spell.name}}
+                                                    <app-actionIcons *ngIf="spell.actions"
+                                                        [actionString]="spell.actions">
+                                                    </app-actionIcons>
+                                                    {{spell.castType}}
+                                                </span>
+                                            </ng-template>
+                                            <ng-container *ngIf="!isTileMode">
+                                                <div class="list-item">
+                                                    <button class="newrow left-aligned sublist-toggle"
+                                                        (click)="toggleShownItem(spell.id)"
+                                                        [ngClass]="{'fancy-button choicecleared':isSpellLearned(spell.name)}">
+                                                        <span [ngbTooltip]="'Spell Mastery spell'"
+                                                            *ngIf="isSpellSelectedForSpellMastery(componentParameters.wizardCasting, spell)"><i
+                                                                class='ra ra-crown'></i>
                                                         </span>
                                                         <span>
-                                                            {{spell.name}}
-                                                            <app-actionIcons *ngIf="spell.actions"
-                                                                [actionString]="spell.actions">
-                                                            </app-actionIcons>
-                                                            {{spell.castType}}
+                                                            <ng-container *ngTemplateOutlet="SpellTitleTemplate">
+                                                            </ng-container>
+                                                            <ng-container
+                                                                *ngFor="let trait of ['Rare', 'Uncommon']; trackBy:trackers.trackByIndex">
+                                                                <app-trait *ngIf="spell.traits.includes(trait)"
+                                                                    [name]="trait" [trait]="traitFromName(trait)">
+                                                                </app-trait>
+                                                            </ng-container>
                                                         </span>
-                                                    </ng-template>
-                                                    <ng-container *ngIf="!get_TileMode()">
-                                                        <div class="list-item">
-                                                            <button class="newrow left-aligned sublist-toggle"
-                                                                (click)="toggle_Item(spell.id)"
-                                                                [ngClass]="{'fancy-button choicecleared':get_SpellsLearned(spell.name).length}">
-                                                                <span [ngbTooltip]="'Spell Mastery spell'"
-                                                                    *ngIf="get_SpellMasterySelected(wizardCasting, spell)"><i
-                                                                        class='ra ra-crown'></i>
-                                                                </span>
-                                                                <span>
-                                                                    <ng-container
-                                                                        *ngTemplateOutlet="SpellTitleTemplate">
-                                                                    </ng-container>
-                                                                    <ng-container
-                                                                        *ngFor="let trait of ['Rare', 'Uncommon']">
-                                                                        <app-trait *ngIf="spell.traits.includes(trait)"
-                                                                            [name]="trait"
-                                                                            [trait]="get_Traits(trait)[0]">
-                                                                        </app-trait>
-                                                                    </ng-container>
-                                                                </span>
-                                                            </button>
-                                                            <div class="list-item sublist"
-                                                                *ngIf="get_ShowItem()===spell.id"
-                                                                [ngClass]="{'fancy-list':get_SpellsLearned(spell.name).length}">
-                                                                <ng-container *ngTemplateOutlet="SpellTemplate">
-                                                                </ng-container>
-                                                            </div>
-                                                        </div>
-                                                    </ng-container>
-                                                    <ng-container *ngIf="get_TileMode()">
-                                                        <button
-                                                            [ngClass]="{'fancy-button choicecleared':get_SpellsLearned(spell.name).length, 'penalty':spell.isHostile(), 'bonus':!spell.isHostile()}"
-                                                            [ngbPopover]="SpellTemplate" triggers="click"
-                                                            (click)="toggle_Item()">
-                                                            <app-gridIcon
-                                                                [ngClass]="{'fancy-button':get_SpellsLearned(spell.name).length, 'penalty':spell.isHostile(), 'bonus':!spell.isHostile()}"
-                                                                [ngbTooltip]="SpellTitleTemplate" [title]="spell.name"
-                                                                [detail]="spell.traits.includes('Rare') ? 'R' : (spell.traits.includes('Uncommon') ? 'U' : '')"
-                                                                [superTitle]="get_SpellMasterySelected(wizardCasting, spell) ? 'icon-ra ra-crown' : ''"
-                                                                [spell]="spell">
-                                                            </app-gridIcon>
-                                                        </button>
-                                                    </ng-container>
-                                                </ng-container>
+                                                    </button>
+                                                    <div class="list-item sublist" *ngIf="shownItem()===spell.id"
+                                                        [ngClass]="{'fancy-list':isSpellLearned(spell.name)}">
+                                                        <ng-container *ngTemplateOutlet="SpellTemplate">
+                                                        </ng-container>
+                                                    </div>
+                                                </div>
                                             </ng-container>
-                                            <div class="newrow list-item"
-                                                *ngIf="visibleSpells.length >= 80 && get_ShowList()!==-2">
-                                                <button class="center-aligned"
-                                                    [disabled]="(range + 1) * 40 >= visibleSpells.length"
-                                                    (click)="set_Range(1)">
-                                                    Next 40
+                                            <ng-container *ngIf="isTileMode">
+                                                <button
+                                                    [ngClass]="{'fancy-button choicecleared':isSpellLearned(spell.name), 'penalty':spell.isHostile(), 'bonus':!spell.isHostile()}"
+                                                    [ngbPopover]="SpellTemplate" triggers="click"
+                                                    (click)="toggleShownItem()">
+                                                    <app-gridIcon
+                                                        [ngClass]="{'fancy-button':isSpellLearned(spell.name), 'penalty':spell.isHostile(), 'bonus':!spell.isHostile()}"
+                                                        [ngbTooltip]="SpellTitleTemplate" [title]="spell.name"
+                                                        [detail]="spell.traits.includes('Rare') ? 'R' : (spell.traits.includes('Uncommon') ? 'U' : '')"
+                                                        [superTitle]="isSpellSelectedForSpellMastery(componentParameters.wizardCasting, spell) ? 'icon-ra ra-crown' : ''"
+                                                        [spell]="spell">
+                                                    </app-gridIcon>
                                                 </button>
-                                            </div>
-                                        </div>
+                                            </ng-container>
+                                        </ng-container>
                                     </ng-container>
-                                </ng-container>
+                                    <div class="newrow list-item"
+                                        *ngIf="visibleSpells.length >= 80 && shownList()!==-2">
+                                        <button class="center-aligned"
+                                            [disabled]="(range + 1) * 40 >= visibleSpells.length"
+                                            (click)="incRange(1)">
+                                            Next 40
+                                        </button>
+                                    </div>
+                                </div>
                             </ng-container>
                         </ng-container>
                     </ng-container>
                 </div>
             </div>
             <div class="charactersheet-column mobile-hide">
-                <app-spellbook [ngClass]="{'minimized':(get_SpellbookMinimized())}">
+                <app-spellbook [ngClass]="{'minimized':isSpellbookMinimized}">
                 </app-spellbook>
             </div>
         </div>

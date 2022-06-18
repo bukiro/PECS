@@ -1,4 +1,6 @@
 import { SpellGain } from 'src/app/classes/SpellGain';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { v4 as uuidv4 } from 'uuid';
 
 export class SpellChoice {
@@ -51,7 +53,7 @@ export class SpellChoice {
      */
     public charLevelAvailable = 0;
     /** The CastingType is mostly there to identify the proper SpellCasting to sort this into if it comes from a feat. */
-    public castingType: 'Focus' | 'Innate' | 'Spontaneous' | 'Prepared' | 'Default';
+    public castingType: SpellCastingTypes | 'Default';
     /** Spell Combination is for wizards and designates this spell choice as one that fits two spells in one spell slot. */
     public spellCombinationAllowed = false;
     /** You can choose to use a combination slot for a spell combination, which changes the available spells. */
@@ -60,7 +62,7 @@ export class SpellChoice {
      * The spells chosen must match the tradition of the spell choice, if one is given,
      * or otherwise the tradition of the spellcasting or nothing.
      */
-    public tradition = '';
+    public tradition: SpellTraditions | '' = '';
     public source = '';
     /**
      * If showOnSheet is set, this choice is intended to be made on the character sheet instead of while building the character.

@@ -23,6 +23,7 @@ import { RingOfWizardrySlot } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -372,7 +373,7 @@ export class NewItemPropertyComponent {
                 examples = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
                 break;
             case 'spelltraditions':
-                examples = ['', 'Arcane', 'Divine', 'Occult', 'Primal'];
+                examples = ['', ...SpellTraditions];
                 break;
             case 'spelltargets':
                 examples = ['', 'Enemies', 'Others', 'Caster'];

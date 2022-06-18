@@ -19,6 +19,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { capitalize } from 'src/libs/shared/util/stringUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Trackers } from 'src/libs/shared/util/trackers';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 
 interface SpellSet {
     spell: Spell;
@@ -404,44 +406,6 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
-    public isEsotericPolymathAllowed(casting: SpellCasting, tradition: string): boolean {
-        if (casting.className === 'Bard' && casting.castingType === 'Spontaneous' && this._characterHasFeat('Esoteric Polymath')) {
-            if (['', 'Occult'].includes(tradition)) {
-                return true;
-            } else if (this._characterHasFeat('Impossible Polymath')) {
-                const character = this._character;
-                const minLevelRequired = 2;
-                let skill = '';
-
-                switch (tradition) {
-                    case 'Arcane':
-                        skill = 'Arcana';
-                        break;
-                    case 'Divine':
-                        skill = 'Religion';
-                        break;
-                    case 'Primal':
-                        skill = 'Nature';
-                        break;
-                    default: break;
-                }
-
-                if (skill) {
-                    return this._characterService
-                        .skills(character, skill)[0]
-                        .level(character, this._characterService, character.level) >= minLevelRequired;
-                } else {
-                    return false;
-                }
-
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
     public amountOfCrossbloodedEvolutionSlotsAllowed(): number {
         const amountWithGreaterEvolution = 3;
         const amountWithoutGreaterEvolution = 1;
@@ -776,10 +740,12 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             const traditionFilter = choice.tradition || this.spellCasting.tradition || '';
 
             //Keep either only Focus spells (and skip the tradition filter) or exclude Focus spells as needed.
-            if (this.spellCasting.castingType === 'Focus') {
+            if (this.spellCasting.castingType === SpellCastingTypes.Focus) {
                 spells.push(
-                    ...allSpells
-                        .filter(spell => spell.spell.traits.includes(character.class.name) && spell.spell.traditions.includes('Focus')),
+                    ...allSpells.filter(spell =>
+                        spell.spell.traits.includes(character.class.name) &&
+                        spell.spell.traditions.includes(SpellTraditions.Focus),
+                    ),
                 );
             } else {
                 if (choice.source === 'Feat: Esoteric Polymath') {
@@ -787,8 +753,8 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     // in the Esoteric Polymath choice so long as you are trained in the associated skill.
                     spells.push(
                         ...allSpells.filter(spell =>
-                            spell.spell.traditions.find(tradition => this.isEsotericPolymathAllowed(this.spellCasting, tradition)) &&
-                            !spell.spell.traditions.includes('Focus'),
+                            spell.spell.traditions.find(tradition => this._isEsotericPolymathAllowed(this.spellCasting, tradition)) &&
+                            !spell.spell.traditions.includes(SpellTraditions.Focus),
                         ),
                     );
                 } else if (choice.source === 'Feat: Adapted Cantrip') {
@@ -796,7 +762,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     spells.push(
                         ...allSpells.filter(spell =>
                             !spell.spell.traditions.includes(this.spellCasting.tradition) &&
-                            !spell.spell.traditions.includes('Focus')),
+                            !spell.spell.traditions.includes(SpellTraditions.Focus)),
                     );
                 } else if (choice.source.includes('Feat: Adaptive Adept')) {
                     //With Adaptive Adept, you can choose spells of the same tradition(s) as with Adapted Cantrip, but not your own.
@@ -811,7 +777,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                                 ...allSpells.filter(spell =>
                                     !spell.spell.traditions.includes(this.spellCasting.tradition) &&
                                     spell.spell.traditions.some(tradition => originalSpell.traditions.includes(tradition)) &&
-                                    !spell.spell.traditions.includes('Focus')),
+                                    !spell.spell.traditions.includes(SpellTraditions.Focus)),
                             );
                         }
                     }
@@ -826,7 +792,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 ) {
                     // With Crossblooded Evolution, you can choose spells of any tradition,
                     // unless you already have one of a different tradition than your own.
-                    spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes('Focus')));
+                    spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes(SpellTraditions.Focus)));
                 } else if (choice.source.includes('Divine Font') && this._characterHasFeat('Versatile Font')) {
                     //With Versatile Font, you can choose both Harm and Heal in the Divine Font spell slot.
                     if (!choice.filter.includes('Harm')) {
@@ -870,16 +836,16 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                                     )
                                 )
                             ) &&
-                            !spell.spell.traditions.includes('Focus'),
+                            !spell.spell.traditions.includes(SpellTraditions.Focus),
                         ));
                     } else {
                         spells.push(...allSpells.filter(spell =>
                             spell.spell.traditions.includes(traditionFilter) &&
-                            !spell.spell.traditions.includes('Focus'),
+                            !spell.spell.traditions.includes(SpellTraditions.Focus),
                         ));
                     }
                 } else {
-                    spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes('Focus')));
+                    spells.push(...allSpells.filter(spell => !spell.spell.traditions.includes(SpellTraditions.Focus)));
                 }
             }
         } else {
@@ -891,12 +857,12 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 spells.push(
                     ...allSpells.filter(spell =>
                         spell.spell.traditions.includes(traditionFilter) &&
-                        !spell.spell.traditions.includes('Focus')),
+                        !spell.spell.traditions.includes(SpellTraditions.Focus)),
                 );
             } else {
                 spells.push(
                     ...allSpells.filter(spell =>
-                        !spell.spell.traditions.includes('Focus')),
+                        !spell.spell.traditions.includes(SpellTraditions.Focus)),
                 );
             }
         }
@@ -1485,6 +1451,44 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             !this._isSpellGainedFromTradeIn() &&
             this._characterHasFeat('Infinite Possibilities')
         );
+    }
+
+    private _isEsotericPolymathAllowed(casting: SpellCasting, tradition: string): boolean {
+        if (casting.className === 'Bard' && casting.castingType === 'Spontaneous' && this._characterHasFeat('Esoteric Polymath')) {
+            if (['', 'Occult'].includes(tradition)) {
+                return true;
+            } else if (this._characterHasFeat('Impossible Polymath')) {
+                const character = this._character;
+                const minLevelRequired = 2;
+                let skill = '';
+
+                switch (tradition) {
+                    case 'Arcane':
+                        skill = 'Arcana';
+                        break;
+                    case 'Divine':
+                        skill = 'Religion';
+                        break;
+                    case 'Primal':
+                        skill = 'Nature';
+                        break;
+                    default: break;
+                }
+
+                if (skill) {
+                    return this._characterService
+                        .skills(character, skill)[0]
+                        .level(character, this._characterService, character.level) >= minLevelRequired;
+                } else {
+                    return false;
+                }
+
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     private _spellGainsOfSpellInThis(spellName: string): Array<SpellGain> {

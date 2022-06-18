@@ -1,5 +1,7 @@
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Scroll } from 'src/app/classes/Scroll';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 
 const defaultSpellbookCantripSlots = 10;
 const defaultSpellbookFirstLevelSlots = 5;
@@ -14,9 +16,9 @@ export class SpellCasting {
     public ability = '';
     /** The level where you learn to spell casts using this method. */
     public charLevelAvailable = 0;
-    public tradition: '' | 'Arcane' | 'Divine' | 'Occult' | 'Primal' = '';
+    public tradition: SpellTraditions | '' = '';
     public traditionAvailable: 0;
-    public traditionFilter: Array<string> = [];
+    public traditionFilter: Array<SpellTraditions> = [];
     public spellChoices: Array<SpellChoice> = [];
     public spellBookOnly = false;
     /**
@@ -61,7 +63,7 @@ export class SpellCasting {
     public bondedItemCharges: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     public source = '';
     public scrollSavant: Array<Scroll> = [];
-    constructor(public castingType: 'Focus' | 'Innate' | 'Prepared' | 'Spontaneous') {
+    constructor(public castingType: SpellCastingTypes) {
     }
     public recast(): SpellCasting {
         this.spellChoices = this.spellChoices.map(obj => Object.assign(new SpellChoice(), obj).recast());
