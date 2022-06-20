@@ -130,11 +130,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
         }
     }
 
-    public receiveShownChoiceMessage(message: { name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }): void {
+    public receiveShowChoiceMessage(message: { name: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting }): void {
         this.toggleShownChoice(message.name, message.levelNumber, message.choice, message.casting);
     }
 
-    public receiveShownSpellMessage(name: string): void {
+    public receiveShowSpellMessage(name: string): void {
         this.toggleShownSpell(name);
     }
 

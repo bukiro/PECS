@@ -143,8 +143,8 @@
                                     <!--Spell choices-->
                                     <ng-container
                                         *ngFor="let choice of spellCastingLevelParameters.availableSpellChoices; trackBy:trackers.trackByIndex;">
-                                        <app-spellchoice (shownChoiceMessage)="receiveShownChoiceMessage($event)"
-                                            (shownSpellMessage)="receiveShownSpellMessage($event)"
+                                        <app-spellchoice (shownChoiceMessage)="receiveShowChoiceMessage($event)"
+                                            (shownSpellMessage)="receiveShowSpellMessage($event)"
                                             [spellCasting]="spellCastingParameters.casting" [choice]="choice"
                                             [showHeightened]="character.settings.showHeightenedSpells"
                                             [allowBorrow]="allowBorrow" [showChoice]="shownChoice()"
@@ -162,8 +162,8 @@
                     <div id="spells-choiceArea-top" style="margin-top:-.3em;"></div>
                     <!--Spell Choice content-->
                     <ng-container *ngIf="activeChoiceContent() as choiceContent">
-                        <app-spellchoice (shownChoiceMessage)="receiveShownChoiceMessage($event)"
-                            (shownSpellMessage)="receiveShownSpellMessage($event)" [spellCasting]="choiceContent.casting"
+                        <app-spellchoice (shownChoiceMessage)="receiveShowChoiceMessage($event)"
+                            (shownSpellMessage)="receiveShowSpellMessage($event)" [spellCasting]="choiceContent.casting"
                             [choice]="choiceContent.choice" [showHeightened]="character.settings.showHeightenedSpells"
                             [allowBorrow]="allowBorrow" [showChoice]="choiceContent.name" [showSpell]="shownSpell()"
                             [level]="choiceContent.levelNumber"

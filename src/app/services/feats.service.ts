@@ -30,6 +30,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 
 @Injectable({
     providedIn: 'root',
@@ -544,7 +545,9 @@ export class FeatsService {
                                     insertSpellChoice.tradition === 'Primal' &&
                                     feat.traits.includes('Gnome')
                                 ) {
-                                    insertSpellChoice.tradition = character.class.heritage.subType;
+                                    insertSpellChoice.tradition =
+                                        Object.values(SpellTraditions)
+                                            .find(tradition => tradition === character.class.heritage.subType);
                                 }
                             }
 
