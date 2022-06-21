@@ -2,21 +2,21 @@
 <div class="newrow lower" *ngIf="spell">
     <div class="newrow left-aligned">
         <app-trait *ngFor="let trait of spell.traits; trackBy:trackers.trackByIndex;" [name]="trait"
-            [trait]="get_Traits(trait)[0]">
+            [trait]="traitFromName(trait)">
         </app-trait>
-        <app-trait *ngFor="let trait of spell.get_ActivationTraits(); trackBy:trackers.trackByIndex;" [name]="trait"
-            [trait]="get_Traits(trait)[0]" [extraDescription]="'(This trait was derived from the action components.)'">
+        <app-trait *ngFor="let trait of spell.activationTraits(); trackBy:trackers.trackByIndex;" [name]="trait"
+            [trait]="traitFromName(trait)" [extraDescription]="'(This trait was derived from the action components.)'">
         </app-trait>
-        <app-tags [creature]="'Character'" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true
+        <app-tags [creature]="creatureTypesEnum.Character" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true [specialNames]="[source]"></app-tags>
     </div>
     <app-spellContent class="vlist fullwidth" [spell]="spell" [spellLevel]="spellLevel" [casting]="casting">
     </app-spellContent>
-    <div class="newrow left-aligned" *ngFor="let feat of get_FeatsShowingOn(spell.name); trackBy:trackers.trackByIndex;">
+    <div class="newrow left-aligned" *ngFor="let feat of characterFeatsShowingHintsOnThis(spell.name); trackBy:trackers.trackByIndex;">
         <header class="spellHeader">{{feat.name}}</header>
         <div class="newrow left-aligned" *ngIf="feat.traits.length">
             <app-trait *ngFor="let trait of feat.traits; trackBy:trackers.trackByIndex;" [name]="trait"
-                [trait]="get_Traits(trait)[0]">
+                [trait]="traitFromName(trait)">
             </app-trait>
         </div>
         <div class="newrow left-aligned" *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackers.trackByIndex;">

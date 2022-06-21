@@ -5,6 +5,11 @@ import { CharacterService } from 'src/app/services/character.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Trait } from 'src/app/classes/Trait';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Component({
     selector: 'app-spell',
@@ -15,68 +20,67 @@ import { Subscription } from 'rxjs';
 export class SpellComponent implements OnInit, OnDestroy {
 
     @Input()
-    spell: Spell;
+    public spell: Spell;
     @Input()
-    spellLevel: number;
+    public spellLevel: number;
     @Input()
-    source = '';
+    public source = '';
     @Input()
-    casting: SpellCasting = null;
+    public casting: SpellCasting = null;
+
+    public creatureTypesEnum = CreatureTypes;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly traitsService: TraitsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _traitsService: TraitsService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public traitFromName(name: string): Trait {
+        return this._traitsService.traitFromName(name);
     }
 
-    get_Traits(name = '') {
-        return this.traitsService.traits(name);
-    }
-
-    get_FeatsShowingOn(spellName: string) {
-        return this.characterService.characterFeatsShowingHintsOnThis(spellName);
-    }
-
-    finish_Loading() {
-        if (this.characterService.stillLoading) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.componentChanged$
-                .subscribe(target => {
-                    if (['individualspells', 'all', 'character'].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.detailChanged$
-                .subscribe(view => {
-                    if (view.creature.toLowerCase() == 'character' &&
-                        (
-                            view.target.toLowerCase() == 'all' ||
-                            (view.target.toLowerCase() == 'individualspells' && [this.spell.name.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase()))
-                        )) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-
-            return true;
-        }
+    public characterFeatsShowingHintsOnThis(spellName: string): Array<Feat> {
+        return this._characterService.characterFeatsShowingHintsOnThis(spellName);
     }
 
     public ngOnInit(): void {
-        this.finish_Loading();
+        const waitForCharacterService = setInterval(() => {
+            if (!this._characterService.stillLoading) {
+                clearInterval(waitForCharacterService);
+
+                this._changeSubscription = this._refreshService.componentChanged$
+                    .subscribe(target => {
+                        if (['individualspells', 'all', 'character'].includes(target.toLowerCase())) {
+                            this._changeDetector.detectChanges();
+                        }
+                    });
+                this._viewChangeSubscription = this._refreshService.detailChanged$
+                    .subscribe(view => {
+                        if (view.creature.toLowerCase() === 'character' &&
+                            (
+                                view.target.toLowerCase() === 'all' ||
+                                (
+                                    view.target.toLowerCase() === 'individualspells' &&
+                                    [this.spell.name.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase())
+                                )
+                            )
+                        ) {
+                            this._changeDetector.detectChanges();
+                        }
+                    });
+            }
+        }, Defaults.waitForServiceDelay);
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
-
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
     }
 
 }

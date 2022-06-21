@@ -230,6 +230,9 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             )?.name || '';
     }
 
+    //TO-DO: There is some duplicate code between this and _canSpellBeLearned.
+    // Can the calculations be run once and the result reused?
+    // Generally the spell learning could stand to be more abstracted and reusable.
     public availableForLearningDescription(wizardCasting: SpellCasting, bardCasting: SpellCasting, sorcererCasting: SpellCasting): string {
         if (
             wizardCasting &&
@@ -389,6 +392,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         }
     }
 
+    //TO-DO: See if these options still work
     // eslint-disable-next-line complexity
     public availableSpellLearningOptions(
         spell: Spell,

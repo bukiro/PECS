@@ -261,6 +261,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
         this._viewChangeSubscription?.unsubscribe();
     }
 
+    //TO-DO: This method and others are also used in the spellbook. Can they be centralized, e.g. in the SpellCasting class?
+    // (Let's try to avoid passing services into the models in the future, though.)
     private _maxSpellLevelOfCasting(casting: SpellCasting, equipmentSpells: Array<{ choice: SpellChoice; gain: SpellGain }>): number {
         // Get the available spell level of this casting.
         // This is the highest spell level of the spell choices that are available at your character level.
