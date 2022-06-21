@@ -19,7 +19,7 @@
         <i> {{spell.PFSnote}}</i>
     </span>
 </div>
-<div class="newrow left-aligned" *ngIf="spell.traditions && !spell.traditions.includes('Focus')">
+<div class="newrow left-aligned" *ngIf="spell.traditions && !spell.traditions.includes(spellTraditionsEnum.Focus)">
     <span>
         <strong>Traditions</strong>
         {{spell.traditions.join(', ')}}
@@ -74,28 +74,29 @@
         {{spell.duration}}
     </span>
 </div>
-<div class="newrow left-aligned" *ngFor="let desc of get_Heightened(spell.desc).split('\n\n'); trackBy:trackers.trackByIndex;">
+<div class="newrow left-aligned"
+    *ngFor="let desc of heightenedText(spell.desc).split('\n\n'); trackBy:trackers.trackByIndex;">
     <app-description class="newrow" [text]="desc" [casting]="casting"></app-description>
 </div>
 <div class="newrow gap-text lower left-aligned" *ngIf="spell.critsuccess">
     <strong>Critical Success</strong>
-    <app-description [text]="get_Heightened(spell.critsuccess)" [casting]="casting" [oneLiner]="true"></app-description>
+    <app-description [text]="heightenedText(spell.critsuccess)" [casting]="casting" [oneLiner]="true"></app-description>
 </div>
 <div class="newrow gap-text lower left-aligned" *ngIf="spell.success">
     <strong>Success</strong>
-    <app-description [text]="get_Heightened(spell.success)" [casting]="casting" [oneLiner]="true"></app-description>
+    <app-description [text]="heightenedText(spell.success)" [casting]="casting" [oneLiner]="true"></app-description>
 </div>
 <div class="newrow gap-text lower left-aligned" *ngIf="spell.failure">
     <strong>Failure</strong>
-    <app-description [text]="get_Heightened(spell.failure)" [casting]="casting" [oneLiner]="true"></app-description>
+    <app-description [text]="heightenedText(spell.failure)" [casting]="casting" [oneLiner]="true"></app-description>
 </div>
 <div class="newrow gap-text lower left-aligned" *ngIf="spell.critfailure">
     <strong>Critical Failure</strong>
-    <app-description [text]="get_Heightened(spell.critfailure)" [casting]="casting" [oneLiner]="true"></app-description>
+    <app-description [text]="heightenedText(spell.critfailure)" [casting]="casting" [oneLiner]="true"></app-description>
 </div>
 <ng-container *ngIf="spell.desc2">
     <div class="newrow left-aligned"
-        *ngFor="let desc of get_Heightened(spell.desc2).split('\n\n'); trackBy:trackers.trackByIndex;">
+        *ngFor="let desc of heightenedText(spell.desc2).split('\n\n'); trackBy:trackers.trackByIndex;">
         <app-description class="newrow" [text]="desc" [casting]="casting"></app-description>
     </div>
 </ng-container>
@@ -106,7 +107,7 @@
     </span>
 </div>
 <div class="list-item left-aligned" *ngFor="let shownSpellSet of spell.showSpells; trackBy:trackers.trackByIndex;">
-    <div *ngFor="let shownSpell of get_Spells(shownSpellSet.name); trackBy:trackers.trackByIndex;">
+    <div *ngIf="spellFromName(shownSpellSet.name) as shownSpell">
         <header class="spellHeader left-aligned">
             {{shownSpell.name}}
             <app-actionIcons *ngIf="shownSpell.actions" [actionString]="shownSpell.actions">
@@ -115,10 +116,10 @@
         </header>
         <div class="newrow left-aligned">
             <app-trait *ngFor="let trait of shownSpell.traits; trackBy:trackers.trackByIndex;" [name]="trait"
-                [trait]="get_Traits(trait)[0]">
+                [trait]="traitFromName(trait)">
             </app-trait>
-            <app-trait *ngFor="let trait of shownSpell.get_ActivationTraits(); trackBy:trackers.trackByIndex;" [name]="trait"
-                [trait]="get_Traits(trait)[0]"
+            <app-trait *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackers.trackByIndex;"
+                [name]="trait" [trait]="traitFromName(trait)"
                 [extraDescription]="'(This trait was derived from the action components.)'">
             </app-trait>
         </div>

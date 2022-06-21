@@ -34,6 +34,7 @@ import { SpellLearned } from './SpellLearned';
 import { Defaults } from '../../libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 
 export class Character extends Creature {
     public readonly type = CreatureTypes.Character;
@@ -105,9 +106,7 @@ export class Character extends Creature {
         return { result: sum, explain: explain.trim() };
     }
     public maxSpellLevel(levelNumber: number = this.level): number {
-        const half = 0.5;
-
-        return Math.ceil(levelNumber * half);
+        return SpellLevelFromCharLevel(levelNumber);
     }
     public defaultSpellcasting(): SpellCasting {
         // Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate.

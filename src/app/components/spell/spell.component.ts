@@ -49,6 +49,18 @@ export class SpellComponent implements OnInit, OnDestroy {
         return this._characterService.characterFeatsShowingHintsOnThis(spellName);
     }
 
+    public spellLevelFromBaseLevel(spell: Spell, baseLevel: number): number {
+        let levelNumber = baseLevel;
+
+        if ((!levelNumber && (spell.traits.includes('Cantrip'))) || levelNumber === -1) {
+            levelNumber = this._characterService.character.maxSpellLevel();
+        }
+
+        levelNumber = Math.max(levelNumber, (spell.levelreq || 0));
+
+        return levelNumber;
+    }
+
     public ngOnInit(): void {
         const waitForCharacterService = setInterval(() => {
             if (!this._characterService.stillLoading) {

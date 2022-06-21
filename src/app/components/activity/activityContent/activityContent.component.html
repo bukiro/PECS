@@ -126,7 +126,7 @@
                 [extraDescription]="'(This trait was derived from the action components.)'">
             </app-trait>
         </div>
-        <app-spellContent class="vlist fullwidth" [spell]=spell [spellLevel]="(cast.level) ? cast.level : 0">
+        <app-spellContent class="vlist fullwidth" [spell]="spell" [spellLevel]="spellLevelFromBaseLevel(spell, cast.level)">
         </app-spellContent>
     </ng-container>
 </div>
@@ -147,7 +147,7 @@
                 [extraDescription]="'(This trait was derived from the action components.)'">
             </app-trait>
         </div>
-        <app-spellContent class="vlist fullwidth" [spell]=shownSpell [spellLevel]="shownSpellSet.level || 0">
+        <app-spellContent class="vlist fullwidth" [spell]="shownSpell" [spellLevel]="spellLevelFromBaseLevel(shownSpell, shownSpellSet.level)">
         </app-spellContent>
     </ng-container>
 </div>

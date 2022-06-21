@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
-import { CharacterService } from 'src/app/services/character.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellsService } from 'src/app/services/spells.service';
 import { TraitsService } from 'src/app/services/traits.service';
-import { RefreshService } from 'src/app/services/refresh.service';
-import { Subscription } from 'rxjs';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Trait } from 'src/app/classes/Trait';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 
 @Component({
     selector: 'app-spellContent',
@@ -13,84 +13,33 @@ import { Subscription } from 'rxjs';
     styleUrls: ['./spellContent.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SpellContentComponent implements OnInit, OnDestroy {
+export class SpellContentComponent {
 
     @Input()
-    spell: Spell;
+    public spell: Spell;
     @Input()
-    spellLevel: number;
+    public spellLevel: number;
     @Input()
-    casting: SpellCasting = null;
+    public casting: SpellCasting = null;
+
+    public spellTraditionsEnum = SpellTraditions;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly traitsService: TraitsService,
-        private readonly spellsService: SpellsService,
+        private readonly _traitsService: TraitsService,
+        private readonly _spellsService: SpellsService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public traitFromName(name: string): Trait {
+        return this._traitsService.traitFromName(name);
     }
 
-    get_Traits(name = '') {
-        return this.traitsService.traits(name);
+    public heightenedText(text: string): string {
+        return this.spell.heightenedText(text, this.spellLevel);
     }
 
-    get_Heightened(desc: string) {
-        let levelNumber = this.spellLevel;
-
-        if ((!levelNumber && (this.spell.traits.includes('Cantrip'))) || levelNumber == -1) {
-            levelNumber = this.characterService.character.maxSpellLevel();
-        }
-
-        if (this.spell.levelreq && levelNumber < this.spell.levelreq) {
-            levelNumber = this.spell.levelreq;
-        }
-
-        return this.spell.get_Heightened(desc, levelNumber);
-    }
-
-    get_Spells(name: string) {
-        return this.spellsService.spells(name);
-    }
-
-    finish_Loading() {
-        if (this.characterService.stillLoading) {
-            setTimeout(() => this.finish_Loading(), 500);
-        } else {
-            this.changeSubscription = this.refreshService.componentChanged$
-                .subscribe(target => {
-                    if (['individualspells', 'all', 'character'].includes(target.toLowerCase())) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.detailChanged$
-                .subscribe(view => {
-                    if (view.creature.toLowerCase() == 'character' &&
-                        (
-                            view.target.toLowerCase() == 'all' ||
-                            (view.target.toLowerCase() == 'individualspells' && [this.spell.name.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase()))
-                        )) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-
-            return true;
-        }
-    }
-
-    public ngOnInit(): void {
-        this.finish_Loading();
-    }
-
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
-
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public spellFromName(name: string): Spell {
+        return this._spellsService.spellFromName(name);
     }
 
 }

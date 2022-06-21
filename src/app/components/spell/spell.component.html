@@ -10,7 +10,7 @@
         <app-tags [creature]="creatureTypesEnum.Character" [objectName]="spell.name" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true [specialNames]="[source]"></app-tags>
     </div>
-    <app-spellContent class="vlist fullwidth" [spell]="spell" [spellLevel]="spellLevel" [casting]="casting">
+    <app-spellContent class="vlist fullwidth" [spell]="spell" [spellLevel]="spellLevelFromBaseLevel(spell, spellLevel)" [casting]="casting">
     </app-spellContent>
     <div class="newrow left-aligned" *ngFor="let feat of characterFeatsShowingHintsOnThis(spell.name); trackBy:trackers.trackByIndex;">
         <header class="spellHeader">{{feat.name}}</header>

@@ -17,6 +17,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { Character } from 'src/app/classes/Character';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Component({
     selector: 'app-activityContent',
@@ -27,7 +28,7 @@ import { Character } from 'src/app/classes/Character';
 export class ActivityContentComponent implements OnInit, OnDestroy {
 
     @Input()
-    public creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
     public activity: Activity | ItemActivity;
     @Input()
@@ -131,6 +132,18 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
 
     public heightenedDescription(): string {
         return this.activity.heightenedText(this.activity.desc, this.gain?.heightened || this._character.level);
+    }
+
+    public spellLevelFromBaseLevel(spell: Spell, baseLevel: number): number {
+        let levelNumber = baseLevel;
+
+        if ((!levelNumber && (spell.traits.includes('Cantrip'))) || levelNumber === -1) {
+            levelNumber = this._character.maxSpellLevel();
+        }
+
+        levelNumber = Math.max(levelNumber, (spell.levelreq || 0));
+
+        return levelNumber;
     }
 
     public onEffectChoiceChange(): void {
