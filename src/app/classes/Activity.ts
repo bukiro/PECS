@@ -9,6 +9,7 @@ import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
 import { EffectsService } from 'src/app/services/effects.service';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
 
 export enum ActivityTargetOptions {
     Companion = 'companion',
@@ -305,14 +306,12 @@ export class Activity {
             .forEach(effect => {
                 cooldown += parseInt(effect.value, 10);
             });
-        // If the cooldown has changed from the original,
-        // update all activity gains that refer to this condition to lower their cooldown if necessary.
         this.$cooldown = cooldown;
 
+        // If the cooldown has changed from the original,
+        // update all activity gains that refer to this condition to lower their cooldown if necessary.
         if (this.cooldown !== cooldown) {
-            const maxLevel = 20;
-
-            services.characterService.creatureOwnedActivities(context.creature, maxLevel, true)
+            services.characterService.creatureOwnedActivities(context.creature, Defaults.maxCharacterLevel, true)
                 .filter(gain => gain.name === this.name)
                 .forEach(gain => {
                     gain.activeCooldown = Math.min(gain.activeCooldown, cooldown);
