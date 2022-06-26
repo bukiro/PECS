@@ -1,83 +1,112 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { EffectsService } from 'src/app/services/effects.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Creature } from 'src/app/classes/Creature';
+import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+
+interface EffectValueParameters {
+    displayType: 'Formula' | 'Toggle' | 'Value';
+    isFormula: boolean;
+    formulaValue: string;
+}
 
 @Component({
     selector: 'app-objectEffects',
     templateUrl: './objectEffects.component.html',
     styleUrls: ['./objectEffects.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ObjectEffectsComponent {
 
     @Input()
-    objectName = '';
+    public objectName = '';
     @Input()
-    creature = '';
+    public creature: CreatureTypes = CreatureTypes.Character;
 
     constructor(
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly effectsService: EffectsService,
-        private readonly evaluationService: EvaluationService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _effectsService: EffectsService,
+        private readonly _evaluationService: EvaluationService,
+        public trackers: Trackers,
     ) { }
 
-    get_Creature() {
-        return this.characterService.creatureFromType(this.creature);
+    private get _currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
     }
 
-    trackByIndex(index: number): number {
-        return index;
-    }
-
-    validate(effect: EffectGain) {
-        if (this.get_IsFormula(effect.value)) {
+    public validate(effect: EffectGain): void {
+        if (this._isFormula(effect.value)) {
             effect.value = '0';
         }
 
-        this.update_Effects();
+        this.updateEffects();
     }
 
-    get_CustomEffectsOnThis() {
-        return this.get_Creature().effects.filter(effect => effect.affected.toLowerCase() == this.objectName.toLowerCase());
+    public customEffectsOnThis(): Array<EffectGain> {
+        return this._currentCreature.effects.filter(effect => effect.affected.toLowerCase() === this.objectName.toLowerCase());
     }
 
-    get_BonusTypes() {
-        return this.effectsService._bonusTypes.map(type => type == 'untyped' ? '' : type);
+    public bonusTypes(): Array<string> {
+        return Object.values(BonusTypes).map(type => type === 'untyped' ? '' : type);
     }
 
-    new_CustomEffectOnThis() {
-        this.get_Creature().effects.push(Object.assign(new EffectGain(), { affected: this.objectName }));
+    public newCustomEffectOnThis(): void {
+        this._currentCreature.effects.push(Object.assign(new EffectGain(), { affected: this.objectName }));
     }
 
-    remove_CustomEffect(effect: EffectGain) {
-        this.get_Creature().effects.splice(this.get_Creature().effects.indexOf(effect), 1);
-        this.update_Effects();
+    public removeCustomEffect(effect: EffectGain): void {
+        this._currentCreature.effects.splice(this._currentCreature.effects.indexOf(effect), 1);
+        this.updateEffects();
     }
 
-    update_Effects() {
-        this.refreshService.prepareDetailToChange(this.creature, 'effects');
-        this.refreshService.processPreparedChanges();
+    public updateEffects(): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'effects');
+        this._refreshService.processPreparedChanges();
     }
 
-    get_IsFormula(value: string) {
-        if (isNaN(parseInt(value, 10))) {
-            if (!value.match('^[0-9-]*$').length) {
-                return true;
-            }
+    public effectValueParameters(effect: EffectGain): EffectValueParameters {
+        const isFormula = this._isFormula(effect.setValue ? effect.setValue : effect.value);
+        const formulaValue = isFormula ? this._formulaValue(effect) : null;
+        const displayType = this._effectDisplayType(effect, isFormula);
+
+        return {
+            displayType,
+            isFormula,
+            formulaValue,
+        };
+    }
+
+    private _effectDisplayType(effect: EffectGain, isFormula: boolean): 'Formula' | 'Toggle' | 'Value' {
+        if (effect.setValue || (effect.value && isFormula)) {
+            return 'Formula';
         }
 
-        return false;
+        if (effect.toggle) {
+            return 'Toggle';
+        }
+
+        if (!effect.setValue && !isFormula) {
+            return 'Value';
+        }
     }
 
-    get_EffectValue(effect: EffectGain) {
+    private _formulaValue(effect: EffectGain): string {
         //Send the effect's setValue or value to the EvaluationService to get its result.
         const value = effect.setValue || effect.value || null;
 
         if (value) {
-            const result = this.evaluationService.valueFromFormula(value, { characterService: this.characterService, effectsService: this.effectsService }, { creature: this.get_Creature(), effect });
+            const result =
+                this._evaluationService.valueFromFormula(
+                    value,
+                    { characterService: this._characterService, effectsService: this._effectsService },
+                    { creature: this._currentCreature, effect },
+                );
 
             if (result) {
                 return `= ${ result }`;
@@ -86,6 +115,16 @@ export class ObjectEffectsComponent {
 
         //If the EffectGain did not produce a value, return a zero value instead.
         return '0';
+    }
+
+    private _isFormula(value: string): boolean {
+        if (isNaN(parseInt(value, 10))) {
+            if (!value.match('^[0-9-]*$').length) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
