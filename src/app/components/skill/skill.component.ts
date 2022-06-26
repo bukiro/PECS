@@ -4,13 +4,25 @@ import { CharacterService } from 'src/app/services/character.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { EffectsService } from 'src/app/services/effects.service';
-import { Skill } from 'src/app/classes/Skill';
+import { CalculatedSkill, Skill } from 'src/app/classes/Skill';
 import { DiceService } from 'src/app/services/dice.service';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Character } from 'src/app/classes/Character';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Creature, SkillNotes } from 'src/app/classes/Creature';
+import { Activity } from 'src/app/classes/Activity';
+
+interface ActivityParameters {
+    gain: ActivityGain | ItemActivity;
+    activity: Activity;
+    maxCharges: number;
+    cannotActivate: boolean;
+}
 
 @Component({
     selector: 'app-skill',
@@ -21,68 +33,112 @@ import { Subscription } from 'rxjs';
 export class SkillComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    skill: Skill;
+    public skill: Skill;
     @Input()
-    showValue = true;
+    public showValue = true;
     @Input()
-    isDC = false;
+    public isDC = false;
     @Input()
-    relatedActivityGains: Array<ActivityGain | ItemActivity> = [];
+    public relatedActivityGains: Array<ActivityGain | ItemActivity> = [];
     @Input()
-    showAction = '';
+    public showAction = '';
     @Input()
-    minimized = false;
+    public minimized = false;
     @Output()
-    showActionMessage = new EventEmitter<string>();
+    public readonly showActionMessage = new EventEmitter<string>();
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        public diceService: DiceService,
-        public abilitiesService: AbilitiesDataService,
-        public skillsService: SkillsService,
-        public traitsService: TraitsService,
-        public effectsService: EffectsService,
-        private readonly activitiesService: ActivitiesDataService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _diceService: DiceService,
+        private readonly _abilitiesService: AbilitiesDataService,
+        private readonly _skillsService: SkillsService,
+        private readonly _traitsService: TraitsService,
+        private readonly _effectsService: EffectsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get character(): Character {
+        return this._characterService.character;
     }
 
-    toggle_Action(id: string) {
-        if (this.showAction == id) {
-            this.showAction = '';
-        } else {
-            this.showAction = id;
-        }
+    public get isTileMode(): boolean {
+        return this.character.settings.skillsTileMode;
+    }
+
+    private get _currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
+    }
+
+    public toggleShownAction(id: string): void {
+        this.showAction = this.showAction === id ? '' : id;
 
         this.showActionMessage.emit(this.showAction);
     }
 
-    get_ShowAction() {
+    public shownAction(): string {
         return this.showAction;
     }
 
-    get_Character() {
-        return this.characterService.character;
+    public calculatedSkill(): CalculatedSkill {
+        return this.skill.calculate(
+            this._currentCreature,
+            this._characterService,
+            this._abilitiesService,
+            this._effectsService,
+            this.character.level,
+            this.isDC,
+        );
     }
 
-    get_Creature() {
-        return this.characterService.creatureFromType(this.creature);
+    public skillNotes(skill: Skill): SkillNotes {
+        const foundCustomSkill = this._currentCreature.customSkills.find(customSkill => customSkill.name === skill.name);
+
+        if (foundCustomSkill) {
+            return foundCustomSkill;
+        } else {
+            const foundSkillNotes = this._currentCreature.skillNotes.find(note => note.name === skill.name);
+
+            if (foundSkillNotes) {
+                return foundSkillNotes;
+            } else {
+                this._currentCreature.skillNotes.push({ name: skill.name, showNotes: false, notes: '' });
+
+                return this._currentCreature.skillNotes.find(note => note.name === skill.name);
+            }
+        }
     }
 
-    get_TileMode() {
-        return this.get_Character().settings.skillsTileMode;
+    public skillProficiencyLevel(): number {
+        return this.skill.level(this._currentCreature, this._characterService, this.character.level, false);
     }
 
-    get_Name(skill: Skill) {
+    public originalActivity(gain: ActivityGain | ItemActivity): Activity {
+        return gain.originalActivity(this._activitiesService);
+    }
+
+    public relatedActivityParameters(): Array<ActivityParameters> {
+        return this.relatedActivityGains.map(gain => {
+            const activity = gain.originalActivity(this._activitiesService);
+            const maxCharges = activity.maxCharges({ creature: this._currentCreature }, { effectsService: this._effectsService });
+
+            return {
+                gain,
+                activity,
+                maxCharges,
+                cannotActivate: ((gain.activeCooldown ? (maxCharges === gain.chargesUsed) : false) && !gain.active),
+            };
+        });
+    }
+
+    public displayName(skill: Skill): string {
         if (!this.isDC && skill.name.includes('Spell DC')) {
             return skill.name.replace('Spell DC', 'Spell Attack');
         } else {
@@ -90,26 +146,8 @@ export class SkillComponent implements OnInit, OnDestroy {
         }
     }
 
-    get_Notes(skill: Skill) {
-        if (this.get_Creature().customSkills.some(customSkill => customSkill.name == skill.name)) {
-            return skill;
-        } else {
-            if (this.get_Creature().skillNotes.some(note => note.name == skill.name)) {
-                return this.get_Creature().skillNotes.find(note => note.name == skill.name);
-            } else {
-                this.get_Creature().skillNotes.push({ name: skill.name, showNotes: false, notes: '' });
-
-                return this.get_Creature().skillNotes.find(note => note.name == skill.name);
-            }
-        }
-    }
-
-    get_OriginalActivity(gain: ActivityGain | ItemActivity) {
-        return gain.originalActivity(this.activitiesService);
-    }
-
-    public get_FuseStanceName(): string {
-        const data = this.get_Character().class.filteredFeatData(0, 0, 'Fuse Stance')[0];
+    public fuseStanceName(): string {
+        const data = this.character.class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (data) {
             return data.valueAsString('name') || 'Fused Stance';
@@ -119,51 +157,58 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
-                if (['individualskills', 'all', this.creature.toLowerCase(), this.skill.name.toLowerCase()].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                if ([
+                    'individualskills',
+                    'all',
+                    this.creature.toLowerCase(),
+                    this.skill.name.toLowerCase(),
+                ].includes(target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature == this.creature &&
+                const displayName = this.displayName(this.skill).toLowerCase();
+
+                if (view.creature === this.creature &&
                     (
-                        view.target == 'all' ||
-                        (view.target == 'individualskills' &&
+                        view.target === 'all' ||
+                        (view.target === 'individualskills' &&
                             (
-                                [this.skill.name.toLowerCase(), this.skill.ability.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase()) ||
+                                [
+                                    this.skill.name.toLowerCase(),
+                                    this.skill.ability.toLowerCase(),
+                                    'all',
+                                ].includes(view.subtarget.toLowerCase()) ||
                                 (
-                                    this.get_Name(this.skill).toLowerCase()
-                                        .includes('attack') &&
-                                    view.subtarget.toLowerCase() == 'attacks'
+                                    displayName.includes('attack') &&
+                                    view.subtarget.toLowerCase() === 'attacks'
                                 ) ||
                                 (
-                                    this.get_Name(this.skill).toLowerCase()
-                                        .includes('spell attack') &&
+                                    displayName.includes('spell attack') &&
                                     view.subtarget.toLowerCase().includes('spell attack')
                                 ) ||
                                 (
-                                    this.get_Name(this.skill).toLowerCase()
-                                        .includes('spell dc') &&
+                                    displayName.includes('spell dc') &&
                                     view.subtarget.toLowerCase().includes('spell dc')
                                 ) ||
                                 (
-                                    this.get_Name(this.skill).toLowerCase()
-                                        .includes('class dc') &&
+                                    displayName.includes('class dc') &&
                                     view.subtarget.toLowerCase().includes('class dc')
                                 )
                             )
                         )
                     )) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
     }
 
 }

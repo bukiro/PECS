@@ -21,6 +21,9 @@ import { FeatData } from 'src/app/character-creation/definitions/models/FeatData
 import { AdditionalHeritage } from './AdditionalHeritage';
 import { Defaults } from '../../libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
+import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 
 export class Class {
     public disabled = '';
@@ -249,14 +252,14 @@ export class Class {
                 const feats: Array<string> = characterService.feats('', 'Gnome')
                     .filter(feat =>
                         feat.gainSpellChoice.filter(choice =>
-                            choice.castingType === 'Innate' &&
-                            choice.tradition === 'Primal',
+                            choice.castingType === SpellCastingTypes.Innate &&
+                            choice.tradition === SpellTraditions.Primal,
                         ).length)
                     .map(feat => feat.name);
 
-                this.spellCasting.find(casting => casting.castingType === 'Innate')
+                this.spellCasting.find(casting => casting.castingType === SpellCastingTypes.Innate)
                     .spellChoices.filter(choice => feats.includes(choice.source.replace('Feat: ', ''))).forEach(choice => {
-                        choice.tradition = 'Primal';
+                        choice.tradition = SpellTraditions.Primal;
 
                         if (choice.available || choice.dynamicAvailable) {
                             choice.spells.length = 0;
@@ -339,12 +342,17 @@ export class Class {
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
             if (heritage.name.includes('Wellspring Gnome')) {
                 const feats: Array<string> = characterService.feats('', 'Gnome')
-                    .filter(feat => feat.gainSpellChoice.some(choice => choice.castingType === 'Innate' && choice.tradition === 'Primal'))
+                    .filter(feat =>
+                        feat.gainSpellChoice.some(choice =>
+                            choice.castingType === SpellCastingTypes.Innate &&
+                            choice.tradition === SpellTraditions.Primal,
+                        ),
+                    )
                     .map(feat => feat.name);
 
-                this.spellCasting.find(casting => casting.castingType === 'Innate')
+                this.spellCasting.find(casting => casting.castingType === SpellCastingTypes.Innate)
                     .spellChoices.filter(choice => feats.includes(choice.source.replace('Feat: ', ''))).forEach(choice => {
-                        choice.tradition = heritage.subType;
+                        choice.tradition = SpellTraditionFromString(heritage.subType);
 
                         if (choice.available || choice.dynamicAvailable) {
                             choice.spells.length = 0;

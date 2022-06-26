@@ -22,6 +22,12 @@ export interface CreatureEffectsGenerationObjects {
     hintSets: Array<{ hint: Hint; objectName: string }>;
 }
 
+export interface SkillNotes {
+    name: string;
+    showNotes: boolean;
+    notes: string;
+}
+
 export class Creature {
     public name = '';
     public alignment = 'Neutral';
@@ -38,7 +44,7 @@ export class Creature {
     public speeds: Array<Speed> = [new Speed('Speed'), new Speed('Land Speed')];
     public bulk: Bulk = new Bulk();
     public notes = '';
-    public skillNotes: Array<{ name: string; showNotes: boolean; notes: string }> = [];
+    public skillNotes: Array<SkillNotes> = [];
     public recast(typeService: TypeService, itemsService: ItemsService): Creature {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.health = Object.assign(new Health(), this.health).recast();

@@ -9,7 +9,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
 import { skillLevelBaseStep, SkillLevelMinimumCharacterLevels, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 
-interface CalculatedSkill {
+export interface CalculatedSkill {
     level: number;
     ability: string;
     baseValue: { result: number; explain: string; skillLevel: number; ability: string };
@@ -20,7 +20,7 @@ interface CalculatedSkill {
     value: { result: number; explain: string };
 }
 
-interface SkillBaseValue {
+export interface SkillBaseValue {
     result: number;
     explain: string;
     skillLevel: number;
