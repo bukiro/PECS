@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngFor="let targets of [get_ItemTargets()]; trackBy:trackers.trackByIndex">
+<ng-container *ngIf="itemTargets() as targets">
     <ng-template #ItemTargetModal let-modal>
         <div class="modal-header">
             <header class="sectionHeader modal-title" id="modal-title">Move item
@@ -10,13 +10,13 @@
         </div>
         <div class="modal-body vlist">
             <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
-                <div class="list-item newrow left-aligned" *ngIf="get_IsContainer()">
+                <div class="list-item newrow left-aligned" *ngIf="isItemContainer">
                     <i class="ra ra-hive-emblem"></i>
-                    This item contains {{get_ContainedItems()}} items with a total bulk of {{get_InventoryBulk()}}.
+                    This item contains {{containedItemsAmount()}} items with a total bulk of {{inventoryBulk()}}.
                 </div>
-                <div class="list-item newrow left-aligned" *ngIf="get_GrantsItems()">
+                <div class="list-item newrow left-aligned" *ngIf="doesItemGrantItems">
                     <i class="ra ra-hive-emblem"></i>
-                    This item has additional parts with a total bulk of {{get_ContainedBulkString(item)}}.
+                    This item has additional parts with a total bulk of {{containedBulkString(item)}}.
                     <div class="newrow left-aligned">
                         <input id="including" type="checkbox" [(ngModel)]="excluding">
                         <label for="including">
@@ -24,16 +24,16 @@
                         </label>
                     </div>
                 </div>
-                <div class="list-item newrow" *ngIf="get_CanSplit()">
+                <div class="list-item newrow" *ngIf="canItemSplit">
                     <strong>Split stack</strong>
                     <span>
                         Move
                         <span class="value">
-                            <button (click)="on_Split(-1)" [disabled]="selectedAmount<=0">
+                            <button (click)="onIncSplit(-1)" [disabled]="selectedAmount<=0">
                                 -
                             </button>
                             {{selectedAmount}}
-                            <button (click)="on_Split(1)" [disabled]="selectedAmount>=item.amount">
+                            <button (click)="onIncSplit(1)" [disabled]="selectedAmount>=item.amount">
                                 +
                             </button>
                         </span>
@@ -47,30 +47,30 @@
                 </div>
                 <ng-container *ngFor="let target of targets; trackBy:trackers.trackByIndex">
                     <div class="list-item newrow">
-                        <span class="hlist" style="font-size: 1.5em;">
-                            <i class="ra ra-hive-emblem" *ngIf="get_TargetType(target)==='Inventory'"
-                                style="line-height: 1.5;"></i>
-                            <i class="ra ra-wolf-howl" *ngIf="get_TargetType(target)==='Companion'"
-                                style="line-height: 1.5;"></i>
-                            <i class="ra ra-raven" *ngIf="get_TargetType(target)==='Familiar'"
-                                style="line-height: 1.5;"></i>
-                            <i class="ra ra-player" *ngIf="['Character','Player'].includes(get_TargetType(target))"
-                                style="line-height: 1.5;"></i>
-                            <strong>{{get_TargetName(target)}}</strong>
-                            <span>{{get_ContainerBulk(target)}}</span>
+                        <span class="hlist" style="font-size: 1.5em;" *ngSwitch="targetType(target)">
+                            <i class="ra ra-hive-emblem" *ngSwitchCase="'Inventory'" style="line-height: 1.5;"></i>
+                            <i class="ra ra-wolf-howl" *ngSwitchCase="'Companion'" style="line-height: 1.5;"></i>
+                            <i class="ra ra-raven" *ngngSwitchCase="'Familiar'" style="line-height: 1.5;"></i>
+                            <i class="ra ra-player" *ngSwitchDefault style="line-height: 1.5;"></i>
+                            <strong>{{targetName(target)}}</strong>
+                            <span>{{containerBulk(target)}}</span>
                         </span>
                         <span style="flex-grow:0"
-                            *ngFor="let cannotMove of [get_CannotMove(target)]; trackBy:trackers.trackByIndex"
+                            *ngFor="let cannotMove of [cannotMove(target)]; trackBy:trackers.trackByIndex"
                             [ngbTooltip]="cannotMove">
-                            <button class="btn inactive-button" *ngIf="get_IsSameInventory(target)"
-                                disabled>Current</button>
-                            <button class="btn btn-primary" *ngIf="!get_IsSameInventory(target)"
+                            <ng-template #CurrentButton>
+                                <button class="btn inactive-button" disabled>
+                                    Current
+                                </button>
+                            </ng-template>
+                            <button class="btn btn-primary" *ngIf="!isSameInventoryAsTarget(target); else CurrentButton"
                                 style="background-color: rgb(var(--accent))"
-                                (click)="set_Target(target); modal.close('Move click')"
-                                [disabled]="cannotMove || (item.amount && !selectedAmount)">
-                                <span *ngIf="get_TargetType(target)==='Inventory'">Move</span>
-                                <span *ngIf="!['Inventory','Player'].includes(get_TargetType(target))">Give</span>
-                                <span *ngIf="get_TargetType(target)==='Player'">Offer</span>
+                                (click)="onSetTarget(target); modal.close('Move click')"
+                                [disabled]="cannotMove || (item.amount && !selectedAmount)"
+                                [ngSwitch]="targetType(target)">
+                                <span *ngSwitchCase="'Inventory'">Move</span>
+                                <span *ngSwitchCase="'Player'">Offer</span>
+                                <span *ngSwitchDefault>Give</span>
                             </button>
                         </span>
                     </div>
@@ -82,7 +82,7 @@
                 (click)="modal.dismiss('Cancel click')">Cancel</button>
         </div>
     </ng-template>
-    <button class="center-aligned" (click)="open_ItemTargetModal(ItemTargetModal)">
+    <button class="center-aligned" (click)="openItemTargetModal(ItemTargetModal)">
         Move...
     </button>
 </ng-container>

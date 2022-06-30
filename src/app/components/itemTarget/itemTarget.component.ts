@@ -7,6 +7,10 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { ItemsService } from 'src/app/services/items.service';
 import { SavegameService } from 'src/app/services/savegame.service';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Creature } from 'src/app/classes/Creature';
+import { Character } from 'src/app/classes/Character';
 
 @Component({
     selector: 'app-itemTarget',
@@ -17,105 +21,122 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 export class ItemTargetComponent implements OnInit {
 
     @Input()
-    creature: string;
+    public creature: CreatureTypes;
     @Input()
-    item: Item;
+    public item: Item;
     @Input()
-    inventory: ItemCollection;
+    public inventory: ItemCollection;
     @Output()
-    moveMessage = new EventEmitter<{ target: ItemCollection | SpellTarget; amount: number; including: boolean }>();
+    public readonly moveMessage = new EventEmitter<{ target: ItemCollection | SpellTarget; amount: number; including: boolean }>();
+
     public selectedTarget: ItemCollection | SpellTarget = null;
     public selectedAmount: number;
     public excluding = false;
 
     constructor(
-        private readonly characterService: CharacterService,
-        private readonly savegameService: SavegameService,
-        private readonly itemsService: ItemsService,
-        private readonly modalService: NgbModal,
+        private readonly _characterService: CharacterService,
+        private readonly _savegameService: SavegameService,
+        private readonly _itemsService: ItemsService,
+        private readonly _modalService: NgbModal,
         public modal: NgbActiveModal,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get isItemContainer(): boolean {
+        return !!(this.item as Equipment).gainInventory?.length;
     }
 
-    on_Move() {
+    public get doesItemGrantItems(): boolean {
+        return !!(this.item as Equipment).gainItems?.length;
+    }
+
+    public get canItemSplit(): boolean {
+        return (this.item.canStack() && this.item.amount > 1);
+    }
+
+    private get _currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
+    }
+
+    private get _character(): Character {
+        return this._characterService.character;
+    }
+
+    public onMove(): void {
         this.moveMessage.emit({ target: this.selectedTarget, amount: this.selectedAmount, including: !this.excluding });
     }
 
-    get_Creature() {
-        return this.characterService.creatureFromType(this.creature);
-    }
-
-    get_Character() {
-        return this.characterService.character;
-    }
-
-    get_ManualMode() {
-        return this.characterService.isManualMode;
-    }
-
-    open_ItemTargetModal(content) {
-        this.updateSelectedAmount();
-        this.modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
-            if (result == 'Move click') {
-                this.on_Move();
+    public openItemTargetModal(content): void {
+        this._updateSelectedAmount();
+        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
+            if (result === 'Move click') {
+                this.onMove();
             }
         });
     }
 
-    get_ItemTargets() {
+    public itemTargets(): Array<ItemCollection | SpellTarget> {
         //Collect all possible targets for the item.
         //This includes your own inventories, your companions or your allies.
         const targets: Array<ItemCollection | SpellTarget> = [];
-        const creature = this.get_Creature();
-        const character = this.get_Character();
+        const creature = this._currentCreature;
+        const character = this._character;
 
-        targets.push(...creature.inventories.filter(inv => inv.itemId != this.item.id));
+        targets.push(...creature.inventories.filter(inv => inv.itemId !== this.item.id));
 
         if (!this.excluding) {
-            this.characterService.allAvailableCreatures().filter(otherCreature => otherCreature != creature)
+            this._characterService.allAvailableCreatures().filter(otherCreature => otherCreature !== creature)
                 .forEach(otherCreature => {
-                    targets.push(Object.assign(new SpellTarget(), { name: otherCreature.name || otherCreature.type, id: otherCreature.id, playerId: character.id, type: otherCreature.type, selected: false }));
+                    targets.push(
+                        Object.assign(
+                            new SpellTarget(),
+                            {
+                                name: otherCreature.name || otherCreature.type,
+                                id: otherCreature.id,
+                                playerId: character.id,
+                                type: otherCreature.type,
+                                selected: false,
+                            },
+                        ),
+                    );
                 });
         }
 
-        if (character.partyName && !this.excluding && !this.characterService.isGMMode && !this.characterService.isManualMode) {
+        if (character.partyName && !this.excluding && !this._characterService.isGMMode && !this._characterService.isManualMode) {
             //Only allow selecting other players if you are in a party.
-            this.savegameService.getSavegames().filter(savegame => savegame.partyName == character.partyName && savegame.id != character.id)
+            this._savegameService.getSavegames()
+                .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
                 .forEach(savegame => {
-                    targets.push(Object.assign(new SpellTarget(), { name: savegame.name || 'Unnamed', id: savegame.id, playerId: savegame.id, type: 'Character', selected: false }));
+                    targets.push(
+                        Object.assign(
+                            new SpellTarget(),
+                            {
+                                name: savegame.name || 'Unnamed',
+                                id: savegame.id,
+                                playerId: savegame.id,
+                                type: 'Character',
+                                selected: false,
+                            },
+                        ),
+                    );
                 });
         }
 
         return targets;
     }
 
-    get_IsContainer() {
-        return (this.item as Equipment).gainInventory?.length;
-    }
-
-    get_GrantsItems() {
-        return (this.item as Equipment).gainItems?.length;
-    }
-
-    get_CanSplit() {
-        return (this.item.canStack() && this.item.amount > 1);
-    }
-
-    on_Split(amount: number) {
+    public onIncSplit(amount: number): void {
         this.selectedAmount = Math.min(this.selectedAmount + amount, this.item.amount);
     }
 
-    get_ContainedItems() {
+    public containedItemsAmount(): number {
         //Add up the number of items in each inventory with this item's id
         //We have to sum up the items in each inventory, and then sum up those sums.
         //Return a number
         if (this.item.id && (this.item as Equipment).gainInventory?.length) {
-            return this.get_Creature().inventories
+            return this._currentCreature.inventories
                 .filter(inventory =>
-                    inventory.itemId == this.item.id,
+                    inventory.itemId === this.item.id,
                 ).map(inventory => inventory.allItems()
                     .map(item => item.amount)
                     .reduce((a, b) => a + b, 0),
@@ -126,7 +147,7 @@ export class ItemTargetComponent implements OnInit {
         }
     }
 
-    get_IsSameInventory(target: ItemCollection | SpellTarget) {
+    public isSameInventoryAsTarget(target: ItemCollection | SpellTarget): boolean {
         if (target instanceof ItemCollection) {
             return target === this.inventory;
         } else {
@@ -134,38 +155,13 @@ export class ItemTargetComponent implements OnInit {
         }
     }
 
-    get_IsCircularContainer(target: ItemCollection | SpellTarget) {
-        //Check if the target inventory is contained in this item.
-        let found = false;
-
+    public cannotMove(target: ItemCollection | SpellTarget): string {
         if (target instanceof ItemCollection) {
-            if (this.item instanceof Equipment && this.item.gainInventory?.length) {
-                found = this.get_ItemContainsInventory(this.item, target);
-            }
-        }
-
-        return found;
-    }
-
-    get_ItemContainsInventory(item: Equipment, inventory: ItemCollection) {
-        let found = false;
-
-        if (item.gainInventory?.length) {
-            found = this.get_Creature().inventories.filter(inv => inv.itemId == item.id).some(inv => inv.allEquipment().some(invItem => invItem.id == inventory.itemId) ||
-                inv.allEquipment().filter(invItem => invItem.gainInventory.length)
-                    .some(invItem => this.get_ItemContainsInventory(invItem, inventory)));
-        }
-
-        return found;
-    }
-
-    get_CannotMove(target: ItemCollection | SpellTarget) {
-        if (target instanceof ItemCollection) {
-            if (this.get_CannotFit(target)) {
+            if (this._cannotFit(target)) {
                 return 'That container does not have enough room for the item.';
             }
 
-            if (this.get_IsCircularContainer(target)) {
+            if (this._isCircularContainer(target)) {
                 return 'That container is part of this item\'s content.';
             }
         }
@@ -173,18 +169,12 @@ export class ItemTargetComponent implements OnInit {
         return '';
     }
 
-    get_CannotFit(target: ItemCollection | SpellTarget) {
-        if (target instanceof ItemCollection) {
-            return this.itemsService.cannotFitItemInContainer(this.get_Creature(), this.item, target, { including: !this.excluding, amount: this.selectedAmount });
-        }
+    public containedBulkString(item: Item): string {
+        const decimal = 10;
 
-        return false;
-    }
-
-    get_ContainedBulkString(item: Item) {
-        const containedBulk = this.itemsService.totalItemBulk(this.get_Creature(), item, null, true);
+        const containedBulk = this._itemsService.totalItemBulk(this._currentCreature, item, null, true);
         const fullBulk = Math.floor(containedBulk);
-        const lightBulk = (containedBulk * 10 - fullBulk * 10);
+        const lightBulk = (containedBulk * decimal - fullBulk * decimal);
 
         if (fullBulk) {
             return fullBulk + (lightBulk ? ` + ${ lightBulk }L` : '');
@@ -193,11 +183,11 @@ export class ItemTargetComponent implements OnInit {
         }
     }
 
-    get_InventoryBulk() {
-        return this.get_Creature().inventories.find(inventory => inventory.itemId == this.item.id)?.totalBulk() || 0;
+    public inventoryBulk(): number {
+        return this._currentCreature.inventories.find(inventory => inventory.itemId === this.item.id)?.totalBulk() || 0;
     }
 
-    get_ContainerBulk(target: ItemCollection | SpellTarget) {
+    public containerBulk(target: ItemCollection | SpellTarget): string {
         if (target instanceof ItemCollection && target.bulkLimit) {
             return `(${ target.totalBulk() } / ${ target.bulkLimit } Bulk)`;
         } else {
@@ -205,11 +195,11 @@ export class ItemTargetComponent implements OnInit {
         }
     }
 
-    get_TargetType(target: ItemCollection | SpellTarget) {
+    public targetType(target: ItemCollection | SpellTarget): string {
         if (target instanceof ItemCollection) {
             return 'Inventory';
         } else {
-            if (target.type == 'Character' && target.id != this.get_Character().id) {
+            if (target.type === 'Character' && target.id !== this._character.id) {
                 return 'Player';
             } else {
                 return target.type;
@@ -217,24 +207,69 @@ export class ItemTargetComponent implements OnInit {
         }
     }
 
-    get_TargetName(target: ItemCollection | SpellTarget) {
+    public targetName(target: ItemCollection | SpellTarget): string {
         if (target instanceof ItemCollection) {
-            return target.effectiveName(this.characterService);
+            return target.effectiveName(this._characterService);
         } else {
             return target.name;
         }
     }
 
-    set_Target(target: ItemCollection | SpellTarget) {
+    public onSetTarget(target: ItemCollection | SpellTarget): void {
         this.selectedTarget = target;
-    }
-
-    private updateSelectedAmount(): void {
-        this.selectedAmount = Math.min(this.selectedAmount, this.item.amount);
     }
 
     public ngOnInit(): void {
         this.selectedAmount = this.item.amount;
+    }
+
+    private _isCircularContainer(target: ItemCollection | SpellTarget): boolean {
+        //Check if the target inventory is contained in this item.
+        let hasFoundCircularContainer = false;
+
+        if (target instanceof ItemCollection) {
+            if (this.item instanceof Equipment && this.item.gainInventory?.length) {
+                hasFoundCircularContainer = this._doesItemContainInventory(this.item, target);
+            }
+        }
+
+        return hasFoundCircularContainer;
+    }
+
+    private _doesItemContainInventory(item: Equipment, inventory: ItemCollection): boolean {
+        let hasFoundContainedInventory = false;
+
+        if (item.gainInventory?.length) {
+            hasFoundContainedInventory =
+                this._currentCreature.inventories
+                    .filter(inv => inv.itemId === item.id)
+                    .some(inv =>
+                        inv.allEquipment()
+                            .some(invItem => invItem.id === inventory.itemId) ||
+                        inv.allEquipment()
+                            .filter(invItem => invItem.gainInventory.length)
+                            .some(invItem => this._doesItemContainInventory(invItem, inventory)),
+                    );
+        }
+
+        return hasFoundContainedInventory;
+    }
+
+    private _cannotFit(target: ItemCollection | SpellTarget): boolean {
+        if (target instanceof ItemCollection) {
+            return this._itemsService.cannotFitItemInContainer(
+                this._currentCreature,
+                this.item,
+                target,
+                { including: !this.excluding, amount: this.selectedAmount },
+            );
+        }
+
+        return false;
+    }
+
+    private _updateSelectedAmount(): void {
+        this.selectedAmount = Math.min(this.selectedAmount, this.item.amount);
     }
 
 }
