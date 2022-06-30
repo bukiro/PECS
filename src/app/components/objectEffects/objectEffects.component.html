@@ -23,28 +23,26 @@
                 </option>
             </select>
         </span>
-        <span class="hlist" *ngIf="effectValueParameters(effect) as effectValueParameters">
+        <span class="hlist" *ngIf="effectValueParameters(effect) as effectValueParameters" [ngSwitch]="effectValueParameters.displayType">
             <strong class="no-shadow">Value</strong>
-            <ng-container *ngSwitch="effectValueParameters.displayType">
-                <ng-container *ngSwitchCase="'Formula'">
-                    <span>
-                        <span class="value"
-                            [ngClass]="{'absolute':effectValueParameters.formulaValue[0]==='=', 'bonus':effectValueParameters.formulaValue[0]==='+', 'penalty':effectValueParameters.formulaValue[0]==='-'}">
-                            {{effectValueParameters.formulaValue}}
-                        </span>
-                        <i [ngbPopover]="FormulaTemplate" *ngIf="effectValueParameters.isFormula"
-                            class="bi-calculator"></i>
+            <ng-container *ngSwitchCase="'Formula'">
+                <span>
+                    <span class="value"
+                        [ngClass]="{'absolute':effectValueParameters.formulaValue[0]==='=', 'bonus':effectValueParameters.formulaValue[0]==='+', 'penalty':effectValueParameters.formulaValue[0]==='-'}">
+                        {{effectValueParameters.formulaValue}}
                     </span>
-                </ng-container>
-                <ng-container *ngSwitchCase="'Toggle'">
-                    <span class="value absolute">
-                        on
-                    </span>
-                </ng-container>
-                <ng-container *ngSwitchCase="'Value'">
-                    <input type="number" class="number4" id="customEffectValue{{objectName}}{{index}}" maxLength="30"
-                        [(ngModel)]="effect.value" (blur)="validate(effect)">
-                </ng-container>
+                    <i [ngbPopover]="FormulaTemplate" *ngIf="effectValueParameters.isFormula"
+                        class="bi-calculator"></i>
+                </span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'Toggle'">
+                <span class="value absolute">
+                    on
+                </span>
+            </ng-container>
+            <ng-container *ngSwitchCase="'Value'">
+                <input type="number" class="number4" id="customEffectValue{{objectName}}{{index}}" maxLength="30"
+                    [(ngModel)]="effect.value" (blur)="validate(effect)">
             </ng-container>
         </span>
         <button style="flex-basis:auto;flex-grow:0;" (click)="removeCustomEffect(effect)">Remove</button>
