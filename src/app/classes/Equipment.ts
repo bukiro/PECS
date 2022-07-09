@@ -18,6 +18,8 @@ import { Specialization } from 'src/app/classes/Specialization';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterService } from 'src/app/services/character.service';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
+import { WeaponRune } from './WeaponRune';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 
 export class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -62,7 +64,7 @@ export class Equipment extends Item {
     /** Property Runes for weapons and armor. */
     public propertyRunes: Array<Rune> = [];
     /** Blade Ally Runes can be emulated on weapons and handwraps. */
-    public bladeAllyRunes: Array<Rune> = [];
+    public bladeAllyRunes: Array<WeaponRune> = [];
     /** Resilient Rune level for armor. */
     public resilientRune = BasicRuneLevels.None;
     /** Is the name input visible in the inventory. */
@@ -117,7 +119,7 @@ export class Equipment extends Item {
         this.gainSpells = this.gainSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.gainSpells.forEach(choice => {
             if (!choice.castingType) {
-                choice.castingType = 'Innate';
+                choice.castingType = SpellCastingTypes.Innate;
             }
 
             choice.source = this.name;
@@ -129,14 +131,14 @@ export class Equipment extends Item {
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
         this.propertyRunes =
             this.propertyRunes.map(obj =>
-                Object.assign<Rune, Item>(new Rune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService),
+                Object.assign(new Rune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService),
             );
         this.bladeAllyRunes =
             this.bladeAllyRunes.map(obj =>
-                Object.assign<Rune, Item>(new Rune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
+                Object.assign(new WeaponRune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
         this.talismans =
             this.talismans.map(obj =>
-                Object.assign<Talisman, Item>(
+                Object.assign(
                     new Talisman(),
                     typeService.restoreItem(obj, itemsService),
                 ).recast(typeService, itemsService),

@@ -1,10 +1,11 @@
+<!--eslint-disable @angular-eslint/template/cyclomatic-complexity-->
 <!--Changing Blade Ally Status-->
 <div class="list-item newrow">
     <div class="newrow">
         <strong>Rune Effect</strong>
-        <select [(ngModel)]="newPropertyRune" (ngModelChange)="add_BladeAllyRune()">
+        <select [(ngModel)]="newPropertyRune" (ngModelChange)="onSelectBladeAllyRune()">
             <ng-container
-                *ngFor="let rune of get_InitialPropertyRunes(); let initialRuneIndex = index; trackBy:trackers.trackByIndex;">
+                *ngFor="let rune of initialPropertyRunes(); let initialRuneIndex = index; trackBy:trackers.trackByIndex;">
                 <option [ngValue]="rune" *ngIf="initialRuneIndex === 0" [selected]=!item.propertyRunes[0]>
                     <!--Blank option to deselect-->
                 </option>
@@ -14,12 +15,14 @@
                     </option>
                 </optgroup>
             </ng-container>
-            <optgroup label="Available runes" *ngIf="get_WeaponPropertyRunes().length">
-                <option *ngFor="let rune of get_WeaponPropertyRunes(); trackBy:trackers.trackByIndex;" [ngValue]="rune"
-                    [disabled]="rune.disabled">
-                    {{rune.rune.amount > 1 ? rune.rune.amount+" " : ""}}{{rune.rune.name}}
-                </option>
-            </optgroup>
+            <ng-container *ngIf="availableWeaponPropertyRunes() as availableWeaponPropertyRunes">
+                <optgroup label="Available runes" *ngIf="availableWeaponPropertyRunes.length">
+                    <option *ngFor="let rune of availableWeaponPropertyRunes; trackBy:trackers.trackByIndex;"
+                        [ngValue]="rune" [disabled]="rune.disabled">
+                        {{rune.rune.amount > 1 ? rune.rune.amount+" " : ""}}{{rune.rune.name}}
+                    </option>
+                </optgroup>
+            </ng-container>
         </select>
     </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { WornItem } from 'src/app/classes/WornItem';
@@ -7,43 +7,45 @@ import { TimeService } from 'src/app/services/time.service';
 import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Character } from 'src/app/classes/Character';
+import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+
+interface AeonStoneSet {
+    aeonStone: WornItem;
+    inv: ItemCollection;
+}
 
 @Component({
     selector: 'app-itemAeonStones',
     templateUrl: './itemAeonStones.component.html',
     styleUrls: ['./itemAeonStones.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemAeonStonesComponent implements OnInit {
 
     @Input()
-    item: WornItem;
+    public item: WornItem;
     @Input()
-    itemStore = false;
+    public itemStore = false;
 
-    public newAeonStone: Array<{ aeonStone: WornItem; inv: ItemCollection }>;
+    public newAeonStone: Array<AeonStoneSet>;
 
     constructor(
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly itemsService: ItemsService,
-        private readonly activitiesService: ActivitiesDataService,
-        private readonly timeService: TimeService,
-        private readonly typeService: TypeService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _itemsService: ItemsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _timeService: TimeService,
+        private readonly _typeService: TypeService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    private get _character(): Character {
+        return this._characterService.character;
     }
 
-    get_Character() {
-        return this.characterService.character;
-    }
-
-    get_CleanItems() {
-        return this.itemsService.cleanItems();
-    }
-
-    get_Slots() {
+    public availableSlots(): Array<number> {
         const indexes: Array<number> = [];
 
         for (let index = 0; index < this.item.isWayfinder; index++) {
@@ -53,30 +55,34 @@ export class ItemAeonStonesComponent implements OnInit {
         return indexes;
     }
 
-    get_Inventories() {
+    public inventories(): Array<ItemCollection> {
         if (this.itemStore) {
-            return [this.get_CleanItems()];
+            return [this._cleanItems()];
         } else {
-            return this.get_Character().inventories;
+            return this._character.inventories;
         }
     }
 
-    get_InitialAeonStones(index: number) {
+    public inventoryName(inventory: ItemCollection): string {
+        return inventory.effectiveName(this._characterService);
+    }
+
+    public initialAeonStones(index: number): Array<AeonStoneSet> {
         const item = this.item;
         //Start with one empty stone to select nothing.
-        const allStones: Array<{ aeonStone: WornItem; inv: ItemCollection }> = [{ aeonStone: new WornItem(), inv: null }];
+        const allStones: Array<AeonStoneSet> = [{ aeonStone: new WornItem(), inv: null }];
 
         allStones[0].aeonStone.name = '';
 
         //Add the current choice, if the item has a stone at that index.
         if (item.aeonStones[index]) {
-            allStones.push(this.newAeonStone[index] as { aeonStone: WornItem; inv: ItemCollection });
+            allStones.push(this.newAeonStone[index] as AeonStoneSet);
         }
 
         return allStones;
     }
 
-    get_AeonStones(inv: ItemCollection) {
+    public availableAeonStones(inv: ItemCollection): Array<AeonStoneSet> {
         if (this.itemStore) {
             return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone, inv: null }));
         } else {
@@ -84,120 +90,118 @@ export class ItemAeonStonesComponent implements OnInit {
         }
     }
 
-    get_AeonStoneCooldown(stone: WornItem) {
+    public aeonStoneCooldownText(stone: WornItem): string {
         //If any resonant activity on this aeon Stone has a cooldown, return the lowest of these in a human readable format.
-        if (stone.activities && stone.activities.length && stone.activities.some(activity => activity.resonant && activity.activeCooldown)) {
-            const lowestCooldown = Math.min(...stone.activities.filter(activity => activity.resonant && activity.activeCooldown).map(activity => activity.activeCooldown));
+        if (stone.activities?.some(activity => activity.resonant && activity.activeCooldown)) {
+            const lowestCooldown =
+                Math.min(
+                    ...stone.activities
+                        .filter(activity => activity.resonant && activity.activeCooldown)
+                        .map(activity => activity.activeCooldown),
+                );
 
-            return ` (Cooldown: ${ this.timeService.durationDescription(lowestCooldown) })`;
+            return ` (Cooldown: ${ this._timeService.durationDescription(lowestCooldown) })`;
         } else {
             return '';
         }
     }
 
-    add_AeonStone(index: number) {
+    public onSelectAeonStone(index: number): void {
         const item: WornItem = this.item;
         const stone: WornItem = this.newAeonStone[index].aeonStone;
         const inv: ItemCollection = this.newAeonStone[index].inv;
 
         if (!item.aeonStones[index] || stone !== item.aeonStones[index]) {
-            //If there is an Aeon Stone in this slot, return the old stone to the inventory, unless we are in the item store. Then remove it from the item.
+            // If there is an Aeon Stone in this slot, return the old stone to the inventory, unless we are in the item store.
+            // Then remove it from the item.
             if (item.aeonStones[index]) {
                 if (!this.itemStore) {
-                    this.remove_AeonStone(index);
+                    this._removeAeonStone(index);
                 }
 
                 item.aeonStones.splice(index, 1);
             }
 
             //Then add the new Aeon Stone to the item and (unless we are in the item store) remove it from the inventory.
-            if (stone.name != '') {
+            if (stone.name !== '') {
                 //Add a copy of the stone to the item
-                const newLength = item.aeonStones.push(Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(stone))).recast(this.typeService, this.itemsService));
+                const newLength =
+                    item.aeonStones.push(
+                        Object.assign(new WornItem(), JSON.parse(JSON.stringify(stone)))
+                            .recast(this._typeService, this._itemsService),
+                    );
                 const newStone = item.aeonStones[newLength - 1];
 
                 newStone.amount = 1;
                 newStone.isSlottedAeonStone = true;
 
-                //If we are not in the item store, remove the inserted Aeon Stone from the inventory, either by decreasing the amount or by dropping the item.
+                // If we are not in the item store, remove the inserted Aeon Stone from the inventory,
+                // either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
-                    this.characterService.dropInventoryItem(this.get_Character(), inv, stone, false, false, false, 1);
+                    this._characterService.dropInventoryItem(this._character, inv, stone, false, false, false, 1);
                 }
             }
         }
 
-        this.set_ToChange(stone);
-        this.set_AeonStoneNames();
-        this.refreshService.processPreparedChanges();
+        this._prepareChanges(stone);
+        this._setAeonStoneNames();
+        this._refreshService.processPreparedChanges();
     }
 
-    remove_AeonStone(index: number) {
-        const character = this.get_Character();
+    public hint(stone: WornItem): string {
+        if (this.itemStore && stone.price) {
+            return `Price ${ this._priceText(stone) }`;
+        }
+    }
+
+    public ngOnInit(): void {
+        this._setAeonStoneNames();
+    }
+
+    private _cleanItems(): ItemCollection {
+        return this._itemsService.cleanItems();
+    }
+
+    private _removeAeonStone(index: number): void {
+        const character = this._character;
         const item: WornItem = this.item;
         const oldStone: WornItem = item.aeonStones[index];
 
         oldStone.isSlottedAeonStone = false;
-        this.set_ToChange(oldStone);
+        this._prepareChanges(oldStone);
         //Add the extracted stone back to the inventory.
-        this.characterService.grantInventoryItem(oldStone, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
+        this._characterService.grantInventoryItem(
+            oldStone,
+            { creature: character, inventory: character.inventories[0] },
+            { resetRunes: false, changeAfter: false, equipAfter: false },
+        );
     }
 
-    set_ToChange(stone: WornItem) {
-        this.refreshService.prepareChangesByItem(this.get_Character(), stone, { characterService: this.characterService, activitiesService: this.activitiesService });
+    private _prepareChanges(stone: WornItem): void {
+        this._refreshService.prepareChangesByItem(
+            this._character,
+            stone,
+            { characterService: this._characterService, activitiesService: this._activitiesService },
+        );
     }
 
-    get_Title(stone: WornItem) {
-        if (this.itemStore && stone.price) {
-            return `Price ${ this.get_Price(stone) }`;
-        }
-    }
-
-    get_Price(stone: WornItem) {
+    private _priceText(stone: WornItem): string {
         if (stone.price) {
-            if (stone.price == 0) {
-                return '';
-            } else {
-                let price: number = stone.price;
-                let priceString = '';
-
-                if (price >= 100) {
-                    priceString += `${ Math.floor(price / 100) }gp`;
-                    price %= 100;
-
-                    if (price >= 10) { priceString += ' '; }
-                }
-
-                if (price >= 10) {
-                    priceString += `${ Math.floor(price / 10) }sp`;
-                    price %= 10;
-
-                    if (price >= 1) { priceString += ' '; }
-                }
-
-                if (price >= 1) {
-                    priceString += `${ price }cp`;
-                }
-
-                return priceString;
-            }
+            return PriceTextFromCopper(stone.price);
         } else {
             return '';
         }
     }
 
-    set_AeonStoneNames() {
+    private _setAeonStoneNames(): void {
         this.newAeonStone =
             (this.item.aeonStones ? [
                 (this.item.aeonStones[0] ? { aeonStone: this.item.aeonStones[0], inv: null } : { aeonStone: new WornItem(), inv: null }),
                 (this.item.aeonStones[1] ? { aeonStone: this.item.aeonStones[1], inv: null } : { aeonStone: new WornItem(), inv: null }),
             ] : [{ aeonStone: new WornItem(), inv: null }, { aeonStone: new WornItem(), inv: null }]);
-        this.newAeonStone.filter(stone => stone.aeonStone.name == 'New Item').forEach(stone => {
+        this.newAeonStone.filter(stone => stone.aeonStone.name === 'New Item').forEach(stone => {
             stone.aeonStone.name = '';
         });
-    }
-
-    public ngOnInit(): void {
-        this.set_AeonStoneNames();
     }
 
 }
