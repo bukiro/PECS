@@ -4,12 +4,12 @@
     <header class="subsectionHeader">
         Emblazon Armament
     </header>
-    <ng-container *ngFor="let emblazonDivinity of [get_EmblazonDivinity()]; trackBy:trackers.trackByIndex">
-        <ng-container *ngIf="get_Displayed('emblazonArmament')">
+    <ng-container *ngFor="let emblazonDivinity of [characterHasEmblazonDivinity()]; trackBy:trackers.trackByIndex">
+        <ng-container *ngIf="isOptionAvailable('emblazonArmament')">
             <ng-container
-                *ngFor="let disabled of [get_Disabled('emblazonArmament', emblazonDivinity)]; trackBy:trackers.trackByIndex">
+                *ngFor="let disabled of [optionDisabledText('emblazonArmament', emblazonDivinity)]; trackBy:trackers.trackByIndex">
                 <ng-template #EmblazonArmamentTemplate>
-                    <p [innerHtml]="get_Description(emblazonDivinity)"></p>
+                    <p [innerHtml]="effectDescription(emblazonDivinity)"></p>
                     <ul>
                         <li>
                             <strong>Shield</strong>
@@ -25,25 +25,25 @@
                 <div class="newrow left-aligned">
                     <span [ngbPopover]="disabled">
                         <input id="{{item.id}}emblazonArmament" type="checkbox" [(ngModel)]="emblazonArmamentActivated"
-                            (ngModelChange)="on_Change('emblazonArmament', emblazonDivinity)"
+                            (ngModelChange)="onChange('emblazonArmament', emblazonDivinity)"
                             [disabled]="disabled !== ''">
                         <label for="{{item.id}}emblazonArmament">
                             <i class='ra ra-fire-shield'></i>
                             Emblazon Armament
                         </label>
                         <i class="bi-question-circle" [ngbPopover]=EmblazonArmamentTemplate></i>
-                        <span class="lower" *ngIf="get_Deity('emblazonArmament')">
-                            Symbol of {{get_Deity('emblazonArmament')}} ({{get_Alignment('emblazonArmament')}})
+                        <span class="lower" *ngIf="relatedDeity('emblazonArmament')">
+                            Symbol of {{relatedDeity('emblazonArmament')}} ({{relatedAlignment('emblazonArmament')}})
                         </span>
                     </span>
                 </div>
             </ng-container>
         </ng-container>
-        <ng-container *ngIf="get_Displayed('emblazonEnergy')">
+        <ng-container *ngIf="isOptionAvailable('emblazonEnergy')">
             <ng-container
-                *ngFor="let disabled of [get_Disabled('emblazonEnergy', emblazonDivinity)]; trackBy:trackers.trackByIndex">
+                *ngFor="let disabled of [optionDisabledText('emblazonEnergy', emblazonDivinity)]; trackBy:trackers.trackByIndex">
                 <ng-template #EmblazonEnergyTemplate>
-                    <p [innerHtml]="get_Description(emblazonDivinity)"></p>
+                    <p [innerHtml]="effectDescription(emblazonDivinity)"></p>
                     <ul>
                         <li>
                             <strong>Shield</strong>
@@ -64,8 +64,7 @@
                 <div class="newrow left-aligned">
                     <span [ngbPopover]="disabled">
                         <input id="{{item.id}}emblazonEnergy" type="checkbox" [(ngModel)]="emblazonEnergyActivated"
-                            (ngModelChange)="on_Change('emblazonEnergy', emblazonDivinity)"
-                            [disabled]="disabled !== ''">
+                            (ngModelChange)="onChange('emblazonEnergy', emblazonDivinity)" [disabled]="disabled !== ''">
                         <label for="{{item.id}}emblazonEnergy">
                             <i class='ra ra-bolt-shield'></i>
                             Emblazon Energy
@@ -77,18 +76,18 @@
                             </option>
                         </select>
                         <i class="bi-question-circle" [ngbPopover]=EmblazonEnergyTemplate></i>
-                        <span class="lower" *ngIf="get_Deity('emblazonEnergy')">
-                            Symbol of {{get_Deity('emblazonEnergy')}} ({{get_Alignment('emblazonEnergy')}})
+                        <span class="lower" *ngIf="relatedDeity('emblazonEnergy')">
+                            Symbol of {{relatedDeity('emblazonEnergy')}} ({{relatedAlignment('emblazonEnergy')}})
                         </span>
                     </span>
                 </div>
             </ng-container>
         </ng-container>
-        <ng-container *ngIf="get_Displayed('emblazonAntimagic')">
+        <ng-container *ngIf="isOptionAvailable('emblazonAntimagic')">
             <ng-container
-                *ngFor="let disabled of [get_Disabled('emblazonAntimagic', emblazonDivinity)]; trackBy:trackers.trackByIndex">
+                *ngFor="let disabled of [optionDisabledText('emblazonAntimagic', emblazonDivinity)]; trackBy:trackers.trackByIndex">
                 <ng-template #EmblazonAntimagicTemplate>
-                    <p [innerHtml]="get_Description(emblazonDivinity)"></p>
+                    <p [innerHtml]="effectDescription(emblazonDivinity)"></p>
                     <ul>
                         <li>
                             <strong>Shield</strong>
@@ -108,15 +107,15 @@
                     <span [ngbPopover]="disabled">
                         <input id="{{item.id}}emblazonAntimagic" type="checkbox"
                             [(ngModel)]="emblazonAntimagicActivated"
-                            (ngModelChange)="on_Change('emblazonAntimagic', emblazonDivinity)"
+                            (ngModelChange)="onChange('emblazonAntimagic', emblazonDivinity)"
                             [disabled]="disabled !== ''">
                         <label for="{{item.id}}emblazonAntimagic">
                             <i class='ra ra-eye-shield'></i>
                             Emblazon Antimagic
                         </label>
                         <i class="bi-question-circle" [ngbPopover]=EmblazonAntimagicTemplate></i>
-                        <span class="lower" *ngIf="get_Deity('emblazonAntimagic')">
-                            Symbol of {{get_Deity('emblazonAntimagic')}} ({{get_Alignment('emblazonAntimagic')}})
+                        <span class="lower" *ngIf="relatedDeity('emblazonAntimagic')">
+                            Symbol of {{relatedDeity('emblazonAntimagic')}} ({{relatedAlignment('emblazonAntimagic')}})
                         </span>
                     </span>
                 </div>
