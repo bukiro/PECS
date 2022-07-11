@@ -4,122 +4,113 @@
     <header class="subsectionHeader">
         Emblazon Armament
     </header>
-    <ng-container *ngFor="let emblazonDivinity of [characterHasEmblazonDivinity()]; trackBy:trackers.trackByIndex">
-        <ng-container *ngIf="isOptionAvailable('emblazonArmament')">
-            <ng-container
-                *ngFor="let disabled of [optionDisabledText('emblazonArmament', emblazonDivinity)]; trackBy:trackers.trackByIndex">
-                <ng-template #EmblazonArmamentTemplate>
-                    <p [innerHtml]="effectDescription(emblazonDivinity)"></p>
-                    <ul>
-                        <li>
-                            <strong>Shield</strong>
-                            The shield gains a +1 status bonus to its Hardness. (This causes it to reduce more
-                            damage with the Shield Block reaction.)
-                        </li>
-                        <li>
-                            <strong>Weapon</strong>
-                            The wielder gains a +1 status bonus to damage rolls.
-                        </li>
-                    </ul>
-                </ng-template>
-                <div class="newrow left-aligned">
-                    <span [ngbPopover]="disabled">
-                        <input id="{{item.id}}emblazonArmament" type="checkbox" [(ngModel)]="emblazonArmamentActivated"
-                            (ngModelChange)="onChange('emblazonArmament', emblazonDivinity)"
-                            [disabled]="disabled !== ''">
-                        <label for="{{item.id}}emblazonArmament">
-                            <i class='ra ra-fire-shield'></i>
-                            Emblazon Armament
-                        </label>
-                        <i class="bi-question-circle" [ngbPopover]=EmblazonArmamentTemplate></i>
-                        <span class="lower" *ngIf="relatedDeity('emblazonArmament')">
-                            Symbol of {{relatedDeity('emblazonArmament')}} ({{relatedAlignment('emblazonArmament')}})
-                        </span>
+    <ng-container *ngIf="componentParameters() as componentParameters">
+        <ng-container *ngIf="componentParameters.isEmblazonArmamentAvailable">
+            <ng-template #EmblazonArmamentTemplate>
+                <p [innerHtml]="effectDescription(componentParameters.hasEmblazonDivinity)"></p>
+                <ul>
+                    <li>
+                        <strong>Shield</strong>
+                        The shield gains a +1 status bonus to its Hardness. (This causes it to reduce more
+                        damage with the Shield Block reaction.)
+                    </li>
+                    <li>
+                        <strong>Weapon</strong>
+                        The wielder gains a +1 status bonus to damage rolls.
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="newrow left-aligned">
+                <span [ngbPopover]="componentParameters.emblazonArmamentDisabledReason">
+                    <input id="{{item.id}}emblazonArmament" type="checkbox" [(ngModel)]="emblazonArmamentActivated"
+                        (ngModelChange)="onChange(emblazonArmament, componentParameters.hasEmblazonDivinity)"
+                        [disabled]="!!componentParameters.emblazonArmamentDisabledReason">
+                    <label for="{{item.id}}emblazonArmament">
+                        <i class='ra ra-fire-shield'></i>
+                        Emblazon Armament
+                    </label>
+                    <i class="bi-question-circle" [ngbPopover]=EmblazonArmamentTemplate></i>
+                    <span class="lower" *ngIf="relatedDeity(emblazonArmament)">
+                        Symbol of {{relatedDeity(emblazonArmament)}} ({{relatedAlignment(emblazonArmament)}})
                     </span>
-                </div>
-            </ng-container>
+                </span>
+            </div>
         </ng-container>
-        <ng-container *ngIf="isOptionAvailable('emblazonEnergy')">
-            <ng-container
-                *ngFor="let disabled of [optionDisabledText('emblazonEnergy', emblazonDivinity)]; trackBy:trackers.trackByIndex">
-                <ng-template #EmblazonEnergyTemplate>
-                    <p [innerHtml]="effectDescription(emblazonDivinity)"></p>
-                    <ul>
-                        <li>
-                            <strong>Shield</strong>
-                            Choose acid, cold, electricity, fire, or sonic. The wielder gain the shield's
-                            circumstance bonus to saving throws against that damage type and can use Shield
-                            Block against damage of that type. The shield also gains resistance to that damage
-                            type equal to half your level if you have a domain spell with a trait matching that
-                            type (such as fire).
-                        </li>
-                        <li>
-                            <strong>Weapon</strong>
-                            Choose acid, cold, electricity, fire, or sonic. The weapon deals an extra 1d4 damage
-                            of that type. Increase this extra damage to 1d6 if you have a domain spell with a
-                            trait matching that type (such as fire).
-                        </li>
-                    </ul>
-                </ng-template>
-                <div class="newrow left-aligned">
-                    <span [ngbPopover]="disabled">
-                        <input id="{{item.id}}emblazonEnergy" type="checkbox" [(ngModel)]="emblazonEnergyActivated"
-                            (ngModelChange)="onChange('emblazonEnergy', emblazonDivinity)" [disabled]="disabled !== ''">
-                        <label for="{{item.id}}emblazonEnergy">
-                            <i class='ra ra-bolt-shield'></i>
-                            Emblazon Energy
-                        </label>
-                        <select [(ngModel)]="emblazonEnergyChoice"
-                            [disabled]="disabled || !!item.emblazonArmament.length">
-                            <option *ngFor="let option of emblazonEnergyChoices; trackBy:trackers.trackByIndex">
-                                {{option}}
-                            </option>
-                        </select>
-                        <i class="bi-question-circle" [ngbPopover]=EmblazonEnergyTemplate></i>
-                        <span class="lower" *ngIf="relatedDeity('emblazonEnergy')">
-                            Symbol of {{relatedDeity('emblazonEnergy')}} ({{relatedAlignment('emblazonEnergy')}})
-                        </span>
+        <ng-container *ngIf="componentParameters.isEmblazonEnergyAvailable">
+            <ng-template #EmblazonEnergyTemplate>
+                <p [innerHtml]="effectDescription(componentParameters.hasEmblazonDivinity)"></p>
+                <ul>
+                    <li>
+                        <strong>Shield</strong>
+                        Choose acid, cold, electricity, fire, or sonic. The wielder gain the shield's
+                        circumstance bonus to saving throws against that damage type and can use Shield
+                        Block against damage of that type. The shield also gains resistance to that damage
+                        type equal to half your level if you have a domain spell with a trait matching that
+                        type (such as fire).
+                    </li>
+                    <li>
+                        <strong>Weapon</strong>
+                        Choose acid, cold, electricity, fire, or sonic. The weapon deals an extra 1d4 damage
+                        of that type. Increase this extra damage to 1d6 if you have a domain spell with a
+                        trait matching that type (such as fire).
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="newrow left-aligned">
+                <span [ngbPopover]="componentParameters.emblazonEnergyDisabledReason">
+                    <input id="{{item.id}}emblazonEnergy" type="checkbox" [(ngModel)]="emblazonEnergyActivated"
+                        (ngModelChange)="onChange(emblazonEnergy, componentParameters.hasEmblazonDivinity)"
+                        [disabled]="!!componentParameters.emblazonEnergyDisabledReason">
+                    <label for="{{item.id}}emblazonEnergy">
+                        <i class='ra ra-bolt-shield'></i>
+                        Emblazon Energy
+                    </label>
+                    <select [(ngModel)]="emblazonEnergyChoice"
+                        [disabled]="componentParameters.emblazonEnergyDisabledReason || !!item.emblazonArmament.length">
+                        <option *ngFor="let option of emblazonEnergyChoices; trackBy:trackers.trackByIndex">
+                            {{option}}
+                        </option>
+                    </select>
+                    <i class="bi-question-circle" [ngbPopover]=EmblazonEnergyTemplate></i>
+                    <span class="lower" *ngIf="relatedDeity(emblazonEnergy)">
+                        Symbol of {{relatedDeity(emblazonEnergy)}} ({{relatedAlignment(emblazonEnergy)}})
                     </span>
-                </div>
-            </ng-container>
+                </span>
+            </div>
         </ng-container>
-        <ng-container *ngIf="isOptionAvailable('emblazonAntimagic')">
-            <ng-container
-                *ngFor="let disabled of [optionDisabledText('emblazonAntimagic', emblazonDivinity)]; trackBy:trackers.trackByIndex">
-                <ng-template #EmblazonAntimagicTemplate>
-                    <p [innerHtml]="effectDescription(emblazonDivinity)"></p>
-                    <ul>
-                        <li>
-                            <strong>Shield</strong>
-                            When the wielder has the shield raised, they gain the shield's circumstance bonus to saving
-                            throws against magic, and they can use Shield Block against damage from their enemies'
-                            spells.
-                        </li>
-                        <li>
-                            <strong>Weapon</strong>
-                            When the weapon's wielder critically hits with the weapon, they can attempt to counteract a
-                            spell on their target, using half their level, rounded up, as the counteract level. If they
-                            attempt to do so, the emblazoned symbol immediately disappears.
-                        </li>
-                    </ul>
-                </ng-template>
-                <div class="newrow left-aligned">
-                    <span [ngbPopover]="disabled">
-                        <input id="{{item.id}}emblazonAntimagic" type="checkbox"
-                            [(ngModel)]="emblazonAntimagicActivated"
-                            (ngModelChange)="onChange('emblazonAntimagic', emblazonDivinity)"
-                            [disabled]="disabled !== ''">
-                        <label for="{{item.id}}emblazonAntimagic">
-                            <i class='ra ra-eye-shield'></i>
-                            Emblazon Antimagic
-                        </label>
-                        <i class="bi-question-circle" [ngbPopover]=EmblazonAntimagicTemplate></i>
-                        <span class="lower" *ngIf="relatedDeity('emblazonAntimagic')">
-                            Symbol of {{relatedDeity('emblazonAntimagic')}} ({{relatedAlignment('emblazonAntimagic')}})
-                        </span>
+        <ng-container *ngIf="componentParameters.isEmblazonAntimagicAvailable">
+            <ng-template #EmblazonAntimagicTemplate>
+                <p [innerHtml]="effectDescription(componentParameters.hasEmblazonDivinity)"></p>
+                <ul>
+                    <li>
+                        <strong>Shield</strong>
+                        When the wielder has the shield raised, they gain the shield's circumstance bonus to saving
+                        throws against magic, and they can use Shield Block against damage from their enemies'
+                        spells.
+                    </li>
+                    <li>
+                        <strong>Weapon</strong>
+                        When the weapon's wielder critically hits with the weapon, they can attempt to counteract a
+                        spell on their target, using half their level, rounded up, as the counteract level. If they
+                        attempt to do so, the emblazoned symbol immediately disappears.
+                    </li>
+                </ul>
+            </ng-template>
+            <div class="newrow left-aligned">
+                <span [ngbPopover]="componentParameters.emblazonAntimagicDisabledReason">
+                    <input id="{{item.id}}emblazonAntimagic" type="checkbox" [(ngModel)]="emblazonAntimagicActivated"
+                        (ngModelChange)="onChange(emblazonAntimagic, componentParameters.hasEmblazonDivinity)"
+                        [disabled]="componentParameters.emblazonAntimagicDisabledReason !== ''">
+                    <label for="{{item.id}}emblazonAntimagic">
+                        <i class='ra ra-eye-shield'></i>
+                        Emblazon Antimagic
+                    </label>
+                    <i class="bi-question-circle" [ngbPopover]=EmblazonAntimagicTemplate></i>
+                    <span class="lower" *ngIf="relatedDeity(emblazonAntimagic)">
+                        Symbol of {{relatedDeity(emblazonAntimagic)}} ({{relatedAlignment(emblazonAntimagic)}})
                     </span>
-                </div>
-            </ng-container>
+                </span>
+            </div>
         </ng-container>
     </ng-container>
 </div>

@@ -76,6 +76,9 @@ import { ItemEmblazonArmamentComponent } from 'src/app/components/item/itemEmbla
 import { TraitComponent } from 'src/app/components/trait/trait.component';
 import { AboutComponent } from 'src/app/components/character/about/about.component';
 import { AppInitService } from './core/services/app-init/app-init.service';
+import { ItemMaterialArmorComponent } from './components/item/itemMaterialOptions/itemMaterialArmor.component';
+import { ItemMaterialShieldComponent } from './components/item/itemMaterialOptions/itemMaterialShield.component';
+import { ItemMaterialWeaponComponent } from './components/item/itemMaterialOptions/itemMaterialWeapon.component';
 
 @NgModule({
     declarations: [
@@ -147,6 +150,9 @@ import { AppInitService } from './core/services/app-init/app-init.service';
         ItemEmblazonArmamentComponent,
         TraitComponent,
         AboutComponent,
+        ItemMaterialArmorComponent,
+        ItemMaterialShieldComponent,
+        ItemMaterialWeaponComponent,
     ],
     imports: [
         CommonModule,

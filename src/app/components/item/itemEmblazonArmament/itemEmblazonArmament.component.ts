@@ -11,6 +11,20 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
+const emblazonArmament = 'emblazonArmament';
+const emblazonEnergy = 'emblazonEnergy';
+const emblazonAntimagic = 'emblazonAntimagic';
+
+interface ComponentParameters {
+    hasEmblazonDivinity: boolean;
+    isEmblazonArmamentAvailable: boolean;
+    emblazonArmamentDisabledReason: string;
+    isEmblazonEnergyAvailable: boolean;
+    emblazonEnergyDisabledReason: string;
+    isEmblazonAntimagicAvailable: boolean;
+    emblazonAntimagicDisabledReason: string;
+}
+
 @Component({
     selector: 'app-itemEmblazonArmament',
     templateUrl: './itemEmblazonArmament.component.html',
@@ -28,6 +42,10 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     public emblazonEnergyChoices: Array<string> = ['Acid', 'Cold', 'Electricity', 'Fire', 'Sonic'];
     public emblazonAntimagicActivated = false;
 
+    public emblazonArmament = emblazonArmament;
+    public emblazonEnergy = emblazonEnergy;
+    public emblazonAntimagic = emblazonAntimagic;
+
     public newPropertyRune: { rune: Rune; disabled?: boolean };
 
     constructor(
@@ -40,63 +58,21 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         return this._characterService.character;
     }
 
-    public characterHasEmblazonDivinity(): boolean {
-        return this._characterService.characterHasFeat('Emblazon Divinity');
-    }
+    public componentParameters(): ComponentParameters {
+        const hasEmblazonDivinity = this._characterHasEmblazonDivinity();
+        const isEmblazonArmamentAvailable = this._isOptionAvailable(emblazonArmament);
+        const isEmblazonEnergyAvailable = this._isOptionAvailable(emblazonEnergy);
+        const isEmblazonAntimagicAvailable = this._isOptionAvailable(emblazonAntimagic);
 
-    public isOptionAvailable(type: string): boolean {
-        if (this.item.emblazonArmament.some(ea => ea.type === type)) {
-            return true;
-        } else {
-            switch (type) {
-                case 'emblazonArmament':
-                    return this._characterService.characterHasFeat('Emblazon Armament');
-                case 'emblazonEnergy':
-                    return this._characterService.characterHasFeat('Emblazon Energy');
-                case 'emblazonAntimagic':
-                    return this._characterService.characterHasFeat('Emblazon Antimagic');
-                default: return false;
-            }
-        }
-    }
-
-    public optionDisabledText(type: string, emblazonDivinity: boolean): string {
-        const character = this._character;
-        const limitWithEmblazonDivinity = 4;
-        const normalLimit = 1;
-
-        if (!this.item.emblazonArmament.some(ea => ea.type === type)) {
-            if (!character.class.deity) {
-                return 'You are not following a deity.';
-            }
-
-            let itemsEmblazonedAmount = 0;
-
-            character.inventories.forEach(inv => {
-                itemsEmblazonedAmount +=
-                    inv.weapons
-                        .filter(weapon => weapon !== this.item && weapon.emblazonArmament.some(ea => ea.source === character.id))
-                        .length;
-                itemsEmblazonedAmount +=
-                    inv.shields
-                        .filter(shield => shield !== this.item && shield.emblazonArmament.some(ea => ea.source === character.id))
-                        .length;
-            });
-
-            if (emblazonDivinity && itemsEmblazonedAmount >= limitWithEmblazonDivinity) {
-                return 'You already have the maximum of 4 items emblazoned with your deity\'s symbol.';
-            }
-
-            if (!emblazonDivinity && itemsEmblazonedAmount >= normalLimit) {
-                return 'Another item is already emblazoned with your deity\'s symbol.';
-            }
-
-            if (this.item.emblazonArmament.some(ea => ea.type !== type)) {
-                return 'This item is already bearing a different symbol.';
-            }
-        }
-
-        return '';
+        return {
+            hasEmblazonDivinity,
+            isEmblazonArmamentAvailable,
+            isEmblazonEnergyAvailable,
+            isEmblazonAntimagicAvailable,
+            emblazonArmamentDisabledReason: this._optionDisabledReason(emblazonArmament, hasEmblazonDivinity),
+            emblazonEnergyDisabledReason: this._optionDisabledReason(emblazonEnergy, hasEmblazonDivinity),
+            emblazonAntimagicDisabledReason: this._optionDisabledReason(emblazonAntimagic, hasEmblazonDivinity),
+        };
     }
 
     public effectDescription(emblazonDivinity: boolean): string {
@@ -149,7 +125,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         coreHint.replaceSource = [{ source: 'Emblazon Armament', type: 'feat' }];
 
         switch (type) {
-            case 'emblazonArmament':
+            case emblazonArmament:
                 if (this.emblazonArmamentActivated) {
                     const deity = this._characterService.currentCharacterDeities(character)[0];
 
@@ -179,7 +155,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 }
 
                 break;
-            case 'emblazonEnergy':
+            case emblazonEnergy:
                 if (this.emblazonEnergyActivated) {
                     const deity = this._characterService.currentCharacterDeities(character)[0];
 
@@ -252,7 +228,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 }
 
                 break;
-            case 'emblazonAntimagic':
+            case emblazonAntimagic:
                 if (this.emblazonAntimagicActivated) {
                     const deity = this._characterService.currentCharacterDeities(character)[0];
 
@@ -353,10 +329,69 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.emblazonArmamentActivated = this.item.emblazonArmament.some(ea => ea.type === 'emblazonArmament');
-        this.emblazonEnergyActivated = this.item.emblazonArmament.some(ea => ea.type === 'emblazonEnergy');
-        this.emblazonEnergyChoice = this.item.emblazonArmament.find(ea => ea.type === 'emblazonEnergy')?.choice || 'Acid';
-        this.emblazonAntimagicActivated = this.item.emblazonArmament.some(ea => ea.type === 'emblazonAntimagic');
+        this.emblazonArmamentActivated = this.item.emblazonArmament.some(ea => ea.type === emblazonArmament);
+        this.emblazonEnergyActivated = this.item.emblazonArmament.some(ea => ea.type === emblazonEnergy);
+        this.emblazonEnergyChoice = this.item.emblazonArmament.find(ea => ea.type === emblazonEnergy)?.choice || 'Acid';
+        this.emblazonAntimagicActivated = this.item.emblazonArmament.some(ea => ea.type === emblazonAntimagic);
+    }
+
+    private _characterHasEmblazonDivinity(): boolean {
+        return this._characterService.characterHasFeat('Emblazon Divinity');
+    }
+
+    private _isOptionAvailable(type: string): boolean {
+        if (this.item.emblazonArmament.some(ea => ea.type === type)) {
+            return true;
+        } else {
+            switch (type) {
+                case emblazonArmament:
+                    return this._characterService.characterHasFeat('Emblazon Armament');
+                case emblazonEnergy:
+                    return this._characterService.characterHasFeat('Emblazon Energy');
+                case emblazonAntimagic:
+                    return this._characterService.characterHasFeat('Emblazon Antimagic');
+                default: return false;
+            }
+        }
+    }
+
+    private _optionDisabledReason(type: string, emblazonDivinity: boolean): string {
+        const character = this._character;
+        const limitWithEmblazonDivinity = 4;
+        const normalLimit = 1;
+
+        if (!this.item.emblazonArmament.some(ea => ea.type === type)) {
+            if (!character.class.deity) {
+                return 'You are not following a deity.';
+            }
+
+            let itemsEmblazonedAmount = 0;
+
+            character.inventories.forEach(inv => {
+                itemsEmblazonedAmount +=
+                    inv.weapons
+                        .filter(weapon => weapon !== this.item && weapon.emblazonArmament.some(ea => ea.source === character.id))
+                        .length;
+                itemsEmblazonedAmount +=
+                    inv.shields
+                        .filter(shield => shield !== this.item && shield.emblazonArmament.some(ea => ea.source === character.id))
+                        .length;
+            });
+
+            if (emblazonDivinity && itemsEmblazonedAmount >= limitWithEmblazonDivinity) {
+                return 'You already have the maximum of 4 items emblazoned with your deity\'s symbol.';
+            }
+
+            if (!emblazonDivinity && itemsEmblazonedAmount >= normalLimit) {
+                return 'Another item is already emblazoned with your deity\'s symbol.';
+            }
+
+            if (this.item.emblazonArmament.some(ea => ea.type !== type)) {
+                return 'This item is already bearing a different symbol.';
+            }
+        }
+
+        return '';
     }
 
 }
