@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/classes/Item';
@@ -9,93 +9,87 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Character } from 'src/app/classes/Character';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+
+interface OilSet {
+    oil: Oil;
+    inv: ItemCollection;
+}
 
 @Component({
     selector: 'app-itemOils',
     templateUrl: './itemOils.component.html',
     styleUrls: ['./itemOils.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemOilsComponent {
 
     @Input()
-    item: Item;
+    public item: Item;
     @Input()
-    itemStore = false;
-    newOil: { oil: Oil; inv: ItemCollection } = { oil: new Oil(), inv: null };
+    public itemStore = false;
+    public newOil: OilSet = { oil: new Oil(), inv: null };
 
     public newPropertyRuneName: Array<string> = ['', '', ''];
 
     constructor(
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly itemsService: ItemsService,
-        private readonly activitiesService: ActivitiesDataService,
-        private readonly timeService: TimeService,
-        private readonly typeService: TypeService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _itemsService: ItemsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _timeService: TimeService,
+        private readonly _typeService: TypeService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    private get _character(): Character {
+        return this._characterService.character;
     }
 
-    get_Character() {
-        return this.characterService.character;
+    public durationDescription(turns: number): string {
+        return this._timeService.durationDescription(turns);
     }
 
-    get_CleanItems() {
-        return this.itemsService.cleanItems();
-    }
-
-    get_Duration(turns: number) {
-        return this.timeService.durationDescription(turns);
-    }
-
-    get_Oils() {
+    public availableOils(): Array<OilSet> {
         const item = this.item;
-        const allOils: Array<{ oil: Oil; inv: ItemCollection }> = [{ oil: new Oil(), inv: null }];
+        const allOils: Array<OilSet> = [{ oil: new Oil(), inv: null }];
 
         allOils[0].oil.name = '';
 
         if (this.itemStore) {
-            allOils.push(...this.get_CleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil, inv: null })));
+            allOils.push(...this._itemsService.cleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil, inv: null })));
         } else {
-            this.get_Character().inventories.forEach(inv => {
+            this._character.inventories.forEach(inv => {
                 allOils.push(...inv.oils.filter(oil => oil.targets.length && oil.amount).map(oil => ({ oil, inv })));
             });
         }
 
         return allOils.filter(
-            (oil: { oil: Oil; inv: ItemCollection }, index) =>
-                index == 0 ||
+            (oil: OilSet, index) =>
+                index === 0 ||
                 (
                     oil.oil.targets.length && (
                         oil.oil.targets.includes(item.type) ||
                         oil.oil.targets.includes('items')
                     ) && (
-                        oil.oil.weightLimit ?
-                            (
-                                !(parseInt(item.bulk, 10)) ||
-                                (
-                                    item.bulk && parseInt(item.bulk, 10) <= oil.oil.weightLimit
-                                )
-                            )
+                        oil.oil.weightLimit
+                            ? !parseInt(item.bulk, 10) || (item.bulk && parseInt(item.bulk, 10) <= oil.oil.weightLimit)
                             : true
                     ) && (
-                        oil.oil.rangereq ?
-                            (
-                                item[oil.oil.rangereq]
-                            )
+                        oil.oil.rangereq
+                            ? item[oil.oil.rangereq]
                             : true
                     ) && (
-                        oil.oil.damagereq ?
+                        oil.oil.damagereq
+                            ? item instanceof Weapon &&
+                            item.dmgType &&
                             (
-                                item instanceof Weapon &&
-                                item.dmgType &&
-                                (
-                                    oil.oil.damagereq.split('')
-                                        .filter(req => item instanceof Weapon && item.dmgType.includes(req)).length ||
-                                    item.dmgType == 'modular'
-                                )
+                                item.dmgType === 'modular' ||
+                                oil.oil.damagereq
+                                    .split('')
+                                    .some(req => item.dmgType.includes(req))
                             )
                             : true
                     )
@@ -103,38 +97,51 @@ export class ItemOilsComponent {
         );
     }
 
-    add_Oil() {
+    public onSelectOil(): void {
         if (this.newOil.oil.name) {
             const item = this.item;
-            const newLength = item.oilsApplied.push(Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this.newOil.oil))).recast(this.typeService, this.itemsService));
+            const newLength = item.oilsApplied.push(
+                Object.assign(
+                    new Oil(),
+                    JSON.parse(JSON.stringify(this.newOil.oil)),
+                ).recast(this._typeService, this._itemsService),
+            );
 
             if (this.newOil.inv) {
-                this.characterService.dropInventoryItem(this.get_Character(), this.newOil.inv, this.newOil.oil, false, false, false, 1);
+                this._characterService.dropInventoryItem(this._character, this.newOil.inv, this.newOil.oil, false, false, false, 1);
             }
 
             //Add RuneLore if the oil's Rune Effect includes one
             if (item.oilsApplied[newLength - 1].runeEffect && item.oilsApplied[newLength - 1].runeEffect.loreChoices.length) {
-                this.characterService.addRuneLore(item.oilsApplied[newLength - 1].runeEffect);
+                this._characterService.addRuneLore(item.oilsApplied[newLength - 1].runeEffect);
             }
 
             this.newOil = { oil: new Oil(), inv: null };
             this.newOil.oil.name = '';
-            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-            this.refreshService.prepareChangesByItem(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
-            this.refreshService.processPreparedChanges();
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
+            this._refreshService.prepareChangesByItem(
+                this._character,
+                this.item,
+                { characterService: this._characterService, activitiesService: this._activitiesService },
+            );
+            this._refreshService.processPreparedChanges();
         }
     }
 
-    remove_Oil(index: number) {
+    public onRemoveOil(index: number): void {
         //Remove RuneLore if applicable.
         if (this.item.oilsApplied[index].runeEffect && this.item.oilsApplied[index].runeEffect.loreChoices.length) {
-            this.characterService.removeRuneLore(this.item.oilsApplied[index].runeEffect);
+            this._characterService.removeRuneLore(this.item.oilsApplied[index].runeEffect);
         }
 
         this.item.oilsApplied.splice(index, 1);
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-        this.refreshService.prepareChangesByItem(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
-        this.refreshService.processPreparedChanges();
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
+        this._refreshService.prepareChangesByItem(
+            this._character,
+            this.item,
+            { characterService: this._characterService, activitiesService: this._activitiesService },
+        );
+        this._refreshService.processPreparedChanges();
     }
 
 }
