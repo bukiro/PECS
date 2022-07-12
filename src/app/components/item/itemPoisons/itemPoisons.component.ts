@@ -1,94 +1,119 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { TimeService } from 'src/app/services/time.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Character } from 'src/app/classes/Character';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+
+interface PoisonSet {
+    poison: AlchemicalPoison;
+    inv: ItemCollection;
+}
 
 @Component({
     selector: 'app-itemPoisons',
     templateUrl: './itemPoisons.component.html',
     styleUrls: ['./itemPoisons.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemPoisonsComponent {
 
     @Input()
-    item: Weapon;
+    public item: Weapon;
     @Input()
-    itemStore = false;
-    newPoison: { poison: AlchemicalPoison; inv: ItemCollection } = { poison: new AlchemicalPoison(), inv: null };
+    public itemStore = false;
+    public newPoison: PoisonSet = { poison: new AlchemicalPoison(), inv: null };
 
     public newPropertyRuneName: Array<string> = ['', '', ''];
 
     constructor(
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly itemsService: ItemsService,
-        private readonly activitiesService: ActivitiesDataService,
-        private readonly timeService: TimeService,
-        private readonly typeService: TypeService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _itemsService: ItemsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _typeService: TypeService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    private get _character(): Character {
+        return this._characterService.character;
     }
 
-    get_Character() {
-        return this.characterService.character;
-    }
-
-    get_CleanItems() {
-        return this.itemsService.cleanItems();
-    }
-
-    get_Duration(turns: number) {
-        return this.timeService.durationDescription(turns);
-    }
-
-    get_Poisons() {
-        const allPoisons: Array<{ poison: AlchemicalPoison; inv: ItemCollection }> = [{ poison: new AlchemicalPoison(), inv: null }];
+    public availablePoisons(): Array<PoisonSet> {
+        const allPoisons: Array<PoisonSet> = [{ poison: new AlchemicalPoison(), inv: null }];
 
         allPoisons[0].poison.name = '';
 
         if (this.itemStore) {
-            allPoisons.push(...this.get_CleanItems().alchemicalpoisons.filter(poison => poison.traits.includes('Injury')).map(poison => ({ poison, inv: null })));
+            allPoisons.push(
+                ...this._itemsService.cleanItems().alchemicalpoisons
+                    .filter(poison => poison.traits.includes('Injury'))
+                    .map(poison => ({ poison, inv: null })),
+            );
         } else {
-            this.get_Character().inventories.forEach(inv => {
-                allPoisons.push(...inv.alchemicalpoisons.filter(poison => poison.traits.includes('Injury')).map(poison => ({ poison, inv })));
+            this._character.inventories.forEach(inv => {
+                allPoisons.push(
+                    ...inv.alchemicalpoisons
+                        .filter(poison => poison.traits.includes('Injury'))
+                        .map(poison => ({ poison, inv })),
+                );
             });
         }
 
         return allPoisons;
     }
 
-    add_Poison() {
+    public onSelectPoison(): void {
         if (this.newPoison.poison.name) {
             const item = this.item;
 
             item.poisonsApplied.length = 0;
-            item.poisonsApplied.push(Object.assign<AlchemicalPoison, AlchemicalPoison>(new AlchemicalPoison(), JSON.parse(JSON.stringify(this.newPoison.poison))).recast(this.typeService, this.itemsService));
+            item.poisonsApplied.push(
+                Object.assign(
+                    new AlchemicalPoison(),
+                    JSON.parse(JSON.stringify(this.newPoison.poison)),
+                ).recast(this._typeService, this._itemsService),
+            );
 
             if (this.newPoison.inv) {
-                this.characterService.dropInventoryItem(this.get_Character(), this.newPoison.inv, this.newPoison.poison, false, false, false, 1);
+                this._characterService.dropInventoryItem(
+                    this._character,
+                    this.newPoison.inv,
+                    this.newPoison.poison,
+                    false,
+                    false,
+                    false,
+                    1,
+                );
             }
 
             this.newPoison = { poison: new AlchemicalPoison(), inv: null };
             this.newPoison.poison.name = '';
-            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-            this.refreshService.prepareChangesByItem(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
-            this.refreshService.processPreparedChanges();
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
+            this._refreshService.prepareChangesByItem(
+                this._character,
+                this.item,
+                { characterService: this._characterService, activitiesService: this._activitiesService },
+            );
+            this._refreshService.processPreparedChanges();
         }
     }
 
-    remove_Poison(index: number) {
+    public onRemovePoison(index: number): void {
         this.item.poisonsApplied.splice(index, 1);
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-        this.refreshService.prepareChangesByItem(this.get_Character(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
-        this.refreshService.processPreparedChanges();
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
+        this._refreshService.prepareChangesByItem(
+            this._character,
+            this.item,
+            { characterService: this._characterService, activitiesService: this._activitiesService },
+        );
+        this._refreshService.processPreparedChanges();
     }
 
 }
