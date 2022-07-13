@@ -20,12 +20,23 @@ export class ItemMaterialComponent {
     @Input()
     public customItemStore = false;
 
+    private _itemRoles?: ItemRoles;
+
     constructor(
         private readonly _itemRolesService: ItemRolesService,
     ) { }
 
-    public itemRoles(): ItemRoles {
-        return this._itemRolesService.getItemRoles(this.item);
+    public get itemRoles(): ItemRoles {
+        if (!this._itemRoles) {
+            this._itemRoles = this._itemRolesService.getItemRoles(this.item);
+        }
+
+        return this._itemRoles;
+    }
+
+    @Input()
+    public set itemRoles(roles: ItemRoles) {
+        this._itemRoles = roles;
     }
 
 }

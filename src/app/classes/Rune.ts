@@ -23,6 +23,9 @@ export class Rune extends Item {
     public usage = '';
     public readonly allowEquippable = false;
     public readonly equippable = false;
+    public get secondary(): number {
+        return 0;
+    }
     public recast(typeService: TypeService, itemsService: ItemsService): Rune {
         super.recast(typeService, itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());

@@ -12,6 +12,9 @@ export class ArmorRune extends Rune {
     public profreq: Array<string> = [];
     /** If this is set, the armor rune can only be applied to a nonmetallic armor. */
     public nonmetallic = false;
+    public get secondary(): number {
+        return this.resilient;
+    }
     public recast(typeService: TypeService, itemsService: ItemsService): ArmorRune {
         super.recast(typeService, itemsService);
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());

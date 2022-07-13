@@ -1,6 +1,6 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <!--Changing Weapon Material-->
-<ng-container *ngIf="itemRoles() as itemRoles">
+<ng-container *ngIf="itemRoles as itemRoles">
     <app-itemMaterialArmor *ngIf="itemRoles.asArmor" [item]="itemRoles.asArmor" [craftingStation]="craftingStation"
         [customItemStore]="customItemStore"></app-itemMaterialArmor>
     <app-itemMaterialShield *ngIf="itemRoles.asShield" [item]="itemRoles.asShield" [craftingStation]="craftingStation"

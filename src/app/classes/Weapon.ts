@@ -24,6 +24,7 @@ import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficien
 import { MaxSkillLevel, skillLevelBaseStep } from 'src/libs/shared/definitions/skillLevels';
 import { SignNumber } from 'src/libs/shared/util/numberUtils';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
+import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 
 export interface AttackResult {
     range: string;
@@ -120,6 +121,12 @@ export class Weapon extends Equipment {
     public $traits: Array<string> = [];
     /** Shoddy weapons take a -2 penalty to attacks. */
     public $shoddy: ShoddyPenalties = ShoddyPenalties.NotShoddy;
+    public get secondaryRune(): BasicRuneLevels {
+        return this.strikingRune;
+    }
+    public set secondaryRune(value: BasicRuneLevels) {
+        this.strikingRune = value;
+    }
     public recast(typeService: TypeService, itemsService: ItemsService): Weapon {
         super.recast(typeService, itemsService);
         this.poisonsApplied =
@@ -1447,6 +1454,9 @@ export class Weapon extends Equipment {
         }
 
         return specializations;
+    }
+    public secondaryRuneTitle(secondary: number): string {
+        return this.strikingTitle(secondary);
     }
     protected _secondaryRuneName(): string {
         return this.strikingTitle(this.effectiveStriking());

@@ -115,7 +115,8 @@
                 <div class="newrow" *ngIf="!get_PreparedItems('snarespecialist').length">
                     You don't have any snares prepared for quick deployment.
                 </div>
-                <ng-container *ngFor="let preparedItem of get_PreparedItems('snarespecialist'); trackBy:trackers.trackByIndex;">
+                <ng-container
+                    *ngFor="let preparedItem of get_PreparedItems('snarespecialist'); trackBy:trackers.trackByIndex;">
                     <div class="list-item"
                         *ngFor="let inventoryID of ['snarespecialist'+preparedItem.item.id]; trackBy:trackers.trackByIndex;">
                         <button class="newrow sublist-toggle" (click)="toggle_Item(inventoryID)"
@@ -154,7 +155,8 @@
                 <app-objectEffects [creature]="creature" [objectName]="'Max Invested'"></app-objectEffects>
             </div>
         </ng-template>
-        <div class="fullsize-only list-item" *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackers.trackByIndex;">
+        <div class="fullsize-only list-item"
+            *ngFor="let maxInvested of [get_MaxInvested()]; trackBy:trackers.trackByIndex;">
             <strong>Invested</strong>
             <div class="value" [ngClass]="{'problem':(get_Invested() > maxInvested.value)}">
                 {{get_Invested()}}
@@ -637,7 +639,8 @@
                                                 <app-itemRunes class="newrow"
                                                     [ngbCollapse]="!itemParameters.asRuneChangeable.showRunes"
                                                     *ngIf="itemParameters.asRuneChangeable"
-                                                    [item]="itemParameters.asRuneChangeable" [itemStore]=false>
+                                                    [item]="itemParameters.asRuneChangeable" [itemStore]=false
+                                                    [itemRoles]="itemParameters">
                                                 </app-itemRunes>
                                                 <!--Changing Status-->
                                                 <div class="list-item newrow left-aligned"

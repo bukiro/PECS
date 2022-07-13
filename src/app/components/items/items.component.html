@@ -280,12 +280,13 @@
                                                                 </button>
                                                                 <app-itemMaterial
                                                                     [item]="itemParameters.asMaterialChangeable"
+                                                                    [itemRoles]="itemParameters"
                                                                     [craftingStation]="false"
                                                                     *ngIf="itemParameters.asMaterialChangeable">
                                                                 </app-itemMaterial>
-                                                                <app-itemRunes [item]="itemParameters.asRuneChangeable"
-                                                                    [itemStore]=true
-                                                                    *ngIf="itemParameters.asRuneChangeable">
+                                                                <app-itemRunes *ngIf="itemParameters.asRuneChangeable"
+                                                                    [item]="itemParameters.asRuneChangeable"
+                                                                    [itemStore]=true [itemRoles]="itemParameters">
                                                                 </app-itemRunes>
                                                                 <app-itemTalismans
                                                                     [item]="itemParameters.asTalismanChangeable"
@@ -403,7 +404,8 @@
                                     <span><strong>Type</strong></span>
                                     <span>
                                         <select [(ngModel)]="newItemType" (ngModelChange)="initialize_NewItem()">
-                                            <option *ngFor="let name of get_NewItemFilter(); trackBy:trackers.trackByIndex;"
+                                            <option
+                                                *ngFor="let name of get_NewItemFilter(); trackBy:trackers.trackByIndex;"
                                                 [ngValue]="name.key">
                                                 {{name.name}}
                                             </option>
@@ -442,15 +444,17 @@
                                                 [newItem]=newItem></app-newItemProperty>
                                         </ng-container>
                                     </ng-container>
-                                    <div class="list-item newrow" *ngIf="itemAsMaterialChangeable(newItem)">
+                                    <div class="list-item newrow"
+                                        *ngIf="itemAsMaterialChangeable(newItem) as itemAsMaterialChangeable">
                                         <strong>Material</strong>
-                                        <app-itemMaterial class="newrow" [item]="itemAsMaterialChangeable(newItem)"
+                                        <app-itemMaterial class="newrow" [item]="itemAsMaterialChangeable"
                                             [craftingStation]="false" [customItemStore]="true"></app-itemMaterial>
                                     </div>
-                                    <div class="list-item newrow" *ngIf="itemAsRuneChangeable(newItem)">>
+                                    <div class="list-item newrow"
+                                        *ngIf="itemAsRuneChangeable(newItem) as itemAsRuneChangeable">>
                                         <strong>Runes</strong>
-                                        <app-itemRunes class="newrow" [item]="itemAsRuneChangeable(newItem)"
-                                            [itemStore]="true" [customItemStore]="true">
+                                        <app-itemRunes class="newrow" [item]="itemAsRuneChangeable" [itemStore]="true"
+                                            [customItemStore]="true">
                                         </app-itemRunes>
                                     </div>
                                     <div class="list-item newrow">

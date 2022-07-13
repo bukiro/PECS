@@ -24,6 +24,9 @@ export class WeaponRune extends Rune {
     public success = '';
     /** Can only be applied to a weapon with this trait. */
     public traitreq = '';
+    public get secondary(): number {
+        return this.striking;
+    }
     public recast(typeService: TypeService, itemsService: ItemsService): WeaponRune {
         super.recast(typeService, itemsService);
 

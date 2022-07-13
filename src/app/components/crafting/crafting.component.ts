@@ -40,7 +40,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     public id = 0;
     public wordFilter = '';
     public sorting: SortingOption = 'sortLevel';
-    public creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     public cash = {
         platinum: 0,
         gold: 0,

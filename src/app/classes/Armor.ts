@@ -18,6 +18,7 @@ import { Rune } from 'src/app/classes/Rune';
 import { Item } from './Item';
 import { AdventuringGear } from './AdventuringGear';
 import { MaxSkillLevel } from '../../libs/shared/definitions/skillLevels';
+import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 
 enum ShoddyPenalties {
     NotShoddy = 0,
@@ -63,6 +64,12 @@ export class Armor extends Equipment {
     private readonly skillpenalty = 0;
     /** The strength requirement (strength, not STR) to overcome skill and speed penalties. */
     private readonly strength = 0;
+    public get secondaryRune(): BasicRuneLevels {
+        return this.resilientRune;
+    }
+    public set secondaryRune(value: BasicRuneLevels) {
+        this.resilientRune = value;
+    }
     public recast(typeService: TypeService, itemsService: ItemsService): Armor {
         super.recast(typeService, itemsService);
         this.propertyRunes =
@@ -340,6 +347,9 @@ export class Armor extends Equipment {
     public effectsGenerationHints(): Array<HintEffectsObject> {
         return super.effectsGenerationHints()
             .concat(...this.propertyRunes.map(rune => rune.effectsGenerationHints()));
+    }
+    public secondaryRuneTitle(secondary: number): string {
+        return this.resilientTitle(secondary);
     }
     protected _secondaryRuneName(): string {
         return this.resilientTitle(this.effectiveResilient());

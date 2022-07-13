@@ -87,18 +87,25 @@ export class Equipment extends Item {
     /** Amount of propertyRunes you can still apply */
     public get freePropertyRunes(): number {
         //You can apply as many property runes as the level of your potency rune. Each rune with the Saggorak trait counts double.
+        const saggorak = this.propertyRunes.filter(rune => rune.traits.includes('Saggorak')).length;
+
         let runes =
-            this.potencyRune - this.propertyRunes.length - this.propertyRunes.filter(rune => rune.traits.includes('Saggorak')).length;
+            this.potencyRune - this.propertyRunes.length - saggorak;
+
         //Material can allow you to have four runes instead of three.
         const extraRune = this.material?.[0]?.extraRune || 0;
 
         if (this.potencyRune === BasicRuneLevels.Third && extraRune) {
-            for (let index = 0; index < extraRune; index++) {
-                runes++;
-            }
+            runes += extraRune;
         }
 
         return runes;
+    }
+    public get secondaryRune(): BasicRuneLevels {
+        return BasicRuneLevels.None;
+    }
+    public set secondaryRune(value: BasicRuneLevels) {
+        return;
     }
     public recast(typeService: TypeService, itemsService: ItemsService): Equipment {
         super.recast(typeService, itemsService);
@@ -324,6 +331,9 @@ export class Equipment extends Item {
         return convertHints(this)
             .concat(...this.oilsApplied.map(oil => convertHints(oil)))
             .concat(...this.material.map(material => convertHints(material)));
+    }
+    public secondaryRuneTitle(secondary: number): string {
+        return secondary.toString();
     }
     protected _secondaryRuneName(): string {
         //Weapons, Armors and Worn Items that can bear runes have their own version of this method.

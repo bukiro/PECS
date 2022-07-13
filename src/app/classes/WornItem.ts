@@ -11,6 +11,7 @@ import { Item } from './Item';
 import { LanguageGain } from './LanguageGain';
 import { Talisman } from './Talisman';
 import { MaxSpellLevel } from 'src/libs/shared/definitions/spellLevels';
+import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 
 export interface RingOfWizardrySlot {
     tradition: string;
@@ -56,6 +57,12 @@ export class WornItem extends Equipment {
     public isRingOfWizardry: Array<RingOfWizardrySlot> = [];
     /** Is this a pair of Bracers of Armor and lets you attach talismans like a light armor? */
     public isBracersOfArmor = false;
+    public get secondaryRune(): BasicRuneLevels {
+        return this.strikingRune;
+    }
+    public set secondaryRune(value: BasicRuneLevels) {
+        this.strikingRune = value;
+    }
     public recast(typeService: TypeService, itemsService: ItemsService): WornItem {
         super.recast(typeService, itemsService);
         this.aeonStones =
@@ -166,6 +173,9 @@ export class WornItem extends Equipment {
         return super.effectsGenerationHints()
             .filter(hintSet => hintSet.hint.resonant ? this.isSlottedAeonStone : true)
             .concat(...this.aeonStones.map(stone => stone.effectsGenerationHints()));
+    }
+    public secondaryRuneTitle(secondary: number): string {
+        return this.strikingTitle(secondary);
     }
     protected _secondaryRuneName(): string {
         return this.strikingTitle(this.effectiveStriking());
