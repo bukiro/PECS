@@ -50,7 +50,7 @@
                     <ng-container *ngFor="let inv of inventoriesOrCleanItems(); trackBy:trackers.trackByIndex;">
                         <ng-container
                             *ngIf="availablePropertyRunes(index, inv, runeItemType) as availablePropertyRunes">
-                            <optgroup label="{{itemStore ? 'Available runes' : inv.effectiveName(characterService)}}"
+                            <optgroup label="{{itemStore ? 'Available runes' : inventoryName(inv)}}"
                                 *ngIf="availablePropertyRunes.length">
                                 <option *ngFor="let runeSet of availablePropertyRunes; trackBy:trackers.trackByIndex;"
                                     [ngValue]="runeSet" [disabled]="runeSet.disabled"
