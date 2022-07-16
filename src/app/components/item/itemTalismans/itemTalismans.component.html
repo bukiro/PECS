@@ -2,20 +2,20 @@
 <!--Changing Talismans-->
 
 <div class="list-item">
-    <div class="newrow" *ngFor="let index of get_Slots(); trackBy:trackers.trackByIndex;">
+    <div class="newrow" *ngFor="let index of availableSlots(); trackBy:trackers.trackByIndex;">
         <strong *ngIf="index === 0">Affix Talisman</strong>
         <span *ngIf="index !== 0">&nbsp;</span>
-        <select [(ngModel)]="newTalisman[index]" (change)="add_Talisman(index)"
+        <select [(ngModel)]="newTalisman[index]" (change)="onSelectTalisman(index)"
             [disabled]="!item.talismans[index-1] && index > 0">
             <ng-template #TalismanTemplate let-option>
-                <option [ngValue]="option" title="{{get_Title(option.talisman, option.talismanCordCompatible)}}">
+                <option [ngValue]="option" title="{{talismanTitle(option.talisman, option.talismanCordCompatible)}}">
                     <span *ngIf="option.talismanCordCompatible">&#9741;</span>
                     {{option.talisman.amount > 1 ? option.talisman.amount : ""}}
                     {{option.talisman.name}}
                 </option>
             </ng-template>
             <ng-container
-                *ngFor="let talisman of get_InitialTalismans(index); let initialTalismanIndex = index; trackBy:trackers.trackByIndex;">
+                *ngFor="let talisman of initialTalismans(index); let initialTalismanIndex = index; trackBy:trackers.trackByIndex;">
                 <option [ngValue]="talisman" *ngIf="initialTalismanIndex === 0">
 
                 </option>
@@ -23,14 +23,16 @@
                     <ng-container *ngTemplateOutlet="TalismanTemplate; context: {$implicit: talisman}"></ng-container>
                 </optgroup>
             </ng-container>
-            <ng-container *ngFor="let inv of get_Inventories(); trackBy:trackers.trackByIndex;">
-                <optgroup label="{{itemStore ? 'Available talismans' : inv.get_Name(characterService)}}"
-                    *ngIf="get_Talismans(inv).length">
-                    <ng-container *ngFor="let talisman of get_Talismans(inv); trackBy:trackers.trackByIndex;">
-                        <ng-container *ngTemplateOutlet="TalismanTemplate; context: {$implicit: talisman}">
+            <ng-container *ngFor="let inv of inventoriesOrCleanItems(); trackBy:trackers.trackByIndex;">
+                <ng-container *ngIf="availableTalismans(inv) as availableTalismans">
+                    <optgroup label="{{itemStore ? 'Available talismans' : inventoryName(inv)}}"
+                        *ngIf="availableTalismans.length">
+                        <ng-container *ngFor="let talisman of availableTalismans; trackBy:trackers.trackByIndex;">
+                            <ng-container *ngTemplateOutlet="TalismanTemplate; context: {$implicit: talisman}">
+                            </ng-container>
                         </ng-container>
-                    </ng-container>
-                </optgroup>
+                    </optgroup>
+                </ng-container>
             </ng-container>
         </select>
     </div>

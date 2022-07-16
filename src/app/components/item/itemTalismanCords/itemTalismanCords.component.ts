@@ -12,6 +12,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 
 interface TalismanCordSet {
     talismanCord: WornItem;
@@ -67,7 +68,14 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     public availableTalismanCords(inv: ItemCollection): Array<TalismanCordSet> {
-        return inv.wornitems.filter(wornItem => wornItem.isTalismanCord).map(talismanCord => ({ talismanCord, inv }));
+        const twoDigits = 2;
+
+        return inv.wornitems.filter(wornItem => wornItem.isTalismanCord)
+            .map(talismanCord => ({ talismanCord, inv }))
+            .sort((a, b) => SortAlphaNum(
+                a.talismanCord.level.toString().padStart(twoDigits, '0') + a.talismanCord.name,
+                b.talismanCord.level.toString().padStart(twoDigits, '0') + b.talismanCord.name,
+            ));
     }
 
     public talismanCordSchools(cord: WornItem): string {

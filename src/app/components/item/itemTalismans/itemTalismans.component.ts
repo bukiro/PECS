@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -10,6 +10,11 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
 import { WornItem } from 'src/app/classes/WornItem';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Character } from 'src/app/classes/Character';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 
 interface TalismanOption {
     talisman: Talisman;
@@ -21,35 +26,30 @@ interface TalismanOption {
     selector: 'app-itemTalismans',
     templateUrl: './itemTalismans.component.html',
     styleUrls: ['./itemTalismans.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemTalismansComponent implements OnInit {
 
     @Input()
-    item: Equipment;
+    public item: Equipment;
     @Input()
-    itemStore = false;
-    newTalisman: Array<TalismanOption>;
+    public itemStore = false;
+
+    public newTalisman: Array<TalismanOption>;
 
     constructor(
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly itemsService: ItemsService,
-        private readonly typeService: TypeService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _itemsService: ItemsService,
+        private readonly _typeService: TypeService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    private get _character(): Character {
+        return this._characterService.character;
     }
 
-    get_Character() {
-        return this.characterService.character;
-    }
-
-    get_CleanItems() {
-        return this.itemsService.cleanItems();
-    }
-
-    get_Slots() {
+    public availableSlots(): Array<number> {
         //Items can have one talisman.
         //Add as many slots as the item has talismans inserted (should be one, but just in case).
         //If none are inserted, add one slot as long as any talismans are available to insert.
@@ -59,22 +59,26 @@ export class ItemTalismansComponent implements OnInit {
             for (let index = 0; index < this.item.talismans.length; index++) {
                 indexes.push(index);
             }
-        } else if (this.itemStore || this.get_Character().inventories.some(inv => inv.talismans.length)) {
+        } else if (this.itemStore || this._character.inventories.some(inv => inv.talismans.length)) {
             indexes.push(0);
         }
 
         return indexes;
     }
 
-    get_Inventories() {
+    public inventoriesOrCleanItems(): Array<ItemCollection> {
         if (this.itemStore) {
-            return [this.get_CleanItems()];
+            return [this._cleanItems()];
         } else {
-            return this.get_Character().inventories;
+            return this._character.inventories;
         }
     }
 
-    get_InitialTalismans(index: number) {
+    public inventoryName(inv: ItemCollection): string {
+        return inv.effectiveName(this._characterService);
+    }
+
+    public initialTalismans(index: number): Array<TalismanOption> {
         const item = this.item;
         //Start with one empty talisman to select nothing.
         const allTalismans: Array<TalismanOption> = [{ talisman: new Talisman(), inv: null, talismanCordCompatible: false }];
@@ -83,18 +87,25 @@ export class ItemTalismansComponent implements OnInit {
 
         //Add the current choice, if the item has a talisman at that index.
         if (item.talismans[index]) {
-            allTalismans.push(Object.assign(this.newTalisman[index], { talismanCordCompatible: this.get_CompatibleWithTalismanCord(this.newTalisman[index].talisman) }));
+            allTalismans.push(
+                {
+                    ...this.newTalisman[index],
+                    talismanCordCompatible: this._isTalismanCompatibleWithTalismanCord(this.newTalisman[index].talisman),
+                },
+            );
         }
 
         return allTalismans;
     }
 
-    get_Talismans(inv: ItemCollection): Array<TalismanOption> {
+    public availableTalismans(inv: ItemCollection): Array<TalismanOption> {
+        const twoDigits = 2;
+
         return inv.talismans.filter(talisman => talisman.targets.length && talisman.amount)
             .map(talisman => ({
                 talisman,
                 inv: (this.itemStore ? null : inv),
-                talismanCordCompatible: this.get_CompatibleWithTalismanCord(talisman),
+                talismanCordCompatible: this._isTalismanCompatibleWithTalismanCord(talisman),
             }))
             .filter(talisman =>
                 talisman.talisman.targets.length &&
@@ -114,74 +125,68 @@ export class ItemTalismansComponent implements OnInit {
                     )
                 ),
             )
-            .sort((a, b) => (a.talisman.level + a.talisman.name == b.talisman.level + b.talisman.name) ? 0 : ((a.talisman.level + a.talisman.name > b.talisman.level + b.talisman.name) ? 1 : -1));
+            .sort((a, b) => SortAlphaNum(
+                a.talisman.level.toString().padStart(twoDigits, '0') + a.talisman.name,
+                b.talisman.level.toString().padStart(twoDigits, '0') + b.talisman.name,
+            ));
     }
 
-    get_CompatibleWithTalismanCord(talisman: Talisman) {
-        return this.item.talismanCords
-            .some(cord =>
-                cord.isCompatibleWithTalisman(talisman),
-            );
-    }
-
-    add_Talisman(index: number) {
+    public onSelectTalisman(index: number): void {
         const item: Equipment = this.item;
         const talisman: Talisman = this.newTalisman[index].talisman;
         const inv: ItemCollection = this.newTalisman[index].inv;
 
         if (!item.talismans[index] || talisman !== item.talismans[index]) {
-            //If there is a Talisman in this slot, return the old one to the inventory, unless we are in the item store. Then remove it from the item.
+            // If there is a Talisman in this slot, return the old one to the inventory,
+            // unless we are in the item store. Then remove it from the item.
             if (item.talismans[index]) {
                 if (!this.itemStore) {
-                    this.remove_Talisman(index);
+                    this._removeTalisman(index);
                 }
 
                 item.talismans.splice(index, 1);
             }
 
             //Then add the new Talisman to the item and (unless we are in the item store) remove it from the inventory.
-            if (talisman.name != '') {
+            if (talisman.name !== '') {
                 //Add a copy of Talisman to the item
-                const newLength = item.talismans.push(Object.assign<Talisman, Talisman>(new Talisman(), JSON.parse(JSON.stringify(talisman))).recast(this.typeService, this.itemsService));
+                const newLength = item.talismans.push(
+                    Object.assign(
+                        new Talisman(),
+                        JSON.parse(JSON.stringify(talisman)),
+                    ).recast(this._typeService, this._itemsService));
                 const newTalisman = item.talismans[newLength - 1];
 
                 newTalisman.amount = 1;
 
-                //If we are not in the item store, remove the inserted Talisman from the inventory, either by decreasing the amount or by dropping the item.
+                // If we are not in the item store, remove the inserted Talisman from the inventory,
+                // either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
-                    this.characterService.dropInventoryItem(this.get_Character(), inv, talisman, false, false, false, 1);
+                    this._characterService.dropInventoryItem(this._character, inv, talisman, false, false, false, 1);
                 }
             }
         }
 
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
 
         if (this.item instanceof Weapon) {
-            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
         }
 
         if (this.item instanceof Armor || this.item instanceof Shield || this.item instanceof WornItem) {
-            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
         }
 
-        this.set_TalismanNames();
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, this.item.id);
-        this.refreshService.processPreparedChanges();
+        this._setTalismanNames();
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, this.item.id);
+        this._refreshService.processPreparedChanges();
     }
 
-    remove_Talisman(index: number) {
-        const character = this.get_Character();
-        const oldTalisman = this.item.talismans[index];
-
-        //Add the extracted stone back to the inventory.
-        this.characterService.grantInventoryItem(oldTalisman, { creature: character, inventory: character.inventories[0] }, { resetRunes: false, changeAfter: false, equipAfter: false });
-    }
-
-    get_Title(talisman: Talisman, talismanCordCompatible: boolean) {
+    public talismanTitle(talisman: Talisman, talismanCordCompatible: boolean): string {
         const parts: Array<string> = [];
 
         if (this.itemStore && talisman.price) {
-            parts.push(`Price ${ this.get_Price(talisman) }`);
+            parts.push(`Price ${ this._priceText(talisman) }`);
         }
 
         if (talismanCordCompatible) {
@@ -191,61 +196,56 @@ export class ItemTalismansComponent implements OnInit {
         return parts.join('; ');
     }
 
-    get_Price(talisman: Talisman) {
-        if (talisman.price) {
-            if (talisman.price == 0) {
-                return '';
-            } else {
-                let price: number = talisman.price;
-                let priceString = '';
-
-                if (price >= 100) {
-                    priceString += `${ Math.floor(price / 100) }gp`;
-                    price %= 100;
-
-                    if (price >= 10) { priceString += ' '; }
-                }
-
-                if (price >= 10) {
-                    priceString += `${ Math.floor(price / 10) }sp`;
-                    price %= 10;
-
-                    if (price >= 1) { priceString += ' '; }
-                }
-
-                if (price >= 1) {
-                    priceString += `${ price }cp`;
-                }
-
-                return priceString;
-            }
-        } else {
-            return '';
-        }
+    public ngOnInit(): void {
+        this._setTalismanNames();
     }
 
-    set_TalismanNames() {
+    private _priceText(talisman: Talisman): string {
+        return PriceTextFromCopper(talisman.price);
+    }
+
+    private _setTalismanNames(): void {
         this.newTalisman = [];
 
-        if (this.item.talismans) {
-            for (let index = 0; index < this.item.talismans.length; index++) {
-                if (this.item.talismans[index]) {
-                    this.newTalisman.push({ talisman: this.item.talismans[index], inv: null, talismanCordCompatible: this.get_CompatibleWithTalismanCord(this.item.talismans[index]) });
-                } else {
-                    this.newTalisman.push({ talisman: new Talisman(), inv: null, talismanCordCompatible: false });
-                }
-            }
+        if (this.item.talismans.length) {
+            this.newTalisman =
+                this.item.talismans.map(talisman => ({
+                    talisman,
+                    inv: null,
+                    talismanCordCompatible: this._isTalismanCompatibleWithTalismanCord(talisman),
+                }));
         } else {
             this.newTalisman = [{ talisman: new Talisman(), inv: null, talismanCordCompatible: false }];
         }
 
-        this.newTalisman.filter(talisman => talisman.talisman.name == 'New Item').forEach(talisman => {
-            talisman.talisman.name = '';
-        });
+        this.newTalisman
+            .filter(talisman => talisman.talisman.name === 'New Item')
+            .forEach(talisman => {
+                talisman.talisman.name = '';
+            });
     }
 
-    public ngOnInit(): void {
-        this.set_TalismanNames();
+    private _cleanItems(): ItemCollection {
+        return this._itemsService.cleanItems();
+    }
+
+    private _isTalismanCompatibleWithTalismanCord(talisman: Talisman): boolean {
+        return this.item.talismanCords
+            .some(cord =>
+                cord.isCompatibleWithTalisman(talisman),
+            );
+    }
+
+    private _removeTalisman(index: number): void {
+        const character = this._character;
+        const oldTalisman = this.item.talismans[index];
+
+        //Add the extracted stone back to the inventory.
+        this._characterService.grantInventoryItem(
+            oldTalisman,
+            { creature: character, inventory: character.inventories[0] },
+            { resetRunes: false, changeAfter: false, equipAfter: false },
+        );
     }
 
 }
