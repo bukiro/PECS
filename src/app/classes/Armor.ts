@@ -56,14 +56,14 @@ export class Armor extends Equipment {
     /** A Dwarf with the Battleforger feat can polish armor to grant the effect of a +1 potency rune. */
     public battleforged = false;
     /** The armor's inherent bonus to AC. */
-    private readonly acbonus = 0;
+    public acbonus = 0;
     /**
      * The penalty to certain skills if your strength is lower than the armors requirement.
      * Should be a negative number
      */
-    private readonly skillpenalty = 0;
+    public skillpenalty = 0;
     /** The strength requirement (strength, not STR) to overcome skill and speed penalties. */
-    private readonly strength = 0;
+    public strength = 0;
     public get secondaryRune(): BasicRuneLevels {
         return this.resilientRune;
     }

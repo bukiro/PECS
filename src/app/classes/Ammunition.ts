@@ -8,7 +8,6 @@ export class Ammunition extends Consumable {
     public readonly type = 'ammunition';
     public activities: Array<ItemActivity> = [];
     public actions = '';
-    public activationType = '';
     /**
      * The ammunition group, in order to identify suitable weapons.
      * Same as the weapon type: Arrows, Blowgun Darts, Bolts, Sling Bullets or Any

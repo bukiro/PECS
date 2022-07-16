@@ -2,10 +2,31 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, O
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/classes/Item';
-import { Equipment } from 'src/app/classes/Equipment';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
+import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { ItemRoles } from 'src/app/classes/ItemRoles';
+import { LanguageGain } from 'src/app/classes/LanguageGain';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { AlchemicalElixir } from 'src/app/classes/AlchemicalElixir';
+import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
+
+interface ComparedValue {
+    effective: number;
+    basic: number;
+    penalty: boolean;
+    bonus: boolean;
+}
+
+interface ComparedStringValue {
+    effective: string;
+    basic: string;
+    penalty: boolean;
+    bonus: boolean;
+}
 
 @Component({
     selector: 'app-itemContent',
@@ -15,70 +36,250 @@ import { WornItem } from 'src/app/classes/WornItem';
 })
 export class ItemContentComponent implements OnInit, OnDestroy {
 
-    //This component queries many aspects of different types of item, not all of which exist on the Item class, so we allow any.
     @Input()
-    item: Item | any;
+    public item: Item;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly itemsService: ItemsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _itemsService: ItemsService,
+        private readonly _itemRolesService: ItemRolesService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public itemRoles(): ItemRoles {
+        return this._itemRolesService.getItemRoles(this.item);
     }
 
-    get_Price(item: Item) {
-        if (item.tradeable) {
-            let price = item.get_Price(this.itemsService);
-
-            if (price) {
-                let priceString = '';
-
-                if (price >= 100) {
-                    priceString += `${ Math.floor(price / 100) }gp`;
-                    price %= 100;
-
-                    if (price >= 10) { priceString += ' '; }
-                }
-
-                if (price >= 10) {
-                    priceString += `${ Math.floor(price / 10) }sp`;
-                    price %= 10;
-
-                    if (price >= 1) { priceString += ' '; }
-                }
-
-                if (price >= 1) {
-                    priceString += `${ price }cp`;
-                }
-
-                return priceString;
-            }
+    public priceText(): string {
+        if (this.item.tradeable) {
+            return PriceTextFromCopper(this.item.effectivePrice(this._itemsService));
         }
 
         return '';
     }
 
-    get_BulkDifference(item: Item) {
-        const bulk = +item.effectiveBulk();
+    public acBonusParameters(itemRoles: ItemRoles): ComparedValue {
+        const acItem = itemRoles.asArmor || itemRoles.asShield;
 
-        if (!isNaN(bulk) && !isNaN(+item.bulk)) {
-            return parseInt(item.effectiveBulk(), 10) - parseInt(item.bulk, 10);
-        } else if (!isNaN(bulk) && isNaN(+item.bulk)) {
-            return 1;
-        } else if (isNaN(bulk) && !isNaN(+item.bulk)) {
-            if (item.effectiveBulk() == 'L' && +item.bulk == 0) {
-                return 1;
-            } else {
-                return -1;
+        if (acItem) {
+            const effective = acItem.effectiveACBonus();
+
+            if (effective || acItem.acbonus) {
+                return {
+                    effective,
+                    basic: acItem.acbonus,
+                    penalty: effective < acItem.acbonus,
+                    bonus: effective > acItem.acbonus,
+                };
             }
+        }
+
+        return null;
+    }
+
+    public dexCapParameters(itemRoles: ItemRoles): ComparedValue {
+        const armorItem = itemRoles.asArmor;
+
+        if (armorItem) {
+            const effective = armorItem.effectiveDexCap();
+            const doesEffectiveApply = effective < 0;
+            const basic = armorItem.dexcap;
+            const doesBasicApply = basic < 0;
+
+            if (doesEffectiveApply || doesBasicApply) {
+                return {
+                    effective,
+                    basic: armorItem.dexcap,
+                    penalty: (
+                        (doesEffectiveApply && !doesBasicApply) ||
+                        (doesEffectiveApply && effective < basic)
+                    ),
+                    bonus: (
+                        (!doesEffectiveApply && doesBasicApply) ||
+                        (doesBasicApply && effective > basic)
+                    ),
+                };
+            }
+        }
+
+        return null;
+    }
+
+    public skillPenaltyParameters(itemRoles: ItemRoles): ComparedValue {
+        const armorItem = itemRoles.asArmor;
+
+        if (armorItem) {
+            const effective = armorItem.effectiveSkillPenalty();
+
+            if (effective || armorItem.acbonus) {
+                return {
+                    effective,
+                    basic: armorItem.skillpenalty,
+                    penalty: effective > armorItem.skillpenalty,
+                    bonus: effective < armorItem.skillpenalty,
+                };
+            }
+        }
+
+        return null;
+    }
+
+    public speedPenaltyParameters(itemRoles: ItemRoles): ComparedValue {
+        const speedPenaltyItem = itemRoles.asArmor || itemRoles.asShield;
+
+        if (speedPenaltyItem) {
+            const effective = speedPenaltyItem.effectiveSpeedPenalty();
+
+            if (effective || speedPenaltyItem.acbonus) {
+                return {
+                    effective,
+                    basic: speedPenaltyItem.speedpenalty,
+                    penalty: effective > speedPenaltyItem.speedpenalty,
+                    bonus: effective < speedPenaltyItem.speedpenalty,
+                };
+            }
+        }
+
+        return null;
+    }
+
+    public strengthRequirementParameters(itemRoles: ItemRoles): ComparedValue {
+        const armorItem = itemRoles.asArmor;
+
+        if (armorItem) {
+            const effective = armorItem.effectiveStrengthRequirement();
+
+            if (effective || armorItem.strength) {
+                return {
+                    effective,
+                    basic: armorItem.strength,
+                    penalty: effective > armorItem.strength,
+                    bonus: effective < armorItem.strength,
+                };
+            }
+        }
+
+        return null;
+    }
+
+    public bulkParameters(item: Item): ComparedStringValue {
+        const effective = item.effectiveBulk();
+
+        if (effective || item.bulk) {
+            const bulkDifference = this._bulkDifference(item, effective);
+
+            return {
+                effective,
+                basic: item.bulk,
+                penalty: bulkDifference > 0,
+                bonus: bulkDifference < 0,
+            };
+        }
+
+        return null;
+    }
+
+    public hardnessParameters(itemRoles: ItemRoles): ComparedValue {
+        const hardnessItem = itemRoles.asShield;
+
+        if (hardnessItem) {
+            const effective = hardnessItem.effectiveHardness();
+
+            if (effective || hardnessItem.hardness) {
+                return {
+                    effective,
+                    basic: hardnessItem.hardness,
+                    penalty: effective < hardnessItem.hardness,
+                    bonus: effective > hardnessItem.hardness,
+                };
+            }
+        }
+
+        return null;
+    }
+
+    public hitpointParameters(itemRoles: ItemRoles): { maxHP: ComparedValue; brokenThreshold: ComparedValue } {
+        const hitpointItem = itemRoles.asShield;
+
+        if (hitpointItem) {
+            const effectiveMaxHP = hitpointItem.effectiveMaxHP();
+
+            if (effectiveMaxHP || hitpointItem.hitpoints) {
+                const maxHP = {
+                    effective: effectiveMaxHP,
+                    basic: hitpointItem.hitpoints,
+                    penalty: effectiveMaxHP < hitpointItem.hitpoints,
+                    bonus: effectiveMaxHP > hitpointItem.hitpoints,
+                };
+
+                const effectiveBrokenThreshold = hitpointItem.effectiveBrokenThreshold();
+                let brokenThreshold: ComparedValue = null;
+
+                if (effectiveBrokenThreshold || hitpointItem.brokenThreshold) {
+                    brokenThreshold = {
+                        effective: effectiveBrokenThreshold,
+                        basic: hitpointItem.brokenThreshold,
+                        penalty: effectiveBrokenThreshold < hitpointItem.brokenThreshold,
+                        bonus: effectiveBrokenThreshold > hitpointItem.brokenThreshold,
+                    };
+                }
+
+                return {
+                    maxHP,
+                    brokenThreshold,
+                };
+            }
+        }
+
+        return null;
+    }
+
+    public shouldShowActivations(): boolean {
+        return (
+            [
+                'activationType',
+                'actions',
+            ].some(
+                key => this.doesItemHaveValue(key) && this.item[key] !== ' ',
+            ) &&
+            ![
+                'trigger',
+                'requirements',
+            ].some(
+                key => this.doesItemHaveValue(key) && this.item[key] !== ' ',
+            )
+        );
+    }
+
+    public shouldShowTalismans(): boolean {
+        return (
+            [
+                'activationType',
+                'actions',
+            ].some(
+                key => this.doesItemHaveValue(key) && this.item[key] !== ' ',
+            ) &&
+            [
+                'trigger',
+                'requirements',
+            ].some(
+                key => this.doesItemHaveValue(key) && this.item[key] !== ' ',
+            )
+        );
+    }
+
+    public doesItemHaveValue(key: string): boolean {
+        if (Object.keys(this.item).includes(key) && this.item[key]) {
+            return true;
         }
     }
 
-    get_LanguageGains() {
+    public languageGainsFromItem(): Array<LanguageGain> {
         if (this.item instanceof WornItem) {
             return this.item.gainLanguages.filter(gain => !gain.locked);
         } else {
@@ -86,42 +287,59 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         }
     }
 
-    on_LanguageUpdate() {
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-        this.refreshService.processPreparedChanges();
+    public onUpdateLanguage(): void {
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
+        this._refreshService.processPreparedChanges();
     }
 
-    public has_ShownData(): boolean {
+    public doesItemHaveShownData(): boolean {
         return this.item.data?.some(data => data.show);
     }
 
-    finish_Loading() {
+    public asAlchemicalElixir(): AlchemicalElixir {
+        return this.item instanceof AlchemicalElixir ? this.item : null;
+    }
+
+    public asAlchemicalPoison(): AlchemicalPoison {
+        return this.item instanceof AlchemicalPoison ? this.item : null;
+    }
+
+    public ngOnInit(): void {
         if (this.item.id) {
-            this.changeSubscription = this.refreshService.componentChanged$
+            this._changeSubscription = this._refreshService.componentChanged$
                 .subscribe(target => {
-                    if (target == this.item.id) {
-                        this.changeDetector.detectChanges();
+                    if (target === this.item.id) {
+                        this._changeDetector.detectChanges();
                     }
                 });
-            this.viewChangeSubscription = this.refreshService.detailChanged$
+            this._viewChangeSubscription = this._refreshService.detailChanged$
                 .subscribe(view => {
-                    if (view.target == this.item.id) {
-                        this.changeDetector.detectChanges();
+                    if (view.target === this.item.id) {
+                        this._changeDetector.detectChanges();
                     }
                 });
         }
     }
 
-    public ngOnInit(): void {
-        this.finish_Loading();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _bulkDifference(item: Item, effectiveBulk: string): number {
+        if (!isNaN(parseInt(effectiveBulk, 10)) && !isNaN(+item.bulk)) {
+            return parseInt(effectiveBulk, 10) - parseInt(item.bulk, 10);
+        } else if (!isNaN(parseInt(effectiveBulk, 10)) && isNaN(+item.bulk)) {
+            return 1;
+        } else if (isNaN(parseInt(effectiveBulk, 10)) && !isNaN(+item.bulk)) {
+            if (item.effectiveBulk() === 'L' && +item.bulk === 0) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+        return 0;
     }
 
 }

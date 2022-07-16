@@ -1,269 +1,262 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<div class="newrow left-aligned" *ngIf="item.sourceBook">
-    <span>
-        <strong>Source</strong>
-        <i> {{item.sourceBook}}</i>
-    </span>
-</div>
-<div class="newrow left-aligned" *ngIf="item.PFSnote">
-    <span>
-        <strong>PFS Note</strong>
-        <i> {{item.PFSnote}}</i>
-    </span>
-</div>
-<div class="newrow left-aligned">
-    <span *ngIf="item.tradeable && get_Price(item) as calculatedPrice">
-        <strong>Price</strong>
-        {{calculatedPrice}}{{item.stack && item.stack > 1 ? " per "+item.stack : ""}}
-    </span>
-    <span *ngIf="item.dicenum">
-        <strong>Damage</strong>
-        {{item.dicenum}}d{{item.dicesize}} {{item.dmgType}}
-    </span>
-    <span *ngIf="item.acbonus">
-        <strong>AC Bonus</strong>
-        <ng-container
-            *ngFor="let acBonus of [item.get_ACBonus ? item.get_ACBonus() : item.acbonus]; trackBy:trackers.trackByIndex;">
-            <span [ngClass]="{'penalty':acBonus < item.acbonus, 'bonus':acBonus > item.acbonus}">
-                {{acBonus}}{{item.coverbonus ? " (4)" : ""}}
-            </span>
-        </ng-container>
-    </span>
-    <span *ngIf="(item.type === 'armors' && (item.get_DexCap ? item.get_DexCap() : item.dexcap) !== -1)">
-        <strong>Dex Cap</strong>
-        <ng-container *ngFor="let dexCap of [item.get_DexCap ? item.get_DexCap() : item.dexcap]; trackBy:trackers.trackByIndex;">
-            <span
-                [ngClass]="{'penalty':dexCap < item.dexcap, 'bonus':dexCap > item.dexcap || (!dexCap && item.dexcap)}">
-                {{dexCap}}
-            </span>
-        </ng-container>
-    </span>
-    <span *ngIf="item.skillpenalty">
-        <strong>Check Penalty</strong>
-        <ng-container
-            *ngFor="let skillPenalty of [item.get_SkillPenalty ? item.get_SkillPenalty() : item.skillpenalty]; trackBy:trackers.trackByIndex;">
-            <span [ngClass]="{'penalty':skillPenalty < item.skillpenalty, 'bonus':skillPenalty > item.skillpenalty}">
-                {{skillPenalty}}
-            </span>
-        </ng-container>
-    </span>
-    <span *ngIf="item.speedpenalty">
-        <strong>Speed Penalty</strong>
-        <ng-container
-            *ngFor="let speedPenalty of [item.get_SpeedPenalty ? item.get_SpeedPenalty() : item.speedpenalty]; trackBy:trackers.trackByIndex;">
-            <span [ngClass]="{'penalty':speedPenalty < item.speedpenalty, 'bonus':speedPenalty > item.speedpenalty}">
-                {{speedPenalty}}
-            </span>
-        </ng-container>
-    </span>
-    <span *ngIf="(item.get_Strength ? item.get_Strength() : item.strength)">
-        <strong>Strength</strong>
-        <ng-container
-            *ngFor="let strength of [item.get_Strength ? item.get_Strength() : item.strength]; trackBy:trackers.trackByIndex;">
-            <span [ngClass]="{'penalty':strength > item.strength, 'bonus':strength < item.strength}">
-                {{strength}}
-            </span>
-        </ng-container>
-    </span>
-    <span *ngIf="item.usage">
-        <strong>Usage</strong>
-        {{item.usage}}
-    </span>
-    <span *ngIf="item.storeBulk">
-        <strong>Bulk</strong>
-        {{item.storeBulk}}
-    </span>
-    <span *ngIf="item.get_Bulk()">
-        <strong>Bulk{{item.carryingBulk && !item.equipped ? " (unequipped)" : ""}}</strong>
-        <span [ngClass]="{'penalty':(get_BulkDifference(item) > 0), 'bonus':(get_BulkDifference(item) < 0)}">
-            {{item.get_Bulk()}}
+<ng-container *ngIf="itemRoles() as itemRoles">
+    <div class="newrow left-aligned" *ngIf="item.sourceBook">
+        <span>
+            <strong>Source</strong>
+            <i> {{item.sourceBook}}</i>
         </span>
-    </span>
-    <span *ngIf="item.carryingBulk && item.equipped">
-        <strong>Bulk (unequipped)</strong>
-        {{item.carryingBulk}}
-    </span>
-    <span *ngIf="item.hardness">
-        <strong>Hardness</strong>
-        <ng-container
-            *ngFor="let hardness of [item.get_Hardness ? item.get_Hardness() : item.hardness]; trackBy:trackers.trackByIndex;">
-            <span [ngClass]="{'penalty':hardness < item.hardness, 'bonus':hardness > item.hardness}">
-                {{hardness}}
+    </div>
+    <div class="newrow left-aligned" *ngIf="item.PFSnote">
+        <span>
+            <strong>PFS Note</strong>
+            <i> {{item.PFSnote}}</i>
+        </span>
+    </div>
+    <div class="newrow left-aligned">
+        <span *ngIf="item.tradeable && priceText() as calculatedPriceText">
+            <strong>Price</strong>
+            {{calculatedPriceText}}
+            {{itemRoles.stack && itemRoles.stack > 1 ? "per "+itemRoles.stack : ""}}
+        </span>
+        <span *ngIf="itemRoles.asWeapon.dicenum">
+            <strong>Damage</strong>
+            {{itemRoles.asWeapon.dicenum}}d{{itemRoles.asWeapon.dicesize}}
+            {{itemRoles.asWeapon.dmgType}}
+        </span>
+        <span *ngIf="acBonusParameters(itemRoles) as acBonusParameters">
+            <strong>AC Bonus</strong>
+            <span [ngClass]="{'penalty':acBonusParameters.penalty, 'bonus':acBonusParameters.bonus}">
+                {{acBonusParameters.effective}}
+                {{itemRoles.asShield?.coverbonus ? "(4)" : ""}}
             </span>
-        </ng-container>
-    </span>
-    <span *ngIf="item.hitpoints">
-        <strong>HP</strong><strong *ngIf="item.brokenThreshold"> (BT)</strong>
-        <ng-container *ngFor="let maxHP of [item.get_MaxHP ? item.get_MaxHP() : item.hitpoints]; trackBy:trackers.trackByIndex;">
-            <span [ngClass]="{'penalty':maxHP < item.hitpoints, 'bonus':maxHP > item.hitpoints}">
-                {{maxHP}}
+        </span>
+        <span *ngIf="dexCapParameters(itemRoles) as dexCapParameters">
+            <strong>Dex Cap</strong>
+            <span [ngClass]="{'penalty':dexCapParameters.penalty, 'bonus':dexCapParameters.bonus}">
+                {{dexCapParameters.effective < 0 ? 'none' : dexCapParameters.effective}} <!--this comment prevents
+                    strange formatting-->
             </span>
-        </ng-container>
-        <ng-container
-            *ngFor="let brokenThreshold of [item.get_BrokenThreshold ? item.get_BrokenThreshold() : item.brokenThreshold]; trackBy:trackers.trackByIndex;">
-            <span *ngIf="item.brokenThreshold"
-                [ngClass]="{'penalty':brokenThreshold < item.brokenThreshold, 'bonus':brokenThreshold > item.brokenThreshold}">
-                ({{brokenThreshold}})
+        </span>
+        <span *ngIf="skillPenaltyParameters(itemRoles) as skillPenaltyParameters">
+            <strong>Check Penalty</strong>
+            <span [ngClass]="{'penalty':skillPenaltyParameters.penalty, 'bonus':skillPenaltyParameters.bonus}">
+                {{skillPenaltyParameters.effective}}
             </span>
+        </span>
+        <span *ngIf="speedPenaltyParameters(itemRoles) as speedPenaltyParameters">
+            <strong>Speed Penalty</strong>
+            <span [ngClass]="{'penalty':speedPenaltyParameters.penalty, 'bonus':speedPenaltyParameters.bonus}">
+                {{speedPenaltyParameters.effective}}
+            </span>
+        </span>
+        <span *ngIf="strengthRequirementParameters(itemRoles) as strenthRequirementParameters">
+            <strong>Strength</strong>
+            <span
+                [ngClass]="{'penalty':strenthRequirementParameters.penalty, 'bonus':strenthRequirementParameters.bonus}">
+                {{strenthRequirementParameters.effective}}
+            </span>
+        </span>
+        <span *ngIf="doesItemHaveValue('usage')">
+            <strong>Usage</strong>
+            {{item['usage']}}
+        </span>
+        <span *ngIf="item.storeBulk">
+            <strong>Bulk</strong>
+            {{item.storeBulk}}
+        </span>
+        <span *ngIf="bulkParameters(item) as bulkParameters">
+            <strong>Bulk{{itemRoles.asEquipment.carryingBulk && !itemRoles.asEquipment.equipped ? " (unequipped)" :
+                ""}}</strong>
+            <span [ngClass]="{'penalty':bulkParameters.penalty, 'bonus':bulkParameters.bonus}">
+                {{bulkParameters.effective || 0}}
+            </span>
+        </span>
+        <span *ngIf="itemRoles.asEquipment.carryingBulk && itemRoles.asEquipment.equipped">
+            <strong>Bulk (unequipped)</strong>
+            {{itemRoles.asEquipment.carryingBulk}}
+        </span>
+        <span *ngIf="hardnessParameters(itemRoles) as hardnessParameters">
+            <strong>Hardness</strong>
+            <span [ngClass]="{'penalty':hardnessParameters.penalty, 'bonus':hardnessParameters.bonus}">
+                {{hardnessParameters.effective}}
+            </span>
+        </span>
+        <span *ngIf="hitpointParameters(itemRoles) as hitpointParameters">
+            <strong>HP</strong><strong *ngIf="hitpointParameters.brokenThreshold"> (BT)</strong>
+            <span [ngClass]="{'penalty':hitpointParameters.maxHP.penalty, 'bonus':hitpointParameters.maxHP.bonus}">
+                {{hitpointParameters.maxHP.effective}}
+            </span>
+            <span *ngIf="hitpointParameters.brokenThreshold"
+                [ngClass]="{'penalty':hitpointParameters.brokenThreshold.penalty, 'bonus':hitpointParameters.brokenThreshold.bonus}">
+                ({{hitpointParameters.brokenThreshold.effective}})
+            </span>
+        </span>
+    </div>
+    <div class="newrow left-aligned" *ngIf="itemRoles.asWeapon || doesItemHaveValue('hands')">
+        <span *ngIf="doesItemHaveValue('hands')">
+            <strong>Hands</strong>
+            {{item['hands']}}
+        </span>
+        <span *ngIf="itemRoles.asWeapon.ranged">
+            <strong>Range</strong>
+            {{itemRoles.asWeapon.ranged}} ft.
+        </span>
+        <span *ngIf="itemRoles.asWeapon.reload">
+            <strong>Reload</strong>
+            {{itemRoles.asWeapon.reload}}
+        </span>
+    </div>
+    <div class="newrow left-aligned" *ngIf="item.access">
+        <span>
+            <strong>Access</strong>
+            <i> {{item.access}}</i>
+        </span>
+    </div>
+    <!--Activation text for activated standalone items, such as wands (identified by not having a trigger or requirements)-->
+    <div class="newrow gap-text left-aligned" *ngIf="shouldShowActivations()">
+        <strong>Activate</strong>
+        <app-actionIcons *ngIf="doesItemHaveValue('actions')" [actionString]="item['actions']"></app-actionIcons>
+        <span *ngIf="doesItemHaveValue('activationType')">{{item['activationType']}}</span>
+        <ng-container *ngIf="doesItemHaveValue('frequency')">
+            <strong>Frequency</strong>
+            <span>{{item['frequency']}}</span>
         </ng-container>
-    </span>
-</div>
-<div class="newrow left-aligned">
-    <span *ngIf="item.hands">
-        <strong>Hands</strong>
-        {{item.hands}}
-    </span>
-    <span *ngIf="item.ranged">
-        <strong>Range</strong>
-        {{item.ranged}} ft.
-    </span>
-    <span *ngIf="item.reload">
-        <strong>Reload</strong>
-        {{item.reload}}
-    </span>
-</div>
-<div class="newrow left-aligned" *ngIf="item.access">
-    <span>
-        <strong>Access</strong>
-        <i> {{item.access}}</i>
-    </span>
-</div>
-<!--Activation text for activated standalone items, such as wands (identified by not having a trigger or requirements)-->
-<div class="newrow gap-text left-aligned"
-    *ngIf="(item.activationType || (item.actions && item.actions !== ' ')) && (!item.trigger && !item.requirements)">
-    <strong>Activate</strong>
-    <app-actionIcons *ngIf="item.actions" [actionString]="item.actions"></app-actionIcons>
-    <span>{{item.activationType}}</span>
-    <ng-container *ngIf="item.frequency">
-        <strong>Frequency</strong>
-        <span>{{item.frequency}}</span>
-    </ng-container>
-    <ng-container *ngIf="item.effect">
-        <strong>Effect</strong>
-        <app-description [text]="item.effect" [oneLiner]="true"></app-description>
-    </ng-container>
-</div>
-<div class="newrow left-aligned">
-    <span *ngIf="item.ammunition">
-        <strong>Ammunition</strong>
-        {{item.ammunition}}
-    </span>
-</div>
-<div class="newrow left-aligned">
-    <hr class="newrow">
-    <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
-        <app-description class="newrow" [text]="desc"></app-description>
-    </ng-container>
-    <ng-container *ngFor="let languageGains of [get_LanguageGains()]; trackBy:trackers.trackByIndex;">
-        <div class="newrow list-item" *ngIf="languageGains.length">
-            <ng-container *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackers.trackByIndex;">
-                <div class="newrow">
-                    <strong>{{gainLanguage.title}}</strong>
-                    <input id="{{item.id}}language{{languageIndex}}name" type="text" [(ngModel)]="gainLanguage.name"
-                        (blur)="on_LanguageUpdate()" *ngIf="!gainLanguage.locked">
-                    <ng-container *ngIf="gainLanguage.locked">
-                        {{gainLanguage.name}}
-                    </ng-container>
+        <ng-container *ngIf="doesItemHaveValue('effect')">
+            <strong>Effect</strong>
+            <app-description [text]="item['effect']" [oneLiner]="true"></app-description>
+        </ng-container>
+    </div>
+    <div class="newrow left-aligned">
+        <span *ngIf="doesItemHaveValue('ammunition')">
+            <strong>Ammunition</strong>
+            {{item['ammunition']}}
+        </span>
+    </div>
+    <!--Activation text for talismans (identified by having a trigger or requirements, but no effect)-->
+    <div class="newrow left-aligned" *ngIf="shouldShowTalismans()">
+        <strong>Activate</strong>
+        <app-actionIcons *ngIf="doesItemHaveValue('actions')" [actionString]="item['actions']">
+        </app-actionIcons>
+        <span *ngIf="doesItemHaveValue('activationType')">{{item['activationType']}}</span>
+        <span *ngIf="doesItemHaveValue('trigger')">
+            <strong>Trigger</strong>
+            {{item['trigger']}}
+        </span>
+        <span *ngIf="doesItemHaveValue('requirements')">
+            <strong>Requirements</strong>
+            {{item['requirements']}}
+        </span>
+    </div>
+    <div class="newrow left-aligned">
+        <hr class="newrow">
+        <ng-container *ngFor="let desc of item.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+            <app-description class="newrow" [text]="desc"></app-description>
+        </ng-container>
+        <ng-container *ngIf="languageGainsFromItem() as languageGains">
+            <div class="newrow list-item" *ngIf="languageGains.length">
+                <ng-container
+                    *ngFor="let gainLanguage of languageGains; let languageIndex = index; trackBy:trackers.trackByIndex;">
+                    <div class="newrow">
+                        <strong>{{gainLanguage.title}}</strong>
+                        <input id="{{item.id}}language{{languageIndex}}name" type="text" [(ngModel)]="gainLanguage.name"
+                            (blur)="onUpdateLanguage()" *ngIf="!gainLanguage.locked">
+                        <ng-container *ngIf="gainLanguage.locked">
+                            {{gainLanguage.name}}
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+        <div class="newrow list-item" *ngIf="doesItemHaveShownData()">
+            <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackers.trackByIndex;">
+                <div class="newrow" *ngIf="data.show">
+                    <strong>{{data.name}}</strong>
+                    <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value"
+                        *ngIf="data.type === 'string'">
+                    <input id="{{item.id}}data{{dataIndex}}value" type="checkbox" [(ngModel)]="data.value"
+                        *ngIf="data.type === 'boolean'">
                 </div>
             </ng-container>
         </div>
-    </ng-container>
-    <div class="newrow list-item" *ngIf="has_ShownData()">
-        <ng-container *ngFor="let data of item.data; let dataIndex = index; trackBy:trackers.trackByIndex;">
-            <div class="newrow" *ngIf="data.show">
-                <strong>{{data.name}}</strong>
-                <input id="{{item.id}}data{{dataIndex}}value" type="text" [(ngModel)]="data.value"
-                    *ngIf="data.type === 'string'">
-                <input id="{{item.id}}data{{dataIndex}}value" type="checkbox" [(ngModel)]="data.value"
-                    *ngIf="data.type === 'boolean'">
+        <!--Alchemical elixir data-->
+        <ng-container *ngIf="asAlchemicalElixir() as asAlchemicalElixir">
+            <p *ngIf="asAlchemicalElixir.benefit" class="gap-text">
+                <strong>Benefit</strong>
+                <app-description [text]="asAlchemicalElixir.benefit" [oneLiner]="true"></app-description>
+            </p>
+            <p *ngIf="asAlchemicalElixir.drawback" class="gap-text">
+                <strong>Drawback</strong>
+                <app-description [text]="asAlchemicalElixir.drawback" [oneLiner]="true"></app-description>
+            </p>
+        </ng-container>
+        <!--Alchemical poison data-->
+        <ng-container *ngIf="asAlchemicalPoison() as asAlchemicalPoison">
+            <p
+                *ngIf="asAlchemicalPoison.savingThrow || asAlchemicalPoison.maxDuration || asAlchemicalPoison.stages?.length">
+                <span *ngIf="asAlchemicalPoison.savingThrow">
+                    <strong>Saving Throw</strong>
+                    {{asAlchemicalPoison.savingThrow}}
+                </span>
+                <span *ngIf="asAlchemicalPoison.stages[0]">
+                    <strong>Onset</strong>
+                    {{asAlchemicalPoison.stages[0]}}
+                </span>
+                <span *ngIf="asAlchemicalPoison.maxDuration">
+                    <strong>Maximum Duration</strong>
+                    {{asAlchemicalPoison.maxDuration}}
+                </span>
+                <ng-container
+                    *ngFor="let stage of asAlchemicalPoison.stages; let stageIndex = index; trackBy:trackers.trackByIndex;">
+                    <span *ngIf="stageIndex > 0">
+                        <strong>Stage {{stageIndex}}</strong>
+                        {{asAlchemicalPoison.stages[stageIndex]}}
+                    </span>
+                </ng-container>
+            </p>
+        </ng-container>
+        <p *ngIf="item.subTypeDesc">
+            <strong *ngIf="item.subType">{{item.subType}}</strong>
+            {{item.subTypeDesc}}
+        </p>
+        <p *ngIf="item.craftRequirement">
+            <strong>Craft Requirement</strong> {{item.craftRequirement}}
+        </p>
+        <ng-container
+            *ngIf="doesItemHaveValue('critsuccess') || doesItemHaveValue('success') || doesItemHaveValue('failure') || doesItemHaveValue('critfailure')">
+            <ul>
+                <li *ngIf="doesItemHaveValue('critsuccess')">
+                    <span class="gap-text">
+                        <strong>Critical Success</strong>
+                        <app-description [text]="item['critsuccess']" [oneLiner]="true"></app-description>
+                    </span>
+                </li>
+                <li *ngIf="doesItemHaveValue('success')">
+                    <span class="gap-text">
+                        <strong>Success</strong>
+                        <app-description [text]="item['success']" [oneLiner]="true"></app-description>
+                    </span>
+                </li>
+                <li *ngIf="doesItemHaveValue('failure')">
+                    <span class="gap-text">
+                        <strong>Failure</strong>
+                        <app-description [text]="item['failure']" [oneLiner]="true"></app-description>
+                    </span>
+                </li>
+                <li *ngIf="doesItemHaveValue('critfailure')">
+                    <span class="gap-text">
+                        <strong>Critical Failure</strong>
+                        <app-description [text]="item['critfailure']" [oneLiner]="true"></app-description>
+                    </span>
+                </li>
+            </ul>
+        </ng-container>
+        <div class="list-item newrow problem" *ngIf="item.inputRequired">
+            <strong>Player input required:</strong>
+            <div class="newrow left-aligned"
+                *ngFor="let inputRequired of item.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;">
+                <app-description class="newrow" [text]="inputRequired">
+                </app-description>
             </div>
-        </ng-container>
-    </div>
-    <p *ngIf="item.benefit" class="gap-text">
-        <strong>Benefit</strong>
-        <app-description [text]="item.benefit" [oneLiner]="true"></app-description>
-    </p>
-    <p *ngIf="item.drawback" class="gap-text">
-        <strong>Drawback</strong>
-        <app-description [text]="item.drawback" [oneLiner]="true"></app-description>
-    </p>
-    <p *ngIf="item.savingThrow || item.maxDuration || item.stages?.length">
-        <span *ngIf="item.savingThrow">
-            <strong>Saving Throw</strong>
-            {{item.savingThrow}}
-        </span>
-        <span *ngIf="item.stages[0]">
-            <strong>Onset</strong>
-            {{item.stages[0]}}
-        </span>
-        <span *ngIf="item.maxDuration">
-            <strong>Maximum Duration</strong>
-            {{item.maxDuration}}
-        </span>
-        <ng-container *ngFor="let stage of item.stages; let stageIndex = index; trackBy:trackers.trackByIndex;">
-            <span *ngIf="stageIndex > 0">
-                <strong>Stage {{stageIndex}}</strong>
-                {{item.stages[stageIndex]}}
-            </span>
-        </ng-container>
-    </p>
-    <!--Activation text for talismans (identified by having a trigger or requirements, but no effect)-->
-    <div class="newrow left-aligned"
-        *ngIf="(item.activationType || (item.actions && item.actions !== ' ')) && (item.trigger || item.requirements)">
-        <strong>Activate</strong>
-        <app-actionIcons *ngIf="item.actions" [actionString]="item.actions">
-        </app-actionIcons>
-        {{item.activationType}}
-        <span *ngIf="item.trigger">
-            <strong>Trigger</strong>
-            {{item.trigger}}
-        </span>
-        <span *ngIf="item.requirements">
-            <strong>Requirements</strong>
-            {{item.requirements}}
-        </span>
-    </div>
-    <p *ngIf="item.subTypeDesc">
-        <strong *ngIf="item.subType">{{item.subType}}</strong>
-        {{item.subTypeDesc}}
-    </p>
-    <p *ngIf="item.craftRequirement">
-        <strong>Craft Requirement</strong> {{item.craftRequirement}}
-    </p>
-    <ng-container *ngIf="item.critsuccess || item.success || item.failure || item.critfailure">
-        <ul>
-            <li *ngIf="item.critsuccess">
-                <span class="gap-text">
-                    <strong>Critical Success</strong>
-                    <app-description [text]="item.critsuccess" [oneLiner]="true"></app-description>
-                </span>
-            </li>
-            <li *ngIf="item.success">
-                <span class="gap-text">
-                    <strong>Success</strong>
-                    <app-description [text]="item.success" [oneLiner]="true"></app-description>
-                </span>
-            </li>
-            <li *ngIf="item.failure">
-                <span class="gap-text">
-                    <strong>Failure</strong>
-                    <app-description [text]="item.failure" [oneLiner]="true"></app-description>
-                </span>
-            </li>
-            <li *ngIf="item.critfailure">
-                <span class="gap-text">
-                    <strong>Critical Failure</strong>
-                    <app-description [text]="item.critfailure" [oneLiner]="true"></app-description>
-                </span>
-            </li>
-        </ul>
-    </ng-container>
-    <div class="list-item newrow problem" *ngIf="item.inputRequired">
-        <strong>Player input required:</strong>
-        <div class="newrow left-aligned"
-            *ngFor="let inputRequired of item.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;">
-            <app-description class="newrow" [text]="inputRequired">
-            </app-description>
         </div>
     </div>
-</div>
+</ng-container>

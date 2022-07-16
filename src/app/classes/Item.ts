@@ -23,6 +23,7 @@ export class Item {
     public readonly neversave: Array<string> = [
         'restoredFromSave',
     ];
+    public access = '';
     /** Allow changing of "equippable" by custom item creation */
     public allowEquippable: boolean;
     /**
