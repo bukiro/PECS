@@ -60,13 +60,13 @@ export class RefreshService {
         return this._detailChanged$;
     }
 
-    //TO-DO: Make this lowercase so the subscriptions don't have to
+    //TO-DO: Make this lowercase so the subscriptions don't have to (and then cleanup the subscriptions)
     public setComponentChanged(target = 'all'): void {
         if (['character', 'companion', 'familiar', 'all'].includes(target.toLowerCase())) {
             this._clearPreparedChanges(target);
         }
 
-        this._componentChanged.next(target);
+        this._componentChanged.next(target.toLowerCase());
     }
 
     public prepareDetailToChange(creature: CreatureTypes = CreatureTypes.Character, target = 'all', subtarget = ''): void {

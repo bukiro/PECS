@@ -12,6 +12,17 @@ import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Savegame } from 'src/app/classes/Savegame';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { MenuNames } from 'src/libs/shared/definitions/menuNames';
+import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { Character } from 'src/app/classes/Character';
+import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
+import { Familiar } from 'src/app/classes/Familiar';
+import { HttpStatusCode } from '@angular/common/http';
+import { Creature } from 'src/app/classes/Creature';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 
 @Component({
     selector: 'app-top-bar',
@@ -21,237 +32,241 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 })
 export class TopBarComponent implements OnInit, OnDestroy {
 
-    public newMessages: Array<PlayerMessage> = [];
+    @ViewChild('NewMessagesModal', { static: false })
+    private readonly _newMessagesModal: HTMLElement;
+    @ViewChild('LoginModal', { static: false })
+    private readonly _loginModal: HTMLElement;
+
+    public cachedNewMessages: Array<PlayerMessage> = [];
     public modalOpen = false;
     public loginModalOpen = false;
     public password = '';
     public passwordFailed = false;
-    @ViewChild('NewMessagesModal', { static: false })
-    private readonly newMessagesModal;
-    @ViewChild('LoginModal', { static: false })
-    private readonly loginModal;
+    public MenuNamesEnum = MenuNames;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly configService: ConfigService,
-        private readonly savegameService: SavegameService,
-        private readonly messageService: MessageService,
-        private readonly timeService: TimeService,
-        private readonly toastService: ToastService,
-        private readonly modalService: NgbModal,
-        private readonly typeService: TypeService,
-        private readonly itemsService: ItemsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _configService: ConfigService,
+        private readonly _savegameService: SavegameService,
+        private readonly _messageService: MessageService,
+        private readonly _timeService: TimeService,
+        private readonly _toastService: ToastService,
+        private readonly _modalService: NgbModal,
+        private readonly _typeService: TypeService,
+        private readonly _itemsService: ItemsService,
         public modal: NgbActiveModal,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    public get hasDBConnectionURL(): boolean {
+        return this._configService.hasDBConnectionURL;
     }
 
-    get_Database() {
-        return this.configService.hasDBConnectionURL();
+    public get isLoggingIn(): boolean {
+        return this._configService.isLoggingIn;
     }
 
-    get_LoggingIn() {
-        return this.configService.isLoggingIn();
+    public get isLoggedIn(): boolean {
+        return this._configService.isLoggedIn;
     }
 
-    get_LoggedIn() {
-        return this.configService.isLoggedIn();
+    public get cannotLogin(): boolean {
+        return this._configService.cannotLogin;
     }
 
-    get_CannotLogin() {
-        return this.configService.cannotLogin();
+    public get loggedOutMessage(): string {
+        return this._configService.loggedOutMessage;
     }
 
-    get_LoggedOutMessage() {
-        return this.configService.loggedOutMessage();
+    public get loadingButtonTitle(): string {
+        return this._characterService.loadingStatus;
     }
 
-    get_Savegames() {
-        if (this.savegameService.getLoadingError() || this.get_SavegamesInitializing()) {
-            return null;
-        } else {
-            return this.savegameService.getSavegames();
-        }
+    public get areSavegamesInitializing(): boolean {
+        return this._savegameService.stillLoading;
     }
 
-    get_LoadingButtonTitle() {
-        return this.characterService.loadingStatus();
+    public get character(): Character {
+        return this._characterService.character;
     }
 
-    get_NewConditionMessages() {
-        return this.messageService.newMessages(this.characterService);
+    public get isGMMode(): boolean {
+        return this._characterService.isGMMode;
     }
 
-    get_SavegamesInitializing() {
-        return this.savegameService.stillLoading;
+    public get isManualMode(): boolean {
+        return this._characterService.isManualMode;
     }
 
-    set_Changed() {
-        this.refreshService.setComponentChanged();
+    public get companion(): AnimalCompanion {
+        return this._characterService.companion;
     }
 
-    get_Darkmode() {
-        return this.characterService.isDarkmode;
-    }
-
-    toggle_Menu(menu: string) {
-        this.characterService.toggleMenu(menu);
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');
-        this.refreshService.processPreparedChanges();
-    }
-
-    get_ItemsMenuState() {
-        return this.characterService.itemsMenuState();
-    }
-
-    get_CraftingMenuState() {
-        return this.characterService.craftingMenuState();
-    }
-
-    get_CharacterMenuState() {
-        return this.characterService.characterMenuState();
-    }
-
-    get_CompanionMenuState() {
-        return this.characterService.companionMenuState();
-    }
-
-    get_FamiliarMenuState() {
-        return this.characterService.familiarMenuState();
-    }
-
-    get_SpellsMenuState() {
-        return this.characterService.spellsMenuState();
-    }
-
-    get_SpellLibraryMenuState() {
-        return this.characterService.spellLibraryMenuState();
-    }
-
-    get_ConditionsMenuState() {
-        return this.characterService.conditionsMenuState();
-    }
-
-    get_DiceMenuState() {
-        return this.characterService.diceMenuState();
-    }
-
-    get_Character() {
-        return this.characterService.character;
-    }
-
-    get_CompanionAvailable() {
-        return this.characterService.isCompanionAvailable();
-    }
-
-    get_FamiliarAvailable() {
-        return this.characterService.isFamiliarAvailable();
-    }
-
-    get_GMMode() {
-        return this.characterService.isGMMode;
-    }
-
-    get_ManualMode() {
-        return this.characterService.isManualMode;
-    }
-
-    get_Companion() {
-        return this.characterService.companion;
-    }
-
-    get_Familiar() {
-        return this.characterService.familiar;
+    public get familiar(): Familiar {
+        return this._characterService.familiar;
     }
 
     public get stillLoading(): boolean {
-        return this.characterService.stillLoading;
+        return this._characterService.stillLoading;
     }
 
-    get_IsBlankCharacter() {
-        return this.characterService.isBlankCharacter();
+    public newMessagesFromService(): Array<PlayerMessage> {
+        return this._messageService.newMessages(this._characterService);
     }
 
-    get_HasSpells() {
-        const character = this.get_Character();
-
-        return character.class?.spellCasting.some(casting => casting.spellChoices.some(choice => choice.charLevelAvailable <= character.level));
-    }
-
-    save() {
-        this.characterService.saveCharacter();
-    }
-
-    get_Messages() {
-        if (this.get_ManualMode() || !this.get_LoggedIn()) {
-            //Don't check effects in manual mode or if not logged in.
-            return false;
+    public savegames(): Array<Savegame> {
+        if (this._savegameService.loadingError() || this.areSavegamesInitializing) {
+            return null;
+        } else {
+            return this._savegameService.savegames();
         }
+    }
 
-        if (this.modalOpen) {
-            //Don't check for messages if you are currently selecting messages from a previous check.
+    public refreshAll(): void {
+        this._refreshService.setComponentChanged();
+    }
+
+    public toggleMenu(menu: MenuNames): void {
+        this._characterService.toggleMenu(menu);
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');
+        this._refreshService.processPreparedChanges();
+    }
+
+    public itemsMenuState(): MenuState {
+        return this._characterService.itemsMenuState();
+    }
+
+    public craftingMenuState(): MenuState {
+        return this._characterService.craftingMenuState();
+    }
+
+    public characterMenuState(): MenuState {
+        return this._characterService.characterMenuState();
+    }
+
+    public companionMenuState(): MenuState {
+        return this._characterService.companionMenuState();
+    }
+
+    public familiarMenuState(): MenuState {
+        return this._characterService.familiarMenuState();
+    }
+
+    public spellsMenuState(): MenuState {
+        return this._characterService.spellsMenuState();
+    }
+
+    public spellLibraryMenuState(): MenuState {
+        return this._characterService.spellLibraryMenuState();
+    }
+
+    public conditionsMenuState(): MenuState {
+        return this._characterService.conditionsMenuState();
+    }
+
+    public diceMenuState(): MenuState {
+        return this._characterService.diceMenuState();
+    }
+
+    public isCompanionAvailable(): boolean {
+        return this._characterService.isCompanionAvailable();
+    }
+
+    public isFamiliarAvailable(): boolean {
+        return this._characterService.isFamiliarAvailable();
+    }
+
+    public isBlankCharacter(): boolean {
+        return this._characterService.isBlankCharacter();
+    }
+
+    public hasAnySpells(): boolean {
+        const character = this.character;
+
+        return character.class?.spellCasting
+            .some(casting => casting.spellChoices.some(choice => choice.charLevelAvailable <= character.level));
+    }
+
+    public save(): void {
+        this._characterService.saveCharacter();
+    }
+
+    public getMessages(): void {
+        if (this.isManualMode || !this.isLoggedIn) {
+            // Don't check effects in manual mode or if not logged in.
             return;
         }
 
-        if (this.get_Character().settings.checkMessagesAutomatically) {
-            //If the app checks for messages automatically, you don't need to check again manually. Just open the Dialog if messages exist, or let us know if not.
-            if (this.messageService.newMessages(this.characterService).length) {
-                this.open_NewMessagesModal();
+        if (this.modalOpen) {
+            // Don't check for messages if you are currently selecting messages from a previous check.
+            return;
+        }
+
+        if (this.character.settings.checkMessagesAutomatically) {
+            // If the app checks for messages automatically, you don't need to check again manually.
+            // Just open the Dialog if messages exist, or let us know if not.
+            if (this._messageService.newMessages(this._characterService).length) {
+                this.openNewMessagesModal();
             } else {
-                this.toastService.show('No new effects are available.');
+                this._toastService.show('No new effects are available.');
             }
         } else {
-            //Clean up old messages, then check for new messages, then open the dialog if any are found.
-            this.messageService.cleanupMessagesOnConnector()
+            // Clean up old messages, then check for new messages, then open the dialog if any are found.
+            this._messageService.cleanupMessagesOnConnector()
                 .subscribe({
                     next: () => {
-                        this.messageService.loadMessagesFromConnector(this.characterService.character.id)
+                        this._messageService.loadMessagesFromConnector(this._characterService.character.id)
                             .subscribe({
                                 next: (results: Array<string>) => {
                                     //Get any new messages.
-                                    const newMessages = this.messageService._processNewMessages(this.characterService, results);
+                                    const newMessages = this._messageService.processNewMessages(this._characterService, results);
 
                                     //Add them to the list of new messages.
-                                    this.messageService.addNewMessages(newMessages);
+                                    this._messageService.addNewMessages(newMessages);
 
                                     //If any exist, start the dialog. Otherwise give an appropriate response.
-                                    if (this.messageService.newMessages(this.characterService).length) {
-                                        this.open_NewMessagesModal();
+                                    if (this._messageService.newMessages(this._characterService).length) {
+                                        this.openNewMessagesModal();
                                     } else {
-                                        this.toastService.show('No new effects are available.');
+                                        this._toastService.show('No new effects are available.');
                                     }
                                 },
                                 error: error => {
-                                    this.toastService.show('An error occurred while searching for new effects. See console for more information.');
-                                    console.log(`Error loading messages from database: ${ error.message }`);
+                                    this._toastService.show(
+                                        'An error occurred while searching for new effects. See console for more information.',
+                                    );
+                                    console.error(`Error loading messages from database: ${ error.message }`);
                                 },
                             });
                     },
                     error: error => {
-                        if (error.status == 401) {
-                            this.configService.logout('Your login is no longer valid. New effects could not be checked. Please try again after logging in.');
+                        if (error.status === HttpStatusCode.Unauthorized) {
+                            this._configService.logout(
+                                'Your login is no longer valid. New effects could not be checked. Please try again after logging in.',
+                            );
                         } else {
-                            this.toastService.show('An error occurred while cleaning up messages. See console for more information.');
-                            console.log(`Error cleaning up messages: ${ error.message }`);
+                            this._toastService.show('An error occurred while cleaning up messages. See console for more information.');
+                            console.error(`Error cleaning up messages: ${ error.message }`);
                         }
                     },
                 });
         }
     }
 
-    get_MessageCreature(message: PlayerMessage) {
-        return this.characterService.creatureFromMessage(message);
+    public creatureFromMessage(message: PlayerMessage): Creature {
+        return this._characterService.creatureFromMessage(message);
     }
 
-    get_MessageSender(message: PlayerMessage) {
-        return this.characterService.messageSender(message);
+    public messageSenderName(message: PlayerMessage): string {
+        return this._characterService.messageSenderName(message);
     }
 
-    get_ItemMessageIncluded(message: PlayerMessage) {
+    public itemMessageIncludedAmount(message: PlayerMessage): string {
         const included: Array<string> = [];
 
         if (message.includedItems.length) {
@@ -269,117 +284,136 @@ export class TopBarComponent implements OnInit, OnDestroy {
         return '';
     }
 
-    open_NewMessagesModal() {
+    public openNewMessagesModal(): void {
         this.modalOpen = true;
         //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
-        this.newMessages = this.get_NewConditionMessages().map(message => Object.assign<PlayerMessage, PlayerMessage>(new PlayerMessage(), JSON.parse(JSON.stringify(message))).recast(this.typeService, this.itemsService));
-        this.modalService.open(this.newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
-            if (result == 'Apply click') {
-                //Prepare to refresh the effects of all affected creatures;
-                this.characterService.allAvailableCreatures().forEach(creature => {
-                    if (this.newMessages.some(message => message.id == creature.id)) {
-                        this.refreshService.prepareDetailToChange(creature.type, 'effects');
+        this.cachedNewMessages = this.newMessagesFromService()
+            .map(message => Object.assign(
+                new PlayerMessage(),
+                JSON.parse(JSON.stringify(message)),
+            ).recast(this._typeService, this._itemsService));
+
+        this._modalService
+            .open(this._newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' })
+            .result
+            .then(
+                result => {
+                    if (result === 'Apply click') {
+                        //Prepare to refresh the effects of all affected creatures;
+                        this._characterService.allAvailableCreatures().forEach(creature => {
+                            if (this.cachedNewMessages.some(message => message.id === creature.id)) {
+                                this._refreshService.prepareDetailToChange(creature.type, 'effects');
+                            }
+                        });
+                        this._characterService
+                            .applyMessageConditions(this.cachedNewMessages.filter(message => message.gainCondition.length));
+                        this._characterService
+                            .applyMessageItems(this.cachedNewMessages.filter(message => message.offeredItem.length));
+                        this.cachedNewMessages.length = 0;
+                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
+                        this._refreshService.processPreparedChanges();
+                        this.modalOpen = false;
                     }
-                });
-                this.characterService.applyMessageConditions(this.newMessages.filter(message => message.gainCondition.length));
-                this.characterService.applyMessageItems(this.newMessages.filter(message => message.offeredItem.length));
-                this.newMessages.length = 0;
-                this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-                this.refreshService.processPreparedChanges();
-                this.modalOpen = false;
-            }
-        }, () => {
-            //Do nothing if cancelled, just mark that the modal is not open.
-            this.modalOpen = false;
+                },
+                () => {
+                    //Do nothing if cancelled, just mark that the modal is not open.
+                    this.modalOpen = false;
+                },
+            );
+    }
+
+    public onSelectAllMessages(event: Event): void {
+        const isChecked = (event.target as HTMLInputElement).checked;
+
+        this.cachedNewMessages.forEach(message => {
+            message.selected = isChecked;
         });
     }
 
-    on_SelectAllMessages(event: Event) {
-        const checked = (<HTMLInputElement>event.target).checked;
-
-        this.newMessages.forEach(message => {
-            message.selected = checked;
-        });
+    public areAllMessagesSelected(): boolean {
+        return this.cachedNewMessages.filter(message => message.selected).length
+            >= this.cachedNewMessages.filter(message => this.creatureFromMessage(message)).length;
     }
 
-    get_AllMessagesSelected() {
-        return (this.newMessages.filter(message => message.selected).length >= this.newMessages.filter(message => this.get_MessageCreature(message)).length);
-    }
-
-    get_Duration(duration: number) {
-        if (duration == -5) {
+    public durationDescription(duration: number): string {
+        if (duration === TimePeriods.Default) {
             return '(Default duration)';
         } else {
-            return this.timeService.durationDescription(duration, false, true);
+            return this._timeService.durationDescription(duration, false, true);
         }
     }
 
-    open_LoginModal(passwordFailed = false) {
+    public openLoginModal(options: { passwordFailed?: boolean } = {}): void {
         if (!this.modalOpen) {
             this.modalOpen = true;
             this.password = '';
 
-            if (passwordFailed) {
+            if (options.passwordFailed) {
                 this.passwordFailed = true;
             }
 
-            this.modalService.open(this.loginModal, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
-                if (result == 'OK click') {
-                    this.passwordFailed = false;
-                    this.modalOpen = false;
-                    this.configService.login(this.password, this.characterService, this.savegameService);
-                    this.password = '';
-                }
-            }, () => {
-                //If the login modal is cancelled in any way, it can go ahead and open right back up.
-                this.modalOpen = false;
-                this.open_LoginModal();
-            });
+            this._modalService
+                .open(this._loginModal, { centered: true, ariaLabelledBy: 'modal-title' })
+                .result
+                .then(
+                    result => {
+                        if (result === 'OK click') {
+                            this.passwordFailed = false;
+                            this.modalOpen = false;
+                            this._configService.login(this.password, this._characterService, this._savegameService);
+                            this.password = '';
+                        }
+                    },
+                    () => {
+                        //If the login modal is cancelled in any way, it can go ahead and open right back up.
+                        this.modalOpen = false;
+                        this.openLoginModal();
+                    },
+                );
         }
-    }
-
-    finish_Loading() {
-        this.changeSubscription = this.refreshService.componentChanged$
-            .subscribe(target => {
-                if (['top-bar', 'all', 'character'].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-            });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
-            .subscribe(view => {
-                if (view.creature.toLowerCase() == 'character' && ['top-bar', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
-                }
-
-                if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'check-messages-manually') {
-                    this.get_Messages();
-                }
-
-                if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'logged-out') {
-                    this.open_LoginModal();
-                }
-
-                if (view.creature.toLowerCase() == 'character' && view.target.toLowerCase() == 'password-failed') {
-                    this.open_LoginModal(true);
-                }
-            });
     }
 
     public ngOnInit(): void {
         const waitUntilReady = setInterval(() => {
-            if (this.get_Database() || this.configService.stillLoading) {
+            //TO-DO: Is this correct? Should we proceed if ConfigService is loading?
+            // If yes, then document why!
+            if (this.hasDBConnectionURL || this._configService.stillLoading) {
                 clearInterval(waitUntilReady);
-                this.finish_Loading();
+                this._subscribeToChanges();
             }
         }, Defaults.waitForServiceDelay);
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    private _subscribeToChanges(): void {
+        this._changeSubscription = this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (['top-bar', 'all', 'character'].includes(target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+        this._viewChangeSubscription = this._refreshService.detailChanged$
+            .subscribe(view => {
+                if (view.creature.toLowerCase() === 'character' && ['top-bar', 'all'].includes(view.target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+
+                if (view.creature.toLowerCase() === 'character' && view.target.toLowerCase() === 'check-messages-manually') {
+                    this.getMessages();
+                }
+
+                if (view.creature.toLowerCase() === 'character' && view.target.toLowerCase() === 'logged-out') {
+                    this.openLoginModal();
+                }
+
+                if (view.creature.toLowerCase() === 'character' && view.target.toLowerCase() === 'password-failed') {
+                    this.openLoginModal({ passwordFailed: true });
+                }
+            });
     }
 
 }

@@ -336,8 +336,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     get_Savegames() {
-        if (!this.savegameService.getLoadingError()) {
-            return this.savegameService.getSavegames()
+        if (!this.savegameService.loadingError()) {
+            return this.savegameService.savegames()
                 .sort((a, b) => {
                     if (b.partyName == 'No Party' && a.partyName != 'No Party') {
                         return 1;

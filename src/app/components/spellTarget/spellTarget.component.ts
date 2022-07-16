@@ -272,7 +272,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
         //Make all party members available for selection only if you are in a party.
         if (character.partyName) {
-            this._savegameService.getSavegames()
+            this._savegameService.savegames()
                 .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
                 .forEach(savegame => {
                     newTargets.push(

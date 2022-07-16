@@ -62,11 +62,11 @@ export class SavegameService {
         return this._loading;
     }
 
-    public getSavegames(): Array<Savegame> {
+    public savegames(): Array<Savegame> {
         return this._savegames;
     }
 
-    public getLoadingError(): boolean {
+    public loadingError(): boolean {
         return this._loadingError;
     }
 

@@ -104,7 +104,7 @@ export class ItemTargetComponent implements OnInit {
 
         if (character.partyName && !this.excluding && !this._characterService.isGMMode && !this._characterService.isManualMode) {
             //Only allow selecting other players if you are in a party.
-            this._savegameService.getSavegames()
+            this._savegameService.savegames()
                 .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
                 .forEach(savegame => {
                     targets.push(

@@ -1781,7 +1781,7 @@ export class CharacterService {
     }
 
     public messageSenderName(message: PlayerMessage): string {
-        return this._savegameService.getSavegames().find(savegame => savegame.id === message.senderId)?.name;
+        return this._savegameService.savegames().find(savegame => savegame.id === message.senderId)?.name;
     }
 
     public sendTurnChangeToPlayers(): void {
@@ -1796,7 +1796,7 @@ export class CharacterService {
                     const timeStamp = result.time;
                     const character = this.character;
                     const targets =
-                        this._savegameService.getSavegames()
+                        this._savegameService.savegames()
                             .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id);
                     const messages: Array<PlayerMessage> = [];
 
@@ -1857,7 +1857,7 @@ export class CharacterService {
 
                         if (hasConditionBeenRemoved) {
                             const senderName =
-                                this._savegameService.getSavegames().find(savegame => savegame.id === senderId)?.name || 'Unknown';
+                                this._savegameService.savegames().find(savegame => savegame.id === senderId)?.name || 'Unknown';
 
                             this.toastService.show(
                                 `Automatically removed <strong>${ existingConditionGain.name }`

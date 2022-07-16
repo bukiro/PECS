@@ -10,6 +10,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { TypeService } from 'src/app/services/type.service';
 import { Creature } from '../classes/Creature';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 const ignoredMessageTTL = 60;
 
@@ -84,6 +85,64 @@ export class MessageService {
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
         );
+    }
+
+    public processNewMessages(characterService: CharacterService, results: Array<string>): Array<PlayerMessage> {
+        const loadedMessages = results;
+
+        let newMessages = loadedMessages
+            .map(message => Object.assign(new PlayerMessage(), message).recast(this._typeService, this._itemsService));
+
+        newMessages.forEach(message => {
+            //Cut off the time zone.
+            message.time = message.time.split('(')[0].trim();
+            //Reassign gainCondition.
+            message.gainCondition = message.gainCondition.map(gain => Object.assign(new ConditionGain(), gain).recast());
+        });
+
+        newMessages.sort((a, b) => {
+            if (!a.activateCondition && b.activateCondition) {
+                return 1;
+            }
+
+            if (a.activateCondition && !b.activateCondition) {
+                return -1;
+            }
+
+            return 0;
+        });
+
+        //Ignore messages for creatures that you don't own.
+        newMessages.forEach(message => {
+            if (message.gainCondition.length) {
+                if (!this._creatureFromMessage(characterService, message)) {
+                    this.markMessageAsIgnored(characterService, message);
+                }
+            }
+        });
+        //Remove all ignored messages that don't match a new message, as you don't need them anymore.
+        characterService.character.ignoredMessages = this._ignoredMessages(characterService).filter(message =>
+            newMessages.some(newMessage => newMessage.id === message.id) ||
+            this._newMessages.some(newMessage => newMessage.id === message.id),
+        );
+        //Remove ignored messages and messages that are already in the list.
+        newMessages = newMessages.filter(message =>
+            !this._ignoredMessages(characterService).some(ignoredMessage => ignoredMessage.id === message.id) &&
+            !this._newMessages.some(ignoredMessage => ignoredMessage.id === message.id),
+        );
+
+        //Apply turn change messages automatically, then invalidate these messages and return the rest.
+        if (newMessages.length) {
+            characterService.applyTurnChangeMessage(newMessages.filter(message => message.turnChange));
+            characterService.applyItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
+            this._refreshService.processPreparedChanges();
+            newMessages.filter(message => message.turnChange).forEach(message => {
+                this.markMessageAsIgnored(characterService, message);
+            });
+            newMessages = newMessages.filter(message => !message.turnChange && !message.acceptedItem && !message.rejectedItem);
+        }
+
+        return newMessages;
     }
 
     private _cleanupIgnoredMessages(characterService: CharacterService): void {
@@ -218,7 +277,7 @@ export class MessageService {
         this.loadMessagesFromConnector(characterService.get_Character().id)
             .subscribe({
                 next: (results: Array<string>) => {
-                    const newMessages = this._processNewMessages(characterService, results);
+                    const newMessages = this.processNewMessages(characterService, results);
 
                     //If the check was automatic, and any messages are left, apply them automatically if applyMessagesAutomatically is set,
                     // otherwise only announce that new messages are available, then update the component to show the number on the button.
@@ -230,7 +289,7 @@ export class MessageService {
                         this._toastService.show(
                             `<strong>${ newMessages.length }</strong> new message`
                             + `${ newMessages.length !== 1 ? 's are' : ' is' } available.`,
-                            { onClickCreature: 'character', onClickAction: 'check-messages-manually' },
+                            { onClickCreature: CreatureTypes.Character, onClickAction: 'check-messages-manually' },
                         );
                         this._refreshService.setComponentChanged('top-bar');
                     }
@@ -255,64 +314,6 @@ export class MessageService {
                     }
                 },
             });
-    }
-
-    private _processNewMessages(characterService: CharacterService, results: Array<string>): Array<PlayerMessage> {
-        const loadedMessages = results;
-
-        let newMessages = loadedMessages
-            .map(message => Object.assign(new PlayerMessage(), message).recast(this._typeService, this._itemsService));
-
-        newMessages.forEach(message => {
-            //Cut off the time zone.
-            message.time = message.time.split('(')[0].trim();
-            //Reassign gainCondition.
-            message.gainCondition = message.gainCondition.map(gain => Object.assign(new ConditionGain(), gain).recast());
-        });
-
-        newMessages.sort((a, b) => {
-            if (!a.activateCondition && b.activateCondition) {
-                return 1;
-            }
-
-            if (a.activateCondition && !b.activateCondition) {
-                return -1;
-            }
-
-            return 0;
-        });
-
-        //Ignore messages for creatures that you don't own.
-        newMessages.forEach(message => {
-            if (message.gainCondition.length) {
-                if (!this._creatureFromMessage(characterService, message)) {
-                    this.markMessageAsIgnored(characterService, message);
-                }
-            }
-        });
-        //Remove all ignored messages that don't match a new message, as you don't need them anymore.
-        characterService.character.ignoredMessages = this._ignoredMessages(characterService).filter(message =>
-            newMessages.some(newMessage => newMessage.id === message.id) ||
-            this._newMessages.some(newMessage => newMessage.id === message.id),
-        );
-        //Remove ignored messages and messages that are already in the list.
-        newMessages = newMessages.filter(message =>
-            !this._ignoredMessages(characterService).some(ignoredMessage => ignoredMessage.id === message.id) &&
-            !this._newMessages.some(ignoredMessage => ignoredMessage.id === message.id),
-        );
-
-        //Apply turn change messages automatically, then invalidate these messages and return the rest.
-        if (newMessages.length) {
-            characterService.applyTurnChangeMessage(newMessages.filter(message => message.turnChange));
-            characterService.applyItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
-            this._refreshService.processPreparedChanges();
-            newMessages.filter(message => message.turnChange).forEach(message => {
-                this.markMessageAsIgnored(characterService, message);
-            });
-            newMessages = newMessages.filter(message => !message.turnChange && !message.acceptedItem && !message.rejectedItem);
-        }
-
-        return newMessages;
     }
 
     private _applyMessagesAutomatically(characterService: CharacterService, messages: Array<PlayerMessage>): void {

@@ -6,6 +6,7 @@ import { SavegameService } from 'src/app/services/savegame.service';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { map, Observable, of, switchMap } from 'rxjs';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 interface LoginToken {
     token: string | false;
