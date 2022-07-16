@@ -33,11 +33,11 @@ export class TimeService {
         private readonly _refreshService: RefreshService,
     ) { }
 
-    public getYourTurn(): number {
+    public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
         return this._yourTurn;
     }
 
-    public setYourTurn(yourTurn: number): void {
+    public set yourTurn(yourTurn: TimePeriods.NoTurn | TimePeriods.HalfTurn) {
         //Only used when loading a character
         this._yourTurn = yourTurn;
     }
@@ -363,13 +363,13 @@ export class TimeService {
             workingDuration -= remainder;
 
             if (workingDuration === TimePeriods.HalfTurn) {
-                if (this.getYourTurn() === TimePeriods.HalfTurn) {
+                if (this.yourTurn === TimePeriods.HalfTurn) {
                     return inASentence
                         ? 'for rest of turn'
                         : 'Rest of turn';
                 }
 
-                if (this.getYourTurn() === TimePeriods.NoTurn) {
+                if (this.yourTurn === TimePeriods.NoTurn) {
                     return inASentence
                         ? 'until start of next turn'
                         : 'To start of next turn';
@@ -410,11 +410,11 @@ export class TimeService {
                 workingDuration %= TimePeriods.Turn;
             }
 
-            if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this.getYourTurn() === TimePeriods.HalfTurn) {
+            if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this.yourTurn === TimePeriods.HalfTurn) {
                 returnString += ' to end of turn';
             }
 
-            if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this.getYourTurn() === TimePeriods.NoTurn) {
+            if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this.yourTurn === TimePeriods.NoTurn) {
                 returnString += ' to start of turn';
             }
 

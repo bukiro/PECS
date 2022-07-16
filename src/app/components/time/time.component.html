@@ -1,41 +1,43 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <button class="minimizebutton lower" *ngIf="showTime && showTurn"
-    [ngbTooltip]="get_Minimized() ? 'Click to show all buttons.' : 'Click to hide time buttons.'"
-    [ngClass]="{'fancy-button':get_Minimized()}" (click)="minimize()">
-    <i class='bi-arrows-collapse' *ngIf="get_Minimized()"></i>
-    <i class='bi-arrows-expand' *ngIf="!get_Minimized()"></i>
+    [ngbTooltip]="isMinimized ? 'Click to show all buttons.' : 'Click to hide time buttons.'"
+    [ngClass]="{'fancy-button':isMinimized}" (click)="minimize()">
+    <i class='bi-arrows-collapse' *ngIf="isMinimized"></i>
+    <i class='bi-arrows-expand' *ngIf="!isMinimized"></i>
 </button>
 <div id="time">
     <div class="loading" *ngIf="stillLoading">Loading</div>
     <ng-container *ngIf="!stillLoading">
-        <div *ngIf="showTurn" class="list-item center-aligned">
-            <div [ngbTooltip]="get_Waiting(5)">
-                <button (click)="start_Turn()" [disabled]="get_YourTurn() === 5 || get_Waiting(5).length">
+        <div *ngIf="showTurn && {desc: waitingDescription(5)} as waitingStatus" class="list-item center-aligned">
+            <div [ngbTooltip]="waitingStatus.desc">
+                <button (click)="startTurn()" [disabled]="yourTurn === 5 || waitingStatus.desc.length">
                     Start Turn
                 </button>
             </div>
             <div class="turn-indicator">
-                <strong *ngIf="get_YourTurn() === 0">Not your Turn</strong>
-                <strong class="yourTurn" *ngIf="get_YourTurn() === 5">Your Turn</strong>
+                <strong *ngIf="yourTurn === 0">Not your Turn</strong>
+                <strong class="yourTurn" *ngIf="yourTurn === 5">Your Turn</strong>
             </div>
-            <div [ngbTooltip]="get_Waiting(5)">
-                <button (click)="end_Turn()" [disabled]="get_YourTurn() === 0 || get_Waiting(5).length">
+            <div [ngbTooltip]="waitingStatus.desc">
+                <button (click)="endTurn()" [disabled]="yourTurn === 0 || waitingStatus.desc.length">
                     End Turn
                 </button>
             </div>
         </div>
         <div *ngIf="showTime" class="list-item" [ngClass]="{'fullsize-only':showTime && showTurn}">
-            <div *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackers.trackByIndex;"
-                [ngbTooltip]="get_Waiting(duration)">
-                <button class="fancybutton" (click)="tick(duration)" [disabled]="get_Waiting(duration).length">
-                    <span class="hlist">
-                        <i class="bi bi-clock-history desktop-hide"></i>
-                        <span class="mobile-hide">Pass</span>
-                        <span class="mobile-hide">{{get_Duration(duration, false)}}</span>
-                        <span class="desktop-hide">{{get_Duration(duration, false, true)}}</span>
-                    </span>
-                </button>
-            </div>
+            <ng-container
+                *ngFor="let duration of [10, 50, 100, 500, 1000, 6000, 48000, 144000]; trackBy:trackers.trackByIndex;">
+                <div [ngbTooltip]="waitingStatus.desc" *ngIf="{desc: waitingDescription(duration)} as waitingStatus">
+                    <button class="fancybutton" (click)="tick(duration)" [disabled]="waitingStatus.desc.length">
+                        <span class="hlist">
+                            <i class="bi bi-clock-history desktop-hide"></i>
+                            <span class="mobile-hide">Pass</span>
+                            <span class="mobile-hide">{{durationDescription(duration, false)}}</span>
+                            <span class="desktop-hide">{{durationDescription(duration, false, true)}}</span>
+                        </span>
+                    </button>
+                </div>
+            </ng-container>
         </div>
     </ng-container>
 </div>

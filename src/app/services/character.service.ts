@@ -3341,7 +3341,7 @@ export class CharacterService {
         // Set loading to false. The last steps need the characterService to not be loading.
         this._loading = false;
         // Set your turn state according to the saved state.
-        this.timeService.setYourTurn(this.character.yourTurn);
+        this.timeService.yourTurn(this.character.yourTurn);
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
         this.featsService.buildCharacterFeats(this.character);
         // Reset cache for all creatures.

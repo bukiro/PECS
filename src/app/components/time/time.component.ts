@@ -7,6 +7,8 @@ import { SpellsService } from 'src/app/services/spells.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 
 @Component({
     selector: 'app-time',
@@ -21,78 +23,85 @@ export class TimeComponent implements OnInit, OnDestroy {
     @Input()
     public showTime = true;
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly timeService: TimeService,
-        private readonly itemsService: ItemsService,
-        private readonly spellsService: SpellsService,
-        private readonly effectsService: EffectsService,
-        private readonly conditionsService: ConditionsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _timeService: TimeService,
+        private readonly _itemsService: ItemsService,
+        private readonly _spellsService: SpellsService,
+        private readonly _effectsService: EffectsService,
+        private readonly _conditionsService: ConditionsService,
+        public trackers: Trackers,
     ) { }
 
-    minimize() {
-        this.characterService.character.settings.timeMinimized = !this.characterService.character.settings.timeMinimized;
-    }
-
-    get_Minimized() {
-        return this.characterService.character.settings.timeMinimized;
-    }
-
-    trackByIndex(index: number): number {
-        return index;
-    }
-
-    get_Duration(duration: number, includeTurnState = true, short = false) {
-        return this.timeService.durationDescription(duration, includeTurnState, false, short);
-    }
-
-    get_Waiting(duration: number) {
-        return this.timeService.waitingDescription(duration, { characterService: this.characterService, conditionsService: this.conditionsService }, { includeResting: false });
+    public get isMinimized(): boolean {
+        return this._characterService.character.settings.timeMinimized;
     }
 
     public get stillLoading(): boolean {
-        return this.characterService.stillLoading;
+        return this._characterService.stillLoading;
     }
 
-    get_YourTurn() {
-        return this.timeService.getYourTurn();
+    public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
+        return this._timeService.yourTurn;
     }
 
-    start_Turn() {
-        this.timeService.startTurn(this.characterService, this.conditionsService, this.itemsService, this.spellsService, this.effectsService);
+    public minimize(): void {
+        this._characterService.character.settings.timeMinimized = !this._characterService.character.settings.timeMinimized;
     }
 
-    end_Turn() {
-        this.timeService.endTurn(this.characterService, this.conditionsService, this.itemsService, this.spellsService);
+    public durationDescription(duration: number, includeTurnState = true, short = false): string {
+        return this._timeService.durationDescription(duration, includeTurnState, false, short);
     }
 
-    tick(amount: number) {
-        this.timeService.tick(this.characterService, this.conditionsService, this.itemsService, this.spellsService, amount);
+    public waitingDescription(duration: number): string {
+        return this._timeService.waitingDescription(
+            duration,
+            { characterService: this._characterService, conditionsService: this._conditionsService },
+            { includeResting: false },
+        );
+    }
+
+    public startTurn(): void {
+        this._timeService.startTurn(
+            this._characterService,
+            this._conditionsService,
+            this._itemsService,
+            this._spellsService,
+            this._effectsService,
+        );
+    }
+
+    public endTurn(): void {
+        this._timeService.endTurn(this._characterService, this._conditionsService, this._itemsService, this._spellsService);
+    }
+
+    public tick(amount: number): void {
+        this._timeService.tick(this._characterService, this._conditionsService, this._itemsService, this._spellsService, amount);
     }
 
     public ngOnInit(): void {
-        this.changeSubscription = this.refreshService.componentChanged$
+        this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['time', 'all', 'character'].includes(target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                    this._changeDetector.detectChanges();
                 }
             });
-        this.viewChangeSubscription = this.refreshService.detailChanged$
+        this._viewChangeSubscription = this._refreshService.detailChanged$
             .subscribe(view => {
-                if (view.creature.toLowerCase() == 'character' && ['time', 'all'].includes(view.target.toLowerCase())) {
-                    this.changeDetector.detectChanges();
+                if (view.creature.toLowerCase() === 'character' && ['time', 'all'].includes(view.target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
                 }
             });
     }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
     }
 
 }
