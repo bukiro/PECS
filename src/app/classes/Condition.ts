@@ -263,18 +263,16 @@ export class Condition {
             )
         );
     }
-    public effectiveChoices(
+    public unfilteredChoices(): Array<string> {
+        return this.choices.map(choice => choice.name);
+    }
+    public createEffectiveChoices(
         characterService: CharacterService,
-        filtered = false,
         spellLevel: number = this.minLevel,
-    ): Array<string> {
+    ): void {
         //If this.choice is not one of the available choices, set it to the first.
         if (this.choices.length && !this.choices.map(choice => choice.name).includes(this.choice)) {
             this.choice = this.choices[0].name;
-        }
-
-        if (!filtered) {
-            return this.choices.map(choice => choice.name);
         }
 
         const choices: Array<string> = [];
@@ -326,8 +324,6 @@ export class Condition {
             }
         });
         this.$choices = choices;
-
-        return this.$choices;
     }
     public timeToNextStage(choiceName: string): number {
         return this.choices.find(choice => choice.name === choiceName)?.nextStage || 0;

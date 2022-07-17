@@ -17,12 +17,21 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Condition } from 'src/app/classes/Condition';
 import { Equipment } from 'src/app/classes/Equipment';
 import { RingOfWizardrySlot, WornItem } from 'src/app/classes/WornItem';
-import { Shield } from 'src/app/classes/Shield';
-import { Armor } from 'src/app/classes/Armor';
 import { Subscription } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Trackers } from 'src/libs/shared/util/trackers';
+import { Creature } from 'src/app/classes/Creature';
+import { Character } from 'src/app/classes/Character';
+import { Trait } from 'src/app/classes/Trait';
+import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { Activity } from 'src/app/classes/Activity';
+import { ItemRoles } from 'src/app/classes/ItemRoles';
+import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
+import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { Rune } from 'src/app/classes/Rune';
 
 @Component({
     selector: 'app-item',
@@ -33,115 +42,133 @@ import { EffectsService } from 'src/app/services/effects.service';
 export class ItemComponent implements OnInit, OnDestroy {
 
     @Input()
-    creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    item;
+    public item: Item;
     @Input()
-    allowActivate = false;
+    public allowActivate = false;
     @Input()
-    armoredSkirt: AdventuringGear;
+    public armoredSkirt: AdventuringGear;
     @Input()
-    itemStore = false;
+    public itemStore = false;
     @Input()
-    isSubItem = false;
+    public isSubItem = false;
+
+    private _changeSubscription: Subscription;
+    private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly changeDetector: ChangeDetectorRef,
-        private readonly traitsService: TraitsService,
-        private readonly activitiesService: ActivitiesDataService,
-        public characterService: CharacterService,
-        private readonly refreshService: RefreshService,
-        private readonly itemsService: ItemsService,
-        private readonly spellsService: SpellsService,
-        private readonly conditionsService: ConditionsService,
-        private readonly effectsService: EffectsService,
+        private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _traitsService: TraitsService,
+        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _characterService: CharacterService,
+        private readonly _refreshService: RefreshService,
+        private readonly _itemsService: ItemsService,
+        private readonly _spellsService: SpellsService,
+        private readonly _conditionsService: ConditionsService,
+        private readonly _effectsService: EffectsService,
+        private readonly _itemRolesService: ItemRolesService,
+        public trackers: Trackers,
     ) { }
 
-    trackByIndex(index: number): number {
-        return index;
+    private get _currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
     }
 
-    get_Creature(type: string = this.creature) {
-        return this.characterService.creatureFromType(type);
+    private get _character(): Character {
+        return this._characterService.character;
     }
 
-    get_Character() {
-        return this.characterService.character;
+    public itemTraits(): Array<string> {
+        return this.item.effectiveTraits(this._characterService, this._currentCreature);
     }
 
-    get_Traits(name = '') {
-        return this.traitsService.traits(name);
+    public traitFromName(name: string): Trait {
+        return this._traitsService.traitFromName(name);
     }
 
-    get_Activities(name = '') {
-        return this.activitiesService.activities(name);
+    public activityFromName(name: string): Activity {
+        return this._activitiesService.activityFromName(name);
     }
 
-    get_Spells(name = '', type = '', tradition = '') {
-        return this.spellsService.spells(name, type, tradition);
+    public itemRoles(): ItemRoles {
+        return this._itemRolesService.getItemRoles(this.item);
     }
 
-    get_GainedSpellLevel(spell: Spell, context: { gain: SpellGain; choice: SpellChoice }) {
-        return spell.effectiveSpellLevel({ baseLevel: (context.choice.level ? context.choice.level : 0), creature: this.get_Creature(), gain: context.gain }, { characterService: this.characterService, effectsService: this.effectsService }, { noEffects: true });
+    public spellFromName(name: string): Spell {
+        return this._spellsService.spellFromName(name);
     }
 
-    get_HaveMatchingTalismanCord(talisman: Talisman) {
-        if (this.item instanceof Equipment) {
-            return this.item.talismanCords?.some(cord => cord.level <= talisman.level && cord.data.some(data => talisman.traits.includes(data.value as string)));
-        }
+    public gainedSpellLevel(spell: Spell, context: { gain: SpellGain; choice: SpellChoice }): number {
+        return spell.effectiveSpellLevel(
+            { baseLevel: (context.choice.level ? context.choice.level : 0), creature: this._currentCreature, gain: context.gain },
+            { characterService: this._characterService, effectsService: this._effectsService },
+            { noEffects: true },
+        );
     }
 
-    on_TalismanUse(talisman: Talisman, index: number, preserve = false) {
-        this.characterService.useConsumable(this.get_Creature(), talisman, preserve);
-
-        if (!preserve) {
-            this.item.talismans.splice(index, 1);
-        }
-
-        if (this.item instanceof Armor || this.item instanceof Shield) {
-            this.refreshService.prepareDetailToChange(this.creature, 'defense');
-        }
-
-        if (this.item instanceof Weapon) {
-            this.refreshService.prepareDetailToChange(this.creature, 'attacks');
-        }
-
-        this.refreshService.processPreparedChanges();
+    public hasMatchingTalismanCord(item: Equipment, talisman: Talisman): boolean {
+        return item.talismanCords.some(cord =>
+            cord.level <= talisman.level &&
+            cord.data.some(data => talisman.traits.includes(data.value as string)),
+        );
     }
 
-    on_PoisonUse(poison: AlchemicalPoison) {
-        this.characterService.useConsumable(this.get_Creature(), poison);
+    public onActivateTalisman(itemRoles: ItemRoles, talisman: Talisman, index: number, options: { preserve?: boolean } = {}): void {
+        this._characterService.useConsumable(this._currentCreature, talisman, options.preserve);
 
-        if (this.item instanceof Weapon) {
-            this.item.poisonsApplied.length = 0;
-            this.refreshService.prepareDetailToChange(this.creature, 'attacks');
+        if (!options.preserve) {
+            itemRoles.asEquipment?.talismans.splice(index, 1);
         }
 
-        this.refreshService.processPreparedChanges();
+        if (itemRoles.asArmor || itemRoles.asShield) {
+            this._refreshService.prepareDetailToChange(this.creature, 'defense');
+        }
+
+        if (itemRoles.asWeapon) {
+            this._refreshService.prepareDetailToChange(this.creature, 'attacks');
+        }
+
+        this._refreshService.processPreparedChanges();
     }
 
-    get_DoublingRingsOptions(ring: string) {
+    public onActivatePoison(weapon: Weapon, poison: AlchemicalPoison): void {
+        this._characterService.useConsumable(this._currentCreature, poison);
+
+        weapon.poisonsApplied.length = 0;
+        this._refreshService.prepareDetailToChange(this.creature, 'attacks');
+
+        this._refreshService.processPreparedChanges();
+    }
+
+    public doublingRingsOptions(ring: string): Array<Weapon> {
         switch (ring) {
             case 'gold':
-                return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);
+                return this._currentCreature.inventories[0].weapons.filter(weapon => weapon.melee && weapon.potencyRune);
             case 'iron':
-                return this.get_Creature().inventories[0].weapons.filter(weapon => weapon.melee);
+                return this._currentCreature.inventories[0].weapons.filter(weapon => weapon.melee);
+            default:
+                return [];
         }
     }
 
-    on_DoublingRingsChange() {
-        this.refreshService.prepareDetailToChange(this.creature, 'inventory');
+    public onSelectDoublingRingsOption(item: WornItem): void {
+        this._refreshService.prepareDetailToChange(this.creature, 'inventory');
 
-        const ironItem = this.get_DoublingRingsOptions('iron').find(weapon => weapon.id == this.item.data[0].value);
+        const ironItem = this.doublingRingsOptions('iron').find(weapon => weapon.id === this.item.data[0].value);
 
-        if (ironItem && this.item.invested) {
-            this.refreshService.prepareChangesByItem(this.get_Creature(), ironItem, { characterService: this.characterService, activitiesService: this.activitiesService });
+        if (ironItem && item.invested) {
+            this._refreshService.prepareChangesByItem(
+                this._currentCreature,
+                ironItem,
+                { characterService: this._characterService, activitiesService: this._activitiesService },
+            );
         }
 
-        this.refreshService.processPreparedChanges();
+        this._refreshService.processPreparedChanges();
     }
 
-    get_RingOfWizardrySlotName(wizardrySlot: RingOfWizardrySlot) {
+    public ringOfWizardrySlotName(wizardrySlot: RingOfWizardrySlot): string {
         const spellLevels = [
             'cantrip',
             '1st-level spell',
@@ -159,78 +186,75 @@ export class ItemComponent implements OnInit, OnDestroy {
         return `${ (wizardrySlot.tradition ? `${ wizardrySlot.tradition } ` : '') + spellLevels[wizardrySlot.level] } slot`;
     }
 
-    get_RingOfWizardryOptions(wizardrySlot: RingOfWizardrySlot): Array<string> {
-        if (this.get_Character().class) {
+    public ringOfWizardryOptions(wizardrySlot: RingOfWizardrySlot): Array<string> {
+        if (this._character.class) {
             return ['no spellcasting selected']
-                .concat(this.get_Character().class?.spellCasting
+                .concat(this._character.class?.spellCasting
                     .filter(casting =>
                         !['focus', 'innate'].includes(casting.castingType.toLowerCase()) &&
-                        (wizardrySlot.tradition ? casting.tradition.toLowerCase() == wizardrySlot.tradition.toLowerCase() : true),
+                        (wizardrySlot.tradition ? casting.tradition.toLowerCase() === wizardrySlot.tradition.toLowerCase() : true),
                     )
                     .map(casting => `${ casting.className } ${ casting.tradition } ${ casting.castingType } Spells`));
         }
     }
 
-    on_RingOfWizardryChange(wizardrySlot: RingOfWizardrySlot, wizardrySlotIndex: number) {
+    public onSelectRingOfWizardryOption(item: WornItem, wizardrySlot: RingOfWizardrySlot, wizardrySlotIndex: number): void {
         //Remove any spellgain or effectgain that comes from this ring of wizardry slot.
-        const item = this.item as WornItem;
-        let spellGainFound = false;
+        let hasFoundSpellGain = false;
 
         for (let index = 0; index < item.gainSpells.length; index++) {
-            if (!spellGainFound && item.gainSpells[index].ringOfWizardry == (wizardrySlotIndex + 1)) {
-                spellGainFound = true;
+            if (!hasFoundSpellGain && item.gainSpells[index].ringOfWizardry === (wizardrySlotIndex + 1)) {
+                hasFoundSpellGain = true;
                 item.gainSpells.splice(index, 1);
                 break;
             }
         }
 
-        let effectFound = false;
+        let hasFoundEffect = false;
 
         for (let index = 0; index < item.effects.length; index++) {
-            if (!effectFound && item.effects[index].source == `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`) {
-                effectFound = true;
+            if (!hasFoundEffect && item.effects[index].source === `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`) {
+                hasFoundEffect = true;
                 item.effects.splice(index, 1);
                 break;
             }
         }
 
         //If a new spellcasting has been selected, either add a new spellgain or effectgain.
-        if (item.data[wizardrySlotIndex].value != 'no spellcasting selected') {
+        if (item.data[wizardrySlotIndex].value !== 'no spellcasting selected') {
             const dataValue = (item.data[wizardrySlotIndex].value as string);
-            const className = dataValue.split(' ')[0];
-            const tradition = dataValue.split(' ')[1];
-            const castingType = dataValue.split(' ')[2];
+            const [className, tradition, castingType] = dataValue.split(' ');
 
-            if (castingType.toLowerCase() == 'prepared') {
+            if (castingType.toLowerCase() === 'prepared') {
                 const newSpellGain = new SpellChoice();
 
                 newSpellGain.available = 1;
                 newSpellGain.className = className;
-                newSpellGain.castingType = 'Prepared';
-                newSpellGain.tradition = tradition;
+                newSpellGain.castingType = SpellCastingTypes.Prepared;
+                newSpellGain.tradition = SpellTraditionFromString(tradition);
                 newSpellGain.level = wizardrySlot.level;
                 newSpellGain.ringOfWizardry = (wizardrySlotIndex + 1);
                 newSpellGain.source = item.name;
                 item.gainSpells.push(newSpellGain);
-                this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'Spells');
-            } else if (castingType.toLowerCase() == 'spontaneous') {
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'Spells');
+            } else if (castingType.toLowerCase() === 'spontaneous') {
                 const newEffectGain = new EffectGain();
 
                 newEffectGain.affected = `${ className } ${ castingType } Level ${ wizardrySlot.level } Spell Slots`;
                 newEffectGain.value = '1';
                 newEffectGain.source = `Ring of Wizardry Slot ${ wizardrySlotIndex + 1 }`;
                 item.effects.push(newEffectGain);
-                this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
             }
         }
 
         //Close any open spell choices.
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        this.refreshService.processPreparedChanges();
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+        this._refreshService.processPreparedChanges();
     }
 
-    get_TalismanCordOptions(item: WornItem, index: number) {
+    public talismanCordOptions(item: WornItem, index: number): Array<string> {
         return [
             'no school attuned',
             'Abjuration',
@@ -241,44 +265,56 @@ export class ItemComponent implements OnInit, OnDestroy {
             'Illusion',
             'Necromancy',
             'Transmutation',
-        ].filter(school => school == 'no school attuned' || item.data[index].value == school || !item.data.some((data, dataIndex) => dataIndex <= item.isTalismanCord && data.value == school));
+        ].filter(school =>
+            school === 'no school attuned' ||
+            item.data[index].value === school ||
+            !item.data.some((data, dataIndex) => dataIndex <= item.isTalismanCord && data.value === school),
+        );
     }
 
-    get_ItemSpell(item: Item) {
-        if (item.storedSpells.length && item.storedSpells[0].spells.length) {
-            const spell = this.get_Spells(item.storedSpells[0].spells[0].name)[0];
+    public runeStoredSpell(rune: Rune): Spell {
+        if (rune.storedSpells.length && rune.storedSpells[0].spells.length) {
+            const spell = this.spellFromName(rune.storedSpells[0].spells[0].name);
 
             if (spell) {
-                return [spell];
-            } else {
-                return [];
+                return spell;
             }
-        } else {
-            return [];
         }
     }
 
-    get_StoredSpells(item: Item) {
+    public storedSpellChoices(item: Item): Array<SpellChoice> {
         return item.storedSpells.filter(choice => choice.available || choice.dynamicAvailable);
     }
 
-    get_StoredSpellsTaken(item: Item) {
-        return item.storedSpells.filter(choice => choice.spells.length);
+    public storedSpellsTaken(item: Item): Array<{ choice: SpellChoice; taken: SpellGain }> {
+        return ([] as Array<{ choice: SpellChoice; taken: SpellGain }>)
+            .concat(
+                ...item.storedSpells
+                    .filter(choice => choice.spells.length)
+                    .map(choice =>
+                        choice.spells.map(taken => ({ choice, taken })),
+                    ),
+            );
     }
 
-    get_SpellConditions(spell: Spell, spellLevel: number, gain: SpellGain) {
-        //For all conditions that are included with this spell on this level, create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
+    public spellConditions(spell: Spell, spellLevel: number, gain: SpellGain): Array<{ gain: ConditionGain; condition: Condition }> {
+        // For all conditions that are included with this spell on this level,
+        // create an effectChoice on the gain and set it to the default choice, if any. Add the name for later copyChoiceFrom actions.
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
 
         spell.heightenedConditions(spellLevel)
-            .map(conditionGain => ({ gain: conditionGain, condition: this.conditionsService.conditions(conditionGain.name)[0] }))
+            .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))
             .forEach((conditionSet, index) => {
-                //Create the temporary list of currently available choices.
-                conditionSet.condition?.effectiveChoices(this.characterService, true, (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel));
-                //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
+                // Create the temporary list of currently available choices.
+                conditionSet.condition?.createEffectiveChoices(
+                    this._characterService,
+                    (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel),
+                );
+                // Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                 conditionSets.push(conditionSet);
 
-                //Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices, insert or replace that choice on the gain.
+                // Then if the gain doesn't have a choice at that index or the choice isn't among the condition's choices,
+                // insert or replace that choice on the gain.
                 while (!gain.effectChoices.length || gain.effectChoices.length < index - 1) {
                     gain.effectChoices.push({ condition: conditionSet.condition.name, choice: conditionSet.condition.choice });
                 }
@@ -291,24 +327,28 @@ export class ItemComponent implements OnInit, OnDestroy {
         return conditionSets;
     }
 
-    on_SpellItemUse(item: Item) {
-        const spellName = item.storedSpells[0]?.spells[0]?.name || '';
-        const spellChoice = item.storedSpells[0];
+    public onActivateSpellRune(rune: Rune): void {
+        const spellName = rune.storedSpells[0]?.spells[0]?.name || '';
+        const spellChoice = rune.storedSpells[0];
 
         if (spellChoice && spellName) {
-            const spell = this.get_Spells(item.storedSpells[0]?.spells[0]?.name)[0];
+            const spell = this.spellFromName(rune.storedSpells[0]?.spells[0]?.name)[0];
             let target = '';
 
-            if (spell.target == 'self') {
+            if (spell.target === 'self') {
                 target = 'Character';
             }
 
             if (spell) {
                 const tempGain: SpellGain = new SpellGain();
 
-                this.spellsService.processSpell(spell, true,
-                    { characterService: this.characterService, itemsService: this.itemsService, conditionsService: this.conditionsService },
-                    { creature: this.get_Creature('Character'), target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
+                this._spellsService.processSpell(spell, true,
+                    {
+                        characterService: this._characterService,
+                        itemsService: this._itemsService,
+                        conditionsService: this._conditionsService,
+                    },
+                    { creature: this._character, target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
                     { manual: true },
                 );
             }
@@ -316,36 +356,18 @@ export class ItemComponent implements OnInit, OnDestroy {
             spellChoice.spells.shift();
         }
 
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-        this.refreshService.processPreparedChanges();
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
+        this._refreshService.processPreparedChanges();
     }
 
-    on_ChoiceChange() {
-        this.refreshService.prepareChangesByItem(this.get_Creature(), this.item, { characterService: this.characterService, activitiesService: this.activitiesService });
-        this.refreshService.processPreparedChanges();
-        this.update_Item();
-    }
-
-    update_Item() {
-        //This updates any gridicon that has this item's id set as its update id.
-        this.refreshService.setComponentChanged(this.item.id);
-    }
-
-    finish_Loading() {
-        if (this.item.id) {
-            this.changeSubscription = this.refreshService.componentChanged$
-                .subscribe(target => {
-                    if (target == this.item.id) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-            this.viewChangeSubscription = this.refreshService.detailChanged$
-                .subscribe(view => {
-                    if (view.target == this.item.id) {
-                        this.changeDetector.detectChanges();
-                    }
-                });
-        }
+    public onSelectVariation(): void {
+        this._refreshService.prepareChangesByItem(
+            this._currentCreature,
+            this.item,
+            { characterService: this._characterService, activitiesService: this._activitiesService },
+        );
+        this._refreshService.processPreparedChanges();
+        this._updateItem();
     }
 
     public ngOnInit(): void {
@@ -353,15 +375,30 @@ export class ItemComponent implements OnInit, OnDestroy {
             this.allowActivate = false;
         }
 
-        this.finish_Loading();
+        if (this.item.id) {
+            this._changeSubscription = this._refreshService.componentChanged$
+                .subscribe(target => {
+                    if (target === this.item.id) {
+                        this._changeDetector.detectChanges();
+                    }
+                });
+            this._viewChangeSubscription = this._refreshService.detailChanged$
+                .subscribe(view => {
+                    if (view.target === this.item.id) {
+                        this._changeDetector.detectChanges();
+                    }
+                });
+        }
     }
 
-    private changeSubscription: Subscription;
-    private viewChangeSubscription: Subscription;
+    public ngOnDestroy(): void {
+        this._changeSubscription?.unsubscribe();
+        this._viewChangeSubscription?.unsubscribe();
+    }
 
-    ngOnDestroy() {
-        this.changeSubscription?.unsubscribe();
-        this.viewChangeSubscription?.unsubscribe();
+    private _updateItem(): void {
+        //This updates any gridicon that has this item's id set as its update id.
+        this._refreshService.setComponentChanged(this.item.id);
     }
 
 }

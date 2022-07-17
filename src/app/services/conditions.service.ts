@@ -994,12 +994,22 @@ export class ConditionsService {
                         // or move to the next stage if automaticStages is on.
                         const condition = this.conditionFromName(gain.name);
 
+                        let choices: Array<string> = [];
+
+                        if (gain.source !== 'Manual') {
+                            condition.createEffectiveChoices(characterService, gain.heightened);
+
+                            choices = condition.$choices;
+                        } else {
+                            choices = condition.unfilteredChoices();
+                        }
+
                         if (condition.automaticStages) {
                             this.changeConditionStage(
                                 creature,
                                 gain,
                                 condition,
-                                condition.effectiveChoices(characterService, gain.source !== 'Manual', gain.heightened),
+                                choices,
                                 1,
                                 characterService,
                                 itemsService,

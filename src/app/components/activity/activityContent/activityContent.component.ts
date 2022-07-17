@@ -108,7 +108,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
                 .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
-                    conditionSet.condition?.effectiveChoices(this._characterService, true, spellCast.level);
+                    conditionSet.condition?.createEffectiveChoices(this._characterService, spellCast.level);
                     //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                     conditionSets.push(conditionSet);
 

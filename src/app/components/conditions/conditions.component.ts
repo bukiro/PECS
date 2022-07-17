@@ -308,7 +308,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
             (
                 includeTurn
                     ? (
-                        this.endOn === this._timeService.getYourTurn()
+                        this.endOn === this._timeService.yourTurn
                             ? TimePeriods.NoTurn
                             : TimePeriods.HalfTurn
                     )
@@ -317,8 +317,8 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         );
     }
 
-    public effectiveConditionChoices(condition: Condition): Array<string> {
-        return condition.effectiveChoices(this._characterService, false);
+    public conditionChoices(condition: Condition): Array<string> {
+        return condition.unfilteredChoices();
     }
 
     public durationDescription(duration: number = this.effectiveDuration(), inASentence = false): string {
@@ -338,7 +338,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         if (duration < 0 || duration === 1 || !includeTurnState) {
             newGain.duration = duration;
         } else {
-            newGain.duration = duration + (this.endOn === this._timeService.getYourTurn() ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
+            newGain.duration = duration + (this.endOn === this._timeService.yourTurn ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
         }
 
         newGain.choice = condition.choice;
@@ -414,7 +414,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
             newEffect.maxDuration = newEffect.duration = duration;
         } else {
             newEffect.maxDuration = newEffect.duration =
-                duration + (this.endOn === this._timeService.getYourTurn() ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
+                duration + (this.endOn === this._timeService.yourTurn ? TimePeriods.NoTurn : TimePeriods.HalfTurn);
         }
 
         this._refreshService.prepareDetailToChange(creature.type, 'effects');

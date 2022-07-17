@@ -126,7 +126,13 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     public conditionChoices(gain: ConditionGain, condition: Condition): Array<string> {
-        return condition.effectiveChoices(this._characterService, gain.source !== 'Manual', gain.heightened);
+        if (gain.source !== 'Manual') {
+            condition.createEffectiveChoices(this._characterService, gain.heightened);
+
+            return condition.$choices;
+        }
+
+        return condition.unfilteredChoices();
     }
 
     public changeConditionChoice(gain: ConditionGain, condition: Condition, newChoice: string): void {

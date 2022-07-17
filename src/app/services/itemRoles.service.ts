@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Scroll } from '@angular/router';
 import { AdventuringGear } from '../classes/AdventuringGear';
 import { AlchemicalElixir } from '../classes/AlchemicalElixir';
+import { Ammunition } from '../classes/Ammunition';
 import { Armor } from '../classes/Armor';
 import { ArmorRune } from '../classes/ArmorRune';
 import { Consumable } from '../classes/Consumable';
@@ -10,6 +11,7 @@ import { Item } from '../classes/Item';
 import { ItemRoles } from '../classes/ItemRoles';
 import { Oil } from '../classes/Oil';
 import { Potion } from '../classes/Potion';
+import { Rune } from '../classes/Rune';
 import { Shield } from '../classes/Shield';
 import { Talisman } from '../classes/Talisman';
 import { Wand } from '../classes/Wand';
@@ -32,8 +34,11 @@ export class ItemRolesService {
             asGenericConsumable: this._itemAsGenericConsumable(item),
             asDrinkableConsumable: this._itemAsDrinkableConsumable(item),
             asImmediateStoredSpellItem: this._itemAsImmediateStoredSpellItem(item),
+            asActivityBearing: this._itemAsActivityBearing(item),
             asEquipment: this._itemAsEquipment(item),
             asArmor,
+            asOil: this._itemAsOil(item),
+            asTalisman: this._itemAsTalisman(item),
             asWeapon,
             asWand: this._itemAsWand(item),
             asWornItem: this._itemAsWornItem(item),
@@ -91,8 +96,26 @@ export class ItemRolesService {
             : null;
     }
 
+    private _itemAsActivityBearing(item: Item): Equipment | Ammunition | Rune {
+        return (
+            item instanceof Equipment ||
+            item instanceof Ammunition ||
+            item instanceof Rune
+        )
+            ? item
+            : null;
+    }
+
     private _itemAsArmor(item: Item): Armor {
         return item instanceof Armor ? item : null;
+    }
+
+    private _itemAsOil(item: Item): Oil {
+        return item instanceof Oil ? item : null;
+    }
+
+    private _itemAsTalisman(item: Item): Talisman {
+        return item instanceof Talisman ? item : null;
     }
 
     private _itemAsWeapon(item: Item): Weapon {

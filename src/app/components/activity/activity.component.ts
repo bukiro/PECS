@@ -27,6 +27,7 @@ import { Trait } from 'src/app/classes/Trait';
 import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -52,7 +53,7 @@ interface ActivitySpellSet {
 export class ActivityComponent implements OnInit, OnDestroy {
 
     @Input()
-    public creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
     public activity: Activity | ItemActivity;
     @Input()
@@ -222,9 +223,8 @@ export class ActivityComponent implements OnInit, OnDestroy {
                 .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
-                    conditionSet.condition?.effectiveChoices(
+                    conditionSet.condition?.createEffectiveChoices(
                         this._characterService,
-                        true,
                         (conditionSet.gain.heightened ? conditionSet.gain.heightened : conditionSet.condition.minLevel),
                     );
                     // Add the condition to the selection list.

@@ -158,7 +158,7 @@
                                                         <span>Effect selection:
                                                             <select [(ngModel)]="condition.choice">
                                                                 <option
-                                                                    *ngFor="let choice of effectiveConditionChoices(condition); trackBy:trackers.trackByIndex;"
+                                                                    *ngFor="let choice of conditionChoices(condition); trackBy:trackers.trackByIndex;"
                                                                     [ngValue]="choice">
                                                                     {{choice}}
                                                                 </option>
