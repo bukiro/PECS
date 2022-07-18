@@ -78,7 +78,13 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     public dismissPhrase = '';
 
     @Output()
-    public readonly castMessage = new EventEmitter<{ target: string; activated: boolean; options: { expend?: boolean } }>();
+    public readonly castMessage = new EventEmitter<{
+        target: '' | 'self' | 'Selected' | CreatureTypes;
+        activated: boolean;
+        options: { expend?: boolean };
+    }>();
+
+    public CreatureTypesEnum = CreatureTypes;
 
     private _changeSubscription: Subscription;
     private _viewChangeSubscription: Subscription;
@@ -142,7 +148,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         return this.actionGain.active;
     }
 
-    public onCast(target: string, activated: boolean, options: { expend?: boolean } = {}): void {
+    public onCast(target: '' | 'self' | 'Selected' | CreatureTypes, activated: boolean, options: { expend?: boolean } = {}): void {
         this.castMessage.emit({ target, activated, options });
     }
 

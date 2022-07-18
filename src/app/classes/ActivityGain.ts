@@ -7,6 +7,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Creature } from 'src/app/classes/Creature';
 import { TimeService } from 'src/app/services/time.service';
 import { Activity } from './Activity';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 export class ActivityGain {
     public readonly isActivity: boolean = false;
@@ -46,7 +47,7 @@ export class ActivityGain {
      */
     public spellEffectChoices: Array<Array<{ condition: string; choice: string }>> = [];
     /** The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the activity service */
-    public selectedTarget = '';
+    public selectedTarget: '' | 'self' | 'Selected' | CreatureTypes = '';
     /** The selected targets are saved here for applying conditions. */
     public targets: Array<SpellTarget> = [];
     /**

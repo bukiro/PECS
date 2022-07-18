@@ -94,7 +94,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
 
 interface PreparedOnceEffect {
-    creatureType: string;
+    creatureType: CreatureTypes;
     effectGain: EffectGain;
     conditionValue: number;
     conditionHeightened: number;
@@ -140,7 +140,7 @@ export class CharacterService {
         [MenuNames.DiceMenu]: 'dice',
     };
 
-    private _itemsMenuTarget: 'Character' | 'Companion' | 'Familiar' = 'Character';
+    private _itemsMenuTarget: CreatureTypes = CreatureTypes.Character;
 
     private _character: Character = new Character();
     private _loader: Array<Partial<Character>> = [];
@@ -323,22 +323,22 @@ export class CharacterService {
         return this._menuState.dice;
     }
 
-    public itemsMenuTarget(): 'Character' | 'Companion' | 'Familiar' {
+    public itemsMenuTarget(): CreatureTypes {
         return this._itemsMenuTarget;
     }
 
-    public setItemsMenuTarget(target: 'Character' | 'Companion' | 'Familiar' = 'Character'): void {
+    public setItemsMenuTarget(target: CreatureTypes = CreatureTypes.Character): void {
         this._itemsMenuTarget = target;
         this.refreshService.setComponentChanged('itemstore');
     }
 
-    public creatureFromType(type: string): Character | AnimalCompanion | Familiar {
-        switch (type.toLowerCase()) {
-            case 'character':
+    public creatureFromType(type: CreatureTypes): Character | AnimalCompanion | Familiar {
+        switch (type) {
+            case CreatureTypes.Character:
                 return this.character;
-            case 'companion':
+            case CreatureTypes.AnimalCompanion:
                 return this.companion;
-            case 'familiar':
+            case CreatureTypes.Familiar:
                 return this.familiar;
             default:
                 return new Character();
@@ -3341,7 +3341,7 @@ export class CharacterService {
         // Set loading to false. The last steps need the characterService to not be loading.
         this._loading = false;
         // Set your turn state according to the saved state.
-        this.timeService.yourTurn(this.character.yourTurn);
+        this.timeService.yourTurn = this.character.yourTurn;
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
         this.featsService.buildCharacterFeats(this.character);
         // Reset cache for all creatures.
@@ -3357,7 +3357,7 @@ export class CharacterService {
     }
 
     public saveCharacter(): void {
-        this.character.yourTurn = this.timeService.getYourTurn();
+        this.character.yourTurn = this.timeService.yourTurn;
         this.toastService.show('Saving...');
 
         const savegame =

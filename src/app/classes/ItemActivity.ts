@@ -6,6 +6,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Creature } from 'src/app/classes/Creature';
 import { TimeService } from '../services/time.service';
 import { ActivityGain } from './ActivityGain';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 //ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
 export class ItemActivity extends Activity {
@@ -59,7 +60,7 @@ export class ItemActivity extends Activity {
     public target: ActivityTargetOptions = ActivityTargetOptions.Null;
     //The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the activity service.
     //Most ItemActivities should apply to the user, so "self" is the default.
-    public selectedTarget = 'self';
+    public selectedTarget: '' | 'self' | 'Selected' | CreatureTypes = 'self';
     //The selected targets are saved here for applying conditions.
     public targets: Array<SpellTarget> = [];
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.

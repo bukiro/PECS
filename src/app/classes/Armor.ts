@@ -19,6 +19,7 @@ import { Item } from './Item';
 import { AdventuringGear } from './AdventuringGear';
 import { MaxSkillLevel } from '../../libs/shared/definitions/skillLevels';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
+import { Familiar } from './Familiar';
 
 enum ShoddyPenalties {
     NotShoddy = 0,
@@ -271,12 +272,12 @@ export class Armor extends Equipment {
         return this.$traits;
     }
     public profLevel(
-        creature: Character | AnimalCompanion,
+        creature: Creature,
         characterService: CharacterService,
         charLevel: number = characterService.character.level,
         options: { itemStore?: boolean } = {},
     ): number {
-        if (characterService.stillLoading) { return 0; }
+        if (characterService.stillLoading || creature instanceof Familiar) { return 0; }
 
         this.armoredSkirt(creature, options);
 

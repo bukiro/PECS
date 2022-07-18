@@ -236,11 +236,11 @@
                                                         </ng-container>
                                                     </header>
                                                     <ng-container>
-                                                        <div class="newrow"
-                                                            [ngbTooltip]="cannotCraftItem(itemParameters.item).join('\n')">
-                                                            <button class="newrow center-aligned"
-                                                                (click)="grantInventoryItem(itemParameters.item)"
-                                                                [disabled]="cannotCraftItem(itemParameters.item).length">
+                                                        <div class="newrow" [ngbTooltip]="cannotCraftReason.join('\n')"
+                                                            *ngIf="cannotCraftReason(itemParameters.item) as cannotCraftReason">
+                                                            <button class=" newrow center-aligned"
+                                                                (click)="craftItem(itemParameters.item)"
+                                                                [disabled]="cannotCraftReason.length">
                                                                 Craft {{itemParameters.stack > 1 ?
                                                                 itemParameters.stack+" "
                                                                 : ""}}using Craft activity

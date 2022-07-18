@@ -25,6 +25,7 @@ import { MaxSkillLevel, skillLevelBaseStep } from 'src/libs/shared/definitions/s
 import { SignNumber } from 'src/libs/shared/util/numberUtils';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
+import { Familiar } from './Familiar';
 
 export interface AttackResult {
     range: string;
@@ -355,7 +356,7 @@ export class Weapon extends Equipment {
         return traits;
     }
     public effectiveProficiency(
-        creature: Character | AnimalCompanion,
+        creature: Creature,
         characterService: CharacterService,
         charLevel: number = characterService.character.level,
     ): string {
@@ -364,6 +365,10 @@ export class Weapon extends Equipment {
         // "For the purpose of determining your proficiency,
         // martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons."
         const proficiencyChanges: Array<ProficiencyChange> = [];
+
+        if (creature instanceof Familiar) {
+            return '';
+        }
 
         if (creature instanceof Character) {
             characterService.characterFeatsAndFeatures()
@@ -403,13 +408,13 @@ export class Weapon extends Equipment {
         return currentProficiency !== this.prof;
     }
     public profLevel(
-        creature: Character | AnimalCompanion,
+        creature: Creature,
         characterService: CharacterService,
         runeSource: Weapon | WornItem,
         charLevel: number = characterService.character.level,
         options: { preparedProficiency?: string } = {},
     ): number {
-        if (characterService.stillLoading) { return 0; }
+        if (characterService.stillLoading || creature instanceof Familiar) { return 0; }
 
         let skillLevel = 0;
         const prof = options.preparedProficiency || this.effectiveProficiency(creature, characterService, charLevel);
@@ -785,7 +790,11 @@ export class Weapon extends Equipment {
 
         return { range, attackResult, explain, effects: penalties.concat(bonuses).concat(absolutes), penalties, bonuses, absolutes };
     }
-    public isFavoredWeapon(creature: Character | AnimalCompanion, characterService: CharacterService): boolean {
+    public isFavoredWeapon(creature: Creature, characterService: CharacterService): boolean {
+        if (creature instanceof Familiar) {
+            return false;
+        }
+
         if (creature instanceof Character && creature.class.deity) {
             if (characterService.currentCharacterDeities(creature)[0]?.favoredWeapon
                 .some(favoredWeapon =>

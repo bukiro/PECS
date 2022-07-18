@@ -1,4 +1,4 @@
-import { CopperAmounts } from '../definitions/currency';
+import { CopperAmounts, CurrencyIndices } from '../definitions/currency';
 
 export const PriceTextFromCopper = (copper: number): string => {
     let priceNumber: number = copper;
@@ -24,3 +24,9 @@ export const PriceTextFromCopper = (copper: number): string => {
 
     return priceString;
 };
+
+export const CopperAmountFromCashObject = (cash: Array<number>): number =>
+    (cash[CurrencyIndices.Platinum] * CopperAmounts.CopperInPlatinum)
+    + (cash[CurrencyIndices.Gold] * CopperAmounts.CopperInGold)
+    + (cash[CurrencyIndices.Silver] * CopperAmounts.CopperInSilver)
+    + (cash[CurrencyIndices.Copper]);

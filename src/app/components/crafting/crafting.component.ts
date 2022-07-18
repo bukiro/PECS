@@ -243,7 +243,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
             ).sort((a, b) => SortAlphaNum(a[this.sorting], b[this.sorting]));
     }
 
-    public cannotCraftItem(item: Item): Array<string> {
+    public cannotCraftReason(item: Item): Array<string> {
         //Return any reasons why you cannot craft an item.
         const character: Character = this._character;
         const reasons: Array<string> = [];
@@ -252,21 +252,21 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
         if (
             item.traits.includes('Alchemical') &&
-            !this._characterService.characterFeatsTaken(1, character.level, { featName: 'Alchemical Crafting' }).length
+            !this._characterService.characterHasFeat('Alchemical Crafting')
         ) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }
 
         if (
             item.traits.includes('Magical') &&
-            !this._characterService.characterFeatsTaken(1, character.level, { featName: 'Magical Crafting' }).length
+            !this._characterService.characterHasFeat('Magical Crafting')
         ) {
             reasons.push('You need the Magical Crafting skill feat to create magic items.');
         }
 
         if (
             item.traits.includes('Snare') &&
-            !this._characterService.characterFeatsTaken(1, character.level, { featName: 'Snare Crafting' }).length
+            !this._characterService.characterHasFeat('Snare Crafting')
         ) {
             reasons.push('You need the Snare Crafting skill feat to create snares.');
         }
@@ -289,7 +289,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         return reasons;
     }
 
-    public grantInventoryItem(item: Item): void {
+    public craftItem(item: Item): void {
         let amount = 1;
 
         if (item instanceof AdventuringGear || item instanceof Consumable) {

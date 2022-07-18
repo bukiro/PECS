@@ -5,7 +5,7 @@ import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Creature } from './Creature';
 
-interface CalculatedBulk {
+export interface CalculatedBulk {
     maxabsolutes: Array<Effect>;
     maxbonuses: boolean;
     maxpenalties: boolean;
