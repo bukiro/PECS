@@ -38,31 +38,7 @@
                 </div>
                 <div class="fullsize-scroll-box vlist">
                     <header class="subsectionHeader">Change Currency</header>
-                    <div class="list-item">
-                        <div class="newrow">
-                            <strong>Platinum</strong>
-                            <input class="number4" type="number" [(ngModel)]="cash.platinum"
-                                (keypress)="positiveNumbersOnly($event)">
-                            <strong>Gold</strong>
-                            <input class="number4" type="number" [(ngModel)]="cash.gold"
-                                (keypress)="positiveNumbersOnly($event)">
-                            <strong>Silver</strong>
-                            <input class="number4" type="number" [(ngModel)]="cash.silver"
-                                (keypress)="positiveNumbersOnly($event)">
-                            <strong>Copper</strong>
-                            <input class="number4 center-aligned" type="number" [(ngModel)]="cash.copper"
-                                (keypress)="positiveNumbersOnly($event)">
-                        </div>
-                        <div class="newrow">
-                            <span>
-                                <button (click)="addCash(1, 0, true)" [disabled]="isCashInvalid()">Gain</button>
-                            </span>
-                            <span>
-                                <button (click)="addCash(-1, 0, true)" [disabled]="isCashInvalid()"
-                                    [disabled]="!hasFunds()">Spend</button>
-                            </span>
-                        </div>
-                    </div>
+                    <app-cash></app-cash>
                     <ng-container *ngIf="craftingItems() as items">
                         <ng-container *ngIf="snareSpecialistParameters(items.snares) as snareSpecialistParameters">
                             <header class="sectionHeader">Snare Specialist</header>
@@ -114,8 +90,9 @@
                                                         {{snareParameters.snare.effectiveName()}}
                                                     </span>
                                                     <span>
-                                                        {{(snareParameters.snare.level) ? "Level
-                                                        "+snareParameters.snare.level : "&nbsp;"}}
+                                                        {{(snareParameters.snare.level)
+                                                        ? "Level "+snareParameters.snare.level
+                                                        : "&nbsp;"}}
                                                     </span>
                                                 </button>
                                                 <div class="list-item sublist lower"

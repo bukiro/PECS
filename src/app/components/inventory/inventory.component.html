@@ -154,8 +154,7 @@
                 </div>
                 <ng-container
                     *ngFor="let preparedItem of itemsPreparedForQuickCrafting('snarespecialist'); trackBy:trackers.trackByIndex;">
-                    <div class="list-item"
-                        *ngFor="let inventoryID of ['snarespecialist'+preparedItem.item.id]; trackBy:trackers.trackByIndex;">
+                    <div class="list-item" *ngIf="'snarespecialist'+preparedItem.item.id as inventoryID">
                         <button class="newrow sublist-toggle" (click)="toggleShownItem(inventoryID)"
                             [ngClass]="{'inactive-button':!preparedItem.learned.snareSpecialistAvailable}">
                             <span>
@@ -958,8 +957,7 @@
                                             [armoredSkirt]="itemParameters.asArmor?.armoredSkirt(currentCreature) || null">
                                         </app-item>
                                     </ng-template>
-                                    <ng-container
-                                        *ngFor="let inventoryID of [itemParameters.item.id]; trackBy:trackers.trackByIndex;">
+                                    <ng-container *ngFor="itemParameters.item.id as inventoryID">
                                         <ng-container *ngIf="!isTileMode">
                                             <div class="list-item" cdkDrag [cdkDragData]="itemParameters.item"
                                                 [cdkDragDisabled]="!canDropItem(itemParameters.item)">

@@ -13,7 +13,6 @@ import { ItemRolesService } from 'src/app/services/itemRoles.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
-import { CopperAmounts, CurrencyIndices } from 'src/libs/shared/definitions/currency';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
@@ -37,22 +36,16 @@ interface ItemParameters extends ItemRoles {
 })
 export class CraftingComponent implements OnInit, OnDestroy {
 
-    public id = 0;
     public wordFilter = '';
     public sorting: SortingOption = 'sortLevel';
     public creature: CreatureTypes = CreatureTypes.Character;
-    public cash = {
-        platinum: 0,
-        gold: 0,
-        silver: 0,
-        copper: 0,
-    };
     public range = 0;
-    private _showList = '';
-    private _showItem = '';
 
     private _changeSubscription: Subscription;
     private _viewChangeSubscription: Subscription;
+
+    private _showList = '';
+    private _showItem = '';
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -179,38 +172,6 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     public effectivePrice(item: Item): number {
         return item.effectivePrice(this._itemsService);
-    }
-
-    public hasFunds(sum = (
-        (this.cash.platinum * CopperAmounts.CopperInPlatinum)
-        + (this.cash.gold * CopperAmounts.CopperInGold)
-        + (this.cash.silver * CopperAmounts.CopperInSilver)
-        + (this.cash.copper)
-    )): boolean {
-        const character = this._characterService.character;
-        const funds =
-            (character.cash[CurrencyIndices.Platinum] * CopperAmounts.CopperInPlatinum)
-            + (character.cash[CurrencyIndices.Gold] * CopperAmounts.CopperInGold)
-            + (character.cash[CurrencyIndices.Silver] * CopperAmounts.CopperInSilver)
-            + (character.cash[CurrencyIndices.Copper]);
-
-        if (sum <= funds) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public isCashInvalid(): boolean {
-        return this.cash.platinum < 0 || this.cash.gold < 0 || this.cash.silver < 0 || this.cash.copper < 0;
-    }
-
-    public addCash(multiplier = 1, sum = 0, changeafter = false): void {
-        this._characterService.addCash(multiplier, sum, this.cash);
-
-        if (changeafter) {
-            this._refreshService.setComponentChanged('inventory');
-        }
     }
 
     public craftingItems(): ItemCollection {

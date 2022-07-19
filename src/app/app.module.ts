@@ -79,6 +79,7 @@ import { AppInitService } from './core/services/app-init/app-init.service';
 import { ItemMaterialArmorComponent } from './components/item/itemMaterialOptions/itemMaterialArmor.component';
 import { ItemMaterialShieldComponent } from './components/item/itemMaterialOptions/itemMaterialShield.component';
 import { ItemMaterialWeaponComponent } from './components/item/itemMaterialOptions/itemMaterialWeapon.component';
+import { CashComponent } from './components/cash/cash.component';
 
 @NgModule({
     declarations: [
@@ -153,6 +154,7 @@ import { ItemMaterialWeaponComponent } from './components/item/itemMaterialOptio
         ItemMaterialArmorComponent,
         ItemMaterialShieldComponent,
         ItemMaterialWeaponComponent,
+        CashComponent,
     ],
     imports: [
         CommonModule,

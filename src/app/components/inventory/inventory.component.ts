@@ -646,7 +646,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         return item.effectivePrice(this._itemsService);
     }
 
-    public characterHasFunds(sum = 0): boolean {
+    public characterHasFunds(sum: number): boolean {
         const funds = CopperAmountFromCashObject(this.character.cash);
 
         return (sum <= funds);
