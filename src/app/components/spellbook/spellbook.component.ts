@@ -237,9 +237,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         spellCastingParameters: SpellCastingParameters,
         componentParameters: ComponentParameters,
     ): Array<SpellCastingLevelParameters> {
-        return Object.values(SpellLevels)
-            .filter((level: number) => level <= spellCastingParameters.maxSpellLevel)
-            .map((level: number) => {
+        return (Object.values(SpellLevels) as Array<number>)
+            .filter(level => level <= spellCastingParameters.maxSpellLevel)
+            .map(level => {
                 const maxSpellSlots = this._maxSpellSlots(level, spellCastingParameters.casting, spellCastingParameters.maxSpellLevel);
                 const spellTakenList = this._spellsByLevel(level, spellCastingParameters);
                 const shouldDisplayFocusPoints =

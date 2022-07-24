@@ -58,7 +58,7 @@ import { AbilityBoost } from 'src/app/classes/AbilityBoost';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
-import { AbilityModFromAbilityValue } from 'src/libs/shared/util/AbilityUtils';
+import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { Weapon } from 'src/app/classes/Weapon';

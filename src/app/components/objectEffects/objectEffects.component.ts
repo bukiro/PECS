@@ -53,7 +53,7 @@ export class ObjectEffectsComponent {
     }
 
     public bonusTypes(): Array<string> {
-        return Object.values(BonusTypes).map(type => type === 'untyped' ? '' : type);
+        return Object.values(BonusTypes).map(type => type === BonusTypes.Untyped ? '' : type);
     }
 
     public newCustomEffectOnThis(): void {
