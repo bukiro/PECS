@@ -12,6 +12,6 @@
 
 import { default as core } from './core.json';
 
-core.forEach(obj => obj._extensionFileName = 'core');
+core.forEach(obj => Object.assign(obj, { _extensionFileName: 'core' }));
 
 export { core as core };

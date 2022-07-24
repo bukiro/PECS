@@ -12,7 +12,7 @@
 
 //Since _extensionFileName is already set in these JSON files, they can be directly exported.
 //export { default as core } from './core.json';
-//core.forEach((obj: any) => obj._extensionFileName = "core");
+//core.forEach(obj => Object.assign(obj, { _extensionFileName: 'core' }));
 //export { core as core };
 export { default as core } from './core.json';
 export { default as advancedPlayersGuide } from './advancedPlayersGuide.json';
