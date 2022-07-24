@@ -8,7 +8,7 @@ import { Item } from 'src/app/classes/Item';
 import { Class } from 'src/app/classes/Class';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { SkillsService } from 'src/app/services/skills.service';
-import { Level } from 'src/app/classes/Level';
+import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { ClassesService } from 'src/app/services/classes.service';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Armor } from 'src/app/classes/Armor';
@@ -242,7 +242,7 @@ export class CharacterService {
         return this._isFirstLoad;
     }
 
-    public characterLoadedOrCreated(): boolean {
+    public wasCharacterLoadedOrCreated(): boolean {
         return this._characterLoadedOrCreated;
     }
 
@@ -2796,7 +2796,7 @@ export class CharacterService {
         feat: Feat,
         gain: FeatTaken,
         choice: FeatChoice,
-        level: Level,
+        level: ClassLevel,
         taken: boolean,
     ): void {
         this.featsService.processFeat(creature, this, feat, gain, choice, level, taken);

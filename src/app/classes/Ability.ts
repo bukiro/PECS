@@ -27,6 +27,7 @@ const abilityBoostWeightBreakpoint = 18;
 export class Ability {
     constructor(
         public name: string = '',
+        public modifierName: string = '',
     ) { }
     public calculate(
         creature: Creature,

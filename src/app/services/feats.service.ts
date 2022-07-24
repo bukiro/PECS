@@ -2,7 +2,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { Level } from 'src/app/classes/Level';
+import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
@@ -256,7 +256,7 @@ export class FeatsService {
         feat: Feat,
         gain: FeatTaken,
         choice: FeatChoice,
-        level: Level,
+        level: ClassLevel,
         taken: boolean,
     ): void {
         const character = characterService.character;
@@ -300,7 +300,7 @@ export class FeatsService {
                         //Skip if you don't have the required Class for this granted feat choice.
                         if (newFeatChoice.insertClass ? character.class.name === newFeatChoice.insertClass : true) {
                             //Check if the feat choice gets applied on a certain level and do that, or apply it on the current level.
-                            let insertLevel: Level;
+                            let insertLevel: ClassLevel;
 
                             if (newFeatChoice.insertLevel && character.class.levels[newFeatChoice.insertLevel]) {
                                 insertLevel = character.class.levels[newFeatChoice.insertLevel];

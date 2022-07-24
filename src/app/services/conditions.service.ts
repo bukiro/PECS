@@ -556,7 +556,7 @@ export class ConditionsService {
                     .concat(character.allGrantedEquipmentSpells())
                     .filter(takenSpell => takenSpell.gain.id === gain.sourceGainID && takenSpell.gain.active)
                     .forEach(takenSpell => {
-                        const spell = characterService.spellsService.spells(takenSpell.gain.name)[0];
+                        const spell = characterService.spellsService.spellFromName(takenSpell.gain.name)[0];
 
                         if (spell) {
                             characterService.spellsService.processSpell(spell, false,

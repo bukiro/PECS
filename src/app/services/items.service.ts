@@ -867,7 +867,7 @@ export class ItemsService {
                 item.castSpells.forEach((cast: SpellCast) => {
                     cast.spellGain.duration = cast.duration;
 
-                    const librarySpell = spellsService.spells(cast.name)[0];
+                    const librarySpell = spellsService.spellFromName(cast.name)[0];
 
                     if (librarySpell) {
                         characterService.spellsService.processSpell(librarySpell, true,

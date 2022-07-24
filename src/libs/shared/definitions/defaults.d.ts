@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 export const Defaults: {
     maxCharacterLevel: 20;
+    abilityBaseLevel: 10;
+    expPerLevel: 1000;
     familiarAbilities: 2;
     startingGold: 15;
     wornToolsInventoryBulkLimit: 2;

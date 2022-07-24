@@ -43,7 +43,7 @@ export class Wand extends Equipment {
         let traits: Array<string> = [];
 
         if (this.storedSpells[0]?.spells.length) {
-            const spell = characterService.spellsService.spells(this.storedSpells[0].spells[0].name)[0];
+            const spell = characterService.spellsService.spellFromName(this.storedSpells[0].spells[0].name)[0];
 
             if (spell) {
                 traits = Array.from(new Set(this.traits.concat(spell.traits))).sort();

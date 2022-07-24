@@ -1,20 +1,26 @@
 [
     {
-        "name": "Strength"
+        "name": "Strength",
+        "modifierName": "STR"
     },
     {
-        "name": "Dexterity"
+        "name": "Dexterity",
+        "modifierName": "DEX"
     },
     {
-        "name": "Constitution"
+        "name": "Constitution",
+        "modifierName": "CON"
     },
     {
-        "name": "Intelligence"
+        "name": "Intelligence",
+        "modifierName": "INT"
     },
     {
-        "name": "Wisdom"
+        "name": "Wisdom",
+        "modifierName": "WIS"
     },
     {
-        "name": "Charisma"
+        "name": "Charisma",
+        "modifierName": "CHA"
     }
 ]

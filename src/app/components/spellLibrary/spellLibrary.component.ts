@@ -681,7 +681,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     private _spells(name = ''): Array<Spell> {
-        return this._spellsService.spells(name);
+        return this._spellsService.spellFromName(name);
     }
 
     // eslint-disable-next-line complexity

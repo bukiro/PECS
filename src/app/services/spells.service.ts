@@ -43,7 +43,7 @@ export class SpellsService {
         return this._spellsMap.get(name.toLowerCase()) || this._replacementSpell(name);
     }
 
-    public spells(name = '', type = '', tradition: (SpellTraditions | '') = ''): Array<Spell> {
+    public spellFromName(name = '', type = '', tradition: (SpellTraditions | '') = ''): Array<Spell> {
         if (!this.stillLoading) {
             //If only a name is given, try to find a spell by that name in the index map. This should be much quicker.
             if (name && !type && !tradition) {
@@ -607,7 +607,7 @@ export class SpellsService {
                     taken.gain.duration = Math.max(taken.gain.duration - turns, 0);
 
                     if (taken.gain.duration === 0) {
-                        const spell: Spell = this.spells(taken.gain.name)[0];
+                        const spell: Spell = this.spellFromName(taken.gain.name)[0];
 
                         if (spell) {
                             this.processSpell(spell, false,

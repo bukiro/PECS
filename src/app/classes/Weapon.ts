@@ -1619,7 +1619,7 @@ export class Weapon extends Equipment {
 
                     creature.class.spellCasting.find(casting => casting.source === 'Domain Spells')?.spellChoices.forEach(choice => {
                         choice.spells.forEach(spell => {
-                            if (characterService.spellsService.spells(spell.name)[0]?.traits.includes(type)) {
+                            if (characterService.spellsService.spellFromName(spell.name)[0]?.traits.includes(type)) {
                                 eaDmg = '+1d6 ';
                             }
                         });

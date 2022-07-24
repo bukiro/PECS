@@ -55,7 +55,7 @@
                     [ngClass]="{'left-aligned':index === 0, 'center-aligned':index === 1, 'right-aligned':index === 2}"
                     *ngFor="let ability of abilities(subset); let index = index; trackBy:trackers.trackByIndex;">
                     <ng-container *ngIf="calculateAbility(ability) as calculatedAbility">
-                        <strong>{{ability.name.substring(0, 3).toUpperCase()}}</strong>
+                        <strong>{{ability.modifierName}}</strong>
                         <div class="value" [ngbPopover]="calculatedAbility.mod.explain"
                             [ngClass]="{'penalty':calculatedAbility.modpenalties, 'bonus':calculatedAbility.modbonuses, 'absolute':calculatedAbility.modabsolutes}">
                             {{calculatedAbility.mod.result}}

@@ -223,7 +223,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public fixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
         return spellCastingLevelParameters.fixedSpellSets.map(spellSet => {
-            const spell = this._spellsService.spells(spellSet.gain.name)[0];
+            const spell = this._spellsService.spellFromName(spellSet.gain.name)[0];
 
             if (!spell) {
                 return null;

@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { Skill } from 'src/app/classes/Skill';
-import { Level } from 'src/app/classes/Level';
+import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { Class } from 'src/app/classes/Class';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { CharacterService } from 'src/app/services/character.service';
@@ -172,7 +172,7 @@ export class Character extends Creature {
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'abilities');
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualskills', 'all');
     }
-    public addAbilityChoice(level: Level, newChoice: AbilityChoice): AbilityChoice {
+    public addAbilityChoice(level: ClassLevel, newChoice: AbilityChoice): AbilityChoice {
         const existingChoices = level.abilityChoices.filter(choice => choice.source === newChoice.source);
         const tempChoice = Object.assign<AbilityChoice, AbilityChoice>(new AbilityChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
 
@@ -193,7 +193,7 @@ export class Character extends Creature {
 
         return this.class.levels[levelNumber].abilityChoices.find(choice => choice.id === sourceId);
     }
-    public addSkillChoice(level: Level, newChoice: SkillChoice): SkillChoice {
+    public addSkillChoice(level: ClassLevel, newChoice: SkillChoice): SkillChoice {
         const existingChoices = level.skillChoices.filter(choice => choice.source === newChoice.source);
         const tempChoice = Object.assign<SkillChoice, SkillChoice>(new SkillChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
 
@@ -214,7 +214,7 @@ export class Character extends Creature {
 
         a.splice(a.indexOf(oldChoice), 1);
     }
-    public addSpellCasting(characterService: CharacterService, level: Level, newCasting: SpellCasting): SpellCasting {
+    public addSpellCasting(characterService: CharacterService, level: ClassLevel, newCasting: SpellCasting): SpellCasting {
         const newLength: number =
             this.class.spellCasting.push(
                 Object.assign<SpellCasting, SpellCasting>(
@@ -239,7 +239,7 @@ export class Character extends Creature {
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
     }
-    public addLoreChoice(level: Level, newChoice: LoreChoice): LoreChoice {
+    public addLoreChoice(level: ClassLevel, newChoice: LoreChoice): LoreChoice {
         const existingChoices = level.loreChoices.filter(choice => choice.source === newChoice.source);
         const tempChoice = Object.assign<LoreChoice, LoreChoice>(new LoreChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
 
@@ -255,7 +255,7 @@ export class Character extends Creature {
 
         return this.class.levels[levelNumber].loreChoices.find(choice => choice.id === sourceId);
     }
-    public addFeatChoice(level: Level, newChoice: FeatChoice): FeatChoice {
+    public addFeatChoice(level: ClassLevel, newChoice: FeatChoice): FeatChoice {
         const existingChoices = level.featChoices.filter(choice => choice.source === newChoice.source);
         const tempChoice = Object.assign<FeatChoice, FeatChoice>(new FeatChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
 
@@ -792,7 +792,7 @@ export class Character extends Creature {
         automatic = false,
     ): void {
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
-        const level: Level = creature instanceof Character ? creature.class.levels[levelNumber] : this._classLevel(levelNumber);
+        const level: ClassLevel = creature instanceof Character ? creature.class.levels[levelNumber] : this._classLevel(levelNumber);
 
         if (taken) {
             const newLength =
@@ -877,9 +877,9 @@ export class Character extends Creature {
             ((filter.locked === undefined) || gain.locked === filter.locked) &&
             (
                 !(filter.signatureAllowed && gain.signatureSpell) ||
-                (filter.spellLevel >= services.characterService.spellsService.spells(gain.name)[0]?.levelreq)
+                (filter.spellLevel >= services.characterService.spellsService.spellFromName(gain.name)[0]?.levelreq)
             ) &&
-            (filter.cantripAllowed || (!services.characterService.spellsService.spells(gain.name)[0]?.traits.includes('Cantrip')))
+            (filter.cantripAllowed || (!services.characterService.spellsService.spellFromName(gain.name)[0]?.traits.includes('Cantrip')))
         );
 
         if (this.class) {
@@ -949,7 +949,7 @@ export class Character extends Creature {
             (choice.castingType ? choice.castingType === casting.castingType : true)
         );
         const spellMatches = (gain: SpellGain): boolean => (
-            (options.cantripAllowed || (!services.characterService.spellsService.spells(gain.name)[0]?.traits.includes('Cantrip')))
+            (options.cantripAllowed || (!services.characterService.spellsService.spellFromName(gain.name)[0]?.traits.includes('Cantrip')))
         );
 
         const hasTooManySlottedAeonStones = services.itemsService.hasTooManySlottedAeonStones(this);
@@ -1400,7 +1400,7 @@ export class Character extends Creature {
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
     }
-    private _classLevel(number: number): Level {
+    private _classLevel(number: number): ClassLevel {
         return this.class.levels[number];
     }
 }

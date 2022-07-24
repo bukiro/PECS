@@ -53,7 +53,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { ItemsService } from 'src/app/services/items.service';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { Level } from 'src/app/classes/Level';
+import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Material } from 'src/app/classes/Material';
 import { MaterialItem } from 'src/app/classes/MaterialItem';
@@ -150,7 +150,7 @@ export class TypeService {
             case 'ItemCollection': return Object.assign(new ItemCollection(), obj);
             case 'ItemGain': return Object.assign(new ItemGain(), obj);
             case 'LanguageGain': return Object.assign(new LanguageGain(), obj);
-            case 'Level': return Object.assign(new Level(), obj);
+            case 'Level': return Object.assign(new ClassLevel(), obj);
             case 'LoreChoice': return Object.assign(new LoreChoice(), obj);
             case 'Material': return Object.assign(new Material(), obj);
             case 'MaterialItem': return Object.assign(new MaterialItem(), obj);

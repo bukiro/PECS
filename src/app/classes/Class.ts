@@ -1,4 +1,4 @@
-import { Level } from 'src/app/classes/Level';
+import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
 import { Background } from 'src/app/classes/Background';
@@ -48,7 +48,7 @@ export class Class {
     public additionalHeritages: Array<AdditionalHeritage> = [];
     public hitPoints = 0;
     public languages: Array<LanguageGain> = [];
-    public levels: Array<Level> = [];
+    public levels: Array<ClassLevel> = [];
     public name = '';
     public sourceBook = '';
     public spellCasting: Array<SpellCasting> = [];
@@ -67,7 +67,7 @@ export class Class {
         this.heritage = Object.assign(new Heritage(), this.heritage).recast();
         this.additionalHeritages = this.additionalHeritages.map(obj => Object.assign(new AdditionalHeritage(), obj).recast());
         this.languages = this.languages.map(obj => Object.assign(new LanguageGain(), obj).recast());
-        this.levels = this.levels.map(obj => Object.assign(new Level(), obj).recast());
+        this.levels = this.levels.map(obj => Object.assign(new ClassLevel(), obj).recast());
         this.spellCasting = this.spellCasting.map(obj => Object.assign(new SpellCasting(obj.castingType), obj).recast());
         this.formulaBook = this.formulaBook.map(obj => Object.assign(new FormulaLearned(), obj).recast());
 
