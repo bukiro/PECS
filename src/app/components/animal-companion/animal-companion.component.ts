@@ -19,7 +19,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     public hover = '';
     public isMobile = false;
-    public CreatureTypesEnum = CreatureTypes;
+    public creatureTypesEnum = CreatureTypes;
     private _showMode = '';
     private _changeSubscription: Subscription;
     private _viewChangeSubscription: Subscription;

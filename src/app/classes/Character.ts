@@ -877,9 +877,9 @@ export class Character extends Creature {
             ((filter.locked === undefined) || gain.locked === filter.locked) &&
             (
                 !(filter.signatureAllowed && gain.signatureSpell) ||
-                (filter.spellLevel >= services.characterService.spellsService.spellFromName(gain.name)[0]?.levelreq)
+                (filter.spellLevel >= services.characterService.spellsService.spellFromName(gain.name)?.levelreq)
             ) &&
-            (filter.cantripAllowed || (!services.characterService.spellsService.spellFromName(gain.name)[0]?.traits.includes('Cantrip')))
+            (filter.cantripAllowed || (!services.characterService.spellsService.spellFromName(gain.name)?.traits.includes('Cantrip')))
         );
 
         if (this.class) {
@@ -949,7 +949,7 @@ export class Character extends Creature {
             (choice.castingType ? choice.castingType === casting.castingType : true)
         );
         const spellMatches = (gain: SpellGain): boolean => (
-            (options.cantripAllowed || (!services.characterService.spellsService.spellFromName(gain.name)[0]?.traits.includes('Cantrip')))
+            (options.cantripAllowed || (!services.characterService.spellsService.spellFromName(gain.name)?.traits.includes('Cantrip')))
         );
 
         const hasTooManySlottedAeonStones = services.itemsService.hasTooManySlottedAeonStones(this);

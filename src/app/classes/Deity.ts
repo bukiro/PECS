@@ -85,11 +85,12 @@ export class Deity {
                 const splinterFaithFeat = characterService.characterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
 
                 if (splinterFaithFeat) {
-                    let splinterFaithDomains = [];
+                    const splinterFaithDomains: Array<string> = []
+                        .concat(
+                            ...character.class.filteredFeatData(0, 0, 'Splinter Faith')
+                                .map(data => data.valueAsStringArray('domains') || []),
+                        );
 
-                    character.class.filteredFeatData(0, 0, 'Splinter Faith').forEach(data => {
-                        splinterFaithDomains = data.valueAsStringArray('domains') || [];
-                    });
                     this.$alternateDomains =
                         this.domains.concat(this.alternateDomains).filter(domain => !splinterFaithDomains.includes(domain));
                 }

@@ -1,6 +1,8 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 import { Activity } from '../classes/Activity';
 import { ActivityGain } from '../classes/ActivityGain';
 import { ConditionGain } from '../classes/ConditionGain';
@@ -32,7 +34,7 @@ export class ActivitiesProcessingService {
 
     public activateActivity(
         creature: Creature,
-        targetType: string,
+        targetType: SpellTargetSelection,
         characterService: CharacterService,
         conditionsService: ConditionsService,
         itemsService: ItemsService,
@@ -65,13 +67,13 @@ export class ActivitiesProcessingService {
                 case 'self':
                     targets.push(creature);
                     break;
-                case 'Character':
+                case CreatureTypes.Character:
                     targets.push(characterService.character);
                     break;
-                case 'Companion':
+                case CreatureTypes.AnimalCompanion:
                     targets.push(characterService.companion);
                     break;
-                case 'Familiar':
+                case CreatureTypes.Familiar:
                     targets.push(characterService.familiar);
                     break;
                 case 'Selected':
@@ -129,7 +131,7 @@ export class ActivitiesProcessingService {
         activity: Activity | ItemActivity,
         context: {
             creature: Creature;
-            targetType: string;
+            targetType: SpellTargetSelection;
             gain: ActivityGain | ItemActivity;
             targets: Array<Creature | SpellTarget>;
             item: Equipment | Rune;
@@ -569,7 +571,7 @@ export class ActivitiesProcessingService {
                 }
 
                 context.gain.castSpells.forEach((cast, spellCastIndex) => {
-                    const librarySpell = services.spellsService.spellFromName(cast.name)[0];
+                    const librarySpell = services.spellsService.spellFromName(cast.name);
 
                     if (librarySpell) {
                         if (context.gain.spellEffectChoices[spellCastIndex].length) {
@@ -751,7 +753,7 @@ export class ActivitiesProcessingService {
             //Disable toggled spells
             if (activity.castSpells) {
                 context.gain.castSpells.forEach(cast => {
-                    const librarySpell = services.spellsService.spellFromName(cast.name)[0];
+                    const librarySpell = services.spellsService.spellFromName(cast.name);
 
                     if (librarySpell) {
                         if (cast.overrideChoices.length) {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ChangeTracker } from '../classes/ChangeTracker';
 
@@ -177,12 +178,12 @@ export class CacheService {
 
         if (hasChanged || hasNeverChanged) {
             if (context.name) {
-                let creatureType = '';
+                let creatureType: CreatureTypes;
 
                 switch (context.creatureTypeId) {
-                    case CreatureTypeIds.AnimalCompanion: creatureType = 'Companion'; break;
-                    case CreatureTypeIds.Familiar: creatureType = 'Familiar'; break;
-                    default: creatureType = 'Character';
+                    case CreatureTypeIds.AnimalCompanion: creatureType = CreatureTypes.AnimalCompanion; break;
+                    case CreatureTypeIds.Familiar: creatureType = CreatureTypes.Familiar; break;
+                    default: creatureType = CreatureTypes.Character;
                 }
 
                 // eslint-disable-next-line no-console

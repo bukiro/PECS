@@ -40,7 +40,7 @@
         </div>
         <!-- Button to activate on the Character. -->
         <div class="newrow" *ngIf="canTargetCharacter()" [ngbTooltip]="cannotCast">
-            <button class="center-aligned" (click)="onCast(CreatureTypesEnum.Character, true)" [disabled]="cannotCast"
+            <button class="center-aligned" (click)="onCast(creatureTypesEnum.Character, true)" [disabled]="cannotCast"
                 [ngbTooltip]="parameters.bloodMagicWarningWithTarget">
                 <ng-container
                     *ngTemplateOutlet="buttonText;context:{target:' on ' + (character.name || 'your master'), canActivate:parameters.canActivate}">
@@ -49,7 +49,7 @@
         </div>
         <!-- Button to activate on the Companion. -->
         <div class="newrow" *ngIf="canTargetCompanion()" [ngbTooltip]="cannotCast">
-            <button class="center-aligned" (click)="onCast(CreatureTypesEnum.AnimalCompanion, true)"
+            <button class="center-aligned" (click)="onCast(creatureTypesEnum.AnimalCompanion, true)"
                 [disabled]="cannotCast" [ngbTooltip]="parameters.bloodMagicWarningWithTarget">
                 <ng-container
                     *ngTemplateOutlet="buttonText;context:{target:' on ' + (companion.name || 'your animal companion'), canActivate:parameters.canActivate}">
@@ -58,7 +58,7 @@
         </div>
         <!-- Button to activate on the Familiar. -->
         <div class="newrow" *ngIf="canTargetFamiliar()" [ngbTooltip]="cannotCast">
-            <button class="center-aligned" (click)="onCast(CreatureTypesEnum.Familiar, true)" [disabled]="cannotCast"
+            <button class="center-aligned" (click)="onCast(creatureTypesEnum.Familiar, true)" [disabled]="cannotCast"
                 [ngbTooltip]="parameters.bloodMagicWarningWithTarget">
                 <ng-container
                     *ngTemplateOutlet="buttonText;context:{target:' on ' + (familiar.name || 'your familiar'), canActivate:parameters.canActivate}">

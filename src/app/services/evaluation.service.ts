@@ -18,6 +18,7 @@ import { Weapon } from '../classes/Weapon';
 import { WornItem } from '../classes/WornItem';
 import { FeatTaken } from '../character-creation/definitions/models/FeatTaken';
 import { Deity as DeityModel } from '../classes/Deity';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -221,7 +222,7 @@ export class EvaluationService {
             if (creatureType === 'Familiar') {
                 return familiarsService.familiarAbilities(name)
                     .filter(feat => feat.have({ creature: Familiar }, { characterService }, { charLevel: Level })).length;
-            } else if (creatureType === 'Character') {
+            } else if (creatureType === CreatureTypes.Character) {
                 return characterService.characterFeatsTaken(1, Level, { featName: name }).length;
             } else {
                 return 0;
@@ -234,7 +235,7 @@ export class EvaluationService {
                         familiarsService.familiarAbilities(feat.name)[0]
                             ?.have({ creature: Familiar }, { characterService }, { charLevel: Level }),
                     );
-            } else if (creatureType === 'Character') {
+            } else if (creatureType === CreatureTypes.Character) {
                 return characterService.characterFeatsTaken(1, Level);
             } else {
                 return [];

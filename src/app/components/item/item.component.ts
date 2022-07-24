@@ -32,6 +32,7 @@ import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { Rune } from 'src/app/classes/Rune';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 
 @Component({
     selector: 'app-item',
@@ -333,10 +334,10 @@ export class ItemComponent implements OnInit, OnDestroy {
 
         if (spellChoice && spellName) {
             const spell = this.spellFromName(rune.storedSpells[0]?.spells[0]?.name)[0];
-            let target = '';
+            let target: SpellTargetSelection = '';
 
             if (spell.target === 'self') {
-                target = 'Character';
+                target = CreatureTypes.Character;
             }
 
             if (spell) {

@@ -393,7 +393,7 @@
                                                 <button class="newrow center-aligned"
                                                     *ngIf="!isManualMode && isCompanionAvailable()"
                                                     [disabled]="!itemParameters.asDrinkableConsumable.amount"
-                                                    (click)="onUseConsumable(itemParameters.asDrinkableConsumable, CreatureTypesEnum.AnimalCompanion, inventory)">
+                                                    (click)="onUseConsumable(itemParameters.asDrinkableConsumable, creatureTypesEnum.AnimalCompanion, inventory)">
                                                     <span>
                                                         Use (Give to your animal companion)
                                                         <app-actionIcons
@@ -406,7 +406,7 @@
                                                 <button class="newrow center-aligned"
                                                     *ngIf="!isManualMode && isFamiliarAvailable()"
                                                     [disabled]="!itemParameters.item.amount"
-                                                    (click)="onUseConsumable(itemParameters.asDrinkableConsumable, CreatureTypesEnum.Familiar, inventory)">
+                                                    (click)="onUseConsumable(itemParameters.asDrinkableConsumable, creatureTypesEnum.Familiar, inventory)">
                                                     <span>
                                                         Use (Give to your familiar)
                                                         <app-actionIcons

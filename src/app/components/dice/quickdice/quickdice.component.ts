@@ -5,6 +5,7 @@ import { IntegrationsService } from 'src/app/services/integrations.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Component({
     selector: 'app-quickdice',
@@ -27,7 +28,7 @@ export class QuickdiceComponent {
     @Input()
     public casting: SpellCasting = null;
     @Input()
-    public creature = 'Character';
+    public creature: CreatureTypes = CreatureTypes.Character;
 
     constructor(
         private readonly _characterService: CharacterService,

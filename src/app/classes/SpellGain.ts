@@ -1,7 +1,7 @@
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 
 export class SpellGain {
     /** Set if sustained spell is activated */
@@ -28,7 +28,7 @@ export class SpellGain {
     public signatureSpell = false;
     public source = '';
     /** The target word ("self", "Character", "Companion", "Familiar" or "Selected") is saved here for processing in the spell service. */
-    public selectedTarget: '' | 'self' | 'Selected' | CreatureTypes = '';
+    public selectedTarget: SpellTargetSelection = '';
     /** The selected targets are saved here for applying conditions. */
     public targets: Array<SpellTarget> = [];
     /** Don't trigger blood magic poweres when the spell is cast. Is set by the player. */

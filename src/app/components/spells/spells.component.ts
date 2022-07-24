@@ -47,7 +47,7 @@ interface SpellParameters {
 export class SpellsComponent implements OnInit, OnDestroy {
 
     public allowBorrow = false;
-    public CreatureTypesEnum = CreatureTypes;
+    public creatureTypesEnum = CreatureTypes;
 
     private _showSpell = '';
     private _showChoice = '';
@@ -223,7 +223,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public fixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
         return spellCastingLevelParameters.fixedSpellSets.map(spellSet => {
-            const spell = this._spellsService.spellFromName(spellSet.gain.name)[0];
+            const spell = this._spellsService.spellFromName(spellSet.gain.name);
 
             if (!spell) {
                 return null;

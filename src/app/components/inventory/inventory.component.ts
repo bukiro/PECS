@@ -83,7 +83,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     public itemStore = false;
 
     public shieldDamage = 0;
-    public CreatureTypesEnum = CreatureTypes;
+    public creatureTypesEnum = CreatureTypes;
 
     private _showItem = '';
     private _showList = '';

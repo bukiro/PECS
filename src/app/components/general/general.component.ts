@@ -33,6 +33,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
     @Input()
     public showMinimizeButton = true;
 
+    public creatureTypesEnum = CreatureTypes;
+
     private _changeSubscription: Subscription;
     private _viewChangeSubscription: Subscription;
 

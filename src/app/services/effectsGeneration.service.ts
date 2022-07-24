@@ -268,18 +268,18 @@ export class EffectsGenerationService {
                 clearInterval(waitForCharacterService);
                 this._refreshService.componentChanged$
                     .subscribe(target => {
-                        if (['effects', 'all', 'Character', 'Companion', 'Familiar'].includes(target)) {
-                            if (['Character', 'Companion', 'Familiar'].includes(target)) {
-                                this._updateEffectsAndConditions(target, { characterService });
+                        if (['effects', 'all', CreatureTypes.Character, 'Companion', 'Familiar'].includes(target)) {
+                            if (target in CreatureTypes) {
+                                this._updateEffectsAndConditions(target as CreatureTypes, { characterService });
                             } else {
-                                this._updateEffectsAndConditions('Character', { characterService });
+                                this._updateEffectsAndConditions(CreatureTypes.Character, { characterService });
 
                                 if (characterService.isCompanionAvailable()) {
-                                    this._updateEffectsAndConditions('Companion', { characterService });
+                                    this._updateEffectsAndConditions(CreatureTypes.AnimalCompanion, { characterService });
                                 }
 
                                 if (characterService.isFamiliarAvailable()) {
-                                    this._updateEffectsAndConditions('Familiar', { characterService });
+                                    this._updateEffectsAndConditions(CreatureTypes.Familiar, { characterService });
                                 }
                             }
 
@@ -287,7 +287,7 @@ export class EffectsGenerationService {
                     });
                 this._refreshService.detailChanged$
                     .subscribe(target => {
-                        if (['effects', 'all'].includes(target.target)) {
+                        if (['effects', 'all'].includes(target.target) && target.creature !== '') {
                             this._updateEffectsAndConditions(target.creature, { characterService });
                         }
                     });
@@ -1209,7 +1209,7 @@ export class EffectsGenerationService {
     }
 
     private _generateEffects(
-        creatureType: string,
+        creatureType: CreatureTypes,
         services: { readonly characterService: CharacterService },
         options: { readonly secondRun?: boolean } = {},
     ): boolean {
@@ -1348,7 +1348,7 @@ export class EffectsGenerationService {
         });
     }
 
-    private _updateEffectsAndConditions(creatureType: string, services: { readonly characterService: CharacterService }): void {
+    private _updateEffectsAndConditions(creatureType: CreatureTypes, services: { readonly characterService: CharacterService }): void {
         const creature: Creature = services.characterService.creatureFromType(creatureType);
 
         //Run certain non-effect updates that influence later effect generation.

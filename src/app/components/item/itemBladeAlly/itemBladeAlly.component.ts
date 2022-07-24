@@ -196,7 +196,7 @@ export class ItemBladeAllyComponent implements OnInit {
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
             this._activitiesProcessingService.activateActivity(
                 this._character,
-                'Character',
+                CreatureTypes.Character,
                 this._characterService,
                 this._conditionsService,
                 this._itemsService,

@@ -173,7 +173,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     public _spellsFromSource(): Array<Spell> {
         switch (this.spellSource.toLowerCase()) {
             case 'spell library':
-                return this._spells();
+                return this._spellsService.spells();
             case 'your spellbook':
                 return this._character.class?.spellBook
                     .map(learned => this._spellFromName(learned.name))
@@ -329,7 +329,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                     const adaptedcantrip = this._learnedSpells('adaptedcantrip')[0];
 
                     if (adaptedcantrip) {
-                        const originalSpell = this._spells(adaptedcantrip.name)[0];
+                        const originalSpell = this._spellFromName(adaptedcantrip.name);
 
                         if (originalSpell) {
                             const adaptiveAdeptLearned: number = this._learnedSpells('adaptiveadept').length;
@@ -347,7 +347,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                     const adaptedcantrip = this._learnedSpells('adaptedcantrip')[0];
 
                     if (adaptedcantrip) {
-                        const originalSpell = this._spells(adaptedcantrip.name)[0];
+                        const originalSpell = this._spellFromName(adaptedcantrip.name);
 
                         if (originalSpell) {
                             const adaptiveAdeptLearned: number = this._learnedSpells('adaptiveadept').length;
@@ -680,10 +680,6 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         return this._spellsService.spellFromName(name);
     }
 
-    private _spells(name = ''): Array<Spell> {
-        return this._spellsService.spellFromName(name);
-    }
-
     // eslint-disable-next-line complexity
     private _canSpellBeLearned(casting: SpellCasting, level: number, spell: Spell, source: string): boolean {
         const character = this._character;
@@ -774,7 +770,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             const adaptedcantrip = this._learnedSpells('adaptedcantrip')[0];
 
             if (adaptedcantrip) {
-                const originalSpell = this._spells(adaptedcantrip.name)[0];
+                const originalSpell = this._spellFromName(adaptedcantrip.name);
 
                 return originalSpell && spell.traditions.some(tradition => originalSpell.traditions.includes(tradition));
             }

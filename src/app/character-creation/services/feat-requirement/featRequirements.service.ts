@@ -11,6 +11,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { FeatRequirements } from '../../definitions/models/featRequirements';
 import { FeatChoice } from '../../definitions/models/FeatChoice';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Injectable({
     providedIn: 'root',
@@ -383,7 +384,7 @@ export class FeatRequirementsService {
 
         complexreqs.forEach(complexreq => {
             // You can choose a creature to check this requirement on. Most checks only run on the character.
-            const creatureType = complexreq.creatureToTest || 'Character';
+            const creatureType = complexreq.creatureToTest || CreatureTypes.Character;
             const creature = this._characterService.creatureFromType(creatureType);
 
             if (!hasOneRequirementSucceeded) {

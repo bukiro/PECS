@@ -135,8 +135,9 @@
                     [name]="trait" [trait]="traitFromName(trait)[0]">
                 </app-trait>
             </div>
-            <app-tags [creature]="'Character'" [objectName]="'Animal Companion'" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="creatureTypesEnum.Character" [objectName]="'Animal Companion'" [showTraits]=true
+                [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
+            </app-tags>
             <div class="fullsize-only list-item">
                 <strong>Companion Name</strong>
                 <span>{{companion.name}}</span>
@@ -166,8 +167,9 @@
                     [trait]="traitFromName(trait)[0]">
                 </app-trait>
             </div>
-            <app-tags [creature]="'Character'" [objectName]="'Familiar'" [showTraits]=true [showFeats]=true
-                [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
+            <app-tags [creature]="creatureTypesEnum.Character" [objectName]="'Familiar'" [showTraits]=true
+                [showFeats]=true [showItems]=true [showActivities]=true [showConditions]=true [showEffects]=true>
+            </app-tags>
             <div class="fullsize-only list-item">
                 <strong>Familiar Name</strong>
                 <span>{{familiar.name}}</span>

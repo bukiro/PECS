@@ -114,7 +114,7 @@ export class ItemTargetComponent implements OnInit {
                                 name: savegame.name || 'Unnamed',
                                 id: savegame.id,
                                 playerId: savegame.id,
-                                type: 'Character',
+                                type: CreatureTypes.Character,
                                 selected: false,
                             },
                         ),
@@ -199,7 +199,7 @@ export class ItemTargetComponent implements OnInit {
         if (target instanceof ItemCollection) {
             return 'Inventory';
         } else {
-            if (target.type === 'Character' && target.id !== this._character.id) {
+            if (target.type === CreatureTypes.Character && target.id !== this._character.id) {
                 return 'Player';
             } else {
                 return target.type;

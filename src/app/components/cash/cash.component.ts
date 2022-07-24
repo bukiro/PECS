@@ -8,7 +8,7 @@ import { CopperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
 @Component({
     selector: 'app-cash',
     templateUrl: './cash.component.html',
-    styleUrls: ['./cash.component.css'],
+    styleUrls: ['./cash.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

@@ -40,7 +40,7 @@ interface ActivityParameter {
 export class ActivitiesComponent implements OnInit, OnDestroy {
 
     @Input()
-    public creature = 'Character';
+    public creature = CreatureTypes.Character;
 
     private _showActivity = '';
     private _showItem = '';
@@ -142,7 +142,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     public temporaryFeatChoices(): Array<FeatChoice> {
         const choices: Array<FeatChoice> = [];
 
-        if (this.creature === 'Character') {
+        if (this.creature === CreatureTypes.Character) {
             (this.currentCreature() as Character).class.levels
                 .filter(level => level.number <= this.currentCreature().level)
                 .forEach(level => {

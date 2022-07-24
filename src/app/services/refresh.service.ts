@@ -26,7 +26,7 @@ import { ActivitiesDataService } from '../core/services/data/activities-data.ser
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 interface DetailToChange {
-    creature: string;
+    creature: CreatureTypes | '';
     target: string;
     subtarget: string;
 }
@@ -36,7 +36,7 @@ interface DetailToChange {
 })
 export class RefreshService {
 
-    private readonly _componentChanged$: Observable<string>;
+    private readonly _componentChanged$: Observable<string | CreatureTypes>;
     private readonly _detailChanged$: Observable<DetailToChange>;
     private _preparedToChange: Array<DetailToChange> = [];
     private readonly _componentChanged = new BehaviorSubject<string>('');
@@ -56,7 +56,7 @@ export class RefreshService {
         return this._componentChanged$;
     }
 
-    public get detailChanged$(): Observable<{ creature: string; target: string; subtarget: string }> {
+    public get detailChanged$(): Observable<DetailToChange> {
         return this._detailChanged$;
     }
 
@@ -74,7 +74,7 @@ export class RefreshService {
     }
 
     public processPreparedChanges(): void {
-        ['Character', 'Companion', 'Familiar'].forEach(creature => {
+        Object.values(CreatureTypes).forEach(creature => {
             if (this._preparedToChange.some(view => view.creature === creature && view.target === 'all')) {
                 //If "all" is updated for a creature, skip everything else.
                 this._clearPreparedChanges(creature);
@@ -438,7 +438,7 @@ export class RefreshService {
             );
     }
 
-    private _setDetailChanged(view: { creature: string; target: string; subtarget: string }): void {
+    private _setDetailChanged(view: DetailToChange): void {
         this._detailChanged.next(view);
     }
 

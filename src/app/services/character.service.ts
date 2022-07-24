@@ -1305,7 +1305,7 @@ export class CharacterService {
                 rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
                     this.activitiesProcessingService.activateActivity(
                         this.character,
-                        'Character',
+                        CreatureTypes.Character,
                         this,
                         this.conditionsService,
                         this.itemsService,

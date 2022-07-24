@@ -84,7 +84,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         options: { expend?: boolean };
     }>();
 
-    public CreatureTypesEnum = CreatureTypes;
+    public creatureTypesEnum = CreatureTypes;
 
     private _changeSubscription: Subscription;
     private _viewChangeSubscription: Subscription;
@@ -288,7 +288,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                                 name: savegame.name || 'Unnamed',
                                 id: savegame.id,
                                 playerId: savegame.id,
-                                type: 'Character',
+                                type: CreatureTypes.Character,
                                 selected: (this.gain.targets.find(target => target.id === savegame.id)?.selected || false),
                             },
                         ),

@@ -76,7 +76,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     public creature: CreatureTypes = CreatureTypes.Character;
     public range = 0;
 
-    public CreatureTypesEnum = CreatureTypes;
+    public creatureTypesEnum = CreatureTypes;
     public newItemType = '';
     //TO-DO: Make new Item creation a separate component (a wizard would be nice)
     public newItem: Equipment | Consumable = null;

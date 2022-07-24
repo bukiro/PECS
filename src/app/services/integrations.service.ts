@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { ToastService } from 'src/app/services/toast.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 /**
  * Attempt to match the relevant properties of a Foundry VTT Roll object.
@@ -24,7 +25,7 @@ export class IntegrationsService {
     ) { }
 
     public sendRollToFoundry(
-        creature: string,
+        creature: CreatureTypes,
         diceString = '',
         diceResults: Array<DiceResult> = [],
         characterService: CharacterService,
@@ -47,7 +48,7 @@ export class IntegrationsService {
                 const roller = characterService.creatureFromType(creature);
                 let alias = '';
 
-                if (creature === 'Character') {
+                if (creature === CreatureTypes.Character) {
                     alias = roller.name || '';
                 } else {
                     alias = roller.name || `${ roller.type } of ${ characterService.character.name }`;

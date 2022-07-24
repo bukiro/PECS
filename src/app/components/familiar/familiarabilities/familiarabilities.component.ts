@@ -14,7 +14,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 })
 export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
 
-    public CreatureTypesEnum = CreatureTypes;
+    public creatureTypesEnum = CreatureTypes;
 
     private _changeSubscription: Subscription;
     private _viewChangeSubscription: Subscription;

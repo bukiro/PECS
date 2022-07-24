@@ -19,6 +19,7 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 
 @Injectable({
     providedIn: 'root',
@@ -43,7 +44,7 @@ export class SpellsService {
         return this._spellsMap.get(name.toLowerCase()) || this._replacementSpell(name);
     }
 
-    public spellFromName(name = '', type = '', tradition: (SpellTraditions | '') = ''): Array<Spell> {
+    public spells(name = '', type = '', tradition: (SpellTraditions | '') = ''): Array<Spell> {
         if (!this.stillLoading) {
             //If only a name is given, try to find a spell by that name in the index map. This should be much quicker.
             if (name && !type && !tradition) {
@@ -102,7 +103,7 @@ export class SpellsService {
             level: number;
             casting?: SpellCasting;
             choice?: SpellChoice;
-            target?: string;
+            target?: SpellTargetSelection;
             activityGain?: ActivityGain;
         },
         options: { manual?: boolean; expendOnly?: boolean } = {},
@@ -179,7 +180,7 @@ export class SpellsService {
                 case 'self':
                     targets.push(context.creature);
                     break;
-                case 'Character':
+                case CreatureTypes.Character:
                     targets.push(services.characterService.character);
                     break;
                 case 'Companion':
@@ -607,7 +608,7 @@ export class SpellsService {
                     taken.gain.duration = Math.max(taken.gain.duration - turns, 0);
 
                     if (taken.gain.duration === 0) {
-                        const spell: Spell = this.spellFromName(taken.gain.name)[0];
+                        const spell: Spell = this.spellFromName(taken.gain.name);
 
                         if (spell) {
                             this.processSpell(spell, false,

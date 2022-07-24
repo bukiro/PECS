@@ -34,6 +34,7 @@ import { Trait } from 'src/app/classes/Trait';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { Trackers } from 'src/libs/shared/util/trackers';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -226,14 +227,14 @@ export class AttacksComponent implements OnInit, OnDestroy {
             const spellChoice = item.storedSpells[0];
 
             if (spellChoice && spellName) {
-                const spell = this._characterService.spellsService.spellFromName(item.storedSpells[0]?.spells[0]?.name)[0];
+                const spell = this._characterService.spellsService.spellFromName(item.storedSpells[0]?.spells[0]?.name);
 
                 if (spell) {
                     const tempGain: SpellGain = new SpellGain();
-                    let target = '';
+                    let target: SpellTargetSelection = '';
 
                     if (spell.target === 'self') {
-                        target = 'Character';
+                        target = CreatureTypes.Character;
                     }
 
                     this._characterService.spellsService.processSpell(

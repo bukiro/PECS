@@ -27,10 +27,12 @@
             (click)="toggleSpellsMenu()">Prepare Spells</button>
         <ng-template #SpellAttacksEffectsPopoverContent>
             <div class="fullsize-only newrow">
-                <app-objectEffects [creature]="'Character'" [objectName]="'Spell Attack Rolls'"></app-objectEffects>
+                <app-objectEffects [creature]="creatureTypesEnum.Character" [objectName]="'Spell Attack Rolls'">
+                </app-objectEffects>
             </div>
             <div class="fullsize-only newrow">
-                <app-objectEffects [creature]="'Character'" [objectName]="'Spell DCs'"></app-objectEffects>
+                <app-objectEffects [creature]="creatureTypesEnum.Character" [objectName]="'Spell DCs'">
+                </app-objectEffects>
             </div>
         </ng-template>
         <ng-container *ngFor="let skill of spellDCs(); let index = index; trackBy:trackers.trackByIndex;">

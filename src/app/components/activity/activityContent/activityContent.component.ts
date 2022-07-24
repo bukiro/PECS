@@ -102,7 +102,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
                 gain.spellEffectChoices.push([]);
             }
 
-            const spell = this._spellsService.spellFromName(spellCast.name)[0];
+            const spell = this._spellsService.spellFromName(spellCast.name);
 
             spell.heightenedConditions(spellCast.level)
                 .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))

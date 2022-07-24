@@ -28,6 +28,7 @@ import { ActivitiesProcessingService } from 'src/app/services/activities-process
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -125,7 +126,12 @@ export class ActivityComponent implements OnInit, OnDestroy {
         };
     }
 
-    public onActivate(gain: ActivityGain | ItemActivity, activity: Activity | ItemActivity, activated: boolean, target: string): void {
+    public onActivate(
+        gain: ActivityGain | ItemActivity,
+        activity: Activity | ItemActivity,
+        activated: boolean,
+        target: SpellTargetSelection,
+    ): void {
         if (gain.name === 'Fused Stance') {
             this._onActivateFuseStance(activated);
         } else {
@@ -281,7 +287,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         this._viewChangeSubscription?.unsubscribe();
     }
 
-    private _currentCreature(creature: string = this.creature): Creature {
+    private _currentCreature(creature: CreatureTypes = this.creature): Creature {
         return this._characterService.creatureFromType(creature);
     }
 
@@ -305,7 +311,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
             if (set.gain && set.activity && activated !== set.gain.active) {
                 this._activitiesProcessingService.activateActivity(
                     this._currentCreature(),
-                    'Character',
+                    CreatureTypes.Character,
                     this._characterService,
                     this._conditionsService,
                     this._itemsService,

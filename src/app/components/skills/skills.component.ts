@@ -179,7 +179,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     public speeds(): Array<Speed> {
         const speeds: Array<Speed> = this._characterService.creatureSpeeds(this._currentCreature);
 
-        if (['Character', 'Companion'].includes(this._currentCreature.type)) {
+        if ([CreatureTypes.Character, 'Companion'].includes(this._currentCreature.type)) {
             (this._currentCreature as Character).class?.ancestry?.speeds?.forEach(speed => {
                 speeds.push(new Speed(speed.name));
             });
@@ -218,7 +218,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     public skillChoices(): Array<SkillChoice> {
-        if (this.creature === 'Character') {
+        if (this.creature === CreatureTypes.Character) {
             const character = (this._currentCreature as Character);
             const choices: Array<SkillChoice> = [];
 

@@ -20,7 +20,7 @@ import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 export class FamiliarComponent implements OnInit, OnDestroy {
 
     public isMobile = false;
-    public CreatureTypesEnum = CreatureTypes;
+    public creatureTypesEnum = CreatureTypes;
 
     private _showMode = '';
     private _changeSubscription: Subscription;

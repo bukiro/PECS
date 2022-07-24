@@ -397,7 +397,7 @@ export class NewItemPropertyComponent {
                     ));
                 break;
             case 'spellname':
-                examples.push(...this._spellsService.spellFromName().map(spell => spell.name));
+                examples.push(...this._spellsService.spells().map(spell => spell.name));
                 break;
             case 'spelllevels':
                 // All spell levels without -1

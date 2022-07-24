@@ -1,3 +1,5 @@
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+
 export namespace FeatRequirements {
     export interface AbilityRequirement {
         ability: string;
@@ -11,7 +13,7 @@ export namespace FeatRequirements {
 
     export interface ComplexRequirement {
         alwaysTrue: boolean;
-        creatureToTest?: string;
+        creatureToTest?: CreatureTypes;
         hasThisFeat?: boolean;
         isOnLevel?: RequirementExpectation;
         countLores?: Array<{ query: RequirementBasicQuery; expected?: RequirementExpectation }>;

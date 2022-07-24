@@ -22,7 +22,7 @@ interface TalismanCordSet {
 @Component({
     selector: 'app-itemTalismanCords',
     templateUrl: './itemTalismanCords.component.html',
-    styleUrls: ['./itemTalismanCords.component.css'],
+    styleUrls: ['./itemTalismanCords.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemTalismanCordsComponent implements OnInit {

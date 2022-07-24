@@ -26,6 +26,7 @@ import { Skill } from 'src/app/classes/Skill';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -391,7 +392,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     // eslint-disable-next-line complexity
     public onCast(
-        target = '',
+        target: SpellTargetSelection = '',
         activated: boolean,
         context: {
             spellParameters: SpellParameters;
