@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
-import { AttackResult, DamageResult, Weapon } from 'src/app/classes/Weapon';
+import { Weapon } from 'src/app/classes/Weapon';
 import { TraitsService } from 'src/app/services/traits.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -35,6 +35,9 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { AttackResult, AttacksService, DamageResult } from '../../services/attacks/attacks.service';
+import { DamageService } from '../../services/damage/damage.service';
+import { attackRuneSource } from '../../util/attackRuneSource';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -69,6 +72,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _activitiesService: ActivitiesDataService,
         private readonly _effectsService: EffectsService,
         private readonly _conditionsService: ConditionsService,
+        private readonly _attacksService: AttacksService,
+        private readonly _damageService: DamageService,
         public trackers: Trackers,
     ) { }
 
@@ -139,7 +144,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     public criticalSpecialization(weapon: Weapon, range: string): Array<Specialization> {
-        return weapon.critSpecialization(this._currentCreature, this._characterService, range);
+        return this._damageService.critSpecialization(weapon, this._currentCreature, range);
     }
 
     public equippedWeaponsParameters(): Array<WeaponParameters> {
@@ -274,7 +279,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     public hintShowingRunes(weapon: Weapon, range: string): Array<WeaponRune> {
         //Return all runes and rune-emulating effects that have a hint to show.
-        const runeSource = weapon.runeSource(this._currentCreature, range);
+        const runeSource = attackRuneSource(weapon, this._currentCreature, range);
 
         return (runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as Array<WeaponRune>)
             .concat(weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hints.length).map(oil => oil.runeEffect))
@@ -288,9 +293,9 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public runesOfWeapon(weapon: Weapon, range: string): Array<WeaponRune> {
         //Return all runes and rune-emulating oil effects.
         const runes: Array<WeaponRune> = [];
-        const runeSource = weapon.runeSource(this._currentCreature, range);
+        const runeSource = attackRuneSource(weapon, this._currentCreature, range);
 
-        runes.push(...weapon.runeSource(this._currentCreature, range).propertyRunes.propertyRunes as Array<WeaponRune>);
+        runes.push(...runeSource.propertyRunes.propertyRunes as Array<WeaponRune>);
         runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect).map(oil => oil.runeEffect));
 
         if (runeSource.propertyRunes.bladeAlly) {
@@ -373,18 +378,18 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return ([] as Array<AttackResult>)
             .concat(
                 weapon.melee
-                    ? [weapon.attack(this._currentCreature, this._characterService, this._effectsService, 'melee')]
+                    ? [this._attacksService.attack(weapon, this._currentCreature, 'melee')]
                     : [],
             )
             .concat(
                 (weapon.ranged || weapon.traits.find(trait => trait.includes('Thrown')))
-                    ? [weapon.attack(this._currentCreature, this._characterService, this._effectsService, 'ranged')]
+                    ? [this._attacksService.attack(weapon, this._currentCreature, 'ranged')]
                     : [],
             );
     }
 
     public damageOfWeapon(weapon: Weapon, range: string): DamageResult {
-        return weapon.damage(this._currentCreature, this._characterService, this._effectsService, range);
+        return this._damageService.damage(weapon, this._currentCreature, range);
     }
 
     public isFlurryAllowed(): boolean {

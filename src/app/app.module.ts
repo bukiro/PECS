@@ -12,7 +12,7 @@ import { ItemsComponent } from 'src/app/components/items/items.component';
 import { CharacterSheetComponent } from 'src/app/components/character-sheet/character-sheet.component';
 import { InventoryComponent } from 'src/app/components/inventory/inventory.component';
 import { CharacterComponent } from 'src/app/components/character/character.component';
-import { AttacksComponent } from 'src/app/components/attacks/attacks.component';
+import { AttacksComponent } from 'src/app/attacks/views/attacks/attacks.component';
 import { EffectsComponent } from 'src/app/components/effects/effects.component';
 import { DefenseComponent } from 'src/app/components/defense/defense.component';
 import { ProficiencyFormComponent } from 'src/app/components/proficiency-form/proficiency-form.component';
