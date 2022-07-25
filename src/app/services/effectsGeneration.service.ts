@@ -63,7 +63,7 @@ export class EffectsGenerationService {
 
     constructor(
         private readonly _evaluationService: EvaluationService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _effectsService: EffectsService,
         private readonly _conditionsService: ConditionsService,
         private readonly _refreshService: RefreshService,
@@ -394,7 +394,7 @@ export class EffectsGenerationService {
 
         services.characterService.creatureOwnedActivities(creature, creature.level, true).filter(activity => activity.active)
             .forEach(activity => {
-                activity.originalActivity(this._activitiesService)?.hints?.forEach(hint => {
+                activity.originalActivity(this._activitiesDataService)?.hints?.forEach(hint => {
                     hintSets.push({ hint, objectName: activity.name });
                 });
             });

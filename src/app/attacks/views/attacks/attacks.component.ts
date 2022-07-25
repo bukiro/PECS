@@ -3,7 +3,6 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { Weapon } from 'src/app/classes/Weapon';
 import { TraitsService } from 'src/app/services/traits.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -69,8 +68,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _deitiesService: DeitiesService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _activitiesService: ActivitiesDataService,
-        private readonly _effectsService: EffectsService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _conditionsService: ConditionsService,
         private readonly _attacksService: AttacksService,
         private readonly _damageService: DamageService,
@@ -703,7 +701,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         this._refreshService.prepareChangesByItem(
             this._currentCreature,
             item,
-            { characterService: this._characterService, activitiesService: this._activitiesService },
+            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
         );
         this._refreshService.processPreparedChanges();
     }

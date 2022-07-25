@@ -77,7 +77,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
         private readonly _spellsService: SpellsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _timeService: TimeService,
         private readonly _itemsService: ItemsService,
@@ -189,7 +189,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     ): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
         if (objectName) {
             return this._characterService.creatureOwnedActivities(this._currentCreature())
-                .map(gain => ({ gain, activity: gain.originalActivity(this._activitiesService) }))
+                .map(gain => ({ gain, activity: gain.originalActivity(this._activitiesDataService) }))
                 .filter(set =>
                     set.activity?.hints
                         .some(hint =>
@@ -211,7 +211,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         if (featData) {
             return this._characterService.creatureOwnedActivities(this._currentCreature())
                 .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
-                .map(gain => ({ gain, activity: gain.originalActivity(this._activitiesService) }));
+                .map(gain => ({ gain, activity: gain.originalActivity(this._activitiesDataService) }));
         } else {
             return [];
         }
@@ -278,7 +278,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
             this.allowActivate = false;
         }
 
-        this.item = this._activitiesService.itemFromActivityGain(this._currentCreature(), this.gain);
+        this.item = this._activitiesDataService.itemFromActivityGain(this._currentCreature(), this.gain);
         this._subscribeToChanges();
     }
 

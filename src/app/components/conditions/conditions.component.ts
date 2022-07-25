@@ -94,7 +94,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _conditionsService: ConditionsService,
         private readonly _effectsService: EffectsService,
         private readonly _itemsService: ItemsService,
@@ -577,7 +577,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.value));
                     });
-                this._activitiesService.activities().filter(activity => activity.onceEffects.length)
+                this._activitiesDataService.activities().filter(activity => activity.onceEffects.length)
                     .forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.value));
                     });
@@ -619,7 +619,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.setValue));
                     });
-                this._activitiesService.activities().filter(activity => activity.onceEffects.length)
+                this._activitiesDataService.activities().filter(activity => activity.onceEffects.length)
                     .forEach((activity: Activity) => {
                         examples.push(...activity.onceEffects.map(effect => effect.setValue));
                     });

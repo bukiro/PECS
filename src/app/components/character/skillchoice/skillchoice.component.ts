@@ -61,7 +61,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _abilitiesService: AbilitiesDataService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         public trackers: Trackers,
@@ -335,7 +335,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     }
 
     private _abilityFromName(name: string): Ability {
-        return this._abilitiesService.abilities(name)[0];
+        return this._abilitiesDataService.abilities(name)[0];
     }
 
     private _intelligenceBonusToAllowedIncreases(): number {

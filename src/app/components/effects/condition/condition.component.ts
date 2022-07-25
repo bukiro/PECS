@@ -5,7 +5,6 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { TimeService } from 'src/app/services/time.service';
-import { TraitsService } from 'src/app/services/traits.service';
 import { Creature } from 'src/app/classes/Creature';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -57,8 +56,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _itemsService: ItemsService,
         private readonly _conditionsService: ConditionsService,
-        private readonly _traitsService: TraitsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         public trackers: Trackers,
     ) { }
 
@@ -222,7 +220,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         if (this.conditionGain) {
             this.conditionGain.gainActivities.forEach(activityGain => {
                 activityGain.heightened = this.conditionGain.heightened;
-                activityGain.originalActivity(this._activitiesService)?.effectiveCooldown(
+                activityGain.originalActivity(this._activitiesDataService)?.effectiveCooldown(
                     { creature: this._currentCreature },
                     { characterService: this._characterService, effectsService: this._effectsService },
                 );
@@ -281,7 +279,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     private _activityFromName(name: string): Activity {
-        return this._activitiesService.activityFromName(name);
+        return this._activitiesDataService.activityFromName(name);
     }
 
     private _updateCondition(): void {

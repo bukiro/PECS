@@ -1,11 +1,8 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { SkillsService } from 'src/app/services/skills.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { TraitsService } from 'src/app/services/traits.service';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { CalculatedSkill, Skill } from 'src/app/classes/Skill';
-import { DiceService } from 'src/app/services/dice.service';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
@@ -56,12 +53,9 @@ export class SkillComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _diceService: DiceService,
-        private readonly _abilitiesService: AbilitiesDataService,
-        private readonly _skillsService: SkillsService,
-        private readonly _traitsService: TraitsService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _effectsService: EffectsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         public trackers: Trackers,
     ) { }
 
@@ -91,7 +85,7 @@ export class SkillComponent implements OnInit, OnDestroy {
         return this.skill.calculate(
             this._currentCreature,
             this._characterService,
-            this._abilitiesService,
+            this._abilitiesDataService,
             this._effectsService,
             this.character.level,
             this.isDC,
@@ -121,12 +115,12 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     public originalActivity(gain: ActivityGain | ItemActivity): Activity {
-        return gain.originalActivity(this._activitiesService);
+        return gain.originalActivity(this._activitiesDataService);
     }
 
     public relatedActivityParameters(): Array<ActivityParameters> {
         return this.relatedActivityGains.map(gain => {
-            const activity = gain.originalActivity(this._activitiesService);
+            const activity = gain.originalActivity(this._activitiesDataService);
             const maxCharges = activity.maxCharges({ creature: this._currentCreature }, { effectsService: this._effectsService });
 
             return {

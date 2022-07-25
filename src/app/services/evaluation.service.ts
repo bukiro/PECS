@@ -44,7 +44,7 @@ interface FormulaOptions {
 export class EvaluationService {
 
     constructor(
-        private readonly _abilitiesService: AbilitiesDataService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _familiarsService: FamiliarsService,
     ) { }
 
@@ -69,7 +69,7 @@ export class EvaluationService {
         /* eslint-disable @typescript-eslint/no-unused-vars */
         const effectsService = services.effectsService;
         const characterService = services.characterService;
-        const abilitiesService = this._abilitiesService;
+        const abilitiesService = this._abilitiesDataService;
         const familiarsService = this._familiarsService;
         const Creature = context.creature;
         const Character = characterService.character;

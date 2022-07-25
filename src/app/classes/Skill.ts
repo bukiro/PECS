@@ -65,14 +65,14 @@ export class Skill {
     public calculate(
         creature: Creature,
         characterService: CharacterService,
-        abilitiesService: AbilitiesDataService,
+        abilitiesDataService: AbilitiesDataService,
         effectsService: EffectsService,
         charLevel: number = characterService.character.level,
         isDC = false,
     ): CalculatedSkill {
         const level = this.level(creature, characterService, charLevel);
         const ability = this.modifierAbility(creature, characterService);
-        const baseValue = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel, level);
+        const baseValue = this.baseValue(creature, characterService, abilitiesDataService, effectsService, charLevel, level);
 
         const result = {
             level,
@@ -82,7 +82,7 @@ export class Skill {
             relatives: this.relatives(creature, effectsService, isDC, level, ability),
             bonuses: this.showBonuses(creature, effectsService, isDC, level, ability),
             penalties: this.showPenalties(creature, effectsService, isDC, level, ability),
-            value: this.value(creature, characterService, abilitiesService, effectsService, charLevel, isDC, baseValue),
+            value: this.value(creature, characterService, abilitiesDataService, effectsService, charLevel, isDC, baseValue),
         };
 
         return result;
@@ -397,7 +397,7 @@ export class Skill {
     public baseValue(
         creature: Creature,
         characterService: CharacterService,
-        abilitiesService: AbilitiesDataService,
+        abilitiesDataService: AbilitiesDataService,
         effectsService: EffectsService,
         charLevel: number = characterService.character.level,
         skillLevel: number = this.level((creature as AnimalCompanion | Character), characterService, charLevel),
@@ -415,7 +415,7 @@ export class Skill {
                 const character = characterService.character;
 
                 if (['Fortitude', 'Reflex', 'Will'].includes(this.name)) {
-                    const charBaseValue = this.baseValue(character, characterService, abilitiesService, effectsService, charLevel);
+                    const charBaseValue = this.baseValue(character, characterService, abilitiesDataService, effectsService, charLevel);
 
                     result = charBaseValue.result;
                     explain = charBaseValue.explain;
@@ -425,7 +425,7 @@ export class Skill {
                     ability = 'Charisma';
                     ability = this.modifierAbility(creature, characterService);
 
-                    const value = abilitiesService.abilities(ability)[0].mod(character, characterService, effectsService);
+                    const value = abilitiesDataService.abilities(ability)[0].mod(character, characterService, effectsService);
 
                     if (value) {
                         result += value.result;
@@ -455,7 +455,7 @@ export class Skill {
 
                 if (ability) {
                     abilityMod =
-                        abilitiesService.abilities(ability)[0]
+                        abilitiesDataService.abilities(ability)[0]
                             .mod((creature as AnimalCompanion | Character), characterService, effectsService).result;
                 }
 
@@ -474,11 +474,11 @@ export class Skill {
     public value(
         creature: Creature,
         characterService: CharacterService,
-        abilitiesService: AbilitiesDataService,
+        abilitiesDataService: AbilitiesDataService,
         effectsService: EffectsService,
         charLevel: number = characterService.character.level,
         isDC = false,
-        baseValue: SkillBaseValue = this.baseValue(creature, characterService, abilitiesService, effectsService, charLevel),
+        baseValue: SkillBaseValue = this.baseValue(creature, characterService, abilitiesDataService, effectsService, charLevel),
     ): { result: number; explain: string } {
         //Calculates the effective bonus of the given Skill
         let result = 0;

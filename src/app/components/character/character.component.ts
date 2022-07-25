@@ -5,7 +5,6 @@ import { ClassesService } from 'src/app/services/classes.service';
 import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { EffectsService } from 'src/app/services/effects.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { HistoryService } from 'src/app/services/history.service';
 import { Ancestry } from 'src/app/classes/Ancestry';
@@ -100,12 +99,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _configService: ConfigService,
         private readonly _classesService: ClassesService,
-        private readonly _abilitiesService: AbilitiesDataService,
-        private readonly _effectsService: EffectsService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _featsService: FeatsService,
         private readonly _historyService: HistoryService,
         private readonly _itemsService: ItemsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _deitiesService: DeitiesService,
         private readonly _spellsService: SpellsService,
         private readonly _animalCompanionsService: AnimalCompanionsService,
@@ -770,7 +768,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public abilities(name = ''): Array<Ability> {
-        return this._abilitiesService.abilities(name);
+        return this._abilitiesDataService.abilities(name);
     }
 
     public abilityBaseValue(
@@ -997,7 +995,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public activityFromName(name: string): Activity {
-        return this._activitiesService.activityFromName(name);
+        return this._activitiesDataService.activityFromName(name);
     }
 
     public differentWorldsData(levelNumber: number): Array<FeatData> {
@@ -1284,7 +1282,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const conditionsWithAttackRestrictions = this._conditionsService.conditions()
             .filter(condition => condition.attackRestrictions.length)
             .map(condition => condition.name);
-        const activities = this._activitiesService.activities().filter(activity => activity.traits.includes('Stance'));
+        const activities = this._activitiesDataService.activities().filter(activity => activity.traits.includes('Stance'));
         const existingStances: Array<Activity> = [];
         const takenStances = fuseStanceData.valueAsStringArray('stances');
         const maxStances = 2;

@@ -62,8 +62,8 @@ export class ActivityGain {
 
         return this;
     }
-    public originalActivity(activitiesService: ActivitiesDataService): Activity {
-        return activitiesService.activityFromName(this.name);
+    public originalActivity(activitiesDataService: ActivitiesDataService): Activity {
+        return activitiesDataService.activityFromName(this.name);
     }
     public disabled(
         context: { creature: Creature; maxCharges: number },

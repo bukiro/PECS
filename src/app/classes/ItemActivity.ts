@@ -73,7 +73,7 @@ export class ItemActivity extends Activity {
     }
     // Other implementations require activitiesService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public originalActivity(activitiesService: ActivitiesDataService): Activity {
+    public originalActivity(activitiesDataService: ActivitiesDataService): Activity {
         return this;
     }
     public disabled(

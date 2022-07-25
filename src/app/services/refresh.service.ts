@@ -179,7 +179,7 @@ export class RefreshService {
     public prepareChangesByItem(
         creature: Creature,
         item: Item,
-        services: { characterService: CharacterService; activitiesService: ActivitiesDataService },
+        services: { characterService: CharacterService; activitiesDataService: ActivitiesDataService },
     ): void {
         this.prepareDetailToChange(creature.type, item.id);
         item.traits.map(trait => this._traitsService.traitFromName(trait)).forEach(trait => {
@@ -445,7 +445,7 @@ export class RefreshService {
     private _prepareChangesByEquipment(
         creature: Creature,
         item: Equipment,
-        services: { characterService: CharacterService; activitiesService: ActivitiesDataService },
+        services: { characterService: CharacterService; activitiesDataService: ActivitiesDataService },
     ): void {
         //Prepare refresh list according to the item's properties.
         if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
@@ -483,7 +483,7 @@ export class RefreshService {
         if (item.gainActivities?.length) {
             this.prepareDetailToChange(creature.type, 'activities');
             item.gainActivities.forEach(gain => {
-                gain.originalActivity(services.activitiesService)?.showonSkill?.split(',').forEach(skillName => {
+                gain.originalActivity(services.activitiesDataService)?.showonSkill?.split(',').forEach(skillName => {
                     this.prepareDetailToChange(creature.type, 'skills');
                     this.prepareDetailToChange(creature.type, 'individualskills', skillName.trim());
                 });

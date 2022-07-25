@@ -155,14 +155,14 @@ export class CharacterService {
         private readonly _configService: ConfigService,
         private readonly _extensionsService: ExtensionsService,
         private readonly _savegameService: SavegameService,
-        public abilitiesService: AbilitiesDataService,
+        public abilitiesDataService: AbilitiesDataService,
         public skillsService: SkillsService,
         public classesService: ClassesService,
         public featsService: FeatsService,
         public traitsService: TraitsService,
         private readonly _historyService: HistoryService,
         public conditionsService: ConditionsService,
-        public activitiesService: ActivitiesDataService,
+        public activitiesDataService: ActivitiesDataService,
         public itemsService: ItemsService,
         public spellsService: SpellsService,
         public effectsService: EffectsService,
@@ -944,7 +944,11 @@ export class CharacterService {
         this.refreshService.prepareDetailToChange(creature.type, 'inventory');
         this.refreshService.prepareDetailToChange(creature.type, 'effects');
         this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-        this.refreshService.prepareChangesByItem(creature, item, { characterService: this, activitiesService: this.activitiesService });
+        this.refreshService.prepareChangesByItem(
+            creature,
+            item,
+            { characterService: this, activitiesDataService: this.activitiesDataService },
+        );
 
         if (amount < item.amount) {
             item.amount -= amount;
@@ -998,7 +1002,7 @@ export class CharacterService {
                                 this.itemsService,
                                 this.spellsService,
                                 gain,
-                                this.activitiesService.activities(gain.name)[0],
+                                this.activitiesDataService.activities(gain.name)[0],
                                 false,
                             );
                         }
@@ -1236,7 +1240,11 @@ export class CharacterService {
         }
 
         this.refreshService.prepareDetailToChange(creature.type, 'inventory');
-        this.refreshService.prepareChangesByItem(creature, item, { characterService: this, activitiesService: this.activitiesService });
+        this.refreshService.prepareChangesByItem(
+            creature,
+            item,
+            { characterService: this, activitiesDataService: this.activitiesDataService },
+        );
 
         if (!isEquippedAtBeginning && item.equipped) {
             if (item instanceof Armor) {
@@ -1340,12 +1348,12 @@ export class CharacterService {
                 this.refreshService.prepareChangesByItem(
                     creature,
                     item,
-                    { characterService: this, activitiesService: this.activitiesService },
+                    { characterService: this, activitiesDataService: this.activitiesDataService },
                 );
             }
         } else {
             item.gainActivities.filter(gainActivity => gainActivity.active).forEach((gainActivity: ActivityGain) => {
-                const libraryActivity = this.activitiesService.activities(gainActivity.name)[0];
+                const libraryActivity = this.activitiesDataService.activities(gainActivity.name)[0];
 
                 if (libraryActivity) {
                     this.activitiesProcessingService.activateActivity(
@@ -1375,7 +1383,11 @@ export class CharacterService {
                 );
             });
             this.conditionsService.removeGainedItemConditions(creature, item, this);
-            this.refreshService.prepareChangesByItem(creature, item, { characterService: this, activitiesService: this.activitiesService });
+            this.refreshService.prepareChangesByItem(
+                creature,
+                item,
+                { characterService: this, activitiesDataService: this.activitiesDataService },
+            );
         }
 
         //If a wayfinder is invested or uninvested, all other invested wayfinders need to run updates as well,
@@ -1385,7 +1397,7 @@ export class CharacterService {
                 this.refreshService.prepareChangesByItem(
                     creature,
                     wornItem,
-                    { characterService: this, activitiesService: this.activitiesService },
+                    { characterService: this, activitiesDataService: this.activitiesDataService },
                 );
             });
         }
@@ -1401,7 +1413,11 @@ export class CharacterService {
         }
 
         this.itemsService.processConsumable(creature, this, this.conditionsService, this.spellsService, item);
-        this.refreshService.prepareChangesByItem(creature, item, { characterService: this, activitiesService: this.activitiesService });
+        this.refreshService.prepareChangesByItem(
+            creature,
+            item,
+            { characterService: this, activitiesDataService: this.activitiesDataService },
+        );
         this.refreshService.prepareDetailToChange(creature.type, 'inventory');
     }
 
@@ -2629,7 +2645,7 @@ export class CharacterService {
     }
 
     public abilities(name = ''): Array<Ability> {
-        return this.abilitiesService.abilities(name);
+        return this.abilitiesDataService.abilities(name);
     }
 
     public skills(
@@ -3053,7 +3069,7 @@ export class CharacterService {
     public creatureActivitiesShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<Activity> {
         return this.creatureOwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
-            .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesService) }))
+            .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesDataService) }))
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
             .filter((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) =>
                 gainAndActivity.activity &&
@@ -3261,7 +3277,7 @@ export class CharacterService {
         this.refreshService.setComponentChanged('charactersheet');
         this.cacheService.reset();
         this.traitsService.reset();
-        this.activitiesService.reset();
+        this.activitiesDataService.reset();
         this.featsService.reset();
         this.conditionsService.reset();
         this.skillsService.reset();

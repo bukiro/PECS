@@ -103,7 +103,7 @@ export class ItemsService {
     constructor(
         private readonly _typeService: TypeService,
         private readonly _extensionsService: ExtensionsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
     ) { }
 
@@ -764,7 +764,7 @@ export class ItemsService {
                 this._refreshService.prepareChangesByItem(
                     creature,
                     movedItem,
-                    { characterService, activitiesService: this._activitiesService },
+                    { characterService, activitiesDataService: this._activitiesDataService },
                 );
             }
         }

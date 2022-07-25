@@ -639,7 +639,7 @@ export class FeatsService {
                                 characterService.conditionsService,
                                 characterService.itemsService,
                                 characterService.spellsService,
-                                characterService.activitiesService,
+                                characterService.activitiesDataService,
                                 oldGain,
                             );
                         }

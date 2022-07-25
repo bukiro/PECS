@@ -35,7 +35,7 @@ export class ItemAeonStonesComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
         private readonly _typeService: TypeService,
         public trackers: Trackers,
@@ -181,7 +181,7 @@ export class ItemAeonStonesComponent implements OnInit {
         this._refreshService.prepareChangesByItem(
             this._character,
             stone,
-            { characterService: this._characterService, activitiesService: this._activitiesService },
+            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
         );
     }
 

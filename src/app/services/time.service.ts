@@ -122,7 +122,7 @@ export class TimeService {
             let con = 1;
 
             con = Math.max(
-                characterService.abilitiesService
+                characterService.abilitiesDataService
                     .abilities('Constitution')[0]
                     .mod(creature, characterService, characterService.effectsService).result,
                 1,

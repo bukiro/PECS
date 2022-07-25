@@ -235,7 +235,7 @@ export class Class {
                         characterService.conditionsService,
                         characterService.itemsService,
                         characterService.spellsService,
-                        characterService.activitiesService,
+                        characterService.activitiesDataService,
                         oldGain,
                     );
                 }

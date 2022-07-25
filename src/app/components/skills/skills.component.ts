@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { SkillsService } from 'src/app/services/skills.service';
-import { FeatsService } from 'src/app/services/feats.service';
 import { Character } from 'src/app/classes/Character';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -49,9 +48,8 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillsService: SkillsService,
-        private readonly _featsService: FeatsService,
         private readonly _effectsService: EffectsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         public trackers: Trackers,
     ) { }
 
@@ -143,7 +141,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
         activities.forEach(activity => {
             // Calculate the current cooldown for each activity, which is stored in a temporary variable.
-            activity.originalActivity(this._activitiesService)
+            activity.originalActivity(this._activitiesDataService)
                 ?.effectiveCooldown(
                     { creature: this._currentCreature },
                     { characterService: this._characterService, effectsService: this._effectsService },
@@ -156,7 +154,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     public skillMatchingActivities(activities: Array<ActivityGain | ItemActivity>, skillName: string): Array<ActivityGain | ItemActivity> {
         //Filter activities whose showonSkill or whose original activity's showonSkill includes this skill's name.
         return activities.filter(activity =>
-            (activity.originalActivity(this._activitiesService)?.showonSkill || '').toLowerCase().includes(skillName.toLowerCase()),
+            (activity.originalActivity(this._activitiesDataService)?.showonSkill || '').toLowerCase().includes(skillName.toLowerCase()),
         );
     }
 

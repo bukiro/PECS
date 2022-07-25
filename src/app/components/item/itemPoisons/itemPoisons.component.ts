@@ -36,7 +36,7 @@ export class ItemPoisonsComponent {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _typeService: TypeService,
         public trackers: Trackers,
     ) { }
@@ -99,7 +99,7 @@ export class ItemPoisonsComponent {
             this._refreshService.prepareChangesByItem(
                 this._character,
                 this.item,
-                { characterService: this._characterService, activitiesService: this._activitiesService },
+                { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
             );
             this._refreshService.processPreparedChanges();
         }
@@ -111,7 +111,7 @@ export class ItemPoisonsComponent {
         this._refreshService.prepareChangesByItem(
             this._character,
             this.item,
-            { characterService: this._characterService, activitiesService: this._activitiesService },
+            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
         );
         this._refreshService.processPreparedChanges();
     }

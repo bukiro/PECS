@@ -54,7 +54,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         private readonly _effectsService: EffectsService,
         private readonly _timeService: TimeService,
         private readonly _refreshService: RefreshService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         public trackers: Trackers,
     ) { }
 
@@ -69,7 +69,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._activitiesService.stillLoading || this._characterService.stillLoading;
+        return this._activitiesDataService.stillLoading || this._characterService.stillLoading;
     }
 
     private get _character(): Character {
@@ -213,7 +213,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         };
 
         this._characterService.creatureOwnedActivities(this.currentCreature()).forEach(gain => {
-            const activity = gain.originalActivity(this._activitiesService);
+            const activity = gain.originalActivity(this._activitiesDataService);
 
             activity?.effectiveCooldown(
                 { creature: this.currentCreature() },

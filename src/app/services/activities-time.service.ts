@@ -18,7 +18,7 @@ import { SpellsService } from './spells.service';
 export class ActivitiesTimeService {
 
     constructor(
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _refreshService: RefreshService,
     ) { }
@@ -30,7 +30,7 @@ export class ActivitiesTimeService {
         characterService.creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown !== 0 || gain.duration === TimePeriods.UntilRest)
             .forEach(gain => {
-                const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesService);
+                const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesDataService);
 
                 if (gain.duration === TimePeriods.UntilRest && activity) {
                     this._activitiesProcessingService.activateActivity(
@@ -72,7 +72,7 @@ export class ActivitiesTimeService {
         characterService.creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => [gain.activeCooldown, gain.duration].includes(TimePeriods.UntilRefocus))
             .forEach(gain => {
-                const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesService);
+                const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesDataService);
 
                 if (gain.duration === TimePeriods.UntilRefocus && activity) {
                     this._activitiesProcessingService.activateActivity(
@@ -117,7 +117,7 @@ export class ActivitiesTimeService {
         characterService.creatureOwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration)
             .forEach(gain => {
                 //Tick down the duration and the cooldown by the amount of turns.
-                const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesService);
+                const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesDataService);
                 // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
                 let remainingTurns = turns;
 

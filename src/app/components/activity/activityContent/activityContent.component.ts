@@ -49,7 +49,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
         private readonly _spellsService: SpellsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
         private readonly _conditionsService: ConditionsService,
         public trackers: Trackers,
@@ -76,7 +76,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     }
 
     public activities(name: string): Array<Activity> {
-        return this._activitiesService.activities(name);
+        return this._activitiesDataService.activities(name);
     }
 
     public spellCasts(): Array<SpellCast> {

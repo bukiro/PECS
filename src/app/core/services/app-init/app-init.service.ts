@@ -16,7 +16,6 @@ import { FeatsService } from 'src/app/services/feats.service';
 import { HistoryService } from 'src/app/services/history.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { MessageService } from 'src/app/services/message.service';
-import { RefreshService } from 'src/app/services/refresh.service';
 import { SavegameService } from 'src/app/services/savegame.service';
 import { SkillsService } from 'src/app/services/skills.service';
 import { SpellsService } from 'src/app/services/spells.service';
@@ -30,13 +29,12 @@ export class AppInitService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _refreshService: RefreshService,
         private readonly _extensionsService: ExtensionsService,
         private readonly _configService: ConfigService,
         private readonly _savegameService: SavegameService,
         private readonly _traitsService: TraitsService,
-        private readonly _abilitiesService: AbilitiesDataService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featsService: FeatsService,
         private readonly _historyService: HistoryService,
         private readonly _classesService: ClassesService,
@@ -64,8 +62,8 @@ export class AppInitService {
             if (!this._extensionsService.stillLoading && !this._configService.stillLoading) {
                 clearInterval(waitForFileServices);
                 this._traitsService.initialize();
-                this._abilitiesService.initialize();
-                this._activitiesService.initialize();
+                this._abilitiesDataService.initialize();
+                this._activitiesDataService.initialize();
                 this._featsService.initialize();
                 this._historyService.initialize();
                 this._classesService.initialize();
@@ -85,8 +83,8 @@ export class AppInitService {
             if (
                 !(
                     this._traitsService.stillLoading ||
-                    this._abilitiesService.stillLoading ||
-                    this._activitiesService.stillLoading ||
+                    this._abilitiesDataService.stillLoading ||
+                    this._activitiesDataService.stillLoading ||
                     this._featsService.stillLoading ||
                     this._historyService.stillLoading ||
                     this._classesService.stillLoading ||

@@ -523,7 +523,7 @@ export class ConditionsService {
                     activityGain = activityGains[0];
                 }
 
-                const activity = characterService.activitiesService.activities(activityGain.name)[0];
+                const activity = characterService.activitiesDataService.activities(activityGain.name)[0];
 
                 if (activity) {
                     characterService.activitiesProcessingService
@@ -571,7 +571,7 @@ export class ConditionsService {
                     .filter(activityGain => activityGain.id === gain.sourceGainID && activityGain.active)
                     .forEach(activityGain => {
                         //Tick down the duration and the cooldown.
-                        const activity: Activity | ItemActivity = activityGain.originalActivity(characterService.activitiesService);
+                        const activity: Activity | ItemActivity = activityGain.originalActivity(characterService.activitiesDataService);
 
                         if (activity) {
                             characterService.activitiesProcessingService.activateActivity(

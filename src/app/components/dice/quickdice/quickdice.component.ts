@@ -242,7 +242,7 @@ export class QuickdiceComponent {
                     if (abilityName) {
                         const character = this._characterService.character;
 
-                        return this._characterService.abilitiesService.abilities(abilityName)?.[0]
+                        return this._characterService.abilitiesDataService.abilities(abilityName)?.[0]
                             ?.mod(
                                 character,
                                 this._characterService,

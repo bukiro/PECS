@@ -61,7 +61,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsService: TraitsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
@@ -89,7 +89,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     public activityFromName(name: string): Activity {
-        return this._activitiesService.activityFromName(name);
+        return this._activitiesDataService.activityFromName(name);
     }
 
     public itemRoles(): ItemRoles {
@@ -162,7 +162,7 @@ export class ItemComponent implements OnInit, OnDestroy {
             this._refreshService.prepareChangesByItem(
                 this._currentCreature,
                 ironItem,
-                { characterService: this._characterService, activitiesService: this._activitiesService },
+                { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
             );
         }
 
@@ -365,7 +365,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         this._refreshService.prepareChangesByItem(
             this._currentCreature,
             this.item,
-            { characterService: this._characterService, activitiesService: this._activitiesService },
+            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
         );
         this._refreshService.processPreparedChanges();
         this._updateItem();

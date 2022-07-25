@@ -32,7 +32,7 @@ export class FeatComponent {
 
     constructor(
         private readonly _spellsService: SpellsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _traitsService: TraitsService,
         private readonly _featRequirementsService: FeatRequirementsService,
         public trackers: Trackers,
@@ -102,7 +102,7 @@ export class FeatComponent {
     }
 
     public activityFromName(name: string): Activity {
-        return this._activitiesService.activityFromName(name);
+        return this._activitiesDataService.activityFromName(name);
     }
 
     public spellFromName(name: string): Spell {

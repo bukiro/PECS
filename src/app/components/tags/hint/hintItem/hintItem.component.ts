@@ -42,7 +42,7 @@ export class HintItemComponent implements OnInit, OnDestroy {
         private readonly _effectsService: EffectsService,
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsService: TraitsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
         public trackers: Trackers,
@@ -71,7 +71,7 @@ export class HintItemComponent implements OnInit, OnDestroy {
     }
 
     public activityFromName(name: string): Activity {
-        return this._activitiesService.activityFromName(name);
+        return this._activitiesDataService.activityFromName(name);
     }
 
     public activityCooldown(activity: Activity): number {

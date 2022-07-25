@@ -100,7 +100,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _spellsService: SpellsService,
         private readonly _conditionsService: ConditionsService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _toastService: ToastService,
         private readonly _modalService: NgbModal,
@@ -515,7 +515,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         this._refreshService.prepareChangesByItem(
             this.currentCreature,
             item,
-            { characterService: this._characterService, activitiesService: this._activitiesService },
+            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
         );
         this._refreshService.processPreparedChanges();
         this._refreshItem(item);
@@ -537,7 +537,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         this._refreshService.prepareChangesByItem(
             this.currentCreature,
             item,
-            { characterService: this._characterService, activitiesService: this._activitiesService },
+            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
         );
         this._refreshService.processPreparedChanges();
         this._refreshItem(item);

@@ -25,7 +25,7 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _abilitiesService: AbilitiesDataService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _effectsService: EffectsService,
@@ -39,7 +39,7 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._abilitiesService.stillLoading || this._characterService.stillLoading;
+        return this._abilitiesDataService.stillLoading || this._characterService.stillLoading;
     }
 
     private get _currentCreature(): Creature {
@@ -58,13 +58,13 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
 
         switch (subset) {
             case all:
-                return this._abilitiesService.abilities();
+                return this._abilitiesDataService.abilities();
             case firstThree:
-                return this._abilitiesService.abilities().filter((_ability, index) => index <= thirdAbility);
+                return this._abilitiesDataService.abilities().filter((_ability, index) => index <= thirdAbility);
             case lastThree:
-                return this._abilitiesService.abilities().filter((_ability, index) => index > thirdAbility);
+                return this._abilitiesDataService.abilities().filter((_ability, index) => index > thirdAbility);
             default:
-                return this._abilitiesService.abilities();
+                return this._abilitiesDataService.abilities();
         }
     }
 

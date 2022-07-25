@@ -93,7 +93,7 @@ export class ItemRunesComponent implements OnInit {
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
         private readonly _timeService: TimeService,
-        private readonly _activitiesService: ActivitiesDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _spellsService: SpellsService,
         private readonly _conditionsService: ConditionsService,
@@ -849,7 +849,7 @@ export class ItemRunesComponent implements OnInit {
         this._refreshService.prepareChangesByItem(
             this._character,
             rune,
-            { characterService: this._characterService, activitiesService: this._activitiesService },
+            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
         );
     }
 
