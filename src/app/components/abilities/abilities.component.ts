@@ -1,12 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Ability, CalculatedAbility } from 'src/app/classes/Ability';
+import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 
 @Component({
@@ -26,6 +27,7 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _abilitiesDataService: AbilitiesDataService,
+        private readonly _ablityValuesService: AbilityValuesService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _effectsService: EffectsService,
@@ -69,7 +71,7 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     }
 
     public calculateAbility(ability: Ability): CalculatedAbility {
-        return ability.calculate(this._currentCreature, this._characterService, this._effectsService);
+        return this._ablityValuesService.calculate(ability, this._currentCreature);
     }
 
     public ngOnInit(): void {

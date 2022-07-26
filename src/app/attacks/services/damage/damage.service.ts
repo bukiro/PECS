@@ -14,6 +14,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { attackRuneSource } from '../../util/attackRuneSource';
@@ -27,6 +28,7 @@ export class DamageService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _effectsService: EffectsService,
+        private readonly _abilityValuesService: AbilityValuesService,
     ) { }
 
     /**
@@ -47,8 +49,8 @@ export class DamageService {
 
         let diceExplain = `Base dice: ${ weapon.dicenum ? `${ weapon.dicenum }d` : '' }${ weapon.dicesize }`;
         let bonusExplain = '';
-        const str = this._characterService.abilities('Strength')[0].mod(creature, this._characterService, this._effectsService).result;
-        const dex = this._characterService.abilities('Dexterity')[0].mod(creature, this._characterService, this._effectsService).result;
+        const str = this._abilityValuesService.mod('Strength', creature).result;
+        const dex = this._abilityValuesService.mod('Dexterity', creature).result;
         const penalties: Array<Effect> = [];
         const bonuses: Array<Effect> = [];
         const absolutes: Array<Effect> = [];

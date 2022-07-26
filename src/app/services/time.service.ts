@@ -16,6 +16,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { TimePeriods } from '../../libs/shared/definitions/timePeriods';
 import { ActivitiesTimeService } from './activities-time.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 @Injectable({
     providedIn: 'root',
@@ -31,6 +32,7 @@ export class TimeService {
         private readonly _effectsService: EffectsService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
+        private readonly _abilityValueService: AbilityValuesService,
     ) { }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -121,10 +123,10 @@ export class TimeService {
 
             let con = 1;
 
+            const constitution = characterService.abilitiesDataService.abilities('Constitution')[0];
+
             con = Math.max(
-                characterService.abilitiesDataService
-                    .abilities('Constitution')[0]
-                    .mod(creature, characterService, characterService.effectsService).result,
+                this._abilityValueService.mod(constitution, creature).result,
                 1,
             );
 

@@ -61,6 +61,7 @@ import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { Weapon } from 'src/app/classes/Weapon';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -113,6 +114,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _familiarsService: FamiliarsService,
         private readonly _cacheService: CacheService,
         private readonly _modalService: NgbModal,
+        private readonly _abilityValuesService: AbilityValuesService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -465,7 +467,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             baseValues.length = 0;
         } else {
             this.abilities().forEach(ability => {
-                baseValues.push({ name: ability.name, baseValue: Defaults.abilityBaseLevel });
+                baseValues.push({ name: ability.name, baseValue: Defaults.abilityBaseValue });
             });
 
             // Remove all Level 1 ability boosts that are now illegal
@@ -775,7 +777,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         ability: Ability,
         levelNumber: number,
     ): { result: number; explain: string } {
-        return ability.baseValue(this.character, this._characterService, levelNumber);
+        return this._abilityValuesService.baseValue(ability, this.character, levelNumber);
     }
 
     public availableAbilities(choice: AbilityChoice, levelNumber: number): Array<Ability> {
@@ -834,7 +836,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
         if (
             levelNumber === 1 &&
-            ability.baseValue(this.character, this._characterService, levelNumber).result > maxAbilityValueOnFirstLevel
+            this._abilityValuesService.baseValue(
+                ability,
+                this.character,
+                levelNumber,
+            ).result > maxAbilityValueOnFirstLevel
         ) {
             isAbilityIllegal = true;
         }
@@ -878,7 +884,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (
             choice.type === 'Boost' &&
             levelNumber === 1 &&
-            ability.baseValue(this.character, this._characterService, levelNumber).result > cannotBoostHigherValue &&
+            this._abilityValuesService.baseValue(
+                ability,
+                this.character,
+                levelNumber,
+            ).result > cannotBoostHigherValue &&
             !sameBoostsThisLevel.length
         ) {
             cannotBoostHigher = 'Cannot boost above 18 on level 1.';
@@ -1912,7 +1922,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
         //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
         const intelligence: number =
-            this.abilities('Intelligence')[0].baseValue(this.character, this._characterService, levelNumber).result;
+            this._abilityValuesService.baseValue('Intelligence', this.character, levelNumber).result;
 
         return AbilityModFromAbilityValue(intelligence);
     }

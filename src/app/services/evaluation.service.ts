@@ -19,6 +19,7 @@ import { WornItem } from '../classes/WornItem';
 import { FeatTaken } from '../character-creation/definitions/models/FeatTaken';
 import { Deity as DeityModel } from '../classes/Deity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -46,6 +47,7 @@ export class EvaluationService {
     constructor(
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _familiarsService: FamiliarsService,
+        private readonly _abilityValuesService: AbilityValuesService,
     ) { }
 
     public valueFromFormula(
@@ -137,8 +139,7 @@ export class EvaluationService {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                return characterService.abilities(name)[0]
-                    ?.value(Creature, characterService, effectsService).result;
+                return this._abilityValuesService.value(name, Creature).result;
             }
         };
 
@@ -146,8 +147,7 @@ export class EvaluationService {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                return characterService.abilities(name)[0]
-                    ?.mod(Creature, characterService, effectsService).result;
+                return this._abilityValuesService.mod(name, Creature).result;
             }
         };
         const BaseSize = (): number => (
@@ -243,8 +243,7 @@ export class EvaluationService {
         };
         const SpellcastingModifier = (): number => {
             if (SpellCastingAbility) {
-                return abilitiesService.abilities(SpellCastingAbility)[0]
-                    ?.mod(Character, characterService, effectsService, Level).result || 0;
+                return this._abilityValuesService.mod(SpellCastingAbility, Character, Level).result;
             } else {
                 return 0;
             }

@@ -12,13 +12,17 @@ import { FeatRequirements } from '../../definitions/models/featRequirements';
 import { FeatChoice } from '../../definitions/models/FeatChoice';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class FeatRequirementsService {
 
-    constructor(private readonly _characterService: CharacterService) { }
+    constructor(
+        private readonly _characterService: CharacterService,
+        private readonly _abilityValuesService: AbilityValuesService,
+    ) { }
 
     public static prof(skillLevel: number): string {
         switch (skillLevel) {
@@ -125,7 +129,7 @@ export class FeatRequirementsService {
 
                 if (requiredAbility.length) {
                     requiredAbility.forEach(ability => {
-                        if (ability.baseValue(character, this._characterService, charLevel).result >= expected) {
+                        if (this._abilityValuesService.baseValue(ability, character, charLevel).result >= expected) {
                             result.push({ met: true, desc: `${ ability.name } ${ expected }` });
                         } else {
                             result.push({ met: false, desc: `${ ability.name } ${ expected }` });

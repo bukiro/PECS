@@ -7,6 +7,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SignNumber } from 'src/libs/shared/util/numberUtils';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
@@ -37,6 +38,7 @@ export class AttacksService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _effectsService: EffectsService,
+        private readonly _abilityValuesService: AbilityValuesService,
     ) { }
 
     public attack(
@@ -47,8 +49,8 @@ export class AttacksService {
         //Calculates the attack bonus for a melee or ranged attack with weapon weapon.
         let explain = '';
         const charLevel = this._characterService.character.level;
-        const str = this._characterService.abilities('Strength')[0].mod(creature, this._characterService, this._effectsService).result;
-        const dex = this._characterService.abilities('Dexterity')[0].mod(creature, this._characterService, this._effectsService).result;
+        const str = this._abilityValuesService.mod('Strength', creature).result;
+        const dex = this._abilityValuesService.mod('Dexterity', creature).result;
         const runeSource = attackRuneSource(weapon, creature, range);
         const traits = weapon.effectiveTraits(this._characterService, creature);
         const skillLevel = weapon.profLevel(creature, this._characterService, runeSource.propertyRunes);

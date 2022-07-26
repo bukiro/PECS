@@ -32,6 +32,8 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ConditionEffectsObject } from '../classes/ConditionEffectsObject';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { AbilitiesDataService } from '../core/services/data/abilities-data.service';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -68,6 +70,8 @@ export class EffectsGenerationService {
         private readonly _conditionsService: ConditionsService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
+        private readonly _abilityValuesService: AbilityValuesService,
     ) { }
 
     public effectsFromEffectObject(
@@ -576,11 +580,12 @@ export class EffectsGenerationService {
         //Add skill and speed penalties from armor strength requirements and certain traits.
         if (!options.ignoreArmorPenalties) {
             //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
-            const strength =
+            const strength = this._abilitiesDataService.abilities('Strength')[0];
+            const strengthValue =
                 (context.creature instanceof FamiliarModel)
                     ? 0
-                    : services.characterService.abilities('Strength')[0]
-                        .value(context.creature as CharacterModel | AnimalCompanion, services.characterService, this._effectsService)
+                    : this._abilityValuesService
+                        .value(strength, context.creature as CharacterModel | AnimalCompanion)
                         .result;
             const name = armor.effectiveName();
             const skillPenalty = armor.effectiveSkillPenalty();
@@ -588,7 +593,7 @@ export class EffectsGenerationService {
             const speedPenalty = armor.effectiveSpeedPenalty();
             const speedPenaltyString = speedPenalty.toString();
 
-            if (!(strength >= armor.effectiveStrengthRequirement())) {
+            if (!(strengthValue >= armor.effectiveStrengthRequirement())) {
                 if (skillPenalty) {
                     //You are not strong enough to act freely in this armor.
                     //If the item has the Flexible trait, its penalty doesn't apply to Acrobatics and Athletics.

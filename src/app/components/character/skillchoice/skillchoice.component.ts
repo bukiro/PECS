@@ -13,6 +13,7 @@ import { Ability } from 'src/app/classes/Ability';
 import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 interface SkillChoiceParameters {
     listId: string;
@@ -62,6 +63,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _abilitiesDataService: AbilitiesDataService,
+        private readonly _abilityValuesService: AbilityValuesService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         public trackers: Trackers,
@@ -328,7 +330,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
         //We have to calculate the modifier instead of getting .mod() because we don't want any effects in the character building interface.
         const intelligence: number =
-            this._abilityFromName('Intelligence').baseValue(this.character, this._characterService, levelNumber).result;
+            this._abilityValuesService.baseValue('Intelligence', this.character, levelNumber).result;
         const INT: number = AbilityModFromAbilityValue(intelligence);
 
         return INT;

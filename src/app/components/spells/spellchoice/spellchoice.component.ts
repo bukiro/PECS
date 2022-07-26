@@ -21,6 +21,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 interface SpellSet {
     spell: Spell;
@@ -113,6 +114,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         private readonly _traitsService: TraitsService,
         private readonly _effectsService: EffectsService,
         private readonly _deitiesService: DeitiesService,
+        private readonly _abilityValuesService: AbilityValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -1270,8 +1272,8 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         /* eslint-disable @typescript-eslint/no-unused-vars */
         /* eslint-disable @typescript-eslint/naming-convention */
         const Highest_Spell_Level = (): number => this._highestSpellLevel();
-        const Modifier = (name: string): number =>
-            this._characterService.abilities(name)[0].mod(this._character, this._characterService, this._effectsService).result;
+        const Modifier = (name: string): number => this._abilityValuesService.mod(name, this._character).result;
+
         //Return number of times you have the feat. The number is needed for calculations; boolean is not enough.
         const Has_Feat = (name: string): number =>
             this._characterService.characterFeatsTaken(0, this._character.level, { featName: name }, { includeCountAs: true }).length;

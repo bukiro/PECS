@@ -6,6 +6,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { EffectsService } from 'src/app/services/effects.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 @Component({
     selector: 'app-quickdice',
@@ -36,6 +37,7 @@ export class QuickdiceComponent {
         private readonly _refreshService: RefreshService,
         private readonly _diceService: DiceService,
         private readonly _integrationsService: IntegrationsService,
+        private readonly _abilityValuesService: AbilityValuesService,
     ) { }
 
     public roll(forceLocal = false): void {
@@ -242,13 +244,11 @@ export class QuickdiceComponent {
                     if (abilityName) {
                         const character = this._characterService.character;
 
-                        return this._characterService.abilitiesDataService.abilities(abilityName)?.[0]
-                            ?.mod(
-                                character,
-                                this._characterService,
-                                this._effectsService,
-                                character.level,
-                            ).result.toString() || '0';
+                        return this._abilityValuesService.mod(
+                            abilityName,
+                            character,
+                            character.level,
+                        ).result.toString();
                     } else {
                         return '0';
                     }

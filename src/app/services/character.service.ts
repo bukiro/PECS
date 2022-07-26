@@ -92,6 +92,7 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -156,6 +157,7 @@ export class CharacterService {
         private readonly _extensionsService: ExtensionsService,
         private readonly _savegameService: SavegameService,
         public abilitiesDataService: AbilitiesDataService,
+        private readonly _abilityValuesService: AbilityValuesService,
         public skillsService: SkillsService,
         public classesService: ClassesService,
         public featsService: FeatsService,
@@ -469,7 +471,7 @@ export class CharacterService {
             }
 
             //Free languages from your base intelligence
-            const baseIntelligence: number = this.abilities('Intelligence')[0]?.baseValue(character, this, 0)?.result;
+            const baseIntelligence: number = this._abilityValuesService.baseValue('Intelligence', character, 0)?.result;
             const baseInt: number = AbilityModFromAbilityValue(baseIntelligence);
 
             if (baseInt > 0) {
@@ -504,7 +506,7 @@ export class CharacterService {
 
                 //Also add more languages if INT has been raised (and is positive).
                 //Compare INT on this level with INT on the previous level. Don't do this on Level 0, obviously.
-                const levelIntelligence: number = this.abilities('Intelligence')[0]?.baseValue(character, this, level.number)?.result;
+                const levelIntelligence: number = this._abilityValuesService.baseValue('Intelligence', character, level.number)?.result;
 
                 int.push(AbilityModFromAbilityValue(levelIntelligence));
 
@@ -532,7 +534,7 @@ export class CharacterService {
 
             // If the current INT is positive and higher than the base INT for the current level
             // (e.g. because of an item bonus), add another temporary language source.
-            const currentInt = this.abilities('Intelligence')[0]?.mod(character, this, this.effectsService)?.result;
+            const currentInt = this._abilityValuesService.mod('Intelligence', character)?.result;
             const diff = currentInt - int[character.level];
 
             if (diff > 0 && currentInt > 0) {
