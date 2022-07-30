@@ -17,6 +17,7 @@ import { TimePeriods } from '../../libs/shared/definitions/timePeriods';
 import { ActivitiesTimeService } from './activities-time.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { HealthService } from 'src/libs/shared/services/health/health.service';
 
 @Injectable({
     providedIn: 'root',
@@ -33,6 +34,7 @@ export class TimeService {
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _abilityValueService: AbilityValuesService,
+        private readonly _healthService: HealthService,
     ) { }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -65,9 +67,9 @@ export class TimeService {
                 });
 
                 if (!this._effectsService.effectsOnThis(creature, 'Time Stop').length) {
-                    if (fastHealing && creature.health.currentHP(creature, characterService, effectsService).result > 0) {
+                    if (fastHealing && this._healthService.currentHP(creature.health, creature).result > 0) {
                         this._refreshService.prepareDetailToChange(creature.type, 'health');
-                        creature.health.heal(creature, characterService, effectsService, fastHealing);
+                        this._healthService.heal(creature.health, creature, fastHealing);
                         this._toastService.show(
                             `${ creature instanceof Character
                                 ? 'You'
@@ -148,7 +150,7 @@ export class TimeService {
                 multiplier += parseInt(effect.value, 10);
             });
             multiplier = Math.max(1, multiplier);
-            creature.health.heal(creature, characterService, characterService.effectsService, heal * multiplier, true, true);
+            this._healthService.heal(creature.health, creature, heal * multiplier, true, true);
             this._toastService.show(
                 `${ creature instanceof Character
                     ? 'You'

@@ -20,6 +20,7 @@ export class AnimalCompanion extends Creature {
     public species = '';
     public type: CreatureTypes = CreatureTypes.AnimalCompanion;
     public readonly typeId = 1;
+    public get requiresConForHP(): boolean { return false; }
     public recast(itemsService: ItemsService): AnimalCompanion {
         super.recast(itemsService);
         this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
@@ -37,13 +38,10 @@ export class AnimalCompanion extends Creature {
 
         return size;
     }
-    public baseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
+    public baseHP(conModifier: number, charLevel: number): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
         let ancestryHP = 0;
-        const charLevel = services.characterService.character.level;
-        const baseline = 10;
-        const half = 0.5;
 
         if (this.class.hitPoints) {
             if (this.class.ancestry.name) {
@@ -51,12 +49,8 @@ export class AnimalCompanion extends Creature {
                 explain = `Ancestry base HP: ${ ancestryHP }`;
             }
 
-            const constitution =
-                services.characterService.abilities('Constitution')[0].baseValue(this, services.characterService, charLevel).result;
-            const CON: number = Math.floor((constitution - baseline) * half);
-
-            classHP = (this.class.hitPoints + CON) * charLevel;
-            explain += `\nClass: ${ this.class.hitPoints } + CON: ${ this.class.hitPoints + CON } per Level: ${ classHP }`;
+            classHP = (this.class.hitPoints + conModifier) * charLevel;
+            explain += `\nClass: ${ this.class.hitPoints } + CON: ${ this.class.hitPoints + conModifier } per Level: ${ classHP }`;
         }
 
         return { result: classHP + ancestryHP, explain: explain.trim() };

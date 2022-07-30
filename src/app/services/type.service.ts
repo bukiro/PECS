@@ -22,7 +22,6 @@ import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { Background } from 'src/app/classes/Background';
 import { BloodMagic } from 'src/app/classes/BloodMagic';
-import { Bulk } from 'src/app/classes/Bulk';
 import { Character } from 'src/app/classes/Character';
 import { Class } from 'src/app/classes/Class';
 import { Condition } from 'src/app/classes/Condition';
@@ -120,7 +119,6 @@ export class TypeService {
             case 'AttackRestriction': return Object.assign(new AttackRestriction(), obj);
             case 'Background': return Object.assign(new Background(), obj);
             case 'BloodMagic': return Object.assign(new BloodMagic(), obj);
-            case 'Bulk': return Object.assign(new Bulk(), obj);
             case 'Character': return Object.assign(new Character(), obj);
             case 'Class': return Object.assign(new Class(), obj);
             case 'Condition': return Object.assign(new Condition(), obj);

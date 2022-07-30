@@ -12,8 +12,9 @@ import { Character } from 'src/app/classes/Character';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
-import { CalculatedHealth, Health } from 'src/app/classes/Health';
+import { Health } from 'src/app/classes/Health';
 import { Trackers } from 'src/libs/shared/util/trackers';
+import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health/health.service';
 
 @Component({
     selector: 'app-health',
@@ -47,6 +48,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _effectsService: EffectsService,
         private readonly _conditionsService: ConditionsService,
+        private readonly _healthService: HealthService,
         public trackers: Trackers,
     ) { }
 
@@ -106,7 +108,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public calculatedHealth(): CalculatedHealth {
-        const calculatedHealth = this.creatureHealth().calculate(this._currentCreature, this._characterService, this._effectsService);
+        const calculatedHealth = this._healthService.calculate(this.creatureHealth(), this._currentCreature);
 
         //Don't do anything about your dying status in manual mode.
         if (!this._characterService.isManualMode) {
@@ -145,7 +147,7 @@ export class HealthComponent implements OnInit, OnDestroy {
                 gain.value = Math.min(gain.value + 1, maxDying);
             });
 
-            if (this.creatureHealth().dying(this._currentCreature, this._characterService) >= maxDying) {
+            if (this._healthService.dying(this._currentCreature) >= maxDying) {
                 this._die('Failed Dying Save');
             }
         }
@@ -181,22 +183,20 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public onHealDamage(dying: number): void {
-        this.creatureHealth().heal(this._currentCreature, this._characterService, this._effectsService, this.damage, true, true, dying);
+        this._healthService.heal(this.creatureHealth(), this._currentCreature, this.damage, true, true, dying);
         this._refreshService.prepareDetailToChange(this.creature, 'health');
         this._refreshService.prepareDetailToChange(this.creature, 'effects');
         this._refreshService.processPreparedChanges();
     }
 
     public onActivateNumbToDeath(dying: number): void {
-        this.creatureHealth()
-            .heal(this._currentCreature, this._characterService, this._effectsService, this.character.level, true, false, dying);
+        this._healthService.heal(this.creatureHealth(), this._currentCreature, this.character.level, true, false, dying);
         this._refreshService.prepareDetailToChange(this.creature, 'health');
         this._refreshService.processPreparedChanges();
     }
 
     public onTakeDamage(wounded: number, dying: number): void {
-        this.creatureHealth()
-            .takeDamage(this._currentCreature, this._characterService, this._effectsService, this.damage, this.nonlethal, wounded, dying);
+        this._healthService.takeDamage(this.creatureHealth(), this._currentCreature, this.damage, this.nonlethal, wounded, dying);
         this._refreshService.prepareDetailToChange(this.creature, 'health');
         this._refreshService.prepareDetailToChange(this.creature, 'effects');
         this._refreshService.processPreparedChanges();

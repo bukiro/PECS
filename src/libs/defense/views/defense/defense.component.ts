@@ -23,6 +23,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ArmorClassService, CalculatedAC, CoverTypes } from '../../services/armor-class/armor-class.service';
+import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -55,6 +56,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         private readonly _traitsService: TraitsService,
         private readonly _toastService: ToastService,
         private readonly _armorClassService: ArmorClassService,
+        private readonly _armorPropertiesService: ArmorPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -87,7 +89,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     public armorSpecialization(armor: Armor | WornItem): Array<Specialization> {
         if (armor instanceof Armor) {
-            return armor.armorSpecializations(this._currentCreature, this._characterService);
+            return this._armorPropertiesService.armorSpecializations(armor, this._currentCreature);
         }
 
         //No armor specializations for bracers of armor.

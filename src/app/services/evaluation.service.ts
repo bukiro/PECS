@@ -21,6 +21,7 @@ import { Deity as DeityModel } from '../classes/Deity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { HealthService } from 'src/libs/shared/services/health/health.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -50,6 +51,7 @@ export class EvaluationService {
         private readonly _familiarsService: FamiliarsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _healthService: HealthService,
     ) { }
 
     public valueFromFormula(
@@ -132,10 +134,10 @@ export class EvaluationService {
             }
         };
         const Current_HP = (): number => (
-            Creature.health.currentHP(Creature, characterService, effectsService).result
+            this._healthService.currentHP(Creature.health, Creature).result
         );
         const Max_HP = (): number => (
-            Creature.health.maxHP(Creature, characterService, effectsService).result
+            this._healthService.maxHP(Creature).result
         );
         const Ability = (name: string): number => {
             if (Creature === Familiar) {

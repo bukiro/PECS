@@ -27,7 +27,6 @@ import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
-import { TypeService } from 'src/app/services/type.service';
 import { Hint } from 'src/app/classes/Hint';
 import { SkillLevels } from '../../libs/shared/definitions/skillLevels';
 import { SpellLearned } from './SpellLearned';
@@ -56,6 +55,7 @@ export class Character extends Creature {
     public GMMode = false;
     //yourTurn is only written when saving the character to the database and read when loading.
     public yourTurn = 0;
+    public get requiresConForHP(): boolean { return true; }
     public recast(itemsService: ItemsService): Character {
         super.recast(itemsService);
         this.class = Object.assign(new Class(), this.class).recast(itemsService);
@@ -67,11 +67,10 @@ export class Character extends Creature {
     public baseSize(): number {
         return this.class.ancestry.size ? this.class.ancestry.size : 0;
     }
-    public baseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
+    public baseHP(conModifier: number, charLevel: number = this.level): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
         let ancestryHP = 0;
-        const charLevel = this.level;
 
         if (this.class.hitPoints) {
             if (this.class.ancestry.name) {
@@ -79,15 +78,8 @@ export class Character extends Creature {
                 explain = `Ancestry base HP: ${ ancestryHP }`;
             }
 
-            const baseline = 10;
-            const half = 0.5;
-            const constitution =
-                services.characterService.abilities('Constitution')[0].baseValue(this, services.characterService, charLevel).result;
-            //TO-DO: Move this calculation to a utility function
-            const CON: number = Math.floor((constitution - baseline) * half);
-
-            classHP = (this.class.hitPoints + CON) * charLevel;
-            explain += `\nClass: ${ this.class.hitPoints } + CON: ${ this.class.hitPoints + CON } per Level: ${ classHP }`;
+            classHP = (this.class.hitPoints + conModifier) * charLevel;
+            explain += `\nClass: ${ this.class.hitPoints } + CON: ${ this.class.hitPoints + conModifier } per Level: ${ classHP }`;
         }
 
         return { result: classHP + ancestryHP, explain: explain.trim() };

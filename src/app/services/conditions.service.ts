@@ -25,6 +25,8 @@ import { CreatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { HealthService } from 'src/libs/shared/services/health/health.service';
+import { BulkService } from 'src/libs/shared/services/bulk/bulk.service';
 
 @Injectable({
     providedIn: 'root',
@@ -40,6 +42,8 @@ export class ConditionsService {
         private readonly _extensionsService: ExtensionsService,
         private readonly _evaluationService: EvaluationService,
         private readonly _refreshService: RefreshService,
+        private readonly _healthService: HealthService,
+        private readonly _bulkService: BulkService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -458,7 +462,7 @@ export class ConditionsService {
             didConditionDoAnything = true;
 
             if (taken) {
-                if (creature.health.dying(creature, characterService) >= creature.health.maxDying(creature, effectsService)) {
+                if (this._healthService.dying(creature) >= this._healthService.maxDying(creature)) {
                     if (!characterService.currentCreatureConditions(creature, 'Dead').length) {
                         characterService.addCondition(
                             creature,
@@ -469,9 +473,9 @@ export class ConditionsService {
                     }
                 }
             } else {
-                if (creature.health.dying(creature, characterService) === 0) {
+                if (this._healthService.dying(creature) === 0) {
                     if (increaseWounded) {
-                        if (creature.health.wounded(creature, characterService) > 0) {
+                        if (this._healthService.wounded(creature) > 0) {
                             characterService.currentCreatureConditions(creature, 'Wounded')
                                 .forEach(existingGain => {
                                     existingGain.value++;
@@ -487,7 +491,7 @@ export class ConditionsService {
                         }
                     }
 
-                    if (!creature.health.currentHP(creature, characterService, effectsService).result) {
+                    if (!this._healthService.currentHP(creature.health, creature).result) {
                         if (
                             !characterService.currentCreatureConditions(creature, 'Unconscious', '0 Hit Points').length &&
                             !characterService.currentCreatureConditions(creature, 'Unconscious', 'Dying').length
@@ -843,13 +847,12 @@ export class ConditionsService {
 
     public generateBulkConditions(
         creature: Creature,
-        services: { characterService: CharacterService; effectsService: EffectsService },
+        services: { characterService: CharacterService },
     ): void {
         //Calculate whether the creature is encumbered and add or remove the condition.
         //Encumbered conditions are not calculated in manual mode.
         if (!services.characterService.isManualMode) {
-            const bulk = creature.bulk;
-            const calculatedBulk = bulk.calculate(creature, services.characterService, services.effectsService);
+            const calculatedBulk = this._bulkService.calculate(creature);
 
             if (
                 calculatedBulk.current.value > calculatedBulk.encumbered.value &&

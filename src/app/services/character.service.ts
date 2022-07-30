@@ -92,6 +92,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { ArmorClassService, CoverTypes } from 'src/libs/defense/services/armor-class/armor-class.service';
+import { HealthService } from 'src/libs/shared/services/health/health.service';
+import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -182,6 +184,8 @@ export class CharacterService {
         tooltipConfig: NgbTooltipConfig,
         public activitiesProcessingService: ActivitiesProcessingService,
         private readonly _armorClassService: ArmorClassService,
+        private readonly _healthService: HealthService,
+        private readonly _armorPropertiesService: ArmorPropertiesService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -2483,7 +2487,7 @@ export class CharacterService {
         const phrases = this.effectRecipientPhrases(creature);
 
         if (value > 0) {
-            const result = creature.health.heal(creature, this, this.effectsService, value, true);
+            const result = this._healthService.heal(creature.health, creature, value, true);
             let results = '';
 
             if (result.hasRemovedUnconscious) {
@@ -2496,7 +2500,7 @@ export class CharacterService {
 
             this.toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
         } else if (value < 0) {
-            const result = creature.health.takeDamage(creature, this, this.effectsService, -value, false);
+            const result = this._healthService.takeDamage(creature.health, creature, -value, false);
             let results = '';
 
             if (result.hasAddedUnconscious) {
@@ -3181,24 +3185,29 @@ export class CharacterService {
 
     public creatureArmorSpecializationsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<Specialization> {
         if (creature instanceof Character) {
-            return creature.inventories[0].armors.find(armor => armor.equipped)?.armorSpecializations(creature, this)
-                .filter(spec =>
-                    spec?.hints
-                        .find(hint =>
-                            hint.showon.split(',')
-                                .find(showon =>
-                                    objectName.trim().toLowerCase() === 'all' ||
-                                    showon.trim().toLowerCase() === objectName.toLowerCase() ||
-                                    (
+            const equippedArmor = creature.inventories[0].armors.find(armor => armor.equipped);
+
+            return equippedArmor
+                ? this._armorPropertiesService
+                    .armorSpecializations(equippedArmor, creature)
+                    .filter(spec =>
+                        spec?.hints
+                            .find(hint =>
+                                hint.showon.split(',')
+                                    .find(showon =>
+                                        objectName.trim().toLowerCase() === 'all' ||
+                                        showon.trim().toLowerCase() === objectName.toLowerCase() ||
                                         (
-                                            objectName.toLowerCase().includes('lore:') ||
-                                            objectName.toLowerCase().includes(' lore')
-                                        ) &&
-                                        showon.trim().toLowerCase() === 'lore'
+                                            (
+                                                objectName.toLowerCase().includes('lore:') ||
+                                                objectName.toLowerCase().includes(' lore')
+                                            ) &&
+                                            showon.trim().toLowerCase() === 'lore'
+                                        ),
                                     ),
-                                ),
-                        ),
-                ) || [];
+                            ),
+                    )
+                : [];
         } else {
             return [];
         }

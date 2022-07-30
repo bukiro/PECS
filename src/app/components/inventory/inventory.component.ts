@@ -38,7 +38,6 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Creature } from 'src/app/classes/Creature';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ItemGainOnOptions } from 'src/libs/shared/definitions/itemGainOptions';
-import { CalculatedBulk } from 'src/app/classes/Bulk';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CopperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
@@ -47,6 +46,8 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
+import { BulkService, CalculatedBulk } from 'src/libs/shared/services/bulk/bulk.service';
+import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -108,6 +109,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _modalService: NgbModal,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
+        private readonly _armorPropertiesService: ArmorPropertiesService,
+        private readonly _bulkService: BulkService,
         public trackers: Trackers,
     ) { }
 
@@ -441,7 +444,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public calculatedCreatureBulk(): CalculatedBulk {
-        return this.currentCreature.bulk.calculate(this.currentCreature, this._characterService, this._effectsService);
+        return this._bulkService.calculate(this.currentCreature);
     }
 
     public investedParameters(): CalculatedMaxInvested {
@@ -988,7 +991,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             }
 
             if (itemRoles.asArmor) {
-                return itemRoles.asArmor.profLevel(creature, this._characterService) > 0;
+                return this._armorPropertiesService.profLevel(itemRoles.asArmor, creature) > 0;
             }
         }
 

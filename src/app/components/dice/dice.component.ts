@@ -10,6 +10,7 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { HealthService } from 'src/libs/shared/services/health/health.service';
 
 const defaultDiceNum = 5;
 
@@ -33,6 +34,7 @@ export class DiceComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _diceService: DiceService,
         private readonly _integrationsService: IntegrationsService,
+        private readonly _healthService: HealthService,
         public trackers: Trackers,
     ) { }
 
@@ -80,18 +82,18 @@ export class DiceComponent implements OnInit, OnDestroy {
 
     public onHeal(creature: Creature): void {
         const amount = this.totalDiceSum();
-        const dying = creature.health.dying(creature, this._characterService);
+        const dying = this._healthService.dying(creature);
 
-        creature.health.heal(creature, this._characterService, this._characterService.effectsService, amount, true, true, dying);
+        this._healthService.heal(creature.health, creature, amount, true, true, dying);
         this._refreshHealth(creature.type);
     }
 
     public onTakeDamage(creature: Creature): void {
         const amount = this.totalDiceSum();
-        const wounded = creature.health.wounded(creature, this._characterService);
-        const dying = creature.health.dying(creature, this._characterService);
+        const wounded = this._healthService.wounded(creature);
+        const dying = this._healthService.wounded(creature);
 
-        creature.health.takeDamage(creature, this._characterService, this._characterService.effectsService, amount, false, wounded, dying);
+        this._healthService.takeDamage(creature.health, creature, amount, false, wounded, dying);
         this._refreshHealth(creature.type);
     }
 

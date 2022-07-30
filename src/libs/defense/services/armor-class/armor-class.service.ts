@@ -11,6 +11,7 @@ import { ConditionsService } from 'src/app/services/conditions.service';
 import { DefenseService } from 'src/app/services/defense.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 
 export interface CalculatedAC {
     absolutes: Array<Effect>;
@@ -38,6 +39,7 @@ export class ArmorClassService {
         private readonly _effectsService: EffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _defenseService: DefenseService,
+        private readonly _armorPropertiesService: ArmorPropertiesService,
     ) { }
 
     public setCover(
@@ -246,7 +248,7 @@ export class ArmorClassService {
             const dex = this._abilityValuesService.mod('Dexterity', armorCreature).result;
             //Get the profiency with either this armor or its category.
             //Familiars have the same AC as the Character before circumstance or status effects.
-            const skillLevel = armor.profLevel(armorCreature, this._characterService);
+            const skillLevel = this._armorPropertiesService.profLevel(armor, armorCreature);
             let charLevelBonus = 0;
 
             if (skillLevel) {

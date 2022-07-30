@@ -5,7 +5,6 @@ import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatCh
 import { Hint } from 'src/app/classes/Hint';
 import { ItemsService } from 'src/app/services/items.service';
 import { Skill } from 'src/app/classes/Skill';
-import { TypeService } from 'src/app/services/type.service';
 import { Defaults } from '../../libs/shared/definitions/defaults';
 import { CreatureSizes } from '../../libs/shared/definitions/creatureSizes';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -26,6 +25,7 @@ export class Familiar extends Creature {
     public senses: Array<string> = ['Low-Light Vision'];
     public species = '';
     public traits: Array<string> = ['Minion'];
+    public get requiresConForHP(): boolean { return false; }
     public recast(itemsService: ItemsService): Familiar {
         super.recast(itemsService);
         this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
@@ -35,10 +35,11 @@ export class Familiar extends Creature {
     public baseSize(): number {
         return CreatureSizes.Tiny;
     }
-    public baseHP(services: { characterService: CharacterService }): { result: number; explain: string } {
+    //Other implementations require characterService.
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public baseHP(conModifier: number, charLevel: number): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
-        const charLevel = services.characterService.character.level;
         const familiarHPMultiplier = 5;
 
         //Your familiar has 5 Hit Points for each of your levels.

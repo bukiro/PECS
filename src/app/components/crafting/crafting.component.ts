@@ -21,6 +21,7 @@ import { Snare } from 'src/app/classes/Snare';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
+import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 
 const itemsPerPage = 40;
 
@@ -57,6 +58,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         private readonly _itemRolesService: ItemRolesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
+        private readonly _armorPropertiesService: ArmorPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -362,9 +364,9 @@ export class CraftingComponent implements OnInit, OnDestroy {
         }
 
         if (itemRoles.asArmor) {
-            return itemRoles.asArmor.profLevel(
+            return this._armorPropertiesService.profLevel(
+                itemRoles.asArmor,
                 character,
-                this._characterService,
                 character.level,
                 { itemStore: true },
             ) > 0;

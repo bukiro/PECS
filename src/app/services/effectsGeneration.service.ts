@@ -35,6 +35,7 @@ import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { AbilitiesDataService } from '../core/services/data/abilities-data.service';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
+import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -74,6 +75,7 @@ export class EffectsGenerationService {
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
+        private readonly _armorPropertiesService: ArmorPropertiesService,
     ) { }
 
     public effectsFromEffectObject(
@@ -1328,7 +1330,7 @@ export class EffectsGenerationService {
         // This is called here to ensure that the conditions exist before their effects are generated.
         this._conditionsService.generateBulkConditions(
             creature,
-            { characterService: services.characterService, effectsService: this._effectsService },
+            { characterService: services.characterService },
         );
         this._conditionsService.generateItemGrantedConditions(
             creature,
@@ -1350,7 +1352,7 @@ export class EffectsGenerationService {
                 this._weaponPropertiesService.updateModifiers(weapon, creature);
             });
             inv.armors.forEach(armor => {
-                armor.updateModifiers(creature, { characterService: services.characterService, refreshService: this._refreshService });
+                this._armorPropertiesService.updateModifiers(armor, creature);
             });
         });
     }

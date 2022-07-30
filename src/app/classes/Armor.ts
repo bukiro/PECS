@@ -4,12 +4,8 @@
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
-import { RefreshService } from 'src/app/services/refresh.service';
 import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 import { Equipment } from 'src/app/classes/Equipment';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
-import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { Specialization } from 'src/app/classes/Specialization';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { Creature } from 'src/app/classes/Creature';
@@ -17,9 +13,7 @@ import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { Rune } from 'src/app/classes/Rune';
 import { Item } from './Item';
 import { AdventuringGear } from './AdventuringGear';
-import { MaxSkillLevel } from '../../libs/shared/definitions/skillLevels';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
-import { Familiar } from './Familiar';
 
 enum ShoddyPenalties {
     NotShoddy = 0,
@@ -140,57 +134,6 @@ export class Armor extends Equipment {
         }
 
     }
-    public updateModifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }): void {
-        //Initialize shoddy values and armored skirt.
-        //Set components to update if these values have changed from before.
-        const oldValues = [this.$affectedByArmoredSkirt, this.$shoddy];
-
-        this.armoredSkirt(creature as AnimalCompanion | Character);
-        this._effectiveShoddy((creature as AnimalCompanion | Character), services.characterService);
-
-        const newValues = [this.$affectedByArmoredSkirt, this.$shoddy];
-
-        if (oldValues.some((previous, index) => previous !== newValues[index])) {
-            services.refreshService.prepareDetailToChange(creature.type, 'inventory');
-        }
-    }
-    public armoredSkirt(creature: Creature, options: { itemStore?: boolean } = {}): AdventuringGear {
-        if (!options.itemStore && ['Breastplate', 'Chain Shirt', 'Chain Mail', 'Scale Mail'].includes(this.name)) {
-            const armoredSkirt =
-                creature.inventories
-                    .map(inventory => inventory.adventuringgear)
-                    .find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
-
-            if (armoredSkirt?.length) {
-                this.$affectedByArmoredSkirt = 1;
-
-                return armoredSkirt[0];
-            } else {
-                this.$affectedByArmoredSkirt = 0;
-
-                return null;
-            }
-        } else if (!options.itemStore && ['Half Plate', 'Full Plate', 'Hellknight Plate'].includes(this.name)) {
-            const armoredSkirt =
-                creature.inventories
-                    .map(inventory => inventory.adventuringgear)
-                    .find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
-
-            if (armoredSkirt?.length) {
-                this.$affectedByArmoredSkirt = -1;
-
-                return armoredSkirt[0];
-            } else {
-                this.$affectedByArmoredSkirt = 0;
-
-                return null;
-            }
-        } else {
-            this.$affectedByArmoredSkirt = 0;
-
-            return null;
-        }
-    }
     public effectiveACBonus(): number {
         return this.acbonus + this.$affectedByArmoredSkirt;
     }
@@ -271,75 +214,6 @@ export class Armor extends Equipment {
 
         return this.$traits;
     }
-    public profLevel(
-        creature: Creature,
-        characterService: CharacterService,
-        charLevel: number = characterService.character.level,
-        options: { itemStore?: boolean } = {},
-    ): number {
-        if (characterService.stillLoading || creature instanceof Familiar) { return 0; }
-
-        this.armoredSkirt(creature, options);
-
-        let skillLevel = 0;
-        const armorLevel =
-            characterService.skills(creature, this.name, { type: 'Specific Weapon Proficiency' })[0]
-                .level(creature, characterService, charLevel);
-        const proficiencyLevel =
-            characterService.skills(creature, this.effectiveProficiency(creature, characterService))[0]
-                .level(creature, characterService, charLevel);
-
-        //Add either the armor category proficiency or the armor proficiency, whichever is better
-        skillLevel = Math.min(Math.max(armorLevel, proficiencyLevel), MaxSkillLevel);
-
-        return skillLevel;
-    }
-    public armorSpecializations(creature: Creature, characterService: CharacterService): Array<Specialization> {
-        const SpecializationGains: Array<SpecializationGain> = [];
-        const specializations: Array<Specialization> = [];
-        const prof = this.effectiveProficiency(creature, characterService);
-
-        if (creature instanceof Character && this.group) {
-            const character = creature as Character;
-            const skillLevel = this.profLevel(character, characterService);
-
-            characterService.characterFeatsAndFeatures()
-                .filter(feat => feat.gainSpecialization.length && feat.have({ creature: character }, { characterService }))
-                .forEach(feat => {
-                    SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
-                        (!spec.group || (this.group && spec.group.includes(this.group))) &&
-                        (
-                            !spec.name ||
-                            ((this.name && spec.name.includes(this.name)) || (this.armorBase && spec.name.includes(this.armorBase)))
-                        ) &&
-                        (!spec.trait || this.traits.filter(trait => trait && spec.trait.includes(trait)).length) &&
-                        (!spec.proficiency || (prof && spec.proficiency.includes(prof))) &&
-                        (!spec.skillLevel || skillLevel >= spec.skillLevel) &&
-                        (
-                            !spec.featreq ||
-                            characterService.characterFeatsAndFeatures(spec.featreq)[0]
-                                ?.have({ creature: character }, { characterService })
-                        ),
-                    ));
-                });
-            SpecializationGains.forEach(critSpec => {
-                const specs: Array<Specialization> =
-                    characterService.itemGroupSpecializations(this.group).map(spec => Object.assign(new Specialization(), spec).recast());
-
-                specs.forEach(spec => {
-                    if (critSpec.condition) {
-                        spec.desc = `(${ critSpec.condition }) ${ spec.desc }`;
-                    }
-
-                    if (!specializations.some(existingspec => JSON.stringify(existingspec) === JSON.stringify(spec))) {
-                        specializations.push(spec);
-                    }
-                });
-            });
-        }
-
-        return specializations;
-    }
     public effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
         return super.effectsGenerationObjects(creature, characterService)
             .concat(...this.armorSpecializations(creature, characterService))
@@ -352,19 +226,22 @@ export class Armor extends Equipment {
     public secondaryRuneTitle(secondary: number): string {
         return this.resilientTitle(secondary);
     }
+    public armoredSkirt(creature: Creature, options: { itemStore?: boolean } = {}): AdventuringGear {
+        if (options.itemStore) { return null; }
+
+        const armoredSkirt =
+            creature.inventories
+                .map(inventory => inventory.adventuringgear)
+                .find(gear => gear.find(item => item.isArmoredSkirt && item.equipped));
+
+        if (armoredSkirt?.length) {
+            return armoredSkirt[0];
+        } else {
+            return null;
+        }
+    }
     protected _secondaryRuneName(): string {
         return this.resilientTitle(this.effectiveResilient());
     }
-    private _effectiveShoddy(creature: Creature, characterService: CharacterService): number {
-        //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
-            this.$shoddy = ShoddyPenalties.NotShoddy;
-        } else if (this.shoddy) {
-            this.$shoddy = ShoddyPenalties.Shoddy;
-        } else {
-            this.$shoddy = ShoddyPenalties.NotShoddy;
-        }
 
-        return this.$shoddy;
-    }
 }

@@ -1,13 +1,11 @@
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Health } from 'src/app/classes/Health';
 import { Speed } from 'src/app/classes/Speed';
-import { Bulk } from 'src/app/classes/Bulk';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { v4 as uuidv4 } from 'uuid';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Skill } from 'src/app/classes/Skill';
 import { Effect } from 'src/app/classes/Effect';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
@@ -42,9 +40,9 @@ export class Creature {
     public ignoredEffects: Array<Effect> = [];
     public inventories: Array<ItemCollection> = [new ItemCollection()];
     public speeds: Array<Speed> = [new Speed('Speed'), new Speed('Land Speed')];
-    public bulk: Bulk = new Bulk();
     public notes = '';
     public skillNotes: Array<SkillNotes> = [];
+    public get requiresConForHP(): boolean { return false; }
     public recast(itemsService: ItemsService): Creature {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.health = Object.assign(new Health(), this.health).recast();
@@ -52,7 +50,6 @@ export class Creature {
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.inventories = this.inventories.map(obj => Object.assign(new ItemCollection(), obj).recast(itemsService));
         this.speeds = this.speeds.map(obj => Object.assign(new Speed(), obj).recast());
-        this.bulk = Object.assign(new Bulk(), this.bulk).recast();
 
         return this;
     }
@@ -83,7 +80,7 @@ export class Creature {
     }
     //Other implementations require characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public baseHP(services: { characterService?: CharacterService }): { result: number; explain: string } {
+    public baseHP(conModifier: number, charLevel: number): { result: number; explain: string } {
         return { result: 0, explain: '' };
     }
     //Other implementations require speedName.
