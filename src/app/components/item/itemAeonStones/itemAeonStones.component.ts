@@ -4,7 +4,6 @@ import { ItemsService } from 'src/app/services/items.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { TimeService } from 'src/app/services/time.service';
-import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -37,7 +36,6 @@ export class ItemAeonStonesComponent implements OnInit {
         private readonly _itemsService: ItemsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
-        private readonly _typeService: TypeService,
         public trackers: Trackers,
     ) { }
 
@@ -128,7 +126,7 @@ export class ItemAeonStonesComponent implements OnInit {
                 const newLength =
                     item.aeonStones.push(
                         Object.assign(new WornItem(), JSON.parse(JSON.stringify(stone)))
-                            .recast(this._typeService, this._itemsService),
+                            .recast(this._itemsService),
                     );
                 const newStone = item.aeonStones[newLength - 1];
 

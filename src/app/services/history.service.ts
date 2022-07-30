@@ -19,7 +19,6 @@ export class HistoryService {
     private _initialized = false;
 
     constructor(
-        private readonly _typeService: TypeService,
         private readonly _extensionsService: ExtensionsService,
     ) { }
 
@@ -70,7 +69,7 @@ export class HistoryService {
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredAncestry = this._typeService.merge(libraryObject, ancestry);
+                    restoredAncestry = TypeService.merge(libraryObject, ancestry);
                 } catch (e) {
                     console.error(`Failed restoring ancestry: ${ e }`);
                 }
@@ -111,7 +110,7 @@ export class HistoryService {
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredHeritage = this._typeService.merge(libraryObject, heritage);
+                    restoredHeritage = TypeService.merge(libraryObject, heritage);
                 } catch (e) {
                     console.error(`Failed restoring heritage: ${ e }`);
                 }
@@ -152,7 +151,7 @@ export class HistoryService {
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    mergedBackground = this._typeService.merge(libraryObject, background);
+                    mergedBackground = TypeService.merge(libraryObject, background);
                 } catch (e) {
                     console.error(`Failed restoring background: ${ e }`);
                 }

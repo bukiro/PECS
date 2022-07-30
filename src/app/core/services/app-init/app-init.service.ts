@@ -17,7 +17,7 @@ import { HistoryService } from 'src/app/services/history.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { MessageService } from 'src/app/services/message.service';
 import { SavegameService } from 'src/app/services/savegame.service';
-import { SkillsService } from 'src/app/services/skills.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
@@ -40,7 +40,7 @@ export class AppInitService {
         private readonly _classesService: ClassesService,
         private readonly _conditionsService: ConditionsService,
         private readonly _spellsService: SpellsService,
-        private readonly _skillsService: SkillsService,
+        private readonly _skillsDataService: SkillsDataService,
         private readonly _itemsService: ItemsService,
         private readonly _deitiesService: DeitiesService,
         private readonly _animalCompanionsService: AnimalCompanionsService,
@@ -69,7 +69,7 @@ export class AppInitService {
                 this._classesService.initialize();
                 this._conditionsService.initialize();
                 this._spellsService.initialize();
-                this._skillsService.initialize();
+                this._skillsDataService.initialize();
                 this._itemsService.initialize();
                 this._deitiesService.initialize();
                 this._animalCompanionsService.initialize();
@@ -90,7 +90,7 @@ export class AppInitService {
                     this._classesService.stillLoading ||
                     this._conditionsService.stillLoading ||
                     this._spellsService.stillLoading ||
-                    this._skillsService.stillLoading ||
+                    this._skillsDataService.stillLoading ||
                     this._itemsService.stillLoading ||
                     this._deitiesService.stillLoading ||
                     this._animalCompanionsService.stillLoading ||

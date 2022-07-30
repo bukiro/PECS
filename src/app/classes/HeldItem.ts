@@ -9,8 +9,8 @@ export class HeldItem extends Equipment {
     public readonly type = 'helditems';
     /** How is this item held when used? Example: "held in one hand" */
     public usage = '';
-    public recast(typeService: TypeService, itemsService: ItemsService): HeldItem {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): HeldItem {
+        super.recast(itemsService);
 
         return this;
     }

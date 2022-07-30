@@ -37,6 +37,8 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -94,6 +96,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
+        private readonly _skillValuesService: SkillValuesService,
+        private readonly _weaponPropertiesService: WeaponPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -596,7 +600,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             let snareSpecialistAvailable = 0;
 
             const craftingSkillLevel =
-                this._characterService.skills(character, 'Crafting')[0]?.level(character, this._characterService, character.level) || 0;
+                this._skillValuesService.level('Crafting', character, character.level) || 0;
 
             if (craftingSkillLevel >= SkillLevels.Expert) {
                 snareSpecialistAvailable += additionalAvailablePerSkillLevel;
@@ -643,7 +647,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
         return Math.max(...this._characterService.skills(character)
             .filter(skill => skill.name.includes('Arcane Spell DC'))
-            .map(skill => skill.level(character, this._characterService, character.level)), 0);
+            .map(skill => this._skillValuesService.level(skill, character, character.level)), 0);
     }
 
     public scrollSavantDescription(): string {
@@ -730,13 +734,14 @@ export class ItemsComponent implements OnInit, OnDestroy {
         const character = this._character;
 
         if (itemRoles.asWeapon) {
-            return itemRoles.asWeapon.profLevel(
-                character,
-                this._characterService,
-                itemRoles.asWeapon,
-                character.level,
-                { preparedProficiency: proficiency },
-            ) > 0;
+            return this._weaponPropertiesService
+                .profLevel(
+                    itemRoles.asWeapon,
+                    character,
+                    itemRoles.asWeapon,
+                    character.level,
+                    { preparedProficiency: proficiency },
+                ) > 0;
         }
 
         if (itemRoles.asArmor) {

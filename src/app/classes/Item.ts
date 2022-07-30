@@ -133,12 +133,12 @@ export class Item {
 
         return this.level.toString().padStart(twoDigits, '0');
     }
-    public recast(typeService: TypeService, itemsService: ItemsService): Item {
+    public recast(itemsService: ItemsService): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
         this.oilsApplied =
             this.oilsApplied.map(obj =>
-                (typeService.classCast(typeService.restoreItem(obj, itemsService), 'Oil') as Oil).recast(typeService, itemsService),
+                (TypeService.classCast(TypeService.restoreItem(obj, itemsService), 'Oil') as Oil).recast(itemsService),
             );
         this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.storedSpells.forEach((choice: SpellChoice, index) => {

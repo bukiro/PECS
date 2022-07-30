@@ -5,8 +5,8 @@ import { TypeService } from 'src/app/services/type.service';
 export class Potion extends Consumable {
     //Potions should be type "potions" to be found in the database
     public readonly type = 'potions';
-    public recast(typeService: TypeService, itemsService: ItemsService): Potion {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Potion {
+        super.recast(itemsService);
 
         return this;
     }

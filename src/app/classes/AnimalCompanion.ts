@@ -6,7 +6,6 @@ import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { CharacterService } from 'src/app/services/character.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Hint } from 'src/app/classes/Hint';
 import { SkillIncrease } from './SkillIncrease';
@@ -21,8 +20,8 @@ export class AnimalCompanion extends Creature {
     public species = '';
     public type: CreatureTypes = CreatureTypes.AnimalCompanion;
     public readonly typeId = 1;
-    public recast(typeService: TypeService, itemsService: ItemsService): AnimalCompanion {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): AnimalCompanion {
+        super.recast(itemsService);
         this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
 
         return this;

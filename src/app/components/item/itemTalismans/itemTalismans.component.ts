@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Talisman } from 'src/app/classes/Talisman';
@@ -41,7 +40,6 @@ export class ItemTalismansComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
-        private readonly _typeService: TypeService,
         public trackers: Trackers,
     ) { }
 
@@ -154,7 +152,7 @@ export class ItemTalismansComponent implements OnInit {
                     Object.assign(
                         new Talisman(),
                         JSON.parse(JSON.stringify(talisman)),
-                    ).recast(this._typeService, this._itemsService));
+                    ).recast(this._itemsService));
                 const newTalisman = item.talismans[newLength - 1];
 
                 newTalisman.amount = 1;

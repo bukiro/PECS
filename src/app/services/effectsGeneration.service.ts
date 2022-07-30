@@ -34,6 +34,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { AbilitiesDataService } from '../core/services/data/abilities-data.service';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -72,6 +73,7 @@ export class EffectsGenerationService {
         private readonly _itemsService: ItemsService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
+        private readonly _weaponPropertiesService: WeaponPropertiesService,
     ) { }
 
     public effectsFromEffectObject(
@@ -1345,7 +1347,7 @@ export class EffectsGenerationService {
                 shield.updateModifiers(creature, { characterService: services.characterService, refreshService: this._refreshService });
             });
             inv.weapons.forEach(weapon => {
-                weapon.updateModifiers(creature, { characterService: services.characterService, refreshService: this._refreshService });
+                this._weaponPropertiesService.updateModifiers(weapon, creature);
             });
             inv.armors.forEach(armor => {
                 armor.updateModifiers(creature, { characterService: services.characterService, refreshService: this._refreshService });

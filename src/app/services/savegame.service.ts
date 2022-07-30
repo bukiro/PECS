@@ -18,7 +18,6 @@ import { ConfigService } from 'src/app/services/config.service';
 import { default as package_json } from 'package.json';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { TypeService } from 'src/app/services/type.service';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { FeatsService } from './feats.service';
 import { Item } from '../classes/Item';
@@ -53,7 +52,6 @@ export class SavegameService {
     constructor(
         private readonly _http: HttpClient,
         private readonly _configService: ConfigService,
-        private readonly _typeService: TypeService,
         private readonly _refreshService: RefreshService,
         private readonly _featsService: FeatsService,
     ) { }
@@ -139,7 +137,7 @@ export class SavegameService {
             character.class = classesService.restoreClassFromSave(character.class);
         }
 
-        character.recast(this._typeService, itemsService);
+        character.recast(itemsService);
 
         //Apply any patches that need to be done after the class is restored.
         this._patchCompleteCharacter(savedCharacter, character, characterService);
@@ -156,7 +154,7 @@ export class SavegameService {
     ): Partial<Character> {
 
         //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
-        const savegame = Object.assign(new Character(), JSON.parse(JSON.stringify(character))).recast(this._typeService, itemsService);
+        const savegame = Object.assign(new Character(), JSON.parse(JSON.stringify(character))).recast(itemsService);
 
         const versionString: string = package_json.version;
 

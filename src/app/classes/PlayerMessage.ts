@@ -40,12 +40,12 @@ export class PlayerMessage {
     public deleted = false;
     public turnChange = false;
     public ttl = Defaults.playerMessageTTL;
-    public recast(typeService: TypeService, itemsService: ItemsService): PlayerMessage {
+    public recast(itemsService: ItemsService): PlayerMessage {
         this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
-        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(typeService, itemsService));
-        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(typeService, itemsService));
+        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(itemsService));
+        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(itemsService));
         this.includedInventories =
-            this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(typeService, itemsService));
+            this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(itemsService));
 
         return this;
     }

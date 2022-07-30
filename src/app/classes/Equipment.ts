@@ -107,8 +107,8 @@ export class Equipment extends Item {
     public set secondaryRune(value: BasicRuneLevels) {
         return;
     }
-    public recast(typeService: TypeService, itemsService: ItemsService): Equipment {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Equipment {
+        super.recast(itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.activities.forEach(activity => { activity.source = this.id; });
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
@@ -138,23 +138,23 @@ export class Equipment extends Item {
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
         this.propertyRunes =
             this.propertyRunes.map(obj =>
-                Object.assign(new Rune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService),
+                Object.assign(new Rune(), TypeService.restoreItem(obj, itemsService)).recast(itemsService),
             );
         this.bladeAllyRunes =
             this.bladeAllyRunes.map(obj =>
-                Object.assign(new WeaponRune(), typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService));
+                Object.assign(new WeaponRune(), TypeService.restoreItem(obj, itemsService)).recast(itemsService));
         this.talismans =
             this.talismans.map(obj =>
                 Object.assign(
                     new Talisman(),
-                    typeService.restoreItem(obj, itemsService),
-                ).recast(typeService, itemsService),
+                    TypeService.restoreItem(obj, itemsService),
+                ).recast(itemsService),
             );
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
         this.talismanCords =
             this.talismanCords.map(obj =>
-                (typeService.classCast(typeService.restoreItem(obj, itemsService), 'WornItem') as WornItem)
-                    .recast(typeService, itemsService),
+                (TypeService.classCast(TypeService.restoreItem(obj, itemsService), 'WornItem') as WornItem)
+                    .recast(itemsService),
             );
 
         if (this.choices.length && !this.choices.includes(this.choice)) {

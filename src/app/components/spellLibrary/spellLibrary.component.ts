@@ -21,6 +21,7 @@ import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellLearningMethods } from 'src/libs/shared/definitions/spellLearningMethods';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 const itemsPerPage = 40;
 const showAllLists = -2;
@@ -60,6 +61,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
+        private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -807,10 +809,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                         return false;
                 }
 
-                return this._characterService
-                    .skills(character, skill)[0]
-                    .level(character, this._characterService, character.level)
-                    >= SkillLevels.Trained;
+                return this._skillValuesService.level(skill, character, character.level) >= SkillLevels.Trained;
             }
         }
 

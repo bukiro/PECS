@@ -15,8 +15,8 @@ export class Snare extends Consumable {
         //Snares can't stack.
         return false;
     }
-    public recast(typeService: TypeService, itemsService: ItemsService): Snare {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Snare {
+        super.recast(itemsService);
 
         return this;
     }

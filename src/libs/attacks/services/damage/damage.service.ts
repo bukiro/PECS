@@ -15,6 +15,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { attackRuneSource } from '../../util/attackRuneSource';
@@ -29,6 +30,7 @@ export class DamageService {
         private readonly _characterService: CharacterService,
         private readonly _effectsService: EffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
+        private readonly _weaponPropertiesService: WeaponPropertiesService,
     ) { }
 
     /**
@@ -59,7 +61,7 @@ export class DamageService {
         //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
         //We set runeSource to the respective item and use it whenever runes are concerned.
         const runeSource = attackRuneSource(weapon, creature, range);
-        const isFavoredWeapon = weapon.isFavoredWeapon(creature, this._characterService);
+        const isFavoredWeapon = this._weaponPropertiesService.isFavoredWeapon(weapon, creature);
         const effectPhrases = (phrase: string): Array<string> =>
             attackEffectPhrases(weapon, phrase, prof, range, traits, isFavoredWeapon)
                 .concat([
@@ -192,7 +194,7 @@ export class DamageService {
                 this._characterService.characterFeatsAndFeatures('Deific Weapon')[0]
                     ?.have({ creature }, { characterService: this._characterService })
             ) {
-                if (weapon.isFavoredWeapon(creature, this._characterService)) {
+                if (this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) {
                     const newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
 
                     if (newDicesize > dicesize) {
@@ -218,7 +220,7 @@ export class DamageService {
             // or simple weapons as long as they are their deity's favored weapon.
             if (((dicesize < DiceSizes.D6 && weapon.prof === WeaponProficiencies.Unarmed) || weapon.prof === WeaponProficiencies.Simple) &&
                 this._characterService.feats('Deadly Simplicity')[0]?.have({ creature }, { characterService: this._characterService })) {
-                if (weapon.isFavoredWeapon(creature, this._characterService)) {
+                if (this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) {
                     let newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
 
                     if (dicesize < DiceSizes.D6 && weapon.prof === WeaponProficiencies.Unarmed) {
@@ -445,7 +447,7 @@ export class DamageService {
             }
         }
 
-        const profLevel = weapon.profLevel(creature, this._characterService, runeSource.propertyRunes);
+        const profLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
         const effectPhrasesDamage =
             effectPhrases('Damage')
                 .concat(effectPhrases('Damage Rolls'));
@@ -640,7 +642,7 @@ export class DamageService {
         if (creature instanceof Character && weapon.group) {
             const character = creature as Character;
             const runeSource = attackRuneSource(weapon, creature, range);
-            const skillLevel = weapon.profLevel(creature, this._characterService, runeSource.propertyRunes);
+            const skillLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
 
             this._characterService.characterFeatsAndFeatures()
                 .filter(feat =>
@@ -651,7 +653,7 @@ export class DamageService {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
                         (!spec.minLevel || creature.level >= spec.minLevel) &&
                         (!spec.bladeAlly || (weapon.bladeAlly || runeSource.propertyRunes.bladeAlly)) &&
-                        (!spec.favoredWeapon || weapon.isFavoredWeapon(creature, this._characterService)) &&
+                        (!spec.favoredWeapon || this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) &&
                         (!spec.group || (weapon.group && spec.group.includes(weapon.group))) &&
                         (!spec.range || (range && spec.range.includes(range))) &&
                         (
@@ -758,7 +760,7 @@ export class DamageService {
                 prof,
                 range,
                 traits,
-                weapon.isFavoredWeapon(creature, characterService),
+                this._weaponPropertiesService.isFavoredWeapon(weapon, creature),
             );
         const agile = traits.includes('Agile') ? 'Agile' : 'Non-Agile';
 

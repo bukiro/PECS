@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -36,7 +35,6 @@ export class ItemTalismanCordsComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
-        private readonly _typeService: TypeService,
         public trackers: Trackers,
     ) { }
 
@@ -111,7 +109,7 @@ export class ItemTalismanCordsComponent implements OnInit {
                     Object.assign(
                         new WornItem(),
                         JSON.parse(JSON.stringify(cord)),
-                    ).recast(this._typeService, this._itemsService));
+                    ).recast(this._itemsService));
                 const newCord = item.talismanCords[newLength - 1];
 
                 newCord.amount = 1;

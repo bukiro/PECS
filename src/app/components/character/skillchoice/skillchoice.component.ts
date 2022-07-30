@@ -14,6 +14,7 @@ import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 interface SkillChoiceParameters {
     listId: string;
@@ -66,6 +67,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
+        private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -129,7 +131,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         return this._availableSkills(choice, levelNumber, allowedIncreases)
             .map(skill => {
                 const isIncreasedByThisChoice = this._skillIncreasedByThisChoice(skill, choice);
-                const skillLevel = skill.level(character, this._characterService, this.levelNumber, true);
+                const skillLevel = this._skillValuesService.level(skill, character, this.levelNumber, true);
                 const shouldBeChecked = isIncreasedByThisChoice || (skillLevel >= choice.maxRank);
                 const shouldBeDisabled =
                     !!this._skillLockedByThisChoice(skill, choice) ||
@@ -153,9 +155,9 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     public skillTooHigh(skill: Skill): boolean {
         const character = this.character;
 
-        return !skill.isLegal(character, this._characterService, this.levelNumber) ||
+        return !this._skillValuesService.isSkillLegal(skill, character, this.levelNumber) ||
             (
-                !skill.isLegal(character, this._characterService, this.levelNumber, this.choice.maxRank) &&
+                !this._skillValuesService.isSkillLegal(skill, character, this.levelNumber, this.choice.maxRank) &&
                 this._skillIncreasedByThisChoice(skill, this.choice)
             );
     }
@@ -216,16 +218,16 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
         //You can never raise a skill higher than Legendary (8)
         if (
-            skill.level(this.character, this._characterService, levelNumber, true) === SkillLevels.Legendary &&
+            this._skillValuesService.level(skill, this.character, levelNumber, true) === SkillLevels.Legendary &&
             !this._skillIncreasedByThisChoice(skill, choice)
         ) {
             cannotIncreaseHigher = 'Cannot increase any higher.';
             reasons.push(cannotIncreaseHigher);
         } else if (
-            !skill.canIncrease(this.character, this._characterService, levelNumber, maxRank) &&
+            !this._skillValuesService.canIncreaseSkill(skill, this.character, levelNumber, maxRank) &&
             !this._skillIncreasedByThisChoice(skill, choice)
         ) {
-            if (!skill.canIncrease(this.character, this._characterService, levelNumber)) {
+            if (!this._skillValuesService.canIncreaseSkill(skill, this.character, levelNumber)) {
                 cannotIncreaseHigher = 'Highest rank at this level.';
             } else {
                 if (choice.maxRank === SkillLevels.Trained) {
@@ -366,7 +368,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
                 levelNumber = this.character.level;
             }
 
-            if (!this._skills(increase.name)[0].isLegal(this.character, this._characterService, levelNumber, this.choice.maxRank)) {
+            if (!this._skillValuesService.isSkillLegal(increase.name, this.character, levelNumber, this.choice.maxRank)) {
                 if (!increase.locked) {
                     this.character.increaseSkill(this._characterService, increase.name, false, this.choice, increase.locked);
                     this._refreshService.processPreparedChanges();
@@ -397,7 +399,9 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         if (choice.minRank) {
             const character = this.character;
 
-            skills = skills.filter(skill => skill.level(character, this._characterService, levelNumber) >= choice.minRank);
+            skills = skills.filter(skill =>
+                this._skillValuesService.level(skill, character, levelNumber) >= choice.minRank,
+            );
         }
 
         if (skills.length) {

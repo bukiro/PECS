@@ -101,7 +101,6 @@ export class ItemsService {
     private _initialized = false;
 
     constructor(
-        private readonly _typeService: TypeService,
         private readonly _extensionsService: ExtensionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
@@ -305,7 +304,7 @@ export class ItemsService {
             const rune = this._cleanItems.weaponrunes.find(weaponRune => weaponRune.name === (newItem as Oil).runeEffect.name);
 
             if (rune) {
-                newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this._typeService, this);
+                newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += ` (${ newItem.name })`; });
             }
         }
@@ -330,7 +329,7 @@ export class ItemsService {
                 const libraryItem = this._cleanItems.weaponrunes.find(newrune => newrune.name === rune.name);
 
                 if (libraryItem) {
-                    newRunes.push(this._typeService.merge(libraryItem, rune));
+                    newRunes.push(TypeService.merge(libraryItem, rune));
                 }
             });
             newItem.propertyRunes = newRunes;
@@ -343,7 +342,7 @@ export class ItemsService {
                 const libraryItem = this._cleanItems.armorrunes.find(newrune => newrune.name === rune.name);
 
                 if (libraryItem) {
-                    newRunes.push(this._typeService.merge(libraryItem, rune));
+                    newRunes.push(TypeService.merge(libraryItem, rune));
                 }
             });
             newItem.propertyRunes = newRunes;
@@ -357,7 +356,7 @@ export class ItemsService {
                 const libraryItem = this._weaponMaterials.find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(this._typeService.merge(libraryItem, material));
+                    newMaterials.push(TypeService.merge(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
@@ -370,7 +369,7 @@ export class ItemsService {
                 const libraryItem = this._armorMaterials.find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(this._typeService.merge(libraryItem, material));
+                    newMaterials.push(TypeService.merge(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
@@ -383,13 +382,13 @@ export class ItemsService {
                 const libraryItem = this._shieldMaterials.find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(this._typeService.merge(libraryItem, material));
+                    newMaterials.push(TypeService.merge(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
         }
 
-        newItem = newItem.recast(this._typeService, this);
+        newItem = newItem.recast(this);
 
         //Disable all hints.
         if (newItem instanceof Equipment) {
@@ -571,7 +570,7 @@ export class ItemsService {
 
                         const newItem = this.castItemByType(
                             Object.assign(new Item(), JSON.parse(JSON.stringify(invItem))),
-                        ).recast(this._typeService, this);
+                        ).recast(this);
 
                         newItem.amount = moved;
                         items.push(newItem);
@@ -592,7 +591,7 @@ export class ItemsService {
                     .filter(inventory => inventory.itemId === item.id)
                     .map(inventory =>
                         Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory)))
-                            .recast(this._typeService, this),
+                            .recast(this),
                     ),
             );
         }
@@ -624,7 +623,7 @@ export class ItemsService {
                                             Object.assign(
                                                 new ItemCollection(),
                                                 JSON.parse(JSON.stringify(inventory)),
-                                            ).recast(this._typeService, this),
+                                            ).recast(this),
                                         ),
                                     );
                                 }
@@ -724,7 +723,7 @@ export class ItemsService {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 //The item does need to be copied so we don't just move a reference.
-                const movedItem = this.castItemByType(JSON.parse(JSON.stringify(item))).recast(this._typeService, this);
+                const movedItem = this.castItemByType(JSON.parse(JSON.stringify(item))).recast(this);
 
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
                 if (movedItem.canStack()) {
@@ -801,7 +800,7 @@ export class ItemsService {
                     //Update the item's gridicon to reflect its changed amount.
                     this._refreshService.setComponentChanged(existingItems[0].id);
                 } else {
-                    const movedItem = this.castItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this._typeService, this);
+                    const movedItem = this.castItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this);
                     const newLength = targetInventory[includedItem.type].push(movedItem);
                     const newItem = targetInventory[includedItem.type][newLength - 1];
 
@@ -1161,11 +1160,11 @@ export class ItemsService {
         this._storeItems = Object.assign(
             new ItemCollection(),
             JSON.parse(JSON.stringify(this._cleanItems)),
-        ).recast(this._typeService, this);
+        ).recast(this);
         this._craftingItems = Object.assign(
             new ItemCollection(),
             JSON.parse(JSON.stringify(this._cleanItems)),
-        ).recast(this._typeService, this);
+        ).recast(this);
 
         this._initialized = true;
     }
@@ -1175,11 +1174,11 @@ export class ItemsService {
         this._storeItems = Object.assign(
             new ItemCollection(),
             JSON.parse(JSON.stringify(this._cleanItems)),
-        ).recast(this._typeService, this);
+        ).recast(this);
         this._craftingItems = Object.assign(
             new ItemCollection(),
             JSON.parse(JSON.stringify(this._cleanItems)),
-        ).recast(this._typeService, this);
+        ).recast(this);
 
         //Disable any active hint effects when loading a character, and reinitialize the hints.
         this._specializations.forEach(spec => {

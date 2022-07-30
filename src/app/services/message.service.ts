@@ -8,7 +8,6 @@ import { ItemsService } from 'src/app/services/items.service';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { TypeService } from 'src/app/services/type.service';
 import { Creature } from '../classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
@@ -28,7 +27,6 @@ export class MessageService {
         private readonly _http: HttpClient,
         private readonly _configService: ConfigService,
         private readonly _toastService: ToastService,
-        private readonly _typeService: TypeService,
         private readonly _itemsService: ItemsService,
         private readonly _refreshService: RefreshService,
     ) { }
@@ -91,7 +89,7 @@ export class MessageService {
         const loadedMessages = results;
 
         let newMessages = loadedMessages
-            .map(message => Object.assign(new PlayerMessage(), message).recast(this._typeService, this._itemsService));
+            .map(message => Object.assign(new PlayerMessage(), message).recast(this._itemsService));
 
         newMessages.forEach(message => {
             //Cut off the time zone.

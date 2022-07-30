@@ -45,6 +45,8 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -104,6 +106,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _itemRolesService: ItemRolesService,
         private readonly _toastService: ToastService,
         private readonly _modalService: NgbModal,
+        private readonly _skillValuesService: SkillValuesService,
+        private readonly _weaponPropertiesService: WeaponPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -731,7 +735,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
         if (item.level >= masterRequiringLevel) {
             const craftingSkillLevel =
-                this._characterService.skills(character, 'Crafting')[0]?.level(character, this._characterService, character.level) || 0;
+                this._skillValuesService.level('Crafting', character, character.level) || 0;
 
             if (item.level >= legendaryRequiringLevel && craftingSkillLevel < SkillLevels.Legendary) {
                 reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
@@ -973,13 +977,14 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
         if (!(creature instanceof Familiar)) {
             if (itemRoles.asWeapon) {
-                return itemRoles.asWeapon.profLevel(
-                    creature,
-                    this._characterService,
-                    itemRoles.asWeapon,
-                    undefined,
-                    { preparedProficiency: proficiency },
-                ) > 0;
+                return this._weaponPropertiesService
+                    .profLevel(
+                        itemRoles.asWeapon,
+                        creature,
+                        itemRoles.asWeapon,
+                        undefined,
+                        { preparedProficiency: proficiency },
+                    ) > 0;
             }
 
             if (itemRoles.asArmor) {

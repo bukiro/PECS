@@ -26,8 +26,8 @@ export class Rune extends Item {
     public get secondary(): number {
         return 0;
     }
-    public recast(typeService: TypeService, itemsService: ItemsService): Rune {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Rune {
+        super.recast(itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());

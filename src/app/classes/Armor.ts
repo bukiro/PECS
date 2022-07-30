@@ -71,13 +71,13 @@ export class Armor extends Equipment {
     public set secondaryRune(value: BasicRuneLevels) {
         this.resilientRune = value;
     }
-    public recast(typeService: TypeService, itemsService: ItemsService): Armor {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Armor {
+        super.recast(itemsService);
         this.propertyRunes =
             this.propertyRunes.map(obj =>
                 Object.assign<ArmorRune, Item>(
                     new ArmorRune(),
-                    typeService.restoreItem(obj, itemsService)).recast(typeService, itemsService),
+                    TypeService.restoreItem(obj, itemsService)).recast(itemsService),
             );
         this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
 

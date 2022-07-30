@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { SkillsService } from 'src/app/services/skills.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { Character } from 'src/app/classes/Character';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -16,6 +16,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 interface SpeedParameters {
     name: string;
@@ -47,7 +48,8 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _skillsService: SkillsService,
+        private readonly _skillsDataService: SkillsDataService,
+        private readonly _skillValuesService: SkillValuesService,
         private readonly _effectsService: EffectsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         public trackers: Trackers,
@@ -69,7 +71,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._skillsService.stillLoading || this._characterService.stillLoading;
+        return this._skillsDataService.stillLoading || this._characterService.stillLoading;
     }
 
     private get _character(): Character {
@@ -120,7 +122,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         return this._characterService.skills(creature, '', { type })
             .filter(skill =>
                 skill.name.includes('Lore') ?
-                    skill.level(creature, this._characterService, creature.level) :
+                    this._skillValuesService.level(skill, creature, creature.level) :
                     true,
             )
             .sort((a, b) => SortAlphaNum(a.name, b.name));

@@ -7,7 +7,7 @@ import { switchMap, tap } from 'rxjs';
 import { Item } from 'src/app/classes/Item';
 import { Class } from 'src/app/classes/Class';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { SkillsService } from 'src/app/services/skills.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { ClassesService } from 'src/app/services/classes.service';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -66,7 +66,6 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
-import { TypeService } from 'src/app/services/type.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -82,7 +81,6 @@ import { CopperAmounts, CurrencyIndices } from 'src/libs/shared/definitions/curr
 import { Condition } from '../classes/Condition';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { HttpStatusCode } from '@angular/common/http';
-import { AC, CoverTypes } from '../classes/AC';
 import { Ability } from '../classes/Ability';
 import { Health } from '../classes/Health';
 import { AnimalCompanionLevel } from '../classes/AnimalCompanionLevel';
@@ -93,6 +91,7 @@ import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { ArmorClassService, CoverTypes } from 'src/libs/defense/services/armor-class/armor-class.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -158,7 +157,7 @@ export class CharacterService {
         private readonly _savegameService: SavegameService,
         public abilitiesDataService: AbilitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
-        public skillsService: SkillsService,
+        public skillsDataService: SkillsDataService,
         public classesService: ClassesService,
         public featsService: FeatsService,
         public traitsService: TraitsService,
@@ -175,7 +174,6 @@ export class CharacterService {
         public familiarsService: FamiliarsService,
         private readonly _messageService: MessageService,
         public toastService: ToastService,
-        private readonly _typeService: TypeService,
         private readonly _evaluationService: EvaluationService,
         private readonly _effectsGenerationService: EffectsGenerationService,
         public refreshService: RefreshService,
@@ -183,6 +181,7 @@ export class CharacterService {
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
         public activitiesProcessingService: ActivitiesProcessingService,
+        private readonly _armorClassService: ArmorClassService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -675,7 +674,7 @@ export class CharacterService {
         character.class.processRemovingOldAncestry(this);
         character.class.processRemovingOldBackground(this);
         character.class.processRemovingOldClass(this);
-        character.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class))).recast(this._typeService, this.itemsService);
+        character.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class))).recast(this.itemsService);
         character.class.processNewClass(this, this.itemsService);
         this.deitiesService.clearCharacterDeities();
         this.cacheService.resetCreatureCache(character.typeId);
@@ -1287,7 +1286,7 @@ export class CharacterService {
             //If you are unequipping a shield, you should also be lowering it and losing cover
             if (item instanceof Shield) {
                 if (item.takingCover) {
-                    this.ACObject().setCover(creature, 0, item, this, this.conditionsService);
+                    this._armorClassService.setCover(creature, 0, item);
                     item.takingCover = false;
                 }
 
@@ -2058,7 +2057,7 @@ export class CharacterService {
                     message.offeredItem.push(
                         Object.assign(
                             new Item(),
-                            JSON.parse(JSON.stringify(item))).recast(this._typeService, this.itemsService,
+                            JSON.parse(JSON.stringify(item))).recast(this.itemsService,
                         ),
                     );
                     message.itemAmount = amount;
@@ -2138,7 +2137,7 @@ export class CharacterService {
                                 this.refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
                                 this.refreshService.setComponentChanged(existingItems[0].id);
                             } else {
-                                typedItem.recast(this._typeService, this.itemsService);
+                                typedItem.recast(this.itemsService);
 
                                 const newLength = targetInventory[typedItem.type].push(typedItem);
                                 const addedItem = targetInventory[typedItem.type][newLength - 1];
@@ -2539,7 +2538,7 @@ export class CharacterService {
     public changeCreatureCoverWithNotification(creature: Creature, value: number): void {
         const phrases = this.effectRecipientPhrases(creature);
 
-        this.defenseService.armorClass.setCover(creature, value, null, this, this.conditionsService);
+        this._armorClassService.setCover(creature, value, null);
 
         switch (value) {
             case CoverTypes.NoCover:
@@ -2656,7 +2655,7 @@ export class CharacterService {
         filter: { type?: string; locked?: boolean } = {},
         options: { noSubstitutions?: boolean } = {},
     ): Array<Skill> {
-        return this.skillsService.skills(creature.customSkills, name, filter, options);
+        return this.skillsDataService.skills(creature.customSkills, name, filter, options);
     }
 
     public feats(name = '', type = ''): Array<Feat> {
@@ -3218,10 +3217,6 @@ export class CharacterService {
         return Math.min(focusPoints, Defaults.maxFocusPoints);
     }
 
-    public ACObject(): AC {
-        return this.defenseService.armorClass;
-    }
-
     public isMobileView(): boolean {
         return (window.innerWidth < Defaults.mobileBreakpointPx);
     }
@@ -3233,7 +3228,7 @@ export class CharacterService {
 
         if (character.class.animalCompanion) {
             character.class.animalCompanion =
-                Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._typeService, this.itemsService);
+                Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this.itemsService);
             character.class.animalCompanion.class.levels = this.animalCompanionLevels();
             this._equipBasicItems(character.class.animalCompanion);
             character.class.animalCompanion.setLevel(this);
@@ -3246,7 +3241,7 @@ export class CharacterService {
         this.cacheService.resetCreatureCache(CreatureTypeIds.Familiar);
 
         if (character.class.familiar) {
-            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._typeService, this.itemsService);
+            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this.itemsService);
             this.refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
         }
     }
@@ -3282,7 +3277,7 @@ export class CharacterService {
         this.activitiesDataService.reset();
         this.featsService.reset();
         this.conditionsService.reset();
-        this.skillsService.reset();
+        this.skillsDataService.reset();
         this.itemsService.reset();
         this.deitiesService.reset();
         this.animalCompanionsService.reset();
@@ -3543,12 +3538,12 @@ export class CharacterService {
                     Object.assign(
                         new Weapon(),
                         this.itemsService.cleanItemByID('08693211-8daa-11ea-abca-ffb46fbada73'),
-                    ).recast(this._typeService, this.itemsService);
+                    ).recast(this.itemsService);
                 const newBasicArmor: Armor =
                     Object.assign(
                         new Armor(),
                         this.itemsService.cleanItemByID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
-                    ).recast(this._typeService, this.itemsService);
+                    ).recast(this.itemsService);
 
                 this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
                 this._equipBasicItems(this.character, false);

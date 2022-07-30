@@ -13,6 +13,7 @@ import { FeatChoice } from '../../definitions/models/FeatChoice';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +23,7 @@ export class FeatRequirementsService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _abilityValuesService: AbilityValuesService,
+        private readonly _skillValuesService: SkillValuesService,
     ) { }
 
     public static prof(skillLevel: number): string {
@@ -179,7 +181,7 @@ export class FeatRequirementsService {
                 if (requiredSkill.length) {
                     if (requiredSkill
                         .find(skill =>
-                            skill.level(character, this._characterService, charLevel, true) >= expected,
+                            this._skillValuesService.level(skill, character, charLevel, true) >= expected,
                         )
                     ) {
                         result.push({ met: true, desc: FeatRequirementsService.prof(expected) + requirement.skill });
@@ -861,7 +863,8 @@ export class FeatRequirementsService {
 
                         allSkills = allSkills.filter(skill => !!skill);
 
-                        const allSkillLevels = allSkills.map(skill => skill.level(creature, this._characterService, charLevel));
+                        const allSkillLevels =
+                            allSkills.map(skill => this._skillValuesService.level(skill, creature, charLevel));
 
                         if (!DoesNumberListMatchExpectation(allSkillLevels, skillreq.query, skillreq.expected)) {
                             hasThisRequirementFailed = true;

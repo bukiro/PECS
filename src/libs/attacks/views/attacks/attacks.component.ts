@@ -37,6 +37,7 @@ import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTar
 import { AttackResult, AttacksService, DamageResult } from '../../services/attacks/attacks.service';
 import { DamageService } from '../../services/damage/damage.service';
 import { attackRuneSource } from '../../util/attackRuneSource';
+import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -72,6 +73,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _conditionsService: ConditionsService,
         private readonly _attacksService: AttacksService,
         private readonly _damageService: DamageService,
+        private readonly _weaponPropertiesService: WeaponPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -331,7 +333,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         //Deity's favored weapons get tagged as "Favored Weapon".
-        if (weapon.isFavoredWeapon(this._character, this._characterService)) {
+        if (this._weaponPropertiesService.isFavoredWeapon(weapon, this._character)) {
             specialNames.push('Favored Weapon');
         }
 
@@ -712,7 +714,6 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     private _isWeaponAllowed(weapon: Weapon): boolean {
         const creature = this._currentCreature;
-        const characterService = this._characterService;
 
         const doesListMatchWeapon =
             (list: Array<AttackRestriction>): boolean =>
@@ -722,7 +723,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     } else if (restriction.special) {
                         switch (restriction.special) {
                             case 'Favored Weapon':
-                                return weapon.isFavoredWeapon(creature, characterService);
+                                return this._weaponPropertiesService.isFavoredWeapon(weapon, creature);
                             default: break;
                         }
                     }

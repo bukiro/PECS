@@ -56,9 +56,9 @@ export class Character extends Creature {
     public GMMode = false;
     //yourTurn is only written when saving the character to the database and read when loading.
     public yourTurn = 0;
-    public recast(typeService: TypeService, itemsService: ItemsService): Character {
-        super.recast(typeService, itemsService);
-        this.class = Object.assign(new Class(), this.class).recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Character {
+        super.recast(itemsService);
+        this.class = Object.assign(new Class(), this.class).recast(itemsService);
         this.customFeats = this.customFeats.map(obj => Object.assign(new Feat(), obj).recast());
         this.settings = Object.assign(new Settings(), this.settings);
 

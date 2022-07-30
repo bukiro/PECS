@@ -4,7 +4,6 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Weapon } from 'src/app/classes/Weapon';
-import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -37,7 +36,6 @@ export class ItemPoisonsComponent {
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _typeService: TypeService,
         public trackers: Trackers,
     ) { }
 
@@ -78,7 +76,7 @@ export class ItemPoisonsComponent {
                 Object.assign(
                     new AlchemicalPoison(),
                     JSON.parse(JSON.stringify(this.newPoison.poison)),
-                ).recast(this._typeService, this._itemsService),
+                ).recast(this._itemsService),
             );
 
             if (this.newPoison.inv) {

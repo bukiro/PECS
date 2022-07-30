@@ -7,8 +7,8 @@ import { ItemsService } from 'src/app/services/items.service';
 export class Scroll extends Consumable {
     //Scrolls should be type "scrolls" to be found in the database
     public readonly type = 'scrolls';
-    public recast(typeService: TypeService, itemsService: ItemsService): Scroll {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Scroll {
+        super.recast(itemsService);
 
         return this;
     }

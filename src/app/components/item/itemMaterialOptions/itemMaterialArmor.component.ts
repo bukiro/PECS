@@ -10,6 +10,7 @@ import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 enum MaterialLevelRequiredForPotency {
     None = 0,
@@ -52,6 +53,7 @@ export class ItemMaterialArmorComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
+        private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -111,7 +113,7 @@ export class ItemMaterialArmorComponent implements OnInit {
 
             charLevel = character.level;
             craftingLevel =
-                this._characterService.skills(character, 'Crafting')[0]?.level(character, this._characterService, character.level) || 0;
+                this._skillValuesService.level('Crafting', character, character.level) || 0;
         }
 
         const MaterialLevelRequiredForPotencyArray = Object.values(MaterialLevelRequiredForPotency) as Array<number>;

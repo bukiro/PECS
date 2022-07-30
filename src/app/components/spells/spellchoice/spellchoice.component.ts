@@ -6,7 +6,6 @@ import { CharacterService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsService } from 'src/app/services/traits.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { EffectsService } from 'src/app/services/effects.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
@@ -22,6 +21,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 interface SpellSet {
     spell: Spell;
@@ -112,9 +112,9 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _spellsService: SpellsService,
         private readonly _traitsService: TraitsService,
-        private readonly _effectsService: EffectsService,
         private readonly _deitiesService: DeitiesService,
         private readonly _abilityValuesService: AbilityValuesService,
+        private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -1476,9 +1476,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 }
 
                 if (skill) {
-                    return this._characterService
-                        .skills(character, skill)[0]
-                        .level(character, this._characterService, character.level) >= minLevelRequired;
+                    return this._skillValuesService.level(skill, character, character.level) >= minLevelRequired;
                 } else {
                     return false;
                 }

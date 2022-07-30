@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, O
 import { CharacterService } from 'src/app/services/character.service';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { EffectsService } from 'src/app/services/effects.service';
-import { CalculatedSkill, Skill } from 'src/app/classes/Skill';
+import { Skill } from 'src/app/classes/Skill';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
@@ -13,6 +13,7 @@ import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature, SkillNotes } from 'src/app/classes/Creature';
 import { Activity } from 'src/app/classes/Activity';
+import { CalculatedSkill, SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -56,6 +57,7 @@ export class SkillComponent implements OnInit, OnDestroy {
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _effectsService: EffectsService,
         private readonly _activitiesDataService: ActivitiesDataService,
+        private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -82,11 +84,9 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     public calculatedSkill(): CalculatedSkill {
-        return this.skill.calculate(
+        return this._skillValuesService.calculate(
+            this.skill,
             this._currentCreature,
-            this._characterService,
-            this._abilitiesDataService,
-            this._effectsService,
             this.character.level,
             this.isDC,
         );
@@ -111,7 +111,7 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     public skillProficiencyLevel(): number {
-        return this.skill.level(this._currentCreature, this._characterService, this.character.level, false);
+        return this._skillValuesService.level(this.skill, this._currentCreature, this.character.level, false);
     }
 
     public originalActivity(gain: ActivityGain | ItemActivity): Activity {

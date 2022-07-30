@@ -25,8 +25,8 @@ export class Consumable extends Item {
      * and how many make up one instance of the items Bulk.
      */
     public stack = 1;
-    public recast(typeService: TypeService, itemsService: ItemsService): Consumable {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Consumable {
+        super.recast(itemsService);
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
         this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
 

@@ -15,6 +15,7 @@ import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 interface ActivitySet {
     name: string;
@@ -55,6 +56,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
+        private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -136,7 +138,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     public classDCs(): Array<Skill> {
         return this._characterService
             .skills(this.currentCreature(), '', { type: 'Class DC' })
-            .filter(skill => skill.level(this.currentCreature(), this._characterService) > 0);
+            .filter(skill => this._skillValuesService.level(skill, this.currentCreature()) > 0);
     }
 
     public temporaryFeatChoices(): Array<FeatChoice> {

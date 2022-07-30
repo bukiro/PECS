@@ -19,8 +19,8 @@ export class AlchemicalBomb extends Weapon {
     public effectiveName(): string {
         return this.displayName || this.name;
     }
-    public recast(typeService: TypeService, itemsService: ItemsService): AlchemicalBomb {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): AlchemicalBomb {
+        super.recast(itemsService);
 
         return this;
     }

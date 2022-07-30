@@ -20,6 +20,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 @Injectable({
     providedIn: 'root',
@@ -33,6 +34,7 @@ export class SpellsService {
     constructor(
         private readonly _extensionsService: ExtensionsService,
         private readonly _refreshService: RefreshService,
+        private readonly _skillValuesService: SkillValuesService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -69,7 +71,7 @@ export class SpellsService {
         /* eslint-disable @typescript-eslint/no-unused-vars */
         /* eslint-disable @typescript-eslint/naming-convention */
         const Skill_Level = (name: string): number =>
-            characterService.skills(Character, name)[0]?.level(Character, characterService);
+            this._skillValuesService.level(name, Character, Character.level);
 
         // Get the available spell level of this casting.
         // This is the highest spell level of the spell choices that are available at your character level (and don't have a dynamic level).

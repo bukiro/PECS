@@ -27,8 +27,8 @@ export class WeaponRune extends Rune {
     public get secondary(): number {
         return this.striking;
     }
-    public recast(typeService: TypeService, itemsService: ItemsService): WeaponRune {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): WeaponRune {
+        super.recast(itemsService);
 
         return this;
     }

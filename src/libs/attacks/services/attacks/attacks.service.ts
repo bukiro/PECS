@@ -8,6 +8,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { SignNumber } from 'src/libs/shared/util/numberUtils';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
@@ -39,6 +40,7 @@ export class AttacksService {
         private readonly _characterService: CharacterService,
         private readonly _effectsService: EffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
+        private readonly _weaponPropertiesService: WeaponPropertiesService,
     ) { }
 
     public attack(
@@ -53,7 +55,7 @@ export class AttacksService {
         const dex = this._abilityValuesService.mod('Dexterity', creature).result;
         const runeSource = attackRuneSource(weapon, creature, range);
         const traits = weapon.effectiveTraits(this._characterService, creature);
-        const skillLevel = weapon.profLevel(creature, this._characterService, runeSource.propertyRunes);
+        const skillLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
 
         if (skillLevel) {
             explain += `\nProficiency: ${ skillLevel }`;
@@ -155,7 +157,7 @@ export class AttacksService {
                 prof,
                 range,
                 traits,
-                weapon.isFavoredWeapon(creature, this._characterService),
+                this._weaponPropertiesService.isFavoredWeapon(weapon, creature),
             )
                 .concat([
                     weapon.name,

@@ -11,8 +11,8 @@ export class AlchemicalPoison extends Consumable {
      * Alchemical Poisons can have Stages. Describe them here, with the index being the stage number and [0] being the Onset stage.
      */
     public stages: Array<string> = [];
-    public recast(typeService: TypeService, itemsService: ItemsService): AlchemicalPoison {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): AlchemicalPoison {
+        super.recast(itemsService);
 
         return this;
     }

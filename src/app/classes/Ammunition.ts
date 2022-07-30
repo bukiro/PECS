@@ -13,8 +13,8 @@ export class Ammunition extends Consumable {
      * Same as the weapon type: Arrows, Blowgun Darts, Bolts, Sling Bullets or Any
      */
     public ammunition = '';
-    public recast(typeService: TypeService, itemsService: ItemsService): Ammunition {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Ammunition {
+        super.recast(itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
 
         return this;

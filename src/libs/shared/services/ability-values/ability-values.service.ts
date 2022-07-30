@@ -188,11 +188,11 @@ export class AbilityValuesService {
         return this._effectsService.doPenaltyEffectsExistOnThis(creature, name);
     }
 
-    private _normalizeAbilityOrName(ability: Ability | string): Ability {
-        if (typeof ability === 'string') {
-            return this._abilitiesDataService.abilities(ability)[0];
+    private _normalizeAbilityOrName(abilityOrName: Ability | string): Ability {
+        if (typeof abilityOrName === 'string') {
+            return this._abilitiesDataService.abilities(abilityOrName)[0];
         } else {
-            return ability;
+            return abilityOrName;
         }
     }
 

@@ -1,14 +1,16 @@
-import { EffectsService } from 'src/app/services/effects.service';
-import { DefenseService } from 'src/app/services/defense.service';
-import { CharacterService } from 'src/app/services/character.service';
-import { Effect } from 'src/app/classes/Effect';
+import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
-import { Creature } from 'src/app/classes/Creature';
-import { Shield } from 'src/app/classes/Shield';
-import { ConditionsService } from 'src/app/services/conditions.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Familiar } from './Familiar';
+import { Creature } from 'src/app/classes/Creature';
+import { Effect } from 'src/app/classes/Effect';
+import { Familiar } from 'src/app/classes/Familiar';
+import { Shield } from 'src/app/classes/Shield';
+import { CharacterService } from 'src/app/services/character.service';
+import { ConditionsService } from 'src/app/services/conditions.service';
+import { DefenseService } from 'src/app/services/defense.service';
+import { EffectsService } from 'src/app/services/effects.service';
+import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
 export interface CalculatedAC {
     absolutes: Array<Effect>;
@@ -25,17 +27,26 @@ export enum CoverTypes {
     GreaterCover = 4
 }
 
-export class AC {
-    public name = 'AC';
+@Injectable({
+    providedIn: 'root',
+})
+export class ArmorClassService {
+
+    constructor(
+        private readonly _characterService: CharacterService,
+        private readonly _conditionsService: ConditionsService,
+        private readonly _effectsService: EffectsService,
+        private readonly _abilityValuesService: AbilityValuesService,
+        private readonly _defenseService: DefenseService,
+    ) { }
+
     public setCover(
         creature: Creature,
         cover: number,
         shield: Shield = null,
-        characterService: CharacterService,
-        conditionsService: ConditionsService,
     ): void {
         const conditions: Array<ConditionGain> =
-            conditionsService.currentCreatureConditions(creature, characterService, creature.conditions, true)
+            this._conditionsService.currentCreatureConditions(creature, this._characterService, creature.conditions, true)
                 .filter(gain => gain.name === 'Cover' && gain.source === 'Quick Status');
         const lesserCover = conditions.find(gain => gain.name === 'Cover' && gain.choice === 'Lesser');
         const standardCover = conditions.find(gain => gain.name === 'Cover' && gain.choice === 'Standard');
@@ -78,15 +89,15 @@ export class AC {
         }
 
         if (lesserCover && cover !== CoverTypes.LesserCover) {
-            characterService.removeCondition(creature, lesserCover, false);
+            this._characterService.removeCondition(creature, lesserCover, false);
         }
 
         if (standardCover && cover !== CoverTypes.Cover) {
-            characterService.removeCondition(creature, standardCover, false);
+            this._characterService.removeCondition(creature, standardCover, false);
         }
 
         if (greaterCover && cover !== CoverTypes.GreaterCover) {
-            characterService.removeCondition(creature, greaterCover, false);
+            this._characterService.removeCondition(creature, greaterCover, false);
         }
 
         if (coverChoice) {
@@ -96,31 +107,29 @@ export class AC {
                     { name: 'Cover', choice: coverChoice, source: 'Quick Status', duration: -1, locked: true },
                 );
 
-            characterService.addCondition(creature, newCondition, {}, { noReload: true });
+            this._characterService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
-        characterService.refreshService.processPreparedChanges();
+        this._characterService.refreshService.processPreparedChanges();
     }
     public calculate(
         creature: Creature,
-        characterService: CharacterService,
-        defenseService: DefenseService,
-        effectsService: EffectsService,
     ): CalculatedAC {
-        const character = characterService.character;
-        const absolutes: Array<Effect> = this._absolutes(creature, effectsService);
-        const relatives: Array<Effect> = this._relatives(creature, character, effectsService);
+        const character = this._characterService.character;
+        const absolutes: Array<Effect> = this._absolutes(creature);
+        const relatives: Array<Effect> = this._relatives(creature, character);
 
         const result = {
             absolutes,
             relatives,
-            bonuses: this._bonuses(creature, effectsService),
-            penalties: this._penalties(creature, effectsService),
-            value: this._value(creature, characterService, defenseService, effectsService, absolutes, relatives),
+            bonuses: this._bonuses(creature),
+            penalties: this._penalties(creature),
+            value: this._value(creature, absolutes, relatives),
         };
 
         return result;
     }
+
     private _namesList(): Array<string> {
         return [
             'AC',
@@ -128,29 +137,32 @@ export class AC {
             'Dexterity-based Checks and DCs',
         ];
     }
-    private _absolutes(creature: Creature, effectsService: EffectsService): Array<Effect> {
-        return effectsService.absoluteEffectsOnThese(creature, this._namesList());
+
+    private _absolutes(creature: Creature): Array<Effect> {
+        return this._effectsService.absoluteEffectsOnThese(creature, this._namesList());
     }
-    private _relatives(creature: Creature, character: Character, effectsService: EffectsService): Array<Effect> {
+
+    private _relatives(creature: Creature, character: Character): Array<Effect> {
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         if (creature instanceof Familiar) {
             const effects =
-                effectsService.relativeEffectsOnThese(character, this._namesList())
+                this._effectsService.relativeEffectsOnThese(character, this._namesList())
                     .filter(effect => effect.type !== 'circumstance' && effect.type !== 'status')
                     .concat(
-                        ...effectsService.relativeEffectsOnThese(creature, this._namesList())
+                        ...this._effectsService.relativeEffectsOnThese(creature, this._namesList())
                             .filter(effect => effect.type === 'circumstance' || effect.type === 'status'),
                     );
 
             return effects;
         } else {
-            return effectsService.relativeEffectsOnThese(creature, this._namesList());
+            return this._effectsService.relativeEffectsOnThese(creature, this._namesList());
         }
     }
-    private _bonuses(creature: Creature, effectsService: EffectsService): boolean {
+
+    private _bonuses(creature: Creature): boolean {
         //We need to copy show_BonusesOnThese and adapt it because Familiars only apply their own status and circumstance effects.
         if (creature instanceof Familiar) {
-            return effectsService.effects(creature.type).bonuses.some(effect =>
+            return this._effectsService.effects(creature.type).bonuses.some(effect =>
                 effect.creature === creature.id &&
                 effect.apply &&
                 !effect.ignored &&
@@ -160,13 +172,14 @@ export class AC {
                     .includes(effect.target.toLowerCase()),
             );
         } else {
-            return effectsService.doBonusEffectsExistOnThese(creature, this._namesList());
+            return this._effectsService.doBonusEffectsExistOnThese(creature, this._namesList());
         }
     }
-    private _penalties(creature: Creature, effectsService: EffectsService): boolean {
+
+    private _penalties(creature: Creature): boolean {
         //We need to copy show_PenaltiesOnThese and adapt it because Familiars only apply their own status and circumstance effects.
         if (creature instanceof Familiar) {
-            return effectsService.effects(creature.type).penalties.some(effect =>
+            return this._effectsService.effects(creature.type).penalties.some(effect =>
                 effect.creature === creature.id &&
                 effect.apply &&
                 !effect.ignored &&
@@ -176,23 +189,21 @@ export class AC {
                     .includes(effect.target.toLowerCase()),
             );
         } else {
-            return effectsService.doPenaltyEffectsExistOnThese(creature, this._namesList());
+            return this._effectsService.doPenaltyEffectsExistOnThese(creature, this._namesList());
         }
     }
+
     private _value(
         creature: Creature,
-        characterService: CharacterService,
-        defenseService: DefenseService,
-        effectsService: EffectsService,
         absolutes: Array<Effect> = undefined,
         relatives: Array<Effect> = undefined,
     ): { result: number; explain: string } {
-        if (characterService.stillLoading) { return { result: 0, explain: '' }; }
+        if (this._characterService.stillLoading) { return { result: 0, explain: '' }; }
 
         //Get the bonus from the worn armor. This includes the basic 10
         let basicBonus = 10;
         let explain = 'DC Basis: 10';
-        const character: Character = characterService.character;
+        const character: Character = this._characterService.character;
         //Familiars calculate their AC based on the character.
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         const armorCreature: AnimalCompanion | Character =
@@ -200,7 +211,7 @@ export class AC {
         let clonedRelatives: Array<Effect>;
 
         if (relatives === undefined) {
-            clonedRelatives = this._relatives(creature, character, effectsService)
+            clonedRelatives = this._relatives(creature, character)
                 .map(relative => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(relative))).recast());
         } else {
             //Reassign the effects to unchain them from the calling function.
@@ -213,7 +224,7 @@ export class AC {
         let clonedAbsolutes: Array<Effect>;
 
         if (absolutes === undefined) {
-            clonedAbsolutes = this._absolutes(armorCreature, effectsService)
+            clonedAbsolutes = this._absolutes(armorCreature)
                 .map(absolute => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(absolute))).recast());
         } else {
             //Reassign the effects to unchain them from the calling function.
@@ -227,15 +238,15 @@ export class AC {
             explain = `${ effect.source }: ${ effect.setValue }`;
         });
 
-        const armors = defenseService.equippedCreatureArmor(armorCreature);
+        const armors = this._defenseService.equippedCreatureArmor(armorCreature);
 
         if (!isBaseArmorBonusSet && !!armors.length) {
             const armor = armors[0];
-            const charLevel = characterService.character.level;
-            const dex = characterService.abilities('Dexterity')[0].mod(armorCreature, characterService, effectsService).result;
+            const charLevel = this._characterService.character.level;
+            const dex = this._abilityValuesService.mod('Dexterity', armorCreature).result;
             //Get the profiency with either this armor or its category.
             //Familiars have the same AC as the Character before circumstance or status effects.
-            const skillLevel = armor.profLevel(armorCreature, characterService);
+            const skillLevel = armor.profLevel(armorCreature, this._characterService);
             let charLevelBonus = 0;
 
             if (skillLevel) {
@@ -248,14 +259,14 @@ export class AC {
             //Add the dexterity modifier up to the armor's dex cap, unless there is no cap
             let dexcap = armor.effectiveDexCap();
 
-            effectsService.absoluteEffectsOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
+            this._effectsService.absoluteEffectsOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
                 //The dexterity modifier should only become worse through effects.
                 if (dexcap === -1 || parseInt(effect.setValue, 10) < dexcap) {
                     dexcap = Math.max(0, parseInt(effect.setValue, 10));
                     explain += `\n${ effect.source }: Dexterity modifier cap ${ dexcap }`;
                 }
             });
-            effectsService.relativeEffectsOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
+            this._effectsService.relativeEffectsOnThis(armorCreature, 'Dexterity Modifier Cap').forEach(effect => {
                 //The dexterity modifier should only become worse through effects.
                 if (parseInt(effect.value, 10) < 0) {
                     dexcap = Math.max(0, dexcap + parseInt(effect.value, 10));
@@ -290,7 +301,7 @@ export class AC {
                         {
                             creature: armorCreature.type,
                             type: 'item',
-                            target: this.name,
+                            target: 'AC',
                             source: `Armor bonus${ potency ? ` (+${ potency } Potency)` : '' }`,
                             apply: true,
                             show: true,
@@ -305,7 +316,7 @@ export class AC {
                         {
                             creature: armorCreature.type,
                             type: 'item',
-                            target: this.name,
+                            target: 'AC',
                             source: 'Battleforged',
                             apply: true,
                             show: true,
@@ -322,7 +333,7 @@ export class AC {
                         {
                             creature: armorCreature.type,
                             type: 'item',
-                            target: this.name,
+                            target: 'AC',
                             source: 'Shoddy Armor',
                             penalty: true,
                             apply: true,
@@ -338,7 +349,7 @@ export class AC {
         //Sum up the effects
         let effectsSum = 0;
 
-        characterService.effectsService.reduceEffectsByType(clonedRelatives)
+        this._characterService.effectsService.reduceEffectsByType(clonedRelatives)
             .forEach(effect => {
                 effectsSum += parseInt(effect.value, 10);
                 explain += `\n${ effect.source }: ${ effect.value }`;
@@ -349,4 +360,5 @@ export class AC {
 
         return { result, explain };
     }
+
 }

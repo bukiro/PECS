@@ -7,10 +7,8 @@ import { Rune } from 'src/app/classes/Rune';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Weapon } from 'src/app/classes/Weapon';
-import { TimeService } from 'src/app/services/time.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
-import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -40,11 +38,9 @@ export class ItemBladeAllyComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
-        private readonly _timeService: TimeService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _spellsService: SpellsService,
         private readonly _conditionsService: ConditionsService,
-        private readonly _typeService: TypeService,
         public trackers: Trackers,
     ) { }
 
@@ -163,7 +159,7 @@ export class ItemBladeAllyComponent implements OnInit {
                 //Add a copy of the rune to the item
                 weapon.bladeAllyRunes[0] =
                     Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune)))
-                        .recast(this._typeService, this._itemsService);
+                        .recast(this._itemsService);
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }

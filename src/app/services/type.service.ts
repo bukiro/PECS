@@ -96,7 +96,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 })
 export class TypeService {
 
-    public classCast(obj: any, className: string): any {
+    public static classCast(obj: any, className: string): any {
         //This function tries to cast an object according to the given class name.
         switch (className) {
             case 'AbilityChoice': return Object.assign(new AbilityChoice(), obj);
@@ -191,7 +191,7 @@ export class TypeService {
         }
     }
 
-    public merge<T>(target: T, source: Partial<T>): T {
+    public static merge<T>(target: T, source: Partial<T>): T {
         const output = Object.assign(new (target.constructor as any)(), JSON.parse(JSON.stringify(target)));
 
         if (Array.isArray(source)) {
@@ -199,7 +199,7 @@ export class TypeService {
                 if (!output[index]) {
                     Object.assign(output, { [index]: JSON.parse(JSON.stringify(source[index])) });
                 } else {
-                    output[index] = this.merge(target[index], source[index]);
+                    output[index] = TypeService.merge(target[index], source[index]);
                 }
             });
         } else {
@@ -208,7 +208,7 @@ export class TypeService {
                     if (!Object.prototype.hasOwnProperty.call(target, key)) {
                         Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
                     } else {
-                        output[key] = this.merge(target[key], source[key]);
+                        output[key] = TypeService.merge(target[key], source[key]);
                     }
                 } else {
                     Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
@@ -219,7 +219,7 @@ export class TypeService {
         return output;
     }
 
-    public restoreItem(object: Item, itemsService: ItemsService = null): Item {
+    public static restoreItem(object: Item, itemsService: ItemsService = null): Item {
         if (itemsService && object.refId && !object.restoredFromSave) {
             const libraryItem = itemsService.cleanItemByID(object.refId);
             let mergedObject = object;
@@ -227,7 +227,7 @@ export class TypeService {
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    mergedObject = this.merge(libraryItem, mergedObject) as typeof libraryItem;
+                    mergedObject = TypeService.merge(libraryItem, mergedObject) as typeof libraryItem;
                     mergedObject = itemsService.castItemByType(mergedObject, libraryItem.type);
 
                     //Disable any active hint effects when loading an item.

@@ -6,7 +6,7 @@ import { ExtensionsService } from 'src/app/services/extensions.service';
 @Injectable({
     providedIn: 'root',
 })
-export class SkillsService {
+export class SkillsDataService {
     private _skills: Array<Skill> = [];
     private _tempSkills: Array<Skill> = [];
     private _initialized = false;

@@ -6,7 +6,6 @@ import { TimeService } from 'src/app/services/time.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
-import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -97,7 +96,6 @@ export class ItemRunesComponent implements OnInit {
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _spellsService: SpellsService,
         private readonly _conditionsService: ConditionsService,
-        private readonly _typeService: TypeService,
         private readonly _itemRolesService: ItemRolesService,
         public trackers: Trackers,
     ) { }
@@ -277,7 +275,7 @@ export class ItemRunesComponent implements OnInit {
                                     : new WeaponRune()
                             ),
                             JSON.parse(JSON.stringify(rune)),
-                        ).recast(this._typeService, this._itemsService));
+                        ).recast(this._itemsService));
                 const newRune = item.propertyRunes[newLength - 1];
 
                 newRune.amount = 1;

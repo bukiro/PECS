@@ -27,6 +27,7 @@ import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -104,6 +105,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _effectsService: EffectsService,
         private readonly _conditionsService: ConditionsService,
+        private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -179,9 +181,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public spellDCs(): Array<Skill> {
+        const character = this._character;
+
         return this._characterService
             .skills(this._character, '', { type: 'Spell DC' })
-            .filter(skill => skill.level(this._character, this._characterService) > 0);
+            .filter(skill => this._skillValuesService.level(skill, character, character.level) > 0);
     }
 
     public componentParameters(): ComponentParameters {

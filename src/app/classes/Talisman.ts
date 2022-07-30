@@ -17,8 +17,8 @@ export class Talisman extends Consumable {
      */
     public targets: Array<string> = [];
     public trigger = '';
-    public recast(typeService: TypeService, itemsService: ItemsService): Talisman {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Talisman {
+        super.recast(itemsService);
 
         return this;
     }

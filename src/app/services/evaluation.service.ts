@@ -20,6 +20,7 @@ import { FeatTaken } from '../character-creation/definitions/models/FeatTaken';
 import { Deity as DeityModel } from '../classes/Deity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -48,6 +49,7 @@ export class EvaluationService {
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _familiarsService: FamiliarsService,
         private readonly _abilityValuesService: AbilityValuesService,
+        private readonly _skillValuesService: SkillValuesService,
     ) { }
 
     public valueFromFormula(
@@ -157,15 +159,13 @@ export class EvaluationService {
             Creature.effectiveSize(effectsService, { asNumber })
         );
         const Skill = (name: string): number => (
-            characterService.skills(Creature, name)[0]
-                ?.baseValue(Creature, characterService, abilitiesService, effectsService, Level).result
+            this._skillValuesService.baseValue(name, Creature, Level).result
         );
         const Skill_Level = (name: string): number => {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                return characterService.skills(Creature, name)[0]
-                    ?.level(Creature, characterService, Level);
+                this._skillValuesService.level(name, Creature, Level);
             }
         };
         const Skills_Of_Type = (name: string): Array<SkillModel> => (

@@ -45,12 +45,12 @@ export class Creature {
     public bulk: Bulk = new Bulk();
     public notes = '';
     public skillNotes: Array<SkillNotes> = [];
-    public recast(typeService: TypeService, itemsService: ItemsService): Creature {
+    public recast(itemsService: ItemsService): Creature {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.health = Object.assign(new Health(), this.health).recast();
         this.conditions = this.conditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.inventories = this.inventories.map(obj => Object.assign(new ItemCollection(), obj).recast(typeService, itemsService));
+        this.inventories = this.inventories.map(obj => Object.assign(new ItemCollection(), obj).recast(itemsService));
         this.speeds = this.speeds.map(obj => Object.assign(new Speed(), obj).recast());
         this.bulk = Object.assign(new Bulk(), this.bulk).recast();
 

@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Class } from 'src/app/classes/Class';
 import * as json_classes from 'src/assets/json/classes';
 import { ExtensionsService } from 'src/app/services/extensions.service';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
+import { TypeService } from './type.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +16,6 @@ export class ClassesService {
     private readonly _classesMap = new Map<string, Class>();
 
     constructor(
-        private readonly _typeService: TypeService,
         private readonly _itemsService: ItemsService,
         private readonly _extensionsService: ExtensionsService,
     ) { }
@@ -50,7 +49,7 @@ export class ClassesService {
                 //Make a safe copy of the library object.
                 //Then map the restored object onto the copy and keep that.
                 try {
-                    restoredClass = this._typeService.merge(libraryObject, classObj);
+                    restoredClass = TypeService.merge(libraryObject, classObj);
                 } catch (e) {
                     console.error(`Failed restoring class: ${ e }`);
                 }
@@ -114,7 +113,7 @@ export class ClassesService {
         Object.keys(data).forEach(key => {
             this._classes.push(
                 ...data[key].map((obj: Class) =>
-                    Object.assign(new Class(), obj).recast(this._typeService, this._itemsService),
+                    Object.assign(new Class(), obj).recast(this._itemsService),
                 ),
             );
         });

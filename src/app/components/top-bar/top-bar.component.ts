@@ -7,7 +7,6 @@ import { MessageService } from 'src/app/services/message.service';
 import { TimeService } from 'src/app/services/time.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { ConfigService } from 'src/app/services/config.service';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
@@ -57,7 +56,6 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _toastService: ToastService,
         private readonly _modalService: NgbModal,
-        private readonly _typeService: TypeService,
         private readonly _itemsService: ItemsService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
@@ -291,7 +289,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
             .map(message => Object.assign(
                 new PlayerMessage(),
                 JSON.parse(JSON.stringify(message)),
-            ).recast(this._typeService, this._itemsService));
+            ).recast(this._itemsService));
 
         this._modalService
             .open(this._newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' })

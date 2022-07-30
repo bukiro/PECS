@@ -63,21 +63,21 @@ export class WornItem extends Equipment {
     public set secondaryRune(value: BasicRuneLevels) {
         this.strikingRune = value;
     }
-    public recast(typeService: TypeService, itemsService: ItemsService): WornItem {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): WornItem {
+        super.recast(itemsService);
         this.aeonStones =
             this.aeonStones.map(obj =>
                 Object.assign<WornItem, Item>(
                     new WornItem(),
-                    typeService.restoreItem(obj, itemsService),
-                ).recast(typeService, itemsService),
+                    TypeService.restoreItem(obj, itemsService),
+                ).recast(itemsService),
             );
         this.propertyRunes =
             this.propertyRunes.map(obj =>
                 Object.assign<WeaponRune, Item>(
                     new WeaponRune(),
-                    typeService.restoreItem(obj, itemsService),
-                ).recast(typeService, itemsService),
+                    TypeService.restoreItem(obj, itemsService),
+                ).recast(itemsService),
             );
 
         const goldRingIndex = 0;

@@ -16,8 +16,8 @@ export class AdventuringGear extends Equipment {
     public stack = 1;
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage = '';
-    public recast(typeService: TypeService, itemsService: ItemsService): AdventuringGear {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): AdventuringGear {
+        super.recast(itemsService);
 
         return this;
     }

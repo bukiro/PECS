@@ -19,6 +19,8 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { Snare } from 'src/app/classes/Snare';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 
 const itemsPerPage = 40;
 
@@ -53,6 +55,8 @@ export class CraftingComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
+        private readonly _skillValuesService: SkillValuesService,
+        private readonly _weaponPropertiesService: WeaponPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -238,7 +242,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
         if (item.level >= masterRequiringLevel) {
             const craftingSkillLevel =
-                this._characterService.skills(character, 'Crafting')[0]?.level(character, this._characterService, character.level) || 0;
+                this._skillValuesService.level('Crafting', character, character.level) || 0;
 
             if (item.level >= legendaryRequiringLevel && craftingSkillLevel < SkillLevels.Legendary) {
                 reasons.push('You must be legendary in Crafting to craft items of 16th level or higher.');
@@ -271,7 +275,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
             let available = 0;
             const character = this._character;
             const craftingSkillLevel =
-                this._characterService.skills(character, 'Crafting')[0]?.level(character, this._characterService, character.level) || 0;
+                this._skillValuesService.level('Crafting', character, character.level) || 0;
             const ubiquitousSnaresMultiplier = 2;
 
             switch (craftingSkillLevel) {
@@ -347,13 +351,14 @@ export class CraftingComponent implements OnInit, OnDestroy {
         const character = this._character;
 
         if (itemRoles.asWeapon) {
-            return itemRoles.asWeapon.profLevel(
-                character,
-                this._characterService,
-                itemRoles.asWeapon,
-                character.level,
-                { preparedProficiency: proficiency },
-            ) > 0;
+            return this._weaponPropertiesService
+                .profLevel(
+                    itemRoles.asWeapon,
+                    character,
+                    itemRoles.asWeapon,
+                    character.level,
+                    { preparedProficiency: proficiency },
+                ) > 0;
         }
 
         if (itemRoles.asArmor) {

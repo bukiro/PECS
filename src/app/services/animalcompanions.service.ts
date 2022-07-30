@@ -25,7 +25,6 @@ export class AnimalCompanionsService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
-        private readonly _typeService: TypeService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -59,7 +58,7 @@ export class AnimalCompanionsService {
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredAncestry = this._typeService.merge<AnimalCompanionAncestry>(libraryObject, ancestry);
+                    restoredAncestry = TypeService.merge<AnimalCompanionAncestry>(libraryObject, ancestry);
                 } catch (e) {
                     console.error(`Failed restoring animal companion ancestry: ${ e }`);
                 }
@@ -94,7 +93,7 @@ export class AnimalCompanionsService {
 
             if (libraryObject) {
                 try {
-                    $class.levels = this._typeService.merge<Array<AnimalCompanionLevel>>(libraryObject, $class.levels);
+                    $class.levels = TypeService.merge<Array<AnimalCompanionLevel>>(libraryObject, $class.levels);
                 } catch (e) {
                     console.error(`Failed restoring animal companion levels: ${ e }`);
                 }
@@ -135,7 +134,7 @@ export class AnimalCompanionsService {
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredSpecialization = this._typeService.merge(libraryObject, spec);
+                    restoredSpecialization = TypeService.merge(libraryObject, spec);
                 } catch (e) {
                     console.error(`Failed restoring animal companion specialization: ${ e }`);
                 }

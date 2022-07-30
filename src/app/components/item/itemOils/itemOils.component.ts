@@ -6,7 +6,6 @@ import { Oil } from 'src/app/classes/Oil';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { TimeService } from 'src/app/services/time.service';
 import { Weapon } from 'src/app/classes/Weapon';
-import { TypeService } from 'src/app/services/type.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -40,7 +39,6 @@ export class ItemOilsComponent {
         private readonly _itemsService: ItemsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
-        private readonly _typeService: TypeService,
         public trackers: Trackers,
     ) { }
 
@@ -104,7 +102,7 @@ export class ItemOilsComponent {
                 Object.assign(
                     new Oil(),
                     JSON.parse(JSON.stringify(this.newOil.oil)),
-                ).recast(this._typeService, this._itemsService),
+                ).recast(this._itemsService),
             );
 
             if (this.newOil.inv) {

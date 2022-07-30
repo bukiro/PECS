@@ -2,14 +2,12 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, O
 import { DefenseService } from 'src/app/services/defense.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { Armor } from 'src/app/classes/Armor';
-import { EffectsService } from 'src/app/services/effects.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Talisman } from 'src/app/classes/Talisman';
 import { Shield } from 'src/app/classes/Shield';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConditionsService } from 'src/app/services/conditions.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { Hint } from 'src/app/classes/Hint';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
@@ -18,13 +16,13 @@ import { Subscription } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
-import { AC, CalculatedAC, CoverTypes } from 'src/app/classes/AC';
 import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { ArmorClassService, CalculatedAC, CoverTypes } from '../../services/armor-class/armor-class.service';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -55,9 +53,8 @@ export class DefenseComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _defenseService: DefenseService,
         private readonly _traitsService: TraitsService,
-        private readonly _conditionsService: ConditionsService,
-        private readonly _effectsService: EffectsService,
         private readonly _toastService: ToastService,
+        private readonly _armorClassService: ArmorClassService,
         public trackers: Trackers,
     ) { }
 
@@ -82,10 +79,6 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     private get _currentCreature(): Creature {
         return this._characterService.creatureFromType(this.creature);
-    }
-
-    private get _armorClass(): AC {
-        return this._defenseService.armorClass;
     }
 
     public minimize(): void {
@@ -115,11 +108,11 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public calculatedAC(): CalculatedAC {
-        return this._armorClass.calculate(this._currentCreature, this._characterService, this._defenseService, this._effectsService);
+        return this._armorClassService.calculate(this._currentCreature);
     }
 
     public onSetCover(cover: number, shield: Shield = null): void {
-        this._armorClass.setCover(this._currentCreature, cover, shield, this._characterService, this._conditionsService);
+        this._armorClassService.setCover(this._currentCreature, cover, shield);
     }
 
     public onRaiseShield(raised = false, shield: Shield): void {

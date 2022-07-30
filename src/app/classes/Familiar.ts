@@ -26,8 +26,8 @@ export class Familiar extends Creature {
     public senses: Array<string> = ['Low-Light Vision'];
     public species = '';
     public traits: Array<string> = ['Minion'];
-    public recast(typeService: TypeService, itemsService: ItemsService): Familiar {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Familiar {
+        super.recast(itemsService);
         this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
 
         return this;

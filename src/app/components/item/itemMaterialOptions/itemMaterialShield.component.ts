@@ -10,6 +10,7 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 
 interface ShieldMaterialSet {
     material: ShieldMaterial;
@@ -38,6 +39,7 @@ export class ItemMaterialShieldComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
+        private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -93,7 +95,7 @@ export class ItemMaterialShieldComponent implements OnInit {
 
             charLevel = character.level;
             craftingLevel =
-                this._characterService.skills(character, 'Crafting')[0]?.level(character, this._characterService, character.level) || 0;
+                this._skillValuesService.level('Crafting', character, character.level) || 0;
         }
 
         //Disable all materials whose requirements are not met.

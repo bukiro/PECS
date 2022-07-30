@@ -55,8 +55,8 @@ export class Shield extends Equipment {
     public $emblazonAntimagic = false;
     /** Shoddy shields take a -2 penalty to AC. */
     public $shoddy: ShoddyPenalties.NotShoddy | ShoddyPenalties.Shoddy = ShoddyPenalties.NotShoddy;
-    public recast(typeService: TypeService, itemsService: ItemsService): Shield {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Shield {
+        super.recast(itemsService);
         this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
 
         return this;

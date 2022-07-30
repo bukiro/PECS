@@ -33,15 +33,15 @@ export class Oil extends Consumable {
     /** You can only choose this oil for an item if its type or "items" is in the targets list */
     public targets: Array<string> = [];
     public weightLimit = 0;
-    public recast(typeService: TypeService, itemsService: ItemsService): Oil {
-        super.recast(typeService, itemsService);
+    public recast(itemsService: ItemsService): Oil {
+        super.recast(itemsService);
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.runeEffect = this.runeEffect
             ? Object.assign<WeaponRune, Item>(
                 new WeaponRune(),
-                typeService.restoreItem(this.runeEffect, itemsService),
-            ).recast(typeService, itemsService)
+                TypeService.restoreItem(this.runeEffect, itemsService),
+            ).recast(itemsService)
             : null;
 
         return this;
