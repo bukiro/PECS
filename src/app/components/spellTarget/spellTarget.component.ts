@@ -21,7 +21,7 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
-import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;

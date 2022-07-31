@@ -12,7 +12,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature, SkillNotes } from 'src/app/classes/Creature';
 import { Activity } from 'src/app/classes/Activity';
 import { CalculatedSkill, SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;

@@ -15,7 +15,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;

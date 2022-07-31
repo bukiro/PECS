@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
-import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { Activity } from '../classes/Activity';
 import { ActivityGain } from '../classes/ActivityGain';
 import { ConditionGain } from '../classes/ConditionGain';

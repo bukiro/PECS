@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { Activity } from '../classes/Activity';
 import { ActivityGain } from '../classes/ActivityGain';
 import { Creature } from '../classes/Creature';

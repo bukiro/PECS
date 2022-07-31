@@ -14,7 +14,7 @@ import { Activity } from 'src/app/classes/Activity';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemRolesService } from 'src/app/services/itemRoles.service';
 import { Rune } from 'src/app/classes/Rune';
-import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 
 interface ItemParameters {
     item: Item;

@@ -6,7 +6,7 @@ import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
-import { Defaults } from '../definitions/defaults';
+import { Defaults } from '../../definitions/defaults';
 
 @Injectable({
     providedIn: 'root',

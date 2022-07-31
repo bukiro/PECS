@@ -17,7 +17,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 
 interface SpeedParameters {
     name: string;
