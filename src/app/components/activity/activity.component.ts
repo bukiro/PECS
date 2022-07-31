@@ -29,6 +29,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -83,6 +84,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _itemsService: ItemsService,
         private readonly _conditionsService: ConditionsService,
         private readonly _effectsService: EffectsService,
+        private readonly _activityPropertyService: ActivityPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -100,7 +102,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public activityParameters(): ActivityParameters {
         const creature = this._currentCreature();
-        const maxCharges = this.activity.maxCharges({ creature }, { effectsService: this._effectsService });
+        const maxCharges = this._activityPropertyService.maxCharges(this.activity, { creature });
         const hasTooManySlottedAeonStones =
             (
                 this.item instanceof WornItem &&
@@ -110,12 +112,11 @@ export class ActivityComponent implements OnInit, OnDestroy {
         const isResonantAllowed =
             (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !hasTooManySlottedAeonStones);
 
+        this._activityPropertyService.cacheEffectiveCooldown(this.activity, { creature });
+
         return {
             maxCharges,
-            cooldown: this.activity.effectiveCooldown(
-                { creature },
-                { characterService: this._characterService, effectsService: this._effectsService },
-            ),
+            cooldown: this.activity.$cooldown,
             disabled: this.gain?.disabled(
                 { creature, maxCharges },
                 { effectsService: this._effectsService, timeService: this._timeService },

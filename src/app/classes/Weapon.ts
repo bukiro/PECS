@@ -14,6 +14,7 @@ import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficien
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { Familiar } from './Familiar';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
+import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 
 interface EmblazonArmamentSet {
     type: string;
@@ -84,6 +85,7 @@ export class Weapon extends Equipment {
     public $traits: Array<string> = [];
     /** Shoddy weapons take a -2 penalty to attacks. */
     public $shoddy: ShoddyPenalties = ShoddyPenalties.NotShoddy;
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = StrikingTitleFromLevel;
     public get secondaryRune(): BasicRuneLevels {
         return this.strikingRune;
     }
@@ -312,11 +314,8 @@ export class Weapon extends Equipment {
     public hasProficiencyChanged(currentProficiency: string): boolean {
         return currentProficiency !== this.prof;
     }
-    public secondaryRuneTitle(secondary: number): string {
-        return this.strikingTitle(secondary);
-    }
     protected _secondaryRuneName(): string {
-        return this.strikingTitle(this.effectiveStriking());
+        return this.secondaryRuneTitleFunction(this.effectiveStriking());
     }
     protected _bladeAllyName(): Array<string> {
         const words: Array<string> = [];

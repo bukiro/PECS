@@ -163,10 +163,9 @@ export class Item {
     public gridIconValue(): string {
         return this.subType[0] || '';
     }
-    //Other implementations require creature and characterService.
+    //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public effectiveTraits(characterService: CharacterService, creature: Creature): Array<string> {
-        //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
         this.$traits = this.traits;
 
         return this.$traits;

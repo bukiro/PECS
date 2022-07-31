@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 import { Activity } from '../classes/Activity';
 import { ActivityGain } from '../classes/ActivityGain';
 import { ConditionGain } from '../classes/ConditionGain';
@@ -30,6 +31,7 @@ export class ActivitiesProcessingService {
     constructor(
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
+        private readonly _activityPropertyService: ActivityPropertiesService,
     ) { }
 
     public activateActivity(
@@ -152,20 +154,16 @@ export class ActivitiesProcessingService {
 
         // Start cooldown, unless one is already in effect.
         if (!context.gain.activeCooldown) {
-            const cooldown =
-                activity.effectiveCooldown(
-                    { creature: context.creature },
-                    { characterService: services.characterService, effectsService: services.effectsService },
-                );
+            this._activityPropertyService.cacheEffectiveCooldown(activity, context);
 
-            if (cooldown) {
-                context.gain.activeCooldown = cooldown;
+            if (activity.$cooldown) {
+                context.gain.activeCooldown = activity.$cooldown;
             }
         }
 
         // Use charges
         const maxCharges =
-            activity.maxCharges({ creature: context.creature }, { effectsService: services.effectsService });
+            this._activityPropertyService.maxCharges(activity, context);
 
         if (maxCharges || context.gain.sharedChargesID) {
             // If this activity belongs to an item and has a sharedCharges ID,
@@ -174,44 +172,35 @@ export class ActivitiesProcessingService {
                 context.item.activities
                     .filter(itemActivity => itemActivity.sharedChargesID === context.gain.sharedChargesID)
                     .forEach(itemActivity => {
-                        if (itemActivity.maxCharges(
-                            { creature: context.creature },
-                            { effectsService: services.effectsService },
-                        )) {
+                        if (
+                            this._activityPropertyService.maxCharges(itemActivity, context)
+                        ) {
                             itemActivity.chargesUsed += 1;
                         }
 
-                        const otherCooldown =
-                            itemActivity.effectiveCooldown(
-                                { creature: context.creature },
-                                { characterService: services.characterService, effectsService: services.effectsService },
-                            );
+                        this._activityPropertyService.cacheEffectiveCooldown(itemActivity, context);
 
-                        if (!itemActivity.activeCooldown && otherCooldown) {
-                            itemActivity.activeCooldown = otherCooldown;
+                        if (!itemActivity.activeCooldown && itemActivity.$cooldown) {
+                            itemActivity.activeCooldown = itemActivity.$cooldown;
                         }
                     });
                 context.item instanceof Equipment && context.item.gainActivities
                     .filter(activityGain => activityGain.sharedChargesID === context.gain.sharedChargesID)
                     .forEach(activityGain => {
-                        const originalActivity = this._activitiesDataService.activities(activityGain.name)[0];
+                        const originalActivity = activityGain.originalActivity(this._activitiesDataService);
 
-                        if (originalActivity?.maxCharges(
-                            { creature: context.creature },
-                            { effectsService: services.effectsService },
-                        )) {
-                            activityGain.chargesUsed += 1;
+                        if (originalActivity.name === activityGain.name) {
+                            if (this._activityPropertyService.maxCharges(originalActivity, context)) {
+                                activityGain.chargesUsed += 1;
+                            }
+
+                            this._activityPropertyService.cacheEffectiveCooldown(originalActivity, context);
+
+                            if (!activityGain.activeCooldown && originalActivity.$cooldown) {
+                                activityGain.activeCooldown = originalActivity.$cooldown;
+                            }
                         }
 
-                        const otherCooldown =
-                            originalActivity?.effectiveCooldown(
-                                { creature: context.creature },
-                                { characterService: services.characterService, effectsService: services.effectsService },
-                            ) || 0;
-
-                        if (!activityGain.activeCooldown && otherCooldown) {
-                            activityGain.activeCooldown = otherCooldown;
-                        }
                     });
             } else if (maxCharges) {
                 context.gain.chargesUsed += 1;
@@ -695,15 +684,11 @@ export class ActivitiesProcessingService {
         }
 
         if (activity.cooldownAfterEnd) {
-            const cooldown =
-                activity.effectiveCooldown(
-                    { creature: context.creature },
-                    { characterService: services.characterService, effectsService: services.effectsService },
-                );
+            this._activityPropertyService.cacheEffectiveCooldown(activity, context);
 
             // If the activity ends and cooldownAfterEnd is set, start the cooldown anew.
-            if (cooldown) {
-                context.gain.activeCooldown = cooldown;
+            if (activity.$cooldown) {
+                context.gain.activeCooldown = activity.$cooldown;
             }
         }
 

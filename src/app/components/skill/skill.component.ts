@@ -1,7 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { EffectsService } from 'src/app/services/effects.service';
 import { Skill } from 'src/app/classes/Skill';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -14,6 +12,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature, SkillNotes } from 'src/app/classes/Creature';
 import { Activity } from 'src/app/classes/Activity';
 import { CalculatedSkill, SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -54,10 +53,9 @@ export class SkillComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _abilitiesDataService: AbilitiesDataService,
-        private readonly _effectsService: EffectsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -121,7 +119,7 @@ export class SkillComponent implements OnInit, OnDestroy {
     public relatedActivityParameters(): Array<ActivityParameters> {
         return this.relatedActivityGains.map(gain => {
             const activity = gain.originalActivity(this._activitiesDataService);
-            const maxCharges = activity.maxCharges({ creature: this._currentCreature }, { effectsService: this._effectsService });
+            const maxCharges = this._activityPropertiesService.maxCharges(activity, { creature: this._currentCreature });
 
             return {
                 gain,

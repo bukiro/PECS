@@ -15,6 +15,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -57,6 +58,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         private readonly _itemsService: ItemsService,
         private readonly _conditionsService: ConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
+        private readonly _activityPropertyService: ActivityPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -218,23 +220,24 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     public conditionActivitiesParameters(): Array<ActivityParameters> {
         if (this.conditionGain) {
-            this.conditionGain.gainActivities.forEach(activityGain => {
-                activityGain.heightened = this.conditionGain.heightened;
-                activityGain.originalActivity(this._activitiesDataService)?.effectiveCooldown(
-                    { creature: this._currentCreature },
-                    { characterService: this._characterService, effectsService: this._effectsService },
-                );
-            });
-
             return this.conditionGain.gainActivities.map(gain => {
-                const activity = this._activityFromName(gain.name);
-                const maxCharges = activity.maxCharges({ creature: this._currentCreature }, { effectsService: this._effectsService });
+
+                gain.heightened = this.conditionGain.heightened;
+
+                const originalActivity = gain.originalActivity(this._activitiesDataService);
+
+                this._activityPropertyService.cacheEffectiveCooldown(
+                    originalActivity,
+                    { creature: this._currentCreature },
+                );
+
+                const maxCharges = this._activityPropertyService.maxCharges(originalActivity, { creature: this._currentCreature });
                 const canNotActivate = ((gain.activeCooldown ? (maxCharges === gain.chargesUsed) : false) && !gain.active);
-                const isHostile = activity.isHostile();
+                const isHostile = originalActivity.isHostile();
 
                 return {
                     gain,
-                    activity,
+                    activity: originalActivity,
                     maxCharges,
                     canNotActivate,
                     isHostile,

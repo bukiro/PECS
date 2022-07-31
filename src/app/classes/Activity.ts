@@ -3,13 +3,9 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Hint } from 'src/app/classes/Hint';
-import { CharacterService } from 'src/app/services/character.service';
-import { Creature } from 'src/app/classes/Creature';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
-import { EffectsService } from 'src/app/services/effects.service';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
 
 export enum ActivityTargetOptions {
     Companion = 'companion',
@@ -124,6 +120,7 @@ export class Activity {
     public $charges = 0;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly = false;
+
     public recast(): Activity {
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
@@ -149,6 +146,7 @@ export class Activity {
 
         return this;
     }
+
     public activationTraits(): Array<string> {
         return Array.from(new Set([].concat(...this.activationType.split(',')
             .map(activationType => {
@@ -168,6 +166,7 @@ export class Activity {
             }))),
         );
     }
+
     public canActivate(): boolean {
         //Test any circumstance under which this can be activated
         return (this.traits.includes('Stance')) ||
@@ -181,6 +180,7 @@ export class Activity {
             this.toggle ||
             !!this.onceEffects.length;
     }
+
     public isHostile(ignoreOverride = false): boolean {
         //Return whether an activity is meant to be applied on enemies.
         //This is usually the case if the activity target is "other", or if the target is "area" and the activity has no target conditions.
@@ -203,123 +203,7 @@ export class Activity {
             )
         );
     }
-    public allowedTargetNumber(levelNumber: number, characterService: CharacterService): number {
-        //You can select any number of targets for an area spell.
-        if (this.target === ActivityTargetOptions.Area) {
-            return -1;
-        }
 
-        const character = characterService.character;
-        let targetNumberResult: SpellTargetNumber;
-
-        // This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any).
-        // Prefer targetNumbers with required feats over those without.
-        // If no targetNumbers are configured, return 1 for an ally activity and 0 for any other, and if none have a minLevel,
-        // return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
-        if (this.targetNumbers.length) {
-            if (this.targetNumbers.some(targetNumber => !!targetNumber.minLevel)) {
-                let remainingLevelNumber = levelNumber;
-
-                for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
-                    if (this.targetNumbers.some(targetNumber => targetNumber.minLevel === remainingLevelNumber)) {
-                        targetNumberResult =
-                            this.targetNumbers.find(targetNumber =>
-                                (targetNumber.minLevel === remainingLevelNumber) &&
-                                (
-                                    targetNumber.featreq &&
-                                    characterService.characterFeatsTaken(1, character.level, { featName: targetNumber.featreq }).length
-                                ));
-
-                        if (!targetNumberResult) {
-                            targetNumberResult = this.targetNumbers.find(targetNumber => targetNumber.minLevel === remainingLevelNumber);
-                        }
-
-                        if (targetNumberResult) {
-                            return targetNumberResult.number;
-                        }
-                    }
-                }
-
-                return this.targetNumbers[0].number;
-            } else {
-                targetNumberResult =
-                    this.targetNumbers.find(targetNumber =>
-                        targetNumber.featreq &&
-                        !!characterService.characterFeatsTaken(1, character.level, { featName: targetNumber.featreq }).length,
-                    );
-
-                return targetNumberResult?.number || this.targetNumbers[0].number;
-            }
-        } else {
-            if (this.target === ActivityTargetOptions.Ally) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-    }
-    public maxCharges(context: { creature: Creature }, services: { effectsService: EffectsService }): number {
-        //Add any effects to the number of charges you have. If you have none, start with 1, and if the result then remains 1, return 0.
-        let charges = this.charges;
-        let isStartingWithZero = false;
-
-        if (charges === 0) {
-            isStartingWithZero = true;
-            charges = 1;
-        }
-
-        services.effectsService.absoluteEffectsOnThis(context.creature, `${ this.name } Charges`)
-            .forEach(effect => {
-                charges = parseInt(effect.setValue, 10);
-            });
-        services.effectsService.relativeEffectsOnThis(context.creature, `${ this.name } Charges`)
-            .forEach(effect => {
-                charges += parseInt(effect.value, 10);
-            });
-
-        if (isStartingWithZero && charges === 1) {
-            this.$charges = 0;
-
-            return 0;
-        } else {
-            this.$charges = charges;
-
-            return charges;
-        }
-    }
-    public effectiveCooldown(
-        context: { creature: Creature },
-        services: { characterService: CharacterService; effectsService: EffectsService },
-    ): number {
-        //Add any effects to the activity's cooldown.
-        let cooldown = this.cooldown;
-
-        //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.
-        services.effectsService.absoluteEffectsOnThese(context.creature, [`${ this.name } Cooldown`], { lowerIsBetter: true })
-            .sort((a, b) => parseInt(b.setValue, 10) - parseInt(a.setValue, 10))
-            .forEach(effect => {
-                cooldown = parseInt(effect.setValue, 10);
-            });
-        //Use get_RelativesOnThese() because it allows to prefer lower values. We still sort the effects in descending value.
-        services.effectsService.relativeEffectsOnThese(context.creature, [`${ this.name } Cooldown`], { lowerIsBetter: true })
-            .sort((a, b) => parseInt(b.value, 10) - parseInt(a.value, 10))
-            .forEach(effect => {
-                cooldown += parseInt(effect.value, 10);
-            });
-        this.$cooldown = cooldown;
-
-        // If the cooldown has changed from the original,
-        // update all activity gains that refer to this condition to lower their cooldown if necessary.
-        if (this.cooldown !== cooldown) {
-            services.characterService.creatureOwnedActivities(context.creature, Defaults.maxCharacterLevel, true)
-                .filter(gain => gain.name === this.name)
-                .forEach(gain => {
-                    gain.activeCooldown = Math.min(gain.activeCooldown, cooldown);
-                });
-        }
-
-        return cooldown;
-    }
     public heightenedText(text: string, levelNumber: number): string {
         // For an arbitrary text (usually the activity description or the saving throw result descriptions),
         // retrieve the appropriate description set for this level and replace the variables with the included strings.
@@ -333,6 +217,7 @@ export class Activity {
 
         return heightenedText;
     }
+
     private _effectiveDescriptionSet(levelNumber: number): HeightenedDescSet {
         //This descends from levelnumber downwards and returns the first description set with a matching level.
         //A description set contains variable names and the text to replace them with.
@@ -348,6 +233,7 @@ export class Activity {
 
         return new HeightenedDescSet();
     }
+
     private _hasTargetConditions(): boolean {
         return this.gainConditions.some(gain => gain.targetFilter !== 'caster');
     }

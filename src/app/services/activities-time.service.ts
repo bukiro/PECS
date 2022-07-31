@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 import { Activity } from '../classes/Activity';
 import { ActivityGain } from '../classes/ActivityGain';
 import { Creature } from '../classes/Creature';
@@ -21,6 +22,7 @@ export class ActivitiesTimeService {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _refreshService: RefreshService,
+        private readonly _activityPropertyService: ActivityPropertiesService,
     ) { }
 
     public restActivities(creature: Creature, characterService: CharacterService): void {
@@ -47,13 +49,10 @@ export class ActivitiesTimeService {
                     );
                 }
 
+                this._activityPropertyService.cacheEffectiveCooldown(activity, { creature });
+
                 if (
-                    [TimePeriods.Day, TimePeriods.UntilRest].includes(
-                        activity.effectiveCooldown(
-                            { creature },
-                            { characterService, effectsService: characterService.effectsService },
-                        ),
-                    )
+                    [TimePeriods.Day, TimePeriods.UntilRest].includes(activity.$cooldown)
                 ) {
                     gain.activeCooldown = 0;
                     gain.chargesUsed = 0;
@@ -89,12 +88,9 @@ export class ActivitiesTimeService {
                     );
                 }
 
-                if (
-                    (activity.effectiveCooldown(
-                        { creature },
-                        { characterService, effectsService: characterService.effectsService },
-                    )) === TimePeriods.UntilRefocus
-                ) {
+                this._activityPropertyService.cacheEffectiveCooldown(activity, { creature });
+
+                if (activity.$cooldown === TimePeriods.UntilRefocus) {
                     gain.activeCooldown = 0;
                     gain.chargesUsed = 0;
                 }

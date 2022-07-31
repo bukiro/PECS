@@ -84,6 +84,7 @@ export class Equipment extends Item {
     public showChoicesInInventory = false;
     public choices: Array<string> = [];
     public choice = '';
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string);
     /** Amount of propertyRunes you can still apply */
     public get freePropertyRunes(): number {
         //You can apply as many property runes as the level of your potency rune. Each rune with the Saggorak trait counts double.
@@ -331,9 +332,6 @@ export class Equipment extends Item {
         return convertHints(this)
             .concat(...this.oilsApplied.map(oil => convertHints(oil)))
             .concat(...this.material.map(material => convertHints(material)));
-    }
-    public secondaryRuneTitle(secondary: number): string {
-        return secondary.toString();
     }
     protected _secondaryRuneName(): string {
         //Weapons, Armors and Worn Items that can bear runes have their own version of this method.

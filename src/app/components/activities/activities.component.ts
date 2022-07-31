@@ -16,6 +16,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 
 interface ActivitySet {
     name: string;
@@ -57,6 +58,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _activityPropertyService: ActivityPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -119,7 +121,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     public activityParameters(): Array<ActivityParameter> {
         return this._ownedActivities().map(gainSet => {
             const creature = this.currentCreature();
-            const maxCharges = gainSet.activity.maxCharges({ creature }, { effectsService: this._effectsService });
+            const maxCharges = this._activityPropertyService.maxCharges(gainSet.activity, { creature });
 
             return {
                 name: gainSet.name,
@@ -217,10 +219,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         this._characterService.creatureOwnedActivities(this.currentCreature()).forEach(gain => {
             const activity = gain.originalActivity(this._activitiesDataService);
 
-            activity?.effectiveCooldown(
-                { creature: this.currentCreature() },
-                { characterService: this._characterService, effectsService: this._effectsService },
-            );
+            this._activityPropertyService.cacheEffectiveCooldown(activity, { creature: this.currentCreature() });
 
             if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
                 unique.push(gain.name);

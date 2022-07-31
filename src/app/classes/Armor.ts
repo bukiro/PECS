@@ -14,11 +14,8 @@ import { Rune } from 'src/app/classes/Rune';
 import { Item } from './Item';
 import { AdventuringGear } from './AdventuringGear';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
-
-enum ShoddyPenalties {
-    NotShoddy = 0,
-    Shoddy = -2,
-}
+import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -59,12 +56,17 @@ export class Armor extends Equipment {
     public skillpenalty = 0;
     /** The strength requirement (strength, not STR) to overcome skill and speed penalties. */
     public strength = 0;
+
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = ResilientTitleFromLevel;
+
     public get secondaryRune(): BasicRuneLevels {
         return this.resilientRune;
     }
+
     public set secondaryRune(value: BasicRuneLevels) {
         this.resilientRune = value;
     }
+
     public recast(itemsService: ItemsService): Armor {
         super.recast(itemsService);
         this.propertyRunes =
@@ -77,6 +79,7 @@ export class Armor extends Equipment {
 
         return this;
     }
+
     public title(options: { itemStore?: boolean } = {}): string {
         const proficiency = options.itemStore ? this.prof : this.effectiveProficiency();
 
@@ -87,6 +90,7 @@ export class Armor extends Equipment {
         ].filter(part => !!part && part !== 'Defense')
             .join(' ');
     }
+
     public effectivePrice(itemsService: ItemsService): number {
         let price = this.price;
 
@@ -114,6 +118,7 @@ export class Armor extends Equipment {
 
         return price;
     }
+
     public effectiveBulk(): string {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk = '';
@@ -134,9 +139,11 @@ export class Armor extends Equipment {
         }
 
     }
+
     public effectiveACBonus(): number {
         return this.acbonus + this.$affectedByArmoredSkirt;
     }
+
     public effectiveSkillPenalty(): number {
         return Math.min(
             0,
@@ -148,6 +155,7 @@ export class Armor extends Equipment {
             ),
         );
     }
+
     public effectiveSpeedPenalty(): number {
         return Math.min(
             0,
@@ -157,6 +165,7 @@ export class Armor extends Equipment {
             ),
         );
     }
+
     public effectiveDexCap(): number {
         if (this.dexcap !== -1) {
             return this.dexcap - this.$affectedByArmoredSkirt;
@@ -165,6 +174,7 @@ export class Armor extends Equipment {
         }
 
     }
+
     public effectiveStrengthRequirement(): number {
         const fortificationIncrease = 2;
         const armoredSkirtMultiplier = 2;
@@ -176,6 +186,7 @@ export class Armor extends Equipment {
 
         return this.strength + (this.$affectedByArmoredSkirt * armoredSkirtMultiplier) + fortificationFactor + materialFactor;
     }
+
     public effectiveProficiency(creature: Creature = null, characterService: CharacterService = null): string {
         if (creature && characterService.currentCreatureConditions(creature, 'Mage Armor', '', true).length) {
             //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
@@ -195,9 +206,11 @@ export class Armor extends Equipment {
             return this.prof;
         }
     }
+
     public hasProficiencyChanged(currentProficiency: string): boolean {
         return currentProficiency !== this.prof;
     }
+
     // characterService and creature are not needed for armors, but for other implementations of item.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public effectiveTraits(characterService?: CharacterService, creature?: Creature): Array<string> {
@@ -214,18 +227,18 @@ export class Armor extends Equipment {
 
         return this.$traits;
     }
+
     public effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
         return super.effectsGenerationObjects(creature, characterService)
             .concat(...this.armorSpecializations(creature, characterService))
             .concat(this.propertyRunes);
     }
+
     public effectsGenerationHints(): Array<HintEffectsObject> {
         return super.effectsGenerationHints()
             .concat(...this.propertyRunes.map(rune => rune.effectsGenerationHints()));
     }
-    public secondaryRuneTitle(secondary: number): string {
-        return this.resilientTitle(secondary);
-    }
+
     public armoredSkirt(creature: Creature, options: { itemStore?: boolean } = {}): AdventuringGear {
         if (options.itemStore) { return null; }
 
@@ -240,8 +253,9 @@ export class Armor extends Equipment {
             return null;
         }
     }
+
     protected _secondaryRuneName(): string {
-        return this.resilientTitle(this.effectiveResilient());
+        return ResilientTitleFromLevel(this.effectiveResilient());
     }
 
 }

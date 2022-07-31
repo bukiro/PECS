@@ -17,6 +17,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 
 interface SpeedParameters {
     name: string;
@@ -52,6 +53,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _effectsService: EffectsService,
         private readonly _activitiesDataService: ActivitiesDataService,
+        private readonly _activityPropertyService: ActivityPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -141,14 +143,13 @@ export class SkillsComponent implements OnInit, OnDestroy {
             });
         }
 
-        activities.forEach(activity => {
-            // Calculate the current cooldown for each activity, which is stored in a temporary variable.
-            activity.originalActivity(this._activitiesDataService)
-                ?.effectiveCooldown(
-                    { creature: this._currentCreature },
-                    { characterService: this._characterService, effectsService: this._effectsService },
-                );
-        });
+        activities
+            .map(activity => activity.originalActivity(this._activitiesDataService))
+            .filter(originalActivity => !!originalActivity)
+            .forEach(originalActivity => {
+                // Calculate the current cooldown for each activity, which is stored in a temporary variable.
+                this._activityPropertyService.cacheEffectiveCooldown(originalActivity, { creature: this._currentCreature });
+            });
 
         return activities;
     }

@@ -14,6 +14,7 @@ import { Activity } from 'src/app/classes/Activity';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemRolesService } from 'src/app/services/itemRoles.service';
 import { Rune } from 'src/app/classes/Rune';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 
 interface ItemParameters {
     item: Item;
@@ -45,6 +46,7 @@ export class HintItemComponent implements OnInit, OnDestroy {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
+        private readonly _activityPropertyService: ActivityPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -75,10 +77,9 @@ export class HintItemComponent implements OnInit, OnDestroy {
     }
 
     public activityCooldown(activity: Activity): number {
-        return activity.effectiveCooldown(
-            { creature: this.currentCreature },
-            { characterService: this._characterService, effectsService: this._effectsService },
-        );
+        this._activityPropertyService.cacheEffectiveCooldown(activity, { creature: this.currentCreature });
+
+        return activity.$cooldown;
     }
 
     public ngOnInit(): void {

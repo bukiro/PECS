@@ -12,6 +12,7 @@ import { LanguageGain } from './LanguageGain';
 import { Talisman } from './Talisman';
 import { MaxSpellLevel } from 'src/libs/shared/definitions/spellLevels';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
+import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 
 export interface RingOfWizardrySlot {
     tradition: string;
@@ -57,12 +58,16 @@ export class WornItem extends Equipment {
     public isRingOfWizardry: Array<RingOfWizardrySlot> = [];
     /** Is this a pair of Bracers of Armor and lets you attach talismans like a light armor? */
     public isBracersOfArmor = false;
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = StrikingTitleFromLevel;
+
     public get secondaryRune(): BasicRuneLevels {
         return this.strikingRune;
     }
+
     public set secondaryRune(value: BasicRuneLevels) {
         this.strikingRune = value;
     }
+
     public recast(itemsService: ItemsService): WornItem {
         super.recast(itemsService);
         this.aeonStones =
@@ -120,6 +125,7 @@ export class WornItem extends Equipment {
 
         return this;
     }
+
     public effectivePrice(itemsService: ItemsService): number {
         let price = this.price;
 
@@ -140,6 +146,7 @@ export class WornItem extends Equipment {
 
         return price;
     }
+
     public effectiveTraits(characterService: CharacterService, creature: Creature): Array<string> {
         return super.effectiveTraits(characterService, creature)
             .concat(
@@ -152,6 +159,7 @@ export class WornItem extends Equipment {
                     [],
             );
     }
+
     public isCompatibleWithTalisman(talisman: Talisman): boolean {
         return this.isTalismanCord ?
             (
@@ -162,10 +170,12 @@ export class WornItem extends Equipment {
             ) :
             false;
     }
+
     public effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
         return super.effectsGenerationObjects(creature, characterService)
             .concat(...this.aeonStones);
     }
+
     public effectsGenerationHints(): Array<HintEffectsObject> {
         //Aeon Stones have hints that can be resonant, meaning they are only displayed if the stone is slotted.
         //After collecting the hints, we keep the resonant ones only if the item is slotted.
@@ -174,10 +184,8 @@ export class WornItem extends Equipment {
             .filter(hintSet => hintSet.hint.resonant ? this.isSlottedAeonStone : true)
             .concat(...this.aeonStones.map(stone => stone.effectsGenerationHints()));
     }
-    public secondaryRuneTitle(secondary: number): string {
-        return this.strikingTitle(secondary);
-    }
+
     protected _secondaryRuneName(): string {
-        return this.strikingTitle(this.effectiveStriking());
+        return this.secondaryRuneTitleFunction(this.effectiveStriking());
     }
 }

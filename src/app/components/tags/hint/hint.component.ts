@@ -21,6 +21,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trait } from 'src/app/classes/Trait';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 
 type HintObject =
     Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string; hints: Array<Hint> };
@@ -53,6 +54,7 @@ export class HintComponent {
         private readonly _effectsService: EffectsService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
+        private readonly _activityPropertyService: ActivityPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -221,10 +223,9 @@ export class HintComponent {
     }
 
     public activityCooldown(activity: Activity): number {
-        return activity.effectiveCooldown(
-            { creature: this._currentCreature },
-            { characterService: this._characterService, effectsService: this._effectsService },
-        );
+        this._activityPropertyService.cacheEffectiveCooldown(activity, { creature: this._currentCreature });
+
+        return activity.$cooldown;
     }
 
     private _heightenedHintDescription(hint: Hint): string {

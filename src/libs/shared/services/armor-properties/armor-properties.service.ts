@@ -151,7 +151,8 @@ export class ArmorPropertiesService {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (
             armor.shoddy &&
-            this._characterService.feats('Junk Tinker')[0]?.have({ creature }, { characterService: this._characterService }) &&
+            creature instanceof Character &&
+            this._characterService.characterHasFeat('Junk Tinker') &&
             armor.crafted
         ) {
             armor.$shoddy = ShoddyPenalties.NotShoddy;

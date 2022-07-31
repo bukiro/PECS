@@ -25,7 +25,7 @@
                         *ngFor="let secondarySet of availableSecondaryRunes(runeItemType); trackBy:trackers.trackByIndex;"
                         [ngValue]="secondarySet.secondary" [disabled]="secondarySet.disabled"
                         title="{{runeTitle(secondarySet.rune)}}">
-                        {{item.secondaryRuneTitle(secondarySet.secondary)}}</option>
+                        {{item.secondaryRuneTitleFunction(secondarySet.secondary)}}</option>
                 </select>
             </div>
         </ng-container>

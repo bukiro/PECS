@@ -21,6 +21,7 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
+import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties.service';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;
@@ -96,6 +97,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         private readonly _conditionsService: ConditionsService,
         private readonly _timeService: TimeService,
         private readonly _savegameService: SavegameService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _modalService: NgbModal,
         public modal: NgbActiveModal,
         public trackers: Trackers,
@@ -156,7 +158,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         const bloodMagicTrigger = this._bloodMagicTrigger();
         const canActivate = this._canActivate();
         const canActivateWithoutTarget = this._canActivate(true);
-        const targetNumber = this.action.allowedTargetNumber(this.effectiveSpellLevel, this._characterService);
+        const targetNumber = this._activityPropertiesService.allowedTargetNumber(this.action, this.effectiveSpellLevel);
         const target = this._target;
         const shouldBloodMagicApply = bloodMagicTrigger && !this.asSpellGain()?.ignoreBloodMagicTrigger;
         const bloodMagicWarningWithTarget =
