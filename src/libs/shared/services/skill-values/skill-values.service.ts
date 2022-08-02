@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
@@ -6,6 +7,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { Familiar } from 'src/app/classes/Familiar';
 import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
 import { Skill } from 'src/app/classes/Skill';
+import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
@@ -182,9 +184,18 @@ export class SkillValuesService {
                     skillLevel = parseInt(effect.setValue, 10);
                 });
             } else {
-                let increases =
-                    (creature as Character | AnimalCompanion)
-                        .skillIncreases(this._characterService, 0, charLevel, skill.name, '', '', undefined, excludeTemporary);
+                let increases: Array<SkillIncrease> = [];
+
+                if (creature.isCharacter()) {
+                    increases =
+                        creature.skillIncreases(this._characterService, 0, charLevel, skill.name, '', '', undefined, excludeTemporary);
+                }
+
+                if (creature.isAnimalCompanion()) {
+                    increases =
+                        creature
+                            .skillIncreases(0, charLevel, skill.name, '', '', undefined);
+                }
 
                 // Add 2 for each increase, but keep them to their max Rank
                 increases =

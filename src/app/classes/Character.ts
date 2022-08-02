@@ -14,7 +14,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Settings } from 'src/app/classes/Settings';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { Creature, CreatureEffectsGenerationObjects } from 'src/app/classes/Creature';
+import { Creature } from 'src/app/classes/Creature';
 import { AbilityBoost } from 'src/app/classes/AbilityBoost';
 import { SpellsService } from 'src/app/services/spells.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
@@ -27,7 +27,6 @@ import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
-import { Hint } from 'src/app/classes/Hint';
 import { SkillLevels } from '../../libs/shared/definitions/skillLevels';
 import { SpellLearned } from './SpellLearned';
 import { Defaults } from '../../libs/shared/definitions/defaults';
@@ -63,6 +62,9 @@ export class Character extends Creature {
         this.settings = Object.assign(new Settings(), this.settings);
 
         return this;
+    }
+    public isCharacter(): this is Character {
+        return true;
     }
     public baseSize(): number {
         return this.class.ancestry.size ? this.class.ancestry.size : 0;
@@ -1324,23 +1326,6 @@ export class Character extends Creature {
         }
 
         this._addLoreFeats(characterService, source.loreName);
-    }
-    public effectsGenerationObjects(characterService: CharacterService): CreatureEffectsGenerationObjects {
-        //Return the Character, its Feats and their Hints for effect generation.
-        const feats: Array<Feat> = [];
-        const hintSets: Array<{ hint: Hint; objectName: string }> = [];
-
-        characterService.characterFeatsTaken(0, this.level)
-            .map(gain => characterService.featsAndFeatures(gain.name)[0])
-            .filter(feat => feat && feat.have({ creature: this }, { characterService }))
-            .forEach(feat => {
-                feats.push(feat);
-                feat.hints?.forEach(hint => {
-                    hintSets.push({ hint, objectName: feat.name });
-                });
-            });
-
-        return { feats, hintSets };
     }
     public hasFeat(
         featName: string,

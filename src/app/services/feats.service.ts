@@ -31,6 +31,7 @@ import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficien
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 
 @Injectable({
     providedIn: 'root',
@@ -51,6 +52,7 @@ export class FeatsService {
         private readonly _itemsService: ItemsService,
         private readonly _historyService: HistoryService,
         private readonly _refreshService: RefreshService,
+        private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -819,7 +821,7 @@ export class FeatsService {
             if (feat.gainAnimalCompanion && !['Young', 'Specialized'].includes(feat.gainAnimalCompanion) && characterService.companion) {
                 const companion = characterService.companion;
 
-                companion.setLevel(characterService);
+                this._animalCompanionLevelsService.setLevel(companion);
                 this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
             }
 
@@ -1192,9 +1194,7 @@ export class FeatsService {
             }
 
             //Disable any hints when losing a feat
-            feat.hints.forEach(hint => {
-                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-            });
+            feat.hints.forEach(hint => hint.deactivateAll());
 
             //Splinter Faith changes your domains and needs to clear out the runtime variables and update general.
             if (feat.name === 'Splinter Faith') {
@@ -1373,15 +1373,11 @@ export class FeatsService {
         this._$characterFeatsTaken.length = 0;
         //Disable any active hint effects when loading a character.
         this._feats.forEach(feat => {
-            feat.hints.forEach(hint => {
-                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-            });
+            feat.hints.forEach(hint => hint.deactivateAll());
         });
         //Disable any active hint effects when loading a character.
         this._features.forEach(feat => {
-            feat.hints.forEach(hint => {
-                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-            });
+            feat.hints.forEach(hint => hint.deactivateAll());
         });
     }
 

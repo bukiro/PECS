@@ -8,17 +8,11 @@ import { Skill } from 'src/app/classes/Skill';
 import { Effect } from 'src/app/classes/Effect';
 import { ItemsService } from 'src/app/services/items.service';
 import { EffectsService } from 'src/app/services/effects.service';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { Hint } from 'src/app/classes/Hint';
-import { AnimalCompanionSpecialization } from './AnimalCompanionSpecialization';
-import { CharacterService } from '../services/character.service';
 import { CreatureSizeName } from '../../libs/shared/util/creatureUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-
-export interface CreatureEffectsGenerationObjects {
-    feats: Array<Feat | AnimalCompanionSpecialization>;
-    hintSets: Array<{ hint: Hint; objectName: string }>;
-}
+import { AnimalCompanion } from './AnimalCompanion';
+import { Familiar } from './Familiar';
+import { Character } from './Character';
 
 export interface SkillNotes {
     name: string;
@@ -52,6 +46,15 @@ export class Creature {
         this.speeds = this.speeds.map(obj => Object.assign(new Speed(), obj).recast());
 
         return this;
+    }
+    public isAnimalCompanion(): this is AnimalCompanion {
+        return false;
+    }
+    public isCharacter(): this is Character {
+        return false;
+    }
+    public isFamiliar(): this is Familiar {
+        return false;
     }
     public baseSize(): number {
         //Each kind of creature provides its own version of this.
@@ -87,11 +90,5 @@ export class Creature {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public baseSpeed(speedName: string): { result: number; explain: string } {
         return { result: 0, explain: '' };
-    }
-    //Other implementations require characterService.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectsGenerationObjects(characterService?: CharacterService): CreatureEffectsGenerationObjects {
-        //Each kind of creature provides its own version of this.
-        return { feats: [], hintSets: [] };
     }
 }

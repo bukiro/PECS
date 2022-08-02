@@ -38,9 +38,7 @@ export class FamiliarsService {
     public reset(): void {
         //Disable any active hint effects when loading a character.
         this._familiarAbilities.forEach(ability => {
-            ability.hints?.forEach(hint => {
-                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-            });
+            ability.hints?.forEach(hint => hint.deactivateAll());
         });
     }
 

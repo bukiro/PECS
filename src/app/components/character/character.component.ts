@@ -20,7 +20,7 @@ import { DeitiesService } from 'src/app/services/deities.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { AnimalCompanionsService } from 'src/app/services/animalcompanions.service';
+import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { ConditionsService } from 'src/app/services/conditions.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
@@ -62,6 +62,9 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { Weapon } from 'src/app/classes/Weapon';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
+import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
+import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
+import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -107,7 +110,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _deitiesService: DeitiesService,
         private readonly _spellsService: SpellsService,
-        private readonly _animalCompanionsService: AnimalCompanionsService,
+        private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
+        private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
+        private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
+        private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _conditionsService: ConditionsService,
         private readonly _savegameService: SavegameService,
         private readonly _traitsService: TraitsService,
@@ -662,7 +668,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
 
         if (this._characterService.isCompanionAvailable()) {
-            this.companion.setLevel(this._characterService);
+            this._animalCompanionLevelsService.setLevel(this.companion);
         }
 
         if (this._characterService.isFamiliarAvailable(newLevel)) {
@@ -1621,7 +1627,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const existingCompanionName = this.companion.class.ancestry.name;
         const shouldShowOtherOptions = this.character.settings.showOtherOptions;
 
-        return this._animalCompanionsService.companionTypes()
+        return this._animalCompanionsDataService.companionTypes()
             .filter(type => shouldShowOtherOptions || !existingCompanionName || type.name === existingCompanionName)
             .sort((a, b) => SortAlphaNum(a.name, b.name));
     }
@@ -1633,12 +1639,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (isChecked) {
             if (this.character.settings.autoCloseChoices && companion.name && companion.species) { this.toggleShownList(''); }
 
-            companion.class.processRemovingOldAncestry(this._characterService);
-            this._animalCompanionsService.changeType(companion, type);
-            companion.class.processNewAncestry(this._characterService, this._itemsService);
+            this._animalCompanionAncestryService.changeAncestry(companion, type);
         } else {
-            companion.class.processRemovingOldAncestry(this._characterService);
-            this._animalCompanionsService.changeType(companion, new AnimalCompanionAncestry());
+            this._animalCompanionAncestryService.changeAncestry(companion, null);
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
@@ -1659,9 +1662,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 this.toggleShownList('');
             }
 
-            this._animalCompanionsService.addSpecialization(this.companion, spec, levelNumber);
+            this._animalCompanionSpecializationsService.addSpecialization(this.companion, spec, levelNumber);
         } else {
-            this._animalCompanionsService.removeSpecialization(this.companion, spec);
+            this._animalCompanionSpecializationsService.removeSpecialization(this.companion, spec);
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'abilities');
@@ -1686,7 +1689,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
         // Get all specializations that were either taken on this level (so they can be deselected)
         // or that were not yet taken if the choice is not exhausted.
-        return this._animalCompanionsService.companionSpecializations()
+        return this._animalCompanionsDataService.companionSpecializations()
             .filter(type =>
                 shouldShowOtherOptions ||
                 existingCompanionSpecs.some(spec => spec.name === type.name && spec.level === levelNumber) ||

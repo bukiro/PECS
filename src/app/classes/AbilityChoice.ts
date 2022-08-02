@@ -12,9 +12,11 @@ export class AbilityChoice {
     public source = '';
     public type: 'Boost' | 'Flaw' = 'Boost';
     public bonus = false;
+
     public maxAvailable(character: Character): number {
         return this.available - (character.baseValues.length ? this.baseValuesLost : 0);
     }
+
     public recast(): AbilityChoice {
         return this;
     }

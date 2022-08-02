@@ -37,7 +37,7 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Rune } from 'src/app/classes/Rune';
 import { DeitiesService } from 'src/app/services/deities.service';
 import { Deity } from 'src/app/classes/Deity';
-import { AnimalCompanionsService } from 'src/app/services/animalcompanions.service';
+import { AnimalCompanionsDataService as AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SavegameService } from 'src/app/services/savegame.service';
@@ -95,6 +95,7 @@ import { ArmorClassService, CoverTypes } from 'src/libs/defense/services/armor-c
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -173,7 +174,8 @@ export class CharacterService {
         public timeService: TimeService,
         public defenseService: DefenseService,
         public deitiesService: DeitiesService,
-        public animalCompanionsService: AnimalCompanionsService,
+        public animalCompanionsDataService: AnimalCompanionsDataService,
+        private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         public familiarsService: FamiliarsService,
         private readonly _messageService: MessageService,
         public toastService: ToastService,
@@ -2731,7 +2733,7 @@ export class CharacterService {
     }
 
     public animalCompanionLevels(): Array<AnimalCompanionLevel> {
-        return this.animalCompanionsService.companionLevels();
+        return this.animalCompanionsDataService.companionLevels();
     }
 
     public creatureSenses(creature: Creature, charLevel: number = this.character.level, allowTemporary = false): Array<string> {
@@ -3240,9 +3242,12 @@ export class CharacterService {
         if (character.class.animalCompanion) {
             character.class.animalCompanion =
                 Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this.itemsService);
-            character.class.animalCompanion.class.levels = this.animalCompanionLevels();
-            this._equipBasicItems(character.class.animalCompanion);
-            character.class.animalCompanion.setLevel(this);
+
+            const companion = character.class.animalCompanion;
+
+            companion.class.levels = this.animalCompanionLevels();
+            this._equipBasicItems(companion);
+            this._animalCompanionLevelsService.setLevel(companion);
         }
     }
 
@@ -3291,7 +3296,7 @@ export class CharacterService {
         this.skillsDataService.reset();
         this.itemsService.reset();
         this.deitiesService.reset();
-        this.animalCompanionsService.reset();
+        this.animalCompanionsDataService.reset();
         this.familiarsService.reset();
         this._messageService.reset();
 
@@ -3358,7 +3363,6 @@ export class CharacterService {
                 this.itemsService,
                 this.classesService,
                 this._historyService,
-                this.animalCompanionsService,
             );
         this._character.GMMode = loadAsGM;
         this._loader = [];
@@ -3390,7 +3394,6 @@ export class CharacterService {
                 this.itemsService,
                 this.classesService,
                 this._historyService,
-                this.animalCompanionsService,
             );
 
         this._savegameService.saveCharacter(savegame)

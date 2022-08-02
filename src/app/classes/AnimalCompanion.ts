@@ -1,13 +1,11 @@
-import { Creature, CreatureEffectsGenerationObjects } from 'src/app/classes/Creature';
+import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AbilityBoost } from 'src/app/classes/AbilityBoost';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
-import { CharacterService } from 'src/app/services/character.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { ItemsService } from 'src/app/services/items.service';
-import { Hint } from 'src/app/classes/Hint';
 import { SkillIncrease } from './SkillIncrease';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
@@ -20,13 +18,20 @@ export class AnimalCompanion extends Creature {
     public species = '';
     public type: CreatureTypes = CreatureTypes.AnimalCompanion;
     public readonly typeId = 1;
-    public get requiresConForHP(): boolean { return false; }
+
+    public get requiresConForHP(): boolean { return true; }
+
     public recast(itemsService: ItemsService): AnimalCompanion {
         super.recast(itemsService);
         this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
 
         return this;
     }
+
+    public isAnimalCompanion(): this is AnimalCompanion {
+        return true;
+    }
+
     public baseSize(): number {
         let size: number = (this.class.ancestry.size ? this.class.ancestry.size : 0);
 
@@ -38,6 +43,7 @@ export class AnimalCompanion extends Creature {
 
         return size;
     }
+
     public baseHP(conModifier: number, charLevel: number): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
@@ -55,6 +61,7 @@ export class AnimalCompanion extends Creature {
 
         return { result: classHP + ancestryHP, explain: explain.trim() };
     }
+
     public baseSpeed(speedName: string): { result: number; explain: string } {
         let explain = '';
         let sum = 0;
@@ -68,48 +75,7 @@ export class AnimalCompanion extends Creature {
 
         return { result: sum, explain: explain.trim() };
     }
-    public setLevel(characterService: CharacterService): void {
-        // Get all taken feats at this character level that grow the animal companion,
-        // then set the companion level to the highest option (or 1).
-        // Level 3 is a placeholder, and all levels after that are advanced options.
-        // When you take a feat with gainAnimalCompanion other than "Young", "Mature" or "Specialized",
-        // level 3 gets replaced with that level.
-        // That means that level 3 is the highest we need to go, as Nimble, Savage or other advanced options will be placed there.
-        const character = characterService.character;
-        const youngLevel = 1;
-        const matureLevel = 2;
-        const advancedLevel = 3;
-        let advancedOption = '';
 
-        this.level = Math.min(advancedLevel, Math.max(1, ...characterService.characterFeatsAndFeatures()
-            .filter(feat => feat.gainAnimalCompanion && feat.have({ creature: character }, { characterService }))
-            .map(feat => {
-                switch (feat.gainAnimalCompanion) {
-                    case 'Young':
-                        return youngLevel;
-                    case 'Mature':
-                        return matureLevel;
-                    default:
-                        advancedOption = feat.gainAnimalCompanion;
-
-                        return advancedLevel;
-                }
-            }),
-        ));
-
-        if (advancedOption && (this.class.levels[advancedLevel].name !== advancedOption)) {
-            this.class.levels[advancedLevel] =
-                Object.assign(new AnimalCompanionLevel(), this.class.levels.find(level => level.name === advancedOption)).recast();
-            this.class.levels[advancedLevel].number = advancedLevel;
-        } else if (!advancedOption && (this.class.levels[advancedLevel].name !== 'Placeholder')) {
-            this.class.levels[advancedLevel] = new AnimalCompanionLevel();
-            this.class.levels[advancedLevel].number = advancedLevel;
-            this.class.levels[advancedLevel].name = 'Placeholder';
-        }
-
-        characterService.cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
-        characterService.refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
-    }
     public abilityBoosts(
         minLevelNumber: number,
         maxLevelNumber: number,
@@ -166,8 +132,8 @@ export class AnimalCompanion extends Creature {
             return boosts;
         }
     }
+
     public skillIncreases(
-        characterService: CharacterService,
         minLevelNumber: number,
         maxLevelNumber: number,
         skillName = '',
@@ -231,24 +197,5 @@ export class AnimalCompanion extends Creature {
 
             return increases;
         }
-    }
-    //Other implementations require characterService.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectsGenerationObjects(characterService: CharacterService): CreatureEffectsGenerationObjects {
-        //Return the Companion, its Ancestry's Hints and its Specializations and their Hints for effect generation.
-        const feats: Array<AnimalCompanionSpecialization> = [];
-        const hintSets: Array<{ hint: Hint; objectName: string }> = [];
-
-        this.class?.ancestry?.hints?.forEach(hint => {
-            hintSets.push({ hint, objectName: this.class.ancestry.name });
-        });
-        this.class?.specializations?.filter(spec => spec.effects?.length || spec.hints?.length).forEach(spec => {
-            feats.push(spec);
-            spec.hints?.forEach(hint => {
-                hintSets.push({ hint, objectName: spec.name });
-            });
-        });
-
-        return { feats, hintSets };
     }
 }

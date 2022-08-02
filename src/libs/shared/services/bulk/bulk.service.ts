@@ -56,18 +56,23 @@ export class BulkService {
 
         return result;
     }
+
     private _absolutes(creature: Creature, name: string): Array<Effect> {
         return this._effectsService.absoluteEffectsOnThis(creature, name);
     }
+
     private _relatives(creature: Creature, name: string): Array<Effect> {
         return this._effectsService.relativeEffectsOnThis(creature, name);
     }
+
     private _bonuses(creature: Creature, name: string): boolean {
         return this._effectsService.doBonusEffectsExistOnThis(creature, name);
     }
+
     private _penalties(creature: Creature, name: string): boolean {
         return this._effectsService.doPenaltyEffectsExistOnThis(creature, name);
     }
+
     private _current(
         creature: Creature,
         absolutes: Array<Effect> = this._absolutes(creature, 'Bulk'),
@@ -98,6 +103,7 @@ export class BulkService {
 
         return result;
     }
+
     private _encumbered(
         creature: Creature,
         absolutes: Array<Effect> = this._absolutes(creature, 'Encumbered Limit'),
@@ -129,6 +135,7 @@ export class BulkService {
 
         return result;
     }
+
     private _max(
         creature: Creature,
         absolutes: Array<Effect> = this._absolutes(creature, 'Max Bulk'),

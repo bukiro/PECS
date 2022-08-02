@@ -1,8 +1,5 @@
-import { CharacterService } from 'src/app/services/character.service';
-import { Creature, CreatureEffectsGenerationObjects } from './Creature';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { Creature } from './Creature';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
-import { Hint } from 'src/app/classes/Hint';
 import { ItemsService } from 'src/app/services/items.service';
 import { Skill } from 'src/app/classes/Skill';
 import { Defaults } from '../../libs/shared/definitions/defaults';
@@ -32,6 +29,9 @@ export class Familiar extends Creature {
 
         return this;
     }
+    public isFamiliar(): this is Familiar {
+        return true;
+    }
     public baseSize(): number {
         return CreatureSizes.Tiny;
     }
@@ -58,22 +58,5 @@ export class Familiar extends Creature {
         }
 
         return { result: sum, explain: explain.trim() };
-    }
-    public effectsGenerationObjects(
-        characterService: CharacterService): CreatureEffectsGenerationObjects {
-        //Return the Familiar, its Feats and their hints for effect generation.
-        const feats: Array<Feat> = [];
-        const hintSets: Array<{ hint: Hint; objectName: string }> = [];
-
-        characterService.familiarsService.familiarAbilities().filter(ability => ability.have({ creature: this }, { characterService }))
-            .filter(ability => ability.effects?.length || ability.hints?.length)
-            .forEach(ability => {
-                feats.push(ability);
-                ability.hints?.forEach(hint => {
-                    hintSets.push({ hint, objectName: ability.name });
-                });
-            });
-
-        return { feats, hintSets };
     }
 }

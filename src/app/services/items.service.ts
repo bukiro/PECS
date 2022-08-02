@@ -392,23 +392,15 @@ export class ItemsService {
 
         //Disable all hints.
         if (newItem instanceof Equipment) {
-            newItem.hints.forEach(hint => {
-                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-            });
+            newItem.hints.forEach(hint => hint.deactivateAll());
             newItem.propertyRunes.forEach(rune => {
-                rune.hints.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                });
+                rune.hints.forEach(hint => hint.deactivateAll());
             });
             newItem.oilsApplied.forEach(oil => {
-                oil.hints.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                });
+                oil.hints.forEach(hint => hint.deactivateAll());
             });
             newItem.material.forEach(material => {
-                material.hints.forEach(hint => {
-                    hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                });
+                material.hints.forEach(hint => hint.deactivateAll());
             });
         }
 
@@ -1183,9 +1175,7 @@ export class ItemsService {
         //Disable any active hint effects when loading a character, and reinitialize the hints.
         this._specializations.forEach(spec => {
             spec.recast();
-            spec.hints?.forEach(hint => {
-                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-            });
+            spec.hints?.forEach(hint => hint.deactivateAll());
         });
     }
 

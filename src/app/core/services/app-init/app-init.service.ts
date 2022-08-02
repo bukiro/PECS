@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { AnimalCompanionsService } from 'src/app/services/animalcompanions.service';
+import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
@@ -43,7 +43,7 @@ export class AppInitService {
         private readonly _skillsDataService: SkillsDataService,
         private readonly _itemsService: ItemsService,
         private readonly _deitiesService: DeitiesService,
-        private readonly _animalCompanionsService: AnimalCompanionsService,
+        private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _familiarsService: FamiliarsService,
         private readonly _messageService: MessageService,
         private readonly _customEffectsService: CustomEffectsService,
@@ -72,7 +72,7 @@ export class AppInitService {
                 this._skillsDataService.initialize();
                 this._itemsService.initialize();
                 this._deitiesService.initialize();
-                this._animalCompanionsService.initialize();
+                this._animalCompanionsDataService.initialize();
                 this._familiarsService.initialize();
                 this._messageService.initialize(this._characterService);
                 this._customEffectsService.initialize();
@@ -93,7 +93,7 @@ export class AppInitService {
                     this._skillsDataService.stillLoading ||
                     this._itemsService.stillLoading ||
                     this._deitiesService.stillLoading ||
-                    this._animalCompanionsService.stillLoading ||
+                    this._animalCompanionsDataService.stillLoading ||
                     this._familiarsService.stillLoading
                 )
             ) {

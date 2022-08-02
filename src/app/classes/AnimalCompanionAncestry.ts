@@ -20,6 +20,7 @@ export class AnimalCompanionAncestry {
     public speeds: Array<{ name: string; value: number }> = [];
     public supportBenefit = '';
     public traits: Array<string> = [];
+
     public recast(): AnimalCompanionAncestry {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.activities = this.activities.map(obj => Object.assign(new ActivityGain(), obj).recast());

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { AnimalCompanionsService } from 'src/app/services/animalcompanions.service';
+import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { DisplayService } from 'src/app/services/display.service';
@@ -28,7 +28,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _animalCompanionsService: AnimalCompanionsService,
+        private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
     ) { }
 
     public get isMinimized(): boolean {
@@ -40,7 +40,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return (this._characterService.stillLoading || this._animalCompanionsService.stillLoading);
+        return (this._characterService.stillLoading || this._animalCompanionsDataService.stillLoading);
     }
 
     public get companionMenuState(): MenuState {

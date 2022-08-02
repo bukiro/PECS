@@ -11,7 +11,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Savegame } from 'src/app/classes/Savegame';
 import { CharacterService } from 'src/app/services/character.service';
-import { AnimalCompanionsService } from 'src/app/services/animalcompanions.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { HistoryService } from 'src/app/services/history.service';
 import { ConfigService } from 'src/app/services/config.service';
@@ -26,6 +25,9 @@ import { Equipment } from '../classes/Equipment';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
+import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
+import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
+import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -54,6 +56,9 @@ export class SavegameService {
         private readonly _configService: ConfigService,
         private readonly _refreshService: RefreshService,
         private readonly _featsService: FeatsService,
+        private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
+        private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
+        private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -74,7 +79,6 @@ export class SavegameService {
         itemsService: ItemsService,
         classesService: ClassesService,
         historyService: HistoryService,
-        animalCompanionsService: AnimalCompanionsService,
     ): Character {
         //Make a copy of the character before restoration. This will be used in patching.
         const savedCharacter = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(loader)));
@@ -104,32 +108,37 @@ export class SavegameService {
         // This allows us to save a lot of traffic at saving by removing all data
         // from certain objects that is the unchanged from in their original template.
         if (character.class.name) {
-            if (character.class.ancestry && character.class.ancestry.name) {
-                character.class.ancestry = historyService.restoreAncestryFromSave(character.class.ancestry);
+            const _class = character.class;
+
+            if (_class.ancestry && _class.ancestry.name) {
+                _class.ancestry = historyService.restoreAncestryFromSave(_class.ancestry);
             }
 
-            if (character.class.heritage && character.class.heritage.name) {
-                character.class.heritage = historyService.restoreHeritageFromSave(character.class.heritage);
+            if (_class.heritage && _class.heritage.name) {
+                _class.heritage = historyService.restoreHeritageFromSave(_class.heritage);
             }
 
-            if (character.class.background && character.class.background.name) {
-                character.class.background = historyService.restoreBackgroundFromSave(character.class.background);
+            if (_class.background && _class.background.name) {
+                _class.background = historyService.restoreBackgroundFromSave(_class.background);
             }
 
-            if (character.class.animalCompanion) {
-                if (character.class.animalCompanion?.class?.ancestry) {
-                    character.class.animalCompanion.class.ancestry =
-                        animalCompanionsService.restoreAncestryFromSave(character.class.animalCompanion.class.ancestry);
+            if (_class.animalCompanion) {
+                const animalCompanion = _class.animalCompanion;
+
+                if (animalCompanion?.class?.ancestry) {
+                    animalCompanion.class.ancestry =
+                        this._animalCompanionAncestryService.restoreAncestryFromSave(animalCompanion.class.ancestry);
                 }
 
-                if (character.class.animalCompanion?.class?.levels) {
-                    character.class.animalCompanion.class =
-                        animalCompanionsService.restoreLevelsFromSave(character.class.animalCompanion.class);
+                if (animalCompanion?.class?.levels) {
+                    animalCompanion.class =
+                        this._animalCompanionLevelsService.restoreLevelsFromSave(animalCompanion.class);
                 }
 
-                if (character.class.animalCompanion.class?.specializations) {
-                    character.class.animalCompanion.class.specializations = character.class.animalCompanion.class.specializations
-                        .map(spec => animalCompanionsService.restoreSpecializationFromSave(spec));
+                if (animalCompanion.class?.specializations) {
+                    animalCompanion.class.specializations =
+                        animalCompanion.class.specializations
+                            .map(spec => this._animalCompanionSpecializationsService.restoreSpecializationFromSave(spec));
                 }
             }
 
@@ -150,7 +159,6 @@ export class SavegameService {
         itemsService: ItemsService,
         classesService: ClassesService,
         historyService: HistoryService,
-        animalCompanionsService: AnimalCompanionsService,
     ): Partial<Character> {
 
         //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
@@ -174,30 +182,34 @@ export class SavegameService {
         if (savegame.class.name) {
             savegame.class = classesService.cleanClassForSave(savegame.class);
 
-            if (savegame.class.ancestry?.name) {
-                savegame.class.ancestry = historyService.cleanAncestryForSave(savegame.class.ancestry);
+            const _class = savegame.class;
+
+            if (_class.ancestry?.name) {
+                _class.ancestry = historyService.cleanAncestryForSave(_class.ancestry);
             }
 
-            if (savegame.class.heritage?.name) {
-                savegame.class.heritage = historyService.cleanHeritageForSave(savegame.class.heritage);
+            if (_class.heritage?.name) {
+                _class.heritage = historyService.cleanHeritageForSave(_class.heritage);
             }
 
-            if (savegame.class.background?.name) {
-                savegame.class.background = historyService.cleanBackgroundForSave(savegame.class.background);
+            if (_class.background?.name) {
+                _class.background = historyService.cleanBackgroundForSave(_class.background);
             }
 
-            if (savegame.class.animalCompanion) {
-                if (savegame.class.animalCompanion.class?.ancestry) {
-                    animalCompanionsService.cleanAncestryForSave(savegame.class.animalCompanion.class.ancestry);
+            if (_class.animalCompanion) {
+                const animalCompanion = _class.animalCompanion;
+
+                if (animalCompanion.class?.ancestry) {
+                    this._animalCompanionAncestryService.cleanAncestryForSave(animalCompanion.class.ancestry);
                 }
 
-                if (savegame.class.animalCompanion.class?.levels) {
-                    animalCompanionsService.cleanLevelsForSave(savegame.class.animalCompanion.class);
+                if (animalCompanion.class?.levels) {
+                    this._animalCompanionLevelsService.cleanLevelsForSave(animalCompanion.class);
                 }
 
-                if (savegame.class.animalCompanion.class?.specializations) {
-                    savegame.class.animalCompanion.class.specializations
-                        .forEach(spec => animalCompanionsService.cleanSpecializationForSave(spec));
+                if (animalCompanion.class?.specializations) {
+                    animalCompanion.class.specializations
+                        .forEach(spec => this._animalCompanionSpecializationsService.cleanSpecializationForSave(spec));
                 }
             }
         }

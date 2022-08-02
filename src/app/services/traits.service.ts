@@ -90,9 +90,7 @@ export class TraitsService {
 
     public reset(): void {
         this._traits.forEach(trait => {
-            trait.hints?.forEach(hint => {
-                hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-            });
+            trait.hints?.forEach(hint => hint.deactivateAll());
         });
     }
 

@@ -17,15 +17,12 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { Familiar as FamiliarModel } from 'src/app/classes/Familiar';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';
-import { Oil } from 'src/app/classes/Oil';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Rune } from 'src/app/classes/Rune';
 import { Shield } from 'src/app/classes/Shield';
 import { Specialization } from 'src/app/classes/Specialization';
-import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemsService } from 'src/app/services/items.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
@@ -37,6 +34,8 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { CreatureEffectsGenerationService } from 'src/libs/shared/effects-generation/services/creature-effects-generation/creature-effects-generation.service';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -52,13 +51,6 @@ interface EffectContext {
 interface EffectOptions {
     readonly name?: string;
     readonly pretendCharacterLevel?: number;
-}
-
-export interface HintEffectsObject {
-    readonly hint: Hint;
-    readonly parentItem?: Equipment | Oil | WornItem | Rune | WeaponRune | Material;
-    readonly parentConditionGain?: ConditionGain;
-    readonly objectName: string;
 }
 
 @Injectable({
@@ -78,6 +70,7 @@ export class EffectsGenerationService {
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
+        private readonly _creatureEffectsGenerationService: CreatureEffectsGenerationService,
     ) { }
 
     public effectsFromEffectObject(
@@ -420,7 +413,7 @@ export class EffectsGenerationService {
         let conditions: Array<ConditionEffectsObject> = [];
 
         //Collect the creature's feats/abilities/specializations and their hints.
-        const creatureObjects = creature.effectsGenerationObjects(services.characterService);
+        const creatureObjects = this._creatureEffectsGenerationService.creatureEffectsGenerationObjects(creature);
 
         feats = feats.concat(creatureObjects.feats);
         hintSets = hintSets.concat(creatureObjects.hintSets);
@@ -480,13 +473,7 @@ export class EffectsGenerationService {
 
         hintSets
             .filter(hintSet =>
-                (
-                    hintSet.hint.active ||
-                    hintSet.hint.active2 ||
-                    hintSet.hint.active3 ||
-                    hintSet.hint.active4 ||
-                    hintSet.hint.active5
-                ) &&
+                hintSet.hint.anyActive &&
                 hintSet.hint.effects?.length,
             )
             .forEach(hintSet => {

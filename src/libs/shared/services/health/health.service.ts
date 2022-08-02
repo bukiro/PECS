@@ -36,6 +36,7 @@ export class HealthService {
             maxDying: this.maxDying(creature),
         };
     }
+
     public maxHP(creature: Creature): { result: number; explain: string } {
         const charLevel = this._characterService.character.level;
         const conModifier = creature.requiresConForHP
@@ -57,6 +58,7 @@ export class HealthService {
 
         return baseHP;
     }
+
     public currentHP(health: Health, creature: Creature): { result: number; explain: string } {
         const maxHP = this.maxHP(creature);
         let sum = maxHP.result + health.temporaryHP[0].amount - health.damage;
@@ -79,6 +81,7 @@ export class HealthService {
 
         return { result: sum, explain };
     }
+
     public wounded(creature: Creature): number {
         let woundeds = 0;
         const conditions = this._characterService.currentCreatureConditions(creature, 'Wounded');
@@ -89,6 +92,7 @@ export class HealthService {
 
         return Math.max(woundeds, 0);
     }
+
     public dying(creature: Creature): number {
         let dying = 0;
         const conditions = this._characterService.currentCreatureConditions(creature, 'Dying');
@@ -99,6 +103,7 @@ export class HealthService {
 
         return Math.max(dying, 0);
     }
+
     public maxDying(creature: Creature): number {
         const defaultMaxDying = 4;
         let effectsSum = 0;
@@ -112,6 +117,7 @@ export class HealthService {
 
         return defaultMaxDying + effectsSum;
     }
+
     public takeDamage(
         health: Health,
         creature: Creature,
@@ -187,6 +193,7 @@ export class HealthService {
 
         return { dyingAddedAmount, hasAddedUnconscious, hasRemovedUnconscious };
     }
+
     public heal(
         health: Health,
         creature: Creature,

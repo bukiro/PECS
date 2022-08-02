@@ -50,6 +50,7 @@ export class ActivityGain {
      * or end the activity when the condition ends.
      */
     public id = uuidv4();
+
     public recast(): ActivityGain {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
@@ -57,6 +58,7 @@ export class ActivityGain {
 
         return this;
     }
+
     public isOwnActivity(): this is Activity {
         return false;
     }

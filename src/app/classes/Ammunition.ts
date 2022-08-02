@@ -1,7 +1,6 @@
 import { Consumable } from 'src/app/classes/Consumable';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ItemsService } from 'src/app/services/items.service';
-import { TypeService } from 'src/app/services/type.service';
 
 export class Ammunition extends Consumable {
     //Ammunition should be type "ammunition" to be found in the database
@@ -13,12 +12,14 @@ export class Ammunition extends Consumable {
      * Same as the weapon type: Arrows, Blowgun Darts, Bolts, Sling Bullets or Any
      */
     public ammunition = '';
+
     public recast(itemsService: ItemsService): Ammunition {
         super.recast(itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
 
         return this;
     }
+
     public effectiveName(): string {
         if (this.displayName) {
             return this.displayName;

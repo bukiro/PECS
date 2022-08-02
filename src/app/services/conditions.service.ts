@@ -600,9 +600,7 @@ export class ConditionsService {
         }
 
         //Disable the condition's hints if deactivated.
-        condition.hints.forEach(hint => {
-            hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-        });
+        condition.hints.forEach(hint => hint.deactivateAll());
 
         //Leave cover behind shield if the Cover condition is removed.
         if (condition.name === 'Cover' && (!taken || (gain.choice !== 'Greater'))) {

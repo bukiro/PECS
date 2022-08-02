@@ -230,9 +230,7 @@ export class TypeService {
 
                     //Disable any active hint effects when loading an item.
                     if (mergedObject instanceof Equipment) {
-                        mergedObject.hints.forEach(hint => {
-                            hint.active = hint.active2 = hint.active3 = hint.active4 = hint.active5 = false;
-                        });
+                        mergedObject.hints.forEach(hint => hint.deactivateAll());
                     }
 
                     mergedObject.restoredFromSave = true;

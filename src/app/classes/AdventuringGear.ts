@@ -1,6 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemsService } from 'src/app/services/items.service';
-import { TypeService } from 'src/app/services/type.service';
 
 export class AdventuringGear extends Equipment {
     //Adventuring Gear should be type "adventuringgear" to be found in the database
@@ -16,11 +15,13 @@ export class AdventuringGear extends Equipment {
     public stack = 1;
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage = '';
+
     public recast(itemsService: ItemsService): AdventuringGear {
         super.recast(itemsService);
 
         return this;
     }
+
     public canStack(): boolean {
         //Some AdventuringGear can stack. This is an expanded version of Item.can_Stack().
         return (
