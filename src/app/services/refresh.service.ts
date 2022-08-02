@@ -24,6 +24,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { CacheService } from 'src/app/services/cache.service';
 import { ActivitiesDataService } from '../core/services/data/activities-data.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
 interface DetailToChange {
     creature: CreatureTypes | '';
@@ -46,6 +47,7 @@ export class RefreshService {
     constructor(
         private readonly _traitsService: TraitsService,
         private readonly _cacheService: CacheService,
+        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
     ) {
         //Prepare the update variables that everything subscribes to.
         this._componentChanged$ = this._componentChanged.asObservable();
@@ -483,7 +485,7 @@ export class RefreshService {
         if (item.gainActivities?.length) {
             this.prepareDetailToChange(creature.type, 'activities');
             item.gainActivities.forEach(gain => {
-                gain.originalActivity(services.activitiesDataService)?.showonSkill?.split(',').forEach(skillName => {
+                this._activityGainPropertyService.originalActivity(gain)?.showonSkill?.split(',').forEach(skillName => {
                     this.prepareDetailToChange(creature.type, 'skills');
                     this.prepareDetailToChange(creature.type, 'individualskills', skillName.trim());
                 });

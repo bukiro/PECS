@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { Activity } from '../classes/Activity';
 import { ActivityGain } from '../classes/ActivityGain';
@@ -32,6 +33,7 @@ export class ActivitiesProcessingService {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
     ) { }
 
     public activateActivity(
@@ -185,19 +187,19 @@ export class ActivitiesProcessingService {
                         }
                     });
                 context.item instanceof Equipment && context.item.gainActivities
-                    .filter(activityGain => activityGain.sharedChargesID === context.gain.sharedChargesID)
-                    .forEach(activityGain => {
-                        const originalActivity = activityGain.originalActivity(this._activitiesDataService);
+                    .filter(gain => gain.sharedChargesID === context.gain.sharedChargesID)
+                    .forEach(gain => {
+                        const originalActivity = this._activityGainPropertyService.originalActivity(gain);
 
-                        if (originalActivity.name === activityGain.name) {
+                        if (originalActivity.name === gain.name) {
                             if (this._activityPropertyService.maxCharges(originalActivity, context)) {
-                                activityGain.chargesUsed += 1;
+                                gain.chargesUsed += 1;
                             }
 
                             this._activityPropertyService.cacheEffectiveCooldown(originalActivity, context);
 
-                            if (!activityGain.activeCooldown && originalActivity.$cooldown) {
-                                activityGain.activeCooldown = originalActivity.$cooldown;
+                            if (!gain.activeCooldown && originalActivity.$cooldown) {
+                                gain.activeCooldown = originalActivity.$cooldown;
                             }
                         }
 

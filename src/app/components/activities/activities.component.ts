@@ -7,9 +7,7 @@ import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatCh
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { EffectsService } from 'src/app/services/effects.service';
 import { Activity } from 'src/app/classes/Activity';
-import { TimeService } from 'src/app/services/time.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -17,6 +15,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
 interface ActivitySet {
     name: string;
@@ -53,12 +52,11 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
-        private readonly _timeService: TimeService,
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -128,10 +126,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
                 gain: gainSet.gain,
                 activity: gainSet.activity,
                 maxCharges,
-                disabled: gainSet.gain.disabled(
-                    { creature, maxCharges },
-                    { effectsService: this._effectsService, timeService: this._timeService },
-                ),
+                disabled: this._activityGainPropertyService.gainDisabledReason(gainSet.gain, { creature, maxCharges }),
                 hostile: gainSet.activity.isHostile(),
             };
         });
@@ -217,7 +212,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         };
 
         this._characterService.creatureOwnedActivities(this.currentCreature()).forEach(gain => {
-            const activity = gain.originalActivity(this._activitiesDataService);
+            const activity = this._activityGainPropertyService.originalActivity(gain);
 
             this._activityPropertyService.cacheEffectiveCooldown(activity, { creature: this.currentCreature() });
 

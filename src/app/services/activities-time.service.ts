@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { Activity } from '../classes/Activity';
 import { ActivityGain } from '../classes/ActivityGain';
@@ -23,6 +24,7 @@ export class ActivitiesTimeService {
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _refreshService: RefreshService,
         private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
     ) { }
 
     public restActivities(creature: Creature, characterService: CharacterService): void {
@@ -32,7 +34,7 @@ export class ActivitiesTimeService {
         characterService.creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown !== 0 || gain.duration === TimePeriods.UntilRest)
             .forEach(gain => {
-                const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesDataService);
+                const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(gain);
 
                 if (gain.duration === TimePeriods.UntilRest && activity) {
                     this._activitiesProcessingService.activateActivity(
@@ -71,7 +73,7 @@ export class ActivitiesTimeService {
         characterService.creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => [gain.activeCooldown, gain.duration].includes(TimePeriods.UntilRefocus))
             .forEach(gain => {
-                const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesDataService);
+                const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(gain);
 
                 if (gain.duration === TimePeriods.UntilRefocus && activity) {
                     this._activitiesProcessingService.activateActivity(
@@ -113,7 +115,7 @@ export class ActivitiesTimeService {
         characterService.creatureOwnedActivities(creature, undefined, true).filter(gain => gain.activeCooldown || gain.duration)
             .forEach(gain => {
                 //Tick down the duration and the cooldown by the amount of turns.
-                const activity: Activity | ItemActivity = gain.originalActivity(this._activitiesDataService);
+                const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(gain);
                 // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
                 let remainingTurns = turns;
 

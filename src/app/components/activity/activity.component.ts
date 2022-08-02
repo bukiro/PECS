@@ -30,6 +30,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -85,6 +86,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _conditionsService: ConditionsService,
         private readonly _effectsService: EffectsService,
         private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -117,10 +119,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         return {
             maxCharges,
             cooldown: this.activity.$cooldown,
-            disabled: this.gain?.disabled(
-                { creature, maxCharges },
-                { effectsService: this._effectsService, timeService: this._timeService },
-            ) || '',
+            disabled: this.gain ? this._activityGainPropertyService.gainDisabledReason(this.gain, { creature, maxCharges }) : '',
             activitySpell: this._activitySpell(),
             tooManySlottedAeonStones: hasTooManySlottedAeonStones,
             resonantAllowed: isResonantAllowed,
@@ -190,7 +189,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     ): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
         if (objectName) {
             return this._characterService.creatureOwnedActivities(this._currentCreature())
-                .map(gain => ({ gain, activity: gain.originalActivity(this._activitiesDataService) }))
+                .map(gain => ({ gain, activity: this._activityGainPropertyService.originalActivity(gain) }))
                 .filter(set =>
                     set.activity?.hints
                         .some(hint =>
@@ -212,7 +211,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         if (featData) {
             return this._characterService.creatureOwnedActivities(this._currentCreature())
                 .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
-                .map(gain => ({ gain, activity: gain.originalActivity(this._activitiesDataService) }));
+                .map(gain => ({ gain, activity: this._activityGainPropertyService.originalActivity(gain) }));
         } else {
             return [];
         }

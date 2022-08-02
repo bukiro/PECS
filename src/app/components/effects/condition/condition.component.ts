@@ -11,11 +11,11 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Activity } from 'src/app/classes/Activity';
-import { EffectsService } from 'src/app/services/effects.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -52,13 +52,13 @@ export class ConditionComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
         private readonly _refreshService: RefreshService,
         private readonly _timeService: TimeService,
         private readonly _itemsService: ItemsService,
         private readonly _conditionsService: ConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -224,7 +224,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
                 gain.heightened = this.conditionGain.heightened;
 
-                const originalActivity = gain.originalActivity(this._activitiesDataService);
+                const originalActivity = this._activityGainPropertyService.originalActivity(gain);
 
                 this._activityPropertyService.cacheEffectiveCooldown(
                     originalActivity,

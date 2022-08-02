@@ -27,6 +27,7 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { BulkService } from 'src/libs/shared/services/bulk/bulk.service';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
 @Injectable({
     providedIn: 'root',
@@ -44,6 +45,7 @@ export class ConditionsService {
         private readonly _refreshService: RefreshService,
         private readonly _healthService: HealthService,
         private readonly _bulkService: BulkService,
+        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -575,7 +577,7 @@ export class ConditionsService {
                     .filter(activityGain => activityGain.id === gain.sourceGainID && activityGain.active)
                     .forEach(activityGain => {
                         //Tick down the duration and the cooldown.
-                        const activity: Activity | ItemActivity = activityGain.originalActivity(characterService.activitiesDataService);
+                        const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(activityGain);
 
                         if (activity) {
                             characterService.activitiesProcessingService.activateActivity(

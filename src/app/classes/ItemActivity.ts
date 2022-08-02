@@ -1,16 +1,13 @@
 import { Activity, ActivityTargetOptions } from 'src/app/classes/Activity';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { v4 as uuidv4 } from 'uuid';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { EffectsService } from 'src/app/services/effects.service';
-import { Creature } from 'src/app/classes/Creature';
-import { TimeService } from '../services/time.service';
-import { ActivityGain } from './ActivityGain';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
-//ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
+/**
+ * ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
+ * It can only extend one class, so any change to ActivityGain needs to be repeated here.
+ */
 export class ItemActivity extends Activity {
-    public readonly isActivity: boolean = true;
     public active = false;
     public activeCooldown = 0;
     public chargesUsed = 0;
@@ -71,15 +68,7 @@ export class ItemActivity extends Activity {
 
         return this;
     }
-    // Other implementations require activitiesService.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public originalActivity(activitiesDataService: ActivitiesDataService): Activity {
-        return this;
-    }
-    public disabled(
-        context: { creature: Creature; maxCharges: number },
-        services: { effectsService: EffectsService; timeService: TimeService },
-    ): string {
-        return ActivityGain.prototype.disabled(context, services);
+    public isOwnActivity(): this is Activity {
+        return true;
     }
 }

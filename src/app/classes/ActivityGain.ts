@@ -2,15 +2,10 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { EffectsService } from 'src/app/services/effects.service';
-import { Creature } from 'src/app/classes/Creature';
-import { TimeService } from 'src/app/services/time.service';
 import { Activity } from './Activity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 export class ActivityGain {
-    public readonly isActivity: boolean = false;
     public active = false;
     public activeCooldown = 0;
     public chargesUsed = 0;
@@ -62,33 +57,7 @@ export class ActivityGain {
 
         return this;
     }
-    public originalActivity(activitiesDataService: ActivitiesDataService): Activity {
-        return activitiesDataService.activityFromName(this.name);
-    }
-    public disabled(
-        context: { creature: Creature; maxCharges: number },
-        services: { effectsService: EffectsService; timeService: TimeService },
-    ): string {
-        if (this.active) {
-            return '';
-        }
-
-        if (this.chargesUsed >= context.maxCharges) {
-            if (this.activeCooldown) {
-                const durationDescription = services.timeService.durationDescription(this.activeCooldown, true, false);
-
-                return `${ context.maxCharges ? 'Recharged in:' : 'Cooldown:' } ${ durationDescription }`;
-            } else if (context.maxCharges) {
-                return 'No activations left.';
-            }
-        }
-
-        const disablingEffects = services.effectsService.effectsOnThis(context.creature, `${ this.name } Disabled`);
-
-        if (disablingEffects.length) {
-            return `Disabled by: ${ disablingEffects.map(effect => effect.source).join(', ') } `;
-        }
-
-        return '';
+    public isOwnActivity(): this is Activity {
+        return false;
     }
 }

@@ -56,11 +56,11 @@ export class ActivitiesDataService {
 
         creature.inventories.forEach(inventory => {
             inventory.allEquipment().forEach(equipment => {
-                if (gain.isActivity && equipment.activities.some(itemActivity => itemActivity === gain)) {
+                if (gain.isOwnActivity() && equipment.activities.some(itemActivity => itemActivity === gain)) {
                     item = equipment;
-                } else if (!gain.isActivity && equipment.gainActivities.some(activityGain => activityGain === gain)) {
+                } else if (!gain.isOwnActivity() && equipment.gainActivities.some(activityGain => activityGain === gain)) {
                     item = equipment;
-                } else if (gain.isActivity) {
+                } else if (gain.isOwnActivity()) {
                     if (equipment instanceof Armor) {
                         equipment.propertyRunes.forEach(rune => {
                             if (rune.activities.some(itemActivity => itemActivity === gain)) {

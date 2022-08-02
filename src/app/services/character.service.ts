@@ -94,6 +94,7 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { ArmorClassService, CoverTypes } from 'src/libs/defense/services/armor-class/armor-class.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -186,6 +187,7 @@ export class CharacterService {
         private readonly _armorClassService: ArmorClassService,
         private readonly _healthService: HealthService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
+        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -3074,7 +3076,7 @@ export class CharacterService {
     public creatureActivitiesShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<Activity> {
         return this.creatureOwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
-            .map(gain => ({ gain, activity: gain.originalActivity(this.activitiesDataService) }))
+            .map(gain => ({ gain, activity: this._activityGainPropertyService.originalActivity(gain) }))
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
             .filter((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) =>
                 gainAndActivity.activity &&

@@ -36,6 +36,7 @@ import { AbilitiesDataService } from '../core/services/data/abilities-data.servi
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -76,6 +77,7 @@ export class EffectsGenerationService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
+        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
     ) { }
 
     public effectsFromEffectObject(
@@ -401,9 +403,9 @@ export class EffectsGenerationService {
         const hintSets: Array<HintEffectsObject> = [];
 
         services.characterService.creatureOwnedActivities(creature, creature.level, true).filter(activity => activity.active)
-            .forEach(activity => {
-                activity.originalActivity(this._activitiesDataService)?.hints?.forEach(hint => {
-                    hintSets.push({ hint, objectName: activity.name });
+            .forEach(gain => {
+                this._activityGainPropertyService.originalActivity(gain)?.hints?.forEach(hint => {
+                    hintSets.push({ hint, objectName: gain.name });
                 });
             });
 
