@@ -13,13 +13,13 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TypeService } from 'src/app/services/type.service';
-import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterService } from 'src/app/services/character.service';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 
 export class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -84,7 +84,9 @@ export class Equipment extends Item {
     public showChoicesInInventory = false;
     public choices: Array<string> = [];
     public choice = '';
+
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string);
+
     /** Amount of propertyRunes you can still apply */
     public get freePropertyRunes(): number {
         //You can apply as many property runes as the level of your potency rune. Each rune with the Saggorak trait counts double.
@@ -102,12 +104,15 @@ export class Equipment extends Item {
 
         return runes;
     }
+
     public get secondaryRune(): BasicRuneLevels {
         return BasicRuneLevels.None;
     }
+
     public set secondaryRune(value: BasicRuneLevels) {
         return;
     }
+
     public recast(itemsService: ItemsService): Equipment {
         super.recast(itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
@@ -164,6 +169,9 @@ export class Equipment extends Item {
 
         return this;
     }
+
+    public isEquipment(): this is Equipment { return true; }
+
     public gridIconValue(): string {
         const parts: Array<string> = [];
 
@@ -177,16 +185,20 @@ export class Equipment extends Item {
 
         return parts.join(',');
     }
+
     public investedOrEquipped(): boolean {
         return this.canInvest() ? this.invested : (this.equipped === this.equippable);
     }
+
     public canInvest(): boolean {
         return (this.traits.includes('Invested'));
     }
+
     public canStack(): boolean {
         //Equipment cannot stack.
         return false;
     }
+
     public effectiveBulk(): string {
         //Return either the bulk set by an oil, or the bulk of the item, possibly reduced by the material.
         let bulk: string = this.bulk;
@@ -213,10 +225,12 @@ export class Equipment extends Item {
 
         return oilBulk || bulk;
     }
+
     public effectivePotency(): number {
         //Return the highest value of your potency rune or any oils that emulate one
         return Math.max(...this.oilsApplied.map(oil => oil.potencyEffect), this.potencyRune);
     }
+
     public potencyTitle(potency: number): string {
         if (potency > 0) {
             return `+${ potency }`;
@@ -224,10 +238,12 @@ export class Equipment extends Item {
             return '';
         }
     }
+
     public effectiveStriking(): number {
         //Return the highest value of your striking rune or any oils that emulate one
         return Math.max(...this.oilsApplied.map(oil => oil.strikingEffect), this.strikingRune);
     }
+
     public strikingTitle(striking: number): string {
         switch (striking) {
             case BasicRuneLevels.None:
@@ -242,10 +258,12 @@ export class Equipment extends Item {
                 return '';
         }
     }
+
     public effectiveResilient(): number {
         //Return the highest value of your resilient rune or any oils that emulate one
         return Math.max(...this.oilsApplied.map(oil => oil.resilientEffect), this.resilientRune);
     }
+
     public resilientTitle(resilient: number): string {
         switch (resilient) {
             case BasicRuneLevels.None:
@@ -260,6 +278,7 @@ export class Equipment extends Item {
                 return '';
         }
     }
+
     public effectiveName(options: { itemStore?: boolean } = {}): string {
         if (this.displayName.length) {
             return this.displayName + ((!options.itemStore && this.choice) ? `: ${ this.choice }` : '');
@@ -318,11 +337,13 @@ export class Equipment extends Item {
             return words.join(' ') + ((!options.itemStore && this.choice) ? `: ${ this.choice }` : '');
         }
     }
+
     //Other implementations require creature and characterService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
         return [this];
     }
+
     public effectsGenerationHints(): Array<HintEffectsObject> {
         const convertHints =
             (item: Equipment | Oil | Material): Array<{ hint: Hint; parentItem: Equipment | Oil | Material; objectName: string }> => (
@@ -333,10 +354,12 @@ export class Equipment extends Item {
             .concat(...this.oilsApplied.map(oil => convertHints(oil)))
             .concat(...this.material.map(material => convertHints(material)));
     }
+
     protected _secondaryRuneName(): string {
         //Weapons, Armors and Worn Items that can bear runes have their own version of this method.
         return '';
     }
+
     protected _bladeAllyName(): Array<string> {
         //Weapons have their own version of this method.
         return [];

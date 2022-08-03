@@ -1,8 +1,7 @@
 import { Rune } from 'src/app/classes/Rune';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 
 export class ArmorRune extends Rune {
     //Armor Runes should be type "armorrunes" to be found in the database

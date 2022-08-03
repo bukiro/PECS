@@ -6,7 +6,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { EffectsService } from 'src/app/services/effects.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trait } from 'src/app/classes/Trait';
@@ -15,6 +14,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ItemRolesService } from 'src/app/services/itemRoles.service';
 import { Rune } from 'src/app/classes/Rune';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 
 interface ItemParameters {
     item: Item;
@@ -40,13 +40,13 @@ export class HintItemComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsService: TraitsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _itemTraitsService: ItemTraitsService,
         public trackers: Trackers,
     ) { }
 
@@ -65,7 +65,9 @@ export class HintItemComponent implements OnInit, OnDestroy {
     }
 
     public itemTraits(): Array<string> {
-        return this.item.effectiveTraits(this._characterService, this.currentCreature);
+        this._itemTraitsService.cacheItemEffectiveTraits(this.item, { creature: this.currentCreature });
+
+        return this.item.$traits;
     }
 
     public traitFromName(name: string): Trait {

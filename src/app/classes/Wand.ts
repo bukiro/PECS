@@ -1,7 +1,4 @@
-import { CharacterService } from 'src/app/services/character.service';
 import { Equipment } from 'src/app/classes/Equipment';
-import { Creature } from 'src/app/classes/Creature';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 
 export class Wand extends Equipment {
@@ -23,6 +20,9 @@ export class Wand extends Equipment {
 
         return this;
     }
+
+    public isWand(): this is Wand { return true; }
+
     public effectiveName(): string {
         if (this.displayName) {
             return this.displayName;
@@ -36,22 +36,6 @@ export class Wand extends Equipment {
             return this.name;
         }
     }
-    //Other implementations require creature.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectiveTraits(characterService: CharacterService, creature: Creature): Array<string> {
-        //creature is not needed for wands, but for other types of item.
-        let traits: Array<string> = [];
 
-        if (this.storedSpells[0]?.spells.length) {
-            const spell = characterService.spellsService.spellFromName(this.storedSpells[0].spells[0].name);
-
-            if (spell) {
-                traits = Array.from(new Set(this.traits.concat(spell.traits))).sort();
-            }
-        }
-
-        this.$traits = traits;
-
-        return traits;
-    }
+    public effectiveTraits(): boolean { return true; }
 }

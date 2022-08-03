@@ -2,12 +2,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Oil } from 'src/app/classes/Oil';
 import { ItemGain } from 'src/app/classes/ItemGain';
-import { CharacterService } from 'src/app/services/character.service';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { Creature } from './Creature';
 import { ItemGainOnOptions } from '../../libs/shared/definitions/itemGainOptions';
-import { HintEffectsObject } from '../services/effectsGeneration.service';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
+import { Equipment } from './Equipment';
+import { Armor } from './Armor';
+import { Weapon } from './Weapon';
+import { WornItem } from './WornItem';
+import { Wand } from './Wand';
+import { Consumable } from './Consumable';
+import { Scroll } from './Scroll';
 
 export interface TraitActivation {
     trait: string;
@@ -128,11 +133,13 @@ export class Item {
     public restoredFromSave = false;
     public PFSnote = '';
     public inputRequired = '';
+
     public get sortLevel(): string {
         const twoDigits = 2;
 
         return this.level.toString().padStart(twoDigits, '0');
     }
+
     public recast(itemsService: ItemsService): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
@@ -152,24 +159,37 @@ export class Item {
 
         return this;
     }
+
+    public isConsumable(): this is Consumable { return false; }
+
+    public isEquipment(): this is Equipment { return false; }
+
+    public isArmor(): this is Armor { return false; }
+
+    public isWeapon(): this is Weapon { return false; }
+
+    public isWornItem(): this is WornItem { return false; }
+
+    public isScroll(): this is Scroll { return false; }
+
+    public isWand(): this is Wand { return false; }
+
     //Other implementations require itemsService.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public effectivePrice(itemsService: ItemsService): number {
         return this.price;
     }
+
     public gridIconTitle(): string {
         return this.displayName.replace(`(${ this.subType })`, '') || this.name.replace(`(${ this.subType })`, '');
     }
+
     public gridIconValue(): string {
         return this.subType[0] || '';
     }
-    //Some types of items have more complicated methods of determining traits, and need characterService and creature in the function.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectiveTraits(characterService: CharacterService, creature: Creature): Array<string> {
-        this.$traits = this.traits;
 
-        return this.$traits;
-    }
+    public effectiveTraits(): boolean { return true; }
+
     public prepareTraitActivations(): void {
         //Create trait activations for all traits that don't have one yet.
         this.traitActivations = this.traitActivations.filter(activation => this.$traits.includes(activation.trait));
@@ -181,9 +201,11 @@ export class Item {
                 this.traitActivations.push({ trait, active: false, active2: false, active3: false });
             });
     }
+
     public activatedTraitsActivations(): typeof this.traitActivations {
         return this.traitActivations.filter(activation => activation.active || activation.active2 || activation.active3);
     }
+
     public effectiveBulk(): string {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk = '';
@@ -196,9 +218,11 @@ export class Item {
 
         return oilBulk || this.bulk;
     }
+
     public canInvest(): boolean {
         return this.traits.includes('Invested');
     }
+
     public canStack(): boolean {
         //Equipment, Runes and Snares have their own version of can_Stack.
         return (
@@ -208,6 +232,7 @@ export class Item {
             !this.storedSpells.length
         );
     }
+
     //Other implementations require itemStore.
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public effectiveName(options: { itemStore?: boolean } = {}): string {
@@ -217,9 +242,11 @@ export class Item {
             return this.name;
         }
     }
+
     public effectsGenerationHints(): Array<HintEffectsObject> {
         return [];
     }
+
     public investedOrEquipped(): boolean {
         return false;
     }

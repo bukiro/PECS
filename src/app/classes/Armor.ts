@@ -4,7 +4,6 @@
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
-import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Specialization } from 'src/app/classes/Specialization';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
@@ -16,6 +15,7 @@ import { AdventuringGear } from './AdventuringGear';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -79,6 +79,8 @@ export class Armor extends Equipment {
 
         return this;
     }
+
+    public isArmor(): this is Armor { return true; }
 
     public title(options: { itemStore?: boolean } = {}): string {
         const proficiency = options.itemStore ? this.prof : this.effectiveProficiency();
@@ -211,22 +213,7 @@ export class Armor extends Equipment {
         return currentProficiency !== this.prof;
     }
 
-    // characterService and creature are not needed for armors, but for other implementations of item.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectiveTraits(characterService?: CharacterService, creature?: Creature): Array<string> {
-        let traits = this.traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
-
-        if (this.$affectedByArmoredSkirt !== 0) {
-            //An armored skirt makes your armor noisy if it isn't already.
-            if (!traits.includes('Noisy')) {
-                traits = traits.concat('Noisy');
-            }
-        }
-
-        this.$traits = traits;
-
-        return this.$traits;
-    }
+    public effectiveTraits(): boolean { return true; }
 
     public effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
         return super.effectsGenerationObjects(creature, characterService)

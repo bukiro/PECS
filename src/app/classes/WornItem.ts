@@ -1,5 +1,4 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
@@ -13,6 +12,7 @@ import { Talisman } from './Talisman';
 import { MaxSpellLevel } from 'src/libs/shared/definitions/spellLevels';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 
 export interface RingOfWizardrySlot {
     tradition: string;
@@ -126,6 +126,8 @@ export class WornItem extends Equipment {
         return this;
     }
 
+    public isWornItem(): this is WornItem { return true; }
+
     public effectivePrice(itemsService: ItemsService): number {
         let price = this.price;
 
@@ -147,18 +149,7 @@ export class WornItem extends Equipment {
         return price;
     }
 
-    public effectiveTraits(characterService: CharacterService, creature: Creature): Array<string> {
-        return super.effectiveTraits(characterService, creature)
-            .concat(
-                this.isTalismanCord ?
-                    this.data
-                        .map(data => data.value.toString())
-                        .filter(trait =>
-                            !this.traits.includes(trait) && trait !== 'no school attuned',
-                        ) :
-                    [],
-            );
-    }
+    public effectiveTraits(): boolean { return true; }
 
     public isCompatibleWithTalisman(talisman: Talisman): boolean {
         return this.isTalismanCord ?

@@ -1,7 +1,6 @@
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Item } from 'src/app/classes/Item';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 
 export class Consumable extends Item {
@@ -25,6 +24,7 @@ export class Consumable extends Item {
      * and how many make up one instance of the items Bulk.
      */
     public stack = 1;
+
     public recast(itemsService: ItemsService): Consumable {
         super.recast(itemsService);
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
@@ -32,4 +32,6 @@ export class Consumable extends Item {
 
         return this;
     }
+
+    public isConsumable(): this is Consumable { return true; }
 }

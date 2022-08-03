@@ -85,13 +85,17 @@ export class Weapon extends Equipment {
     public $traits: Array<string> = [];
     /** Shoddy weapons take a -2 penalty to attacks. */
     public $shoddy: ShoddyPenalties = ShoddyPenalties.NotShoddy;
+
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = StrikingTitleFromLevel;
+
     public get secondaryRune(): BasicRuneLevels {
         return this.strikingRune;
     }
+
     public set secondaryRune(value: BasicRuneLevels) {
         this.strikingRune = value;
     }
+
     public recast(itemsService: ItemsService): Weapon {
         super.recast(itemsService);
         this.poisonsApplied =
@@ -109,6 +113,9 @@ export class Weapon extends Equipment {
 
         return this;
     }
+
+    public isWeapon(): this is Weapon { return true; }
+
     public title(options: { itemStore?: boolean; preparedProficiency?: string } = {}): string {
         const proficiency = (options.itemStore || !options.preparedProficiency) ? this.prof : options.preparedProficiency;
 
@@ -118,6 +125,7 @@ export class Weapon extends Equipment {
         ].filter(part => part)
             .join(' ');
     }
+
     public effectivePrice(itemsService: ItemsService): number {
         let price = this.price;
 
@@ -157,111 +165,9 @@ export class Weapon extends Equipment {
 
         return price;
     }
-    public effectiveTraits(characterService: CharacterService, creature: Creature): Array<string> {
-        //Test for certain feats that give traits to unarmed attacks.
-        let traits: Array<string> = JSON.parse(JSON.stringify(this.traits));
 
-        if (this.melee) {
-            //Find and apply effects that give this weapon reach.
-            const effectsService = characterService.effectsService;
-            const noReach = 5;
-            const typicalReach = 10;
-            let reach = noReach;
-            const reachTrait = traits.find(trait => trait.includes('Reach'));
+    public effectiveTraits(): boolean { return true; }
 
-            if (reachTrait) {
-                reach = reachTrait.includes(' ') ? parseInt(reachTrait.split(' ')[1], 10) : typicalReach;
-            }
-
-            let newReach = reach;
-            const list = [
-                'Reach',
-                `${ this.name } Reach`,
-                `${ this.weaponBase } Reach`,
-                //"Unarmed Attacks Reach", "Simple Weapon Reach"
-                `${ this.prof } Reach`,
-            ];
-
-            effectsService.absoluteEffectsOnThese(creature, list)
-                .forEach(effect => {
-                    newReach = parseInt(effect.setValue, 10);
-                });
-            effectsService.relativeEffectsOnThese(creature, list)
-                .forEach(effect => {
-                    newReach += parseInt(effect.value, 10);
-                });
-
-            if (newReach !== reach) {
-                if (newReach === noReach || newReach === 0) {
-                    traits = traits.filter(trait => !trait.includes('Reach'));
-                } else {
-                    const reachString: string = traits.find(trait => trait.includes('Reach'));
-
-                    if (reachString) {
-                        traits[traits.indexOf(reachString)] = `Reach ${ newReach } feet`;
-                    } else {
-                        traits.push(`Reach ${ newReach } feet`);
-                    }
-                }
-            }
-        }
-
-        //Create names list for effects, checking both Gain Trait and Lose Trait
-        const namesList = [
-            `${ this.name } Gain Trait`,
-            //"Sword Gain Trait", "Club Gain Trait"
-            `${ this.group } Gain Trait`,
-            //"Unarmed Attacks Gain Trait", "Simple Weapons Gain Trait"
-            `${ this.prof } Gain Trait`,
-            //"Unarmed Gain Trait", "Simple Gain Trait"
-            `${ this.prof.split(' ')[0] } Gain Trait`,
-            //"Weapons Gain Trait", also "Attacks Gain Trait", but that's unlikely to be needed
-            `${ this.prof.split(' ')[1] } Gain Trait`,
-        ];
-
-        if (this.melee) {
-            namesList.push(...[
-                'Melee Gain Trait',
-                `Melee ${ this.prof.split(' ')[1] } Gain Trait`,
-            ]);
-        }
-
-        if (this.ranged) {
-            namesList.push(...[
-                'Ranged Gain Trait',
-                `Ranged ${ this.prof.split(' ')[1] } Gain Trait`,
-            ]);
-        }
-
-        namesList.push(...namesList.map(name => name.replace('Gain Trait', 'Lose Trait')));
-        characterService.effectsService.toggledEffectsOnThese(creature, namesList).filter(effect => effect.title)
-            .forEach(effect => {
-                if (effect.target.toLowerCase().includes('gain trait')) {
-                    traits.push(effect.title);
-                } else if (effect.target.toLowerCase().includes('lose trait')) {
-                    traits = traits.filter(trait => trait !== effect.title);
-                }
-            });
-        traits = traits.filter(trait => !this.material.some(material => material.removeTraits.includes(trait)));
-        traits = Array.from(new Set(traits)).sort();
-
-        if (JSON.stringify(this.$traits) !== JSON.stringify(traits)) {
-            // If any traits have changed, we need to update elements that these traits show on.
-            // First we save the traits, so we don't start a loop if anything wants to update attacks again.
-            const changed: Array<string> =
-                this.$traits.filter(trait => !traits.includes(trait)).concat(traits.filter(trait => !this.$traits.includes(trait)));
-
-            this.$traits = traits;
-            changed.forEach(changedTrait => {
-                characterService.traitsService.traits(changedTrait).forEach(trait => {
-                    characterService.refreshService.prepareChangesByHints(creature, trait.hints, { characterService });
-                });
-            });
-            characterService.refreshService.processPreparedChanges();
-        }
-
-        return traits;
-    }
     public effectiveProficiency(
         creature: Creature,
         characterService: CharacterService,
@@ -311,12 +217,15 @@ export class Weapon extends Equipment {
 
         return proficiency;
     }
+
     public hasProficiencyChanged(currentProficiency: string): boolean {
         return currentProficiency !== this.prof;
     }
+
     protected _secondaryRuneName(): string {
         return this.secondaryRuneTitleFunction(this.effectiveStriking());
     }
+
     protected _bladeAllyName(): Array<string> {
         const words: Array<string> = [];
 

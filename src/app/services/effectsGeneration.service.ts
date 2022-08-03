@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Armor } from 'src/app/classes/Armor';
@@ -36,6 +35,7 @@ import { ArmorPropertiesService } from 'src/libs/shared/services/armor-propertie
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { CreatureEffectsGenerationService } from 'src/libs/shared/effects-generation/services/creature-effects-generation/creature-effects-generation.service';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
+import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -60,7 +60,6 @@ export class EffectsGenerationService {
 
     constructor(
         private readonly _evaluationService: EvaluationService,
-        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _effectsService: EffectsService,
         private readonly _conditionsService: ConditionsService,
         private readonly _refreshService: RefreshService,
@@ -71,6 +70,7 @@ export class EffectsGenerationService {
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureEffectsGenerationService: CreatureEffectsGenerationService,
+        private readonly _itemTraitsService: ItemTraitsService,
     ) { }
 
     public effectsFromEffectObject(
@@ -501,7 +501,10 @@ export class EffectsGenerationService {
         options: { readonly ignoreArmorPenalties: boolean; readonly ignoreArmorSpeedPenalties: boolean },
     ): Array<Effect> {
         const itemEffects: Array<Effect> = [];
-        const armorTraits = armor.effectiveTraits();
+
+        this._itemTraitsService.cacheItemEffectiveTraits(armor, context);
+
+        const armorTraits = armor.$traits;
 
         const addEffect = (
             addOptions: {

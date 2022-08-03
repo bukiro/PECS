@@ -33,6 +33,7 @@ import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes
 import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { Rune } from 'src/app/classes/Rune';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 
 @Component({
     selector: 'app-item',
@@ -69,6 +70,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         private readonly _conditionsService: ConditionsService,
         private readonly _effectsService: EffectsService,
         private readonly _itemRolesService: ItemRolesService,
+        private readonly _itemTraitsService: ItemTraitsService,
         public trackers: Trackers,
     ) { }
 
@@ -81,7 +83,9 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     public itemTraits(): Array<string> {
-        return this.item.effectiveTraits(this._characterService, this._currentCreature);
+        this._itemTraitsService.cacheItemEffectiveTraits(this.item, { creature: this._currentCreature });
+
+        return this.item.$traits;
     }
 
     public traitFromName(name: string): Trait {

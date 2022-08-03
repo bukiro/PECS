@@ -1,17 +1,18 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { CharacterService } from 'src/app/services/character.service';
-import { Creature } from 'src/app/classes/Creature';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 
 export class Scroll extends Consumable {
     //Scrolls should be type "scrolls" to be found in the database
     public readonly type = 'scrolls';
+
     public recast(itemsService: ItemsService): Scroll {
         super.recast(itemsService);
 
         return this;
     }
+
+    public isScroll(): this is Scroll { return true; }
+
     public effectiveName(): string {
         if (this.displayName) {
             return this.displayName;
@@ -21,22 +22,6 @@ export class Scroll extends Consumable {
             return this.name;
         }
     }
-    //Other implementations require creature.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectiveTraits(characterService: CharacterService, creature: Creature): Array<string> {
-        let traits: Array<string> = [];
 
-        if (this.storedSpells[0]?.spells.length) {
-            const spell = characterService.spellsService.spellFromName(this.storedSpells[0].spells[0].name);
-
-            if (spell) {
-
-                traits = Array.from(new Set(this.traits.concat(spell.traits))).sort();
-            }
-        }
-
-        this.$traits = traits;
-
-        return this.$traits;
-    }
+    public effectiveTraits(): boolean { return true; }
 }

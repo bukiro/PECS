@@ -1,12 +1,11 @@
 import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
-import { HintEffectsObject } from 'src/app/services/effectsGeneration.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
-import { TypeService } from 'src/app/services/type.service';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 
 enum ShoddyPenalties {
     NotShoddy = 0,
