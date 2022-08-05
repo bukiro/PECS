@@ -10,6 +10,7 @@ import { SpellGain } from './SpellGain';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { ActivityTargetOptions } from './Activity';
 
 export class Spell {
     public actions = '1A';
@@ -65,7 +66,7 @@ export class Spell {
      * Any non-hostile spell can still target allies if the target number is nonzero.
      * Hostile spells can target allies if the target number is nonzero and this.overrideHostile is "friendly".
      */
-    public target = 'self';
+    public target: ActivityTargetOptions = ActivityTargetOptions.Self;
     /** The target description in the spell description. */
     public targets = '';
     /**
@@ -120,60 +121,6 @@ export class Spell {
     }
     public heightenedText(text: string, levelNumber: number): string {
         return heightenedTextFromDescSets(text, levelNumber, this.heightenedDescs);
-    }
-    public allowedTargetNumber(levelNumber: number, characterService: CharacterService): number {
-        //You can select any number of targets for an area spell.
-        if (this.target === 'area') {
-            return -1;
-        }
-
-        const character = characterService.character;
-        let resultingTargetNumber: SpellTargetNumber;
-
-        // This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any).
-        // Prefer targetNumbers with required feats over those without.
-        // If no targetNumbers are configured, return 1 for an ally spell and 0 for any other, and if none have a minLevel,
-        // return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
-        if (this.targetNumbers.length) {
-            if (this.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
-                let remainingLevelNumber = levelNumber;
-
-                for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
-                    if (this.targetNumbers.some(targetNumber => targetNumber.minLevel === remainingLevelNumber)) {
-                        resultingTargetNumber = this.targetNumbers.find(targetNumber =>
-                            (targetNumber.minLevel === remainingLevelNumber) &&
-                            (
-                                targetNumber.featreq &&
-                                !!characterService.characterFeatsTaken(1, character.level, { featName: targetNumber.featreq }).length
-                            ),
-                        );
-
-                        if (!resultingTargetNumber) {
-                            resultingTargetNumber = this.targetNumbers.find(targetNumber => targetNumber.minLevel === remainingLevelNumber);
-                        }
-
-                        if (resultingTargetNumber) {
-                            return resultingTargetNumber.number;
-                        }
-                    }
-                }
-
-                return this.targetNumbers[0].number;
-            } else {
-                resultingTargetNumber = this.targetNumbers.find(targetNumber =>
-                    targetNumber.featreq &&
-                    !!characterService.characterFeatsTaken(1, character.level, { featName: targetNumber.featreq }).length,
-                );
-
-                return resultingTargetNumber?.number || this.targetNumbers[0].number;
-            }
-        } else {
-            if (this.target === 'ally') {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
     }
     public heightenedConditions(levelNumber: number = this.levelreq): Array<ConditionGain> {
         // This descends through the level numbers, starting with levelNumber

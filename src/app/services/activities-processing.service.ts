@@ -163,9 +163,10 @@ export class ActivitiesProcessingService {
             }
         }
 
+        this._activityPropertyService.cacheMaxCharges(activity, context);
+
         // Use charges
-        const maxCharges =
-            this._activityPropertyService.maxCharges(activity, context);
+        const maxCharges = activity.$charges;
 
         if (maxCharges || context.gain.sharedChargesID) {
             // If this activity belongs to an item and has a sharedCharges ID,
@@ -174,9 +175,9 @@ export class ActivitiesProcessingService {
                 context.item.activities
                     .filter(itemActivity => itemActivity.sharedChargesID === context.gain.sharedChargesID)
                     .forEach(itemActivity => {
-                        if (
-                            this._activityPropertyService.maxCharges(itemActivity, context)
-                        ) {
+                        this._activityPropertyService.cacheMaxCharges(itemActivity, context);
+
+                        if (itemActivity.$charges) {
                             itemActivity.chargesUsed += 1;
                         }
 
@@ -192,7 +193,9 @@ export class ActivitiesProcessingService {
                         const originalActivity = this._activityGainPropertyService.originalActivity(gain);
 
                         if (originalActivity.name === gain.name) {
-                            if (this._activityPropertyService.maxCharges(originalActivity, context)) {
+                            this._activityPropertyService.cacheMaxCharges(originalActivity, context);
+
+                            if (originalActivity.$charges) {
                                 gain.chargesUsed += 1;
                             }
 

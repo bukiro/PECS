@@ -119,7 +119,10 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     public activityParameters(): Array<ActivityParameter> {
         return this._ownedActivities().map(gainSet => {
             const creature = this.currentCreature();
-            const maxCharges = this._activityPropertyService.maxCharges(gainSet.activity, { creature });
+
+            this._activityPropertyService.cacheMaxCharges(gainSet.activity, { creature });
+
+            const maxCharges = gainSet.activity.$charges;
 
             return {
                 name: gainSet.name,

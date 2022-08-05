@@ -104,7 +104,10 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public activityParameters(): ActivityParameters {
         const creature = this._currentCreature();
-        const maxCharges = this._activityPropertyService.maxCharges(this.activity, { creature });
+
+        this._activityPropertyService.cacheMaxCharges(this.activity, { creature });
+
+        const maxCharges = this.activity.$charges;
         const hasTooManySlottedAeonStones =
             (
                 this.item instanceof WornItem &&

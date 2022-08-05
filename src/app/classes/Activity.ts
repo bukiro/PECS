@@ -110,12 +110,13 @@ export class Activity {
      */
     public cannotTargetCaster = false;
     /**
-     * _cooldown is a calculated cooldown that is set by get_Cooldown() so that it can be used by can_Activate() without passing parameters.
+     * $cooldown is a calculated cooldown that is set by cacheEffectiveCooldown()
+     * so that it can be used by canActivate() without passing parameters.
      */
     public $cooldown = 0;
     /**
-     * _charges is the calculated number of charges that is set by maxCharges()
-     * so that it can be used by can_Activate() without passing parameters.
+     * $charges is the calculated number of charges that is set by cacheMaxCharges()
+     * so that it can be used by canActivate() and other functions without passing parameters.
      */
     public $charges = 0;
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition

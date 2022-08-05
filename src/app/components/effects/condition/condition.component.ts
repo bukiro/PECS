@@ -231,7 +231,9 @@ export class ConditionComponent implements OnInit, OnDestroy {
                     { creature: this._currentCreature },
                 );
 
-                const maxCharges = this._activityPropertyService.maxCharges(originalActivity, { creature: this._currentCreature });
+                this._activityPropertyService.cacheMaxCharges(originalActivity, { creature: this._currentCreature });
+
+                const maxCharges = originalActivity.$charges;
                 const canNotActivate = ((gain.activeCooldown ? (maxCharges === gain.chargesUsed) : false) && !gain.active);
                 const isHostile = originalActivity.isHostile();
 

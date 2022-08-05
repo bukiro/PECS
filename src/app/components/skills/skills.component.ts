@@ -18,6 +18,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
 interface SpeedParameters {
     name: string;
@@ -54,6 +55,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _effectsService: EffectsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -144,7 +146,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         }
 
         activities
-            .map(activity => activity.originalActivity(this._activitiesDataService))
+            .map(activity => this._activityGainPropertiesService.originalActivity(activity))
             .filter(originalActivity => !!originalActivity)
             .forEach(originalActivity => {
                 // Calculate the current cooldown for each activity, which is stored in a temporary variable.
@@ -157,7 +159,8 @@ export class SkillsComponent implements OnInit, OnDestroy {
     public skillMatchingActivities(activities: Array<ActivityGain | ItemActivity>, skillName: string): Array<ActivityGain | ItemActivity> {
         //Filter activities whose showonSkill or whose original activity's showonSkill includes this skill's name.
         return activities.filter(activity =>
-            (activity.originalActivity(this._activitiesDataService)?.showonSkill || '').toLowerCase().includes(skillName.toLowerCase()),
+            (this._activityGainPropertiesService.originalActivity(activity)?.showonSkill || '')
+                .toLowerCase().includes(skillName.toLowerCase()),
         );
     }
 

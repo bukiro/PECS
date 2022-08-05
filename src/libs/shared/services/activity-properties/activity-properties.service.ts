@@ -3,6 +3,7 @@ import { Activity, ActivityTargetOptions } from 'src/app/classes/Activity';
 import { Creature } from 'src/app/classes/Creature';
 import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
+import { Spell } from 'src/app/classes/Spell';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -18,13 +19,12 @@ export class ActivityPropertiesService {
         private readonly _effectsService: EffectsService,
     ) { }
 
-    public allowedTargetNumber(activity: Activity, levelNumber: number): number {
+    public allowedTargetNumber(activity: Activity | Spell, levelNumber: number): number {
         //You can select any number of targets for an area spell.
         if (activity.target === ActivityTargetOptions.Area) {
             return -1;
         }
 
-        const character = this._characterService.character;
         let targetNumberResult: SpellTargetNumber;
 
         // This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any).
@@ -32,7 +32,7 @@ export class ActivityPropertiesService {
         // If no targetNumbers are configured, return 1 for an ally activity and 0 for any other, and if none have a minLevel,
         // return the first that has the required feat (if any). Prefer targetNumbers with required feats over those without.
         if (activity.targetNumbers.length) {
-            if (activity.targetNumbers.some(targetNumber => !!targetNumber.minLevel)) {
+            if (activity.targetNumbers.some(targetNumber => targetNumber.minLevel)) {
                 let remainingLevelNumber = levelNumber;
 
                 for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
@@ -60,7 +60,7 @@ export class ActivityPropertiesService {
                 targetNumberResult =
                     activity.targetNumbers.find(targetNumber =>
                         targetNumber.featreq &&
-                        !!this._characterService.characterFeatsTaken(1, character.level, { featName: targetNumber.featreq }).length,
+                        this._characterService.characterHasFeat(targetNumber.featreq),
                     );
 
                 return targetNumberResult?.number || activity.targetNumbers[0].number;
@@ -74,7 +74,7 @@ export class ActivityPropertiesService {
         }
     }
 
-    public maxCharges(activity: Activity, context: { creature: Creature }): number {
+    public cacheMaxCharges(activity: Activity, context: { creature: Creature }): void {
         //Add any effects to the number of charges you have. If you have none, start with 1, and if the result then remains 1, return 0.
         let charges = activity.charges;
         let isStartingWithZero = false;
@@ -95,12 +95,8 @@ export class ActivityPropertiesService {
 
         if (isStartingWithZero && charges === 1) {
             activity.$charges = 0;
-
-            return 0;
         } else {
             activity.$charges = charges;
-
-            return charges;
         }
     }
 

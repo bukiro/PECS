@@ -13,6 +13,7 @@ import { Creature, SkillNotes } from 'src/app/classes/Creature';
 import { Activity } from 'src/app/classes/Activity';
 import { CalculatedSkill, SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -56,6 +57,7 @@ export class SkillComponent implements OnInit, OnDestroy {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
+        private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -112,14 +114,13 @@ export class SkillComponent implements OnInit, OnDestroy {
         return this._skillValuesService.level(this.skill, this._currentCreature, this.character.level, false);
     }
 
-    public originalActivity(gain: ActivityGain | ItemActivity): Activity {
-        return gain.originalActivity(this._activitiesDataService);
-    }
-
     public relatedActivityParameters(): Array<ActivityParameters> {
         return this.relatedActivityGains.map(gain => {
-            const activity = gain.originalActivity(this._activitiesDataService);
-            const maxCharges = this._activityPropertiesService.maxCharges(activity, { creature: this._currentCreature });
+            const activity = this._activityGainPropertiesService.originalActivity(gain);
+
+            this._activityPropertiesService.cacheMaxCharges(activity, { creature: this._currentCreature });
+
+            const maxCharges = activity.$charges;
 
             return {
                 gain,

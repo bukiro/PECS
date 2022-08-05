@@ -158,7 +158,11 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         const bloodMagicTrigger = this._bloodMagicTrigger();
         const canActivate = this._canActivate();
         const canActivateWithoutTarget = this._canActivate(true);
-        const targetNumber = this._activityPropertiesService.allowedTargetNumber(this.action, this.effectiveSpellLevel);
+        const targetNumber =
+            this.action
+                ? this._activityPropertiesService.allowedTargetNumber(this.action, this.effectiveSpellLevel)
+                : 0;
+
         const target = this._target;
         const shouldBloodMagicApply = bloodMagicTrigger && !this.asSpellGain()?.ignoreBloodMagicTrigger;
         const bloodMagicWarningWithTarget =
