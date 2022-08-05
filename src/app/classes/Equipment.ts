@@ -3,7 +3,6 @@ import { Item } from 'src/app/classes/Item';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Rune } from 'src/app/classes/Rune';
-import { Oil } from 'src/app/classes/Oil';
 import { ItemsService } from 'src/app/services/items.service';
 import { InventoryGain } from 'src/app/classes/InventoryGain';
 import { Talisman } from 'src/app/classes/Talisman';
@@ -13,13 +12,11 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { WornItem } from 'src/app/classes/WornItem';
 import { TypeService } from 'src/app/services/type.service';
-import { Specialization } from 'src/app/classes/Specialization';
-import { Creature } from 'src/app/classes/Creature';
-import { CharacterService } from 'src/app/services/character.service';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
+import { Oil } from './Oil';
 
 export class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -338,21 +335,15 @@ export class Equipment extends Item {
         }
     }
 
-    //Other implementations require creature and characterService.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
-        return [this];
-    }
-
     public effectsGenerationHints(): Array<HintEffectsObject> {
-        const convertHints =
-            (item: Equipment | Oil | Material): Array<{ hint: Hint; parentItem: Equipment | Oil | Material; objectName: string }> => (
-                item.hints.map(hint => ({ hint, parentItem: item, objectName: item.effectiveName() }))
-            );
+        const extractHintEffectsObject = (hintItem: Equipment | Oil | Material | Rune): Array<HintEffectsObject> =>
+            hintItem.hints.map(hint => ({ hint, parentItem: hintItem, objectName: hintItem.effectiveName() }));
 
-        return convertHints(this)
-            .concat(...this.oilsApplied.map(oil => convertHints(oil)))
-            .concat(...this.material.map(material => convertHints(material)));
+        return extractHintEffectsObject(this)
+            .concat(...this.oilsApplied.map(oil => extractHintEffectsObject(oil)))
+            .concat(...this.material.map(material => extractHintEffectsObject(material)))
+            .concat(...this.propertyRunes.map(rune => extractHintEffectsObject(rune)));
+
     }
 
     protected _secondaryRuneName(): string {

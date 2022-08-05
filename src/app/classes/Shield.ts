@@ -5,7 +5,6 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
-import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 
 enum ShoddyPenalties {
     NotShoddy = 0,
@@ -141,10 +140,6 @@ export class Shield extends Equipment {
     }
     public effectiveSpeedPenalty(): number {
         return this.speedpenalty;
-    }
-    public effectsGenerationHints(): Array<HintEffectsObject> {
-        return super.effectsGenerationHints()
-            .concat(...this.propertyRunes.map(rune => rune.effectsGenerationHints()));
     }
     private _effectiveShoddy(creature: Creature, characterService: CharacterService): number {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.

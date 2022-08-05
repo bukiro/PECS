@@ -36,6 +36,7 @@ import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity
 import { CreatureEffectsGenerationService } from 'src/libs/shared/effects-generation/services/creature-effects-generation/creature-effects-generation.service';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
+import { ItemEffectsGenerationService } from 'src/libs/shared/effects-generation/services/item-effects-generation/item-effects-generation.service';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -71,6 +72,7 @@ export class EffectsGenerationService {
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureEffectsGenerationService: CreatureEffectsGenerationService,
         private readonly _itemTraitsService: ItemTraitsService,
+        private readonly _itemEffectsGenerationService: ItemEffectsGenerationService,
     ) { }
 
     public effectsFromEffectObject(
@@ -314,7 +316,6 @@ export class EffectsGenerationService {
 
     private _collectEffectItems(
         creature: Creature,
-        services: { readonly characterService: CharacterService },
     ): { objects: Array<Equipment | Specialization | Rune>; hintSets: Array<HintEffectsObject> } {
         //Collect items and item specializations that may have effects, and their hints, and return them in two lists.
 
@@ -332,7 +333,7 @@ export class EffectsGenerationService {
                 doItemEffectsApply(item),
             )
                 .forEach((item: Equipment) => {
-                    objects = objects.concat(item.effectsGenerationObjects(creature, services.characterService));
+                    objects = objects.concat(this._itemEffectsGenerationService.effectsGenerationObjects(item, { creature }));
                     hintSets = hintSets.concat(item.effectsGenerationHints());
                 });
         });
@@ -419,7 +420,7 @@ export class EffectsGenerationService {
         hintSets = hintSets.concat(creatureObjects.hintSets);
 
         //Collect inventory items and their hints, if the item is equipped and invested as needed.
-        const effectItems = this._collectEffectItems(creature, services);
+        const effectItems = this._collectEffectItems(creature);
 
         objects = objects.concat(effectItems.objects);
         hintSets = hintSets.concat(effectItems.hintSets);

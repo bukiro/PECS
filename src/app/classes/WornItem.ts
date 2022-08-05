@@ -2,10 +2,6 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { CharacterService } from 'src/app/services/character.service';
-import { Creature } from 'src/app/classes/Creature';
-import { Specialization } from 'src/app/classes/Specialization';
-import { Rune } from 'src/app/classes/Rune';
 import { Item } from './Item';
 import { LanguageGain } from './LanguageGain';
 import { Talisman } from './Talisman';
@@ -149,7 +145,14 @@ export class WornItem extends Equipment {
         return price;
     }
 
-    public effectiveTraits(): boolean { return true; }
+    public effectsGenerationHints(): Array<HintEffectsObject> {
+        //Aeon Stones have hints that can be resonant, meaning they are only displayed if the stone is slotted.
+        //After collecting the hints, we keep the resonant ones only if the item is slotted.
+        //Then we add the hints of any slotted aeon stones of this item, with the same rules.
+        return super.effectsGenerationHints()
+            .filter(hintSet => hintSet.hint.resonant ? this.isSlottedAeonStone : true)
+            .concat(...this.aeonStones.map(stone => stone.effectsGenerationHints()));
+    }
 
     public isCompatibleWithTalisman(talisman: Talisman): boolean {
         return this.isTalismanCord ?
@@ -160,20 +163,6 @@ export class WornItem extends Equipment {
                 )
             ) :
             false;
-    }
-
-    public effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
-        return super.effectsGenerationObjects(creature, characterService)
-            .concat(...this.aeonStones);
-    }
-
-    public effectsGenerationHints(): Array<HintEffectsObject> {
-        //Aeon Stones have hints that can be resonant, meaning they are only displayed if the stone is slotted.
-        //After collecting the hints, we keep the resonant ones only if the item is slotted.
-        //Then we add the hints of any slotted aeon stones of this item, with the same rules.
-        return super.effectsGenerationHints()
-            .filter(hintSet => hintSet.hint.resonant ? this.isSlottedAeonStone : true)
-            .concat(...this.aeonStones.map(stone => stone.effectsGenerationHints()));
     }
 
     protected _secondaryRuneName(): string {

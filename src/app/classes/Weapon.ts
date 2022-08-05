@@ -166,8 +166,6 @@ export class Weapon extends Equipment {
         return price;
     }
 
-    public effectiveTraits(): boolean { return true; }
-
     public effectiveProficiency(
         creature: Creature,
         characterService: CharacterService,

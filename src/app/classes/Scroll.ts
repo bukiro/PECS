@@ -22,6 +22,4 @@ export class Scroll extends Consumable {
             return this.name;
         }
     }
-
-    public effectiveTraits(): boolean { return true; }
 }

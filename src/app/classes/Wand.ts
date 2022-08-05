@@ -36,6 +36,4 @@ export class Wand extends Equipment {
             return this.name;
         }
     }
-
-    public effectiveTraits(): boolean { return true; }
 }

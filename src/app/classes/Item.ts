@@ -5,7 +5,6 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { ItemGainOnOptions } from '../../libs/shared/definitions/itemGainOptions';
-import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { Equipment } from './Equipment';
 import { Armor } from './Armor';
 import { Weapon } from './Weapon';
@@ -188,8 +187,6 @@ export class Item {
         return this.subType[0] || '';
     }
 
-    public effectiveTraits(): boolean { return true; }
-
     public prepareTraitActivations(): void {
         //Create trait activations for all traits that don't have one yet.
         this.traitActivations = this.traitActivations.filter(activation => this.$traits.includes(activation.trait));
@@ -241,10 +238,6 @@ export class Item {
         } else {
             return this.name;
         }
-    }
-
-    public effectsGenerationHints(): Array<HintEffectsObject> {
-        return [];
     }
 
     public investedOrEquipped(): boolean {

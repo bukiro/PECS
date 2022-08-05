@@ -5,17 +5,14 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
 import { Equipment } from 'src/app/classes/Equipment';
-import { Specialization } from 'src/app/classes/Specialization';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { Creature } from 'src/app/classes/Creature';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
-import { Rune } from 'src/app/classes/Rune';
 import { Item } from './Item';
 import { AdventuringGear } from './AdventuringGear';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
-import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -211,19 +208,6 @@ export class Armor extends Equipment {
 
     public hasProficiencyChanged(currentProficiency: string): boolean {
         return currentProficiency !== this.prof;
-    }
-
-    public effectiveTraits(): boolean { return true; }
-
-    public effectsGenerationObjects(creature: Creature, characterService: CharacterService): Array<Equipment | Specialization | Rune> {
-        return super.effectsGenerationObjects(creature, characterService)
-            .concat(...this.armorSpecializations(creature, characterService))
-            .concat(this.propertyRunes);
-    }
-
-    public effectsGenerationHints(): Array<HintEffectsObject> {
-        return super.effectsGenerationHints()
-            .concat(...this.propertyRunes.map(rune => rune.effectsGenerationHints()));
     }
 
     public armoredSkirt(creature: Creature, options: { itemStore?: boolean } = {}): AdventuringGear {

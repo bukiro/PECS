@@ -2,7 +2,6 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Item } from 'src/app/classes/Item';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Hint } from 'src/app/classes/Hint';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { EffectGain } from 'src/app/classes/EffectGain';
 
