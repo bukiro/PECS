@@ -770,7 +770,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                 // Familiar abilities are independent of level.
                 // Don't check haveLater for them, because it will be the same result as haveUpToNow.
                 const haveLater: number =
-                    creature instanceof CharacterModel
+                    creature.isCharacter()
                         ? feat.have(
                             { creature },
                             { characterService: this._characterService },

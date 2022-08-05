@@ -908,7 +908,7 @@ export class ItemsService {
                 });
         });
 
-        if (creature instanceof Character) {
+        if (creature.isCharacter()) {
             //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
             if (characterService.characterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
                 creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {

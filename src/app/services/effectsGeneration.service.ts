@@ -14,7 +14,6 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { EvaluationService } from 'src/app/services/evaluation.service';
-import { Familiar as FamiliarModel } from 'src/app/classes/Familiar';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';
@@ -556,7 +555,7 @@ export class EffectsGenerationService {
         if (armor.broken) {
             let brokenPenalty = '';
 
-            switch (armor.effectiveProficiency()) {
+            switch (armor.effectiveProficiencyWithoutEffects()) {
                 case 'Light Armor':
                     brokenPenalty = '-1';
                     break;
@@ -579,7 +578,7 @@ export class EffectsGenerationService {
             //If an armor has a skillpenalty or a speedpenalty, check if Strength meets its strength requirement.
             const strength = this._abilitiesDataService.abilities('Strength')[0];
             const strengthValue =
-                (context.creature instanceof FamiliarModel)
+                (context.creature.isFamiliar())
                     ? 0
                     : this._abilityValuesService
                         .value(strength, context.creature as CharacterModel | AnimalCompanion)
@@ -810,7 +809,7 @@ export class EffectsGenerationService {
             }
 
             //Reflexive Shield adds the same bonus to your reflex save. Only a Character can have it.
-            if (context.creature instanceof CharacterModel && context.creature.hasFeat('Reflexive Shield', services)) {
+            if (context.creature.isCharacter() && context.creature.hasFeat('Reflexive Shield', services)) {
                 addEffect({
                     type: 'circumstance',
                     target: 'Reflex',
@@ -936,7 +935,7 @@ export class EffectsGenerationService {
         });
 
         //On Familiars, item bonuses never apply.
-        if (context.creature instanceof FamiliarModel) {
+        if (context.creature.isFamiliar()) {
             effects.filter(effect => !effect.penalty && effect.type === 'item').forEach(effect => {
                 effect.apply = false;
             });
@@ -1261,7 +1260,7 @@ export class EffectsGenerationService {
         );
 
         //Apply any lessening of speed penalties that stems from a character's Unburdened Iron feat.
-        if (creature instanceof CharacterModel) {
+        if (creature.isCharacter()) {
             effects = this._applyUnburdenedIron(effects, services, { character: creature });
         }
 

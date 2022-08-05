@@ -786,7 +786,7 @@ export class Character extends Creature {
         automatic = false,
     ): void {
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
-        const level: ClassLevel = creature instanceof Character ? creature.class.levels[levelNumber] : this._classLevel(levelNumber);
+        const level: ClassLevel = creature.isCharacter() ? creature.class.levels[levelNumber] : this._classLevel(levelNumber);
 
         if (taken) {
             const newLength =

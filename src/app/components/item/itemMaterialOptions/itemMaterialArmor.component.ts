@@ -72,7 +72,7 @@ export class ItemMaterialArmorComponent implements OnInit {
     }
 
     public isItemUnarmored(): boolean {
-        return this.item.effectiveProficiency() === 'Unarmored Defense';
+        return this.item.prof === 'Unarmored Defense';
     }
 
     public initialMaterials(): Array<ArmorMaterialSet> {

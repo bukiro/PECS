@@ -63,7 +63,7 @@ export class AbilityValuesService {
         creature: Creature,
         charLevel: number = this._characterService.character.level,
     ): { result: number; explain: string } {
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             return { result: 0, explain: '' };
         } else {
             if (this._characterService.stillLoading) {
@@ -75,7 +75,7 @@ export class AbilityValuesService {
             //Get manual baseValues for the character if they exist, otherwise 10
             let baseValue = Defaults.abilityBaseValue;
 
-            if (creature instanceof Character && creature.baseValues.length) {
+            if (creature.isCharacter() && creature.baseValues.length) {
                 creature.baseValues.filter(ownValue => ownValue.name === ability.name).forEach(ownValue => {
                     baseValue = ownValue.baseValue;
                 });
@@ -93,7 +93,7 @@ export class AbilityValuesService {
                 boosts.forEach(boost => {
                     if (boost.type === 'Boost') {
                         const weight = (
-                            baseValue < abilityBoostWeightBreakpoint || creature instanceof AnimalCompanion
+                            baseValue < abilityBoostWeightBreakpoint || creature.isAnimalCompanion()
                                 ? abilityBoostWeightFull
                                 : abilityBoostWeightHalf
                         );
@@ -117,7 +117,7 @@ export class AbilityValuesService {
         charLevel: number = this._characterService.character.level,
     ): { result: number; explain: string } {
         //Calculates the ability with all active effects
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             return { result: 0, explain: '' };
         } else {
             const ability = this._normalizeAbilityOrName(abilityOrName);
@@ -146,7 +146,7 @@ export class AbilityValuesService {
         creature: Creature,
         charLevel: number = this._characterService.character.level,
     ): { result: number; explain: string } {
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             return { result: 0, explain: '' };
         } else {
             const ability = this._normalizeAbilityOrName(abilityOrName);

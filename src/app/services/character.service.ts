@@ -1235,9 +1235,9 @@ export class CharacterService {
             !inventory.itemId &&
             (
                 item.name === 'Unarmored' ||
-                ((creature instanceof Character) !== item.traits.includes('Companion'))
+                ((creature.isCharacter()) !== item.traits.includes('Companion'))
             ) && (
-                !(creature instanceof Familiar) ||
+                !(creature.isFamiliar()) ||
                 !(item instanceof Armor || item instanceof Weapon || item instanceof Shield)
             )
         );
@@ -2114,7 +2114,7 @@ export class CharacterService {
                     // We can't use grant_InventoryItem,
                     // because these items are initialized and possibly bringing their own inventories and gained items.
                     // We have to process the item directly here.
-                    if (targetCreature instanceof Character || targetCreature instanceof AnimalCompanion) {
+                    if (targetCreature.isCharacter() || targetCreature.isAnimalCompanion()) {
                         const targetInventory = targetCreature.inventories[0];
                         let addedPrimaryItem: Item;
 
@@ -2374,16 +2374,16 @@ export class CharacterService {
             verbHas: 'is',
         };
 
-        if (creature instanceof Character) {
+        if (creature.isCharacter()) {
             phrases.name = 'You';
             phrases.pronounCap = 'You';
             phrases.pronoun = 'you';
             phrases.pronounGenitive = 'your';
             phrases.verbIs = 'are';
             phrases.verbHas = 'have';
-        } else if (creature instanceof AnimalCompanion) {
+        } else if (creature.isAnimalCompanion()) {
             phrases.name = this.companion.name || 'Your animal companion';
-        } else if (creature instanceof Familiar) {
+        } else if (creature.isFamiliar()) {
             phrases.name = this.familiar.name || 'Your familiar';
         }
 
@@ -2610,16 +2610,16 @@ export class CharacterService {
             verbHas: 'is',
         };
 
-        if (creature instanceof Character) {
+        if (creature.isCharacter()) {
             phrases.name = 'You';
             phrases.pronounCap = 'You';
             phrases.pronoun = 'you';
             phrases.pronounGenitive = 'your';
             phrases.verbIs = 'are';
             phrases.verbHas = 'have';
-        } else if (creature instanceof AnimalCompanion) {
+        } else if (creature.isAnimalCompanion()) {
             phrases.name = this.companion.name || 'Your animal companion';
-        } else if (creature instanceof Familiar) {
+        } else if (creature.isFamiliar()) {
             phrases.name = this.familiar.name || 'Your familiar';
         }
 
@@ -2741,7 +2741,7 @@ export class CharacterService {
 
         let ancestrySenses: Array<string>;
 
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             ancestrySenses = creature.senses;
         } else {
             ancestrySenses = (creature as AnimalCompanion | Character).class?.ancestry?.senses;
@@ -2751,7 +2751,7 @@ export class CharacterService {
             senses.push(...ancestrySenses);
         }
 
-        if (creature instanceof Character) {
+        if (creature.isCharacter()) {
             const heritageSenses = creature.class.heritage.senses;
 
             if (heritageSenses.length) {
@@ -2765,7 +2765,7 @@ export class CharacterService {
                 });
         }
 
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             creature.abilities.feats
                 .map(gain => this.familiarsService.familiarAbilities(gain.name)[0])
                 .filter(ability => ability?.senses.length)
@@ -2933,11 +2933,11 @@ export class CharacterService {
         const activities: Array<ActivityGain | ItemActivity> = [];
 
         if (!this.stillLoading) {
-            if (creature instanceof Character) {
+            if (creature.isCharacter()) {
                 activities.push(...creature.class.activities.filter(gain => gain.level <= levelNumber));
             }
 
-            if (creature instanceof AnimalCompanion) {
+            if (creature.isAnimalCompanion()) {
                 activities.push(...creature.class?.ancestry?.activities.filter(gain => gain.level <= levelNumber) || []);
             }
 
@@ -3188,7 +3188,7 @@ export class CharacterService {
     }
 
     public creatureArmorSpecializationsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<Specialization> {
-        if (creature instanceof Character) {
+        if (creature.isCharacter()) {
             const equippedArmor = creature.inventories[0].armors.find(armor => armor.equipped);
 
             return equippedArmor
@@ -3567,8 +3567,8 @@ export class CharacterService {
     }
 
     private _equipBasicItems(creature: Creature, changeAfter = true): void {
-        if (!this.stillLoading && this._basicItems.weapon && this._basicItems.armor && !(creature instanceof Familiar)) {
-            if (!creature.inventories[0].weapons.some(weapon => !weapon.broken) && (creature instanceof Character)) {
+        if (!this.stillLoading && this._basicItems.weapon && this._basicItems.armor && !(creature.isFamiliar())) {
+            if (!creature.inventories[0].weapons.some(weapon => !weapon.broken) && (creature.isCharacter())) {
                 this.grantInventoryItem(
                     this._basicItems.weapon,
                     { creature, inventory: creature.inventories[0] },

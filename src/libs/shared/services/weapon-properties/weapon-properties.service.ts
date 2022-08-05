@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
-import { Familiar } from 'src/app/classes/Familiar';
+import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel, skillLevelBaseStep } from '../../definitions/skillLevels';
+import { WeaponProficiencies } from '../../definitions/weaponProficiencies';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 
 @Injectable({
@@ -21,6 +21,63 @@ export class WeaponPropertiesService {
         private readonly _skillValuesService: SkillValuesService,
     ) { }
 
+    public effectiveProficiency(
+        weapon: Weapon,
+        context: { creature: Creature; charLevel?: number },
+    ): string {
+        const charLevel = context.charLevel || this._characterService.character.level;
+
+        let proficiency = weapon.prof;
+        // Some feats allow you to apply another proficiency to certain weapons, e.g.:
+        // "For the purpose of determining your proficiency,
+        // martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons."
+        const proficiencyChanges: Array<ProficiencyChange> = [];
+
+        if (context.creature.isFamiliar()) {
+            return '';
+        }
+
+        if (context.creature.isCharacter()) {
+            this._characterService.characterFeatsAndFeatures()
+                .filter(feat =>
+                    feat.changeProficiency.length &&
+                    feat.have(
+                        { creature: context.creature },
+                        { characterService: this._characterService },
+                        { charLevel },
+                    ),
+                )
+                .forEach(feat => {
+                    proficiencyChanges.push(...feat.changeProficiency.filter(change =>
+                        (!change.name || weapon.name.toLowerCase() === change.name.toLowerCase()) &&
+                        (!change.trait || weapon.traits.some(trait => change.trait.includes(trait))) &&
+                        (!change.proficiency || (weapon.prof && change.proficiency === weapon.prof)) &&
+                        (!change.group || (weapon.group && change.group === weapon.group)),
+                    ));
+                });
+
+            const proficiencies: Array<string> = proficiencyChanges.map(change => change.result);
+
+            //Set the resulting proficiency to the best result by setting it in order of worst to best.
+            if (proficiencies.includes(WeaponProficiencies.Advanced)) {
+                proficiency = WeaponProficiencies.Advanced;
+            }
+
+            if (proficiencies.includes(WeaponProficiencies.Martial)) {
+                proficiency = WeaponProficiencies.Martial;
+            }
+
+            if (proficiencies.includes(WeaponProficiencies.Simple)) {
+                proficiency = WeaponProficiencies.Simple;
+            }
+
+            if (proficiencies.includes(WeaponProficiencies.Unarmed)) {
+                proficiency = WeaponProficiencies.Unarmed;
+            }
+        }
+
+        return proficiency;
+    }
 
     public profLevel(
         weapon: Weapon,
@@ -29,10 +86,10 @@ export class WeaponPropertiesService {
         charLevel: number = this._characterService.character.level,
         options: { preparedProficiency?: string } = {},
     ): number {
-        if (this._characterService.stillLoading || creature instanceof Familiar) { return 0; }
+        if (this._characterService.stillLoading || creature.isFamiliar()) { return 0; }
 
         let skillLevel = 0;
-        const prof = options.preparedProficiency || weapon.effectiveProficiency(creature, this._characterService, charLevel);
+        const prof = options.preparedProficiency || this.effectiveProficiency(weapon, { creature, charLevel });
         //There are a lot of ways to be trained with a weapon.
         //To determine the skill level, we have to find skills for the item's proficiency, its name, its weapon base and any of its traits.
         const levels: Array<number> = [];
@@ -182,11 +239,11 @@ export class WeaponPropertiesService {
     }
 
     public isFavoredWeapon(weapon: Weapon, creature: Creature): boolean {
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             return false;
         }
 
-        if (creature instanceof Character && creature.class.deity) {
+        if (creature.isCharacter() && creature.class.deity) {
             if (this._characterService.currentCharacterDeities(creature)[0]?.favoredWeapon
                 .some(favoredWeapon =>
                     [
@@ -201,7 +258,7 @@ export class WeaponPropertiesService {
         }
 
         if (
-            creature instanceof Character &&
+            creature.isCharacter() &&
             this._characterService.characterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
         ) {
             if (this._characterService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon
@@ -242,7 +299,7 @@ export class WeaponPropertiesService {
             if (
                 ea.emblazonDivinity ||
                 (
-                    creature instanceof Character &&
+                    creature.isCharacter() &&
                     this._characterService.currentCharacterDeities(creature)
                         .some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
                 )

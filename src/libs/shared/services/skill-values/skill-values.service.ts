@@ -124,7 +124,7 @@ export class SkillValuesService {
 
         const skill = this._normalizeSkillOrName(skillOrName, creature);
 
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             return ['Perception', 'Acrobatics', 'Stealth'].includes(skill.name)
                 ? SkillLevels.Trained
                 : SkillLevels.Untrained;
@@ -164,7 +164,7 @@ export class SkillValuesService {
                     skills: relevantSkillList.map(name => ({ name, cached: cachedLevel.cached })),
                     effects: effectTargetList.map(name => ({ name, cached: cachedLevel.cached })),
                     proficiencyCopies: cachedLevel.cached,
-                    level: creature instanceof AnimalCompanion ? cachedLevel.cached : 0,
+                    level: creature.isAnimalCompanion() ? cachedLevel.cached : 0,
                 };
 
                 if (!this._cacheService.hasChecklistChanged(
@@ -305,7 +305,7 @@ export class SkillValuesService {
         let ability = '';
 
         if (!this._characterService.stillLoading) {
-            if (creature instanceof Familiar) {
+            if (creature.isFamiliar()) {
                 //Familiars have special rules:
                 //- Saves are equal to the character's before applying circumstance or status effects.
                 //- Perception, Acrobatics and Stealth are equal to the character level plus spellcasting modifier (or Charisma).
@@ -393,7 +393,7 @@ export class SkillValuesService {
     }
 
     private _modifierAbility(skill: Skill, creature: Creature): string {
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             const character = this._characterService.character;
 
             // For Familiars, get the correct ability by identifying the non-innate spellcasting
@@ -416,7 +416,7 @@ export class SkillValuesService {
                             { name: 'Class Key Ability', cached: cachedAbility.cached },
                             { name: `${ skill.name.split(' ')[0] } Key Ability`, cached: cachedAbility.cached },
                         ],
-                        level: creature instanceof AnimalCompanion ? cachedAbility.cached : 0,
+                        level: creature.isAnimalCompanion() ? cachedAbility.cached : 0,
                     };
 
                     if (!this._cacheService.hasChecklistChanged(
@@ -530,7 +530,7 @@ export class SkillValuesService {
 
             //Familiars apply the characters skill value (before circumstance and status effects) on saves
             //We get this by calculating the skill's baseValue and adding effects that aren't circumstance or status effects.
-            if (creature instanceof Familiar) {
+            if (creature.isFamiliar()) {
                 const character = this._characterService.character;
 
                 if (['Fortitude', 'Reflex', 'Will'].includes(skill.name)) {

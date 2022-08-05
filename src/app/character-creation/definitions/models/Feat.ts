@@ -159,14 +159,14 @@ export class Feat {
             ...filter,
         };
 
-        if (context.creature instanceof Character) {
+        if (context.creature.isCharacter()) {
             return services.characterService.characterFeatsTaken(
                 filter.minLevel,
                 filter.charLevel,
                 { featName: this.name },
                 options,
             )?.length || 0;
-        } else if (context.creature instanceof Familiar) {
+        } else if (context.creature.isFamiliar()) {
             return context.creature.abilities.feats.filter(gain => gain.name.toLowerCase() === this.name.toLowerCase())?.length || 0;
         } else {
             return 0;

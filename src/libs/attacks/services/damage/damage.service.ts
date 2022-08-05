@@ -56,7 +56,7 @@ export class DamageService {
         const penalties: Array<Effect> = [];
         const bonuses: Array<Effect> = [];
         const absolutes: Array<Effect> = [];
-        const prof = weapon.effectiveProficiency(creature, this._characterService);
+        const prof = this._weaponPropertiesService.effectiveProficiency(weapon, { creature });
         const traits = weapon.$traits;
         //Apply any mechanism that copy runes from another item, like Handwraps of Mighty Blows or Doubling Rings.
         //We set runeSource to the respective item and use it whenever runes are concerned.
@@ -327,7 +327,7 @@ export class DamageService {
             } else {
                 //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
                 if (traits.includes('Finesse') &&
-                    creature instanceof Character &&
+                    creature.isCharacter() &&
                     this._characterService.characterFeatsTaken(1, creature.level, { featName: 'Thief Racket' }).length) {
                     //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
                     //The Enfeebled condition affects all Strength damage
@@ -392,7 +392,7 @@ export class DamageService {
         }
 
         //Mature and Specialized Companions add extra Damage to their attacks.
-        if (creature instanceof AnimalCompanion) {
+        if (creature.isAnimalCompanion()) {
             creature.class.levels.filter(level => level.number <= creature.level).forEach(level => {
                 if (level.extraDamage) {
                     let companionSource = '';
@@ -425,7 +425,7 @@ export class DamageService {
         }
 
         //Emblazon Armament on a weapon adds a +1 status bonus to damage rolls if the deity matches.
-        if (creature instanceof Character) {
+        if (creature.isCharacter()) {
             if (weapon.$emblazonArmament) {
                 weapon.emblazonArmament
                     .filter(ea => ea.type === 'emblazonArmament')
@@ -637,9 +637,9 @@ export class DamageService {
     public critSpecialization(weapon: Weapon, creature: Creature, range: string): Array<Specialization> {
         const SpecializationGains: Array<SpecializationGain> = [];
         const specializations: Array<Specialization> = [];
-        const prof = weapon.effectiveProficiency((creature as AnimalCompanion | Character), this._characterService);
+        const prof = this._weaponPropertiesService.effectiveProficiency(weapon, { creature: (creature as AnimalCompanion | Character) });
 
-        if (creature instanceof Character && weapon.group) {
+        if (creature.isCharacter() && weapon.group) {
             const character = creature as Character;
             const runeSource = attackRuneSource(weapon, creature, range);
             const skillLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
@@ -734,7 +734,7 @@ export class DamageService {
         }
 
         //Emblazon Energy on a weapon adds 1d4 damage of the chosen type if the deity matches.
-        if (creature instanceof Character) {
+        if (creature.isCharacter()) {
             if (weapon.$emblazonEnergy) {
                 weapon.emblazonArmament.filter(ea => ea.type === 'emblazonEnergy').forEach(ea => {
                     let eaDmg = '+1d4 ';

@@ -152,10 +152,8 @@ export class BulkService {
                 result.explain = `${ effect.source }: ${ effect.setValue }`;
             });
         } else {
-            //We cannot use instanceof Familiar here because of circular dependencies. We test typeId == 2 (Familiar) instead.
-            const familiarId = 2;
             const str =
-                (creature.typeId === familiarId)
+                creature.isFamiliar()
                     ? 0
                     : this._abilityValuesService.mod('Strength', creature).result;
 

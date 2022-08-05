@@ -366,7 +366,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
         const creature = this._currentCreature;
 
-        specialNames.push(weapon.effectiveProficiency(creature, this._characterService, creature.level));
+        specialNames.push(this._weaponPropertiesService.effectiveProficiency(weapon, { creature, charLevel: creature.level }));
         specialNames.push(...weapon.$traits);
         specialNames.push(range);
         specialNames.push(weapon.weaponBase);
@@ -403,7 +403,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         if (
             creature === character ||
             (
-                creature instanceof AnimalCompanion &&
+                creature.isAnimalCompanion() &&
                 this._characterService.characterHasFeat('Animal Companion (Ranger)')
             )
         ) {
@@ -631,7 +631,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public favoredWeapons(): Array<string> {
         const creature = this._currentCreature;
 
-        if (creature instanceof Character && creature.class?.deity && creature.class.deityFocused) {
+        if (creature.isCharacter() && creature.class?.deity && creature.class.deityFocused) {
             const deity = this._deitiesService.currentCharacterDeities(this._characterService, creature)[0];
             const favoredWeapons: Array<string> = [];
 

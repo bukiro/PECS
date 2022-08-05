@@ -1,10 +1,6 @@
-import { CharacterService } from 'src/app/services/character.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { Character } from 'src/app/classes/Character';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
-import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
-import { Creature } from 'src/app/classes/Creature';
 import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
@@ -12,7 +8,6 @@ import { Item } from './Item';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
-import { Familiar } from './Familiar';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 
@@ -164,56 +159,6 @@ export class Weapon extends Equipment {
         price += this.talismans.reduce((prev, next) => prev + next.price, 0);
 
         return price;
-    }
-
-    public effectiveProficiency(
-        creature: Creature,
-        characterService: CharacterService,
-        charLevel: number = characterService.character.level,
-    ): string {
-        let proficiency = this.prof;
-        // Some feats allow you to apply another proficiency to certain weapons, e.g.:
-        // "For the purpose of determining your proficiency,
-        // martial goblin weapons are simple weapons and advanced goblin weapons are martial weapons."
-        const proficiencyChanges: Array<ProficiencyChange> = [];
-
-        if (creature instanceof Familiar) {
-            return '';
-        }
-
-        if (creature instanceof Character) {
-            characterService.characterFeatsAndFeatures()
-                .filter(feat => feat.changeProficiency.length && feat.have({ creature }, { characterService }, { charLevel }))
-                .forEach(feat => {
-                    proficiencyChanges.push(...feat.changeProficiency.filter(change =>
-                        (!change.name || this.name.toLowerCase() === change.name.toLowerCase()) &&
-                        (!change.trait || this.traits.some(trait => change.trait.includes(trait))) &&
-                        (!change.proficiency || (this.prof && change.proficiency === this.prof)) &&
-                        (!change.group || (this.group && change.group === this.group)),
-                    ));
-                });
-
-            const proficiencies: Array<string> = proficiencyChanges.map(change => change.result);
-
-            //Set the resulting proficiency to the best result by setting it in order of worst to best.
-            if (proficiencies.includes(WeaponProficiencies.Advanced)) {
-                proficiency = WeaponProficiencies.Advanced;
-            }
-
-            if (proficiencies.includes(WeaponProficiencies.Martial)) {
-                proficiency = WeaponProficiencies.Martial;
-            }
-
-            if (proficiencies.includes(WeaponProficiencies.Simple)) {
-                proficiency = WeaponProficiencies.Simple;
-            }
-
-            if (proficiencies.includes(WeaponProficiencies.Unarmed)) {
-                proficiency = WeaponProficiencies.Unarmed;
-            }
-        }
-
-        return proficiency;
     }
 
     public hasProficiencyChanged(currentProficiency: string): boolean {

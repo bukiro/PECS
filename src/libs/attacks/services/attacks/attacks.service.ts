@@ -153,7 +153,7 @@ export class AttacksService {
             abilityName = 'Dexterity';
         }
 
-        const prof = weapon.effectiveProficiency(creature, this._characterService, charLevel);
+        const prof = this._weaponPropertiesService.effectiveProficiency(weapon, { creature, charLevel });
         //Create names list for effects
         const effectsListAttackRolls =
             attackEffectPhrases(

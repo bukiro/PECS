@@ -71,7 +71,7 @@ export class TimeService {
                         this._refreshService.prepareDetailToChange(creature.type, 'health');
                         this._healthService.heal(creature.health, creature, fastHealing);
                         this._toastService.show(
-                            `${ creature instanceof Character
+                            `${ creature.isCharacter()
                                 ? 'You'
                                 : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`)
                             } gained ${ (fastHealing).toString() } HP from fast healing.`,
@@ -152,7 +152,7 @@ export class TimeService {
             multiplier = Math.max(1, multiplier);
             this._healthService.heal(creature.health, creature, heal * multiplier, true, true);
             this._toastService.show(
-                `${ creature instanceof Character
+                `${ creature.isCharacter()
                     ? 'You'
                     : (creature.name ? creature.name : `Your ${ creature.type.toLowerCase() }`)
                 } gained ${ (heal * multiplier).toString() } HP from resting.`,
@@ -165,7 +165,7 @@ export class TimeService {
             itemsService.restItems(creature, characterService);
 
             //For the Character, reset all "once per day" spells, and regenerate spell slots, prepared formulas and bonded item charges.
-            if (creature instanceof Character) {
+            if (creature.isCharacter()) {
                 const character = creature as Character;
 
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
@@ -317,7 +317,7 @@ export class TimeService {
                     this._customEffectsService.tickCustomEffects(creature, creatureTurns);
                     itemsService.tickItems((creature as AnimalCompanion | Character), characterService, creatureTurns);
 
-                    if (creature instanceof Character) {
+                    if (creature.isCharacter()) {
                         spellsService.tickSpells((creature as Character), characterService, itemsService, conditionsService, creatureTurns);
                     }
 
@@ -476,7 +476,7 @@ export class TimeService {
         characterService.allAvailableCreatures().forEach(creature => {
             if (AfflictionOnsetsWithinDuration(creature)) {
                 result =
-                    `One or more conditions${ creature instanceof Character
+                    `One or more conditions${ creature.isCharacter()
                         ? ''
                         : ` on your ${ creature.type }`
                     } need to be resolved before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
@@ -484,7 +484,7 @@ export class TimeService {
 
             if (options.includeResting && TimeStopConditionsActive(creature)) {
                 result =
-                    `Time is stopped for ${ creature instanceof Character
+                    `Time is stopped for ${ creature.isCharacter()
                         ? ' you'
                         : ` your ${ creature.type }`
                     }, and you cannot ${ options.includeResting ? 'rest' : 'continue' } until this effect has ended.`;
@@ -492,7 +492,7 @@ export class TimeService {
 
             if (MultipleTempHPAvailable(creature)) {
                 result =
-                    `You need to select one set of temporary Hit Points${ creature instanceof Character
+                    `You need to select one set of temporary Hit Points${ creature.isCharacter()
                         ? ''
                         : ` on your ${ creature.type }`
                     } before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
@@ -500,7 +500,7 @@ export class TimeService {
 
             if (options.includeResting && RestingBlockingEffectsActive(creature)) {
                 result =
-                    `An effect${ creature instanceof Character
+                    `An effect${ creature.isCharacter()
                         ? ''
                         : ` on your ${ creature.type }`
                     } is keeping you from resting.`;

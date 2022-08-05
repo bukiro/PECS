@@ -167,7 +167,7 @@ export class Shield extends Equipment {
             if (
                 ea.emblazonDivinity ||
                 (
-                    creature instanceof Character &&
+                    creature.isCharacter() &&
                     characterService.currentCharacterDeities(creature).some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
                 )
             ) {

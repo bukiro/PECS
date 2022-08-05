@@ -40,6 +40,7 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -100,6 +101,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
+        private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -248,7 +250,12 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
         return itemList.map(item => {
             const itemRoles = this._itemRolesService.getItemRoles(item);
-            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)?.effectiveProficiency(character, this._characterService) || '';
+            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)
+                ? this._equipmentPropertiesService.effectiveProficiency(
+                    (itemRoles.asArmor || itemRoles.asWeapon),
+                    { creature: character, charLevel: character.level },
+                )
+                : '';
 
             return {
                 ...itemRoles,

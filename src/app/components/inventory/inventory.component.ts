@@ -27,7 +27,6 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { Familiar } from 'src/app/classes/Familiar';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ItemRolesService } from 'src/app/services/itemRoles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
@@ -48,6 +47,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { BulkService, CalculatedBulk } from 'src/libs/shared/services/bulk/bulk.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -111,6 +111,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _bulkService: BulkService,
+        private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -225,9 +226,14 @@ export class InventoryComponent implements OnInit, OnDestroy {
         return itemList.map(item => {
             const itemRoles = this._itemRolesService.getItemRoles(item);
             const proficiency = (
-                !(creature instanceof Familiar) &&
+                !(creature.isFamiliar()) &&
                 (itemRoles.asArmor || itemRoles.asWeapon)
-            )?.effectiveProficiency(creature, this._characterService) || '';
+            )
+                ? this._equipmentPropertiesService.effectiveProficiency(
+                    (itemRoles.asArmor || itemRoles.asWeapon),
+                    { creature, charLevel: this.character.level },
+                )
+                : '';
 
             return {
                 ...itemRoles,
@@ -978,7 +984,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     private _hasProficiencyWithItem(itemRoles: ItemRoles, proficiency: string): boolean {
         const creature = this.currentCreature;
 
-        if (!(creature instanceof Familiar)) {
+        if (!(creature.isFamiliar())) {
             if (itemRoles.asWeapon) {
                 return this._weaponPropertiesService
                     .profLevel(

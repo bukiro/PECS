@@ -146,7 +146,7 @@ export class ArmorClassService {
 
     private _relatives(creature: Creature, character: Character): Array<Effect> {
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             const effects =
                 this._effectsService.relativeEffectsOnThese(character, this._namesList())
                     .filter(effect => effect.type !== 'circumstance' && effect.type !== 'status')
@@ -163,7 +163,7 @@ export class ArmorClassService {
 
     private _bonuses(creature: Creature): boolean {
         //We need to copy show_BonusesOnThese and adapt it because Familiars only apply their own status and circumstance effects.
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             return this._effectsService.effects(creature.type).bonuses.some(effect =>
                 effect.creature === creature.id &&
                 effect.apply &&
@@ -180,7 +180,7 @@ export class ArmorClassService {
 
     private _penalties(creature: Creature): boolean {
         //We need to copy show_PenaltiesOnThese and adapt it because Familiars only apply their own status and circumstance effects.
-        if (creature instanceof Familiar) {
+        if (creature.isFamiliar()) {
             return this._effectsService.effects(creature.type).penalties.some(effect =>
                 effect.creature === creature.id &&
                 effect.apply &&
@@ -209,7 +209,7 @@ export class ArmorClassService {
         //Familiars calculate their AC based on the character.
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         const armorCreature: AnimalCompanion | Character =
-            creature instanceof Familiar ? character : (creature as AnimalCompanion | Character);
+            creature.isFamiliar() ? character : (creature as AnimalCompanion | Character);
         let clonedRelatives: Array<Effect>;
 
         if (relatives === undefined) {

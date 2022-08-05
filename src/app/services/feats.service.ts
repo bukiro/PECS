@@ -265,7 +265,7 @@ export class FeatsService {
         const featName = gain?.name || feat?.name || '';
 
         if (!feat && featName) {
-            if (creature instanceof Familiar) {
+            if (creature.isFamiliar()) {
                 feat = characterService.familiarsService.familiarAbilities(featName)[0];
             } else {
                 // Use characterService.featsAndFeatures() instead of this.featsAndFeatures(),
@@ -1235,7 +1235,7 @@ export class FeatsService {
             );
 
             //Familiar abilities should update the familiar's general information.
-            if (creature instanceof Familiar) {
+            if (creature.isFamiliar()) {
                 this._refreshService.prepareDetailToChange(creature.type, 'general');
             }
 
@@ -1320,7 +1320,7 @@ export class FeatsService {
             }
 
             //Update the areas where feat choices can be made.
-            if (creature instanceof Familiar) {
+            if (creature.isFamiliar()) {
                 this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'familiarabilities');
             } else {
                 this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');

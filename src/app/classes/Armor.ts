@@ -1,7 +1,5 @@
-//TO-DO: Resolve private properties either not matching JSON import or not having an underscore
-/* eslint-disable @typescript-eslint/naming-convention */
+//TO-DO: Resolve private properties either not matching JSON import or not having an underscore, then use private properties.
 
-import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -80,7 +78,7 @@ export class Armor extends Equipment {
     public isArmor(): this is Armor { return true; }
 
     public title(options: { itemStore?: boolean } = {}): string {
-        const proficiency = options.itemStore ? this.prof : this.effectiveProficiency();
+        const proficiency = options.itemStore ? this.prof : this.effectiveProficiencyWithoutEffects();
 
         return [
             proficiency.split(' ')[0],
@@ -186,12 +184,7 @@ export class Armor extends Equipment {
         return this.strength + (this.$affectedByArmoredSkirt * armoredSkirtMultiplier) + fortificationFactor + materialFactor;
     }
 
-    public effectiveProficiency(creature: Creature = null, characterService: CharacterService = null): string {
-        if (creature && characterService.currentCreatureConditions(creature, 'Mage Armor', '', true).length) {
-            //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
-            return 'Unarmored Defense';
-        }
-
+    public effectiveProficiencyWithoutEffects(): string {
         if (this.$affectedByArmoredSkirt === 1) {
             switch (this.prof) {
                 case 'Light Armor':

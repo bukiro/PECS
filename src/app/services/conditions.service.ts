@@ -679,7 +679,7 @@ export class ConditionsService {
                         hasFoundSpeedRune = true;
                     }
 
-                    if (rune instanceof WeaponRune && rune.alignmentPenalty && creature instanceof Character) {
+                    if (rune instanceof WeaponRune && rune.alignmentPenalty && creature.isCharacter()) {
                         if (character.alignment.toLowerCase().includes(rune.alignmentPenalty.toLowerCase())) {
                             shouldApplyAlignmentRunePenalty = true;
                         }
@@ -690,7 +690,7 @@ export class ConditionsService {
                         hasFoundSpeedRune = true;
                     }
 
-                    if (oil.runeEffect && oil.runeEffect.alignmentPenalty && creature instanceof Character) {
+                    if (oil.runeEffect && oil.runeEffect.alignmentPenalty && creature.isCharacter()) {
                         if (character.alignment.toLowerCase().includes(oil.runeEffect.alignmentPenalty.toLowerCase())) {
                             shouldApplyAlignmentRunePenalty = true;
                         }
@@ -1106,7 +1106,7 @@ export class ConditionsService {
                 if (
                     //If you have Fast Recovery or have activated the effect of Forge-Day's Rest, reduce the value by 2 instead of 1.
                     (
-                        (creature instanceof Character) &&
+                        (creature.isCharacter()) &&
                         characterService.characterFeatsTaken(1, creature.level, { featName: 'Fast Recovery' }).length
                     ) ||
                     characterService.featsService.feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)

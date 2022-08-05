@@ -3,7 +3,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Armor } from 'src/app/classes/Armor';
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
-import { Familiar } from 'src/app/classes/Familiar';
 import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { CharacterService } from 'src/app/services/character.service';
@@ -23,13 +22,22 @@ export class ArmorPropertiesService {
         private readonly _skillValuesService: SkillValuesService,
     ) { }
 
+    public effectiveProficiency(armor: Armor, context: { creature: Creature }): string {
+        if (this._characterService.currentCreatureConditions(context.creature, 'Mage Armor', '', true).length) {
+            //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
+            return 'Unarmored Defense';
+        }
+
+        return armor.effectiveProficiencyWithoutEffects();
+    }
+
     public profLevel(
         armor: Armor,
         creature: Creature,
         charLevel: number = this._characterService.character.level,
         options: { itemStore?: boolean } = {},
     ): number {
-        if (this._characterService.stillLoading || creature instanceof Familiar) { return 0; }
+        if (this._characterService.stillLoading || creature.isFamiliar()) { return 0; }
 
         this._cacheArmoredSkirt(armor, creature, options);
 
@@ -42,7 +50,7 @@ export class ArmorPropertiesService {
             );
         const proficiencyLevel =
             this._skillValuesService.level(
-                armor.effectiveProficiency(creature, this._characterService),
+                this.effectiveProficiency(armor, { creature }),
                 creature,
                 charLevel,
             );
@@ -56,9 +64,9 @@ export class ArmorPropertiesService {
     public armorSpecializations(armor: Armor, creature: Creature): Array<Specialization> {
         const SpecializationGains: Array<SpecializationGain> = [];
         const specializations: Array<Specialization> = [];
-        const prof = armor.effectiveProficiency(creature, this._characterService);
+        const prof = this.effectiveProficiency(armor, { creature });
 
-        if (creature instanceof Character && armor.group) {
+        if (creature.isCharacter() && armor.group) {
             const character = creature as Character;
             const skillLevel = this.profLevel(armor, character);
 
@@ -151,7 +159,7 @@ export class ArmorPropertiesService {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (
             armor.shoddy &&
-            creature instanceof Character &&
+            creature.isCharacter() &&
             this._characterService.characterHasFeat('Junk Tinker') &&
             armor.crafted
         ) {
