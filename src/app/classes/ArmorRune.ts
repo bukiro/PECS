@@ -14,12 +14,14 @@ export class ArmorRune extends Rune {
     public get secondary(): number {
         return this.resilient;
     }
+
     public recast(itemsService: ItemsService): ArmorRune {
         super.recast(itemsService);
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
 
         return this;
     }
+
     public effectsGenerationHints(): Array<HintEffectsObject> {
         return this.hints.map(hint => ({ hint, parentItem: this, objectName: this.effectiveName() }));
     }

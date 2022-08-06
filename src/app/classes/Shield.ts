@@ -1,4 +1,3 @@
-import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Equipment } from 'src/app/classes/Equipment';

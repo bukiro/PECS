@@ -5,6 +5,7 @@ export class AttackRestriction {
     public conditionChoiceFilter: Array<string> = [];
     /** If excluding is set, you can NOT use this attack, instead of ONLY this attack. */
     public excluding = false;
+
     public recast(): AttackRestriction {
         return this;
     }

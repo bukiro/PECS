@@ -6,6 +6,7 @@ export class BloodMagic {
     public sourceTrigger: Array<string> = [];
     public trigger: Array<string> = [];
     public neutralPhrase = false;
+
     public recast(): BloodMagic {
         return this;
     }

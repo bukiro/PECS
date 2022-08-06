@@ -55,6 +55,7 @@ export class Character extends Creature {
     //yourTurn is only written when saving the character to the database and read when loading.
     public yourTurn = 0;
     public get requiresConForHP(): boolean { return true; }
+
     public recast(itemsService: ItemsService): Character {
         super.recast(itemsService);
         this.class = Object.assign(new Class(), this.class).recast(itemsService);
@@ -63,12 +64,15 @@ export class Character extends Creature {
 
         return this;
     }
+
     public isCharacter(): this is Character {
         return true;
     }
+
     public baseSize(): number {
         return this.class.ancestry.size ? this.class.ancestry.size : 0;
     }
+
     public baseHP(conModifier: number, charLevel: number = this.level): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
@@ -86,6 +90,7 @@ export class Character extends Creature {
 
         return { result: classHP + ancestryHP, explain: explain.trim() };
     }
+
     public baseSpeed(speedName: string): { result: number; explain: string } {
         let explain = '';
         let sum = 0;
@@ -99,9 +104,11 @@ export class Character extends Creature {
 
         return { result: sum, explain: explain.trim() };
     }
+
     public maxSpellLevel(levelNumber: number = this.level): number {
         return SpellLevelFromCharLevel(levelNumber);
     }
+
     public defaultSpellcasting(): SpellCasting {
         // Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate.
         // Useful for feat requirements and assigning spell choices to the default spellcasting.
@@ -111,6 +118,7 @@ export class Character extends Creature {
             casting.source === `${ this.class.name } Spellcasting`,
         );
     }
+
     public abilityBoosts(
         minLevelNumber: number,
         maxLevelNumber: number,
@@ -141,6 +149,7 @@ export class Character extends Creature {
             return boosts as Array<AbilityBoost>;
         }
     }
+
     public boostAbility(
         characterService: CharacterService,
         abilityName: string,
@@ -166,6 +175,7 @@ export class Character extends Creature {
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'abilities');
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualskills', 'all');
     }
+
     public addAbilityChoice(level: ClassLevel, newChoice: AbilityChoice): AbilityChoice {
         const existingChoices = level.abilityChoices.filter(choice => choice.source === newChoice.source);
         const tempChoice = Object.assign<AbilityChoice, AbilityChoice>(new AbilityChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
@@ -176,17 +186,20 @@ export class Character extends Creature {
 
         return level.abilityChoices[newLength - 1];
     }
+
     public removeAbilityChoice(oldChoice: AbilityChoice): void {
         const levelNumber = parseInt(oldChoice.id.split('-')[0], 10);
         const a = this.class.levels[levelNumber].abilityChoices;
 
         a.splice(a.indexOf(oldChoice), 1);
     }
+
     public getAbilityChoiceBySourceId(sourceId: string): AbilityChoice {
         const levelNumber = parseInt(sourceId.split('-')[0], 10);
 
         return this.class.levels[levelNumber].abilityChoices.find(choice => choice.id === sourceId);
     }
+
     public addSkillChoice(level: ClassLevel, newChoice: SkillChoice): SkillChoice {
         const existingChoices = level.skillChoices.filter(choice => choice.source === newChoice.source);
         const tempChoice = Object.assign<SkillChoice, SkillChoice>(new SkillChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
@@ -197,17 +210,20 @@ export class Character extends Creature {
 
         return level.skillChoices[newLength - 1];
     }
+
     public getSkillChoiceBySourceId(sourceId: string): SkillChoice {
         const levelNumber = parseInt(sourceId[0], 10);
 
         return this.class.levels[levelNumber].skillChoices.find(choice => choice.id === sourceId);
     }
+
     public removeSkillChoice(oldChoice: SkillChoice): void {
         const levelNumber = parseInt(oldChoice.id.split('-')[0], 10);
         const a = this.class.levels[levelNumber].skillChoices;
 
         a.splice(a.indexOf(oldChoice), 1);
     }
+
     public addSpellCasting(characterService: CharacterService, level: ClassLevel, newCasting: SpellCasting): SpellCasting {
         const newLength: number =
             this.class.spellCasting.push(
@@ -228,11 +244,13 @@ export class Character extends Creature {
 
         return this.class.spellCasting[newLength - 1];
     }
+
     public removeSpellCasting(characterService: CharacterService, oldCasting: SpellCasting): void {
         this.class.spellCasting = this.class.spellCasting.filter(casting => casting !== oldCasting);
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
     }
+
     public addLoreChoice(level: ClassLevel, newChoice: LoreChoice): LoreChoice {
         const existingChoices = level.loreChoices.filter(choice => choice.source === newChoice.source);
         const tempChoice = Object.assign<LoreChoice, LoreChoice>(new LoreChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
@@ -244,11 +262,13 @@ export class Character extends Creature {
 
         return level.loreChoices[newLength - 1];
     }
+
     public getLoreChoiceBySourceId(sourceId: string): LoreChoice {
         const levelNumber = parseInt(sourceId[0], 10);
 
         return this.class.levels[levelNumber].loreChoices.find(choice => choice.id === sourceId);
     }
+
     public addFeatChoice(level: ClassLevel, newChoice: FeatChoice): FeatChoice {
         const existingChoices = level.featChoices.filter(choice => choice.source === newChoice.source);
         const tempChoice = Object.assign<FeatChoice, FeatChoice>(new FeatChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
@@ -265,11 +285,13 @@ export class Character extends Creature {
 
         return level.featChoices[newLength - 1];
     }
+
     public getFeatChoiceBySourceId(sourceId: string): FeatChoice {
         const levelNumber = parseInt(sourceId[0], 10);
 
         return this.class.levels[levelNumber].featChoices.find(choice => choice.id === sourceId);
     }
+
     public addSpellChoice(characterService: CharacterService, levelNumber: number, newChoice: SpellChoice): SpellChoice {
         const insertChoice = Object.assign<SpellChoice, SpellChoice>(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
 
@@ -313,6 +335,7 @@ export class Character extends Creature {
             console.warn('No suitable spell casting ability found to add spell choice.');
         }
     }
+
     public removeSpellChoice(characterService: CharacterService, oldChoice: SpellChoice): void {
         //Remove the spellChoice by ID
         this.class.spellCasting.forEach(casting => {
@@ -325,6 +348,7 @@ export class Character extends Creature {
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
     }
+
     public gainActivity(characterService: CharacterService, newGain: ActivityGain, levelNumber: number): ActivityGain {
         const newLength = this.class.activities.push(newGain);
 
@@ -333,6 +357,7 @@ export class Character extends Creature {
 
         return this.class.activities[newLength - 1];
     }
+
     public loseActivity(
         characterService: CharacterService,
         conditionsService: ConditionsService,
@@ -360,6 +385,7 @@ export class Character extends Creature {
         a.splice(a.indexOf(oldGain), 1);
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
     }
+
     public skillIncreases(
         characterService: CharacterService,
         minLevelNumber: number,
@@ -443,6 +469,7 @@ export class Character extends Creature {
             return [];
         }
     }
+
     public increaseSkill(
         characterService: CharacterService,
         skillName: string,
@@ -463,6 +490,7 @@ export class Character extends Creature {
 
         this.processSkill(characterService, skillName, train, choice);
     }
+
     // eslint-disable-next-line complexity
     public processSkill(characterService: CharacterService, skillName: string, train: boolean, choice: SkillChoice): void {
         const level = parseInt(choice.id.split('-')[0], 10);
@@ -731,6 +759,7 @@ export class Character extends Creature {
             }
         }
     }
+
     public takenFeats(
         minLevelNumber = 0,
         maxLevelNumber = 0,
@@ -775,6 +804,7 @@ export class Character extends Creature {
             return featsTaken;
         }
     }
+
     public takeFeat(
         creature: Character | Familiar,
         characterService: CharacterService,
@@ -815,6 +845,7 @@ export class Character extends Creature {
             choiceFeats.splice(choiceFeats.indexOf(gain, 1));
         }
     }
+
     public takenSpells(
         minLevelNumber: number,
         maxLevelNumber: number,
@@ -906,6 +937,7 @@ export class Character extends Creature {
             return spellsTaken;
         }
     }
+
     public allGrantedEquipmentSpells(): Array<{ choice: SpellChoice; gain: SpellGain }> {
         const spellsGranted: Array<{ choice: SpellChoice; gain: SpellGain }> = [];
 
@@ -930,6 +962,7 @@ export class Character extends Creature {
 
         return spellsGranted;
     }
+
     public grantedEquipmentSpells(
         casting: SpellCasting,
         services: { characterService: CharacterService; itemsService: ItemsService },
@@ -990,6 +1023,7 @@ export class Character extends Creature {
 
         return spellsGranted;
     }
+
     public takeSpell(
         characterService: CharacterService,
         spellName: string,
@@ -1023,6 +1057,7 @@ export class Character extends Creature {
 
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
     }
+
     public learnSpell(spell: Spell, source: string): void {
         if (!this.class?.spellBook.find(learned => learned.name === spell.name)) {
             const level: number = spell.traits.includes('Cantrip') ? 0 : spell.levelreq;
@@ -1030,9 +1065,11 @@ export class Character extends Creature {
             this.class?.spellBook.push({ name: spell.name, source, level });
         }
     }
+
     public unlearnSpell(spell: Spell): void {
         this.class.spellBook = this.class.spellBook.filter(existingSpell => existingSpell.name !== spell.name);
     }
+
     public learnedSpells(name = '', source = '', level = -1): Array<SpellLearned> {
         return this.class?.spellBook.filter(learned =>
             (name ? learned.name === name : true) &&
@@ -1040,9 +1077,11 @@ export class Character extends Creature {
             (level > -1 ? learned.level === level : true),
         );
     }
+
     public addSpellListSpell(spellName: string, source: string, levelNumber: number): void {
         this.class?.spellList.push({ name: spellName, source, level: levelNumber });
     }
+
     public removeSpellListSpell(spellName: string, source: string, levelNumber: number): void {
         this.class.spellList =
             this.class.spellList.filter(existingSpell =>
@@ -1053,6 +1092,7 @@ export class Character extends Creature {
                 ),
             );
     }
+
     public getSpellsFromSpellList(name = '', source = '', level = 0): Array<SpellLearned> {
         return this.class?.spellList.filter(learned =>
             (name ? learned.name === name : true) &&
@@ -1060,20 +1100,24 @@ export class Character extends Creature {
             (level ? learned.level >= level : true),
         );
     }
+
     public learnItemFormula(item: Item, source: string): void {
         if (!this.class?.formulaBook.find(learned => learned.id === item.id)) {
             this.class?.formulaBook.push(Object.assign(new FormulaLearned(), { id: item.id, source }));
         }
     }
+
     public unlearnItemFormula(item: Item): void {
         this.class.formulaBook = this.class.formulaBook.filter(learned => learned.id !== item.id);
     }
+
     public learnedFormulas(id = '', source = ''): Array<FormulaLearned> {
         return this.class?.formulaBook.filter(learned =>
             (id ? learned.id === id : true) &&
             (source ? learned.source === source : true),
         );
     }
+
     public removeLore(characterService: CharacterService, source: LoreChoice): void {
         //Remove the original Lore training
         for (let increase = 0; increase < source.initialIncreases; increase++) {
@@ -1114,6 +1158,7 @@ export class Character extends Creature {
 
         this._removeLoreFeats(characterService, source.loreName);
     }
+
     public addLore(characterService: CharacterService, source: LoreChoice): void {
         //Create the skill on the character. Lore can be increased, so it's locked:false.
         characterService.addCustomSkill(`Lore: ${ source.loreName }`, 'Skill', 'Intelligence', false);
@@ -1327,6 +1372,7 @@ export class Character extends Creature {
 
         this._addLoreFeats(characterService, source.loreName);
     }
+
     public hasFeat(
         featName: string,
         services: { readonly characterService: CharacterService },
@@ -1336,6 +1382,7 @@ export class Character extends Creature {
 
         return services.characterService.characterFeatsTaken(1, context.level, { featName }).length;
     }
+
     private _addLoreFeats(characterService: CharacterService, loreName: string): void {
         // There are particular feats that need to be cloned for every individual lore skill (mainly Assurance).
         // They are marked as lorebase==true.
@@ -1360,6 +1407,7 @@ export class Character extends Creature {
                 characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
             });
     }
+
     private _removeLoreFeats(characterService: CharacterService, loreName: string): void {
         const loreFeats: Array<Feat> = [];
 
@@ -1377,6 +1425,7 @@ export class Character extends Creature {
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
     }
+
     private _classLevel(number: number): ClassLevel {
         return this.class.levels[number];
     }
