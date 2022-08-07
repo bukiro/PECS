@@ -176,53 +176,15 @@ export class Character extends Creature {
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualskills', 'all');
     }
 
-    public addAbilityChoice(level: ClassLevel, newChoice: AbilityChoice): AbilityChoice {
-        const existingChoices = level.abilityChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = Object.assign<AbilityChoice, AbilityChoice>(new AbilityChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
-
-        tempChoice.id = `${ level.number }-Ability-${ tempChoice.source }-${ existingChoices.length }`;
-
-        const newLength: number = level.abilityChoices.push(tempChoice);
-
-        return level.abilityChoices[newLength - 1];
-    }
-
-    public removeAbilityChoice(oldChoice: AbilityChoice): void {
-        const levelNumber = parseInt(oldChoice.id.split('-')[0], 10);
-        const a = this.class.levels[levelNumber].abilityChoices;
-
-        a.splice(a.indexOf(oldChoice), 1);
-    }
-
     public getAbilityChoiceBySourceId(sourceId: string): AbilityChoice {
         const levelNumber = parseInt(sourceId.split('-')[0], 10);
 
         return this.class.levels[levelNumber].abilityChoices.find(choice => choice.id === sourceId);
     }
 
-    public addSkillChoice(level: ClassLevel, newChoice: SkillChoice): SkillChoice {
-        const existingChoices = level.skillChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = Object.assign<SkillChoice, SkillChoice>(new SkillChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+    public addSkillChoice(): boolean { return false; }
 
-        tempChoice.id = `${ level.number }-Skill-${ tempChoice.source }-${ existingChoices.length }`;
-
-        const newLength: number = level.skillChoices.push(tempChoice);
-
-        return level.skillChoices[newLength - 1];
-    }
-
-    public getSkillChoiceBySourceId(sourceId: string): SkillChoice {
-        const levelNumber = parseInt(sourceId[0], 10);
-
-        return this.class.levels[levelNumber].skillChoices.find(choice => choice.id === sourceId);
-    }
-
-    public removeSkillChoice(oldChoice: SkillChoice): void {
-        const levelNumber = parseInt(oldChoice.id.split('-')[0], 10);
-        const a = this.class.levels[levelNumber].skillChoices;
-
-        a.splice(a.indexOf(oldChoice), 1);
-    }
+    public removeSkillChoice(): boolean { return false; }
 
     public addSpellCasting(characterService: CharacterService, level: ClassLevel, newCasting: SpellCasting): SpellCasting {
         const newLength: number =
@@ -293,7 +255,7 @@ export class Character extends Creature {
     }
 
     public addSpellChoice(characterService: CharacterService, levelNumber: number, newChoice: SpellChoice): SpellChoice {
-        const insertChoice = Object.assign<SpellChoice, SpellChoice>(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+        const insertChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
 
         if (insertChoice.className === 'Default') {
             insertChoice.className = this.class.name;
@@ -508,21 +470,21 @@ export class Character extends Creature {
             // The skill that you increase with Skilled Heritage at level 1 automatically gets increased at level 5 as well.
             if (level === 1 && choice.source === 'Skilled Heritage') {
                 const skilledHeritageExtraIncreaseLevel = 5;
-                const newChoice = this.addSkillChoice(
-                    this._classLevel(skilledHeritageExtraIncreaseLevel),
-                    Object.assign(
-                        new SkillChoice(),
-                        {
-                            available: 0,
-                            filter: [],
-                            increases: [],
-                            type: 'Skill',
-                            maxRank: SkillLevels.Legendary,
-                            source: 'Skilled Heritage',
-                            id: '',
-                        },
-                    ),
-                );
+                const newChoice = this.classLevelFromNumber(skilledHeritageExtraIncreaseLevel)
+                    .addSkillChoice(
+                        Object.assign(
+                            new SkillChoice(),
+                            {
+                                available: 0,
+                                filter: [],
+                                increases: [],
+                                type: 'Skill',
+                                maxRank: SkillLevels.Legendary,
+                                source: 'Skilled Heritage',
+                                id: '',
+                            },
+                        ),
+                    );
 
                 this.increaseSkill(characterService, skillName, true, newChoice, true);
             }
@@ -533,27 +495,27 @@ export class Character extends Creature {
                 // We are naming the type "Automatic" - it doesn't matter because it's a locked choice,
                 // but it allows us to distinguish this increase from the original if you take Canny Acumen at level 17
                 const cannyAcumenExtraIncreaseLevel = 17;
-                const existingChoices = this._classLevel(cannyAcumenExtraIncreaseLevel).skillChoices.filter(skillChoice =>
+                const existingChoices = this.classLevelFromNumber(cannyAcumenExtraIncreaseLevel).skillChoices.filter(skillChoice =>
                     skillChoice.source === choice.source && skillChoice.type === 'Automatic',
                 );
 
                 // If there isn't one, go ahead and create one, then immediately increase this skill in it.
                 if (!existingChoices.length) {
-                    const newChoice = this.addSkillChoice(
-                        this._classLevel(cannyAcumenExtraIncreaseLevel),
-                        Object.assign(
-                            new SkillChoice(),
-                            {
-                                available: 0,
-                                filter: [],
-                                increases: [],
-                                type: 'Automatic',
-                                maxRank: SkillLevels.Master,
-                                source: choice.source,
-                                id: '',
-                            },
-                        ),
-                    );
+                    const newChoice = this.classLevelFromNumber(cannyAcumenExtraIncreaseLevel)
+                        .addSkillChoice(
+                            Object.assign(
+                                new SkillChoice(),
+                                {
+                                    available: 0,
+                                    filter: [],
+                                    increases: [],
+                                    type: 'Automatic',
+                                    maxRank: SkillLevels.Master,
+                                    source: choice.source,
+                                    id: '',
+                                },
+                            ),
+                        );
 
                     this.increaseSkill(characterService, skillName, true, newChoice, true);
                 }
@@ -680,21 +642,16 @@ export class Character extends Creature {
             const skilledHeritageExtraIncreaseLevel = 5;
 
             if (level === 1 && choice.source === 'Skilled Heritage') {
-                this._classLevel(skilledHeritageExtraIncreaseLevel).skillChoices =
-                    this._classLevel(skilledHeritageExtraIncreaseLevel).skillChoices
+                this.classLevelFromNumber(skilledHeritageExtraIncreaseLevel).skillChoices =
+                    this.classLevelFromNumber(skilledHeritageExtraIncreaseLevel).skillChoices
                         .filter(existingChoice => existingChoice.source !== 'Skilled Heritage');
             }
 
             //If you are deselecting Canny Acumen, you also lose the skill increase at level 17.
             if (choice.source.includes('Feat: Canny Acumen')) {
                 const cannyAcumenExtraIncreaseLevel = 17;
-                const oldChoices =
-                    this._classLevel(cannyAcumenExtraIncreaseLevel).skillChoices
-                        .filter(skillChoice => skillChoice.source === choice.source);
 
-                if (oldChoices.length) {
-                    this.removeSkillChoice(oldChoices[0]);
-                }
+                this.classLevelFromNumber(cannyAcumenExtraIncreaseLevel).removeSkillChoiceBySource(choice.source);
             }
 
             //Set components to update according to the skill type.
@@ -816,7 +773,7 @@ export class Character extends Creature {
         automatic = false,
     ): void {
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
-        const level: ClassLevel = creature.isCharacter() ? creature.class.levels[levelNumber] : this._classLevel(levelNumber);
+        const level: ClassLevel = creature.isCharacter() ? creature.class.levels[levelNumber] : this.classLevelFromNumber(levelNumber);
 
         if (taken) {
             const newLength =
@@ -1174,45 +1131,45 @@ export class Character extends Creature {
         const additionalLoreThirdIncreaseLevel = 15;
 
         if (source.source === 'Feat: Additional Lore') {
-            this.addSkillChoice(
-                this._classLevel(additionalLoreFirstIncreaseLevel),
-                Object.assign(
-                    new SkillChoice(),
-                    {
-                        available: 1,
-                        filter: [`Lore: ${ source.loreName }`],
-                        type: 'Skill',
-                        maxRank: SkillLevels.Expert,
-                        source: 'Feat: Additional Lore',
-                    },
-                ),
-            );
-            this.addSkillChoice(
-                this._classLevel(additionalLoreSecondIncreaseLevel),
-                Object.assign(
-                    new SkillChoice(),
-                    {
-                        available: 1,
-                        filter: [`Lore: ${ source.loreName }`],
-                        type: 'Skill',
-                        maxRank: SkillLevels.Master,
-                        source: 'Feat: Additional Lore',
-                    },
-                ),
-            );
-            this.addSkillChoice(
-                this._classLevel(additionalLoreThirdIncreaseLevel),
-                Object.assign(
-                    new SkillChoice(),
-                    {
-                        available: 1,
-                        filter: [`Lore: ${ source.loreName }`],
-                        type: 'Skill',
-                        maxRank: SkillLevels.Legendary,
-                        source: 'Feat: Additional Lore',
-                    },
-                ),
-            );
+            this.classLevelFromNumber(additionalLoreFirstIncreaseLevel)
+                .addSkillChoice(
+                    Object.assign(
+                        new SkillChoice(),
+                        {
+                            available: 1,
+                            filter: [`Lore: ${ source.loreName }`],
+                            type: 'Skill',
+                            maxRank: SkillLevels.Expert,
+                            source: 'Feat: Additional Lore',
+                        },
+                    ),
+                );
+            this.classLevelFromNumber(additionalLoreSecondIncreaseLevel)
+                .addSkillChoice(
+                    Object.assign(
+                        new SkillChoice(),
+                        {
+                            available: 1,
+                            filter: [`Lore: ${ source.loreName }`],
+                            type: 'Skill',
+                            maxRank: SkillLevels.Master,
+                            source: 'Feat: Additional Lore',
+                        },
+                    ),
+                );
+            this.classLevelFromNumber(additionalLoreThirdIncreaseLevel)
+                .addSkillChoice(
+                    Object.assign(
+                        new SkillChoice(),
+                        {
+                            available: 1,
+                            filter: [`Lore: ${ source.loreName }`],
+                            type: 'Skill',
+                            maxRank: SkillLevels.Legendary,
+                            source: 'Feat: Additional Lore',
+                        },
+                    ),
+                );
         }
 
         //The Gnome Obsession feat grants a skill increase on Levels 2, 7 and 15 to the same lore.
@@ -1222,17 +1179,17 @@ export class Character extends Creature {
             const gnomeObsessionThirdIncreaseLevel = 15;
 
             const firstChoice =
-                this.addSkillChoice(
-                    this._classLevel(gnomeObsessionFirstIncreaseLevel),
-                    Object.assign(
-                        new SkillChoice(),
-                        {
-                            type: 'Skill',
-                            maxRank: SkillLevels.Expert,
-                            source: 'Feat: Gnome Obsession',
-                        },
-                    ),
-                );
+                this.classLevelFromNumber(gnomeObsessionFirstIncreaseLevel)
+                    .addSkillChoice(
+                        Object.assign(
+                            new SkillChoice(),
+                            {
+                                type: 'Skill',
+                                maxRank: SkillLevels.Expert,
+                                source: 'Feat: Gnome Obsession',
+                            },
+                        ),
+                    );
 
             firstChoice.increases.push({
                 name: `Lore: ${ source.loreName }`,
@@ -1243,17 +1200,17 @@ export class Character extends Creature {
             });
 
             const secondChoice =
-                this.addSkillChoice(
-                    this._classLevel(gnomeObsessionSecondIncreaseLevel),
-                    Object.assign(
-                        new SkillChoice(),
-                        {
-                            type: 'Skill',
-                            maxRank: SkillLevels.Master,
-                            source: 'Feat: Gnome Obsession',
-                        },
-                    ),
-                );
+                this.classLevelFromNumber(gnomeObsessionSecondIncreaseLevel)
+                    .addSkillChoice(
+                        Object.assign(
+                            new SkillChoice(),
+                            {
+                                type: 'Skill',
+                                maxRank: SkillLevels.Master,
+                                source: 'Feat: Gnome Obsession',
+                            },
+                        ),
+                    );
 
             secondChoice.increases.push({
                 name: `Lore: ${ source.loreName }`,
@@ -1264,17 +1221,17 @@ export class Character extends Creature {
             });
 
             const thirdChoice =
-                this.addSkillChoice(
-                    this._classLevel(gnomeObsessionThirdIncreaseLevel),
-                    Object.assign(
-                        new SkillChoice(),
-                        {
-                            type: 'Skill',
-                            maxRank: SkillLevels.Legendary,
-                            source: 'Feat: Gnome Obsession',
-                        },
-                    ),
-                );
+                this.classLevelFromNumber(gnomeObsessionThirdIncreaseLevel)
+                    .addSkillChoice(
+                        Object.assign(
+                            new SkillChoice(),
+                            {
+                                type: 'Skill',
+                                maxRank: SkillLevels.Legendary,
+                                source: 'Feat: Gnome Obsession',
+                            },
+                        ),
+                    );
 
             thirdChoice.increases.push({
                 name: `Lore: ${ source.loreName }`,
@@ -1305,17 +1262,17 @@ export class Character extends Creature {
                 //Add the background lore increases if none are found with Gnome Obsession as their source.
                 if (!gnomeObsessionLoreIncreases.some(existingIncrease => existingIncrease.name === backgroundLoreName)) {
                     const firstChoice =
-                        this.addSkillChoice(
-                            this._classLevel(gnomeObsessionFirstIncreaseLevel),
-                            Object.assign(
-                                new SkillChoice(),
-                                {
-                                    type: 'Skill',
-                                    maxRank: SkillLevels.Expert,
-                                    source: 'Feat: Gnome Obsession',
-                                },
-                            ),
-                        );
+                        this.classLevelFromNumber(gnomeObsessionFirstIncreaseLevel)
+                            .addSkillChoice(
+                                Object.assign(
+                                    new SkillChoice(),
+                                    {
+                                        type: 'Skill',
+                                        maxRank: SkillLevels.Expert,
+                                        source: 'Feat: Gnome Obsession',
+                                    },
+                                ),
+                            );
 
                     firstChoice.increases.push({
                         name: backgroundLoreName,
@@ -1326,17 +1283,17 @@ export class Character extends Creature {
                     });
 
                     const secondChoice =
-                        this.addSkillChoice(
-                            this._classLevel(gnomeObsessionSecondIncreaseLevel),
-                            Object.assign(
-                                new SkillChoice(),
-                                {
-                                    type: 'Skill',
-                                    maxRank: SkillLevels.Master,
-                                    source: 'Feat: Gnome Obsession',
-                                },
-                            ),
-                        );
+                        this.classLevelFromNumber(gnomeObsessionSecondIncreaseLevel)
+                            .addSkillChoice(
+                                Object.assign(
+                                    new SkillChoice(),
+                                    {
+                                        type: 'Skill',
+                                        maxRank: SkillLevels.Master,
+                                        source: 'Feat: Gnome Obsession',
+                                    },
+                                ),
+                            );
 
                     secondChoice.increases.push({
                         name: backgroundLoreName,
@@ -1347,17 +1304,17 @@ export class Character extends Creature {
                     });
 
                     const thirdChoice =
-                        this.addSkillChoice(
-                            this._classLevel(gnomeObsessionThirdIncreaseLevel),
-                            Object.assign(
-                                new SkillChoice(),
-                                {
-                                    type: 'Skill',
-                                    maxRank: SkillLevels.Legendary,
-                                    source: 'Feat: Gnome Obsession',
-                                },
-                            ),
-                        );
+                        this.classLevelFromNumber(gnomeObsessionThirdIncreaseLevel)
+                            .addSkillChoice(
+                                Object.assign(
+                                    new SkillChoice(),
+                                    {
+                                        type: 'Skill',
+                                        maxRank: SkillLevels.Legendary,
+                                        source: 'Feat: Gnome Obsession',
+                                    },
+                                ),
+                            );
 
                     thirdChoice.increases.push({
                         name: backgroundLoreName,
@@ -1381,6 +1338,10 @@ export class Character extends Creature {
         context = { level: this.level, ...context };
 
         return services.characterService.characterFeatsTaken(1, context.level, { featName }).length;
+    }
+
+    public classLevelFromNumber(number: number): ClassLevel {
+        return this.class.levels[number];
     }
 
     private _addLoreFeats(characterService: CharacterService, loreName: string): void {
@@ -1424,9 +1385,5 @@ export class Character extends Creature {
 
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'skills');
         characterService.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-    }
-
-    private _classLevel(number: number): ClassLevel {
-        return this.class.levels[number];
     }
 }

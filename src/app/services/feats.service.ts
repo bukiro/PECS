@@ -32,6 +32,7 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
+import { CharacterHeritageChangeService } from '../character-creation/services/character-heritage-change/character-heritage-change.service';
 
 @Injectable({
     providedIn: 'root',
@@ -53,6 +54,7 @@ export class FeatsService {
         private readonly _historyService: HistoryService,
         private readonly _refreshService: RefreshService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
+        private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -376,15 +378,11 @@ export class FeatsService {
             if (feat.gainAbilityChoice.length) {
                 if (taken) {
                     feat.gainAbilityChoice.forEach(newAbilityChoice => {
-                        character.addAbilityChoice(level, newAbilityChoice);
+                        level.addAbilityChoice(newAbilityChoice);
                     });
                 } else {
                     feat.gainAbilityChoice.forEach(oldAbilityChoice => {
-                        const oldChoice = level.abilityChoices.find(levelChoice => levelChoice.source === oldAbilityChoice.source);
-
-                        if (oldChoice) {
-                            character.removeAbilityChoice(oldChoice);
-                        }
+                        level.removeAbilityChoiceBySource(oldAbilityChoice.source);
                     });
                 }
 
@@ -406,7 +404,10 @@ export class FeatsService {
                         let newChoice: SkillChoice;
 
                         //Check if the skill choice has a class requirement, and if so, only apply it if you have that class.
-                        if (insertSkillChoice.insertClass ? character.class.name === insertSkillChoice.insertClass : true) {
+                        if (
+                            !insertSkillChoice.insertClass ||
+                            character.class.name === insertSkillChoice.insertClass
+                        ) {
                             //For new training skill increases - that is, locked increases with maxRank 2 and type "Skill"
                             // - we need to check if you are already trained in it. If so, unlock this skill choice and set one
                             // available so that you can pick another skill.
@@ -444,12 +445,8 @@ export class FeatsService {
                             }
 
                             //Check if the skill choice gets applied on a certain level and do that, or apply it on the current level.
-                            if (insertSkillChoice.insertLevel && character.class.levels[insertSkillChoice.insertLevel]) {
-                                newChoice =
-                                    character.addSkillChoice(character.class.levels[insertSkillChoice.insertLevel], insertSkillChoice);
-                            } else {
-                                newChoice = character.addSkillChoice(level, insertSkillChoice);
-                            }
+                            (insertSkillChoice.insertLevel && character.classLevelFromNumber(insertSkillChoice.insertLevel) || level)
+                                .addSkillChoice(insertSkillChoice);
 
                             //Apply any included Skill increases
                             newChoice.increases.forEach(increase => {
@@ -467,11 +464,11 @@ export class FeatsService {
                         // Skip if you don't have the required Class for this granted feat choice,
                         // since you didn't get the choice in the first place.
                         if (oldSkillChoice.insertClass ? (character.class.name === oldSkillChoice.insertClass) : true) {
-                            const levelChoices: Array<SkillChoice> =
-                                //If the feat choice got applied on a certain level, it needs to be removed from that level, too.
-                                (oldSkillChoice.insertLevel && character.class.levels[oldSkillChoice.insertLevel]) ?
-                                    character.class.levels[oldSkillChoice.insertLevel].skillChoices :
-                                    level.skillChoices;
+                            //If the feat choice got applied on a certain level, it needs to be removed from that level, too.
+                            const insertLevel =
+                                (oldSkillChoice.insertLevel && character.classLevelFromNumber(oldSkillChoice.insertLevel)) || level;
+
+                            const levelChoices: Array<SkillChoice> = insertLevel.skillChoices;
                             //We only retrieve one instance of the included SkillChoice, as the feat may have been taken multiple times.
                             const oldChoice = levelChoices.find(levelChoice => levelChoice.source === oldSkillChoice.source);
 
@@ -481,7 +478,7 @@ export class FeatsService {
                             });
 
                             if (oldChoice) {
-                                character.removeSkillChoice(oldChoice);
+                                insertLevel.removeSkillChoice(oldChoice);
 
                                 if (oldChoice.showOnSheet) {
                                     this._refreshService.prepareDetailToChange(creature.type, 'skills');
@@ -767,8 +764,7 @@ export class FeatsService {
                             .find(heritage => heritage.source === feat.name && heritage.charLevelAvailable === level.number);
                         const heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
 
-                        character.class.processRemovingOldHeritage(characterService, heritageIndex);
-                        character.class.additionalHeritages.splice(heritageIndex, 1);
+                        this._characterHeritageChangeService.changeHeritage(null, heritageIndex);
                     });
                 }
             }

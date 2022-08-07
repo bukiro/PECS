@@ -9,7 +9,6 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { Character } from 'src/app/classes/Character';
-import { Ability } from 'src/app/classes/Ability';
 import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
@@ -79,7 +78,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         return this._characterService.character;
     }
 
-    public toggleShownList(name: string): void {
+    public toggleShownList(name = ''): void {
         if (!name || this.showChoice === name) {
             this.showChoice = '';
             this.showSkillChoiceMessage.emit({ name: this.showChoice, levelNumber: 0, choice: null });
@@ -255,7 +254,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
             hasBeenIncreased &&
             this.character.settings.autoCloseChoices &&
             (choice.increases.length === maxAvailable - 1)
-        ) { this.toggleShownList(''); }
+        ) { this.toggleShownList(); }
 
         this.character.increaseSkill(this._characterService, skillName, hasBeenIncreased, choice, locked);
         this._refreshService.processPreparedChanges();
@@ -265,8 +264,10 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         choice.increases.forEach(increase => {
             this.character.increaseSkill(this._characterService, increase.name, false, choice, false);
         });
-        this.character.removeSkillChoice(choice);
-        this.toggleShownList('');
+
+        this.character.classLevelFromNumber(this.choice.insertLevel || this.levelNumber)?.removeSkillChoice(choice);
+
+        this.toggleShownList();
         this._refreshService.processPreparedChanges();
     }
 
@@ -336,10 +337,6 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         const INT: number = AbilityModFromAbilityValue(intelligence);
 
         return INT;
-    }
-
-    private _abilityFromName(name: string): Ability {
-        return this._abilitiesDataService.abilities(name)[0];
     }
 
     private _intelligenceBonusToAllowedIncreases(): number {

@@ -9,7 +9,6 @@ import { FeatsService } from 'src/app/services/feats.service';
 import { HistoryService } from 'src/app/services/history.service';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
-import { ItemsService } from 'src/app/services/items.service';
 import { Background } from 'src/app/classes/Background';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Ability } from 'src/app/classes/Ability';
@@ -65,6 +64,10 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
+import { CharacterClassChangeService } from 'src/app/character-creation/services/character-class-change/character-class-change.service';
+import { CharacterAncestryChangeService } from 'src/app/character-creation/services/character-ancestry-change/character-ancestry-change.service';
+import { CharacterHeritageChangeService } from 'src/app/character-creation/services/character-heritage-change/character-heritage-change.service';
+import { CharacterBackgroundChangeService } from 'src/app/character-creation/services/character-background-change/character-background-change.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -106,7 +109,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _featsService: FeatsService,
         private readonly _historyService: HistoryService,
-        private readonly _itemsService: ItemsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _deitiesService: DeitiesService,
         private readonly _spellsService: SpellsService,
@@ -121,6 +123,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _cacheService: CacheService,
         private readonly _modalService: NgbModal,
         private readonly _abilityValuesService: AbilityValuesService,
+        private readonly _characterClassChangeService: CharacterClassChangeService,
+        private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
+        private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
+        private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -1197,9 +1203,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (isChecked) {
             if (this.character.settings.autoCloseChoices) { this.toggleShownList(''); }
 
-            this._characterService.changeHeritage(heritage, index);
+            this._characterHeritageChangeService.changeHeritage(heritage, index);
         } else {
-            this._characterService.changeHeritage(new Heritage(), index);
+            this._characterHeritageChangeService.changeHeritage(null, index);
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'all');
@@ -1417,9 +1423,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (isChecked) {
             if (this.character.settings.autoCloseChoices) { this.toggleShownList(''); }
 
-            this._characterService.changeClass($class);
+            this._characterClassChangeService.changeClass($class);
         } else {
-            this._characterService.changeClass(new Class());
+            this._characterClassChangeService.changeClass();
         }
     }
 
@@ -1441,9 +1447,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (isChecked) {
             if (this.character.settings.autoCloseChoices) { this.toggleShownList(''); }
 
-            this._characterService.changeAncestry(ancestry, this._itemsService);
+            this._characterAncestryChangeService.changeAncestry(ancestry);
         } else {
-            this._characterService.changeAncestry(new Ancestry(), this._itemsService);
+            this._characterAncestryChangeService.changeAncestry();
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'all');
@@ -1539,9 +1545,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (isChecked) {
             if (this.character.settings.autoCloseChoices) { this.toggleShownList(''); }
 
-            this._characterService.changeHeritage(heritage);
+            this._characterHeritageChangeService.changeHeritage(heritage);
         } else {
-            this._characterService.changeHeritage(new Heritage());
+            this._characterHeritageChangeService.changeHeritage();
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'all');
@@ -1586,9 +1592,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (isChecked) {
             if (this.character.settings.autoCloseChoices) { this.toggleShownList(''); }
 
-            this._characterService.changeBackground(background);
+            this._characterBackgroundChangeService.changeBackground(background);
         } else {
-            this._characterService.changeBackground(new Background());
+            this._characterBackgroundChangeService.changeBackground();
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'all');
@@ -1816,15 +1822,18 @@ export class CharacterComponent implements OnInit, OnDestroy {
         newChoice.type = type;
         newChoice.source = this.bonusSource || 'Bonus';
         newChoice.bonus = true;
-        this.character.addAbilityChoice(level, newChoice);
+        level.addAbilityChoice(newChoice);
     }
 
-    public removeBonusAbilityChoice(choice: AbilityChoice): void {
+    public removeBonusAbilityChoice(choice: AbilityChoice, levelNumber: number): void {
         choice.boosts.forEach(boost => {
             this.character.boostAbility(this._characterService, boost.name, false, choice, false);
             this._refreshService.prepareChangesByAbility(CreatureTypes.Character, boost.name, { characterService: this._characterService });
         });
-        this.character.removeAbilityChoice(choice);
+
+        const level = this.character.classLevelFromNumber(levelNumber);
+
+        level.removeAbilityChoice(choice);
         this.toggleShownList('');
         this._refreshService.processPreparedChanges();
     }
@@ -1836,7 +1845,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         newChoice.type = type;
         newChoice.source = this.bonusSource || 'Bonus';
         newChoice.bonus = true;
-        this.character.addSkillChoice(level, newChoice);
+        level.addSkillChoice(newChoice);
     }
 
     public addBonusFeatChoice(level: ClassLevel, type: 'Ancestry' | 'Class' | 'General' | 'Skill'): void {

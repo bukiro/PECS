@@ -4,7 +4,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
-import { Familiar } from 'src/app/classes/Familiar';
 import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
 import { Skill } from 'src/app/classes/Skill';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';

@@ -15,10 +15,7 @@ import { Armor } from 'src/app/classes/Armor';
 import { Weapon } from 'src/app/classes/Weapon';
 import { FeatsService } from 'src/app/services/feats.service';
 import { TraitsService } from 'src/app/services/traits.service';
-import { Ancestry } from 'src/app/classes/Ancestry';
 import { HistoryService } from 'src/app/services/history.service';
-import { Heritage } from 'src/app/classes/Heritage';
-import { Background } from 'src/app/classes/Background';
 import { ItemsService } from 'src/app/services/items.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ConditionsService } from 'src/app/services/conditions.service';
@@ -70,7 +67,6 @@ import { EvaluationService } from 'src/app/services/evaluation.service';
 import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
-import { AdditionalHeritage } from '../classes/AdditionalHeritage';
 import { ActivitiesProcessingService } from './activities-processing.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Speed } from '../classes/Speed';
@@ -674,33 +670,6 @@ export class CharacterService {
         }
     }
 
-    public changeClass($class: Class): void {
-        //Cleanup Heritage, Ancestry, Background and class skills
-        const character = this.character;
-
-        character.class.processRemovingOldHeritage(this);
-        character.class.processRemovingOldAncestry(this);
-        character.class.processRemovingOldBackground(this);
-        character.class.processRemovingOldClass(this);
-        character.class = Object.assign(new Class(), JSON.parse(JSON.stringify($class))).recast(this.itemsService);
-        character.class.processNewClass(this, this.itemsService);
-        this.deitiesService.clearCharacterDeities();
-        this.cacheService.resetCreatureCache(character.typeId);
-        this.refreshService.setComponentChanged();
-    }
-
-    public changeAncestry(ancestry: Ancestry, itemsService: ItemsService): void {
-        const character = this.character;
-
-        this.changeHeritage(new Heritage());
-        character.class.processRemovingOldAncestry(this);
-        character.class.ancestry = new Ancestry();
-        character.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(ancestry))).recast();
-        character.class.processNewAncestry(this, itemsService);
-        this.cacheService.resetCreatureCache(character.typeId);
-        this.updateLanguageList();
-    }
-
     public changeDeity(deity: Deity): void {
         const character = this.character;
 
@@ -711,41 +680,6 @@ export class CharacterService {
         this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
         this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
         this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-    }
-
-    public changeHeritage(heritage: Heritage, index = -1): void {
-        const character = this.character;
-
-        character.class.processRemovingOldHeritage(this, index);
-
-        if (index === -1) {
-            character.class.heritage = new Heritage();
-            character.class.heritage = Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
-        } else {
-            const heritageToChange = character.class.additionalHeritages[index];
-            const source = heritageToChange.source;
-            const levelNumber = heritageToChange.charLevelAvailable;
-
-            character.class.additionalHeritages[index] = Object.assign<AdditionalHeritage, AdditionalHeritage>(new AdditionalHeritage(),
-                {
-                    ...JSON.parse(JSON.stringify(heritage)),
-                    source,
-                    charLevelAvailable: levelNumber,
-                }).recast();
-        }
-
-        character.class.processNewHeritage(this, this.itemsService, index);
-        this.cacheService.resetCreatureCache(character.typeId);
-    }
-
-    public changeBackground(background: Background): void {
-        const character = this.character;
-
-        character.class.processRemovingOldBackground(this);
-        character.class.background = new Background();
-        character.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background))).recast();
-        character.class.processNewBackground(this);
-        this.cacheService.resetCreatureCache(character.typeId);
     }
 
     public cleanItems(): ItemCollection {

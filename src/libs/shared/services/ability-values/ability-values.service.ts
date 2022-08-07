@@ -4,7 +4,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
-import { Familiar } from 'src/app/classes/Familiar';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
