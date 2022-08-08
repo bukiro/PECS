@@ -18,6 +18,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
+import { FeatTakingService } from 'src/app/character-creation/services/feat-taking/feat-taking.service';
 
 interface FeatParameters {
     available: boolean;
@@ -87,6 +88,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         private readonly _traitsService: TraitsService,
         private readonly _effectsService: EffectsService,
         private readonly _featRequirementsService: FeatRequirementsService,
+        private readonly _featTakingService: FeatTakingService,
         public trackers: Trackers,
     ) { }
 
@@ -534,14 +536,14 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             (choice.feats.length === this.allowedAmount(choice) - 1)
         ) { this.toggleShownList(''); }
 
-        this._character.takeFeat(this._currentCreature, this._characterService, feat, feat.name, isTaken, choice, locked);
+        this._featTakingService.takeFeat(this._currentCreature, feat, feat.name, isTaken, choice, locked);
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
         this._refreshService.processPreparedChanges();
     }
 
     public removeObsoleteCustomFeat(feat: Feat): void {
-        this._characterService.removeCustomFeat(feat);
+        this._character.removeCustomFeat(feat);
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
         this._refreshService.processPreparedChanges();
@@ -549,14 +551,14 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
 
     public removeBonusFeatChoice(choice: FeatChoice): void {
         const level = this._character.class.levels[this.levelNumber];
-        const oldChoice: FeatChoice = level.featChoices.find(existingChoice => existingChoice.id === choice.id);
+        const oldChoice = level.featChoices.find(existingChoice => existingChoice.id === choice.id);
 
         //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
         if (oldChoice) {
             oldChoice.feats.forEach(feat => {
-                this._character.takeFeat(this._character, this._characterService, undefined, feat.name, false, oldChoice, false);
+                this._featTakingService.takeFeat(this._character, undefined, feat.name, false, oldChoice, false);
             });
-            level.featChoices.splice(level.featChoices.indexOf(oldChoice), 1);
+            level.removeFeatChoice(oldChoice);
         }
 
         this.toggleShownList('');
@@ -646,8 +648,8 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             if (template?.name) {
                 if (this._cannotTakeFeat(template, choice).length || index >= allowed) {
                     if (!feat.locked) {
-                        this._character
-                            .takeFeat(this._currentCreature, this._characterService, template, feat.name, false, choice, feat.locked);
+                        this._featTakingService
+                            .takeFeat(this._currentCreature, template, feat.name, false, choice, feat.locked);
                     } else {
                         areAnyLockedFeatsIllegal = true;
                     }
@@ -698,9 +700,8 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
 
         if (featsToTake.length && featsToTake.length <= (allowed - choice.feats.length)) {
             featsToTake.forEach(featSet => {
-                this._character.takeFeat(
+                this._featTakingService.takeFeat(
                     this._currentCreature,
-                    this._characterService,
                     featSet.feat,
                     featSet.feat.name,
                     true,

@@ -16,6 +16,8 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
+import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -65,6 +67,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _spellsService: SpellsService,
         private readonly _effectsService: EffectsService,
+        private readonly _spellsTakenService: SpellsTakenService,
+        private readonly _equipmentSpellsService: EquipmentSpellsService,
         public trackers: Trackers,
     ) { }
 
@@ -176,9 +180,9 @@ export class SpellsComponent implements OnInit, OnDestroy {
     public spellCastingParameters(): Array<SpellCastingParameters> {
         return this._allSpellCastings().map(casting => {
             const equipmentSpells =
-                this.character.grantedEquipmentSpells(
+                this._equipmentSpellsService.filteredGrantedEquipmentSpells(
+                    this.character,
                     casting,
-                    { characterService: this._characterService, itemsService: this._itemsService },
                     { cantripAllowed: true, emptyChoiceAllowed: true },
                 );
             //Don't list castings that have no spells available.
@@ -377,11 +381,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
         if (levelNumber === -1) {
             if (spellCastingParameters.casting.castingType === 'Focus') {
-                return character
+                return this._spellsTakenService
                     .takenSpells(
+                        character,
                         1,
                         character.level,
-                        { characterService: this._characterService },
                         {
                             spellLevel: levelNumber,
                             spellCasting: spellCastingParameters.casting,
@@ -395,11 +399,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
                 return [];
             }
         } else {
-            return character
+            return this._spellsTakenService
                 .takenSpells(
+                    character,
                     1,
                     character.level,
-                    { characterService: this._characterService },
                     {
                         spellLevel: levelNumber,
                         spellCasting: spellCastingParameters.casting,

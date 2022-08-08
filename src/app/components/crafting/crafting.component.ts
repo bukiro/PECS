@@ -383,7 +383,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     private _learnedFormulas(id = '', source = ''): Array<FormulaLearned> {
-        return this._character.learnedFormulas(id, source);
+        return this._character.class.learnedFormulas(id, source);
     }
 
     private _characterHasFeat(name: string): boolean {

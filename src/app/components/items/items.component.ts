@@ -482,15 +482,15 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public learnedFormulas(id: string, source = ''): Array<FormulaLearned> {
-        return this._character.learnedFormulas(id, source);
+        return this._character.class.learnedFormulas(id, source);
     }
 
     public learnFormula(item: Item, source: string): void {
-        this._character.learnItemFormula(item, source);
+        this._character.class.learnItemFormula(item, source);
     }
 
     public unlearnFormula(item: Item): void {
-        this._character.unlearnItemFormula(item);
+        this._character.class.unlearnItemFormula(item);
     }
 
     public learnedFormulaSource(source: string): string {

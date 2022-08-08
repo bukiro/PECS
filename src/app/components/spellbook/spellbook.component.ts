@@ -28,6 +28,8 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
+import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -106,6 +108,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _effectsService: EffectsService,
         private readonly _conditionsService: ConditionsService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _spellsTakenService: SpellsTakenService,
+        private readonly _equipmentSpellsService: EquipmentSpellsService,
         public trackers: Trackers,
     ) { }
 
@@ -199,9 +203,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     public spellCastingParameters(): Array<SpellCastingParameters> {
         return this._allSpellCastings().map(casting => {
             const equipmentSpells =
-                this._character.grantedEquipmentSpells(
+                this._equipmentSpellsService.filteredGrantedEquipmentSpells(
+                    this._character,
                     casting,
-                    { characterService: this._characterService, itemsService: this._itemsService },
                     { cantripAllowed: true },
                 );
             //Don't list castings that have no spells available.
@@ -434,11 +438,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         if (context.spellParameters.choice.source === 'Feat: Channeled Succor') {
             //When you use a Channeled Succor spell, you instead expend a heal spell from your divine font.
             const divineFontSpell =
-                character
+                this._spellsTakenService
                     .takenSpells(
+                        character,
                         1,
                         character.level,
-                        { characterService: this._characterService },
                         { spellName: 'Heal', source: 'Divine Font' },
                     )
                     .find(taken => taken.gain.prepared);
@@ -723,11 +727,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
         if (levelNumber === -1) {
             if (spellCastingParameters.casting.castingType === 'Focus') {
-                return character
+                return this._spellsTakenService
                     .takenSpells(
+                        character,
                         1,
                         character.level,
-                        { characterService: this._characterService },
                         {
                             spellLevel: levelNumber,
                             spellCasting: spellCastingParameters.casting,
@@ -740,11 +744,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 return [];
             }
         } else {
-            return character
+            return this._spellsTakenService
                 .takenSpells(
+                    character,
                     1,
                     character.level,
-                    { characterService: this._characterService },
                     {
                         spellLevel: levelNumber,
                         spellCasting: spellCastingParameters.casting,

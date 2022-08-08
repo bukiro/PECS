@@ -13,6 +13,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
+import { AbilityBoost } from './AbilityBoost';
+import { SkillIncrease } from './SkillIncrease';
 
 export interface SkillNotes {
     name: string;
@@ -20,7 +22,7 @@ export interface SkillNotes {
     notes: string;
 }
 
-export class Creature {
+export abstract class Creature {
     public name = '';
     public alignment = 'Neutral';
     public id = uuidv4();
@@ -37,6 +39,7 @@ export class Creature {
     public notes = '';
     public skillNotes: Array<SkillNotes> = [];
     public get requiresConForHP(): boolean { return false; }
+
     public recast(itemsService: ItemsService): Creature {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.health = Object.assign(new Health(), this.health).recast();
@@ -47,19 +50,19 @@ export class Creature {
 
         return this;
     }
+
     public isAnimalCompanion(): this is AnimalCompanion {
         return false;
     }
+
     public isCharacter(): this is Character {
         return false;
     }
+
     public isFamiliar(): this is Familiar {
         return false;
     }
-    public baseSize(): number {
-        //Each kind of creature provides its own version of this.
-        return 0;
-    }
+
     public effectiveSize(effectsService: EffectsService, options: { asNumber?: boolean } = {}): string | number {
         let size: number = this.baseSize();
 
@@ -81,14 +84,30 @@ export class Creature {
             return CreatureSizeName(size);
         }
     }
-    //Other implementations require characterService.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public baseHP(conModifier: number, charLevel: number): { result: number; explain: string } {
-        return { result: 0, explain: '' };
-    }
-    //Other implementations require speedName.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public baseSpeed(speedName: string): { result: number; explain: string } {
-        return { result: 0, explain: '' };
-    }
+
+    public abstract baseSize(): number;
+
+    public abstract baseHP(charLevel: number, conModifier: number): { result: number; explain: string };
+
+    public abstract baseSpeed(speedName: string): { result: number; explain: string };
+
+    public abstract abilityBoosts(
+        minLevelNumber: number,
+        maxLevelNumber: number,
+        abilityName?: string,
+        type?: string,
+        source?: string,
+        sourceId?: string,
+        locked?: boolean,
+    ): Array<AbilityBoost>;
+
+    public abstract skillIncreases(
+        minLevelNumber: number,
+        maxLevelNumber: number,
+        skillName?: string,
+        source?: string,
+        sourceId?: string,
+        locked?: boolean,
+        excludeTemporary?: boolean,
+    ): Array<SkillIncrease>;
 }

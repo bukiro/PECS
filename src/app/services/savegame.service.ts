@@ -28,6 +28,7 @@ import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes
 import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
+import { FeatTakingService } from '../character-creation/services/feat-taking/feat-taking.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -59,6 +60,7 @@ export class SavegameService {
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
+        private readonly _featTakingService: FeatTakingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -973,7 +975,7 @@ export class SavegameService {
                     const firstPathFeat = characterService.feats(`Path to Perfection: ${ firstPath }`)[0];
 
                     if (firstPathFeat) {
-                        character.takeFeat(character, characterService, firstPathFeat, firstPathFeat.name, true, firstPathChoice, false);
+                        this._featTakingService.takeFeat(character, firstPathFeat, firstPathFeat.name, true, firstPathChoice, false);
                     }
                 }
             }
@@ -987,7 +989,7 @@ export class SavegameService {
                     const secondPathFeat = characterService.feats(`Second Path to Perfection: ${ secondPath }`)[0];
 
                     if (secondPathFeat) {
-                        character.takeFeat(character, characterService, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
+                        this._featTakingService.takeFeat(character, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
                     }
                 }
             }
@@ -1001,7 +1003,7 @@ export class SavegameService {
                     const thirdPathFeat = characterService.feats(`Third Path to Perfection: ${ thirdPath }`)[0];
 
                     if (thirdPathFeat) {
-                        character.takeFeat(character, characterService, thirdPathFeat, thirdPathFeat.name, true, thirdPathChoice, false);
+                        this._featTakingService.takeFeat(character, thirdPathFeat, thirdPathFeat.name, true, thirdPathChoice, false);
                     }
                 }
             }

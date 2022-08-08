@@ -169,7 +169,7 @@ export class TimeService {
                 const character = creature as Character;
 
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
-                spellsService.restSpells(character, characterService);
+                spellsService.restSpells(character);
                 //Regenerate spell slots.
                 character.class.spellCasting.forEach(casting => {
                     casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -188,9 +188,9 @@ export class TimeService {
                 character.class.spellCasting
                     .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')
                     .forEach(casting => {
-                        const superiorBond = character.hasFeat('Superior Bond', { characterService });
+                        const superiorBond = characterService.characterHasFeat('Superior Bond') ? 1 : 0;
 
-                        if (character.hasFeat('Universalist Wizard', { characterService })) {
+                        if (characterService.characterHasFeat('Universalist Wizard')) {
                             casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
                         } else {
                             casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -228,7 +228,7 @@ export class TimeService {
         });
 
         //Reset all "once per day" spell cooldowns and re-prepare spells.
-        spellsService.refocusSpells(character, characterService);
+        spellsService.refocusSpells(character);
 
         const focusPoints = character.class.focusPoints;
         const focusPointsLast = character.class.focusPointsLast;

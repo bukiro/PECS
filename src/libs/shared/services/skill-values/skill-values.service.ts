@@ -99,16 +99,16 @@ export class SkillValuesService {
         const skill = this._normalizeSkillOrName(skillOrName, creature);
 
         if (levelNumber >= SkillLevelMinimumCharacterLevels.Legendary) {
-            return (creature.skillIncreases(this._characterService, 0, levelNumber, skill.name).length * skillLevelBaseStep <=
+            return (creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep <=
                 Math.min(SkillLevels.Legendary, maxRank));
         } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Master) {
-            return (creature.skillIncreases(this._characterService, 0, levelNumber, skill.name).length * skillLevelBaseStep <=
+            return (creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep <=
                 Math.min(SkillLevels.Master, maxRank));
         } else if (levelNumber >= SkillLevelMinimumCharacterLevels.Expert) {
-            return (creature.skillIncreases(this._characterService, 0, levelNumber, skill.name).length * skillLevelBaseStep <=
+            return (creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep <=
                 Math.min(SkillLevels.Expert, maxRank));
         } else {
-            return (creature.skillIncreases(this._characterService, 0, levelNumber, skill.name).length * skillLevelBaseStep <=
+            return (creature.skillIncreases(0, levelNumber, skill.name).length * skillLevelBaseStep <=
                 Math.min(SkillLevels.Trained, maxRank));
         }
     }
@@ -187,7 +187,7 @@ export class SkillValuesService {
 
                 if (creature.isCharacter()) {
                     increases =
-                        creature.skillIncreases(this._characterService, 0, charLevel, skill.name, '', '', undefined, excludeTemporary);
+                        creature.skillIncreases(0, charLevel, skill.name, '', '', undefined, excludeTemporary);
                 }
 
                 if (creature.isAnimalCompanion()) {

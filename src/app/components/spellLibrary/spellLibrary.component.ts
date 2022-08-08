@@ -412,7 +412,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         if (wizardCasting) {
             if (
                 spell.traditions.includes(SpellTraditions.Arcane) ||
-                this._character.getSpellsFromSpellList(spell.name).length
+                !!this._character.class.getSpellsFromSpellList(spell.name).length
             ) {
                 const wizardKey = SpellLearningMethods.Wizard;
                 const schoolKey = SpellLearningMethods.School;
@@ -472,7 +472,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             bardCasting &&
             (
                 !spell.traditions.includes(SpellTraditions.Occult) ||
-                this._character.getSpellsFromSpellList(spell.name).length
+                !!this._character.class.getSpellsFromSpellList(spell.name).length
             )
         ) {
             const key = SpellLearningMethods.EsotericPolymath;
@@ -488,7 +488,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             sorcererCasting &&
             (
                 !spell.traditions.includes(SpellTraditions.Arcane) ||
-                this._character.getSpellsFromSpellList(spell.name).length
+                !!this._character.class?.getSpellsFromSpellList(spell.name).length
             )
         ) {
             const key = SpellLearningMethods.ArcaneEvolution;
@@ -513,11 +513,11 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public isSpellLearned(name: string): SpellLearned {
-        return this._character.learnedSpells(name)[0] || null;
+        return this._character.class?.learnedSpells(name)[0] || null;
     }
 
     public learnSpell(spell: Spell, source: string): void {
-        this._character.learnSpell(spell, source);
+        this._character.class.learnSpell(spell, source);
 
         if (this._character.settings.autoCloseChoices) { this.toggleShownItem(); }
 
@@ -526,7 +526,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public unlearnSpell(spell: Spell): void {
-        this._character.unlearnSpell(spell);
+        this._character.class.unlearnSpell(spell);
     }
 
     public learnedSpellSource(source: string): string {
@@ -640,7 +640,10 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         newSpellTaken.locked = true;
         newSpellTaken.source = 'Feat: Spell Mastery';
         newChoice.spells.push(newSpellTaken);
-        this._character.addSpellChoice(this._characterService, spell.levelreq, newChoice);
+        this._character.class.addSpellChoice(spell.levelreq, newChoice);
+
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
         this._refreshService.processPreparedChanges();
     }
 
@@ -652,7 +655,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             );
 
         if (oldChoice) {
-            this._character.removeSpellChoice(this._characterService, oldChoice);
+            this._character.class.removeSpellChoice(oldChoice);
         }
 
         this._refreshService.processPreparedChanges();
@@ -780,7 +783,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     private _learnedSpells(source = '', level = -1): Array<SpellLearned> {
-        return this._character.learnedSpells('', source, level);
+        return this._character.class?.learnedSpells('', source, level) || [];
     }
 
     private _characterHasFeat(name: string): boolean {

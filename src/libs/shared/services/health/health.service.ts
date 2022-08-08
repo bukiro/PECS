@@ -42,7 +42,7 @@ export class HealthService {
         const conModifier = creature.requiresConForHP
             ? this._abilityValuesService.baseValue('Constitution', creature, charLevel).result
             : 0;
-        const baseHP = creature.baseHP(conModifier, charLevel);
+        const baseHP = creature.baseHP(charLevel, conModifier);
         let effectsSum = 0;
 
         this._effectsService.absoluteEffectsOnThis(creature, 'Max HP').forEach(effect => {

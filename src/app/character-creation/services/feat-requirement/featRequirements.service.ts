@@ -14,6 +14,8 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
+import { SpellCastingTypeFromString, SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 
 @Injectable({
     providedIn: 'root',
@@ -24,6 +26,7 @@ export class FeatRequirementsService {
         private readonly _characterService: CharacterService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _spellsTakenService: SpellsTakenService,
     ) { }
 
     public static prof(skillLevel: number): string {
@@ -313,14 +316,7 @@ export class FeatRequirementsService {
                 list.toLowerCase()
                     .split(',')
                     .map(name => name.trim())
-                    .map(name => {
-                        switch (name) {
-                            case 'subtype':
-                                return subType;
-                            default:
-                                return name;
-                        }
-                    }),
+                    .map(name => name === 'subtype' ? subType : name),
             ))
         );
         const ApplyDefaultQuery = (query: FeatRequirements.RequirementBasicQuery, list: Array<string>): number => {
@@ -513,7 +509,7 @@ export class FeatRequirementsService {
                 complexreq.countLores?.forEach(lorereq => {
                     if (!hasThisRequirementFailed) {
                         const allLores = Array.from(new Set(
-                            character.skillIncreases(this._characterService, 1, charLevel)
+                            character.skillIncreases(1, charLevel)
                                 .filter(increase => increase.name.toLowerCase().includes('lore:'))
                                 .map(increase => increase.name),
                         ));
@@ -683,11 +679,15 @@ export class FeatRequirementsService {
                                 SplitNames(spellreq.query.ofSpellCasting.havingAnyOfTraditions) :
                                 [];
                         const allSpells =
-                            character.takenSpells(
+                            this._spellsTakenService.takenSpells(
+                                character,
                                 1,
                                 charLevel,
-                                { characterService: this._characterService },
-                                { classNames, traditions, castingTypes },
+                                {
+                                    classNames,
+                                    traditions: traditions.map(tradition => SpellTraditionFromString(tradition)),
+                                    castingTypes: castingTypes.map(castingType => SpellCastingTypeFromString(castingType)),
+                                },
                             )
                                 .map(spellSet => spellSet.gain.name);
                         const queryResult = ApplyDefaultQuery(spellreq.query, allSpells);
@@ -699,7 +699,7 @@ export class FeatRequirementsService {
                 });
                 complexreq.countLearnedSpells?.forEach(learnedspellreq => {
                     if (!hasThisRequirementFailed) {
-                        const allLearnedSpells = character.learnedSpells().map(learned => learned.name);
+                        const allLearnedSpells = character.class.learnedSpells().map(learned => learned.name);
                         const queryResult = ApplyDefaultQuery(learnedspellreq.query, allLearnedSpells);
 
                         if (!DoesNumberMatchExpectation(queryResult, learnedspellreq.expected)) {

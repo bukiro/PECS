@@ -62,12 +62,15 @@ export class ItemActivity extends Activity {
     public targets: Array<SpellTarget> = [];
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
     public id = uuidv4();
+    public data: Array<{ name: string; value: string }> = [];
+
     public recast(): ItemActivity {
         super.recast();
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
 
         return this;
     }
+
     public isOwnActivity(): this is Activity {
         return true;
     }

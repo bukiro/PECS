@@ -28,6 +28,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { BulkService } from 'src/libs/shared/services/bulk/bulk.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
+import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 
 @Injectable({
     providedIn: 'root',
@@ -46,6 +48,8 @@ export class ConditionsService {
         private readonly _healthService: HealthService,
         private readonly _bulkService: BulkService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
+        private readonly _spellsTakenService: SpellsTakenService,
+        private readonly _equipmentSpellsService: EquipmentSpellsService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -558,8 +562,9 @@ export class ConditionsService {
                 !characterService.currentCreatureConditions(character)
                     .some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID === gain.sourceGainID)
             ) {
-                character.takenSpells(0, Defaults.maxCharacterLevel, { characterService })
-                    .concat(character.allGrantedEquipmentSpells())
+                this._spellsTakenService
+                    .takenSpells(character, 0, Defaults.maxCharacterLevel)
+                    .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
                     .filter(takenSpell => takenSpell.gain.id === gain.sourceGainID && takenSpell.gain.active)
                     .forEach(takenSpell => {
                         const spell = characterService.spellsService.spellFromName(takenSpell.gain.name);

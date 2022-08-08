@@ -4,6 +4,7 @@ import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
 import { Character } from 'src/app/classes/Character';
 import { Heritage } from 'src/app/classes/Heritage';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
+import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionsService } from 'src/app/services/conditions.service';
@@ -14,6 +15,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
+import { FeatTakingService } from '../feat-taking/feat-taking.service';
 
 @Injectable({
     providedIn: 'root',
@@ -28,33 +31,37 @@ export class CharacterHeritageChangeService {
         private readonly _conditionsService: ConditionsService,
         private readonly _spellsService: SpellsService,
         private readonly _activitiesDataService: ActivitiesDataService,
+        private readonly _featTakingService: FeatTakingService,
+        private readonly _activitiesProcessingService: ActivitiesProcessingService,
+        private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
     ) { }
 
     public changeHeritage(heritage?: Heritage, index = -1): void {
         const character = this._characterService.character;
+        const characterClass = character.class;
 
         this._processRemovingOldHeritage(character, index);
 
         if (index === -1) {
             if (heritage) {
-                character.class.heritage = Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
+                characterClass.heritage = Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
             } else {
-                character.class.heritage = new Heritage();
+                characterClass.heritage = new Heritage();
             }
         } else {
-            const heritageToChange = character.class.additionalHeritages[index];
+            const heritageToChange = characterClass.additionalHeritages[index];
             const source = heritageToChange.source;
             const levelNumber = heritageToChange.charLevelAvailable;
 
             if (heritage) {
-                character.class.additionalHeritages[index] = Object.assign(new AdditionalHeritage(),
+                characterClass.additionalHeritages[index] = Object.assign(new AdditionalHeritage(),
                     {
                         ...JSON.parse(JSON.stringify(heritage)),
                         source,
                         charLevelAvailable: levelNumber,
                     }).recast();
             } else {
-                character.class.additionalHeritages[index] = Object.assign(new AdditionalHeritage(),
+                characterClass.additionalHeritages[index] = Object.assign(new AdditionalHeritage(),
                     {
                         source,
                         charLevelAvailable: levelNumber,
@@ -104,7 +111,7 @@ export class CharacterHeritageChangeService {
             // We can't just delete these feats, but must specifically un-take them to undo their effects.
             heritage.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(feat => {
-                    character.takeFeat(character, this._characterService, undefined, feat.name, false, choice, false);
+                    this._featTakingService.takeFeat(character, undefined, feat.name, false, choice, false);
                 });
             });
 
@@ -120,23 +127,30 @@ export class CharacterHeritageChangeService {
             }
 
             heritage.gainActivities.forEach((gainActivity: string) => {
-                const oldGain = character.class.activities.find(gain => gain.name === gainActivity && gain.source === heritage.name);
+                const oldGain = characterClass.activities.find(gain => gain.name === gainActivity && gain.source === heritage.name);
 
                 if (oldGain) {
-                    character.loseActivity(
-                        this._characterService,
-                        this._conditionsService,
-                        this._itemsService,
-                        this._spellsService,
-                        this._activitiesDataService,
-                        oldGain,
-                    );
+                    if (oldGain.active) {
+                        this._activitiesProcessingService.activateActivity(
+                            character,
+                            '',
+                            this._characterService,
+                            this._conditionsService,
+                            this._itemsService,
+                            this._spellsService,
+                            oldGain,
+                            this._activitiesDataService.activities(oldGain.name)[0],
+                            false,
+                        );
+                    }
+
+                    character.class.loseActivity(oldGain);
                 }
             });
 
             // Gain Spell or Spell Option
             heritage.spellChoices.forEach(oldSpellChoice => {
-                character.removeSpellChoice(this._characterService, oldSpellChoice);
+                characterClass.removeSpellChoice(oldSpellChoice);
             });
 
             // Undo all Wellspring Gnome changes, where we turned Primal spells into other traditions.
@@ -189,7 +203,7 @@ export class CharacterHeritageChangeService {
             // We have to explicitly take these feats to process them.
             level.featChoices.filter(choice => choice.source === heritage.name).forEach(choice => {
                 choice.feats.forEach(feat => {
-                    character.takeFeat(character, this._characterService, undefined, feat.name, true, choice, feat.locked);
+                    this._featTakingService.takeFeat(character, undefined, feat.name, true, choice, feat.locked);
                 });
             });
 
@@ -200,7 +214,7 @@ export class CharacterHeritageChangeService {
             // If it is locked, we better not replace it. Instead, you get a free Heritage skill increase.
             if (heritage.skillChoices.length && heritage.skillChoices[0].increases.length) {
                 const existingIncreases =
-                    character.skillIncreases(this._characterService, 1, 1, heritage.skillChoices[0].increases[0].name, '');
+                    character.skillIncreases(1, 1, heritage.skillChoices[0].increases[0].name, '');
 
                 if (existingIncreases.length) {
                     const existingIncrease = existingIncreases[0];
@@ -208,7 +222,7 @@ export class CharacterHeritageChangeService {
 
                     if (existingSkillChoice !== heritage.skillChoices[0]) {
                         if (!existingIncrease.locked) {
-                            character.increaseSkill(this._characterService, existingIncrease.name, false, existingSkillChoice, false);
+                            this._characterSkillIncreaseService.increaseSkill(existingIncrease.name, false, existingSkillChoice, false);
                         } else {
                             heritage.skillChoices[0].increases.pop();
                             heritage.skillChoices[0].available = 1;
@@ -218,17 +232,21 @@ export class CharacterHeritageChangeService {
             }
 
             heritage.gainActivities.forEach((gainActivity: string) => {
-                character.gainActivity(
-                    this._characterService,
+                characterClass.gainActivity(
                     Object.assign(new ActivityGain(), { name: gainActivity, source: heritage.name }).recast(),
                     1,
                 );
+
+                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
             });
 
             //Gain Spell or Spell Option
             heritage.spellChoices.forEach(newSpellChoice => {
-                character.addSpellChoice(this._characterService, level.number, newSpellChoice);
+                characterClass.addSpellChoice(level.number, newSpellChoice);
             });
+
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
 
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:

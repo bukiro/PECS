@@ -8,7 +8,6 @@ import { Item } from 'src/app/classes/Item';
 import { Class } from 'src/app/classes/Class';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { ClassesService } from 'src/app/services/classes.service';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Armor } from 'src/app/classes/Armor';
@@ -39,7 +38,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SavegameService } from 'src/app/services/savegame.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
-import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { Oil } from 'src/app/classes/Oil';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Savegame } from 'src/app/classes/Savegame';
@@ -92,6 +90,8 @@ import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
+import { FeatTakingService } from '../character-creation/services/feat-taking/feat-taking.service';
+import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -186,6 +186,8 @@ export class CharacterService {
         private readonly _healthService: HealthService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
+        private readonly _featTakingService: FeatTakingService,
+        private readonly _characterLoreService: CharacterLoreService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -820,10 +822,12 @@ export class CharacterService {
                     const oldFeat = this.character.customFeats.find(existingFeat => existingFeat.name === customFeat.name);
 
                     if (oldFeat) {
-                        this.removeCustomFeat(oldFeat);
+                        this.character.removeCustomFeat(oldFeat);
                     }
 
-                    this.addCustomFeat(customFeat);
+                    this.character.addCustomFeat(customFeat);
+
+                    this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
                 });
             }
 
@@ -1021,7 +1025,7 @@ export class CharacterService {
                             .some(otherchoice => otherchoice.loreName === choice.loreName),
                         ),
                     ).length === 1) {
-                this.character.addLore(this, choice);
+                this._characterLoreService.addLore(this.character, choice);
             }
         });
     }
@@ -1044,7 +1048,7 @@ export class CharacterService {
                             .length)
                         .length)
                     .length === 1) {
-                this.character.removeLore(this, choice);
+                this._characterLoreService.removeLore(this.character, choice);
             }
         });
     }
@@ -1362,25 +1366,6 @@ export class CharacterService {
             { characterService: this, activitiesDataService: this.activitiesDataService },
         );
         this.refreshService.prepareDetailToChange(creature.type, 'inventory');
-    }
-
-    public addCustomSkill(skillName: string, type: string, abilityName: string, locked = false, recallKnowledge = false): void {
-        this.character.customSkills.push(new Skill(abilityName, skillName, type, locked, recallKnowledge));
-    }
-
-    public removeCustomSkill(oldSkill: Skill): void {
-        this.character.customSkills = this.character.customSkills.filter(skill => skill !== oldSkill);
-    }
-
-    public addCustomFeat(feat: Feat): void {
-        this.character.customFeats.push(feat);
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-    }
-
-    public removeCustomFeat(feat: Feat): void {
-        const character = this.character;
-
-        character.customFeats = character.customFeats.filter(oldFeat => oldFeat !== feat);
     }
 
     public conditions(name = '', type = ''): Array<Condition> {
@@ -2750,17 +2735,6 @@ export class CharacterService {
         return senses;
     }
 
-    public processFeat(
-        creature: Character | Familiar,
-        feat: Feat,
-        gain: FeatTaken,
-        choice: FeatChoice,
-        level: ClassLevel,
-        taken: boolean,
-    ): void {
-        this.featsService.processFeat(creature, this, feat, gain, choice, level, taken);
-    }
-
     public characterFeatsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
         return this.characterFeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
@@ -3201,7 +3175,7 @@ export class CharacterService {
         const abilityNames = familiar.abilities.feats.map(gain => gain.name);
 
         abilityNames.forEach(abilityName => {
-            this.character.takeFeat(familiar, this, undefined, abilityName, false, familiar.abilities, undefined);
+            this._featTakingService.takeFeat(familiar, undefined, abilityName, false, familiar.abilities, undefined);
         });
     }
 

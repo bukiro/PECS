@@ -9,6 +9,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
+import { FeatTakingService } from '../feat-taking/feat-taking.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +23,7 @@ export class CharacterAncestryChangeService {
         private readonly _cacheService: CacheService,
         private readonly _refreshService: RefreshService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
+        private readonly _featTakingService: FeatTakingService,
     ) { }
 
     public changeAncestry(newAncestry?: Ancestry): void {
@@ -63,7 +65,7 @@ export class CharacterAncestryChangeService {
             //We must specifically un-take the ancestry's feats to undo their effects.
             ancestry.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(gain => {
-                    character.takeFeat(character, this._characterService, undefined, gain.name, false, choice, gain.locked);
+                    this._featTakingService.takeFeat(character, undefined, gain.name, false, choice, gain.locked);
                 });
             });
 
@@ -107,7 +109,7 @@ export class CharacterAncestryChangeService {
             //We have to explicitly take these feats to process them.
             ancestry.featChoices.forEach(choice => {
                 choice.feats.forEach(gain => {
-                    character.takeFeat(character, this._characterService, undefined, gain.name, true, choice, gain.locked);
+                    this._featTakingService.takeFeat(character, undefined, gain.name, true, choice, gain.locked);
                 });
             });
         }

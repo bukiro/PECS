@@ -7,13 +7,13 @@ import { Subscription } from 'rxjs';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { skillLevelBaseStep, SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { Character } from 'src/app/classes/Character';
 import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { CharacterSkillIncreaseService } from 'src/app/character-creation/services/character-skill-increase/character-skill-increase.service';
 
 interface SkillChoiceParameters {
     listId: string;
@@ -62,11 +62,11 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         public trackers: Trackers,
     ) { }
 
@@ -179,7 +179,6 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         // which can be raised on Level 2/3, 7 and 15 no matter when you learned them.
         const allIncreases =
             this.character.skillIncreases(
-                this._characterService,
                 levelNumber + 1,
                 Defaults.maxCharacterLevel,
                 skill.name,
@@ -256,13 +255,13 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
             (choice.increases.length === maxAvailable - 1)
         ) { this.toggleShownList(); }
 
-        this.character.increaseSkill(this._characterService, skillName, hasBeenIncreased, choice, locked);
+        this._characterSkillIncreaseService.increaseSkill(skillName, hasBeenIncreased, choice, locked);
         this._refreshService.processPreparedChanges();
     }
 
     public removeBonusSkillChoice(choice: SkillChoice): void {
         choice.increases.forEach(increase => {
-            this.character.increaseSkill(this._characterService, increase.name, false, choice, false);
+            this._characterSkillIncreaseService.increaseSkill(increase.name, false, choice, false);
         });
 
         this.character.classLevelFromNumber(this.choice.insertLevel || this.levelNumber)?.removeSkillChoice(choice);
@@ -367,7 +366,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
 
             if (!this._skillValuesService.isSkillLegal(increase.name, this.character, levelNumber, this.choice.maxRank)) {
                 if (!increase.locked) {
-                    this.character.increaseSkill(this._characterService, increase.name, false, this.choice, increase.locked);
+                    this._characterSkillIncreaseService.increaseSkill(increase.name, false, this.choice, increase.locked);
                     this._refreshService.processPreparedChanges();
                 } else {
                     areAnyLockedIncreasesIllegal = true;

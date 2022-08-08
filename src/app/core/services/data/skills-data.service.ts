@@ -71,6 +71,10 @@ export class SkillsDataService {
         } else { return [new Skill()]; }
     }
 
+    public skillFromName(name: string, customSkills: Array<Skill> = []): Skill {
+        return this.skills(customSkills, name)[0];
+    }
+
     public initialize(): void {
         this._loadSkills();
         this._initialized = false;

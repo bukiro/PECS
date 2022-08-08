@@ -809,7 +809,7 @@ export class EffectsGenerationService {
             }
 
             //Reflexive Shield adds the same bonus to your reflex save. Only a Character can have it.
-            if (context.creature.isCharacter() && context.creature.hasFeat('Reflexive Shield', services)) {
+            if (context.creature.isCharacter() && services.characterService.characterHasFeat('Reflexive Shield')) {
                 addEffect({
                     type: 'circumstance',
                     target: 'Reflex',
@@ -859,7 +859,6 @@ export class EffectsGenerationService {
     private _applyUnburdenedIron(
         effects: Array<Effect>,
         services: { readonly characterService: CharacterService },
-        context: { readonly character: CharacterModel },
     ): Array<Effect> {
         //If you have the Unburdened Iron feat and are taking speed penalties, reduce the first of them by 5.
         const lessenSpeedPenaltyEffect = (effect: Effect): void => {
@@ -875,7 +874,7 @@ export class EffectsGenerationService {
             }
         };
 
-        if (context.character.hasFeat('Unburdened Iron', services)) {
+        if (services.characterService.characterHasFeat('Unburdened Iron')) {
             let hasReducedOnePenalty = false;
 
             //Try global speed penalties first (this is more beneficial to the character).
@@ -1261,7 +1260,7 @@ export class EffectsGenerationService {
 
         //Apply any lessening of speed penalties that stems from a character's Unburdened Iron feat.
         if (creature.isCharacter()) {
-            effects = this._applyUnburdenedIron(effects, services, { character: creature });
+            effects = this._applyUnburdenedIron(effects, services);
         }
 
         //Split off effects that affect another creature for later. We don't want these to influence or be influenced by the next steps.

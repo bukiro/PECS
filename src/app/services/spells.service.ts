@@ -21,6 +21,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
+import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 
 @Injectable({
     providedIn: 'root',
@@ -35,6 +37,8 @@ export class SpellsService {
         private readonly _extensionsService: ExtensionsService,
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _spellsTakenService: SpellsTakenService,
+        private readonly _equipmentSpellsService: EquipmentSpellsService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -545,11 +549,12 @@ export class SpellsService {
         }
     }
 
-    public restSpells(character: CharacterModel, characterService: CharacterService): void {
+    public restSpells(character: CharacterModel): void {
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is exactly one day or until rest (-2), the spell gain's cooldown is reset.
-        character.takenSpells(0, Defaults.maxCharacterLevel, { characterService })
-            .concat(character.allGrantedEquipmentSpells())
+        this._spellsTakenService
+            .takenSpells(character, 0, Defaults.maxCharacterLevel)
+            .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
                 if ([TimePeriods.UntilRest, TimePeriods.Day].includes(taken.choice.cooldown)) {
@@ -564,7 +569,7 @@ export class SpellsService {
                 });
             });
         });
-        character.allGrantedEquipmentSpells().filter(granted => granted.choice.castingType === 'Prepared')
+        this._equipmentSpellsService.allGrantedEquipmentSpells(character).filter(granted => granted.choice.castingType === 'Prepared')
             .forEach(granted => {
                 granted.gain.prepared = true;
             });
@@ -579,11 +584,12 @@ export class SpellsService {
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
     }
 
-    public refocusSpells(character: CharacterModel, characterService: CharacterService): void {
+    public refocusSpells(character: CharacterModel): void {
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is until refocus (-3), the spell gain's cooldown is reset.
-        character.takenSpells(0, Defaults.maxCharacterLevel, { characterService })
-            .concat(character.allGrantedEquipmentSpells())
+        this._spellsTakenService
+            .takenSpells(character, 0, Defaults.maxCharacterLevel)
+            .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
                 if (taken.choice.cooldown === TimePeriods.UntilRefocus) {
@@ -601,8 +607,9 @@ export class SpellsService {
         conditionsService: ConditionsService,
         turns = 10,
     ): void {
-        character.takenSpells(0, Defaults.maxCharacterLevel, { characterService })
-            .concat(character.allGrantedEquipmentSpells())
+        this._spellsTakenService
+            .takenSpells(character, 0, Defaults.maxCharacterLevel)
+            .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
             .filter(taken => taken.gain.activeCooldown || taken.gain.duration)
             .forEach(taken => {
                 //Tick down the duration and the cooldown.

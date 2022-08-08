@@ -542,9 +542,14 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         }
 
         const shouldBePrepared: boolean = this.prepared;
-        const character = this._character;
 
-        character.takeSpell(this._characterService, spellName, isTaken, choice, locked, shouldBePrepared, borrowed);
+        if (isTaken) {
+            choice.addSpell(spellName, locked, shouldBePrepared, borrowed);
+        } else {
+            choice.removeSpell(spellName);
+        }
+
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
 
         // For the Esoteric Polymath feat and the Arcane Evolution feat,
         // if you choose a spell that is in your repertoire (i.e. if other spell choices have this spell in it),
@@ -826,7 +831,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                         spells.push(...allSpells.filter(spell =>
                             (
                                 spell.spell.traditions.includes(traditionFilter) ||
-                                character.getSpellsFromSpellList(spell.spell.name).length ||
+                                !!character.class?.getSpellsFromSpellList(spell.spell.name).length ||
                                 (
                                     this.spellCasting.source === 'Cleric Spellcasting' && (
                                         deity?.clericSpells.some(clericSpell =>
@@ -1058,30 +1063,45 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
 
     private _cleanupIllegalSpells(
         spellList: Array<SpellSet>,
-    ): boolean {
+    ): void {
+        let shouldRefresh = false;
+
         this.choice.spells.forEach(gain => {
             if (!spellList?.map(spell => spell.spell.name)?.includes(gain.name)) {
                 if (!gain.locked) {
-                    this._character.takeSpell(this._characterService, gain.name, false, this.choice, gain.locked);
+                    this.choice.removeSpell(gain.name);
+
+                    shouldRefresh = true;
                 }
             }
         });
 
-        return true;
+        if (shouldRefresh) {
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+        }
     }
 
     private _cannotTakeSome(): boolean {
         let canAnySpellsNotBeTaken = false;
 
+        let shouldRefresh = false;
+
         this.choice.spells.forEach(gain => {
             if (this._cannotTakeSpell(this._spells(gain.name)[0]).length) {
                 if (!gain.locked) {
-                    this._character.takeSpell(this._characterService, gain.name, false, this.choice, gain.locked);
+                    this.choice.removeSpell(gain.name);
+
+                    shouldRefresh = true;
                 } else {
                     canAnySpellsNotBeTaken = true;
                 }
             }
         });
+
+        if (shouldRefresh) {
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+        }
+
         this._refreshService.processPreparedChanges();
 
         return canAnySpellsNotBeTaken;
@@ -1336,7 +1356,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         return (
             this.choice.level === 0 &&
             !this.choice.dynamicLevel &&
-            this.spellCasting === this._character.defaultSpellcasting() &&
+            this.spellCasting === this._character.class.defaultSpellcasting() &&
             !this._isSpellGainedFromTradeIn() &&
             this._characterHasFeat('Adapted Cantrip'));
     }
@@ -1354,7 +1374,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         // - This choice does not have a dynamic level
         // - This choice is part of your default spellcasting
         // - This choice is not itself a bonus slot gained by trading in
-        return (!this.choice.dynamicLevel && this.spellCasting === this._character.defaultSpellcasting() &&
+        return (!this.choice.dynamicLevel && this.spellCasting === this._character.class.defaultSpellcasting() &&
             !this._isSpellGainedFromTradeIn() &&
             (
                 (this.choice.level === 0 && this._characterHasFeat('Adaptive Adept: Cantrip')) ||

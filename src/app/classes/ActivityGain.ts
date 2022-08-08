@@ -50,6 +50,7 @@ export class ActivityGain {
      * or end the activity when the condition ends.
      */
     public id = uuidv4();
+    public data: Array<{ name: string; value: string }> = [];
 
     public recast(): ActivityGain {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());

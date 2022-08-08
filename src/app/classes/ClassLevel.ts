@@ -47,7 +47,7 @@ export class ClassLevel {
 
     public addSkillChoice(newChoice: SkillChoice): SkillChoice {
         const existingChoices = this.skillChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = Object.assign<SkillChoice, SkillChoice>(new SkillChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+        const tempChoice = Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
 
         tempChoice.id = `${ this.number }-Skill-${ tempChoice.source }-${ existingChoices.length }`;
 
@@ -69,5 +69,41 @@ export class ClassLevel {
         if (foundChoice) {
             this.removeSkillChoice(foundChoice);
         }
+    }
+
+    public addLoreChoice(newChoice: LoreChoice): LoreChoice {
+        const existingChoices = this.loreChoices.filter(choice => choice.source === newChoice.source);
+        const tempChoice = Object.assign(new LoreChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+
+        tempChoice.id = `${ this.number }-Lore-${ tempChoice.source }-${ existingChoices.length }`;
+
+        const newLength: number = this.loreChoices.push(tempChoice);
+
+        return this.loreChoices[newLength - 1];
+    }
+
+    public removeLoreChoice(oldChoice: LoreChoice): void {
+        this.loreChoices.splice(this.loreChoices.indexOf(oldChoice), 1);
+    }
+
+    public addFeatChoice(newChoice: FeatChoice): FeatChoice {
+        const existingChoices = this.featChoices.filter(choice => choice.source === newChoice.source);
+        const tempChoice = Object.assign<FeatChoice, FeatChoice>(new FeatChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+
+        tempChoice.id =
+            `${ this.number }-${ tempChoice.type ? tempChoice.type : 'Feat' }-${ tempChoice.source }-${ existingChoices.length }`;
+
+        const newLength: number = this.featChoices.push(tempChoice);
+
+        this.featChoices[newLength - 1].feats.forEach(feat => {
+            feat.source = this.featChoices[newLength - 1].source;
+            feat.sourceId = this.featChoices[newLength - 1].id;
+        });
+
+        return this.featChoices[newLength - 1];
+    }
+
+    public removeFeatChoice(oldChoice: FeatChoice): void {
+        this.featChoices.splice(this.featChoices.indexOf(oldChoice), 1);
     }
 }

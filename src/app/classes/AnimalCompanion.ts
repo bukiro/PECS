@@ -44,7 +44,7 @@ export class AnimalCompanion extends Creature {
         return size;
     }
 
-    public baseHP(conModifier: number, charLevel: number): { result: number; explain: string } {
+    public baseHP(charLevel: number, conModifier: number): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
         let ancestryHP = 0;
@@ -131,6 +131,8 @@ export class AnimalCompanion extends Creature {
 
             return boosts;
         }
+
+        return [];
     }
 
     public skillIncreases(

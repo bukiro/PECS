@@ -103,10 +103,42 @@ export class SpellChoice {
      * If target is set to "Enemies", you can only choose spells with no target property (so it's likely not beneficial).
      */
     public target = '';
+
     public recast(): SpellChoice {
         this.spells = this.spells.map(obj => Object.assign(new SpellGain(), obj).recast());
         this.spells.forEach(gain => { gain.source = this.source; });
 
         return this;
+    }
+
+    public addSpell(
+        spellName: string,
+        locked: boolean,
+        prepared = false,
+        borrowed = false,
+    ): void {
+        this.spells.push(
+            Object.assign(
+                new SpellGain(),
+                {
+                    name: spellName,
+                    locked,
+                    sourceId: this.id,
+                    source: this.source,
+                    cooldown: this.cooldown,
+                    frequency: this.frequency,
+                    prepared,
+                    borrowed,
+                },
+            ),
+        );
+    }
+
+    public removeSpell(
+        spellName: string,
+    ): void {
+        const oldGain = this.spells.find(gain => gain.name === spellName);
+
+        this.spells.splice(this.spells.indexOf(oldGain), 1);
     }
 }

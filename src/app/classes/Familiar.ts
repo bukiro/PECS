@@ -5,6 +5,8 @@ import { Skill } from 'src/app/classes/Skill';
 import { Defaults } from '../../libs/shared/definitions/defaults';
 import { CreatureSizes } from '../../libs/shared/definitions/creatureSizes';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { AbilityBoost } from './AbilityBoost';
+import { SkillIncrease } from './SkillIncrease';
 
 export class Familiar extends Creature {
     public readonly type = CreatureTypes.Familiar;
@@ -23,21 +25,24 @@ export class Familiar extends Creature {
     public species = '';
     public traits: Array<string> = ['Minion'];
     public get requiresConForHP(): boolean { return false; }
+
     public recast(itemsService: ItemsService): Familiar {
         super.recast(itemsService);
         this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
 
         return this;
     }
+
     public isFamiliar(): this is Familiar {
         return true;
     }
+
     public baseSize(): number {
         return CreatureSizes.Tiny;
     }
-    //Other implementations require characterService.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public baseHP(conModifier: number, charLevel: number): { result: number; explain: string } {
+
+    //Other implementations require conModifier.
+    public baseHP(charLevel: number): { result: number; explain: string } {
         let explain = '';
         let classHP = 0;
         const familiarHPMultiplier = 5;
@@ -48,6 +53,7 @@ export class Familiar extends Creature {
 
         return { result: classHP, explain: explain.trim() };
     }
+
     public baseSpeed(speedName: string): { result: number; explain: string } {
         let explain = '';
         let sum = 0;
@@ -59,4 +65,8 @@ export class Familiar extends Creature {
 
         return { result: sum, explain: explain.trim() };
     }
+
+    public abilityBoosts(): Array<AbilityBoost> { return []; }
+
+    public skillIncreases(): Array<SkillIncrease> { return []; }
 }

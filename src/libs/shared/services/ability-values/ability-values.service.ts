@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Ability } from 'src/app/classes/Ability';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
@@ -86,25 +84,23 @@ export class AbilityValuesService {
             //Boosts are always +2 for Companion
             //Flaws are always -2
             //Infos are not processed.
-            const boosts = (creature as Character | AnimalCompanion).abilityBoosts(0, charLevel, ability.name);
+            const boosts = creature.abilityBoosts(0, charLevel, ability.name);
 
-            if (boosts) {
-                boosts.forEach(boost => {
-                    if (boost.type === 'Boost') {
-                        const weight = (
-                            baseValue < abilityBoostWeightBreakpoint || creature.isAnimalCompanion()
-                                ? abilityBoostWeightFull
-                                : abilityBoostWeightHalf
-                        );
+            boosts.forEach(boost => {
+                if (boost.type === 'Boost') {
+                    const weight = (
+                        baseValue < abilityBoostWeightBreakpoint || creature.isAnimalCompanion()
+                            ? abilityBoostWeightFull
+                            : abilityBoostWeightHalf
+                    );
 
-                        baseValue += weight;
-                        explain += `\n${ boost.source }: +${ weight }`;
-                    } else if (boost.type === 'Flaw') {
-                        baseValue -= abilityBoostWeightFull;
-                        explain += `\n${ boost.source }: -${ abilityBoostWeightFull }`;
-                    }
-                });
-            }
+                    baseValue += weight;
+                    explain += `\n${ boost.source }: +${ weight }`;
+                } else if (boost.type === 'Flaw') {
+                    baseValue -= abilityBoostWeightFull;
+                    explain += `\n${ boost.source }: -${ abilityBoostWeightFull }`;
+                }
+            });
 
             return { result: baseValue, explain };
         }

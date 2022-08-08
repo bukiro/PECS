@@ -29,7 +29,6 @@ import { ConditionChoice } from 'src/app/classes/ConditionChoice';
 import { ConditionDuration } from 'src/app/classes/ConditionDuration';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Consumable } from 'src/app/classes/Consumable';
-import { Creature } from 'src/app/classes/Creature';
 import { Deity } from 'src/app/classes/Deity';
 import { Effect } from 'src/app/classes/Effect';
 import { EffectGain } from 'src/app/classes/EffectGain';
@@ -126,7 +125,6 @@ export class TypeService {
             case 'ConditionDuration': return Object.assign(new ConditionDuration(), obj);
             case 'ConditionGain': return Object.assign(new ConditionGain(), obj);
             case 'Consumable': return Object.assign(new Consumable(), obj);
-            case 'Creature': return Object.assign(new Creature(), obj);
             case 'Deity': return Object.assign(new Deity(), obj);
             case 'Effect': return Object.assign(new Effect(), obj);
             case 'EffectGain': return Object.assign(new EffectGain(), obj);

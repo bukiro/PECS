@@ -694,7 +694,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public learnedFormulas(id = '', source = ''): Array<FormulaLearned> {
-        return this.character.learnedFormulas(id, source);
+        return this.character.class.learnedFormulas(id, source);
     }
 
     public itemsPreparedForQuickCrafting(type: string): Array<{ learned: FormulaLearned; item: Snare }> {

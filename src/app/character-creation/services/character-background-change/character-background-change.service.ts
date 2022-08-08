@@ -7,6 +7,8 @@ import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 
 @Injectable({
     providedIn: 'root',
@@ -17,6 +19,8 @@ export class CharacterBackgroundChangeService {
         private readonly _characterService: CharacterService,
         private readonly _featsService: FeatsService,
         private readonly _cacheService: CacheService,
+        private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
+        private readonly _characterLoreService: CharacterLoreService,
     ) { }
 
     public changeBackground(background?: Background): void {
@@ -59,14 +63,14 @@ export class CharacterBackgroundChangeService {
             const oldChoice = oldChoices[oldChoices.length - 1];
 
             if (oldChoice.increases.length) {
-                character.removeLore(this._characterService, oldChoice);
+                this._characterLoreService.removeLore(character, oldChoice);
             }
 
             level.loreChoices = level.loreChoices.filter(choice => choice.source !== 'Background');
             //Process skill choices in case any custom skills need to be removed.
             background.skillChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.increases.forEach(increase => {
-                    character.processSkill(this._characterService, increase.name, false, choice);
+                    this._characterSkillIncreaseService.processSkillIncrease(increase.name, false, choice);
                 });
             });
 
@@ -97,7 +101,7 @@ export class CharacterBackgroundChangeService {
             //Process the new skill choices in case any new skill needs to be created.
             level.skillChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.increases.forEach(increase => {
-                    character.processSkill(this._characterService, increase.name, true, choice);
+                    this._characterSkillIncreaseService.processSkillIncrease(increase.name, true, choice);
                 });
             });
 
@@ -110,7 +114,6 @@ export class CharacterBackgroundChangeService {
                 ).length) {
                     const increases =
                         character.skillIncreases(
-                            this._characterService,
                             1,
                             Defaults.maxCharacterLevel,
                             `Lore: ${ background.loreChoices[0].loreName }`,
@@ -120,20 +123,20 @@ export class CharacterBackgroundChangeService {
                             );
 
                     if (increases.length) {
-                        const oldChoice = character.getLoreChoiceBySourceId(increases[0].sourceId);
+                        const oldChoice = character.class.getLoreChoiceBySourceId(increases[0].sourceId);
 
                         if (oldChoice.available === 1) {
-                            character.removeLore(this._characterService, oldChoice);
+                            this._characterLoreService.removeLore(character, oldChoice);
                         }
                     }
                 }
 
-                character.addLore(this._characterService, background.loreChoices[0]);
+                this._characterLoreService.addLore(character, background.loreChoices[0]);
             }
 
             if (background.skillChoices[0].increases.length) {
                 const existingIncreases =
-                    character.skillIncreases(this._characterService, 1, 1, background.skillChoices[0].increases[0].name, '');
+                    character.skillIncreases(1, 1, background.skillChoices[0].increases[0].name, '');
 
                 if (existingIncreases.length) {
                     const existingIncrease = existingIncreases[0];
@@ -145,7 +148,7 @@ export class CharacterBackgroundChangeService {
                     // If it is locked, we better not replace it. Instead, you get a free Background skill increase.
                     if (existingSkillChoice !== background.skillChoices[0]) {
                         if (!existingIncrease.locked) {
-                            character.increaseSkill(this._characterService, existingIncrease.name, false, existingSkillChoice, false);
+                            this._characterSkillIncreaseService.increaseSkill(existingIncrease.name, false, existingSkillChoice, false);
                         } else {
                             background.skillChoices[0].increases.pop();
                             background.skillChoices[0].available = 1;
