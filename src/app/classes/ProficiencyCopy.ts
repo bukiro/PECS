@@ -9,6 +9,7 @@ export class ProficiencyCopy {
     public featuresOnly = false;
     /** Minimum skill level needed to apply (usually Trained). */
     public minLevel: SkillLevels = SkillLevels.Trained;
+
     public recast(): ProficiencyCopy {
         return this;
     }

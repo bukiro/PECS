@@ -33,6 +33,7 @@ export class Oil extends Consumable {
     /** You can only choose this oil for an item if its type or "items" is in the targets list */
     public targets: Array<string> = [];
     public weightLimit = 0;
+
     public recast(itemsService: ItemsService): Oil {
         super.recast(itemsService);
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());

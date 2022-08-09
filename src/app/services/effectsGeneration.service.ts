@@ -7,7 +7,6 @@ import { Armor } from 'src/app/classes/Armor';
 import { Character as CharacterModel } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { EffectGain } from 'src/app/classes/EffectGain';
@@ -39,6 +38,7 @@ import { ItemEffectsGenerationService } from 'src/libs/shared/effects-generation
 import { ConditionsDataService } from '../core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { EquipmentConditionsService } from 'src/libs/shared/effects-generation/services/equipment-conditions/equipment-conditions.service';
+import { ShieldPropertiesService } from 'src/libs/shared/services/shield-properties/shield-properties.service';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -64,7 +64,6 @@ export class EffectsGenerationService {
     constructor(
         private readonly _evaluationService: EvaluationService,
         private readonly _effectsService: EffectsService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _equipmentConditionsService: EquipmentConditionsService,
@@ -78,6 +77,7 @@ export class EffectsGenerationService {
         private readonly _creatureEffectsGenerationService: CreatureEffectsGenerationService,
         private readonly _itemTraitsService: ItemTraitsService,
         private readonly _itemEffectsGenerationService: ItemEffectsGenerationService,
+        private readonly _shieldPropertiesService: ShieldPropertiesService,
     ) { }
 
     public effectsFromEffectObject(
@@ -1323,22 +1323,22 @@ export class EffectsGenerationService {
         }
     }
 
-    private _runEffectGenerationPreflightUpdates(creature: Creature, services: { readonly characterService: CharacterService }): void {
+    private _runEffectGenerationPreflightUpdates(creature: Creature): void {
         // Add or remove conditions depending on your equipment.
         // This is called here to ensure that the conditions exist before their effects are generated.
         this._equipmentConditionsService.generateBulkConditions(creature);
         this._equipmentConditionsService.generateItemGrantedConditions(creature);
         //Update item modifiers that influence their effectiveness and effects.
-        this._updateItemModifiers(creature, services);
+        this._updateItemModifiers(creature);
     }
 
-    private _updateItemModifiers(creature: Creature, services: { readonly characterService: CharacterService }): void {
+    private _updateItemModifiers(creature: Creature): void {
         // Update modifiers on all armors, shields and weapons that may influence the effects they generate.
         // We update weapons even though they don't generate effects with these modifiers,
         // because this is a good spot to keep them up to date.
         creature.inventories.forEach(inv => {
             inv.shields.forEach(shield => {
-                shield.updateModifiers(creature, { characterService: services.characterService, refreshService: this._refreshService });
+                this._shieldPropertiesService.updateModifiers(shield, creature);
             });
             inv.weapons.forEach(weapon => {
                 this._weaponPropertiesService.updateModifiers(weapon, creature);
@@ -1353,7 +1353,7 @@ export class EffectsGenerationService {
         const creature: Creature = services.characterService.creatureFromType(creatureType);
 
         //Run certain non-effect updates that influence later effect generation.
-        this._runEffectGenerationPreflightUpdates(creature, services);
+        this._runEffectGenerationPreflightUpdates(creature);
 
         // Then generate effects for this creature. If anything has changed, update the language list length.
         // The language list is dependent on effects, so needs to run directly afterwards.

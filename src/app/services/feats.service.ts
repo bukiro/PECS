@@ -40,6 +40,7 @@ import { SpellsService } from './spells.service';
 import { CharacterSkillIncreaseService } from '../character-creation/services/character-skill-increase/character-skill-increase.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 
 @Injectable({
     providedIn: 'root',
@@ -69,6 +70,7 @@ export class FeatsService {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
+        private readonly _itemGrantingService: ItemGrantingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -686,12 +688,12 @@ export class FeatsService {
             if (feat.gainItems.length) {
                 if (taken) {
                     feat.gainItems.filter(freeItem => freeItem.on === 'grant').forEach(freeItem => {
-                        freeItem.grantGrantedItem(character, {}, { characterService, itemsService: characterService.itemsService });
+                        this._itemGrantingService.grantGrantedItem(freeItem, character);
                         freeItem.grantedItemID = '';
                     });
                 } else {
                     feat.gainItems.filter(freeItem => freeItem.on === 'grant').forEach(freeItem => {
-                        freeItem.dropGrantedItem(character, { requireGrantedItemID: false }, { characterService });
+                        this._itemGrantingService.dropGrantedItem(freeItem, character, { requireGrantedItemID: false });
                     });
                 }
             }

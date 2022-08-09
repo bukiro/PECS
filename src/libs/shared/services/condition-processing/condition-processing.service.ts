@@ -23,6 +23,7 @@ import { CreatureConditionsService } from '../creature-conditions/creature-condi
 import { EquipmentSpellsService } from '../equipment-spells/equipment-spells.service';
 import { HealthService } from '../health/health.service';
 import { SpellsTakenService } from '../spells-taken/spells-taken.service';
+import { ItemGrantingService } from '../item-granting/item-granting.service';
 
 @Injectable({
     providedIn: 'root',
@@ -44,6 +45,7 @@ export class ConditionProcessingService {
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _defenseService: DefenseService,
         private readonly _toastService: ToastService,
+        private readonly _itemGrantingService: ItemGrantingService,
     ) { }
 
     public processCondition(
@@ -282,10 +284,10 @@ export class ConditionProcessingService {
                         gainItem.conditionChoiceFilter.includes(gain.choice),
                     ).forEach(gainItem => {
                         areGainItemsProcessed = true;
-                        gainItem.grantGrantedItem(
+                        this._itemGrantingService.grantGrantedItem(
+                            gainItem,
                             creature,
                             { sourceName: condition.name },
-                            { characterService: this._characterService, itemsService: this._itemsService },
                         );
                     });
             } else {
@@ -294,7 +296,7 @@ export class ConditionProcessingService {
                         !gainItem.conditionChoiceFilter.length ||
                         gainItem.conditionChoiceFilter.includes(gain.choice),
                     ).forEach(gainItem => {
-                        gainItem.dropGrantedItem(creature, {}, { characterService: this._characterService });
+                        this._itemGrantingService.dropGrantedItem(gainItem, creature);
                     });
                 gain.gainItems = [];
             }

@@ -8,6 +8,7 @@ import { DeitiesService } from 'src/app/services/deities.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterAncestryChangeService } from '../character-ancestry-change/character-ancestry-change.service';
 import { CharacterBackgroundChangeService } from '../character-background-change/character-background-change.service';
 
@@ -25,6 +26,7 @@ export class CharacterClassChangeService {
         private readonly _refreshService: RefreshService,
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
+        private readonly _itemGrantingService: ItemGrantingService,
     ) { }
 
     public changeClass(newClass?: Class): void {
@@ -54,7 +56,7 @@ export class CharacterClassChangeService {
 
         //Of each granted Item, find the item with the stored id and drop it.
         characterClass.gainItems.forEach(freeItem => {
-            freeItem.dropGrantedItem(character, {}, { characterService: this._characterService });
+            this._itemGrantingService.dropGrantedItem(freeItem, character);
         });
 
         //Many feats get specially processed when taken.
@@ -80,7 +82,7 @@ export class CharacterClassChangeService {
         if (characterClass.name) {
             //Grant all items and save their id in the ItemGain.
             characterClass.gainItems.forEach(freeItem => {
-                freeItem.grantGrantedItem(character, {}, { characterService: this._characterService, itemsService: this._itemsService });
+                this._itemGrantingService.grantGrantedItem(freeItem, character);
             });
 
             //Many feats get specially processed when taken.

@@ -92,6 +92,7 @@ import { FeatTakingService } from '../character-creation/services/feat-taking/fe
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { ConditionsDataService } from '../core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -190,6 +191,7 @@ export class CharacterService {
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterLoreService: CharacterLoreService,
+        private readonly _itemGrantingService: ItemGrantingService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -859,10 +861,10 @@ export class CharacterService {
                 //Add all Items that you get from being granted this one
                 if (item.gainItems.length) {
                     item.gainItems.filter(gainItem => gainItem.on === 'grant' && gainItem.amount > 0).forEach(gainItem => {
-                        gainItem.grantGrantedItem(
+                        this._itemGrantingService.grantGrantedItem(
+                            gainItem,
                             creature,
                             { sourceName: item.effectiveName(), grantingItem: item },
-                            { characterService: this, itemsService: this.itemsService },
                         );
                     });
                 }
@@ -974,7 +976,7 @@ export class CharacterService {
 
                 if (including) {
                     item.gainItems.filter(gainItem => gainItem.on === 'grant').forEach(gainItem => {
-                        gainItem.dropGrantedItem(creature, {}, { characterService: this });
+                        this._itemGrantingService.dropGrantedItem(gainItem, creature);
                     });
                 }
             }
@@ -1219,10 +1221,10 @@ export class CharacterService {
                 item.gainItems
                     .filter(gainItem => gainItem.on === 'equip')
                     .forEach(gainItem => {
-                        gainItem.grantGrantedItem(
+                        this._itemGrantingService.grantGrantedItem(
+                            gainItem,
                             creature,
                             { sourceName: item.effectiveName(), grantingItem: item },
-                            { characterService: this, itemsService: this.itemsService },
                         );
                     });
             }
@@ -1248,7 +1250,7 @@ export class CharacterService {
 
             if (item.gainItems?.length) {
                 item.gainItems.filter(gainItem => gainItem.on === 'equip').forEach(gainItem => {
-                    gainItem.dropGrantedItem(creature, {}, { characterService: this });
+                    this._itemGrantingService.dropGrantedItem(gainItem, creature);
                 });
             }
 

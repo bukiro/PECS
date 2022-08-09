@@ -2,7 +2,6 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { v4 as uuidv4 } from 'uuid';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 
@@ -40,6 +39,7 @@ export class PlayerMessage {
     public deleted = false;
     public turnChange = false;
     public ttl = Defaults.playerMessageTTL;
+
     public recast(itemsService: ItemsService): PlayerMessage {
         this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
         this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(itemsService));

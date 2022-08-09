@@ -8,6 +8,7 @@ import { FeatsService } from 'src/app/services/feats.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
 
@@ -24,6 +25,7 @@ export class CharacterAncestryChangeService {
         private readonly _refreshService: RefreshService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _featTakingService: FeatTakingService,
+        private readonly _itemGrantingService: ItemGrantingService,
     ) { }
 
     public changeAncestry(newAncestry?: Ancestry): void {
@@ -59,7 +61,7 @@ export class CharacterAncestryChangeService {
 
             //Of each granted Item, find the item with the stored id and drop it.
             ancestry.gainItems.forEach(freeItem => {
-                freeItem.dropGrantedItem(character, {}, { characterService: this._characterService });
+                this._itemGrantingService.dropGrantedItem(freeItem, character);
             });
 
             //We must specifically un-take the ancestry's feats to undo their effects.
@@ -102,7 +104,7 @@ export class CharacterAncestryChangeService {
 
             //Grant all items and save their id in the ItemGain.
             ancestry.gainItems.forEach(freeItem => {
-                freeItem.grantGrantedItem(character, {}, { characterService: this._characterService, itemsService: this._itemsService });
+                this._itemGrantingService.grantGrantedItem(freeItem, character);
             });
 
             //Many feats get specially processed when taken.

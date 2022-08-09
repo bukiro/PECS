@@ -6,6 +6,7 @@ import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-c
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/app/services/type.service';
+import { ItemGrantingService } from '../item-granting/item-granting.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,6 +17,7 @@ export class AnimalCompanionAncestryService {
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _characterService: CharacterService,
         private readonly _itemsService: ItemsService,
+        private readonly _itemGrantingService: ItemGrantingService,
     ) { }
 
     public restoreAncestryFromSave(ancestry: AnimalCompanionAncestry): AnimalCompanionAncestry {
@@ -101,11 +103,7 @@ export class AnimalCompanionAncestryService {
 
             if (_class.ancestry.gainItems.length) {
                 _class.ancestry.gainItems.forEach(freeItem => {
-                    freeItem.grantGrantedItem(
-                        companion,
-                        {},
-                        { characterService: this._characterService, itemsService: this._itemsService },
-                    );
+                    this._itemGrantingService.grantGrantedItem(freeItem, companion);
                 });
             }
         }

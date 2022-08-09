@@ -25,6 +25,7 @@ export class Rune extends Item {
     public get secondary(): number {
         return 0;
     }
+
     public recast(itemsService: ItemsService): Rune {
         super.recast(itemsService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
@@ -33,6 +34,7 @@ export class Rune extends Item {
 
         return this;
     }
+
     public canStack(): boolean {
         //Additionally to the usual considerations, runes can't stack if they add any activities.
         return (

@@ -79,6 +79,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 
 type AnyItemType =
     ArmorRune | WeaponRune | Oil | AdventuringGear | AlchemicalBomb | AlchemicalElixir | AlchemicalPoison
@@ -105,6 +106,7 @@ export class ItemsService {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _itemGrantingService: ItemGrantingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -874,10 +876,10 @@ export class ItemsService {
             //Gain Items on Activation
             if (item.gainItems.length) {
                 item.gainItems.forEach(gainItem => {
-                    gainItem.grantGrantedItem(
+                    this._itemGrantingService.grantGrantedItem(
+                        gainItem,
                         creature,
                         { sourceName: item.effectiveName(), grantingItem: item },
-                        { characterService, itemsService: this },
                     );
                 });
             }
@@ -900,10 +902,10 @@ export class ItemsService {
             inv.allItems().filter(item => item.gainItems.length && item.investedOrEquipped())
                 .forEach(item => {
                     item.gainItems.filter(gain => gain.on === 'rest').forEach(gainItem => {
-                        gainItem.grantGrantedItem(
+                        this._itemGrantingService.grantGrantedItem(
+                            gainItem,
                             creature,
                             { sourceName: item.effectiveName(), grantingItem: item },
-                            { characterService, itemsService: this },
                         );
                     });
                 });
@@ -966,7 +968,7 @@ export class ItemsService {
                 .filter(feat => feat.gainItems.some(gain => gain.on === 'rest') && feat.have({ creature }, { characterService }))
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on === 'rest').forEach(gainItem => {
-                        gainItem.grantGrantedItem(creature, { sourceName: feat.name }, { characterService, itemsService: this });
+                        this._itemGrantingService.grantGrantedItem(gainItem, creature, { sourceName: feat.name });
                     });
                 });
         }

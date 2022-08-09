@@ -1,8 +1,5 @@
-import { CharacterService } from 'src/app/services/character.service';
-import { Creature } from 'src/app/classes/Creature';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemsService } from 'src/app/services/items.service';
-import { RefreshService } from 'src/app/services/refresh.service';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
 
 enum ShoddyPenalties {
@@ -62,23 +59,6 @@ export class Shield extends Equipment {
 
     public isShield(): this is Shield { return true; }
 
-    public updateModifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }): void {
-        //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
-        //Set components to update if these values have changed from before.
-        const oldValues = [this.$shoddy, this.$shieldAlly, this.$emblazonArmament, this.$emblazonEnergy, this.$emblazonAntimagic];
-
-        this._effectiveShoddy(creature, services.characterService);
-        this._shieldAllyActive(creature, services.characterService);
-        this._emblazonArmamentActive(creature, services.characterService);
-
-        const newValues = [this.$shoddy, this.$shieldAlly, this.$emblazonArmament, this.$emblazonEnergy, this.$emblazonAntimagic];
-
-        if (oldValues.some((previous, index) => previous !== newValues[index])) {
-            services.refreshService.prepareDetailToChange(creature.type, this.id);
-            services.refreshService.prepareDetailToChange(creature.type, 'defense');
-            services.refreshService.prepareDetailToChange(creature.type, 'inventory');
-        }
-    }
     public effectiveHardness(): number {
         let hardness = this.hardness;
 
@@ -88,6 +68,7 @@ export class Shield extends Equipment {
 
         return hardness + (this.$shieldAlly ? shieldAllyBonus : 0) + (this.$emblazonArmament ? emblazonArmamentBonus : 0);
     }
+
     public effectiveMaxHP(): number {
         const half = .5;
         let hitpoints = this.hitpoints;
@@ -98,6 +79,7 @@ export class Shield extends Equipment {
 
         return hitpoints + (this.$shieldAlly ? (Math.floor(hitpoints * half)) : 0);
     }
+
     public effectiveBrokenThreshold(): number {
         const half = .5;
         let brokenThreshold = this.brokenThreshold;
@@ -108,9 +90,11 @@ export class Shield extends Equipment {
 
         return brokenThreshold + (this.$shieldAlly ? (Math.floor(brokenThreshold * half)) : 0);
     }
+
     public effectiveACBonus(): number {
         return this.acbonus;
     }
+
     public currentHitPoints(): number {
         this.damage = Math.max(Math.min(this.effectiveMaxHP(), this.damage), 0);
 
@@ -122,54 +106,8 @@ export class Shield extends Equipment {
 
         return hitpoints;
     }
+
     public effectiveSpeedPenalty(): number {
         return this.speedpenalty;
-    }
-    private _effectiveShoddy(creature: Creature, characterService: CharacterService): number {
-        //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (this.shoddy && characterService.feats('Junk Tinker')[0]?.have({ creature }, { characterService }) && this.crafted) {
-            this.$shoddy = ShoddyPenalties.NotShoddy;
-        } else if (this.shoddy) {
-            this.$shoddy = ShoddyPenalties.Shoddy;
-        } else {
-            this.$shoddy = ShoddyPenalties.NotShoddy;
-        }
-
-        return this.$shoddy;
-    }
-    private _shieldAllyActive(creature: Creature, characterService: CharacterService): boolean {
-        this.$shieldAlly =
-            this.equipped &&
-            !!characterService.characterFeatsAndFeatures('Divine Ally: Shield Ally')[0]?.have({ creature }, { characterService });
-
-        return this.$shieldAlly;
-    }
-    private _emblazonArmamentActive(creature: Creature, characterService: CharacterService): boolean {
-        this.$emblazonArmament = false;
-        this.$emblazonEnergy = false;
-        this.emblazonArmament.forEach(ea => {
-            if (
-                ea.emblazonDivinity ||
-                (
-                    creature.isCharacter() &&
-                    characterService.currentCharacterDeities(creature).some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
-                )
-            ) {
-                switch (ea.type) {
-                    case 'emblazonArmament':
-                        this.$emblazonArmament = true;
-                        break;
-                    case 'emblazonEnergy':
-                        this.$emblazonEnergy = true;
-                        break;
-                    case 'emblazonAntimagic':
-                        this.$emblazonAntimagic = true;
-                        break;
-                    default: break;
-                }
-            }
-        });
-
-        return this.$emblazonArmament || this.$emblazonEnergy || this.$emblazonAntimagic;
     }
 }

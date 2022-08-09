@@ -9,6 +9,7 @@ export class ProficiencyChange {
     public name = '';
     public group = '';
     public trait = '';
+
     public recast(): ProficiencyChange {
         return this;
     }

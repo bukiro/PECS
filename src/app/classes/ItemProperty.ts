@@ -9,6 +9,7 @@ export class ItemProperty {
     public priority = '00';
     public type = '';
     public validation = '';
+
     public recast(): ItemProperty {
         return this;
     }

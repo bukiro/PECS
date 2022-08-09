@@ -25,6 +25,7 @@ import { EffectsService } from './effects.service';
 import { ItemsService } from './items.service';
 import { RefreshService } from './refresh.service';
 import { SpellsService } from './spells.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 
 @Injectable({
     providedIn: 'root',
@@ -38,6 +39,7 @@ export class ActivitiesProcessingService {
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _itemGrantingService: ItemGrantingService,
     ) { }
 
     public activateActivity(
@@ -255,10 +257,10 @@ export class ActivitiesProcessingService {
             }
 
             context.gain.gainItems.forEach(gainItem => {
-                gainItem.grantGrantedItem(
+                this._itemGrantingService.grantGrantedItem(
+                    gainItem,
                     context.creature,
                     { sourceName: activity.name },
-                    { characterService: services.characterService, itemsService: services.itemsService },
                 );
             });
         }
@@ -708,7 +710,7 @@ export class ActivitiesProcessingService {
         //Remove gained items
         if (activity.gainItems.length) {
             context.gain.gainItems.forEach(gainItem => {
-                gainItem.dropGrantedItem(context.creature, {}, { characterService: services.characterService });
+                this._itemGrantingService.dropGrantedItem(gainItem, context.creature);
             });
 
             if (context.gain instanceof ActivityGain) {

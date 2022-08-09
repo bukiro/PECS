@@ -19,11 +19,13 @@ export class Material {
     public hints: Array<Hint> = [];
     public removeTraits: Array<string> = [];
     public itemFilter: Array<string> = [];
+
     public recast(): Material {
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
 
         return this;
     }
+
     public effectiveName(): string {
         return this.name.split('(')[0].trim();
     }

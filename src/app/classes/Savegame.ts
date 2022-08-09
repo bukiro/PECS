@@ -12,6 +12,7 @@ export class Savegame {
     public companionId: string;
     public familiarName: string;
     public familiarId: string;
+
     public recast(): Savegame {
         return this;
     }

@@ -17,6 +17,7 @@ import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 
 @Injectable({
     providedIn: 'root',
@@ -34,6 +35,7 @@ export class CharacterHeritageChangeService {
         private readonly _featTakingService: FeatTakingService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
+        private readonly _itemGrantingService: ItemGrantingService,
     ) { }
 
     public changeHeritage(heritage?: Heritage, index = -1): void {
@@ -104,7 +106,7 @@ export class CharacterHeritageChangeService {
 
             // Of each granted Item, find the item with the stored id and drop it.
             heritage.gainItems.forEach(freeItem => {
-                freeItem.dropGrantedItem(character, {}, { characterService: this._characterService });
+                this._itemGrantingService.dropGrantedItem(freeItem, character);
             });
 
             // Many feats get specially processed when taken.
@@ -196,7 +198,7 @@ export class CharacterHeritageChangeService {
 
             // Grant all items and save their id in the ItemGain.
             heritage.gainItems.forEach(freeItem => {
-                freeItem.grantGrantedItem(character, {}, { characterService: this._characterService, itemsService: this._itemsService });
+                this._itemGrantingService.grantGrantedItem(freeItem, character);
             });
 
             // Many feats get specially processed when taken.
