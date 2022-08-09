@@ -40,6 +40,7 @@ export class EffectGain {
      * It can be calculated like the value, and use the value for its calculations, but should result in a string.
      */
     public title = '';
+
     public recast(): EffectGain {
         return this;
     }

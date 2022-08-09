@@ -1,6 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemsService } from 'src/app/services/items.service';
-import { TypeService } from 'src/app/services/type.service';
 
 export class HeldItem extends Equipment {
     // Worn Items cannot be equipped or unequipped
@@ -9,6 +8,7 @@ export class HeldItem extends Equipment {
     public readonly type = 'helditems';
     /** How is this item held when used? Example: "held in one hand" */
     public usage = '';
+
     public recast(itemsService: ItemsService): HeldItem {
         super.recast(itemsService);
 

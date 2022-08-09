@@ -88,34 +88,6 @@ export class Armor extends Equipment {
             .join(' ');
     }
 
-    public effectivePrice(itemsService: ItemsService): number {
-        let price = this.price;
-
-        if (this.moddable) {
-            if (this.potencyRune) {
-                price += itemsService.cleanItems().armorrunes.find(rune => rune.potency === this.potencyRune).price;
-            }
-
-            if (this.resilientRune) {
-                price += itemsService.cleanItems().armorrunes.find(rune => rune.resilient === this.resilientRune).price;
-            }
-
-            price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
-            this.material.forEach(mat => {
-                price += mat.price;
-
-                if (parseInt(this.bulk, 10)) {
-                    price += (mat.bulkPrice * parseInt(this.bulk, 10));
-                }
-
-            });
-        }
-
-        price += this.talismans.reduce((prev, next) => prev + next.price, 0);
-
-        return price;
-    }
-
     public effectiveBulk(): string {
         //Return either the bulk set by an oil, or else the actual bulk of the item.
         let oilBulk = '';

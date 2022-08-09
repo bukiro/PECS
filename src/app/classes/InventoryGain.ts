@@ -3,6 +3,7 @@ export class InventoryGain {
     public bulkLimit = 0;
     /** This is the amount of bulk that can be ignored when weighing this inventory. */
     public bulkReduction = 0;
+
     public recast(): InventoryGain {
         return this;
     }

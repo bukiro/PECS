@@ -12,6 +12,7 @@ import { WornItem } from './WornItem';
 import { Wand } from './Wand';
 import { Consumable } from './Consumable';
 import { Scroll } from './Scroll';
+import { Shield } from './Shield';
 
 export interface TraitActivation {
     trait: string;
@@ -165,6 +166,8 @@ export class Item {
 
     public isArmor(): this is Armor { return false; }
 
+    public isShield(): this is Shield { return false; }
+
     public isWeapon(): this is Weapon { return false; }
 
     public isWornItem(): this is WornItem { return false; }
@@ -172,12 +175,6 @@ export class Item {
     public isScroll(): this is Scroll { return false; }
 
     public isWand(): this is Wand { return false; }
-
-    //Other implementations require itemsService.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectivePrice(itemsService: ItemsService): number {
-        return this.price;
-    }
 
     public gridIconTitle(): string {
         return this.displayName.replace(`(${ this.subType })`, '') || this.name.replace(`(${ this.subType })`, '');

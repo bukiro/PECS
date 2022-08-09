@@ -38,15 +38,18 @@ export class Hint {
     public get anyActive(): boolean {
         return this.active || this.active2 || this.active3 || this.active4 || this.active5;
     }
+
     public recast(): Hint {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
 
         return this;
     }
+
     public deactivateAll(): void {
         this.active = this.active2 = this.active3 = this.active4 = this.active5 = false;
     }
+
     public heightenedText(text: string, levelNumber: number): string {
         return heightenedTextFromDescSets(text, levelNumber, this.heightenedDescs);
     }

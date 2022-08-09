@@ -48,6 +48,7 @@ import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-propert
 import { BulkService, CalculatedBulk } from 'src/libs/shared/services/bulk/bulk.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
+import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -112,6 +113,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _bulkService: BulkService,
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
+        private readonly _itemPriceService: ItemPriceService,
         public trackers: Trackers,
     ) { }
 
@@ -656,7 +658,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public effectivePrice(item: Item): number {
-        return item.effectivePrice(this._itemsService);
+        return this._itemPriceService.effectiveItemPrice(item);
     }
 
     public characterHasFunds(sum: number): boolean {

@@ -4,6 +4,7 @@ export class Domain {
     public domainSpell = '';
     public advancedDomainSpell = '';
     public sourceBook = '';
+
     public recast(): Domain {
         return this;
     }

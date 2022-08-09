@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -13,6 +12,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AlchemicalElixir } from 'src/app/classes/AlchemicalElixir';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
+import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 
 interface ComparedValue {
     effective: number;
@@ -44,10 +44,10 @@ export class ItemContentComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
         private readonly _itemRolesService: ItemRolesService,
+        private readonly _itemPriceService: ItemPriceService,
         public trackers: Trackers,
     ) { }
 
@@ -57,7 +57,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
 
     public priceText(): string {
         if (this.item.tradeable) {
-            return PriceTextFromCopper(this.item.effectivePrice(this._itemsService));
+            return PriceTextFromCopper(this._itemPriceService.effectiveItemPrice(this.item));
         }
 
         return '';

@@ -25,9 +25,11 @@ export class Effect {
             this.value = (parseInt(value, 10) >= 0 ? '+' : '') + parseInt(value, 10);
         }
     }
+
     public recast(): Effect {
         return this;
     }
+
     public displayTitle(signed = false): string {
         if (this.title) {
             return (signed ? '= ' : '') + this.title;

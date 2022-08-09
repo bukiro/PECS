@@ -41,6 +41,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
+import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -102,6 +103,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
+        private readonly _itemPriceService: ItemPriceService,
         public trackers: Trackers,
     ) { }
 
@@ -281,7 +283,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public effectivePrice(item: Item): number {
-        return item.effectivePrice(this._itemsService);
+        return this._itemPriceService.effectiveItemPrice(item);
     }
 
     public characterHasFunds(sum: number): boolean {
@@ -363,7 +365,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public grantItem(creature: CreatureTypes, item: Item, pay = false): void {
-        const price = item.effectivePrice(this._itemsService);
+        const price = this.effectivePrice(item);
 
         if (pay && price) {
             this._changeCash(-1, price);

@@ -52,31 +52,16 @@ export class Shield extends Equipment {
     public $emblazonAntimagic = false;
     /** Shoddy shields take a -2 penalty to AC. */
     public $shoddy: ShoddyPenalties.NotShoddy | ShoddyPenalties.Shoddy = ShoddyPenalties.NotShoddy;
+
     public recast(itemsService: ItemsService): Shield {
         super.recast(itemsService);
         this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
 
         return this;
     }
-    //Other implementations require itemsService.
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public effectivePrice(itemsService: ItemsService): number {
-        let price = this.price;
 
-        if (this.moddable) {
-            this.material.forEach(mat => {
-                price += mat.price;
+    public isShield(): this is Shield { return true; }
 
-                if (parseInt(this.bulk, 10)) {
-                    price += (mat.bulkPrice * parseInt(this.bulk, 10));
-                }
-            });
-        }
-
-        price += this.talismans.reduce((prev, next) => prev + next.price, 0);
-
-        return price;
-    }
     public updateModifiers(creature: Creature, services: { characterService: CharacterService; refreshService: RefreshService }): void {
         //Initialize shoddy values and shield ally/emblazon armament for all shields and weapons.
         //Set components to update if these values have changed from before.

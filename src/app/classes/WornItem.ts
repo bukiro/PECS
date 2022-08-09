@@ -124,27 +124,6 @@ export class WornItem extends Equipment {
 
     public isWornItem(): this is WornItem { return true; }
 
-    public effectivePrice(itemsService: ItemsService): number {
-        let price = this.price;
-
-        if (this.moddable) {
-            if (this.potencyRune) {
-                price += itemsService.cleanItems().weaponrunes.find(rune => rune.potency === this.potencyRune).price;
-            }
-
-            if (this.strikingRune) {
-                price += itemsService.cleanItems().weaponrunes.find(rune => rune.striking === this.strikingRune).price;
-            }
-
-            price += this.propertyRunes.reduce((prev, next) => prev + next.price, 0);
-        }
-
-        price += this.aeonStones.reduce((prev, next) => prev + next.price, 0);
-        price += this.talismans.reduce((prev, next) => prev + next.price, 0);
-
-        return price;
-    }
-
     public effectsGenerationHints(): Array<HintEffectsObject> {
         //Aeon Stones have hints that can be resonant, meaning they are only displayed if the stone is slotted.
         //After collecting the hints, we keep the resonant ones only if the item is slotted.
