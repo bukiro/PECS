@@ -16,7 +16,6 @@ import { OtherItem } from 'src/app/classes/OtherItem';
 import { Item } from 'src/app/classes/Item';
 import { Ammunition } from 'src/app/classes/Ammunition';
 import { Scroll } from 'src/app/classes/Scroll';
-import { CharacterService } from 'src/app/services/character.service';
 import { Oil } from 'src/app/classes/Oil';
 import { Talisman } from 'src/app/classes/Talisman';
 import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
@@ -87,6 +86,7 @@ export class ItemCollection {
         /** You cannot add any items to an inventory that would break its bulk limit. */
         public bulkLimit: number = 0,
     ) { }
+
     //TO-DO: See if items still need to be cast blindly after refactoring.
     public recast(itemsService: ItemsService): ItemCollection {
         this.adventuringgear =
@@ -211,6 +211,7 @@ export class ItemCollection {
 
         return this;
     }
+
     public allEquipment(): Array<Equipment> {
         return [].concat(
             this.adventuringgear,
@@ -224,6 +225,7 @@ export class ItemCollection {
             this.wornitems,
         );
     }
+
     public allConsumables(): Array<Consumable> {
         return [].concat(
             this.alchemicalelixirs,
@@ -238,17 +240,20 @@ export class ItemCollection {
             this.talismans,
         );
     }
+
     public allRunes(): Array<Rune> {
         return [].concat(
             this.armorrunes,
             this.weaponrunes,
         );
     }
+
     public allOther(): Array<Item> {
         return [].concat(
             this.materialitems,
         );
     }
+
     public allItems(): Array<Item> {
         return [].concat(
             this.allConsumables(),
@@ -257,6 +262,7 @@ export class ItemCollection {
             this.allOther(),
         );
     }
+
     public totalBulk(rounded = true, reduced = false): number {
         //All bulk gets calculated at *10 to avoid rounding issues with decimals,
         //Then returned at /10
@@ -319,34 +325,5 @@ export class ItemCollection {
         }
 
         return sum;
-    }
-    public effectiveName(characterService: CharacterService): string {
-        let name = '';
-
-        if (!this.itemId) {
-            characterService.allAvailableCreatures().forEach(creature => {
-                if (creature.inventories[0] === this) {
-                    name = creature.name || creature.type;
-                }
-
-                if (creature.inventories[1] === this) {
-                    name = 'Worn Tools';
-                }
-            });
-        } else {
-            characterService.allAvailableCreatures().forEach(creature => {
-                if (creature.inventories.some(inventory => inventory === this)) {
-                    creature.inventories.forEach(creatureInventory => {
-                        const items = creatureInventory.allEquipment().filter(item => item.id === this.itemId);
-
-                        if (items.length) {
-                            name = items[0].effectiveName();
-                        }
-                    });
-                }
-            });
-        }
-
-        return name;
     }
 }

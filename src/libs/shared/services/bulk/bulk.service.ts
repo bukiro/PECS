@@ -6,6 +6,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { CreatureSizes } from '../../definitions/creatureSizes';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreaturePropertiesService } from '../creature-properties/creature-properties.service';
+import { InventoryPropertiesService } from '../inventory-properties/inventory-properties.service';
 
 export interface CalculatedBulk {
     maxabsolutes: Array<Effect>;
@@ -35,6 +36,7 @@ export class BulkService {
         private readonly _effectsService: EffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
+        private readonly _inventoryPropertiesService: InventoryPropertiesService,
     ) { }
 
     public calculate(creature: Creature): CalculatedBulk {
@@ -91,7 +93,7 @@ export class BulkService {
             const bulk = Math.floor(Math.max(0, inventory.totalBulk(false, true)) * decimal) / decimal;
 
             result.value += bulk;
-            result.explain += `\n${ inventory.effectiveName(this._characterService) }: ${ bulk }`;
+            result.explain += `\n${ this._inventoryPropertiesService.effectiveName(inventory) }: ${ bulk }`;
         });
         absolutes.forEach(effect => {
             result.value = parseInt(effect.setValue, 10);

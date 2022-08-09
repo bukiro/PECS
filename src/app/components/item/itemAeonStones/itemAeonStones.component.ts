@@ -9,6 +9,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 
 interface AeonStoneSet {
     aeonStone: WornItem;
@@ -36,6 +37,7 @@ export class ItemAeonStonesComponent implements OnInit {
         private readonly _itemsService: ItemsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
+        private readonly _inventoryPropertiesService: InventoryPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -62,7 +64,7 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     public inventoryName(inventory: ItemCollection): string {
-        return inventory.effectiveName(this._characterService);
+        return this._inventoryPropertiesService.effectiveName(inventory);
     }
 
     public initialAeonStones(index: number): Array<AeonStoneSet> {

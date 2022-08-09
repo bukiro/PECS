@@ -11,6 +11,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { Character } from 'src/app/classes/Character';
+import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 
 @Component({
     selector: 'app-itemTarget',
@@ -37,6 +38,7 @@ export class ItemTargetComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _savegameService: SavegameService,
         private readonly _itemsService: ItemsService,
+        private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _modalService: NgbModal,
         public modal: NgbActiveModal,
         public trackers: Trackers,
@@ -209,7 +211,7 @@ export class ItemTargetComponent implements OnInit {
 
     public targetName(target: ItemCollection | SpellTarget): string {
         if (target instanceof ItemCollection) {
-            return target.effectiveName(this._characterService);
+            return this._inventoryPropertiesService.effectiveName(target);
         } else {
             return target.name;
         }

@@ -12,6 +12,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 
 interface TalismanCordSet {
     talismanCord: WornItem;
@@ -35,6 +36,7 @@ export class ItemTalismanCordsComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
+        private readonly _inventoryPropertiesService: InventoryPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -47,7 +49,7 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     public inventoryName(inv: ItemCollection): string {
-        return inv.effectiveName(this._characterService);
+        return this._inventoryPropertiesService.effectiveName(inv);
     }
 
     public initialTalismanCords(): Array<TalismanCordSet> {

@@ -24,6 +24,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 
 interface RuneItemType {
     armor: boolean;
@@ -97,6 +98,7 @@ export class ItemRunesComponent implements OnInit {
         private readonly _spellsService: SpellsService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _itemRolesService: ItemRolesService,
+        private readonly _inventoryPropertiesService: InventoryPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -141,7 +143,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     public inventoryName(inv: ItemCollection): string {
-        return inv.effectiveName(this._characterService);
+        return this._inventoryPropertiesService.effectiveName(inv);
     }
 
     public availablePotencyRunes(runeItemType: RuneItemType): Array<PotencyRuneSet> {

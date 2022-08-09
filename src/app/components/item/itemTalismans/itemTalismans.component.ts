@@ -14,6 +14,7 @@ import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
+import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 
 interface TalismanOption {
     talisman: Talisman;
@@ -40,6 +41,7 @@ export class ItemTalismansComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
+        private readonly _inventoryPropertiesService: InventoryPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -73,7 +75,7 @@ export class ItemTalismansComponent implements OnInit {
     }
 
     public inventoryName(inv: ItemCollection): string {
-        return inv.effectiveName(this._characterService);
+        return this._inventoryPropertiesService.effectiveName(inv);
     }
 
     public initialTalismans(index: number): Array<TalismanOption> {
