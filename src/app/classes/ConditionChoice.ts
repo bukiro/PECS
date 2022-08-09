@@ -8,6 +8,7 @@ export class ConditionChoice {
      */
     public featreq: Array<string> = [];
     public spelllevelreq = 0;
+
     public recast(): ConditionChoice {
         //Blank choices are saved with "name":"-" for easier managing; These need to be blanked here.
         if (this.name === '-') {

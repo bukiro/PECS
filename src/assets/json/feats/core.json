@@ -2823,7 +2823,7 @@
                 "showon": "Fortitude"
             }
         ],
-        "internalNote": "The Drained reduction is hardcoded in ConditionsService.rest()",
+        "internalNote": "The Drained reduction is hardcoded in ConditionsTimeService.rest()",
         "shortdesc": "Regain more HP from rest, recover faster from disease and poisons.",
         "traits": [
             "General"
@@ -40056,7 +40056,7 @@
                 ]
             }
         ],
-        "internalNote": "Losing humanoid and other traits is hardcoded in general, as is losing conditions in ConditionsService.rest(). The 10-minute rest effect needs to be applied manually.",
+        "internalNote": "Losing humanoid and other traits is hardcoded in general, as is losing conditions in ConditionsTimeService.rest(). The 10-minute rest effect needs to be applied manually.",
         "shortdesc": "You transform into a plant version of yourself.",
         "traits": [
             "Druid"

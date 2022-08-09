@@ -4,7 +4,7 @@ import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -22,6 +22,7 @@ import { SpellCast } from 'src/app/classes/SpellCast';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;
@@ -94,7 +95,8 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
         private readonly _timeService: TimeService,
         private readonly _savegameService: SavegameService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
@@ -480,7 +482,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                             !this.character.settings.noFriendlyCasterConditions
                     ) ||
                     (
-                        this._conditionsService.conditions()
+                        this._conditionsDataService.conditions()
                             .filter(condition =>
                                 gainConditions.some(gain => gain.name === condition.name && gain.targetFilter === 'caster'),
                             )

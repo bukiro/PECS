@@ -29,6 +29,7 @@ import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -60,6 +61,7 @@ export class NewItemPropertyComponent {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _spellsService: SpellsService,
         private readonly _evaluationService: EvaluationService,
+        private readonly _conditionsDataService: ConditionsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -416,7 +418,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.affected));
                     });
-                this._characterService.conditions()
+                this._conditionsDataService.conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.affected));
@@ -447,7 +449,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.value));
                     });
-                this._characterService.conditions()
+                this._conditionsDataService.conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.value));
@@ -480,7 +482,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.affected));
                     });
-                this._characterService.conditions()
+                this._conditionsDataService.conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.affected));
@@ -497,12 +499,12 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.value));
                     });
-                this._characterService.conditions()
+                this._conditionsDataService.conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.value));
                     });
-                this._characterService.conditions()
+                this._conditionsDataService.conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.value));
@@ -544,12 +546,12 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.setValue));
                     });
-                this._characterService.conditions()
+                this._conditionsDataService.conditions()
                     .filter(condition => condition.onceEffects.length)
                     .forEach(condition => {
                         examples.push(...condition.onceEffects.map(effect => effect.setValue));
                     });
-                this._characterService.conditions()
+                this._conditionsDataService.conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.setValue));
@@ -587,7 +589,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.title));
                     });
-                this._characterService.conditions()
+                this._conditionsDataService.conditions()
                     .filter(condition => condition.effects.length)
                     .forEach(condition => {
                         examples.push(...condition.effects.map(effect => effect.title));
@@ -611,7 +613,7 @@ export class NewItemPropertyComponent {
                 examples.push(...this._activitiesDataService.activities()
                     .filter(activity => activity.inputRequired.length)
                     .map(activity => activity.inputRequired));
-                examples.push(...this._characterService.conditions()
+                examples.push(...this._conditionsDataService.conditions()
                     .filter(condition => condition.inputRequired.length)
                     .map(condition => condition.inputRequired));
                 break;
@@ -626,7 +628,7 @@ export class NewItemPropertyComponent {
                     .forEach(feat => {
                         examples.push(...feat.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
                     });
-                this._characterService.conditions()
+                this._conditionsDataService.conditions()
                     .filter(condition => condition.hints.length)
                     .forEach(condition => {
                         examples.push(...condition.hints.filter(hint => hint.showon.length).map(hint => hint.showon));
@@ -691,7 +693,7 @@ export class NewItemPropertyComponent {
                 examples = ['', 'item', 'circumstance', 'status', 'proficiency'];
                 break;
             case 'gaincondition name':
-                examples.push(...this._characterService.conditions().map(condition => condition.name));
+                examples.push(...this._conditionsDataService.conditions().map(condition => condition.name));
                 break;
             case 'gaincondition alignmentfilter':
                 examples.push(

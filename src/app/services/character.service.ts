@@ -17,7 +17,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { HistoryService } from 'src/app/services/history.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Activity } from 'src/app/classes/Activity';
@@ -72,8 +72,6 @@ import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { Specialization } from '../classes/Specialization';
 import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
 import { CopperAmounts, CurrencyIndices } from 'src/libs/shared/definitions/currency';
-import { Condition } from '../classes/Condition';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { HttpStatusCode } from '@angular/common/http';
 import { Ability } from '../classes/Ability';
 import { Health } from '../classes/Health';
@@ -92,6 +90,8 @@ import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { FeatTakingService } from '../character-creation/services/feat-taking/feat-taking.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { ConditionsDataService } from '../core/services/data/conditions-data.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -162,7 +162,9 @@ export class CharacterService {
         public featsService: FeatsService,
         public traitsService: TraitsService,
         private readonly _historyService: HistoryService,
-        public conditionsService: ConditionsService,
+        public conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         public activitiesDataService: ActivitiesDataService,
         public itemsService: ItemsService,
         public spellsService: SpellsService,
@@ -912,7 +914,7 @@ export class CharacterService {
                             creature,
                             '',
                             this,
-                            this.conditionsService,
+                            this.conditionGainPropertiesService,
                             this.itemsService,
                             this.spellsService,
                             activity,
@@ -929,7 +931,7 @@ export class CharacterService {
                 } else if (item.invested && item.canInvest()) {
                     this.investItem(creature, inventory, item as Equipment, false, false);
                 } else if (!item.equippable && !item.canInvest()) {
-                    this.conditionsService.removeGainedItemConditions(creature, item, this);
+                    this._creatureConditionsService.removeGainedItemConditions(creature, item);
                 }
 
                 if (item.propertyRunes) {
@@ -945,7 +947,7 @@ export class CharacterService {
                                 creature,
                                 '',
                                 this,
-                                this.conditionsService,
+                                this.conditionGainPropertiesService,
                                 this.itemsService,
                                 this.spellsService,
                                 gain,
@@ -1252,7 +1254,7 @@ export class CharacterService {
 
             //If the item can't be un-invested, make sure you lose the conditions you gained from equipping it.
             if (!item.canInvest()) {
-                this.conditionsService.removeGainedItemConditions(creature, item, this);
+                this._creatureConditionsService.removeGainedItemConditions(creature, item);
             }
 
             item.propertyRunes?.forEach(rune => {
@@ -1262,7 +1264,7 @@ export class CharacterService {
                         this.character,
                         CreatureTypes.Character,
                         this,
-                        this.conditionsService,
+                        this.conditionGainPropertiesService,
                         this.itemsService,
                         this.spellsService,
                         activity,
@@ -1307,7 +1309,7 @@ export class CharacterService {
                         creature,
                         '',
                         this,
-                        this.conditionsService,
+                        this.conditionGainPropertiesService,
                         this.itemsService,
                         this.spellsService,
                         gainActivity,
@@ -1321,7 +1323,7 @@ export class CharacterService {
                     creature,
                     '',
                     this,
-                    this.conditionsService,
+                    this.conditionGainPropertiesService,
                     this.itemsService,
                     this.spellsService,
                     itemActivity,
@@ -1329,7 +1331,7 @@ export class CharacterService {
                     false,
                 );
             });
-            this.conditionsService.removeGainedItemConditions(creature, item, this);
+            this._creatureConditionsService.removeGainedItemConditions(creature, item);
             this.refreshService.prepareChangesByItem(
                 creature,
                 item,
@@ -1359,7 +1361,7 @@ export class CharacterService {
             item.amount--;
         }
 
-        this.itemsService.processConsumable(creature, this, this.conditionsService, this.spellsService, item);
+        this.itemsService.processConsumable(creature, this, this.conditionGainPropertiesService, this.spellsService, item);
         this.refreshService.prepareChangesByItem(
             creature,
             item,
@@ -1368,357 +1370,16 @@ export class CharacterService {
         this.refreshService.prepareDetailToChange(creature.type, 'inventory');
     }
 
-    public conditions(name = '', type = ''): Array<Condition> {
-        return this.conditionsService.conditions(name, type);
-    }
-
-    public currentCreatureConditions(creature: Creature, name = '', source = '', readonly = false): Array<ConditionGain> {
-        //Returns ConditionGain[] with apply=true/false for each
-        return this.conditionsService.currentCreatureConditions(creature, this, creature.conditions, readonly).filter(condition =>
-            (!name || condition.name === name) &&
-            (!source || condition.source === source),
-        );
-    }
-
     public creatureHasCondition(creature: Creature, name: string): boolean {
-        return !!this.currentCreatureConditions(creature, name, '', true).length;
+        return !!this._creatureConditionsService.currentCreatureConditions(creature, { name }, { readonly: true }).length;
     }
 
-    public addCondition(
-        creature: Creature,
-        gain: ConditionGain,
-        context: { parentItem?: Item; parentConditionGain?: ConditionGain } = {},
-        options: { noReload?: boolean } = {},
-    ): boolean {
-        let shouldActivate = true;
-        const workingGain: ConditionGain =
-            Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast();
-        const originalCondition = this.conditions(workingGain.name)[0];
-
-        if (originalCondition) {
-            if (workingGain.heightened < originalCondition.minLevel) {
-                workingGain.heightened = originalCondition.minLevel;
-            }
-
-            //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
-            if (workingGain.activationPrerequisite) {
-                const activationValue =
-                    this._evaluationService.valueFromFormula(
-                        workingGain.activationPrerequisite,
-                        { characterService: this, effectsService: this.effectsService },
-                        { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: workingGain },
-                    );
-
-                if (
-                    !activationValue ||
-                    activationValue === '0' ||
-                    (
-                        typeof activationValue === 'string' &&
-                        !parseInt(activationValue, 10)
-                    )
-                ) {
-                    shouldActivate = false;
-                }
-            }
-
-            //Check if any condition denies this condition, and stop processing if that is the case.
-            const denySources: Array<string> =
-                this.currentCreatureConditions(creature, '', '', true)
-                    .filter(existingGain => this.conditions(existingGain.name)?.[0]?.denyConditions.includes(workingGain.name))
-                    .map(existingGain => `<strong>${ existingGain.name }</strong>`);
-
-            if (denySources.length) {
-                shouldActivate = false;
-                this.toastService.show(
-                    `The condition <strong>${ workingGain.name }</strong> was not added `
-                    + `because it is blocked by: ${ denySources.join(', ') }`,
-                );
-            }
-
-            if (shouldActivate) {
-                // If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
-                if (workingGain.duration === TimePeriods.Default) {
-                    workingGain.duration = originalCondition.defaultDuration(workingGain.choice, workingGain.heightened).duration;
-                }
-
-                // If there are choices, and the choice is not set by the gain, take the default or the first choice.
-                if (originalCondition.choices.length && !workingGain.choice) {
-                    workingGain.choice = originalCondition.choice || originalCondition.choices[0].name;
-                }
-
-                // If there is a choice, check if there is a nextStage value of that choice and copy it to the condition gain.
-                if (workingGain.choice) {
-                    workingGain.nextStage = originalCondition.timeToNextStage(workingGain.choice);
-                }
-
-                if (workingGain.nextStage) {
-                    this.refreshService.prepareDetailToChange(creature.type, 'time');
-                    this.refreshService.prepareDetailToChange(creature.type, 'health');
-                }
-
-                if (workingGain.heightened < originalCondition.minLevel) {
-                    workingGain.heightened = originalCondition.minLevel;
-                }
-
-                if (!workingGain.radius) {
-                    workingGain.radius = originalCondition.radius;
-                }
-
-                // Set persistent if the condition is, unless ignorePersistent is set.
-                // Don't just set gain.persistent = condition.persistent, because condition.persistent could be false.
-                if (originalCondition.persistent && !workingGain.ignorePersistent) {
-                    workingGain.persistent = true;
-                }
-
-                workingGain.decreasingValue = originalCondition.decreasingValue;
-                workingGain.notes = originalCondition.notes;
-                workingGain.showNotes = workingGain.notes && true;
-
-                let newLength = 0;
-
-                if (workingGain.addValue || workingGain.increaseRadius) {
-                    const existingConditions = creature.conditions.filter(creatureGain => creatureGain.name === workingGain.name);
-
-                    if (existingConditions.length) {
-                        existingConditions.forEach(existingGain => {
-                            existingGain.value += workingGain.addValue;
-                            existingGain.radius = Math.max(0, existingGain.radius + workingGain.increaseRadius);
-
-                            if (workingGain.addValueUpperLimit) {
-                                existingGain.value = Math.min(existingGain.value, workingGain.addValueUpperLimit);
-                            }
-
-                            if (workingGain.addValueLowerLimit) {
-                                existingGain.value = Math.max(existingGain.value, workingGain.addValueLowerLimit);
-                            }
-
-                            // If this condition gain has both locked properties and addValue,
-                            // transfer these properties and change the parentID to this one,
-                            // but only if the existing gain does not have them.
-                            if (workingGain.lockedByParent && !existingGain.lockedByParent) {
-                                existingGain.lockedByParent = true;
-                                existingGain.parentID = workingGain.parentID;
-                            }
-
-                            if (workingGain.valueLockedByParent && !existingGain.valueLockedByParent) {
-                                existingGain.valueLockedByParent = true;
-                                existingGain.parentID = workingGain.parentID;
-                            }
-
-                            if (workingGain.persistent) {
-                                existingGain.persistent = true;
-                            }
-                        });
-                        this.refreshService.prepareDetailToChange(creature.type, 'effects');
-                    } else {
-                        if (!workingGain.value) {
-                            workingGain.value = workingGain.addValue;
-
-                            if (workingGain.addValueUpperLimit) {
-                                workingGain.value = Math.min(workingGain.value, workingGain.addValueUpperLimit);
-                            }
-
-                            if (workingGain.addValueLowerLimit) {
-                                workingGain.value = Math.max(workingGain.value, workingGain.addValueLowerLimit);
-                            }
-                        }
-
-                        if (!workingGain.radius) {
-                            workingGain.radius = workingGain.increaseRadius;
-                        }
-
-                        if (workingGain.value > 0) {
-                            newLength = creature.conditions.push(workingGain);
-                        }
-                    }
-                } else {
-                    //Don't add permanent persistent conditions without a value if the same condition already exists with these parameters.
-                    //These will not automatically go away because they are persistent, so we don't need multiple instances of them.
-                    if (
-                        !(
-                            !workingGain.value &&
-                            workingGain.persistent &&
-                            workingGain.durationIsPermanent &&
-                            this.currentCreatureConditions(creature, '', '', true)
-                                .some(existingGain =>
-                                    existingGain.name === workingGain.name &&
-                                    !existingGain.value &&
-                                    existingGain.persistent &&
-                                    existingGain.durationIsPermanent,
-                                )
-                        )
-                    ) {
-                        newLength = creature.conditions.push(workingGain);
-                    }
-                }
-
-                if (newLength) {
-                    this.conditionsService.processCondition(
-                        creature,
-                        this,
-                        this.effectsService,
-                        this.itemsService,
-                        workingGain,
-                        this.conditionsService.conditions(workingGain.name)[0],
-                        true,
-                    );
-                    this.refreshService.prepareDetailToChange(creature.type, 'effects');
-                    this.refreshService.prepareDetailToChange(creature.type, 'effects-component');
-
-                    if (!options.noReload) {
-                        this.refreshService.processPreparedChanges();
-                    }
-
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
+    public addCondition(): boolean { return false; }
 
     /**
      * Try to remove the condition and return whether it was removed.
      */
-    public removeCondition(
-        creature: Creature,
-        conditionGain: ConditionGain,
-        reload = true,
-        increaseWounded = true,
-        keepPersistent = true,
-        ignoreLockedByParent = false,
-        ignoreEndsWithConditions = false,
-    ): boolean {
-        // Find the correct condition gain to remove.
-        // This can be the exact same as the conditionGain parameter, but if it isn't, find the most similar one:
-        // - Find all condition gains with similar name, value and source, then if there are more than one of those:
-        // -- Try finding one that has the exact same attributes.
-        // -- If none is found, find one that has the same duration.
-        // - If none is found or the list has only one, take the first.
-        let oldConditionGain: ConditionGain = creature.conditions.find(gain => gain === conditionGain);
-
-        if (!oldConditionGain) {
-            const oldConditionGains: Array<ConditionGain> =
-                creature.conditions
-                    .filter(gain =>
-                        gain.name === conditionGain.name &&
-                        gain.value === conditionGain.value &&
-                        gain.source === conditionGain.source,
-                    );
-
-            if (oldConditionGains.length > 1) {
-                oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) === JSON.stringify(conditionGain));
-
-                if (!oldConditionGain) {
-                    oldConditionGain = oldConditionGains.find(gain => gain.duration === conditionGain.duration);
-                }
-            }
-
-            if (!oldConditionGain) {
-                oldConditionGain = oldConditionGains[0];
-            }
-        }
-
-        const originalCondition = this.conditions(conditionGain.name)[0];
-
-        //If this condition is locked by its parent, it can't be removed.
-        if (oldConditionGain && (ignoreLockedByParent || !oldConditionGain.lockedByParent)) {
-            if (oldConditionGain.nextStage || oldConditionGain.durationIsInstant) {
-                this.refreshService.prepareDetailToChange(creature.type, 'time');
-                this.refreshService.prepareDetailToChange(creature.type, 'health');
-            }
-
-            // Remove the parent lock for all conditions locked by this,
-            // so that they can be removed in the next step or later (if persistent).
-            this.removeLockedByParentFromMatchingConditions(creature, oldConditionGain.id);
-            this.currentCreatureConditions(creature, '', oldConditionGain.name, true).filter(gain =>
-                gain.parentID === oldConditionGain.id,
-            )
-                .forEach(extraCondition => {
-                    if (!(keepPersistent && extraCondition.persistent)) {
-                        // Remove child conditions that are not persistent, or remove all if keepPersistent is false.
-                        this.removeCondition(
-                            creature,
-                            extraCondition,
-                            false,
-                            increaseWounded,
-                            keepPersistent,
-                            ignoreLockedByParent,
-                            ignoreEndsWithConditions,
-                        );
-                    } else if (extraCondition.persistent) {
-                        // If this condition adds persistent conditions, don't remove them,
-                        // but remove the persistent flag as its parent is gone.
-                        this.removePersistentFromCondition(creature, extraCondition);
-                    }
-                });
-            creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1);
-            this.conditionsService.processCondition(
-                creature,
-                this,
-                this.effectsService,
-                this.itemsService,
-                oldConditionGain,
-                originalCondition,
-                false,
-                increaseWounded,
-                ignoreEndsWithConditions,
-            );
-
-            if (oldConditionGain.source === 'Quick Status') {
-                this.refreshService.prepareDetailToChange(creature.type, 'defense');
-                this.refreshService.prepareDetailToChange(creature.type, 'attacks');
-            }
-
-            this.refreshService.prepareDetailToChange(creature.type, 'effects');
-            this.refreshService.prepareDetailToChange(creature.type, 'effects-component');
-
-            if (reload) {
-                this.refreshService.processPreparedChanges();
-            }
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public removePersistentFromCondition(creature: Creature, conditionGain: ConditionGain): void {
-        //This function removes the persistent attribute from a condition gain, allowing it to be removed normally.
-        //Find the correct condition to remove the persistent attribute:
-        //- Find all persistent condition gains with similar name, value and source, then if there are more than one of those:
-        //-- Try finding one that has the exact same attributes.
-        //-- If none is found, find one that has the same duration.
-        //- If none is found or the list has only one, take the first.
-        let oldConditionGain: ConditionGain;
-        const oldConditionGains: Array<ConditionGain> =
-            creature.conditions
-                .filter(gain => gain.name === conditionGain.name && gain.source === conditionGain.source && gain.persistent);
-
-        if (oldConditionGains.length > 1) {
-            oldConditionGain = oldConditionGains.find(gain => JSON.stringify(gain) === JSON.stringify(conditionGain));
-
-            if (!oldConditionGain) {
-                oldConditionGain = oldConditionGains.find(gain => gain.duration === conditionGain.duration);
-            }
-        }
-
-        if (!oldConditionGain) {
-            oldConditionGain = oldConditionGains[0];
-        }
-
-        if (oldConditionGain) {
-            oldConditionGain.persistent = false;
-        }
-    }
-
-    public removeLockedByParentFromMatchingConditions(creature: Creature, id: string): void {
-        //This function removes the lockedByParent and valueLockedByParent attributes from all condition gains locked by the given ID.
-        creature.conditions.filter(gain => gain.parentID === id).forEach(gain => {
-            gain.lockedByParent = false;
-            gain.valueLockedByParent = false;
-        });
-    }
+    public removeCondition(): boolean { return false; }
 
     public creatureFromMessage(message: PlayerMessage): Creature {
         return this.allAvailableCreatures().find(creature => creature.id === message.targetId);
@@ -1791,13 +1452,14 @@ export class CharacterService {
             let hasConditionBeenRemoved = false;
 
             this.allAvailableCreatures().forEach(creature => {
-                this.currentCreatureConditions(creature)
+                this._creatureConditionsService.currentCreatureConditions(creature)
                     .filter(existingConditionGain =>
                         existingConditionGain.foreignPlayerId === senderId &&
                         existingConditionGain.durationEndsOnOtherTurnChange,
                     )
                     .forEach(existingConditionGain => {
-                        hasConditionBeenRemoved = this.removeCondition(creature, existingConditionGain, false);
+                        hasConditionBeenRemoved =
+                            this._creatureConditionsService.removeCondition(creature, existingConditionGain, false);
 
                         if (hasConditionBeenRemoved) {
                             const senderName =
@@ -1834,7 +1496,7 @@ export class CharacterService {
                     targets.forEach(target => {
                         if (creatures.some(creature => creature.id === target.id)) {
                             //Catch any messages that go to your own creatures
-                            this.addCondition(this.creatureFromType(target.type), conditionGain);
+                            this._creatureConditionsService.addCondition(this.creatureFromType(target.type), conditionGain);
                         } else {
                             // Build a message to the correct player and creature,
                             // with the timestamp just received from the database connector.
@@ -1906,7 +1568,8 @@ export class CharacterService {
                 if (message.activateCondition) {
                     if (targetCreature && message.gainCondition.length) {
                         const conditionGain: ConditionGain = message.gainCondition[0];
-                        const hasConditionBeenAdded = this.addCondition(targetCreature, conditionGain, {}, { noReload: true });
+                        const hasConditionBeenAdded =
+                            this._creatureConditionsService.addCondition(targetCreature, conditionGain, {}, { noReload: true });
 
                         if (hasConditionBeenAdded) {
                             const senderName = this.messageSenderName(message);
@@ -1924,13 +1587,14 @@ export class CharacterService {
                         const conditionGain: ConditionGain = message.gainCondition[0];
                         let hasConditionBeenRemoved = false;
 
-                        this.currentCreatureConditions(targetCreature, message.gainCondition[0].name)
+                        this._creatureConditionsService.currentCreatureConditions(targetCreature, { name: message.gainCondition[0].name })
                             .filter(existingConditionGain =>
                                 existingConditionGain.foreignPlayerId === message.senderId &&
                                 existingConditionGain.source === message.gainCondition[0].source,
                             )
                             .forEach(existingConditionGain => {
-                                hasConditionBeenRemoved = this.removeCondition(targetCreature, existingConditionGain, false);
+                                hasConditionBeenRemoved =
+                                    this._creatureConditionsService.removeCondition(targetCreature, existingConditionGain, false);
                             });
 
                         if (hasConditionBeenRemoved) {
@@ -2695,9 +2359,10 @@ export class CharacterService {
 
         if (allowTemporary) {
             senses.push(...this.sensesGrantedByEquipment(creature));
-            this.currentCreatureConditions(creature).filter(gain => gain.apply)
+            this._creatureConditionsService.currentCreatureConditions(creature)
+                .filter(gain => gain.apply)
                 .forEach(gain => {
-                    const condition = this.conditionsService.conditions(gain.name)[0];
+                    const condition = this._conditionsDataService.conditionFromName(gain.name);
 
                     if (condition?.senses.length) {
                         //Add all non-excluding senses.
@@ -2814,10 +2479,13 @@ export class CharacterService {
     }
 
     public creatureConditionsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<ConditionSet> {
-        return this.currentCreatureConditions(creature)
+        return this._creatureConditionsService.currentCreatureConditions(creature)
             .filter(conditionGain => conditionGain.apply)
             .map(conditionGain =>
-                Object.assign(new ConditionSet(), { gain: conditionGain, condition: this.conditions(conditionGain.name)[0] }),
+                Object.assign(
+                    new ConditionSet(),
+                    { gain: conditionGain, condition: this._conditionsDataService.conditionFromName(conditionGain.name) },
+                ),
             )
             .filter(conditionSet =>
                 conditionSet.condition?.hints.find(hint =>
@@ -2851,7 +2519,8 @@ export class CharacterService {
 
             // Get all applied condition gains' activity gains. These were copied from the condition when it was added.
             // Also set the condition gain's spell level to the activity gain.
-            this.currentCreatureConditions(creature, '', '', true).filter(gain => gain.apply)
+            this._creatureConditionsService.currentCreatureConditions(creature, {}, { readonly: true })
+                .filter(gain => gain.apply)
                 .forEach(gain => {
                     gain.gainActivities.forEach(activityGain => {
                         activityGain.heightened = gain.heightened;
@@ -3200,7 +2869,7 @@ export class CharacterService {
         this.traitsService.reset();
         this.activitiesDataService.reset();
         this.featsService.reset();
-        this.conditionsService.reset();
+        this._conditionsDataService.reset();
         this.skillsDataService.reset();
         this.itemsService.reset();
         this.deitiesService.reset();
@@ -3459,12 +3128,12 @@ export class CharacterService {
                 const newBasicWeapon: Weapon =
                     Object.assign(
                         new Weapon(),
-                        this.itemsService.cleanItemByID('08693211-8daa-11ea-abca-ffb46fbada73'),
+                        this.itemsService.cleanItemFromID('08693211-8daa-11ea-abca-ffb46fbada73'),
                     ).recast(this.itemsService);
                 const newBasicArmor: Armor =
                     Object.assign(
                         new Armor(),
-                        this.itemsService.cleanItemByID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
+                        this.itemsService.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
                     ).recast(this.itemsService);
 
                 this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };

@@ -4,7 +4,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { SpellsService } from 'src/app/services/spells.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Item } from 'src/app/classes/Item';
@@ -34,6 +34,8 @@ import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { Rune } from 'src/app/classes/Rune';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 
 @Component({
     selector: 'app-item',
@@ -67,7 +69,9 @@ export class ItemComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
         private readonly _spellsService: SpellsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _effectsService: EffectsService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _itemTraitsService: ItemTraitsService,
@@ -308,11 +312,11 @@ export class ItemComponent implements OnInit, OnDestroy {
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
 
         spell.heightenedConditions(spellLevel)
-            .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))
+            .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsDataService.conditionFromName(conditionGain.name) }))
             .forEach((conditionSet, index) => {
                 // Create the temporary list of currently available choices.
-                conditionSet.condition?.createEffectiveChoices(
-                    this._characterService,
+                this._conditionPropertiesService.cacheEffectiveChoices(
+                    conditionSet.condition,
                     (conditionSet.gain.heightened ? conditionSet.gain.heightened : spellLevel),
                 );
                 // Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
@@ -351,7 +355,7 @@ export class ItemComponent implements OnInit, OnDestroy {
                     {
                         characterService: this._characterService,
                         itemsService: this._itemsService,
-                        conditionsService: this._conditionsService,
+                        conditionGainPropertiesService: this._conditionGainPropertiesService,
                     },
                     { creature: this._character, target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
                     { manual: true },

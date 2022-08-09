@@ -9,6 +9,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel } from '../../definitions/skillLevels';
+import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 
 @Injectable({
@@ -20,10 +21,15 @@ export class ArmorPropertiesService {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
     ) { }
 
     public effectiveProficiency(armor: Armor, context: { creature: Creature }): string {
-        if (this._characterService.currentCreatureConditions(context.creature, 'Mage Armor', '', true).length) {
+        if (
+            this._creatureConditionsService
+                .currentCreatureConditions(context.creature, { name: 'Mage Armor' }, { readonly: true })
+                .length
+        ) {
             //While wearing mage armor, you use your unarmored proficiency to calculate your AC.
             return 'Unarmored Defense';
         }

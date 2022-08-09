@@ -24,6 +24,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ArmorClassService, CalculatedAC, CoverTypes } from '../../services/armor-class/armor-class.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -57,6 +58,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         private readonly _toastService: ToastService,
         private readonly _armorClassService: ArmorClassService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         public trackers: Trackers,
     ) { }
 
@@ -138,11 +140,11 @@ export class DefenseComponent implements OnInit, OnDestroy {
                 const newCondition: ConditionGain =
                     Object.assign(new ConditionGain(), { name: 'Flat-Footed', source: 'Quick Status', duration: -1, locked: true });
 
-                this._characterService.addCondition(creature, newCondition, {}, { noReload: true });
+                this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
             }
         } else {
             if (flatFooted) {
-                this._characterService.removeCondition(creature, flatFooted, false);
+                this._creatureConditionsService.removeCondition(creature, flatFooted, false);
             }
         }
 
@@ -158,11 +160,11 @@ export class DefenseComponent implements OnInit, OnDestroy {
                 const newCondition: ConditionGain =
                     Object.assign(new ConditionGain(), { name: 'Hidden', source: 'Quick Status', duration: -1, locked: true });
 
-                this._characterService.addCondition(creature, newCondition, {}, { noReload: true });
+                this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
             }
         } else {
             if (hidden) {
-                this._characterService.removeCondition(creature, hidden, false);
+                this._creatureConditionsService.removeCondition(creature, hidden, false);
             }
         }
 
@@ -321,7 +323,11 @@ export class DefenseComponent implements OnInit, OnDestroy {
     private _currentCover(): number {
         const creature = this._currentCreature;
         const conditions: Array<ConditionGain> =
-            this._characterService.currentCreatureConditions(creature, 'Cover', 'Quick Status', true);
+            this._creatureConditionsService.currentCreatureConditions(
+                creature,
+                { name: 'Cover', source: 'Quick Status' },
+                { readonly: true },
+            );
 
         if (conditions.some(gain => gain.choice === 'Greater')) {
             return CoverTypes.GreaterCover;
@@ -339,11 +345,19 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     private _currentHidden(): ConditionGain {
-        return this._characterService.currentCreatureConditions(this._currentCreature, 'Hidden', 'Quick Status', true)[0];
+        return this._creatureConditionsService.currentCreatureConditions(
+            this._currentCreature,
+            { name: 'Hidden', source: 'Quick Status' },
+            { readonly: true },
+        )[0];
     }
 
     private _currentFlatFooted(): ConditionGain {
-        return this._characterService.currentCreatureConditions(this._currentCreature, 'Flat-Footed', 'Quick Status', true)[0];
+        return this._creatureConditionsService.currentCreatureConditions(
+            this._currentCreature,
+            { name: 'Flat-Footed', source: 'Quick Status' },
+            { readonly: true },
+        )[0];
     }
 
 }

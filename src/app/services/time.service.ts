@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Effect } from 'src/app/classes/Effect';
@@ -14,10 +14,13 @@ import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Creature } from 'src/app/classes/Creature';
 import { TimePeriods } from '../../libs/shared/definitions/timePeriods';
-import { ActivitiesTimeService } from './activities-time.service';
+import { ActivitiesTimeService } from '../../libs/time/services/activities-time/activities-time.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
+import { ConditionsDataService } from '../core/services/data/conditions-data.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ConditionsTimeService } from 'src/libs/time/services/conditions-time/conditions-time.service';
 
 @Injectable({
     providedIn: 'root',
@@ -35,6 +38,9 @@ export class TimeService {
         private readonly _refreshService: RefreshService,
         private readonly _abilityValueService: AbilityValuesService,
         private readonly _healthService: HealthService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _conditionsTimeService: ConditionsTimeService,
     ) { }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -48,7 +54,7 @@ export class TimeService {
 
     public startTurn(
         characterService: CharacterService,
-        conditionsService: ConditionsService,
+        conditionGainPropertiesService: ConditionGainPropertiesService,
         itemsService: ItemsService,
         spellsService: SpellsService,
         effectsService: EffectsService,
@@ -82,7 +88,7 @@ export class TimeService {
             });
         }
 
-        this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.HalfTurn);
+        this.tick(characterService, conditionGainPropertiesService, itemsService, spellsService, TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
         const character = characterService.character;
@@ -96,11 +102,11 @@ export class TimeService {
 
     public endTurn(
         characterService: CharacterService,
-        conditionsService: ConditionsService,
+        conditionGainPropertiesService: ConditionGainPropertiesService,
         itemsService: ItemsService,
         spellsService: SpellsService,
     ): void {
-        this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.HalfTurn);
+        this.tick(characterService, conditionGainPropertiesService, itemsService, spellsService, TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
         const character = characterService.character;
@@ -112,13 +118,13 @@ export class TimeService {
 
     public rest(
         characterService: CharacterService,
-        conditionsService: ConditionsService,
+        conditionGainPropertiesService: ConditionGainPropertiesService,
         itemsService: ItemsService,
         spellsService: SpellsService,
     ): void {
         const charLevel: number = characterService.character.level;
 
-        this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.EightHours, false);
+        this.tick(characterService, conditionGainPropertiesService, itemsService, spellsService, TimePeriods.EightHours, false);
         characterService.allAvailableCreatures().forEach(creature => {
             this._refreshService.prepareDetailToChange(creature.type, 'health');
             this._refreshService.prepareDetailToChange(creature.type, 'effects');
@@ -158,9 +164,9 @@ export class TimeService {
                 } gained ${ (heal * multiplier).toString() } HP from resting.`,
             );
             //Reset all "once per day" activity cooldowns.
-            this._activitiesTimeService.restActivities(creature, characterService);
+            this._activitiesTimeService.restActivities(creature);
             //Reset all conditions that are "until the next time you make your daily preparations".
-            conditionsService.restConditions(creature, characterService);
+            this._conditionsTimeService.restConditions(creature);
             //Remove all items that expire when you make your daily preparations.
             itemsService.restItems(creature, characterService);
 
@@ -178,7 +184,7 @@ export class TimeService {
                 //Refocus and reset all "until you refocus" spell cooldowns.
                 const maxFocusPoints = characterService.maxFocusPoints();
 
-                this.refocus(characterService, conditionsService, itemsService, spellsService, maxFocusPoints, false, false);
+                this.refocus(characterService, conditionGainPropertiesService, itemsService, spellsService, maxFocusPoints, false, false);
                 //Regenerate Snare Specialist formulas.
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
@@ -204,7 +210,7 @@ export class TimeService {
 
     public refocus(
         characterService: CharacterService,
-        conditionsService: ConditionsService,
+        conditionGainPropertiesService: ConditionGainPropertiesService,
         itemsService: ItemsService,
         spellsService: SpellsService,
         recoverPoints = 1,
@@ -212,7 +218,7 @@ export class TimeService {
         tick = true,
     ): void {
         if (tick) {
-            this.tick(characterService, conditionsService, itemsService, spellsService, TimePeriods.TenMinutes, false);
+            this.tick(characterService, conditionGainPropertiesService, itemsService, spellsService, TimePeriods.TenMinutes, false);
         }
 
         const character = characterService.character;
@@ -220,9 +226,9 @@ export class TimeService {
 
         characterService.allAvailableCreatures().forEach(creature => {
             //Reset all "until you refocus" activity cooldowns.
-            this._activitiesTimeService.refocusActivities(creature, characterService);
+            this._activitiesTimeService.refocusActivities(creature);
             //Reset all conditions that are "until you refocus".
-            conditionsService.refocusConditions(creature);
+            this._conditionsTimeService.refocusConditions(creature);
             //Remove all items that expire when you refocus.
             itemsService.refocusItems(creature, characterService);
         });
@@ -261,7 +267,7 @@ export class TimeService {
 
     public tick(
         characterService: CharacterService,
-        conditionsService: ConditionsService,
+        conditionGainPropertiesService: ConditionGainPropertiesService,
         itemsService: ItemsService,
         spellsService: SpellsService,
         turns = 10,
@@ -270,7 +276,7 @@ export class TimeService {
         characterService.allAvailableCreatures().forEach(creature => {
             //If any conditions are currently stopping time, process these first before continuing with the rest.
             const timeStopDurations = creature.conditions
-                .filter(gain => gain.apply && conditionsService.conditionFromName(gain.name).isStoppingTime(gain))
+                .filter(gain => gain.apply && this._conditionsDataService.conditionFromName(gain.name).isStoppingTime(gain))
                 .map(gain => gain.duration);
 
             //If any time stopping condition is permanent, no time passes at all.
@@ -286,7 +292,7 @@ export class TimeService {
                         this._refreshService.prepareDetailToChange(creature.type, 'health');
                     }
 
-                    conditionsService.tickConditions(creature, timeStopDuration, this._yourTurn, characterService, itemsService);
+                    this._conditionsTimeService.tickConditions(creature, timeStopDuration, this._yourTurn);
                     this._refreshService.prepareDetailToChange(creature.type, 'effects');
                 }
 
@@ -295,14 +301,7 @@ export class TimeService {
                 if (creatureTurns > 0) {
                     // Tick activities before conditions because activities can end conditions,
                     // which might go wrong if the condition has already ended (particularly where cooldowns are concerned).
-                    this._activitiesTimeService.tickActivities(
-                        creature,
-                        characterService,
-                        conditionsService,
-                        itemsService,
-                        spellsService,
-                        creatureTurns,
-                    );
+                    this._activitiesTimeService.tickActivities(creature, creatureTurns);
 
                     if (creature.conditions.length) {
                         if (creature.conditions.filter(gain => gain.nextStage > 0)) {
@@ -310,7 +309,7 @@ export class TimeService {
                             this._refreshService.prepareDetailToChange(creature.type, 'health');
                         }
 
-                        conditionsService.tickConditions(creature, creatureTurns, this._yourTurn, characterService, itemsService);
+                        this._conditionsTimeService.tickConditions(creature, creatureTurns, this._yourTurn);
                         this._refreshService.prepareDetailToChange(creature.type, 'effects');
                     }
 
@@ -318,14 +317,20 @@ export class TimeService {
                     itemsService.tickItems((creature as AnimalCompanion | Character), characterService, creatureTurns);
 
                     if (creature.isCharacter()) {
-                        spellsService.tickSpells((creature as Character), characterService, itemsService, conditionsService, creatureTurns);
+                        spellsService.tickSpells(
+                            creature,
+                            characterService,
+                            itemsService,
+                            conditionGainPropertiesService,
+                            creatureTurns,
+                        );
                     }
 
                     //If you are at full health and rest for 10 minutes, you lose the wounded condition.
                     if (creatureTurns >= TimePeriods.TenMinutes && creature.health.damage === 0) {
-                        characterService
-                            .currentCreatureConditions(creature, 'Wounded')
-                            .forEach(gain => characterService.removeCondition(creature, gain, false));
+                        this._creatureConditionsService
+                            .currentCreatureConditions(creature, { name: 'Wounded' })
+                            .forEach(gain => this._creatureConditionsService.removeCondition(creature, gain, false));
                     }
                 }
             }
@@ -438,20 +443,19 @@ export class TimeService {
 
     public waitingDescription(
         duration: number,
-        services: { characterService: CharacterService; conditionsService: ConditionsService },
+        services: { characterService: CharacterService; conditionGainPropertiesService: ConditionGainPropertiesService },
         options: { includeResting: boolean },
     ): string {
         let result = '';
         const characterService = services.characterService;
-        const conditionsService = services.conditionsService;
         const effectsService = this._effectsService;
 
         const AfflictionOnsetsWithinDuration = (creature: Creature): boolean =>
-            characterService
-                .currentCreatureConditions(creature, '', '', true)
+            this._creatureConditionsService
+                .currentCreatureConditions(creature, {}, { readonly: true })
                 .some(gain =>
                     (
-                        !conditionsService.conditionFromName(gain.name).automaticStages &&
+                        !this._conditionsDataService.conditionFromName(gain.name).automaticStages &&
                         !gain.paused &&
                         gain.nextStage < duration &&
                         gain.nextStage > 0
@@ -460,10 +464,10 @@ export class TimeService {
                     gain.durationIsInstant);
 
         const TimeStopConditionsActive = (creature: Creature): boolean =>
-            characterService
-                .currentCreatureConditions(creature, '', '', true)
+            this._creatureConditionsService
+                .currentCreatureConditions(creature, {}, { readonly: true })
                 .some(gain =>
-                    conditionsService
+                    this._conditionsDataService
                         .conditionFromName(gain.name)
                         .stopTimeChoiceFilter
                         .some(filter => [gain.choice, 'All'].includes(filter)),

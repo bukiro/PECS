@@ -5,7 +5,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { TimeService } from 'src/app/services/time.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { SpellsService } from 'src/app/services/spells.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -95,7 +95,7 @@ export class ItemRunesComponent implements OnInit {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _spellsService: SpellsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _itemRolesService: ItemRolesService,
         public trackers: Trackers,
     ) { }
@@ -821,7 +821,7 @@ export class ItemRunesComponent implements OnInit {
                     this._character,
                     CreatureTypes.Character,
                     this._characterService,
-                    this._conditionsService,
+                    this._conditionGainPropertiesService,
                     this._itemsService,
                     this._spellsService,
                     activity,

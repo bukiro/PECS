@@ -21,7 +21,7 @@ import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SavegameService } from 'src/app/services/savegame.service';
@@ -72,6 +72,7 @@ import { CharacterBoostAbilityService } from 'src/app/character-creation/service
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -120,7 +121,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
         private readonly _savegameService: SavegameService,
         private readonly _traitsService: TraitsService,
         private readonly _familiarsService: FamiliarsService,
@@ -1308,7 +1310,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const shouldShowOtherOptions = this.character.settings.showOtherOptions;
         const unique: Array<string> = [];
         const availableStances: Array<{ activity: Activity; restricted: boolean; reason: string }> = [];
-        const conditionsWithAttackRestrictions = this._conditionsService.conditions()
+        const conditionsWithAttackRestrictions = this._conditionsDataService.conditions()
             .filter(condition => condition.attackRestrictions.length)
             .map(condition => condition.name);
         const activities = this._activitiesDataService.activities().filter(activity => activity.traits.includes('Stance'));

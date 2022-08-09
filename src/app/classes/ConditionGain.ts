@@ -152,6 +152,7 @@ export class ConditionGain {
     public get durationEndsOnOtherTurnChange(): boolean {
         return [TimePeriods.UntilOtherCharactersTurn, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration);
     }
+
     public recast(): ConditionGain {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());

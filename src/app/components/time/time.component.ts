@@ -4,7 +4,7 @@ import { TimeService } from 'src/app/services/time.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { SpellsService } from 'src/app/services/spells.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -34,7 +34,7 @@ export class TimeComponent implements OnInit, OnDestroy {
         private readonly _itemsService: ItemsService,
         private readonly _spellsService: SpellsService,
         private readonly _effectsService: EffectsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -61,7 +61,7 @@ export class TimeComponent implements OnInit, OnDestroy {
     public waitingDescription(duration: number): string {
         return this._timeService.waitingDescription(
             duration,
-            { characterService: this._characterService, conditionsService: this._conditionsService },
+            { characterService: this._characterService, conditionGainPropertiesService: this._conditionGainPropertiesService },
             { includeResting: false },
         );
     }
@@ -69,7 +69,7 @@ export class TimeComponent implements OnInit, OnDestroy {
     public startTurn(): void {
         this._timeService.startTurn(
             this._characterService,
-            this._conditionsService,
+            this._conditionGainPropertiesService,
             this._itemsService,
             this._spellsService,
             this._effectsService,
@@ -77,11 +77,11 @@ export class TimeComponent implements OnInit, OnDestroy {
     }
 
     public endTurn(): void {
-        this._timeService.endTurn(this._characterService, this._conditionsService, this._itemsService, this._spellsService);
+        this._timeService.endTurn(this._characterService, this._conditionGainPropertiesService, this._itemsService, this._spellsService);
     }
 
     public tick(amount: number): void {
-        this._timeService.tick(this._characterService, this._conditionsService, this._itemsService, this._spellsService, amount);
+        this._timeService.tick(this._characterService, this._conditionGainPropertiesService, this._itemsService, this._spellsService, amount);
     }
 
     public ngOnInit(): void {

@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { EffectsService } from 'src/app/services/effects.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
 import { TimeService } from 'src/app/services/time.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Effect } from 'src/app/classes/Effect';
@@ -14,6 +13,9 @@ import { Creature } from 'src/app/classes/Creature';
 import { EffectCollection } from 'src/app/classes/EffectCollection';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 
 interface ComponentParameters {
     effects: Array<Effect>;
@@ -51,7 +53,9 @@ export class EffectsComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _effectsService: EffectsService,
         private readonly _characterService: CharacterService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _conditionPropertiesService: ConditionPropertiesService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _refreshService: RefreshService,
         private readonly _timeService: TimeService,
         public trackers: Trackers,
@@ -109,7 +113,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     public componentParameters(): ComponentParameters {
-        const conditions = this._characterService.currentCreatureConditions(this._currentCreature);
+        const conditions = this._creatureConditionsService.currentCreatureConditions(this._currentCreature);
         const isTimeStopped = this._isTimeStopped(conditions);
         const effects = this._creatureEffects().all;
 
@@ -121,7 +125,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     public conditionFromName(name: string): Condition {
-        return this._conditionsService.conditionFromName(name);
+        return this._conditionsDataService.conditionFromName(name);
     }
 
     public appliedEffects(effects: Array<Effect>): Array<Effect> {
@@ -188,7 +192,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
             return 'icon-bi-pause-circle';
         }
 
-        if (condition.isInformationalCondition(this._currentCreature, this._characterService, conditionGain)) {
+        if (this._conditionPropertiesService.isConditionInformational(this._currentCreature, condition, conditionGain)) {
             return 'icon-bi-info-circle';
         }
 
@@ -251,7 +255,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
 
     private _isTimeStopped(conditions: Array<ConditionGain>): boolean {
         return this.appliedConditions(conditions, true, true)
-            .some(gain => this._conditionsService.conditionFromName(gain.name).isStoppingTime(gain));
+            .some(gain => this._conditionsDataService.conditionFromName(gain.name).isStoppingTime(gain));
     }
 
 }

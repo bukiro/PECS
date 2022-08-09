@@ -4,14 +4,13 @@ import { Character } from 'src/app/classes/Character';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
-import { Familiar } from 'src/app/classes/Familiar';
 import { Shield } from 'src/app/classes/Shield';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
 import { DefenseService } from 'src/app/services/defense.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 export interface CalculatedAC {
     absolutes: Array<Effect>;
@@ -35,7 +34,7 @@ export class ArmorClassService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _effectsService: EffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _defenseService: DefenseService,
@@ -48,7 +47,8 @@ export class ArmorClassService {
         shield: Shield = null,
     ): void {
         const conditions: Array<ConditionGain> =
-            this._conditionsService.currentCreatureConditions(creature, this._characterService, creature.conditions, true)
+            this._creatureConditionsService
+                .currentCreatureConditions(creature, {}, { readonly: true })
                 .filter(gain => gain.name === 'Cover' && gain.source === 'Quick Status');
         const lesserCover = conditions.find(gain => gain.name === 'Cover' && gain.choice === 'Lesser');
         const standardCover = conditions.find(gain => gain.name === 'Cover' && gain.choice === 'Standard');
@@ -91,15 +91,15 @@ export class ArmorClassService {
         }
 
         if (lesserCover && cover !== CoverTypes.LesserCover) {
-            this._characterService.removeCondition(creature, lesserCover, false);
+            this._creatureConditionsService.removeCondition(creature, lesserCover, false);
         }
 
         if (standardCover && cover !== CoverTypes.Cover) {
-            this._characterService.removeCondition(creature, standardCover, false);
+            this._creatureConditionsService.removeCondition(creature, standardCover, false);
         }
 
         if (greaterCover && cover !== CoverTypes.GreaterCover) {
-            this._characterService.removeCondition(creature, greaterCover, false);
+            this._creatureConditionsService.removeCondition(creature, greaterCover, false);
         }
 
         if (coverChoice) {
@@ -109,7 +109,7 @@ export class ArmorClassService {
                     { name: 'Cover', choice: coverChoice, source: 'Quick Status', duration: -1, locked: true },
                 );
 
-            this._characterService.addCondition(creature, newCondition, {}, { noReload: true });
+            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
         this._characterService.refreshService.processPreparedChanges();

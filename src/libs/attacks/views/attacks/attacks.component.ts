@@ -16,7 +16,6 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Equipment } from 'src/app/classes/Equipment';
-import { ConditionsService } from 'src/app/services/conditions.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Hint } from 'src/app/classes/Hint';
@@ -38,6 +37,8 @@ import { AttackResult, AttacksService, DamageResult } from '../../services/attac
 import { DamageService } from '../../services/damage/damage.service';
 import { attackRuneSource } from '../../util/attackRuneSource';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -70,7 +71,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _attacksService: AttacksService,
         private readonly _damageService: DamageService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
@@ -248,7 +250,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                         {
                             characterService: this._characterService,
                             itemsService: this._characterService.itemsService,
-                            conditionsService: this._characterService.conditionsService,
+                            conditionGainPropertiesService: this._characterService.conditionGainPropertiesService,
                         },
                         { creature: this._character, target, gain: tempGain, level: spellChoice.level },
                         { manual: true },
@@ -422,8 +424,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public multipleAttackPenalty(): string {
         const creature = this._currentCreature;
         const conditions: Array<ConditionGain> =
-            this._conditionsService
-                .currentCreatureConditions(creature, this._characterService, creature.conditions, true)
+            this._creatureConditionsService
+                .currentCreatureConditions(creature, {}, { readonly: true })
                 .filter(gain =>
                     ['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'].includes(gain.name) &&
                     gain.source === 'Quick Status',
@@ -453,8 +455,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public setMultipleAttackPenalty(map: '1' | '2' | '3' | '2f' | '3f'): void {
         const creature = this._currentCreature;
         const conditions: Array<ConditionGain> =
-            this._conditionsService
-                .currentCreatureConditions(creature, this._characterService, creature.conditions, true)
+            this._creatureConditionsService
+                .currentCreatureConditions(creature, {}, { readonly: true })
                 .filter(gain =>
                     ['Multiple Attack Penalty', 'Multiple Attack Penalty (Flurry)'].includes(gain.name) &&
                     gain.source === 'Quick Status',
@@ -499,19 +501,19 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         if (map2 && map !== '2') {
-            this._characterService.removeCondition(creature, map2, false);
+            this._creatureConditionsService.removeCondition(creature, map2, false);
         }
 
         if (map3 && map !== '3') {
-            this._characterService.removeCondition(creature, map3, false);
+            this._creatureConditionsService.removeCondition(creature, map3, false);
         }
 
         if (map2f && map !== '2f') {
-            this._characterService.removeCondition(creature, map2f, false);
+            this._creatureConditionsService.removeCondition(creature, map2f, false);
         }
 
         if (map3f && map !== '3f') {
-            this._characterService.removeCondition(creature, map3f, false);
+            this._creatureConditionsService.removeCondition(creature, map3f, false);
         }
 
         if (mapName) {
@@ -521,7 +523,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     { name: mapName, choice: mapChoice, source: 'Quick Status', duration: TimePeriods.HalfTurn, locked: true },
                 );
 
-            this._characterService.addCondition(creature, newCondition, {}, { noReload: true });
+            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
         this._refreshService.processPreparedChanges();
@@ -530,8 +532,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public rangePenalty(): string {
         const creature = this._currentCreature;
         const conditions: Array<ConditionGain> =
-            this._conditionsService
-                .currentCreatureConditions(creature, this._characterService, creature.conditions, true)
+            this._creatureConditionsService
+                .currentCreatureConditions(creature, {}, { readonly: true })
                 .filter(gain => gain.name === 'Range Penalty' && gain.source === 'Quick Status');
 
         for (const gain of conditions) {
@@ -551,8 +553,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public setRangePenalty(rap: '1' | '2' | '3' | '4' | '5' | '6'): void {
         const creature = this._currentCreature;
         const conditions: Array<ConditionGain> =
-            this._conditionsService
-                .currentCreatureConditions(creature, this._characterService, creature.conditions, true)
+            this._creatureConditionsService
+                .currentCreatureConditions(creature, {}, { readonly: true })
                 .filter(gain => gain.name === 'Range Penalty' && gain.source === 'Quick Status');
         const rap2 = conditions.find(gain => gain.choice === 'Second Range Increment');
         const rap3 = conditions.find(gain => gain.choice === 'Third Range Increment');
@@ -596,23 +598,23 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         if (rap2 && rap !== '2') {
-            this._characterService.removeCondition(creature, rap2, false);
+            this._creatureConditionsService.removeCondition(creature, rap2, false);
         }
 
         if (rap3 && rap !== '3') {
-            this._characterService.removeCondition(creature, rap3, false);
+            this._creatureConditionsService.removeCondition(creature, rap3, false);
         }
 
         if (rap4 && rap !== '4') {
-            this._characterService.removeCondition(creature, rap4, false);
+            this._creatureConditionsService.removeCondition(creature, rap4, false);
         }
 
         if (rap5 && rap !== '5') {
-            this._characterService.removeCondition(creature, rap5, false);
+            this._creatureConditionsService.removeCondition(creature, rap5, false);
         }
 
         if (rap6 && rap !== '6') {
-            this._characterService.removeCondition(creature, rap6, false);
+            this._creatureConditionsService.removeCondition(creature, rap6, false);
         }
 
         if (rapChoice) {
@@ -622,7 +624,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     { name: 'Range Penalty', choice: rapChoice, source: 'Quick Status', duration: TimePeriods.HalfTurn, locked: true },
                 );
 
-            this._characterService.addCondition(creature, newCondition, {}, { noReload: true });
+            this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
         this._refreshService.processPreparedChanges();
@@ -673,12 +675,12 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const onlyAttacks: Array<AttackRestriction> = [];
         const forbiddenAttacks: Array<AttackRestriction> = [];
 
-        this._characterService.currentCreatureConditions(this._currentCreature).filter(gain => gain.apply)
+        this._creatureConditionsService.currentCreatureConditions(this._currentCreature).filter(gain => gain.apply)
             .forEach(gain => {
-                const condition = this._characterService.conditions(gain.name)[0];
+                const condition = this._conditionsDataService.conditionFromName(gain.name);
 
                 this.onlyAttacks.push(
-                    ...condition?.attackRestrictions
+                    ...condition.attackRestrictions
                         .filter(restriction =>
                             !restriction.excluding &&
                             (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)),
@@ -686,7 +688,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     || [],
                 );
                 this.forbiddenAttacks.push(
-                    ...condition?.attackRestrictions
+                    ...condition.attackRestrictions
                         .filter(restriction =>
                             restriction.excluding &&
                             (!restriction.conditionChoiceFilter.length || restriction.conditionChoiceFilter.includes(gain.choice)),

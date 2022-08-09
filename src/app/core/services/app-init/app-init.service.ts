@@ -4,7 +4,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ClassesService } from 'src/app/services/classes.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { DeitiesService } from 'src/app/services/deities.service';
@@ -21,6 +21,7 @@ import { SkillsDataService } from 'src/app/core/services/data/skills-data.servic
 import { SpellsService } from 'src/app/services/spells.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { ConditionsDataService } from '../data/conditions-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -38,7 +39,8 @@ export class AppInitService {
         private readonly _featsService: FeatsService,
         private readonly _historyService: HistoryService,
         private readonly _classesService: ClassesService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
         private readonly _spellsService: SpellsService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _itemsService: ItemsService,
@@ -67,7 +69,7 @@ export class AppInitService {
                 this._featsService.initialize();
                 this._historyService.initialize();
                 this._classesService.initialize();
-                this._conditionsService.initialize();
+                this._conditionsDataService.initialize();
                 this._spellsService.initialize();
                 this._skillsDataService.initialize();
                 this._itemsService.initialize();
@@ -88,7 +90,7 @@ export class AppInitService {
                     this._featsService.stillLoading ||
                     this._historyService.stillLoading ||
                     this._classesService.stillLoading ||
-                    this._conditionsService.stillLoading ||
+                    this._conditionsDataService.stillLoading ||
                     this._spellsService.stillLoading ||
                     this._skillsDataService.stillLoading ||
                     this._itemsService.stillLoading ||

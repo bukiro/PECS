@@ -8,7 +8,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Weapon } from 'src/app/classes/Weapon';
 import { SpellsService } from 'src/app/services/spells.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -40,7 +40,7 @@ export class ItemBladeAllyComponent implements OnInit {
         private readonly _itemsService: ItemsService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _spellsService: SpellsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -194,7 +194,7 @@ export class ItemBladeAllyComponent implements OnInit {
                 this._character,
                 CreatureTypes.Character,
                 this._characterService,
-                this._conditionsService,
+                this._conditionGainPropertiesService,
                 this._itemsService,
                 this._spellsService,
                 activity,

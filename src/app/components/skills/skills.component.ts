@@ -54,7 +54,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _effectsService: EffectsService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
         public trackers: Trackers,
     ) { }
@@ -150,7 +150,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
             .filter(originalActivity => !!originalActivity)
             .forEach(originalActivity => {
                 // Calculate the current cooldown for each activity, which is stored in a temporary variable.
-                this._activityPropertyService.cacheEffectiveCooldown(originalActivity, { creature: this._currentCreature });
+                this._activityPropertiesService.cacheEffectiveCooldown(originalActivity, { creature: this._currentCreature });
             });
 
         return activities;

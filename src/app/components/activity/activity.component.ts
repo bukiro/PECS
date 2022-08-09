@@ -4,15 +4,13 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { SpellsService } from 'src/app/services/spells.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { TimeService } from 'src/app/services/time.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Character } from 'src/app/classes/Character';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Condition } from 'src/app/classes/Condition';
 import { Creature } from 'src/app/classes/Creature';
-import { EffectsService } from 'src/app/services/effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
@@ -31,6 +29,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -81,11 +81,11 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _spellsService: SpellsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
-        private readonly _timeService: TimeService,
         private readonly _itemsService: ItemsService,
-        private readonly _conditionsService: ConditionsService,
-        private readonly _effectsService: EffectsService,
-        private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _conditionPropertiesService: ConditionPropertiesService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         public trackers: Trackers,
     ) { }
@@ -105,7 +105,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     public activityParameters(): ActivityParameters {
         const creature = this._currentCreature();
 
-        this._activityPropertyService.cacheMaxCharges(this.activity, { creature });
+        this._activityPropertiesService.cacheMaxCharges(this.activity, { creature });
 
         const maxCharges = this.activity.$charges;
         const hasTooManySlottedAeonStones =
@@ -117,7 +117,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         const isResonantAllowed =
             (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !hasTooManySlottedAeonStones);
 
-        this._activityPropertyService.cacheEffectiveCooldown(this.activity, { creature });
+        this._activityPropertiesService.cacheEffectiveCooldown(this.activity, { creature });
 
         return {
             maxCharges,
@@ -142,7 +142,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
                 this._currentCreature(),
                 target,
                 this._characterService,
-                this._conditionsService,
+                this._conditionGainPropertiesService,
                 this._itemsService,
                 this._spellsService,
                 gain,
@@ -229,11 +229,14 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
         if (gain) {
             this.activity.gainConditions
-                .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))
+                .map(conditionGain => ({
+                    gain: conditionGain,
+                    condition: this._conditionsDataService.conditionFromName(conditionGain.name),
+                }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
-                    conditionSet.condition?.createEffectiveChoices(
-                        this._characterService,
+                    this._conditionPropertiesService.cacheEffectiveChoices(
+                        conditionSet.condition,
                         (conditionSet.gain.heightened ? conditionSet.gain.heightened : conditionSet.condition.minLevel),
                     );
                     // Add the condition to the selection list.
@@ -316,7 +319,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
                     this._currentCreature(),
                     CreatureTypes.Character,
                     this._characterService,
-                    this._conditionsService,
+                    this._conditionGainPropertiesService,
                     this._itemsService,
                     this._spellsService,
                     set.gain,

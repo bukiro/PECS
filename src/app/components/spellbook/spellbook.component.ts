@@ -13,7 +13,7 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Condition } from 'src/app/classes/Condition';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
@@ -30,6 +30,9 @@ import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTar
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -106,7 +109,10 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _itemsService: ItemsService,
         private readonly _timeService: TimeService,
         private readonly _effectsService: EffectsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _conditionPropertiesService: ConditionPropertiesService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
@@ -336,11 +342,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         const conditionSets: Array<{ gain: ConditionGain; condition: Condition }> = [];
 
         spell.heightenedConditions(levelNumber)
-            .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))
+            .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsDataService.conditionFromName(conditionGain.name) }))
             .forEach((conditionSet, index) => {
                 // Create the temporary list of currently available choices.
-                conditionSet.condition?.createEffectiveChoices(
-                    this._characterService,
+                this._conditionPropertiesService.cacheEffectiveChoices(
+                    conditionSet.condition,
                     (conditionSet.gain.heightened ? conditionSet.gain.heightened : levelNumber),
                 );
                 // Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
@@ -368,7 +374,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     public onRefocus(): void {
         this._timeService.refocus(
             this._characterService,
-            this._conditionsService,
+            this._conditionGainPropertiesService,
             this._itemsService,
             this._spellsService,
         );
@@ -514,12 +520,12 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
         // Remove all Conditions that were marked for removal because they affect this spell or "the next spell you cast".
         if (conditionsToRemove.length) {
-            this._characterService
-                .currentCreatureConditions(character, '', '', true)
+            this._creatureConditionsService
+                .currentCreatureConditions(character, {}, { readonly: true })
                 .filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
                 .forEach(conditionGain => {
                     if (conditionGain.durationIsInstant) {
-                        this._characterService.removeCondition(character, conditionGain, false);
+                        this._creatureConditionsService.removeCondition(character, conditionGain, false);
                     }
                 });
         }
@@ -544,7 +550,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                         conditionGain.heightened = context.spellParameters.effectiveSpellLevel;
 
                         if (conditionGain.name) {
-                            this._characterService.addCondition(this._character, conditionGain, {}, { noReload: true });
+                            this._creatureConditionsService.addCondition(this._character, conditionGain, {}, { noReload: true });
                         }
                     }
                 });
@@ -552,7 +558,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         }
 
         this._spellsService.processSpell(context.spellParameters.spell, activated,
-            { characterService: this._characterService, itemsService: this._itemsService, conditionsService: this._conditionsService },
+            { characterService: this._characterService, itemsService: this._itemsService, conditionGainPropertiesService: this._conditionGainPropertiesService },
             {
                 creature: character,
                 target,
@@ -572,7 +578,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                     {
                         characterService: this._characterService,
                         itemsService: this._itemsService,
-                        conditionsService: this._conditionsService,
+                        conditionGainPropertiesService: this._conditionGainPropertiesService,
                     },
                     {
                         creature: character,
@@ -603,9 +609,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
         if (bondedItemCharges.length) {
             bondedItemCharges.forEach(effect => {
-                this._characterService.currentCreatureConditions(character, effect.source)
+                this._creatureConditionsService.currentCreatureConditions(character, { name: effect.source })
                     .forEach(conditionGain => {
-                        this._characterService.removeCondition(character, conditionGain, false, false);
+                        this._creatureConditionsService.removeCondition(character, conditionGain, false, false);
                     });
             });
         } else {

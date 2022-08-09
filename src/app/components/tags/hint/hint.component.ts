@@ -54,7 +54,7 @@ export class HintComponent {
         private readonly _effectsService: EffectsService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
-        private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -223,7 +223,7 @@ export class HintComponent {
     }
 
     public activityCooldown(activity: Activity): number {
-        this._activityPropertyService.cacheEffectiveCooldown(activity, { creature: this._currentCreature });
+        this._activityPropertiesService.cacheEffectiveCooldown(activity, { creature: this._currentCreature });
 
         return activity.$cooldown;
     }

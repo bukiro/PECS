@@ -32,6 +32,7 @@ export class Deity {
 
         return this;
     }
+
     public effectiveDomains(character: Character, characterService: CharacterService): Array<string> {
         //Only collect the domains if $domains is empty. When this is done, the result is written into $domains.
         if (!this.$domains.length) {
@@ -54,6 +55,7 @@ export class Deity {
 
         return this.$domains;
     }
+
     public effectiveAlternateDomains(character: Character, characterService: CharacterService): Array<string> {
         // Only collect the alternate domains if $alternateDomains is empty.
         // When this is done, the result is written into $alternateDomains.
@@ -65,16 +67,19 @@ export class Deity {
 
         return this.$alternateDomains;
     }
+
     public isDomainExternal(domain: string): boolean {
         return !new Set([
             ...this.domains,
             ...this.alternateDomains,
         ]).has(domain);
     }
+
     public clearTemporaryDomains(): void {
         this.$domains.length = 0;
         this.$alternateDomains.length = 0;
     }
+
     private _recreateAlternateDomains(character: Character, characterService: CharacterService): void {
         this.$alternateDomains = JSON.parse(JSON.stringify(this.alternateDomains));
 

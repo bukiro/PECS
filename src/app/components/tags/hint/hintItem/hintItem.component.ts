@@ -45,7 +45,7 @@ export class HintItemComponent implements OnInit, OnDestroy {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
-        private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _itemTraitsService: ItemTraitsService,
         public trackers: Trackers,
     ) { }
@@ -79,7 +79,7 @@ export class HintItemComponent implements OnInit, OnDestroy {
     }
 
     public activityCooldown(activity: Activity): number {
-        this._activityPropertyService.cacheEffectiveCooldown(activity, { creature: this.currentCreature });
+        this._activityPropertiesService.cacheEffectiveCooldown(activity, { creature: this.currentCreature });
 
         return activity.$cooldown;
     }

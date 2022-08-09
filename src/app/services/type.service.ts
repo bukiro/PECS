@@ -217,7 +217,7 @@ export class TypeService {
 
     public static restoreItem(object: Item, itemsService: ItemsService = null): Item {
         if (itemsService && object.refId && !object.restoredFromSave) {
-            const libraryItem = itemsService.cleanItemByID(object.refId);
+            const libraryItem = itemsService.cleanItemFromID(object.refId);
             let mergedObject = object;
 
             if (libraryItem) {

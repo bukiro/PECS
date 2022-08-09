@@ -7,7 +7,6 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { TimeService } from 'src/app/services/time.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ConditionsService } from 'src/app/services/conditions.service';
 import { Condition } from 'src/app/classes/Condition';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -18,6 +17,8 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 
 @Component({
     selector: 'app-activityContent',
@@ -51,7 +52,8 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         private readonly _spellsService: SpellsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _conditionPropertiesService: ConditionPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -105,10 +107,13 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
             const spell = this._spellsService.spellFromName(spellCast.name);
 
             spell.heightenedConditions(spellCast.level)
-                .map(conditionGain => ({ gain: conditionGain, condition: this._conditionsService.conditions(conditionGain.name)[0] }))
+                .map(conditionGain => ({
+                    gain: conditionGain,
+                    condition: this._conditionsDataService.conditionFromName(conditionGain.name),
+                }))
                 .forEach((conditionSet, index) => {
                     //Create the temporary list of currently available choices.
-                    conditionSet.condition?.createEffectiveChoices(this._characterService, spellCast.level);
+                    this._conditionPropertiesService.cacheEffectiveChoices(conditionSet.condition, spellCast.level);
                     //Add the condition to the selection list. Conditions with no choices or with automatic choices will not be displayed.
                     conditionSets.push(conditionSet);
 

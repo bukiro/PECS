@@ -55,7 +55,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _skillValuesService: SkillValuesService,
-        private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         public trackers: Trackers,
     ) { }
@@ -120,7 +120,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         return this._ownedActivities().map(gainSet => {
             const creature = this.currentCreature();
 
-            this._activityPropertyService.cacheMaxCharges(gainSet.activity, { creature });
+            this._activityPropertiesService.cacheMaxCharges(gainSet.activity, { creature });
 
             const maxCharges = gainSet.activity.$charges;
 
@@ -217,7 +217,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         this._characterService.creatureOwnedActivities(this.currentCreature()).forEach(gain => {
             const activity = this._activityGainPropertyService.originalActivity(gain);
 
-            this._activityPropertyService.cacheEffectiveCooldown(activity, { creature: this.currentCreature() });
+            this._activityPropertiesService.cacheEffectiveCooldown(activity, { creature: this.currentCreature() });
 
             if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
                 unique.push(gain.name);

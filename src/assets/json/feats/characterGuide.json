@@ -3995,7 +3995,7 @@
             }
         ],
         "access": "underground dwarf ethnicity",
-        "internalNote": "The Drained reduction is hardcoded in ConditionsService.rest()",
+        "internalNote": "The Drained reduction is hardcoded in ConditionsTimeService.rest()",
         "shortdesc": "Your unusual rest cycle allows you to recover faster.",
         "traits": [
             "Dwarf",

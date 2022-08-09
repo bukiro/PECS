@@ -17,7 +17,7 @@ import { Snare } from 'src/app/classes/Snare';
 import { SpellsService } from 'src/app/services/spells.service';
 import { Wand } from 'src/app/classes/Wand';
 import { Shield } from 'src/app/classes/Shield';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
 import { ToastService } from 'src/app/services/toast.service';
@@ -102,7 +102,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _effectsService: EffectsService,
         private readonly _timeService: TimeService,
         private readonly _spellsService: SpellsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _toastService: ToastService,
@@ -572,7 +572,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                     {
                         characterService: this._characterService,
                         itemsService: this._itemsService,
-                        conditionsService: this._conditionsService,
+                        conditionGainPropertiesService: this._conditionGainPropertiesService,
                     },
                     {
                         creature: this.character,
@@ -702,7 +702,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             case 'snarespecialist':
                 return this.learnedFormulas()
                     .filter(learned => learned.snareSpecialistPrepared)
-                    .map(learned => ({ learned, item: this._itemsService.cleanItemByID(learned.id) as Snare }))
+                    .map(learned => ({ learned, item: this._itemsService.cleanItemFromID(learned.id) as Snare }))
                     .sort((a, b) => SortAlphaNum(a.item.name, b.item.name));
             default: return [];
         }

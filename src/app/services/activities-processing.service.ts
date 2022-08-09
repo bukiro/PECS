@@ -5,6 +5,7 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { Activity } from '../classes/Activity';
 import { ActivityGain } from '../classes/ActivityGain';
 import { ConditionGain } from '../classes/ConditionGain';
@@ -17,8 +18,9 @@ import { SpellCast } from '../classes/SpellCast';
 import { SpellTarget } from '../classes/SpellTarget';
 import { WornItem } from '../classes/WornItem';
 import { ActivitiesDataService } from '../core/services/data/activities-data.service';
+import { ConditionsDataService } from '../core/services/data/conditions-data.service';
 import { CharacterService } from './character.service';
-import { ConditionsService } from './conditions.service';
+import { ConditionGainPropertiesService } from '../../libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { EffectsService } from './effects.service';
 import { ItemsService } from './items.service';
 import { RefreshService } from './refresh.service';
@@ -32,15 +34,17 @@ export class ActivitiesProcessingService {
     constructor(
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
-        private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
     ) { }
 
     public activateActivity(
         creature: Creature,
         targetType: SpellTargetSelection,
         characterService: CharacterService,
-        conditionsService: ConditionsService,
+        conditionGainPropertiesService: ConditionGainPropertiesService,
         itemsService: ItemsService,
         spellsService: SpellsService,
         gain: ActivityGain | ItemActivity,
@@ -102,7 +106,7 @@ export class ActivitiesProcessingService {
                 },
                 {
                     characterService,
-                    conditionsService,
+                    conditionGainPropertiesService,
                     itemsService,
                     spellsService,
                     effectsService: characterService.effectsService,
@@ -118,7 +122,7 @@ export class ActivitiesProcessingService {
                 },
                 {
                     characterService,
-                    conditionsService,
+                    conditionGainPropertiesService,
                     itemsService,
                     spellsService,
                     effectsService: characterService.effectsService,
@@ -142,7 +146,7 @@ export class ActivitiesProcessingService {
         },
         services: {
             characterService: CharacterService;
-            conditionsService: ConditionsService;
+            conditionGainPropertiesService: ConditionGainPropertiesService;
             itemsService: ItemsService;
             spellsService: SpellsService;
             effectsService: EffectsService;
@@ -156,14 +160,14 @@ export class ActivitiesProcessingService {
 
         // Start cooldown, unless one is already in effect.
         if (!context.gain.activeCooldown) {
-            this._activityPropertyService.cacheEffectiveCooldown(activity, context);
+            this._activityPropertiesService.cacheEffectiveCooldown(activity, context);
 
             if (activity.$cooldown) {
                 context.gain.activeCooldown = activity.$cooldown;
             }
         }
 
-        this._activityPropertyService.cacheMaxCharges(activity, context);
+        this._activityPropertiesService.cacheMaxCharges(activity, context);
 
         // Use charges
         const maxCharges = activity.$charges;
@@ -175,13 +179,13 @@ export class ActivitiesProcessingService {
                 context.item.activities
                     .filter(itemActivity => itemActivity.sharedChargesID === context.gain.sharedChargesID)
                     .forEach(itemActivity => {
-                        this._activityPropertyService.cacheMaxCharges(itemActivity, context);
+                        this._activityPropertiesService.cacheMaxCharges(itemActivity, context);
 
                         if (itemActivity.$charges) {
                             itemActivity.chargesUsed += 1;
                         }
 
-                        this._activityPropertyService.cacheEffectiveCooldown(itemActivity, context);
+                        this._activityPropertiesService.cacheEffectiveCooldown(itemActivity, context);
 
                         if (!itemActivity.activeCooldown && itemActivity.$cooldown) {
                             itemActivity.activeCooldown = itemActivity.$cooldown;
@@ -193,13 +197,13 @@ export class ActivitiesProcessingService {
                         const originalActivity = this._activityGainPropertyService.originalActivity(gain);
 
                         if (originalActivity.name === gain.name) {
-                            this._activityPropertyService.cacheMaxCharges(originalActivity, context);
+                            this._activityPropertiesService.cacheMaxCharges(originalActivity, context);
 
                             if (originalActivity.$charges) {
                                 gain.chargesUsed += 1;
                             }
 
-                            this._activityPropertyService.cacheEffectiveCooldown(originalActivity, context);
+                            this._activityPropertiesService.cacheEffectiveCooldown(originalActivity, context);
 
                             if (!gain.activeCooldown && originalActivity.$cooldown) {
                                 gain.activeCooldown = originalActivity.$cooldown;
@@ -292,7 +296,7 @@ export class ActivitiesProcessingService {
                     conditionGain.source = activity.name;
 
                     const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
-                    const condition = services.conditionsService.conditionFromName(conditionGain.name);
+                    const condition = this._conditionsDataService.conditionFromName(conditionGain.name);
 
                     if (
                         condition.endConditions.some(endCondition =>
@@ -506,7 +510,7 @@ export class ActivitiesProcessingService {
 
                         //Apply to any targets that are your own creatures.
                         conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
-                            services.characterService.addCondition(target as Creature, newConditionGain, {}, { noReload: true });
+                            this._creatureConditionsService.addCondition(target as Creature, newConditionGain, {}, { noReload: true });
                         });
 
                         //Apply to any non-creature targets whose ID matches your own creatures.
@@ -517,7 +521,7 @@ export class ActivitiesProcessingService {
                                 creatures.some(listCreature => listCreature.id === target.id),
                         )
                             .forEach(target => {
-                                services.characterService.addCondition(
+                                this._creatureConditionsService.addCondition(
                                     services.characterService.creatureFromType(target.type),
                                     newConditionGain,
                                     {},
@@ -589,7 +593,7 @@ export class ActivitiesProcessingService {
                             {
                                 characterService: services.characterService,
                                 itemsService: services.itemsService,
-                                conditionsService: services.conditionsService,
+                                conditionGainPropertiesService: services.conditionGainPropertiesService,
                             },
                             {
                                 creature: context.creature,
@@ -623,7 +627,7 @@ export class ActivitiesProcessingService {
                                 context.creature,
                                 context.creature.type,
                                 services.characterService,
-                                services.conditionsService,
+                                services.conditionGainPropertiesService,
                                 services.itemsService,
                                 services.spellsService,
                                 activityGain,
@@ -643,7 +647,7 @@ export class ActivitiesProcessingService {
                             context.creature,
                             context.creature.type,
                             services.characterService,
-                            services.conditionsService,
+                            services.conditionGainPropertiesService,
                             services.itemsService,
                             services.spellsService,
                             itemActivity,
@@ -657,10 +661,10 @@ export class ActivitiesProcessingService {
 
         //All Conditions that have affected the duration of this activity or its conditions are now removed.
         if (conditionsToRemove.length) {
-            services.characterService.currentCreatureConditions(context.creature, '', '', true)
+            this._creatureConditionsService.currentCreatureConditions(context.creature, {}, { readonly: true })
                 .filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
                 .forEach(conditionGain => {
-                    services.characterService.removeCondition(context.creature, conditionGain, false);
+                    this._creatureConditionsService.removeCondition(context.creature, conditionGain, false);
                 });
         }
 
@@ -678,7 +682,7 @@ export class ActivitiesProcessingService {
         },
         services: {
             characterService: CharacterService;
-            conditionsService: ConditionsService;
+            conditionGainPropertiesService: ConditionGainPropertiesService;
             itemsService: ItemsService;
             spellsService: SpellsService;
             effectsService: EffectsService;
@@ -689,7 +693,7 @@ export class ActivitiesProcessingService {
         }
 
         if (activity.cooldownAfterEnd) {
-            this._activityPropertyService.cacheEffectiveCooldown(activity, context);
+            this._activityPropertiesService.cacheEffectiveCooldown(activity, context);
 
             // If the activity ends and cooldownAfterEnd is set, start the cooldown anew.
             if (activity.$cooldown) {
@@ -723,15 +727,15 @@ export class ActivitiesProcessingService {
                         (conditionGain.targetFilter === 'caster' ? [context.creature] : context.targets);
 
                     conditionTargets
-                        .filter(target => target.constructor !== SpellTarget)
-                        .forEach(target => {
-                            services.characterService.currentCreatureConditions(target as Creature, conditionGain.name)
+                        .filter(target => !(target instanceof SpellTarget))
+                        .forEach((target: Creature) => {
+                            this._creatureConditionsService.currentCreatureConditions(target, { name: conditionGain.name })
                                 .filter(existingConditionGain =>
                                     existingConditionGain.source === conditionGain.source &&
                                     existingConditionGain.sourceGainID === (context.gain?.id || ''),
                                 )
                                 .forEach(existingConditionGain => {
-                                    services.characterService.removeCondition(target as Creature, existingConditionGain, false);
+                                    this._creatureConditionsService.removeCondition(target, existingConditionGain, false);
                                 });
                         });
                     services.characterService.sendConditionToPlayers(
@@ -761,7 +765,7 @@ export class ActivitiesProcessingService {
                             {
                                 characterService: services.characterService,
                                 itemsService: services.itemsService,
-                                conditionsService: services.conditionsService,
+                                conditionGainPropertiesService: services.conditionGainPropertiesService,
                             },
                             {
                                 creature: context.creature,

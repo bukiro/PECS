@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, Chan
 import { CharacterService } from 'src/app/services/character.service';
 import { Condition, OtherConditionSelection } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { TimeService } from 'src/app/services/time.service';
 import { Creature } from 'src/app/classes/Creature';
@@ -16,6 +16,9 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -55,9 +58,12 @@ export class ConditionComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _timeService: TimeService,
         private readonly _itemsService: ItemsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _conditionPropertiesService: ConditionPropertiesService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _activityPropertyService: ActivityPropertiesService,
+        private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         public trackers: Trackers,
     ) { }
@@ -81,7 +87,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     public isInformationalCondition(): boolean {
-        return this.condition.isInformationalCondition(this._currentCreature, this._characterService, this.conditionGain);
+        return this._conditionPropertiesService.isConditionInformational(this._currentCreature, this.condition, this.conditionGain);
     }
 
     public setConditionDuration(gain: ConditionGain, turns: number): void {
@@ -127,7 +133,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     public conditionChoices(gain: ConditionGain, condition: Condition): Array<string> {
         if (gain.source !== 'Manual') {
-            condition.createEffectiveChoices(this._characterService, gain.heightened);
+            this._conditionPropertiesService.cacheEffectiveChoices(condition, gain.heightened);
 
             return condition.$choices;
         }
@@ -139,13 +145,11 @@ export class ConditionComponent implements OnInit, OnDestroy {
         const oldChoice = gain.choice;
 
         gain.choice = newChoice;
-        this._conditionsService.changeConditionChoice(
+        this._conditionGainPropertiesService.changeConditionChoice(
             this._currentCreature,
             gain,
             condition,
             oldChoice,
-            this._characterService,
-            this._itemsService,
         );
         this._refreshService.processPreparedChanges();
         this._updateCondition();
@@ -166,14 +170,14 @@ export class ConditionComponent implements OnInit, OnDestroy {
         const creature = this._currentCreature;
         const typeFilter = selection.typeFilter.map(filter => filter.toLowerCase());
         const nameFilter = selection.nameFilter.map(filter => filter.toLowerCase());
-        const filteredConditions = this._conditionsService.conditions().filter(libraryCondition =>
+        const filteredConditions = this._conditionsDataService.conditions().filter(libraryCondition =>
             (typeFilter.length ? typeFilter.includes(libraryCondition.type.toLowerCase()) : true) &&
             (nameFilter.length ? nameFilter.includes(libraryCondition.name.toLowerCase()) : true),
         )
             .map(libraryCondition => libraryCondition.name.toLowerCase());
 
         return Array.from(new Set(
-            this._conditionsService.currentCreatureConditions(creature, this._characterService, creature.conditions, true)
+            this._creatureConditionsService.currentCreatureConditions(creature, {}, { readonly: true })
                 .map(conditionGain => conditionGain.name)
                 .filter(conditionName =>
                     (conditionName.toLowerCase() !== gain.name.toLowerCase()) &&
@@ -186,14 +190,12 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     public setConditionStage(gain: ConditionGain, condition: Condition, choices: Array<string>, change: number): void {
-        this._conditionsService.changeConditionStage(
+        this._conditionGainPropertiesService.changeConditionStage(
             this._currentCreature,
             gain,
             condition,
             choices,
             change,
-            this._characterService,
-            this._itemsService,
         );
         this._refreshService.processPreparedChanges();
         this._updateCondition();
@@ -214,7 +216,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     public removeCondition(conditionGain: ConditionGain): void {
-        this._characterService.removeCondition(this._currentCreature, conditionGain, true);
+        this._creatureConditionsService.removeCondition(this._currentCreature, conditionGain, true);
         this._refreshService.setComponentChanged('close-popovers');
     }
 
@@ -226,12 +228,12 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
                 const originalActivity = this._activityGainPropertyService.originalActivity(gain);
 
-                this._activityPropertyService.cacheEffectiveCooldown(
+                this._activityPropertiesService.cacheEffectiveCooldown(
                     originalActivity,
                     { creature: this._currentCreature },
                 );
 
-                this._activityPropertyService.cacheMaxCharges(originalActivity, { creature: this._currentCreature });
+                this._activityPropertiesService.cacheMaxCharges(originalActivity, { creature: this._currentCreature });
 
                 const maxCharges = originalActivity.$charges;
                 const canNotActivate = ((gain.activeCooldown ? (maxCharges === gain.chargesUsed) : false) && !gain.active);

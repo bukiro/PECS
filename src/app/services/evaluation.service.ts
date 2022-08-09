@@ -22,6 +22,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -52,6 +53,7 @@ export class EvaluationService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _healthService: HealthService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
     ) { }
 
     public valueFromFormula(
@@ -184,10 +186,10 @@ export class EvaluationService {
             (this._testSpeed(name))?.value(Creature, characterService, effectsService).result || 0
         );
         const Has_Condition = (name: string): boolean => (
-            !!characterService.currentCreatureConditions(Creature, name, '', true).length
+            !!this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true }).length
         );
         const Owned_Conditions = (name: string): Array<ConditionGain> => (
-            characterService.currentCreatureConditions(Creature, name, '', true)
+            this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true })
         );
         const Owned_Activities = (name: string): Array<ActivityGain> => (
             characterService.creatureOwnedActivities(Creature).filter(gain => gain.name === name)

@@ -7,7 +7,7 @@ import { Armor } from 'src/app/classes/Armor';
 import { Character as CharacterModel } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { EffectGain } from 'src/app/classes/EffectGain';
@@ -36,6 +36,9 @@ import { CreatureEffectsGenerationService } from 'src/libs/shared/effects-genera
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 import { ItemEffectsGenerationService } from 'src/libs/shared/effects-generation/services/item-effects-generation/item-effects-generation.service';
+import { ConditionsDataService } from '../core/services/data/conditions-data.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { EquipmentConditionsService } from 'src/libs/shared/effects-generation/services/equipment-conditions/equipment-conditions.service';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -61,7 +64,10 @@ export class EffectsGenerationService {
     constructor(
         private readonly _evaluationService: EvaluationService,
         private readonly _effectsService: EffectsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _equipmentConditionsService: EquipmentConditionsService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsService: ItemsService,
         private readonly _abilitiesDataService: AbilitiesDataService,
@@ -364,16 +370,17 @@ export class EffectsGenerationService {
 
     private _collectEffectConditions(
         creature: Creature,
-        services: { readonly characterService: CharacterService },
     ): { conditions: Array<ConditionEffectsObject>; hintSets: Array<HintEffectsObject> } {
         const hintSets: Array<HintEffectsObject> = [];
         const conditions: Array<ConditionEffectsObject> = [];
-        const appliedConditions = services.characterService.currentCreatureConditions(creature).filter(condition => condition.apply);
+        const appliedConditions = this._creatureConditionsService
+            .currentCreatureConditions(creature)
+            .filter(condition => condition.apply);
 
         appliedConditions.forEach(gain => {
-            const originalCondition = services.characterService.conditions(gain.name)[0];
+            const originalCondition = this._conditionsDataService.conditionFromName(gain.name);
 
-            if (originalCondition) {
+            if (originalCondition.name === gain.name) {
                 const conditionEffectsObject: ConditionEffectsObject =
                     Object.assign(new ConditionEffectsObject(originalCondition.effects), gain);
 
@@ -428,7 +435,7 @@ export class EffectsGenerationService {
         hintSets = hintSets.concat(this._collectTraitEffectHints(creature, services));
 
         //Collect active conditions and their hints.
-        const effectConditions = this._collectEffectConditions(creature, services);
+        const effectConditions = this._collectEffectConditions(creature);
 
         conditions = conditions.concat(effectConditions.conditions);
         hintSets = hintSets.concat(effectConditions.hintSets);
@@ -1319,14 +1326,8 @@ export class EffectsGenerationService {
     private _runEffectGenerationPreflightUpdates(creature: Creature, services: { readonly characterService: CharacterService }): void {
         // Add or remove conditions depending on your equipment.
         // This is called here to ensure that the conditions exist before their effects are generated.
-        this._conditionsService.generateBulkConditions(
-            creature,
-            { characterService: services.characterService },
-        );
-        this._conditionsService.generateItemGrantedConditions(
-            creature,
-            { characterService: services.characterService, effectsService: this._effectsService, itemsService: this._itemsService },
-        );
+        this._equipmentConditionsService.generateBulkConditions(creature);
+        this._equipmentConditionsService.generateItemGrantedConditions(creature);
         //Update item modifiers that influence their effectiveness and effects.
         this._updateItemModifiers(creature, services);
     }

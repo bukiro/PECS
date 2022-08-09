@@ -314,7 +314,7 @@ export class SavegameService {
                 //For items with a refId, don't compare them with blank items, but with their reference item if it exists.
                 //If none can be found, the reference item is a blank item of the same class.
                 if (object instanceof Item && object.refId) {
-                    blank = itemsService.cleanItemByID(object.refId);
+                    blank = itemsService.cleanItemFromID(object.refId);
                 }
 
                 if (!blank) {

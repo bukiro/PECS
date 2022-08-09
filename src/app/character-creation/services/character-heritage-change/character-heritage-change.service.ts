@@ -7,7 +7,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SpellsService } from 'src/app/services/spells.service';
@@ -28,7 +28,7 @@ export class CharacterHeritageChangeService {
         private readonly _itemsService: ItemsService,
         private readonly _cacheService: CacheService,
         private readonly _refreshService: RefreshService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _spellsService: SpellsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featTakingService: FeatTakingService,
@@ -135,7 +135,7 @@ export class CharacterHeritageChangeService {
                             character,
                             '',
                             this._characterService,
-                            this._conditionsService,
+                            this._conditionGainPropertiesService,
                             this._itemsService,
                             this._spellsService,
                             oldGain,

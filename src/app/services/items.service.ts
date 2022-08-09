@@ -2,7 +2,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SpellsService } from 'src/app/services/spells.service';
@@ -16,7 +16,6 @@ import { Ammunition } from 'src/app/classes/Ammunition';
 import { Armor } from 'src/app/classes/Armor';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
-import { Character } from 'src/app/classes/Character';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Consumable } from 'src/app/classes/Consumable';
 import { Creature } from 'src/app/classes/Creature';
@@ -79,6 +78,7 @@ import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 type AnyItemType =
     ArmorRune | WeaponRune | Oil | AdventuringGear | AlchemicalBomb | AlchemicalElixir | AlchemicalPoison
@@ -104,6 +104,7 @@ export class ItemsService {
         private readonly _extensionsService: ExtensionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -128,19 +129,19 @@ export class ItemsService {
         } else { return new ItemCollection(); }
     }
 
-    public storeItemByID(id: string): Item {
+    public storeItemFromID(id: string): Item {
         if (!this.stillLoading) {
             return this._storeItems.allItems().find(item => item.id === id);
         } else { return null; }
     }
 
-    public cleanItemByID(id: string): Item {
+    public cleanItemFromID(id: string): Item {
         if (!this.stillLoading) {
             return this._cleanItems.allItems().find(item => item.id === id);
         } else { return null; }
     }
 
-    public craftingItemByID(id: string): Item {
+    public craftingItemFromID(id: string): Item {
         if (!this.stillLoading) {
             return this._craftingItems.allItems().find(item => item.id === id);
         } else { return null; }
@@ -831,7 +832,7 @@ export class ItemsService {
     public processConsumable(
         creature: Creature,
         characterService: CharacterService,
-        conditionsService: ConditionsService,
+        conditionGainPropertiesService: ConditionGainPropertiesService,
         spellsService: SpellsService,
         item: Consumable,
     ): void {
@@ -850,7 +851,7 @@ export class ItemsService {
             item.gainConditions.forEach(gain => {
                 const newConditionGain = Object.assign(new ConditionGain(), gain).recast();
 
-                characterService.addCondition(creature, newConditionGain, {}, { noReload: true });
+                this._creatureConditionsService.addCondition(creature, newConditionGain, {}, { noReload: true });
             });
 
             //Cast Spells
@@ -862,7 +863,7 @@ export class ItemsService {
 
                     if (librarySpell) {
                         characterService.spellsService.processSpell(librarySpell, true,
-                            { characterService, itemsService: this, conditionsService },
+                            { characterService, itemsService: this, conditionGainPropertiesService },
                             { creature, target: creature.type, gain: cast.spellGain, level: cast.level },
                             { manual: true },
                         );

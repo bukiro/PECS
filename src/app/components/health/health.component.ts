@@ -5,7 +5,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { TimeService } from 'src/app/services/time.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { SpellsService } from 'src/app/services/spells.service';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
@@ -15,6 +15,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Health } from 'src/app/classes/Health';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health/health.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 @Component({
     selector: 'app-health',
@@ -47,7 +48,8 @@ export class HealthComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _effectsService: EffectsService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _healthService: HealthService,
         public trackers: Trackers,
     ) { }
@@ -90,7 +92,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     public waitingDescription(duration: number): string {
         return this._timeService.waitingDescription(
             duration,
-            { characterService: this._characterService, conditionsService: this._conditionsService },
+            { characterService: this._characterService, conditionGainPropertiesService: this._conditionGainPropertiesService },
             { includeResting: true },
         );
     }
@@ -100,7 +102,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public onRest(): void {
-        this._timeService.rest(this._characterService, this._conditionsService, this._itemsService, this._spellsService);
+        this._timeService.rest(this._characterService, this._conditionGainPropertiesService, this._itemsService, this._spellsService);
     }
 
     public creatureHealth(): Health {
@@ -113,7 +115,11 @@ export class HealthComponent implements OnInit, OnDestroy {
         //Don't do anything about your dying status in manual mode.
         if (!this._characterService.isManualMode) {
             if (calculatedHealth.dying >= calculatedHealth.maxDying) {
-                if (this._characterService.currentCreatureConditions(this._currentCreature, 'Doomed').length) {
+                if (
+                    this._creatureConditionsService
+                        .currentCreatureConditions(this._currentCreature, { name: 'Doomed' })
+                        .length
+                ) {
                     this._die('Doomed');
                 } else {
                     this._die('Dying value too high');
@@ -139,13 +145,17 @@ export class HealthComponent implements OnInit, OnDestroy {
             //Reduce all dying conditions by 1
             //Conditions with Value 0 get cleaned up in the conditions Service
             //Wounded is added automatically when Dying is removed
-            this._characterService.currentCreatureConditions(this._currentCreature, 'Dying').forEach(gain => {
-                gain.value = Math.max(gain.value - 1, 0);
-            });
+            this._creatureConditionsService
+                .currentCreatureConditions(this._currentCreature, { name: 'Dying' })
+                .forEach(gain => {
+                    gain.value = Math.max(gain.value - 1, 0);
+                });
         } else {
-            this._characterService.currentCreatureConditions(this._currentCreature, 'Dying').forEach(gain => {
-                gain.value = Math.min(gain.value + 1, maxDying);
-            });
+            this._creatureConditionsService
+                .currentCreatureConditions(this._currentCreature, { name: 'Dying' })
+                .forEach(gain => {
+                    gain.value = Math.min(gain.value + 1, maxDying);
+                });
 
             if (this._healthService.dying(this._currentCreature) >= maxDying) {
                 this._die('Failed Dying Save');
@@ -157,9 +167,11 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public onHeroPointRecover(): void {
-        this._characterService.currentCreatureConditions(this._currentCreature, 'Dying').forEach(gain => {
-            this._characterService.removeCondition(this._currentCreature, gain, false, false, false);
-        });
+        this._creatureConditionsService
+            .currentCreatureConditions(this._currentCreature, { name: 'Dying' })
+            .forEach(gain => {
+                this._creatureConditionsService.removeCondition(this._currentCreature, gain, false, false, false);
+            });
         this.character.heroPoints = 0;
         this._refreshService.prepareDetailToChange(this.creature, 'effects');
         this._refreshService.prepareDetailToChange(this.creature, 'general');
@@ -167,9 +179,11 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public onHealWounded(): void {
-        this._characterService.currentCreatureConditions(this._currentCreature, 'Wounded').forEach(gain => {
-            this._characterService.removeCondition(this._currentCreature, gain, false);
-        });
+        this._creatureConditionsService
+            .currentCreatureConditions(this._currentCreature, { name: 'Wounded' })
+            .forEach(gain => {
+                this._creatureConditionsService.removeCondition(this._currentCreature, gain, false);
+            });
         this._refreshService.prepareDetailToChange(this.creature, 'effects');
         this._refreshService.processPreparedChanges();
     }
@@ -312,16 +326,22 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     private _die(reason: string): void {
-        if (!this._characterService.currentCreatureConditions(this._currentCreature, 'Dead').length) {
-            this._characterService.addCondition(
+        if (
+            !this._creatureConditionsService
+                .currentCreatureConditions(this._currentCreature, { name: 'Dead' })
+                .length
+        ) {
+            this._creatureConditionsService.addCondition(
                 this._currentCreature,
                 Object.assign(new ConditionGain(), { name: 'Dead', source: reason }),
                 {},
                 { noReload: true },
             );
-            this._characterService.currentCreatureConditions(this._currentCreature, 'Doomed').forEach(gain => {
-                this._characterService.removeCondition(this._currentCreature, gain, false);
-            });
+            this._creatureConditionsService
+                .currentCreatureConditions(this._currentCreature, { name: 'Doomed' }, { readonly: true })
+                .forEach(gain => {
+                    this._creatureConditionsService.removeCondition(this._currentCreature, gain, false);
+                });
         }
     }
 

@@ -2,7 +2,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConditionsService } from 'src/app/services/conditions.service';
 import { Condition } from 'src/app/classes/Condition';
 import { TimeService } from 'src/app/services/time.service';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -31,6 +30,8 @@ import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 const itemsPerPage = 40;
 
@@ -95,7 +96,8 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _effectsService: EffectsService,
         private readonly _itemsService: ItemsService,
         private readonly _timeService: TimeService,
@@ -109,7 +111,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._conditionsService.stillLoading || this._characterService.stillLoading;
+        return this._conditionsDataService.stillLoading || this._characterService.stillLoading;
     }
 
     public get character(): Character {
@@ -261,7 +263,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public conditionsOfType(type: string): Array<Condition> {
-        return this._conditionsService.conditions('', type);
+        return this._conditionsDataService.conditions('', type);
     }
 
     public heightenedConditionDescription(condition: Condition): string {
@@ -352,7 +354,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         }
 
         newGain.source = 'Manual';
-        this._characterService.addCondition(creature, newGain);
+        this._creatureConditionsService.addCondition(creature, newGain);
     }
 
     public effectiveEffectValue(creature: Creature, effect: EffectGain): { value: string | number; penalty: boolean } {
@@ -555,7 +557,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.affected));
                     });
-                this._characterService.conditions().filter(condition => condition.effects.length)
+                this._conditionsDataService.conditions().filter(condition => condition.effects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.affected));
                     });
@@ -569,11 +571,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.value));
                     });
-                this._characterService.conditions().filter(condition => condition.onceEffects.length)
+                this._conditionsDataService.conditions().filter(condition => condition.onceEffects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.onceEffects.map(effect => effect.value));
                     });
-                this._characterService.conditions().filter(condition => condition.effects.length)
+                this._conditionsDataService.conditions().filter(condition => condition.effects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.value));
                     });
@@ -611,11 +613,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.setValue));
                     });
-                this._characterService.conditions().filter(condition => condition.onceEffects.length)
+                this._conditionsDataService.conditions().filter(condition => condition.onceEffects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.onceEffects.map(effect => effect.setValue));
                     });
-                this._characterService.conditions().filter(condition => condition.effects.length)
+                this._conditionsDataService.conditions().filter(condition => condition.effects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.setValue));
                     });
@@ -649,7 +651,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.title));
                     });
-                this._characterService.conditions().filter(condition => condition.effects.length)
+                this._conditionsDataService.conditions().filter(condition => condition.effects.length)
                     .forEach((condition: Condition) => {
                         examples.push(...condition.effects.map(effect => effect.title));
                     });

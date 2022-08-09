@@ -7,7 +7,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Character as CharacterModel } from 'src/app/classes/Character';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { ConditionsService } from 'src/app/services/conditions.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import * as json_spells from 'src/assets/json/spells';
 import { Creature } from 'src/app/classes/Creature';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
@@ -23,6 +23,8 @@ import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTar
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
+import { ConditionsDataService } from '../core/services/data/conditions-data.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 @Injectable({
     providedIn: 'root',
@@ -39,6 +41,8 @@ export class SpellsService {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
+        private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -102,7 +106,7 @@ export class SpellsService {
     public processSpell(
         spell: Spell,
         activated: boolean,
-        services: { characterService: CharacterService; itemsService: ItemsService; conditionsService: ConditionsService },
+        services: { characterService: CharacterService; itemsService: ItemsService; conditionGainPropertiesService: ConditionGainPropertiesService },
         context: {
             creature: Creature;
             gain: SpellGain;
@@ -223,7 +227,7 @@ export class SpellsService {
 
                     conditions.forEach((conditionGain, conditionIndex) => {
                         const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
-                        const condition = services.conditionsService.conditions(conditionGain.name)[0];
+                        const condition = this._conditionsDataService.conditionFromName(conditionGain.name);
 
                         //Unless the conditionGain has a choice set, try to set it by various factors.
                         if (!conditionGain.choice) {
@@ -460,7 +464,7 @@ export class SpellsService {
 
                             //Apply to any targets that are your own creatures.
                             conditionTargets.filter(target => !(target instanceof SpellTarget)).forEach(target => {
-                                services.characterService.addCondition(target as Creature, newConditionGain, {}, { noReload: true });
+                                this._creatureConditionsService.addCondition(target as Creature, newConditionGain, {}, { noReload: true });
                             });
 
                             //Apply to any non-creature targets whose ID matches your own creatures.
@@ -469,7 +473,7 @@ export class SpellsService {
                             conditionTargets
                                 .filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id === target.id))
                                 .forEach(target => {
-                                    services.characterService.addCondition(
+                                    this._creatureConditionsService.addCondition(
                                         services.characterService.creatureFromType(target.type),
                                         newConditionGain,
                                         {},
@@ -511,16 +515,18 @@ export class SpellsService {
                         const conditionTargets: Array<Creature | SpellTarget> =
                             (conditionGain.targetFilter === 'caster' ? [context.creature] : targets);
 
-                        conditionTargets.filter(target => target.constructor !== SpellTarget).forEach(target => {
-                            services.characterService.currentCreatureConditions(target as Creature, conditionGain.name)
-                                .filter(existingConditionGain =>
-                                    existingConditionGain.source === conditionGain.source &&
-                                    existingConditionGain.sourceGainID === (context.gain?.id || ''),
-                                )
-                                .forEach(existingConditionGain => {
-                                    services.characterService.removeCondition(target as Creature, existingConditionGain, false);
-                                });
-                        });
+                        conditionTargets
+                            .filter(target => !(target instanceof SpellTarget))
+                            .forEach((target: Creature) => {
+                                this._creatureConditionsService.currentCreatureConditions(target, { name: conditionGain.name })
+                                    .filter(existingConditionGain =>
+                                        existingConditionGain.source === conditionGain.source &&
+                                        existingConditionGain.sourceGainID === (context.gain?.id || ''),
+                                    )
+                                    .forEach(existingConditionGain => {
+                                        this._creatureConditionsService.removeCondition(target as Creature, existingConditionGain, false);
+                                    });
+                            });
                         services.characterService
                             .sendConditionToPlayers(
                                 conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>,
@@ -535,11 +541,11 @@ export class SpellsService {
 
         //All Conditions that have affected the duration of this spell or its conditions are now removed.
         if (conditionsToRemove.length) {
-            services.characterService
-                .currentCreatureConditions(context.creature, '', '', true)
+            this._creatureConditionsService
+                .currentCreatureConditions(context.creature, {}, { readonly: true })
                 .filter(conditionGain => conditionsToRemove.includes(conditionGain.name))
                 .forEach(conditionGain => {
-                    services.characterService.removeCondition(context.creature, conditionGain, false);
+                    this._creatureConditionsService.removeCondition(context.creature, conditionGain, false);
                 });
         }
 
@@ -604,7 +610,7 @@ export class SpellsService {
         character: CharacterModel,
         characterService: CharacterService,
         itemsService: ItemsService,
-        conditionsService: ConditionsService,
+        conditionGainPropertiesService: ConditionGainPropertiesService,
         turns = 10,
     ): void {
         this._spellsTakenService
@@ -621,7 +627,7 @@ export class SpellsService {
 
                         if (spell) {
                             this.processSpell(spell, false,
-                                { characterService, itemsService, conditionsService },
+                                { characterService, itemsService, conditionGainPropertiesService },
                                 { creature: character, target: taken.gain.selectedTarget, gain: taken.gain, level: 0 },
                             );
                         }

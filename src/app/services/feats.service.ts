@@ -34,11 +34,12 @@ import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { CharacterHeritageChangeService } from '../character-creation/services/character-heritage-change/character-heritage-change.service';
 import { ActivitiesProcessingService } from './activities-processing.service';
-import { ConditionsService } from './conditions.service';
+import { ConditionGainPropertiesService } from '../../libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ActivitiesDataService } from '../core/services/data/activities-data.service';
 import { SpellsService } from './spells.service';
 import { CharacterSkillIncreaseService } from '../character-creation/services/character-skill-increase/character-skill-increase.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 
 @Injectable({
     providedIn: 'root',
@@ -62,7 +63,8 @@ export class FeatsService {
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
-        private readonly _conditionsService: ConditionsService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _spellsService: SpellsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
@@ -641,7 +643,7 @@ export class FeatsService {
                                     character,
                                     '',
                                     characterService,
-                                    this._conditionsService,
+                                    this._conditionGainPropertiesService,
                                     this._itemsService,
                                     this._spellsService,
                                     oldGain,
@@ -665,16 +667,16 @@ export class FeatsService {
                         const newConditionGain = Object.assign(new ConditionGain(), conditionGain);
 
                         newConditionGain.fromFeat = true;
-                        characterService.addCondition(character, newConditionGain, {}, { noReload: true });
+                        this._creatureConditionsService.addCondition(character, newConditionGain, {}, { noReload: true });
                     });
                 } else {
                     feat.gainConditions.forEach(conditionGain => {
                         const conditionGains =
-                            characterService.currentCreatureConditions(character, conditionGain.name)
+                            this._creatureConditionsService.currentCreatureConditions(character, { name: conditionGain.name })
                                 .filter(currentConditionGain => currentConditionGain.source === conditionGain.source);
 
                         if (conditionGains.length) {
-                            characterService.removeCondition(character, conditionGains[0], false);
+                            this._creatureConditionsService.removeCondition(character, conditionGains[0], false);
                         }
                     });
                 }

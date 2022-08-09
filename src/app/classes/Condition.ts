@@ -8,13 +8,8 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { SenseGain } from 'src/app/classes/SenseGain';
 import { Hint } from 'src/app/classes/Hint';
-import { Character } from 'src/app/classes/Character';
 import { ConditionChoice } from 'src/app/classes/ConditionChoice';
-import { CharacterService } from 'src/app/services/character.service';
-import { Familiar } from 'src/app/classes/Familiar';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ConditionDuration } from 'src/app/classes/ConditionDuration';
-import { Creature } from 'src/app/classes/Creature';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
 
@@ -103,9 +98,10 @@ export class Condition {
     /** All instances of an unlimited condition are shown in the conditions area. Limited conditions only show one instance. */
     public unlimited = false;
     /** Overridden conditions aren't applied, but keep ticking. */
-    private readonly overrideConditions: Array<ConditionOverride> = [];
+    public overrideConditions: Array<ConditionOverride> = [];
     /** Paused conditions don't tick. If you want to stop -and- hide a condition, you need to override it as well. */
-    private readonly pauseConditions: Array<ConditionOverride> = [];
+    public pauseConditions: Array<ConditionOverride> = [];
+
     public recast(): Condition {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
@@ -146,6 +142,7 @@ export class Condition {
 
         return this;
     }
+
     public conditionOverrides(gain: ConditionGain = null): Array<ConditionOverride> {
         return this.overrideConditions.map(override => {
             let overrideName = override.name;
@@ -157,6 +154,7 @@ export class Condition {
             return { name: overrideName, conditionChoiceFilter: override.conditionChoiceFilter };
         });
     }
+
     public conditionPauses(gain: ConditionGain = null): Array<ConditionOverride> {
         return this.pauseConditions.map(pause => {
             let pauseName = pause.name;
@@ -168,10 +166,17 @@ export class Condition {
             return { name: pauseName, conditionChoiceFilter: pause.conditionChoiceFilter };
         });
     }
+
+    public hasEffects(): boolean {
+        //Return whether the condition has any effects beyond showing text.
+        return this.hasInstantEffects() || this.hasDurationEffects();
+    }
+
     public hasInstantEffects(): boolean {
         //Return whether the condition has any effects that are instantly applied even if the condition has no duration.
         return (!!this.endConditions.length || !!this.onceEffects.length);
     }
+
     public hasDurationEffects(): boolean {
         //Return whether the condition has any effects that persist during its duration.
         return (
@@ -187,147 +192,24 @@ export class Condition {
             !!this.endEffects.length
         );
     }
-    public hasEffects(): boolean {
-        //Return whether the condition has any effects beyond showing text.
-        return this.hasInstantEffects() || this.hasDurationEffects();
-    }
+
     public isChangeable(): boolean {
         //Return whether the condition has values that you can change.
         return this.hasValue || this.allowRadiusChange;
     }
-    public hasHints(): boolean {
-        return !!this.hints.length;
-    }
+
     public isStoppingTime(conditionGain: ConditionGain = null): boolean {
         return this.stopTimeChoiceFilter.some(filter => ['All', (conditionGain?.choice || 'All')].includes(filter));
     }
-    public isInformationalCondition(
-        creature: Creature,
-        characterService: CharacterService,
-        conditionGain: ConditionGain = null,
-    ): boolean {
-        //Return whether the condition has any effects beyond showing text, and if it causes or overrides any currently existing conditions.
-        return !(
-            !!this.effects?.length ||
-            !!this.endConditions.length ||
-            !!this.gainItems.length ||
-            !!this.gainActivities.length ||
-            !!this.senses.length ||
-            !!this.nextCondition.length ||
-            !!this.endEffects.length ||
-            !!this.denyConditions.length ||
-            this.isStoppingTime(conditionGain) ||
-            (
-                this.hints.some(hint =>
-                    hint.effects?.length &&
-                    (
-                        !conditionGain ||
-                        !hint.conditionChoiceFilter.length ||
-                        hint.conditionChoiceFilter.includes(conditionGain.choice)
-                    ),
-                )
-            ) ||
-            (
-                this.gainConditions.length ?
-                    characterService.currentCreatureConditions(creature, '', '', true)
-                        .some(existingCondition => !conditionGain || existingCondition.parentID === conditionGain.id) :
-                    false
-            ) ||
-            (
-                this.overrideConditions.length ?
-                    characterService.currentCreatureConditions(creature, '', '', true)
-                        .some(existingCondition =>
-                            this.conditionOverrides(conditionGain).some(override =>
-                                override.name === existingCondition.name &&
-                                (
-                                    !override.conditionChoiceFilter?.length ||
-                                    override.conditionChoiceFilter.includes(conditionGain?.choice || '')
-                                ),
-                            ),
-                        ) :
-                    false
-            ) ||
-            (
-                this.pauseConditions.length ?
-                    characterService.currentCreatureConditions(creature, '', '', true)
-                        .some(existingCondition =>
-                            this.conditionPauses(conditionGain).some(pause =>
-                                pause.name === existingCondition.name &&
-                                (
-                                    !pause.conditionChoiceFilter?.length ||
-                                    pause.conditionChoiceFilter.includes(conditionGain?.choice || '')
-                                ),
-                            ),
-                        ) :
-                    false
-            )
-        );
-    }
+
     public unfilteredChoices(): Array<string> {
         return this.choices.map(choice => choice.name);
     }
-    public createEffectiveChoices(
-        characterService: CharacterService,
-        spellLevel: number = this.minLevel,
-    ): void {
-        //If this.choice is not one of the available choices, set it to the first.
-        if (this.choices.length && !this.choices.map(choice => choice.name).includes(this.choice)) {
-            this.choice = this.choices[0].name;
-        }
 
-        const choices: Array<string> = [];
-
-        this.choices.forEach(choice => {
-            //The default choice is never tested. This ensures a fallback if no choices are available.
-            if (choice.name === this.choice) {
-                choices.push(choice.name);
-            } else {
-                const character = characterService.character;
-
-                //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
-                //Requirements like "Aggressive Block or Brutish Shove" are split in get_CharacterFeatsAndFeatures().
-                if (!choice.spelllevelreq || spellLevel >= choice.spelllevelreq) {
-                    let hasOneFeatreqFailed = false;
-
-                    if (choice.featreq?.length) {
-
-                        choice.featreq.forEach(featreq => {
-                            //Allow to check for the Familiar's feats
-                            let requiredFeat: Array<Feat>;
-                            let testCreature: Character | Familiar;
-                            let testFeat = featreq;
-
-                            if (featreq.includes('Familiar:')) {
-                                testCreature = characterService.familiar;
-                                testFeat = featreq.split('Familiar:')[1].trim();
-                                requiredFeat = characterService.familiarsService.familiarAbilities(testFeat);
-                            } else {
-                                testCreature = character;
-                                requiredFeat = characterService.characterFeatsAndFeatures(testFeat, '', true);
-                            }
-
-                            if (
-                                !requiredFeat.length ||
-                                !requiredFeat.some(feat => feat.have({ creature: testCreature }, { characterService }))
-                            ) {
-                                hasOneFeatreqFailed = true;
-                            }
-                        });
-
-                        if (!hasOneFeatreqFailed) {
-                            choices.push(choice.name);
-                        }
-                    } else {
-                        choices.push(choice.name);
-                    }
-                }
-            }
-        });
-        this.$choices = choices;
-    }
     public timeToNextStage(choiceName: string): number {
         return this.choices.find(choice => choice.name === choiceName)?.nextStage || 0;
     }
+
     public defaultDuration(choiceName = '', spellLevel = 0): { duration: number; source: string } {
         //Suggest a default duration for a condition in this order:
         // 1. The default duration of the current condition choice, if one exists
@@ -363,7 +245,7 @@ export class Condition {
 
         return null;
     }
-    // eslint-disable-next-line complexity
+
     public heightenedItemGains(levelNumber: number): Array<ItemGain> {
         // This descends through the level numbers,
         // starting with levelNumber and returning the first set of ItemGains found with a matching heightenedfilter.
@@ -391,6 +273,7 @@ export class Condition {
 
         return itemGains;
     }
+
     public heightenedText(text: string, levelNumber: number): string {
         return heightenedTextFromDescSets(text, levelNumber, this.heightenedDescs);
     }
