@@ -7,8 +7,6 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Skill } from 'src/app/classes/Skill';
 import { Effect } from 'src/app/classes/Effect';
 import { ItemsService } from 'src/app/services/items.service';
-import { EffectsService } from 'src/app/services/effects.service';
-import { CreatureSizeName } from '../../libs/shared/util/creatureUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
@@ -61,28 +59,6 @@ export abstract class Creature {
 
     public isFamiliar(): this is Familiar {
         return false;
-    }
-
-    public effectiveSize(effectsService: EffectsService, options: { asNumber?: boolean } = {}): string | number {
-        let size: number = this.baseSize();
-
-        const setSizeEffects = effectsService.absoluteEffectsOnThis(this, 'Size');
-
-        if (setSizeEffects.length) {
-            size = Math.max(...setSizeEffects.map(effect => parseInt(effect.setValue, 10)));
-        }
-
-        const sizeEffects = effectsService.relativeEffectsOnThis(this, 'Size');
-
-        sizeEffects.forEach(effect => {
-            size += parseInt(effect.value, 10);
-        });
-
-        if (options.asNumber) {
-            return size;
-        } else {
-            return CreatureSizeName(size);
-        }
     }
 
     public abstract baseSize(): number;

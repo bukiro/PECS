@@ -3,7 +3,9 @@ import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureSizes } from '../../definitions/creatureSizes';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
+import { CreaturePropertiesService } from '../creature-properties/creature-properties.service';
 
 export interface CalculatedBulk {
     maxabsolutes: Array<Effect>;
@@ -32,6 +34,7 @@ export class BulkService {
         private readonly _characterService: CharacterService,
         private readonly _effectsService: EffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
+        private readonly _creaturePropertiesService: CreaturePropertiesService,
     ) { }
 
     public calculate(creature: Creature): CalculatedBulk {
@@ -162,7 +165,7 @@ export class BulkService {
                 result.explain += `\nStrength Modifier: ${ str }`;
             }
 
-            const size = creature.effectiveSize(this._effectsService);
+            const size = this._creaturePropertiesService.effectiveSize(creature);
             let sizeMultiplier = 0;
 
             enum SizeMultipliers {
@@ -174,16 +177,16 @@ export class BulkService {
             }
 
             switch (size) {
-                case 'Tiny':
+                case CreatureSizes.Tiny:
                     sizeMultiplier = SizeMultipliers.Tiny;
                     break;
-                case 'Large':
+                case CreatureSizes.Large:
                     sizeMultiplier = SizeMultipliers.Large;
                     break;
-                case 'Huge':
+                case CreatureSizes.Huge:
                     sizeMultiplier = SizeMultipliers.Huge;
                     break;
-                case 'Gargantuan':
+                case CreatureSizes.Gargantuan:
                     sizeMultiplier = SizeMultipliers.Gargantuan;
                     break;
                 default:

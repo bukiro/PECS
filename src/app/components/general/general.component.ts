@@ -19,6 +19,9 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { Trait } from 'src/app/classes/Trait';
 import { Trackers } from 'src/libs/shared/util/trackers';
+import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
+import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
+import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 
 @Component({
     selector: 'app-general',
@@ -48,6 +51,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _deitiesService: DeitiesService,
         private readonly _classesService: ClassesService,
         private readonly _itemsService: ItemsService,
+        private readonly _creaturePropertiesService: CreaturePropertiesService,
+        private readonly _deityDomainsService: DeityDomainsService,
         public trackers: Trackers,
     ) { }
 
@@ -119,8 +124,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
         this.character.heroPoints += amount;
     }
 
-    public creatureSize(): string | number {
-        return this._currentCreature.effectiveSize(this._effectsService);
+    public creatureSize(): string {
+        return CreatureSizeName(this._creaturePropertiesService.effectiveSize(this._currentCreature));
     }
 
     public domains(): Array<Domain> {
@@ -137,7 +142,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
                         feat.gainDomains?.length &&
                         feat.have({ creature: character }, { characterService: this._characterService }),
                     );
-                const domains = deity.effectiveDomains(character, this._characterService)
+                const domains = this._deityDomainsService.effectiveDomains(deity, character)
                     .concat(...(domainFeats.map(feat => feat.gainDomains)));
 
                 return domains.map(domain => this._deitiesService.domains(domain)[0] || new Domain());

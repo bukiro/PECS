@@ -16,6 +16,7 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { SpellCastingTypeFromString, SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +28,7 @@ export class FeatRequirementsService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _spellsTakenService: SpellsTakenService,
+        private readonly _deityDomainsService: DeityDomainsService,
     ) { }
 
     public static prof(skillLevel: number): string {
@@ -751,8 +753,8 @@ export class FeatRequirementsService {
 
                             deities = deities
                                 .filter(deity => {
-                                    const deityDomains = deity.effectiveDomains(character, this._characterService)
-                                        .concat(deity.effectiveAlternateDomains(character, this._characterService))
+                                    const deityDomains = this._deityDomainsService.effectiveDomains(deity, character)
+                                        .concat(this._deityDomainsService.effectiveAlternateDomains(deity, character))
                                         .map(domain => domain.toLowerCase());
 
                                     return domains.some(domain => deityDomains.includes(domain));
@@ -764,7 +766,7 @@ export class FeatRequirementsService {
 
                             deities = deities
                                 .filter(deity => {
-                                    const deityDomains = deity.effectiveDomains(character, this._characterService)
+                                    const deityDomains = this._deityDomainsService.effectiveDomains(deity, character)
                                         .map(domain => domain.toLowerCase());
 
                                     return domains.some(domain => deityDomains.includes(domain));
@@ -776,7 +778,7 @@ export class FeatRequirementsService {
 
                             deities = deities
                                 .filter(deity => {
-                                    const deityDomains = deity.effectiveAlternateDomains(character, this._characterService)
+                                    const deityDomains = this._deityDomainsService.effectiveAlternateDomains(deity, character)
                                         .map(domain => domain.toLowerCase());
 
                                     return domains.some(domain => deityDomains.includes(domain));

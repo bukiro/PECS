@@ -23,6 +23,8 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
+import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -54,6 +56,7 @@ export class EvaluationService {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _healthService: HealthService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creaturePropertiesService: CreaturePropertiesService,
     ) { }
 
     public valueFromFormula(
@@ -160,7 +163,9 @@ export class EvaluationService {
             Creature.baseSize()
         );
         const Size = (asNumber = false): string | number => (
-            Creature.effectiveSize(effectsService, { asNumber })
+            asNumber
+                ? this._creaturePropertiesService.effectiveSize(Creature)
+                : CreatureSizeName(this._creaturePropertiesService.effectiveSize(Creature))
         );
         const Skill = (name: string): number => (
             this._skillValuesService.baseValue(name, Creature, Level).result
