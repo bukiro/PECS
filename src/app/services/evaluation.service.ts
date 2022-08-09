@@ -25,6 +25,7 @@ import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
+import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -57,6 +58,7 @@ export class EvaluationService {
         private readonly _healthService: HealthService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
+        private readonly _speedValuesService: SpeedValuesService,
     ) { }
 
     public valueFromFormula(
@@ -188,7 +190,7 @@ export class EvaluationService {
                 .some(absoluteEffect => !context.effectSourceName || absoluteEffect.source !== context.effectSourceName)
         );
         const Speed = (name: string): number => (
-            (this._testSpeed(name))?.value(Creature, characterService, effectsService).result || 0
+            this._speedValuesService.value(this._testSpeed(name), Creature).result || 0
         );
         const Has_Condition = (name: string): boolean => (
             !!this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true }).length

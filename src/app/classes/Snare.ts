@@ -1,6 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
 import { ItemsService } from 'src/app/services/items.service';
-import { TypeService } from 'src/app/services/type.service';
 
 export class Snare extends Consumable {
     //Snares should be type "snares" to be found in the database
@@ -11,13 +10,15 @@ export class Snare extends Consumable {
     public success = '';
     public tradeable = false;
     public actions = '1 minute';
-    public canStack(): boolean {
-        //Snares can't stack.
-        return false;
-    }
+
     public recast(itemsService: ItemsService): Snare {
         super.recast(itemsService);
 
         return this;
+    }
+
+    public canStack(): boolean {
+        //Snares can't stack.
+        return false;
     }
 }

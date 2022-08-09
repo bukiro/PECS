@@ -36,6 +36,7 @@ export class SkillChoice {
     public source = '';
     public type = '';
     public bonus = false;
+
     public recast(): SkillChoice {
         return this;
     }

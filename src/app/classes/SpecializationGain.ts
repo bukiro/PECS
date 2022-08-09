@@ -12,6 +12,7 @@ export class SpecializationGain {
     public skillLevel = SkillLevels.Untrained;
     public range = '';
     public trait = '';
+
     public recast(): SpecializationGain {
         return this;
     }

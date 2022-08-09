@@ -7,7 +7,6 @@ import { EffectsService } from 'src/app/services/effects.service';
 import { Speed } from 'src/app/classes/Speed';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Skill } from 'src/app/classes/Skill';
@@ -19,6 +18,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 
 interface SpeedParameters {
     name: string;
@@ -53,9 +53,9 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _skillsDataService: SkillsDataService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _effectsService: EffectsService,
-        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
+        private readonly _speedValuesService: SpeedValuesService,
         public trackers: Trackers,
     ) { }
 
@@ -169,15 +169,9 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     public speedParameters(): Array<SpeedParameters> {
-        return this.speeds()
-            .map(speed => ({
-                name: speed.name,
-                value: speed.value(this._currentCreature, this._characterService, this._effectsService),
-                showPenalties: speed.showPenalties(this._currentCreature, this._effectsService, speed.name, true),
-                showBonuses: speed.showBonuses(this._currentCreature, this._effectsService, speed.name, true),
-                absolutes: speed.absolutes(this._currentCreature, this._effectsService, speed.name, true),
-                relatives: speed.relatives(this._currentCreature, this._effectsService, speed.name, true),
-            }));
+        return this.speeds().map(speed =>
+            this._speedValuesService.calculate(speed, this._currentCreature),
+        );
     }
 
     public speeds(): Array<Speed> {
@@ -217,7 +211,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         });
 
         return uniqueSpeeds.filter(speed =>
-            speed.value(this._currentCreature, this._characterService, this._effectsService).result !== 0,
+            this._speedValuesService.value(speed, this._currentCreature).result !== 0,
         );
     }
 

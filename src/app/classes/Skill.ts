@@ -14,6 +14,7 @@ export class Skill {
         public locked: boolean = false,
         public recallKnowledge: boolean = false,
     ) { }
+
     public recast(): Skill {
         if (!(this.$level instanceof Map)) {
             this.$level = new Map<string, { value: number; cached: number }>();
