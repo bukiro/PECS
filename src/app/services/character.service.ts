@@ -22,7 +22,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Consumable } from 'src/app/classes/Consumable';
 import { TimeService } from 'src/app/services/time.service';
@@ -168,7 +168,7 @@ export class CharacterService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         public activitiesDataService: ActivitiesDataService,
         public itemsService: ItemsService,
-        public spellsService: SpellsService,
+        public spellsService: SpellPropertiesService,
         public effectsService: EffectsService,
         public timeService: TimeService,
         public defenseService: DefenseService,
@@ -915,10 +915,6 @@ export class CharacterService {
                         this.activitiesProcessingService.activateActivity(
                             creature,
                             '',
-                            this,
-                            this.conditionGainPropertiesService,
-                            this.itemsService,
-                            this.spellsService,
                             activity,
                             activity,
                             false,
@@ -948,10 +944,6 @@ export class CharacterService {
                             this.activitiesProcessingService.activateActivity(
                                 creature,
                                 '',
-                                this,
-                                this.conditionGainPropertiesService,
-                                this.itemsService,
-                                this.spellsService,
                                 gain,
                                 this.activitiesDataService.activities(gain.name)[0],
                                 false,
@@ -1265,10 +1257,6 @@ export class CharacterService {
                     this.activitiesProcessingService.activateActivity(
                         this.character,
                         CreatureTypes.Character,
-                        this,
-                        this.conditionGainPropertiesService,
-                        this.itemsService,
-                        this.spellsService,
                         activity,
                         activity,
                         false,
@@ -1310,10 +1298,6 @@ export class CharacterService {
                     this.activitiesProcessingService.activateActivity(
                         creature,
                         '',
-                        this,
-                        this.conditionGainPropertiesService,
-                        this.itemsService,
-                        this.spellsService,
                         gainActivity,
                         libraryActivity,
                         false,
@@ -1324,10 +1308,6 @@ export class CharacterService {
                 this.activitiesProcessingService.activateActivity(
                     creature,
                     '',
-                    this,
-                    this.conditionGainPropertiesService,
-                    this.itemsService,
-                    this.spellsService,
                     itemActivity,
                     itemActivity,
                     false,

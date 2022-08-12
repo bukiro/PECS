@@ -4,7 +4,6 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ClassesService } from 'src/app/services/classes.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { DeitiesService } from 'src/app/services/deities.service';
@@ -18,10 +17,10 @@ import { ItemsService } from 'src/app/services/items.service';
 import { MessageService } from 'src/app/services/message.service';
 import { SavegameService } from 'src/app/services/savegame.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { SpellsService } from 'src/app/services/spells.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ConditionsDataService } from '../data/conditions-data.service';
+import { SpellsDataService } from '../data/spells-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -39,9 +38,8 @@ export class AppInitService {
         private readonly _featsService: FeatsService,
         private readonly _historyService: HistoryService,
         private readonly _classesService: ClassesService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsDataService: SpellsDataService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _itemsService: ItemsService,
         private readonly _deitiesService: DeitiesService,
@@ -70,7 +68,7 @@ export class AppInitService {
                 this._historyService.initialize();
                 this._classesService.initialize();
                 this._conditionsDataService.initialize();
-                this._spellsService.initialize();
+                this._spellsDataService.initialize();
                 this._skillsDataService.initialize();
                 this._itemsService.initialize();
                 this._deitiesService.initialize();
@@ -91,7 +89,7 @@ export class AppInitService {
                     this._historyService.stillLoading ||
                     this._classesService.stillLoading ||
                     this._conditionsDataService.stillLoading ||
-                    this._spellsService.stillLoading ||
+                    this._spellsDataService.stillLoading ||
                     this._skillsDataService.stillLoading ||
                     this._itemsService.stillLoading ||
                     this._deitiesService.stillLoading ||

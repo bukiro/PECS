@@ -2,9 +2,7 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, O
 import { TraitsService } from 'src/app/services/traits.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
-import { SpellsService } from 'src/app/services/spells.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Item } from 'src/app/classes/Item';
@@ -36,6 +34,8 @@ import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTar
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 
 @Component({
     selector: 'app-item',
@@ -67,9 +67,9 @@ export class ItemComponent implements OnInit, OnDestroy {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
-        private readonly _spellsService: SpellsService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _spellsService: SpellPropertiesService,
+        private readonly _spellsDataService: SpellsDataService,
+        private readonly _spellProcessingService: SpellProcessingService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _effectsService: EffectsService,
@@ -105,14 +105,13 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     public spellFromName(name: string): Spell {
-        return this._spellsService.spellFromName(name);
+        return this._spellsDataService.spellFromName(name);
     }
 
     public gainedSpellLevel(spell: Spell, context: { gain: SpellGain; choice: SpellChoice }): number {
         return this._spellsService.effectiveSpellLevel(
             spell,
             { baseLevel: (context.choice.level ? context.choice.level : 0), creature: this._currentCreature, gain: context.gain },
-            { characterService: this._characterService, effectsService: this._effectsService },
             { noEffects: true },
         );
     }
@@ -352,12 +351,9 @@ export class ItemComponent implements OnInit, OnDestroy {
             if (spell) {
                 const tempGain: SpellGain = new SpellGain();
 
-                this._spellsService.processSpell(spell, true,
-                    {
-                        characterService: this._characterService,
-                        itemsService: this._itemsService,
-                        conditionGainPropertiesService: this._conditionGainPropertiesService,
-                    },
+                this._spellProcessingService.processSpell(
+                    spell,
+                    true,
                     { creature: this._character, target, choice: spellChoice, gain: tempGain, level: spellChoice.level },
                     { manual: true },
                 );

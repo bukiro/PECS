@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { SpellsService } from 'src/app/services/spells.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
@@ -22,6 +21,7 @@ import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellLearningMethods } from 'src/libs/shared/definitions/spellLearningMethods';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 
 const itemsPerPage = 40;
 const showAllLists = -2;
@@ -57,7 +57,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsDataService: SpellsDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
@@ -74,7 +74,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._spellsService.stillLoading || this._characterService.stillLoading;
+        return this._spellsDataService.stillLoading || this._characterService.stillLoading;
     }
 
     private get _character(): Character {
@@ -175,7 +175,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     public _spellsFromSource(): Array<Spell> {
         switch (this.spellSource.toLowerCase()) {
             case 'spell library':
-                return this._spellsService.spells();
+                return this._spellsDataService.spells();
             case 'your spellbook':
                 return this._character.class?.spellBook
                     .map(learned => this._spellFromName(learned.name))
@@ -682,7 +682,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     private _spellFromName(name: string): Spell {
-        return this._spellsService.spellFromName(name);
+        return this._spellsDataService.spellFromName(name);
     }
 
     // eslint-disable-next-line complexity

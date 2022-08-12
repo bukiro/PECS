@@ -39,6 +39,8 @@ import { attackRuneSource } from '../../util/attackRuneSource';
 import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-properties/weapon-properties.service';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -76,6 +78,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _attacksService: AttacksService,
         private readonly _damageService: DamageService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
+        private readonly _spellsDataService: SpellsDataService,
+        private readonly _spellProcessingService: SpellProcessingService,
         public trackers: Trackers,
     ) { }
 
@@ -234,7 +238,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             const spellChoice = item.storedSpells[0];
 
             if (spellChoice && spellName) {
-                const spell = this._characterService.spellsService.spellFromName(item.storedSpells[0]?.spells[0]?.name);
+                const spell = this._spellsDataService.spellFromName(item.storedSpells[0]?.spells[0]?.name);
 
                 if (spell) {
                     const tempGain: SpellGain = new SpellGain();
@@ -244,14 +248,9 @@ export class AttacksComponent implements OnInit, OnDestroy {
                         target = CreatureTypes.Character;
                     }
 
-                    this._characterService.spellsService.processSpell(
+                    this._spellProcessingService.processSpell(
                         spell,
                         true,
-                        {
-                            characterService: this._characterService,
-                            itemsService: this._characterService.itemsService,
-                            conditionGainPropertiesService: this._characterService.conditionGainPropertiesService,
-                        },
                         { creature: this._character, target, gain: tempGain, level: spellChoice.level },
                         { manual: true },
                     );

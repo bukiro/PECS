@@ -4,7 +4,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { TimeService } from 'src/app/services/time.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
@@ -95,7 +95,7 @@ export class ItemRunesComponent implements OnInit {
         private readonly _timeService: TimeService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsService: SpellPropertiesService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
@@ -822,10 +822,6 @@ export class ItemRunesComponent implements OnInit {
                 this._activitiesProcessingService.activateActivity(
                     this._character,
                     CreatureTypes.Character,
-                    this._characterService,
-                    this._conditionGainPropertiesService,
-                    this._itemsService,
-                    this._spellsService,
                     activity,
                     activity,
                     false,

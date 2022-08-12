@@ -6,10 +6,10 @@ import { Scroll } from 'src/app/classes/Scroll';
 import { Wand } from 'src/app/classes/Wand';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { SpellsService } from 'src/app/services/spells.service';
 import { TraitsService } from 'src/app/services/traits.service';
 
 @Injectable({
@@ -20,7 +20,7 @@ export class ItemTraitsService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _effectsService: EffectsService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsService: TraitsService,
         private readonly _refreshService: RefreshService,
 
@@ -193,7 +193,7 @@ export class ItemTraitsService {
         let traits: Array<string> = item.traits;
 
         if (item.storedSpells[0]?.spells.length) {
-            const spell = this._spellsService.spellFromName(item.storedSpells[0].spells[0].name);
+            const spell = this._spellsDataService.spellFromName(item.storedSpells[0].spells[0].name);
 
             if (spell) {
                 traits = item.traits.concat(spell.traits);

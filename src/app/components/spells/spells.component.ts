@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
-import { ItemsService } from 'src/app/services/items.service';
 import { DisplayService } from 'src/app/services/display.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -18,6 +17,7 @@ import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -63,9 +63,9 @@ export class SpellsComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
-        private readonly _itemsService: ItemsService,
         private readonly _refreshService: RefreshService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsService: SpellPropertiesService,
+        private readonly _spellsDataService: SpellsDataService,
         private readonly _effectsService: EffectsService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
@@ -227,7 +227,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public fixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
         return spellCastingLevelParameters.fixedSpellSets.map(spellSet => {
-            const spell = this._spellsService.spellFromName(spellSet.gain.name);
+            const spell = this._spellsDataService.spellFromName(spellSet.gain.name);
 
             if (!spell) {
                 return null;
@@ -349,7 +349,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     private _dynamicSpellLevel(choice: SpellChoice, casting: SpellCasting): number {
-        return this._spellsService.dynamicSpellLevel(casting, choice, this._characterService);
+        return this._spellsService.dynamicSpellLevel(casting, choice);
     }
 
     private _resetChoiceArea(): void {

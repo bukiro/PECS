@@ -16,12 +16,10 @@ import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Deity } from 'src/app/classes/Deity';
 import { DeitiesService } from 'src/app/services/deities.service';
-import { SpellsService } from 'src/app/services/spells.service';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SavegameService } from 'src/app/services/savegame.service';
@@ -73,6 +71,7 @@ import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -116,12 +115,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _historyService: HistoryService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _deitiesService: DeitiesService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsDataService: SpellsDataService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _savegameService: SavegameService,
         private readonly _traitsService: TraitsService,
@@ -1960,7 +1958,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     private _spellFromName(name: string): Spell {
-        return this._spellsService.spellFromName(name);
+        return this._spellsDataService.spellFromName(name);
     }
 
 }

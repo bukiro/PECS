@@ -3,9 +3,6 @@ import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { TimeService } from 'src/app/services/time.service';
-import { ItemsService } from 'src/app/services/items.service';
-import { SpellsService } from 'src/app/services/spells.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
@@ -43,12 +40,9 @@ export class HealthComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _timeService: TimeService,
-        private readonly _itemsService: ItemsService,
-        private readonly _spellsService: SpellsService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _effectsService: EffectsService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _healthService: HealthService,
         public trackers: Trackers,
@@ -92,7 +86,6 @@ export class HealthComponent implements OnInit, OnDestroy {
     public waitingDescription(duration: number): string {
         return this._timeService.waitingDescription(
             duration,
-            { characterService: this._characterService, conditionGainPropertiesService: this._conditionGainPropertiesService },
             { includeResting: true },
         );
     }
@@ -102,7 +95,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public onRest(): void {
-        this._timeService.rest(this._characterService, this._conditionGainPropertiesService, this._itemsService, this._spellsService);
+        this._timeService.rest();
     }
 
     public creatureHealth(): Health {

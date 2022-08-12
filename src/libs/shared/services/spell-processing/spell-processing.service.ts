@@ -1,117 +1,41 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Spell } from 'src/app/classes/Spell';
-import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
-import { SpellGain } from 'src/app/classes/SpellGain';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Character as CharacterModel } from 'src/app/classes/Character';
-import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
-import * as json_spells from 'src/assets/json/spells';
-import { Creature } from 'src/app/classes/Creature';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ConditionGain } from 'src/app/classes/ConditionGain';
+import { Creature } from 'src/app/classes/Creature';
+import { Spell } from 'src/app/classes/Spell';
+import { SpellCasting } from 'src/app/classes/SpellCasting';
+import { SpellChoice } from 'src/app/classes/SpellChoice';
+import { SpellGain } from 'src/app/classes/SpellGain';
+import { SpellTarget } from 'src/app/classes/SpellTarget';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { CharacterService } from 'src/app/services/character.service';
+import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
-import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
-import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
-import { ConditionsDataService } from '../core/services/data/conditions-data.service';
-import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { EffectsService } from './effects.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
+import { CreatureTypes } from '../../definitions/creatureTypes';
+import { TimePeriods } from '../../definitions/timePeriods';
+import { SpellTargetSelection } from '../../definitions/Types/spellTargetSelection';
+import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class SpellsService {
-
-    private _spells: Array<Spell> = [];
-    private _initialized = false;
-    private readonly _spellsMap = new Map<string, Spell>();
+export class SpellProcessingService {
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
         private readonly _refreshService: RefreshService,
-        private readonly _skillValuesService: SkillValuesService,
-        private readonly _spellsTakenService: SpellsTakenService,
-        private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _spellsService: SpellPropertiesService,
+        private readonly _effectsService: EffectsService,
+        private readonly _characterService: CharacterService,
     ) { }
 
-    public get stillLoading(): boolean {
-        return !this._initialized;
-    }
-
-    public spellFromName(name: string): Spell {
-        //Returns a named spell from the map.
-        return this._spellsMap.get(name.toLowerCase()) || this._replacementSpell(name);
-    }
-
-    public spells(name = '', type = '', tradition: (SpellTraditions | '') = ''): Array<Spell> {
-        if (!this.stillLoading) {
-            //If only a name is given, try to find a spell by that name in the index map. This should be much quicker.
-            if (name && !type && !tradition) {
-                return [this.spellFromName(name)];
-            } else {
-                return this._spells.filter(spell =>
-                    (!name || spell.name.toLowerCase() === name.toLowerCase()) &&
-                    (!type || spell.traits.includes(type)) &&
-                    (!tradition || spell.traditions.includes(tradition)),
-                );
-            }
-        }
-
-        return [this._replacementSpell()];
-    }
-
-    public dynamicSpellLevel(casting: SpellCasting, choice: SpellChoice, characterService: CharacterService): number {
-        //highestSpellLevel is used in the eval() process.
-        let highestSpellLevel = 1;
-        const Character = characterService.character;
-
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        /* eslint-disable @typescript-eslint/naming-convention */
-        const Skill_Level = (name: string): number =>
-            this._skillValuesService.level(name, Character, Character.level);
-
-        // Get the available spell level of this casting.
-        // This is the highest spell level of the spell choices that are available at your character level (and don't have a dynamic level).
-        highestSpellLevel = Math.max(
-            ...casting.spellChoices
-                .filter(spellChoice => spellChoice.charLevelAvailable <= Character.level)
-                .map(spellChoice => spellChoice.level),
-        );
-
-        /* eslint-enable @typescript-eslint/no-unused-vars */
-        /* eslint-enable @typescript-eslint/naming-convention */
-        try {
-            // eslint-disable-next-line no-eval
-            const level = parseInt(eval(choice.dynamicLevel), 10);
-
-            return level;
-        } catch (e) {
-            console.error(`Error parsing dynamic spell level (${ choice.dynamicLevel }): ${ e }`);
-
-            return 1;
-        }
-    }
 
     public processSpell(
         spell: Spell,
         activated: boolean,
-        services: {
-            characterService: CharacterService;
-            itemsService: ItemsService;
-            conditionGainPropertiesService: ConditionGainPropertiesService;
-        },
         context: {
             creature: Creature;
             gain: SpellGain;
@@ -128,10 +52,9 @@ export class SpellsService {
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
         const spellLevel: number =
-            this.effectiveSpellLevel(
+            this._spellsService.effectiveSpellLevel(
                 spell,
                 { baseLevel: context.level, creature: context.creature, gain: context.gain },
-                { characterService: services.characterService, effectsService: services.characterService.effectsService },
             );
 
         // If this spell was cast by an activity, it may have a specified duration in the spellGain.
@@ -161,13 +84,13 @@ export class SpellsService {
         if (!options.expendOnly && activated && spell.sustained) {
             context.gain.active = true;
             //If an effect changes the duration of this spell, change the duration here only if it is sustained.
-            services.characterService.effectsService
+            this._effectsService
                 .absoluteEffectsOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`])
                 .forEach(effect => {
                     customDuration = parseInt(effect.setValue, 10);
                     conditionsToRemove.push(effect.source);
                 });
-            services.characterService.effectsService
+            this._effectsService
                 .relativeEffectsOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`])
                 .forEach(effect => {
                     customDuration += parseInt(effect.value, 10);
@@ -187,7 +110,7 @@ export class SpellsService {
         }
 
         //In manual mode, targets and conditions are not processed.
-        if (!options.expendOnly && !services.characterService.isManualMode) {
+        if (!options.expendOnly && !this._characterService.isManualMode) {
 
             //Find out if target was given. If no target is set, most effects will not be applied.
             const targets: Array<Creature | SpellTarget> = [];
@@ -197,13 +120,13 @@ export class SpellsService {
                     targets.push(context.creature);
                     break;
                 case CreatureTypes.Character:
-                    targets.push(services.characterService.character);
+                    targets.push(this._characterService.character);
                     break;
                 case 'Companion':
-                    targets.push(services.characterService.companion);
+                    targets.push(this._characterService.companion);
                     break;
                 case 'Familiar':
-                    targets.push(services.characterService.familiar);
+                    targets.push(this._characterService.familiar);
                     break;
                 case 'Selected':
                     if (context.gain) {
@@ -263,11 +186,11 @@ export class SpellsService {
                                 // If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType,
                                 // set the choice to that feat's subType as long as it's a valid choice for the condition.
                                 const subType =
-                                    services.characterService
+                                    this._characterService
                                         .characterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true)
                                         .find(feat =>
                                             feat.superType === newConditionGain.choiceBySubType &&
-                                            feat.have({ creature: context.creature }, { characterService: services.characterService }));
+                                            feat.have({ creature: context.creature }, { characterService: this._characterService }));
 
                                 if (subType && condition.choices.some(choice => choice.name === subType.subType)) {
                                     newConditionGain.choice = subType.subType;
@@ -313,8 +236,8 @@ export class SpellsService {
                                     (
                                         (
                                             spell.isHostile() ?
-                                                services.characterService.character.settings.noHostileCasterConditions :
-                                                services.characterService.character.settings.noFriendlyCasterConditions
+                                                this._characterService.character.settings.noHostileCasterConditions :
+                                                this._characterService.character.settings.noFriendlyCasterConditions
                                         ) &&
                                         (
                                             !condition.hasEffects() &&
@@ -365,7 +288,7 @@ export class SpellsService {
                                 //Check if an effect changes the duration of this condition.
                                 let effectDuration: number = newConditionGain.duration || 0;
 
-                                services.characterService.effectsService
+                                this._effectsService
                                     .absoluteEffectsOnThese(
                                         context.creature,
                                         [
@@ -379,7 +302,7 @@ export class SpellsService {
                                     });
 
                                 if (effectDuration > 0) {
-                                    services.characterService.effectsService
+                                    this._effectsService
                                         .relativeEffectsOnThese(
                                             context.creature,
                                             [
@@ -420,13 +343,13 @@ export class SpellsService {
                                 //Apply effects that change the value of this condition.
                                 let effectValue: number = newConditionGain.value || 0;
 
-                                services.characterService.effectsService
+                                this._effectsService
                                     .absoluteEffectsOnThis(context.creature, `${ condition.name } Value`)
                                     .forEach(effect => {
                                         effectValue = parseInt(effect.setValue, 10);
                                         conditionsToRemove.push(effect.source);
                                     });
-                                services.characterService.effectsService
+                                this._effectsService
                                     .relativeEffectsOnThis(context.creature, `${ condition.name } Value`)
                                     .forEach(effect => {
                                         effectValue += parseInt(effect.value, 10);
@@ -474,13 +397,13 @@ export class SpellsService {
                             });
 
                             //Apply to any non-creature targets whose ID matches your own creatures.
-                            const creatures = services.characterService.allAvailableCreatures();
+                            const creatures = this._characterService.allAvailableCreatures();
 
                             conditionTargets
                                 .filter(target => target instanceof SpellTarget && creatures.some(creature => creature.id === target.id))
                                 .forEach(target => {
                                     this._creatureConditionsService.addCondition(
-                                        services.characterService.creatureFromType(target.type),
+                                        this._characterService.creatureFromType(target.type),
                                         newConditionGain,
                                         {},
                                         { noReload: true },
@@ -502,7 +425,7 @@ export class SpellsService {
                                     newConditionGain.duration += TimePeriods.UntilOtherCharactersTurn;
                                 }
 
-                                services.characterService
+                                this._characterService
                                     .sendConditionToPlayers(
                                         conditionTargets.filter(target =>
                                             target instanceof SpellTarget &&
@@ -533,7 +456,7 @@ export class SpellsService {
                                         this._creatureConditionsService.removeCondition(target as Creature, existingConditionGain, false);
                                     });
                             });
-                        services.characterService
+                        this._characterService
                             .sendConditionToPlayers(
                                 conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>,
                                 conditionGain,
@@ -560,181 +483,5 @@ export class SpellsService {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
         }
     }
-
-    public restSpells(character: CharacterModel): void {
-        //Get all owned spell gains that have a cooldown active.
-        //If its cooldown is exactly one day or until rest (-2), the spell gain's cooldown is reset.
-        this._spellsTakenService
-            .takenSpells(character, 0, Defaults.maxCharacterLevel)
-            .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
-            .filter(taken => taken.gain.activeCooldown)
-            .forEach(taken => {
-                if ([TimePeriods.UntilRest, TimePeriods.Day].includes(taken.choice.cooldown)) {
-                    taken.gain.activeCooldown = 0;
-                    taken.gain.chargesUsed = 0;
-                }
-            });
-        character.class.spellCasting.filter(casting => casting.castingType === 'Prepared').forEach(casting => {
-            casting.spellChoices.forEach(choice => {
-                choice.spells.forEach(gain => {
-                    gain.prepared = true;
-                });
-            });
-        });
-        this._equipmentSpellsService.allGrantedEquipmentSpells(character).filter(granted => granted.choice.castingType === 'Prepared')
-            .forEach(granted => {
-                granted.gain.prepared = true;
-            });
-        character.class.spellCasting
-            .filter(casting => casting.className === 'Sorcerer' && casting.castingType === 'Spontaneous')
-            .forEach(casting => {
-                casting.spellChoices.filter(choice => choice.source === 'Feat: Occult Evolution').forEach(choice => {
-                    choice.spells.length = 0;
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-                });
-            });
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-    }
-
-    public refocusSpells(character: CharacterModel): void {
-        //Get all owned spell gains that have a cooldown active.
-        //If its cooldown is until refocus (-3), the spell gain's cooldown is reset.
-        this._spellsTakenService
-            .takenSpells(character, 0, Defaults.maxCharacterLevel)
-            .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
-            .filter(taken => taken.gain.activeCooldown)
-            .forEach(taken => {
-                if (taken.choice.cooldown === TimePeriods.UntilRefocus) {
-                    taken.gain.activeCooldown = 0;
-                    taken.gain.chargesUsed = 0;
-                }
-            });
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-    }
-
-    public tickSpells(
-        character: CharacterModel,
-        characterService: CharacterService,
-        itemsService: ItemsService,
-        conditionGainPropertiesService: ConditionGainPropertiesService,
-        turns = 10,
-    ): void {
-        this._spellsTakenService
-            .takenSpells(character, 0, Defaults.maxCharacterLevel)
-            .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
-            .filter(taken => taken.gain.activeCooldown || taken.gain.duration)
-            .forEach(taken => {
-                //Tick down the duration and the cooldown.
-                if (taken.gain.duration > 0) {
-                    taken.gain.duration = Math.max(taken.gain.duration - turns, 0);
-
-                    if (taken.gain.duration === 0) {
-                        const spell: Spell = this.spellFromName(taken.gain.name);
-
-                        if (spell) {
-                            this.processSpell(spell, false,
-                                { characterService, itemsService, conditionGainPropertiesService },
-                                { creature: character, target: taken.gain.selectedTarget, gain: taken.gain, level: 0 },
-                            );
-                        }
-                    }
-                }
-
-                this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-
-                if (taken.gain.activeCooldown) {
-                    taken.gain.activeCooldown = Math.max(taken.gain.activeCooldown - turns, 0);
-                }
-
-                if (!taken.gain.activeCooldown) {
-                    taken.gain.chargesUsed = 0;
-                }
-            });
-    }
-
-    public effectiveSpellLevel(
-        spell: Spell,
-        context: { baseLevel: number; creature: Creature; gain: SpellGain },
-        services: { characterService: CharacterService; effectsService: EffectsService },
-        options: { noEffects?: boolean } = {},
-    ): number {
-        //Focus spells are automatically heightened to your maximum available spell level.
-        let level = context.baseLevel;
-
-        //If needed, calculate the dynamic effective spell level.
-        const Character = services.characterService.character;
-
-        if (context.gain.dynamicEffectiveSpellLevel) {
-            try {
-                //TO-DO: replace eval with system similar to featrequirements
-                // eslint-disable-next-line no-eval
-                level = parseInt(eval(context.gain.dynamicEffectiveSpellLevel), 10);
-            } catch (e) {
-                console.error(`Error parsing effective spell level (${ context.gain.dynamicEffectiveSpellLevel }): ${ e }`);
-            }
-        }
-
-        if ([0, -1].includes(level)) {
-            level = Character.maxSpellLevel();
-        }
-
-        if (!options.noEffects) {
-            //Apply all effects that might change the effective spell level of this spell.
-            const list = [
-                'Spell Levels',
-                `${ spell.name } Spell Level`,
-            ];
-
-            if (spell.traditions.includes(SpellTraditions.Focus)) {
-                list.push('Focus Spell Levels');
-            }
-
-            if (spell.traits.includes('Cantrip')) {
-                list.push('Cantrip Spell Levels');
-            }
-
-            services.effectsService.absoluteEffectsOnThese(context.creature, list).forEach(effect => {
-                if (parseInt(effect.setValue, 10)) {
-                    level = parseInt(effect.setValue, 10);
-                }
-            });
-            services.effectsService.relativeEffectsOnThese(context.creature, list).forEach(effect => {
-                if (parseInt(effect.value, 10)) {
-                    level += parseInt(effect.value, 10);
-                }
-            });
-        }
-
-        //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
-        return Math.max(level, (spell.levelreq || 0));
-    }
-
-    public initialize(): void {
-        this._loadSpells();
-        this._spellsMap.clear();
-        this._spells.forEach(spell => {
-            this._spellsMap.set(spell.name.toLowerCase(), spell);
-        });
-        this._initialized = true;
-    }
-
-    private _loadSpells(): void {
-        this._spells = [];
-
-        const data = this._extensionsService.extend(json_spells, 'spells');
-
-        Object.keys(data).forEach(key => {
-            this._spells.push(...data[key].map((obj: Spell) => Object.assign(new Spell(), obj).recast()));
-        });
-        this._spells = this._extensionsService.cleanupDuplicates(this._spells, 'id', 'spells') as Array<Spell>;
-    }
-
-    private _replacementSpell(name?: string): Spell {
-        return Object.assign(
-            new Spell(),
-            { name: 'Spell not found', desc: `${ name ? name : 'The requested spell' } does not exist in the spells list.` },
-        );
-    }
-
 
 }

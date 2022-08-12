@@ -36,7 +36,7 @@ import { CharacterHeritageChangeService } from '../character-creation/services/c
 import { ActivitiesProcessingService } from './activities-processing.service';
 import { ConditionGainPropertiesService } from '../../libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ActivitiesDataService } from '../core/services/data/activities-data.service';
-import { SpellsService } from './spells.service';
+import { SpellPropertiesService } from '../../libs/shared/services/spell-properties/spell-properties.service';
 import { CharacterSkillIncreaseService } from '../character-creation/services/character-skill-increase/character-skill-increase.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
@@ -66,7 +66,7 @@ export class FeatsService {
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsService: SpellPropertiesService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
@@ -644,10 +644,6 @@ export class FeatsService {
                                 this._activitiesProcessingService.activateActivity(
                                     character,
                                     '',
-                                    characterService,
-                                    this._conditionGainPropertiesService,
-                                    this._itemsService,
-                                    this._spellsService,
                                     oldGain,
                                     this._activitiesDataService.activityFromName(oldGain.name),
                                     false,

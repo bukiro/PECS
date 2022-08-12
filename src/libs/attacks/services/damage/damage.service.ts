@@ -10,6 +10,7 @@ import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
@@ -31,6 +32,7 @@ export class DamageService {
         private readonly _effectsService: EffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
+        private readonly _spellsDataService: SpellsDataService,
     ) { }
 
     /**
@@ -742,7 +744,7 @@ export class DamageService {
 
                     creature.class.spellCasting.find(casting => casting.source === 'Domain Spells')?.spellChoices.forEach(choice => {
                         choice.spells.forEach(spell => {
-                            if (characterService.spellsService.spellFromName(spell.name)?.traits.includes(type)) {
+                            if (this._spellsDataService.spellFromName(spell.name)?.traits.includes(type)) {
                                 eaDmg = '+1d6 ';
                             }
                         });

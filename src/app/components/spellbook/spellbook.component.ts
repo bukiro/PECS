@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestro
 import { CharacterService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsService } from 'src/app/services/traits.service';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { ItemsService } from 'src/app/services/items.service';
 import { TimeService } from 'src/app/services/time.service';
@@ -33,6 +33,8 @@ import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spell
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -105,7 +107,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsService: SpellPropertiesService,
         private readonly _itemsService: ItemsService,
         private readonly _timeService: TimeService,
         private readonly _effectsService: EffectsService,
@@ -115,6 +117,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _spellsTakenService: SpellsTakenService,
+        private readonly _spellsDataService: SpellsDataService,
+        private readonly _spellProcessingService: SpellProcessingService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         public trackers: Trackers,
     ) { }
@@ -333,7 +337,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public spellFromName(name: string): Spell {
-        return this._spellsService.spellFromName(name);
+        return this._spellsDataService.spellFromName(name);
     }
 
     public spellConditions(spell: Spell, levelNumber: number, gain: SpellGain): Array<{ gain: ConditionGain; condition: Condition }> {
@@ -372,12 +376,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public onRefocus(): void {
-        this._timeService.refocus(
-            this._characterService,
-            this._conditionGainPropertiesService,
-            this._itemsService,
-            this._spellsService,
-        );
+        this._timeService.refocus();
     }
 
     public onReturnFocusPoint(max: number): void {
@@ -557,12 +556,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             });
         }
 
-        this._spellsService.processSpell(context.spellParameters.spell, activated,
-            {
-                characterService: this._characterService,
-                itemsService: this._itemsService,
-                conditionGainPropertiesService: this._conditionGainPropertiesService,
-            },
+        this._spellProcessingService.processSpell(
+            context.spellParameters.spell,
+            activated,
             {
                 creature: character,
                 target,
@@ -578,12 +574,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             const secondSpell = this.spellFromName(context.spellParameters.gain.combinationSpellName);
 
             if (secondSpell) {
-                this._spellsService.processSpell(secondSpell, activated,
-                    {
-                        characterService: this._characterService,
-                        itemsService: this._itemsService,
-                        conditionGainPropertiesService: this._conditionGainPropertiesService,
-                    },
+                this._spellProcessingService.processSpell(
+                    secondSpell,
+                    activated,
                     {
                         creature: character,
                         target,
@@ -719,7 +712,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     private _dynamicSpellLevel(choice: SpellChoice, casting: SpellCasting): number {
-        return this._spellsService.dynamicSpellLevel(casting, choice, this._characterService);
+        return this._spellsService.dynamicSpellLevel(casting, choice);
     }
 
     private _areSignatureSpellsAllowed(casting: SpellCasting): boolean {
@@ -782,7 +775,6 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return this._spellsService.effectiveSpellLevel(
             spell,
             { baseLevel: context.baseLevel, creature: this._character, gain: context.gain },
-            { characterService: this._characterService, effectsService: this._effectsService },
         );
     }
 

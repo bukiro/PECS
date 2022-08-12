@@ -1,10 +1,8 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Effect } from 'src/app/classes/Effect';
-import { SpellsService } from 'src/app/services/spells.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Character } from 'src/app/classes/Character';
 import { EffectGain } from 'src/app/classes/EffectGain';
@@ -21,6 +19,8 @@ import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { ConditionsDataService } from '../core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionsTimeService } from 'src/libs/time/services/conditions-time/conditions-time.service';
+import { SpellsTimeService } from 'src/libs/time/services/spells-time/spells-time.service';
+import { AbilitiesDataService } from '../core/services/data/abilities-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -36,11 +36,15 @@ export class TimeService {
         private readonly _effectsService: EffectsService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _abilityValueService: AbilityValuesService,
         private readonly _healthService: HealthService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _conditionsTimeService: ConditionsTimeService,
+        private readonly _spellsTimeService: SpellsTimeService,
+        private readonly _characterService: CharacterService,
+        private readonly _itemsService: ItemsService,
     ) { }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -52,23 +56,19 @@ export class TimeService {
         this._yourTurn = yourTurn;
     }
 
-    public startTurn(
-        characterService: CharacterService,
-        conditionGainPropertiesService: ConditionGainPropertiesService,
-        itemsService: ItemsService,
-        spellsService: SpellsService,
-        effectsService: EffectsService,
-    ): void {
+    public startTurn(): void {
         //Apply Fast Healing.
         let fastHealing = 0;
 
-        if (!characterService.character.settings.manualMode) {
-            characterService.allAvailableCreatures().forEach(creature => {
+        const character = this._characterService.character;
 
-                effectsService.absoluteEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
+        if (!character.settings.manualMode) {
+            this._characterService.allAvailableCreatures().forEach(creature => {
+
+                this._effectsService.absoluteEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
                     fastHealing = parseInt(effect.setValue, 10);
                 });
-                effectsService.relativeEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
+                this._effectsService.relativeEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
                     fastHealing += parseInt(effect.value, 10);
                 });
 
@@ -88,50 +88,38 @@ export class TimeService {
             });
         }
 
-        this.tick(characterService, conditionGainPropertiesService, itemsService, spellsService, TimePeriods.HalfTurn);
+        this.tick(TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
-        const character = characterService.character;
-
         if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
-            characterService.sendTurnChangeToPlayers();
+            this._characterService.sendTurnChangeToPlayers();
         }
 
         this._refreshService.processPreparedChanges();
     }
 
-    public endTurn(
-        characterService: CharacterService,
-        conditionGainPropertiesService: ConditionGainPropertiesService,
-        itemsService: ItemsService,
-        spellsService: SpellsService,
-    ): void {
-        this.tick(characterService, conditionGainPropertiesService, itemsService, spellsService, TimePeriods.HalfTurn);
+    public endTurn(): void {
+        this.tick(TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
-        const character = characterService.character;
+        const character = this._characterService.character;
 
         if (character.partyName && character.settings.sendTurnStartMessage && character.settings.sendTurnEndMessage) {
-            characterService.sendTurnChangeToPlayers();
+            this._characterService.sendTurnChangeToPlayers();
         }
     }
 
-    public rest(
-        characterService: CharacterService,
-        conditionGainPropertiesService: ConditionGainPropertiesService,
-        itemsService: ItemsService,
-        spellsService: SpellsService,
-    ): void {
-        const charLevel: number = characterService.character.level;
+    public rest(): void {
+        const charLevel: number = this._characterService.character.level;
 
-        this.tick(characterService, conditionGainPropertiesService, itemsService, spellsService, TimePeriods.EightHours, false);
-        characterService.allAvailableCreatures().forEach(creature => {
+        this.tick(TimePeriods.EightHours, false);
+        this._characterService.allAvailableCreatures().forEach(creature => {
             this._refreshService.prepareDetailToChange(creature.type, 'health');
             this._refreshService.prepareDetailToChange(creature.type, 'effects');
 
             let con = 1;
 
-            const constitution = characterService.abilitiesDataService.abilities('Constitution')[0];
+            const constitution = this._abilitiesDataService.abilities('Constitution')[0];
 
             con = Math.max(
                 this._abilityValueService.mod(constitution, creature).result,
@@ -168,23 +156,23 @@ export class TimeService {
             //Reset all conditions that are "until the next time you make your daily preparations".
             this._conditionsTimeService.restConditions(creature);
             //Remove all items that expire when you make your daily preparations.
-            itemsService.restItems(creature, characterService);
+            this._itemsService.restItems(creature, this._characterService);
 
             //For the Character, reset all "once per day" spells, and regenerate spell slots, prepared formulas and bonded item charges.
             if (creature.isCharacter()) {
                 const character = creature as Character;
 
                 //Reset all "once per day" spell cooldowns and re-prepare spells.
-                spellsService.restSpells(character);
+                this._spellsTimeService.restSpells(character);
                 //Regenerate spell slots.
                 character.class.spellCasting.forEach(casting => {
                     casting.spellSlotsUsed = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 });
 
                 //Refocus and reset all "until you refocus" spell cooldowns.
-                const maxFocusPoints = characterService.maxFocusPoints();
+                const maxFocusPoints = this._characterService.maxFocusPoints();
 
-                this.refocus(characterService, conditionGainPropertiesService, itemsService, spellsService, maxFocusPoints, false, false);
+                this.refocus(maxFocusPoints, false, false);
                 //Regenerate Snare Specialist formulas.
                 character.class.formulaBook.filter(learned => learned.snareSpecialistPrepared).forEach(learned => {
                     learned.snareSpecialistAvailable = learned.snareSpecialistPrepared;
@@ -194,9 +182,9 @@ export class TimeService {
                 character.class.spellCasting
                     .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')
                     .forEach(casting => {
-                        const superiorBond = characterService.characterHasFeat('Superior Bond') ? 1 : 0;
+                        const superiorBond = this._characterService.characterHasFeat('Superior Bond') ? 1 : 0;
 
-                        if (characterService.characterHasFeat('Universalist Wizard')) {
+                        if (this._characterService.characterHasFeat('Universalist Wizard')) {
                             casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
                         } else {
                             casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -209,32 +197,28 @@ export class TimeService {
     }
 
     public refocus(
-        characterService: CharacterService,
-        conditionGainPropertiesService: ConditionGainPropertiesService,
-        itemsService: ItemsService,
-        spellsService: SpellsService,
         recoverPoints = 1,
         reload = true,
         tick = true,
     ): void {
         if (tick) {
-            this.tick(characterService, conditionGainPropertiesService, itemsService, spellsService, TimePeriods.TenMinutes, false);
+            this.tick(TimePeriods.TenMinutes, false);
         }
 
-        const character = characterService.character;
+        const character = this._characterService.character;
         const maximumFocusPoints = 3;
 
-        characterService.allAvailableCreatures().forEach(creature => {
+        this._characterService.allAvailableCreatures().forEach(creature => {
             //Reset all "until you refocus" activity cooldowns.
             this._activitiesTimeService.refocusActivities(creature);
             //Reset all conditions that are "until you refocus".
             this._conditionsTimeService.refocusConditions(creature);
             //Remove all items that expire when you refocus.
-            itemsService.refocusItems(creature, characterService);
+            this._itemsService.refocusItems(creature, this._characterService);
         });
 
         //Reset all "once per day" spell cooldowns and re-prepare spells.
-        spellsService.refocusSpells(character);
+        this._spellsTimeService.refocusSpells(character);
 
         const focusPoints = character.class.focusPoints;
         const focusPointsLast = character.class.focusPointsLast;
@@ -243,7 +227,7 @@ export class TimeService {
         if (finalRecoverPoints < maximumFocusPoints) {
             // Several feats recover more focus points if you spent at least that amount since the last time refocusing.
             // Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
-            characterService.effectsService.absoluteEffectsOnThis(character, 'Refocus Bonus Points').forEach(effect => {
+            this._effectsService.absoluteEffectsOnThis(character, 'Refocus Bonus Points').forEach(effect => {
                 const points = parseInt(effect.setValue, 10);
 
                 if (focusPointsLast - focusPoints >= points) {
@@ -253,7 +237,7 @@ export class TimeService {
         }
 
         //Regenerate Focus Points by calling a onceEffect (so we don't have the code twice).
-        characterService.processOnceEffect(
+        this._characterService.processOnceEffect(
             character,
             Object.assign(new EffectGain(), { affected: 'Focus Points', value: `+${ finalRecoverPoints }` }),
         );
@@ -266,14 +250,10 @@ export class TimeService {
     }
 
     public tick(
-        characterService: CharacterService,
-        conditionGainPropertiesService: ConditionGainPropertiesService,
-        itemsService: ItemsService,
-        spellsService: SpellsService,
         turns = 10,
         reload = true,
     ): void {
-        characterService.allAvailableCreatures().forEach(creature => {
+        this._characterService.allAvailableCreatures().forEach(creature => {
             //If any conditions are currently stopping time, process these first before continuing with the rest.
             const timeStopDurations = creature.conditions
                 .filter(gain => gain.apply && this._conditionsDataService.conditionFromName(gain.name).isStoppingTime(gain))
@@ -314,14 +294,11 @@ export class TimeService {
                     }
 
                     this._customEffectsService.tickCustomEffects(creature, creatureTurns);
-                    itemsService.tickItems((creature as AnimalCompanion | Character), characterService, creatureTurns);
+                    this._itemsService.tickItems((creature as AnimalCompanion | Character), this._characterService, creatureTurns);
 
                     if (creature.isCharacter()) {
-                        spellsService.tickSpells(
+                        this._spellsTimeService.tickSpells(
                             creature,
-                            characterService,
-                            itemsService,
-                            conditionGainPropertiesService,
                             creatureTurns,
                         );
                     }
@@ -443,13 +420,9 @@ export class TimeService {
 
     public waitingDescription(
         duration: number,
-        services: { characterService: CharacterService; conditionGainPropertiesService: ConditionGainPropertiesService },
         options: { includeResting: boolean },
     ): string {
         let result = '';
-        const characterService = services.characterService;
-        const effectsService = this._effectsService;
-
         const AfflictionOnsetsWithinDuration = (creature: Creature): boolean =>
             this._creatureConditionsService
                 .currentCreatureConditions(creature, {}, { readonly: true })
@@ -475,9 +448,9 @@ export class TimeService {
         const MultipleTempHPAvailable = (creature: Creature): boolean =>
             creature.health.temporaryHP.length > 1;
         const RestingBlockingEffectsActive = (creature: Creature): boolean =>
-            effectsService.effectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
+            this._effectsService.effectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
 
-        characterService.allAvailableCreatures().forEach(creature => {
+        this._characterService.allAvailableCreatures().forEach(creature => {
             if (AfflictionOnsetsWithinDuration(creature)) {
                 result =
                     `One or more conditions${ creature.isCharacter()

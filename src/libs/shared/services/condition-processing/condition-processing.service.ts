@@ -14,7 +14,7 @@ import { ConditionGainPropertiesService } from 'src/libs/shared/services/conditi
 import { DefenseService } from 'src/app/services/defense.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { Defaults } from '../../definitions/defaults';
@@ -24,6 +24,8 @@ import { EquipmentSpellsService } from '../equipment-spells/equipment-spells.ser
 import { HealthService } from '../health/health.service';
 import { SpellsTakenService } from '../spells-taken/spells-taken.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { SpellProcessingService } from '../spell-processing/spell-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -38,9 +40,11 @@ export class ConditionProcessingService {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _healthService: HealthService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsService: SpellPropertiesService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _spellsTakenService: SpellsTakenService,
+        private readonly _spellsDataService: SpellsDataService,
+        private readonly _spellProcessingService: SpellProcessingService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _defenseService: DefenseService,
@@ -370,15 +374,12 @@ export class ConditionProcessingService {
                 .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
                 .filter(takenSpell => takenSpell.gain.id === gain.sourceGainID && takenSpell.gain.active)
                 .forEach(takenSpell => {
-                    const spell = this._spellsService.spellFromName(takenSpell.gain.name);
+                    const spell = this._spellsDataService.spellFromName(takenSpell.gain.name);
 
                     if (spell) {
-                        this._spellsService.processSpell(spell, false,
-                            {
-                                characterService: this._characterService,
-                                itemsService: this._itemsService,
-                                conditionGainPropertiesService: this._conditionGainPropertiesService,
-                            },
+                        this._spellProcessingService.processSpell(
+                            spell,
+                            false,
                             { creature, target: takenSpell.gain.selectedTarget, gain: takenSpell.gain, level: 0 },
                         );
                     }
@@ -395,10 +396,6 @@ export class ConditionProcessingService {
                         this._activitiesProcessingService.activateActivity(
                             creature,
                             activityGain.selectedTarget,
-                            this._characterService,
-                            this._conditionGainPropertiesService,
-                            this._itemsService,
-                            this._spellsService,
                             activityGain,
                             activity,
                             false,

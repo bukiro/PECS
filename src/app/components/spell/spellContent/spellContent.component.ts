@@ -1,11 +1,11 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { SpellsService } from 'src/app/services/spells.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 
 @Component({
     selector: 'app-spellContent',
@@ -26,7 +26,7 @@ export class SpellContentComponent {
 
     constructor(
         private readonly _traitsService: TraitsService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsDataService: SpellsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -39,7 +39,7 @@ export class SpellContentComponent {
     }
 
     public spellFromName(name: string): Spell {
-        return this._spellsService.spellFromName(name);
+        return this._spellsDataService.spellFromName(name);
     }
 
 }

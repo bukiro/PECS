@@ -4,7 +4,6 @@ import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { SpellsService } from 'src/app/services/spells.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -30,6 +29,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -59,7 +59,7 @@ export class NewItemPropertyComponent {
         private readonly _effectsService: EffectsService,
         private readonly _traitsService: TraitsService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsDataService: SpellsDataService,
         private readonly _evaluationService: EvaluationService,
         private readonly _conditionsDataService: ConditionsDataService,
         public trackers: Trackers,
@@ -399,7 +399,7 @@ export class NewItemPropertyComponent {
                     ));
                 break;
             case 'spellname':
-                examples.push(...this._spellsService.spells().map(spell => spell.name));
+                examples.push(...this._spellsDataService.spells().map(spell => spell.name));
                 break;
             case 'spelllevels':
                 // All spell levels without -1

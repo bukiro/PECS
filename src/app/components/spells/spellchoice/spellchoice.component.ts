@@ -1,7 +1,7 @@
 /* eslint-disable max-lines */
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsService } from 'src/app/services/traits.service';
@@ -23,6 +23,7 @@ import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 
 interface SpellSet {
     spell: Spell;
@@ -111,7 +112,8 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsService: SpellPropertiesService,
+        private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsService: TraitsService,
         private readonly _deitiesService: DeitiesService,
         private readonly _abilityValuesService: AbilityValuesService,
@@ -714,13 +716,13 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         // Get spells from your spellbook if the casting the choice requires it, otherwise get all spells.
         // If you are preparing spellbook spells because of the casting,
         // and borrowing is active, get all spells and mark all spells as borrowed that aren't in the spellbook.
-        const spellBookSpells: Array<Spell> = this._spellsService.spells().filter(spell =>
+        const spellBookSpells: Array<Spell> = this._spellsDataService.spells().filter(spell =>
             character.class.spellBook.find((learned: SpellLearned) => learned.name === spell.name),
         );
 
         if (this.spellCasting?.spellBookOnly) {
             if (this.allowBorrow) {
-                allSpells = this._spellsService.spells()
+                allSpells = this._spellsDataService.spells()
                     .map(spell =>
                         ({ spell, borrowed: (!spellBookSpells.some(spellBookSpell => spellBookSpell.name === spell.name)) }),
                     );
@@ -730,7 +732,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         } else if (this.choice.spellBookOnly) {
             allSpells = spellBookSpells.map(spell => ({ spell, borrowed: false }));
         } else {
-            allSpells = this._spellsService.spells().map(spell => ({ spell, borrowed: false }));
+            allSpells = this._spellsDataService.spells().map(spell => ({ spell, borrowed: false }));
         }
 
         //Filter the list by the filter given in the choice.
@@ -778,7 +780,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                         this.spellCasting.spellChoices.find(otherChoice => otherChoice.source === 'Feat: Adapted Cantrip').spells[0];
 
                     if (adaptedcantrip) {
-                        const originalSpell = this._spellsService.spellFromName(adaptedcantrip.name);
+                        const originalSpell = this._spellsDataService.spellFromName(adaptedcantrip.name);
 
                         if (originalSpell) {
                             spells.push(
@@ -794,7 +796,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     !(
                         traditionFilter &&
                         choice.spells.some(takenSpell =>
-                            !this._spellsService.spellFromName(takenSpell.name)?.traditions.includes(traditionFilter),
+                            !this._spellsDataService.spellFromName(takenSpell.name)?.traditions.includes(traditionFilter),
                         )
                     )
                 ) {
@@ -806,7 +808,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     if (!choice.filter.includes('Harm')) {
                         spells.push(
                             ...allSpells.concat(
-                                [this._spellsService.spellFromName('Harm')]
+                                [this._spellsDataService.spellFromName('Harm')]
                                     .map(spell => ({ spell, borrowed: false })),
                             ),
                         );
@@ -815,7 +817,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     if (!choice.filter.includes('Heal')) {
                         spells.push(
                             ...allSpells.concat(
-                                [this._spellsService.spellFromName('Heal')]
+                                [this._spellsDataService.spellFromName('Heal')]
                                     .map(spell => ({ spell, borrowed: false })),
                             ),
                         );
@@ -933,7 +935,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         }
 
         //If any locked or borrowed spells remain that aren't in the list, add them to the list.
-        const librarySpells = this._spellsService.spells();
+        const librarySpells = this._spellsDataService.spells();
 
         choice.spells.filter(spell =>
             (spell.locked || spell.borrowed) &&
@@ -999,7 +1001,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                         return spellCombinationAvailableSpells
                             .sort((a, b) => (chosenSpellName === b.spell.name) ? 1 : -1);
                     } else {
-                        const existingSpell = this._spellsService.spellFromName(chosenSpellName);
+                        const existingSpell = this._spellsDataService.spellFromName(chosenSpellName);
 
                         spells = spells.filter(spell =>
                             (existingSpell.traits.includes('Attack') === spell.spell.traits.includes('Attack')) &&
@@ -1288,7 +1290,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     private _spells(name = '', type = '', tradition: SpellTraditions | '' = ''): Array<Spell> {
-        return this._spellsService.spells(name, type, tradition);
+        return this._spellsDataService.spells(name, type, tradition);
     }
 
     private _characterHasFeat(name: string): boolean {
@@ -1296,7 +1298,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     private _dynamicSpellLevel(choice: SpellChoice = this.choice): number {
-        return this._spellsService.dynamicSpellLevel(this.spellCasting, choice, this._characterService);
+        return this._spellsService.dynamicSpellLevel(this.spellCasting, choice);
     }
 
     private _dynamicAvailableSpellSlots(): number {

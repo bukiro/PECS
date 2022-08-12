@@ -24,8 +24,10 @@ import { ConditionGainPropertiesService } from '../../libs/shared/services/condi
 import { EffectsService } from './effects.service';
 import { ItemsService } from './items.service';
 import { RefreshService } from './refresh.service';
-import { SpellsService } from './spells.service';
+import { SpellPropertiesService } from '../../libs/shared/services/spell-properties/spell-properties.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { SpellsDataService } from '../core/services/data/spells-data.service';
+import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -40,15 +42,19 @@ export class ActivitiesProcessingService {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemGrantingService: ItemGrantingService,
+        private readonly _spellsDataService: SpellsDataService,
+        private readonly _spellProcessingService: SpellProcessingService,
+        private readonly _characterService: CharacterService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _itemsService: ItemsService,
+        private readonly _spellsService: SpellPropertiesService,
+        private readonly _effectsService: EffectsService,
+
     ) { }
 
     public activateActivity(
         creature: Creature,
         targetType: SpellTargetSelection,
-        characterService: CharacterService,
-        conditionGainPropertiesService: ConditionGainPropertiesService,
-        itemsService: ItemsService,
-        spellsService: SpellsService,
         gain: ActivityGain | ItemActivity,
         activity: Activity | ItemActivity,
         activated: boolean,
@@ -60,7 +66,7 @@ export class ActivitiesProcessingService {
         if (item) { this._refreshService.prepareDetailToChange(creature.type, 'inventory'); }
 
         if (activity.hints.length) {
-            this._refreshService.prepareChangesByHints(creature, activity.hints, { characterService });
+            this._refreshService.prepareChangesByHints(creature, activity.hints, { characterService: this._characterService });
         }
 
         this._refreshService.prepareDetailToChange(creature.type, 'activities');
@@ -69,7 +75,7 @@ export class ActivitiesProcessingService {
         const targets: Array<Creature | SpellTarget> = [];
 
         //In manual mode, targets, conditions, one time effects and spells are not processed, and targets are not needed.
-        if (!characterService.isManualMode) {
+        if (!this._characterService.isManualMode) {
 
             //Find out if target was given. If no target is set, conditions will not be applied.
             //Everything else (one time effects and gained items) automatically applies to the activating creature.
@@ -78,13 +84,13 @@ export class ActivitiesProcessingService {
                     targets.push(creature);
                     break;
                 case CreatureTypes.Character:
-                    targets.push(characterService.character);
+                    targets.push(this._characterService.character);
                     break;
                 case CreatureTypes.AnimalCompanion:
-                    targets.push(characterService.companion);
+                    targets.push(this._characterService.companion);
                     break;
                 case CreatureTypes.Familiar:
-                    targets.push(characterService.familiar);
+                    targets.push(this._characterService.familiar);
                     break;
                 case 'Selected':
                     if (gain) {
@@ -106,13 +112,6 @@ export class ActivitiesProcessingService {
                     targets,
                     item,
                 },
-                {
-                    characterService,
-                    conditionGainPropertiesService,
-                    itemsService,
-                    spellsService,
-                    effectsService: characterService.effectsService,
-                },
             );
         } else {
             this._deactivateActivity(
@@ -121,13 +120,6 @@ export class ActivitiesProcessingService {
                     creature,
                     gain,
                     targets,
-                },
-                {
-                    characterService,
-                    conditionGainPropertiesService,
-                    itemsService,
-                    spellsService,
-                    effectsService: characterService.effectsService,
                 },
             );
         }
@@ -146,16 +138,9 @@ export class ActivitiesProcessingService {
             targets: Array<Creature | SpellTarget>;
             item: Equipment | Rune;
         },
-        services: {
-            characterService: CharacterService;
-            conditionGainPropertiesService: ConditionGainPropertiesService;
-            itemsService: ItemsService;
-            spellsService: SpellsService;
-            effectsService: EffectsService;
-        },
     ): void {
         if (activity.hints.length) {
-            this._refreshService.prepareChangesByHints(context.creature, activity.hints, { characterService: services.characterService });
+            this._refreshService.prepareChangesByHints(context.creature, activity.hints, { characterService: this._characterService });
         }
 
         let shouldClosePopupsAfterActivation = false;
@@ -227,13 +212,13 @@ export class ActivitiesProcessingService {
             if (activity.maxDuration) {
                 context.gain.duration = activity.maxDuration;
                 //If an effect changes the duration of this activitiy, change the duration here.
-                services.effectsService
+                this._effectsService
                     .absoluteEffectsOnThis(context.creature, `${ activity.name } Duration`)
                     .forEach(effect => {
                         context.gain.duration = parseInt(effect.setValue, 10);
                         conditionsToRemove.push(effect.source);
                     });
-                services.effectsService
+                this._effectsService
                     .relativeEffectsOnThis(context.creature, `${ activity.name } Duration`)
                     .forEach(effect => {
                         context.gain.duration += parseInt(effect.value, 10);
@@ -266,7 +251,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!services.characterService.isManualMode) {
+        if (!this._characterService.isManualMode) {
 
             //One time effects
             if (activity.onceEffects) {
@@ -275,7 +260,7 @@ export class ActivitiesProcessingService {
                         effect.source = activity.name;
                     }
 
-                    services.characterService.processOnceEffect(context.creature, effect);
+                    this._characterService.processOnceEffect(context.creature, effect);
                 });
             }
 
@@ -327,11 +312,11 @@ export class ActivitiesProcessingService {
                             // set the choice to that feat's subType as long as it's a valid choice for the condition.
                             const subType =
                                 (
-                                    services.characterService
+                                    this._characterService
                                         .characterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true)
                                         .find(feat =>
                                             feat.superType === newConditionGain.choiceBySubType &&
-                                            feat.have({ creature: context.creature }, { characterService: services.characterService }),
+                                            feat.have({ creature: context.creature }, { characterService: this._characterService }),
                                         )
                                 );
 
@@ -377,8 +362,8 @@ export class ActivitiesProcessingService {
                                 (
                                     (
                                         activity.isHostile() ?
-                                            services.characterService.character.settings.noHostileCasterConditions :
-                                            services.characterService.character.settings.noFriendlyCasterConditions
+                                            this._characterService.character.settings.noHostileCasterConditions :
+                                            this._characterService.character.settings.noFriendlyCasterConditions
                                     ) &&
                                     (
                                         !condition.hasEffects() &&
@@ -419,7 +404,7 @@ export class ActivitiesProcessingService {
                             //Check if an effect changes the duration of this condition.
                             let effectDuration: number = newConditionGain.duration || 0;
 
-                            services.effectsService
+                            this._effectsService
                                 .absoluteEffectsOnThis(
                                     context.creature,
                                     `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`,
@@ -430,7 +415,7 @@ export class ActivitiesProcessingService {
                                 });
 
                             if (effectDuration > 0) {
-                                services.effectsService
+                                this._effectsService
                                     .relativeEffectsOnThis(
                                         context.creature,
                                         `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`,
@@ -468,13 +453,13 @@ export class ActivitiesProcessingService {
                             //Apply effects that change the value of this condition.
                             let effectValue: number = newConditionGain.value || 0;
 
-                            services.effectsService
+                            this._effectsService
                                 .absoluteEffectsOnThis(context.creature, `${ condition.name } Value`)
                                 .forEach(effect => {
                                     effectValue = parseInt(effect.setValue, 10);
                                     conditionsToRemove.push(effect.source);
                                 });
-                            services.effectsService
+                            this._effectsService
                                 .relativeEffectsOnThis(context.creature, `${ condition.name } Value`)
                                 .forEach(effect => {
                                     effectValue += parseInt(effect.value, 10);
@@ -486,8 +471,8 @@ export class ActivitiesProcessingService {
                         //#Experimental, not needed so far
                         //Add caster data, if a formula exists.
                         //  if (conditionGain.casterDataFormula) {
-                        //      newConditionGain.casterData = characterService.effectsService
-                        //          .get_ValueFromFormula(conditionGain.casterDataFormula, creature, characterService, conditionGain);
+                        //      newConditionGain.casterData = this._characterService.effectsService
+                        //          .get_ValueFromFormula(conditionGain.casterDataFormula, creature, this._characterService, conditionGain);
                         //  }
                         //#
                         let conditionTargets: Array<Creature | SpellTarget> = context.targets;
@@ -516,7 +501,7 @@ export class ActivitiesProcessingService {
                         });
 
                         //Apply to any non-creature targets whose ID matches your own creatures.
-                        const creatures = services.characterService.allAvailableCreatures();
+                        const creatures = this._characterService.allAvailableCreatures();
 
                         conditionTargets.filter(
                             target => target instanceof SpellTarget &&
@@ -524,7 +509,7 @@ export class ActivitiesProcessingService {
                         )
                             .forEach(target => {
                                 this._creatureConditionsService.addCondition(
-                                    services.characterService.creatureFromType(target.type),
+                                    this._characterService.creatureFromType(target.type),
                                     newConditionGain,
                                     {},
                                     { noReload: true },
@@ -546,7 +531,7 @@ export class ActivitiesProcessingService {
                                 newConditionGain.duration += TimePeriods.UntilOtherCharactersTurn;
                             }
 
-                            services.characterService.sendConditionToPlayers(
+                            this._characterService.sendConditionToPlayers(
                                 conditionTargets.filter(target =>
                                     target instanceof SpellTarget &&
                                     !creatures.some(listCreature => listCreature.id === target.id),
@@ -571,7 +556,7 @@ export class ActivitiesProcessingService {
                 }
 
                 context.gain.castSpells.forEach((cast, spellCastIndex) => {
-                    const librarySpell = services.spellsService.spellFromName(cast.name);
+                    const librarySpell = this._spellsDataService.spellFromName(cast.name);
 
                     if (librarySpell) {
                         if (context.gain.spellEffectChoices[spellCastIndex].length) {
@@ -589,14 +574,9 @@ export class ActivitiesProcessingService {
 
                         cast.spellGain.selectedTarget = context.targetType;
 
-                        services.characterService.spellsService.processSpell(
+                        this._spellProcessingService.processSpell(
                             librarySpell,
                             true,
-                            {
-                                characterService: services.characterService,
-                                itemsService: services.itemsService,
-                                conditionGainPropertiesService: services.conditionGainPropertiesService,
-                            },
                             {
                                 creature: context.creature,
                                 target: cast.spellGain.selectedTarget,
@@ -628,10 +608,6 @@ export class ActivitiesProcessingService {
                             this.activateActivity(
                                 context.creature,
                                 context.creature.type,
-                                services.characterService,
-                                services.conditionGainPropertiesService,
-                                services.itemsService,
-                                services.spellsService,
                                 activityGain,
                                 this._activitiesDataService.activities(activityGain.name)[0],
                                 false,
@@ -648,10 +624,6 @@ export class ActivitiesProcessingService {
                         this.activateActivity(
                             context.creature,
                             context.creature.type,
-                            services.characterService,
-                            services.conditionGainPropertiesService,
-                            services.itemsService,
-                            services.spellsService,
                             itemActivity,
                             itemActivity,
                             false,
@@ -682,16 +654,9 @@ export class ActivitiesProcessingService {
             gain: ActivityGain | ItemActivity;
             targets: Array<Creature | SpellTarget>;
         },
-        services: {
-            characterService: CharacterService;
-            conditionGainPropertiesService: ConditionGainPropertiesService;
-            itemsService: ItemsService;
-            spellsService: SpellsService;
-            effectsService: EffectsService;
-        },
     ): void {
         if (activity.hints.length) {
-            this._refreshService.prepareChangesByHints(context.creature, activity.hints, { characterService: services.characterService });
+            this._refreshService.prepareChangesByHints(context.creature, activity.hints, { characterService: this._characterService });
         }
 
         if (activity.cooldownAfterEnd) {
@@ -719,7 +684,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!services.characterService.isManualMode) {
+        if (!this._characterService.isManualMode) {
 
             //Remove applied conditions.
             //The condition source is the activity name.
@@ -740,7 +705,7 @@ export class ActivitiesProcessingService {
                                     this._creatureConditionsService.removeCondition(target, existingConditionGain, false);
                                 });
                         });
-                    services.characterService.sendConditionToPlayers(
+                    this._characterService.sendConditionToPlayers(
                         conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>, conditionGain, false,
                     );
                 });
@@ -749,7 +714,7 @@ export class ActivitiesProcessingService {
             //Disable toggled spells
             if (activity.castSpells) {
                 context.gain.castSpells.forEach(cast => {
-                    const librarySpell = services.spellsService.spellFromName(cast.name);
+                    const librarySpell = this._spellsDataService.spellFromName(cast.name);
 
                     if (librarySpell) {
                         if (cast.overrideChoices.length) {
@@ -761,14 +726,9 @@ export class ActivitiesProcessingService {
                             cast.spellGain.duration = cast.duration;
                         }
 
-                        services.characterService.spellsService.processSpell(
+                        this._spellProcessingService.processSpell(
                             librarySpell,
                             false,
-                            {
-                                characterService: services.characterService,
-                                itemsService: services.itemsService,
-                                conditionGainPropertiesService: services.conditionGainPropertiesService,
-                            },
                             {
                                 creature: context.creature,
                                 target: cast.spellGain.selectedTarget,

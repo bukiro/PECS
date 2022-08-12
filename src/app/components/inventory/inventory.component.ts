@@ -14,7 +14,6 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { TimeService } from 'src/app/services/time.service';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { Snare } from 'src/app/classes/Snare';
-import { SpellsService } from 'src/app/services/spells.service';
 import { Wand } from 'src/app/classes/Wand';
 import { Shield } from 'src/app/classes/Shield';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
@@ -50,6 +49,8 @@ import { ArmorPropertiesService } from 'src/libs/shared/services/armor-propertie
 import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -103,7 +104,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _itemsService: ItemsService,
         private readonly _effectsService: EffectsService,
         private readonly _timeService: TimeService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsDataService: SpellsDataService,
+        private readonly _spellProcessingService: SpellProcessingService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemRolesService: ItemRolesService,
@@ -572,12 +574,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
             const spell = this._spellFromName(spellName)[0];
 
             if (spell && (!(item instanceof Wand && item.overcharged) || this.isManualMode)) {
-                this._characterService.spellsService.processSpell(spell, true,
-                    {
-                        characterService: this._characterService,
-                        itemsService: this._itemsService,
-                        conditionGainPropertiesService: this._conditionGainPropertiesService,
-                    },
+                this._spellProcessingService.processSpell(
+                    spell,
+                    true,
                     {
                         creature: this.character,
                         choice: spellChoice,
@@ -1024,7 +1023,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     private _spellFromName(name: string): Spell {
-        return this._spellsService.spellFromName(name);
+        return this._spellsDataService.spellFromName(name);
     }
 
 }

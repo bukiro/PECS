@@ -4,8 +4,9 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { WornItem } from 'src/app/classes/WornItem';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,7 +15,8 @@ export class EquipmentSpellsService {
 
     constructor(
         private readonly _itemsService: ItemsService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsService: SpellPropertiesService,
+        private readonly _spellsDataService: SpellsDataService,
     ) { }
 
     public allGrantedEquipmentSpells(creature: Creature): Array<{ choice: SpellChoice; gain: SpellGain }> {
@@ -55,7 +57,7 @@ export class EquipmentSpellsService {
             (choice.castingType ? choice.castingType === casting.castingType : true)
         );
         const spellMatchesCantrip = (gain: SpellGain): boolean => (
-            (options.cantripAllowed || (!this._spellsService.spellFromName(gain.name)?.traits.includes('Cantrip')))
+            (options.cantripAllowed || (!this._spellsDataService.spellFromName(gain.name)?.traits.includes('Cantrip')))
         );
 
         const hasTooManySlottedAeonStones = this._itemsService.hasTooManySlottedAeonStones(creature);

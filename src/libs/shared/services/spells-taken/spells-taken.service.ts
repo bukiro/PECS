@@ -3,8 +3,9 @@ import { Character } from 'src/app/classes/Character';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellCastingTypes } from '../../definitions/spellCastingTypes';
 import { SpellTraditions } from '../../definitions/spellTraditions';
 
@@ -15,7 +16,8 @@ export class SpellsTakenService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsService: SpellPropertiesService,
+        private readonly _spellsDataService: SpellsDataService,
     ) { }
 
     public takenSpells(
@@ -51,7 +53,7 @@ export class SpellsTakenService {
         filter.source = filter.source?.toLowerCase();
 
         const dynamicLevel = (choice: SpellChoice, casting: SpellCasting): number => (
-            this._spellsService.dynamicSpellLevel(casting, choice, this._characterService)
+            this._spellsService.dynamicSpellLevel(casting, choice)
         );
 
         const choiceLevelMatches = (choice: SpellChoice): boolean => (
@@ -76,9 +78,9 @@ export class SpellsTakenService {
             ((filter.locked === undefined) || gain.locked === filter.locked) &&
             (
                 !(filter.signatureAllowed && gain.signatureSpell) ||
-                (filter.spellLevel >= this._spellsService.spellFromName(gain.name)?.levelreq)
+                (filter.spellLevel >= this._spellsDataService.spellFromName(gain.name)?.levelreq)
             ) &&
-            (filter.cantripAllowed || (!this._spellsService.spellFromName(gain.name)?.traits.includes('Cantrip')))
+            (filter.cantripAllowed || (!this._spellsDataService.spellFromName(gain.name)?.traits.includes('Cantrip')))
         );
 
         const spellsTaken: Array<{ choice: SpellChoice; gain: SpellGain }> = [];

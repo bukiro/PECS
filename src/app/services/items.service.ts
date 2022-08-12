@@ -5,7 +5,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { TypeService } from 'src/app/services/type.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
@@ -80,6 +80,8 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { SpellsDataService } from '../core/services/data/spells-data.service';
+import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 
 type AnyItemType =
     ArmorRune | WeaponRune | Oil | AdventuringGear | AlchemicalBomb | AlchemicalElixir | AlchemicalPoison
@@ -107,6 +109,8 @@ export class ItemsService {
         private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemGrantingService: ItemGrantingService,
+        private readonly _spellsDataService: SpellsDataService,
+        private readonly _spellProcessingService: SpellProcessingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -835,7 +839,7 @@ export class ItemsService {
         creature: Creature,
         characterService: CharacterService,
         conditionGainPropertiesService: ConditionGainPropertiesService,
-        spellsService: SpellsService,
+        spellsService: SpellPropertiesService,
         item: Consumable,
     ): void {
 
@@ -861,11 +865,12 @@ export class ItemsService {
                 item.castSpells.forEach((cast: SpellCast) => {
                     cast.spellGain.duration = cast.duration;
 
-                    const librarySpell = spellsService.spellFromName(cast.name);
+                    const librarySpell = this._spellsDataService.spellFromName(cast.name);
 
                     if (librarySpell) {
-                        characterService.spellsService.processSpell(librarySpell, true,
-                            { characterService, itemsService: this, conditionGainPropertiesService },
+                        this._spellProcessingService.processSpell(
+                            librarySpell,
+                            true,
                             { creature, target: creature.type, gain: cast.spellGain, level: cast.level },
                             { manual: true },
                         );

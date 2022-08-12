@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
-import { SpellsService } from 'src/app/services/spells.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { FeatRequirementsService } from 'src/app/character-creation/services/feat-requirement/featRequirements.service';
@@ -11,6 +10,7 @@ import { FeatRequirements } from 'src/app/character-creation/definitions/models/
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { Activity } from 'src/app/classes/Activity';
 import { Spell } from 'src/app/classes/Spell';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 
 @Component({
     selector: 'app-feat',
@@ -31,7 +31,7 @@ export class FeatComponent {
     public spellLevelFromCharLevel = SpellLevelFromCharLevel;
 
     constructor(
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsDataService: SpellsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _traitsService: TraitsService,
         private readonly _featRequirementsService: FeatRequirementsService,
@@ -106,7 +106,7 @@ export class FeatComponent {
     }
 
     public spellFromName(name: string): Spell {
-        return this._spellsService.spellFromName(name);
+        return this._spellsDataService.spellFromName(name);
     }
 
     public traitFromName(traitName: string): Trait {

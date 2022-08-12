@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
 import { TraitsService } from 'src/app/services/traits.service';
-import { SpellsService } from 'src/app/services/spells.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { TimeService } from 'src/app/services/time.service';
@@ -19,6 +18,7 @@ import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
+import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 
 @Component({
     selector: 'app-activityContent',
@@ -49,7 +49,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsDataService: SpellsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
         private readonly _conditionsDataService: ConditionsDataService,
@@ -70,7 +70,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     }
 
     public spellFromName(name: string): Spell {
-        return this._spellsService.spellFromName(name);
+        return this._spellsDataService.spellFromName(name);
     }
 
     public durationDescription(duration: number, includeTurnState = true, inASentence = false): string {
@@ -104,7 +104,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
                 gain.spellEffectChoices.push([]);
             }
 
-            const spell = this._spellsService.spellFromName(spellCast.name);
+            const spell = this._spellsDataService.spellFromName(spellCast.name);
 
             spell.heightenedConditions(spellCast.level)
                 .map(conditionGain => ({

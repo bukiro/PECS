@@ -8,10 +8,7 @@ import { Creature } from '../../../../app/classes/Creature';
 import { ItemActivity } from '../../../../app/classes/ItemActivity';
 import { ActivitiesProcessingService } from '../../../../app/services/activities-processing.service';
 import { CharacterService } from '../../../../app/services/character.service';
-import { ConditionGainPropertiesService } from '../../../shared/services/condition-gain-properties/condition-gain-properties.service';
-import { ItemsService } from '../../../../app/services/items.service';
 import { RefreshService } from '../../../../app/services/refresh.service';
-import { SpellsService } from '../../../../app/services/spells.service';
 
 @Injectable({
     providedIn: 'root',
@@ -24,9 +21,6 @@ export class ActivitiesTimeService {
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _characterService: CharacterService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
-        private readonly _itemsService: ItemsService,
-        private readonly _spellsService: SpellsService,
     ) { }
 
     public restActivities(creature: Creature): void {
@@ -43,10 +37,6 @@ export class ActivitiesTimeService {
                     this._activitiesProcessingService.activateActivity(
                         creature,
                         creature.type,
-                        this._characterService,
-                        this._conditionGainPropertiesService,
-                        this._itemsService,
-                        this._spellsService,
                         gain,
                         activity,
                         false,
@@ -83,10 +73,6 @@ export class ActivitiesTimeService {
                     this._activitiesProcessingService.activateActivity(
                         creature,
                         creature.type,
-                        this._characterService,
-                        this._conditionGainPropertiesService,
-                        this._itemsService,
-                        this._spellsService,
                         gain,
                         activity,
                         false,
@@ -131,10 +117,6 @@ export class ActivitiesTimeService {
                             this._activitiesProcessingService.activateActivity(
                                 creature,
                                 creature.type,
-                                this._characterService,
-                                this._conditionGainPropertiesService,
-                                this._itemsService,
-                                this._spellsService,
                                 gain,
                                 activity,
                                 false,

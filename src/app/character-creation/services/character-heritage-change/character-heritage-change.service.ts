@@ -10,7 +10,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { SpellsService } from 'src/app/services/spells.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
@@ -30,7 +30,7 @@ export class CharacterHeritageChangeService {
         private readonly _cacheService: CacheService,
         private readonly _refreshService: RefreshService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
-        private readonly _spellsService: SpellsService,
+        private readonly _spellsService: SpellPropertiesService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
@@ -136,10 +136,6 @@ export class CharacterHeritageChangeService {
                         this._activitiesProcessingService.activateActivity(
                             character,
                             '',
-                            this._characterService,
-                            this._conditionGainPropertiesService,
-                            this._itemsService,
-                            this._spellsService,
                             oldGain,
                             this._activitiesDataService.activities(oldGain.name)[0],
                             false,
