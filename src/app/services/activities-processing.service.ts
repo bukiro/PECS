@@ -20,14 +20,12 @@ import { WornItem } from '../classes/WornItem';
 import { ActivitiesDataService } from '../core/services/data/activities-data.service';
 import { ConditionsDataService } from '../core/services/data/conditions-data.service';
 import { CharacterService } from './character.service';
-import { ConditionGainPropertiesService } from '../../libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { EffectsService } from './effects.service';
-import { ItemsService } from './items.service';
 import { RefreshService } from './refresh.service';
-import { SpellPropertiesService } from '../../libs/shared/services/spell-properties/spell-properties.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { SpellsDataService } from '../core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { FeatsService } from './feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -45,10 +43,8 @@ export class ActivitiesProcessingService {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _characterService: CharacterService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
-        private readonly _itemsService: ItemsService,
-        private readonly _spellsService: SpellPropertiesService,
         private readonly _effectsService: EffectsService,
+        private readonly _featsService: FeatsService,
 
     ) { }
 
@@ -316,7 +312,7 @@ export class ActivitiesProcessingService {
                                         .characterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true)
                                         .find(feat =>
                                             feat.superType === newConditionGain.choiceBySubType &&
-                                            feat.have({ creature: context.creature }, { characterService: this._characterService }),
+                                            this._featsService.have(feat, { creature: context.creature }),
                                         )
                                 );
 

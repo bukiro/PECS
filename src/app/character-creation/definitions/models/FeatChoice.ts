@@ -62,6 +62,7 @@ export class FeatChoice {
     public ignoreRequirements: Array<FeatIgnoreRequirements.FeatIgnoreRequirement> = [];
     public type = '';
     public bonus = false;
+
     public recast(): FeatChoice {
         this.feats = this.feats.map(obj => Object.assign(new FeatTaken(), obj).recast());
 

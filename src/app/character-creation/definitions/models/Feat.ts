@@ -1,12 +1,9 @@
-import { CharacterService } from 'src/app/services/character.service';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { FormulaChoice } from 'src/app/classes/FormulaChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { Character } from 'src/app/classes/Character';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Familiar } from 'src/app/classes/Familiar';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { ItemGain } from 'src/app/classes/ItemGain';
@@ -15,7 +12,6 @@ import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { Hint } from 'src/app/classes/Hint';
 import { BloodMagic } from 'src/app/classes/BloodMagic';
-import { Creature } from 'src/app/classes/Creature';
 import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
@@ -112,6 +108,7 @@ export class Feat {
     public sourceBook = '';
     public allowSignatureSpells: Array<SignatureSpellGain> = [];
     public PFSnote = '';
+
     public recast(): Feat {
         this.changeProficiency = this.changeProficiency.map(obj => Object.assign(new ProficiencyChange(), obj).recast());
         this.copyProficiency = this.copyProficiency.map(obj => Object.assign(new ProficiencyCopy(), obj).recast());
@@ -144,32 +141,5 @@ export class Feat {
         this.allowSignatureSpells = this.allowSignatureSpells.map(obj => Object.assign(new SignatureSpellGain(), obj).recast());
 
         return this;
-    }
-    public have(
-        context: { creature: Creature },
-        services: { characterService: CharacterService },
-        filter: { charLevel?: number; minLevel?: number } = {},
-        options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
-    ): number {
-        if (services.characterService?.stillLoading) { return 0; }
-
-        filter = {
-            charLevel: services.characterService.character.level,
-            minLevel: 1,
-            ...filter,
-        };
-
-        if (context.creature.isCharacter()) {
-            return services.characterService.characterFeatsTaken(
-                filter.minLevel,
-                filter.charLevel,
-                { featName: this.name },
-                options,
-            )?.length || 0;
-        } else if (context.creature.isFamiliar()) {
-            return context.creature.abilities.feats.filter(gain => gain.name.toLowerCase() === this.name.toLowerCase())?.length || 0;
-        } else {
-            return 0;
-        }
     }
 }

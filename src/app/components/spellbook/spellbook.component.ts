@@ -5,7 +5,6 @@ import { Spell } from 'src/app/classes/Spell';
 import { TraitsService } from 'src/app/services/traits.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
-import { ItemsService } from 'src/app/services/items.service';
 import { TimeService } from 'src/app/services/time.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { EffectsService } from 'src/app/services/effects.service';
@@ -13,7 +12,6 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Condition } from 'src/app/classes/Condition';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
@@ -108,10 +106,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
         private readonly _spellsService: SpellPropertiesService,
-        private readonly _itemsService: ItemsService,
         private readonly _timeService: TimeService,
         private readonly _effectsService: EffectsService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
@@ -718,7 +714,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     private _areSignatureSpellsAllowed(casting: SpellCasting): boolean {
         return this._characterService.characterFeatsAndFeatures().some(feat =>
             feat.allowSignatureSpells.some(gain => gain.className === casting.className) &&
-            feat.have({ creature: this._character }, { characterService: this._characterService }),
+            this._characterService.characterHasFeat(feat.name),
         );
     }
 
@@ -984,10 +980,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     private _bloodMagicFeats(): Array<Feat> {
-        const character = this._character;
-
         return this._characterService.characterFeatsAndFeatures()
-            .filter(feat => feat.bloodMagic.length && feat.have({ creature: character }, { characterService: this._characterService }));
+            .filter(feat => feat.bloodMagic.length && this._characterService.characterHasFeat(feat.name));
     }
 
     private _canCounterspell(casting: SpellCasting): boolean {

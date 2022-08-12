@@ -63,8 +63,10 @@ export class SpellCasting {
     public bondedItemCharges: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     public source = '';
     public scrollSavant: Array<Scroll> = [];
+
     constructor(public castingType: SpellCastingTypes) {
     }
+
     public recast(): SpellCasting {
         this.spellChoices = this.spellChoices.map(obj => Object.assign(new SpellChoice(), obj).recast());
 

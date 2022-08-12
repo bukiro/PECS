@@ -228,7 +228,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             this._characterService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.allowSignatureSpells.length &&
-                    feat.have({ creature: this._character }, { characterService: this._characterService }),
+                    this._characterService.characterHasFeat(feat.name),
                 )
                 .forEach(feat => {
                     signatureSpellGains.push(...feat.allowSignatureSpells.filter(gain => gain.className === this.spellCasting.className));

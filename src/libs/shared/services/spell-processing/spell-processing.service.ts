@@ -17,6 +17,7 @@ import { CreatureTypes } from '../../definitions/creatureTypes';
 import { TimePeriods } from '../../definitions/timePeriods';
 import { SpellTargetSelection } from '../../definitions/Types/spellTargetSelection';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { FeatsService } from 'src/app/services/feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -30,6 +31,7 @@ export class SpellProcessingService {
         private readonly _spellsService: SpellPropertiesService,
         private readonly _effectsService: EffectsService,
         private readonly _characterService: CharacterService,
+        private readonly _featsService: FeatsService,
     ) { }
 
 
@@ -513,7 +515,7 @@ export class SpellProcessingService {
                     .characterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true)
                     .find(feat =>
                         feat.superType === newConditionGain.choiceBySubType &&
-                        feat.have({ creature: context.creature }, { characterService: this._characterService }));
+                        this._featsService.have(feat, { creature: context.creature }));
 
             if (subType && condition.choices.some(choice => choice.name === subType.subType)) {
                 newConditionGain.choice = subType.subType;

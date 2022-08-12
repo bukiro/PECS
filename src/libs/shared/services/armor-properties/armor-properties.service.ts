@@ -79,7 +79,7 @@ export class ArmorPropertiesService {
             this._characterService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.gainSpecialization.length &&
-                    feat.have({ creature: character }, { characterService: this._characterService }),
+                    this._characterService.characterHasFeat(feat.name),
                 )
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
@@ -93,8 +93,7 @@ export class ArmorPropertiesService {
                         (!spec.skillLevel || skillLevel >= spec.skillLevel) &&
                         (
                             !spec.featreq ||
-                            this._characterService.characterFeatsAndFeatures(spec.featreq)[0]
-                                ?.have({ creature: character }, { characterService: this._characterService })
+                            this._characterService.characterHasFeat(spec.featreq)
                         ),
                     ));
                 });

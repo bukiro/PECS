@@ -140,7 +140,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
                 const domainFeats = this._characterService.characterFeatsAndFeatures()
                     .filter(feat =>
                         feat.gainDomains?.length &&
-                        feat.have({ creature: character }, { characterService: this._characterService }),
+                        this._characterService.characterHasFeat(feat.name),
                     );
                 const domains = this._deityDomainsService.effectiveDomains(deity, character)
                     .concat(...(domainFeats.map(feat => feat.gainDomains)));
@@ -155,11 +155,9 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     public tenets(): Array<string> {
-        const character = this.character;
-
         //Collect tenets from all feats and features you have that include them.
         return [].concat(...this._characterService.characterFeatsAndFeatures()
-            .filter(feat => feat.tenets?.length && feat.have({ creature: character }, { characterService: this._characterService }))
+            .filter(feat => feat.tenets?.length && this._characterService.characterHasFeat(feat.name))
             .map(feat => feat.tenets),
         );
     }
@@ -199,7 +197,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
         //Add anathema from all feats and features you have that include them.
         return character.class.anathema.concat(...this._characterService.characterFeatsAndFeatures()
-            .filter(feat => feat.anathema?.length && feat.have({ creature: character }, { characterService: this._characterService }))
+            .filter(feat => feat.anathema?.length && this._characterService.characterHasFeat(feat.name))
             .map(feat => feat.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1))))
             .concat((deityAnathema));
     }
@@ -317,7 +315,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         return this._characterService.characterFeatsAndFeatures()
             .filter(feat =>
                 feat.traits.includes('Dedication') &&
-                feat.have({ creature: this.character }, { characterService: this._characterService }),
+                this._characterService.characterHasFeat(feat.name),
             );
     }
 

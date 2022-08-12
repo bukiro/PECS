@@ -17,6 +17,7 @@ export class SpellCast {
     public target: 'ally' | 'self' | '' = '';
     /** Deities can add restrictions to the spells they grant. These are described here, but don't have a mechanical effect. */
     public restrictionDesc = '';
+
     public recast(): SpellCast {
         this.spellGain = Object.assign(new SpellGain(), this.spellGain).recast();
 

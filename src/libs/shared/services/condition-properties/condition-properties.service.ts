@@ -7,6 +7,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CharacterService } from 'src/app/services/character.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FeatsService } from 'src/app/services/feats.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 
 @Injectable({
@@ -18,6 +19,7 @@ export class ConditionPropertiesService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _characterService: CharacterService,
         private readonly _familiarsService: FamiliarsService,
+        private readonly _featsService: FeatsService,
     ) { }
 
     public isConditionInformational(
@@ -126,7 +128,7 @@ export class ConditionPropertiesService {
                             if (
                                 !requiredFeat.length ||
                                 !requiredFeat.some(feat =>
-                                    feat.have({ creature: testCreature }, { characterService: this._characterService }),
+                                    this._featsService.have(feat, { creature: testCreature }),
                                 )
                             ) {
                                 hasOneFeatreqFailed = true;

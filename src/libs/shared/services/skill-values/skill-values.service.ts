@@ -11,6 +11,7 @@ import { SkillsDataService } from 'src/app/core/services/data/skills-data.servic
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
+import { FeatsService } from 'src/app/services/feats.service';
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from 'src/libs/shared/definitions/skillLevels';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
@@ -43,6 +44,7 @@ export class SkillValuesService {
         private readonly _cacheService: CacheService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _featsService: FeatsService,
     ) { }
 
     public calculate(
@@ -232,7 +234,7 @@ export class SkillValuesService {
                 this._characterService.characterFeatsAndFeatures()
                     .filter(feat =>
                         feat.copyProficiency.length &&
-                        feat.have({ creature }, { characterService: this._characterService }, { charLevel }),
+                        this._featsService.have(feat, { creature }, { charLevel }),
                     )
                     .forEach(feat => {
                         proficiencyCopies.push(...feat.copyProficiency.filter(copy =>

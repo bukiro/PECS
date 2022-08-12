@@ -13,6 +13,7 @@ import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
+import { FeatsService } from 'src/app/services/feats.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -33,6 +34,7 @@ export class DamageService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
+        private readonly _featsService: FeatsService,
     ) { }
 
     /**
@@ -193,8 +195,7 @@ export class DamageService {
                     ) ||
                     weapon.prof === WeaponProficiencies.Simple
                 ) &&
-                this._characterService.characterFeatsAndFeatures('Deific Weapon')[0]
-                    ?.have({ creature }, { characterService: this._characterService })
+                this._characterService.characterHasFeat('Deific Weapon')
             ) {
                 if (this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) {
                     const newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
@@ -220,8 +221,16 @@ export class DamageService {
 
             // Clerics get increased dice size via Deadly Simplicity for unarmed attacks with less than d6 damage
             // or simple weapons as long as they are their deity's favored weapon.
-            if (((dicesize < DiceSizes.D6 && weapon.prof === WeaponProficiencies.Unarmed) || weapon.prof === WeaponProficiencies.Simple) &&
-                this._characterService.feats('Deadly Simplicity')[0]?.have({ creature }, { characterService: this._characterService })) {
+            if (
+                (
+                    (
+                        dicesize < DiceSizes.D6 &&
+                        weapon.prof === WeaponProficiencies.Unarmed
+                    ) ||
+                    weapon.prof === WeaponProficiencies.Simple
+                ) &&
+                this._characterService.characterHasFeat('Deadly Simplicity')
+            ) {
                 if (this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) {
                     let newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
 
@@ -642,14 +651,13 @@ export class DamageService {
         const prof = this._weaponPropertiesService.effectiveProficiency(weapon, { creature: (creature as AnimalCompanion | Character) });
 
         if (creature.isCharacter() && weapon.group) {
-            const character = creature as Character;
             const runeSource = attackRuneSource(weapon, creature, range);
             const skillLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
 
             this._characterService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.gainSpecialization.length &&
-                    feat.have({ creature: character }, { characterService: this._characterService }),
+                    this._characterService.characterHasFeat(feat.name),
                 )
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
@@ -670,12 +678,7 @@ export class DamageService {
                         (!spec.skillLevel || skillLevel >= spec.skillLevel) &&
                         (
                             !spec.featreq ||
-                            this._characterService.characterFeatsAndFeatures(spec.featreq)[0]
-                                ?.have(
-                                    { creature: character },
-                                    { characterService: this._characterService },
-                                    { charLevel: character.level },
-                                )
+                            this._characterService.characterHasFeat(spec.featreq)
                         ),
                     ));
                 });

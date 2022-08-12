@@ -17,6 +17,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { SpellCastingTypeFromString, SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
+import { FeatsService } from 'src/app/services/feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -29,6 +30,7 @@ export class FeatRequirementsService {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _deityDomainsService: DeityDomainsService,
+        private readonly _featsService: FeatsService,
     ) { }
 
     public static prof(skillLevel: number): string {
@@ -232,9 +234,9 @@ export class FeatRequirementsService {
 
                 if (requiredFeats.length) {
                     if (requiredFeats.some(requiredFeat =>
-                        requiredFeat.have(
+                        this._featsService.have(
+                            requiredFeat,
                             { creature: testcreature },
-                            { characterService: this._characterService },
                             { charLevel },
                             { excludeTemporary: true },
                         ),
@@ -397,9 +399,9 @@ export class FeatRequirementsService {
                 let hasThisRequirementFailed = false;
 
                 if (complexreq.hasThisFeat && !hasThisRequirementFailed) {
-                    if (!context.feat.have(
+                    if (!this._featsService.have(
+                        context.feat,
                         { creature },
-                        { characterService: this._characterService },
                         { charLevel },
                         { excludeTemporary: true },
                     )) {
@@ -487,9 +489,9 @@ export class FeatRequirementsService {
                             });
                         }
 
-                        feats = feats.filter(feat => feat.have(
+                        feats = feats.filter(feat => this._featsService.have(
+                            feat,
                             { creature },
-                            { characterService: this._characterService },
                             { charLevel },
                             { excludeTemporary: true },
                         ));

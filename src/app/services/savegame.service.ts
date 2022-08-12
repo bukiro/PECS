@@ -1101,7 +1101,7 @@ export class SavegameService {
             const baseFeats = characterService.feats().filter(feat => feat.lorebase || feat.weaponfeatbase)
                 .map(feat => feat.name.toLowerCase());
 
-            characterService.featsService.buildCharacterFeats(character);
+            this._featsService.buildCharacterFeats(character);
             // Only proceed with feats that were not generated from lore or weapon feat bases, and that have data.
             character.customFeats
                 .filter((feat: Feat & OldFeatWithData) =>
@@ -1111,7 +1111,7 @@ export class SavegameService {
                 )
                 .forEach((feat: Feat & OldFeatWithData) => {
                     //For each time you have this feat (should be exactly one), add its data to the class object.
-                    characterService.featsService
+                    this._featsService
                         .characterFeatsTakenWithLevel(0, 0, feat.name, '', '', undefined, false, false)
                         .forEach(taken => {
                             const newFeatData =

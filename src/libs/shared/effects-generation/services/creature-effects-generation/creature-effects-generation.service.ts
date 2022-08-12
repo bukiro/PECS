@@ -7,6 +7,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CharacterService } from 'src/app/services/character.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FeatsService } from 'src/app/services/feats.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 
 interface CreatureEffectsGenerationObjects {
@@ -22,6 +23,7 @@ export class CreatureEffectsGenerationService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _familiarsService: FamiliarsService,
+        private readonly _featsService: FeatsService,
     ) { }
 
     public creatureEffectsGenerationObjects(creature: Creature): CreatureEffectsGenerationObjects {
@@ -68,7 +70,7 @@ export class CreatureEffectsGenerationService {
 
         this._characterService.characterFeatsTaken(0, character.level)
             .map(gain => this._characterService.featsAndFeatures(gain.name)[0])
-            .filter(feat => feat && feat.have({ creature: character }, { characterService: this._characterService }))
+            .filter(feat => feat && this._characterService.characterHasFeat(feat.name))
             .forEach(feat => {
                 feats.push(feat);
                 feat.hints?.forEach(hint => {
@@ -87,7 +89,7 @@ export class CreatureEffectsGenerationService {
         this._familiarsService.familiarAbilities()
             .filter(ability =>
                 (ability.effects?.length || ability.hints?.length) &&
-                ability.have({ creature: familiar }, { characterService: this._characterService }))
+                this._featsService.have(ability, { creature: familiar }))
             .filter(ability => ability.effects?.length || ability.hints?.length)
             .forEach(ability => {
                 feats.push(ability);

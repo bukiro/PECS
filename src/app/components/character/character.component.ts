@@ -565,9 +565,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.onceEffects.length &&
-                    feat.have(
+                    this._featsService.have(
+                        feat,
                         { creature: character },
-                        { characterService: this._characterService },
                         { charLevel: newLevel, minLevel: (oldLevel + 1) },
                         { excludeTemporary: true },
                     ),
@@ -624,9 +624,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         });
         this.characterFeatsAndFeatures()
             .filter(feat =>
-                feat.have(
+                this._featsService.have(
+                    feat,
                     { creature: character },
-                    { characterService: this._characterService },
                     { charLevel: higherLevel, minLevel: lowerLevel },
                     { excludeTemporary: true },
                 ),
@@ -714,9 +714,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 newLanguages += this.characterFeatsAndFeatures()
                     .filter(feat =>
                         (feat.gainLanguages.length || feat.effects.some(effect => effect.affected === 'Max Languages')) &&
-                        feat.have(
+                        this._featsService.have(
+                            feat,
                             { creature: character },
-                            { characterService: this._characterService },
                             { charLevel: levelNumber, minLevel: levelNumber },
                         ),
                     ).length;

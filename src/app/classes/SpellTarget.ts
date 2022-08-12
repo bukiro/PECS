@@ -7,6 +7,7 @@ export class SpellTarget {
     public type: CreatureTypes = CreatureTypes.Character;
     public selected = false;
     public isPlayer = false;
+
     public recast(): SpellTarget {
         return this;
     }

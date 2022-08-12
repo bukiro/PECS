@@ -4,6 +4,7 @@ import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CharacterService } from 'src/app/services/character.service';
+import { FeatsService } from 'src/app/services/feats.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel, skillLevelBaseStep } from '../../definitions/skillLevels';
@@ -19,6 +20,7 @@ export class WeaponPropertiesService {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _featsService: FeatsService,
     ) { }
 
     public effectiveProficiency(
@@ -41,9 +43,9 @@ export class WeaponPropertiesService {
             this._characterService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.changeProficiency.length &&
-                    feat.have(
+                    this._featsService.have(
+                        feat,
                         { creature: context.creature },
-                        { characterService: this._characterService },
                         { charLevel },
                     ),
                 )
@@ -280,9 +282,9 @@ export class WeaponPropertiesService {
         //Shoddy items have a -2 penalty to Attack, unless you have the Junk Tinker feat and have crafted the item yourself.
         if (
             weapon.shoddy &&
-            this._characterService.feats('Junk Tinker')[0]
-                ?.have({ creature }, { characterService: this._characterService }) &&
-            weapon.crafted
+            weapon.crafted &&
+            creature.isCharacter() &&
+            this._characterService.characterHasFeat('Junk Tinker')
         ) {
             weapon.$shoddy = ShoddyPenalties.NotShoddy;
         } else if (weapon.shoddy) {

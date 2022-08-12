@@ -31,6 +31,7 @@ export class Trait {
      */
     public extraActivations = 0;
     public sourceBook = '';
+
     public recast(): Trait {
         this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
@@ -38,6 +39,7 @@ export class Trait {
 
         return this;
     }
+
     /**
      * Return all equipped items that have this trait, or alternatively only their names.
      * Some trait instances have information after the trait name,
@@ -68,6 +70,7 @@ export class Trait {
             return filteredItems;
         }
     }
+
     public objectBoundEffects(
         activation: { trait: string; active: boolean; active2: boolean; active3: boolean },
         filter: Array<string> = [],
@@ -164,6 +167,7 @@ export class Trait {
 
         return [];
     }
+
     public dynamicValueAsNumber(traitName: string): number {
         // The dynamic value is usually a dice size.
         // Return the value of a dynamic trait, reduced to only the first number.

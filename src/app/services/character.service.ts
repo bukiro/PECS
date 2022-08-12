@@ -160,7 +160,7 @@ export class CharacterService {
         private readonly _abilityValuesService: AbilityValuesService,
         public skillsDataService: SkillsDataService,
         public classesService: ClassesService,
-        public featsService: FeatsService,
+        private readonly _featsService: FeatsService,
         public traitsService: TraitsService,
         private readonly _historyService: HistoryService,
         public conditionGainPropertiesService: ConditionGainPropertiesService,
@@ -393,7 +393,7 @@ export class CharacterService {
         return this.characterFeatsAndFeatures()
             .some(feat =>
                 feat.gainAnimalCompanion === 'Young' &&
-                feat.have({ creature: this.character }, { characterService: this }, { charLevel }),
+                this.characterHasFeat(feat.name, charLevel),
             );
     }
 
@@ -402,7 +402,7 @@ export class CharacterService {
         return this.characterFeatsAndFeatures()
             .some(feat =>
                 feat.gainFamiliar &&
-                feat.have({ creature: this.character }, { characterService: this }, { charLevel }),
+                this.characterHasFeat(feat.name, charLevel),
             );
     }
 
@@ -820,7 +820,7 @@ export class CharacterService {
             }
 
             if (item instanceof Weapon) {
-                const customFeats = this.featsService.createWeaponFeats([item]);
+                const customFeats = this._featsService.createWeaponFeats([item]);
 
                 customFeats.forEach(customFeat => {
                     const oldFeat = this.character.customFeats.find(existingFeat => existingFeat.name === customFeat.name);
@@ -2232,20 +2232,20 @@ export class CharacterService {
     }
 
     public feats(name = '', type = ''): Array<Feat> {
-        return this.featsService.feats(this.character.customFeats, name, type);
+        return this._featsService.feats(this.character.customFeats, name, type);
     }
 
     public features(name = ''): Array<Feat> {
-        return this.featsService.features(name);
+        return this._featsService.features(name);
     }
 
     public featsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
         //Use this function very sparingly! See get_All() for details.
-        return this.featsService.featsAndFeatures(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
+        return this._featsService.featsAndFeatures(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     public characterFeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
-        return this.featsService.characterFeats(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
+        return this._featsService.characterFeats(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     public characterHasFeat(name: string, levelNumber: number = this._character.level): boolean {
@@ -2268,7 +2268,7 @@ export class CharacterService {
         // we can get the taken feats quicker from the featsService.
         // CharacterService.get_CharacterFeatsTaken should be preferred over Character.takenFeats for this reason.
         if (!options.excludeTemporary) {
-            return this.featsService.characterFeatsTaken(
+            return this._featsService.characterFeatsTaken(
                 minLevelNumber,
                 maxLevelNumber,
                 filter.featName,
@@ -2324,7 +2324,7 @@ export class CharacterService {
             }
 
             this.characterFeatsAndFeatures()
-                .filter(feat => feat.senses?.length && feat.have({ creature }, { characterService: this }, { charLevel }))
+                .filter(feat => feat.senses?.length && this.characterHasFeat(feat.name, charLevel))
                 .forEach(feat => {
                     senses.push(...feat.senses);
                 });
@@ -2397,7 +2397,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() === 'lore'
                     ),
                 ),
-            ) && feat.have({ creature: this.character }, { characterService: this }),
+            ) && this.characterHasFeat(feat.name),
         );
     }
 
@@ -2454,7 +2454,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() === 'lore'
                     ),
                 ),
-            ) && feat.have({ creature: this.familiar }, { characterService: this }),
+            ) && this._featsService.have(feat, { creature: this.familiar }),
             //Return any feats that include e.g. Companion:Athletics
         )
             .concat(this.characterFeatsShowingHintsOnThis(`Familiar:${ objectName }`));
@@ -2850,7 +2850,7 @@ export class CharacterService {
         this.cacheService.reset();
         this.traitsService.reset();
         this.activitiesDataService.reset();
-        this.featsService.reset();
+        this._featsService.reset();
         this._conditionsDataService.reset();
         this.skillsDataService.reset();
         this.itemsService.reset();
@@ -2930,7 +2930,7 @@ export class CharacterService {
         // Set your turn state according to the saved state.
         this.timeService.yourTurn = this.character.yourTurn;
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
-        this.featsService.buildCharacterFeats(this.character);
+        this._featsService.buildCharacterFeats(this.character);
         // Reset cache for all creatures.
         this.cacheService.reset();
         // Set accent color and dark mode according to the settings.
@@ -2984,7 +2984,7 @@ export class CharacterService {
         this._loading = false;
         // Fill a runtime variable with all the feats the character has taken,
         // and another with the level at which they were taken. These were cleared when trying to load.
-        this.featsService.buildCharacterFeats(this.character);
+        this._featsService.buildCharacterFeats(this.character);
         this._refreshAfterLoading();
     }
 

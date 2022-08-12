@@ -343,10 +343,11 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                             .find(superFeat =>
                                 superFeat.archetype === feat.archetype &&
                                 superFeat.traits.includes('Dedication') &&
-                                superFeat.have(
+                                this._featsService.have(
+                                    superFeat,
                                     { creature: character },
-                                    { characterService: this._characterService },
                                     { charLevel: this.levelNumber },
+                                    { excludeTemporary: true },
                                 ),
                             )
                     ),
@@ -762,9 +763,9 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                 // (Don't count temporary choices (showOnSheet == true) unless this is also temporary.)
                 const shouldExcludeTemporaryFeats = !choice.showOnSheet;
                 const haveUpToNow: number =
-                    feat.have(
+                    this._featsService.have(
+                        feat,
                         { creature },
-                        { characterService: this._characterService },
                         { charLevel: levelNumber },
                         { excludeTemporary: shouldExcludeTemporaryFeats, includeCountAs: true },
                     );
@@ -772,9 +773,9 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                 // Don't check haveLater for them, because it will be the same result as haveUpToNow.
                 const haveLater: number =
                     creature.isCharacter()
-                        ? feat.have(
+                        ? this._featsService.have(
+                            feat,
                             { creature },
-                            { characterService: this._characterService },
                             { charLevel: Defaults.maxCharacterLevel, minLevel: levelNumber + 1 },
                             { excludeTemporary: shouldExcludeTemporaryFeats, includeCountAs: true },
                         )
@@ -815,9 +816,9 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                 const takenFeats =
                     this._characterFeatsAndFeatures()
                         .filter(takenFeat =>
-                            takenFeat.have(
+                            this._featsService.have(
+                                takenFeat,
                                 { creature },
-                                { characterService: this._characterService },
                                 { charLevel: levelNumber },
                                 { excludeTemporary: true },
                             ));
@@ -855,7 +856,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                             subfeat.superType === feat.superType &&
                             subfeat.name !== feat.name &&
                             !subfeat.hide &&
-                            subfeat.have({ creature }, { characterService: this._characterService }, { charLevel: levelNumber }),
+                            this._featsService.have(subfeat, { creature }, { charLevel: levelNumber }),
                         );
 
                     // If another subtype has been taken, but not in this choice,

@@ -37,6 +37,7 @@ export class SpellGain {
     public dynamicEffectiveSpellLevel = '';
     /** Condition gains save this id so they can be found and removed when the spell ends, or end the spell when the condition ends. */
     public id = uuidv4();
+
     public recast(): SpellGain {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());

@@ -34,13 +34,12 @@ import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { CharacterHeritageChangeService } from '../character-creation/services/character-heritage-change/character-heritage-change.service';
 import { ActivitiesProcessingService } from './activities-processing.service';
-import { ConditionGainPropertiesService } from '../../libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ActivitiesDataService } from '../core/services/data/activities-data.service';
-import { SpellPropertiesService } from '../../libs/shared/services/spell-properties/spell-properties.service';
 import { CharacterSkillIncreaseService } from '../character-creation/services/character-skill-increase/character-skill-increase.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { Creature } from '../classes/Creature';
 
 @Injectable({
     providedIn: 'root',
@@ -57,6 +56,7 @@ export class FeatsService {
     private _$characterFeatsTaken: Array<{ level: number; gain: FeatTaken }> = [];
 
     constructor(
+        private readonly _characterService: CharacterService,
         private readonly _extensionsService: ExtensionsService,
         private readonly _itemsService: ItemsService,
         private readonly _historyService: HistoryService,
@@ -64,9 +64,7 @@ export class FeatsService {
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _spellsService: SpellPropertiesService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
@@ -988,8 +986,8 @@ export class FeatsService {
 
                         const familiarLevel = characterService.characterFeatsAndFeatures()
                             .filter(characterFeat =>
-                                characterFeat.gainFamiliar &&
-                                characterFeat.have({ creature: character }, { characterService }),
+                                characterFeat.gainFamiliar,
+                                //TO-DO: Removed characterHasFeat() here, check if it still works.
                             )
                             .map(characterFeat => character.class.levels
                                 .find(classLevel => classLevel.featChoices
@@ -1030,8 +1028,8 @@ export class FeatsService {
 
                         const familiarLevel = characterService.characterFeatsAndFeatures()
                             .filter(characterFeat =>
-                                characterFeat.gainFamiliar &&
-                                characterFeat.have({ creature: character }, { characterService }),
+                                characterFeat.gainFamiliar,
+                                //TO-DO: Removed characterHasFeat() here, check if it still works.
                             )
                             .map(characterFeat => character.class.levels
                                 .find(classLevel => classLevel.featChoices
@@ -1349,6 +1347,34 @@ export class FeatsService {
             this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
             this._refreshService.prepareDetailToChange(creature.type, 'activities');
 
+        }
+    }
+
+    public have(
+        feat: Feat,
+        context: { creature: Creature },
+        filter: { charLevel?: number; minLevel?: number } = {},
+        options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
+    ): number {
+        if (this._characterService?.stillLoading) { return 0; }
+
+        filter = {
+            charLevel: this._characterService.character.level,
+            minLevel: 1,
+            ...filter,
+        };
+
+        if (context.creature.isCharacter()) {
+            return this._characterService.characterFeatsTaken(
+                filter.minLevel,
+                filter.charLevel,
+                { featName: feat.name },
+                options,
+            )?.length || 0;
+        } else if (context.creature.isFamiliar()) {
+            return context.creature.abilities.feats.filter(gain => gain.name.toLowerCase() === feat.name.toLowerCase())?.length || 0;
+        } else {
+            return 0;
         }
     }
 

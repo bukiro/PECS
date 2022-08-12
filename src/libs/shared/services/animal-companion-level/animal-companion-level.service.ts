@@ -67,7 +67,6 @@ export class AnimalCompanionLevelsService {
         // When you take a feat with gainAnimalCompanion other than "Young", "Mature" or "Specialized",
         // level 3 gets replaced with that level.
         // That means that level 3 is the highest we need to go, as Nimble, Savage or other advanced options will be placed there.
-        const character = this._characterService.character;
         const youngLevel = 1;
         const matureLevel = 2;
         const advancedLevel = 3;
@@ -80,7 +79,7 @@ export class AnimalCompanionLevelsService {
                 ...this._characterService.characterFeatsAndFeatures()
                     .filter(feat =>
                         feat.gainAnimalCompanion &&
-                        feat.have({ creature: character }, { characterService: this._characterService }),
+                        this._characterService.characterHasFeat(feat.name),
                     )
                     .map(feat => {
                         switch (feat.gainAnimalCompanion) {
