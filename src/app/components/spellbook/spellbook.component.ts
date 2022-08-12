@@ -558,7 +558,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         }
 
         this._spellsService.processSpell(context.spellParameters.spell, activated,
-            { characterService: this._characterService, itemsService: this._itemsService, conditionGainPropertiesService: this._conditionGainPropertiesService },
+            {
+                characterService: this._characterService,
+                itemsService: this._itemsService,
+                conditionGainPropertiesService: this._conditionGainPropertiesService,
+            },
             {
                 creature: character,
                 target,
@@ -775,7 +779,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     private _effectiveSpellLevel(spell: Spell, context: { baseLevel: number; gain: SpellGain }): number {
-        return spell.effectiveSpellLevel(
+        return this._spellsService.effectiveSpellLevel(
+            spell,
             { baseLevel: context.baseLevel, creature: this._character, gain: context.gain },
             { characterService: this._characterService, effectsService: this._effectsService },
         );

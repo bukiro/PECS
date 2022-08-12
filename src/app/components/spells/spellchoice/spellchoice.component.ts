@@ -22,6 +22,7 @@ import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 
 interface SpellSet {
     spell: Spell;
@@ -1130,7 +1131,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         const reasons: Array<{ reason: string; explain: string }> = [];
 
         //Are the basic requirements (i.e. the level) not met?
-        if (!spell.canChoose(this._characterService, spellLevel)) {
+        if (!this._canChooseSpell(spell, spellLevel)) {
             reasons.push({ reason: 'Requirements unmet', explain: 'The requirements are not met.' });
         }
 
@@ -1140,6 +1141,19 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         }
 
         return reasons;
+    }
+
+    private _canChooseSpell(
+        spell: Spell,
+        spellLevel: number,
+    ): boolean {
+        const levelToMeet = spellLevel === -1
+            ? SpellLevelFromCharLevel(this._character.level)
+            : spellLevel;
+
+        const isLevelreqMet = spell.meetsLevelReq(levelToMeet).met;
+
+        return isLevelreqMet;
     }
 
     private _numberOfUnlockedSpellInstancesInChoice(spellName: string, choice: SpellChoice = this.choice): number {

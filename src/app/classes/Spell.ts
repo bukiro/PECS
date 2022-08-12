@@ -1,14 +1,9 @@
-import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { SpellCast } from 'src/app/classes/SpellCast';
-import { EffectsService } from 'src/app/services/effects.service';
-import { Creature } from 'src/app/classes/Creature';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
-import { SpellGain } from './SpellGain';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
-import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { ActivityTargetOptions } from './Activity';
 
@@ -88,6 +83,7 @@ export class Spell {
      * The spell can have multiple target numbers that are dependent on the character level and whether you have a feat.
      */
     public targetNumbers: Array<SpellTargetNumber> = [];
+
     public recast(): Spell {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
@@ -100,6 +96,7 @@ export class Spell {
 
         return this;
     }
+
     public activationTraits(): Array<string> {
         return Array.from(new Set([].concat(...this.castType.split(',')
             .map(castType => {
@@ -119,9 +116,11 @@ export class Spell {
             }),
         )));
     }
+
     public heightenedText(text: string, levelNumber: number): string {
         return heightenedTextFromDescSets(text, levelNumber, this.heightenedDescs);
     }
+
     public heightenedConditions(levelNumber: number = this.levelreq): Array<ConditionGain> {
         // This descends through the level numbers, starting with levelNumber
         // and returning the first set of ConditionGains found with a matching heightenedfilter.
@@ -141,9 +140,9 @@ export class Spell {
             return this.gainConditions.filter(gain => !gain.heightenedFilter);
         }
     }
+
     public meetsLevelReq(
-        characterService: CharacterService,
-        spellLevel: number = SpellLevelFromCharLevel(characterService.character.level),
+        spellLevel: number,
     ): { met: boolean; desc: string } {
         //If the spell has a levelreq, check if the level beats that.
         //Returns [requirement met, requirement description]
@@ -161,20 +160,7 @@ export class Spell {
 
         return result;
     }
-    public canChoose(
-        characterService: CharacterService,
-        spellLevel: number = SpellLevelFromCharLevel(characterService.character.level),
-    ): boolean {
-        if (characterService.stillLoading) { return false; }
 
-        if (spellLevel === -1) {
-            spellLevel = SpellLevelFromCharLevel(characterService.character.level);
-        }
-
-        const isLevelreqMet = this.meetsLevelReq(characterService, spellLevel).met;
-
-        return isLevelreqMet;
-    }
     public isHostile(ignoreOverride = false): boolean {
         // Return whether a spell is meant to be cast on enemies.
         // This is usually the case if the spell target is "other", or if the target is "area" and the spell has no target conditions.
@@ -197,62 +183,8 @@ export class Spell {
             )
         );
     }
+
     public hasTargetConditions(): boolean {
         return this.gainConditions.some(gain => gain.targetFilter !== 'caster');
-    }
-    public effectiveSpellLevel(
-        context: { baseLevel: number; creature: Creature; gain: SpellGain },
-        services: { characterService: CharacterService; effectsService: EffectsService },
-        options: { noEffects?: boolean } = {},
-    ): number {
-        //Focus spells are automatically heightened to your maximum available spell level.
-        let level = context.baseLevel;
-
-        //If needed, calculate the dynamic effective spell level.
-        const Character = services.characterService.character;
-
-        if (context.gain.dynamicEffectiveSpellLevel) {
-            try {
-                //TO-DO: replace eval with system similar to featrequirements
-                // eslint-disable-next-line no-eval
-                level = parseInt(eval(context.gain.dynamicEffectiveSpellLevel), 10);
-            } catch (e) {
-                console.error(`Error parsing effective spell level (${ context.gain.dynamicEffectiveSpellLevel }): ${ e }`);
-            }
-        }
-
-        if ([0, -1].includes(level)) {
-            level = Character.maxSpellLevel();
-        }
-
-        if (!options.noEffects) {
-            //Apply all effects that might change the effective spell level of this spell.
-            const list = [
-                'Spell Levels',
-                `${ this.name } Spell Level`,
-            ];
-
-            if (this.traditions.includes(SpellTraditions.Focus)) {
-                list.push('Focus Spell Levels');
-            }
-
-            if (this.traits.includes('Cantrip')) {
-                list.push('Cantrip Spell Levels');
-            }
-
-            services.effectsService.absoluteEffectsOnThese(context.creature, list).forEach(effect => {
-                if (parseInt(effect.setValue, 10)) {
-                    level = parseInt(effect.setValue, 10);
-                }
-            });
-            services.effectsService.relativeEffectsOnThese(context.creature, list).forEach(effect => {
-                if (parseInt(effect.value, 10)) {
-                    level += parseInt(effect.value, 10);
-                }
-            });
-        }
-
-        //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
-        return Math.max(level, (this.levelreq || 0));
     }
 }

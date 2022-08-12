@@ -25,6 +25,7 @@ import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { ConditionsDataService } from '../core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { EffectsService } from './effects.service';
 
 @Injectable({
     providedIn: 'root',
@@ -106,7 +107,11 @@ export class SpellsService {
     public processSpell(
         spell: Spell,
         activated: boolean,
-        services: { characterService: CharacterService; itemsService: ItemsService; conditionGainPropertiesService: ConditionGainPropertiesService },
+        services: {
+            characterService: CharacterService;
+            itemsService: ItemsService;
+            conditionGainPropertiesService: ConditionGainPropertiesService;
+        },
         context: {
             creature: Creature;
             gain: SpellGain;
@@ -123,7 +128,8 @@ export class SpellsService {
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
         const spellLevel: number =
-            spell.effectiveSpellLevel(
+            this.effectiveSpellLevel(
+                spell,
                 { baseLevel: context.level, creature: context.creature, gain: context.gain },
                 { characterService: services.characterService, effectsService: services.characterService.effectsService },
             );
@@ -644,6 +650,63 @@ export class SpellsService {
                     taken.gain.chargesUsed = 0;
                 }
             });
+    }
+
+    public effectiveSpellLevel(
+        spell: Spell,
+        context: { baseLevel: number; creature: Creature; gain: SpellGain },
+        services: { characterService: CharacterService; effectsService: EffectsService },
+        options: { noEffects?: boolean } = {},
+    ): number {
+        //Focus spells are automatically heightened to your maximum available spell level.
+        let level = context.baseLevel;
+
+        //If needed, calculate the dynamic effective spell level.
+        const Character = services.characterService.character;
+
+        if (context.gain.dynamicEffectiveSpellLevel) {
+            try {
+                //TO-DO: replace eval with system similar to featrequirements
+                // eslint-disable-next-line no-eval
+                level = parseInt(eval(context.gain.dynamicEffectiveSpellLevel), 10);
+            } catch (e) {
+                console.error(`Error parsing effective spell level (${ context.gain.dynamicEffectiveSpellLevel }): ${ e }`);
+            }
+        }
+
+        if ([0, -1].includes(level)) {
+            level = Character.maxSpellLevel();
+        }
+
+        if (!options.noEffects) {
+            //Apply all effects that might change the effective spell level of this spell.
+            const list = [
+                'Spell Levels',
+                `${ spell.name } Spell Level`,
+            ];
+
+            if (spell.traditions.includes(SpellTraditions.Focus)) {
+                list.push('Focus Spell Levels');
+            }
+
+            if (spell.traits.includes('Cantrip')) {
+                list.push('Cantrip Spell Levels');
+            }
+
+            services.effectsService.absoluteEffectsOnThese(context.creature, list).forEach(effect => {
+                if (parseInt(effect.setValue, 10)) {
+                    level = parseInt(effect.setValue, 10);
+                }
+            });
+            services.effectsService.relativeEffectsOnThese(context.creature, list).forEach(effect => {
+                if (parseInt(effect.value, 10)) {
+                    level += parseInt(effect.value, 10);
+                }
+            });
+        }
+
+        //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
+        return Math.max(level, (spell.levelreq || 0));
     }
 
     public initialize(): void {

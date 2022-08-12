@@ -109,7 +109,8 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     public gainedSpellLevel(spell: Spell, context: { gain: SpellGain; choice: SpellChoice }): number {
-        return spell.effectiveSpellLevel(
+        return this._spellsService.effectiveSpellLevel(
+            spell,
             { baseLevel: (context.choice.level ? context.choice.level : 0), creature: this._currentCreature, gain: context.gain },
             { characterService: this._characterService, effectsService: this._effectsService },
             { noEffects: true },
