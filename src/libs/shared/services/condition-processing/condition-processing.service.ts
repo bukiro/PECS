@@ -426,7 +426,7 @@ export class ConditionProcessingService {
                 const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(activityGain);
 
                 if (activity) {
-                    this._characterService.activitiesProcessingService
+                    this._activitiesProcessingService
                         .activateActivity(
                             creature,
                             '',

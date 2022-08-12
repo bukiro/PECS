@@ -464,13 +464,6 @@ export class ActivitiesProcessingService {
                             newConditionGain.value = effectValue;
                         }
 
-                        //#Experimental, not needed so far
-                        //Add caster data, if a formula exists.
-                        //  if (conditionGain.casterDataFormula) {
-                        //      newConditionGain.casterData = this._characterService.effectsService
-                        //          .get_ValueFromFormula(conditionGain.casterDataFormula, creature, this._characterService, conditionGain);
-                        //  }
-                        //#
                         let conditionTargets: Array<Creature | SpellTarget> = context.targets;
 
                         // Caster conditions are applied to the caster creature only. If the spell is durationDependsOnTarget,

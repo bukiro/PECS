@@ -55,7 +55,7 @@ export class AppInitService {
     public init(): void {
         this._characterService.initialize();
         this._extensionsService.initialize();
-        this._configService.initialize(this._characterService, this._savegameService);
+        this._configService.initialize();
         DisplayService.setPageHeight();
 
         const waitForFileServices = setInterval(() => {

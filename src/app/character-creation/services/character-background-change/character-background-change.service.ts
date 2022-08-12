@@ -53,7 +53,7 @@ export class CharacterBackgroundChangeService {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featsService.processFeat(character, this._characterService, undefined, gain, choice, level, false);
+                    this._featsService.processFeat(character, undefined, gain, choice, level, false);
                 });
             });
             level.featChoices = level.featChoices.filter(choice => choice.source !== 'Background');
@@ -94,7 +94,7 @@ export class CharacterBackgroundChangeService {
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featsService.processFeat(character, this._characterService, undefined, gain, choice, level, true);
+                    this._featsService.processFeat(character, undefined, gain, choice, level, true);
                 });
             });
 

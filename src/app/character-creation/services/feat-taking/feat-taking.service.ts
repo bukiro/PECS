@@ -44,7 +44,7 @@ export class FeatTakingService {
                 ));
             const gain = choice.feats[newLength - 1];
 
-            this._featsService.processFeat(creature, this._characterService, feat, gain, choice, level, taken);
+            this._featsService.processFeat(creature, feat, gain, choice, level, taken);
         } else {
             const choiceFeats = choice.feats;
             const gain = choiceFeats.find(existingFeat =>
@@ -52,7 +52,7 @@ export class FeatTakingService {
                 existingFeat.locked === locked,
             );
 
-            this._featsService.processFeat(creature, this._characterService, feat, gain, choice, level, taken);
+            this._featsService.processFeat(creature, feat, gain, choice, level, taken);
             choiceFeats.splice(choiceFeats.indexOf(gain, 1));
         }
     }

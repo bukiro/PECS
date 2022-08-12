@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { Creature } from 'src/app/classes/Creature';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -10,6 +9,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ConditionsDataService } from '../../../../app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,7 +21,7 @@ export class ConditionGainPropertiesService {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _characterService: CharacterService,
-        private readonly _itemsService: ItemsService,
+        private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
     ) { }
 
@@ -142,7 +142,7 @@ export class ConditionGainPropertiesService {
 
             //Show a notification if the new condition has no duration and did nothing, because it will be removed in the next cycle.
             if (!didConditionDoAnything && gain.duration === 0) {
-                this._characterService.toastService.show(
+                this._toastService.show(
                     `The condition <strong>${ gain.name }</strong> was removed because it had no duration and no effect.`,
                 );
             }

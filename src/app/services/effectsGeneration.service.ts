@@ -39,6 +39,7 @@ import { ConditionsDataService } from '../core/services/data/conditions-data.ser
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { EquipmentConditionsService } from 'src/libs/shared/effects-generation/services/equipment-conditions/equipment-conditions.service';
 import { ShieldPropertiesService } from 'src/libs/shared/services/shield-properties/shield-properties.service';
+import { TraitsService } from './traits.service';
 
 interface EffectObject {
     effects: Array<EffectGain>;
@@ -78,6 +79,7 @@ export class EffectsGenerationService {
         private readonly _itemTraitsService: ItemTraitsService,
         private readonly _itemEffectsGenerationService: ItemEffectsGenerationService,
         private readonly _shieldPropertiesService: ShieldPropertiesService,
+        private readonly _traitsService: TraitsService,
     ) { }
 
     public effectsFromEffectObject(
@@ -354,11 +356,10 @@ export class EffectsGenerationService {
 
     private _collectTraitEffectHints(
         creature: Creature,
-        services: { readonly characterService: CharacterService },
     ): Array<HintEffectsObject> {
         const hintSets: Array<HintEffectsObject> = [];
 
-        services.characterService.traitsService.traits().filter(trait => trait.hints.length && trait.itemsWithThisTrait(creature).length)
+        this._traitsService.traits().filter(trait => trait.hints.length && trait.itemsWithThisTrait(creature).length)
             .forEach(trait => {
                 trait.hints.forEach(hint => {
                     hintSets.push({ hint, objectName: trait.name });
@@ -432,7 +433,7 @@ export class EffectsGenerationService {
         hintSets = hintSets.concat(effectItems.hintSets);
 
         //Collect hints of Traits that are on currently equipped items.
-        hintSets = hintSets.concat(this._collectTraitEffectHints(creature, services));
+        hintSets = hintSets.concat(this._collectTraitEffectHints(creature));
 
         //Collect active conditions and their hints.
         const effectConditions = this._collectEffectConditions(creature);

@@ -368,7 +368,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public onRetryLogin(): void {
-        this._configService.login('', this._characterService, this._savegameService);
+        this._configService.login('');
     }
 
     public savegames(): Array<Savegame> {
@@ -1393,7 +1393,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             data.setValue('deity', '');
         }
 
-        this._characterService.deitiesService.clearCharacterDeities();
+        this._deitiesService.clearCharacterDeities();
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');

@@ -7,6 +7,7 @@ import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { map, Observable, of, switchMap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { ToastService } from './toast.service';
 
 interface LoginToken {
     token: string | false;
@@ -31,6 +32,9 @@ export class ConfigService {
     constructor(
         private readonly _httpClient: HttpClient,
         private readonly _refreshService: RefreshService,
+        private readonly _characterService: CharacterService,
+        private readonly _savegameService: SavegameService,
+        private readonly _toastService: ToastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -73,10 +77,10 @@ export class ConfigService {
         return this._updateAvailable;
     }
 
-    public login(password = '', characterService: CharacterService, savegameService: SavegameService): void {
+    public login(password = ''): void {
         //We set loggingIn to true, which changes buttons in the character builder and the top-bar, so we need to update those.
         this._loggingIn = true;
-        characterService.setLoadingStatus('Connecting');
+        this._characterService.setLoadingStatus('Connecting');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
         this._refreshService.processPreparedChanges();
         // Try logging in. Return values are:
@@ -96,7 +100,7 @@ export class ConfigService {
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
                         this._refreshService.processPreparedChanges();
-                        savegameService.reset();
+                        this._savegameService.reset();
                     } else {
                         this._loggedIn = false;
                         this._loggingIn = false;
@@ -113,7 +117,7 @@ export class ConfigService {
                     console.error(`Error logging in: ${ error.message }`);
 
                     if (error.status === 0) {
-                        characterService.toastService.show(
+                        this._toastService.show(
                             'The configured database is not available. Characters can\'t be saved or loaded.',
                         );
                     }
@@ -137,7 +141,7 @@ export class ConfigService {
         this._refreshService.processPreparedChanges();
     }
 
-    public initialize(characterService: CharacterService, savegameService: SavegameService): void {
+    public initialize(): void {
         const headers = new HttpHeaders().set('Cache-Control', 'no-cache')
             .set('Pragma', 'no-cache');
 
@@ -163,7 +167,7 @@ export class ConfigService {
                     }
 
                     //Establish a connection to the data service and do a dummy login to check whether login is required.
-                    this.login('', characterService, savegameService);
+                    this.login('');
                     this._initialized = true;
                 }),
             )

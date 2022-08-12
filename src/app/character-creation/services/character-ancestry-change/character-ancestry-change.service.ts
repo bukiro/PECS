@@ -75,7 +75,7 @@ export class CharacterAncestryChangeService {
             characterClass.levels.forEach(classLevel => {
                 classLevel.featChoices.forEach(choice => {
                     choice.feats.filter(gain => gain.name.includes('Adopted Ancestry')).forEach(gain => {
-                        this._featsService.processFeat(character, this._characterService, undefined, gain, choice, level, false);
+                        this._featsService.processFeat(character, undefined, gain, choice, level, false);
                     });
 
                     choice.feats = choice.feats.filter(gain => !gain.name.includes('Adopted Ancestry'));

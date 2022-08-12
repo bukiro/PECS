@@ -419,19 +419,19 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         // These conditions are assumed to apply to "the next spell you cast".
         const conditionsToRemove: Array<string> = [];
 
-        this._characterService.effectsService.absoluteEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
+        this._effectsService.absoluteEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
             highestSpellPreservationLevel = parseInt(effect.setValue, 10);
             conditionsToRemove.push(effect.source);
         });
-        this._characterService.effectsService.relativeEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
+        this._effectsService.relativeEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
             highestSpellPreservationLevel += parseInt(effect.value, 10);
             conditionsToRemove.push(effect.source);
         });
-        this._characterService.effectsService.absoluteEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
+        this._effectsService.absoluteEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
             highestNoDurationSpellPreservationLevel = parseInt(effect.setValue, 10);
             conditionsToRemove.push(effect.source);
         });
-        this._characterService.effectsService.relativeEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
+        this._effectsService.relativeEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
             highestNoDurationSpellPreservationLevel += parseInt(effect.value, 10);
             conditionsToRemove.push(effect.source);
         });

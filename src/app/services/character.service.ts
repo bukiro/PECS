@@ -26,7 +26,6 @@ import { SpellPropertiesService } from 'src/libs/shared/services/spell-propertie
 import { EffectsService } from 'src/app/services/effects.service';
 import { Consumable } from 'src/app/classes/Consumable';
 import { TimeService } from 'src/app/services/time.service';
-import { DefenseService } from 'src/app/services/defense.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
@@ -156,35 +155,34 @@ export class CharacterService {
         private readonly _configService: ConfigService,
         private readonly _extensionsService: ExtensionsService,
         private readonly _savegameService: SavegameService,
-        public abilitiesDataService: AbilitiesDataService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
-        public skillsDataService: SkillsDataService,
-        public classesService: ClassesService,
+        private readonly _skillsDataService: SkillsDataService,
+        private readonly _classesService: ClassesService,
         private readonly _featsService: FeatsService,
-        public traitsService: TraitsService,
+        private readonly _traitsService: TraitsService,
         private readonly _historyService: HistoryService,
-        public conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        public activitiesDataService: ActivitiesDataService,
-        public itemsService: ItemsService,
-        public spellsService: SpellPropertiesService,
-        public effectsService: EffectsService,
-        public timeService: TimeService,
-        public defenseService: DefenseService,
-        public deitiesService: DeitiesService,
-        public animalCompanionsDataService: AnimalCompanionsDataService,
+        private readonly _activitiesDataService: ActivitiesDataService,
+        private readonly _itemsService: ItemsService,
+        private readonly _spellsService: SpellPropertiesService,
+        private readonly _effectsService: EffectsService,
+        private readonly _timeService: TimeService,
+        private readonly _deitiesService: DeitiesService,
+        private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
-        public familiarsService: FamiliarsService,
+        private readonly _familiarsService: FamiliarsService,
         private readonly _messageService: MessageService,
-        public toastService: ToastService,
+        private readonly _toastService: ToastService,
         private readonly _evaluationService: EvaluationService,
         private readonly _effectsGenerationService: EffectsGenerationService,
-        public refreshService: RefreshService,
-        public cacheService: CacheService,
+        private readonly _refreshService: RefreshService,
+        private readonly _cacheService: CacheService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
-        public activitiesProcessingService: ActivitiesProcessingService,
+        private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _armorClassService: ArmorClassService,
         private readonly _healthService: HealthService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
@@ -245,7 +243,7 @@ export class CharacterService {
         this._loadingStatus = status || 'Loading';
 
         if (refreshTopBar) {
-            this.refreshService.setComponentChanged('top-bar');
+            this._refreshService.setComponentChanged('top-bar');
         }
     }
 
@@ -269,11 +267,11 @@ export class CharacterService {
         if (menu) {
             if (this._menuState[menu] === 'out') {
                 this._menuState[menu] = 'in';
-                this.refreshService.setComponentChanged(this._menuMatchingComponent[menu]);
+                this._refreshService.setComponentChanged(this._menuMatchingComponent[menu]);
             } else {
                 this._menuState[menu] = 'out';
                 setTimeout(() => {
-                    this.refreshService.setComponentChanged(this._menuMatchingComponent[menu]);
+                    this._refreshService.setComponentChanged(this._menuMatchingComponent[menu]);
                 }, refreshDelay);
             }
 
@@ -288,14 +286,14 @@ export class CharacterService {
                 if (this._menuState[menuName] === 'in') {
                     this._menuState[menuName] = 'out';
                     setTimeout(() => {
-                        this.refreshService.setComponentChanged(this._menuMatchingComponent[menuName]);
+                        this._refreshService.setComponentChanged(this._menuMatchingComponent[menuName]);
                     }, refreshDelay);
                 }
             }
         });
 
-        this.refreshService.setComponentChanged('top-bar');
-        this.refreshService.processPreparedChanges();
+        this._refreshService.setComponentChanged('top-bar');
+        this._refreshService.processPreparedChanges();
     }
 
     public characterMenuState(): MenuState {
@@ -340,7 +338,7 @@ export class CharacterService {
 
     public setItemsMenuTarget(target: CreatureTypes = CreatureTypes.Character): void {
         this._itemsMenuTarget = target;
-        this.refreshService.setComponentChanged('itemstore');
+        this._refreshService.setComponentChanged('itemstore');
     }
 
     public creatureFromType(type: CreatureTypes): Character | AnimalCompanion | Familiar {
@@ -442,15 +440,15 @@ export class CharacterService {
     }
 
     public characterClasses(name: string): Array<Class> {
-        return this.classesService.classes(name);
+        return this._classesService.classes(name);
     }
 
     public deities(name = ''): Array<Deity> {
-        return this.deitiesService.deities(name);
+        return this._deitiesService.deities(name);
     }
 
     public currentCharacterDeities(character: Character, source = '', level: number = character.level): Array<Deity> {
-        return this.deitiesService.currentCharacterDeities(this, character, source, level);
+        return this._deitiesService.currentCharacterDeities(this, character, source, level);
     }
 
     public creatureSpeeds(creature: Creature, name = ''): Array<Speed> {
@@ -530,7 +528,7 @@ export class CharacterService {
             // and it could delete your chosen languages.
             //Check if you have already collected this effect by finding a languageSource with the same source and amount.
             //Only if a source cannot be found, add the effect as a temporary source (level = -2).
-            this.effectsService.relativeEffectsOnThis(this.character, 'Max Languages').forEach(effect => {
+            this._effectsService.relativeEffectsOnThis(this.character, 'Max Languages').forEach(effect => {
                 if (parseInt(effect.value, 10) > 0) {
                     const matchingSource =
                         languageSources.find(source => source.name === effect.source && source.amount === parseInt(effect.value, 10));
@@ -680,20 +678,20 @@ export class CharacterService {
         const character = this.character;
 
         character.class.deity = deity.name;
-        this.deitiesService.clearCharacterDeities();
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
+        this._deitiesService.clearCharacterDeities();
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
     }
 
     public cleanItems(): ItemCollection {
-        return this.itemsService.cleanItems();
+        return this._itemsService.cleanItems();
     }
 
     public itemGroupSpecializations(group = ''): Array<Specialization> {
-        return this.itemsService.specializations(group);
+        return this._itemsService.specializations(group);
     }
 
     public creatureInvestedItems(creature: Creature): Array<Equipment> {
@@ -725,12 +723,12 @@ export class CharacterService {
             newPropertyRunes: [],
             ...options,
         };
-        this.refreshService.prepareDetailToChange(context.creature.type, 'inventory');
-        this.refreshService.prepareDetailToChange(context.creature.type, 'effects');
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
+        this._refreshService.prepareDetailToChange(context.creature.type, 'inventory');
+        this._refreshService.prepareDetailToChange(context.creature.type, 'effects');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
 
         const newInventoryItem =
-            this.itemsService.initializeItem(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
+            this._itemsService.initializeItem(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
         let returnedItem: Item;
         // Check if this item already exists in the inventory, and if it is stackable and doesn't expire.
         // Don't make that check if this item expires.
@@ -759,7 +757,7 @@ export class CharacterService {
             existingItems[0].amount += intAmount;
             returnedItem = existingItems[0];
             //Update gridicons of the expanded item.
-            this.refreshService.prepareDetailToChange(CreatureTypes.Character, returnedItem.id);
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, returnedItem.id);
         } else {
             const newInventoryLength = context.inventory[newInventoryItem.type].push(newInventoryItem);
 
@@ -777,7 +775,7 @@ export class CharacterService {
         }
 
         if (options.changeAfter) {
-            this.refreshService.processPreparedChanges();
+            this._refreshService.processPreparedChanges();
         }
 
         return returnedItem;
@@ -792,19 +790,19 @@ export class CharacterService {
         skipGrantedItems = false,
         skipGainedInventories = false,
     ): void {
-        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
+        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
         //Disable activities on equipment and runes. Refresh all affected components.
         if (((item instanceof Equipment) || (item instanceof Rune)) && item.activities?.length) {
             item.activities.forEach(activity => {
                 activity.active = false;
-                this.refreshService.prepareChangesByHints(creature, activity.hints, { characterService: this });
+                this._refreshService.prepareChangesByHints(creature, activity.hints, { characterService: this });
             });
-            this.refreshService.prepareDetailToChange(creature.type, 'activities');
+            this._refreshService.prepareDetailToChange(creature.type, 'activities');
         }
 
         if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-            this.refreshService.prepareChangesByHints(creature, item.hints, { characterService: this });
+            this._refreshService.prepareChangesByHints(creature, item.hints, { characterService: this });
         }
 
         if (item instanceof Equipment) {
@@ -812,7 +810,7 @@ export class CharacterService {
                 item.gainActivities.forEach(gain => {
                     gain.active = false;
                 });
-                this.refreshService.prepareDetailToChange(creature.type, 'activities');
+                this._refreshService.prepareDetailToChange(creature.type, 'activities');
             }
 
             if (equip && Object.prototype.hasOwnProperty.call(item, 'equipped') && item.equippable) {
@@ -831,7 +829,7 @@ export class CharacterService {
 
                     this.character.addCustomFeat(customFeat);
 
-                    this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
+                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
                 });
             }
 
@@ -872,7 +870,7 @@ export class CharacterService {
         }
 
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
-            this.refreshService.prepareDetailToChange(creature.type, 'attacks');
+            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
         }
     }
 
@@ -892,27 +890,27 @@ export class CharacterService {
         }
 
         item.markedForDeletion = true;
-        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
-        this.refreshService.prepareDetailToChange(creature.type, 'effects');
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-        this.refreshService.prepareChangesByItem(
+        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
+        this._refreshService.prepareDetailToChange(creature.type, 'effects');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
+        this._refreshService.prepareChangesByItem(
             creature,
             item,
-            { characterService: this, activitiesDataService: this.activitiesDataService },
+            { characterService: this, activitiesDataService: this._activitiesDataService },
         );
 
         if (amount < item.amount) {
             item.amount -= amount;
-            this.refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
         } else {
             if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-                this.refreshService.prepareChangesByHints(creature, item.hints, { characterService: this });
+                this._refreshService.prepareChangesByHints(creature, item.hints, { characterService: this });
             }
 
             if ((item instanceof Equipment) || (item instanceof Rune)) {
                 item.activities.forEach(activity => {
                     if (activity.active) {
-                        this.activitiesProcessingService.activateActivity(
+                        this._activitiesProcessingService.activateActivity(
                             creature,
                             '',
                             activity,
@@ -941,11 +939,11 @@ export class CharacterService {
                 if (item.gainActivities) {
                     item.gainActivities.forEach(gain => {
                         if (gain.active) {
-                            this.activitiesProcessingService.activateActivity(
+                            this._activitiesProcessingService.activateActivity(
                                 creature,
                                 '',
                                 gain,
-                                this.activitiesDataService.activities(gain.name)[0],
+                                this._activitiesDataService.activities(gain.name)[0],
                                 false,
                             );
                         }
@@ -993,14 +991,14 @@ export class CharacterService {
         item.markedForDeletion = false;
 
         if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
-            this.refreshService.prepareDetailToChange(creature.type, 'attacks');
+            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
         }
 
         if (changeAfter) {
-            this.refreshService.processPreparedChanges();
+            this._refreshService.processPreparedChanges();
         }
 
-        this.refreshService.setComponentChanged(item.id);
+        this._refreshService.setComponentChanged(item.id);
     }
 
     public addRuneLore(rune: Rune): void {
@@ -1138,7 +1136,7 @@ export class CharacterService {
             this.sortCash();
         }
 
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
     }
 
     public sortCash(): void {
@@ -1182,11 +1180,11 @@ export class CharacterService {
             item.equipped = false;
         }
 
-        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
-        this.refreshService.prepareChangesByItem(
+        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
+        this._refreshService.prepareChangesByItem(
             creature,
             item,
-            { characterService: this, activitiesDataService: this.activitiesDataService },
+            { characterService: this, activitiesDataService: this._activitiesDataService },
         );
 
         if (!isEquippedAtBeginning && item.equipped) {
@@ -1254,7 +1252,7 @@ export class CharacterService {
             item.propertyRunes?.forEach(rune => {
                 //Deactivate any active toggled activities of inserted runes.
                 rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-                    this.activitiesProcessingService.activateActivity(
+                    this._activitiesProcessingService.activateActivity(
                         this.character,
                         CreatureTypes.Character,
                         activity,
@@ -1266,17 +1264,17 @@ export class CharacterService {
         }
 
         if (changeAfter) {
-            this.refreshService.processPreparedChanges();
+            this._refreshService.processPreparedChanges();
         }
     }
 
     public investItem(creature: Creature, inventory: ItemCollection, item: Equipment, invest = true, changeAfter = true): void {
         item.invested = invest;
-        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
-        this.refreshService.prepareDetailToChange(creature.type, item.id);
+        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
+        this._refreshService.prepareDetailToChange(creature.type, item.id);
 
         if (item instanceof WornItem && item.gainSpells.length) {
-            this.refreshService.prepareDetailToChange(creature.type, 'spellbook');
+            this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
         }
 
         //Items are automatically equipped if they are invested.
@@ -1284,18 +1282,18 @@ export class CharacterService {
             if (!item.equipped) {
                 this.equipItem(creature, inventory, item, true, false);
             } else {
-                this.refreshService.prepareChangesByItem(
+                this._refreshService.prepareChangesByItem(
                     creature,
                     item,
-                    { characterService: this, activitiesDataService: this.activitiesDataService },
+                    { characterService: this, activitiesDataService: this._activitiesDataService },
                 );
             }
         } else {
             item.gainActivities.filter(gainActivity => gainActivity.active).forEach((gainActivity: ActivityGain) => {
-                const libraryActivity = this.activitiesDataService.activities(gainActivity.name)[0];
+                const libraryActivity = this._activitiesDataService.activities(gainActivity.name)[0];
 
                 if (libraryActivity) {
-                    this.activitiesProcessingService.activateActivity(
+                    this._activitiesProcessingService.activateActivity(
                         creature,
                         '',
                         gainActivity,
@@ -1305,7 +1303,7 @@ export class CharacterService {
                 }
             });
             item.activities.filter(itemActivity => itemActivity.active).forEach((itemActivity: ItemActivity) => {
-                this.activitiesProcessingService.activateActivity(
+                this._activitiesProcessingService.activateActivity(
                     creature,
                     '',
                     itemActivity,
@@ -1314,10 +1312,10 @@ export class CharacterService {
                 );
             });
             this._creatureConditionsService.removeGainedItemConditions(creature, item);
-            this.refreshService.prepareChangesByItem(
+            this._refreshService.prepareChangesByItem(
                 creature,
                 item,
-                { characterService: this, activitiesDataService: this.activitiesDataService },
+                { characterService: this, activitiesDataService: this._activitiesDataService },
             );
         }
 
@@ -1325,16 +1323,16 @@ export class CharacterService {
         // Because too many invested wayfinders disable each other's aeon stones.
         if (item instanceof WornItem && item.aeonStones.length) {
             creature.inventories[0].wornitems.filter(wornItem => wornItem !== item && wornItem.aeonStones.length).forEach(wornItem => {
-                this.refreshService.prepareChangesByItem(
+                this._refreshService.prepareChangesByItem(
                     creature,
                     wornItem,
-                    { characterService: this, activitiesDataService: this.activitiesDataService },
+                    { characterService: this, activitiesDataService: this._activitiesDataService },
                 );
             });
         }
 
         if (changeAfter) {
-            this.refreshService.processPreparedChanges();
+            this._refreshService.processPreparedChanges();
         }
     }
 
@@ -1343,13 +1341,13 @@ export class CharacterService {
             item.amount--;
         }
 
-        this.itemsService.processConsumable(creature, this, this.conditionGainPropertiesService, this.spellsService, item);
-        this.refreshService.prepareChangesByItem(
+        this._itemsService.processConsumable(creature, this, this._conditionGainPropertiesService, this._spellsService, item);
+        this._refreshService.prepareChangesByItem(
             creature,
             item,
-            { characterService: this, activitiesDataService: this.activitiesDataService },
+            { characterService: this, activitiesDataService: this._activitiesDataService },
         );
-        this.refreshService.prepareDetailToChange(creature.type, 'inventory');
+        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
     }
 
     public creatureHasCondition(creature: Creature, name: string): boolean {
@@ -1412,7 +1410,7 @@ export class CharacterService {
                     if (error.status === HttpStatusCode.Unauthorized) {
                         this._configService.logout('Your login is no longer valid; The event was not sent.');
                     } else {
-                        this.toastService.show('An error occurred while sending effects. See console for more information.');
+                        this._toastService.show('An error occurred while sending effects. See console for more information.');
                         console.error(`Error saving effect messages to database: ${ error.message }`);
                     }
                 },
@@ -1447,12 +1445,12 @@ export class CharacterService {
                             const senderName =
                                 this._savegameService.savegames().find(savegame => savegame.id === senderId)?.name || 'Unknown';
 
-                            this.toastService.show(
+                            this._toastService.show(
                                 `Automatically removed <strong>${ existingConditionGain.name }`
                                 + `${ existingConditionGain.choice ? `: ${ existingConditionGain.choice }` : '' }`
                                 + `</strong> condition from <strong>${ creature.name || creature.type }`
                                 + `</strong> on turn of <strong>${ senderName }</strong>`);
-                            this.refreshService.prepareDetailToChange(creature.type, 'effects');
+                            this._refreshService.prepareDetailToChange(creature.type, 'effects');
                         }
                     });
             });
@@ -1511,7 +1509,7 @@ export class CharacterService {
                                 tap({
                                     complete: () => {
                                         //If messages were sent, send a summary toast.
-                                        this.toastService.show(`Sent effects to ${ messages.length } targets.`);
+                                        this._toastService.show(`Sent effects to ${ messages.length } targets.`);
                                     },
                                 }),
                             );
@@ -1527,7 +1525,7 @@ export class CharacterService {
                             + 'you can enable Manual Mode in the settings to restore them.',
                         );
                     } else {
-                        this.toastService.show('An error occurred while sending effects. See console for more information.');
+                        this._toastService.show('An error occurred while sending effects. See console for more information.');
                         console.error(`Error saving effect messages to database: ${ error.message }`);
                     }
                 },
@@ -1557,7 +1555,7 @@ export class CharacterService {
                             const senderName = this.messageSenderName(message);
 
                             //If a condition was created, send a toast to inform the user.
-                            this.toastService.show(
+                            this._toastService.show(
                                 `Added <strong>${ conditionGain.name }`
                                 + `${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition to <strong>`
                                 + `${ targetCreature.name || targetCreature.type }</strong> (sent by <strong>`
@@ -1583,7 +1581,7 @@ export class CharacterService {
                             const senderName = this.messageSenderName(message);
 
                             //If a condition was removed, send a toast to inform the user.
-                            this.toastService.show(
+                            this._toastService.show(
                                 `Removed <strong>${ conditionGain.name }`
                                 + `${ conditionGain.choice ? `: ${ conditionGain.choice }` : '' }</strong> condition from <strong>`
                                 + `${ targetCreature.name || targetCreature.type }</strong> (added by <strong>`
@@ -1612,10 +1610,10 @@ export class CharacterService {
                         amount = item.amount;
                     }
 
-                    this.itemsService.updateGrantingItemBeforeTransfer(sender, item);
+                    this._itemsService.updateGrantingItemBeforeTransfer(sender, item);
 
                     const included: { items: Array<Item>; inventories: Array<ItemCollection> } =
-                        this.itemsService.packGrantingItemForTransfer(sender, item);
+                        this._itemsService.packGrantingItemForTransfer(sender, item);
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const message = new PlayerMessage();
 
@@ -1630,7 +1628,7 @@ export class CharacterService {
                     message.offeredItem.push(
                         Object.assign(
                             new Item(),
-                            JSON.parse(JSON.stringify(item))).recast(this.itemsService,
+                            JSON.parse(JSON.stringify(item))).recast(this._itemsService,
                         ),
                     );
                     message.itemAmount = amount;
@@ -1642,7 +1640,7 @@ export class CharacterService {
                             tap({
                                 complete: () => {
                                     //If the message was sent, send a summary toast.
-                                    this.toastService.show(`Sent item offer to <strong>${ target.name }</strong>.`);
+                                    this._toastService.show(`Sent item offer to <strong>${ target.name }</strong>.`);
                                 },
                             }),
                         );
@@ -1655,7 +1653,7 @@ export class CharacterService {
                             'Your login is no longer valid; The item offer was not sent. Please try again after logging in.',
                         );
                     } else {
-                        this.toastService.show('An error occurred while sending item. See console for more information.');
+                        this._toastService.show('An error occurred while sending item. See console for more information.');
                         console.error(`Error saving item message to database: ${ error.message }`);
                     }
                 },
@@ -1688,7 +1686,7 @@ export class CharacterService {
                                 item.amount = message.itemAmount;
                             }
 
-                            const typedItem = this.itemsService.castItemByType(item);
+                            const typedItem = this._itemsService.castItemByType(item);
                             const existingItems =
                                 targetInventory[typedItem.type]
                                     .filter((existing: Item) =>
@@ -1707,15 +1705,15 @@ export class CharacterService {
                                     addedPrimaryItem = existingItems[0];
                                 }
 
-                                this.refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
-                                this.refreshService.setComponentChanged(existingItems[0].id);
+                                this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
+                                this._refreshService.setComponentChanged(existingItems[0].id);
                             } else {
-                                typedItem.recast(this.itemsService);
+                                typedItem.recast(this._itemsService);
 
                                 const newLength = targetInventory[typedItem.type].push(typedItem);
                                 const addedItem = targetInventory[typedItem.type][newLength - 1];
 
-                                this.refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
+                                this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
 
                                 if (item.id === message.offeredItem[0].id) {
                                     addedPrimaryItem = addedItem;
@@ -1765,7 +1763,7 @@ export class CharacterService {
                             }
 
                             text += '.';
-                            this.toastService.show(text);
+                            this._toastService.show(text);
                             //Build a response message that lets the other player know that the item has been accepted.
                             this.sendItemAcceptedMessage(message);
                         }
@@ -1816,9 +1814,9 @@ export class CharacterService {
                                 complete: () => {
                                     //If the message was sent, send a summary toast.
                                     if (accepted) {
-                                        this.toastService.show(`Sent acceptance response to <strong>${ target }</strong>.`);
+                                        this._toastService.show(`Sent acceptance response to <strong>${ target }</strong>.`);
                                     } else {
-                                        this.toastService.show(`Sent rejection response to <strong>${ target }</strong>.`);
+                                        this._toastService.show(`Sent rejection response to <strong>${ target }</strong>.`);
                                     }
                                 },
                             }),
@@ -1833,7 +1831,7 @@ export class CharacterService {
                             + 'but you have received the item. Your party member should drop the item manually.',
                         );
                     } else {
-                        this.toastService.show('An error occurred while sending response. See console for more information.');
+                        this._toastService.show('An error occurred while sending response. See console for more information.');
                         console.error(`Error saving response message to database: ${ error.message }`);
                     }
                 },
@@ -1871,7 +1869,7 @@ export class CharacterService {
                 }
 
                 if (message.acceptedItem) {
-                    this.toastService.show(
+                    this._toastService.show(
                         `<strong>${ sender }</strong> has accepted the <strong>`
                         + `${ itemName }</strong>. The item is dropped from your inventory.`,
                     );
@@ -1880,7 +1878,7 @@ export class CharacterService {
                         this.dropInventoryItem(foundCreature, foundInventory, foundItem, false, true, true, message.itemAmount);
                     }
                 } else if (message.rejectedItem) {
-                    this.toastService.show(
+                    this._toastService.show(
                         `<strong>${ sender }</strong> has rejected the <strong>`
                         + `${ itemName }</strong>. The item will remain in your inventory.`,
                     );
@@ -1889,7 +1887,7 @@ export class CharacterService {
 
             this._messageService.markMessageAsIgnored(this, message);
         });
-        this.refreshService.processPreparedChanges();
+        this._refreshService.processPreparedChanges();
     }
 
     public prepareOnceEffect(
@@ -1960,7 +1958,7 @@ export class CharacterService {
         const character = this.character;
 
         if (maxFocusPoints === 0) {
-            this.toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
+            this._toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
 
             return;
         }
@@ -1973,12 +1971,12 @@ export class CharacterService {
         character.class.focusPoints += value;
 
         if (value >= 0) {
-            this.toastService.show(`You gained ${ value } focus point${ value === 1 ? '' : 's' }.`);
+            this._toastService.show(`You gained ${ value } focus point${ value === 1 ? '' : 's' }.`);
         } else {
-            this.toastService.show(`You lost ${ value * -1 } focus point${ value === 1 ? '' : 's' }.`);
+            this._toastService.show(`You lost ${ value * -1 } focus point${ value === 1 ? '' : 's' }.`);
         }
 
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
     }
 
     public changeCreatureTemporaryHPWithNotification(
@@ -2002,14 +2000,14 @@ export class CharacterService {
             if (context.source === 'Manual') {
                 creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: '' };
                 creature.health.temporaryHP.length = 1;
-                this.toastService.show(`${ phrases.name } gained ${ value } temporary HP.`);
+                this._toastService.show(`${ phrases.name } gained ${ value } temporary HP.`);
             } else if (creature.health.temporaryHP[0].amount === 0) {
                 creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: context.sourceId };
                 creature.health.temporaryHP.length = 1;
-                this.toastService.show(`${ phrases.name } gained ${ value } temporary HP from ${ context.source }.`);
+                this._toastService.show(`${ phrases.name } gained ${ value } temporary HP from ${ context.source }.`);
             } else {
                 creature.health.temporaryHP.push({ amount: value, source: context.source, sourceId: context.sourceId });
-                this.toastService.show(
+                this._toastService.show(
                     `${ phrases.name } gained ${ value } temporary HP from ${ context.source }. `
                     + `${ phrases.name } already had temporary HP and must choose which amount to keep.`,
                 );
@@ -2032,13 +2030,13 @@ export class CharacterService {
                         creature.health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
                     }
 
-                    this.toastService.show(`${ phrases.name } lost ${ value * -1 } temporary HP.`);
+                    this._toastService.show(`${ phrases.name } lost ${ value * -1 } temporary HP.`);
                 } else {
                     if (targetTempHPSet.amount <= 0) {
                         creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
                     }
 
-                    this.toastService.show(
+                    this._toastService.show(
                         `${ phrases.name } lost ${ value * -1 } of the temporary HP gained from ${ context.source }. `
                         + `This is not the set of temporary HP that ${ phrases.pronoun } ${ phrases.verbIs } currently using.`,
                     );
@@ -2046,10 +2044,10 @@ export class CharacterService {
             }
         }
 
-        this.refreshService.prepareDetailToChange(creature.type, 'health');
+        this._refreshService.prepareDetailToChange(creature.type, 'health');
         //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
     }
 
     public changeCreatureHPWithNotification(creature: Creature, value: number, context: { source: string }): void {
@@ -2067,7 +2065,7 @@ export class CharacterService {
                 results = ` This removed ${ phrases.pronounGenitive } Dying condition.`;
             }
 
-            this.toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
+            this._toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
         } else if (value < 0) {
             const result = this._healthService.takeDamage(creature.health, creature, -value, false);
             let results = '';
@@ -2084,11 +2082,11 @@ export class CharacterService {
                 results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
             }
 
-            this.toastService.show(`${ phrases.name } lost ${ value * -1 } HP from ${ context.source }.${ results }`);
+            this._toastService.show(`${ phrases.name } lost ${ value * -1 } HP from ${ context.source }.${ results }`);
         }
 
-        this.refreshService.prepareDetailToChange(creature.type, 'health');
-        this.refreshService.prepareDetailToChange(creature.type, 'effects');
+        this._refreshService.prepareDetailToChange(creature.type, 'health');
+        this._refreshService.prepareDetailToChange(creature.type, 'effects');
     }
 
     public raiseCharacterShieldWithNotification(value: number): void {
@@ -2097,14 +2095,14 @@ export class CharacterService {
         if (equippedShield) {
             if (value > 0) {
                 equippedShield.raised = true;
-                this.toastService.show('Your shield was raised.');
+                this._toastService.show('Your shield was raised.');
             } else {
                 equippedShield.raised = false;
-                this.toastService.show('Your shield was lowered.');
+                this._toastService.show('Your shield was lowered.');
             }
 
-            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
         }
     }
 
@@ -2115,16 +2113,16 @@ export class CharacterService {
 
         switch (value) {
             case CoverTypes.NoCover:
-                this.toastService.show(`${ phrases.name } ${ phrases.verbIs } no longer taking cover.`);
+                this._toastService.show(`${ phrases.name } ${ phrases.verbIs } no longer taking cover.`);
                 break;
             case CoverTypes.LesserCover:
-                this.toastService.show(`${ phrases.name } now ${ phrases.verbHas } lesser cover.`);
+                this._toastService.show(`${ phrases.name } now ${ phrases.verbHas } lesser cover.`);
                 break;
             case CoverTypes.Cover:
-                this.toastService.show(`${ phrases.name } now ${ phrases.verbHas } standard cover.`);
+                this._toastService.show(`${ phrases.name } now ${ phrases.verbHas } standard cover.`);
                 break;
             case CoverTypes.GreaterCover:
-                this.toastService.show(`${ phrases.name } now ${ phrases.verbHas } greater cover.`);
+                this._toastService.show(`${ phrases.name } now ${ phrases.verbHas } greater cover.`);
                 break;
             default: break;
         }
@@ -2154,7 +2152,7 @@ export class CharacterService {
                 const validationResult =
                     this._evaluationService.valueFromFormula(
                         effectGain.value,
-                        { characterService: this, effectsService: this.effectsService },
+                        { characterService: this, effectsService: this._effectsService },
                         { creature, object: testObject, effect: effectGain },
                     );
 
@@ -2219,7 +2217,7 @@ export class CharacterService {
     }
 
     public abilities(name = ''): Array<Ability> {
-        return this.abilitiesDataService.abilities(name);
+        return this._abilitiesDataService.abilities(name);
     }
 
     public skills(
@@ -2228,7 +2226,7 @@ export class CharacterService {
         filter: { type?: string; locked?: boolean } = {},
         options: { noSubstitutions?: boolean } = {},
     ): Array<Skill> {
-        return this.skillsDataService.skills(creature.customSkills, name, filter, options);
+        return this._skillsDataService.skills(creature.customSkills, name, filter, options);
     }
 
     public feats(name = '', type = ''): Array<Feat> {
@@ -2298,7 +2296,7 @@ export class CharacterService {
     }
 
     public animalCompanionLevels(): Array<AnimalCompanionLevel> {
-        return this.animalCompanionsDataService.companionLevels();
+        return this._animalCompanionsDataService.companionLevels();
     }
 
     public creatureSenses(creature: Creature, charLevel: number = this.character.level, allowTemporary = false): Array<string> {
@@ -2332,7 +2330,7 @@ export class CharacterService {
 
         if (creature.isFamiliar()) {
             creature.abilities.feats
-                .map(gain => this.familiarsService.familiarAbilities(gain.name)[0])
+                .map(gain => this._familiarsService.familiarAbilities(gain.name)[0])
                 .filter(ability => ability?.senses.length)
                 .forEach(ability => {
                     senses.push(...ability.senses);
@@ -2440,7 +2438,7 @@ export class CharacterService {
 
     public familiarElementsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
         //Get showon elements from Familiar Abilities
-        return this.familiarsService.familiarAbilities().filter(feat =>
+        return this._familiarsService.familiarAbilities().filter(feat =>
             feat.hints.find(hint =>
                 (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
@@ -2561,7 +2559,7 @@ export class CharacterService {
                         }
 
                         item.traits
-                            .map(trait => this.traitsService.traits(trait)[0])
+                            .map(trait => this._traitsService.traits(trait)[0])
                             .filter(trait => trait?.gainActivities.length)
                             .forEach(trait => {
                                 activities.push(...trait.gainActivities);
@@ -2575,7 +2573,7 @@ export class CharacterService {
                 });
             } else {
                 //Without the all parameter, get activities only from equipped and invested items and their slotted items.
-                const hasTooManySlottedAeonStones = this.itemsService.hasTooManySlottedAeonStones(creature);
+                const hasTooManySlottedAeonStones = this._itemsService.hasTooManySlottedAeonStones(creature);
 
                 creature.inventories[0]?.allEquipment()
                     .filter(item =>
@@ -2621,7 +2619,7 @@ export class CharacterService {
                         }
 
                         item.traits
-                            .map(trait => this.traitsService.traits(trait)[0])
+                            .map(trait => this._traitsService.traits(trait)[0])
                             .filter(trait => trait?.gainActivities.length)
                             .forEach(trait => {
                                 activities.push(...trait.gainActivities);
@@ -2701,7 +2699,7 @@ export class CharacterService {
             }
         };
 
-        const hasTooManySlottedAeonStones = this.itemsService.hasTooManySlottedAeonStones(creature);
+        const hasTooManySlottedAeonStones = this._itemsService.hasTooManySlottedAeonStones(creature);
 
         creature.inventories.forEach(inventory => {
             inventory.allEquipment()
@@ -2779,10 +2777,10 @@ export class CharacterService {
     public maxFocusPoints(): number {
         let focusPoints = 0;
 
-        this.effectsService.absoluteEffectsOnThis(this.character, 'Focus Pool').forEach(effect => {
+        this._effectsService.absoluteEffectsOnThis(this.character, 'Focus Pool').forEach(effect => {
             focusPoints = parseInt(effect.setValue, 10);
         });
-        this.effectsService.relativeEffectsOnThis(this.character, 'Focus Pool').forEach(effect => {
+        this._effectsService.relativeEffectsOnThis(this.character, 'Focus Pool').forEach(effect => {
             focusPoints += parseInt(effect.value, 10);
         });
 
@@ -2796,11 +2794,11 @@ export class CharacterService {
     public initializeAnimalCompanion(): void {
         const character = this.character;
 
-        this.cacheService.resetCreatureCache(1);
+        this._cacheService.resetCreatureCache(1);
 
         if (character.class.animalCompanion) {
             character.class.animalCompanion =
-                Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this.itemsService);
+                Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._itemsService);
 
             const companion = character.class.animalCompanion;
 
@@ -2813,11 +2811,11 @@ export class CharacterService {
     public initializeFamiliar(): void {
         const character = this.character;
 
-        this.cacheService.resetCreatureCache(CreatureTypeIds.Familiar);
+        this._cacheService.resetCreatureCache(CreatureTypeIds.Familiar);
 
         if (character.class.familiar) {
-            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this.itemsService);
-            this.refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
+            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._itemsService);
+            this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
         }
     }
 
@@ -2846,17 +2844,17 @@ export class CharacterService {
     public reset(id?: string, loadAsGM?: boolean): void {
         this.setLoadingStatus('Resetting character');
         this._loading = true;
-        this.refreshService.setComponentChanged('charactersheet');
-        this.cacheService.reset();
-        this.traitsService.reset();
-        this.activitiesDataService.reset();
+        this._refreshService.setComponentChanged('charactersheet');
+        this._cacheService.reset();
+        this._traitsService.reset();
+        this._activitiesDataService.reset();
         this._featsService.reset();
         this._conditionsDataService.reset();
-        this.skillsDataService.reset();
-        this.itemsService.reset();
-        this.deitiesService.reset();
-        this.animalCompanionsDataService.reset();
-        this.familiarsService.reset();
+        this._skillsDataService.reset();
+        this._itemsService.reset();
+        this._deitiesService.reset();
+        this._animalCompanionsDataService.reset();
+        this._familiarsService.reset();
         this._messageService.reset();
 
         if (id) {
@@ -2869,7 +2867,7 @@ export class CharacterService {
                         if (this._loader) {
                             this.finishLoading(loadAsGM);
                         } else {
-                            this.toastService.show('The character could not be found in the database.');
+                            this._toastService.show('The character could not be found in the database.');
                             this._cancelLoading();
                         }
                     },
@@ -2880,7 +2878,7 @@ export class CharacterService {
                             );
                             this._cancelLoading();
                         } else {
-                            this.toastService.show('An error occurred while loading the character. See console for more information.');
+                            this._toastService.show('An error occurred while loading the character. See console for more information.');
                             console.error(`Error loading character from database: ${ error.message }`);
                             this._cancelLoading();
                         }
@@ -2896,7 +2894,7 @@ export class CharacterService {
         this._savegameService.deleteCharacter(savegame)
             .subscribe({
                 next: () => {
-                    this.toastService.show(`Deleted ${ savegame.name || 'character' } from database.`);
+                    this._toastService.show(`Deleted ${ savegame.name || 'character' } from database.`);
                     this._savegameService.reset();
                 },
                 error: error => {
@@ -2905,7 +2903,7 @@ export class CharacterService {
                             'Your login is no longer valid. The character could not be deleted. Please try again after logging in.',
                         );
                     } else {
-                        this.toastService.show('An error occurred while deleting the character. See console for more information.');
+                        this._toastService.show('An error occurred while deleting the character. See console for more information.');
                         console.error(`Error deleting from database: ${ error.message }`);
                     }
                 },
@@ -2919,8 +2917,8 @@ export class CharacterService {
             this._savegameService.processLoadedCharacter(
                 JSON.parse(JSON.stringify(this._loader)),
                 this,
-                this.itemsService,
-                this.classesService,
+                this._itemsService,
+                this._classesService,
                 this._historyService,
             );
         this._character.GMMode = loadAsGM;
@@ -2928,11 +2926,11 @@ export class CharacterService {
         // Set loading to false. The last steps need the characterService to not be loading.
         this._loading = false;
         // Set your turn state according to the saved state.
-        this.timeService.yourTurn = this.character.yourTurn;
+        this._timeService.yourTurn = this.character.yourTurn;
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
         this._featsService.buildCharacterFeats(this.character);
         // Reset cache for all creatures.
-        this.cacheService.reset();
+        this._cacheService.reset();
         // Set accent color and dark mode according to the settings.
         this.setAccent();
         this.setDarkmode();
@@ -2944,14 +2942,14 @@ export class CharacterService {
     }
 
     public saveCharacter(): void {
-        this.character.yourTurn = this.timeService.yourTurn;
-        this.toastService.show('Saving...');
+        this.character.yourTurn = this._timeService.yourTurn;
+        this._toastService.show('Saving...');
 
         const savegame =
             this._savegameService.prepareCharacterForSaving(
                 this.character,
-                this.itemsService,
-                this.classesService,
+                this._itemsService,
+                this._classesService,
                 this._historyService,
             );
 
@@ -2959,9 +2957,9 @@ export class CharacterService {
             .subscribe({
                 next: result => {
                     if (result.lastErrorObject && result.lastErrorObject.updatedExisting) {
-                        this.toastService.show(`Saved ${ this.character.name || 'character' }.`);
+                        this._toastService.show(`Saved ${ this.character.name || 'character' }.`);
                     } else {
-                        this.toastService.show(`Created ${ this.character.name || 'character' }.`);
+                        this._toastService.show(`Created ${ this.character.name || 'character' }.`);
                     }
 
                     this._savegameService.reset();
@@ -2972,7 +2970,7 @@ export class CharacterService {
                             + 'Please try saving the character again after logging in.',
                         );
                     } else {
-                        this.toastService.show('An error occurred while saving the character. See console for more information.');
+                        this._toastService.show('An error occurred while saving the character. See console for more information.');
                         console.error(`Error saving to database: ${ error.message }`);
                     }
                 },
@@ -2990,16 +2988,16 @@ export class CharacterService {
 
     private _refreshAfterLoading(): void {
         //Update everything once, then effects, and then the player can take over.
-        this.refreshService.setComponentChanged();
+        this._refreshService.setComponentChanged();
         this.setLoadingStatus('Loading', false);
-        this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
+        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
 
         if (!this._configService.isLoggedIn && !this._configService.cannotLogin) {
-            this.refreshService.prepareDetailToChange(CreatureTypes.Character, 'logged-out');
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'logged-out');
         }
 
-        this.refreshService.processPreparedChanges();
-        this.refreshService.setComponentChanged();
+        this._refreshService.processPreparedChanges();
+        this._refreshService.setComponentChanged();
     }
 
     private _rgbAccent(): string {
@@ -3087,14 +3085,14 @@ export class CharacterService {
                 .forEach(invItem => {
                     if (!invItem.markedForDeletion) {
                         found++;
-                        this.itemsService
+                        this._itemsService
                             .moveItemLocally(creature, invItem, creature.inventories[0], inv, this, invItem.amount, true);
                     }
                 });
         });
 
         if (found) {
-            this.toastService.show(
+            this._toastService.show(
                 `${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.effectiveName() }</strong> `
                 + 'before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.',
             );
@@ -3110,13 +3108,13 @@ export class CharacterService {
                 const newBasicWeapon: Weapon =
                     Object.assign(
                         new Weapon(),
-                        this.itemsService.cleanItemFromID('08693211-8daa-11ea-abca-ffb46fbada73'),
-                    ).recast(this.itemsService);
+                        this._itemsService.cleanItemFromID('08693211-8daa-11ea-abca-ffb46fbada73'),
+                    ).recast(this._itemsService);
                 const newBasicArmor: Armor =
                     Object.assign(
                         new Armor(),
-                        this.itemsService.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
-                    ).recast(this.itemsService);
+                        this._itemsService.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
+                    ).recast(this._itemsService);
 
                 this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
                 this._equipBasicItems(this.character, false);

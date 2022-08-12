@@ -18,6 +18,9 @@ import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells
 import { SpellCastingTypeFromString, SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 import { FeatsService } from 'src/app/services/feats.service';
+import { FamiliarsService } from 'src/app/services/familiars.service';
+import { ItemsService } from 'src/app/services/items.service';
+import { DeitiesService } from 'src/app/services/deities.service';
 
 @Injectable({
     providedIn: 'root',
@@ -31,6 +34,9 @@ export class FeatRequirementsService {
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _deityDomainsService: DeityDomainsService,
         private readonly _featsService: FeatsService,
+        private readonly _familiarsService: FamiliarsService,
+        private readonly _deitiesService: DeitiesService,
+        private readonly _itemsService: ItemsService,
     ) { }
 
     public static prof(skillLevel: number): string {
@@ -224,7 +230,7 @@ export class FeatRequirementsService {
                     testcreature = this._characterService.familiar;
                     testfeat = featreq.split('Familiar:')[1].trim();
                     requiredFeats =
-                        this._characterService.familiarsService.familiarAbilities().filter(ability =>
+                        this._familiarsService.familiarAbilities().filter(ability =>
                             [ability.name.toLowerCase(), ability.superType.toLowerCase()].includes(testfeat.toLowerCase()),
                         );
                 } else {
@@ -714,7 +720,7 @@ export class FeatRequirementsService {
                 complexreq.countDeities?.forEach(deityreq => {
                     if (!hasThisRequirementFailed) {
                         const allDeities: Array<Deity> =
-                            this._characterService.deitiesService.currentCharacterDeities(this._characterService, character, '', charLevel);
+                            this._deitiesService.currentCharacterDeities(this._characterService, character, '', charLevel);
                         let deities: Array<Deity> = (!deityreq.query.secondOnly ? [allDeities[0]] : [])
                             .concat(!deityreq.query.firstOnly ? [allDeities[1]] : [])
                             .filter(deity => !!deity);
@@ -797,7 +803,7 @@ export class FeatRequirementsService {
                 complexreq.countFavoredWeapons?.forEach(favoredweaponreq => {
                     if (!hasThisRequirementFailed) {
                         const allDeities: Array<Deity> =
-                            this._characterService.deitiesService.currentCharacterDeities(this._characterService, character, '', charLevel);
+                            this._deitiesService.currentCharacterDeities(this._characterService, character, '', charLevel);
                         let favoredWeapons: Array<string> = [].concat(...allDeities.map(deity => deity.favoredWeapon));
 
                         if (favoredweaponreq.query.havingAnyOfProficiencies) {
@@ -805,13 +811,13 @@ export class FeatRequirementsService {
 
                             favoredWeapons = favoredWeapons.filter(weaponName => {
                                 let weapon =
-                                    this._characterService.itemsService.cleanItems().weapons.find(cleanWeapon => (
+                                    this._itemsService.cleanItems().weapons.find(cleanWeapon => (
                                         cleanWeapon.name.toLowerCase() === weaponName.toLowerCase()
                                     ));
 
                                 if (!weapon) {
                                     weapon =
-                                        this._characterService.itemsService.cleanItems().weapons.find(cleanWeapon => (
+                                        this._itemsService.cleanItems().weapons.find(cleanWeapon => (
                                             cleanWeapon.weaponBase.toLowerCase() === weaponName.toLowerCase()
                                         ));
                                 }

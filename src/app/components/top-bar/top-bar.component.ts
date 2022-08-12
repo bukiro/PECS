@@ -358,7 +358,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                         if (result === 'OK click') {
                             this.passwordFailed = false;
                             this.modalOpen = false;
-                            this._configService.login(this.password, this._characterService, this._savegameService);
+                            this._configService.login(this.password);
                             this.password = '';
                         }
                     },

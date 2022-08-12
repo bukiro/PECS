@@ -5,6 +5,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { Weapon } from 'src/app/classes/Weapon';
 import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
+import { TraitsService } from 'src/app/services/traits.service';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -43,6 +44,7 @@ export class AttacksService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _itemTraitsService: ItemTraitsService,
+        private readonly _traitsService: TraitsService,
     ) { }
 
     public attack(
@@ -179,7 +181,7 @@ export class AttacksService {
         const traitEffects: Array<Effect> = [];
 
         weapon.activatedTraitsActivations().forEach(activation => {
-            const realTrait = this._characterService.traitsService.traits(activation.trait)[0];
+            const realTrait = this._traitsService.traits(activation.trait)[0];
 
             traitEffects.push(...realTrait.objectBoundEffects(activation, ['Attack']));
         });

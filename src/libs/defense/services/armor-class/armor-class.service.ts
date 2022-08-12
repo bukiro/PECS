@@ -8,6 +8,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { CharacterService } from 'src/app/services/character.service';
 import { DefenseService } from 'src/app/services/defense.service';
 import { EffectsService } from 'src/app/services/effects.service';
+import { RefreshService } from 'src/app/services/refresh.service';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
@@ -39,6 +40,7 @@ export class ArmorClassService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _defenseService: DefenseService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
+        private readonly _refreshService: RefreshService,
     ) { }
 
     public setCover(
@@ -112,7 +114,7 @@ export class ArmorClassService {
             this._creatureConditionsService.addCondition(creature, newCondition, {}, { noReload: true });
         }
 
-        this._characterService.refreshService.processPreparedChanges();
+        this._refreshService.processPreparedChanges();
     }
     public calculate(
         creature: Creature,
@@ -351,7 +353,7 @@ export class ArmorClassService {
         //Sum up the effects
         let effectsSum = 0;
 
-        this._characterService.effectsService.reduceEffectsByType(clonedRelatives)
+        this._effectsService.reduceEffectsByType(clonedRelatives)
             .forEach(effect => {
                 effectsSum += parseInt(effect.value, 10);
                 explain += `\n${ effect.source }: ${ effect.value }`;

@@ -64,7 +64,7 @@ export class CharacterClassChangeService {
         characterClass.levels.forEach(level => {
             level.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featsService.processFeat(character, this._characterService, undefined, gain, choice, level, false);
+                    this._featsService.processFeat(character, undefined, gain, choice, level, false);
                 });
 
                 choice.feats.length = 0;
@@ -90,7 +90,7 @@ export class CharacterClassChangeService {
             characterClass.levels.forEach(level => {
                 level.featChoices.forEach(choice => {
                     choice.feats.forEach(gain => {
-                        this._featsService.processFeat(character, this._characterService, undefined, gain, choice, level, true);
+                        this._featsService.processFeat(character, undefined, gain, choice, level, true);
                     });
                 });
             });
