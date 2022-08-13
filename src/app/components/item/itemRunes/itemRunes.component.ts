@@ -23,7 +23,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
-import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 
 interface RuneItemType {

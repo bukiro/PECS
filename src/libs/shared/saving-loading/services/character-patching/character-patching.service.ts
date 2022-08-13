@@ -1,355 +1,33 @@
-/* eslint-disable max-lines */
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { Skill } from 'src/app/classes/Skill';
-import { Settings } from 'src/app/classes/Settings';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { ItemsService } from 'src/app/services/items.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Savegame } from 'src/app/classes/Savegame';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConfigService } from 'src/app/core/services/config/config.service';
-import { default as package_json } from 'package.json';
 import { Hint } from 'src/app/classes/Hint';
-import { RefreshService } from 'src/app/services/refresh.service';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
-import { FeatsService } from './feats.service';
-import { Item } from '../classes/Item';
-import { Feat } from '../character-creation/definitions/models/Feat';
-import { Equipment } from '../classes/Equipment';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
-import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-companion-ancestry/animal-companion-ancestry.service';
-import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
-import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
-import { FeatTakingService } from '../character-creation/services/feat-taking/feat-taking.service';
-import { ClassSavingLoadingService } from 'src/libs/shared/saving-loading/services/class-saving-loading/class-saving-loading.service';
-import { HistorySavingLoadingService } from 'src/libs/shared/saving-loading/services/history-saving-loading/history-saving-loading.service';
-
-interface DatabaseCharacter {
-    _id: string;
-}
-
-interface SaveCharacterResponse {
-    result: { n: number; ok: number };
-    lastErrorObject?: { updatedExisting?: number };
-}
-
-enum HttpStatus {
-    InvalidLogin = 401,
-}
+import { FeatsService } from 'src/app/services/feats.service';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { FeatTakingService } from 'src/app/character-creation/services/feat-taking/feat-taking.service';
+import { Equipment } from 'src/app/classes/Equipment';
+import { Item } from 'src/app/classes/Item';
 
 @Injectable({
     providedIn: 'root',
 })
-export class SavegameService {
-
-    private _savegames: Array<Savegame> = [];
-    private _loadingError = false;
-    private _loading = false;
+export class CharacterPatchingService {
 
     constructor(
-        private readonly _http: HttpClient,
-        private readonly _configService: ConfigService,
-        private readonly _refreshService: RefreshService,
         private readonly _featsService: FeatsService,
-        private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
-        private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
-        private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterService: CharacterService,
-        private readonly _classSavingLoadingService: ClassSavingLoadingService,
-        private readonly _itemsService: ItemsService,
-        private readonly _historySavingLoadingService: HistorySavingLoadingService,
     ) { }
 
-    public get stillLoading(): boolean {
-        return this._loading;
-    }
-
-    public savegames(): Array<Savegame> {
-        return this._savegames;
-    }
-
-    public loadingError(): boolean {
-        return this._loadingError;
-    }
-
-    public processLoadedCharacter(
-        loader: Partial<Character & DatabaseCharacter>,
-    ): Character {
-        //Make a copy of the character before restoration. This will be used in patching.
-        const savedCharacter = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(loader)));
-
-        //Remove the database id so it isn't saved over.
-        if (loader._id) {
-            delete loader._id;
-        }
-
-        const character = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(loader)));
-
-        // We restore a few things individually before we restore the class,
-        // allowing us to patch them before any issues would be created by new changes to the class.
-
-        //Apply any new settings.
-        character.settings = Object.assign(new Settings(), character.settings);
-
-        //Restore Inventories, but not items.
-        character.inventories = character.inventories.map(inventory => Object.assign(new ItemCollection(), inventory));
-
-        // Apply patches that need to be done before the class is restored.
-        // This is usually removing skill increases and feat choices,
-        // which can cause issues if the class doesn't have them at the same index as the character.
-        this._patchPartialCharacter(character);
-
-        // Restore a lot of data from reference objects.
-        // This allows us to save a lot of traffic at saving by removing all data
-        // from certain objects that is the unchanged from in their original template.
-        if (character.class.name) {
-            const _class = character.class;
-
-            if (_class.ancestry && _class.ancestry.name) {
-                _class.ancestry = this._historySavingLoadingService.restoreAncestryFromSave(_class.ancestry);
-            }
-
-            if (_class.heritage && _class.heritage.name) {
-                _class.heritage = this._historySavingLoadingService.restoreHeritageFromSave(_class.heritage);
-            }
-
-            if (_class.background && _class.background.name) {
-                _class.background = this._historySavingLoadingService.restoreBackgroundFromSave(_class.background);
-            }
-
-            if (_class.animalCompanion) {
-                const animalCompanion = _class.animalCompanion;
-
-                if (animalCompanion?.class?.ancestry) {
-                    animalCompanion.class.ancestry =
-                        this._animalCompanionAncestryService.restoreAncestryFromSave(animalCompanion.class.ancestry);
-                }
-
-                if (animalCompanion?.class?.levels) {
-                    animalCompanion.class =
-                        this._animalCompanionLevelsService.restoreLevelsFromSave(animalCompanion.class);
-                }
-
-                if (animalCompanion.class?.specializations) {
-                    animalCompanion.class.specializations =
-                        animalCompanion.class.specializations
-                            .map(spec => this._animalCompanionSpecializationsService.restoreSpecializationFromSave(spec));
-                }
-            }
-
-            //Restore the class last, so we don't null its components (ancestry, animal companion etc.)
-            character.class = this._classSavingLoadingService.restoreClassFromSave(character.class);
-        }
-
-        character.recast(this._itemsService);
-
-        //Apply any patches that need to be done after the class is restored.
-        this._patchCompleteCharacter(savedCharacter, character);
-
-        return character;
-    }
-
-    public prepareCharacterForSaving(character: Character): Partial<Character> {
-
-        //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
-        const savegame = Object.assign(new Character(), JSON.parse(JSON.stringify(character))).recast(this._itemsService);
-
-        const versionString: string = package_json.version;
-
-        const majorVersionPosition = 0;
-        const versionPosition = 1;
-        const minorVersionPosition = 2;
-
-        if (versionString) {
-            savegame.appVersionMajor = parseInt(versionString.split('.')[majorVersionPosition], 10) || 0;
-            savegame.appVersion = parseInt(versionString.split('.')[versionPosition], 10) || 0;
-            savegame.appVersionMinor = parseInt(versionString.split('.')[minorVersionPosition], 10) || 0;
-        }
-
-        // Go through all the items, class, ancestry, heritage, background and
-        // compare every element to its library equivalent, skipping the properties listed in .save
-        // Everything that is the same as the library item gets deleted.
-        if (savegame.class.name) {
-            savegame.class = this._classSavingLoadingService.cleanClassForSave(savegame.class);
-
-            const _class = savegame.class;
-
-            if (_class.ancestry?.name) {
-                _class.ancestry = this._historySavingLoadingService.cleanAncestryForSave(_class.ancestry);
-            }
-
-            if (_class.heritage?.name) {
-                _class.heritage = this._historySavingLoadingService.cleanHeritageForSave(_class.heritage);
-            }
-
-            if (_class.background?.name) {
-                _class.background = this._historySavingLoadingService.cleanBackgroundForSave(_class.background);
-            }
-
-            if (_class.animalCompanion) {
-                const animalCompanion = _class.animalCompanion;
-
-                if (animalCompanion.class?.ancestry) {
-                    this._animalCompanionAncestryService.cleanAncestryForSave(animalCompanion.class.ancestry);
-                }
-
-                if (animalCompanion.class?.levels) {
-                    this._animalCompanionLevelsService.cleanLevelsForSave(animalCompanion.class);
-                }
-
-                if (animalCompanion.class?.specializations) {
-                    animalCompanion.class.specializations
-                        .forEach(spec => this._animalCompanionSpecializationsService.cleanSpecializationForSave(spec));
-                }
-            }
-        }
-
-        savegame.GMMode = false;
-
-        // Then go through the whole thing again and compare every object to its Class's default,
-        // deleting everything that has the same value as the default.
-        this._trimForSaving(savegame);
-
-        return savegame;
-    }
-
-    public reset(): void {
-        this._loading = true;
-        // At this time, the save and load buttons are disabled,
-        // and we refresh the character builder and the menu bar so that the browser knows.
-        this._refreshService.setComponentChanged('charactersheet');
-        this._refreshService.setComponentChanged('top-bar');
-
-        if (this._configService.hasDBConnectionURL && this._configService.isLoggedIn) {
-            this._loadAllCharacters()
-                .subscribe({
-                    next: (results: Array<Partial<Character & DatabaseCharacter>>) => {
-                        this._finishLoading(results);
-                    },
-                    error: error => {
-                        if (error.status === HttpStatus.InvalidLogin) {
-                            this._configService.logout('Your login is no longer valid.');
-                        } else {
-                            console.error(`Error loading characters from database: ${ error.message }`);
-                            this._savegames = [];
-                            this._loadingError = true;
-                            this._loading = false;
-                            // If the character list couldn't be loaded,
-                            // the save and load buttons are re-enabled (but will disable on their own because of the error).
-                            // We refresh the character builder and the menu bar to update the buttons.
-                            this._refreshService.setComponentChanged('charactersheet');
-                            this._refreshService.setComponentChanged('top-bar');
-                            this._refreshService.setComponentChanged();
-                        }
-                    },
-                });
-        } else {
-            this._loading = false;
-            this._loadingError = true;
-            this._savegames = [];
-        }
-    }
-
-    public loadCharacter(id: string): Observable<Array<Partial<Character>>> {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.get<Array<Partial<Character>>>(
-            `${ this._configService.dBConnectionURL }/loadCharacter/${ id }`,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
-        );
-    }
-
-    public deleteCharacter(savegame: Savegame): Observable<Array<string>> {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.post<Array<string>>(
-            `${ this._configService.dBConnectionURL }/deleteCharacter`,
-            { id: savegame.id },
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
-        );
-    }
-
-    public saveCharacter(savegame: Partial<Character>): Observable<SaveCharacterResponse> {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.post<SaveCharacterResponse>(
-            `${ this._configService.dBConnectionURL }/saveCharacter`,
-            savegame,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
-        );
-    }
-
-    private _loadAllCharacters(): Observable<Array<Partial<Character>>> {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.get<Array<Partial<Character>>>(
-            `${ this._configService.dBConnectionURL }/listCharacters`,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
-        );
-    }
-
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    /* eslint-disable @typescript-eslint/no-dynamic-delete */
-    private _trimForSaving(object: any): void {
-        //Only cleanup objects that have Classes (= aren't object Object)
-        if (typeof object === 'object' && object.constructor !== Object) {
-            //If the object is an array, iterate over its elements
-            if (Array.isArray(object)) {
-                object.forEach((obj: unknown) => this._trimForSaving(obj));
-            } else {
-                let blank: any;
-
-                //For items with a refId, don't compare them with blank items, but with their reference item if it exists.
-                //If none can be found, the reference item is a blank item of the same class.
-                if (object instanceof Item && object.refId) {
-                    blank = this._itemsService.cleanItemFromID(object.refId);
-                }
-
-                if (!blank) {
-                    blank = new (object.constructor as any)();
-                }
-
-                Object.keys(object).forEach(key => {
-                    //Delete attributes that are in the "neversave" list, if it exists.
-                    if (object.neversave?.includes(key)) {
-                        delete object[key];
-                        // Don't cleanup the neversave list, the save list, any attributes that are in the save list,
-                        // or any that start with "_" (which is done further down).
-                    } else if (key !== 'save' && key !== 'neversave' && !object.save?.includes(key) && (key.substring(0, 1) !== '$')) {
-                        //If the attribute has the same value as the default, delete it from the object.
-                        if (JSON.stringify(object[key]) === JSON.stringify(blank[key])) {
-                            delete object[key];
-                        } else {
-                            this._trimForSaving(object[key]);
-                        }
-                        //Cleanup attributes that start with _.
-                    } else if (key.substring(0, 1) === '$') {
-                        delete object[key];
-                    }
-                });
-
-                //Delete the "save" and "neversave" lists last so they can be referenced during the cleanup, but still updated when loading.
-                if (object.save) {
-                    delete object.save;
-                }
-
-                if (object.neversave) {
-                    delete object.neversave;
-                }
-            }
-        }
-    }
-    /* eslint-enable @typescript-eslint/no-explicit-any */
-    /* eslint-enable @typescript-eslint/no-dynamic-delete */
-
-    private _patchPartialCharacter(character: Character): void {
+    public patchPartialCharacter(character: Character): void {
 
         // STAGE 1
         // Before restoring data from class, ancestry etc.
@@ -914,7 +592,7 @@ export class SavegameService {
         }
     }
 
-    private _patchCompleteCharacter(savedCharacter: Character, character: Character): void {
+    public patchCompleteCharacter(savedCharacter: Character, character: Character): void {
 
         // STAGE 2
         //After restoring data and reassigning.
@@ -1268,75 +946,6 @@ export class SavegameService {
                 }
             });
         }
-    }
-
-    private _finishLoading(loader: Array<Partial<Character & DatabaseCharacter>>): void {
-        if (loader) {
-            this._savegames = [];
-            loader.forEach(savegame => {
-                //Build some informational attributes on each save game description from the character's properties.
-                const newLength = this._savegames.push(new Savegame());
-                const newSavegame = this._savegames[newLength - 1];
-
-                newSavegame.id = savegame.id;
-                newSavegame.dbId = savegame._id || '';
-                newSavegame.level = savegame.level || 1;
-                newSavegame.name = savegame.name || 'Unnamed';
-                newSavegame.partyName = savegame.partyName || 'No Party';
-
-                if (savegame.class) {
-                    newSavegame.class = savegame.class.name || '';
-
-                    if (savegame.class.levels?.[1]?.featChoices?.length) {
-                        savegame.class.levels[1].featChoices
-                            .filter(choice =>
-                                choice.specialChoice &&
-                                !choice.autoSelectIfPossible &&
-                                choice.feats?.length === 1 &&
-                                choice.available === 1 &&
-                                choice.source === savegame.class.name,
-                            )
-                            .forEach(choice => {
-                                let choiceName = choice.feats[0].name.split(':')[0];
-
-                                if (!choiceName.includes('School') && choiceName.includes(choice.type)) {
-                                    choiceName = choiceName.substring(0, choiceName.length - choice.type.length - 1);
-                                }
-
-                                newSavegame.classChoice = choiceName;
-                            });
-                    }
-
-                    if (savegame.class.ancestry) {
-                        newSavegame.ancestry = savegame.class.ancestry.name || '';
-                    }
-
-                    if (savegame.class.heritage) {
-                        newSavegame.heritage = savegame.class.heritage.name || '';
-                    }
-
-                    if (savegame.class.animalCompanion?.class) {
-                        newSavegame.companionName = savegame.class.animalCompanion.name || savegame.class.animalCompanion.type;
-                        newSavegame.companionId = savegame.class.animalCompanion.id;
-                    }
-
-                    if (savegame.class.familiar?.originClass) {
-                        newSavegame.familiarName = savegame.class.familiar.name || savegame.class.familiar.type;
-                        newSavegame.familiarId = savegame.class.familiar.id;
-                    }
-                }
-            });
-
-            this._loadingError = false;
-        }
-
-        if (this._loading) { this._loading = false; }
-
-        //Refresh the character builder and menu bar to update the save and load buttons, now that they are enabled again.
-        this._refreshService.setComponentChanged('charactersheet');
-        this._refreshService.setComponentChanged('top-bar');
-        //Also update the charactersheet that the character builder is attached to, so it is properly displayed after loading the page.
-        this._refreshService.setComponentChanged('character-sheet');
     }
 
 }

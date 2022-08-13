@@ -8,7 +8,7 @@ import { ConditionGainPropertiesService } from 'src/libs/shared/services/conditi
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { SavegameService } from 'src/app/services/savegame.service';
+import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
@@ -98,7 +98,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _timeService: TimeService,
-        private readonly _savegameService: SavegameService,
+        private readonly _savegamesService: SavegamesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _modalService: NgbModal,
         public modal: NgbActiveModal,
@@ -286,7 +286,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
         //Make all party members available for selection only if you are in a party.
         if (character.partyName) {
-            this._savegameService.savegames()
+            this._savegamesService.savegames()
                 .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
                 .forEach(savegame => {
                     newTargets.push(

@@ -18,7 +18,7 @@ interface FoundryRoll {
 @Injectable({
     providedIn: 'root',
 })
-export class IntegrationsService {
+export class FoundryVTTIntegrationService {
 
     constructor(
         private readonly _toastService: ToastService,

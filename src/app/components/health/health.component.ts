@@ -6,7 +6,7 @@ import { TimeService } from 'src/app/services/time.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
-import { InputValidationService } from 'src/app/services/inputValidation.service';
+import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Creature } from 'src/app/classes/Creature';
 import { Health } from 'src/app/classes/Health';

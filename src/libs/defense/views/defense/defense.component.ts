@@ -18,7 +18,7 @@ import { Trait } from 'src/app/classes/Trait';
 import { Skill } from 'src/app/classes/Skill';
 import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
-import { InputValidationService } from 'src/app/services/inputValidation.service';
+import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';

@@ -8,7 +8,7 @@ import { ItemsService } from 'src/app/services/items.service';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { Creature } from '../classes/Creature';
+import { Creature } from '../../../../app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 const ignoredMessageTTL = 60;
@@ -16,10 +16,9 @@ const ignoredMessageTTL = 60;
 @Injectable({
     providedIn: 'root',
 })
-export class MessageService {
+export class MessagesService {
 
     private _newMessages: Array<PlayerMessage> = [];
-    private _checkingActive = false;
     private _checkingMessages = false;
     private _cleaningUpIgnoredMessages = false;
 
@@ -210,8 +209,6 @@ export class MessageService {
     }
 
     private _startMessageProcessingLoop(): void {
-        this._checkingActive = true;
-
         const secondsInMinute = 60;
         const millisecondsInSecond = 1000;
 

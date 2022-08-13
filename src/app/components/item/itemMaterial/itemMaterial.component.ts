@@ -3,7 +3,7 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
-import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 
 @Component({
     selector: 'app-itemMaterial',

@@ -5,7 +5,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { ItemsService } from 'src/app/services/items.service';
-import { SavegameService } from 'src/app/services/savegame.service';
+import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -36,7 +36,7 @@ export class ItemTargetComponent implements OnInit {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _savegameService: SavegameService,
+        private readonly _savegamesService: SavegamesService,
         private readonly _itemsService: ItemsService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _modalService: NgbModal,
@@ -106,7 +106,7 @@ export class ItemTargetComponent implements OnInit {
 
         if (character.partyName && !this.excluding && !this._characterService.isGMMode && !this._characterService.isManualMode) {
             //Only allow selecting other players if you are in a party.
-            this._savegameService.savegames()
+            this._savegamesService.savegames()
                 .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
                 .forEach(savegame => {
                     targets.push(

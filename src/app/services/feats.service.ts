@@ -25,7 +25,7 @@ import { FeatData } from 'src/app/character-creation/definitions/models/FeatData
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ItemsService } from './items.service';
 import { Weapon } from '../classes/Weapon';
-import { HistoryDataService } from './history-data.service';
+import { HistoryDataService } from '../core/services/data/history-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';

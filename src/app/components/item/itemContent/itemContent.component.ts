@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { Trackers } from 'src/libs/shared/util/trackers';
-import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';

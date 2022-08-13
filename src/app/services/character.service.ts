@@ -12,7 +12,6 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Armor } from 'src/app/classes/Armor';
 import { Weapon } from 'src/app/classes/Weapon';
 import { FeatsService } from 'src/app/services/feats.service';
-import { TraitsService } from 'src/app/services/traits.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -21,7 +20,6 @@ import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Consumable } from 'src/app/classes/Consumable';
-import { TimeService } from 'src/app/services/time.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
@@ -31,11 +29,10 @@ import { Deity } from 'src/app/classes/Deity';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
-import { SavegameService } from 'src/app/services/savegame.service';
+import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { Oil } from 'src/app/classes/Oil';
 import { WornItem } from 'src/app/classes/WornItem';
-import { Savegame } from 'src/app/classes/Savegame';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { Ammunition } from 'src/app/classes/Ammunition';
 import { Shield } from 'src/app/classes/Shield';
@@ -47,7 +44,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { MessageService } from 'src/app/services/message.service';
+import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -90,6 +87,7 @@ import { ClassesDataService } from '../core/services/data/classes-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { ObjectEffectsGenerationService } from 'src/libs/shared/effects-generation/services/object-effects-generation/object-effects-generation';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { StatusService } from '../core/services/status/status.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -141,35 +139,31 @@ export class CharacterService {
     private _itemsMenuTarget: CreatureTypes = CreatureTypes.Character;
 
     private _character: Character = new Character();
-    private _loader: Array<Partial<Character>> = [];
     private _loading = false;
     private _basicItems: { weapon: Weapon; armor: Armor } = { weapon: null, armor: null };
     private _isFirstLoad = true;
     private _characterLoadedOrCreated = false;
-    private _loadingStatus = 'Loading';
     private _preparedOnceEffects: Array<PreparedOnceEffect> = [];
 
     constructor(
         private readonly _configService: ConfigService,
         private readonly _extensionsService: ExtensionsService,
-        private readonly _savegameService: SavegameService,
+        private readonly _savegamesService: SavegamesService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _featsService: FeatsService,
-        private readonly _traitsService: TraitsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemsService: ItemsService,
         private readonly _effectsService: CreatureEffectsService,
-        private readonly _timeService: TimeService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _familiarsDataService: FamiliarsDataService,
-        private readonly _messageService: MessageService,
+        private readonly _messagesService: MessagesService,
         private readonly _toastService: ToastService,
         private readonly _evaluationService: EvaluationService,
         private readonly _refreshService: RefreshService,
@@ -187,6 +181,7 @@ export class CharacterService {
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _objectEffectsGenerationService: ObjectEffectsGenerationService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _statusService: StatusService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -202,10 +197,6 @@ export class CharacterService {
 
     public get stillLoading(): boolean {
         return this._loading;
-    }
-
-    public get loadingStatus(): string {
-        return this._loadingStatus;
     }
 
     public get character(): Character {
@@ -234,14 +225,6 @@ export class CharacterService {
 
     public get isManualMode(): boolean {
         return this.character.settings.manualMode;
-    }
-
-    public setLoadingStatus(status: string, refreshTopBar = true): void {
-        this._loadingStatus = status || 'Loading';
-
-        if (refreshTopBar) {
-            this._refreshService.setComponentChanged('top-bar');
-        }
     }
 
     public isFirstLoad(): boolean {
@@ -417,23 +400,6 @@ export class CharacterService {
                 return ([] as Array<Creature>).concat(this.character);
             }
         } else { return [new Character()]; }
-    }
-
-    public loadOrResetCharacter(id = '', loadAsGM = false): void {
-        this._loading = true;
-        this.reset(id, loadAsGM);
-    }
-
-    public setAccent(): void {
-        document.documentElement.style.setProperty('--accent', this._rgbAccent());
-    }
-
-    public setDarkmode(): void {
-        if (this.isDarkmode) {
-            document.body.classList.add('darkmode');
-        } else {
-            document.body.classList.remove('darkmode');
-        }
     }
 
     public characterClasses(name: string): Array<Class> {
@@ -1359,7 +1325,7 @@ export class CharacterService {
     }
 
     public messageSenderName(message: PlayerMessage): string {
-        return this._savegameService.savegames().find(savegame => savegame.id === message.senderId)?.name;
+        return this._savegamesService.savegames().find(savegame => savegame.id === message.senderId)?.name;
     }
 
     public sendTurnChangeToPlayers(): void {
@@ -1368,13 +1334,13 @@ export class CharacterService {
             return;
         }
 
-        this._messageService.timeFromConnector()
+        this._messagesService.timeFromConnector()
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
                     const character = this.character;
                     const targets =
-                        this._savegameService.savegames()
+                        this._savegamesService.savegames()
                             .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id);
                     const messages: Array<PlayerMessage> = [];
 
@@ -1394,7 +1360,7 @@ export class CharacterService {
                     });
 
                     if (messages.length) {
-                        return this._messageService.sendMessagesToConnector(messages);
+                        return this._messagesService.sendMessagesToConnector(messages);
                     }
                 }),
             )
@@ -1436,7 +1402,7 @@ export class CharacterService {
 
                         if (hasConditionBeenRemoved) {
                             const senderName =
-                                this._savegameService.savegames().find(savegame => savegame.id === senderId)?.name || 'Unknown';
+                                this._savegamesService.savegames().find(savegame => savegame.id === senderId)?.name || 'Unknown';
 
                             this._toastService.show(
                                 `Automatically removed <strong>${ existingConditionGain.name }`
@@ -1449,7 +1415,7 @@ export class CharacterService {
             });
         });
         messages.forEach(message => {
-            this._messageService.markMessageAsIgnored(message);
+            this._messagesService.markMessageAsIgnored(message);
         });
     }
 
@@ -1459,7 +1425,7 @@ export class CharacterService {
             return;
         }
 
-        this._messageService.timeFromConnector()
+        this._messagesService.timeFromConnector()
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
@@ -1497,7 +1463,7 @@ export class CharacterService {
                     });
 
                     if (messages.length) {
-                        return this._messageService.sendMessagesToConnector(messages)
+                        return this._messagesService.sendMessagesToConnector(messages)
                             .pipe(
                                 tap({
                                     complete: () => {
@@ -1584,7 +1550,7 @@ export class CharacterService {
                 }
             }
 
-            this._messageService.markMessageAsIgnored(message);
+            this._messagesService.markMessageAsIgnored(message);
         });
     }
 
@@ -1594,7 +1560,7 @@ export class CharacterService {
             return;
         }
 
-        this._messageService.timeFromConnector()
+        this._messagesService.timeFromConnector()
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
@@ -1628,7 +1594,7 @@ export class CharacterService {
                     message.includedItems = included.items;
                     message.includedInventories = included.inventories;
 
-                    return this._messageService.sendMessagesToConnector([message])
+                    return this._messagesService.sendMessagesToConnector([message])
                         .pipe(
                             tap({
                                 complete: () => {
@@ -1767,7 +1733,7 @@ export class CharacterService {
                 this.sendItemAcceptedMessage(message, false);
             }
 
-            this._messageService.markMessageAsIgnored(message);
+            this._messagesService.markMessageAsIgnored(message);
         });
     }
 
@@ -1777,7 +1743,7 @@ export class CharacterService {
             return;
         }
 
-        this._messageService.timeFromConnector()
+        this._messagesService.timeFromConnector()
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
@@ -1801,7 +1767,7 @@ export class CharacterService {
                         response.rejectedItem = message.offeredItem[0].id;
                     }
 
-                    return this._messageService.sendMessagesToConnector([response])
+                    return this._messagesService.sendMessagesToConnector([response])
                         .pipe(
                             tap({
                                 complete: () => {
@@ -1878,7 +1844,7 @@ export class CharacterService {
                 }
             }
 
-            this._messageService.markMessageAsIgnored(message);
+            this._messagesService.markMessageAsIgnored(message);
         });
         this._refreshService.processPreparedChanges();
     }
@@ -2675,213 +2641,35 @@ export class CharacterService {
 
     public initialize(): void {
         this._loading = true;
-        this.setLoadingStatus('Loading extensions');
+        this._statusService.setLoadingStatus('Loading extensions');
 
         const waitForFileServices = setInterval(() => {
             if (!this._extensionsService.stillLoading && !this._configService.stillLoading) {
                 clearInterval(waitForFileServices);
-                this.setLoadingStatus('Initializing content');
-                this._character = new Character();
+                this._statusService.setLoadingStatus('Initializing content');
+                this.loadNewCharacter(new Character());
             }
         }, Defaults.waitForServiceDelay);
     }
 
-    public reset(id?: string, loadAsGM?: boolean): void {
-        this.setLoadingStatus('Resetting character');
+    public reset(): void {
         this._loading = true;
-        this._refreshService.setComponentChanged('charactersheet');
-        this._cacheService.reset();
-        this._traitsService.reset();
-        this._activitiesDataService.reset();
-        this._featsService.reset();
-        this._conditionsDataService.reset();
-        this._skillsDataService.reset();
-        this._itemsService.reset();
-        this._characterDeitiesService.reset();
-        this._animalCompanionsDataService.reset();
-        this._familiarsDataService.reset();
-        this._messageService.reset();
-
-        if (id) {
-            this.setLoadingStatus('Loading character');
-            this._savegameService.loadCharacter(id)
-                .subscribe({
-                    next: (results: Array<Partial<Character>>) => {
-                        this._loader = results;
-
-                        if (this._loader) {
-                            this.finishLoading(loadAsGM);
-                        } else {
-                            this._toastService.show('The character could not be found in the database.');
-                            this._cancelLoading();
-                        }
-                    },
-                    error: error => {
-                        if (error.status === HttpStatusCode.Unauthorized) {
-                            this._configService.logout(
-                                'Your login is no longer valid. The character could not be loaded. Please try again after logging in.',
-                            );
-                            this._cancelLoading();
-                        } else {
-                            this._toastService.show('An error occurred while loading the character. See console for more information.');
-                            console.error(`Error loading character from database: ${ error.message }`);
-                            this._cancelLoading();
-                        }
-                    },
-                });
-        } else {
-            this._character = new Character();
-            this.finishLoading();
-        }
     }
 
-    public deleteCharacter(savegame: Savegame): void {
-        this._savegameService.deleteCharacter(savegame)
-            .subscribe({
-                next: () => {
-                    this._toastService.show(`Deleted ${ savegame.name || 'character' } from database.`);
-                    this._savegameService.reset();
-                },
-                error: error => {
-                    if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.logout(
-                            'Your login is no longer valid. The character could not be deleted. Please try again after logging in.',
-                        );
-                    } else {
-                        this._toastService.show('An error occurred while deleting the character. See console for more information.');
-                        console.error(`Error deleting from database: ${ error.message }`);
-                    }
-                },
-            });
-    }
-
-    public finishLoading(loadAsGM = false): void {
-        this.setLoadingStatus('Initializing character');
-        //Assign and restore the loaded character.
-        this._character =
-            this._savegameService.processLoadedCharacter(
-                JSON.parse(JSON.stringify(this._loader)),
-            );
+    public loadNewCharacter(newCharacter: Character, loadAsGM?: boolean): void {
+        this._character = newCharacter;
         this._character.GMMode = loadAsGM;
-        this._loader = [];
-        // Set loading to false. The last steps need the characterService to not be loading.
-        this._loading = false;
-        // Set your turn state according to the saved state.
-        this._timeService.yourTurn = this.character.yourTurn;
-        // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
-        this._featsService.buildCharacterFeats(this.character);
-        // Reset cache for all creatures.
-        this._cacheService.reset();
-        // Set accent color and dark mode according to the settings.
-        this.setAccent();
-        this.setDarkmode();
-        // Now that the character is loaded, do some things that require everything to be in working order:
+
+        // When the character is loaded, do some things that require everything to be in working order:
         // Give the character a Fist and an Unarmored™ if they have nothing else,
         // and keep those ready if they should drop their last weapon or armor.
         this._grantBasicItems();
-        this._refreshAfterLoading();
-    }
 
-    public saveCharacter(): void {
-        this.character.yourTurn = this._timeService.yourTurn;
-        this._toastService.show('Saving...');
-
-        const savegame =
-            this._savegameService.prepareCharacterForSaving(this.character);
-
-        this._savegameService.saveCharacter(savegame)
-            .subscribe({
-                next: result => {
-                    if (result.lastErrorObject && result.lastErrorObject.updatedExisting) {
-                        this._toastService.show(`Saved ${ this.character.name || 'character' }.`);
-                    } else {
-                        this._toastService.show(`Created ${ this.character.name || 'character' }.`);
-                    }
-
-                    this._savegameService.reset();
-                }, error: error => {
-                    if (error.status === HttpStatusCode.Unauthorized) {
-                        this._configService.logout(
-                            'Your login is no longer valid. The character could not be saved. '
-                            + 'Please try saving the character again after logging in.',
-                        );
-                    } else {
-                        this._toastService.show('An error occurred while saving the character. See console for more information.');
-                        console.error(`Error saving to database: ${ error.message }`);
-                    }
-                },
-            });
-    }
-
-    private _cancelLoading(): void {
-        this._loader = [];
         this._loading = false;
-        // Fill a runtime variable with all the feats the character has taken,
-        // and another with the level at which they were taken. These were cleared when trying to load.
-        this._featsService.buildCharacterFeats(this.character);
-        this._refreshAfterLoading();
     }
 
-    private _refreshAfterLoading(): void {
-        //Update everything once, then effects, and then the player can take over.
-        this._refreshService.setComponentChanged();
-        this.setLoadingStatus('Loading', false);
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-
-        if (!this._configService.isLoggedIn && !this._configService.cannotLogin) {
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'logged-out');
-        }
-
-        this._refreshService.processPreparedChanges();
-        this._refreshService.setComponentChanged();
-    }
-
-    private _rgbAccent(): string {
-        const rgbLength = 4;
-        const rrggbbLength = 7;
-        const redIndex = 0;
-        const greenIndex = 1;
-        const blueIndex = 2;
-
-        const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
-            let result: RegExpExecArray;
-
-            if (hex.length === rgbLength) {
-                result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
-
-                return result ? {
-                    r: parseInt(`${ result[redIndex] }${ result[redIndex] }`, 16),
-                    g: parseInt(`${ result[greenIndex] }${ result[greenIndex] }`, 16),
-                    b: parseInt(`${ result[blueIndex] }${ result[blueIndex] }`, 16),
-                } : null;
-            } else if (hex.length === rrggbbLength) {
-                result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-
-                return result ? {
-                    r: parseInt(result[redIndex], 16),
-                    g: parseInt(result[greenIndex], 16),
-                    b: parseInt(result[blueIndex], 16),
-                } : null;
-            }
-        };
-
-        if (!this.stillLoading) {
-            const original = this.character.settings.accent;
-
-            if (original.length === rgbLength || original.length === rrggbbLength) {
-                try {
-                    const rgba = hexToRgb(original);
-
-                    if (rgba) {
-                        return `${ rgba.r }, ${ rgba.g }, ${ rgba.b }`;
-                    }
-                } catch (error) {
-                    return Defaults.colorAccentRGB;
-                }
-            }
-        }
-
-        return Defaults.colorAccentRGB;
+    public cancelLoadingNewCharacter(): void {
+        this._loading = false;
     }
 
     private _markUnneededWeaponFeatsForDeletion(weapon: Weapon): void {

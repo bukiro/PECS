@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { SavegameService } from 'src/app/services/savegame.service';
+import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { MessageService } from 'src/app/services/message.service';
+import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
 import { TimeService } from 'src/app/services/time.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { ConfigService } from 'src/app/core/services/config/config.service';
@@ -22,6 +22,8 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { HttpStatusCode } from '@angular/common/http';
 import { Creature } from 'src/app/classes/Creature';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { CharacterSavingService } from 'src/libs/shared/saving-loading/services/character-saving/character-saving.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -51,12 +53,14 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _configService: ConfigService,
-        private readonly _savegameService: SavegameService,
-        private readonly _messageService: MessageService,
+        private readonly _savegamesService: SavegamesService,
+        private readonly _messagesService: MessagesService,
         private readonly _timeService: TimeService,
         private readonly _toastService: ToastService,
         private readonly _modalService: NgbModal,
         private readonly _itemsService: ItemsService,
+        private readonly _characterSavingService: CharacterSavingService,
+        private readonly _statusService: StatusService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -82,11 +86,11 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public get loadingButtonTitle(): string {
-        return this._characterService.loadingStatus;
+        return this._statusService.loadingStatus;
     }
 
     public get areSavegamesInitializing(): boolean {
-        return this._savegameService.stillLoading;
+        return this._savegamesService.stillLoading;
     }
 
     public get character(): Character {
@@ -114,14 +118,14 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public newMessagesFromService(): Array<PlayerMessage> {
-        return this._messageService.newMessages();
+        return this._messagesService.newMessages();
     }
 
     public savegames(): Array<Savegame> {
-        if (this._savegameService.loadingError() || this.areSavegamesInitializing) {
+        if (this._savegamesService.loadingError() || this.areSavegamesInitializing) {
             return null;
         } else {
-            return this._savegameService.savegames();
+            return this._savegamesService.savegames();
         }
     }
 
@@ -191,7 +195,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public save(): void {
-        this._characterService.saveCharacter();
+        this._characterSavingService.saveCharacter();
     }
 
     public getMessages(): void {
@@ -208,27 +212,27 @@ export class TopBarComponent implements OnInit, OnDestroy {
         if (this.character.settings.checkMessagesAutomatically) {
             // If the app checks for messages automatically, you don't need to check again manually.
             // Just open the Dialog if messages exist, or let us know if not.
-            if (this._messageService.newMessages().length) {
+            if (this._messagesService.newMessages().length) {
                 this.openNewMessagesModal();
             } else {
                 this._toastService.show('No new effects are available.');
             }
         } else {
             // Clean up old messages, then check for new messages, then open the dialog if any are found.
-            this._messageService.cleanupMessagesOnConnector()
+            this._messagesService.cleanupMessagesOnConnector()
                 .subscribe({
                     next: () => {
-                        this._messageService.loadMessagesFromConnector(this._characterService.character.id)
+                        this._messagesService.loadMessagesFromConnector(this._characterService.character.id)
                             .subscribe({
                                 next: (results: Array<string>) => {
                                     //Get any new messages.
-                                    const newMessages = this._messageService.processNewMessages(results);
+                                    const newMessages = this._messagesService.processNewMessages(results);
 
                                     //Add them to the list of new messages.
-                                    this._messageService.addNewMessages(newMessages);
+                                    this._messagesService.addNewMessages(newMessages);
 
                                     //If any exist, start the dialog. Otherwise give an appropriate response.
-                                    if (this._messageService.newMessages().length) {
+                                    if (this._messagesService.newMessages().length) {
                                         this.openNewMessagesModal();
                                     } else {
                                         this._toastService.show('No new effects are available.');

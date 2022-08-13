@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Scroll } from '@angular/router';
-import { AdventuringGear } from '../classes/AdventuringGear';
-import { AlchemicalElixir } from '../classes/AlchemicalElixir';
-import { Ammunition } from '../classes/Ammunition';
-import { Armor } from '../classes/Armor';
-import { ArmorRune } from '../classes/ArmorRune';
-import { Consumable } from '../classes/Consumable';
-import { Equipment } from '../classes/Equipment';
-import { Item } from '../classes/Item';
-import { ItemRoles } from '../classes/ItemRoles';
-import { Oil } from '../classes/Oil';
-import { Potion } from '../classes/Potion';
-import { Rune } from '../classes/Rune';
-import { Shield } from '../classes/Shield';
-import { Talisman } from '../classes/Talisman';
-import { Wand } from '../classes/Wand';
-import { Weapon } from '../classes/Weapon';
-import { WeaponRune } from '../classes/WeaponRune';
-import { WornItem } from '../classes/WornItem';
+import { AdventuringGear } from '../../../../app/classes/AdventuringGear';
+import { AlchemicalElixir } from '../../../../app/classes/AlchemicalElixir';
+import { Ammunition } from '../../../../app/classes/Ammunition';
+import { Armor } from '../../../../app/classes/Armor';
+import { ArmorRune } from '../../../../app/classes/ArmorRune';
+import { Consumable } from '../../../../app/classes/Consumable';
+import { Equipment } from '../../../../app/classes/Equipment';
+import { Item } from '../../../../app/classes/Item';
+import { ItemRoles } from '../../../../app/classes/ItemRoles';
+import { Oil } from '../../../../app/classes/Oil';
+import { Potion } from '../../../../app/classes/Potion';
+import { Rune } from '../../../../app/classes/Rune';
+import { Shield } from '../../../../app/classes/Shield';
+import { Talisman } from '../../../../app/classes/Talisman';
+import { Wand } from '../../../../app/classes/Wand';
+import { Weapon } from '../../../../app/classes/Weapon';
+import { WeaponRune } from '../../../../app/classes/WeaponRune';
+import { WornItem } from '../../../../app/classes/WornItem';
 
 @Injectable({
     providedIn: 'root',

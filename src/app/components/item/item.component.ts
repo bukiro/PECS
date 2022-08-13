@@ -24,7 +24,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { Character } from 'src/app/classes/Character';
 import { Trait } from 'src/app/classes/Trait';
-import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { Activity } from 'src/app/classes/Activity';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';

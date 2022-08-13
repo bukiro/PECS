@@ -5,7 +5,7 @@ import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { FeatsService } from 'src/app/services/feats.service';
-import { HistoryDataService } from 'src/app/services/history-data.service';
+import { HistoryDataService } from 'src/app/core/services/data/history-data.service';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
 import { Background } from 'src/app/classes/Background';
@@ -21,7 +21,7 @@ import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-c
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Familiar } from 'src/app/classes/Familiar';
-import { SavegameService } from 'src/app/services/savegame.service';
+import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { Savegame } from 'src/app/classes/Savegame';
 import { TraitsService } from 'src/app/services/traits.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
@@ -39,7 +39,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
-import { InputValidationService } from 'src/app/services/inputValidation.service';
+import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { DisplayService } from 'src/app/core/services/display/display.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
@@ -74,6 +74,10 @@ import { SpellsDataService } from 'src/app/core/services/data/spells-data.servic
 import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { CharacterDeletingService } from 'src/libs/shared/saving-loading/services/character-deleting/character-deleting.service';
+import { CharacterSavingService } from 'src/libs/shared/saving-loading/services/character-saving/character-saving.service';
+import { CharacterLoadingService } from 'src/libs/shared/saving-loading/services/character-loading/character-loading.service';
+import { DocumentStyleService } from 'src/app/core/services/document-style/document-style.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -123,7 +127,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _savegameService: SavegameService,
+        private readonly _savegamesService: SavegamesService,
         private readonly _traitsService: TraitsService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _cacheService: CacheService,
@@ -139,6 +143,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _characterDeletingService: CharacterDeletingService,
+        private readonly _characterSavingService: CharacterSavingService,
+        private readonly _characterLoadingService: CharacterLoadingService,
+        private readonly _documentStyleService: DocumentStyleService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -164,7 +172,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public get areSavegamesInitializing(): boolean {
-        return this._savegameService.stillLoading;
+        return this._savegamesService.stillLoading;
     }
 
     public get isLoggingIn(): boolean {
@@ -329,11 +337,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public onChangeAccent(): void {
-        this._characterService.setAccent();
+        this._documentStyleService.setAccent();
     }
 
     public onToggleDarkmode(): void {
-        this._characterService.setDarkmode();
+        this._documentStyleService.setDarkmode();
     }
 
     public onToggleManualMode(): void {
@@ -359,16 +367,19 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public onNewCharacter(): void {
+        // The app starts with a character loaded, but not displayed.
+        // The first time you click New Character, the loaded character is just displayed.
+        // Every subsequent time, a new character is created.
         if (this.wasCharacterLoadedOrCreated()) {
             this.toggleShownList();
-            this._characterService.loadOrResetCharacter();
+            this._characterLoadingService.loadOrResetCharacter();
         } else {
             this._characterService.setCharacterLoadedOrCreated();
         }
     }
 
     public onRetryDatabaseConnection(): void {
-        this._savegameService.reset();
+        this._savegamesService.reset();
     }
 
     public onRetryLogin(): void {
@@ -376,8 +387,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public savegames(): Array<Savegame> {
-        if (!this._savegameService.loadingError()) {
-            return this._savegameService.savegames()
+        if (!this._savegamesService.loadingError()) {
+            return this._savegamesService.savegames()
                 .sort((a, b) => {
                     if (a.partyName !== 'No Party' && b.partyName === 'No Party') {
                         return 1;
@@ -433,11 +444,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
     public loadCharacterFromDB(savegame: Savegame): void {
         this._characterService.setCharacterLoadedOrCreated();
         this.toggleCharacterMenu();
-        this._characterService.loadOrResetCharacter(savegame.id, this.loadAsGM);
+        this._characterLoadingService.loadOrResetCharacter(savegame.id, this.loadAsGM);
     }
 
     public saveCharacterToDB(): void {
-        this._characterService.saveCharacter();
+        this._characterSavingService.saveCharacter();
     }
 
     public openCharacterDeleteModal(content, savegame: Savegame): void {
@@ -1925,7 +1936,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     private _deleteCharacterFromDB(savegame: Savegame): void {
-        this._characterService.deleteCharacter(savegame);
+        this._characterDeletingService.deleteCharacter(savegame);
     }
 
     private _isFirstLoad(): boolean {

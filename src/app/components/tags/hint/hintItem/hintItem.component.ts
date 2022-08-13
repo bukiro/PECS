@@ -11,7 +11,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trait } from 'src/app/classes/Trait';
 import { Activity } from 'src/app/classes/Activity';
 import { Equipment } from 'src/app/classes/Equipment';
-import { ItemRolesService } from 'src/app/services/itemRoles.service';
+import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { Rune } from 'src/app/classes/Rune';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';

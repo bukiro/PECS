@@ -3,7 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { DiceService } from 'src/libs/dice/services/dice.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
-import { IntegrationsService } from 'src/app/services/integrations.service';
+import { FoundryVTTIntegrationService } from 'src/app/core/services/foundry-vtt-integration/foundry-vtt-integration.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -33,7 +33,7 @@ export class DiceComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _diceService: DiceService,
-        private readonly _integrationsService: IntegrationsService,
+        private readonly _integrationsService: FoundryVTTIntegrationService,
         private readonly _healthService: HealthService,
         public trackers: Trackers,
     ) { }

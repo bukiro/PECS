@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders, HttpRequest, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
-import { CharacterService } from 'src/app/services/character.service';
-import { SavegameService } from 'src/app/services/savegame.service';
+import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { map, Observable, of, switchMap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ToastService } from '../../../services/toast.service';
+import { StatusService } from '../status/status.service';
 
 interface LoginToken {
     token: string | false;
@@ -32,9 +32,9 @@ export class ConfigService {
     constructor(
         private readonly _httpClient: HttpClient,
         private readonly _refreshService: RefreshService,
-        private readonly _characterService: CharacterService,
-        private readonly _savegameService: SavegameService,
+        private readonly _savegamesService: SavegamesService,
         private readonly _toastService: ToastService,
+        private readonly _statusService: StatusService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -80,7 +80,7 @@ export class ConfigService {
     public login(password = ''): void {
         //We set loggingIn to true, which changes buttons in the character builder and the top-bar, so we need to update those.
         this._loggingIn = true;
-        this._characterService.setLoadingStatus('Connecting');
+        this._statusService.setLoadingStatus('Connecting');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
         this._refreshService.processPreparedChanges();
         // Try logging in. Return values are:
@@ -100,7 +100,7 @@ export class ConfigService {
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
                         this._refreshService.processPreparedChanges();
-                        this._savegameService.reset();
+                        this._savegamesService.reset();
                     } else {
                         this._loggedIn = false;
                         this._loggingIn = false;
