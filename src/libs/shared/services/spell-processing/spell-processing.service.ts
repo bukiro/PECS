@@ -10,7 +10,7 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { SpellTargetSelection } from '../../definitions/Types/spellTargetSelection';

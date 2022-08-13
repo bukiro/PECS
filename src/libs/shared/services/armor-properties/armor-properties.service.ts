@@ -6,7 +6,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { CharacterService } from 'src/app/services/character.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel } from '../../definitions/skillLevels';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';

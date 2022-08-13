@@ -7,7 +7,7 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { Speed } from 'src/app/classes/Speed';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';

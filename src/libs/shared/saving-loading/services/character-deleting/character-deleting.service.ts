@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Savegame } from 'src/app/classes/Savegame';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { SavegamesService } from '../savegames/savegames.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 
 
 @Injectable({

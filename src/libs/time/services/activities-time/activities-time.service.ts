@@ -8,7 +8,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivitiesProcessingService } from '../../../shared/services/activities-processing/activities-processing.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 @Injectable({

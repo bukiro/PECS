@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { DisplayService } from 'src/app/core/services/display/display.service';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';

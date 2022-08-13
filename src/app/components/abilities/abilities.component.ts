@@ -5,7 +5,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { Trackers } from 'src/libs/shared/util/trackers';

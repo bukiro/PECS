@@ -4,10 +4,10 @@ import { Condition, OtherConditionSelection } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { Creature } from 'src/app/classes/Creature';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Activity } from 'src/app/classes/Activity';
@@ -19,6 +19,7 @@ import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 interface ActivityParameters {
     gain: ActivityGain | ItemActivity;
@@ -65,6 +66,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -83,7 +85,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     }
 
     public durationDescription(duration: number): string {
-        return this._timeService.durationDescription(duration);
+        return this._durationsService.durationDescription(duration);
     }
 
     public isInformationalCondition(): boolean {

@@ -7,7 +7,7 @@ import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { Domain } from 'src/app/classes/Domain';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { ItemsService } from 'src/app/services/items.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';

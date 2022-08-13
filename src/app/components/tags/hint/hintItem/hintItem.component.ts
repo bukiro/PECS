@@ -4,7 +4,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';

@@ -5,7 +5,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatsService } from 'src/app/services/feats.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';

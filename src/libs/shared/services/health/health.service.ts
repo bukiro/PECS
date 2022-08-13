@@ -4,7 +4,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Health } from 'src/app/classes/Health';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 

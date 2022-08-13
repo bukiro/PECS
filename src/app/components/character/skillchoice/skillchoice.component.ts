@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, Chan
 import { CharacterService } from 'src/app/services/character.service';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Skill } from 'src/app/classes/Skill';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { Trackers } from 'src/libs/shared/util/trackers';

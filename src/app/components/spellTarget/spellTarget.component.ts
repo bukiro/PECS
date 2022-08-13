@@ -7,13 +7,13 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -23,6 +23,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;
@@ -101,6 +102,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         private readonly _savegamesService: SavegamesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _modalService: NgbModal,
+        private readonly _durationsService: DurationsService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -382,7 +384,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     public durationDescription(turns: number, includeTurnState = true, inASentence = false): string {
-        return this._timeService.durationDescription(turns, includeTurnState, inASentence);
+        return this._durationsService.durationDescription(turns, includeTurnState, inASentence);
     }
 
     public ngOnInit(): void {

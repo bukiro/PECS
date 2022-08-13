@@ -6,7 +6,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { DisplayService } from 'src/app/core/services/display/display.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';

@@ -8,8 +8,8 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { RefreshService } from 'src/app/services/refresh.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { TimePeriods } from '../../definitions/timePeriods';
 import { CreatureTypeIDFromType } from '../../util/creatureUtils';
 import { SortAlphaNum } from '../../util/sortUtils';

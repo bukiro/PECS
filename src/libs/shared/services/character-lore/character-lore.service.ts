@@ -6,7 +6,7 @@ import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatsService } from 'src/app/services/feats.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { SkillLevels } from '../../definitions/skillLevels';
 

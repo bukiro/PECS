@@ -5,7 +5,7 @@ import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Consumable } from 'src/app/classes/Consumable';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';

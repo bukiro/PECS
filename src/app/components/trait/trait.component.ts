@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Trait } from 'src/app/classes/Trait';
 import { Item, TraitActivation } from 'src/app/classes/Item';
 import { Trackers } from 'src/libs/shared/util/trackers';

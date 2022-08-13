@@ -6,8 +6,8 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { RefreshService } from 'src/app/services/refresh.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { Creature } from '../../../../app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 

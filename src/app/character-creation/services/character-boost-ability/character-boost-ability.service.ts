@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 @Injectable({

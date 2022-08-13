@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 
 /**

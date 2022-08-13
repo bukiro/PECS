@@ -3,7 +3,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { TraitsService } from 'src/app/services/traits.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';

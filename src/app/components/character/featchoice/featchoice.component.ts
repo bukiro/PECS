@@ -9,7 +9,7 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { Character as CharacterModel } from 'src/app/classes/Character';
 import { TraitsService } from 'src/app/services/traits.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { FeatRequirementsService } from 'src/app/character-creation/services/feat-requirement/featRequirements.service';
 import { Trackers } from 'src/libs/shared/util/trackers';

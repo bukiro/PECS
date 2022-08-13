@@ -11,8 +11,8 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
-import { RefreshService } from 'src/app/services/refresh.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { Defaults } from '../../definitions/defaults';
 import { ActivityGainPropertiesService } from '../activity-gain-properties/activity-gain-properties.service';

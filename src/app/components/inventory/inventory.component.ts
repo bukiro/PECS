@@ -11,7 +11,7 @@ import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { Snare } from 'src/app/classes/Snare';
 import { Wand } from 'src/app/classes/Wand';
@@ -19,12 +19,12 @@ import { Shield } from 'src/app/classes/Shield';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
@@ -51,6 +51,7 @@ import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -118,6 +119,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         private readonly _itemPriceService: ItemPriceService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -450,7 +452,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public durationDescription(turns: number): string {
-        return this._timeService.durationDescription(turns);
+        return this._durationsService.durationDescription(turns);
     }
 
     public calculatedCreatureBulk(): CalculatedBulk {

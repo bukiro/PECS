@@ -20,7 +20,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Hint } from 'src/app/classes/Hint';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';

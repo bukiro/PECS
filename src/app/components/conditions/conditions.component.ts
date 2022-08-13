@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestro
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Condition } from 'src/app/classes/Condition';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemsService } from 'src/app/services/items.service';
@@ -15,7 +15,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -31,6 +31,7 @@ import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CustomEffectPropertiesService } from 'src/libs/shared/services/custom-effect-properties/custom-effect-properties.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 const itemsPerPage = 40;
 
@@ -101,6 +102,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _evaluationService: EvaluationService,
         private readonly _customEffectPropertiesService: CustomEffectPropertiesService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -322,7 +324,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public durationDescription(duration: number = this.effectiveDuration(), inASentence = false): string {
-        return this._timeService.durationDescription(duration, true, inASentence);
+        return this._durationsService.durationDescription(duration, true, inASentence);
     }
 
     public onAddCondition(

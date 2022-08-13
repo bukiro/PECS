@@ -8,7 +8,7 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { TraitsService } from 'src/app/services/traits.service';
 
 @Injectable({

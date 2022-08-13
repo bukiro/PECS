@@ -1,14 +1,16 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
 
 @Component({
     selector: 'app-time',
@@ -35,6 +37,8 @@ export class TimeComponent implements OnInit, OnDestroy {
         private readonly _spellsService: SpellPropertiesService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
+        private readonly _durationsService: DurationsService,
+        private readonly _timeBlockingService: TimeBlockingService,
         public trackers: Trackers,
     ) { }
 
@@ -55,11 +59,11 @@ export class TimeComponent implements OnInit, OnDestroy {
     }
 
     public durationDescription(duration: number, includeTurnState = true, short = false): string {
-        return this._timeService.durationDescription(duration, includeTurnState, false, short);
+        return this._durationsService.durationDescription(duration, includeTurnState, false, short);
     }
 
     public waitingDescription(duration: number): string {
-        return this._timeService.waitingDescription(
+        return this._timeBlockingService.waitingDescription(
             duration,
             { includeResting: false },
         );

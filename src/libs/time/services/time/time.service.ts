@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
@@ -7,20 +6,19 @@ import { ItemsService } from 'src/app/services/items.service';
 import { Character } from 'src/app/classes/Character';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CustomEffectsTimeService } from 'src/libs/time/services/custom-effects-time/custom-effects-time.service';
-import { RefreshService } from 'src/app/services/refresh.service';
-import { Creature } from 'src/app/classes/Creature';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { ActivitiesTimeService } from 'src/libs/time/services/activities-time/activities-time.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
-import { ConditionsDataService } from '../core/services/data/conditions-data.service';
+import { ConditionsDataService } from '../../../../app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionsTimeService } from 'src/libs/time/services/conditions-time/conditions-time.service';
 import { SpellsTimeService } from 'src/libs/time/services/spells-time/spells-time.service';
-import { AbilitiesDataService } from '../core/services/data/abilities-data.service';
+import { AbilitiesDataService } from '../../../../app/core/services/data/abilities-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -317,174 +315,6 @@ export class TimeService {
         if (reload) {
             this._refreshService.processPreparedChanges();
         }
-    }
-
-    public durationDescription(duration: number, includeTurnState = true, inASentence = false, short = false): string {
-        if (duration === TimePeriods.UntilRefocus) {
-            return inASentence
-                ? 'until you refocus'
-                : 'Until you refocus';
-        } else if (duration === TimePeriods.UntilRest) {
-            return inASentence
-                ? 'until the next time you make your daily preparations'
-                : 'Until the next time you make your daily preparations';
-        } else if (duration === TimePeriods.Permanent) {
-            return inASentence
-                ? 'permanently'
-                : 'Permanent';
-        } else if (duration === TimePeriods.UntilOtherCharactersTurn) {
-            return inASentence
-                ? 'until another character\'s turn'
-                : 'Ends on another character\'s turn';
-        } else if ([TimePeriods.UntilResolved, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(duration)) {
-            return inASentence
-                ? 'until resolved'
-                : 'Until resolved';
-        } else {
-            let returnString = '';
-            let workingDuration = duration;
-            //Cut off anything that isn't divisible by 5
-            const remainder: number = workingDuration % TimePeriods.HalfTurn;
-
-            workingDuration -= remainder;
-
-            if (workingDuration === TimePeriods.HalfTurn) {
-                if (this.yourTurn === TimePeriods.HalfTurn) {
-                    return inASentence
-                        ? 'for rest of turn'
-                        : 'Rest of turn';
-                }
-
-                if (this.yourTurn === TimePeriods.NoTurn) {
-                    return inASentence
-                        ? 'until start of next turn'
-                        : 'To start of next turn';
-                }
-            }
-
-            returnString += inASentence ? 'for ' : '';
-
-            if (workingDuration >= TimePeriods.Day) {
-                returnString += Math.floor(workingDuration / TimePeriods.Day) + (short ? 'd' : ' day');
-
-                if (!short && workingDuration / TimePeriods.Day > 1) { returnString += 's'; }
-
-                workingDuration %= TimePeriods.Day;
-            }
-
-            if (workingDuration >= TimePeriods.Hour) {
-                returnString += ` ${ Math.floor(workingDuration / TimePeriods.Hour) }${ short ? 'h' : ' hour' }`;
-
-                if (!short && workingDuration / TimePeriods.Hour > 1) { returnString += 's'; }
-
-                workingDuration %= TimePeriods.Hour;
-            }
-
-            if (workingDuration >= TimePeriods.Minute) {
-                returnString += ` ${ Math.floor(workingDuration / TimePeriods.Minute) }${ short ? 'm' : ' minute' }`;
-
-                if (!short && workingDuration / TimePeriods.Minute > 1) { returnString += 's'; }
-
-                workingDuration %= TimePeriods.Minute;
-            }
-
-            if (workingDuration >= TimePeriods.Turn) {
-                returnString += ` ${ Math.floor(workingDuration / TimePeriods.Turn) }${ short ? 't' : ' turn' }`;
-
-                if (!short && workingDuration / TimePeriods.Turn > 1) { returnString += 's'; }
-
-                workingDuration %= TimePeriods.Turn;
-            }
-
-            if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this.yourTurn === TimePeriods.HalfTurn) {
-                returnString += ' to end of turn';
-            }
-
-            if (includeTurnState && workingDuration === TimePeriods.HalfTurn && this.yourTurn === TimePeriods.NoTurn) {
-                returnString += ' to start of turn';
-            }
-
-            if (!returnString || returnString === 'for ') {
-                returnString = inASentence
-                    ? 'for 0 turns'
-                    : '0 turns';
-            }
-
-            if (remainder === 1) {
-                returnString += ', then until resolved';
-            }
-
-            return returnString.trim();
-        }
-    }
-
-    public waitingDescription(
-        duration: number,
-        options: { includeResting: boolean },
-    ): string {
-        let result = '';
-        const AfflictionOnsetsWithinDuration = (creature: Creature): boolean =>
-            this._creatureConditionsService
-                .currentCreatureConditions(creature, {}, { readonly: true })
-                .some(gain =>
-                    (
-                        !this._conditionsDataService.conditionFromName(gain.name).automaticStages &&
-                        !gain.paused &&
-                        gain.nextStage < duration &&
-                        gain.nextStage > 0
-                    ) ||
-                    gain.nextStage === -1 ||
-                    gain.durationIsInstant);
-
-        const TimeStopConditionsActive = (creature: Creature): boolean =>
-            this._creatureConditionsService
-                .currentCreatureConditions(creature, {}, { readonly: true })
-                .some(gain =>
-                    this._conditionsDataService
-                        .conditionFromName(gain.name)
-                        .stopTimeChoiceFilter
-                        .some(filter => [gain.choice, 'All'].includes(filter)),
-                );
-        const MultipleTempHPAvailable = (creature: Creature): boolean =>
-            creature.health.temporaryHP.length > 1;
-        const RestingBlockingEffectsActive = (creature: Creature): boolean =>
-            this._effectsService.effectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
-
-        this._characterService.allAvailableCreatures().forEach(creature => {
-            if (AfflictionOnsetsWithinDuration(creature)) {
-                result =
-                    `One or more conditions${ creature.isCharacter()
-                        ? ''
-                        : ` on your ${ creature.type }`
-                    } need to be resolved before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
-            }
-
-            if (options.includeResting && TimeStopConditionsActive(creature)) {
-                result =
-                    `Time is stopped for ${ creature.isCharacter()
-                        ? ' you'
-                        : ` your ${ creature.type }`
-                    }, and you cannot ${ options.includeResting ? 'rest' : 'continue' } until this effect has ended.`;
-            }
-
-            if (MultipleTempHPAvailable(creature)) {
-                result =
-                    `You need to select one set of temporary Hit Points${ creature.isCharacter()
-                        ? ''
-                        : ` on your ${ creature.type }`
-                    } before you can ${ options.includeResting ? 'rest' : 'continue' }.`;
-            }
-
-            if (options.includeResting && RestingBlockingEffectsActive(creature)) {
-                result =
-                    `An effect${ creature.isCharacter()
-                        ? ''
-                        : ` on your ${ creature.type }`
-                    } is keeping you from resting.`;
-            }
-        });
-
-        return result;
     }
 
 }

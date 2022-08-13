@@ -5,7 +5,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { TraitsService } from 'src/app/services/traits.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
@@ -13,7 +13,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Condition } from 'src/app/classes/Condition';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -33,6 +33,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -116,6 +117,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -892,7 +894,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     private _durationDescription(turns: number, includeTurnState = true, inASentence = false): string {
-        return this._timeService.durationDescription(turns, includeTurnState, inASentence);
+        return this._durationsService.durationDescription(turns, includeTurnState, inASentence);
     }
 
     private _spellDisabledByEffect(spell: Spell, choice: SpellChoice): boolean {

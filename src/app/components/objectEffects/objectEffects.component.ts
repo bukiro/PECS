@@ -3,7 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';

@@ -12,7 +12,7 @@ import { ConditionGainPropertiesService } from 'src/libs/shared/services/conditi
 import { Condition } from 'src/app/classes/Condition';
 import { Creature } from 'src/app/classes/Creature';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Equipment } from 'src/app/classes/Equipment';
 import { WornItem } from 'src/app/classes/WornItem';

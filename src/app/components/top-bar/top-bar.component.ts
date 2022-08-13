@@ -4,11 +4,11 @@ import { SavegamesService } from 'src/libs/shared/saving-loading/services/savega
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
-import { TimeService } from 'src/app/services/time.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -24,6 +24,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CharacterSavingService } from 'src/libs/shared/saving-loading/services/character-saving/character-saving.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -61,6 +62,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _itemsService: ItemsService,
         private readonly _characterSavingService: CharacterSavingService,
         private readonly _statusService: StatusService,
+        private readonly _durationsService: DurationsService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -341,7 +343,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         if (duration === TimePeriods.Default) {
             return '(Default duration)';
         } else {
-            return this._timeService.durationDescription(duration, false, true);
+            return this._durationsService.durationDescription(duration, false, true);
         }
     }
 

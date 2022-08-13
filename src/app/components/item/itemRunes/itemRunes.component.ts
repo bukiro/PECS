@@ -2,11 +2,11 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Rune } from 'src/app/classes/Rune';
@@ -25,6 +25,7 @@ import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 interface RuneItemType {
     armor: boolean;
@@ -99,6 +100,7 @@ export class ItemRunesComponent implements OnInit {
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -196,7 +198,7 @@ export class ItemRunesComponent implements OnInit {
             const lowestCooldown =
                 Math.min(...rune.activities.filter(activity => activity.activeCooldown).map(activity => activity.activeCooldown));
 
-            return ` (Cooldown ${ this._timeService.durationDescription(lowestCooldown) })`;
+            return ` (Cooldown ${ this._durationsService.durationDescription(lowestCooldown) })`;
         } else {
             return '';
         }

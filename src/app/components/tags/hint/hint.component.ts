@@ -5,7 +5,7 @@ import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Shield } from 'src/app/classes/Shield';
 import { TraitsService } from 'src/app/services/traits.service';
 import { WornItem } from 'src/app/classes/WornItem';

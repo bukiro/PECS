@@ -5,7 +5,8 @@ import { Creature } from 'src/app/classes/Creature';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,6 +17,7 @@ export class ActivityGainPropertiesService {
         private readonly _effectsService: CreatureEffectsService,
         private readonly _timeService: TimeService,
         private readonly _activitiesDataService: ActivitiesDataService,
+        private readonly _durationsService: DurationsService,
     ) { }
 
     public originalActivity(gain: ActivityGain | ItemActivity): Activity {
@@ -36,7 +38,7 @@ export class ActivityGainPropertiesService {
 
         if (gain.chargesUsed >= context.maxCharges) {
             if (gain.activeCooldown) {
-                const durationDescription = this._timeService.durationDescription(gain.activeCooldown, true, false);
+                const durationDescription = this._durationsService.durationDescription(gain.activeCooldown, true, false);
 
                 return `${ context.maxCharges ? 'Recharged in:' : 'Cooldown:' } ${ durationDescription }`;
             } else if (context.maxCharges) {

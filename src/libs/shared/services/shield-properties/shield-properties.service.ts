@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { Shield } from 'src/app/classes/Shield';
 import { CharacterService } from 'src/app/services/character.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 
 @Injectable({

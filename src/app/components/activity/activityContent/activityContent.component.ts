@@ -3,13 +3,13 @@ import { Activity } from 'src/app/classes/Activity';
 import { TraitsService } from 'src/app/services/traits.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Condition } from 'src/app/classes/Condition';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Spell } from 'src/app/classes/Spell';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -19,6 +19,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 @Component({
     selector: 'app-activityContent',
@@ -54,6 +55,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -74,7 +76,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     }
 
     public durationDescription(duration: number, includeTurnState = true, inASentence = false): string {
-        return this._timeService.durationDescription(duration, includeTurnState, inASentence);
+        return this._durationsService.durationDescription(duration, includeTurnState, inASentence);
     }
 
     public activities(name: string): Array<Activity> {

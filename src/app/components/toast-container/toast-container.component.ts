@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CharacterService } from 'src/app/services/character.service';
-import { RefreshService } from 'src/app/services/refresh.service';
-import { Toast, ToastService } from 'src/app/services/toast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { Toast, ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 

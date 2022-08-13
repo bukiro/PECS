@@ -4,7 +4,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { DiceService } from 'src/libs/dice/services/dice.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { FoundryVTTIntegrationService } from 'src/app/core/services/foundry-vtt-integration/foundry-vtt-integration.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';

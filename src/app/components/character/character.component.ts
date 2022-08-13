@@ -35,7 +35,7 @@ import { Domain } from 'src/app/classes/Domain';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';

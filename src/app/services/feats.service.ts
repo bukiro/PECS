@@ -22,7 +22,7 @@ import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ItemsService } from './items.service';
 import { Weapon } from '../classes/Weapon';
 import { HistoryDataService } from '../core/services/data/history-data.service';

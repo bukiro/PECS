@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/classes/Item';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { WornItem } from 'src/app/classes/WornItem';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';

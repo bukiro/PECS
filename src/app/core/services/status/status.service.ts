@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

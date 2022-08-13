@@ -4,13 +4,14 @@ import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/classes/Item';
 import { Oil } from 'src/app/classes/Oil';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { Weapon } from 'src/app/classes/Weapon';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 interface OilSet {
     oil: Oil;
@@ -39,6 +40,7 @@ export class ItemOilsComponent {
         private readonly _itemsService: ItemsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -47,7 +49,7 @@ export class ItemOilsComponent {
     }
 
     public durationDescription(turns: number): string {
-        return this._timeService.durationDescription(turns);
+        return this._durationsService.durationDescription(turns);
     }
 
     public availableOils(): Array<OilSet> {

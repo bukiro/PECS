@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
 import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { default as package_json } from 'package.json';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { map, Observable, of, switchMap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ToastService } from '../../../services/toast.service';
+import { ToastService } from '../../../../libs/shared/services/toast/toast.service';
 import { StatusService } from '../status/status.service';
 
 interface LoginToken {

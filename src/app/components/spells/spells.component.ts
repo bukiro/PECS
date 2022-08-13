@@ -3,7 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Subscription } from 'rxjs';
 import { SpellGain } from 'src/app/classes/SpellGain';

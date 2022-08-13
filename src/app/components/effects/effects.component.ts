@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Effect } from 'src/app/classes/Effect';
 import { Condition } from 'src/app/classes/Condition';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -16,6 +16,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 interface ComponentParameters {
     effects: Array<Effect>;
@@ -58,6 +59,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _refreshService: RefreshService,
         private readonly _timeService: TimeService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -180,7 +182,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     public durationDescription(duration: number): string {
-        return this._timeService.durationDescription(duration);
+        return this._durationsService.durationDescription(duration);
     }
 
     public conditionSuperTitle(conditionGain: ConditionGain, condition: Condition): string {

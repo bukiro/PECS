@@ -14,13 +14,13 @@ import { ClassSavingLoadingService } from 'src/libs/shared/saving-loading/servic
 import { HistorySavingLoadingService } from 'src/libs/shared/saving-loading/services/history-saving-loading/history-saving-loading.service';
 import { CharacterPatchingService } from '../character-patching/character-patching.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AppInitService } from 'src/app/core/services/app-init/app-init.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { DocumentStyleService } from 'src/app/core/services/document-style/document-style.service';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { FeatsService } from 'src/app/services/feats.service';
 
 interface DatabaseCharacter {

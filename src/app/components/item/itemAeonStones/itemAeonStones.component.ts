@@ -3,13 +3,14 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { TimeService } from 'src/app/services/time.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 interface AeonStoneSet {
     aeonStone: WornItem;
@@ -38,6 +39,7 @@ export class ItemAeonStonesComponent implements OnInit {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -100,7 +102,7 @@ export class ItemAeonStonesComponent implements OnInit {
                         .map(activity => activity.activeCooldown),
                 );
 
-            return ` (Cooldown: ${ this._timeService.durationDescription(lowestCooldown) })`;
+            return ` (Cooldown: ${ this._durationsService.durationDescription(lowestCooldown) })`;
         } else {
             return '';
         }

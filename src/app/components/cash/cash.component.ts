@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CopperAmounts } from 'src/libs/shared/definitions/currency';
 import { CopperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
 

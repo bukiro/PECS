@@ -2,8 +2,8 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, O
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { TimeService } from 'src/app/services/time.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
@@ -13,6 +13,7 @@ import { Health } from 'src/app/classes/Health';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health/health.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
 
 @Component({
     selector: 'app-health',
@@ -45,6 +46,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         private readonly _effectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _healthService: HealthService,
+        private readonly _timeBlockingService: TimeBlockingService,
         public trackers: Trackers,
     ) { }
 
@@ -84,7 +86,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public waitingDescription(duration: number): string {
-        return this._timeService.waitingDescription(
+        return this._timeBlockingService.waitingDescription(
             duration,
             { includeResting: true },
         );

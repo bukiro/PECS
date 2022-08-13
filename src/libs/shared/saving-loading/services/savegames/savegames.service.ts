@@ -3,7 +3,7 @@ import { Character } from 'src/app/classes/Character';
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Savegame } from 'src/app/classes/Savegame';
 import { ConfigService } from 'src/app/core/services/config/config.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Observable } from 'rxjs';
 
 interface DatabaseCharacter {

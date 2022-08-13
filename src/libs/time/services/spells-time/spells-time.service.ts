@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';

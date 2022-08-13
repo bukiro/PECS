@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

@@ -10,7 +10,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { Trait } from 'src/app/classes/Trait';

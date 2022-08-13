@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Shield } from 'src/app/classes/Shield';
 import { Material } from 'src/app/classes/Material';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';

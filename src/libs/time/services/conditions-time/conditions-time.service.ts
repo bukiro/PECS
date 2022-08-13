@@ -7,7 +7,7 @@ import { ConditionGainPropertiesService } from 'src/libs/shared/services/conditi
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';

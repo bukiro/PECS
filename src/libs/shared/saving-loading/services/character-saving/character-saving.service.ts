@@ -12,8 +12,8 @@ import { ClassSavingLoadingService } from 'src/libs/shared/saving-loading/servic
 import { HistorySavingLoadingService } from 'src/libs/shared/saving-loading/services/history-saving-loading/history-saving-loading.service';
 import { Item } from 'src/app/classes/Item';
 import { CharacterService } from 'src/app/services/character.service';
-import { TimeService } from 'src/app/services/time.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { SavegamesService } from '../savegames/savegames.service';
 
 

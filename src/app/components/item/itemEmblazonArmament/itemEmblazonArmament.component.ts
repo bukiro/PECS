@@ -6,7 +6,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Hint } from 'src/app/classes/Hint';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';

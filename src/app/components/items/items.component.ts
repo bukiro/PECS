@@ -18,7 +18,7 @@ import { Scroll } from 'src/app/classes/Scroll';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Creature } from 'src/app/classes/Creature';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';

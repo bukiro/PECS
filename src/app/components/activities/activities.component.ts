@@ -5,7 +5,7 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Activity } from 'src/app/classes/Activity';
 import { Creature } from 'src/app/classes/Creature';

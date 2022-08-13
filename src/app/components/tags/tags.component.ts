@@ -3,11 +3,11 @@ import { CharacterService } from 'src/app/services/character.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
-import { TimeService } from 'src/app/services/time.service';
+import { TimeService } from 'src/libs/time/services/time/time.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Specialization } from 'src/app/classes/Specialization';
 import { Activity } from 'src/app/classes/Activity';
@@ -18,6 +18,7 @@ import { Trait } from 'src/app/classes/Trait';
 import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
+import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 interface TagCollection {
     count: number;
@@ -71,6 +72,7 @@ export class TagsComponent implements OnInit, OnDestroy {
         private readonly _traitsService: TraitsService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _timeService: TimeService,
+        private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
 
@@ -144,7 +146,7 @@ export class TagsComponent implements OnInit, OnDestroy {
     }
 
     public durationDescription(duration: number): string {
-        return this._timeService.durationDescription(duration);
+        return this._durationsService.durationDescription(duration);
     }
 
     public onActivateEffect(): void {

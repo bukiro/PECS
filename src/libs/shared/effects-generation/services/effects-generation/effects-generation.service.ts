@@ -9,7 +9,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Rune } from 'src/app/classes/Rune';
 import { Shield } from 'src/app/classes/Shield';
 import { Specialization } from 'src/app/classes/Specialization';

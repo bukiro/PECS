@@ -7,7 +7,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterAncestryChangeService } from '../character-ancestry-change/character-ancestry-change.service';
 import { CharacterBackgroundChangeService } from '../character-background-change/character-background-change.service';

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { DiceService } from 'src/libs/dice/services/dice.service';
 import { FoundryVTTIntegrationService } from 'src/app/core/services/foundry-vtt-integration/foundry-vtt-integration.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';

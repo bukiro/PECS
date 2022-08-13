@@ -45,7 +45,7 @@ import { ConfigService } from 'src/app/core/services/config/config.service';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
@@ -54,7 +54,7 @@ import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';

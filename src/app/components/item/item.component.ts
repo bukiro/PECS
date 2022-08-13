@@ -3,7 +3,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
-import { RefreshService } from 'src/app/services/refresh.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { Item } from 'src/app/classes/Item';
 import { Talisman } from 'src/app/classes/Talisman';
