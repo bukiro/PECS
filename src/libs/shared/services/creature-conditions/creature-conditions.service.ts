@@ -6,7 +6,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -14,6 +14,8 @@ import { TimePeriods } from '../../definitions/timePeriods';
 import { CreatureTypeIDFromType } from '../../util/creatureUtils';
 import { SortAlphaNum } from '../../util/sortUtils';
 import { ConditionProcessingService } from '../condition-processing/condition-processing.service';
+import { ConditionEffectsObject } from 'src/app/classes/ConditionEffectsObject';
+import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
 
 @Injectable({
     providedIn: 'root',
@@ -25,7 +27,7 @@ export class CreatureConditionsService {
     constructor(
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _evaluationService: EvaluationService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _characterService: CharacterService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
@@ -298,6 +300,33 @@ export class CreatureConditionsService {
                 });
             });
         }
+    }
+
+    public collectEffectConditions(
+        creature: Creature,
+    ): { conditions: Array<ConditionEffectsObject>; hintSets: Array<HintEffectsObject> } {
+        const hintSets: Array<HintEffectsObject> = [];
+        const conditions: Array<ConditionEffectsObject> = [];
+        const appliedConditions = this.currentCreatureConditions(creature)
+            .filter(condition => condition.apply);
+
+        appliedConditions.forEach(gain => {
+            const originalCondition = this._conditionsDataService.conditionFromName(gain.name);
+
+            if (originalCondition.name === gain.name) {
+                const conditionEffectsObject: ConditionEffectsObject =
+                    Object.assign(new ConditionEffectsObject(originalCondition.effects), gain);
+
+                conditions.push(conditionEffectsObject);
+                originalCondition?.hints
+                    ?.filter(hint => (!hint.conditionChoiceFilter.length || hint.conditionChoiceFilter.includes(gain.choice)))
+                    .forEach(hint => {
+                        hintSets.push({ hint, parentConditionGain: gain, objectName: originalCondition.name });
+                    });
+            }
+        });
+
+        return { conditions, hintSets };
     }
 
     private _updateCreatureConditions(creature: Creature, activeConditions: Array<ConditionGain>, creatureIndex: number): void {

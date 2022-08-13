@@ -7,7 +7,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 
 @Injectable({
     providedIn: 'root',
@@ -17,7 +17,7 @@ export class SpellPropertiesService {
     constructor(
         private readonly _skillValuesService: SkillValuesService,
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
     ) { }
 
     public dynamicSpellLevel(casting: SpellCasting, choice: SpellChoice): number {

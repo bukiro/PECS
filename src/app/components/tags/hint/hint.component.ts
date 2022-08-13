@@ -9,7 +9,7 @@ import { RefreshService } from 'src/app/services/refresh.service';
 import { Shield } from 'src/app/classes/Shield';
 import { TraitsService } from 'src/app/services/traits.service';
 import { WornItem } from 'src/app/classes/WornItem';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Character } from 'src/app/classes/Character';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -51,7 +51,7 @@ export class HintComponent {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsService: TraitsService,
         private readonly _activityPropertiesService: ActivityPropertiesService,

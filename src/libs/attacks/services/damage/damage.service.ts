@@ -12,7 +12,7 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
@@ -30,7 +30,7 @@ export class DamageService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _spellsDataService: SpellsDataService,

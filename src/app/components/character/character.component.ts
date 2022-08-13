@@ -73,6 +73,7 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -137,6 +138,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -1325,7 +1327,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const areAnyRestrictedStancesFound =
             existingStances.some(example => example.gainConditions.some(gain => conditionsWithAttackRestrictions.includes(gain.name)));
 
-        this._characterService.creatureOwnedActivities(this.character, levelNumber)
+        this._creatureActivitiesService.creatureOwnedActivities(this.character, levelNumber)
             .map(activity => activities.find(example => example.name === activity.name))
             .filter(activity => activity && activity.name !== 'Fused Stance')
             .forEach(activity => {

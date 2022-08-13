@@ -4,7 +4,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { ToastService } from 'src/app/services/toast.service';
@@ -24,7 +24,7 @@ export class ConditionsTimeService {
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _characterService: CharacterService,
         private readonly _itemsService: ItemsService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _featsService: FeatsService,
         private readonly _toastService: ToastService,
     ) { }

@@ -8,7 +8,7 @@ import { FamiliarsService } from 'src/app/services/familiars.service';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Character as CharacterModel } from 'src/app/classes/Character';
 import { TraitsService } from 'src/app/services/traits.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { FeatRequirementsService } from 'src/app/character-creation/services/feat-requirement/featRequirements.service';
@@ -86,7 +86,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         private readonly _featsService: FeatsService,
         private readonly _familiarsService: FamiliarsService,
         private readonly _traitsService: TraitsService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _featRequirementsService: FeatRequirementsService,
         private readonly _featTakingService: FeatTakingService,
         public trackers: Trackers,

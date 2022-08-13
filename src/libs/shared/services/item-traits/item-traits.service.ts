@@ -7,7 +7,7 @@ import { Wand } from 'src/app/classes/Wand';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { TraitsService } from 'src/app/services/traits.service';
 
@@ -17,7 +17,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 export class ItemTraitsService {
 
     constructor(
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsService: TraitsService,
         private readonly _refreshService: RefreshService,

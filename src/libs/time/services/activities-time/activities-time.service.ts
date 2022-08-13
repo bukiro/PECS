@@ -9,6 +9,7 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivitiesProcessingService } from '../../../shared/services/activities-processing/activities-processing.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,13 +22,14 @@ export class ActivitiesTimeService {
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _characterService: CharacterService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
     ) { }
 
     public restActivities(creature: Creature): void {
         // Get all owned activity gains that have a cooldown active or have a current duration of -2 (until rest).
         // Get the original activity information, and if its cooldown is exactly one day or until rest (-2),
         // the activity gain's cooldown is reset.
-        this._characterService
+        this._creatureActivitiesService
             .creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown !== 0 || gain.duration === TimePeriods.UntilRest)
             .forEach(gain => {
@@ -64,7 +66,7 @@ export class ActivitiesTimeService {
     public refocusActivities(creature: Creature): void {
         //Get all owned activity gains that have a cooldown or a current duration of -3 (until refocus).
         //Get the original activity information, and if its cooldown is until refocus (-3), the activity gain's cooldown is reset.
-        this._characterService
+        this._creatureActivitiesService
             .creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => [gain.activeCooldown, gain.duration].includes(TimePeriods.UntilRefocus))
             .forEach(gain => {
@@ -97,7 +99,7 @@ export class ActivitiesTimeService {
     }
 
     public tickActivities(creature: Creature, turns = 10): void {
-        this._characterService
+        this._creatureActivitiesService
             .creatureOwnedActivities(creature, undefined, true)
             .filter(gain => gain.activeCooldown || gain.duration)
             .forEach(gain => {

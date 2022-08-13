@@ -6,8 +6,9 @@ import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Defaults } from '../../definitions/defaults';
+import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +17,8 @@ export class ActivityPropertiesService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
     ) { }
 
     public allowedTargetNumber(activity: Activity | Spell, levelNumber: number): number {
@@ -156,7 +158,7 @@ export class ActivityPropertiesService {
 
     private _updateDependentActivityGainCooldown(activity: Activity, cooldown: number, context: { creature: Creature }): void {
         if (activity.cooldown !== cooldown || activity.$cooldown !== cooldown) {
-            this._characterService
+            this._creatureActivitiesService
                 .creatureOwnedActivities(context.creature, Defaults.maxCharacterLevel, true)
                 .filter(gain => gain.name === activity.name)
                 .forEach(gain => {

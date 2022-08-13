@@ -9,37 +9,37 @@ import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 @Injectable({
     providedIn: 'root',
 })
-export class EffectsService {
+export class CreatureEffectsService {
 
-    private _effects: Array<EffectCollection> = [new EffectCollection(), new EffectCollection(), new EffectCollection()];
+    private _creatureEffects: Array<EffectCollection> = [new EffectCollection(), new EffectCollection(), new EffectCollection()];
 
     public effects(creatureType: CreatureTypes): EffectCollection {
         const creatureIndex = CreatureTypeIDFromType(creatureType);
 
-        return this._effects[creatureIndex];
+        return this._creatureEffects[creatureIndex];
     }
 
     public replaceCreatureEffects(creatureType: CreatureTypes, effects: Array<Effect>): void {
         const creatureIndex = CreatureTypeIDFromType(creatureType);
 
-        this._effects[creatureIndex] = new EffectCollection();
-        this._effects[creatureIndex].all = effects
+        this._creatureEffects[creatureIndex] = new EffectCollection();
+        this._creatureEffects[creatureIndex].all = effects
             .map(effect => Object.assign(new Effect(), effect).recast());
         // Sort the absolute effects in ascending order of value.
         // This means that the largest value will usually be the the one that ultimately counts.
-        this._effects[creatureIndex].absolutes = this._effects[creatureIndex].all
+        this._creatureEffects[creatureIndex].absolutes = this._creatureEffects[creatureIndex].all
             .filter(effect => effect.setValue)
             .sort((a, b) => parseInt(a.setValue, 10) - parseInt(b.setValue, 10));
-        this._effects[creatureIndex].relatives = this._effects[creatureIndex].all
+        this._creatureEffects[creatureIndex].relatives = this._creatureEffects[creatureIndex].all
             .filter(effect => parseInt(effect.value, 10));
-        this._effects[creatureIndex].penalties = this._effects[creatureIndex].all
+        this._creatureEffects[creatureIndex].penalties = this._creatureEffects[creatureIndex].all
             .filter(effect => parseInt(effect.value, 10) < 0);
-        this._effects[creatureIndex].bonuses = this._effects[creatureIndex].all
+        this._creatureEffects[creatureIndex].bonuses = this._creatureEffects[creatureIndex].all
             .filter(effect => parseInt(effect.value, 10) > 0);
     }
 
     public effectsOnThis(creature: Creature, ObjectName: string): Array<Effect> {
-        return this._effects[creature.typeId].all
+        return this._creatureEffects[creature.typeId].all
             .filter(effect =>
                 effect.creature === creature.id &&
                 effect.target.toLowerCase() === ObjectName.toLowerCase() &&
@@ -49,7 +49,7 @@ export class EffectsService {
     }
 
     public toggledEffectsOnThis(creature: Creature, ObjectName: string): Array<Effect> {
-        return this._effects[creature.typeId].all
+        return this._creatureEffects[creature.typeId].all
             .filter(effect =>
                 effect.toggle &&
                 effect.creature === creature.id &&
@@ -60,7 +60,7 @@ export class EffectsService {
     }
 
     public toggledEffectsOnThese(creature: Creature, ObjectNames: Array<string>): Array<Effect> {
-        return this._effects[creature.typeId].all
+        return this._creatureEffects[creature.typeId].all
             .filter(effect =>
                 effect.toggle &&
                 effect.creature === creature.id &&
@@ -71,7 +71,7 @@ export class EffectsService {
     }
 
     public relativeEffectsOnThis(creature: Creature, ObjectName: string): Array<Effect> {
-        return this._effects[creature.typeId].relatives
+        return this._creatureEffects[creature.typeId].relatives
             .filter(effect =>
                 effect.creature === creature.id &&
                 effect.target.toLowerCase() === ObjectName.toLowerCase() &&
@@ -90,7 +90,7 @@ export class EffectsService {
         // Since there can be an overlap between the different effects we're asking about,
         // we need to break them down to one bonus and one penalty per effect type.
         return this.reduceEffectsByType(
-            this._effects[creature.typeId].relatives
+            this._creatureEffects[creature.typeId].relatives
                 .filter(effect =>
                     effect.creature === creature.id &&
                     ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) &&
@@ -102,7 +102,7 @@ export class EffectsService {
     }
 
     public absoluteEffectsOnThis(creature: Creature, ObjectName: string): Array<Effect> {
-        return this._effects[creature.typeId].absolutes
+        return this._creatureEffects[creature.typeId].absolutes
             .filter(effect =>
                 effect.creature === creature.id &&
                 effect.target.toLowerCase() === ObjectName.toLowerCase() &&
@@ -121,7 +121,7 @@ export class EffectsService {
         // Since there can be an overlap between the different effects we're asking about,
         // we need to break them down to one bonus and one penalty per effect type.
         return this.reduceEffectsByType(
-            this._effects[creature.typeId].absolutes
+            this._creatureEffects[creature.typeId].absolutes
                 .filter(effect =>
                     effect.creature === creature.id &&
                     ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) &&
@@ -135,7 +135,7 @@ export class EffectsService {
     public doBonusEffectsExistOnThis(creature: Creature, ObjectName: string): boolean {
         // This function is usually only used to determine if a value should be highlighted as a bonus.
         // Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
-        return this._effects[creature.typeId].bonuses
+        return this._creatureEffects[creature.typeId].bonuses
             .some(effect =>
                 effect.creature === creature.id &&
                 effect.target.toLowerCase() === ObjectName.toLowerCase() &&
@@ -148,7 +148,7 @@ export class EffectsService {
     public doBonusEffectsExistOnThese(creature: Creature, ObjectNames: Array<string>): boolean {
         // This function is usually only used to determine if a value should be highlighted as a bonus.
         // Because we don't want to highlight values if their bonus comes from a feat, we exclude hidden effects here.
-        return this._effects[creature.typeId].bonuses
+        return this._creatureEffects[creature.typeId].bonuses
             .some(effect =>
                 effect.creature === creature.id &&
                 ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) &&
@@ -161,7 +161,7 @@ export class EffectsService {
     public doPenaltyEffectsExistOnThis(creature: Creature, ObjectName: string): boolean {
         // This function is usually only used to determine if a value should be highlighted as a penalty.
         // Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
-        return this._effects[creature.typeId].penalties
+        return this._creatureEffects[creature.typeId].penalties
             .some(effect =>
                 effect.creature === creature.id &&
                 effect.target.toLowerCase() === ObjectName.toLowerCase() &&
@@ -174,7 +174,7 @@ export class EffectsService {
     public doPenaltyEffectsExistOnThese(creature: Creature, ObjectNames: Array<string>): boolean {
         // This function is usually only used to determine if a value should be highlighted as a penalty.
         // Because we don't want to highlight values if their penalty comes from a feat, we exclude hidden effects here.
-        return this._effects[creature.typeId].penalties
+        return this._creatureEffects[creature.typeId].penalties
             .some(effect =>
                 effect.creature === creature.id &&
                 ObjectNames.map(name => name.toLowerCase()).includes(effect.target.toLowerCase()) &&
@@ -184,6 +184,10 @@ export class EffectsService {
             );
     }
 
+    /**
+     * Reduce a batch of effects to the best bonus and worst penalty for each bonus type.
+     *
+     */
     public reduceEffectsByType(
         effects: Array<Effect>,
         options: { readonly absolutes?: boolean; readonly lowerIsBetter?: boolean } = {},
@@ -211,7 +215,7 @@ export class EffectsService {
             effectGroup.reduce((prev, current) => prev + parseInt(current.value, 10), 0);
 
         Object.values(BonusTypes).forEach(type => {
-            if (type === 'untyped' && !options.absolutes) {
+            if (type === BonusTypes.Untyped && !options.absolutes) {
                 //Keep all untyped relative effects.
                 returnedEffects.push(...filteredEffects.filter(effect => effect.type === type));
             } else {

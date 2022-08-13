@@ -32,6 +32,7 @@ import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -89,6 +90,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
         public trackers: Trackers,
     ) { }
 
@@ -189,7 +191,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         objectName: string,
     ): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
         if (objectName) {
-            return this._characterService.creatureOwnedActivities(this._currentCreature())
+            return this._creatureActivitiesService.creatureOwnedActivities(this._currentCreature())
                 .map(gain => ({ gain, activity: this._activityGainPropertyService.originalActivity(gain) }))
                 .filter(set =>
                     set.activity?.hints
@@ -210,7 +212,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         const featData = this.character.class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (featData) {
-            return this._characterService.creatureOwnedActivities(this._currentCreature())
+            return this._creatureActivitiesService.creatureOwnedActivities(this._currentCreature())
                 .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
                 .map(gain => ({ gain, activity: this._activityGainPropertyService.originalActivity(gain) }));
         } else {

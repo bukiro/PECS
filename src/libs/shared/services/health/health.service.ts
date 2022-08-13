@@ -3,7 +3,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Health } from 'src/app/classes/Health';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
@@ -23,7 +23,7 @@ export class HealthService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _refreshService: RefreshService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creatureConditionsService: CreatureConditionsService,

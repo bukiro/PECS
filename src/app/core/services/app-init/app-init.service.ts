@@ -6,7 +6,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { DisplayService } from 'src/app/services/display.service';
-import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
+import { EffectsGenerationService } from 'src/libs/shared/effects-generation/services/effects-generation/effects-generation.service';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { FeatsService } from 'src/app/services/feats.service';

@@ -16,6 +16,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 interface ActivitySet {
     name: string;
@@ -57,6 +58,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
         public trackers: Trackers,
     ) { }
 
@@ -214,7 +216,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
             }
         };
 
-        this._characterService.creatureOwnedActivities(this.currentCreature()).forEach(gain => {
+        this._creatureActivitiesService.creatureOwnedActivities(this.currentCreature()).forEach(gain => {
             const activity = this._activityGainPropertyService.originalActivity(gain);
 
             this._activityPropertiesService.cacheEffectiveCooldown(activity, { creature: this.currentCreature() });

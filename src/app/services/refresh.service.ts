@@ -24,6 +24,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { CacheService } from 'src/app/services/cache.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 interface DetailToChange {
     creature: CreatureTypes | '';
@@ -48,6 +49,7 @@ export class RefreshService {
         private readonly _cacheService: CacheService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _characterService: CharacterService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
     ) {
         //Prepare the update variables that everything subscribes to.
         this._componentChanged$ = this._componentChanged.asObservable();
@@ -104,7 +106,7 @@ export class RefreshService {
 
     public prepareChangesByHints(creature: Creature, hints: Array<Hint> = []): void {
         const affectedActivities = (targetName: string): boolean =>
-            this._characterService.creatureOwnedActivities(creature, creature.level)
+            this._creatureActivitiesService.creatureOwnedActivities(creature, creature.level)
                 .some(activity => targetName.includes(activity.name));
 
         hints.forEach(hint => {

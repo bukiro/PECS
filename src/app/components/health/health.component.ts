@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { TimeService } from 'src/app/services/time.service';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -42,7 +42,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _healthService: HealthService,
         public trackers: Trackers,

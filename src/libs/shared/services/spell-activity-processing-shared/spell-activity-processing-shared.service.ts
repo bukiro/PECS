@@ -9,7 +9,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TimePeriods } from '../../definitions/timePeriods';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 
@@ -20,7 +20,7 @@ export class SpellActivityProcessingSharedService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
     ) { }
 

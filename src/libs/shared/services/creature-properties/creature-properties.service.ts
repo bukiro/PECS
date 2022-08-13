@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 
 @Injectable({
     providedIn: 'root',
@@ -8,7 +8,7 @@ import { EffectsService } from 'src/app/services/effects.service';
 export class CreaturePropertiesService {
 
     constructor(
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
     ) { }
 
     public effectiveSize(creature: Creature): number {

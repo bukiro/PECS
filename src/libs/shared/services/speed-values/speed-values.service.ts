@@ -3,7 +3,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { Speed } from 'src/app/classes/Speed';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 
 interface CalculatedSpeed {
     name: string;
@@ -23,7 +23,7 @@ export class SpeedValuesService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
     ) { }
 
     public calculate(speed: Speed, creature: Creature): CalculatedSpeed {

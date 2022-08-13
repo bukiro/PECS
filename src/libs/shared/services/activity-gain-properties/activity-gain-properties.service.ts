@@ -4,7 +4,7 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Creature } from 'src/app/classes/Creature';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TimeService } from 'src/app/services/time.service';
 
 @Injectable({
@@ -13,7 +13,7 @@ import { TimeService } from 'src/app/services/time.service';
 export class ActivityGainPropertiesService {
 
     constructor(
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _timeService: TimeService,
         private readonly _activitiesDataService: ActivitiesDataService,
     ) { }

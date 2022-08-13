@@ -18,7 +18,7 @@ import { RingOfWizardrySlot, WornItem } from 'src/app/classes/WornItem';
 import { Subscription } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
@@ -72,7 +72,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _itemTraitsService: ItemTraitsService,
         public trackers: Trackers,

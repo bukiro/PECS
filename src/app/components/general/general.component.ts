@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { FamiliarsService } from 'src/app/services/familiars.service';
@@ -45,7 +45,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _traitsService: TraitsService,
         private readonly _familiarsService: FamiliarsService,
         private readonly _deitiesDataService: DeitiesDataService,

@@ -3,7 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { Character } from 'src/app/classes/Character';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Speed } from 'src/app/classes/Speed';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
@@ -19,6 +19,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 interface SpeedParameters {
     name: string;
@@ -52,10 +53,11 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _skillValuesService: SkillValuesService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
         private readonly _speedValuesService: SpeedValuesService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
         public trackers: Trackers,
     ) { }
 
@@ -137,7 +139,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         const unique: Array<string> = [];
 
         if (this._character.settings.showSkillActivities) {
-            this._characterService.creatureOwnedActivities(this._currentCreature).forEach(activity => {
+            this._creatureActivitiesService.creatureOwnedActivities(this._currentCreature).forEach(activity => {
                 if (!unique.includes(activity.name)) {
                     unique.push(activity.name);
                     activities.push(activity);

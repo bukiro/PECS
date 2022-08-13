@@ -7,7 +7,7 @@ import { SpellPropertiesService } from 'src/libs/shared/services/spell-propertie
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { TimeService } from 'src/app/services/time.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
@@ -107,7 +107,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _traitsService: TraitsService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _timeService: TimeService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,

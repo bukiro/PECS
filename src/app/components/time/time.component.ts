@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { TimeService } from 'src/app/services/time.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
@@ -33,7 +33,7 @@ export class TimeComponent implements OnInit, OnDestroy {
         private readonly _timeService: TimeService,
         private readonly _itemsService: ItemsService,
         private readonly _spellsService: SpellPropertiesService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         public trackers: Trackers,
     ) { }

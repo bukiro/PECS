@@ -23,6 +23,7 @@ import { SpellsTakenService } from '../spells-taken/spells-taken.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from '../spell-processing/spell-processing.service';
+import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 
 @Injectable({
     providedIn: 'root',
@@ -44,6 +45,7 @@ export class ConditionProcessingService {
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
     ) { }
 
     public processCondition(
@@ -381,7 +383,7 @@ export class ConditionProcessingService {
                     this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
                 });
 
-            this._characterService.creatureOwnedActivities(creature, Defaults.maxCharacterLevel, true)
+            this._creatureActivitiesService.creatureOwnedActivities(creature, Defaults.maxCharacterLevel, true)
                 .filter(activityGain => activityGain.id === gain.sourceGainID && activityGain.active)
                 .forEach(activityGain => {
                     const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(activityGain);

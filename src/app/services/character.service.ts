@@ -19,7 +19,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Consumable } from 'src/app/classes/Consumable';
 import { TimeService } from 'src/app/services/time.service';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -57,7 +57,6 @@ import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { EvaluationService } from 'src/app/services/evaluation.service';
-import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
@@ -71,7 +70,6 @@ import { HttpStatusCode } from '@angular/common/http';
 import { Ability } from '../classes/Ability';
 import { Health } from '../classes/Health';
 import { AnimalCompanionLevel } from '../classes/AnimalCompanionLevel';
-import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
@@ -90,6 +88,8 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { ClassesDataService } from '../core/services/data/classes-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { ObjectEffectsGenerationService } from 'src/libs/shared/effects-generation/services/object-effects-generation/object-effects-generation';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -163,7 +163,7 @@ export class CharacterService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemsService: ItemsService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _timeService: TimeService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
@@ -172,7 +172,6 @@ export class CharacterService {
         private readonly _messageService: MessageService,
         private readonly _toastService: ToastService,
         private readonly _evaluationService: EvaluationService,
-        private readonly _effectsGenerationService: EffectsGenerationService,
         private readonly _refreshService: RefreshService,
         private readonly _cacheService: CacheService,
         popoverConfig: NgbPopoverConfig,
@@ -186,6 +185,8 @@ export class CharacterService {
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _objectEffectsGenerationService: ObjectEffectsGenerationService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -493,7 +494,7 @@ export class CharacterService {
                     if (feat) {
                         if (feat.effects.some(effect => effect.affected === 'Max Languages')) {
                             const effects =
-                                this._effectsGenerationService.effectsFromEffectObject(
+                                this._objectEffectsGenerationService.effectsFromEffectObject(
                                     feat,
                                     { creature: character },
                                     { name: taken.name, pretendCharacterLevel: level.number },
@@ -2476,155 +2477,8 @@ export class CharacterService {
             );
     }
 
-    public creatureOwnedActivities(creature: Creature, levelNumber: number = creature.level, all = false): Array<ActivityGain> {
-        const activities: Array<ActivityGain | ItemActivity> = [];
-
-        if (!this.stillLoading) {
-            if (creature.isCharacter()) {
-                activities.push(...creature.class.activities.filter(gain => gain.level <= levelNumber));
-            }
-
-            if (creature.isAnimalCompanion()) {
-                activities.push(...creature.class?.ancestry?.activities.filter(gain => gain.level <= levelNumber) || []);
-            }
-
-            // Get all applied condition gains' activity gains. These were copied from the condition when it was added.
-            // Also set the condition gain's spell level to the activity gain.
-            this._creatureConditionsService.currentCreatureConditions(creature, {}, { readonly: true })
-                .filter(gain => gain.apply)
-                .forEach(gain => {
-                    gain.gainActivities.forEach(activityGain => {
-                        activityGain.heightened = gain.heightened;
-                    });
-                    activities.push(...gain.gainActivities);
-                });
-
-            //With the all parameter, get all activities of all items regardless of whether they are equipped or invested or slotted.
-            // This is used for ticking down cooldowns.
-            if (all) {
-                creature.inventories.forEach(inv => {
-                    inv.allEquipment().forEach(item => {
-                        //Get external activity gains from items.
-                        if (item.gainActivities.length) {
-                            if (item instanceof Shield && item.emblazonArmament?.length) {
-                                //Only get Emblazon Armament activities if the blessing applies.
-                                activities.push(...item.gainActivities.filter(gain =>
-                                    (item.$emblazonEnergy ? true : gain.source !== 'Emblazon Energy') &&
-                                    (item.$emblazonAntimagic ? true : gain.source !== 'Emblazon Antimagic'),
-                                ));
-                            } else {
-                                activities.push(...item.gainActivities);
-                            }
-                        }
-
-                        if (item.activities.length) {
-                            activities.push(...item.activities);
-                        }
-
-                        //Get activities from runes.
-                        if (item.propertyRunes) {
-                            item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
-                                activities.push(...rune.activities);
-                            });
-                        }
-
-                        //Get activities from runes.
-                        if (item.bladeAllyRunes) {
-                            item.bladeAllyRunes.filter(rune => rune.activities.length).forEach(rune => {
-                                activities.push(...rune.activities);
-                            });
-                        }
-
-                        //Get activities from Oils emulating runes.
-                        if (item.oilsApplied) {
-                            item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
-                                activities.push(...oil.runeEffect.activities);
-                            });
-                        }
-
-                        //Get activities from slotted Aeon Stones.
-                        if ((item as WornItem).aeonStones) {
-                            (item as WornItem).aeonStones.filter(stone => stone.activities.length).forEach(stone => {
-                                activities.push(...stone.activities);
-                            });
-                        }
-
-                        item.traits
-                            .map(trait => this._traitsService.traits(trait)[0])
-                            .filter(trait => trait?.gainActivities.length)
-                            .forEach(trait => {
-                                activities.push(...trait.gainActivities);
-                            });
-                    });
-                    inv.allRunes().forEach(rune => {
-                        if (rune.activities.length) {
-                            activities.push(...rune.activities);
-                        }
-                    });
-                });
-            } else {
-                //Without the all parameter, get activities only from equipped and invested items and their slotted items.
-                const hasTooManySlottedAeonStones = this._itemsService.hasTooManySlottedAeonStones(creature);
-
-                creature.inventories[0]?.allEquipment()
-                    .filter(item =>
-                        item.investedOrEquipped() &&
-                        !item.broken,
-                    )
-                    .forEach((item: Equipment) => {
-                        if (item.gainActivities.length) {
-                            activities.push(...item.gainActivities);
-                        }
-
-                        //DO NOT get resonant activities at this point; they are only available if the item is slotted into a wayfinder.
-                        if (item.activities.length) {
-                            activities.push(...item.activities.filter(activity => !activity.resonant || all));
-                        }
-
-                        //Get activities from runes.
-                        if (item.propertyRunes) {
-                            item.propertyRunes.filter(rune => rune.activities.length).forEach(rune => {
-                                activities.push(...rune.activities);
-                            });
-                        }
-
-                        //Get activities from blade ally runes.
-                        if ((item instanceof Weapon || item instanceof WornItem) && item.bladeAllyRunes && item.bladeAlly) {
-                            item.bladeAllyRunes.filter(rune => rune.activities.length).forEach(rune => {
-                                activities.push(...rune.activities);
-                            });
-                        }
-
-                        //Get activities from oils emulating runes.
-                        if (item.oilsApplied) {
-                            item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
-                                activities.push(...oil.runeEffect.activities);
-                            });
-                        }
-
-                        //Get activities from slotted aeon stones, NOW including resonant activities.
-                        if (!hasTooManySlottedAeonStones && item instanceof WornItem) {
-                            item.aeonStones.filter(stone => stone.activities.length).forEach(stone => {
-                                activities.push(...stone.activities);
-                            });
-                        }
-
-                        item.traits
-                            .map(trait => this._traitsService.traits(trait)[0])
-                            .filter(trait => trait?.gainActivities.length)
-                            .forEach(trait => {
-                                activities.push(...trait.gainActivities);
-                            });
-                    });
-            }
-        }
-
-        return activities
-            .sort((a, b) => SortAlphaNum(a.name, b.name));
-    }
-
     public creatureActivitiesShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<Activity> {
-        return this.creatureOwnedActivities(creature)
+        return this._creatureActivitiesService.creatureOwnedActivities(creature)
             //Conflate ActivityGains and their respective Activities into one object...
             .map(gain => ({ gain, activity: this._activityGainPropertyService.originalActivity(gain) }))
             //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...

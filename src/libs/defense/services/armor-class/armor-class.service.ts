@@ -7,7 +7,7 @@ import { Effect } from 'src/app/classes/Effect';
 import { Shield } from 'src/app/classes/Shield';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
@@ -36,7 +36,7 @@ export class ArmorClassService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _armorPropertiesService: ArmorPropertiesService,

@@ -3,7 +3,7 @@ import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature as CreatureModel } from 'src/app/classes/Creature';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';
 import { Speed as SpeedModel } from 'src/app/classes/Speed';
@@ -27,6 +27,7 @@ import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 import { FeatsService } from './feats.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -62,7 +63,8 @@ export class EvaluationService {
         private readonly _speedValuesService: SpeedValuesService,
         private readonly _featsService: FeatsService,
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
     ) { }
 
     public valueFromFormula(
@@ -202,7 +204,7 @@ export class EvaluationService {
             this._creatureConditionsService.currentCreatureConditions(Creature, { name }, { readonly: true })
         );
         const Owned_Activities = (name: string): Array<ActivityGain> => (
-            characterService.creatureOwnedActivities(Creature).filter(gain => gain.name === name)
+            this._creatureActivitiesService.creatureOwnedActivities(Creature).filter(gain => gain.name === name)
         );
         const Armor = (): ArmorModel => {
             if (Creature === Familiar) {

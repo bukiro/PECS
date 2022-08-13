@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { ItemsService } from 'src/app/services/items.service';
 import { Character } from 'src/app/classes/Character';
@@ -33,7 +33,7 @@ export class TimeService {
     constructor(
         private readonly _activitiesTimeService: ActivitiesTimeService,
         private readonly _customEffectsTimeService: CustomEffectsTimeService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _abilitiesDataService: AbilitiesDataService,

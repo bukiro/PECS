@@ -5,7 +5,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { EvaluationService } from 'src/app/services/evaluation.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { BulkService } from 'src/libs/shared/services/bulk/bulk.service';
@@ -21,7 +21,7 @@ export class EquipmentConditionsService {
         private readonly _bulkService: BulkService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _itemsService: ItemsService,
 
     ) { }

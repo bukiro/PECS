@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { CharacterService } from 'src/app/services/character.service';
-import { EffectsService } from 'src/app/services/effects.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureSizes } from '../../definitions/creatureSizes';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreaturePropertiesService } from '../creature-properties/creature-properties.service';
@@ -33,7 +33,7 @@ export class BulkService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: EffectsService,
+        private readonly _effectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
