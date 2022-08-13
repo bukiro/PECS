@@ -114,7 +114,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public newMessagesFromService(): Array<PlayerMessage> {
-        return this._messageService.newMessages(this._characterService);
+        return this._messageService.newMessages();
     }
 
     public savegames(): Array<Savegame> {
@@ -208,7 +208,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         if (this.character.settings.checkMessagesAutomatically) {
             // If the app checks for messages automatically, you don't need to check again manually.
             // Just open the Dialog if messages exist, or let us know if not.
-            if (this._messageService.newMessages(this._characterService).length) {
+            if (this._messageService.newMessages().length) {
                 this.openNewMessagesModal();
             } else {
                 this._toastService.show('No new effects are available.');
@@ -222,13 +222,13 @@ export class TopBarComponent implements OnInit, OnDestroy {
                             .subscribe({
                                 next: (results: Array<string>) => {
                                     //Get any new messages.
-                                    const newMessages = this._messageService.processNewMessages(this._characterService, results);
+                                    const newMessages = this._messageService.processNewMessages(results);
 
                                     //Add them to the list of new messages.
                                     this._messageService.addNewMessages(newMessages);
 
                                     //If any exist, start the dialog. Otherwise give an appropriate response.
-                                    if (this._messageService.newMessages(this._characterService).length) {
+                                    if (this._messageService.newMessages().length) {
                                         this.openNewMessagesModal();
                                     } else {
                                         this._toastService.show('No new effects are available.');

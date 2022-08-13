@@ -448,7 +448,7 @@ export class CharacterService {
     }
 
     public currentCharacterDeities(character: Character, source = '', level: number = character.level): Array<Deity> {
-        return this._deitiesService.currentCharacterDeities(this, character, source, level);
+        return this._deitiesService.currentCharacterDeities(character, source, level);
     }
 
     public creatureSpeeds(creature: Creature, name = ''): Array<Speed> {
@@ -499,7 +499,6 @@ export class CharacterService {
                             const effects =
                                 this._effectsGenerationService.effectsFromEffectObject(
                                     feat,
-                                    { characterService: this },
                                     { creature: character },
                                     { name: taken.name, pretendCharacterLevel: level.number },
                                 );
@@ -796,13 +795,13 @@ export class CharacterService {
         if (((item instanceof Equipment) || (item instanceof Rune)) && item.activities?.length) {
             item.activities.forEach(activity => {
                 activity.active = false;
-                this._refreshService.prepareChangesByHints(creature, activity.hints, { characterService: this });
+                this._refreshService.prepareChangesByHints(creature, activity.hints);
             });
             this._refreshService.prepareDetailToChange(creature.type, 'activities');
         }
 
         if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-            this._refreshService.prepareChangesByHints(creature, item.hints, { characterService: this });
+            this._refreshService.prepareChangesByHints(creature, item.hints);
         }
 
         if (item instanceof Equipment) {
@@ -893,18 +892,14 @@ export class CharacterService {
         this._refreshService.prepareDetailToChange(creature.type, 'inventory');
         this._refreshService.prepareDetailToChange(creature.type, 'effects');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-        this._refreshService.prepareChangesByItem(
-            creature,
-            item,
-            { characterService: this, activitiesDataService: this._activitiesDataService },
-        );
+        this._refreshService.prepareChangesByItem(creature, item);
 
         if (amount < item.amount) {
             item.amount -= amount;
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
         } else {
             if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-                this._refreshService.prepareChangesByHints(creature, item.hints, { characterService: this });
+                this._refreshService.prepareChangesByHints(creature, item.hints);
             }
 
             if ((item instanceof Equipment) || (item instanceof Rune)) {
@@ -1184,7 +1179,6 @@ export class CharacterService {
         this._refreshService.prepareChangesByItem(
             creature,
             item,
-            { characterService: this, activitiesDataService: this._activitiesDataService },
         );
 
         if (!isEquippedAtBeginning && item.equipped) {
@@ -1285,7 +1279,6 @@ export class CharacterService {
                 this._refreshService.prepareChangesByItem(
                     creature,
                     item,
-                    { characterService: this, activitiesDataService: this._activitiesDataService },
                 );
             }
         } else {
@@ -1315,7 +1308,6 @@ export class CharacterService {
             this._refreshService.prepareChangesByItem(
                 creature,
                 item,
-                { characterService: this, activitiesDataService: this._activitiesDataService },
             );
         }
 
@@ -1326,7 +1318,6 @@ export class CharacterService {
                 this._refreshService.prepareChangesByItem(
                     creature,
                     wornItem,
-                    { characterService: this, activitiesDataService: this._activitiesDataService },
                 );
             });
         }
@@ -1341,11 +1332,10 @@ export class CharacterService {
             item.amount--;
         }
 
-        this._itemsService.processConsumable(creature, this, this._conditionGainPropertiesService, this._spellsService, item);
+        this._itemsService.processConsumable(creature, item);
         this._refreshService.prepareChangesByItem(
             creature,
             item,
-            { characterService: this, activitiesDataService: this._activitiesDataService },
         );
         this._refreshService.prepareDetailToChange(creature.type, 'inventory');
     }
@@ -1456,7 +1446,7 @@ export class CharacterService {
             });
         });
         messages.forEach(message => {
-            this._messageService.markMessageAsIgnored(this, message);
+            this._messageService.markMessageAsIgnored(message);
         });
     }
 
@@ -1591,7 +1581,7 @@ export class CharacterService {
                 }
             }
 
-            this._messageService.markMessageAsIgnored(this, message);
+            this._messageService.markMessageAsIgnored(message);
         });
     }
 
@@ -1774,7 +1764,7 @@ export class CharacterService {
                 this.sendItemAcceptedMessage(message, false);
             }
 
-            this._messageService.markMessageAsIgnored(this, message);
+            this._messageService.markMessageAsIgnored(message);
         });
     }
 
@@ -1885,7 +1875,7 @@ export class CharacterService {
                 }
             }
 
-            this._messageService.markMessageAsIgnored(this, message);
+            this._messageService.markMessageAsIgnored(message);
         });
         this._refreshService.processPreparedChanges();
     }
@@ -2152,7 +2142,6 @@ export class CharacterService {
                 const validationResult =
                     this._evaluationService.valueFromFormula(
                         effectGain.value,
-                        { characterService: this, effectsService: this._effectsService },
                         { creature, object: testObject, effect: effectGain },
                     );
 
@@ -2916,10 +2905,6 @@ export class CharacterService {
         this._character =
             this._savegameService.processLoadedCharacter(
                 JSON.parse(JSON.stringify(this._loader)),
-                this,
-                this._itemsService,
-                this._classesService,
-                this._historyService,
             );
         this._character.GMMode = loadAsGM;
         this._loader = [];
@@ -2946,12 +2931,7 @@ export class CharacterService {
         this._toastService.show('Saving...');
 
         const savegame =
-            this._savegameService.prepareCharacterForSaving(
-                this.character,
-                this._itemsService,
-                this._classesService,
-                this._historyService,
-            );
+            this._savegameService.prepareCharacterForSaving(this.character);
 
         this._savegameService.saveCharacter(savegame)
             .subscribe({
@@ -3086,7 +3066,7 @@ export class CharacterService {
                     if (!invItem.markedForDeletion) {
                         found++;
                         this._itemsService
-                            .moveItemLocally(creature, invItem, creature.inventories[0], inv, this, invItem.amount, true);
+                            .moveItemLocally(creature, invItem, creature.inventories[0], inv, invItem.amount, true);
                     }
                 });
         });

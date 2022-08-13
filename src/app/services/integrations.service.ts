@@ -22,15 +22,15 @@ export class IntegrationsService {
 
     constructor(
         private readonly _toastService: ToastService,
+        private readonly _characterService: CharacterService,
     ) { }
 
     public sendRollToFoundry(
         creature: CreatureTypes,
         diceString = '',
         diceResults: Array<DiceResult> = [],
-        characterService: CharacterService,
     ): void {
-        let foundryVTTUrl = characterService.character.settings.foundryVTTUrl;
+        let foundryVTTUrl = this._characterService.character.settings.foundryVTTUrl;
 
         //Remove trailing slashes.
         foundryVTTUrl = foundryVTTUrl.replace(/\/+$/, '');
@@ -43,15 +43,15 @@ export class IntegrationsService {
                     roll = '0';
                 }
 
-                const foundryVTTTimeout = characterService.character.settings.foundryVTTTimeout;
+                const foundryVTTTimeout = this._characterService.character.settings.foundryVTTTimeout;
                 //Open the foundry URL in a small window, then close it after the configured timeout.
-                const roller = characterService.creatureFromType(creature);
+                const roller = this._characterService.creatureFromType(creature);
                 let alias = '';
 
                 if (creature === CreatureTypes.Character) {
                     alias = roller.name || '';
                 } else {
-                    alias = roller.name || `${ roller.type } of ${ characterService.character.name }`;
+                    alias = roller.name || `${ roller.type } of ${ this._characterService.character.name }`;
                 }
 
                 let foundryWindow: Window;

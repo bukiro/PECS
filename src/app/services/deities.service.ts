@@ -27,6 +27,7 @@ export class DeitiesService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
+        private readonly _characterService: CharacterService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -61,7 +62,6 @@ export class DeitiesService {
     }
 
     public currentCharacterDeities(
-        characterService: CharacterService,
         character: Character,
         source = '',
         level: number = character.level,
@@ -73,7 +73,7 @@ export class DeitiesService {
             if (mainDeity) {
                 this._$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
 
-                const syncretismFeat = characterService.characterFeatsTaken(0, level, { featName: 'Syncretism' }).length;
+                const syncretismFeat = this._characterService.characterFeatsTaken(0, level, { featName: 'Syncretism' }).length;
 
                 if (syncretismFeat) {
                     const data = character.class.filteredFeatData(0, 0, 'Syncretism')[0];

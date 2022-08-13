@@ -310,7 +310,7 @@ export class FeatsService {
                 }
             }
 
-            this._refreshService.prepareChangesByHints(creature, feat.hints, { characterService: this._characterService });
+            this._refreshService.prepareChangesByHints(creature, feat.hints);
 
             if (feat.effects.length) {
                 this._refreshService.prepareDetailToChange(creature.type, 'effects');
@@ -402,11 +402,7 @@ export class FeatsService {
                 this._refreshService.prepareDetailToChange(creature.type, 'abilities');
                 feat.gainAbilityChoice.forEach(abilityChoice => {
                     abilityChoice.boosts.forEach(boost => {
-                        this._refreshService.prepareChangesByAbility(
-                            creature.type,
-                            boost.name,
-                            { characterService: this._characterService },
-                        );
+                        this._refreshService.prepareChangesByAbility(creature.type, boost.name);
                     });
                 });
 

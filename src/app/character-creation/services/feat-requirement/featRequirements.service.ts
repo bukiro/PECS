@@ -720,7 +720,7 @@ export class FeatRequirementsService {
                 complexreq.countDeities?.forEach(deityreq => {
                     if (!hasThisRequirementFailed) {
                         const allDeities: Array<Deity> =
-                            this._deitiesService.currentCharacterDeities(this._characterService, character, '', charLevel);
+                            this._deitiesService.currentCharacterDeities(character, '', charLevel);
                         let deities: Array<Deity> = (!deityreq.query.secondOnly ? [allDeities[0]] : [])
                             .concat(!deityreq.query.firstOnly ? [allDeities[1]] : [])
                             .filter(deity => !!deity);
@@ -803,7 +803,7 @@ export class FeatRequirementsService {
                 complexreq.countFavoredWeapons?.forEach(favoredweaponreq => {
                     if (!hasThisRequirementFailed) {
                         const allDeities: Array<Deity> =
-                            this._deitiesService.currentCharacterDeities(this._characterService, character, '', charLevel);
+                            this._deitiesService.currentCharacterDeities(character, '', charLevel);
                         let favoredWeapons: Array<string> = [].concat(...allDeities.map(deity => deity.favoredWeapon));
 
                         if (favoredweaponreq.query.havingAnyOfProficiencies) {

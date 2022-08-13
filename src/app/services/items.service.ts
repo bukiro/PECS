@@ -2,10 +2,8 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { TypeService } from 'src/app/services/type.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
@@ -73,7 +71,6 @@ import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';
 import * as json_weaponrunes from 'src/assets/json/items/weaponrunes';
 import * as json_weapons from 'src/assets/json/items/weapons';
 import * as json_wornitems from 'src/assets/json/items/wornitems';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -106,13 +103,13 @@ export class ItemsService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
-        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _featsService: FeatsService,
+        private readonly _characterService: CharacterService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -711,7 +708,6 @@ export class ItemsService {
         item: Item,
         targetInventory: ItemCollection,
         inventory: ItemCollection,
-        characterService: CharacterService,
         amount = item.amount,
         including = true,
     ): void {
@@ -749,23 +745,19 @@ export class ItemsService {
                 }
 
                 if (movedItem instanceof Equipment && movedItem.equipped) {
-                    characterService.equipItem(creature, inventory, movedItem as Equipment, false);
+                    this._characterService.equipItem(creature, inventory, movedItem as Equipment, false);
                 }
 
                 if (movedItem instanceof Equipment && movedItem.invested) {
-                    characterService.investItem(creature, inventory, movedItem as Equipment, false);
+                    this._characterService.investItem(creature, inventory, movedItem as Equipment, false);
                 }
 
                 //Move all granted items as well.
                 if (including) {
-                    this._moveItemsGrantedByThisItem(creature, movedItem, targetInventory, inventory, characterService);
+                    this._moveItemsGrantedByThisItem(creature, movedItem, targetInventory, inventory);
                 }
 
-                this._refreshService.prepareChangesByItem(
-                    creature,
-                    movedItem,
-                    { characterService, activitiesDataService: this._activitiesDataService },
-                );
+                this._refreshService.prepareChangesByItem(creature, movedItem);
             }
         }
     }
@@ -775,14 +767,13 @@ export class ItemsService {
         targetCreature: SpellTarget,
         item: Item,
         inventory: ItemCollection,
-        characterService: CharacterService,
         amount = item.amount,
     ): void {
         if (creature.type !== targetCreature.type) {
             this.updateGrantingItemBeforeTransfer(creature, item);
 
             const included = this.packGrantingItemForTransfer(creature, item);
-            const toCreature = characterService.creatureFromType(targetCreature.type);
+            const toCreature = this._characterService.creatureFromType(targetCreature.type);
             const targetInventory = toCreature.inventories[0];
 
             //Iterate through the main item and all its granted items and inventories.
@@ -805,7 +796,7 @@ export class ItemsService {
                     const newLength = targetInventory[includedItem.type].push(movedItem);
                     const newItem = targetInventory[includedItem.type][newLength - 1];
 
-                    characterService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
+                    this._characterService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
                 }
             });
             //Add included inventories and process all items inside them.
@@ -814,13 +805,13 @@ export class ItemsService {
                 const newInventory = toCreature.inventories[newLength - 1];
 
                 newInventory.allItems().forEach(invItem => {
-                    characterService.processGrantedItem(toCreature, invItem, newInventory, true, false, true, true);
+                    this._characterService.processGrantedItem(toCreature, invItem, newInventory, true, false, true, true);
                 });
             });
 
             //If the item still exists on the inventory, drop it with all its contents.
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
-                characterService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
+                this._characterService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
             }
 
             this._refreshService.prepareDetailToChange(toCreature.type, 'inventory');
@@ -839,19 +830,16 @@ export class ItemsService {
 
     public processConsumable(
         creature: Creature,
-        characterService: CharacterService,
-        conditionGainPropertiesService: ConditionGainPropertiesService,
-        spellsService: SpellPropertiesService,
         item: Consumable,
     ): void {
 
         //Consumables don't do anything in manual mode, except be used up.
-        if (!characterService.isManualMode) {
+        if (!this._characterService.isManualMode) {
 
             //One time effects
             if (item.onceEffects) {
                 item.onceEffects.forEach(effect => {
-                    characterService.processOnceEffect(creature, effect);
+                    this._characterService.processOnceEffect(creature, effect);
                 });
             }
 
@@ -895,13 +883,13 @@ export class ItemsService {
 
     }
 
-    public restItems(creature: Creature, characterService: CharacterService): void {
+    public restItems(creature: Creature): void {
         creature.inventories.forEach(inv => {
             const itemsToDrop = inv.allItems().filter(item => item.expiration === TimePeriods.UntilRest);
 
             //TO-DO: Verify that this still works without the while loop.
             itemsToDrop.forEach(item => {
-                characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
+                this._characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
             this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
@@ -920,10 +908,10 @@ export class ItemsService {
 
         if (creature.isCharacter()) {
             //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
-            if (characterService.characterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
+            if (this._characterService.characterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
                 creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
-                        characterService.grantInventoryItem(
+                        this._characterService.grantInventoryItem(
                             scroll,
                             { creature, inventory: creature.inventories[0] },
                             { resetRunes: false, changeAfter: false, equipAfter: false },
@@ -933,7 +921,7 @@ export class ItemsService {
             }
 
             //If you have Battleforger, all your battleforged items are reset.
-            if (characterService.characterFeatsTaken(1, creature.level, { featName: 'Battleforger' }).length) {
+            if (this._characterService.characterHasFeat('Battleforger')) {
                 let shouldAttacksRefresh = false;
                 let shouldDefenseRefresh = false;
 
@@ -981,18 +969,18 @@ export class ItemsService {
         }
     }
 
-    public refocusItems(creature: Creature, characterService: CharacterService): void {
+    public refocusItems(creature: Creature): void {
         creature.inventories.forEach(inv => {
             const itemsToDrop = inv.allItems().filter(item => item.expiration === TimePeriods.UntilRefocus);
 
             itemsToDrop.forEach(item => {
-                characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
+                this._characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
             this._refreshService.prepareDetailToChange(creature.type, 'inventory');
         });
     }
 
-    public tickItems(creature: Creature, characterService: CharacterService, turns: number): void {
+    public tickItems(creature: Creature, turns: number): void {
         creature.inventories.forEach(inv => {
             //Tick down and remove all items that expire.
             const itemsToDrop: Array<Item> = [];
@@ -1023,7 +1011,6 @@ export class ItemsService {
                                             invItem,
                                             creature.inventories[0],
                                             creatureInventory,
-                                            characterService,
                                         );
                                     });
                                 });
@@ -1046,7 +1033,7 @@ export class ItemsService {
             });
 
             itemsToDrop.forEach(item => {
-                characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
+                this._characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
             this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
@@ -1219,7 +1206,6 @@ export class ItemsService {
         item: Item,
         targetInventory: ItemCollection,
         inventory: ItemCollection,
-        characterService: CharacterService,
     ): void {
         //If you are moving an item that grants other items, move those as well.
         //Only move items from inventories other than the target inventory, and start from the same inventory that the granting item is in.
@@ -1236,7 +1222,7 @@ export class ItemsService {
                             const moved = Math.min(toMove, invItem.amount);
 
                             toMove -= moved;
-                            this.moveItemLocally(creature, invItem, targetInventory, inv, characterService, moved);
+                            this.moveItemLocally(creature, invItem, targetInventory, inv, moved);
                         }
                     }
                 });

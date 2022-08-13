@@ -845,7 +845,6 @@ export class ItemRunesComponent implements OnInit {
         this._refreshService.prepareChangesByItem(
             this._character,
             rune,
-            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
         );
     }
 

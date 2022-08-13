@@ -29,23 +29,24 @@ export class MessageService {
         private readonly _toastService: ToastService,
         private readonly _itemsService: ItemsService,
         private readonly _refreshService: RefreshService,
+        private readonly _characterService: CharacterService,
     ) { }
 
-    public newMessages(characterService: CharacterService): Array<PlayerMessage> {
+    public newMessages(): Array<PlayerMessage> {
         return this._newMessages
-            .filter(message => !this._ignoredMessages(characterService).some(ignoredMessage => ignoredMessage.id === message.id));
+            .filter(message => !this._ignoredMessages().some(ignoredMessage => ignoredMessage.id === message.id));
     }
 
     public addNewMessages(messages: Array<PlayerMessage>): void {
         this._newMessages.push(...messages);
     }
 
-    public markMessageAsIgnored(characterService: CharacterService, message: PlayerMessage): void {
-        characterService.character.ignoredMessages.push({ id: message.id, ttl: ignoredMessageTTL });
+    public markMessageAsIgnored(message: PlayerMessage): void {
+        this._characterService.character.ignoredMessages.push({ id: message.id, ttl: ignoredMessageTTL });
     }
 
-    public initialize(characterService: CharacterService): void {
-        this._startMessageProcessingLoop(characterService);
+    public initialize(): void {
+        this._startMessageProcessingLoop();
     }
 
     public reset(): void {
@@ -85,7 +86,7 @@ export class MessageService {
         );
     }
 
-    public processNewMessages(characterService: CharacterService, results: Array<string>): Array<PlayerMessage> {
+    public processNewMessages(results: Array<string>): Array<PlayerMessage> {
         const loadedMessages = results;
 
         let newMessages = loadedMessages
@@ -113,29 +114,29 @@ export class MessageService {
         //Ignore messages for creatures that you don't own.
         newMessages.forEach(message => {
             if (message.gainCondition.length) {
-                if (!this._creatureFromMessage(characterService, message)) {
-                    this.markMessageAsIgnored(characterService, message);
+                if (!this._creatureFromMessage(message)) {
+                    this.markMessageAsIgnored(message);
                 }
             }
         });
         //Remove all ignored messages that don't match a new message, as you don't need them anymore.
-        characterService.character.ignoredMessages = this._ignoredMessages(characterService).filter(message =>
+        this._characterService.character.ignoredMessages = this._ignoredMessages().filter(message =>
             newMessages.some(newMessage => newMessage.id === message.id) ||
             this._newMessages.some(newMessage => newMessage.id === message.id),
         );
         //Remove ignored messages and messages that are already in the list.
         newMessages = newMessages.filter(message =>
-            !this._ignoredMessages(characterService).some(ignoredMessage => ignoredMessage.id === message.id) &&
+            !this._ignoredMessages().some(ignoredMessage => ignoredMessage.id === message.id) &&
             !this._newMessages.some(ignoredMessage => ignoredMessage.id === message.id),
         );
 
         //Apply turn change messages automatically, then invalidate these messages and return the rest.
         if (newMessages.length) {
-            characterService.applyTurnChangeMessage(newMessages.filter(message => message.turnChange));
-            characterService.applyItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
+            this._characterService.applyTurnChangeMessage(newMessages.filter(message => message.turnChange));
+            this._characterService.applyItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
             this._refreshService.processPreparedChanges();
             newMessages.filter(message => message.turnChange).forEach(message => {
-                this.markMessageAsIgnored(characterService, message);
+                this.markMessageAsIgnored(message);
             });
             newMessages = newMessages.filter(message => !message.turnChange && !message.acceptedItem && !message.rejectedItem);
         }
@@ -143,7 +144,7 @@ export class MessageService {
         return newMessages;
     }
 
-    private _cleanupIgnoredMessages(characterService: CharacterService): void {
+    private _cleanupIgnoredMessages(): void {
         //Count down all ignored messages. If a message reaches 0 (typically after 60 seconds), delete it from the database.
         //Don't delete the message from the ignored messages list - the matching new message could still exist for up to 10 minutes.
         //Don't run if a cleanup is already running.
@@ -151,10 +152,10 @@ export class MessageService {
             let hasShownErrorMessage = false;
             let messagesToDelete = 0;
 
-            this._ignoredMessages(characterService).forEach(message => {
+            this._ignoredMessages().forEach(message => {
                 message.ttl--;
 
-                if (message.ttl === 0 && characterService.isLoggedIn()) {
+                if (message.ttl === 0 && this._characterService.isLoggedIn()) {
                     messagesToDelete++;
                     this._deleteMessageFromConnector(Object.assign(new PlayerMessage(), { id: message.id }))
                         .subscribe({
@@ -191,24 +192,24 @@ export class MessageService {
         }
     }
 
-    private _cleanupNewMessages(characterService: CharacterService): void {
+    private _cleanupNewMessages(): void {
         // Count down all new messages. If a message reaches 0 (typically after 10 minutes), delete it from the list,
         // but add it to the ignored list so it doesn't show up again before it's deleted from the database.
         this._newMessages.forEach(message => {
             message.ttl--;
 
             if (message.ttl <= 0) {
-                this.markMessageAsIgnored(characterService, message);
+                this.markMessageAsIgnored(message);
             }
         });
         this._newMessages = this._newMessages.filter(message => message.ttl > 0);
     }
 
-    private _creatureFromMessage(characterService: CharacterService, message: PlayerMessage): Creature {
-        return characterService.creatureFromMessage(message);
+    private _creatureFromMessage(message: PlayerMessage): Creature {
+        return this._characterService.creatureFromMessage(message);
     }
 
-    private _startMessageProcessingLoop(characterService: CharacterService): void {
+    private _startMessageProcessingLoop(): void {
         this._checkingActive = true;
 
         const secondsInMinute = 60;
@@ -219,9 +220,9 @@ export class MessageService {
         setInterval(() => {
 
             if (
-                characterService.character.settings.checkMessagesAutomatically &&
-                !characterService.isManualMode &&
-                characterService.isLoggedIn()
+                this._characterService.character.settings.checkMessagesAutomatically &&
+                !this._characterService.isManualMode &&
+                this._characterService.isLoggedIn()
             ) {
                 minuteTimer--;
 
@@ -240,20 +241,20 @@ export class MessageService {
                     minuteTimer = secondsInMinute;
                 }
 
-                this._checkForNewMessages(characterService);
+                this._checkForNewMessages();
 
                 //Ignored messages get deleted from the database after 1 minute.
-                this._cleanupIgnoredMessages(characterService);
+                this._cleanupIgnoredMessages();
 
                 //New messages get deleted after 10 minutes.
-                this._cleanupNewMessages(characterService);
+                this._cleanupNewMessages();
             }
 
         }, millisecondsInSecond);
     }
 
-    private _ignoredMessages(characterService: CharacterService): Array<{ id: string; ttl: number }> {
-        return characterService.character.ignoredMessages;
+    private _ignoredMessages(): Array<{ id: string; ttl: number }> {
+        return this._characterService.character.ignoredMessages;
     }
 
     private _deleteMessageFromConnector(message: PlayerMessage): Observable<Array<string>> {
@@ -265,22 +266,24 @@ export class MessageService {
         );
     }
 
-    private _checkForNewMessages(characterService): void {
+    private _checkForNewMessages(): void {
         //Don't check for new messages if you don't have a party or if you are not logged in, or if you are currently checking.
-        if (!characterService.get_Character().partyName || !characterService.get_LoggedIn() || this._checkingMessages) {
+        if (!this._characterService.character.partyName || !this._characterService.isLoggedIn() || this._checkingMessages) {
             return;
         }
 
+        const character = this._characterService.character;
+
         this._checkingMessages = true;
-        this.loadMessagesFromConnector(characterService.get_Character().id)
+        this.loadMessagesFromConnector(character.id)
             .subscribe({
                 next: (results: Array<string>) => {
-                    const newMessages = this.processNewMessages(characterService, results);
+                    const newMessages = this.processNewMessages(results);
 
                     //If the check was automatic, and any messages are left, apply them automatically if applyMessagesAutomatically is set,
                     // otherwise only announce that new messages are available, then update the component to show the number on the button.
-                    if (newMessages.length && characterService.get_Character().settings.applyMessagesAutomatically) {
-                        this._applyMessagesAutomatically(characterService, newMessages);
+                    if (newMessages.length && character.settings.applyMessagesAutomatically) {
+                        this._applyMessagesAutomatically(newMessages);
                         this._refreshService.setComponentChanged('top-bar');
                     } else if (newMessages.length) {
                         this.addNewMessages(newMessages);
@@ -302,9 +305,9 @@ export class MessageService {
                     } else {
                         let text = 'An error occurred while searching for new messages. See console for more information.';
 
-                        if (characterService.get_Character().settings.checkMessagesAutomatically) {
+                        if (character.settings.checkMessagesAutomatically) {
                             text += ' Automatic checks have been disabled.';
-                            characterService.get_Character().settings.checkMessagesAutomatically = false;
+                            character.settings.checkMessagesAutomatically = false;
                         }
 
                         this._toastService.show(text);
@@ -314,14 +317,14 @@ export class MessageService {
             });
     }
 
-    private _applyMessagesAutomatically(characterService: CharacterService, messages: Array<PlayerMessage>): void {
+    private _applyMessagesAutomatically(messages: Array<PlayerMessage>): void {
         messages.forEach(message => {
             message.selected = true;
         });
-        characterService.applyMessageConditions(messages.filter(message => message.gainCondition.length));
-        characterService.applyMessageItems(messages.filter(message => message.offeredItem.length));
+        this._characterService.applyMessageConditions(messages.filter(message => message.gainCondition.length));
+        this._characterService.applyMessageItems(messages.filter(message => message.offeredItem.length));
         messages.forEach(message => {
-            this.markMessageAsIgnored(characterService, message);
+            this.markMessageAsIgnored(message);
         });
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
         this._refreshService.processPreparedChanges();

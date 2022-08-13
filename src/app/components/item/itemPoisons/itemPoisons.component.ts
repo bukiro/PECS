@@ -97,7 +97,6 @@ export class ItemPoisonsComponent {
             this._refreshService.prepareChangesByItem(
                 this._character,
                 this.item,
-                { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
             );
             this._refreshService.processPreparedChanges();
         }
@@ -109,7 +108,6 @@ export class ItemPoisonsComponent {
         this._refreshService.prepareChangesByItem(
             this._character,
             this.item,
-            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
         );
         this._refreshService.processPreparedChanges();
     }

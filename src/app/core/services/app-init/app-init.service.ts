@@ -74,9 +74,9 @@ export class AppInitService {
                 this._deitiesService.initialize();
                 this._animalCompanionsDataService.initialize();
                 this._familiarsService.initialize();
-                this._messageService.initialize(this._characterService);
+                this._messageService.initialize();
                 this._customEffectsService.initialize();
-                this._effectsGenerationService.initialize(this._characterService);
+                this._effectsGenerationService.initialize();
             }
         }, Defaults.waitForServiceDelay);
         const waitForLoadServices = setInterval(() => {

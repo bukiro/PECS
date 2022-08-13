@@ -65,7 +65,7 @@ export class ConditionProcessingService {
             this._refreshService.prepareDetailToChange(creature.type, 'activities');
         }
 
-        this._refreshService.prepareChangesByHints(creature, condition.hints, { characterService: this._characterService });
+        this._refreshService.prepareChangesByHints(creature, condition.hints);
 
         let didConditionDoAnything = false;
         let areOnceEffectsPrepared = false;

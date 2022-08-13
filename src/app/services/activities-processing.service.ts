@@ -62,7 +62,7 @@ export class ActivitiesProcessingService {
         if (item) { this._refreshService.prepareDetailToChange(creature.type, 'inventory'); }
 
         if (activity.hints.length) {
-            this._refreshService.prepareChangesByHints(creature, activity.hints, { characterService: this._characterService });
+            this._refreshService.prepareChangesByHints(creature, activity.hints);
         }
 
         this._refreshService.prepareDetailToChange(creature.type, 'activities');
@@ -136,7 +136,7 @@ export class ActivitiesProcessingService {
         },
     ): void {
         if (activity.hints.length) {
-            this._refreshService.prepareChangesByHints(context.creature, activity.hints, { characterService: this._characterService });
+            this._refreshService.prepareChangesByHints(context.creature, activity.hints);
         }
 
         let shouldClosePopupsAfterActivation = false;
@@ -645,7 +645,7 @@ export class ActivitiesProcessingService {
         },
     ): void {
         if (activity.hints.length) {
-            this._refreshService.prepareChangesByHints(context.creature, activity.hints, { characterService: this._characterService });
+            this._refreshService.prepareChangesByHints(context.creature, activity.hints);
         }
 
         if (activity.cooldownAfterEnd) {

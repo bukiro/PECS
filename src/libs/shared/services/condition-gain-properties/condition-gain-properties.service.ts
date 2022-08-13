@@ -160,7 +160,7 @@ export class ConditionGainPropertiesService {
         }
 
         gain.showChoices = false;
-        this._refreshService.prepareChangesByHints(creature, condition.hints, { characterService: this._characterService });
+        this._refreshService.prepareChangesByHints(creature, condition.hints);
     }
 
     public changeConditionStage(

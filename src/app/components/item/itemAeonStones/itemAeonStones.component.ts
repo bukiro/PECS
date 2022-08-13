@@ -178,11 +178,7 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     private _prepareChanges(stone: WornItem): void {
-        this._refreshService.prepareChangesByItem(
-            this._character,
-            stone,
-            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
-        );
+        this._refreshService.prepareChangesByItem(this._character, stone);
     }
 
     private _priceText(stone: WornItem): string {

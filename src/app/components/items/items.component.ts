@@ -451,11 +451,11 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public newItemProperties(): Array<ItemProperty> {
-        const ItemPropertyFromKey = (key: string, itemsService: ItemsService): ItemProperty =>
-            itemsService.itemProperties().find(property => !property.parent && property.key === key);
+        const ItemPropertyFromKey = (key: string): ItemProperty =>
+            this._itemsService.itemProperties().find(property => !property.parent && property.key === key);
 
         return Object.keys(this.newItem)
-            .map(key => ItemPropertyFromKey(key, this._itemsService))
+            .map(key => ItemPropertyFromKey(key))
             .filter(property => property !== undefined)
             .sort((a, b) => SortAlphaNum(a.group + a.priority, b.group + b.priority));
     }

@@ -505,7 +505,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public onAbilityChange(name: string): void {
-        this._refreshService.prepareChangesByAbility(CreatureTypes.Character, name, { characterService: this._characterService });
+        this._refreshService.prepareChangesByAbility(CreatureTypes.Character, name);
     }
 
     public setComponentChanged(target = ''): void {
@@ -633,7 +633,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             )
             .forEach(feat => {
                 this._cacheService.setFeatChanged(feat.name, { creatureTypeId: 0, minLevel: lowerLevel });
-                this._refreshService.prepareChangesByHints(character, feat.hints, { characterService: this._characterService });
+                this._refreshService.prepareChangesByHints(character, feat.hints);
 
                 if (feat.gainAbilityChoice.length) {
                     this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'abilities');
@@ -943,7 +943,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         ) { this.toggleShownList(); }
 
         this._characterBoostAbilityService.boostAbility(abilityName, hasBeenTaken, choice, locked);
-        this._refreshService.prepareChangesByAbility(CreatureTypes.Character, abilityName, { characterService: this._characterService });
+        this._refreshService.prepareChangesByAbility(CreatureTypes.Character, abilityName);
         this._refreshService.processPreparedChanges();
     }
 
@@ -1835,7 +1835,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     public removeBonusAbilityChoice(choice: AbilityChoice, levelNumber: number): void {
         choice.boosts.forEach(boost => {
             this._characterBoostAbilityService.boostAbility(boost.name, false, choice, false);
-            this._refreshService.prepareChangesByAbility(CreatureTypes.Character, boost.name, { characterService: this._characterService });
+            this._refreshService.prepareChangesByAbility(CreatureTypes.Character, boost.name);
         });
 
         const level = this.character.classLevelFromNumber(levelNumber);

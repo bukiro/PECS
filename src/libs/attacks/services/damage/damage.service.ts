@@ -638,7 +638,7 @@ export class DamageService {
         }
 
         dmgResult +=
-            ` ${ this._effectiveExtraDamage(weapon, creature, this._characterService, this._effectsService, range, prof, traits) }`;
+            ` ${ this._effectiveExtraDamage(weapon, creature, range, prof, traits) }`;
 
         const explain = (`${ diceExplain.trim() }\n${ bonusExplain.trim() }`).trim();
 
@@ -705,8 +705,6 @@ export class DamageService {
     private _effectiveExtraDamage(
         weapon: Weapon,
         creature: Character | AnimalCompanion,
-        characterService: CharacterService,
-        effectsService: EffectsService,
         range: string,
         prof: string,
         traits: Array<string>,
@@ -789,7 +787,7 @@ export class DamageService {
             effectPhrasesExtraDamage.push(`${ agile } Thrown Weapon Extra Damage`);
         }
 
-        effectsService.toggledEffectsOnThese(creature, effectPhrasesExtraDamage).filter(effect => effect.title)
+        this._effectsService.toggledEffectsOnThese(creature, effectPhrasesExtraDamage).filter(effect => effect.title)
             .forEach(effect => {
                 extraDamage += `\n${ !['+', '-'].includes(effect.title.substr(0, 1)) ? '+' : '' }${ effect.title }`;
             });

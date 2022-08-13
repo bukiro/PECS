@@ -364,19 +364,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
         if (effect.setValue) {
             result =
-                this._evaluationService.valueFromFormula(
-                    effect.setValue,
-                    { characterService: this._characterService, effectsService: this._effectsService },
-                    { creature, effect },
-                );
+                this._evaluationService.valueFromFormula(effect.setValue, { creature, effect });
             isPenalty = false;
         } else if (effect.value) {
             result =
-                this._evaluationService.valueFromFormula(
-                    effect.value,
-                    { characterService: this._characterService, effectsService: this._effectsService },
-                    { creature, effect },
-                );
+                this._evaluationService.valueFromFormula(effect.value, { creature, effect });
 
             if (!isNaN(result as number)) {
                 isPenalty = (result < 0) === (effect.affected !== 'Bulk');
@@ -458,11 +450,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         if (propertyData.key === 'value' && propertyData.parent === 'effects') {
             if (value && value !== '0') {
                 const validationResult =
-                    this._evaluationService.valueFromFormula(
-                        value,
-                        { characterService: this._characterService, effectsService: this._effectsService },
-                        { creature: this.character },
-                    )?.toString() || '0';
+                    this._evaluationService.valueFromFormula(value, { creature: this.character })?.toString() || '0';
 
                 if (validationResult && validationResult !== '0' && (parseInt(validationResult, 10) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) === parseInt(validationResult, 10)) {
@@ -482,11 +470,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         } else if (propertyData.key === 'setValue' && propertyData.parent === 'effects') {
             if (value && value !== '0') {
                 const validationResult =
-                    this._evaluationService.valueFromFormula(
-                        value,
-                        { characterService: this._characterService, effectsService: this._effectsService },
-                        { creature: this.character },
-                    )?.toString() || null;
+                    this._evaluationService.valueFromFormula(value, { creature: this.character })?.toString() || null;
 
                 if (
                     validationResult &&

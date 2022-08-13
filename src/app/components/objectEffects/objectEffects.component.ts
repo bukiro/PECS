@@ -104,7 +104,6 @@ export class ObjectEffectsComponent {
             const result =
                 this._evaluationService.valueFromFormula(
                     value,
-                    { characterService: this._characterService, effectsService: this._effectsService },
                     { creature: this._currentCreature, effect },
                 );
 

@@ -55,7 +55,7 @@ export class QuickdiceComponent {
                     }
                 }
 
-                this._integrationsService.sendRollToFoundry(this.creature, formula, [], this._characterService);
+                this._integrationsService.sendRollToFoundry(this.creature, formula, []);
             } else if (this.diceString) {
                 let diceString = this.diceString.split('\n').join(' ');
 
@@ -71,7 +71,7 @@ export class QuickdiceComponent {
                             formulaParts.push(dicePart);
                         }
                     });
-                this._integrationsService.sendRollToFoundry(this.creature, formulaParts.join(' '), [], this._characterService);
+                this._integrationsService.sendRollToFoundry(this.creature, formulaParts.join(' '), []);
             }
         } else {
             if (this.diceNum && this.diceSize) {
@@ -79,7 +79,6 @@ export class QuickdiceComponent {
                     this.diceNum,
                     this.diceSize,
                     this.bonus,
-                    this._characterService,
                     true,
                     (this.type ? ` ${ this._expandDamageTypes(this.type) }` : ''),
                 );
@@ -129,7 +128,6 @@ export class QuickdiceComponent {
                         diceRoll.diceNum,
                         diceRoll.diceSize,
                         diceRoll.bonus,
-                        this._characterService,
                         rollIndex === 0,
                         diceRoll.type,
                     );

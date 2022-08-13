@@ -351,7 +351,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         reload = true,
     ): void {
         if (target instanceof ItemCollection) {
-            this._itemsService.moveItemLocally(this.currentCreature, item, target, inventory, this._characterService, amount, including);
+            this._itemsService.moveItemLocally(this.currentCreature, item, target, inventory, amount, including);
         } else if (target instanceof SpellTarget) {
             if (this._allAvailableCreatures().some(creature => creature.id === target.id)) {
                 this._itemsService.moveInventoryItemToLocalCreature(
@@ -359,7 +359,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
                     target,
                     item,
                     inventory,
-                    this._characterService,
                     amount,
                 );
             } else {
@@ -400,7 +399,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
                         item,
                         target,
                         source,
-                        this._characterService,
                         item.amount,
                         true,
                     );
@@ -531,11 +529,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public onItemChange(item: Item): void {
-        this._refreshService.prepareChangesByItem(
-            this.currentCreature,
-            item,
-            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
-        );
+        this._refreshService.prepareChangesByItem(this.currentCreature, item);
         this._refreshService.processPreparedChanges();
         this._refreshItem(item);
     }
@@ -553,11 +547,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             }
         }
 
-        this._refreshService.prepareChangesByItem(
-            this.currentCreature,
-            item,
-            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
-        );
+        this._refreshService.prepareChangesByItem(this.currentCreature, item);
         this._refreshService.processPreparedChanges();
         this._refreshItem(item);
     }

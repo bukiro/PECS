@@ -514,7 +514,6 @@ export class CreatureConditionsService {
             const activationValue =
                 this._evaluationService.valueFromFormula(
                     conditionGain.activationPrerequisite,
-                    { characterService: this._characterService, effectsService: this._effectsService },
                     { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain },
                 );
 

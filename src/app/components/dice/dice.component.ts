@@ -59,7 +59,7 @@ export class DiceComponent implements OnInit, OnDestroy {
     }
 
     public roll(amount: number, size: number): void {
-        this._diceService.roll(amount, size, this.bonus, this._characterService, false);
+        this._diceService.roll(amount, size, this.bonus, false);
         this.bonus = 0;
         this._refreshService.processPreparedChanges();
     }
@@ -115,7 +115,7 @@ export class DiceComponent implements OnInit, OnDestroy {
     }
 
     public sendRollToFoundry(creatureType: CreatureTypes): void {
-        this._integrationsService.sendRollToFoundry(creatureType, '', this.diceResults, this._characterService);
+        this._integrationsService.sendRollToFoundry(creatureType, '', this.diceResults);
     }
 
     public unselectAll(): void {

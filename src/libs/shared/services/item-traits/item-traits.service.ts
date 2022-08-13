@@ -7,7 +7,6 @@ import { Wand } from 'src/app/classes/Wand';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { CharacterService } from 'src/app/services/character.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { TraitsService } from 'src/app/services/traits.service';
@@ -18,7 +17,6 @@ import { TraitsService } from 'src/app/services/traits.service';
 export class ItemTraitsService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _effectsService: EffectsService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsService: TraitsService,
@@ -166,7 +164,6 @@ export class ItemTraitsService {
                     this._refreshService.prepareChangesByHints(
                         context.creature,
                         trait.hints,
-                        { characterService: this._characterService },
                     );
                 });
             });

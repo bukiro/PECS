@@ -118,7 +118,7 @@ export class EquipmentConditionsService {
         }
 
         //Any items that grant permanent conditions need to check if these are still applicable.
-        const refreshPermanentConditions = (item: Equipment, evaluationService: EvaluationService, investedItem: Equipment): void => {
+        const refreshPermanentConditions = (item: Equipment, investedItem: Equipment): void => {
             item.gainConditions.forEach(gain => {
                 // We test alignmentFilter and resonant here, but activationPrerequisite is only tested
                 // if the condition exists and might need to be removed.
@@ -153,9 +153,8 @@ export class EquipmentConditionsService {
                         this._creatureConditionsService.removeCondition(creature, gain, false);
                     } else {
                         if (gain.activationPrerequisite) {
-                            const testResult = evaluationService.valueFromFormula(
+                            const testResult = this._evaluationService.valueFromFormula(
                                 gain.activationPrerequisite,
-                                { characterService: this._characterService, effectsService: this._effectsService },
                                 { creature, object: gain, parentItem: item },
                             );
 
@@ -175,13 +174,13 @@ export class EquipmentConditionsService {
         creature.inventories[0].allEquipment()
             .filter(item => item.gainConditions.length)
             .forEach(item => {
-                refreshPermanentConditions(item, this._evaluationService, item);
+                refreshPermanentConditions(item, item);
             });
 
         if (this._itemsService.hasTooManySlottedAeonStones(creature)) {
             creature.inventories[0].wornitems.filter(item => item.isWayfinder).forEach(item => {
                 item.aeonStones.forEach(stone => {
-                    refreshPermanentConditions(stone, this._evaluationService, item);
+                    refreshPermanentConditions(stone, item);
                 });
             });
         }

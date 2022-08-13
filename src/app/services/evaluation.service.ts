@@ -61,11 +61,12 @@ export class EvaluationService {
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _speedValuesService: SpeedValuesService,
         private readonly _featsService: FeatsService,
+        private readonly _characterService: CharacterService,
+        private readonly _effectsService: EffectsService,
     ) { }
 
     public valueFromFormula(
         formula: string,
-        services: { readonly characterService: CharacterService; readonly effectsService: EffectsService },
         context: FormulaContext, options: FormulaOptions = {},
     ): number | string | null {
         context = {
@@ -82,8 +83,8 @@ export class EvaluationService {
         //This function takes a formula, then evaluates that formula using the variables and functions listed here.
         //Define some values that may be relevant for effect values
         /* eslint-disable @typescript-eslint/no-unused-vars */
-        const effectsService = services.effectsService;
-        const characterService = services.characterService;
+        const effectsService = this._effectsService;
+        const characterService = this._characterService;
         const abilitiesService = this._abilitiesDataService;
         const familiarsService = this._familiarsService;
         const Creature = context.creature;

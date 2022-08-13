@@ -61,6 +61,10 @@ export class SavegameService {
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
         private readonly _featTakingService: FeatTakingService,
+        private readonly _characterService: CharacterService,
+        private readonly _historyService: HistoryService,
+        private readonly _classesService: ClassesService,
+        private readonly _itemsService: ItemsService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -77,10 +81,6 @@ export class SavegameService {
 
     public processLoadedCharacter(
         loader: Partial<Character & DatabaseCharacter>,
-        characterService: CharacterService,
-        itemsService: ItemsService,
-        classesService: ClassesService,
-        historyService: HistoryService,
     ): Character {
         //Make a copy of the character before restoration. This will be used in patching.
         const savedCharacter = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(loader)));
@@ -104,7 +104,7 @@ export class SavegameService {
         // Apply patches that need to be done before the class is restored.
         // This is usually removing skill increases and feat choices,
         // which can cause issues if the class doesn't have them at the same index as the character.
-        this._patchPartialCharacter(character, characterService);
+        this._patchPartialCharacter(character);
 
         // Restore a lot of data from reference objects.
         // This allows us to save a lot of traffic at saving by removing all data
@@ -113,15 +113,15 @@ export class SavegameService {
             const _class = character.class;
 
             if (_class.ancestry && _class.ancestry.name) {
-                _class.ancestry = historyService.restoreAncestryFromSave(_class.ancestry);
+                _class.ancestry = this._historyService.restoreAncestryFromSave(_class.ancestry);
             }
 
             if (_class.heritage && _class.heritage.name) {
-                _class.heritage = historyService.restoreHeritageFromSave(_class.heritage);
+                _class.heritage = this._historyService.restoreHeritageFromSave(_class.heritage);
             }
 
             if (_class.background && _class.background.name) {
-                _class.background = historyService.restoreBackgroundFromSave(_class.background);
+                _class.background = this._historyService.restoreBackgroundFromSave(_class.background);
             }
 
             if (_class.animalCompanion) {
@@ -145,26 +145,21 @@ export class SavegameService {
             }
 
             //Restore the class last, so we don't null its components (ancestry, animal companion etc.)
-            character.class = classesService.restoreClassFromSave(character.class);
+            character.class = this._classesService.restoreClassFromSave(character.class);
         }
 
-        character.recast(itemsService);
+        character.recast(this._itemsService);
 
         //Apply any patches that need to be done after the class is restored.
-        this._patchCompleteCharacter(savedCharacter, character, characterService);
+        this._patchCompleteCharacter(savedCharacter, character);
 
         return character;
     }
 
-    public prepareCharacterForSaving(
-        character: Character,
-        itemsService: ItemsService,
-        classesService: ClassesService,
-        historyService: HistoryService,
-    ): Partial<Character> {
+    public prepareCharacterForSaving(character: Character): Partial<Character> {
 
         //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
-        const savegame = Object.assign(new Character(), JSON.parse(JSON.stringify(character))).recast(itemsService);
+        const savegame = Object.assign(new Character(), JSON.parse(JSON.stringify(character))).recast(this._itemsService);
 
         const versionString: string = package_json.version;
 
@@ -182,20 +177,20 @@ export class SavegameService {
         // compare every element to its library equivalent, skipping the properties listed in .save
         // Everything that is the same as the library item gets deleted.
         if (savegame.class.name) {
-            savegame.class = classesService.cleanClassForSave(savegame.class);
+            savegame.class = this._classesService.cleanClassForSave(savegame.class);
 
             const _class = savegame.class;
 
             if (_class.ancestry?.name) {
-                _class.ancestry = historyService.cleanAncestryForSave(_class.ancestry);
+                _class.ancestry = this._historyService.cleanAncestryForSave(_class.ancestry);
             }
 
             if (_class.heritage?.name) {
-                _class.heritage = historyService.cleanHeritageForSave(_class.heritage);
+                _class.heritage = this._historyService.cleanHeritageForSave(_class.heritage);
             }
 
             if (_class.background?.name) {
-                _class.background = historyService.cleanBackgroundForSave(_class.background);
+                _class.background = this._historyService.cleanBackgroundForSave(_class.background);
             }
 
             if (_class.animalCompanion) {
@@ -220,7 +215,7 @@ export class SavegameService {
 
         // Then go through the whole thing again and compare every object to its Class's default,
         // deleting everything that has the same value as the default.
-        this._trimForSaving(savegame, itemsService);
+        this._trimForSaving(savegame);
 
         return savegame;
     }
@@ -302,19 +297,19 @@ export class SavegameService {
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
     /* eslint-disable @typescript-eslint/no-dynamic-delete */
-    private _trimForSaving(object: any, itemsService: ItemsService): void {
+    private _trimForSaving(object: any): void {
         //Only cleanup objects that have Classes (= aren't object Object)
         if (typeof object === 'object' && object.constructor !== Object) {
             //If the object is an array, iterate over its elements
             if (Array.isArray(object)) {
-                object.forEach((obj: unknown) => this._trimForSaving(obj, itemsService));
+                object.forEach((obj: unknown) => this._trimForSaving(obj));
             } else {
                 let blank: any;
 
                 //For items with a refId, don't compare them with blank items, but with their reference item if it exists.
                 //If none can be found, the reference item is a blank item of the same class.
                 if (object instanceof Item && object.refId) {
-                    blank = itemsService.cleanItemFromID(object.refId);
+                    blank = this._itemsService.cleanItemFromID(object.refId);
                 }
 
                 if (!blank) {
@@ -332,7 +327,7 @@ export class SavegameService {
                         if (JSON.stringify(object[key]) === JSON.stringify(blank[key])) {
                             delete object[key];
                         } else {
-                            this._trimForSaving(object[key], itemsService);
+                            this._trimForSaving(object[key]);
                         }
                         //Cleanup attributes that start with _.
                     } else if (key.substring(0, 1) === '$') {
@@ -354,7 +349,7 @@ export class SavegameService {
     /* eslint-enable @typescript-eslint/no-explicit-any */
     /* eslint-enable @typescript-eslint/no-dynamic-delete */
 
-    private _patchPartialCharacter(character: Character, characterService: CharacterService): void {
+    private _patchPartialCharacter(character: Character): void {
 
         // STAGE 1
         // Before restoring data from class, ancestry etc.
@@ -736,7 +731,7 @@ export class SavegameService {
                         }
 
                         if (character.class.deity) {
-                            if (characterService.deities(character.class.deity)[0]?.divineFont.length === 1) {
+                            if (this._characterService.deities(character.class.deity)[0]?.divineFont.length === 1) {
                                 taken.automatic = true;
                             }
                         }
@@ -919,7 +914,7 @@ export class SavegameService {
         }
     }
 
-    private _patchCompleteCharacter(savedCharacter: Character, character: Character, characterService: CharacterService): void {
+    private _patchCompleteCharacter(savedCharacter: Character, character: Character): void {
 
         // STAGE 2
         //After restoring data and reassigning.
@@ -972,7 +967,7 @@ export class SavegameService {
                         ?.find(choice => choice.id === '7-Path to Perfection-Monk-2') || null;
 
                 if (!firstPathChoice?.feats.length) {
-                    const firstPathFeat = characterService.feats(`Path to Perfection: ${ firstPath }`)[0];
+                    const firstPathFeat = this._characterService.feats(`Path to Perfection: ${ firstPath }`)[0];
 
                     if (firstPathFeat) {
                         this._featTakingService.takeFeat(character, firstPathFeat, firstPathFeat.name, true, firstPathChoice, false);
@@ -986,7 +981,7 @@ export class SavegameService {
                         ?.find(choice => choice.id === '11-Second Path to Perfection-Monk-0') || null;
 
                 if (!secondChoice?.feats.length) {
-                    const secondPathFeat = characterService.feats(`Second Path to Perfection: ${ secondPath }`)[0];
+                    const secondPathFeat = this._characterService.feats(`Second Path to Perfection: ${ secondPath }`)[0];
 
                     if (secondPathFeat) {
                         this._featTakingService.takeFeat(character, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
@@ -1000,7 +995,7 @@ export class SavegameService {
                         ?.find(choice => choice.id === '15-Third Path to Perfection-Monk-2') || null;
 
                 if (!thirdPathChoice?.feats.length) {
-                    const thirdPathFeat = characterService.feats(`Third Path to Perfection: ${ thirdPath }`)[0];
+                    const thirdPathFeat = this._characterService.feats(`Third Path to Perfection: ${ thirdPath }`)[0];
 
                     if (thirdPathFeat) {
                         this._featTakingService.takeFeat(character, thirdPathFeat, thirdPathFeat.name, true, thirdPathChoice, false);
@@ -1098,7 +1093,7 @@ export class SavegameService {
                 data: Array<FeatData>;
             }
 
-            const baseFeats = characterService.feats().filter(feat => feat.lorebase || feat.weaponfeatbase)
+            const baseFeats = this._characterService.feats().filter(feat => feat.lorebase || feat.weaponfeatbase)
                 .map(feat => feat.name.toLowerCase());
 
             this._featsService.buildCharacterFeats(character);
@@ -1162,10 +1157,10 @@ export class SavegameService {
             creatures.forEach(creature => {
                 creature?.inventories?.forEach(inventory => {
                     inventory.armors.filter(armor => mageArmorIDs.includes(armor.refId)).forEach(armor => {
-                        characterService.dropInventoryItem(creature, inventory, armor, false, true);
+                        this._characterService.dropInventoryItem(creature, inventory, armor, false, true);
                     });
                     inventory.shields.filter(shield => shieldIDs.includes(shield.refId)).forEach(shield => {
-                        characterService.dropInventoryItem(creature, inventory, shield, false, true);
+                        this._characterService.dropInventoryItem(creature, inventory, shield, false, true);
                     });
                 });
             });

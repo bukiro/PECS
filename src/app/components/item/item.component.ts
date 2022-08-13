@@ -167,11 +167,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         const ironItem = this.doublingRingsOptions('iron').find(weapon => weapon.id === this.item.data[0].value);
 
         if (ironItem && item.invested) {
-            this._refreshService.prepareChangesByItem(
-                this._currentCreature,
-                ironItem,
-                { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
-            );
+            this._refreshService.prepareChangesByItem(this._currentCreature, ironItem);
         }
 
         this._refreshService.processPreparedChanges();
@@ -367,11 +363,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     public onSelectVariation(): void {
-        this._refreshService.prepareChangesByItem(
-            this._currentCreature,
-            this.item,
-            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
-        );
+        this._refreshService.prepareChangesByItem(this._currentCreature, this.item);
         this._refreshService.processPreparedChanges();
         this._updateItem();
     }

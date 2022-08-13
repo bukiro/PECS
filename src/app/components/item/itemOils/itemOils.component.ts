@@ -117,11 +117,7 @@ export class ItemOilsComponent {
             this.newOil = { oil: new Oil(), inv: null };
             this.newOil.oil.name = '';
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-            this._refreshService.prepareChangesByItem(
-                this._character,
-                this.item,
-                { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
-            );
+            this._refreshService.prepareChangesByItem(this._character, this.item);
             this._refreshService.processPreparedChanges();
         }
     }
@@ -134,11 +130,7 @@ export class ItemOilsComponent {
 
         this.item.oilsApplied.splice(index, 1);
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
-        this._refreshService.prepareChangesByItem(
-            this._character,
-            this.item,
-            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
-        );
+        this._refreshService.prepareChangesByItem(this._character, this.item);
         this._refreshService.processPreparedChanges();
     }
 

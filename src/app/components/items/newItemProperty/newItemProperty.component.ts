@@ -111,7 +111,6 @@ export class NewItemPropertyComponent {
                 const validationResult =
                     this._evaluationService.valueFromFormula(
                         value,
-                        { characterService: this._characterService, effectsService: this._effectsService },
                         { creature: this._character },
                     )?.toString() || '0';
 
@@ -135,7 +134,6 @@ export class NewItemPropertyComponent {
                 const validationResult =
                     this._evaluationService.valueFromFormula(
                         value,
-                        { characterService: this._characterService, effectsService: this._effectsService },
                         { creature: this._character },
                     )?.toString() || null;
 
@@ -158,7 +156,6 @@ export class NewItemPropertyComponent {
                 const validationResult =
                     this._evaluationService.valueFromFormula(
                         value,
-                        { characterService: this._characterService, effectsService: this._effectsService },
                         { creature: this._character },
                     )?.toString() || '0';
 

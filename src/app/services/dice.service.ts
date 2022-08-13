@@ -14,13 +14,14 @@ export class DiceService {
 
     constructor(
         private readonly _refreshService: RefreshService,
+        private readonly _characterService: CharacterService,
     ) { }
 
     public get diceResults(): Array<DiceResult> {
         return this._diceResults;
     }
 
-    public roll(amount: number, size: number, bonus: number, characterService: CharacterService, newChain = true, type = ''): void {
+    public roll(amount: number, size: number, bonus: number, newChain = true, type = ''): void {
         if (newChain) {
             this.unselectAll();
         }
@@ -59,8 +60,8 @@ export class DiceService {
 
         this._diceResults.unshift(diceResult);
 
-        if (characterService.diceMenuState() === 'out') {
-            characterService.toggleMenu(MenuNames.DiceMenu);
+        if (this._characterService.diceMenuState() === 'out') {
+            this._characterService.toggleMenu(MenuNames.DiceMenu);
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'dice');

@@ -633,7 +633,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const creature = this._currentCreature;
 
         if (creature.isCharacter() && creature.class?.deity && creature.class.deityFocused) {
-            const deity = this._deitiesService.currentCharacterDeities(this._characterService, creature)[0];
+            const deity = this._deitiesService.currentCharacterDeities(creature)[0];
             const favoredWeapons: Array<string> = [];
 
             if (deity && deity.favoredWeapon.length) {
@@ -701,11 +701,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     private _onEquipmentChange(item: Equipment): void {
-        this._refreshService.prepareChangesByItem(
-            this._currentCreature,
-            item,
-            { characterService: this._characterService, activitiesDataService: this._activitiesDataService },
-        );
+        this._refreshService.prepareChangesByItem(this._currentCreature, item);
         this._refreshService.processPreparedChanges();
     }
 

@@ -22,7 +22,6 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CacheService } from 'src/app/services/cache.service';
-import { ActivitiesDataService } from '../core/services/data/activities-data.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 
@@ -48,6 +47,7 @@ export class RefreshService {
         private readonly _traitsService: TraitsService,
         private readonly _cacheService: CacheService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
+        private readonly _characterService: CharacterService,
     ) {
         //Prepare the update variables that everything subscribes to.
         this._componentChanged$ = this._componentChanged.asObservable();
@@ -102,9 +102,9 @@ export class RefreshService {
         });
     }
 
-    public prepareChangesByHints(creature: Creature, hints: Array<Hint> = [], services: { characterService: CharacterService }): void {
+    public prepareChangesByHints(creature: Creature, hints: Array<Hint> = []): void {
         const affectedActivities = (targetName: string): boolean =>
-            services.characterService.creatureOwnedActivities(creature, creature.level)
+            this._characterService.creatureOwnedActivities(creature, creature.level)
                 .some(activity => targetName.includes(activity.name));
 
         hints.forEach(hint => {
@@ -125,7 +125,7 @@ export class RefreshService {
         this.prepareDetailToChange(creature.type, 'character-sheet');
     }
 
-    public prepareChangesByAbility(creatureType: CreatureTypes, ability: string, services: { characterService: CharacterService }): void {
+    public prepareChangesByAbility(creatureType: CreatureTypes, ability: string): void {
         //Set refresh commands for all components of the application depending this ability.
         const abilities: Array<string> = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
         const attacks: Array<string> = ['Dexterity', 'Strength'];
@@ -174,18 +174,14 @@ export class RefreshService {
 
         if (ability === 'Intelligence') {
             this.prepareDetailToChange(CreatureTypes.Character, 'skillchoices');
-            services.characterService.updateLanguageList();
+            this._characterService.updateLanguageList();
         }
     }
 
-    public prepareChangesByItem(
-        creature: Creature,
-        item: Item,
-        services: { characterService: CharacterService; activitiesDataService: ActivitiesDataService },
-    ): void {
+    public prepareChangesByItem(creature: Creature, item: Item): void {
         this.prepareDetailToChange(creature.type, item.id);
         item.traits.map(trait => this._traitsService.traitFromName(trait)).forEach(trait => {
-            this.prepareChangesByHints(creature, trait.hints, services);
+            this.prepareChangesByHints(creature, trait.hints);
         });
 
         //TO-DO: Group these weapons with an item method, something like 'affectsAttackComponent'.
@@ -200,20 +196,20 @@ export class RefreshService {
         }
 
         if (item instanceof Oil) {
-            this.prepareChangesByHints(creature, item.hints, services);
+            this.prepareChangesByHints(creature, item.hints);
         }
 
         if (item instanceof Rune) {
-            this._prepareChangesByRune(creature, item, services);
+            this._prepareChangesByRune(creature, item);
         }
 
         if (item instanceof Equipment) {
-            this._prepareChangesByEquipment(creature, item as Equipment, services);
-            this.prepareChangesByHints(creature, item.hints, services);
+            this._prepareChangesByEquipment(creature, item as Equipment);
+            this.prepareChangesByHints(creature, item.hints);
         }
     }
 
-    public prepareChangesByEquipmentChoice(creature: Creature, item: Equipment, services: { characterService: CharacterService }): void {
+    public prepareChangesByEquipmentChoice(creature: Creature, item: Equipment): void {
         if (item.effects.some(effect => effect.value.includes('Choice'))) {
             this.prepareDetailToChange(creature.type, 'effects');
         }
@@ -223,7 +219,7 @@ export class RefreshService {
         }
 
         if (item.hints.some(hint => hint.conditionChoiceFilter.length)) {
-            this.prepareChangesByHints(creature, item.hints, services);
+            this.prepareChangesByHints(creature, item.hints);
         }
     }
 
@@ -447,7 +443,6 @@ export class RefreshService {
     private _prepareChangesByEquipment(
         creature: Creature,
         item: Equipment,
-        services: { characterService: CharacterService; activitiesDataService: ActivitiesDataService },
     ): void {
         //Prepare refresh list according to the item's properties.
         if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
@@ -503,7 +498,7 @@ export class RefreshService {
 
         item.propertyRunes.forEach(rune => {
             if (item instanceof Armor) {
-                this.prepareChangesByHints(creature, rune.hints, services);
+                this.prepareChangesByHints(creature, rune.hints);
 
                 if ((rune as ArmorRune).effects?.length) {
                     this.prepareDetailToChange(creature.type, 'effects');
@@ -555,14 +550,14 @@ export class RefreshService {
             }
 
             item.aeonStones.forEach(aeonStone => {
-                this.prepareChangesByItem(creature, aeonStone, services);
+                this.prepareChangesByItem(creature, aeonStone);
             });
         }
     }
 
-    private _prepareChangesByRune(creature: Creature, rune: Rune, services: { characterService: CharacterService }): void {
+    private _prepareChangesByRune(creature: Creature, rune: Rune): void {
         //Prepare refresh list according to the rune's properties.
-        this.prepareChangesByHints(creature, rune.hints, services);
+        this.prepareChangesByHints(creature, rune.hints);
 
         if (rune.effects.length) {
             this.prepareDetailToChange(creature.type, 'effects');
