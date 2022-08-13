@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-dynamic-delete */
 import { Injectable } from '@angular/core';
 import { Class } from 'src/app/classes/Class';
-import { ClassesDataService } from '../core/services/data/classes-data.service';
-import { TypeService } from './type.service';
+import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
+import { TypeService } from 'src/app/services/type.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ClassesService {
+export class ClassSavingLoadingService {
 
     constructor(
         private readonly _classesDataService: ClassesDataService,

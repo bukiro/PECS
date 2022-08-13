@@ -8,21 +8,17 @@ import { Item } from 'src/app/classes/Item';
 import { Class } from 'src/app/classes/Class';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { ClassesService } from 'src/app/services/classes.service';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Armor } from 'src/app/classes/Armor';
 import { Weapon } from 'src/app/classes/Weapon';
 import { FeatsService } from 'src/app/services/feats.service';
 import { TraitsService } from 'src/app/services/traits.service';
-import { HistoryService } from 'src/app/services/history.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { Consumable } from 'src/app/classes/Consumable';
 import { TimeService } from 'src/app/services/time.service';
@@ -92,6 +88,7 @@ import { CharacterLoreService } from 'src/libs/shared/services/character-lore/ch
 import { ConditionsDataService } from '../core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { ClassesDataService } from '../core/services/data/classes-data.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -158,16 +155,13 @@ export class CharacterService {
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillsDataService: SkillsDataService,
-        private readonly _classesService: ClassesService,
+        private readonly _classesDataService: ClassesDataService,
         private readonly _featsService: FeatsService,
         private readonly _traitsService: TraitsService,
-        private readonly _historyService: HistoryService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemsService: ItemsService,
-        private readonly _spellsService: SpellPropertiesService,
         private readonly _effectsService: EffectsService,
         private readonly _timeService: TimeService,
         private readonly _deitiesService: DeitiesService,
@@ -440,7 +434,7 @@ export class CharacterService {
     }
 
     public characterClasses(name: string): Array<Class> {
-        return this._classesService.classes(name);
+        return this._classesDataService.classes(name);
     }
 
     public deities(name = ''): Array<Deity> {

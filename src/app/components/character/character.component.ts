@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ClassesService } from 'src/app/services/classes.service';
 import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
@@ -72,6 +71,7 @@ import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spell
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -109,7 +109,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _configService: ConfigService,
-        private readonly _classesService: ClassesService,
+        private readonly _classesDataService: ClassesDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _featsService: FeatsService,
         private readonly _historyService: HistoryService,
@@ -1415,7 +1415,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     public availableClasses(): Array<Class> {
         const shouldShowOtherOptions = this.character.settings.showOtherOptions;
 
-        return this._classesService.classes()
+        return this._classesDataService.classes()
             .filter($class =>
                 shouldShowOtherOptions ||
                 !this.character.class?.name ||

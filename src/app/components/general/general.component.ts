@@ -8,7 +8,6 @@ import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatCh
 import { DeitiesService } from 'src/app/services/deities.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { ClassesService } from 'src/app/services/classes.service';
 import { Subscription } from 'rxjs';
 import { ItemsService } from 'src/app/services/items.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -22,6 +21,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
+import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
 
 @Component({
     selector: 'app-general',
@@ -49,7 +49,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _traitsService: TraitsService,
         private readonly _familiarsService: FamiliarsService,
         private readonly _deitiesService: DeitiesService,
-        private readonly _classesService: ClassesService,
+        private readonly _classesDataService: ClassesDataService,
         private readonly _itemsService: ItemsService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _deityDomainsService: DeityDomainsService,
@@ -131,7 +131,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     public domains(): Array<Domain> {
         const character = this.character;
         const isArchetypesDeityFocused =
-            this._archetypeFeats().some(feat => this._classesService.classFromName(feat.archetype).deityFocused);
+            this._archetypeFeats().some(feat => this._classesDataService.classFromName(feat.archetype).deityFocused);
 
         if (character.class.deityFocused || isArchetypesDeityFocused) {
             const deity = this._characterService.currentCharacterDeities(character)[0];
@@ -165,7 +165,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     public edicts(): Array<string> {
         const character = this.character;
         const doArchetypesShowDeityEdicts =
-            this._archetypeFeats().some(feat => this._classesService.classFromName(feat.archetype).showDeityEdicts);
+            this._archetypeFeats().some(feat => this._classesDataService.classFromName(feat.archetype).showDeityEdicts);
 
         if (character.class.showDeityEdicts || doArchetypesShowDeityEdicts) {
             //Collect edicts from all deities you have (usually one);
@@ -186,7 +186,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
         const deityAnathema: Array<string> = [];
         const doArchetypesShowDeityAnathema =
-            this._archetypeFeats().some(feat => this._classesService.classFromName(feat.archetype).showDeityAnathema);
+            this._archetypeFeats().some(feat => this._classesDataService.classFromName(feat.archetype).showDeityAnathema);
 
         if (character.class.showDeityAnathema || doArchetypesShowDeityAnathema) {
             //If your Collect anathema from all deities you have (usually one);

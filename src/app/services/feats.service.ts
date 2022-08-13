@@ -44,6 +44,7 @@ import { CacheService } from './cache.service';
 import { FamiliarsService } from './familiars.service';
 import { ClassesService } from './classes.service';
 import { DeitiesService } from './deities.service';
+import { ClassesDataService } from '../core/services/data/classes-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -76,6 +77,7 @@ export class FeatsService {
         private readonly _cacheService: CacheService,
         private readonly _familiarsService: FamiliarsService,
         private readonly _classesService: ClassesService,
+        private readonly _classesDataService: ClassesDataService,
         private readonly _deitiesService: DeitiesService,
     ) { }
 
@@ -534,7 +536,7 @@ export class FeatsService {
                             // or from the character's main class.
                             if (!insertSpellChoice.className) {
                                 const classNames: Array<string> =
-                                    this._classesService.classes().map(characterclass => characterclass.name);
+                                    this._classesDataService.classes().map(characterclass => characterclass.name);
 
                                 if (classNames.includes(choice.type)) {
                                     insertSpellChoice.className = choice.type;

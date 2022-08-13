@@ -3,7 +3,6 @@ import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ClassesService } from 'src/app/services/classes.service';
 import { ConfigService } from 'src/app/services/config.service';
 import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { DeitiesService } from 'src/app/services/deities.service';
@@ -15,12 +14,12 @@ import { FeatsService } from 'src/app/services/feats.service';
 import { HistoryService } from 'src/app/services/history.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { MessageService } from 'src/app/services/message.service';
-import { SavegameService } from 'src/app/services/savegame.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { SpellsDataService } from '../data/spells-data.service';
+import { ClassesDataService } from '../data/classes-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -31,13 +30,12 @@ export class AppInitService {
         private readonly _characterService: CharacterService,
         private readonly _extensionsService: ExtensionsService,
         private readonly _configService: ConfigService,
-        private readonly _savegameService: SavegameService,
         private readonly _traitsService: TraitsService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featsService: FeatsService,
         private readonly _historyService: HistoryService,
-        private readonly _classesService: ClassesService,
+        private readonly _classesDataService: ClassesDataService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _skillsDataService: SkillsDataService,
@@ -66,7 +64,7 @@ export class AppInitService {
                 this._activitiesDataService.initialize();
                 this._featsService.initialize();
                 this._historyService.initialize();
-                this._classesService.initialize();
+                this._classesDataService.initialize();
                 this._conditionsDataService.initialize();
                 this._spellsDataService.initialize();
                 this._skillsDataService.initialize();
@@ -87,7 +85,7 @@ export class AppInitService {
                     this._activitiesDataService.stillLoading ||
                     this._featsService.stillLoading ||
                     this._historyService.stillLoading ||
-                    this._classesService.stillLoading ||
+                    this._classesDataService.stillLoading ||
                     this._conditionsDataService.stillLoading ||
                     this._spellsDataService.stillLoading ||
                     this._skillsDataService.stillLoading ||
