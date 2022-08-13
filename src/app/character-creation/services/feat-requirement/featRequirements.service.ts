@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Ability } from 'src/app/classes/Ability';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -359,36 +358,26 @@ export class FeatRequirementsService {
                 (expectation.isLesserThan ? (number < expectation.isLesserThan) : true)
             );
         };
+
+        //TO-DO: Does this actually work with the exchangable operator?
         const DoesNumberListMatchExpectation = (
             numberList: Array<number>,
             query: FeatRequirements.RequirementBasicQuery,
             expectation?: FeatRequirements.RequirementExpectation,
         ): boolean => {
-            if (query.allOfNames) {
-                if (!expectation) {
-                    return numberList.every(number => !!number);
-                }
+            const operator = query.allOfNames ? Array.prototype.every : Array.prototype.some;
 
-                return (
-                    (expectation.isTrue ? numberList.every(number => !!number) : true) &&
-                    (expectation.isFalse ? numberList.every(number => !number) : true) &&
-                    (expectation.isEqual ? numberList.every(number => number === expectation.isEqual) : true) &&
-                    (expectation.isGreaterThan ? numberList.every(number => number > expectation.isGreaterThan) : true) &&
-                    (expectation.isLesserThan ? numberList.every(number => number < expectation.isLesserThan) : true)
-                );
-            } else {
-                if (!expectation) {
-                    return numberList.some(number => !!number);
-                }
-
-                return (
-                    (expectation.isTrue ? numberList.some(number => !!number) : true) &&
-                    (expectation.isFalse ? numberList.some(number => !number) : true) &&
-                    (expectation.isEqual ? numberList.some(number => number === expectation.isEqual) : true) &&
-                    (expectation.isGreaterThan ? numberList.some(number => number > expectation.isGreaterThan) : true) &&
-                    (expectation.isLesserThan ? numberList.some(number => number < expectation.isLesserThan) : true)
-                );
+            if (!expectation) {
+                return operator.call(numberList, (number: number) => !!number);
             }
+
+            return (
+                (expectation.isTrue ? operator.call(numberList, (number: number) => !!number) : true) &&
+                (expectation.isFalse ? operator.call(numberList, (number: number) => !number) : true) &&
+                (expectation.isEqual ? operator.call(numberList, (number: number) => number === expectation.isEqual) : true) &&
+                (expectation.isGreaterThan ? operator.call(numberList, (number: number) => number > expectation.isGreaterThan) : true) &&
+                (expectation.isLesserThan ? operator.call(numberList, (number: number) => number < expectation.isLesserThan) : true)
+            );
         };
 
         // Each requirement set is treated as an OR; The first time that any set succeeds, the complex requirements are fulfilled.
@@ -983,5 +972,4 @@ export class FeatRequirementsService {
             return false;
         }
     }
-
 }

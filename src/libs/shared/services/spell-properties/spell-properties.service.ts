@@ -7,7 +7,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
-import { EffectsService } from '../../../../app/services/effects.service';
+import { EffectsService } from 'src/app/services/effects.service';
 
 @Injectable({
     providedIn: 'root',

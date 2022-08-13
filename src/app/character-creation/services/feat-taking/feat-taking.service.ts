@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
-import { CharacterService } from 'src/app/services/character.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { Feat } from '../../definitions/models/Feat';
 import { FeatChoice } from '../../definitions/models/FeatChoice';
@@ -14,7 +13,6 @@ export class FeatTakingService {
 
     constructor(
         private readonly _featsService: FeatsService,
-        private readonly _characterService: CharacterService,
     ) { }
 
     public takeFeat(

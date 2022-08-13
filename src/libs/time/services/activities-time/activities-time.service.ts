@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
-import { Activity } from '../../../../app/classes/Activity';
-import { ActivityGain } from '../../../../app/classes/ActivityGain';
-import { Creature } from '../../../../app/classes/Creature';
-import { ItemActivity } from '../../../../app/classes/ItemActivity';
-import { ActivitiesProcessingService } from '../../../../app/services/activities-processing.service';
-import { CharacterService } from '../../../../app/services/character.service';
-import { RefreshService } from '../../../../app/services/refresh.service';
+import { Activity } from 'src/app/classes/Activity';
+import { ActivityGain } from 'src/app/classes/ActivityGain';
+import { Creature } from 'src/app/classes/Creature';
+import { ItemActivity } from 'src/app/classes/ItemActivity';
+import { ActivitiesProcessingService } from '../../../shared/services/activities-processing/activities-processing.service';
+import { CharacterService } from 'src/app/services/character.service';
+import { RefreshService } from 'src/app/services/refresh.service';
 
 @Injectable({
     providedIn: 'root',
@@ -35,12 +35,13 @@ export class ActivitiesTimeService {
 
                 if (gain.duration === TimePeriods.UntilRest && activity) {
                     this._activitiesProcessingService.activateActivity(
-                        creature,
-                        creature.type,
-                        gain,
                         activity,
                         false,
-                        false,
+                        {
+                            creature,
+                            target: creature.type,
+                            gain,
+                        },
                     );
                 }
 
@@ -71,12 +72,13 @@ export class ActivitiesTimeService {
 
                 if (gain.duration === TimePeriods.UntilRefocus && activity) {
                     this._activitiesProcessingService.activateActivity(
-                        creature,
-                        creature.type,
-                        gain,
                         activity,
                         false,
-                        false,
+                        {
+                            creature,
+                            target: creature.type,
+                            gain,
+                        },
                     );
                 }
 
@@ -115,12 +117,13 @@ export class ActivitiesTimeService {
                     if (gain.duration === 0) {
                         if (activity) {
                             this._activitiesProcessingService.activateActivity(
-                                creature,
-                                creature.type,
-                                gain,
                                 activity,
                                 false,
-                                false,
+                                {
+                                    creature,
+                                    target: creature.type,
+                                    gain,
+                                },
                             );
                         }
                     }

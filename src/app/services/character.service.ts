@@ -32,7 +32,7 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Rune } from 'src/app/classes/Rune';
 import { DeitiesService } from 'src/app/services/deities.service';
 import { Deity } from 'src/app/classes/Deity';
-import { AnimalCompanionsDataService as AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
+import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SavegameService } from 'src/app/services/savegame.service';
@@ -64,7 +64,7 @@ import { EvaluationService } from 'src/app/services/evaluation.service';
 import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
-import { ActivitiesProcessingService } from './activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Speed } from '../classes/Speed';
 import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
@@ -906,11 +906,12 @@ export class CharacterService {
                 item.activities.forEach(activity => {
                     if (activity.active) {
                         this._activitiesProcessingService.activateActivity(
-                            creature,
-                            '',
-                            activity,
                             activity,
                             false,
+                            {
+                                creature,
+                                gain: activity,
+                            },
                         );
                     }
                 });
@@ -935,11 +936,12 @@ export class CharacterService {
                     item.gainActivities.forEach(gain => {
                         if (gain.active) {
                             this._activitiesProcessingService.activateActivity(
-                                creature,
-                                '',
-                                gain,
                                 this._activitiesDataService.activities(gain.name)[0],
                                 false,
+                                {
+                                    creature,
+                                    gain,
+                                },
                             );
                         }
                     });
@@ -1247,11 +1249,13 @@ export class CharacterService {
                 //Deactivate any active toggled activities of inserted runes.
                 rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
                     this._activitiesProcessingService.activateActivity(
-                        this.character,
-                        CreatureTypes.Character,
-                        activity,
                         activity,
                         false,
+                        {
+                            creature: this.character,
+                            target: CreatureTypes.Character,
+                            gain: activity,
+                        },
                     );
                 });
             });
@@ -1287,21 +1291,23 @@ export class CharacterService {
 
                 if (libraryActivity) {
                     this._activitiesProcessingService.activateActivity(
-                        creature,
-                        '',
-                        gainActivity,
                         libraryActivity,
                         false,
+                        {
+                            creature,
+                            gain: gainActivity,
+                        },
                     );
                 }
             });
             item.activities.filter(itemActivity => itemActivity.active).forEach((itemActivity: ItemActivity) => {
                 this._activitiesProcessingService.activateActivity(
-                    creature,
-                    '',
-                    itemActivity,
                     itemActivity,
                     false,
+                    {
+                        creature,
+                        gain: itemActivity,
+                    },
                 );
             });
             this._creatureConditionsService.removeGainedItemConditions(creature, item);

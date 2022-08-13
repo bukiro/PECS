@@ -22,7 +22,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Trait } from 'src/app/classes/Trait';
-import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -141,13 +141,13 @@ export class ActivityComponent implements OnInit, OnDestroy {
             this._onActivateFuseStance(activated);
         } else {
             this._activitiesProcessingService.activateActivity(
-                this._currentCreature(),
-                target,
-                gain,
                 activity,
                 activated,
+                { creature: this._currentCreature(), target, gain },
             );
         }
+
+        this._refreshService.processPreparedChanges();
     }
 
     public onManualRestoreCharge(): void {
@@ -314,11 +314,13 @@ export class ActivityComponent implements OnInit, OnDestroy {
         this.fusedStances().forEach(set => {
             if (set.gain && set.activity && activated !== set.gain.active) {
                 this._activitiesProcessingService.activateActivity(
-                    this._currentCreature(),
-                    CreatureTypes.Character,
-                    set.gain,
                     set.activity,
                     activated,
+                    {
+                        creature: this._currentCreature(),
+                        target: CreatureTypes.Character,
+                        gain: set.gain,
+                    },
                 );
             }
         });

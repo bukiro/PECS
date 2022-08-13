@@ -10,7 +10,7 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
@@ -191,11 +191,13 @@ export class ItemBladeAllyComponent implements OnInit {
         //Deactivate any active toggled activities of the removed rune.
         oldRune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
             this._activitiesProcessingService.activateActivity(
-                this._character,
-                CreatureTypes.Character,
-                activity,
                 activity,
                 false,
+                {
+                    creature: this._character,
+                    target: CreatureTypes.Character,
+                    gain: activity,
+                },
             );
         });
     }

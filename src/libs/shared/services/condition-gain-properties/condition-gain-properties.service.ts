@@ -6,7 +6,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ConditionsDataService } from '../../../../app/core/services/data/conditions-data.service';
+import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
 import { ToastService } from 'src/app/services/toast.service';

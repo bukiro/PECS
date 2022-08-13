@@ -8,7 +8,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { DefenseService } from 'src/app/services/defense.service';
@@ -394,12 +394,13 @@ export class ConditionProcessingService {
 
                     if (activity) {
                         this._activitiesProcessingService.activateActivity(
-                            creature,
-                            activityGain.selectedTarget,
-                            activityGain,
                             activity,
                             false,
-                            false,
+                            {
+                                creature,
+                                target: activityGain.selectedTarget,
+                                gain: activityGain,
+                            },
                         );
                     }
 

@@ -4,13 +4,10 @@ import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
 import { Character } from 'src/app/classes/Character';
 import { Heritage } from 'src/app/classes/Heritage';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
@@ -26,11 +23,8 @@ export class CharacterHeritageChangeService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _itemsService: ItemsService,
         private readonly _cacheService: CacheService,
         private readonly _refreshService: RefreshService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
-        private readonly _spellsService: SpellPropertiesService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
@@ -134,11 +128,9 @@ export class CharacterHeritageChangeService {
                 if (oldGain) {
                     if (oldGain.active) {
                         this._activitiesProcessingService.activateActivity(
-                            character,
-                            '',
-                            oldGain,
-                            this._activitiesDataService.activities(oldGain.name)[0],
+                            this._activitiesDataService.activityFromName(oldGain.name),
                             false,
+                            { creature: character, gain: oldGain },
                         );
                     }
 

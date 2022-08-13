@@ -15,7 +15,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
-import { ActivitiesProcessingService } from 'src/app/services/activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
@@ -820,11 +820,13 @@ export class ItemRunesComponent implements OnInit {
             .filter(activity => activity.toggle && activity.active)
             .forEach(activity => {
                 this._activitiesProcessingService.activateActivity(
-                    this._character,
-                    CreatureTypes.Character,
-                    activity,
                     activity,
                     false,
+                    {
+                        creature: this._character,
+                        target: CreatureTypes.Character,
+                        gain: activity,
+                    },
                 );
             });
         this._returnRuneToInventory(oldRune);

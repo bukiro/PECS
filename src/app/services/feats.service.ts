@@ -33,7 +33,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { CharacterHeritageChangeService } from '../character-creation/services/character-heritage-change/character-heritage-change.service';
-import { ActivitiesProcessingService } from './activities-processing.service';
+import { ActivitiesProcessingService } from '../../libs/shared/services/activities-processing/activities-processing.service';
 import { ActivitiesDataService } from '../core/services/data/activities-data.service';
 import { CharacterSkillIncreaseService } from '../character-creation/services/character-skill-increase/character-skill-increase.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
@@ -645,11 +645,12 @@ export class FeatsService {
                         if (oldGain) {
                             if (oldGain.active) {
                                 this._activitiesProcessingService.activateActivity(
-                                    character,
-                                    '',
-                                    oldGain,
                                     this._activitiesDataService.activityFromName(oldGain.name),
                                     false,
+                                    {
+                                        creature: character,
+                                        gain: oldGain,
+                                    },
                                 );
                             }
 
