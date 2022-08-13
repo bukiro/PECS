@@ -3,7 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { DisplayService } from 'src/app/services/display.service';
+import { DisplayService } from 'src/app/core/services/display/display.service';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Character } from 'src/app/classes/Character';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';

@@ -3,7 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { Domain } from 'src/app/classes/Domain';
@@ -47,7 +47,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _traitsService: TraitsService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _itemsService: ItemsService,
@@ -92,7 +92,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     public familiarAbilityFromName(name: string): Feat {
-        return this._familiarsService.familiarAbilityFromName(name);
+        return this._familiarsDataService.familiarAbilityFromName(name);
     }
 
     public companionSpecies(): string {

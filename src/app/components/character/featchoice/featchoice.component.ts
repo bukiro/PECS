@@ -4,7 +4,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
-import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Character as CharacterModel } from 'src/app/classes/Character';
 import { TraitsService } from 'src/app/services/traits.service';
@@ -84,7 +84,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _featsService: FeatsService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _traitsService: TraitsService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _featRequirementsService: FeatRequirementsService,
@@ -596,7 +596,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         if (this.creature === CreatureTypes.Character) {
             return this._featsService.feats(this._character.customFeats, name, type);
         } else if (this.creature === CreatureTypes.Familiar) {
-            return this._familiarsService.familiarAbilities(name);
+            return this._familiarsDataService.familiarAbilities(name);
         }
     }
 
@@ -604,7 +604,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         if (this.creature === CreatureTypes.Character) {
             return this._featsService.characterFeats(this._character.customFeats, name, type);
         } else if (this.creature === CreatureTypes.Familiar) {
-            return this._familiarsService.familiarAbilities(name);
+            return this._familiarsDataService.familiarAbilities(name);
         }
     }
 

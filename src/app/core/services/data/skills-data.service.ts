@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Skill } from 'src/app/classes/Skill';
 import * as json_skills from 'src/assets/json/skills';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 
 @Injectable({
     providedIn: 'root',

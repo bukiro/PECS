@@ -14,7 +14,7 @@ import { Activity } from 'src/app/classes/Activity';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
-import { EvaluationService } from 'src/app/services/evaluation.service';
+import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';

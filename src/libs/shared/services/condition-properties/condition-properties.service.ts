@@ -6,7 +6,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CharacterService } from 'src/app/services/character.service';
-import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 
@@ -18,7 +18,7 @@ export class ConditionPropertiesService {
     constructor(
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _characterService: CharacterService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _featsService: FeatsService,
     ) { }
 
@@ -119,7 +119,7 @@ export class ConditionPropertiesService {
                             if (featreq.includes('Familiar:')) {
                                 testCreature = this._characterService.familiar;
                                 testFeat = featreq.split('Familiar:')[1].trim();
-                                requiredFeat = this._familiarsService.familiarAbilities(testFeat);
+                                requiredFeat = this._familiarsDataService.familiarAbilities(testFeat);
                             } else {
                                 testCreature = character;
                                 requiredFeat = this._characterService.characterFeatsAndFeatures(testFeat, '', true);

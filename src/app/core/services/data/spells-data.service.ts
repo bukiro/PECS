@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import * as json_spells from 'src/assets/json/spells';
 

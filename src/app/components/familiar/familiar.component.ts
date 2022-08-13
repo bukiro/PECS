@@ -3,9 +3,9 @@ import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CharacterService } from 'src/app/services/character.service';
-import { DisplayService } from 'src/app/services/display.service';
+import { DisplayService } from 'src/app/core/services/display/display.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -30,12 +30,12 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _effectsService: CreatureEffectsService,
     ) { }
 
     public get stillLoading(): boolean {
-        return (this._characterService.stillLoading || this._familiarsService.stillLoading);
+        return (this._characterService.stillLoading || this._familiarsDataService.stillLoading);
     }
 
     public get isMinimized(): boolean {

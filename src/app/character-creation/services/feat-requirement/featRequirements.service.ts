@@ -17,7 +17,7 @@ import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells
 import { SpellCastingTypeFromString, SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 import { FeatsService } from 'src/app/services/feats.service';
-import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
@@ -34,7 +34,7 @@ export class FeatRequirementsService {
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _deityDomainsService: DeityDomainsService,
         private readonly _featsService: FeatsService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _itemsService: ItemsService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
@@ -231,7 +231,7 @@ export class FeatRequirementsService {
                     testcreature = this._characterService.familiar;
                     testfeat = featreq.split('Familiar:')[1].trim();
                     requiredFeats =
-                        this._familiarsService.familiarAbilities().filter(ability =>
+                        this._familiarsDataService.familiarAbilities().filter(ability =>
                             [ability.name.toLowerCase(), ability.superType.toLowerCase()].includes(testfeat.toLowerCase()),
                         );
                 } else {

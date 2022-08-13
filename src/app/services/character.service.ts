@@ -32,7 +32,7 @@ import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-c
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SavegameService } from 'src/app/services/savegame.service';
-import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { Oil } from 'src/app/classes/Oil';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Savegame } from 'src/app/classes/Savegame';
@@ -52,11 +52,11 @@ import { ToastService } from 'src/app/services/toast.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
-import { EvaluationService } from 'src/app/services/evaluation.service';
+import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
@@ -168,7 +168,7 @@ export class CharacterService {
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _messageService: MessageService,
         private readonly _toastService: ToastService,
         private readonly _evaluationService: EvaluationService,
@@ -2322,7 +2322,7 @@ export class CharacterService {
 
         if (creature.isFamiliar()) {
             creature.abilities.feats
-                .map(gain => this._familiarsService.familiarAbilities(gain.name)[0])
+                .map(gain => this._familiarsDataService.familiarAbilities(gain.name)[0])
                 .filter(ability => ability?.senses.length)
                 .forEach(ability => {
                     senses.push(...ability.senses);
@@ -2430,7 +2430,7 @@ export class CharacterService {
 
     public familiarElementsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
         //Get showon elements from Familiar Abilities
-        return this._familiarsService.familiarAbilities().filter(feat =>
+        return this._familiarsDataService.familiarAbilities().filter(feat =>
             feat.hints.find(hint =>
                 (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
@@ -2699,7 +2699,7 @@ export class CharacterService {
         this._itemsService.reset();
         this._characterDeitiesService.reset();
         this._animalCompanionsDataService.reset();
-        this._familiarsService.reset();
+        this._familiarsDataService.reset();
         this._messageService.reset();
 
         if (id) {

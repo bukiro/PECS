@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Class } from 'src/app/classes/Class';
 import * as json_classes from 'src/assets/json/classes';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { ItemsService } from 'src/app/services/items.service';
 
 @Injectable({

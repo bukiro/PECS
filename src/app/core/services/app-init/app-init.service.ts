@@ -5,12 +5,12 @@ import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-c
 import { CharacterService } from 'src/app/services/character.service';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
-import { DisplayService } from 'src/app/services/display.service';
+import { DisplayService } from 'src/app/core/services/display/display.service';
 import { EffectsGenerationService } from 'src/libs/shared/effects-generation/services/effects-generation/effects-generation.service';
-import { ExtensionsService } from 'src/app/services/extensions.service';
-import { FamiliarsService } from 'src/app/services/familiars.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatsService } from 'src/app/services/feats.service';
-import { HistoryService } from 'src/app/services/history.service';
+import { HistoryDataService } from 'src/app/services/history-data.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { MessageService } from 'src/app/services/message.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
@@ -34,7 +34,7 @@ export class AppInitService {
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featsService: FeatsService,
-        private readonly _historyService: HistoryService,
+        private readonly _historyDataService: HistoryDataService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _spellsDataService: SpellsDataService,
@@ -42,7 +42,7 @@ export class AppInitService {
         private readonly _itemsService: ItemsService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _messageService: MessageService,
         private readonly _customEffectPropertiesService: CustomEffectPropertiesService,
         private readonly _effectsGenerationService: EffectsGenerationService,
@@ -63,7 +63,7 @@ export class AppInitService {
                 this._abilitiesDataService.initialize();
                 this._activitiesDataService.initialize();
                 this._featsService.initialize();
-                this._historyService.initialize();
+                this._historyDataService.initialize();
                 this._classesDataService.initialize();
                 this._conditionsDataService.initialize();
                 this._spellsDataService.initialize();
@@ -71,7 +71,7 @@ export class AppInitService {
                 this._itemsService.initialize();
                 this._deitiesDataService.initialize();
                 this._animalCompanionsDataService.initialize();
-                this._familiarsService.initialize();
+                this._familiarsDataService.initialize();
                 this._messageService.initialize();
                 this._customEffectPropertiesService.initialize();
                 this._effectsGenerationService.initialize();
@@ -84,7 +84,7 @@ export class AppInitService {
                     this._abilitiesDataService.stillLoading ||
                     this._activitiesDataService.stillLoading ||
                     this._featsService.stillLoading ||
-                    this._historyService.stillLoading ||
+                    this._historyDataService.stillLoading ||
                     this._classesDataService.stillLoading ||
                     this._conditionsDataService.stillLoading ||
                     this._spellsDataService.stillLoading ||
@@ -92,7 +92,7 @@ export class AppInitService {
                     this._itemsService.stillLoading ||
                     this._deitiesDataService.stillLoading ||
                     this._animalCompanionsDataService.stillLoading ||
-                    this._familiarsService.stillLoading
+                    this._familiarsDataService.stillLoading
                 )
             ) {
                 clearInterval(waitForLoadServices);

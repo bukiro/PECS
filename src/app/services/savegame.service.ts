@@ -11,7 +11,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Savegame } from 'src/app/classes/Savegame';
 import { CharacterService } from 'src/app/services/character.service';
-import { HistoryService } from 'src/app/services/history.service';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { Hint } from 'src/app/classes/Hint';
@@ -29,6 +28,7 @@ import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-co
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
 import { FeatTakingService } from '../character-creation/services/feat-taking/feat-taking.service';
 import { ClassSavingLoadingService } from 'src/libs/shared/saving-loading/services/class-saving-loading/class-saving-loading.service';
+import { HistorySavingLoadingService } from 'src/libs/shared/saving-loading/services/history-saving-loading/history-saving-loading.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -62,9 +62,9 @@ export class SavegameService {
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterService: CharacterService,
-        private readonly _historyService: HistoryService,
         private readonly _classSavingLoadingService: ClassSavingLoadingService,
         private readonly _itemsService: ItemsService,
+        private readonly _historySavingLoadingService: HistorySavingLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -113,15 +113,15 @@ export class SavegameService {
             const _class = character.class;
 
             if (_class.ancestry && _class.ancestry.name) {
-                _class.ancestry = this._historyService.restoreAncestryFromSave(_class.ancestry);
+                _class.ancestry = this._historySavingLoadingService.restoreAncestryFromSave(_class.ancestry);
             }
 
             if (_class.heritage && _class.heritage.name) {
-                _class.heritage = this._historyService.restoreHeritageFromSave(_class.heritage);
+                _class.heritage = this._historySavingLoadingService.restoreHeritageFromSave(_class.heritage);
             }
 
             if (_class.background && _class.background.name) {
-                _class.background = this._historyService.restoreBackgroundFromSave(_class.background);
+                _class.background = this._historySavingLoadingService.restoreBackgroundFromSave(_class.background);
             }
 
             if (_class.animalCompanion) {
@@ -182,15 +182,15 @@ export class SavegameService {
             const _class = savegame.class;
 
             if (_class.ancestry?.name) {
-                _class.ancestry = this._historyService.cleanAncestryForSave(_class.ancestry);
+                _class.ancestry = this._historySavingLoadingService.cleanAncestryForSave(_class.ancestry);
             }
 
             if (_class.heritage?.name) {
-                _class.heritage = this._historyService.cleanHeritageForSave(_class.heritage);
+                _class.heritage = this._historySavingLoadingService.cleanHeritageForSave(_class.heritage);
             }
 
             if (_class.background?.name) {
-                _class.background = this._historyService.cleanBackgroundForSave(_class.background);
+                _class.background = this._historySavingLoadingService.cleanBackgroundForSave(_class.background);
             }
 
             if (_class.animalCompanion) {

@@ -19,13 +19,13 @@ import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
 import * as json_feats from 'src/assets/json/feats';
 import * as json_features from 'src/assets/json/features';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ItemsService } from './items.service';
 import { Weapon } from '../classes/Weapon';
-import { HistoryService } from './history.service';
+import { HistoryDataService } from './history-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
@@ -41,7 +41,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { Creature } from '../classes/Creature';
 import { CacheService } from './cache.service';
-import { FamiliarsService } from './familiars.service';
+import { FamiliarsDataService } from '../core/services/data/familiars-data.service';
 import { DeitiesDataService } from '../core/services/data/deities-data.service';
 import { ClassesDataService } from '../core/services/data/classes-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
@@ -64,7 +64,7 @@ export class FeatsService {
         private readonly _characterService: CharacterService,
         private readonly _extensionsService: ExtensionsService,
         private readonly _itemsService: ItemsService,
-        private readonly _historyService: HistoryService,
+        private readonly _historyDataService: HistoryDataService,
         private readonly _refreshService: RefreshService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
@@ -75,7 +75,7 @@ export class FeatsService {
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _cacheService: CacheService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
@@ -155,7 +155,7 @@ export class FeatsService {
             }
 
             if (feat.subType.includes('Ancestry')) {
-                const ancestries: Array<string> = this._historyService.ancestries().map(ancestry => ancestry.name);
+                const ancestries: Array<string> = this._historyDataService.ancestries().map(ancestry => ancestry.name);
 
                 featweapons = featweapons.filter(weapon => weapon.traits.some(trait => ancestries.includes(trait)));
             }
@@ -291,7 +291,7 @@ export class FeatsService {
 
         if (!feat && featName) {
             if (creature.isFamiliar()) {
-                feat = this._familiarsService.familiarAbilities(featName)[0];
+                feat = this._familiarsDataService.familiarAbilities(featName)[0];
             } else {
                 // Use characterService.featsAndFeatures() instead of this.featsAndFeatures(),
                 // because it automatically checks the character's custom feats.

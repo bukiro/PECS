@@ -3,7 +3,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
-import { DisplayService } from 'src/app/services/display.service';
+import { DisplayService } from 'src/app/core/services/display/display.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';

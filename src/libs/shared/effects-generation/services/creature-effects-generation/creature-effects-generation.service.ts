@@ -6,7 +6,7 @@ import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CharacterService } from 'src/app/services/character.service';
-import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 
@@ -22,7 +22,7 @@ export class CreatureEffectsGenerationService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _featsService: FeatsService,
     ) { }
 
@@ -86,7 +86,7 @@ export class CreatureEffectsGenerationService {
         const feats: Array<Feat> = [];
         const hintSets: Array<HintEffectsObject> = [];
 
-        this._familiarsService.familiarAbilities()
+        this._familiarsDataService.familiarAbilities()
             .filter(ability =>
                 (ability.effects?.length || ability.hints?.length) &&
                 this._featsService.have(ability, { creature: familiar }))

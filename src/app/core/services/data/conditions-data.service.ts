@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Condition } from 'src/app/classes/Condition';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import * as json_conditions from 'src/assets/json/conditions';
 
 @Injectable({

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Trait } from 'src/app/classes/Trait';
 import * as json_traits from 'src/assets/json/traits';
 import { Creature } from 'src/app/classes/Creature';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 
 @Injectable({
     providedIn: 'root',

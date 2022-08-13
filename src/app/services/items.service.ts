@@ -2,7 +2,7 @@
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { TypeService } from 'src/app/services/type.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';

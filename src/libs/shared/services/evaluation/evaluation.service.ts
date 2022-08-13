@@ -7,17 +7,17 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';
 import { Speed as SpeedModel } from 'src/app/classes/Speed';
-import { FamiliarsService } from 'src/app/services/familiars.service';
-import { EffectGain } from '../classes/EffectGain';
-import { Equipment } from '../classes/Equipment';
-import { ActivityGain } from '../classes/ActivityGain';
-import { Skill as SkillModel } from '../classes/Skill';
-import { Armor as ArmorModel } from '../classes/Armor';
-import { Shield as ShieldModel } from '../classes/Shield';
-import { Weapon } from '../classes/Weapon';
-import { WornItem } from '../classes/WornItem';
-import { FeatTaken } from '../character-creation/definitions/models/FeatTaken';
-import { Deity as DeityModel } from '../classes/Deity';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
+import { EffectGain } from '../../../../app/classes/EffectGain';
+import { Equipment } from '../../../../app/classes/Equipment';
+import { ActivityGain } from '../../../../app/classes/ActivityGain';
+import { Skill as SkillModel } from '../../../../app/classes/Skill';
+import { Armor as ArmorModel } from '../../../../app/classes/Armor';
+import { Shield as ShieldModel } from '../../../../app/classes/Shield';
+import { Weapon } from '../../../../app/classes/Weapon';
+import { WornItem } from '../../../../app/classes/WornItem';
+import { FeatTaken } from '../../../../app/character-creation/definitions/models/FeatTaken';
+import { Deity as DeityModel } from '../../../../app/classes/Deity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
@@ -26,7 +26,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
-import { FeatsService } from './feats.service';
+import { FeatsService } from '../../../../app/services/feats.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
 interface FormulaObject {
@@ -54,7 +54,7 @@ export class EvaluationService {
 
     constructor(
         private readonly _abilitiesDataService: AbilitiesDataService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _healthService: HealthService,
@@ -88,7 +88,7 @@ export class EvaluationService {
         const effectsService = this._effectsService;
         const characterService = this._characterService;
         const abilitiesService = this._abilitiesDataService;
-        const familiarsService = this._familiarsService;
+        const familiarsService = this._familiarsDataService;
         const Creature = context.creature;
         const Character = characterService.character;
         const Companion = characterService.companion;

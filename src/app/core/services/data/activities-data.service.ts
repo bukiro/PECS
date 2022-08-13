@@ -4,7 +4,7 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Creature } from 'src/app/classes/Creature';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Armor } from 'src/app/classes/Armor';

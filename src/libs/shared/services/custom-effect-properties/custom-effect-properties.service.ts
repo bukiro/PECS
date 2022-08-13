@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import * as json_effectproperties from 'src/assets/json/effectproperties';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 
 @Injectable({
     providedIn: 'root',

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import * as json_abilities from 'src/assets/json/familiarabilities';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class FamiliarsService {
+export class FamiliarsDataService {
 
     private _familiarAbilities: Array<Feat> = [];
     private _initialized = false;

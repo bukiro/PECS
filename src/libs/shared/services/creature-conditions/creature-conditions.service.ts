@@ -7,7 +7,7 @@ import { Item } from 'src/app/classes/Item';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { EvaluationService } from 'src/app/services/evaluation.service';
+import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { TimePeriods } from '../../definitions/timePeriods';

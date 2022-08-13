@@ -4,7 +4,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { EvaluationService } from 'src/app/services/evaluation.service';
+import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemGain } from 'src/app/classes/ItemGain';

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Deity } from 'src/app/classes/Deity';
 import * as json_deities from 'src/assets/json/deities';
 import * as json_domains from 'src/assets/json/domains';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { Domain } from 'src/app/classes/Domain';
 import { CharacterService } from 'src/app/services/character.service';
 

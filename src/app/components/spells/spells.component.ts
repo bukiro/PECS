@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
-import { DisplayService } from 'src/app/services/display.service';
+import { DisplayService } from 'src/app/core/services/display/display.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Trackers } from 'src/libs/shared/util/trackers';

@@ -6,7 +6,7 @@ import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { EvaluationService } from 'src/app/services/evaluation.service';
+import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { BulkService } from 'src/libs/shared/services/bulk/bulk.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';

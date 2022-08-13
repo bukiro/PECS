@@ -5,7 +5,7 @@ import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { FeatsService } from 'src/app/services/feats.service';
-import { HistoryService } from 'src/app/services/history.service';
+import { HistoryDataService } from 'src/app/services/history-data.service';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
 import { Background } from 'src/app/classes/Background';
@@ -24,7 +24,7 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { SavegameService } from 'src/app/services/savegame.service';
 import { Savegame } from 'src/app/classes/Savegame';
 import { TraitsService } from 'src/app/services/traits.service';
-import { FamiliarsService } from 'src/app/services/familiars.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { Spell } from 'src/app/classes/Spell';
 import { Character } from 'src/app/classes/Character';
@@ -40,7 +40,7 @@ import { CacheService } from 'src/app/services/cache.service';
 import { Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { InputValidationService } from 'src/app/services/inputValidation.service';
-import { DisplayService } from 'src/app/services/display.service';
+import { DisplayService } from 'src/app/core/services/display/display.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -114,7 +114,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _classesDataService: ClassesDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _featsService: FeatsService,
-        private readonly _historyService: HistoryService,
+        private readonly _historyDataService: HistoryDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _spellsDataService: SpellsDataService,
@@ -125,7 +125,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _savegameService: SavegameService,
         private readonly _traitsService: TraitsService,
-        private readonly _familiarsService: FamiliarsService,
+        private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _cacheService: CacheService,
         private readonly _modalService: NgbModal,
         private readonly _abilityValuesService: AbilityValuesService,
@@ -673,7 +673,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             //or if you have the cantrip connection or spell battery familiar ability.
         } else if (this._characterService.isFamiliarAvailable()) {
             this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
-            this.familiar.abilities.feats.map(gain => this._familiarsService.familiarAbilities(gain.name)[0]).filter(feat => feat)
+            this.familiar.abilities.feats.map(gain => this._familiarsDataService.familiarAbilities(gain.name)[0]).filter(feat => feat)
                 .forEach(feat => {
                     if (feat.name === 'Cantrip Connection') {
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
@@ -1443,7 +1443,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     public availableAncestries(): Array<Ancestry> {
         const shouldShowOtherOptions = this.character.settings.showOtherOptions;
 
-        return this._historyService.ancestries()
+        return this._historyDataService.ancestries()
             .filter(ancestry =>
                 shouldShowOtherOptions ||
                 !this.character.class.ancestry?.name ||
@@ -1535,7 +1535,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
         const shouldShowOtherOptions = this.character.settings.showOtherOptions;
 
-        return this._historyService.heritages(name, ancestryName)
+        return this._historyDataService.heritages(name, ancestryName)
             .filter(availableHeritage =>
                 shouldShowOtherOptions ||
                 !heritage?.name ||
@@ -1566,7 +1566,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public filteredBackgrounds(): Array<Background> {
-        return this._historyService.backgrounds()
+        return this._historyDataService.backgrounds()
             .filter(background =>
                 !background.subType &&
                 (!this.adventureBackgrounds ? !background.adventurePath : true) &&
@@ -1593,7 +1593,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public subTypesOfBackground(superType: string): Array<Background> {
-        return this._historyService.backgrounds()
+        return this._historyDataService.backgrounds()
             .filter(background => background.superType === superType);
     }
 

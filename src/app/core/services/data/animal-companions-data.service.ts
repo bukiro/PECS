@@ -6,7 +6,7 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import * as json_ancestries from 'src/assets/json/animalcompanions';
 import * as json_levels from 'src/assets/json/animalcompanionlevels';
 import * as json_specializations from 'src/assets/json/animalcompanionspecializations';
-import { ExtensionsService } from 'src/app/services/extensions.service';
+import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 
 @Injectable({
     providedIn: 'root',
