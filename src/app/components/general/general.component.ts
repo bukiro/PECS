@@ -5,7 +5,7 @@ import { TraitsService } from 'src/app/services/traits.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
-import { DeitiesService } from 'src/app/services/deities.service';
+import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
@@ -48,7 +48,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _effectsService: EffectsService,
         private readonly _traitsService: TraitsService,
         private readonly _familiarsService: FamiliarsService,
-        private readonly _deitiesService: DeitiesService,
+        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _itemsService: ItemsService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
@@ -145,7 +145,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
                 const domains = this._deityDomainsService.effectiveDomains(deity, character)
                     .concat(...(domainFeats.map(feat => feat.gainDomains)));
 
-                return domains.map(domain => this._deitiesService.domains(domain)[0] || new Domain());
+                return domains.map(domain => this._deitiesDataService.domains(domain)[0] || new Domain());
             } else {
                 return [];
             }

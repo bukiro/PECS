@@ -9,7 +9,7 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
-import { DeitiesService } from 'src/app/services/deities.service';
+import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
@@ -24,6 +24,7 @@ import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ab
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 
 interface SpellSet {
     spell: Spell;
@@ -115,9 +116,10 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsService: TraitsService,
-        private readonly _deitiesService: DeitiesService,
+        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
         public trackers: Trackers,
     ) { }
 
@@ -827,7 +829,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     // also include all spells that are on the spell list regardless of their tradition.
                     // For main class clerics, include all spells that are on your deity's cleric spell list
                     const deity = character.class.deity
-                        ? this._deitiesService.currentCharacterDeities(character)[0]
+                        ? this._characterDeitiesService.currentCharacterDeities(character)[0]
                         : null;
 
                     if (!choice.tradition && this.spellCasting.tradition) {

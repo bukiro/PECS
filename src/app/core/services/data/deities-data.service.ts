@@ -4,25 +4,17 @@ import * as json_deities from 'src/assets/json/deities';
 import * as json_domains from 'src/assets/json/domains';
 import { ExtensionsService } from 'src/app/services/extensions.service';
 import { Domain } from 'src/app/classes/Domain';
-import { Character } from 'src/app/classes/Character';
 import { CharacterService } from 'src/app/services/character.service';
 
-interface CharacterDeitySet {
-    deity: Deity;
-    source: string;
-    level: number;
-}
 
 @Injectable({
     providedIn: 'root',
 })
-export class DeitiesService {
+export class DeitiesDataService {
 
     private _deities: Array<Deity> = [];
     private _domains: Array<Domain> = [];
     private _initialized = false;
-    //The character's deity or deities get loaded into $characterDeities whenever it is queried and empty.
-    private _$characterDeities: Array<CharacterDeitySet> = [];
     private readonly _deitiesMap = new Map<string, Deity>();
 
     constructor(
@@ -61,45 +53,6 @@ export class DeitiesService {
             this._replacementDomain(name);
     }
 
-    public currentCharacterDeities(
-        character: Character,
-        source = '',
-        level: number = character.level,
-    ): Array<Deity> {
-        if (!this._$characterDeities.length && character.class.deity) {
-            //Recreate the character deities list from the main deity and the Syncretism feat data.
-            const mainDeity = this.deities(character.class.deity)[0];
-
-            if (mainDeity) {
-                this._$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
-
-                const syncretismFeat = this._characterService.characterFeatsTaken(0, level, { featName: 'Syncretism' }).length;
-
-                if (syncretismFeat) {
-                    const data = character.class.filteredFeatData(0, 0, 'Syncretism')[0];
-                    const syncretismDeity = data.valueAsString('deity');
-
-                    if (syncretismDeity) {
-                        const levelNumber = data.level;
-                        const secondDeity = this.deities(syncretismDeity)[0];
-
-                        if (secondDeity) {
-                            this._$characterDeities.push({ deity: secondDeity, source: 'syncretism', level: levelNumber });
-                        }
-                    }
-                }
-            }
-        }
-
-        return this._$characterDeities
-            .filter(deitySet => deitySet.level <= level && (!source || deitySet.source === source))
-            .map(deitySet => deitySet.deity);
-    }
-
-    public clearCharacterDeities(): void {
-        this._$characterDeities.length = 0;
-    }
-
     public initialize(): void {
         this._loadDeities();
         this._loadDomains();
@@ -108,10 +61,6 @@ export class DeitiesService {
             this._deitiesMap.set(deity.name.toLowerCase(), deity);
         });
         this._initialized = true;
-    }
-
-    public reset(): void {
-        this.clearCharacterDeities();
     }
 
     private _replacementDeity(name?: string): Deity {

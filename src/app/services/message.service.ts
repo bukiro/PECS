@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from 'src/app/core/services/config/config.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { RefreshService } from 'src/app/services/refresh.service';

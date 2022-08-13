@@ -7,7 +7,7 @@ import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { map, Observable, of, switchMap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ToastService } from './toast.service';
+import { ToastService } from '../../../services/toast.service';
 
 interface LoginToken {
     token: string | false;

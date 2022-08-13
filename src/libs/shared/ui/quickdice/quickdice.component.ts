@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { DiceService } from 'src/app/services/dice.service';
+import { DiceService } from 'src/libs/dice/services/dice.service';
 import { IntegrationsService } from 'src/app/services/integrations.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';

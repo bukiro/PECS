@@ -4,7 +4,7 @@ import { Oil } from 'src/app/classes/Oil';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { TypeService } from 'src/app/services/type.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { ItemGainOnOptions } from '../../libs/shared/definitions/itemGainOptions';
+import { ItemGainOnOptions } from 'src/libs/shared/definitions/itemGainOptions';
 import { Equipment } from './Equipment';
 import { Armor } from './Armor';
 import { Weapon } from './Weapon';

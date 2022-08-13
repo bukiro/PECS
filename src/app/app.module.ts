@@ -44,20 +44,13 @@ import { ItemTalismansComponent } from 'src/app/components/item/itemTalismans/it
 import { CraftingComponent } from 'src/app/components/crafting/crafting.component';
 import { ItemMaterialComponent } from 'src/app/components/item/itemMaterial/itemMaterial.component';
 import { ItemPoisonsComponent } from 'src/app/components/item/itemPoisons/itemPoisons.component';
-import { DiceComponent } from 'src/app/components/dice/dice.component';
-import { DiceIconsD4Component } from 'src/app/components/dice/diceIcons-D4/diceIcons-D4.component';
-import { DiceIconsD6Component } from 'src/app/components/dice/diceIcons-D6/diceIcons-D6.component';
-import { DiceIconsD8Component } from 'src/app/components/dice/diceIcons-D8/diceIcons-D8.component';
-import { DiceIconsD10Component } from 'src/app/components/dice/diceIcons-D10/diceIcons-D10.component';
-import { DiceIconsD12Component } from 'src/app/components/dice/diceIcons-D12/diceIcons-D12.component';
-import { DiceIconsD20Component } from 'src/app/components/dice/diceIcons-D20/diceIcons-D20.component';
+import { DiceIconsD4Component } from 'src/libs/shared/ui/diceIcons-D4/diceIcons-D4.component';
 import { SkillchoiceComponent } from 'src/app/components/character/skillchoice/skillchoice.component';
 import { ItemBladeAllyComponent } from 'src/app/components/item/itemBladeAlly/itemBladeAlly.component';
 import { HintComponent } from 'src/app/components/tags/hint/hint.component';
 import { ConditionComponent } from 'src/app/components/effects/condition/condition.component';
 import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GridIconComponent } from 'src/app/components/gridIcon/gridIcon.component';
-import { QuickdiceComponent } from 'src/app/components/dice/quickdice/quickdice.component';
 import { LicensesComponent } from 'src/app/components/character/licenses/licenses.component';
 import { ToastContainerComponent } from 'src/app/components/toast-container/toast-container.component';
 import { SpellTargetComponent } from 'src/app/components/spellTarget/spellTarget.component';
@@ -80,6 +73,13 @@ import { ItemMaterialArmorComponent } from './components/item/itemMaterialOption
 import { ItemMaterialShieldComponent } from './components/item/itemMaterialOptions/itemMaterialShield.component';
 import { ItemMaterialWeaponComponent } from './components/item/itemMaterialOptions/itemMaterialWeapon.component';
 import { CashComponent } from './components/cash/cash.component';
+import { DiceComponent } from 'src/libs/dice/services/views/dice/dice.component';
+import { DiceIconsD10Component } from 'src/libs/shared/ui/diceIcons-D10/diceIcons-D10.component';
+import { DiceIconsD12Component } from 'src/libs/shared/ui/diceIcons-D12/diceIcons-D12.component';
+import { DiceIconsD20Component } from 'src/libs/shared/ui/diceIcons-D20/diceIcons-D20.component';
+import { DiceIconsD6Component } from 'src/libs/shared/ui/diceIcons-D6/diceIcons-D6.component';
+import { DiceIconsD8Component } from 'src/libs/shared/ui/diceIcons-D8/diceIcons-D8.component';
+import { QuickdiceComponent } from 'src/libs/shared/ui/quickdice/quickdice.component';
 
 @NgModule({
     declarations: [

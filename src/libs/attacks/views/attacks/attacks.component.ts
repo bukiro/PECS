@@ -19,7 +19,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Hint } from 'src/app/classes/Hint';
-import { DeitiesService } from 'src/app/services/deities.service';
+import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
@@ -41,6 +41,7 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -69,7 +70,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsService: TraitsService,
-        private readonly _deitiesService: DeitiesService,
+        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -80,6 +81,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
         public trackers: Trackers,
     ) { }
 
@@ -633,7 +635,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const creature = this._currentCreature;
 
         if (creature.isCharacter() && creature.class?.deity && creature.class.deityFocused) {
-            const deity = this._deitiesService.currentCharacterDeities(creature)[0];
+            const deity = this._characterDeitiesService.currentCharacterDeities(creature)[0];
             const favoredWeapons: Array<string> = [];
 
             if (deity && deity.favoredWeapon.length) {

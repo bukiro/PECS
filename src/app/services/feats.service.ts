@@ -33,7 +33,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { CharacterHeritageChangeService } from '../character-creation/services/character-heritage-change/character-heritage-change.service';
-import { ActivitiesProcessingService } from '../../libs/shared/services/activities-processing/activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { ActivitiesDataService } from '../core/services/data/activities-data.service';
 import { CharacterSkillIncreaseService } from '../character-creation/services/character-skill-increase/character-skill-increase.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
@@ -42,9 +42,9 @@ import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item
 import { Creature } from '../classes/Creature';
 import { CacheService } from './cache.service';
 import { FamiliarsService } from './familiars.service';
-import { ClassesService } from './classes.service';
-import { DeitiesService } from './deities.service';
+import { DeitiesDataService } from '../core/services/data/deities-data.service';
 import { ClassesDataService } from '../core/services/data/classes-data.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 
 @Injectable({
     providedIn: 'root',
@@ -76,9 +76,9 @@ export class FeatsService {
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _cacheService: CacheService,
         private readonly _familiarsService: FamiliarsService,
-        private readonly _classesService: ClassesService,
         private readonly _classesDataService: ClassesDataService,
-        private readonly _deitiesService: DeitiesService,
+        private readonly _deitiesDataService: DeitiesDataService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -1230,7 +1230,7 @@ export class FeatsService {
 
             //Syncretism changes your deities and needs to clear out the runtime variables and update general.
             if (feat.name === 'Syncretism') {
-                this._deitiesService.clearCharacterDeities();
+                this._characterDeitiesService.clearCharacterDeities();
                 this._refreshService.prepareDetailToChange(creature.type, 'general');
             }
 

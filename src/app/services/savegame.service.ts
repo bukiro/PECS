@@ -11,9 +11,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Savegame } from 'src/app/classes/Savegame';
 import { CharacterService } from 'src/app/services/character.service';
-import { ClassesService } from 'src/app/services/classes.service';
 import { HistoryService } from 'src/app/services/history.service';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from 'src/app/core/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -29,6 +28,7 @@ import { AnimalCompanionAncestryService } from 'src/libs/shared/services/animal-
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/animal-companion-specializations/animal-companion-specializations.service';
 import { FeatTakingService } from '../character-creation/services/feat-taking/feat-taking.service';
+import { ClassSavingLoadingService } from 'src/libs/shared/saving-loading/services/class-saving-loading/class-saving-loading.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -63,7 +63,7 @@ export class SavegameService {
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterService: CharacterService,
         private readonly _historyService: HistoryService,
-        private readonly _classesService: ClassesService,
+        private readonly _classSavingLoadingService: ClassSavingLoadingService,
         private readonly _itemsService: ItemsService,
     ) { }
 
@@ -145,7 +145,7 @@ export class SavegameService {
             }
 
             //Restore the class last, so we don't null its components (ancestry, animal companion etc.)
-            character.class = this._classesService.restoreClassFromSave(character.class);
+            character.class = this._classSavingLoadingService.restoreClassFromSave(character.class);
         }
 
         character.recast(this._itemsService);
@@ -177,7 +177,7 @@ export class SavegameService {
         // compare every element to its library equivalent, skipping the properties listed in .save
         // Everything that is the same as the library item gets deleted.
         if (savegame.class.name) {
-            savegame.class = this._classesService.cleanClassForSave(savegame.class);
+            savegame.class = this._classSavingLoadingService.cleanClassForSave(savegame.class);
 
             const _class = savegame.class;
 

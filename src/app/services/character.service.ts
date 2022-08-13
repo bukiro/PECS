@@ -26,7 +26,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Rune } from 'src/app/classes/Rune';
-import { DeitiesService } from 'src/app/services/deities.service';
+import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { Deity } from 'src/app/classes/Deity';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -44,7 +44,7 @@ import { Snare } from 'src/app/classes/Snare';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Creature } from 'src/app/classes/Creature';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from 'src/app/core/services/config/config.service';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { MessageService } from 'src/app/services/message.service';
@@ -89,6 +89,7 @@ import { ConditionsDataService } from '../core/services/data/conditions-data.ser
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { ClassesDataService } from '../core/services/data/classes-data.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -164,7 +165,7 @@ export class CharacterService {
         private readonly _itemsService: ItemsService,
         private readonly _effectsService: EffectsService,
         private readonly _timeService: TimeService,
-        private readonly _deitiesService: DeitiesService,
+        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _familiarsService: FamiliarsService,
@@ -184,6 +185,7 @@ export class CharacterService {
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _itemGrantingService: ItemGrantingService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -438,11 +440,11 @@ export class CharacterService {
     }
 
     public deities(name = ''): Array<Deity> {
-        return this._deitiesService.deities(name);
+        return this._deitiesDataService.deities(name);
     }
 
     public currentCharacterDeities(character: Character, source = '', level: number = character.level): Array<Deity> {
-        return this._deitiesService.currentCharacterDeities(character, source, level);
+        return this._characterDeitiesService.currentCharacterDeities(character, source, level);
     }
 
     public creatureSpeeds(creature: Creature, name = ''): Array<Speed> {
@@ -671,7 +673,7 @@ export class CharacterService {
         const character = this.character;
 
         character.class.deity = deity.name;
-        this._deitiesService.clearCharacterDeities();
+        this._characterDeitiesService.clearCharacterDeities();
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
@@ -2841,7 +2843,7 @@ export class CharacterService {
         this._conditionsDataService.reset();
         this._skillsDataService.reset();
         this._itemsService.reset();
-        this._deitiesService.reset();
+        this._characterDeitiesService.reset();
         this._animalCompanionsDataService.reset();
         this._familiarsService.reset();
         this._messageService.reset();

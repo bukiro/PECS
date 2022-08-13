@@ -4,13 +4,14 @@ import { Class } from 'src/app/classes/Class';
 import { Skill } from 'src/app/classes/Skill';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { DeitiesService } from 'src/app/services/deities.service';
+import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { FeatsService } from 'src/app/services/feats.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterAncestryChangeService } from '../character-ancestry-change/character-ancestry-change.service';
 import { CharacterBackgroundChangeService } from '../character-background-change/character-background-change.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,12 +22,13 @@ export class CharacterClassChangeService {
         private readonly _characterService: CharacterService,
         private readonly _itemsService: ItemsService,
         private readonly _featsService: FeatsService,
-        private readonly _deitiesService: DeitiesService,
+        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _cacheService: CacheService,
         private readonly _refreshService: RefreshService,
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
         private readonly _itemGrantingService: ItemGrantingService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
     ) { }
 
     public changeClass(newClass?: Class): void {
@@ -46,7 +48,7 @@ export class CharacterClassChangeService {
         }
 
         this._processNewClass(character);
-        this._deitiesService.clearCharacterDeities();
+        this._characterDeitiesService.clearCharacterDeities();
         this._cacheService.resetCreatureCache(character.typeId);
         this._refreshService.setComponentChanged();
     }

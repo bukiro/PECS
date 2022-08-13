@@ -11,7 +11,7 @@ import { AbilityBoost } from 'src/app/classes/AbilityBoost';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { Defaults } from '../../libs/shared/definitions/defaults';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 

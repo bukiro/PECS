@@ -2,14 +2,13 @@ import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
-import { WornItem } from '../classes/WornItem';
+import { WornItem } from 'src/app/classes/WornItem';
 
 @Injectable({
     providedIn: 'root',
 })
-export class DefenseService {
+export class CreatureEquipmentService {
 
-    //TO-DO: These functions can honestly go somewhere else, maybe the future inventoryservice.
     public equippedCreatureArmor(creature: Creature): Array<Armor> {
         return creature.inventories[0].armors.filter(armor => armor.equipped);
     }

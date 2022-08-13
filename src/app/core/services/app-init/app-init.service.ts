@@ -3,9 +3,8 @@ import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConfigService } from 'src/app/services/config.service';
-import { CustomEffectsService } from 'src/app/services/customEffects.service';
-import { DeitiesService } from 'src/app/services/deities.service';
+import { ConfigService } from 'src/app/core/services/config/config.service';
+import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { DisplayService } from 'src/app/services/display.service';
 import { EffectsGenerationService } from 'src/app/services/effectsGeneration.service';
 import { ExtensionsService } from 'src/app/services/extensions.service';
@@ -20,6 +19,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { SpellsDataService } from '../data/spells-data.service';
 import { ClassesDataService } from '../data/classes-data.service';
+import { CustomEffectPropertiesService } from 'src/libs/shared/services/custom-effect-properties/custom-effect-properties.service';
 
 @Injectable({
     providedIn: 'root',
@@ -40,11 +40,11 @@ export class AppInitService {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _itemsService: ItemsService,
-        private readonly _deitiesService: DeitiesService,
+        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _familiarsService: FamiliarsService,
         private readonly _messageService: MessageService,
-        private readonly _customEffectsService: CustomEffectsService,
+        private readonly _customEffectPropertiesService: CustomEffectPropertiesService,
         private readonly _effectsGenerationService: EffectsGenerationService,
     ) {
         this.init();
@@ -69,11 +69,11 @@ export class AppInitService {
                 this._spellsDataService.initialize();
                 this._skillsDataService.initialize();
                 this._itemsService.initialize();
-                this._deitiesService.initialize();
+                this._deitiesDataService.initialize();
                 this._animalCompanionsDataService.initialize();
                 this._familiarsService.initialize();
                 this._messageService.initialize();
-                this._customEffectsService.initialize();
+                this._customEffectPropertiesService.initialize();
                 this._effectsGenerationService.initialize();
             }
         }, Defaults.waitForServiceDelay);
@@ -90,7 +90,7 @@ export class AppInitService {
                     this._spellsDataService.stillLoading ||
                     this._skillsDataService.stillLoading ||
                     this._itemsService.stillLoading ||
-                    this._deitiesService.stillLoading ||
+                    this._deitiesDataService.stillLoading ||
                     this._animalCompanionsDataService.stillLoading ||
                     this._familiarsService.stillLoading
                 )

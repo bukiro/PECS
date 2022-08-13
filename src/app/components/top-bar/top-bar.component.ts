@@ -6,7 +6,7 @@ import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { MessageService } from 'src/app/services/message.service';
 import { TimeService } from 'src/app/services/time.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from 'src/app/core/services/config/config.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';

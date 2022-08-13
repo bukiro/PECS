@@ -10,11 +10,8 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
-import { DefenseService } from 'src/app/services/defense.service';
-import { ItemsService } from 'src/app/services/items.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { RefreshService } from 'src/app/services/refresh.service';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { Defaults } from '../../definitions/defaults';
@@ -34,20 +31,17 @@ export class ConditionProcessingService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _itemsService: ItemsService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _healthService: HealthService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
-        private readonly _spellsService: SpellPropertiesService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
-        private readonly _defenseService: DefenseService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
     ) { }
@@ -450,7 +444,7 @@ export class ConditionProcessingService {
 
         //Leave cover behind shield if the Cover condition is removed.
         if (condition.name === 'Cover' && (!taken || (gain.choice !== 'Greater'))) {
-            this._defenseService.equippedCreatureShield(creature).forEach(shield => {
+            this._creatureEquipmentService.equippedCreatureShield(creature).forEach(shield => {
                 if (shield.takingCover) {
                     shield.takingCover = false;
                     this._refreshService.prepareDetailToChange(creature.type, 'defense');

@@ -14,7 +14,7 @@ import { Ability } from 'src/app/classes/Ability';
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Deity } from 'src/app/classes/Deity';
-import { DeitiesService } from 'src/app/services/deities.service';
+import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
@@ -32,7 +32,7 @@ import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Activity } from 'src/app/classes/Activity';
 import { Domain } from 'src/app/classes/Domain';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from 'src/app/core/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { RefreshService } from 'src/app/services/refresh.service';
@@ -72,6 +72,7 @@ import { CharacterLoreService } from 'src/libs/shared/services/character-lore/ch
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -114,7 +115,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _featsService: FeatsService,
         private readonly _historyService: HistoryService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _deitiesService: DeitiesService,
+        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _animalCompanionAncestryService: AnimalCompanionAncestryService,
@@ -135,6 +136,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _characterLoreService: CharacterLoreService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -457,7 +459,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public alignments(): Array<string> {
-        const deity: Deity = this.character.class?.deity ? this._deitiesService.deities(this.character.class.deity)[0] : null;
+        const deity: Deity = this.character.class?.deity ? this._deitiesDataService.deities(this.character.class.deity)[0] : null;
         const alignments = [
             '',
             ...Object.values(Alignments),
@@ -1102,7 +1104,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                             .map((domain, index) => ({
                                 title: index ? '' : 'Deity\'s Domains',
                                 type: DomainTypes.Domains,
-                                domain: this._deitiesService.domainFromName(domain) || new Domain(),
+                                domain: this._deitiesDataService.domainFromName(domain) || new Domain(),
                             })),
                     )
                     .concat(
@@ -1110,11 +1112,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
                             .map((domain, index) => ({
                                 title: index ? '' : 'Deity\'s Alternate Domains',
                                 type: DomainTypes.AlternateDomains,
-                                domain: this._deitiesService.domainFromName(domain) || new Domain(),
+                                domain: this._deitiesDataService.domainFromName(domain) || new Domain(),
                             })),
                     )
                     .concat(
-                        this._deitiesService.domains()
+                        this._deitiesDataService.domains()
                             .filter(domain =>
                                 !deity.domains.includes(domain.name) &&
                                 !deity.alternateDomains.includes(domain.name),
@@ -1393,7 +1395,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             data.setValue('deity', '');
         }
 
-        this._deitiesService.clearCharacterDeities();
+        this._characterDeitiesService.clearCharacterDeities();
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
@@ -1470,7 +1472,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const wordFilter = this.deityWordFilter.toLowerCase();
 
         //Certain classes need to choose a deity allowing their alignment.
-        return this._deitiesService.deities(name).filter(deity =>
+        return this._deitiesDataService.deities(name).filter(deity =>
             (
                 shouldShowOtherOptions ||
                 (

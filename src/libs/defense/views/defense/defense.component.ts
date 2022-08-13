@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { DefenseService } from 'src/app/services/defense.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { TraitsService } from 'src/app/services/traits.service';
 import { Armor } from 'src/app/classes/Armor';
 import { CharacterService } from 'src/app/services/character.service';
@@ -53,7 +53,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _defenseService: DefenseService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _traitsService: TraitsService,
         private readonly _toastService: ToastService,
         private readonly _armorClassService: ArmorClassService,
@@ -173,8 +173,8 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     public equippedArmor(): Array<Armor | WornItem> {
         return []
-            .concat(this._defenseService.equippedCreatureArmor(this._currentCreature))
-            .concat(this._defenseService.equippedCreatureBracersOfArmor(this._currentCreature));
+            .concat(this._creatureEquipmentService.equippedCreatureArmor(this._currentCreature))
+            .concat(this._creatureEquipmentService.equippedCreatureBracersOfArmor(this._currentCreature));
     }
 
     public hintShowingRunes(armor: Armor | WornItem): Array<ArmorRune> {
@@ -191,7 +191,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public equippedShield(): Array<Shield> {
-        return this._defenseService.equippedCreatureShield(this._currentCreature);
+        return this._creatureEquipmentService.equippedCreatureShield(this._currentCreature);
     }
 
     public onChangeShieldHP(shield: Shield, amount: number): void {

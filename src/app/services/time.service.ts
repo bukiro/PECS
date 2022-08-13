@@ -8,11 +8,11 @@ import { Character } from 'src/app/classes/Character';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { ToastService } from 'src/app/services/toast.service';
-import { CustomEffectsService } from 'src/app/services/customEffects.service';
+import { CustomEffectsTimeService } from 'src/libs/time/services/custom-effects-time/custom-effects-time.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Creature } from 'src/app/classes/Creature';
-import { TimePeriods } from '../../libs/shared/definitions/timePeriods';
-import { ActivitiesTimeService } from '../../libs/time/services/activities-time/activities-time.service';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { ActivitiesTimeService } from 'src/libs/time/services/activities-time/activities-time.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
@@ -32,7 +32,7 @@ export class TimeService {
 
     constructor(
         private readonly _activitiesTimeService: ActivitiesTimeService,
-        private readonly _customEffectsService: CustomEffectsService,
+        private readonly _customEffectsTimeService: CustomEffectsTimeService,
         private readonly _effectsService: EffectsService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
@@ -293,7 +293,7 @@ export class TimeService {
                         this._refreshService.prepareDetailToChange(creature.type, 'effects');
                     }
 
-                    this._customEffectsService.tickCustomEffects(creature, creatureTurns);
+                    this._customEffectsTimeService.tickCustomEffects(creature, creatureTurns);
                     this._itemsService.tickItems((creature as AnimalCompanion | Character), creatureTurns);
 
                     if (creature.isCharacter()) {

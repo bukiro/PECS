@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
-import { DiceService } from 'src/app/services/dice.service';
+import { DiceService } from 'src/libs/dice/services/dice.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { IntegrationsService } from 'src/app/services/integrations.service';
 import { RefreshService } from 'src/app/services/refresh.service';

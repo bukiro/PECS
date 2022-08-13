@@ -6,7 +6,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { Shield } from 'src/app/classes/Shield';
 import { CharacterService } from 'src/app/services/character.service';
-import { DefenseService } from 'src/app/services/defense.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { EffectsService } from 'src/app/services/effects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -38,7 +38,7 @@ export class ArmorClassService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _effectsService: EffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
-        private readonly _defenseService: DefenseService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _refreshService: RefreshService,
     ) { }
@@ -242,7 +242,7 @@ export class ArmorClassService {
             explain = `${ effect.source }: ${ effect.setValue }`;
         });
 
-        const armors = this._defenseService.equippedCreatureArmor(armorCreature);
+        const armors = this._creatureEquipmentService.equippedCreatureArmor(armorCreature);
 
         if (!isBaseArmorBonusSet && !!armors.length) {
             const armor = armors[0];

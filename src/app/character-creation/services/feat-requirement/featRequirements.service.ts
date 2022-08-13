@@ -19,7 +19,8 @@ import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deit
 import { FeatsService } from 'src/app/services/feats.service';
 import { FamiliarsService } from 'src/app/services/familiars.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { DeitiesService } from 'src/app/services/deities.service';
+import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 
 @Injectable({
     providedIn: 'root',
@@ -34,8 +35,9 @@ export class FeatRequirementsService {
         private readonly _deityDomainsService: DeityDomainsService,
         private readonly _featsService: FeatsService,
         private readonly _familiarsService: FamiliarsService,
-        private readonly _deitiesService: DeitiesService,
+        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _itemsService: ItemsService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
     ) { }
 
     public static prof(skillLevel: number): string {
@@ -709,7 +711,7 @@ export class FeatRequirementsService {
                 complexreq.countDeities?.forEach(deityreq => {
                     if (!hasThisRequirementFailed) {
                         const allDeities: Array<Deity> =
-                            this._deitiesService.currentCharacterDeities(character, '', charLevel);
+                            this._characterDeitiesService.currentCharacterDeities(character, '', charLevel);
                         let deities: Array<Deity> = (!deityreq.query.secondOnly ? [allDeities[0]] : [])
                             .concat(!deityreq.query.firstOnly ? [allDeities[1]] : [])
                             .filter(deity => !!deity);
@@ -792,7 +794,7 @@ export class FeatRequirementsService {
                 complexreq.countFavoredWeapons?.forEach(favoredweaponreq => {
                     if (!hasThisRequirementFailed) {
                         const allDeities: Array<Deity> =
-                            this._deitiesService.currentCharacterDeities(character, '', charLevel);
+                            this._characterDeitiesService.currentCharacterDeities(character, '', charLevel);
                         let favoredWeapons: Array<string> = [].concat(...allDeities.map(deity => deity.favoredWeapon));
 
                         if (favoredweaponreq.query.havingAnyOfProficiencies) {

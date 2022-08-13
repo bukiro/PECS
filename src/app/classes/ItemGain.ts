@@ -1,4 +1,4 @@
-import { ItemGainOnOptions } from '../../libs/shared/definitions/itemGainOptions';
+import { ItemGainOnOptions } from 'src/libs/shared/definitions/itemGainOptions';
 import { Item } from './Item';
 import { Rune } from './Rune';
 

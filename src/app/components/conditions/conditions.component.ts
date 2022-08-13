@@ -4,7 +4,6 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Condition } from 'src/app/classes/Condition';
 import { TimeService } from 'src/app/services/time.service';
-import { EffectsService } from 'src/app/services/effects.service';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemsService } from 'src/app/services/items.service';
@@ -16,7 +15,6 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { Equipment } from 'src/app/classes/Equipment';
 import { Consumable } from 'src/app/classes/Consumable';
 import { EvaluationService } from 'src/app/services/evaluation.service';
-import { CustomEffectsService } from 'src/app/services/customEffects.service';
 import { RefreshService } from 'src/app/services/refresh.service';
 import { Subscription } from 'rxjs';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -32,6 +30,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CustomEffectPropertiesService } from 'src/libs/shared/services/custom-effect-properties/custom-effect-properties.service';
 
 const itemsPerPage = 40;
 
@@ -98,11 +97,10 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _effectsService: EffectsService,
         private readonly _itemsService: ItemsService,
         private readonly _timeService: TimeService,
         private readonly _evaluationService: EvaluationService,
-        private readonly _customEffectsService: CustomEffectsService,
+        private readonly _customEffectPropertiesService: CustomEffectPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -522,7 +520,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     public customEffectProperties(): Array<ItemProperty> {
         const propertyData = (key: string): ItemProperty =>
-            this._customEffectsService.effectProperties.find(property => property.key === key);
+            this._customEffectPropertiesService.effectProperties.find(property => property.key === key);
 
         return Object.keys(this.newEffect)
             .map(key => propertyData(key))

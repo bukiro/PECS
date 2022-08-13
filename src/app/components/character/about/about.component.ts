@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import welcome from 'src/assets/json/about/welcome.json';
 import hints from 'src/assets/json/about/hints.json';
 import changelog from 'src/assets/json/about/changelog.json';
-import { ConfigService } from 'src/app/services/config.service';
+import { ConfigService } from 'src/app/core/services/config/config.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 
 interface ChangeLog {
