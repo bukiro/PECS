@@ -1,20 +1,18 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Rune } from 'src/app/classes/Rune';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Weapon } from 'src/app/classes/Weapon';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 interface RuneSet {
     rune: WeaponRune;
@@ -37,10 +35,8 @@ export class ItemBladeAllyComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
-        private readonly _spellsService: SpellPropertiesService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         public trackers: Trackers,
     ) { }
 
@@ -158,8 +154,8 @@ export class ItemBladeAllyComponent implements OnInit {
             if (rune.name !== '') {
                 //Add a copy of the rune to the item
                 weapon.bladeAllyRunes[0] =
-                    Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune)))
-                        .recast(this._itemsService);
+                    Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(rune)))
+                        .recast(this._itemsDataService);
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }
@@ -212,7 +208,7 @@ export class ItemBladeAllyComponent implements OnInit {
     }
 
     private _cleanItems(): ItemCollection {
-        return this._itemsService.cleanItems();
+        return this._itemsDataService.cleanItems();
     }
 
 }

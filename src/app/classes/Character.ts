@@ -4,7 +4,6 @@ import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { Class } from 'src/app/classes/Class';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { ItemsService } from 'src/app/services/items.service';
 import { Settings } from 'src/app/classes/Settings';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilityBoost } from 'src/app/classes/AbilityBoost';
@@ -14,6 +13,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Character extends Creature {
     public readonly type = CreatureTypes.Character;
@@ -37,9 +37,9 @@ export class Character extends Creature {
     public yourTurn = 0;
     public get requiresConForHP(): boolean { return true; }
 
-    public recast(itemsService: ItemsService): Character {
-        super.recast(itemsService);
-        this.class = Object.assign(new Class(), this.class).recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): Character {
+        super.recast(itemsDataService);
+        this.class = Object.assign(new Class(), this.class).recast(itemsDataService);
         this.customFeats = this.customFeats.map(obj => Object.assign(new Feat(), obj).recast());
         this.settings = Object.assign(new Settings(), this.settings);
 

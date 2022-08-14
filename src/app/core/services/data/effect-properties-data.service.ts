@@ -6,7 +6,7 @@ import { ExtensionsService } from 'src/app/core/services/data/extensions.service
 @Injectable({
     providedIn: 'root',
 })
-export class CustomEffectPropertiesService {
+export class EffectPropertiesDataService {
 
     private _effectProperties: Array<ItemProperty> = [];
 

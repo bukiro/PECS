@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { ItemsService } from 'src/app/services/items.service';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class HeldItem extends Equipment {
     // Worn Items cannot be equipped or unequipped
@@ -9,8 +9,8 @@ export class HeldItem extends Equipment {
     /** How is this item held when used? Example: "held in one hand" */
     public usage = '';
 
-    public recast(itemsService: ItemsService): HeldItem {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): HeldItem {
+        super.recast(itemsDataService);
 
         return this;
     }

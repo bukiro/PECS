@@ -6,13 +6,13 @@ import { v4 as uuidv4 } from 'uuid';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { Skill } from 'src/app/classes/Skill';
 import { Effect } from 'src/app/classes/Effect';
-import { ItemsService } from 'src/app/services/items.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AnimalCompanion } from './AnimalCompanion';
 import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { AbilityBoost } from './AbilityBoost';
 import { SkillIncrease } from './SkillIncrease';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export interface SkillNotes {
     name: string;
@@ -38,12 +38,12 @@ export abstract class Creature {
     public skillNotes: Array<SkillNotes> = [];
     public get requiresConForHP(): boolean { return false; }
 
-    public recast(itemsService: ItemsService): Creature {
+    public recast(itemsDataService: ItemsDataService): Creature {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.health = Object.assign(new Health(), this.health).recast();
         this.conditions = this.conditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.inventories = this.inventories.map(obj => Object.assign(new ItemCollection(), obj).recast(itemsService));
+        this.inventories = this.inventories.map(obj => Object.assign(new ItemCollection(), obj).recast(itemsDataService));
         this.speeds = this.speeds.map(obj => Object.assign(new Speed(), obj).recast());
 
         return this;

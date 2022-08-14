@@ -3,8 +3,6 @@ import { CharacterService } from 'src/app/services/character.service';
 import { Condition, OtherConditionSelection } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
-import { ItemsService } from 'src/app/services/items.service';
-import { TimeService } from 'src/libs/time/services/time/time.service';
 import { Creature } from 'src/app/classes/Creature';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -57,8 +55,6 @@ export class ConditionComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _timeService: TimeService,
-        private readonly _itemsService: ItemsService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,

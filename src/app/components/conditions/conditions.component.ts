@@ -6,7 +6,6 @@ import { Condition } from 'src/app/classes/Condition';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { ItemsService } from 'src/app/services/items.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Skill } from 'src/app/classes/Skill';
 import { Ability } from 'src/app/classes/Ability';
@@ -30,8 +29,9 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { CustomEffectPropertiesService } from 'src/libs/shared/services/custom-effect-properties/custom-effect-properties.service';
+import { EffectPropertiesDataService } from 'src/app/core/services/data/effect-properties-data.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 const itemsPerPage = 40;
 
@@ -98,10 +98,10 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _timeService: TimeService,
         private readonly _evaluationService: EvaluationService,
-        private readonly _customEffectPropertiesService: CustomEffectPropertiesService,
+        private readonly _customEffectPropertiesService: EffectPropertiesDataService,
         private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
@@ -683,7 +683,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     private _cleanItems(): ItemCollection {
-        return this._itemsService.cleanItems();
+        return this._itemsDataService.cleanItems();
     }
 
     private _characterInventories(): Array<ItemCollection> {

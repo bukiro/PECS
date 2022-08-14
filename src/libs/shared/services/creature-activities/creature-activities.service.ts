@@ -6,12 +6,12 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
-import { ItemsService } from 'src/app/services/items.service';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
 import { SortAlphaNum } from '../../util/sortUtils';
 import { ActivityGainPropertiesService } from '../activity-gain-properties/activity-gain-properties.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,8 +21,8 @@ export class CreatureActivitiesService {
     constructor(
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _itemsService: ItemsService,
         private readonly _traitsDataService: TraitsDataService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
     ) { }
 
 
@@ -114,7 +114,7 @@ export class CreatureActivitiesService {
             });
         } else {
             //Without the all parameter, get activities only from equipped and invested items and their slotted items.
-            const hasTooManySlottedAeonStones = this._itemsService.hasTooManySlottedAeonStones(creature);
+            const hasTooManySlottedAeonStones = this._creatureEquipmentService.hasTooManySlottedAeonStones(creature);
 
             creature.inventories[0]?.allEquipment()
                 .filter(item =>

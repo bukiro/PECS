@@ -5,8 +5,7 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { WornItem } from 'src/app/classes/WornItem';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { ItemsService } from 'src/app/services/items.service';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,9 +13,8 @@ import { SpellPropertiesService } from 'src/libs/shared/services/spell-propertie
 export class EquipmentSpellsService {
 
     constructor(
-        private readonly _itemsService: ItemsService,
-        private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
     ) { }
 
     public allGrantedEquipmentSpells(creature: Creature): Array<{ choice: SpellChoice; gain: SpellGain }> {
@@ -60,7 +58,7 @@ export class EquipmentSpellsService {
             (options.cantripAllowed || (!this._spellsDataService.spellFromName(gain.name)?.traits.includes('Cantrip')))
         );
 
-        const hasTooManySlottedAeonStones = this._itemsService.hasTooManySlottedAeonStones(creature);
+        const hasTooManySlottedAeonStones = this._creatureEquipmentService.hasTooManySlottedAeonStones(creature);
 
         creature.inventories[0].allEquipment()
             .filter(equipment => equipment.investedOrEquipped())

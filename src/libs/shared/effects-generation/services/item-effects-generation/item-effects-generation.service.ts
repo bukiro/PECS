@@ -5,8 +5,8 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Rune } from 'src/app/classes/Rune';
 import { Specialization } from 'src/app/classes/Specialization';
 import { WornItem } from 'src/app/classes/WornItem';
-import { ItemsService } from 'src/app/services/items.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ItemEffectsGenerationService {
 
     constructor(
         private readonly _armorPropertiesService: ArmorPropertiesService,
-        private readonly _itemsService: ItemsService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
     ) { }
 
     public collectEffectItems(
@@ -44,7 +44,7 @@ export class ItemEffectsGenerationService {
         });
 
         //If too many wayfinders are invested with slotted aeon stones, all aeon stone effects are ignored.
-        if (this._itemsService.hasTooManySlottedAeonStones(creature)) {
+        if (this._creatureEquipmentService.hasTooManySlottedAeonStones(creature)) {
             objects = objects.filter(object => !(object instanceof WornItem && object.isSlottedAeonStone));
             hintSets = hintSets.filter(set => !(set.parentItem && set.parentItem instanceof WornItem && set.parentItem.isSlottedAeonStone));
         }

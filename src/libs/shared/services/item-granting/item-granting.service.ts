@@ -5,8 +5,8 @@ import { Item } from 'src/app/classes/Item';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class ItemGrantingService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _toastService: ToastService,
     ) { }
 
@@ -35,7 +35,7 @@ export class ItemGrantingService {
             }
         } else {
             const newItem: Item =
-                this._itemsService.cleanItems()[itemGain.type.toLowerCase()].find((item: Item) => itemGain.isMatchingItem(item));
+                this._itemsDataService.cleanItems()[itemGain.type.toLowerCase()].find((item: Item) => itemGain.isMatchingItem(item));
 
             if (newItem) {
                 if (newItem.canStack()) {
@@ -205,7 +205,7 @@ export class ItemGrantingService {
 
             if (favoredWeaponNames.length) {
                 const favoredWeapons: Array<Weapon> =
-                    this._itemsService.cleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
+                    this._itemsDataService.cleanItems().weapons.filter(weapon => favoredWeaponNames.includes(weapon.name));
 
                 if (favoredWeapons.length) {
                     const grantedItemIDs: Array<string> = [];

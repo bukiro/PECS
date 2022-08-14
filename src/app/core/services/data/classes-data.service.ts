@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Class } from 'src/app/classes/Class';
 import * as json_classes from 'src/assets/json/classes';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { ItemsService } from 'src/app/services/items.service';
+import { ItemsDataService } from './items-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,7 +15,7 @@ export class ClassesDataService {
     private readonly _classesMap = new Map<string, Class>();
 
     constructor(
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _extensionsService: ExtensionsService,
     ) { }
 
@@ -62,7 +62,7 @@ export class ClassesDataService {
         Object.keys(data).forEach(key => {
             this._classes.push(
                 ...data[key].map((obj: Class) =>
-                    Object.assign(new Class(), obj).recast(this._itemsService),
+                    Object.assign(new Class(), obj).recast(this._itemsDataService),
                 ),
             );
         });

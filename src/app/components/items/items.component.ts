@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { ItemsService } from 'src/app/services/items.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
@@ -42,6 +41,9 @@ import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-propert
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { ItemPropertiesDataService } from 'src/app/core/services/data/item-properties-data.service';
+import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -95,7 +97,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
+        private readonly _itemPropertiesDataService: ItemPropertiesDataService,
+        private readonly _itemInitializationService: ItemInitializationService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
@@ -108,7 +112,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     ) { }
 
     public get stillLoading(): boolean {
-        return this._itemsService.stillLoading || this._characterService.stillLoading;
+        return this._itemsDataService.stillLoading || this._characterService.stillLoading;
     }
 
     public get isInventoryMinimized(): boolean {
@@ -294,14 +298,14 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     public items(): ItemCollection {
         if (this.selectedPurpose() === 'formulas') {
-            return this._itemsService.craftingItems();
+            return this._itemsDataService.craftingItems();
         } else {
-            return this._itemsService.storeItems();
+            return this._itemsDataService.storeItems();
         }
     }
 
     public itemsToCopy(type: string): Array<Equipment | Consumable> {
-        return this._itemsService.cleanItems()[type]
+        return this._itemsDataService.cleanItems()[type]
             .filter((item: Equipment | Consumable) => !item.hide)
             .sort((a: Equipment | Consumable, b: Equipment | Consumable) => SortAlphaNum(a.name + a.id, b.name + b.id));
     }
@@ -443,7 +447,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
         if (this.newItem) {
             this.newItem =
-                this._itemsService.initializeItem(
+                this._itemInitializationService.initializeItem(
                     this.newItem,
                     { preassigned: true, newId: false, resetPropertyRunes: false },
                 ) as Equipment | Consumable;
@@ -452,7 +456,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     public newItemProperties(): Array<ItemProperty> {
         const ItemPropertyFromKey = (key: string): ItemProperty =>
-            this._itemsService.itemProperties().find(property => !property.parent && property.key === key);
+            this._itemPropertiesDataService.itemProperties().find(property => !property.parent && property.key === key);
 
         return Object.keys(this.newItem)
             .map(key => ItemPropertyFromKey(key))
@@ -461,7 +465,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public copyItemForCustomItem(item: Equipment | Consumable): void {
-        this.newItem = this._itemsService.initializeItem(JSON.parse(JSON.stringify(item))) as Equipment | Consumable;
+        this.newItem = this._itemInitializationService.initializeItem(JSON.parse(JSON.stringify(item))) as Equipment | Consumable;
         this.toggleShownItem();
     }
 

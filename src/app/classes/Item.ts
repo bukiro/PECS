@@ -3,7 +3,6 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Oil } from 'src/app/classes/Oil';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { ItemGainOnOptions } from 'src/libs/shared/definitions/itemGainOptions';
 import { Equipment } from './Equipment';
 import { Armor } from './Armor';
@@ -13,6 +12,7 @@ import { Wand } from './Wand';
 import { Consumable } from './Consumable';
 import { Scroll } from './Scroll';
 import { Shield } from './Shield';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export interface TraitActivation {
     trait: string;
@@ -140,12 +140,12 @@ export class Item {
         return this.level.toString().padStart(twoDigits, '0');
     }
 
-    public recast(itemsService: ItemsService): Item {
+    public recast(itemsDataService: ItemsDataService): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
         this.oilsApplied =
             this.oilsApplied.map(obj =>
-                (TypeService.classCast(TypeService.restoreItem(obj, itemsService), 'Oil') as Oil).recast(itemsService),
+                (TypeService.classCast(TypeService.restoreItem(obj, itemsDataService), 'Oil') as Oil).recast(itemsDataService),
             );
         this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.storedSpells.forEach((choice: SpellChoice, index) => {

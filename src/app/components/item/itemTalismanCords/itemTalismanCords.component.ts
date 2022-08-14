@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -13,6 +12,7 @@ import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 interface TalismanCordSet {
     talismanCord: WornItem;
@@ -35,8 +35,8 @@ export class ItemTalismanCordsComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
+        private readonly _itemsDataService: ItemsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -108,10 +108,10 @@ export class ItemTalismanCordsComponent implements OnInit {
             if (cord.name !== '') {
                 //Add a copy of the cord to the item
                 const newLength = item.talismanCords.push(
-                    Object.assign(
+                    Object.assign<WornItem, WornItem>(
                         new WornItem(),
                         JSON.parse(JSON.stringify(cord)),
-                    ).recast(this._itemsService));
+                    ).recast(this._itemsDataService));
                 const newCord = item.talismanCords[newLength - 1];
 
                 newCord.amount = 1;

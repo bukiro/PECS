@@ -2,7 +2,6 @@ import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
 import { Background } from 'src/app/classes/Background';
-import { ItemsService } from 'src/app/services/items.service';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Skill } from 'src/app/classes/Skill';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -20,6 +19,7 @@ import { LoreChoice } from './LoreChoice';
 import { SpellChoice } from './SpellChoice';
 import { Item } from './Item';
 import { Spell } from './Spell';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Class {
     public disabled = '';
@@ -52,14 +52,14 @@ export class Class {
     public spellList: Array<SpellLearned> = [];
     public formulaBook: Array<FormulaLearned> = [];
 
-    public recast(itemsService: ItemsService): Class {
+    public recast(itemsDataService: ItemsDataService): Class {
         this.activities = this.activities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.ancestry = Object.assign(new Ancestry(), this.ancestry).recast();
-        this.animalCompanion = Object.assign(new AnimalCompanion(), this.animalCompanion).recast(itemsService);
+        this.animalCompanion = Object.assign(new AnimalCompanion(), this.animalCompanion).recast(itemsDataService);
         this.background = Object.assign(new Background(), this.background).recast();
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.featData = this.featData.map(obj => Object.assign(new FeatData(obj.level, obj.featName, obj.sourceId), obj).recast());
-        this.familiar = Object.assign(new Familiar(), this.familiar).recast(itemsService);
+        this.familiar = Object.assign(new Familiar(), this.familiar).recast(itemsDataService);
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.heritage = Object.assign(new Heritage(), this.heritage).recast();
         this.additionalHeritages = this.additionalHeritages.map(obj => Object.assign(new AdditionalHeritage(), obj).recast());

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
-import { ItemsService } from 'src/app/services/items.service';
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from 'src/app/core/services/config/config.service';
@@ -15,6 +14,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { SavegamesService } from '../savegames/savegames.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 
 interface SaveCharacterResponse {
@@ -34,7 +34,7 @@ export class CharacterSavingService {
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
         private readonly _classSavingLoadingService: ClassSavingLoadingService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _historySavingLoadingService: HistorySavingLoadingService,
         private readonly _characterService: CharacterService,
         private readonly _timeService: TimeService,
@@ -78,7 +78,11 @@ export class CharacterSavingService {
     private _prepareCharacterForSaving(character: Character): Partial<Character> {
 
         //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
-        const savegame = Object.assign(new Character(), JSON.parse(JSON.stringify(character))).recast(this._itemsService);
+        const savegame =
+            Object.assign<Character, Character>(
+                new Character(),
+                JSON.parse(JSON.stringify(character)),
+            ).recast(this._itemsDataService);
 
         const versionString: string = package_json.version;
 
@@ -153,7 +157,7 @@ export class CharacterSavingService {
                 //For items with a refId, don't compare them with blank items, but with their reference item if it exists.
                 //If none can be found, the reference item is a blank item of the same class.
                 if (object instanceof Item && object.refId) {
-                    blank = this._itemsService.cleanItemFromID(object.refId);
+                    blank = this._itemsDataService.cleanItemFromID(object.refId);
                 }
 
                 if (!blank) {

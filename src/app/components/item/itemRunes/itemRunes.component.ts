@@ -1,11 +1,6 @@
 //TO-DO: See if this still works
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
-import { TimeService } from 'src/libs/time/services/time/time.service';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -26,6 +21,7 @@ import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 interface RuneItemType {
     armor: boolean;
@@ -92,12 +88,8 @@ export class ItemRunesComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
-        private readonly _timeService: TimeService,
-        private readonly _activitiesDataService: ActivitiesDataService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
-        private readonly _spellsService: SpellPropertiesService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _durationsService: DurationsService,
@@ -272,14 +264,14 @@ export class ItemRunesComponent implements OnInit {
                 // Add a copy of the rune to the item
                 const newLength =
                     item.propertyRunes.push(
-                        Object.assign(
+                        Object.assign<ArmorRune | WeaponRune, ArmorRune | WeaponRune>(
                             (
                                 runeItemType.armor
                                     ? new ArmorRune()
                                     : new WeaponRune()
                             ),
                             JSON.parse(JSON.stringify(rune)),
-                        ).recast(this._itemsService));
+                        ).recast(this._itemsDataService));
                 const newRune = item.propertyRunes[newLength - 1];
 
                 newRune.amount = 1;
@@ -810,7 +802,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     private _cleanItems(): ItemCollection {
-        return this._itemsService.cleanItems();
+        return this._itemsDataService.cleanItems();
     }
 
     private _returnPropertyRuneToInventory(index: number): void {

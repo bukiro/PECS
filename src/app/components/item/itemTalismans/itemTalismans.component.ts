@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { Talisman } from 'src/app/classes/Talisman';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -15,6 +14,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 interface TalismanOption {
     talisman: Talisman;
@@ -40,7 +40,7 @@ export class ItemTalismansComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         public trackers: Trackers,
     ) { }
@@ -151,10 +151,10 @@ export class ItemTalismansComponent implements OnInit {
             if (talisman.name !== '') {
                 //Add a copy of Talisman to the item
                 const newLength = item.talismans.push(
-                    Object.assign(
+                    Object.assign<Talisman, Talisman>(
                         new Talisman(),
                         JSON.parse(JSON.stringify(talisman)),
-                    ).recast(this._itemsService));
+                    ).recast(this._itemsDataService));
                 const newTalisman = item.talismans[newLength - 1];
 
                 newTalisman.amount = 1;
@@ -226,7 +226,7 @@ export class ItemTalismansComponent implements OnInit {
     }
 
     private _cleanItems(): ItemCollection {
-        return this._itemsService.cleanItems();
+        return this._itemsDataService.cleanItems();
     }
 
     private _isTalismanCompatibleWithTalismanCord(talisman: Talisman): boolean {

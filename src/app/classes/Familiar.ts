@@ -1,12 +1,12 @@
 import { Creature } from './Creature';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
-import { ItemsService } from 'src/app/services/items.service';
 import { Skill } from 'src/app/classes/Skill';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureSizes } from 'src/libs/shared/definitions/creatureSizes';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityBoost } from './AbilityBoost';
 import { SkillIncrease } from './SkillIncrease';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Familiar extends Creature {
     public readonly type = CreatureTypes.Familiar;
@@ -26,8 +26,8 @@ export class Familiar extends Creature {
     public traits: Array<string> = ['Minion'];
     public get requiresConForHP(): boolean { return false; }
 
-    public recast(itemsService: ItemsService): Familiar {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): Familiar {
+        super.recast(itemsDataService);
         this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
 
         return this;

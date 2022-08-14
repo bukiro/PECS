@@ -1,17 +1,15 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/classes/Item';
 import { Oil } from 'src/app/classes/Oil';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { TimeService } from 'src/libs/time/services/time/time.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 interface OilSet {
     oil: Oil;
@@ -37,9 +35,7 @@ export class ItemOilsComponent {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
-        private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _timeService: TimeService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _durationsService: DurationsService,
         public trackers: Trackers,
     ) { }
@@ -59,7 +55,7 @@ export class ItemOilsComponent {
         allOils[0].oil.name = '';
 
         if (this.itemStore) {
-            allOils.push(...this._itemsService.cleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil, inv: null })));
+            allOils.push(...this._itemsDataService.cleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil, inv: null })));
         } else {
             this._character.inventories.forEach(inv => {
                 allOils.push(...inv.oils.filter(oil => oil.targets.length && oil.amount).map(oil => ({ oil, inv })));
@@ -101,10 +97,10 @@ export class ItemOilsComponent {
         if (this.newOil.oil.name) {
             const item = this.item;
             const newLength = item.oilsApplied.push(
-                Object.assign(
+                Object.assign<Oil, Oil>(
                     new Oil(),
                     JSON.parse(JSON.stringify(this.newOil.oil)),
-                ).recast(this._itemsService),
+                ).recast(this._itemsDataService),
             );
 
             if (this.newOil.inv) {

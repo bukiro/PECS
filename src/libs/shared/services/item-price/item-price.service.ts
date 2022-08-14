@@ -4,7 +4,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
-import { ItemsService } from 'src/app/services/items.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +12,7 @@ import { ItemsService } from 'src/app/services/items.service';
 export class ItemPriceService {
 
     constructor(
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
     ) { }
 
     public effectiveItemPrice(item: Item): number {
@@ -75,11 +75,11 @@ export class ItemPriceService {
 
         if (armor.moddable) {
             if (armor.potencyRune) {
-                price += this._itemsService.cleanItems().armorrunes.find(rune => rune.potency === armor.potencyRune).price;
+                price += this._itemsDataService.cleanItems().armorrunes.find(rune => rune.potency === armor.potencyRune).price;
             }
 
             if (armor.resilientRune) {
-                price += this._itemsService.cleanItems().armorrunes.find(rune => rune.resilient === armor.resilientRune).price;
+                price += this._itemsDataService.cleanItems().armorrunes.find(rune => rune.resilient === armor.resilientRune).price;
             }
         }
 
@@ -91,11 +91,11 @@ export class ItemPriceService {
 
         if (weapon.moddable) {
             if (weapon.potencyRune) {
-                price += this._itemsService.cleanItems().weaponrunes.find(rune => rune.potency === weapon.potencyRune).price;
+                price += this._itemsDataService.cleanItems().weaponrunes.find(rune => rune.potency === weapon.potencyRune).price;
             }
 
             if (weapon.strikingRune) {
-                price += this._itemsService.cleanItems().weaponrunes.find(rune => rune.striking === weapon.strikingRune).price;
+                price += this._itemsDataService.cleanItems().weaponrunes.find(rune => rune.striking === weapon.strikingRune).price;
             }
         }
 

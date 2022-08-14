@@ -3,13 +3,13 @@ import { Character } from 'src/app/classes/Character';
 import { Class } from 'src/app/classes/Class';
 import { Skill } from 'src/app/classes/Skill';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterAncestryChangeService } from '../character-ancestry-change/character-ancestry-change.service';
 import { CharacterBackgroundChangeService } from '../character-background-change/character-background-change.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { FeatProcessingService } from '../feat-processing/feat-processing.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,13 +18,13 @@ export class CharacterClassChangeService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _itemsService: ItemsService,
         private readonly _refreshService: RefreshService,
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _featProcessingService: FeatProcessingService,
+        private readonly _itemsDataService: ItemsDataService,
     ) { }
 
     public changeClass(newClass?: Class): void {
@@ -36,7 +36,7 @@ export class CharacterClassChangeService {
         this._processRemovingOldClass(character);
 
         if (newClass) {
-            character.class = Object.assign(new Class(), JSON.parse(JSON.stringify(newClass))).recast(this._itemsService);
+            character.class = Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify(newClass))).recast(this._itemsDataService);
 
             this._processNewClass(character);
         } else {

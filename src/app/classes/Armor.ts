@@ -1,6 +1,5 @@
 //TO-DO: Resolve private properties either not matching JSON import or not having an underscore, then use private properties.
 
-import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
@@ -11,6 +10,7 @@ import { AdventuringGear } from './AdventuringGear';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -62,13 +62,13 @@ export class Armor extends Equipment {
         this.resilientRune = value;
     }
 
-    public recast(itemsService: ItemsService): Armor {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): Armor {
+        super.recast(itemsDataService);
         this.propertyRunes =
             this.propertyRunes.map(obj =>
                 Object.assign<ArmorRune, Item>(
                     new ArmorRune(),
-                    TypeService.restoreItem(obj, itemsService)).recast(itemsService),
+                    TypeService.restoreItem(obj, itemsDataService)).recast(itemsDataService),
             );
         this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
 

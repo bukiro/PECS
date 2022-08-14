@@ -4,7 +4,6 @@ import { CharacterService } from 'src/app/services/character.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { ItemsService } from 'src/app/services/items.service';
 import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -12,6 +11,8 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { Character } from 'src/app/classes/Character';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
+import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.service';
+import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 
 @Component({
     selector: 'app-itemTarget',
@@ -37,9 +38,10 @@ export class ItemTargetComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _savegamesService: SavegamesService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemBulkService: ItemBulkService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _modalService: NgbModal,
+        private readonly _itemTransferService: ItemTransferService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -174,7 +176,7 @@ export class ItemTargetComponent implements OnInit {
     public containedBulkString(item: Item): string {
         const decimal = 10;
 
-        const containedBulk = this._itemsService.totalItemBulk(this._currentCreature, item, null, true);
+        const containedBulk = this._itemBulkService.totalItemBulk(this._currentCreature, item, null, true);
         const fullBulk = Math.floor(containedBulk);
         const lightBulk = (containedBulk * decimal - fullBulk * decimal);
 
@@ -259,7 +261,7 @@ export class ItemTargetComponent implements OnInit {
 
     private _cannotFit(target: ItemCollection | SpellTarget): boolean {
         if (target instanceof ItemCollection) {
-            return this._itemsService.cannotFitItemInContainer(
+            return this._itemTransferService.cannotFitItemInContainer(
                 this._currentCreature,
                 this.item,
                 target,

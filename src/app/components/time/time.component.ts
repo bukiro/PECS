@@ -1,10 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { ItemsService } from 'src/app/services/items.service';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -33,10 +29,6 @@ export class TimeComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _timeService: TimeService,
-        private readonly _itemsService: ItemsService,
-        private readonly _spellsService: SpellPropertiesService,
-        private readonly _effectsService: CreatureEffectsService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _durationsService: DurationsService,
         private readonly _timeBlockingService: TimeBlockingService,
         public trackers: Trackers,

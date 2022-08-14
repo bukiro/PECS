@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { ItemsService } from 'src/app/services/items.service';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Talisman extends Consumable {
     //Other Consumables should be type "talismans" to be found in the database
@@ -17,8 +17,8 @@ export class Talisman extends Consumable {
     public targets: Array<string> = [];
     public trigger = '';
 
-    public recast(itemsService: ItemsService): Talisman {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): Talisman {
+        super.recast(itemsDataService);
 
         return this;
     }

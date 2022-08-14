@@ -2,8 +2,8 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { v4 as uuidv4 } from 'uuid';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { ItemsService } from 'src/app/services/items.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class PlayerMessage {
     public id = uuidv4();
@@ -40,12 +40,12 @@ export class PlayerMessage {
     public turnChange = false;
     public ttl = Defaults.playerMessageTTL;
 
-    public recast(itemsService: ItemsService): PlayerMessage {
+    public recast(itemsDataService: ItemsDataService): PlayerMessage {
         this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
-        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(itemsService));
-        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(itemsService));
+        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(itemsDataService));
+        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(itemsDataService));
         this.includedInventories =
-            this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(itemsService));
+            this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(itemsDataService));
 
         return this;
     }

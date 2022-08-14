@@ -1,10 +1,10 @@
 import { Consumable } from 'src/app/classes/Consumable';
 import { Hint } from 'src/app/classes/Hint';
-import { ItemsService } from 'src/app/services/items.service';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Item } from './Item';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Oil extends Consumable {
     //Oils should be type "oils" to be found in the database
@@ -34,15 +34,15 @@ export class Oil extends Consumable {
     public targets: Array<string> = [];
     public weightLimit = 0;
 
-    public recast(itemsService: ItemsService): Oil {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): Oil {
+        super.recast(itemsDataService);
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.runeEffect = this.runeEffect
             ? Object.assign<WeaponRune, Item>(
                 new WeaponRune(),
-                TypeService.restoreItem(this.runeEffect, itemsService),
-            ).recast(itemsService)
+                TypeService.restoreItem(this.runeEffect, itemsDataService),
+            ).recast(itemsDataService)
             : null;
 
         return this;

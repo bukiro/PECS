@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { ItemsService } from 'src/app/services/items.service';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class AdventuringGear extends Equipment {
     //Adventuring Gear should be type "adventuringgear" to be found in the database
@@ -16,8 +16,8 @@ export class AdventuringGear extends Equipment {
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage = '';
 
-    public recast(itemsService: ItemsService): AdventuringGear {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): AdventuringGear {
+        super.recast(itemsDataService);
 
         return this;
     }

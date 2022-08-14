@@ -16,12 +16,10 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { SpellCastingTypeFromString, SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
-import { ItemsService } from 'src/app/services/items.service';
-import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -34,10 +32,8 @@ export class FeatRequirementsService {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _deityDomainsService: DeityDomainsService,
-        private readonly _featsDataService: FeatsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
-        private readonly _deitiesDataService: DeitiesDataService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _creatureFeatsService: CreatureFeatsService,
     ) { }
@@ -804,13 +800,13 @@ export class FeatRequirementsService {
 
                             favoredWeapons = favoredWeapons.filter(weaponName => {
                                 let weapon =
-                                    this._itemsService.cleanItems().weapons.find(cleanWeapon => (
+                                    this._itemsDataService.cleanItems().weapons.find(cleanWeapon => (
                                         cleanWeapon.name.toLowerCase() === weaponName.toLowerCase()
                                     ));
 
                                 if (!weapon) {
                                     weapon =
-                                        this._itemsService.cleanItems().weapons.find(cleanWeapon => (
+                                        this._itemsDataService.cleanItems().weapons.find(cleanWeapon => (
                                             cleanWeapon.weaponBase.toLowerCase() === weaponName.toLowerCase()
                                         ));
                                 }

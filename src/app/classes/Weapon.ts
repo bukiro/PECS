@@ -1,7 +1,6 @@
 import { Equipment } from 'src/app/classes/Equipment';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
-import { ItemsService } from 'src/app/services/items.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Item } from './Item';
@@ -10,6 +9,7 @@ import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficien
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 interface EmblazonArmamentSet {
     type: string;
@@ -91,20 +91,20 @@ export class Weapon extends Equipment {
         this.strikingRune = value;
     }
 
-    public recast(itemsService: ItemsService): Weapon {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): Weapon {
+        super.recast(itemsDataService);
         this.poisonsApplied =
             this.poisonsApplied.map(obj =>
                 Object.assign<AlchemicalPoison, Item>(
                     new AlchemicalPoison(),
-                    TypeService.restoreItem(obj, itemsService),
-                ).recast(itemsService));
+                    TypeService.restoreItem(obj, itemsDataService),
+                ).recast(itemsDataService));
         this.material = this.material.map(obj => Object.assign(new WeaponMaterial(), obj).recast());
         this.propertyRunes =
             this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(
                 new WeaponRune(),
-                TypeService.restoreItem(obj, itemsService),
-            ).recast(itemsService));
+                TypeService.restoreItem(obj, itemsDataService),
+            ).recast(itemsDataService));
 
         return this;
     }

@@ -12,7 +12,6 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Armor } from 'src/app/classes/Armor';
 import { Weapon } from 'src/app/classes/Weapon';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
@@ -88,6 +87,13 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { StatusService } from '../core/services/status/status.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
+import { ItemsDataService } from '../core/services/data/items-data.service';
+import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
+import { ItemSpecializationsDataService } from '../core/services/data/item-specializations-data.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
+import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { ItemProcessingService } from 'src/libs/shared/services/item-processing/item-processing.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -157,7 +163,7 @@ export class CharacterService {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
@@ -183,6 +189,11 @@ export class CharacterService {
         private readonly _statusService: StatusService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _creatureFeatsService: CreatureFeatsService,
+        private readonly _itemInitializationService: ItemInitializationService,
+        private readonly _itemSpecializationsDataService: ItemSpecializationsDataService,
+        private readonly _itemTransferService: ItemTransferService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
+        private readonly _itemProcessingService: ItemProcessingService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -650,11 +661,11 @@ export class CharacterService {
     }
 
     public cleanItems(): ItemCollection {
-        return this._itemsService.cleanItems();
+        return this._itemsDataService.cleanItems();
     }
 
     public itemGroupSpecializations(group = ''): Array<Specialization> {
-        return this._itemsService.specializations(group);
+        return this._itemSpecializationsDataService.specializations(group);
     }
 
     public creatureInvestedItems(creature: Creature): Array<Equipment> {
@@ -691,7 +702,7 @@ export class CharacterService {
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
 
         const newInventoryItem =
-            this._itemsService.initializeItem(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
+            this._itemInitializationService.initializeItem(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
         let returnedItem: Item;
         // Check if this item already exists in the inventory, and if it is stackable and doesn't expire.
         // Don't make that check if this item expires.
@@ -1302,7 +1313,7 @@ export class CharacterService {
             item.amount--;
         }
 
-        this._itemsService.processConsumable(creature, item);
+        this._itemProcessingService.processConsumable(creature, item);
         this._refreshService.prepareChangesByItem(
             creature,
             item,
@@ -1570,10 +1581,10 @@ export class CharacterService {
                         amount = item.amount;
                     }
 
-                    this._itemsService.updateGrantingItemBeforeTransfer(sender, item);
+                    this._itemTransferService.updateGrantingItemBeforeTransfer(sender, item);
 
                     const included: { items: Array<Item>; inventories: Array<ItemCollection> } =
-                        this._itemsService.packGrantingItemForTransfer(sender, item);
+                        this._itemTransferService.packGrantingItemForTransfer(sender, item);
                     //Build a message to the correct player and creature, with the timestamp just received from the database connector.
                     const message = new PlayerMessage();
 
@@ -1586,10 +1597,10 @@ export class CharacterService {
                     message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     message.timeStamp = timeStamp;
                     message.offeredItem.push(
-                        Object.assign(
+                        Object.assign<Item, Item>(
                             new Item(),
-                            JSON.parse(JSON.stringify(item))).recast(this._itemsService,
-                        ),
+                            JSON.parse(JSON.stringify(item)),
+                        ).recast(this._itemsDataService),
                     );
                     message.itemAmount = amount;
                     message.includedItems = included.items;
@@ -1646,7 +1657,7 @@ export class CharacterService {
                                 item.amount = message.itemAmount;
                             }
 
-                            const typedItem = this._itemsService.castItemByType(item);
+                            const typedItem = TypeService.castItemByType(item);
                             const existingItems =
                                 targetInventory[typedItem.type]
                                     .filter((existing: Item) =>
@@ -1668,7 +1679,7 @@ export class CharacterService {
                                 this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
                                 this._refreshService.setComponentChanged(existingItems[0].id);
                             } else {
-                                typedItem.recast(this._itemsService);
+                                typedItem.recast(this._itemsDataService);
 
                                 const newLength = targetInventory[typedItem.type].push(typedItem);
                                 const addedItem = targetInventory[typedItem.type][newLength - 1];
@@ -2507,7 +2518,7 @@ export class CharacterService {
             }
         };
 
-        const hasTooManySlottedAeonStones = this._itemsService.hasTooManySlottedAeonStones(creature);
+        const hasTooManySlottedAeonStones = this._creatureEquipmentService.hasTooManySlottedAeonStones(creature);
 
         creature.inventories.forEach(inventory => {
             inventory.allEquipment()
@@ -2604,7 +2615,7 @@ export class CharacterService {
 
         if (character.class.animalCompanion) {
             character.class.animalCompanion =
-                Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._itemsService);
+                Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._itemsDataService);
 
             const companion = character.class.animalCompanion;
 
@@ -2618,7 +2629,7 @@ export class CharacterService {
         const character = this.character;
 
         if (character.class.familiar) {
-            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._itemsService);
+            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._itemsDataService);
             this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
         }
     }
@@ -2702,7 +2713,7 @@ export class CharacterService {
                 .forEach(invItem => {
                     if (!invItem.markedForDeletion) {
                         found++;
-                        this._itemsService
+                        this._itemTransferService
                             .moveItemLocally(creature, invItem, creature.inventories[0], inv, invItem.amount, true);
                     }
                 });
@@ -2725,13 +2736,13 @@ export class CharacterService {
                 const newBasicWeapon: Weapon =
                     Object.assign(
                         new Weapon(),
-                        this._itemsService.cleanItemFromID('08693211-8daa-11ea-abca-ffb46fbada73'),
-                    ).recast(this._itemsService);
+                        this._itemsDataService.cleanItemFromID('08693211-8daa-11ea-abca-ffb46fbada73'),
+                    ).recast(this._itemsDataService);
                 const newBasicArmor: Armor =
                     Object.assign(
                         new Armor(),
-                        this._itemsService.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
-                    ).recast(this._itemsService);
+                        this._itemsDataService.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
+                    ).recast(this._itemsDataService);
 
                 this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
                 this._equipBasicItems(this.character, false);

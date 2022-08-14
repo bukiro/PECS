@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConfigService } from 'src/app/core/services/config/config.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { Creature } from '../../../../app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 const ignoredMessageTTL = 60;
 
@@ -26,7 +26,7 @@ export class MessagesService {
         private readonly _http: HttpClient,
         private readonly _configService: ConfigService,
         private readonly _toastService: ToastService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _refreshService: RefreshService,
         private readonly _characterService: CharacterService,
     ) { }
@@ -89,7 +89,7 @@ export class MessagesService {
         const loadedMessages = results;
 
         let newMessages = loadedMessages
-            .map(message => Object.assign(new PlayerMessage(), message).recast(this._itemsService));
+            .map(message => Object.assign(new PlayerMessage(), message).recast(this._itemsDataService));
 
         newMessages.forEach(message => {
             //Cut off the time zone.

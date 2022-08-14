@@ -2,8 +2,8 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Item } from 'src/app/classes/Item';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Hint } from 'src/app/classes/Hint';
-import { ItemsService } from 'src/app/services/items.service';
 import { EffectGain } from 'src/app/classes/EffectGain';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Rune extends Item {
     public activities: Array<ItemActivity> = [];
@@ -26,8 +26,8 @@ export class Rune extends Item {
         return 0;
     }
 
-    public recast(itemsService: ItemsService): Rune {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): Rune {
+        super.recast(itemsDataService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());

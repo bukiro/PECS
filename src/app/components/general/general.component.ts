@@ -9,7 +9,6 @@ import { DeitiesDataService } from 'src/app/core/services/data/deities-data.serv
 import { Domain } from 'src/app/classes/Domain';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { ItemsService } from 'src/app/services/items.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
@@ -22,6 +21,7 @@ import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 
 @Component({
     selector: 'app-general',
@@ -50,9 +50,9 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _classesDataService: ClassesDataService,
-        private readonly _itemsService: ItemsService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _deityDomainsService: DeityDomainsService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
         public trackers: Trackers,
     ) { }
 
@@ -321,7 +321,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     private _languagesFromEquipment(): Array<string> {
         let languages: Array<string> = [];
-        const hasTooManySlottedAeonStones = this._itemsService.hasTooManySlottedAeonStones(this.character);
+        const hasTooManySlottedAeonStones = this._creatureEquipmentService.hasTooManySlottedAeonStones(this.character);
 
         this.character.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped()).forEach(wornItem => {
             languages = languages.concat(wornItem.gainLanguages.filter(language => language.name).map(language => language.name));

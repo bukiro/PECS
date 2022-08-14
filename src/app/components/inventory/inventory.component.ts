@@ -1,7 +1,6 @@
 /* eslint-disable max-lines */
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { Consumable } from 'src/app/classes/Consumable';
@@ -11,12 +10,10 @@ import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
-import { TimeService } from 'src/libs/time/services/time/time.service';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { Snare } from 'src/app/classes/Snare';
 import { Wand } from 'src/app/classes/Wand';
 import { Shield } from 'src/app/classes/Shield';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
@@ -26,7 +23,6 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
@@ -52,6 +48,9 @@ import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-p
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -102,13 +101,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _effectsService: CreatureEffectsService,
-        private readonly _timeService: TimeService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
-        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _toastService: ToastService,
         private readonly _modalService: NgbModal,
@@ -120,6 +116,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _itemPriceService: ItemPriceService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _durationsService: DurationsService,
+        private readonly _itemTransferService: ItemTransferService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
         public trackers: Trackers,
     ) { }
 
@@ -353,10 +351,10 @@ export class InventoryComponent implements OnInit, OnDestroy {
         reload = true,
     ): void {
         if (target instanceof ItemCollection) {
-            this._itemsService.moveItemLocally(this.currentCreature, item, target, inventory, amount, including);
+            this._itemTransferService.moveItemLocally(this.currentCreature, item, target, inventory, amount, including);
         } else if (target instanceof SpellTarget) {
             if (this._allAvailableCreatures().some(creature => creature.id === target.id)) {
-                this._itemsService.moveInventoryItemToLocalCreature(
+                this._itemTransferService.moveInventoryItemToLocalCreature(
                     this.currentCreature,
                     target,
                     item,
@@ -391,12 +389,12 @@ export class InventoryComponent implements OnInit, OnDestroy {
             const item = source[itemKey][event.previousIndex];
 
             if (source && target && item && this.canDropItem(item)) {
-                const cannotMove = this._itemsService.cannotMoveItem(this.currentCreature, item, target);
+                const cannotMove = this._itemTransferService.cannotMoveItem(this.currentCreature, item, target);
 
                 if (cannotMove) {
                     this._toastService.show(`${ cannotMove } The item was not moved.`);
                 } else {
-                    this._itemsService.moveItemLocally(
+                    this._itemTransferService.moveItemLocally(
                         this.currentCreature,
                         item,
                         target,
@@ -646,7 +644,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             item.isWayfinder &&
             item.aeonStones.length &&
             item.investedOrEquipped() &&
-            this._itemsService.hasTooManySlottedAeonStones(this.currentCreature)
+            this._creatureEquipmentService.hasTooManySlottedAeonStones(this.currentCreature)
         );
     }
 
@@ -697,7 +695,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             case 'snarespecialist':
                 return this.learnedFormulas()
                     .filter(learned => learned.snareSpecialistPrepared)
-                    .map(learned => ({ learned, item: this._itemsService.cleanItemFromID(learned.id) as Snare }))
+                    .map(learned => ({ learned, item: this._itemsDataService.cleanItemFromID(learned.id) as Snare }))
                     .sort((a, b) => SortAlphaNum(a.item.name, b.item.name));
             default: return [];
         }

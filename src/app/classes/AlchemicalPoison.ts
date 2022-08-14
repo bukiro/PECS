@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { ItemsService } from 'src/app/services/items.service';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class AlchemicalPoison extends Consumable {
     //Alchemical Poisons should be type "alchemicalpoisons" to be found in the database
@@ -11,8 +11,8 @@ export class AlchemicalPoison extends Consumable {
      */
     public stages: Array<string> = [];
 
-    public recast(itemsService: ItemsService): AlchemicalPoison {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): AlchemicalPoison {
+        super.recast(itemsDataService);
 
         return this;
     }

@@ -6,11 +6,11 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -23,7 +23,7 @@ export class ConditionsTimeService {
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _characterService: CharacterService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _toastService: ToastService,
@@ -226,7 +226,7 @@ export class ConditionsTimeService {
                     this._conditionsDataService.conditionFromName(gain.name)?.type === 'afflictions',
                 ).forEach(gain => {
                     if (
-                        !this._itemsService.cleanItems().alchemicalpoisons
+                        !this._itemsDataService.cleanItems().alchemicalpoisons
                             .some(poison => gain.name.includes(poison.name) && poison.level > verdantMetamorphosisMaxAfflictionLevel)
                     ) {
                         gain.value = -1;

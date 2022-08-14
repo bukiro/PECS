@@ -1,5 +1,5 @@
-import { ItemsService } from 'src/app/services/items.service';
 import { Weapon } from 'src/app/classes/Weapon';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class AlchemicalBomb extends Weapon {
     //Alchemical bombs should be type "alchemicalbombs" to be found in the database
@@ -20,8 +20,8 @@ export class AlchemicalBomb extends Weapon {
         return this.displayName || this.name;
     }
 
-    public recast(itemsService: ItemsService): AlchemicalBomb {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): AlchemicalBomb {
+        super.recast(itemsDataService);
 
         return this;
     }

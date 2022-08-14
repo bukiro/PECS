@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { ItemsService } from 'src/app/services/items.service';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Snare extends Consumable {
     //Snares should be type "snares" to be found in the database
@@ -11,8 +11,8 @@ export class Snare extends Consumable {
     public tradeable = false;
     public actions = '1 minute';
 
-    public recast(itemsService: ItemsService): Snare {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): Snare {
+        super.recast(itemsDataService);
 
         return this;
     }

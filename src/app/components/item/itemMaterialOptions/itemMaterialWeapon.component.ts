@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
@@ -11,6 +10,7 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { ItemMaterialsDataService } from 'src/app/core/services/data/item-materials-data.service';
 
 enum MaterialLevelRequiredForPotency {
     None = 0,
@@ -52,7 +52,7 @@ export class ItemMaterialWeaponComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
@@ -91,7 +91,7 @@ export class ItemMaterialWeaponComponent implements OnInit {
         const item: Weapon = this.item as Weapon;
         const allMaterials: Array<WeaponMaterialSet> = [];
 
-        this._itemsService.weaponMaterials().forEach(material => {
+        this._itemMaterialsDataService.weaponMaterials().forEach(material => {
             allMaterials.push({ material });
         });
         //Set all materials to disabled that have the same name as any that is already equipped.

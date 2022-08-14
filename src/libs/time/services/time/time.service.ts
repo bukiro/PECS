@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
-import { ItemsService } from 'src/app/services/items.service';
 import { Character } from 'src/app/classes/Character';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -19,6 +18,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ConditionsTimeService } from 'src/libs/time/services/conditions-time/conditions-time.service';
 import { SpellsTimeService } from 'src/libs/time/services/spells-time/spells-time.service';
 import { AbilitiesDataService } from '../../../../app/core/services/data/abilities-data.service';
+import { ItemsTimeService } from '../items-time/items-time.service';
 
 @Injectable({
     providedIn: 'root',
@@ -42,7 +42,7 @@ export class TimeService {
         private readonly _conditionsTimeService: ConditionsTimeService,
         private readonly _spellsTimeService: SpellsTimeService,
         private readonly _characterService: CharacterService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsTimeService: ItemsTimeService,
     ) { }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -154,7 +154,7 @@ export class TimeService {
             //Reset all conditions that are "until the next time you make your daily preparations".
             this._conditionsTimeService.restConditions(creature);
             //Remove all items that expire when you make your daily preparations.
-            this._itemsService.restItems(creature);
+            this._itemsTimeService.restItems(creature);
 
             //For the Character, reset all "once per day" spells, and regenerate spell slots, prepared formulas and bonded item charges.
             if (creature.isCharacter()) {
@@ -212,7 +212,7 @@ export class TimeService {
             //Reset all conditions that are "until you refocus".
             this._conditionsTimeService.refocusConditions(creature);
             //Remove all items that expire when you refocus.
-            this._itemsService.refocusItems(creature);
+            this._itemsTimeService.refocusItems(creature);
         });
 
         //Reset all "once per day" spell cooldowns and re-prepare spells.
@@ -292,7 +292,7 @@ export class TimeService {
                     }
 
                     this._customEffectsTimeService.tickCustomEffects(creature, creatureTurns);
-                    this._itemsService.tickItems((creature as AnimalCompanion | Character), creatureTurns);
+                    this._itemsTimeService.tickItems((creature as AnimalCompanion | Character), creatureTurns);
 
                     if (creature.isCharacter()) {
                         this._spellsTimeService.tickSpells(

@@ -2,13 +2,12 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 interface PoisonSet {
     poison: AlchemicalPoison;
@@ -34,8 +33,7 @@ export class ItemPoisonsComponent {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
-        private readonly _activitiesDataService: ActivitiesDataService,
+        private readonly _itemsDataService: ItemsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -50,7 +48,7 @@ export class ItemPoisonsComponent {
 
         if (this.itemStore) {
             allPoisons.push(
-                ...this._itemsService.cleanItems().alchemicalpoisons
+                ...this._itemsDataService.cleanItems().alchemicalpoisons
                     .filter(poison => poison.traits.includes('Injury'))
                     .map(poison => ({ poison, inv: null })),
             );
@@ -73,10 +71,10 @@ export class ItemPoisonsComponent {
 
             item.poisonsApplied.length = 0;
             item.poisonsApplied.push(
-                Object.assign(
+                Object.assign<AlchemicalPoison, AlchemicalPoison>(
                     new AlchemicalPoison(),
                     JSON.parse(JSON.stringify(this.newPoison.poison)),
-                ).recast(this._itemsService),
+                ).recast(this._itemsDataService),
             );
 
             if (this.newPoison.inv) {

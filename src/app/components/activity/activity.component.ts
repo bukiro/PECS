@@ -1,14 +1,11 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Character } from 'src/app/classes/Character';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Condition } from 'src/app/classes/Condition';
 import { Creature } from 'src/app/classes/Creature';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -33,6 +30,7 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -80,17 +78,15 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
-        private readonly _itemsService: ItemsService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
         public trackers: Trackers,
     ) { }
 
@@ -116,7 +112,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
             (
                 this.item instanceof WornItem &&
                 this.item.isSlottedAeonStone &&
-                this._itemsService.hasTooManySlottedAeonStones(this._currentCreature())
+                this._creatureEquipmentService.hasTooManySlottedAeonStones(this._currentCreature())
             );
         const isResonantAllowed =
             (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !hasTooManySlottedAeonStones);

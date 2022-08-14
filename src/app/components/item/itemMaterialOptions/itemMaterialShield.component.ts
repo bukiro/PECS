@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Shield } from 'src/app/classes/Shield';
 import { Material } from 'src/app/classes/Material';
@@ -11,6 +10,7 @@ import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { ItemMaterialsDataService } from 'src/app/core/services/data/item-materials-data.service';
 
 interface ShieldMaterialSet {
     material: ShieldMaterial;
@@ -38,7 +38,7 @@ export class ItemMaterialShieldComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
@@ -76,7 +76,7 @@ export class ItemMaterialShieldComponent implements OnInit {
     public availableMaterials(): Array<ShieldMaterialSet> {
         const allMaterials: Array<ShieldMaterialSet> = [];
 
-        this._itemsService.shieldMaterials().forEach(material => {
+        this._itemMaterialsDataService.shieldMaterials().forEach(material => {
             allMaterials.push({ material });
         });
 

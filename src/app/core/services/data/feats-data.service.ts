@@ -4,11 +4,11 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import * as json_feats from 'src/assets/json/feats';
 import * as json_features from 'src/assets/json/features';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { ItemsService } from '../../../services/items.service';
 import { Weapon } from '../../../classes/Weapon';
 import { HistoryDataService } from './history-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
+import { ItemsDataService } from './items-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,7 +22,7 @@ export class FeatsDataService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _historyDataService: HistoryDataService,
     ) { }
 
@@ -63,7 +63,7 @@ export class FeatsDataService {
         } else { return [this._replacementFeat()]; }
     }
 
-    public createWeaponFeats(weapons: Array<Weapon> = this._itemsService.cleanItemsOfType('weapons')): Array<Feat> {
+    public createWeaponFeats(weapons: Array<Weapon> = this._itemsDataService.cleanItemsOfType('weapons')): Array<Feat> {
         const weaponFeats = this._feats.filter(feat => feat.weaponfeatbase);
         const resultingFeats: Array<Feat> = [];
 
@@ -164,9 +164,9 @@ export class FeatsDataService {
     }
 
     public initialize(): void {
-        const waitForItemsService = setInterval(() => {
-            if (!this._itemsService.stillLoading) {
-                clearInterval(waitForItemsService);
+        const waitForItemsDataService = setInterval(() => {
+            if (!this._itemsDataService.stillLoading) {
+                clearInterval(waitForItemsDataService);
 
                 this._feats = this._load(json_feats, 'feats');
 

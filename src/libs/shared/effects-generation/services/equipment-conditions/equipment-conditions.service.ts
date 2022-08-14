@@ -5,11 +5,10 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CharacterService } from 'src/app/services/character.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { BulkService } from 'src/libs/shared/services/bulk/bulk.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,8 +20,7 @@ export class EquipmentConditionsService {
         private readonly _bulkService: BulkService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
-        private readonly _itemsService: ItemsService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
 
     ) { }
 
@@ -177,7 +175,7 @@ export class EquipmentConditionsService {
                 refreshPermanentConditions(item, item);
             });
 
-        if (this._itemsService.hasTooManySlottedAeonStones(creature)) {
+        if (this._creatureEquipmentService.hasTooManySlottedAeonStones(creature)) {
             creature.inventories[0].wornitems.filter(item => item.isWayfinder).forEach(item => {
                 item.aeonStones.forEach(stone => {
                     refreshPermanentConditions(stone, item);

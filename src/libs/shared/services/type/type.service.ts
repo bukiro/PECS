@@ -49,7 +49,6 @@ import { Item } from 'src/app/classes/Item';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { ItemGain } from 'src/app/classes/ItemGain';
-import { ItemsService } from 'src/app/services/items.service';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
@@ -88,6 +87,7 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -187,6 +187,61 @@ export class TypeService {
         }
     }
 
+    public static castItemByType(item: Item, type: string = item.type): Item {
+        if (type) {
+            switch (type) {
+                case 'adventuringgear':
+                    return Object.assign(new AdventuringGear(), item);
+                case 'alchemicalbombs':
+                    return Object.assign(new AlchemicalBomb(), item);
+                case 'alchemicalelixirs':
+                    return Object.assign(new AlchemicalElixir(), item);
+                case 'alchemicalpoisons':
+                    return Object.assign(new AlchemicalPoison(), item);
+                case 'alchemicaltools':
+                    return Object.assign(new AlchemicalTool(), item);
+                case 'ammunition':
+                    return Object.assign(new Ammunition(), item);
+                case 'armorrunes':
+                    return Object.assign(new ArmorRune(), item);
+                case 'armors':
+                    return Object.assign(new Armor(), item);
+                case 'helditems':
+                    return Object.assign(new HeldItem(), item);
+                case 'materialitems':
+                    return Object.assign(new MaterialItem(), item);
+                case 'oils':
+                    return Object.assign(new Oil(), item);
+                case 'otherconsumables':
+                    return Object.assign(new OtherConsumable(), item);
+                case 'otherconsumablesbombs':
+                    return Object.assign(new OtherConsumableBomb(), item);
+                case 'potions':
+                    return Object.assign(new Potion(), item);
+                case 'scrolls':
+                    return Object.assign(new Scroll(), item);
+                case 'shields':
+                    return Object.assign(new Shield(), item);
+                case 'snares':
+                    return Object.assign(new Snare(), item);
+                case 'talismans':
+                    return Object.assign(new Talisman(), item);
+                case 'wands':
+                    return Object.assign(new Wand(), item);
+                case 'weaponrunes':
+                    return Object.assign(new WeaponRune(), item);
+                case 'weapons':
+                    return Object.assign(new Weapon(), item);
+                case 'wornitems':
+                    return Object.assign(new WornItem(), item);
+                default:
+                    return item;
+            }
+        } else {
+            return item;
+        }
+    }
+
     public static merge<T>(target: T, source: Partial<T>): T {
         const output = Object.assign(new (target.constructor as any)(), JSON.parse(JSON.stringify(target)));
 
@@ -215,16 +270,16 @@ export class TypeService {
         return output;
     }
 
-    public static restoreItem(object: Item, itemsService: ItemsService = null): Item {
-        if (itemsService && object.refId && !object.restoredFromSave) {
-            const libraryItem = itemsService.cleanItemFromID(object.refId);
+    public static restoreItem(object: Item, itemsDataService: ItemsDataService): Item {
+        if (object.refId && !object.restoredFromSave) {
+            const libraryItem = itemsDataService.cleanItemFromID(object.refId);
             let mergedObject = object;
 
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
                 try {
                     mergedObject = TypeService.merge(libraryItem, mergedObject) as typeof libraryItem;
-                    mergedObject = itemsService.castItemByType(mergedObject, libraryItem.type);
+                    mergedObject = TypeService.castItemByType(mergedObject, libraryItem.type);
 
                     //Disable any active hint effects when loading an item.
                     if (mergedObject instanceof Equipment) {

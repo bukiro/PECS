@@ -3,7 +3,6 @@ import { Item } from 'src/app/classes/Item';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Rune } from 'src/app/classes/Rune';
-import { ItemsService } from 'src/app/services/items.service';
 import { InventoryGain } from 'src/app/classes/InventoryGain';
 import { Talisman } from 'src/app/classes/Talisman';
 import { Material } from 'src/app/classes/Material';
@@ -17,6 +16,7 @@ import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { Oil } from './Oil';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -110,8 +110,8 @@ export class Equipment extends Item {
         return;
     }
 
-    public recast(itemsService: ItemsService): Equipment {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): Equipment {
+        super.recast(itemsDataService);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.activities.forEach(activity => { activity.source = this.id; });
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
@@ -141,23 +141,23 @@ export class Equipment extends Item {
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
         this.propertyRunes =
             this.propertyRunes.map(obj =>
-                Object.assign(new Rune(), TypeService.restoreItem(obj, itemsService)).recast(itemsService),
+                Object.assign(new Rune(), TypeService.restoreItem(obj, itemsDataService)).recast(itemsDataService),
             );
         this.bladeAllyRunes =
             this.bladeAllyRunes.map(obj =>
-                Object.assign(new WeaponRune(), TypeService.restoreItem(obj, itemsService)).recast(itemsService));
+                Object.assign(new WeaponRune(), TypeService.restoreItem(obj, itemsDataService)).recast(itemsDataService));
         this.talismans =
             this.talismans.map(obj =>
                 Object.assign(
                     new Talisman(),
-                    TypeService.restoreItem(obj, itemsService),
-                ).recast(itemsService),
+                    TypeService.restoreItem(obj, itemsDataService),
+                ).recast(itemsDataService),
             );
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
         this.talismanCords =
             this.talismanCords.map(obj =>
-                (TypeService.classCast(TypeService.restoreItem(obj, itemsService), 'WornItem') as WornItem)
-                    .recast(itemsService),
+                (TypeService.classCast(TypeService.restoreItem(obj, itemsDataService), 'WornItem') as WornItem)
+                    .recast(itemsDataService),
             );
 
         if (this.choices.length && !this.choices.includes(this.choice)) {

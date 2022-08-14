@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ItemsService } from 'src/app/services/items.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
@@ -30,6 +28,8 @@ import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
 import { SpellLevels } from 'src/libs/shared/definitions/spellLevels';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { ItemPropertiesDataService } from 'src/app/core/services/data/item-properties-data.service';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -54,9 +54,9 @@ export class NewItemPropertyComponent {
     public validationResult = '';
 
     constructor(
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
+        private readonly _itemPropertiesDataService: ItemPropertiesDataService,
         private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _spellsDataService: SpellsDataService,
@@ -93,7 +93,7 @@ export class NewItemPropertyComponent {
 
             const existingItems = this._inventories()[0][this.newItem.type].filter((existing: Item) => existing.name === value);
             const existingCleanItems =
-                this._itemsService.cleanItems()[this.newItem.type].filter((existing: Item) => existing.name === value);
+                this._itemsDataService.cleanItems()[this.newItem.type].filter((existing: Item) => existing.name === value);
 
             if (existingItems.length && existingItems.some((existing: Item) => existing.canStack())) {
                 this.validationError =
@@ -284,7 +284,8 @@ export class NewItemPropertyComponent {
     public subProperties(object: object): Array<ItemProperty> {
         return Object.keys(object)
             .map(key =>
-                this._itemsService.itemProperties().find(property => property.parent === this.propertyData.key && property.key === key),
+                this._itemPropertiesDataService.itemProperties()
+                    .find(property => property.parent === this.propertyData.key && property.key === key),
             )
             .filter(property => property !== undefined)
             .sort((a, b) => SortAlphaNum(a.group + a.priority, b.group + b.priority));
@@ -719,7 +720,7 @@ export class NewItemPropertyComponent {
                 );
                 break;
             case 'gainitems name':
-                examples = this._itemsService.storeItems()[parent.type].map((item: Item) => item.name);
+                examples = this._itemsDataService.storeItems()[parent.type].map((item: Item) => item.name);
                 break;
             case 'gainitems on':
                 examples = ['', 'equip', 'grant', 'use'];
@@ -761,17 +762,17 @@ export class NewItemPropertyComponent {
     }
 
     public itemSets(): Array<{ name: string; key: string }> {
-        return this._itemsService.storeItems().names;
+        return this._itemsDataService.storeItems().names;
     }
 
     public setItemType(): void {
         const parent = this.parent();
 
-        parent.name = this._itemsService.storeItems()[parent.type][0].name;
+        parent.name = this._itemsDataService.storeItems()[parent.type][0].name;
     }
 
     private _cleanItems(): ItemCollection {
-        return this._itemsService.cleanItems();
+        return this._itemsDataService.cleanItems();
     }
 
     private _inventories(): Array<ItemCollection> {

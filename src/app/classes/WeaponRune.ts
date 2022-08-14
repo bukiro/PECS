@@ -1,5 +1,5 @@
-import { ItemsService } from 'src/app/services/items.service';
 import { Rune } from 'src/app/classes/Rune';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class WeaponRune extends Rune {
     //Weapon Runes should be type "weaponrunes" to be found in the database
@@ -28,8 +28,8 @@ export class WeaponRune extends Rune {
         return this.striking;
     }
 
-    public recast(itemsService: ItemsService): WeaponRune {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): WeaponRune {
+        super.recast(itemsDataService);
 
         return this;
     }

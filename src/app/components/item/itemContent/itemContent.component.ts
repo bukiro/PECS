@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { ItemsService } from 'src/app/services/items.service';
 import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
@@ -45,7 +44,6 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _itemPriceService: ItemPriceService,
         public trackers: Trackers,

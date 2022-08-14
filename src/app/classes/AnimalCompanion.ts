@@ -5,9 +5,9 @@ import { AbilityBoost } from 'src/app/classes/AbilityBoost';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { ItemsService } from 'src/app/services/items.service';
 import { SkillIncrease } from './SkillIncrease';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
@@ -21,8 +21,8 @@ export class AnimalCompanion extends Creature {
 
     public get requiresConForHP(): boolean { return true; }
 
-    public recast(itemsService: ItemsService): AnimalCompanion {
-        super.recast(itemsService);
+    public recast(itemsDataService: ItemsDataService): AnimalCompanion {
+        super.recast(itemsDataService);
         this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
 
         return this;

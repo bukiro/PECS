@@ -33,7 +33,7 @@ export class ClassSavingLoadingService {
         return restoredClass || classObj;
     }
 
-    public cleanClassForSave($class: Class): void {
+    public cleanClassForSave($class: Class): Class {
         if ($class.name) {
             const libraryObject = this._classesDataService.classFromName($class.name);
 
@@ -61,6 +61,8 @@ export class ClassSavingLoadingService {
                 });
             }
         }
+
+        return $class;
     }
 
 }

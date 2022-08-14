@@ -1,16 +1,14 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { TimeService } from 'src/libs/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 interface AeonStoneSet {
     aeonStone: WornItem;
@@ -35,9 +33,7 @@ export class ItemAeonStonesComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
-        private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _timeService: TimeService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _durationsService: DurationsService,
         public trackers: Trackers,
@@ -129,8 +125,8 @@ export class ItemAeonStonesComponent implements OnInit {
                 //Add a copy of the stone to the item
                 const newLength =
                     item.aeonStones.push(
-                        Object.assign(new WornItem(), JSON.parse(JSON.stringify(stone)))
-                            .recast(this._itemsService),
+                        Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(stone)))
+                            .recast(this._itemsDataService),
                     );
                 const newStone = item.aeonStones[newLength - 1];
 
@@ -161,7 +157,7 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     private _cleanItems(): ItemCollection {
-        return this._itemsService.cleanItems();
+        return this._itemsDataService.cleanItems();
     }
 
     private _removeAeonStone(index: number): void {

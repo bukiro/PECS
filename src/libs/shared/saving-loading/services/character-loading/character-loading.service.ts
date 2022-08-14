@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Settings } from 'src/app/classes/Settings';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { ItemsService } from 'src/app/services/items.service';
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from 'src/app/core/services/config/config.service';
@@ -22,6 +21,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { DocumentStyleService } from 'src/app/core/services/document-style/document-style.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -39,7 +39,7 @@ export class CharacterLoadingService {
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
         private readonly _classSavingLoadingService: ClassSavingLoadingService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _historySavingLoadingService: HistorySavingLoadingService,
         private readonly _characterPatchingService: CharacterPatchingService,
         private readonly _statusService: StatusService,
@@ -204,7 +204,7 @@ export class CharacterLoadingService {
             character.class = this._classSavingLoadingService.restoreClassFromSave(character.class);
         }
 
-        character.recast(this._itemsService);
+        character.recast(this._itemsDataService);
 
         //Apply any patches that need to be done after the class is restored.
         this._characterPatchingService.patchCompleteCharacter(savedCharacter, character);

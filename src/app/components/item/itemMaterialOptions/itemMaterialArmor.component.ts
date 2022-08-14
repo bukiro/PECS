@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Armor } from 'src/app/classes/Armor';
 import { Material } from 'src/app/classes/Material';
@@ -11,6 +10,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
+import { ItemMaterialsDataService } from 'src/app/core/services/data/item-materials-data.service';
 
 enum MaterialLevelRequiredForPotency {
     None = 0,
@@ -52,7 +52,7 @@ export class ItemMaterialArmorComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
@@ -94,7 +94,7 @@ export class ItemMaterialArmorComponent implements OnInit {
     public availableMaterials(): Array<ArmorMaterialSet> {
         const allMaterials: Array<ArmorMaterialSet> = [];
 
-        this._itemsService.armorMaterials().forEach(material => {
+        this._itemMaterialsDataService.armorMaterials().forEach(material => {
             allMaterials.push({ material });
         });
 

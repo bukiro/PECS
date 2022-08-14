@@ -4,10 +4,8 @@ import { SavegamesService } from 'src/libs/shared/saving-loading/services/savega
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
-import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { ConfigService } from 'src/app/core/services/config/config.service';
-import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
@@ -25,6 +23,7 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CharacterSavingService } from 'src/libs/shared/saving-loading/services/character-saving/character-saving.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -56,13 +55,12 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _configService: ConfigService,
         private readonly _savegamesService: SavegamesService,
         private readonly _messagesService: MessagesService,
-        private readonly _timeService: TimeService,
         private readonly _toastService: ToastService,
         private readonly _modalService: NgbModal,
-        private readonly _itemsService: ItemsService,
         private readonly _characterSavingService: CharacterSavingService,
         private readonly _statusService: StatusService,
         private readonly _durationsService: DurationsService,
+        private readonly _itemsDataService: ItemsDataService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -292,10 +290,10 @@ export class TopBarComponent implements OnInit, OnDestroy {
         this.modalOpen = true;
         //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
         this.cachedNewMessages = this.newMessagesFromService()
-            .map(message => Object.assign(
+            .map(message => Object.assign<PlayerMessage, PlayerMessage>(
                 new PlayerMessage(),
                 JSON.parse(JSON.stringify(message)),
-            ).recast(this._itemsService));
+            ).recast(this._itemsDataService));
 
         this._modalService
             .open(this._newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' })

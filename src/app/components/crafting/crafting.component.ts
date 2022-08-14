@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { ItemsService } from 'src/app/services/items.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
@@ -24,6 +23,7 @@ import { WeaponPropertiesService } from 'src/libs/shared/services/weapon-propert
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 const itemsPerPage = 40;
 
@@ -54,7 +54,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _itemsService: ItemsService,
+        private readonly _itemsDataService: ItemsDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
@@ -67,7 +67,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     ) { }
 
     public get stillLoading(): boolean {
-        return this._itemsService.stillLoading || this._characterService.stillLoading;
+        return this._itemsDataService.stillLoading || this._characterService.stillLoading;
     }
 
     public get isInventoryMinimized(): boolean {
@@ -190,7 +190,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     public craftingItems(): ItemCollection {
-        return this._itemsService.craftingItems();
+        return this._itemsDataService.craftingItems();
     }
 
     public visibleItems(items: Array<Item>): Array<Item> {
