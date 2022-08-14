@@ -10,6 +10,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
+import { FeatProcessingService } from '../feat-processing/feat-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -24,6 +25,7 @@ export class CharacterAncestryChangeService {
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _itemGrantingService: ItemGrantingService,
+        private readonly _featProcessingService: FeatProcessingService,
     ) { }
 
     public changeAncestry(newAncestry?: Ancestry): void {
@@ -73,7 +75,7 @@ export class CharacterAncestryChangeService {
             characterClass.levels.forEach(classLevel => {
                 classLevel.featChoices.forEach(choice => {
                     choice.feats.filter(gain => gain.name.includes('Adopted Ancestry')).forEach(gain => {
-                        this._featsDataService.processFeat(character, undefined, gain, choice, level, false);
+                        this._featProcessingService.processFeat(undefined, false, { creature: character, character, gain, choice, level });
                     });
 
                     choice.feats = choice.feats.filter(gain => !gain.name.includes('Adopted Ancestry'));

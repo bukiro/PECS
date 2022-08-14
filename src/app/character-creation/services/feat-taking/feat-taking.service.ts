@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { CharacterService } from 'src/app/services/character.service';
 import { Feat } from '../../definitions/models/Feat';
 import { FeatChoice } from '../../definitions/models/FeatChoice';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
+import { FeatProcessingService } from '../feat-processing/feat-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +13,8 @@ import { FeatTaken } from '../../definitions/models/FeatTaken';
 export class FeatTakingService {
 
     constructor(
-        private readonly _featsDataService: FeatsDataService,
+        private readonly _featProcessingService: FeatProcessingService,
+        private readonly _characterService: CharacterService,
     ) { }
 
     public takeFeat(
@@ -26,6 +28,7 @@ export class FeatTakingService {
     ): void {
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
         const level = creature.isCharacter() ? creature.classLevelFromNumber(levelNumber) : null;
+        const character = this._characterService.character;
 
         if (taken) {
             const newLength =
@@ -42,7 +45,7 @@ export class FeatTakingService {
                 ));
             const gain = choice.feats[newLength - 1];
 
-            this._featsDataService.processFeat(creature, feat, gain, choice, level, taken);
+            this._featProcessingService.processFeat(feat, taken, { creature, character, gain, choice, level });
         } else {
             const choiceFeats = choice.feats;
             const gain = choiceFeats.find(existingFeat =>
@@ -50,7 +53,7 @@ export class FeatTakingService {
                 existingFeat.locked === locked,
             );
 
-            this._featsDataService.processFeat(creature, feat, gain, choice, level, taken);
+            this._featProcessingService.processFeat(feat, taken, { creature, character, gain, choice, level });
             choiceFeats.splice(choiceFeats.indexOf(gain, 1));
         }
     }

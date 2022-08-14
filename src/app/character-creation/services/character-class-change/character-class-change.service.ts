@@ -12,6 +12,7 @@ import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item
 import { CharacterAncestryChangeService } from '../character-ancestry-change/character-ancestry-change.service';
 import { CharacterBackgroundChangeService } from '../character-background-change/character-background-change.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { FeatProcessingService } from '../feat-processing/feat-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -29,6 +30,7 @@ export class CharacterClassChangeService {
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _featProcessingService: FeatProcessingService,
     ) { }
 
     public changeClass(newClass?: Class): void {
@@ -66,7 +68,7 @@ export class CharacterClassChangeService {
         characterClass.levels.forEach(level => {
             level.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featsDataService.processFeat(character, undefined, gain, choice, level, false);
+                    this._featProcessingService.processFeat(undefined, false, { creature: character, character, gain, choice, level });
                 });
 
                 choice.feats.length = 0;
@@ -92,7 +94,7 @@ export class CharacterClassChangeService {
             characterClass.levels.forEach(level => {
                 level.featChoices.forEach(choice => {
                     choice.feats.forEach(gain => {
-                        this._featsDataService.processFeat(character, undefined, gain, choice, level, true);
+                        this._featProcessingService.processFeat(undefined, true, { creature: character, character, gain, choice, level });
                     });
                 });
             });

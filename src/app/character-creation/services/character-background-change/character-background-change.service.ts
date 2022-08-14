@@ -9,6 +9,7 @@ import { FeatsDataService } from 'src/app/core/services/data/feats-data.service'
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
+import { FeatProcessingService } from '../feat-processing/feat-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +22,7 @@ export class CharacterBackgroundChangeService {
         private readonly _cacheService: CacheService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
+        private readonly _featProcessingService: FeatProcessingService,
     ) { }
 
     public changeBackground(background?: Background): void {
@@ -53,7 +55,7 @@ export class CharacterBackgroundChangeService {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featsDataService.processFeat(character, undefined, gain, choice, level, false);
+                    this._featProcessingService.processFeat(undefined, false, { creature: character, character, gain, choice, level });
                 });
             });
             level.featChoices = level.featChoices.filter(choice => choice.source !== 'Background');
@@ -94,7 +96,7 @@ export class CharacterBackgroundChangeService {
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featsDataService.processFeat(character, undefined, gain, choice, level, true);
+                    this._featProcessingService.processFeat(undefined, true, { creature: character, character, gain, choice, level });
                 });
             });
 
