@@ -1,7 +1,7 @@
 //TO-DO: Resolve private properties either not matching JSON import or not having an underscore, then use private properties.
 
 import { ItemsService } from 'src/app/services/items.service';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { Creature } from 'src/app/classes/Creature';

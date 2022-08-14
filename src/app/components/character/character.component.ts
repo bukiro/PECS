@@ -23,7 +23,7 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import { Familiar } from 'src/app/classes/Familiar';
 import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { Savegame } from 'src/app/classes/Savegame';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { Spell } from 'src/app/classes/Spell';
@@ -128,7 +128,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _savegamesService: SavegamesService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _cacheService: CacheService,
         private readonly _modalService: NgbModal,
@@ -558,7 +558,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(traitName: string): Trait {
-        return this._traitsService.traitFromName(traitName);
+        return this._traitsDataService.traitFromName(traitName);
     }
 
     public onLevelUp(): void {

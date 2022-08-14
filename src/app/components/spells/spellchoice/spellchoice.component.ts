@@ -4,7 +4,7 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellLearned } from 'src/app/classes/SpellLearned';
@@ -115,7 +115,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
@@ -186,7 +186,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(name: string): Trait {
-        return this._traitsService.traitFromName(name);
+        return this._traitsDataService.traitFromName(name);
     }
 
     public isSpellBlendingSpellChoice(): boolean {

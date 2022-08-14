@@ -25,7 +25,7 @@ import { Snare } from 'src/app/classes/Snare';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Wand } from 'src/app/classes/Wand';
 import { Rune } from 'src/app/classes/Rune';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { MaterialItem } from './MaterialItem';
 

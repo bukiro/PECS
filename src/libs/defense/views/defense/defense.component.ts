@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { Armor } from 'src/app/classes/Armor';
 import { CharacterService } from 'src/app/services/character.service';
 import { Character } from 'src/app/classes/Character';
@@ -54,7 +54,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _toastService: ToastService,
         private readonly _armorClassService: ArmorClassService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
@@ -223,7 +223,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(traitName: string): Trait {
-        return this._traitsService.traitFromName(traitName);
+        return this._traitsDataService.traitFromName(traitName);
     }
 
     public hasMatchingTalismanCord(item: Armor | Shield | WornItem, talisman: Talisman): boolean {

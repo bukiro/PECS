@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { Class } from 'src/app/classes/Class';
 import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 
 @Injectable({
     providedIn: 'root',

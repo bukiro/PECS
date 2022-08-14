@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
@@ -49,7 +49,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _timeService: TimeService,
@@ -68,7 +68,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(traitName: string): Trait {
-        return this._traitsService.traitFromName(traitName);
+        return this._traitsDataService.traitFromName(traitName);
     }
 
     public spellFromName(name: string): Spell {

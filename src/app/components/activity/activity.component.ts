@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
@@ -79,7 +79,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -166,7 +166,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(traitName: string): Trait {
-        return this._traitsService.traitFromName(traitName);
+        return this._traitsDataService.traitFromName(traitName);
     }
 
     public characterFeatsShowingHintsOnThis(activityName: string): Array<Feat> {

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ItemsService } from 'src/app/services/items.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
@@ -57,7 +57,7 @@ export class NewItemPropertyComponent {
         private readonly _itemsService: ItemsService,
         private readonly _characterService: CharacterService,
         private readonly _effectsService: CreatureEffectsService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _evaluationService: EvaluationService,
@@ -366,7 +366,7 @@ export class NewItemPropertyComponent {
                 examples.push(...this._cleanItems().weapons.map(item => item.weaponBase));
                 break;
             case 'traits':
-                examples = this._traitsService.traits().map(trait => trait.name);
+                examples = this._traitsDataService.traits().map(trait => trait.name);
                 break;
             case 'isdoublingrings':
                 examples = ['', 'Doubling Rings', 'Doubling Rings (Greater)'];

@@ -13,7 +13,7 @@ import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -34,7 +34,7 @@ export class DamageService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
     ) { }
 
     /**
@@ -124,7 +124,7 @@ export class DamageService {
             const traitEffects = [];
 
             weapon.activatedTraitsActivations().forEach(activation => {
-                const realTrait = this._traitsService.traits(activation.trait)[0];
+                const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
                 traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Number']));
             });
@@ -262,7 +262,7 @@ export class DamageService {
             const traitEffects = [];
 
             weapon.activatedTraitsActivations().forEach(activation => {
-                const realTrait = this._traitsService.traits(activation.trait)[0];
+                const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
                 traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Size']));
             });
@@ -542,7 +542,7 @@ export class DamageService {
             const traitEffects = [];
 
             weapon.activatedTraitsActivations().forEach(activation => {
-                const realTrait = this._traitsService.traits(activation.trait)[0];
+                const realTrait = this._traitsDataService.traits(activation.trait)[0];
 
                 traitEffects.push(...realTrait.objectBoundEffects(activation, ['Damage per Die']));
             });

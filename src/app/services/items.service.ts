@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
 import { AlchemicalElixir } from 'src/app/classes/AlchemicalElixir';

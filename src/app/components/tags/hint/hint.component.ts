@@ -7,7 +7,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Shield } from 'src/app/classes/Shield';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Character } from 'src/app/classes/Character';
@@ -53,7 +53,7 @@ export class HintComponent {
         private readonly _characterService: CharacterService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _refreshService: RefreshService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         public trackers: Trackers,
     ) { }
@@ -146,7 +146,7 @@ export class HintComponent {
     }
 
     public traitFromName(traitName: string): Trait {
-        return this._traitsService.traitFromName(traitName);
+        return this._traitsDataService.traitFromName(traitName);
     }
 
     public hintSource(hint: Hint): HintObject {

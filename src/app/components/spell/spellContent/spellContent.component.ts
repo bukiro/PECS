@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
@@ -25,13 +25,13 @@ export class SpellContentComponent {
     public spellTraditionsEnum = SpellTraditions;
 
     constructor(
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _spellsDataService: SpellsDataService,
         public trackers: Trackers,
     ) { }
 
     public traitFromName(name: string): Trait {
-        return this._traitsService.traitFromName(name);
+        return this._traitsDataService.traitFromName(name);
     }
 
     public heightenedText(text: string): string {

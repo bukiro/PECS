@@ -14,7 +14,7 @@ import { HistoryDataService } from 'src/app/core/services/data/history-data.serv
 import { ItemsService } from 'src/app/services/items.service';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ConditionsDataService } from '../data/conditions-data.service';
 import { SpellsDataService } from '../data/spells-data.service';
@@ -32,7 +32,7 @@ export class AppInitService {
         private readonly _characterService: CharacterService,
         private readonly _extensionsService: ExtensionsService,
         private readonly _configService: ConfigService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featsService: FeatsService,
@@ -63,7 +63,7 @@ export class AppInitService {
         const waitForFileServices = setInterval(() => {
             if (!this._extensionsService.stillLoading && !this._configService.stillLoading) {
                 clearInterval(waitForFileServices);
-                this._traitsService.initialize();
+                this._traitsDataService.initialize();
                 this._abilitiesDataService.initialize();
                 this._activitiesDataService.initialize();
                 this._featsService.initialize();
@@ -86,7 +86,7 @@ export class AppInitService {
     public reset(): void {
         this._characterService.reset();
         this._cacheService.reset();
-        this._traitsService.reset();
+        this._traitsDataService.reset();
         this._activitiesDataService.reset();
         this._featsService.reset();
         this._conditionsDataService.reset();

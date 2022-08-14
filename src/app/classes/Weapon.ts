@@ -2,7 +2,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { ItemsService } from 'src/app/services/items.service';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Item } from './Item';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';

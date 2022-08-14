@@ -18,7 +18,7 @@ import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Rune } from 'src/app/classes/Rune';
 import { Shield } from 'src/app/classes/Shield';
 import { Snare } from 'src/app/classes/Snare';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CacheService } from 'src/app/services/cache.service';
@@ -45,7 +45,7 @@ export class RefreshService {
         new BehaviorSubject<DetailToChange>({ target: '', creature: '', subtarget: '' });
 
     constructor(
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _cacheService: CacheService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _characterService: CharacterService,
@@ -182,7 +182,7 @@ export class RefreshService {
 
     public prepareChangesByItem(creature: Creature, item: Item): void {
         this.prepareDetailToChange(creature.type, item.id);
-        item.traits.map(trait => this._traitsService.traitFromName(trait)).forEach(trait => {
+        item.traits.map(trait => this._traitsDataService.traitFromName(trait)).forEach(trait => {
             this.prepareChangesByHints(creature, trait.hints);
         });
 

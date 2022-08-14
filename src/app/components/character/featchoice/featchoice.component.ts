@@ -7,7 +7,7 @@ import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatCh
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Character as CharacterModel } from 'src/app/classes/Character';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
@@ -85,7 +85,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _featsService: FeatsService,
         private readonly _familiarsDataService: FamiliarsDataService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _featRequirementsService: FeatRequirementsService,
         private readonly _featTakingService: FeatTakingService,
@@ -172,7 +172,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(traitName: string): Trait {
-        return this._traitsService.traitFromName(traitName);
+        return this._traitsDataService.traitFromName(traitName);
     }
 
     public buttonTitle(allowedFeats: number): string {

@@ -4,7 +4,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -60,7 +60,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _skillValuesService: SkillValuesService,
         public trackers: Trackers,
     ) { }
@@ -114,7 +114,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(name: string): Trait {
-        return this._traitsService.traitFromName(name);
+        return this._traitsDataService.traitFromName(name);
     }
 
     public isSpellShown(visibleSpells: Array<Spell>, spellIndex: number, range: number): boolean {

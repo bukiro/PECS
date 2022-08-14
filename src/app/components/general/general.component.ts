@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
@@ -46,7 +46,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _effectsService: CreatureEffectsService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _classesDataService: ClassesDataService,
@@ -288,7 +288,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(name: string): Trait {
-        return this._traitsService.traitFromName(name);
+        return this._traitsDataService.traitFromName(name);
     }
 
     public ngOnInit(): void {

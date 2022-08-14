@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 
 @Injectable({
     providedIn: 'root',

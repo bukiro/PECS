@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -37,12 +37,12 @@ export class SpellComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         public trackers: Trackers,
     ) { }
 
     public traitFromName(name: string): Trait {
-        return this._traitsService.traitFromName(name);
+        return this._traitsDataService.traitFromName(name);
     }
 
     public characterFeatsShowingHintsOnThis(spellName: string): Array<Feat> {

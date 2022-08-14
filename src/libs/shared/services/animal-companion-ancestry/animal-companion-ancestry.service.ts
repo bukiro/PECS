@@ -5,7 +5,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ItemsService } from 'src/app/services/items.service';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
 
 @Injectable({

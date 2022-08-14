@@ -7,7 +7,7 @@ import { ExtensionsService } from 'src/app/core/services/data/extensions.service
 @Injectable({
     providedIn: 'root',
 })
-export class TraitsService {
+export class TraitsDataService {
 
     private _traits: Array<Trait> = [];
     private _initialized = false;

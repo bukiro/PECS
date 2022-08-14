@@ -24,7 +24,7 @@ import { HintEffectsObject } from 'src/libs/shared/effects-generation/definition
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 import { ItemEffectsGenerationService } from 'src/libs/shared/effects-generation/services/item-effects-generation/item-effects-generation.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { TraitsService } from '../../../../../app/services/traits.service';
+import { TraitsDataService } from '../../../../../app/core/services/data/traits-data.service';
 import { ObjectEffectsGenerationService } from 'src/libs/shared/effects-generation/services/object-effects-generation/object-effects-generation';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { EffectsGenerationPreflightService } from '../effects-generation-preflight/effects-generation-preflight.service';
@@ -44,7 +44,7 @@ export class EffectsGenerationService {
         private readonly _creatureEffectsGenerationService: CreatureEffectsGenerationService,
         private readonly _itemTraitsService: ItemTraitsService,
         private readonly _itemEffectsGenerationService: ItemEffectsGenerationService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _characterService: CharacterService,
         private readonly _objectEffectsGenerationService: ObjectEffectsGenerationService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
@@ -104,7 +104,7 @@ export class EffectsGenerationService {
     ): Array<HintEffectsObject> {
         const hintSets: Array<HintEffectsObject> = [];
 
-        this._traitsService.traits().filter(trait => trait.hints.length && trait.itemsWithThisTrait(creature).length)
+        this._traitsDataService.traits().filter(trait => trait.hints.length && trait.itemsWithThisTrait(creature).length)
             .forEach(trait => {
                 trait.hints.forEach(hint => {
                     hintSets.push({ hint, objectName: trait.name });

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { FeatRequirementsService } from 'src/app/character-creation/services/feat-requirement/featRequirements.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
@@ -33,7 +33,7 @@ export class FeatComponent {
     constructor(
         private readonly _spellsDataService: SpellsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _featRequirementsService: FeatRequirementsService,
         public trackers: Trackers,
     ) { }
@@ -110,7 +110,7 @@ export class FeatComponent {
     }
 
     public traitFromName(traitName: string): Trait {
-        return this._traitsService.traitFromName(traitName);
+        return this._traitsDataService.traitFromName(traitName);
     }
 
 }

@@ -7,7 +7,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemsService } from 'src/app/services/items.service';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
 import { SortAlphaNum } from '../../util/sortUtils';
 import { ActivityGainPropertiesService } from '../activity-gain-properties/activity-gain-properties.service';
@@ -22,7 +22,7 @@ export class CreatureActivitiesService {
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemsService: ItemsService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
     ) { }
 
 
@@ -100,7 +100,7 @@ export class CreatureActivitiesService {
                     }
 
                     item.traits
-                        .map(trait => this._traitsService.traits(trait)[0])
+                        .map(trait => this._traitsDataService.traits(trait)[0])
                         .filter(trait => trait?.gainActivities.length)
                         .forEach(trait => {
                             activities.push(...trait.gainActivities);
@@ -160,7 +160,7 @@ export class CreatureActivitiesService {
                     }
 
                     item.traits
-                        .map(trait => this._traitsService.traits(trait)[0])
+                        .map(trait => this._traitsDataService.traits(trait)[0])
                         .filter(trait => trait?.gainActivities.length)
                         .forEach(trait => {
                             activities.push(...trait.gainActivities);

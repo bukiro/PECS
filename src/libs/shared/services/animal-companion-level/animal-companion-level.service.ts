@@ -6,7 +6,7 @@ import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-c
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 
 @Injectable({

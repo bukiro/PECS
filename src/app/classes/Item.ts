@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Oil } from 'src/app/classes/Oil';
 import { ItemGain } from 'src/app/classes/ItemGain';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { ItemGainOnOptions } from 'src/libs/shared/definitions/itemGainOptions';
 import { Equipment } from './Equipment';

@@ -2,7 +2,7 @@ import { Consumable } from 'src/app/classes/Consumable';
 import { Hint } from 'src/app/classes/Hint';
 import { ItemsService } from 'src/app/services/items.service';
 import { SpellCast } from 'src/app/classes/SpellCast';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Item } from './Item';
 

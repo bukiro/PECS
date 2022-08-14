@@ -9,7 +9,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -19,7 +19,7 @@ export class ItemTraitsService {
     constructor(
         private readonly _effectsService: CreatureEffectsService,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _refreshService: RefreshService,
 
     ) { }
@@ -160,7 +160,7 @@ export class ItemTraitsService {
 
             weapon.$traits = traits;
             changed.forEach(changedTrait => {
-                this._traitsService.traits(changedTrait).forEach(trait => {
+                this._traitsDataService.traits(changedTrait).forEach(trait => {
                     this._refreshService.prepareChangesByHints(
                         context.creature,
                         trait.hints,

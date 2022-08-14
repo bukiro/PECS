@@ -11,7 +11,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { WornItem } from 'src/app/classes/WornItem';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';

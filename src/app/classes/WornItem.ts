@@ -1,6 +1,6 @@
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemsService } from 'src/app/services/items.service';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Item } from './Item';
 import { LanguageGain } from './LanguageGain';

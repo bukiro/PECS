@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
 import { Background } from 'src/app/classes/Background';
-import { TypeService } from 'src/app/services/type.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { HistoryDataService } from 'src/app/core/services/data/history-data.service';
 
 @Injectable({

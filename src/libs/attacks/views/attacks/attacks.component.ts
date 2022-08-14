@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 import { Weapon } from 'src/app/classes/Weapon';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Character } from 'src/app/classes/Character';
@@ -69,7 +69,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
@@ -277,7 +277,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(traitName: string): Trait {
-        return this._traitsService.traitFromName(traitName);
+        return this._traitsDataService.traitFromName(traitName);
     }
 
     public hintShowingRunes(weapon: Weapon, range: string): Array<WeaponRune> {

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { TimeService } from 'src/libs/time/services/time/time.service';
@@ -69,7 +69,7 @@ export class TagsComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _timeService: TimeService,
         private readonly _durationsService: DurationsService,
@@ -180,7 +180,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     private _traitsShowingHintsOnThis(name: string): Array<Trait> {
         if (this.showTraits && name) {
-            return this._traitsService.traitsShowingHintsOnThis(this.currentCreature, name)
+            return this._traitsDataService.traitsShowingHintsOnThis(this.currentCreature, name)
                 .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];

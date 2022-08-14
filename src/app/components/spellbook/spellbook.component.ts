@@ -2,7 +2,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
-import { TraitsService } from 'src/app/services/traits.service';
+import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { TimeService } from 'src/libs/time/services/time/time.service';
@@ -105,7 +105,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _traitsService: TraitsService,
+        private readonly _traitsDataService: TraitsDataService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _timeService: TimeService,
         private readonly _effectsService: CreatureEffectsService,
@@ -177,7 +177,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public traitFromName(name: string): Trait {
-        return this._traitsService.traitFromName(name);
+        return this._traitsDataService.traitFromName(name);
     }
 
     public doesCharacterHaveSpells(): boolean {
