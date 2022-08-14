@@ -20,7 +20,6 @@ import { ConditionsDataService } from '../data/conditions-data.service';
 import { SpellsDataService } from '../data/spells-data.service';
 import { ClassesDataService } from '../data/classes-data.service';
 import { CustomEffectPropertiesService } from 'src/libs/shared/services/custom-effect-properties/custom-effect-properties.service';
-import { CacheService } from 'src/app/services/cache.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
@@ -49,7 +48,6 @@ export class AppInitService {
         private readonly _messagesService: MessagesService,
         private readonly _customEffectPropertiesService: CustomEffectPropertiesService,
         private readonly _effectsGenerationService: EffectsGenerationService,
-        private readonly _cacheService: CacheService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) {
@@ -87,7 +85,6 @@ export class AppInitService {
 
     public reset(): void {
         this._characterService.reset();
-        this._cacheService.reset();
         this._traitsDataService.reset();
         this._activitiesDataService.reset();
         this._featsDataService.reset();

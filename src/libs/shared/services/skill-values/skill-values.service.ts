@@ -8,10 +8,8 @@ import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
 import { Skill } from 'src/app/classes/Skill';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from 'src/libs/shared/definitions/skillLevels';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
@@ -42,10 +40,8 @@ export class SkillValuesService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _effectsService: CreatureEffectsService,
-        private readonly _cacheService: CacheService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillsDataService: SkillsDataService,
-        private readonly _featsDataService: FeatsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
     ) { }
 
@@ -160,25 +156,6 @@ export class SkillValuesService {
                 default: break;
             }
 
-            const cachedLevel = skill.$level.get(`${ creature.type }-${ charLevel }-${ excludeTemporary }`);
-
-            if (cachedLevel) {
-                const checkList = {
-                    skills: relevantSkillList.map(name => ({ name, cached: cachedLevel.cached })),
-                    effects: effectTargetList.map(name => ({ name, cached: cachedLevel.cached })),
-                    proficiencyCopies: cachedLevel.cached,
-                    level: creature.isAnimalCompanion() ? cachedLevel.cached : 0,
-                };
-
-                if (!this._cacheService.hasChecklistChanged(
-                    checkList,
-                    { creatureTypeId: creature.typeId, level: charLevel, name: `Skill Level: ${ skill.name }` },
-                )) {
-                    //If none of the dependencies have changed, return the cached value.
-                    return cachedLevel.value;
-                }
-            }
-
             const absoluteEffects = excludeTemporary ? [] : this._effectsService.absoluteEffectsOnThese(creature, effectTargetList);
 
             if (absoluteEffects.length) {
@@ -290,7 +267,6 @@ export class SkillValuesService {
                 }
             });
             skillLevel = Math.max(Math.min(skillLevel, SkillLevels.Legendary), SkillLevels.Untrained);
-            skill.$level.set(`${ creature.type }-${ charLevel }-${ excludeTemporary }`, { value: skillLevel, cached: Date.now() });
 
             return skillLevel;
         }
@@ -411,47 +387,18 @@ export class SkillValuesService {
                 return skill.ability;
             } else {
                 const character = this._characterService.character;
-                const cachedAbility = skill.$ability.get(`${ creature.type }-${ character.level }`);
-
-                if (cachedAbility) {
-                    const checkList = {
-                        abilities: [
-                            { name: 'Class Key Ability', cached: cachedAbility.cached },
-                            { name: `${ skill.name.split(' ')[0] } Key Ability`, cached: cachedAbility.cached },
-                        ],
-                        level: creature.isAnimalCompanion() ? cachedAbility.cached : 0,
-                    };
-
-                    if (!this._cacheService.hasChecklistChanged(
-                        checkList,
-                        { creatureTypeId: creature.typeId, level: character.level, name: `Skill Ability: ${ skill.name }` },
-                    )) {
-                        return cachedAbility.value;
-                    }
-                }
 
                 // Get the correct ability by finding the first key ability boost for the main class or the archetype class.
                 // Some effects ask for your Unarmed Attacks modifier without any weapon, so we need to apply your strength modifier.
                 // But Unarmed Attacks is not a real skill and does not have an ability.
                 if (skill.name === 'Unarmed Attacks') {
-                    skill.$ability.set(`${ creature.type }-${ character.level }`, { value: 'Strength', cached: Date.now() });
-
                     return 'Strength';
                 }
 
                 if (skill.name === `${ character.class.name } Class DC`) {
-                    const ability = character.abilityBoosts(1, 1, '', '', 'Class Key Ability')[0]?.name;
-
-                    skill.$ability.set(`${ creature.type }-${ character.level }`, { value: ability, cached: Date.now() });
-
-                    return ability;
+                    return character.abilityBoosts(1, 1, '', '', 'Class Key Ability')[0]?.name;
                 } else if (skill.name.includes(' Class DC') && !skill.name.includes(character.class.name)) {
-                    const ability =
-                        character.abilityBoosts(1, character.level, '', '', `${ skill.name.split(' ')[0] } Key Ability`)[0]?.name;
-
-                    skill.$ability.set(`${ creature.type }-${ character.level }`, { value: ability, cached: Date.now() });
-
-                    return ability;
+                    return character.abilityBoosts(1, character.level, '', '', `${ skill.name.split(' ')[0] } Key Ability`)[0]?.name;
                 }
             }
         }

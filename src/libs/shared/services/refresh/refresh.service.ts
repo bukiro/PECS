@@ -21,7 +21,6 @@ import { Snare } from 'src/app/classes/Snare';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
-import { CacheService } from 'src/app/services/cache.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
@@ -46,7 +45,6 @@ export class RefreshService {
 
     constructor(
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _cacheService: CacheService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _characterService: CharacterService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
@@ -246,10 +244,6 @@ export class RefreshService {
 
         //Update various components depending on effect targets.
         this._prepareChangesByEffectTargets(changedEffects.map(effect => effect.target), context);
-
-        changedEffects.forEach(effect => {
-            this._cacheService.setEffectChanged(effect.target, { creatureTypeId: context.creature.typeId });
-        });
 
         //If any equipped weapon is affected, update attacks, and if any equipped armor or shield is affected, update defense.
         if (

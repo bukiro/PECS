@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Class } from 'src/app/classes/Class';
 import { Skill } from 'src/app/classes/Skill';
-import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
@@ -22,9 +19,6 @@ export class CharacterClassChangeService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _itemsService: ItemsService,
-        private readonly _featsDataService: FeatsDataService,
-        private readonly _deitiesDataService: DeitiesDataService,
-        private readonly _cacheService: CacheService,
         private readonly _refreshService: RefreshService,
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
@@ -51,7 +45,6 @@ export class CharacterClassChangeService {
 
         this._processNewClass(character);
         this._characterDeitiesService.clearCharacterDeities();
-        this._cacheService.resetCreatureCache(character.typeId);
         this._refreshService.setComponentChanged();
     }
 

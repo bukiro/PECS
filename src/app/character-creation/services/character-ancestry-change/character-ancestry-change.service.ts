@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Character } from 'src/app/classes/Character';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
@@ -19,8 +17,6 @@ export class CharacterAncestryChangeService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _featsDataService: FeatsDataService,
-        private readonly _cacheService: CacheService,
         private readonly _refreshService: RefreshService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _featTakingService: FeatTakingService,
@@ -42,7 +38,6 @@ export class CharacterAncestryChangeService {
             character.class.ancestry = new Ancestry();
         }
 
-        this._cacheService.resetCreatureCache(character.typeId);
         this._characterService.updateLanguageList();
     }
 

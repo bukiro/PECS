@@ -3,9 +3,7 @@ import { Background } from 'src/app/classes/Background';
 import { Character } from 'src/app/classes/Character';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
@@ -18,8 +16,6 @@ export class CharacterBackgroundChangeService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _featsDataService: FeatsDataService,
-        private readonly _cacheService: CacheService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _featProcessingService: FeatProcessingService,
@@ -37,8 +33,6 @@ export class CharacterBackgroundChangeService {
         } else {
             character.class.background = new Background();
         }
-
-        this._cacheService.resetCreatureCache(character.typeId);
     }
 
     private _processRemovingOldBackground(character: Character): void {

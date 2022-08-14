@@ -3,7 +3,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
-import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
@@ -18,7 +17,6 @@ export class AnimalCompanionLevelsService {
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _cacheService: CacheService,
     ) { }
 
     public restoreLevelsFromSave($class: AnimalCompanionClass): AnimalCompanionClass {
@@ -114,7 +112,6 @@ export class AnimalCompanionLevelsService {
             companion.class.levels[advancedLevel].name = 'Placeholder';
         }
 
-        this._cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
     }
 

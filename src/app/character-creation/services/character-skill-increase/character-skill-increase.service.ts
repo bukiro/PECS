@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -20,7 +19,6 @@ export class CharacterSkillIncreaseService {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillsDataService: SkillsDataService,
-        private readonly _cacheService: CacheService,
         private readonly _featsDataService: FeatsDataService,
     ) { }
 
@@ -47,12 +45,6 @@ export class CharacterSkillIncreaseService {
     public processSkillIncrease(skillName: string, train: boolean, choice: SkillChoice): void {
         const character = this._characterService.character;
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
-
-        this._cacheService.setSkillChanged(skillName, { creatureTypeId: 0, minLevel: levelNumber });
-
-        if (skillName.toLowerCase().includes('spell dc')) {
-            this._cacheService.setSkillChanged('Any Spell DC', { creatureTypeId: 0, minLevel: levelNumber });
-        }
 
         if (train) {
             this._processSkillIncreaseTaken(skillName, choice, character, levelNumber);

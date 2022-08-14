@@ -4,7 +4,6 @@ import { CharacterService } from 'src/app/services/character.service';
 import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { HistoryDataService } from 'src/app/core/services/data/history-data.service';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
@@ -36,7 +35,6 @@ import { ConfigService } from 'src/app/core/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CacheService } from 'src/app/services/cache.service';
 import { Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
@@ -119,7 +117,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _configService: ConfigService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
-        private readonly _featsDataService: FeatsDataService,
         private readonly _historyDataService: HistoryDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _deitiesDataService: DeitiesDataService,
@@ -132,7 +129,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _savegamesService: SavegamesService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
-        private readonly _cacheService: CacheService,
         private readonly _modalService: NgbModal,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _characterClassChangeService: CharacterClassChangeService,
@@ -614,10 +610,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 if (choice.showOnCurrentLevel) {
                     this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
                 }
-
-                choice.feats.forEach(taken => {
-                    this._cacheService.setFeatChanged(taken.name, { creatureTypeId: 0, minLevel: lowerLevel, maxLevel: higherLevel });
-                });
             });
         });
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
@@ -632,14 +624,14 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells');
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-        character.abilityBoosts(lowerLevel, higherLevel).forEach(boost => {
+
+        if (character.abilityBoosts(lowerLevel, higherLevel).length) {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'abilities');
-            this._cacheService.setAbilityChanged(boost.name, { creatureTypeId: 0, minLevel: lowerLevel });
-        });
+        }
+
         character.skillIncreases(lowerLevel, higherLevel).forEach(increase => {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skillchoices');
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualSkills', increase.name);
-            this._cacheService.setSkillChanged(increase.name, { creatureTypeId: 0, minLevel: lowerLevel });
         });
         this.characterFeatsAndFeatures()
             .filter(feat =>
@@ -651,7 +643,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 ),
             )
             .forEach(feat => {
-                this._cacheService.setFeatChanged(feat.name, { creatureTypeId: 0, minLevel: lowerLevel });
                 this._refreshService.prepareChangesByHints(character, feat.hints);
 
                 if (feat.gainAbilityChoice.length) {
@@ -1677,7 +1668,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
-        this._cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
         this._refreshService.processPreparedChanges();
     }
 
@@ -1703,7 +1693,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'skills');
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'attacks');
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'defense');
-        this._cacheService.setLevelChanged({ creatureTypeId: 1, minLevel: 0 });
         this._refreshService.processPreparedChanges();
     }
 

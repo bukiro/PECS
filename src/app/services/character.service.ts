@@ -55,7 +55,6 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { CacheService } from 'src/app/services/cache.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Speed } from '../classes/Speed';
@@ -67,7 +66,6 @@ import { HttpStatusCode } from '@angular/common/http';
 import { Ability } from '../classes/Ability';
 import { Health } from '../classes/Health';
 import { AnimalCompanionLevel } from '../classes/AnimalCompanionLevel';
-import { CreatureTypeIds } from 'src/libs/shared/definitions/creatureTypeIds';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -169,7 +167,6 @@ export class CharacterService {
         private readonly _toastService: ToastService,
         private readonly _evaluationService: EvaluationService,
         private readonly _refreshService: RefreshService,
-        private readonly _cacheService: CacheService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
@@ -2605,8 +2602,6 @@ export class CharacterService {
     public initializeAnimalCompanion(): void {
         const character = this.character;
 
-        this._cacheService.resetCreatureCache(1);
-
         if (character.class.animalCompanion) {
             character.class.animalCompanion =
                 Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._itemsService);
@@ -2621,8 +2616,6 @@ export class CharacterService {
 
     public initializeFamiliar(): void {
         const character = this.character;
-
-        this._cacheService.resetCreatureCache(CreatureTypeIds.Familiar);
 
         if (character.class.familiar) {
             character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._itemsService);

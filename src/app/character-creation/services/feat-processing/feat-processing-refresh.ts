@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CacheService } from 'src/app/services/cache.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Feat } from '../../definitions/models/Feat';
 import { FeatProcessingContext } from './feat-processing.service';
@@ -13,7 +11,6 @@ export class FeatProcessingRefreshService {
 
     constructor(
         private readonly _refreshService: RefreshService,
-        private readonly _cacheService: CacheService,
     ) { }
 
     /**
@@ -23,11 +20,6 @@ export class FeatProcessingRefreshService {
         feat: Feat,
         context: FeatProcessingContext,
     ): void {
-
-        this._cacheService.setFeatChanged(
-            feat.name,
-            { creatureTypeId: context.creature.typeId, minLevel: context.level.number, maxLevel: Defaults.maxCharacterLevel },
-        );
 
         //Familiar abilities should update the familiar's general information.
         if (context.creature.isFamiliar()) {
@@ -64,18 +56,6 @@ export class FeatProcessingRefreshService {
         if (feat.gainSpecialization || feat.copyProficiency.length || feat.changeProficiency.length) {
             this._refreshService.prepareDetailToChange(context.creature.type, 'defense');
             this._refreshService.prepareDetailToChange(context.creature.type, 'attacks');
-
-            if (feat.changeProficiency.length) {
-                this._cacheService.setProficiencyChangesChanged(
-                    { creatureTypeId: context.creature.typeId, minLevel: context.level.number, maxLevel: Defaults.maxCharacterLevel },
-                );
-            }
-
-            if (feat.copyProficiency.length) {
-                this._cacheService.setProficiencyCopiesChanged(
-                    { creatureTypeId: context.creature.typeId, minLevel: context.level.number, maxLevel: Defaults.maxCharacterLevel },
-                );
-            }
 
             feat.changeProficiency.forEach(change => {
                 if (change.name) {
