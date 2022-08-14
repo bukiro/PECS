@@ -4,7 +4,7 @@ import { Character } from 'src/app/classes/Character';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
@@ -18,7 +18,7 @@ export class CharacterAncestryChangeService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _cacheService: CacheService,
         private readonly _refreshService: RefreshService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
@@ -73,7 +73,7 @@ export class CharacterAncestryChangeService {
             characterClass.levels.forEach(classLevel => {
                 classLevel.featChoices.forEach(choice => {
                     choice.feats.filter(gain => gain.name.includes('Adopted Ancestry')).forEach(gain => {
-                        this._featsService.processFeat(character, undefined, gain, choice, level, false);
+                        this._featsDataService.processFeat(character, undefined, gain, choice, level, false);
                     });
 
                     choice.feats = choice.feats.filter(gain => !gain.name.includes('Adopted Ancestry'));

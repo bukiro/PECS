@@ -11,7 +11,7 @@ import { SkillsDataService } from 'src/app/core/services/data/skills-data.servic
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Armor } from 'src/app/classes/Armor';
 import { Weapon } from 'src/app/classes/Weapon';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
@@ -88,6 +88,8 @@ import { CharacterDeitiesService } from 'src/libs/shared/services/character-deit
 import { ObjectEffectsGenerationService } from 'src/libs/shared/effects-generation/services/object-effects-generation/object-effects-generation';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { StatusService } from '../core/services/status/status.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -153,7 +155,7 @@ export class CharacterService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _classesDataService: ClassesDataService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -182,6 +184,8 @@ export class CharacterService {
         private readonly _objectEffectsGenerationService: ObjectEffectsGenerationService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _statusService: StatusService,
+        private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _creatureFeatsService: CreatureFeatsService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -780,7 +784,7 @@ export class CharacterService {
             }
 
             if (item instanceof Weapon) {
-                const customFeats = this._featsService.createWeaponFeats([item]);
+                const customFeats = this._featsDataService.createWeaponFeats([item]);
 
                 customFeats.forEach(customFeat => {
                     const oldFeat = this.character.customFeats.find(existingFeat => existingFeat.name === customFeat.name);
@@ -2188,20 +2192,16 @@ export class CharacterService {
     }
 
     public feats(name = '', type = ''): Array<Feat> {
-        return this._featsService.feats(this.character.customFeats, name, type);
-    }
-
-    public features(name = ''): Array<Feat> {
-        return this._featsService.features(name);
+        return this._featsDataService.feats(this.character.customFeats, name, type);
     }
 
     public featsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
         //Use this function very sparingly! See get_All() for details.
-        return this._featsService.featsAndFeatures(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
+        return this._featsDataService.featsAndFeatures(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     public characterFeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
-        return this._featsService.characterFeats(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
+        return this._characterFeatsService.characterFeats(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
     public characterHasFeat(name: string, levelNumber: number = this._character.level): boolean {
@@ -2224,7 +2224,7 @@ export class CharacterService {
         // we can get the taken feats quicker from the featsService.
         // CharacterService.get_CharacterFeatsTaken should be preferred over Character.takenFeats for this reason.
         if (!options.excludeTemporary) {
-            return this._featsService.characterFeatsTaken(
+            return this._characterFeatsService.characterFeatsTaken(
                 minLevelNumber,
                 maxLevelNumber,
                 filter.featName,
@@ -2410,7 +2410,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() === 'lore'
                     ),
                 ),
-            ) && this._featsService.have(feat, { creature: this.familiar }),
+            ) && this._creatureFeatsService.creatureHasFeat(feat, { creature: this.familiar }),
             //Return any feats that include e.g. Companion:Athletics
         )
             .concat(this.characterFeatsShowingHintsOnThis(`Familiar:${ objectName }`));

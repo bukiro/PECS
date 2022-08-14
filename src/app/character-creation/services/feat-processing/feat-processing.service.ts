@@ -1,70 +1,48 @@
-/* eslint-disable complexity */
-/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { ClassLevel } from 'src/app/classes/ClassLevel';
-import { CharacterService } from 'src/app/services/character.service';
-import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
-import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { Familiar } from 'src/app/classes/Familiar';
-import { Character } from 'src/app/classes/Character';
-import { Speed } from 'src/app/classes/Speed';
-import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
-import * as json_feats from 'src/assets/json/feats';
-import * as json_features from 'src/assets/json/features';
+import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
+import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
+import { Character } from 'src/app/classes/Character';
+import { ClassLevel } from 'src/app/classes/ClassLevel';
+import { ConditionGain } from 'src/app/classes/ConditionGain';
+import { Familiar } from 'src/app/classes/Familiar';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
-import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ItemsService } from './items.service';
-import { Weapon } from '../classes/Weapon';
-import { HistoryDataService } from '../core/services/data/history-data.service';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
-import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
+import { LoreChoice } from 'src/app/classes/LoreChoice';
+import { SkillChoice } from 'src/app/classes/SkillChoice';
+import { Speed } from 'src/app/classes/Speed';
+import { SpellChoice } from 'src/app/classes/SpellChoice';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
+import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
+import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
+import { CacheService } from 'src/app/services/cache.service';
+import { CharacterService } from 'src/app/services/character.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
-import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
-import { CharacterHeritageChangeService } from '../character-creation/services/character-heritage-change/character-heritage-change.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
-import { ActivitiesDataService } from '../core/services/data/activities-data.service';
-import { CharacterSkillIncreaseService } from '../character-creation/services/character-skill-increase/character-skill-increase.service';
+import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
-import { Creature } from '../classes/Creature';
-import { CacheService } from './cache.service';
-import { FamiliarsDataService } from '../core/services/data/familiars-data.service';
-import { DeitiesDataService } from '../core/services/data/deities-data.service';
-import { ClassesDataService } from '../core/services/data/classes-data.service';
-import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { Feat } from '../../definitions/models/Feat';
+import { FeatChoice } from '../../definitions/models/FeatChoice';
+import { FeatData } from '../../definitions/models/FeatData';
+import { FeatTaken } from '../../definitions/models/FeatTaken';
+import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
+import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class FeatsService {
-    private _feats: Array<Feat> = [];
-    // eslint-disable-next-line @typescript-eslint/prefer-readonly
-    private _features: Array<Feat> = [];
-    private _initialized = false;
-    private readonly _featsMap = new Map<string, Feat>();
-    private readonly _featuresMap = new Map<string, Feat>();
-    //Load all feats that you have into $characterFeats, so they are faster to retrieve.
-    private readonly _$characterFeats = new Map<string, Feat>();
-    private _$characterFeatsTaken: Array<{ level: number; gain: FeatTaken }> = [];
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _extensionsService: ExtensionsService,
-        private readonly _itemsService: ItemsService,
-        private readonly _historyDataService: HistoryDataService,
         private readonly _refreshService: RefreshService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
@@ -77,206 +55,9 @@ export class FeatsService {
         private readonly _cacheService: CacheService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _classesDataService: ClassesDataService,
-        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
-
-    public get stillLoading(): boolean {
-        return !this._initialized;
-    }
-
-    public feats(customFeats: Array<Feat>, name = '', type = ''): Array<Feat> {
-        if (!this.stillLoading) {
-            //If only a name is given, try to find a feat by that name in the index map. This should be much quicker.
-            if (name && !type) {
-                return [this._featFromName(customFeats, name)];
-            }
-
-            return this._feats.concat(customFeats).filter(feat =>
-                (
-                    !name ||
-                    feat.name.toLowerCase() === name.toLowerCase()
-                ) &&
-                (
-                    !type ||
-                    feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase())
-                ),
-            );
-        }
-
-        return [this._replacementFeat()];
-    }
-
-    public features(name = ''): Array<Feat> {
-        if (!this.stillLoading) {
-            //If a name is given, try to find a feat by that name in the index map. This should be much quicker.
-            if (name) {
-                return [this._featureFromName(name)];
-            }
-
-            return this._features;
-        } else { return [this._replacementFeat()]; }
-    }
-
-    public buildCharacterFeats(character: Character): void {
-        // Add all feats that the character has taken to $characterFeats (feat for quick retrieval)
-        // and $characterFeatsTaken (gain with level).
-        this._$characterFeats.clear();
-        this._$characterFeatsTaken.length = 0;
-        character.class.levels.forEach(level => {
-            level.featChoices.forEach(choice => {
-                choice.feats.forEach(takenFeat => {
-                    this._addCharacterFeat(character, this._featOrFeatureFromName([], takenFeat.name), takenFeat, level.number);
-                });
-            });
-        });
-    }
-
-    public createWeaponFeats(weapons: Array<Weapon> = this._itemsService.cleanItemsOfType('weapons')): Array<Feat> {
-        const weaponFeats = this._feats.filter(feat => feat.weaponfeatbase);
-        const resultingFeats: Array<Feat> = [];
-
-        weaponFeats.forEach(feat => {
-            let featweapons = weapons;
-
-            //These filters are hardcoded according to the needs of the weaponfeatbase feats.
-            // Certain codewords are replaced with matching names, such as in
-            // "Advanced Weapon", "Uncommon Ancestry Weapon" or "Uncommon Ancestry Advanced Weapon"
-            if (feat.subType.includes('Uncommon')) {
-                featweapons = featweapons.filter(weapon => weapon.traits.includes('Uncommon'));
-            }
-
-            if (feat.subType.includes('Simple')) {
-                featweapons = featweapons.filter(weapon => weapon.prof === WeaponProficiencies.Simple);
-            } else if (feat.subType.includes('Martial')) {
-                featweapons = featweapons.filter(weapon => weapon.prof === WeaponProficiencies.Martial);
-            } else if (feat.subType.includes('Advanced')) {
-                featweapons = featweapons.filter(weapon => weapon.prof === WeaponProficiencies.Advanced);
-            }
-
-            if (feat.subType.includes('Ancestry')) {
-                const ancestries: Array<string> = this._historyDataService.ancestries().map(ancestry => ancestry.name);
-
-                featweapons = featweapons.filter(weapon => weapon.traits.some(trait => ancestries.includes(trait)));
-            }
-
-            featweapons.forEach(weapon => {
-                const regex = new RegExp(feat.subType, 'g');
-                let featString = JSON.stringify(feat);
-
-                featString = featString.replace(regex, weapon.name);
-
-                const newFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(featString)).recast();
-
-                newFeat.hide = false;
-                newFeat.weaponfeatbase = false;
-                newFeat.generatedWeaponFeat = true;
-                resultingFeats.push(newFeat);
-            });
-        });
-
-        return resultingFeats;
-    }
-
-    public characterFeats(customFeats: Array<Feat>, name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
-        if (!this.stillLoading) {
-            // If a name is given and includeSubTypes and includeCountAs are false,
-            // we can get the feat or feature from the customFeats or the map more quickly.
-            if (name && !includeSubTypes && !includeCountAs) {
-                const customFeat = customFeats.find(feat => feat.name.toLowerCase() === name.toLowerCase());
-
-                if (customFeat) {
-                    return [customFeat];
-                } else {
-                    const feat = this._$characterFeats.get(name.toLowerCase());
-
-                    if (feat) {
-                        return [feat];
-                    } else {
-                        return [];
-                    }
-                }
-            }
-
-            return this._filterFeats(
-                customFeats.concat(Array.from(this._$characterFeats.values())),
-                name,
-                type,
-                includeSubTypes,
-                includeCountAs,
-            );
-        }
-
-        return [this._replacementFeat()];
-    }
-
-    public characterFeatsTakenWithLevel(
-        minLevel = 0,
-        maxLevel = 0,
-        name = '',
-        source = '',
-        sourceId = '',
-        locked: boolean = undefined,
-        includeCountAs = false,
-        automatic: boolean = undefined,
-    ): Array<{ level: number; gain: FeatTaken }> {
-        return this._$characterFeatsTaken.filter(taken =>
-            (!minLevel || (taken.level >= minLevel)) &&
-            (!maxLevel || (taken.level <= maxLevel)) &&
-            (
-                !name ||
-                (includeCountAs && (taken.gain.countAsFeat?.toLowerCase() === name.toLowerCase() || false)) ||
-                (taken.gain.name.toLowerCase() === name.toLowerCase())
-            ) &&
-            (!source || (taken.gain.source.toLowerCase() === source.toLowerCase())) &&
-            (!sourceId || (taken.gain.sourceId === sourceId)) &&
-            ((locked === undefined && automatic === undefined) || (taken.gain.locked === locked) || (taken.gain.automatic === automatic)),
-        );
-    }
-
-    public characterFeatsTaken(
-        minLevel = 0,
-        maxLevel = 0,
-        name = '',
-        source = '',
-        sourceId = '',
-        locked: boolean = undefined,
-        includeCountAs = false,
-        automatic: boolean = undefined,
-    ): Array<FeatTaken> {
-        return this.characterFeatsTakenWithLevel(
-            minLevel,
-            maxLevel,
-            name,
-            source,
-            sourceId,
-            locked,
-            includeCountAs,
-            automatic,
-        ).map(taken => taken.gain);
-    }
-
-    public featsAndFeatures(customFeats: Array<Feat>, name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
-        // ATTENTION: Use this function sparingly!
-        // There are thousands of feats.
-        // Particularly if you need to find out if you have a feat with an attribute, use get_CharacterFeats instead:
-        // DON'T: iterate through all taken feats, do get_All([], name)[0] and check the attribute
-        // DO: get_CharacterFeats(), check the attribute and THEN check if you have the feat on the correct level.
-        // That way, if you have 20 feats, and there are 4 feats with that attribute,
-        // you only do 20 + 4 * 20 comparisons instead of 20 * 1000.
-        if (!this.stillLoading) {
-            //If a name is the only given parameter, we can get the feat or feature from the customFeats or the map more quickly.
-            if (name && !type && !includeSubTypes && !includeCountAs) {
-                return name.toLowerCase().split(' or ')
-                    .map(alternative => this._featOrFeatureFromName(customFeats, alternative))
-                    .filter(feat => feat);
-            }
-
-            return this._filterFeats(this._feats.concat(customFeats).concat(this._features), name, type, includeSubTypes, includeCountAs);
-        }
-
-        return [this._replacementFeat()];
-    }
 
     public processFeat(
         creature: Character | Familiar,
@@ -306,9 +87,9 @@ export class FeatsService {
             // The function checks for feats that may have been taken multiple times and keeps them.
             if (creature === character) {
                 if (taken) {
-                    this._addCharacterFeat(character, feat, gain, level.number);
+                    this._characterFeatsService.addCharacterFeat(character, feat, gain, level.number);
                 } else {
-                    this._removeCharacterFeat(feat, gain, level.number);
+                    this._characterFeatsService.removeCharacterFeat(feat, gain, level.number);
                 }
             }
 
@@ -374,7 +155,7 @@ export class FeatsService {
                                     choiceToRemove?.feats.forEach(existingFeat => {
                                         this.processFeat(
                                             character,
-                                            this._featOrFeatureFromName(character.customFeats, existingFeat.name),
+                                            this.featOrFeatureFromName(character.customFeats, existingFeat.name),
                                             existingFeat,
                                             choiceToRemove,
                                             insertLevel,
@@ -1360,188 +1141,6 @@ export class FeatsService {
             this._refreshService.prepareDetailToChange(creature.type, 'activities');
 
         }
-    }
-
-    public have(
-        feat: Feat,
-        context: { creature: Creature },
-        filter: { charLevel?: number; minLevel?: number } = {},
-        options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
-    ): number {
-        if (this._characterService?.stillLoading) { return 0; }
-
-        filter = {
-            charLevel: this._characterService.character.level,
-            minLevel: 1,
-            ...filter,
-        };
-
-        if (context.creature.isCharacter()) {
-            return this._characterService.characterFeatsTaken(
-                filter.minLevel,
-                filter.charLevel,
-                { featName: feat.name },
-                options,
-            )?.length || 0;
-        } else if (context.creature.isFamiliar()) {
-            return context.creature.abilities.feats.filter(gain => gain.name.toLowerCase() === feat.name.toLowerCase())?.length || 0;
-        } else {
-            return 0;
-        }
-    }
-
-    public initialize(): void {
-        const waitForItemsService = setInterval(() => {
-            if (!this._itemsService.stillLoading) {
-                clearInterval(waitForItemsService);
-
-                this._feats = this._load(json_feats, 'feats');
-
-                // Create feats that are based on weapons in the store.
-                const customFeats = this.createWeaponFeats();
-
-                this._feats = this._feats.concat(customFeats);
-                // Add all feats to the feats map, including custom feats.
-                this._featsMap.clear();
-                this._feats.forEach(feat => {
-                    this._featsMap.set(feat.name.toLowerCase(), feat);
-                });
-
-                this._features = this._load(json_features, 'features');
-                this._featuresMap.clear();
-                // Add all features to the features map, including custom feats.
-                this._features.forEach(feature => {
-                    this._featuresMap.set(feature.name.toLowerCase(), feature);
-                });
-
-                this._initialized = true;
-            }
-        }, Defaults.waitForServiceDelay);
-    }
-
-    public reset(): void {
-        //Clear the character feats whenever a character is loaded.
-        this._$characterFeats.clear();
-        this._$characterFeatsTaken.length = 0;
-        //Disable any active hint effects when loading a character.
-        this._feats.forEach(feat => {
-            feat.hints.forEach(hint => hint.deactivateAll());
-        });
-        //Disable any active hint effects when loading a character.
-        this._features.forEach(feat => {
-            feat.hints.forEach(hint => hint.deactivateAll());
-        });
-    }
-
-    private _replacementFeat(name?: string): Feat {
-        return Object.assign(
-            new Feat(),
-            {
-                name: 'Feat not found',
-                desc: `${ name ? name : 'The requested feat or feature' } does not exist in the feat and features lists.`,
-            },
-        );
-    }
-
-    private _featFromName(customFeats: Array<Feat>, name: string): Feat {
-        //Returns either a feat from the given custom feats, or a named feat from the map.
-        return customFeats.find(feat => feat.name.toLowerCase() === name.toLowerCase()) ||
-            this._featsMap.get(name.toLowerCase()) ||
-            this._replacementFeat(name);
-    }
-
-    private _featureFromName(name: string): Feat {
-        //Returns a named feat from the features map;
-        return this._featuresMap.get(name.toLowerCase()) || this._replacementFeat(name);
-    }
-
-    private _featOrFeatureFromName(customFeats: Array<Feat>, name: string): Feat {
-        //Returns either a feat from the given custom feats, or a named feature from the map, or a named feat from the map.
-        return customFeats.find(feat => feat.name.toLowerCase() === name.toLowerCase()) ||
-            this._featuresMap.get(name.toLowerCase()) ||
-            this._featsMap.get(name.toLowerCase()) ||
-            this._replacementFeat(name);
-    }
-
-    private _addCharacterFeat(character: Character, feat: Feat, gain: FeatTaken, level: number): void {
-        //Add the feat to $characterFeats, unless it is among the custom feats.
-        const customFeats = character.customFeats;
-
-        if (!customFeats.some(takenFeat => takenFeat.name.toLowerCase() === feat.name.toLowerCase())) {
-            if (feat?.name && !this._$characterFeats.has(feat.name)) {
-                this._$characterFeats.set(feat.name, feat);
-            }
-        }
-
-        this._$characterFeatsTaken.push({ level, gain });
-    }
-
-    private _removeCharacterFeat(feat: Feat, gain: FeatTaken, level: number): void {
-        //Remove one instance of the feat from the taken character feats list.
-        let takenFeat = this._$characterFeatsTaken
-            .find(taken => taken.level === level && JSON.stringify(taken.gain) === JSON.stringify(gain));
-
-        //If no exact same gain can be found, find one with the same name instead.
-        if (!takenFeat) {
-            takenFeat = this._$characterFeatsTaken
-                .find(taken => taken.level === level && taken.gain.name === gain.name);
-        }
-
-        if (takenFeat) {
-            const a = this._$characterFeatsTaken;
-
-            a.splice(a.indexOf(takenFeat), 1);
-
-            //Remove a feat from the character feats only if it is no longer taken by the character on any level.
-            if (!this.characterFeatsTaken(0, 0, feat.name).length) {
-                if (this._$characterFeats.has(feat.name)) {
-                    this._$characterFeats.delete(feat.name);
-                }
-            }
-        }
-    }
-
-    private _filterFeats(feats: Array<Feat>, name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
-        return feats.filter(feat =>
-            !name ||
-            //For names like "Aggressive Block or Brutish Shove", split the string into the two feat names and return both.
-            name.toLowerCase().split(' or ')
-                .some(alternative =>
-                    !alternative ||
-                    feat.name.toLowerCase() === alternative ||
-                    (
-                        includeSubTypes &&
-                        feat.superType.toLowerCase() === alternative
-                    ) ||
-                    (
-                        includeCountAs &&
-                        feat.countAsFeat.toLowerCase() === alternative
-                    ),
-                ) &&
-            (
-                !type ||
-                feat.traits.map(trait => trait.toLowerCase()).includes(type.toLowerCase())
-            ),
-        );
-    }
-
-    private _load(
-        data: { [fileContent: string]: Array<unknown> },
-        target: 'features' | 'feats',
-    ): Array<Feat> {
-        let resultingData: Array<Feat> = [];
-
-        const extendedData = this._extensionsService.extend(data, target);
-
-        Object.keys(extendedData).forEach(filecontent => {
-            resultingData.push(...extendedData[filecontent].map(entry =>
-                Object.assign(Object.create(Feat), entry).recast(),
-            ));
-        });
-
-        resultingData = this._extensionsService.cleanupDuplicates(resultingData, 'name', target);
-
-        return resultingData;
     }
 
 }

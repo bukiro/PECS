@@ -5,7 +5,7 @@ import { Character } from 'src/app/classes/Character';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { SkillLevels } from '../../definitions/skillLevels';
@@ -18,7 +18,7 @@ export class CharacterLoreService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _refreshService: RefreshService,
     ) { }
 
@@ -282,7 +282,7 @@ export class CharacterLoreService {
     private _addLoreFeats(character: Character, loreName: string): void {
         // There are particular feats that need to be cloned for every individual lore skill (mainly Assurance).
         // They are marked as lorebase==true.
-        this._featsService.feats(character.customFeats).filter(feat => feat.lorebase === 'Lore')
+        this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase === 'Lore')
             .forEach(lorebaseFeat => {
                 const newFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(JSON.stringify(lorebaseFeat))).recast();
 

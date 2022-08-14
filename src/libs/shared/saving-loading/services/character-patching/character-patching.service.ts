@@ -10,11 +10,12 @@ import { FeatData } from 'src/app/character-creation/definitions/models/FeatData
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatTakingService } from 'src/app/character-creation/services/feat-taking/feat-taking.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,9 +23,10 @@ import { Item } from 'src/app/classes/Item';
 export class CharacterPatchingService {
 
     constructor(
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterService: CharacterService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public patchPartialCharacter(character: Character): void {
@@ -774,7 +776,7 @@ export class CharacterPatchingService {
             const baseFeats = this._characterService.feats().filter(feat => feat.lorebase || feat.weaponfeatbase)
                 .map(feat => feat.name.toLowerCase());
 
-            this._featsService.buildCharacterFeats(character);
+            this._characterFeatsService.buildCharacterFeats(character);
             // Only proceed with feats that were not generated from lore or weapon feat bases, and that have data.
             character.customFeats
                 .filter((feat: Feat & OldFeatWithData) =>
@@ -784,7 +786,7 @@ export class CharacterPatchingService {
                 )
                 .forEach((feat: Feat & OldFeatWithData) => {
                     //For each time you have this feat (should be exactly one), add its data to the class object.
-                    this._featsService
+                    this._characterFeatsService
                         .characterFeatsTakenWithLevel(0, 0, feat.name, '', '', undefined, false, false)
                         .forEach(taken => {
                             const newFeatData =
@@ -925,7 +927,7 @@ export class CharacterPatchingService {
         //Feats that are generated based on item store weapons are stored in the featsService starting in 1.0.16.
         // These feats can be removed from the character's customfeats.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionSixteen) {
-            const weaponFeats = this._featsService.feats([]).filter(feat => feat.generatedWeaponFeat);
+            const weaponFeats = this._featsDataService.feats([]).filter(feat => feat.generatedWeaponFeat);
 
             character.customFeats.forEach(characterFeat => {
                 if (weaponFeats.some(feat => feat.name === characterFeat.name)) {

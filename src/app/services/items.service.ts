@@ -79,7 +79,9 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { SpellsDataService } from '../core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
-import { FeatsService } from './feats.service';
+import { FeatsDataService } from '../core/services/data/feats-data.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 
 type AnyItemType =
     ArmorRune | WeaponRune | Oil | AdventuringGear | AlchemicalBomb | AlchemicalElixir | AlchemicalPoison
@@ -108,8 +110,10 @@ export class ItemsService {
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _characterService: CharacterService,
+        private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _creatureFeatsService: CreatureFeatsService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -959,8 +963,11 @@ export class ItemsService {
             }
 
             //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
-            this._featsService.characterFeats(creature.customFeats)
-                .filter(feat => feat.gainItems.some(gain => gain.on === 'rest') && this._featsService.have(feat, { creature }))
+            this._characterFeatsService.characterFeats(creature.customFeats)
+                .filter(feat =>
+                    feat.gainItems.some(gain => gain.on === 'rest') &&
+                    this._creatureFeatsService.creatureHasFeat(feat, { creature }),
+                )
                 .forEach(feat => {
                     feat.gainItems.filter(gain => gain.on === 'rest').forEach(gainItem => {
                         this._itemGrantingService.grantGrantedItem(gainItem, creature, { sourceName: feat.name });

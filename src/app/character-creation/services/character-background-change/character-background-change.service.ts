@@ -5,7 +5,7 @@ import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
@@ -17,7 +17,7 @@ export class CharacterBackgroundChangeService {
 
     constructor(
         private readonly _characterService: CharacterService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _cacheService: CacheService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
@@ -53,7 +53,7 @@ export class CharacterBackgroundChangeService {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featsService.processFeat(character, undefined, gain, choice, level, false);
+                    this._featsDataService.processFeat(character, undefined, gain, choice, level, false);
                 });
             });
             level.featChoices = level.featChoices.filter(choice => choice.source !== 'Background');
@@ -94,7 +94,7 @@ export class CharacterBackgroundChangeService {
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featsService.processFeat(character, undefined, gain, choice, level, true);
+                    this._featsDataService.processFeat(character, undefined, gain, choice, level, true);
                 });
             });
 

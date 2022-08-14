@@ -9,7 +9,7 @@ import { DisplayService } from 'src/app/core/services/display/display.service';
 import { EffectsGenerationService } from 'src/libs/shared/effects-generation/services/effects-generation/effects-generation.service';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { HistoryDataService } from 'src/app/core/services/data/history-data.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
@@ -22,6 +22,7 @@ import { ClassesDataService } from '../data/classes-data.service';
 import { CustomEffectPropertiesService } from 'src/libs/shared/services/custom-effect-properties/custom-effect-properties.service';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -35,7 +36,7 @@ export class AppInitService {
         private readonly _traitsDataService: TraitsDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _historyDataService: HistoryDataService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _conditionsDataService: ConditionsDataService,
@@ -50,6 +51,7 @@ export class AppInitService {
         private readonly _effectsGenerationService: EffectsGenerationService,
         private readonly _cacheService: CacheService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) {
         this.init();
     }
@@ -66,7 +68,7 @@ export class AppInitService {
                 this._traitsDataService.initialize();
                 this._abilitiesDataService.initialize();
                 this._activitiesDataService.initialize();
-                this._featsService.initialize();
+                this._featsDataService.initialize();
                 this._historyDataService.initialize();
                 this._classesDataService.initialize();
                 this._conditionsDataService.initialize();
@@ -88,7 +90,8 @@ export class AppInitService {
         this._cacheService.reset();
         this._traitsDataService.reset();
         this._activitiesDataService.reset();
-        this._featsService.reset();
+        this._featsDataService.reset();
+        this._characterFeatsService.reset();
         this._conditionsDataService.reset();
         this._skillsDataService.reset();
         this._itemsService.reset();

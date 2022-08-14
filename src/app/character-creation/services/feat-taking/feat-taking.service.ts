@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { Feat } from '../../definitions/models/Feat';
 import { FeatChoice } from '../../definitions/models/FeatChoice';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
@@ -12,7 +12,7 @@ import { FeatTaken } from '../../definitions/models/FeatTaken';
 export class FeatTakingService {
 
     constructor(
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
     ) { }
 
     public takeFeat(
@@ -42,7 +42,7 @@ export class FeatTakingService {
                 ));
             const gain = choice.feats[newLength - 1];
 
-            this._featsService.processFeat(creature, feat, gain, choice, level, taken);
+            this._featsDataService.processFeat(creature, feat, gain, choice, level, taken);
         } else {
             const choiceFeats = choice.feats;
             const gain = choiceFeats.find(existingFeat =>
@@ -50,7 +50,7 @@ export class FeatTakingService {
                 existingFeat.locked === locked,
             );
 
-            this._featsService.processFeat(creature, feat, gain, choice, level, taken);
+            this._featsDataService.processFeat(creature, feat, gain, choice, level, taken);
             choiceFeats.splice(choiceFeats.indexOf(gain, 1));
         }
     }

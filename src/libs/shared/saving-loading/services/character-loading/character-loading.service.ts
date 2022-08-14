@@ -21,7 +21,7 @@ import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { DocumentStyleService } from 'src/app/core/services/document-style/document-style.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -49,7 +49,7 @@ export class CharacterLoadingService {
         private readonly _characterService: CharacterService,
         private readonly _documentStyleService: DocumentStyleService,
         private readonly _timeService: TimeService,
-        private readonly _featsService: FeatsService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public loadOrResetCharacter(id = '', loadAsGM = false): void {
@@ -102,7 +102,7 @@ export class CharacterLoadingService {
         // Set your turn state according to the saved state.
         this._timeService.yourTurn = character.yourTurn;
         // Fill a runtime variable with all the feats the character has taken, and another with the level at which they were taken.
-        this._featsService.buildCharacterFeats(character);
+        this._characterFeatsService.buildCharacterFeats(character);
         // Set accent color and dark mode according to the settings.
         this._documentStyleService.setAccent();
         this._documentStyleService.setDarkmode();
@@ -117,7 +117,7 @@ export class CharacterLoadingService {
 
         // Fill a runtime variable with all the feats the character has taken,
         // and another with the level at which they were taken. These were cleared when trying to load.
-        this._featsService.buildCharacterFeats(character);
+        this._characterFeatsService.buildCharacterFeats(character);
         this._refreshAfterLoading();
     }
 

@@ -7,8 +7,9 @@ import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
 import { CharacterService } from 'src/app/services/character.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
+import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 
 interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;
@@ -23,7 +24,8 @@ export class CreatureEffectsGenerationService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _familiarsDataService: FamiliarsDataService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
+        private readonly _creatureFeatsService: CreatureFeatsService,
     ) { }
 
     public creatureEffectsGenerationObjects(creature: Creature): CreatureEffectsGenerationObjects {
@@ -89,7 +91,7 @@ export class CreatureEffectsGenerationService {
         this._familiarsDataService.familiarAbilities()
             .filter(ability =>
                 (ability.effects?.length || ability.hints?.length) &&
-                this._featsService.have(ability, { creature: familiar }))
+                this._creatureFeatsService.creatureHasFeat(ability, { creature: familiar }))
             .filter(ability => ability.effects?.length || ability.hints?.length)
             .forEach(ability => {
                 feats.push(ability);

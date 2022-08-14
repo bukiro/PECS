@@ -4,7 +4,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { HistoryDataService } from 'src/app/core/services/data/history-data.service';
 import { Ancestry } from 'src/app/classes/Ancestry';
 import { Heritage } from 'src/app/classes/Heritage';
@@ -78,6 +78,8 @@ import { CharacterDeletingService } from 'src/libs/shared/saving-loading/service
 import { CharacterSavingService } from 'src/libs/shared/saving-loading/services/character-saving/character-saving.service';
 import { CharacterLoadingService } from 'src/libs/shared/saving-loading/services/character-loading/character-loading.service';
 import { DocumentStyleService } from 'src/app/core/services/document-style/document-style.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -117,7 +119,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _configService: ConfigService,
         private readonly _classesDataService: ClassesDataService,
         private readonly _abilitiesDataService: AbilitiesDataService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _historyDataService: HistoryDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _deitiesDataService: DeitiesDataService,
@@ -147,6 +149,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _characterSavingService: CharacterSavingService,
         private readonly _characterLoadingService: CharacterLoadingService,
         private readonly _documentStyleService: DocumentStyleService,
+        private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _creatureFeatsService: CreatureFeatsService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -580,7 +584,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.onceEffects.length &&
-                    this._featsService.have(
+                    this._creatureFeatsService.creatureHasFeat(
                         feat,
                         { creature: character },
                         { charLevel: newLevel, minLevel: (oldLevel + 1) },
@@ -639,7 +643,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         });
         this.characterFeatsAndFeatures()
             .filter(feat =>
-                this._featsService.have(
+                this._creatureFeatsService.creatureHasFeat(
                     feat,
                     { creature: character },
                     { charLevel: higherLevel, minLevel: lowerLevel },
@@ -729,7 +733,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 newLanguages += this.characterFeatsAndFeatures()
                     .filter(feat =>
                         (feat.gainLanguages.length || feat.effects.some(effect => effect.affected === 'Max Languages')) &&
-                        this._featsService.have(
+                        this._creatureFeatsService.creatureHasFeat(
                             feat,
                             { creature: character },
                             { charLevel: levelNumber, minLevel: levelNumber },
@@ -1036,7 +1040,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public characterFeatsAndFeatures(name = '', type = ''): Array<Feat> {
-        return this._featsService.characterFeats(this.character.customFeats, name, type);
+        return this._characterFeatsService.characterFeats(this.character.customFeats, name, type);
     }
 
     public activityFromName(name: string): Activity {

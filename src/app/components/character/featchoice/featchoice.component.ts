@@ -1,7 +1,7 @@
 /* eslint-disable complexity */
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
@@ -19,6 +19,8 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { FeatTakingService } from 'src/app/character-creation/services/feat-taking/feat-taking.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 
 interface FeatParameters {
     available: boolean;
@@ -83,12 +85,14 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _featRequirementsService: FeatRequirementsService,
         private readonly _featTakingService: FeatTakingService,
+        private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _creatureFeatsService: CreatureFeatsService,
         public trackers: Trackers,
     ) { }
 
@@ -343,7 +347,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                             .find(superFeat =>
                                 superFeat.archetype === feat.archetype &&
                                 superFeat.traits.includes('Dedication') &&
-                                this._featsService.have(
+                                this._creatureFeatsService.creatureHasFeat(
                                     superFeat,
                                     { creature: character },
                                     { charLevel: this.levelNumber },
@@ -594,7 +598,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
 
     private _feats(name = '', type = ''): Array<Feat> {
         if (this.creature === CreatureTypes.Character) {
-            return this._featsService.feats(this._character.customFeats, name, type);
+            return this._featsDataService.feats(this._character.customFeats, name, type);
         } else if (this.creature === CreatureTypes.Familiar) {
             return this._familiarsDataService.familiarAbilities(name);
         }
@@ -602,7 +606,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
 
     private _characterFeatsAndFeatures(name = '', type = ''): Array<Feat> {
         if (this.creature === CreatureTypes.Character) {
-            return this._featsService.characterFeats(this._character.customFeats, name, type);
+            return this._characterFeatsService.characterFeats(this._character.customFeats, name, type);
         } else if (this.creature === CreatureTypes.Familiar) {
             return this._familiarsDataService.familiarAbilities(name);
         }
@@ -763,7 +767,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                 // (Don't count temporary choices (showOnSheet == true) unless this is also temporary.)
                 const shouldExcludeTemporaryFeats = !choice.showOnSheet;
                 const haveUpToNow: number =
-                    this._featsService.have(
+                    this._creatureFeatsService.creatureHasFeat(
                         feat,
                         { creature },
                         { charLevel: levelNumber },
@@ -773,7 +777,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                 // Don't check haveLater for them, because it will be the same result as haveUpToNow.
                 const haveLater: number =
                     creature.isCharacter()
-                        ? this._featsService.have(
+                        ? this._creatureFeatsService.creatureHasFeat(
                             feat,
                             { creature },
                             { charLevel: Defaults.maxCharacterLevel, minLevel: levelNumber + 1 },
@@ -816,7 +820,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                 const takenFeats =
                     this._characterFeatsAndFeatures()
                         .filter(takenFeat =>
-                            this._featsService.have(
+                            this._creatureFeatsService.creatureHasFeat(
                                 takenFeat,
                                 { creature },
                                 { charLevel: levelNumber },
@@ -856,7 +860,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                             subfeat.superType === feat.superType &&
                             subfeat.name !== feat.name &&
                             !subfeat.hide &&
-                            this._featsService.have(subfeat, { creature }, { charLevel: levelNumber }),
+                            this._creatureFeatsService.creatureHasFeat(subfeat, { creature }, { charLevel: levelNumber }),
                         );
 
                     // If another subtype has been taken, but not in this choice,

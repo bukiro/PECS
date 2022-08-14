@@ -26,8 +26,9 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
-import { FeatsService } from '../../../../app/services/feats.service';
+import { FeatsDataService } from '../../../../app/core/services/data/feats-data.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -61,10 +62,11 @@ export class EvaluationService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _speedValuesService: SpeedValuesService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _characterService: CharacterService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _creatureFeatsService: CreatureFeatsService,
     ) { }
 
     public valueFromFormula(
@@ -237,7 +239,7 @@ export class EvaluationService {
         const Has_Feat = (creatureType: string, name: string): number => {
             if (creatureType === 'Familiar') {
                 return familiarsService.familiarAbilities(name)
-                    .filter(feat => this._featsService.have(feat, { creature: Familiar }, { charLevel: Level })).length;
+                    .filter(feat => this._creatureFeatsService.creatureHasFeat(feat, { creature: Familiar }, { charLevel: Level })).length;
             } else if (creatureType === CreatureTypes.Character) {
                 return characterService.characterFeatsTaken(1, Level, { featName: name }).length;
             } else {
@@ -250,7 +252,7 @@ export class EvaluationService {
                     .filter(featTaken => {
                         const feat = familiarsService.familiarAbilities(featTaken.name)[0];
 
-                        return feat && this._featsService.have(feat, { creature: Familiar }, { charLevel: Level });
+                        return feat && this._creatureFeatsService.creatureHasFeat(feat, { creature: Familiar }, { charLevel: Level });
                     });
             } else if (creatureType === CreatureTypes.Character) {
                 return characterService.characterFeatsTaken(1, Level);

@@ -5,7 +5,7 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -25,7 +25,7 @@ export class ConditionsTimeService {
         private readonly _characterService: CharacterService,
         private readonly _itemsService: ItemsService,
         private readonly _effectsService: CreatureEffectsService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _toastService: ToastService,
     ) { }
 
@@ -257,7 +257,7 @@ export class ConditionsTimeService {
                         (creature.isCharacter()) &&
                         this._characterService.characterFeatsTaken(1, creature.level, { featName: 'Fast Recovery' }).length
                     ) ||
-                    this._featsService.feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
+                    this._featsDataService.feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
                 ) {
                     gain.value -= 1;
 

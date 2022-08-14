@@ -5,7 +5,7 @@ import { Skill } from 'src/app/classes/Skill';
 import { CacheService } from 'src/app/services/cache.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { ItemsService } from 'src/app/services/items.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
@@ -21,7 +21,7 @@ export class CharacterClassChangeService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _itemsService: ItemsService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _cacheService: CacheService,
         private readonly _refreshService: RefreshService,
@@ -66,7 +66,7 @@ export class CharacterClassChangeService {
         characterClass.levels.forEach(level => {
             level.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featsService.processFeat(character, undefined, gain, choice, level, false);
+                    this._featsDataService.processFeat(character, undefined, gain, choice, level, false);
                 });
 
                 choice.feats.length = 0;
@@ -92,7 +92,7 @@ export class CharacterClassChangeService {
             characterClass.levels.forEach(level => {
                 level.featChoices.forEach(choice => {
                     choice.feats.forEach(gain => {
-                        this._featsService.processFeat(character, undefined, gain, choice, level, true);
+                        this._featsDataService.processFeat(character, undefined, gain, choice, level, true);
                     });
                 });
             });

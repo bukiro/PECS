@@ -4,11 +4,12 @@ import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
 import { CharacterService } from 'src/app/services/character.service';
-import { FeatsService } from 'src/app/services/feats.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel, skillLevelBaseStep } from '../../definitions/skillLevels';
 import { WeaponProficiencies } from '../../definitions/weaponProficiencies';
+import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 
 @Injectable({
@@ -20,7 +21,8 @@ export class WeaponPropertiesService {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
-        private readonly _featsService: FeatsService,
+        private readonly _featsDataService: FeatsDataService,
+        private readonly _creatureFeatsService: CreatureFeatsService,
     ) { }
 
     public effectiveProficiency(
@@ -43,7 +45,7 @@ export class WeaponPropertiesService {
             this._characterService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.changeProficiency.length &&
-                    this._featsService.have(
+                    this._creatureFeatsService.creatureHasFeat(
                         feat,
                         { creature: context.creature },
                         { charLevel },

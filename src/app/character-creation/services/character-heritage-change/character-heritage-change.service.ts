@@ -15,6 +15,7 @@ import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -30,6 +31,7 @@ export class CharacterHeritageChangeService {
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _itemGrantingService: ItemGrantingService,
+        private readonly _featsDataService: FeatsDataService,
     ) { }
 
     public changeHeritage(heritage?: Heritage, index = -1): void {
@@ -147,7 +149,7 @@ export class CharacterHeritageChangeService {
             // We collect all Gnome feats that grant a primal spell, and for all of those spells that you own,
             // set the spell tradition to Primal on the character:
             if (heritage.name.includes('Wellspring Gnome')) {
-                const feats: Array<string> = this._characterService.feats('', 'Gnome')
+                const feats: Array<string> = this._featsDataService.feats(character.customFeats, '', 'Gnome')
                     .filter(feat =>
                         feat.gainSpellChoice.filter(choice =>
                             choice.castingType === SpellCastingTypes.Innate &&
@@ -241,7 +243,7 @@ export class CharacterHeritageChangeService {
             //Wellspring Gnome changes primal spells to another tradition.
             //We collect all Gnome feats that grant a primal spell and set that spell to the same tradition as the heritage:
             if (heritage.name.includes('Wellspring Gnome')) {
-                const feats: Array<string> = this._characterService.feats('', 'Gnome')
+                const feats: Array<string> = this._featsDataService.feats(character.customFeats, '', 'Gnome')
                     .filter(feat =>
                         feat.gainSpellChoice.some(choice =>
                             choice.castingType === SpellCastingTypes.Innate &&
