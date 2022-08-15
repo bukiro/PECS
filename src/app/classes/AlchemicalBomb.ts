@@ -16,14 +16,20 @@ export class AlchemicalBomb extends Weapon {
     public readonly weaponBase: string = 'Alchemical Bomb';
     public readonly equippable = false;
 
-    public effectiveName(): string {
-        return this.displayName || this.name;
-    }
-
     public recast(itemsDataService: ItemsDataService): AlchemicalBomb {
         super.recast(itemsDataService);
 
         return this;
+    }
+
+    public clone(itemsDataService: ItemsDataService): AlchemicalBomb {
+        return Object.assign<AlchemicalBomb, AlchemicalBomb>(
+            new AlchemicalBomb(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
+
+    public effectiveName(): string {
+        return this.displayName || this.name;
     }
 
     public canStack(): boolean {

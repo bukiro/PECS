@@ -16,4 +16,10 @@ export class AlchemicalPoison extends Consumable {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): AlchemicalPoison {
+        return Object.assign<AlchemicalPoison, AlchemicalPoison>(
+            new AlchemicalPoison(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
 }

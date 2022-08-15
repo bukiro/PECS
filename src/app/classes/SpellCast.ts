@@ -23,4 +23,8 @@ export class SpellCast {
 
         return this;
     }
+
+    public clone(): SpellCast {
+        return Object.assign<SpellCast, SpellCast>(new SpellCast(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

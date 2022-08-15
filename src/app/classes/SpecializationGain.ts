@@ -16,4 +16,8 @@ export class SpecializationGain {
     public recast(): SpecializationGain {
         return this;
     }
+
+    public clone(): SpecializationGain {
+        return Object.assign<SpecializationGain, SpecializationGain>(new SpecializationGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

@@ -40,4 +40,8 @@ export class SkillChoice {
     public recast(): SkillChoice {
         return this;
     }
+
+    public clone(): SkillChoice {
+        return Object.assign<SkillChoice, SkillChoice>(new SkillChoice(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

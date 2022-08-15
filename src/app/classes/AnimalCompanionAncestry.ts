@@ -30,4 +30,10 @@ export class AnimalCompanionAncestry {
 
         return this;
     }
+
+    public clone(): AnimalCompanionAncestry {
+        return Object.assign<AnimalCompanionAncestry, AnimalCompanionAncestry>(
+            new AnimalCompanionAncestry(), JSON.parse(JSON.stringify(this)),
+        ).recast();
+    }
 }

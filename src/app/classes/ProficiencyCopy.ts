@@ -13,4 +13,8 @@ export class ProficiencyCopy {
     public recast(): ProficiencyCopy {
         return this;
     }
+
+    public clone(): ProficiencyCopy {
+        return Object.assign<ProficiencyCopy, ProficiencyCopy>(new ProficiencyCopy(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

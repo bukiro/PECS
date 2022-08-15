@@ -14,4 +14,8 @@ export class Skill {
     public recast(): Skill {
         return this;
     }
+
+    public clone(): Skill {
+        return Object.assign<Skill, Skill>(new Skill(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

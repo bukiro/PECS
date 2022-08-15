@@ -72,4 +72,8 @@ export class SpellCasting {
 
         return this;
     }
+
+    public clone(): SpellCasting {
+        return Object.assign<SpellCasting, SpellCasting>(new SpellCasting(this.castingType), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

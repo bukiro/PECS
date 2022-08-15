@@ -97,6 +97,10 @@ export class Spell {
         return this;
     }
 
+    public clone(): Spell {
+        return Object.assign<Spell, Spell>(new Spell(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public activationTraits(): Array<string> {
         return Array.from(new Set([].concat(...this.castType.split(',')
             .map(castType => {

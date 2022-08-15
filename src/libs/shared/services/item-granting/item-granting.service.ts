@@ -133,11 +133,12 @@ export class ItemGrantingService {
             switch (itemGain.special) {
                 case 'Favored Weapon':
                     multipleGrantedItemIDs.forEach(id => {
-                        const newGain =
-                            Object.assign<ItemGain, ItemGain>(
-                                new ItemGain(),
-                                { ...JSON.parse(JSON.stringify(itemGain)), special: '', id: '', name: '', grantedItemID: id },
-                            );
+                        const newGain = itemGain.clone();
+
+                        newGain.special = '';
+                        newGain.id = '';
+                        newGain.name = '';
+                        newGain.grantedItemID = id;
 
                         this.dropGrantedItem(newGain, creature, { requireGrantedItemID: true });
                     });
@@ -211,15 +212,10 @@ export class ItemGrantingService {
                     const grantedItemIDs: Array<string> = [];
 
                     favoredWeapons.forEach(weapon => {
-                        const newGain: ItemGain =
-                            Object.assign<ItemGain, ItemGain>(
-                                new ItemGain(),
-                                {
-                                    ...JSON.parse(JSON.stringify(itemGain)),
-                                    special: '',
-                                    id: weapon.id,
-                                },
-                            ).recast();
+                        const newGain: ItemGain = itemGain.clone();
+
+                        newGain.special = '';
+                        newGain.id = weapon.id;
 
                         this.grantGrantedItem(newGain, creature, context);
                         grantedItemIDs.push(newGain.grantedItemID);

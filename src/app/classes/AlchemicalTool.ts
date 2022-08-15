@@ -10,4 +10,10 @@ export class AlchemicalTool extends Consumable {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): AlchemicalTool {
+        return Object.assign<AlchemicalTool, AlchemicalTool>(
+            new AlchemicalTool(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
 }

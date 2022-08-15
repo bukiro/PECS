@@ -33,6 +33,10 @@ export class Familiar extends Creature {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Familiar {
+        return Object.assign<Familiar, Familiar>(new Familiar(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isFamiliar(): this is Familiar {
         return true;
     }

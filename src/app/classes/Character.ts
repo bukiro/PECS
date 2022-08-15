@@ -46,6 +46,10 @@ export class Character extends Creature {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Character {
+        return Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isCharacter(): this is Character {
         return true;
     }

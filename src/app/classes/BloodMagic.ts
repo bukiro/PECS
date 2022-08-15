@@ -10,4 +10,8 @@ export class BloodMagic {
     public recast(): BloodMagic {
         return this;
     }
+
+    public clone(): BloodMagic {
+        return Object.assign<BloodMagic, BloodMagic>(new BloodMagic(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

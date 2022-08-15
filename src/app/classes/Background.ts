@@ -32,4 +32,8 @@ export class Background {
 
         return this;
     }
+
+    public clone(): Background {
+        return Object.assign<Background, Background>(new Background(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

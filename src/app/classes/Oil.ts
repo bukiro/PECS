@@ -47,4 +47,8 @@ export class Oil extends Consumable {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): Oil {
+        return Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
 }

@@ -166,28 +166,16 @@ export class ItemsDataService {
             this._loadItemType(json_wornitems, 'wornitems', new WornItem(), 'worn items');
 
         //Make a copy of clean items for shop items and crafting items.
-        this._storeItems = Object.assign(
-            new ItemCollection(),
-            JSON.parse(JSON.stringify(this._cleanItems)),
-        ).recast(this);
-        this._craftingItems = Object.assign(
-            new ItemCollection(),
-            JSON.parse(JSON.stringify(this._cleanItems)),
-        ).recast(this);
+        this._storeItems = this._cleanItems.clone(this);
+        this._craftingItems = this._cleanItems.clone(this);
 
         this._initialized = true;
     }
 
     public reset(): void {
         //Reset items and crafting items from clean items.
-        this._storeItems = Object.assign(
-            new ItemCollection(),
-            JSON.parse(JSON.stringify(this._cleanItems)),
-        ).recast(this);
-        this._craftingItems = Object.assign(
-            new ItemCollection(),
-            JSON.parse(JSON.stringify(this._cleanItems)),
-        ).recast(this);
+        this._storeItems = this._cleanItems.clone(this);
+        this._craftingItems = this._cleanItems.clone(this);
     }
 
     private _loadItemType<T extends AnyItemType>(

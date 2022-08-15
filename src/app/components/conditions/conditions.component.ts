@@ -400,7 +400,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         const duration: number = this.effectiveDuration(false);
         const newLength =
             creature.effects.push(
-                Object.assign<EffectGain, EffectGain>(new EffectGain(), JSON.parse(JSON.stringify(this.newEffect))).recast(),
+                this.newEffect.clone(),
             );
         const newEffect = creature.effects[newLength - 1];
 

@@ -7,4 +7,8 @@ export class FormulaLearned {
     public recast(): FormulaLearned {
         return this;
     }
+
+    public clone(): FormulaLearned {
+        return Object.assign<FormulaLearned, FormulaLearned>(new FormulaLearned(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

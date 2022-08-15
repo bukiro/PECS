@@ -148,6 +148,10 @@ export class Activity {
         return this;
     }
 
+    public clone(): Activity {
+        return Object.assign<Activity, Activity>(new Activity(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public activationTraits(): Array<string> {
         return Array.from(new Set([].concat(...this.activationType.split(',')
             .map(activationType => {

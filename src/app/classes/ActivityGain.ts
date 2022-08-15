@@ -60,6 +60,10 @@ export class ActivityGain {
         return this;
     }
 
+    public clone(): ActivityGain {
+        return Object.assign<ActivityGain, ActivityGain>(new ActivityGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public isOwnActivity(): this is Activity {
         return false;
     }

@@ -61,8 +61,7 @@ export class ConditionGainPropertiesService {
                 condition.gainConditions
                     .filter(extraCondition => extraCondition.conditionChoiceFilter.includes(oldChoice))
                     .forEach(extraCondition => {
-                        const conditionToAdd: ConditionGain =
-                            Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(extraCondition))).recast();
+                        const conditionToAdd = extraCondition.clone();
 
                         conditionToAdd.source = gain.name;
 
@@ -87,8 +86,7 @@ export class ConditionGainPropertiesService {
                     .forEach(extraCondition => {
                         didConditionDoAnything = true;
 
-                        const conditionToAdd: ConditionGain =
-                            Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(extraCondition))).recast();
+                        const conditionToAdd = extraCondition.clone();
 
                         if (!conditionToAdd.heightened) {
                             conditionToAdd.heightened = gain.heightened;

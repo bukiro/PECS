@@ -28,6 +28,12 @@ export class AnimalCompanion extends Creature {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): AnimalCompanion {
+        return Object.assign<AnimalCompanion, AnimalCompanion>(
+            new AnimalCompanion(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
+
     public isAnimalCompanion(): this is AnimalCompanion {
         return true;
     }

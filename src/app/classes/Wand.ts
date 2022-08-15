@@ -21,6 +21,10 @@ export class Wand extends Equipment {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Wand {
+        return Object.assign<Wand, Wand>(new Wand(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isWand(): this is Wand { return true; }
 
     public effectiveName(): string {

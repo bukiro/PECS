@@ -13,4 +13,8 @@ export class ItemProperty {
     public recast(): ItemProperty {
         return this;
     }
+
+    public clone(): ItemProperty {
+        return Object.assign<ItemProperty, ItemProperty>(new ItemProperty(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

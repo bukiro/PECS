@@ -13,4 +13,8 @@ export class ProficiencyChange {
     public recast(): ProficiencyChange {
         return this;
     }
+
+    public clone(): ProficiencyChange {
+        return Object.assign<ProficiencyChange, ProficiencyChange>(new ProficiencyChange(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

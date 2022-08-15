@@ -7,4 +7,8 @@ export class Speed {
     public recast(): Speed {
         return this;
     }
+
+    public clone(): Speed {
+        return Object.assign<Speed, Speed>(new Speed(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

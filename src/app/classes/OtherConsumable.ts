@@ -10,4 +10,10 @@ export class OtherConsumable extends Consumable {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): OtherConsumable {
+        return Object.assign<OtherConsumable, OtherConsumable>(
+            new OtherConsumable(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
 }

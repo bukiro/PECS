@@ -70,8 +70,7 @@ export class CreatureConditionsService {
         context: { parentItem?: Item; parentConditionGain?: ConditionGain } = {},
         options: { noReload?: boolean } = {},
     ): boolean {
-        const workingGain: ConditionGain =
-            Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast();
+        const workingGain: ConditionGain = gain.clone();
         const originalCondition = this._conditionsDataService.conditionFromName(workingGain.name);
 
         if (originalCondition) {
@@ -489,7 +488,7 @@ export class CreatureConditionsService {
             });
         //The currentCreatureConditions are cached here for readonly calls.
         this._previousCreatureConditionsState[creatureIndex] =
-            activeConditions.map(gain => Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(gain))).recast());
+            activeConditions.map(gain => gain.clone());
     }
 
     /**

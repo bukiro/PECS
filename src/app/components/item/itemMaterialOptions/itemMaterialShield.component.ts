@@ -160,11 +160,7 @@ export class ItemMaterialShieldComponent implements OnInit {
             //Then add the new material to the item.
             if (material.name) {
                 //Add a copy of the material to the item
-                shield.material.push(
-                    Object.assign(
-                        new ShieldMaterial(),
-                        JSON.parse(JSON.stringify(material)),
-                    ).recast());
+                shield.material.push(material.clone());
             }
         }
 

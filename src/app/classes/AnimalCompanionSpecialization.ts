@@ -20,4 +20,10 @@ export class AnimalCompanionSpecialization {
 
         return this;
     }
+
+    public clone(): AnimalCompanionSpecialization {
+        return Object.assign<AnimalCompanionSpecialization, AnimalCompanionSpecialization>(
+            new AnimalCompanionSpecialization(), JSON.parse(JSON.stringify(this)),
+        ).recast();
+    }
 }

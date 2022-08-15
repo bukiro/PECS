@@ -71,6 +71,10 @@ export class ItemActivity extends Activity {
         return this;
     }
 
+    public clone(): ItemActivity {
+        return Object.assign<ItemActivity, ItemActivity>(new ItemActivity(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public isOwnActivity(): this is Activity {
         return true;
     }

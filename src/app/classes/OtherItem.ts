@@ -6,4 +6,10 @@ export class OtherItem {
     public recast(): OtherItem {
         return this;
     }
+
+    public clone(): OtherItem {
+        return Object.assign<OtherItem, OtherItem>(
+            new OtherItem(), JSON.parse(JSON.stringify(this)),
+        ).recast();
+    }
 }

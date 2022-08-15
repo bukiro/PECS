@@ -30,6 +30,10 @@ export class Effect {
         return this;
     }
 
+    public clone(): Effect {
+        return Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public displayTitle(signed = false): string {
         if (this.title) {
             return (signed ? '= ' : '') + this.title;

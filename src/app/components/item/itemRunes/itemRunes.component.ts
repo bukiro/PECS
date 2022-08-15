@@ -263,15 +263,7 @@ export class ItemRunesComponent implements OnInit {
             if (rune) {
                 // Add a copy of the rune to the item
                 const newLength =
-                    item.propertyRunes.push(
-                        Object.assign<ArmorRune | WeaponRune, ArmorRune | WeaponRune>(
-                            (
-                                runeItemType.armor
-                                    ? new ArmorRune()
-                                    : new WeaponRune()
-                            ),
-                            JSON.parse(JSON.stringify(rune)),
-                        ).recast(this._itemsDataService));
+                    item.propertyRunes.push(rune.clone(this._itemsDataService));
                 const newRune = item.propertyRunes[newLength - 1];
 
                 newRune.amount = 1;

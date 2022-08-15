@@ -111,6 +111,10 @@ export class SpellChoice {
         return this;
     }
 
+    public clone(): SpellChoice {
+        return Object.assign<SpellChoice, SpellChoice>(new SpellChoice(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public addSpell(
         spellName: string,
         locked: boolean,

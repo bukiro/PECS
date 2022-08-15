@@ -17,6 +17,10 @@ export class Snare extends Consumable {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Snare {
+        return Object.assign<Snare, Snare>(new Snare(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public canStack(): boolean {
         //Snares can't stack.
         return false;

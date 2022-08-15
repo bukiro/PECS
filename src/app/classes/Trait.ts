@@ -40,6 +40,10 @@ export class Trait {
         return this;
     }
 
+    public clone(): Trait {
+        return Object.assign<Trait, Trait>(new Trait(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     /**
      * Return all equipped items that have this trait, or alternatively only their names.
      * Some trait instances have information after the trait name,

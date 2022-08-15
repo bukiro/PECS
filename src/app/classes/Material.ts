@@ -26,6 +26,10 @@ export class Material {
         return this;
     }
 
+    public clone(): Material {
+        return Object.assign<Material, Material>(new Material(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public effectiveName(): string {
         return this.name.split('(')[0].trim();
     }

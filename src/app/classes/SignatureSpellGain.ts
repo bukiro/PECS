@@ -7,4 +7,8 @@ export class SignatureSpellGain {
     public recast(): SignatureSpellGain {
         return this;
     }
+
+    public clone(): SignatureSpellGain {
+        return Object.assign<SignatureSpellGain, SignatureSpellGain>(new SignatureSpellGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

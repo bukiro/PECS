@@ -192,11 +192,7 @@ export class ItemMaterialArmorComponent implements OnInit {
             //Then add the new material to the item.
             if (material.name) {
                 //Add a copy of the material to the item
-                armor.material.push(
-                    Object.assign(
-                        new ArmorMaterial(),
-                        JSON.parse(JSON.stringify(material)),
-                    ).recast());
+                armor.material.push(material.clone());
             }
         }
 

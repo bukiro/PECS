@@ -36,7 +36,7 @@ export class CharacterClassChangeService {
         this._processRemovingOldClass(character);
 
         if (newClass) {
-            character.class = Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify(newClass))).recast(this._itemsDataService);
+            character.class = newClass.clone(this._itemsDataService);
 
             this._processNewClass(character);
         } else {

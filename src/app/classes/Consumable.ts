@@ -33,5 +33,9 @@ export class Consumable extends Item {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Consumable {
+        return Object.assign<Consumable, Consumable>(new Consumable(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isConsumable(): this is Consumable { return true; }
 }

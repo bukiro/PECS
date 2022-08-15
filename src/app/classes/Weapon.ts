@@ -109,6 +109,10 @@ export class Weapon extends Equipment {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Weapon {
+        return Object.assign<Weapon, Weapon>(new Weapon(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isWeapon(): this is Weapon { return true; }
 
     public title(options: { itemStore?: boolean; preparedProficiency?: string } = {}): string {

@@ -16,4 +16,8 @@ export class LoreChoice extends SkillChoice {
 
         return this;
     }
+
+    public clone(): LoreChoice {
+        return Object.assign<LoreChoice, LoreChoice>(new LoreChoice(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

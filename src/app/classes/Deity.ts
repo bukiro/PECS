@@ -25,10 +25,15 @@ export class Deity {
      */
     public $domains: Array<string> = [];
     public $alternateDomains: Array<string> = [];
+
     public recast(): Deity {
         this.clericSpells = this.clericSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
 
         return this;
+    }
+
+    public clone(): Deity {
+        return Object.assign<Deity, Deity>(new Deity(), JSON.parse(JSON.stringify(this))).recast();
     }
 
     public isDomainExternal(domain: string): boolean {

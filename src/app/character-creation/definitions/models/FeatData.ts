@@ -21,6 +21,12 @@ export class FeatData {
         return this;
     }
 
+    public clone(): FeatData {
+        return Object.assign<FeatData, FeatData>(
+            new FeatData(this.level, this.featName, this.sourceId, this.data), JSON.parse(JSON.stringify(this)),
+        ).recast();
+    }
+
     public setValue(key: string, input: FeatDataValue | Event): void {
         const value = input instanceof Event ? (input.target as HTMLInputElement).value : input;
 

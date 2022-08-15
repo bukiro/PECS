@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { CharacterSkillIncreaseService } from 'src/app/character-creation/services/character-skill-increase/character-skill-increase.service';
 import { Character } from 'src/app/classes/Character';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
-import { CharacterService } from 'src/app/services/character.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
@@ -16,7 +14,6 @@ import { SkillLevels } from '../../definitions/skillLevels';
 export class CharacterLoreService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _refreshService: RefreshService,
@@ -284,7 +281,7 @@ export class CharacterLoreService {
         // They are marked as lorebase==true.
         this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase === 'Lore')
             .forEach(lorebaseFeat => {
-                const newFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(JSON.stringify(lorebaseFeat))).recast();
+                const newFeat = lorebaseFeat.clone();
 
                 newFeat.name = newFeat.name.replace('Lore', `Lore: ${ loreName }`);
                 newFeat.subType = newFeat.subType.replace('Lore', `Lore: ${ loreName }`);

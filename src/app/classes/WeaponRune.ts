@@ -33,4 +33,8 @@ export class WeaponRune extends Rune {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): WeaponRune {
+        return Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
 }

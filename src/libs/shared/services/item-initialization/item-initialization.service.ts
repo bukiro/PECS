@@ -94,7 +94,7 @@ export class ItemInitializationService {
                 .find(weaponRune => weaponRune.name === (newItem as Oil).runeEffect.name);
 
             if (rune) {
-                newItem.runeEffect = Object.assign(new WeaponRune(), JSON.parse(JSON.stringify(rune))).recast(this);
+                newItem.runeEffect = rune.clone(this._itemsDataService);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += ` (${ newItem.name })`; });
             }
         }

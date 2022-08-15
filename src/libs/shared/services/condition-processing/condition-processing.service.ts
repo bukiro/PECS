@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ItemGain } from 'src/app/classes/ItemGain';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { CharacterService } from 'src/app/services/character.service';
@@ -68,7 +66,7 @@ export class ConditionProcessingService {
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities
-            .map(activityGain => Object.assign(new ActivityGain(), JSON.parse(JSON.stringify(activityGain))).recast());
+            .map(activityGain => activityGain.clone());
 
         //Process adding or removing other conditions.
         if (taken) {
@@ -151,7 +149,7 @@ export class ConditionProcessingService {
 
         //One time effects when adding the condition.
         effects.forEach(effect => {
-            const tempEffect = Object.assign(new EffectGain(), JSON.parse(JSON.stringify(effect))).recast();
+            const tempEffect = effect.clone();
 
             //Copy some data to allow calculations and tracking temporary HP.
             if (!tempEffect.source) {
@@ -210,9 +208,7 @@ export class ConditionProcessingService {
                 this._conditionsDataService.conditionFromName(conditionGain.name).endsWithConditions
                     .some(endsWith => endsWith.name === condition.name && (!endsWith.source || gain.source === endsWith.source)),
             )
-            .map(conditionGain =>
-                Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast(),
-            )
+            .map(conditionGain => conditionGain.clone())
             .forEach(conditionGain => {
                 areEndsWithConditionsProcessed = true;
                 this._creatureConditionsService.removeCondition(creature, conditionGain, false);
@@ -252,7 +248,7 @@ export class ConditionProcessingService {
             .forEach(extraCondition => {
                 areGainConditionsProcessed = true;
 
-                const addCondition = Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(extraCondition))).recast();
+                const addCondition = extraCondition.clone();
 
                 if (!addCondition.heightened) {
                     addCondition.heightened = gain.heightened;
@@ -277,7 +273,7 @@ export class ConditionProcessingService {
 
             if (taken) {
                 gain.gainItems = condition.heightenedItemGains(gain.heightened)
-                    .map(itemGain => Object.assign<ItemGain, ItemGain>(new ItemGain(), JSON.parse(JSON.stringify(itemGain))).recast());
+                    .map(itemGain => itemGain.clone());
                 gain.gainItems
                     .filter(gainItem =>
                         !gainItem.conditionChoiceFilter.length ||

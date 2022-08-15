@@ -128,27 +128,34 @@ export class ConditionGain {
     /** Permanent conditions from feats and items cannot be removed. */
     public fromFeat = false;
     public fromItem = false;
+
     public get durationIsDynamic(): boolean {
         return this.duration === TimePeriods.Default;
     }
+
     public get durationIsPermanent(): boolean {
         return this.duration === TimePeriods.Permanent;
     }
+
     public get durationIsUntilRest(): boolean {
         return this.duration === TimePeriods.UntilRest;
     }
+
     public get durationIsUntilRefocus(): boolean {
         return this.duration === TimePeriods.UntilRefocus;
     }
+
     public get durationIsInstant(): boolean {
         return [TimePeriods.UntilResolved, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration);
     }
+
     public get durationDependsOnOther(): boolean {
         return (
             this.duration % TimePeriods.HalfTurn === TimePeriods.UntilResolved ||
             this.duration === TimePeriods.UntilResolvedAndOtherCharactersTurn
         );
     }
+
     public get durationEndsOnOtherTurnChange(): boolean {
         return [TimePeriods.UntilOtherCharactersTurn, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration);
     }
@@ -158,5 +165,9 @@ export class ConditionGain {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
 
         return this;
+    }
+
+    public clone(): ConditionGain {
+        return Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(this))).recast();
     }
 }

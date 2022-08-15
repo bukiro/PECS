@@ -160,6 +160,10 @@ export class Item {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Item {
+        return Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isConsumable(): this is Consumable { return false; }
 
     public isEquipment(): this is Equipment { return false; }

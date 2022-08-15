@@ -7,7 +7,6 @@ import { Character } from 'src/app/classes/Character';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Familiar } from 'src/app/classes/Familiar';
-import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Speed } from 'src/app/classes/Speed';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
@@ -297,8 +296,7 @@ export class FeatProcessingService {
         if (feat.gainSkillChoice.length) {
             if (taken) {
                 feat.gainSkillChoice.forEach(newSkillChoice => {
-                    const insertSkillChoice: SkillChoice =
-                        Object.assign<SkillChoice, SkillChoice>(new SkillChoice(), JSON.parse(JSON.stringify(newSkillChoice))).recast();
+                    const insertSkillChoice: SkillChoice = newSkillChoice.clone();
                     let newChoice: SkillChoice;
 
                     //Check if the skill choice has a class requirement, and if so, only apply it if you have that class.
@@ -425,8 +423,7 @@ export class FeatProcessingService {
             if (taken) {
                 feat.gainSpellChoice.forEach(newSpellChoice => {
                     if (newSpellChoice.insertClass ? context.character.class.name === newSpellChoice.insertClass : true) {
-                        const insertSpellChoice: SpellChoice =
-                            Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newSpellChoice))).recast();
+                        const insertSpellChoice: SpellChoice = newSpellChoice.clone();
 
                         // Allow adding Spellchoices without a class to automatically add the correct class.
                         // This finds the correct class either from the choice (if its type is a class name)
@@ -815,7 +812,7 @@ export class FeatProcessingService {
         if (feat.gainLanguages.length) {
             if (taken) {
                 feat.gainLanguages.forEach(languageGain => {
-                    const newLanguageGain = Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(languageGain))).recast();
+                    const newLanguageGain = languageGain.clone();
 
                     newLanguageGain.level = context.level.number;
                     context.character.class.languages.push(newLanguageGain);

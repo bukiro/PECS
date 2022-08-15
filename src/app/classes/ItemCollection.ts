@@ -212,6 +212,12 @@ export class ItemCollection {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): ItemCollection {
+        return Object.assign<ItemCollection, ItemCollection>(
+            new ItemCollection(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
+
     public allEquipment(): Array<Equipment> {
         return [].concat(
             this.adventuringgear,

@@ -10,4 +10,8 @@ export class MaterialItem extends Item {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): MaterialItem {
+        return Object.assign<MaterialItem, MaterialItem>(new MaterialItem(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
 }

@@ -23,4 +23,8 @@ export class ConditionChoice {
 
         return this;
     }
+
+    public clone(): ConditionChoice {
+        return Object.assign<ConditionChoice, ConditionChoice>(new ConditionChoice(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

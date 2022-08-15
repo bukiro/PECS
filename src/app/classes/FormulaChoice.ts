@@ -3,4 +3,8 @@ export class FormulaChoice {
     public recast(): FormulaChoice {
         return this;
     }
+
+    public clone(): FormulaChoice {
+        return Object.assign<FormulaChoice, FormulaChoice>(new FormulaChoice(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

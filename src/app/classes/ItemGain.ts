@@ -46,6 +46,10 @@ export class ItemGain {
         return this;
     }
 
+    public clone(): ItemGain {
+        return Object.assign<ItemGain, ItemGain>(new ItemGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public isMatchingItem(item: Item): boolean {
         if (this.special) {
             switch (this.special) {

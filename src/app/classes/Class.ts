@@ -71,6 +71,10 @@ export class Class {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Class {
+        return Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public filteredFeatData(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): Array<FeatData> {
         return this.featData.filter(data =>
             (data.featName.toLowerCase() === featName.toLowerCase()) &&
@@ -104,11 +108,7 @@ export class Class {
 
     public addSpellCasting(level: ClassLevel, newCasting: SpellCasting): SpellCasting {
         const newLength: number =
-            this.spellCasting.push(
-                Object.assign(
-                    new SpellCasting(newCasting.castingType),
-                    JSON.parse(JSON.stringify(newCasting)),
-                ).recast());
+            this.spellCasting.push(newCasting.clone());
         const newSpellCasting = this.spellCasting[newLength - 1];
 
         //If the SpellCasting has a charLevelAvailable above 0, but lower than the current level, you could use it before you get it.
@@ -133,7 +133,7 @@ export class Class {
     }
 
     public addSpellChoice(levelNumber: number, newChoice: SpellChoice): SpellChoice {
-        const insertChoice = Object.assign(new SpellChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+        const insertChoice = newChoice.clone();
 
         if (insertChoice.className === 'Default') {
             insertChoice.className = this.name;

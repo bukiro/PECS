@@ -465,7 +465,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public copyItemForCustomItem(item: Equipment | Consumable): void {
-        this.newItem = this._itemInitializationService.initializeItem(JSON.parse(JSON.stringify(item))) as Equipment | Consumable;
+        this.newItem = this._itemInitializationService.initializeItem(item) as Equipment | Consumable;
         this.toggleShownItem();
     }
 

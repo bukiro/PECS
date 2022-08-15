@@ -7,4 +7,8 @@ export class Health {
     public recast(): Health {
         return this;
     }
+
+    public clone(): Health {
+        return Object.assign<Health, Health>(new Health(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

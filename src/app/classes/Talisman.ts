@@ -22,4 +22,8 @@ export class Talisman extends Consumable {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): Talisman {
+        return Object.assign<Talisman, Talisman>(new Talisman(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
 }

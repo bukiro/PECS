@@ -46,6 +46,10 @@ export class Hint {
         return this;
     }
 
+    public clone(): Hint {
+        return Object.assign<Hint, Hint>(new Hint(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public deactivateAll(): void {
         this.active = this.active2 = this.active3 = this.active4 = this.active5 = false;
     }

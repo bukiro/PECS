@@ -96,12 +96,7 @@ export class ItemOilsComponent {
     public onSelectOil(): void {
         if (this.newOil.oil.name) {
             const item = this.item;
-            const newLength = item.oilsApplied.push(
-                Object.assign<Oil, Oil>(
-                    new Oil(),
-                    JSON.parse(JSON.stringify(this.newOil.oil)),
-                ).recast(this._itemsDataService),
-            );
+            const newLength = item.oilsApplied.push(this.newOil.oil.clone(this._itemsDataService));
 
             if (this.newOil.inv) {
                 this._characterService.dropInventoryItem(this._character, this.newOil.inv, this.newOil.oil, false, false, false, 1);

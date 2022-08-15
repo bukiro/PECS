@@ -530,7 +530,7 @@ export class CharacterService {
             const tempLanguages: Array<LanguageGain> =
                 character.class.languages
                     .filter(language => !language.locked)
-                    .map(language => Object.assign(new LanguageGain(), JSON.parse(JSON.stringify(language))));
+                    .map(language => language.clone());
 
             //Reduce the character language list to only the locked ones.
             character.class.languages = character.class.languages.filter(language => language.locked);
@@ -561,8 +561,7 @@ export class CharacterService {
                             );
 
                         if (existingLanguage) {
-                            const newLanguage =
-                                Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(existingLanguage)));
+                            const newLanguage = existingLanguage.clone();
 
                             newLanguage.level = languageSource.level;
                             character.class.languages.push(newLanguage);
@@ -1461,9 +1460,7 @@ export class CharacterService {
 
                             message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                             message.timeStamp = timeStamp;
-                            message.gainCondition.push(
-                                Object.assign(new ConditionGain(), JSON.parse(JSON.stringify(conditionGain))).recast(),
-                            );
+                            message.gainCondition.push(conditionGain.clone());
 
                             if (message.gainCondition.length) {
                                 message.gainCondition[0].foreignPlayerId = message.senderId;
@@ -1596,11 +1593,7 @@ export class CharacterService {
 
                     message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     message.timeStamp = timeStamp;
-                    message.offeredItem.push(
-                        Object.assign<Item, Item>(
-                            new Item(),
-                            JSON.parse(JSON.stringify(item)),
-                        ).recast(this._itemsDataService),
+                    message.offeredItem.push(item.clone(this._itemsDataService),
                     );
                     message.itemAmount = amount;
                     message.includedItems = included.items;

@@ -68,4 +68,8 @@ export class FeatChoice {
 
         return this;
     }
+
+    public clone(): FeatChoice {
+        return Object.assign<FeatChoice, FeatChoice>(new FeatChoice(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

@@ -187,11 +187,7 @@ export class ItemMaterialWeaponComponent implements OnInit {
             //Then add the new material to the item.
             if (material.name) {
                 //Add a copy of the material to the item
-                weapon.material.push(
-                    Object.assign(
-                        new WeaponMaterial(),
-                        JSON.parse(JSON.stringify(material)),
-                    ).recast());
+                weapon.material.push(material.clone());
             }
         }
 

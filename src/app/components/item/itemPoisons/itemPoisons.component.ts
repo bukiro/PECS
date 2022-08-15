@@ -70,12 +70,7 @@ export class ItemPoisonsComponent {
             const item = this.item;
 
             item.poisonsApplied.length = 0;
-            item.poisonsApplied.push(
-                Object.assign<AlchemicalPoison, AlchemicalPoison>(
-                    new AlchemicalPoison(),
-                    JSON.parse(JSON.stringify(this.newPoison.poison)),
-                ).recast(this._itemsDataService),
-            );
+            item.poisonsApplied.push(this.newPoison.poison.clone(this._itemsDataService));
 
             if (this.newPoison.inv) {
                 this._characterService.dropInventoryItem(

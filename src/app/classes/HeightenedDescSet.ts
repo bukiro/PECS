@@ -7,4 +7,8 @@ export class HeightenedDescSet {
     public recast(): HeightenedDescSet {
         return this;
     }
+
+    public clone(): HeightenedDescSet {
+        return Object.assign<HeightenedDescSet, HeightenedDescSet>(new HeightenedDescSet(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

@@ -21,7 +21,7 @@ export class ClassLevel {
 
     public addAbilityChoice(newChoice: AbilityChoice): AbilityChoice {
         const existingChoices = this.abilityChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = Object.assign(new AbilityChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+        const tempChoice = newChoice.clone();
 
         tempChoice.id = `${ this.number }-Ability-${ tempChoice.source }-${ existingChoices.length }`;
 
@@ -47,7 +47,7 @@ export class ClassLevel {
 
     public addSkillChoice(newChoice: SkillChoice): SkillChoice {
         const existingChoices = this.skillChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = Object.assign(new SkillChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+        const tempChoice = newChoice.clone();
 
         tempChoice.id = `${ this.number }-Skill-${ tempChoice.source }-${ existingChoices.length }`;
 
@@ -73,7 +73,7 @@ export class ClassLevel {
 
     public addLoreChoice(newChoice: LoreChoice): LoreChoice {
         const existingChoices = this.loreChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = Object.assign(new LoreChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+        const tempChoice = newChoice.clone();
 
         tempChoice.id = `${ this.number }-Lore-${ tempChoice.source }-${ existingChoices.length }`;
 
@@ -88,7 +88,7 @@ export class ClassLevel {
 
     public addFeatChoice(newChoice: FeatChoice): FeatChoice {
         const existingChoices = this.featChoices.filter(choice => choice.source === newChoice.source);
-        const tempChoice = Object.assign<FeatChoice, FeatChoice>(new FeatChoice(), JSON.parse(JSON.stringify(newChoice))).recast();
+        const tempChoice = newChoice.clone();
 
         tempChoice.id =
             `${ this.number }-${ tempChoice.type ? tempChoice.type : 'Feat' }-${ tempChoice.source }-${ existingChoices.length }`;

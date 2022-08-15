@@ -31,7 +31,7 @@ export class CharacterAncestryChangeService {
         this._processRemovingOldAncestry(character);
 
         if (newAncestry) {
-            character.class.ancestry = Object.assign(new Ancestry(), JSON.parse(JSON.stringify(newAncestry))).recast();
+            character.class.ancestry = newAncestry.clone();
 
             this._processNewAncestry(character);
         } else {

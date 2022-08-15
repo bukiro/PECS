@@ -143,6 +143,10 @@ export class Condition {
         return this;
     }
 
+    public clone(): Condition {
+        return Object.assign<Condition, Condition>(new Condition(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
     public conditionOverrides(gain: ConditionGain = null): Array<ConditionOverride> {
         return this.overrideConditions.map(override => {
             let overrideName = override.name;

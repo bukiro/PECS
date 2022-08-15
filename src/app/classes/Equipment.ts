@@ -167,6 +167,10 @@ export class Equipment extends Item {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Equipment {
+        return Object.assign<Equipment, Equipment>(new Equipment(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isEquipment(): this is Equipment { return true; }
 
     public gridIconValue(): string {

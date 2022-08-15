@@ -53,15 +53,11 @@ export class AnimalCompanionSpecializationsService {
     }
 
     public addSpecialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization, levelNumber: number): void {
-        companion.class.specializations.push(
-            Object.assign<AnimalCompanionSpecialization, AnimalCompanionSpecialization>(
-                new AnimalCompanionSpecialization(),
-                {
-                    ...JSON.parse(JSON.stringify(spec)),
-                    level: levelNumber,
-                },
-            ).recast(),
-        );
+        const newSpec = spec.clone();
+
+        newSpec.level = levelNumber;
+
+        companion.class.specializations.push(newSpec);
     }
 
     public removeSpecialization(companion: AnimalCompanion, spec: AnimalCompanionSpecialization): void {

@@ -49,4 +49,8 @@ export class PlayerMessage {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): PlayerMessage {
+        return Object.assign<PlayerMessage, PlayerMessage>(new PlayerMessage(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
 }

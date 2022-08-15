@@ -14,4 +14,8 @@ export class HeldItem extends Equipment {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): HeldItem {
+        return Object.assign<HeldItem, HeldItem>(new HeldItem(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
 }

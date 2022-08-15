@@ -61,8 +61,7 @@ export class AnimalCompanionAncestryService {
         this.processRemovingOldAncestry(companion);
 
         if (type) {
-            companion.class.ancestry =
-                Object.assign(new AnimalCompanionAncestry(), JSON.parse(JSON.stringify(type))).recast();
+            companion.class.ancestry = type.clone();
             this.processNewAncestry(companion);
         } else {
             companion.class.ancestry = new AnimalCompanionAncestry();

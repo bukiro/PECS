@@ -7,4 +7,8 @@ export class InventoryGain {
     public recast(): InventoryGain {
         return this;
     }
+
+    public clone(): InventoryGain {
+        return Object.assign<InventoryGain, InventoryGain>(new InventoryGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

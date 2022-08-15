@@ -11,4 +11,8 @@ export class SpellTarget {
     public recast(): SpellTarget {
         return this;
     }
+
+    public clone(): SpellTarget {
+        return Object.assign<SpellTarget, SpellTarget>(new SpellTarget(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

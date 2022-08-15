@@ -44,4 +44,8 @@ export class SpellGain {
 
         return this;
     }
+
+    public clone(): SpellGain {
+        return Object.assign<SpellGain, SpellGain>(new SpellGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

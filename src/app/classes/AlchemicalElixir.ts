@@ -20,4 +20,10 @@ export class AlchemicalElixir extends Consumable {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): AlchemicalElixir {
+        return Object.assign<AlchemicalElixir, AlchemicalElixir>(
+            new AlchemicalElixir(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
 }

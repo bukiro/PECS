@@ -5,4 +5,8 @@ export class ConditionDuration {
     public recast(): ConditionDuration {
         return this;
     }
+
+    public clone(): ConditionDuration {
+        return Object.assign<ConditionDuration, ConditionDuration>(new ConditionDuration(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

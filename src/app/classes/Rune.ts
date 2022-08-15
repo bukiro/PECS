@@ -35,6 +35,10 @@ export class Rune extends Item {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Rune {
+        return Object.assign<Rune, Rune>(new Rune(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public canStack(): boolean {
         //Additionally to the usual considerations, runes can't stack if they add any activities.
         return (

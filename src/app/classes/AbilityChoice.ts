@@ -13,11 +13,15 @@ export class AbilityChoice {
     public type: 'Boost' | 'Flaw' = 'Boost';
     public bonus = false;
 
-    public maxAvailable(character: Character): number {
-        return this.available - (character.baseValues.length ? this.baseValuesLost : 0);
-    }
-
     public recast(): AbilityChoice {
         return this;
+    }
+
+    public clone(): AbilityChoice {
+        return Object.assign<AbilityChoice, AbilityChoice>(new AbilityChoice(), JSON.parse(JSON.stringify(this))).recast();
+    }
+
+    public maxAvailable(character: Character): number {
+        return this.available - (character.baseValues.length ? this.baseValuesLost : 0);
     }
 }

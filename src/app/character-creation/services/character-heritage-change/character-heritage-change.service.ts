@@ -40,7 +40,7 @@ export class CharacterHeritageChangeService {
 
         if (index === -1) {
             if (heritage) {
-                characterClass.heritage = Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(heritage))).recast();
+                characterClass.heritage = heritage.clone();
             } else {
                 characterClass.heritage = new Heritage();
             }

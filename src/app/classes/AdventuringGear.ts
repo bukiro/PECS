@@ -22,6 +22,12 @@ export class AdventuringGear extends Equipment {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): AdventuringGear {
+        return Object.assign<AdventuringGear, AdventuringGear>(
+            new AdventuringGear(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
+
     public canStack(): boolean {
         //Some AdventuringGear can stack. This is an expanded version of Item.can_Stack().
         return (

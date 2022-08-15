@@ -290,10 +290,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         this.modalOpen = true;
         //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
         this.cachedNewMessages = this.newMessagesFromService()
-            .map(message => Object.assign<PlayerMessage, PlayerMessage>(
-                new PlayerMessage(),
-                JSON.parse(JSON.stringify(message)),
-            ).recast(this._itemsDataService));
+            .map(message => message.clone(this._itemsDataService));
 
         this._modalService
             .open(this._newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' })

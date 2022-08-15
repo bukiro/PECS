@@ -11,7 +11,6 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { Rune } from 'src/app/classes/Rune';
-import { SpellCast } from 'src/app/classes/SpellCast';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
@@ -197,9 +196,7 @@ export class ActivitiesProcessingService {
                 if (context.gain instanceof ActivityGain) {
                     context.gain.castSpells =
                         activity.castSpells
-                            .map(spellCast =>
-                                Object.assign<SpellCast, SpellCast>(new SpellCast(), JSON.parse(JSON.stringify(spellCast))).recast(),
-                            );
+                            .map(spellCast => spellCast.clone());
                 }
 
                 context.gain.castSpells.forEach((cast, spellCastIndex) => {

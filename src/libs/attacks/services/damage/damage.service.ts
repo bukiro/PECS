@@ -568,7 +568,7 @@ export class DamageService {
                 .concat(this._effectsService.relativeEffectsOnThese(creature, perDieList))
                 .forEach(effect => {
                     const effectValue = parseInt(effect.value, 10) * dicenum;
-                    const newEffect = Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(effect))).recast();
+                    const newEffect = effect.clone();
 
                     newEffect.target = newEffect.target.replace(' per Die', '');
                     newEffect.value = effectValue.toString();

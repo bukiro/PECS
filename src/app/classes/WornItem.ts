@@ -122,6 +122,10 @@ export class WornItem extends Equipment {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): WornItem {
+        return Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isWornItem(): this is WornItem { return true; }
 
     public effectsGenerationHints(): Array<HintEffectsObject> {

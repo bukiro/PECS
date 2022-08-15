@@ -137,7 +137,7 @@ export class FoundryVTTIntegrationService {
 
                 const rollObject = { formula: '', terms: [], results: [], _total: 0 };
 
-                results.forEach((result: DiceResult, index) => {
+                results.forEach((result: DiceResult, index: number) => {
                     if (index > 0 && ((result.diceNum && result.diceSize) || result.bonus >= 0)) {
                         rollObject.formula += ' + ';
                         rollObject.terms.push({ operator: '+' });

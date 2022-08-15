@@ -29,4 +29,8 @@ export class Ancestry {
 
         return this;
     }
+
+    public clone(): Ancestry {
+        return Object.assign<Ancestry, Ancestry>(new Ancestry(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

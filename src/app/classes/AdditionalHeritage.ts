@@ -8,4 +8,8 @@ export class AdditionalHeritage extends Heritage {
     public recast(): AdditionalHeritage {
         return this;
     }
+
+    public clone(): AdditionalHeritage {
+        return Object.assign<AdditionalHeritage, AdditionalHeritage>(new AdditionalHeritage(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

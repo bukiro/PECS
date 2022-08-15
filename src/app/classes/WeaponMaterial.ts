@@ -8,4 +8,8 @@ export class WeaponMaterial extends Material {
 
         return this;
     }
+
+    public clone(): WeaponMaterial {
+        return Object.assign<WeaponMaterial, WeaponMaterial>(new WeaponMaterial(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

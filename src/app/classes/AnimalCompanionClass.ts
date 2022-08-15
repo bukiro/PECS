@@ -17,4 +17,10 @@ export class AnimalCompanionClass {
 
         return this;
     }
+
+    public clone(): AnimalCompanionClass {
+        return Object.assign<AnimalCompanionClass, AnimalCompanionClass>(
+            new AnimalCompanionClass(), JSON.parse(JSON.stringify(this)),
+        ).recast();
+    }
 }

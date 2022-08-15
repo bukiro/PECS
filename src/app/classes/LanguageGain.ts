@@ -8,4 +8,8 @@ export class LanguageGain {
     public recast(): LanguageGain {
         return this;
     }
+
+    public clone(): LanguageGain {
+        return Object.assign<LanguageGain, LanguageGain>(new LanguageGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

@@ -29,4 +29,8 @@ export class Heritage {
 
         return this;
     }
+
+    public clone(): Heritage {
+        return Object.assign<Heritage, Heritage>(new Heritage(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

@@ -6,4 +6,8 @@ export class SenseGain {
     public recast(): SenseGain {
         return this;
     }
+
+    public clone(): SenseGain {
+        return Object.assign<SenseGain, SenseGain>(new SenseGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

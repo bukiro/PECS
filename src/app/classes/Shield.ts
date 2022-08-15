@@ -57,6 +57,10 @@ export class Shield extends Equipment {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Shield {
+        return Object.assign<Shield, Shield>(new Shield(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isShield(): this is Shield { return true; }
 
     public effectiveHardness(): number {

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
@@ -67,9 +66,7 @@ export class ItemTransferService {
 
                         toPack -= moved;
 
-                        const newItem = TypeService.castItemByType(
-                            Object.assign(new Item(), JSON.parse(JSON.stringify(invItem))),
-                        ).recast(this._itemsDataService);
+                        const newItem = invItem.clone(this._itemsDataService);
 
                         newItem.amount = moved;
                         items.push(newItem);
@@ -88,10 +85,7 @@ export class ItemTransferService {
             inventories.push(
                 ...creature.inventories
                     .filter(inventory => inventory.itemId === item.id)
-                    .map(inventory =>
-                        Object.assign(new ItemCollection(), JSON.parse(JSON.stringify(inventory)))
-                            .recast(this),
-                    ),
+                    .map(inventory => inventory.clone(this._itemsDataService)),
             );
         }
 
@@ -118,12 +112,7 @@ export class ItemTransferService {
                                 if (newInventories.length) {
                                     hasFoundNewInventoriesToCheck = true;
                                     inventories.push(
-                                        ...newInventories.map(inventory =>
-                                            Object.assign(
-                                                new ItemCollection(),
-                                                JSON.parse(JSON.stringify(inventory)),
-                                            ).recast(this),
-                                        ),
+                                        ...newInventories.map(inventory => inventory.clone(this._itemsDataService)),
                                     );
                                 }
                             });
@@ -221,7 +210,7 @@ export class ItemTransferService {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 //The item does need to be copied so we don't just move a reference.
-                const movedItem = TypeService.castItemByType(JSON.parse(JSON.stringify(item))).recast(this._itemsDataService);
+                const movedItem = item.clone(this._itemsDataService);
 
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
                 if (movedItem.canStack()) {
@@ -293,7 +282,7 @@ export class ItemTransferService {
                     //Update the item's gridicon to reflect its changed amount.
                     this._refreshService.setComponentChanged(existingItems[0].id);
                 } else {
-                    const movedItem = TypeService.castItemByType(JSON.parse(JSON.stringify(includedItem))).recast(this._itemsDataService);
+                    const movedItem = includedItem.clone(this._itemsDataService);
                     const newLength = targetInventory[includedItem.type].push(movedItem);
                     const newItem = targetInventory[includedItem.type][newLength - 1];
 

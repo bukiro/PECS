@@ -16,4 +16,8 @@ export class Savegame {
     public recast(): Savegame {
         return this;
     }
+
+    public clone(): Savegame {
+        return Object.assign<Savegame, Savegame>(new Savegame(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

@@ -11,6 +11,10 @@ export class Scroll extends Consumable {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Scroll {
+        return Object.assign<Scroll, Scroll>(new Scroll(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isScroll(): this is Scroll { return true; }
 
     public effectiveName(): string {

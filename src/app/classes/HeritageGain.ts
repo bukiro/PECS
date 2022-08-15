@@ -5,4 +5,8 @@ export class HeritageGain {
     public recast(): HeritageGain {
         return this;
     }
+
+    public clone(): HeritageGain {
+        return Object.assign<HeritageGain, HeritageGain>(new HeritageGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

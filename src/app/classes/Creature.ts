@@ -61,6 +61,8 @@ export abstract class Creature {
         return false;
     }
 
+    public abstract clone(itemsDataService: ItemsDataService): Creature;
+
     public abstract baseSize(): number;
 
     public abstract baseHP(charLevel: number, conModifier: number): { result: number; explain: string };

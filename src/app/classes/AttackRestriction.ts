@@ -9,4 +9,8 @@ export class AttackRestriction {
     public recast(): AttackRestriction {
         return this;
     }
+
+    public clone(): AttackRestriction {
+        return Object.assign<AttackRestriction, AttackRestriction>(new AttackRestriction(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

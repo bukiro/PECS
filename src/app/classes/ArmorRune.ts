@@ -22,6 +22,10 @@ export class ArmorRune extends Rune {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): ArmorRune {
+        return Object.assign<ArmorRune, ArmorRune>(new ArmorRune(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public effectsGenerationHints(): Array<HintEffectsObject> {
         return this.hints.map(hint => ({ hint, parentItem: this, objectName: this.effectiveName() }));
     }

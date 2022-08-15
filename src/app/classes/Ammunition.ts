@@ -20,6 +20,12 @@ export class Ammunition extends Consumable {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Ammunition {
+        return Object.assign<Ammunition, Ammunition>(
+            new Ammunition(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
+
     public effectiveName(): string {
         if (this.displayName) {
             return this.displayName;

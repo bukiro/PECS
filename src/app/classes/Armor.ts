@@ -75,6 +75,10 @@ export class Armor extends Equipment {
         return this;
     }
 
+    public clone(itemsDataService: ItemsDataService): Armor {
+        return Object.assign<Armor, Armor>(new Armor(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    }
+
     public isArmor(): this is Armor { return true; }
 
     public title(options: { itemStore?: boolean } = {}): string {

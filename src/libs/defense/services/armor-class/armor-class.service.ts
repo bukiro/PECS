@@ -216,11 +216,11 @@ export class ArmorClassService {
 
         if (relatives === undefined) {
             clonedRelatives = this._relatives(creature, character)
-                .map(relative => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(relative))).recast());
+                .map(relative => relative.clone());
         } else {
             //Reassign the effects to unchain them from the calling function.
             clonedRelatives = relatives
-                .map(relative => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(relative))).recast());
+                .map(relative => relative.clone());
         }
 
         let isBaseArmorBonusSet = false;
@@ -229,11 +229,11 @@ export class ArmorClassService {
 
         if (absolutes === undefined) {
             clonedAbsolutes = this._absolutes(armorCreature)
-                .map(absolute => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(absolute))).recast());
+                .map(absolute => absolute.clone());
         } else {
             //Reassign the effects to unchain them from the calling function.
             clonedAbsolutes = absolutes
-                .map(absolute => Object.assign<Effect, Effect>(new Effect(), JSON.parse(JSON.stringify(absolute))).recast());
+                .map(absolute => absolute.clone());
         }
 
         clonedAbsolutes.forEach(effect => {

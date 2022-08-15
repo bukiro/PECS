@@ -14,4 +14,8 @@ export class Specialization {
 
         return this;
     }
+
+    public clone(): Specialization {
+        return Object.assign<Specialization, Specialization>(new Specialization(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

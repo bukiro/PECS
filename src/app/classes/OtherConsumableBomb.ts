@@ -10,4 +10,10 @@ export class OtherConsumableBomb extends AlchemicalBomb {
 
         return this;
     }
+
+    public clone(itemsDataService: ItemsDataService): OtherConsumableBomb {
+        return Object.assign<OtherConsumableBomb, OtherConsumableBomb>(
+            new OtherConsumableBomb(), JSON.parse(JSON.stringify(this)),
+        ).recast(itemsDataService);
+    }
 }

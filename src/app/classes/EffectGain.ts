@@ -44,4 +44,8 @@ export class EffectGain {
     public recast(): EffectGain {
         return this;
     }
+
+    public clone(): EffectGain {
+        return Object.assign<EffectGain, EffectGain>(new EffectGain(), JSON.parse(JSON.stringify(this))).recast();
+    }
 }

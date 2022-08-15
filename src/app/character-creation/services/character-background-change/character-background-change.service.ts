@@ -27,7 +27,7 @@ export class CharacterBackgroundChangeService {
         this._processRemovingOldBackground(character);
 
         if (background) {
-            character.class.background = Object.assign(new Background(), JSON.parse(JSON.stringify(background))).recast();
+            character.class.background = background.clone();
 
             this._processNewBackground(character);
         } else {
