@@ -4,6 +4,7 @@ import { DiceResult } from 'src/app/classes/DiceResult';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,6 +16,7 @@ export class DiceService {
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _characterService: CharacterService,
+        private readonly _menuService: MenuService,
     ) { }
 
     public get diceResults(): Array<DiceResult> {
@@ -60,8 +62,8 @@ export class DiceService {
 
         this._diceResults.unshift(diceResult);
 
-        if (this._characterService.diceMenuState() === 'out') {
-            this._characterService.toggleMenu(MenuNames.DiceMenu);
+        if (this._menuService.diceMenuState === 'out') {
+            this._menuService.toggleMenu(MenuNames.DiceMenu);
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'dice');

@@ -34,6 +34,7 @@ import { ConditionPropertiesService } from 'src/libs/shared/services/condition-p
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -118,6 +119,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _durationsService: DurationsService,
+        private readonly _menuService: MenuService,
         public trackers: Trackers,
     ) { }
 
@@ -189,7 +191,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public toggleSpellsMenu(): void {
-        this._characterService.toggleMenu(MenuNames.SpellsMenu);
+        this._menuService.toggleMenu(MenuNames.SpellsMenu);
     }
 
     public spellDCs(): Array<Skill> {

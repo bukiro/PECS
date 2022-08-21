@@ -11,6 +11,7 @@ import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 const defaultDiceNum = 5;
 
@@ -35,11 +36,12 @@ export class DiceComponent implements OnInit, OnDestroy {
         private readonly _diceService: DiceService,
         private readonly _integrationsService: FoundryVTTIntegrationService,
         private readonly _healthService: HealthService,
+        private readonly _menuService: MenuService,
         public trackers: Trackers,
     ) { }
 
     public get diceMenuState(): MenuState {
-        return this._characterService.diceMenuState();
+        return this._menuService.diceMenuState;
     }
 
     public get diceResults(): Array<DiceResult> {
@@ -51,7 +53,7 @@ export class DiceComponent implements OnInit, OnDestroy {
     }
 
     public toggleDiceMenu(): void {
-        this._characterService.toggleMenu(MenuNames.DiceMenu);
+        this._menuService.toggleMenu(MenuNames.DiceMenu);
     }
 
     public canSendRollsToFoundryVTT(): boolean {

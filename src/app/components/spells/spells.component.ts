@@ -18,6 +18,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -69,6 +70,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         private readonly _effectsService: CreatureEffectsService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
+        private readonly _menuService: MenuService,
         public trackers: Trackers,
     ) { }
 
@@ -103,11 +105,11 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public toggleSpellMenu(): void {
-        this._characterService.toggleMenu(MenuNames.SpellsMenu);
+        this._menuService.toggleMenu(MenuNames.SpellsMenu);
     }
 
     public spellsMenuState(): string {
-        return this._characterService.spellsMenuState();
+        return this._menuService.spellsMenuState;
     }
 
     public toggleShownSpell(name: string): void {

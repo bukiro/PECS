@@ -51,6 +51,7 @@ import { DurationsService } from 'src/libs/time/services/durations/durations.ser
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -118,6 +119,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _durationsService: DurationsService,
         private readonly _itemTransferService: ItemTransferService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
+        private readonly _menuService: MenuService,
         public trackers: Trackers,
     ) { }
 
@@ -157,11 +159,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public setItemsMenuTarget(target: CreatureTypes): void {
-        this._characterService.setItemsMenuTarget(target);
+        this._menuService.setItemsMenuTarget(target);
     }
 
     public toggleItemsMenu(): void {
-        this._characterService.toggleMenu(MenuNames.ItemsMenu);
+        this._menuService.toggleMenu(MenuNames.ItemsMenu);
     }
 
     public toggleShownList(type: string): void {

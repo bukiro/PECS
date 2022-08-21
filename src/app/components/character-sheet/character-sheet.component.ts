@@ -7,6 +7,7 @@ import { DisplayService } from 'src/app/core/services/display/display.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 const slideInOutTrigger = trigger('slideInOut', [
     state('in', style({
@@ -62,6 +63,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _changeDetector: ChangeDetectorRef,
+        private readonly _menuService: MenuService,
         public trackers: Trackers,
     ) { }
 
@@ -133,6 +135,42 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         return this._characterService.character.settings.timeMinimized;
     }
 
+    public get itemsMenuState(): MenuState {
+        return this._menuService.itemsMenuState;
+    }
+
+    public get craftingMenuState(): MenuState {
+        return this._menuService.craftingMenuState;
+    }
+
+    public get characterMenuState(): MenuState {
+        return this._menuService.characterMenuState;
+    }
+
+    public get companionMenuState(): MenuState {
+        return this._menuService.companionMenuState;
+    }
+
+    public get familiarMenuState(): MenuState {
+        return this._menuService.familiarMenuState;
+    }
+
+    public get spellsMenuState(): MenuState {
+        return this._menuService.spellsMenuState;
+    }
+
+    public get spellLibraryMenuState(): MenuState {
+        return this._menuService.spellLibraryMenuState;
+    }
+
+    public get conditionsMenuState(): MenuState {
+        return this._menuService.conditionsMenuState;
+    }
+
+    public get diceMenuState(): MenuState {
+        return this._menuService.diceMenuState;
+    }
+
     @HostListener('window:resize', ['$event'])
     public onResize(): void {
         this._setMobile();
@@ -151,42 +189,6 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
 
     public shownMode(): string {
         return this.showMode;
-    }
-
-    public itemsMenuState(): MenuState {
-        return this._characterService.itemsMenuState();
-    }
-
-    public craftingMenuState(): MenuState {
-        return this._characterService.craftingMenuState();
-    }
-
-    public characterMenuState(): MenuState {
-        return this._characterService.characterMenuState();
-    }
-
-    public companionMenuState(): MenuState {
-        return this._characterService.companionMenuState();
-    }
-
-    public familiarMenuState(): MenuState {
-        return this._characterService.familiarMenuState();
-    }
-
-    public spellsMenuState(): MenuState {
-        return this._characterService.spellsMenuState();
-    }
-
-    public spellLibraryMenuState(): MenuState {
-        return this._characterService.spellLibraryMenuState();
-    }
-
-    public conditionsMenuState(): MenuState {
-        return this._characterService.conditionsMenuState();
-    }
-
-    public diceMenuState(): MenuState {
-        return this._characterService.diceMenuState();
     }
 
     public companionAvailable(): boolean {

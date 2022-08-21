@@ -78,6 +78,8 @@ import { CharacterLoadingService } from 'src/libs/shared/saving-loading/services
 import { DocumentStyleService } from 'src/app/core/services/document-style/document-style.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
+import { AppStateService } from 'src/app/core/services/app-state/app-state.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -147,6 +149,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _documentStyleService: DocumentStyleService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _creatureFeatsService: CreatureFeatsService,
+        private readonly _appStateService: AppStateService,
+        private readonly _menuService: MenuService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -203,20 +207,20 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this._characterService.character.class.familiar;
     }
 
+    public get characterMenuState(): MenuState {
+        return this._menuService.characterMenuState;
+    }
+
     public minimize(): void {
         this._characterService.character.settings.characterMinimized = !this._characterService.character.settings.characterMinimized;
     }
 
     public toggleCharacterMenu(): void {
-        this._characterService.toggleMenu(MenuNames.CharacterMenu);
-    }
-
-    public characterMenuState(): MenuState {
-        return this._characterService.characterMenuState();
+        this._menuService.toggleMenu(MenuNames.CharacterMenu);
     }
 
     public wasCharacterLoadedOrCreated(): boolean {
-        return this._characterService.wasCharacterLoadedOrCreated();
+        return this._appStateService.wasCharacterLoadedOrCreated();
     }
 
     public toggleShownLevel(levelNumber: number = 0): void {
@@ -374,7 +378,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this.toggleShownList();
             this._characterLoadingService.loadOrResetCharacter();
         } else {
-            this._characterService.setCharacterLoadedOrCreated();
+            this._appStateService.setCharacterLoadedOrCreated();
         }
     }
 
@@ -442,7 +446,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public loadCharacterFromDB(savegame: Savegame): void {
-        this._characterService.setCharacterLoadedOrCreated();
+        this._appStateService.setCharacterLoadedOrCreated();
         this.toggleCharacterMenu();
         this._characterLoadingService.loadOrResetCharacter(savegame.id, this.loadAsGM);
     }
@@ -460,10 +464,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public closeButtonTitle(): string {
-        if (this._isFirstLoad()) {
-            return 'Go to Character Sheet';
-        } else {
+        if (this._appStateService.wasCharacterMenuClosedOnce()) {
             return 'Back to Character Sheet';
+        } else {
+            return 'Go to Character Sheet';
         }
     }
 
@@ -1930,10 +1934,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     private _deleteCharacterFromDB(savegame: Savegame): void {
         this._characterDeletingService.deleteCharacter(savegame);
-    }
-
-    private _isFirstLoad(): boolean {
-        return this._characterService.isFirstLoad();
     }
 
     private _isAbilityBoostedByThisChoice(ability: Ability, choice: AbilityChoice): boolean {

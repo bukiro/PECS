@@ -24,6 +24,7 @@ import { ArmorPropertiesService } from 'src/libs/shared/services/armor-propertie
 import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-properties/equipment-properties.service';
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 const itemsPerPage = 40;
 
@@ -63,6 +64,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         private readonly _itemPriceService: ItemPriceService,
+        private readonly _menuService: MenuService,
         public trackers: Trackers,
     ) { }
 
@@ -76,6 +78,10 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     public get isTileMode(): boolean {
         return this._character.settings.craftingTileMode;
+    }
+
+    public get craftingMenuState(): MenuState {
+        return this._menuService.craftingMenuState;
     }
 
     private get _character(): Character {
@@ -155,11 +161,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     public toggleCraftingMenu(): void {
-        this._characterService.toggleMenu(MenuNames.CraftingMenu);
-    }
-
-    public craftingMenuState(): MenuState {
-        return this._characterService.craftingMenuState();
+        this._menuService.toggleMenu(MenuNames.CraftingMenu);
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {

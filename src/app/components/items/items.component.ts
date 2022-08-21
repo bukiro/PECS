@@ -44,6 +44,7 @@ import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { ItemPropertiesDataService } from 'src/app/core/services/data/item-properties-data.service';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -108,6 +109,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         private readonly _itemPriceService: ItemPriceService,
+        private readonly _menuService: MenuService,
         public trackers: Trackers,
     ) { }
 
@@ -121,6 +123,10 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     public get isTileMode(): boolean {
         return this._character.settings.craftingTileMode;
+    }
+
+    public get itemsMenuState(): MenuState {
+        return this._menuService.itemsMenuState;
     }
 
     private get _character(): Character {
@@ -170,7 +176,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     public toggleShownCreature(type): void {
         this.creature = type;
-        this._characterService.setItemsMenuTarget(this.creature);
+        this._menuService.setItemsMenuTarget(this.creature);
     }
 
     public shownCreature(): CreatureTypes {
@@ -202,23 +208,19 @@ export class ItemsComponent implements OnInit, OnDestroy {
         );
     }
 
-    public itemsMenuState(): MenuState {
-        return this._characterService.itemsMenuState();
-    }
-
     public otherCreaturesAvailable(): { companion: boolean; familiar: boolean } {
-        this.creature = this._characterService.itemsMenuTarget();
+        this.creature = this._menuService.itemsMenuTarget();
 
         const isCompanionAvailable = this._characterService.isCompanionAvailable();
 
         if (this.creature === CreatureTypes.AnimalCompanion && !isCompanionAvailable) {
-            this._characterService.setItemsMenuTarget(CreatureTypes.Character);
+            this._menuService.setItemsMenuTarget(CreatureTypes.Character);
         }
 
         const isFamiliarAvailable = this._characterService.isFamiliarAvailable();
 
         if (this.creature === CreatureTypes.Familiar && !isFamiliarAvailable) {
-            this._characterService.setItemsMenuTarget(CreatureTypes.Character);
+            this._menuService.setItemsMenuTarget(CreatureTypes.Character);
         }
 
         if (isCompanionAvailable || isFamiliarAvailable) {
@@ -244,7 +246,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public toggleItemsMenu(): void {
-        this._characterService.toggleMenu(MenuNames.ItemsMenu);
+        this._menuService.toggleMenu(MenuNames.ItemsMenu);
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {

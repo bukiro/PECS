@@ -24,6 +24,7 @@ import { CharacterSavingService } from 'src/libs/shared/saving-loading/services/
 import { StatusService } from 'src/app/core/services/status/status.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -61,6 +62,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _statusService: StatusService,
         private readonly _durationsService: DurationsService,
         private readonly _itemsDataService: ItemsDataService,
+        private readonly _menuService: MenuService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -117,6 +119,42 @@ export class TopBarComponent implements OnInit, OnDestroy {
         return this._characterService.stillLoading;
     }
 
+    public get itemsMenuState(): MenuState {
+        return this._menuService.itemsMenuState;
+    }
+
+    public get craftingMenuState(): MenuState {
+        return this._menuService.craftingMenuState;
+    }
+
+    public get characterMenuState(): MenuState {
+        return this._menuService.characterMenuState;
+    }
+
+    public get companionMenuState(): MenuState {
+        return this._menuService.companionMenuState;
+    }
+
+    public get familiarMenuState(): MenuState {
+        return this._menuService.familiarMenuState;
+    }
+
+    public get spellsMenuState(): MenuState {
+        return this._menuService.spellsMenuState;
+    }
+
+    public get spellLibraryMenuState(): MenuState {
+        return this._menuService.spellLibraryMenuState;
+    }
+
+    public get conditionsMenuState(): MenuState {
+        return this._menuService.conditionsMenuState;
+    }
+
+    public get diceMenuState(): MenuState {
+        return this._menuService.diceMenuState;
+    }
+
     public newMessagesFromService(): Array<PlayerMessage> {
         return this._messagesService.newMessages();
     }
@@ -134,45 +172,9 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public toggleMenu(menu: MenuNames): void {
-        this._characterService.toggleMenu(menu);
+        this._menuService.toggleMenu(menu);
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'character-sheet');
         this._refreshService.processPreparedChanges();
-    }
-
-    public itemsMenuState(): MenuState {
-        return this._characterService.itemsMenuState();
-    }
-
-    public craftingMenuState(): MenuState {
-        return this._characterService.craftingMenuState();
-    }
-
-    public characterMenuState(): MenuState {
-        return this._characterService.characterMenuState();
-    }
-
-    public companionMenuState(): MenuState {
-        return this._characterService.companionMenuState();
-    }
-
-    public familiarMenuState(): MenuState {
-        return this._characterService.familiarMenuState();
-    }
-
-    public spellsMenuState(): MenuState {
-        return this._characterService.spellsMenuState();
-    }
-
-    public spellLibraryMenuState(): MenuState {
-        return this._characterService.spellLibraryMenuState();
-    }
-
-    public conditionsMenuState(): MenuState {
-        return this._characterService.conditionsMenuState();
-    }
-
-    public diceMenuState(): MenuState {
-        return this._characterService.diceMenuState();
     }
 
     public isCompanionAvailable(): boolean {

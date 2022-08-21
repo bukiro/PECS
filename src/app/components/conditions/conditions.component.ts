@@ -32,6 +32,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { EffectPropertiesDataService } from 'src/app/core/services/data/effect-properties-data.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 const itemsPerPage = 40;
 
@@ -103,6 +104,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly _evaluationService: EvaluationService,
         private readonly _customEffectPropertiesService: EffectPropertiesDataService,
         private readonly _durationsService: DurationsService,
+        private readonly _menuService: MenuService,
         public trackers: Trackers,
     ) { }
 
@@ -124,6 +126,10 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     public get familiar(): Familiar {
         return this._characterService.familiar;
+    }
+
+    public get conditionsMenuState(): MenuState {
+        return this._menuService.conditionsMenuState;
     }
 
     private get _isCompanionAvailable(): boolean {
@@ -225,11 +231,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public toggleConditionsMenu(): void {
-        this._characterService.toggleMenu(MenuNames.ConditionsMenu);
-    }
-
-    public conditionsMenuState(): MenuState {
-        return this._characterService.conditionsMenuState();
+        this._menuService.toggleMenu(MenuNames.ConditionsMenu);
     }
 
     public allAvailableCreatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined): Array<Creature> {

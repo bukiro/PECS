@@ -31,7 +31,7 @@
         </div>
     </ng-template>
     <div class="loading" *ngIf="stillLoading">Loading</div>
-    <ng-container *ngIf="!stillLoading && character.class && spellsMenuState()==='in'">
+    <ng-container *ngIf="!stillLoading && character.class && spellsMenuState==='in'">
         <ng-container *ngIf="componentParameters() as componentParameters">
             <div class="charactersheet-column-container">
                 <div class="charactersheet-column">

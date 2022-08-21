@@ -217,7 +217,7 @@
                     </button>
                 </div>
             </div>
-            <ng-container *ngIf="!stillLoading && characterMenuState() === 'in' && wasCharacterLoadedOrCreated()">
+            <ng-container *ngIf="!stillLoading && characterMenuState === 'in' && wasCharacterLoadedOrCreated()">
                 <div class="list-item">
                     <strong>Experience Points</strong>
                     <span class="hlist">

@@ -165,19 +165,19 @@
     </ng-container>
 </div>
 <!--Slide-in menus-->
-<app-items [@slideInOut]="itemsMenuState()" *ngIf="!stillLoading">
+<app-items [@slideInOut]="itemsMenuState" *ngIf="!stillLoading">
 </app-items>
-<app-crafting [@slideInOut]="craftingMenuState()" *ngIf="!stillLoading">
+<app-crafting [@slideInOut]="craftingMenuState" *ngIf="!stillLoading">
 </app-crafting>
-<app-spells [ngClass]="{'minimized':spellsMinimized}" [@slideInOut]="spellsMenuState()" *ngIf="!stillLoading">
+<app-spells [ngClass]="{'minimized':spellsMinimized}" [@slideInOut]="spellsMenuState" *ngIf="!stillLoading">
 </app-spells>
-<app-spellLibrary [@slideInOut]="spellLibraryMenuState()" *ngIf="!stillLoading"></app-spellLibrary>
-<app-conditions [@slideInOut]="conditionsMenuState()" *ngIf="!stillLoading"></app-conditions>
-<app-character [ngClass]="{'minimized':characterMinimized}" [@slideInOut]="characterMenuState()" *ngIf="!stillLoading">
+<app-spellLibrary [@slideInOut]="spellLibraryMenuState" *ngIf="!stillLoading"></app-spellLibrary>
+<app-conditions [@slideInOut]="conditionsMenuState" *ngIf="!stillLoading"></app-conditions>
+<app-character [ngClass]="{'minimized':characterMinimized}" [@slideInOut]="characterMenuState" *ngIf="!stillLoading">
 </app-character>
-<app-animal-companion [ngClass]="{'minimized':companionMinimized}" [@slideInOut]="companionMenuState()"
+<app-animal-companion [ngClass]="{'minimized':companionMinimized}" [@slideInOut]="companionMenuState"
     *ngIf="!stillLoading && companionAvailable()">
 </app-animal-companion>
-<app-familiar [ngClass]="{'minimized':familiarMinimized}" [@slideInOut]="familiarMenuState()"
+<app-familiar [ngClass]="{'minimized':familiarMinimized}" [@slideInOut]="familiarMenuState"
     *ngIf="!stillLoading && familiarAvailable()"></app-familiar>
-<app-dice [@slideInOutVert]="diceMenuState()"></app-dice>
+<app-dice [@slideInOutVert]="diceMenuState"></app-dice>

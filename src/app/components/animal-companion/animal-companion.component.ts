@@ -8,6 +8,7 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { Character } from 'src/app/classes/Character';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 @Component({
     selector: 'app-animal-companion',
@@ -29,6 +30,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
+        private readonly _menuService: MenuService,
     ) { }
 
     public get isMinimized(): boolean {
@@ -44,7 +46,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     public get companionMenuState(): MenuState {
-        return this._characterService.companionMenuState();
+        return this._menuService.companionMenuState;
     }
 
     public get isCompanionAvailable(): boolean {
@@ -69,7 +71,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     public toggleCompanionMenu(): void {
-        this._characterService.toggleMenu(MenuNames.CompanionMenu);
+        this._menuService.toggleMenu(MenuNames.CompanionMenu);
     }
 
     public toggleShowMode(type: string): void {

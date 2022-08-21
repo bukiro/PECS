@@ -10,6 +10,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 @Component({
     selector: 'app-familiar',
@@ -32,6 +33,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _effectsService: CreatureEffectsService,
+        private readonly _menuService: MenuService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -43,7 +45,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     public get familiarMenuState(): MenuState {
-        return this._characterService.familiarMenuState();
+        return this._menuService.familiarMenuState;
     }
 
     public get character(): Character {
@@ -74,7 +76,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     public toggleFamiliarMenu(): void {
-        this._characterService.toggleMenu(MenuNames.FamiliarMenu);
+        this._menuService.toggleMenu(MenuNames.FamiliarMenu);
     }
 
     public toggleShownMode(type: string): void {

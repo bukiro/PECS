@@ -3,7 +3,7 @@
     <header class="mainHeader mobile-hide" [ngbTooltip]="'Pathfinder Excessive Character Sheet'">P.E.C.S.</header>
     <button class="fancy-button loading" *ngIf="stillLoading">{{loadingButtonTitle}}</button>
     <ng-container *ngIf="!stillLoading">
-        <button [ngClass]="{'fancy-button':characterMenuState()==='out'}"
+        <button [ngClass]="{'fancy-button':characterMenuState==='out'}"
             (click)="toggleMenu(MenuNamesEnum.CharacterMenu)">
             <i class="ra ra-player"></i>
             <div class="mobile-hide">
@@ -11,31 +11,31 @@
             </div>
             <i class="bi-gear"></i>
         </button>
-        <button [ngClass]="{'fancy-button':companionMenuState()==='out'}"
+        <button [ngClass]="{'fancy-button':companionMenuState==='out'}"
             (click)="toggleMenu(MenuNamesEnum.CompanionMenu)" *ngIf="isCompanionAvailable()">
             <i class="ra ra-wolf-howl"></i>
             <div class="mobile-hide">
                 {{companion.name || "Animal Companion"}}
             </div>
         </button>
-        <button [ngClass]="{'fancy-button':familiarMenuState()==='out'}"
-            (click)="toggleMenu(MenuNamesEnum.FamiliarMenu)" *ngIf="isFamiliarAvailable()">
+        <button [ngClass]="{'fancy-button':familiarMenuState==='out'}" (click)="toggleMenu(MenuNamesEnum.FamiliarMenu)"
+            *ngIf="isFamiliarAvailable()">
             <i class="ra ra-raven"></i>
             <div class="mobile-hide">
                 {{familiar.name || "Familiar"}}
             </div>
         </button>
-        <button [ngClass]="{'fancy-button':itemsMenuState()==='out'}"
+        <button [ngClass]="{'fancy-button':itemsMenuState==='out'}"
             (click)="toggleMenu(MenuNamesEnum.ItemsMenu)">Items</button>
-        <button [ngClass]="{'fancy-button':craftingMenuState()==='out'}"
+        <button [ngClass]="{'fancy-button':craftingMenuState==='out'}"
             (click)="toggleMenu(MenuNamesEnum.CraftingMenu)">Crafting</button>
-        <button [ngClass]="{'fancy-button':spellsMenuState()==='out'}" (click)="toggleMenu(MenuNamesEnum.SpellsMenu)"
+        <button [ngClass]="{'fancy-button':spellsMenuState==='out'}" (click)="toggleMenu(MenuNamesEnum.SpellsMenu)"
             *ngIf="hasAnySpells()">Spellbook</button>
-        <button [ngClass]="{'fancy-button':spellLibraryMenuState()==='out'}"
+        <button [ngClass]="{'fancy-button':spellLibraryMenuState==='out'}"
             (click)="toggleMenu(MenuNamesEnum.SpellLibraryMenu)">Spell Library</button>
-        <button [ngClass]="{'fancy-button':conditionsMenuState()==='out'}"
+        <button [ngClass]="{'fancy-button':conditionsMenuState==='out'}"
             (click)="toggleMenu(MenuNamesEnum.ConditionsMenu)">Conditions</button>
-        <button [ngClass]="{'fancy-button':diceMenuState()==='out'}" [ngbTooltip]="'Dice'"
+        <button [ngClass]="{'fancy-button':diceMenuState==='out'}" [ngbTooltip]="'Dice'"
             (click)="toggleMenu(MenuNamesEnum.DiceMenu)">
             <app-diceIcons-D20></app-diceIcons-D20>
         </button>

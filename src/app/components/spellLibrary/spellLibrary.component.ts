@@ -22,6 +22,7 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellLearningMethods } from 'src/libs/shared/definitions/spellLearningMethods';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { MenuService } from 'src/app/core/services/menu/menu.service';
 
 const itemsPerPage = 40;
 const showAllLists = -2;
@@ -62,11 +63,12 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _skillValuesService: SkillValuesService,
+        private readonly _menuService: MenuService,
         public trackers: Trackers,
     ) { }
 
     public get spellLibraryMenuState(): MenuState {
-        return this._characterService.spellLibraryMenuState();
+        return this._menuService.spellLibraryMenuState;
     }
 
     public get isTileMode(): boolean {
@@ -151,7 +153,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public toggleSpellLibraryMenu(): void {
-        this._characterService.toggleMenu(MenuNames.SpellLibraryMenu);
+        this._menuService.toggleMenu(MenuNames.SpellLibraryMenu);
     }
 
     public toggleTileMode(): void {
