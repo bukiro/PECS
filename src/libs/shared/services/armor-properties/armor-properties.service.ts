@@ -5,6 +5,7 @@ import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
+import { ItemSpecializationsDataService } from 'src/app/core/services/data/item-specializations-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
@@ -22,6 +23,7 @@ export class ArmorPropertiesService {
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _itemSpecializationsDataService: ItemSpecializationsDataService,
     ) { }
 
     public effectiveProficiency(armor: Armor, context: { creature: Creature }): string {
@@ -99,7 +101,7 @@ export class ArmorPropertiesService {
                 });
             SpecializationGains.forEach(critSpec => {
                 const specs: Array<Specialization> =
-                    this._characterService.itemGroupSpecializations(armor.group)
+                    this._itemSpecializationsDataService.specializations(armor.group)
                         .map(spec => Object.assign(new Specialization(), spec).recast());
 
                 specs.forEach(spec => {

@@ -4,6 +4,8 @@ import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Hint } from 'src/app/classes/Hint';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Equipment } from './Equipment';
+import { Oil } from './Oil';
 
 export class Rune extends Item {
     public activities: Array<ItemActivity> = [];
@@ -25,6 +27,10 @@ export class Rune extends Item {
     public get secondary(): number {
         return 0;
     }
+
+    public hasActivities(): this is Equipment | Rune { return true; }
+
+    public hasHints(): this is Equipment | Rune | Oil { return true; }
 
     public recast(itemsDataService: ItemsDataService): Rune {
         super.recast(itemsDataService);

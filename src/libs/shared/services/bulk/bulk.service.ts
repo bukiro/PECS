@@ -93,7 +93,7 @@ export class BulkService {
             const bulk = Math.floor(Math.max(0, inventory.totalBulk(false, true)) * decimal) / decimal;
 
             result.value += bulk;
-            result.explain += `\n${ this._inventoryPropertiesService.effectiveName(inventory) }: ${ bulk }`;
+            result.explain += `\n${ this._inventoryPropertiesService.effectiveName(inventory, creature) }: ${ bulk }`;
         });
         absolutes.forEach(effect => {
             result.value = parseInt(effect.setValue, 10);

@@ -10,6 +10,8 @@ import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 
 interface OilSet {
     oil: Oil;
@@ -37,6 +39,8 @@ export class ItemOilsComponent {
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _durationsService: DurationsService,
+        private readonly _inventoryService: InventoryService,
+        private readonly _characterLoreService: CharacterLoreService,
         public trackers: Trackers,
     ) { }
 
@@ -99,12 +103,12 @@ export class ItemOilsComponent {
             const newLength = item.oilsApplied.push(this.newOil.oil.clone(this._itemsDataService));
 
             if (this.newOil.inv) {
-                this._characterService.dropInventoryItem(this._character, this.newOil.inv, this.newOil.oil, false, false, false, 1);
+                this._inventoryService.dropInventoryItem(this._character, this.newOil.inv, this.newOil.oil, false, false, false, 1);
             }
 
             //Add RuneLore if the oil's Rune Effect includes one
             if (item.oilsApplied[newLength - 1].runeEffect && item.oilsApplied[newLength - 1].runeEffect.loreChoices.length) {
-                this._characterService.addRuneLore(item.oilsApplied[newLength - 1].runeEffect);
+                this._characterLoreService.addRuneLore(this._character, item.oilsApplied[newLength - 1].runeEffect);
             }
 
             this.newOil = { oil: new Oil(), inv: null };
@@ -118,7 +122,7 @@ export class ItemOilsComponent {
     public onRemoveOil(index: number): void {
         //Remove RuneLore if applicable.
         if (this.item.oilsApplied[index].runeEffect && this.item.oilsApplied[index].runeEffect.loreChoices.length) {
-            this._characterService.removeRuneLore(this.item.oilsApplied[index].runeEffect);
+            this._characterLoreService.removeRuneLore(this._character, this.item.oilsApplied[index].runeEffect);
         }
 
         this.item.oilsApplied.splice(index, 1);

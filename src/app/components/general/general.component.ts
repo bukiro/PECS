@@ -22,6 +22,7 @@ import { CreaturePropertiesService } from 'src/libs/shared/services/creature-pro
 import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deity-domains.service';
 import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 
 @Component({
     selector: 'app-general',
@@ -53,6 +54,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _deityDomainsService: DeityDomainsService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
         public trackers: Trackers,
     ) { }
 
@@ -134,7 +136,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             this._archetypeFeats().some(feat => this._classesDataService.classFromName(feat.archetype).deityFocused);
 
         if (character.class.deityFocused || isArchetypesDeityFocused) {
-            const deity = this._characterService.currentCharacterDeities(character)[0];
+            const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
 
             if (deity) {
                 const domainFeats = this._characterService.characterFeatsAndFeatures()
@@ -171,7 +173,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             //Collect edicts from all deities you have (usually one);
             const deityEdicts: Array<string> = [];
 
-            this._characterService.currentCharacterDeities(character).forEach(deity => {
+            this._characterDeitiesService.currentCharacterDeities(character).forEach(deity => {
                 deityEdicts.push(...deity.edicts.map(edict => edict[0].toUpperCase() + edict.substr(1)));
             });
 
@@ -190,7 +192,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
         if (character.class.showDeityAnathema || doArchetypesShowDeityAnathema) {
             //If your Collect anathema from all deities you have (usually one);
-            this._characterService.currentCharacterDeities(character).forEach(deity => {
+            this._characterDeitiesService.currentCharacterDeities(character).forEach(deity => {
                 deityAnathema.push(...deity.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1)));
             });
         }

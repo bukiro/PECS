@@ -20,6 +20,7 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 @Component({
     selector: 'app-activityContent',
@@ -56,11 +57,12 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _durationsService: DurationsService,
+        private readonly _settingsService: SettingsService,
         public trackers: Trackers,
     ) { }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode;
+        return this._settingsService.isManualMode;
     }
 
     private get _character(): Character {

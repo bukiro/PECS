@@ -1,11 +1,9 @@
-/* eslint-disable complexity */
 /* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Skill } from 'src/app/classes/Skill';
 import { switchMap, tap } from 'rxjs';
 import { Item } from 'src/app/classes/Item';
-import { Class } from 'src/app/classes/Class';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -22,24 +20,16 @@ import { Consumable } from 'src/app/classes/Consumable';
 import { Equipment } from 'src/app/classes/Equipment';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { Rune } from 'src/app/classes/Rune';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
-import { Deity } from 'src/app/classes/Deity';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
 import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
-import { Oil } from 'src/app/classes/Oil';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
-import { Ammunition } from 'src/app/classes/Ammunition';
 import { Shield } from 'src/app/classes/Shield';
-import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
-import { Snare } from 'src/app/classes/Snare';
-import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Creature } from 'src/app/classes/Creature';
-import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
@@ -56,8 +46,6 @@ import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluatio
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { Speed } from '../classes/Speed';
-import { AbilityModFromAbilityValue } from 'src/libs/shared/util/abilityUtils';
 import { Specialization } from '../classes/Specialization';
 import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
 import { CopperAmounts, CurrencyIndices } from 'src/libs/shared/definitions/currency';
@@ -91,7 +79,10 @@ import { ItemSpecializationsDataService } from '../core/services/data/item-speci
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
-import { ItemProcessingService } from 'src/libs/shared/services/item-processing/item-processing.service';
+import { ItemActivationProcessingService } from 'src/libs/shared/services/item-activation-processing/item-activation-processing.service';
+import { SettingsService } from '../core/services/settings/settings.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { InventoryItemProcessingService } from 'src/libs/shared/services/inventory-item-processing/inventory-item-processing.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -162,7 +153,10 @@ export class CharacterService {
         private readonly _itemSpecializationsDataService: ItemSpecializationsDataService,
         private readonly _itemTransferService: ItemTransferService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
-        private readonly _itemProcessingService: ItemProcessingService,
+        private readonly _itemProcessingService: ItemActivationProcessingService,
+        private readonly _settingsService: SettingsService,
+        private readonly _inventoryService: InventoryService,
+        private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -194,20 +188,6 @@ export class CharacterService {
         return this.character.class?.familiar || new Familiar();
     }
 
-    public get isDarkmode(): boolean {
-        if (!this.stillLoading) {
-            return this.character.settings.darkmode;
-        } else { return true; }
-    }
-
-    public get isGMMode(): boolean {
-        return this.character.GMMode;
-    }
-
-    public get isManualMode(): boolean {
-        return this.character.settings.manualMode;
-    }
-
     public creatureFromType(type: CreatureTypes): Character | AnimalCompanion | Familiar {
         switch (type) {
             case CreatureTypes.Character:
@@ -219,38 +199,6 @@ export class CharacterService {
             default:
                 return new Character();
         }
-    }
-
-    public isBlankCharacter(): boolean {
-        // The character is blank if textboxes haven't been used, no class and no basevalues have been chosen,
-        // and no items have been added other than the starter items.
-        const character = this.character;
-        const characterStartingInventoryAmount = 2;
-        const characterStartingItemAmount = 2;
-
-        return (
-            !character.class?.name &&
-            !character.name &&
-            !character.partyName &&
-            !character.experiencePoints &&
-            character.alignment === 'Neutral' &&
-            !character.baseValues.length &&
-            character.inventories.length <= characterStartingInventoryAmount &&
-            // The character is not blank if any inventory has more than 0 items (more than 2 for the first)
-            // or if any item is not one of the basic items.
-            !character.inventories.some((inv, index) =>
-                inv.allItems().length > (index ? 0 : characterStartingItemAmount) ||
-                inv.allItems().some(item =>
-                    ![
-                        this._basicItems.weapon?.id || 'noid',
-                        this._basicItems.armor?.id || 'noid',
-                    ].includes(item.refId),
-                ))
-        );
-    }
-
-    public isLoggedIn(): boolean {
-        return this._configService.isLoggedIn;
     }
 
     public isCompanionAvailable(charLevel: number = this.character.level): boolean {
@@ -289,612 +237,8 @@ export class CharacterService {
         } else { return [new Character()]; }
     }
 
-    public characterClasses(name: string): Array<Class> {
-        return this._classesDataService.classes(name);
-    }
-
-    public deities(name = ''): Array<Deity> {
-        return this._deitiesDataService.deities(name);
-    }
-
-    public currentCharacterDeities(character: Character, source = '', level: number = character.level): Array<Deity> {
-        return this._characterDeitiesService.currentCharacterDeities(character, source, level);
-    }
-
-    public creatureSpeeds(creature: Creature, name = ''): Array<Speed> {
-        return creature.speeds.filter(speed => !name || speed.name === name);
-    }
-
-    public updateLanguageList(): void {
-        // Ensure that the language list is always as long as ancestry languages + INT + any relevant feats and bonuses.
-        // This function is called by the effects service after generating effects,
-        // so that new languages aren't thrown out before the effects are generated.
-        // Don't call this function in situations where effects are going to change,
-        // but haven't been generated yet - or you may lose languages.
-        const character = this.character;
-        const noLevel = -1;
-        const temporarySourceLevel = -2;
-
-        if (character.class.name) {
-            // Collect everything that gives you free languages, and the level on which it happens.
-            // This will allow us to mark languages as available depending on their level.
-            const languageSources: Array<{ name: string; level: number; amount: number }> = [];
-
-            //Free languages from your ancestry
-            const ancestryLanguages: number = character.class.ancestry.baseLanguages - character.class.ancestry.languages.length;
-
-            if (ancestryLanguages) {
-                languageSources.push({ name: 'Ancestry', level: 0, amount: ancestryLanguages });
-            }
-
-            //Free languages from your base intelligence
-            const baseIntelligence: number = this._abilityValuesService.baseValue('Intelligence', character, 0)?.result;
-            const baseInt: number = AbilityModFromAbilityValue(baseIntelligence);
-
-            if (baseInt > 0) {
-                languageSources.push({ name: 'Intelligence', level: 0, amount: baseInt });
-            }
-
-            //Build an array of int per level for comparison between the levels, starting with the base at 0.
-            const int: Array<number> = [baseInt];
-
-            character.class.levels.filter(level => level.number > 0).forEach(level => {
-                //Collect all feats you have that grant extra free languages, then note on which level you have them.
-                //Add the amount that they would grant you on that level by faking a level for the effect.
-                this.characterFeatsTaken(level.number, level.number).forEach(taken => {
-                    const feat = this.featsAndFeatures(taken.name)[0];
-
-                    if (feat) {
-                        if (feat.effects.some(effect => effect.affected === 'Max Languages')) {
-                            const effects =
-                                this._objectEffectsGenerationService.effectsFromEffectObject(
-                                    feat,
-                                    { creature: character },
-                                    { name: taken.name, pretendCharacterLevel: level.number },
-                                );
-
-                            effects.filter(effect => effect.target === 'Max Languages').forEach(effect => {
-                                languageSources.push({ name: taken.name, level: level.number, amount: parseInt(effect.value, 10) });
-                            });
-                        }
-                    }
-                });
-
-                //Also add more languages if INT has been raised (and is positive).
-                //Compare INT on this level with INT on the previous level. Don't do this on Level 0, obviously.
-                const levelIntelligence: number = this._abilityValuesService.baseValue('Intelligence', character, level.number)?.result;
-
-                int.push(AbilityModFromAbilityValue(levelIntelligence));
-
-                const levelIntDiff = int[level.number] - int[level.number - 1];
-
-                if (levelIntDiff > 0 && int[level.number] > 0) {
-                    languageSources.push({ name: 'Intelligence', level: level.number, amount: Math.min(levelIntDiff, int[level.number]) });
-                }
-            });
-
-            //Never apply absolute effects or negative effects to Max Languages. This should not happen in the game,
-            // and it could delete your chosen languages.
-            //Check if you have already collected this effect by finding a languageSource with the same source and amount.
-            //Only if a source cannot be found, add the effect as a temporary source (level = -2).
-            this._effectsService.relativeEffectsOnThis(this.character, 'Max Languages').forEach(effect => {
-                if (parseInt(effect.value, 10) > 0) {
-                    const matchingSource =
-                        languageSources.find(source => source.name === effect.source && source.amount === parseInt(effect.value, 10));
-
-                    if (!matchingSource) {
-                        languageSources.push({ name: effect.source, level: temporarySourceLevel, amount: parseInt(effect.value, 10) });
-                    }
-                }
-            });
-
-            // If the current INT is positive and higher than the base INT for the current level
-            // (e.g. because of an item bonus), add another temporary language source.
-            const currentInt = this._abilityValuesService.mod('Intelligence', character)?.result;
-            const diff = currentInt - int[character.level];
-
-            if (diff > 0 && currentInt > 0) {
-                languageSources.push({ name: 'Intelligence', level: temporarySourceLevel, amount: Math.min(diff, currentInt) });
-            }
-
-            //Remove all free languages that have not been filled.
-            character.class.languages = character.class.languages.sort().filter(language => language.name || language.locked);
-
-            // Make a new list of all the free languages.
-            // We will pick and sort the free languages from here into the character language list.
-            const tempLanguages: Array<LanguageGain> =
-                character.class.languages
-                    .filter(language => !language.locked)
-                    .map(language => language.clone());
-
-            //Reduce the character language list to only the locked ones.
-            character.class.languages = character.class.languages.filter(language => language.locked);
-
-            //Add free languages based on the sources and the copied language list:
-            // - For each source, find a language that has the same source and the same level.
-            // - If not available, find a language that has the same source and no level (level -1).
-            // (This is mainly for the transition from the old language calculations. Languages should not have level -1 in the future.)
-            // - If not available, add a new blank language.
-            languageSources.forEach(languageSource => {
-                for (let index = 0; index < languageSource.amount; index++) {
-                    let existingLanguage =
-                        tempLanguages.find(language =>
-                            language.source === languageSource.name &&
-                            language.level === languageSource.level &&
-                            !language.locked,
-                        );
-
-                    if (existingLanguage) {
-                        character.class.languages.push(existingLanguage);
-                        tempLanguages.splice(tempLanguages.indexOf(existingLanguage), 1);
-                    } else {
-                        existingLanguage =
-                            tempLanguages.find(language =>
-                                language.source === languageSource.name &&
-                                language.level === noLevel &&
-                                !language.locked,
-                            );
-
-                        if (existingLanguage) {
-                            const newLanguage = existingLanguage.clone();
-
-                            newLanguage.level = languageSource.level;
-                            character.class.languages.push(newLanguage);
-                            tempLanguages.splice(tempLanguages.indexOf(existingLanguage), 1);
-                        } else {
-                            character.class.languages.push(
-                                Object.assign(
-                                    new LanguageGain(),
-                                    { name: '', source: languageSource.name, locked: false, level: languageSource.level },
-                                ) as LanguageGain,
-                            );
-                        }
-                    }
-                }
-            });
-
-            // If any languages are left in the temporary list, assign them to any blank languages,
-            // preferring same source, Intelligence and then Multilingual as sources.
-            tempLanguages.forEach(lostLanguage => {
-                const targetLanguage =
-                    character.class.languages
-                        .find(freeLanguage =>
-                            !freeLanguage.locked &&
-                            !freeLanguage.name &&
-                            freeLanguage.source === lostLanguage.source,
-                        ) ||
-                    character.class.languages
-                        .find(freeLanguage =>
-                            !freeLanguage.locked &&
-                            !freeLanguage.name &&
-                            freeLanguage.source === 'Intelligence',
-                        ) ||
-                    character.class.languages
-                        .find(freeLanguage =>
-                            !freeLanguage.locked &&
-                            !freeLanguage.name &&
-                            freeLanguage.source === 'Multilingual',
-                        ) ||
-                    character.class.languages
-                        .find(freeLanguage =>
-                            !freeLanguage.locked &&
-                            !freeLanguage.name,
-                        );
-
-                if (targetLanguage) {
-                    targetLanguage.name = lostLanguage.name;
-                }
-            });
-
-            //Sort languages by locked > level > source > name.
-            character.class.languages = character.class.languages
-                .sort((a, b) => {
-                    if (a.name && !b.name) {
-                        return -1;
-                    }
-
-                    if (!a.name && b.name) {
-                        return 1;
-                    }
-
-                    if (a.name > b.name) {
-                        return 1;
-                    }
-
-                    if (a.name < b.name) {
-                        return -1;
-                    }
-
-                    return 0;
-                })
-                .sort((a, b) => (a.level + a.source === b.level + b.source) ? 0 : ((a.level + a.source > b.level + b.source) ? 1 : -1))
-                .sort((a, b) => {
-                    if (!a.locked && b.locked) {
-                        return 1;
-                    }
-
-                    if (a.locked && !b.locked) {
-                        return -1;
-                    }
-
-                    return 0;
-                });
-        }
-    }
-
-    public changeDeity(deity: Deity): void {
-        const character = this.character;
-
-        character.class.deity = deity.name;
-        this._characterDeitiesService.clearCharacterDeities();
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spells', 'clear');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellchoices');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'featchoices');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'attacks');
-    }
-
-    public cleanItems(): ItemCollection {
-        return this._itemsDataService.cleanItems();
-    }
-
-    public itemGroupSpecializations(group = ''): Array<Specialization> {
-        return this._itemSpecializationsDataService.specializations(group);
-    }
-
-    public creatureInvestedItems(creature: Creature): Array<Equipment> {
-        return creature.inventories[0]?.allEquipment().filter(item => item.invested && item.traits.includes('Invested')) || [];
-    }
-
-    public grantInventoryItem(
-        item: Item,
-        context: { creature: Creature; inventory: ItemCollection; amount?: number },
-        options: {
-            resetRunes?: boolean;
-            changeAfter?: boolean;
-            equipAfter?: boolean;
-            newId?: boolean;
-            expiration?: number;
-            newPropertyRunes?: Array<Partial<Rune>>;
-        } = {},
-    ): Item {
-        context = {
-            amount: 1,
-            ...context,
-        };
-        options = {
-            resetRunes: true,
-            changeAfter: true,
-            equipAfter: true,
-            newId: true,
-            expiration: 0,
-            newPropertyRunes: [],
-            ...options,
-        };
-        this._refreshService.prepareDetailToChange(context.creature.type, 'inventory');
-        this._refreshService.prepareDetailToChange(context.creature.type, 'effects');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-
-        const newInventoryItem =
-            this._itemInitializationService.initializeItem(item, { newId: options.newId, newPropertyRunes: options.newPropertyRunes });
-        let returnedItem: Item;
-        // Check if this item already exists in the inventory, and if it is stackable and doesn't expire.
-        // Don't make that check if this item expires.
-        let existingItems: Array<Item> = [];
-
-        if (!options.expiration && newInventoryItem.canStack()) {
-            existingItems = context.inventory[item.type].filter((existing: Item) =>
-                existing.name === newInventoryItem.name && newInventoryItem.canStack() && !item.expiration,
-            );
-        }
-
-        // If any existing, stackable items are found, try parsing the amount (set it to 1 if failed),
-        // then raise the amount on the first of the existing items.
-        // The amount must be parsed because it could be set to anything during custom item creation.
-        // If no items are found, add the new item to the inventory.
-        // Set returnedInventoryItem to either the found or the new item for further processing.
-        if (existingItems.length) {
-            let intAmount = 1;
-
-            try {
-                intAmount = parseInt(context.amount.toString(), 10);
-            } catch (error) {
-                intAmount = 1;
-            }
-
-            existingItems[0].amount += intAmount;
-            returnedItem = existingItems[0];
-            //Update gridicons of the expanded item.
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, returnedItem.id);
-        } else {
-            const newInventoryLength = context.inventory[newInventoryItem.type].push(newInventoryItem);
-
-            returnedItem = context.inventory[newInventoryItem.type][newInventoryLength - 1];
-
-            if (context.amount > 1) {
-                returnedItem.amount = context.amount;
-            }
-
-            if (options.expiration) {
-                returnedItem.expiration = options.expiration;
-            }
-
-            this.processGrantedItem(context.creature, returnedItem, context.inventory, options.equipAfter, options.resetRunes);
-        }
-
-        if (options.changeAfter) {
-            this._refreshService.processPreparedChanges();
-        }
-
-        return returnedItem;
-    }
-
-    public processGrantedItem(
-        creature: Creature,
-        item: Item,
-        inventory: ItemCollection,
-        equip = true,
-        resetRunes = true,
-        skipGrantedItems = false,
-        skipGainedInventories = false,
-    ): void {
-        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-
-        //Disable activities on equipment and runes. Refresh all affected components.
-        if (((item instanceof Equipment) || (item instanceof Rune)) && item.activities?.length) {
-            item.activities.forEach(activity => {
-                activity.active = false;
-                this._refreshService.prepareChangesByHints(creature, activity.hints);
-            });
-            this._refreshService.prepareDetailToChange(creature.type, 'activities');
-        }
-
-        if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-            this._refreshService.prepareChangesByHints(creature, item.hints);
-        }
-
-        if (item instanceof Equipment) {
-            if (item.gainActivities?.length) {
-                item.gainActivities.forEach(gain => {
-                    gain.active = false;
-                });
-                this._refreshService.prepareDetailToChange(creature.type, 'activities');
-            }
-
-            if (equip && Object.prototype.hasOwnProperty.call(item, 'equipped') && item.equippable) {
-                this.equipItem(creature, inventory, item, true, false);
-            }
-
-            if (item instanceof Weapon) {
-                const customFeats = this._featsDataService.createWeaponFeats([item]);
-
-                customFeats.forEach(customFeat => {
-                    const oldFeat = this.character.customFeats.find(existingFeat => existingFeat.name === customFeat.name);
-
-                    if (oldFeat) {
-                        this.character.removeCustomFeat(oldFeat);
-                    }
-
-                    this.character.addCustomFeat(customFeat);
-
-                    this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
-                });
-            }
-
-            if (resetRunes && item.moddable) {
-                item.potencyRune = item.strikingRune = item.resilientRune = item.propertyRunes.length = 0;
-            }
-
-            item.propertyRunes.filter(rune => rune.loreChoices?.length).forEach(rune => {
-                this.addRuneLore(rune);
-            });
-
-            if (!skipGainedInventories) {
-                //Add all Inventories that you get from this item.
-                if (item.gainInventory) {
-                    item.gainInventory.forEach(gain => {
-                        const newLength = creature.inventories.push(new ItemCollection());
-                        const newInventory = creature.inventories[newLength - 1];
-
-                        newInventory.itemId = item.id;
-                        newInventory.bulkLimit = gain.bulkLimit;
-                        newInventory.bulkReduction = gain.bulkReduction;
-                    });
-                }
-            }
-
-            if (!skipGrantedItems) {
-                //Add all Items that you get from being granted this one
-                if (item.gainItems.length) {
-                    item.gainItems.filter(gainItem => gainItem.on === 'grant' && gainItem.amount > 0).forEach(gainItem => {
-                        this._itemGrantingService.grantGrantedItem(
-                            gainItem,
-                            creature,
-                            { sourceName: item.effectiveName(), grantingItem: item },
-                        );
-                    });
-                }
-            }
-        }
-
-        if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
-            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-        }
-    }
-
-    public dropInventoryItem(
-        creature: Creature,
-        inventory: ItemCollection,
-        item: Item,
-        changeAfter = true,
-        equipBasicItems = true,
-        including = true,
-        amount = 1,
-        keepInventoryContent = false,
-    ): void {
-        //Don't handle items that are already being dropped.
-        if (item.markedForDeletion) {
-            return;
-        }
-
-        item.markedForDeletion = true;
-        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-        this._refreshService.prepareDetailToChange(creature.type, 'effects');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
-        this._refreshService.prepareChangesByItem(creature, item);
-
-        if (amount < item.amount) {
-            item.amount -= amount;
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
-        } else {
-            if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
-                this._refreshService.prepareChangesByHints(creature, item.hints);
-            }
-
-            if ((item instanceof Equipment) || (item instanceof Rune)) {
-                item.activities.forEach(activity => {
-                    if (activity.active) {
-                        this._activitiesProcessingService.activateActivity(
-                            activity,
-                            false,
-                            {
-                                creature,
-                                gain: activity,
-                            },
-                        );
-                    }
-                });
-            }
-
-            if (item instanceof Equipment) {
-                if (item.equipped) {
-                    this.equipItem(creature, inventory, item as Equipment, false, false);
-                } else if (item.invested && item.canInvest()) {
-                    this.investItem(creature, inventory, item as Equipment, false, false);
-                } else if (!item.equippable && !item.canInvest()) {
-                    this._creatureConditionsService.removeGainedItemConditions(creature, item);
-                }
-
-                if (item.propertyRunes) {
-                    item.propertyRunes.filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
-                        this.removeRuneLore(rune);
-                    });
-                }
-
-                if (item.gainActivities) {
-                    item.gainActivities.forEach(gain => {
-                        if (gain.active) {
-                            this._activitiesProcessingService.activateActivity(
-                                this._activitiesDataService.activities(gain.name)[0],
-                                false,
-                                {
-                                    creature,
-                                    gain,
-                                },
-                            );
-                        }
-                    });
-                }
-
-                if (item.gainInventory?.length) {
-                    if (keepInventoryContent) {
-                        this._preserveInventoryContentBeforeDropping(creature, item);
-                    } else {
-                        creature.inventories.filter(existingInventory => existingInventory.itemId === item.id).forEach(gainedInventory => {
-                            gainedInventory.allItems().forEach(inventoryItem => {
-                                this.dropInventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
-                            });
-                        });
-                    }
-
-                    creature.inventories = creature.inventories.filter(existingInventory => existingInventory.itemId !== item.id);
-                }
-
-                if (including) {
-                    item.gainItems.filter(gainItem => gainItem.on === 'grant').forEach(gainItem => {
-                        this._itemGrantingService.dropGrantedItem(gainItem, creature);
-                    });
-                }
-            }
-
-            item.oilsApplied.filter((oil: Oil) => oil.runeEffect.loreChoices.length).forEach((oil: Oil) => {
-                this.removeRuneLore(oil.runeEffect);
-            });
-
-            if (item instanceof Weapon) {
-                this._markUnneededWeaponFeatsForDeletion(item);
-            }
-
-            //The item is deleted here.
-            inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item);
-
-            if (equipBasicItems) {
-                this._equipBasicItems(creature);
-            }
-        }
-
-        //If the item still exists at this point, unmark it for deletion, so it doesn't become un-droppable.
-        item.markedForDeletion = false;
-
-        if (item instanceof AlchemicalBomb || item instanceof OtherConsumableBomb || item instanceof Ammunition || item instanceof Snare) {
-            this._refreshService.prepareDetailToChange(creature.type, 'attacks');
-        }
-
-        if (changeAfter) {
-            this._refreshService.processPreparedChanges();
-        }
-
-        this._refreshService.setComponentChanged(item.id);
-    }
-
-    public addRuneLore(rune: Rune): void {
-        //Go through all the loreChoices (usually only one)
-        rune.loreChoices.forEach(choice => {
-            // Check if only one (=this) item's rune has this lore
-            // (and therefore no other item has already created it on the character), and if so, create it.
-            if (
-                this.character.inventories[0]?.allEquipment()
-                    .filter(item => item.propertyRunes
-                        .some(propertyRune => propertyRune.loreChoices
-                            .some(otherchoice => otherchoice.loreName === choice.loreName),
-                        ),
-                    ).length +
-                this.character.inventories[0]?.allEquipment()
-                    .filter(item => item.oilsApplied
-                        .some(oil => oil.runeEffect && oil.runeEffect.loreChoices
-                            .some(otherchoice => otherchoice.loreName === choice.loreName),
-                        ),
-                    ).length === 1) {
-                this._characterLoreService.addLore(this.character, choice);
-            }
-        });
-    }
-
-    public removeRuneLore(rune: Rune): void {
-        //Iterate through the loreChoices (usually only one)
-        rune.loreChoices.forEach(choice => {
-            //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
-            if (this.character.inventories[0]?.allEquipment()
-                .filter(item => item.propertyRunes
-                    .filter(propertyRune => propertyRune.loreChoices
-                        .filter(otherchoice => otherchoice.loreName === choice.loreName)
-                        .length)
-                    .length)
-                .length +
-                this.character.inventories[0]?.allEquipment()
-                    .filter(item => item.oilsApplied
-                        .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices
-                            .filter(otherchoice => otherchoice.loreName === choice.loreName)
-                            .length)
-                        .length)
-                    .length === 1) {
-                this._characterLoreService.removeLore(this.character, choice);
-            }
-        });
-    }
-
     public addCash(
-        multiplier = 1,
+        multiplier: -1 | 1 = 1,
         sum: number,
         amounts: { platinum?: number; gold?: number; silver?: number; copper?: number } = {},
     ): void {
@@ -910,7 +254,7 @@ export class CharacterService {
         const decimal = 10;
 
         if (sum) {
-            //Resolve a sum (in copper) into platinum, gold, silver and copper.
+            // Resolve a sum (in copper) into platinum, gold, silver and copper.
             // Gold is prioritised - only gold amounts over 1000 are exchanged for platinum.
             amounts.platinum = amounts.gold = amounts.silver = amounts.copper = 0;
             amounts.platinum = Math.floor(sum / CopperAmounts.CopperIn100Platinum) * platIn100Plat;
@@ -996,198 +340,12 @@ export class CharacterService {
         this.addCash(1, sum);
     }
 
-    public equipItem(
-        creature: Creature,
-        inventory: ItemCollection,
-        item: Equipment,
-        equip = true,
-        changeAfter = true,
-        equipBasicItems = true,
-    ): void {
-        // Only allow equipping or unequipping for items that the creature can wear.
-        // Only allow equipping items in inventories that aren't containers (i.e. the first two).
-        // Unequip any item that lands here and can't be equipped.
-        const isEquippedAtBeginning = item.equipped;
-
-        const canEquip = (): boolean => (
-            !inventory.itemId &&
-            (
-                item.name === 'Unarmored' ||
-                ((creature.isCharacter()) !== item.traits.includes('Companion'))
-            ) && (
-                !(creature.isFamiliar()) ||
-                !(item instanceof Armor || item instanceof Weapon || item instanceof Shield)
-            )
-        );
-
-        if (canEquip()) {
-            item.equipped = equip;
-        } else {
-            item.equipped = false;
-        }
-
-        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-        this._refreshService.prepareChangesByItem(
-            creature,
-            item,
-        );
-
-        if (!isEquippedAtBeginning && item.equipped) {
-            if (item instanceof Armor) {
-                inventory.armors.filter(armor => armor !== item).forEach(armor => {
-                    this.equipItem(creature, inventory, armor, false, false, false);
-                });
-            }
-
-            if (item instanceof Shield) {
-                inventory.shields.filter(shield => shield !== item).forEach(shield => {
-                    this.equipItem(creature, inventory, shield, false, false, false);
-                });
-            }
-
-            // If you get an Activity from an item that doesn't need to be invested,
-            // immediately invest it in secret so the Activity is gained
-            if ((item.gainActivities || item.activities) && !item.canInvest()) {
-                this.investItem(creature, inventory, item, true, false);
-            }
-
-            // Add all Items that you get from equipping this one.
-            if (item.gainItems && item.gainItems.length) {
-                item.gainItems
-                    .filter(gainItem => gainItem.on === 'equip')
-                    .forEach(gainItem => {
-                        this._itemGrantingService.grantGrantedItem(
-                            gainItem,
-                            creature,
-                            { sourceName: item.effectiveName(), grantingItem: item },
-                        );
-                    });
-            }
-        } else if (isEquippedAtBeginning && !item.equipped) {
-            if (equipBasicItems) {
-                this._equipBasicItems(creature);
-            }
-
-            //If you are unequipping a shield, you should also be lowering it and losing cover
-            if (item instanceof Shield) {
-                if (item.takingCover) {
-                    this._armorClassService.setCover(creature, 0, item);
-                    item.takingCover = false;
-                }
-
-                item.raised = false;
-            }
-
-            //If the item was invested and the item, it isn't now.
-            if (item.invested) {
-                this.investItem(creature, inventory, item, false, false);
-            }
-
-            if (item.gainItems?.length) {
-                item.gainItems.filter(gainItem => gainItem.on === 'equip').forEach(gainItem => {
-                    this._itemGrantingService.dropGrantedItem(gainItem, creature);
-                });
-            }
-
-            //If the item can't be un-invested, make sure you lose the conditions you gained from equipping it.
-            if (!item.canInvest()) {
-                this._creatureConditionsService.removeGainedItemConditions(creature, item);
-            }
-
-            item.propertyRunes?.forEach(rune => {
-                //Deactivate any active toggled activities of inserted runes.
-                rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-                    this._activitiesProcessingService.activateActivity(
-                        activity,
-                        false,
-                        {
-                            creature: this.character,
-                            target: CreatureTypes.Character,
-                            gain: activity,
-                        },
-                    );
-                });
-            });
-        }
-
-        if (changeAfter) {
-            this._refreshService.processPreparedChanges();
-        }
-    }
-
-    public investItem(creature: Creature, inventory: ItemCollection, item: Equipment, invest = true, changeAfter = true): void {
-        item.invested = invest;
-        this._refreshService.prepareDetailToChange(creature.type, 'inventory');
-        this._refreshService.prepareDetailToChange(creature.type, item.id);
-
-        if (item instanceof WornItem && item.gainSpells.length) {
-            this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
-        }
-
-        //Items are automatically equipped if they are invested.
-        if (item.invested) {
-            if (!item.equipped) {
-                this.equipItem(creature, inventory, item, true, false);
-            } else {
-                this._refreshService.prepareChangesByItem(
-                    creature,
-                    item,
-                );
-            }
-        } else {
-            item.gainActivities.filter(gainActivity => gainActivity.active).forEach((gainActivity: ActivityGain) => {
-                const libraryActivity = this._activitiesDataService.activities(gainActivity.name)[0];
-
-                if (libraryActivity) {
-                    this._activitiesProcessingService.activateActivity(
-                        libraryActivity,
-                        false,
-                        {
-                            creature,
-                            gain: gainActivity,
-                        },
-                    );
-                }
-            });
-            item.activities.filter(itemActivity => itemActivity.active).forEach((itemActivity: ItemActivity) => {
-                this._activitiesProcessingService.activateActivity(
-                    itemActivity,
-                    false,
-                    {
-                        creature,
-                        gain: itemActivity,
-                    },
-                );
-            });
-            this._creatureConditionsService.removeGainedItemConditions(creature, item);
-            this._refreshService.prepareChangesByItem(
-                creature,
-                item,
-            );
-        }
-
-        //If a wayfinder is invested or uninvested, all other invested wayfinders need to run updates as well,
-        // Because too many invested wayfinders disable each other's aeon stones.
-        if (item instanceof WornItem && item.aeonStones.length) {
-            creature.inventories[0].wornitems.filter(wornItem => wornItem !== item && wornItem.aeonStones.length).forEach(wornItem => {
-                this._refreshService.prepareChangesByItem(
-                    creature,
-                    wornItem,
-                );
-            });
-        }
-
-        if (changeAfter) {
-            this._refreshService.processPreparedChanges();
-        }
-    }
-
     public useConsumable(creature: Creature, item: Consumable, preserveItem = false): void {
         if (!preserveItem) {
             item.amount--;
         }
 
-        this._itemProcessingService.processConsumable(creature, item);
+        this._itemProcessingService.processConsumableActivation(creature, item);
         this._refreshService.prepareChangesByItem(
             creature,
             item,
@@ -1216,7 +374,7 @@ export class CharacterService {
 
     public sendTurnChangeToPlayers(): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.isGMMode || this.isManualMode || !this.isLoggedIn()) {
+        if (this._settingsService.isGMMode || this._settingsService.isManualMode || !this._configService.isLoggedIn) {
             return;
         }
 
@@ -1264,7 +422,7 @@ export class CharacterService {
 
     public applyTurnChangeMessage(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this.isManualMode) {
+        if (this._settingsService.isManualMode) {
             return;
         }
 
@@ -1307,7 +465,7 @@ export class CharacterService {
 
     public sendConditionToPlayers(targets: Array<SpellTarget>, conditionGain: ConditionGain, activate = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.isGMMode || this.isManualMode || !this.isLoggedIn()) {
+        if (this._settingsService.isGMMode || this._settingsService.isManualMode || !this._configService.isLoggedIn) {
             return;
         }
 
@@ -1377,7 +535,7 @@ export class CharacterService {
 
     public applyMessageConditions(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this.isManualMode) {
+        if (this._settingsService.isManualMode) {
             return;
         }
 
@@ -1440,7 +598,7 @@ export class CharacterService {
 
     public sendItemsToPlayer(sender: Creature, target: SpellTarget, item: Item, amount = 0): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.isGMMode || this.isManualMode || !this.isLoggedIn()) {
+        if (this._settingsService.isGMMode || this._settingsService.isManualMode || !this._configService.isLoggedIn) {
             return;
         }
 
@@ -1501,7 +659,7 @@ export class CharacterService {
 
     public applyMessageItems(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this.isManualMode) {
+        if (this._settingsService.isManualMode) {
             return;
         }
 
@@ -1558,7 +716,15 @@ export class CharacterService {
                                     addedPrimaryItem = addedItem;
                                 }
 
-                                this.processGrantedItem((targetCreature), addedItem, targetInventory, true, false, true, true);
+                                this._inventoryItemProcessingService.processGrantedItem(
+                                    targetCreature,
+                                    addedItem,
+                                    targetInventory,
+                                    true,
+                                    false,
+                                    true,
+                                    true,
+                                );
                             }
                         });
                         //Add included inventories and process all items inside them.
@@ -1567,7 +733,15 @@ export class CharacterService {
                             const newInventory = targetCreature.inventories[newLength - 1];
 
                             newInventory.allItems().forEach(invItem => {
-                                this.processGrantedItem((targetCreature), invItem, newInventory, true, false, true, true);
+                                this._inventoryItemProcessingService.processGrantedItem(
+                                    targetCreature,
+                                    invItem,
+                                    newInventory,
+                                    true,
+                                    false,
+                                    true,
+                                    true,
+                                );
                             });
                         });
 
@@ -1619,7 +793,7 @@ export class CharacterService {
 
     public sendItemAcceptedMessage(message: PlayerMessage, accepted = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this.isGMMode || this.isManualMode || !this.isLoggedIn()) {
+        if (this._settingsService.isGMMode || this._settingsService.isManualMode || !this._configService.isLoggedIn) {
             return;
         }
 
@@ -1679,7 +853,7 @@ export class CharacterService {
 
     public applyItemAcceptedMessages(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this.isManualMode) {
+        if (this._settingsService.isManualMode) {
             return;
         }
 
@@ -1714,7 +888,15 @@ export class CharacterService {
                     );
 
                     if (foundItem) {
-                        this.dropInventoryItem(foundCreature, foundInventory, foundItem, false, true, true, message.itemAmount);
+                        this._inventoryService.dropInventoryItem(
+                            foundCreature,
+                            foundInventory,
+                            foundItem,
+                            false,
+                            true,
+                            true,
+                            message.itemAmount,
+                        );
                     }
                 } else if (message.rejectedItem) {
                     this._toastService.show(
@@ -2488,7 +1670,7 @@ export class CharacterService {
             const companion = character.class.animalCompanion;
 
             companion.class.levels = this.animalCompanionLevels();
-            this._equipBasicItems(companion);
+            this.equipBasicItems(companion);
             this._animalCompanionLevelsService.setLevel(companion);
         }
     }
@@ -2544,85 +1726,12 @@ export class CharacterService {
         this._loading = false;
     }
 
-    private _markUnneededWeaponFeatsForDeletion(weapon: Weapon): void {
-        //If there are no weapons left of this name in any inventory, find any custom feat that has it as its subType.
-        //These feats are not useful anymore, but the player may wish to keep them.
-        //They are marked with canDelete, and the player can decide whether to delete them.
-        const character = this.character;
-        const remainingWeapons: Array<string> = []
-            .concat(
-                ...character.inventories
-                    .concat(
-                        character.class?.animalCompanion?.inventories || [],
-                        character.class?.familiar?.inventories || [],
-                    )
-                    .map(inventory => inventory.weapons))
-            .filter(inventoryWeapon =>
-                inventoryWeapon.name.toLowerCase() === weapon.name.toLowerCase() &&
-                inventoryWeapon !== weapon,
-            );
-
-        if (!remainingWeapons.length) {
-            character.customFeats
-                .filter(customFeat => customFeat.generatedWeaponFeat && customFeat.subType === weapon.name)
-                .forEach(customFeat => {
-                    customFeat.canDelete = true;
-                });
-        }
-    }
-
-    private _preserveInventoryContentBeforeDropping(creature: Creature, item: Equipment): void {
-        // This gets all inventories granted by an item and dumps them into the main inventory.
-        // That way, content isn't lost when you drop an inventory item.
-        let found = 0;
-
-        creature.inventories.filter(inv => inv.itemId === item.id).forEach(inv => {
-            inv.allItems().filter(invItem => invItem !== item)
-                .forEach(invItem => {
-                    if (!invItem.markedForDeletion) {
-                        found++;
-                        this._itemTransferService
-                            .moveItemLocally(creature, invItem, creature.inventories[0], inv, invItem.amount, true);
-                    }
-                });
-        });
-
-        if (found) {
-            this._toastService.show(
-                `${ found } item${ found > 1 ? 's' : '' } were emptied out of <strong>${ item.effectiveName() }</strong> `
-                + 'before dropping the item. These items can be found in your inventory, unless they were dropped in the same process.',
-            );
-        }
-    }
-
-    private _grantBasicItems(): void {
-        //This function depends on the items being loaded, and it will wait forever for them!
-        const waitForItemsService = setInterval(() => {
-            if (!this._extensionsService.stillLoading && !this._configService.stillLoading) {
-                clearInterval(waitForItemsService);
-
-                const newBasicWeapon: Weapon =
-                    Object.assign(
-                        new Weapon(),
-                        this._itemsDataService.cleanItemFromID('08693211-8daa-11ea-abca-ffb46fbada73'),
-                    ).recast(this._itemsDataService);
-                const newBasicArmor: Armor =
-                    Object.assign(
-                        new Armor(),
-                        this._itemsDataService.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
-                    ).recast(this._itemsDataService);
-
-                this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
-                this._equipBasicItems(this.character, false);
-                this._equipBasicItems(this.companion, false);
-            }
-        }, Defaults.waitForServiceDelay);
-    }
-
-    private _equipBasicItems(creature: Creature, changeAfter = true): void {
+    public equipBasicItems(creature: Creature, changeAfter = true): void {
         if (!this.stillLoading && this._basicItems.weapon && this._basicItems.armor && !(creature.isFamiliar())) {
+            const isInventoryTouchedBefore = creature.inventories[0].touched;
+
             if (!creature.inventories[0].weapons.some(weapon => !weapon.broken) && (creature.isCharacter())) {
-                this.grantInventoryItem(
+                this._inventoryService.grantInventoryItem(
                     this._basicItems.weapon,
                     { creature, inventory: creature.inventories[0] },
                     { changeAfter: false, equipAfter: false },
@@ -2630,7 +1739,7 @@ export class CharacterService {
             }
 
             if (!creature.inventories[0].armors.some(armor => !armor.broken)) {
-                this.grantInventoryItem(
+                this._inventoryService.grantInventoryItem(
                     this._basicItems.armor,
                     { creature, inventory: creature.inventories[0] },
                     { changeAfter: false, equipAfter: false },
@@ -2639,7 +1748,7 @@ export class CharacterService {
 
             if (!creature.inventories[0].weapons.some(weapon => weapon.equipped === true)) {
                 if (creature.inventories[0].weapons.some(weapon => !weapon.broken)) {
-                    this.equipItem(
+                    this._creatureEquipmentService.equipItem(
                         creature,
                         creature.inventories[0],
                         creature.inventories[0].weapons.find(weapon => !weapon.broken),
@@ -2651,7 +1760,7 @@ export class CharacterService {
 
             if (!creature.inventories[0].armors.some(armor => armor.equipped === true)) {
                 if (creature.inventories[0].weapons.some(armor => !armor.broken)) {
-                    this.equipItem(
+                    this._creatureEquipmentService.equipItem(
                         creature,
                         creature.inventories[0],
                         creature.inventories[0].armors.find(armor => !armor.broken),
@@ -2660,7 +1769,42 @@ export class CharacterService {
                     );
                 }
             }
+
+            creature.inventories[0].touched = isInventoryTouchedBefore;
         }
+    }
+
+    private _grantBasicItems(): void {
+        //This function depends on the items being loaded, and it will wait forever for them!
+        const grantBasicItems = (): void => {
+            const newBasicWeapon: Weapon =
+                Object.assign(
+                    new Weapon(),
+                    this._itemsDataService.cleanItemFromID('08693211-8daa-11ea-abca-ffb46fbada73'),
+                ).recast(this._itemsDataService);
+            const newBasicArmor: Armor =
+                Object.assign(
+                    new Armor(),
+                    this._itemsDataService.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723'),
+                ).recast(this._itemsDataService);
+
+            this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
+            this.equipBasicItems(this.character, false);
+            this.equipBasicItems(this.companion, false);
+        };
+
+        if (!this._itemsDataService.stillLoading) {
+            grantBasicItems();
+        } else {
+            const waitForItemsService = setInterval(() => {
+                if (!this._itemsDataService.stillLoading) {
+                    clearInterval(waitForItemsService);
+                    grantBasicItems();
+                }
+            }, Defaults.waitForServiceDelay);
+        }
+
+
     }
 
 }

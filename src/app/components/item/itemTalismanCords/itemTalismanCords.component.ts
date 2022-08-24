@@ -13,6 +13,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 
 interface TalismanCordSet {
     talismanCord: WornItem;
@@ -37,6 +38,7 @@ export class ItemTalismanCordsComponent implements OnInit {
         private readonly _refreshService: RefreshService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _itemsDataService: ItemsDataService,
+        private readonly _inventoryService: InventoryService,
         public trackers: Trackers,
     ) { }
 
@@ -49,7 +51,7 @@ export class ItemTalismanCordsComponent implements OnInit {
     }
 
     public inventoryName(inv: ItemCollection): string {
-        return this._inventoryPropertiesService.effectiveName(inv);
+        return this._inventoryPropertiesService.effectiveName(inv, this._character);
     }
 
     public initialTalismanCords(): Array<TalismanCordSet> {
@@ -112,7 +114,7 @@ export class ItemTalismanCordsComponent implements OnInit {
 
                 newCord.amount = 1;
                 //Remove the inserted Talisman Cord from the inventory, either by decreasing the amount or by dropping the item.
-                this._characterService.dropInventoryItem(this._character, inv, cord, false, false, false, 1);
+                this._inventoryService.dropInventoryItem(this._character, inv, cord, false, false, false, 1);
             }
         }
 
@@ -131,7 +133,7 @@ export class ItemTalismanCordsComponent implements OnInit {
         const oldCord = item.talismanCords[index];
 
         //Add the extracted cord back to the inventory.
-        this._characterService.grantInventoryItem(
+        this._inventoryService.grantInventoryItem(
             oldCord,
             { creature: character, inventory: character.inventories[0] },
             { resetRunes: false, changeAfter: false, equipAfter: false },

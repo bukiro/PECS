@@ -576,7 +576,7 @@ export class FeatRequirementsService {
                 });
                 complexreq.countSpeeds?.forEach(speedreq => {
                     if (!hasThisRequirementFailed) {
-                        const allSpeeds = this._characterService.creatureSpeeds(creature).map(speed => speed.name);
+                        const allSpeeds = creature.speeds.map(speed => speed.name);
                         const queryResult = ApplyDefaultQuery(speedreq.query, allSpeeds);
 
                         if (!DoesNumberMatchExpectation(queryResult, speedreq.expected)) {
@@ -849,7 +849,7 @@ export class FeatRequirementsService {
                         }
 
                         if (skillreq.query.matchingDivineSkill) {
-                            const deity = this._characterService.currentCharacterDeities(character, '', charLevel)[0];
+                            const deity = this._characterDeitiesService.currentCharacterDeities(character, '', charLevel)[0];
 
                             if (!deity) {
                                 allSkills = [];

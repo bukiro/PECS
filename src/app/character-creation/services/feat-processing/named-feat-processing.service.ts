@@ -377,7 +377,7 @@ export class NamedFeatProcessingService {
     private _processSplinterFaith(feat: Feat, taken: boolean, context: FeatProcessingContext): void {
         //Splinter Faith changes your domains and needs to clear out the runtime variables and update general.
         if (feat.name === 'Splinter Faith') {
-            this._characterService.currentCharacterDeities(context.character).forEach(deity => {
+            this._characterDeitiesService.currentCharacterDeities(context.character).forEach(deity => {
                 deity.clearTemporaryDomains();
             });
             this._refreshService.prepareDetailToChange(context.creature.type, 'general');

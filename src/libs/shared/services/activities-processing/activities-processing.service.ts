@@ -23,6 +23,7 @@ import { SpellsDataService } from 'src/app/core/services/data/spells-data.servic
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
 import { SpellActivityProcessingSharedService } from 'src/libs/shared/services/spell-activity-processing-shared/spell-activity-processing-shared.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 @Injectable({
     providedIn: 'root',
@@ -43,6 +44,7 @@ export class ActivitiesProcessingService {
         private readonly _effectsService: CreatureEffectsService,
         private readonly _spellTargetService: SpellTargetService,
         private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
+        private readonly _settingsService: SettingsService,
 
     ) { }
 
@@ -150,7 +152,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!this._characterService.isManualMode) {
+        if (!this._settingsService.isManualMode) {
 
             //One time effects
             if (activity.onceEffects) {
@@ -536,7 +538,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!this._characterService.isManualMode) {
+        if (!this._settingsService.isManualMode) {
 
             //Remove applied conditions.
             //The condition source is the activity name.

@@ -11,6 +11,7 @@ import { MaxSkillLevel, skillLevelBaseStep } from '../../definitions/skillLevels
 import { WeaponProficiencies } from '../../definitions/weaponProficiencies';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
+import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 
 @Injectable({
     providedIn: 'root',
@@ -23,6 +24,7 @@ export class WeaponPropertiesService {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
     ) { }
 
     public effectiveProficiency(
@@ -248,7 +250,7 @@ export class WeaponPropertiesService {
         }
 
         if (creature.isCharacter() && creature.class.deity) {
-            if (this._characterService.currentCharacterDeities(creature)[0]?.favoredWeapon
+            if (this._characterDeitiesService.currentCharacterDeities(creature)[0]?.favoredWeapon
                 .some(favoredWeapon =>
                     [
                         weapon.name.toLowerCase(),
@@ -265,7 +267,7 @@ export class WeaponPropertiesService {
             creature.isCharacter() &&
             this._characterService.characterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
         ) {
-            if (this._characterService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon
+            if (this._characterDeitiesService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon
                 .some(favoredWeapon =>
                     [
                         weapon.name.toLowerCase(),
@@ -304,7 +306,7 @@ export class WeaponPropertiesService {
                 ea.emblazonDivinity ||
                 (
                     creature.isCharacter() &&
-                    this._characterService.currentCharacterDeities(creature)
+                    this._characterDeitiesService.currentCharacterDeities(creature)
                         .some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
                 )
             ) {

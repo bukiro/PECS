@@ -173,6 +173,10 @@ export class Equipment extends Item {
 
     public isEquipment(): this is Equipment { return true; }
 
+    public hasActivities(): this is Equipment | Rune { return true; }
+
+    public hasHints(): this is Equipment | Rune | Oil { return true; }
+
     public gridIconValue(): string {
         const parts: Array<string> = [];
 

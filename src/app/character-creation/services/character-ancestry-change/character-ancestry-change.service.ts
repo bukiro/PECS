@@ -9,6 +9,7 @@ import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item
 import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
 import { FeatProcessingService } from '../feat-processing/feat-processing.service';
+import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +23,7 @@ export class CharacterAncestryChangeService {
         private readonly _featTakingService: FeatTakingService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _featProcessingService: FeatProcessingService,
+        private readonly _characterLanguagesService: CharacterLanguagesService,
     ) { }
 
     public changeAncestry(newAncestry?: Ancestry): void {
@@ -38,7 +40,7 @@ export class CharacterAncestryChangeService {
             character.class.ancestry = new Ancestry();
         }
 
-        this._characterService.updateLanguageList();
+        this._characterLanguagesService.updateLanguageList();
     }
 
     private _processRemovingOldAncestry(character: Character): void {

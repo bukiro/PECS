@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CharacterSkillIncreaseService } from 'src/app/character-creation/services/character-skill-increase/character-skill-increase.service';
 import { Character } from 'src/app/classes/Character';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
+import { Rune } from 'src/app/classes/Rune';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -233,6 +234,52 @@ export class CharacterLoreService {
         }
 
         this._addLoreFeats(character, source.loreName);
+    }
+
+    public addRuneLore(character: Character, rune: Rune): void {
+        //Go through all the loreChoices (usually only one)
+        rune.loreChoices.forEach(choice => {
+            // Check if only one (=this) item's rune has this lore
+            // (and therefore no other item has already created it on the character), and if so, create it.
+            if (
+                character.inventories[0]?.allEquipment()
+                    .filter(item => item.propertyRunes
+                        .some(propertyRune => propertyRune.loreChoices
+                            .some(otherchoice => otherchoice.loreName === choice.loreName),
+                        ),
+                    ).length +
+                character.inventories[0]?.allEquipment()
+                    .filter(item => item.oilsApplied
+                        .some(oil => oil.runeEffect && oil.runeEffect.loreChoices
+                            .some(otherchoice => otherchoice.loreName === choice.loreName),
+                        ),
+                    ).length === 1) {
+                this.addLore(character, choice);
+            }
+        });
+    }
+
+    public removeRuneLore(character: Character, rune: Rune): void {
+        //Iterate through the loreChoices (usually only one)
+        rune.loreChoices.forEach(choice => {
+            //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
+            if (character.inventories[0]?.allEquipment()
+                .filter(item => item.propertyRunes
+                    .filter(propertyRune => propertyRune.loreChoices
+                        .filter(otherchoice => otherchoice.loreName === choice.loreName)
+                        .length)
+                    .length)
+                .length +
+                character.inventories[0]?.allEquipment()
+                    .filter(item => item.oilsApplied
+                        .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices
+                            .filter(otherchoice => otherchoice.loreName === choice.loreName)
+                            .length)
+                        .length)
+                    .length === 1) {
+                this.removeLore(character, choice);
+            }
+        });
     }
 
     public removeLore(character: Character, source: LoreChoice): void {

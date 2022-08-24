@@ -177,7 +177,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     public speeds(): Array<Speed> {
-        const speeds: Array<Speed> = this._characterService.creatureSpeeds(this._currentCreature);
+        const speeds: Array<Speed> = this._currentCreature.speeds;
 
         if ([CreatureTypes.Character, 'Companion'].includes(this._currentCreature.type)) {
             (this._currentCreature as Character).class?.ancestry?.speeds?.forEach(speed => {

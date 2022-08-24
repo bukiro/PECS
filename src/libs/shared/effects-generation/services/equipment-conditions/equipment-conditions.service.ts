@@ -9,6 +9,7 @@ import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluatio
 import { BulkService } from 'src/libs/shared/services/bulk/bulk.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +22,7 @@ export class EquipmentConditionsService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _characterService: CharacterService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
+        private readonly _settingsService: SettingsService,
 
     ) { }
 
@@ -29,7 +31,7 @@ export class EquipmentConditionsService {
     ): void {
         //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
         //Conditions caused by equipment are not calculated in manual mode.
-        if (this._characterService.isManualMode) {
+        if (this._settingsService.isManualMode) {
             return;
         }
 
@@ -187,7 +189,7 @@ export class EquipmentConditionsService {
     public generateBulkConditions(creature: Creature): void {
         //Calculate whether the creature is encumbered and add or remove the condition.
         //Encumbered conditions are not calculated in manual mode.
-        if (!this._characterService.isManualMode) {
+        if (!this._settingsService.isManualMode) {
             const calculatedBulk = this._bulkService.calculate(creature);
 
             if (

@@ -13,6 +13,7 @@ import { Character } from 'src/app/classes/Character';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 @Component({
     selector: 'app-itemTarget',
@@ -42,6 +43,7 @@ export class ItemTargetComponent implements OnInit {
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _modalService: NgbModal,
         private readonly _itemTransferService: ItemTransferService,
+        private readonly _settingsService: SettingsService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -106,7 +108,7 @@ export class ItemTargetComponent implements OnInit {
                 });
         }
 
-        if (character.partyName && !this.excluding && !this._characterService.isGMMode && !this._characterService.isManualMode) {
+        if (character.partyName && !this.excluding && !this._settingsService.isGMMode && !this._settingsService.isManualMode) {
             //Only allow selecting other players if you are in a party.
             this._savegamesService.savegames()
                 .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)
@@ -213,7 +215,7 @@ export class ItemTargetComponent implements OnInit {
 
     public targetName(target: ItemCollection | SpellTarget): string {
         if (target instanceof ItemCollection) {
-            return this._inventoryPropertiesService.effectiveName(target);
+            return this._inventoryPropertiesService.effectiveName(target, this._currentCreature);
         } else {
             return target.name;
         }

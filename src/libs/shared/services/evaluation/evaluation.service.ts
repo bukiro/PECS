@@ -29,6 +29,7 @@ import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-
 import { FeatsDataService } from '../../../../app/core/services/data/feats-data.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
+import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -67,6 +68,7 @@ export class EvaluationService {
         private readonly _effectsService: CreatureEffectsService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _creatureFeatsService: CreatureFeatsService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
     ) { }
 
     public valueFromFormula(
@@ -286,10 +288,10 @@ export class EvaluationService {
             return allHeritages.includes(name);
         };
         const Deities = (): Array<DeityModel> => (
-            characterService.currentCharacterDeities(Character)
+            this._characterDeitiesService.currentCharacterDeities(Character)
         );
         const Deity = (): DeityModel => (
-            characterService.currentCharacterDeities(Character)[0]
+            this._characterDeitiesService.currentCharacterDeities(Character)[0]
         );
         /* eslint-enable @typescript-eslint/no-unused-vars */
         /* eslint-enable @typescript-eslint/naming-convention */

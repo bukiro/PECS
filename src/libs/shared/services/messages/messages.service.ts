@@ -10,6 +10,7 @@ import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { Creature } from '../../../../app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 const ignoredMessageTTL = 60;
 
@@ -29,6 +30,7 @@ export class MessagesService {
         private readonly _itemsDataService: ItemsDataService,
         private readonly _refreshService: RefreshService,
         private readonly _characterService: CharacterService,
+        private readonly _settingsService: SettingsService,
     ) { }
 
     public newMessages(): Array<PlayerMessage> {
@@ -154,7 +156,7 @@ export class MessagesService {
             this._ignoredMessages().forEach(message => {
                 message.ttl--;
 
-                if (message.ttl === 0 && this._characterService.isLoggedIn()) {
+                if (message.ttl === 0 && this._configService.isLoggedIn) {
                     messagesToDelete++;
                     this._deleteMessageFromConnector(Object.assign(new PlayerMessage(), { id: message.id }))
                         .subscribe({
@@ -217,9 +219,9 @@ export class MessagesService {
         setInterval(() => {
 
             if (
-                this._characterService.character.settings.checkMessagesAutomatically &&
-                !this._characterService.isManualMode &&
-                this._characterService.isLoggedIn()
+                this._settingsService.settings.checkMessagesAutomatically &&
+                !this._settingsService.isManualMode &&
+                this._configService.isLoggedIn
             ) {
                 minuteTimer--;
 
@@ -265,7 +267,7 @@ export class MessagesService {
 
     private _checkForNewMessages(): void {
         //Don't check for new messages if you don't have a party or if you are not logged in, or if you are currently checking.
-        if (!this._characterService.character.partyName || !this._characterService.isLoggedIn() || this._checkingMessages) {
+        if (!this._characterService.character.partyName || !this._configService.isLoggedIn || this._checkingMessages) {
             return;
         }
 

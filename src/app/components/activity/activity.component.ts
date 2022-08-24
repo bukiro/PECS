@@ -31,6 +31,7 @@ import { ConditionPropertiesService } from 'src/libs/shared/services/condition-p
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -87,11 +88,12 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
+        private readonly _settingsService: SettingsService,
         public trackers: Trackers,
     ) { }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode;
+        return this._settingsService.isManualMode;
     }
 
     public get isResonant(): boolean {

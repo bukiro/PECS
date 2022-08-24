@@ -25,6 +25,7 @@ import { StatusService } from 'src/app/core/services/status/status.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -63,6 +64,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _durationsService: DurationsService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _menuService: MenuService,
+        private readonly _settingsService: SettingsService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -100,11 +102,11 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public get isGMMode(): boolean {
-        return this._characterService.isGMMode;
+        return this._settingsService.isGMMode;
     }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode;
+        return this._settingsService.isManualMode;
     }
 
     public get companion(): AnimalCompanion {
@@ -186,7 +188,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public isBlankCharacter(): boolean {
-        return this._characterService.isBlankCharacter();
+        return this.character.isBlankCharacter();
     }
 
     public hasAnySpells(): boolean {

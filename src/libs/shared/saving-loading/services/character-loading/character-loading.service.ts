@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Settings } from 'src/app/classes/Settings';

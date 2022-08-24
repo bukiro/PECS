@@ -52,6 +52,8 @@ import { ItemsDataService } from 'src/app/core/services/data/items-data.service'
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -120,6 +122,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _itemTransferService: ItemTransferService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _menuService: MenuService,
+        private readonly _settingsService: SettingsService,
+        private readonly _inventoryService: InventoryService,
         public trackers: Trackers,
     ) { }
 
@@ -143,7 +147,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode;
+        return this._settingsService.isManualMode;
     }
 
     public get character(): Character {
@@ -328,7 +332,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
         const shouldPreserveInventoryContent = (pay && item instanceof Equipment && !!item.gainInventory.length);
 
-        this._characterService.dropInventoryItem(
+        this._inventoryService.dropInventoryItem(
             this.currentCreature,
             inventory,
             item,
@@ -420,7 +424,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     public dropContainerWithoutContent(item: Item, inventory: ItemCollection): void {
         this.toggleShownItem();
-        this._characterService.dropInventoryItem(this.currentCreature, inventory, item, false, true, false, item.amount, true);
+        this._inventoryService.dropInventoryItem(this.currentCreature, inventory, item, false, true, false, item.amount, true);
         this._refreshService.prepareDetailToChange(this.creature, 'close-popovers');
         this._refreshService.processPreparedChanges();
     }
@@ -508,21 +512,28 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public investedItems(): Array<Equipment> {
-        return this._characterService.creatureInvestedItems(this.currentCreature);
+        return this._creatureEquipmentService.investedCreatureEquipment(this.currentCreature);
     }
 
     public onEquipItem(item: Equipment, inventory: ItemCollection, equipped: boolean): void {
-        this._characterService.equipItem(this.currentCreature, inventory, item, equipped);
+        this._creatureEquipmentService.equipItem(this.currentCreature, inventory, item, equipped);
     }
 
     public onInvestItem(item: Equipment, inventory: ItemCollection, invested: boolean): void {
-        this._characterService.investItem(this.currentCreature, inventory, item, invested);
+        this._creatureEquipmentService.investItem(this.currentCreature, inventory, item, invested);
     }
 
     public onItemBroken(item: Equipment): void {
         if (item.broken) {
             if (!this.canEquipItem(item, 0) && item.equipped) {
-                this._characterService.equipItem(this.currentCreature, this.currentCreature.inventories[0], item, false, false, true);
+                this._creatureEquipmentService.equipItem(
+                    this.currentCreature,
+                    this.currentCreature.inventories[0],
+                    item,
+                    false,
+                    false,
+                    true,
+                );
                 this._toastService.show(`Your <strong>${ item.effectiveName() }</strong> was unequipped because it is broken.`);
             }
         }
@@ -555,7 +566,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public inventoryName(inventory: ItemCollection): string {
-        return this._inventoryPropertiesService.effectiveName(inventory);
+        return this._inventoryPropertiesService.effectiveName(inventory, this.currentCreature);
     }
 
     public onUseSpellCastingItem(item: Item, creature: '' | 'self' | 'Selected' | CreatureTypes, inventory: ItemCollection): void {
@@ -660,7 +671,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         return (sum <= funds);
     }
 
-    public changeCash(multiplier = 1, sum = 0, changeafter = false): void {
+    public changeCash(multiplier: 1 | -1 = 1, sum = 0, changeafter = false): void {
         this._characterService.addCash(multiplier, sum);
 
         if (changeafter) {
@@ -762,7 +773,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             amount = item.stack;
         }
 
-        this._characterService.grantInventoryItem(
+        this._inventoryService.grantInventoryItem(
             item,
             { creature: this._characterService.character, inventory: this._characterService.character.inventories[0], amount },
             { resetRunes: false },

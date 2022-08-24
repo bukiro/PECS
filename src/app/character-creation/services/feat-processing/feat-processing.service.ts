@@ -33,6 +33,7 @@ import { CharacterHeritageChangeService } from '../character-heritage-change/cha
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
 import { NamedFeatProcessingService } from './named-feat-processing.service';
 import { FeatProcessingRefreshService } from './feat-processing-refresh';
+import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
 
 export interface FeatProcessingContext {
     creature: Character | Familiar;
@@ -64,6 +65,7 @@ export class FeatProcessingService {
         private readonly _featsDataService: FeatsDataService,
         private readonly _featProcessingRefreshService: FeatProcessingRefreshService,
         private readonly _namedFeatProcessingService: NamedFeatProcessingService,
+        private readonly _characterLanguagesService: CharacterLanguagesService,
     ) { }
 
     public processFeat(
@@ -833,7 +835,7 @@ export class FeatProcessingService {
                 });
             }
 
-            this._characterService.updateLanguageList();
+            this._characterLanguagesService.updateLanguageList();
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'general');
         }
     }
@@ -926,7 +928,7 @@ export class FeatProcessingService {
 
         //Feats that grant language effects should update the language list.
         if (feat.effects.some(effect => effect.affected === 'Max Languages')) {
-            this._characterService.updateLanguageList();
+            this._characterLanguagesService.updateLanguageList();
             this._refreshService.prepareDetailToChange(context.creature.type, 'charactersheet');
         }
     }

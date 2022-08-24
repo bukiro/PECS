@@ -9,11 +9,12 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ItemProcessingService {
+export class ItemActivationProcessingService {
 
     constructor(
         private readonly _creatureConditionsService: CreatureConditionsService,
@@ -21,15 +22,16 @@ export class ItemProcessingService {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _characterService: CharacterService,
+        private readonly _settingsService: SettingsService,
     ) { }
 
-    public processConsumable(
+    public processConsumableActivation(
         creature: Creature,
         item: Consumable,
     ): void {
 
         //Consumables don't do anything in manual mode, except be used up.
-        if (!this._characterService.isManualMode) {
+        if (!this._settingsService.isManualMode) {
 
             //One time effects
             if (item.onceEffects) {

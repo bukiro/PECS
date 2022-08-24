@@ -13,6 +13,7 @@ import { Consumable } from './Consumable';
 import { Scroll } from './Scroll';
 import { Shield } from './Shield';
 import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Rune } from './Rune';
 
 export interface TraitActivation {
     trait: string;
@@ -179,6 +180,10 @@ export class Item {
     public isScroll(): this is Scroll { return false; }
 
     public isWand(): this is Wand { return false; }
+
+    public hasActivities(): this is Equipment | Rune { return false; }
+
+    public hasHints(): this is Equipment | Rune | Oil { return false; }
 
     public gridIconTitle(): string {
         return this.displayName.replace(`(${ this.subType })`, '') || this.name.replace(`(${ this.subType })`, '');

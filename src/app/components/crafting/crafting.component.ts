@@ -25,6 +25,7 @@ import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-p
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 
 const itemsPerPage = 40;
 
@@ -65,6 +66,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         private readonly _itemPriceService: ItemPriceService,
         private readonly _menuService: MenuService,
+        private readonly _inventoryService: InventoryService,
         public trackers: Trackers,
     ) { }
 
@@ -275,7 +277,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         }
 
         item.crafted = true;
-        this._characterService.grantInventoryItem(
+        this._inventoryService.grantInventoryItem(
             item,
             { creature: this._characterService.character, inventory: this._characterService.character.inventories[0], amount },
             { resetRunes: false },

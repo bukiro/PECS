@@ -24,6 +24,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;
@@ -103,6 +104,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _modalService: NgbModal,
         private readonly _durationsService: DurationsService,
+        private readonly _settingsService: SettingsService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -132,7 +134,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode;
+        return this._settingsService.isManualMode;
     }
 
     private get _target(): string {

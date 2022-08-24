@@ -15,6 +15,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 
 interface TalismanOption {
     talisman: Talisman;
@@ -42,6 +43,7 @@ export class ItemTalismansComponent implements OnInit {
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
+        private readonly _inventoryService: InventoryService,
         public trackers: Trackers,
     ) { }
 
@@ -75,7 +77,7 @@ export class ItemTalismansComponent implements OnInit {
     }
 
     public inventoryName(inv: ItemCollection): string {
-        return this._inventoryPropertiesService.effectiveName(inv);
+        return this._inventoryPropertiesService.effectiveName(inv, this._character);
     }
 
     public initialTalismans(index: number): Array<TalismanOption> {
@@ -158,7 +160,7 @@ export class ItemTalismansComponent implements OnInit {
                 // If we are not in the item store, remove the inserted Talisman from the inventory,
                 // either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
-                    this._characterService.dropInventoryItem(this._character, inv, talisman, false, false, false, 1);
+                    this._inventoryService.dropInventoryItem(this._character, inv, talisman, false, false, false, 1);
                 }
             }
         }
@@ -237,7 +239,7 @@ export class ItemTalismansComponent implements OnInit {
         const oldTalisman = this.item.talismans[index];
 
         //Add the extracted stone back to the inventory.
-        this._characterService.grantInventoryItem(
+        this._inventoryService.grantInventoryItem(
             oldTalisman,
             { creature: character, inventory: character.inventories[0] },
             { resetRunes: false, changeAfter: false, equipAfter: false },

@@ -29,6 +29,7 @@ import { ObjectEffectsGenerationService } from 'src/libs/shared/effects-generati
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { EffectsGenerationPreflightService } from '../effects-generation-preflight/effects-generation-preflight.service';
 import { AlwaysShowingEffectNames, AlwaysShowingWildcardEffectNames } from '../../definitions/showingEffects';
+import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
 
 @Injectable({
     providedIn: 'root',
@@ -49,6 +50,7 @@ export class EffectsGenerationService {
         private readonly _objectEffectsGenerationService: ObjectEffectsGenerationService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _effectsGenerationPreflightService: EffectsGenerationPreflightService,
+        private readonly _characterLanguagesService: CharacterLanguagesService,
     ) { }
 
     public initialize(): void {
@@ -888,7 +890,7 @@ export class EffectsGenerationService {
         const areEffectsChanged = this._generateEffects(creatureType);
 
         if (areEffectsChanged) {
-            this._characterService.updateLanguageList();
+            this._characterLanguagesService.updateLanguageList();
         }
 
         //Process all prepared onceEffects.

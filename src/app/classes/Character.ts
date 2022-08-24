@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { Skill } from 'src/app/classes/Skill';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { Class } from 'src/app/classes/Class';
@@ -14,6 +13,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Weapon } from './Weapon';
 
 export class Character extends Creature {
     public readonly type = CreatureTypes.Character;
@@ -88,6 +88,24 @@ export class Character extends Creature {
         }
 
         return { result: sum, explain: explain.trim() };
+    }
+
+    public isBlankCharacter(): boolean {
+        // The character is blank if textboxes haven't been used, no class and no basevalues have been chosen,
+        // and no items have been added other than the starter items.
+        const characterStartingInventoryAmount = 2;
+
+        return (
+            !this.class?.name &&
+            !this.name &&
+            !this.partyName &&
+            !this.experiencePoints &&
+            this.alignment === 'Neutral' &&
+            !this.baseValues.length &&
+            this.inventories.length <= characterStartingInventoryAmount &&
+            // The character is not blank if any inventory has been touched.
+            !this.inventories.some(inv => inv.touched)
+        );
     }
 
     public maxSpellLevel(levelNumber: number = this.level): number {
@@ -269,6 +287,32 @@ export class Character extends Creature {
 
     public removeCustomFeat(feat: Feat): void {
         this.customFeats = this.customFeats.filter(oldFeat => oldFeat !== feat);
+    }
+
+    public markUnneededWeaponFeatsForDeletion(weapon: Weapon): void {
+        //If there are no weapons left of this name in any inventory, find any custom feat that has it as its subType.
+        //These feats are not useful anymore, but the player may wish to keep them.
+        //They are marked with canDelete, and the player can decide whether to delete them.
+        const remainingWeapons: Array<string> = []
+            .concat(
+                ...this.inventories
+                    .concat(
+                        this.class?.animalCompanion?.inventories || [],
+                        this.class?.familiar?.inventories || [],
+                    )
+                    .map(inventory => inventory.weapons))
+            .filter(inventoryWeapon =>
+                inventoryWeapon.name.toLowerCase() === weapon.name.toLowerCase() &&
+                inventoryWeapon !== weapon,
+            );
+
+        if (!remainingWeapons.length) {
+            this.customFeats
+                .filter(customFeat => customFeat.generatedWeaponFeat && customFeat.subType === weapon.name)
+                .forEach(customFeat => {
+                    customFeat.canDelete = true;
+                });
+        }
     }
 
     public classLevelFromNumber(number: number): ClassLevel {

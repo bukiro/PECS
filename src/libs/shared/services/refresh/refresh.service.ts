@@ -24,6 +24,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { CharacterLanguagesService } from '../character-languages/character-languages.service';
 
 interface DetailToChange {
     creature: CreatureTypes | '';
@@ -48,6 +49,8 @@ export class RefreshService {
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _characterService: CharacterService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _characterLanguagesService: CharacterLanguagesService,
+
     ) {
         //Prepare the update variables that everything subscribes to.
         this._componentChanged$ = this._componentChanged.asObservable();
@@ -174,7 +177,7 @@ export class RefreshService {
 
         if (ability === 'Intelligence') {
             this.prepareDetailToChange(CreatureTypes.Character, 'skillchoices');
-            this._characterService.updateLanguageList();
+            this._characterLanguagesService.updateLanguageList();
         }
     }
 

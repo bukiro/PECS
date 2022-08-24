@@ -45,6 +45,7 @@ import { ItemsDataService } from 'src/app/core/services/data/items-data.service'
 import { ItemPropertiesDataService } from 'src/app/core/services/data/item-properties-data.service';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -110,6 +111,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _equipmentPropertiesService: EquipmentPropertiesService,
         private readonly _itemPriceService: ItemPriceService,
         private readonly _menuService: MenuService,
+        private readonly _inventoryService: InventoryService,
         public trackers: Trackers,
     ) { }
 
@@ -385,7 +387,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
         const target: Creature = this._characterService.creatureFromType(creature);
 
-        this._characterService.grantInventoryItem(
+        this._inventoryService.grantInventoryItem(
             item,
             { creature: target, inventory: target.inventories[0], amount },
             { resetRunes: false },
@@ -708,7 +710,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         const casting = this.scrollSavantSpellCasting();
         const tempInv = new ItemCollection();
         const newScroll =
-            this._characterService.grantInventoryItem(
+            this._inventoryService.grantInventoryItem(
                 scroll,
                 { creature: this._characterService.character, inventory: tempInv, amount: 1 },
                 { resetRunes: false, changeAfter: false, equipAfter: false },

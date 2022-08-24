@@ -16,6 +16,8 @@ import { FeatTakingService } from 'src/app/character-creation/services/feat-taki
 import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +29,8 @@ export class CharacterPatchingService {
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterService: CharacterService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _deitiesDataService: DeitiesDataService,
+        private readonly _inventoryService: InventoryService,
     ) { }
 
     public patchPartialCharacter(character: Character): void {
@@ -411,7 +415,7 @@ export class CharacterPatchingService {
                         }
 
                         if (character.class.deity) {
-                            if (this._characterService.deities(character.class.deity)[0]?.divineFont.length === 1) {
+                            if (this._deitiesDataService.deities(character.class.deity)[0]?.divineFont.length === 1) {
                                 taken.automatic = true;
                             }
                         }
@@ -837,10 +841,10 @@ export class CharacterPatchingService {
             creatures.forEach(creature => {
                 creature?.inventories?.forEach(inventory => {
                     inventory.armors.filter(armor => mageArmorIDs.includes(armor.refId)).forEach(armor => {
-                        this._characterService.dropInventoryItem(creature, inventory, armor, false, true);
+                        this._inventoryService.dropInventoryItem(creature, inventory, armor, false, true);
                     });
                     inventory.shields.filter(shield => shieldIDs.includes(shield.refId)).forEach(shield => {
-                        this._characterService.dropInventoryItem(creature, inventory, shield, false, true);
+                        this._inventoryService.dropInventoryItem(creature, inventory, shield, false, true);
                     });
                 });
             });

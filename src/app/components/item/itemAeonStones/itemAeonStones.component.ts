@@ -9,6 +9,7 @@ import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 
 interface AeonStoneSet {
     aeonStone: WornItem;
@@ -36,6 +37,7 @@ export class ItemAeonStonesComponent implements OnInit {
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _durationsService: DurationsService,
+        private readonly _inventoryService: InventoryService,
         public trackers: Trackers,
     ) { }
 
@@ -62,7 +64,7 @@ export class ItemAeonStonesComponent implements OnInit {
     }
 
     public inventoryName(inventory: ItemCollection): string {
-        return this._inventoryPropertiesService.effectiveName(inventory);
+        return this._inventoryPropertiesService.effectiveName(inventory, this._character);
     }
 
     public initialAeonStones(index: number): Array<AeonStoneSet> {
@@ -135,7 +137,7 @@ export class ItemAeonStonesComponent implements OnInit {
                 // If we are not in the item store, remove the inserted Aeon Stone from the inventory,
                 // either by decreasing the amount or by dropping the item.
                 if (!this.itemStore) {
-                    this._characterService.dropInventoryItem(this._character, inv, stone, false, false, false, 1);
+                    this._inventoryService.dropInventoryItem(this._character, inv, stone, false, false, false, 1);
                 }
             }
         }
@@ -167,7 +169,7 @@ export class ItemAeonStonesComponent implements OnInit {
         oldStone.isSlottedAeonStone = false;
         this._prepareChanges(oldStone);
         //Add the extracted stone back to the inventory.
-        this._characterService.grantInventoryItem(
+        this._inventoryService.grantInventoryItem(
             oldStone,
             { creature: character, inventory: character.inventories[0] },
             { resetRunes: false, changeAfter: false, equipAfter: false },

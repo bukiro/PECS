@@ -33,6 +33,8 @@ export class ItemCollection {
     //This is the amount of bulk that can be ignored when weighing this inventory.
     public bulkReduction = 0;
     public id = uuidv4();
+    //Has this inventory been changed since initialization?
+    public touched = false;
     //If an item grants an inventory, this is the item's ID.
     public itemId = '';
     public adventuringgear: Array<AdventuringGear> = [];

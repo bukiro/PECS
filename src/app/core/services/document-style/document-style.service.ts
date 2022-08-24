@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CharacterService } from 'src/app/services/character.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { SettingsService } from '../settings/settings.service';
 
 @Injectable({
     providedIn: 'root',
@@ -9,6 +10,7 @@ export class DocumentStyleService {
 
     constructor(
         private readonly _characterService: CharacterService,
+        private readonly _settingsService: SettingsService,
     ) { }
 
     public setAccent(): void {
@@ -16,7 +18,7 @@ export class DocumentStyleService {
     }
 
     public setDarkmode(): void {
-        if (this._characterService.isDarkmode) {
+        if (this._settingsService.isDarkmode) {
             document.body.classList.add('darkmode');
         } else {
             document.body.classList.remove('darkmode');

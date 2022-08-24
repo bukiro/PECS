@@ -14,6 +14,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health/health.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 @Component({
     selector: 'app-health',
@@ -47,6 +48,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _healthService: HealthService,
         private readonly _timeBlockingService: TimeBlockingService,
+        private readonly _settingsService: SettingsService,
         public trackers: Trackers,
     ) { }
 
@@ -70,7 +72,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode;
+        return this._settingsService.isManualMode;
     }
 
     private get _currentCreature(): Creature {
@@ -108,7 +110,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         const calculatedHealth = this._healthService.calculate(this.creatureHealth(), this._currentCreature);
 
         //Don't do anything about your dying status in manual mode.
-        if (!this._characterService.isManualMode) {
+        if (!this._settingsService.isManualMode) {
             if (calculatedHealth.dying >= calculatedHealth.maxDying) {
                 if (
                     this._creatureConditionsService

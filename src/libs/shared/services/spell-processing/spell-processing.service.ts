@@ -17,6 +17,7 @@ import { SpellTargetSelection } from '../../definitions/Types/spellTargetSelecti
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { SpellTargetService } from '../spell-target/spell-target.service';
 import { SpellActivityProcessingSharedService } from '../spell-activity-processing-shared/spell-activity-processing-shared.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 @Injectable({
     providedIn: 'root',
@@ -32,6 +33,7 @@ export class SpellProcessingService {
         private readonly _characterService: CharacterService,
         private readonly _spellTargetService: SpellTargetService,
         private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
+        private readonly _settingsService: SettingsService,
     ) { }
 
     public processSpell(
@@ -95,7 +97,7 @@ export class SpellProcessingService {
 
 
         //Apply conditions unless in manual mode or if the spell was only expended.
-        if (!options.expendOnly && !this._characterService.isManualMode) {
+        if (!options.expendOnly && !this._settingsService.isManualMode) {
 
             //Find out who needs to gain or lose conditions. If no targets are set, conditions will not be applied.
             const targets = this._spellTargetService.determineTargetsFromSpellTarget(context.target, context);

@@ -9,6 +9,9 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { ItemBulkService } from '../item-bulk/item-bulk.service';
+import { InventoryItemProcessingService } from '../inventory-item-processing/inventory-item-processing.service';
+import { InventoryService } from '../inventory/inventory.service';
+import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 
 @Injectable({
     providedIn: 'root',
@@ -20,6 +23,9 @@ export class ItemTransferService {
         private readonly _characterService: CharacterService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _itemBulkService: ItemBulkService,
+        private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
+        private readonly _inventoryService: InventoryService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
     ) { }
 
     public updateGrantingItemBeforeTransfer(creature: Creature, item: Item): void {
@@ -125,7 +131,7 @@ export class ItemTransferService {
             // Remove the primary item from the items list as well.
             items
                 .filter(collectedItem =>
-                    inventories.some(inv => inv[collectedItem.type].some(invItem => invItem.id === collectedItem.id)))
+                    inventories.some(inv => inv[collectedItem.type].some((invItem: Item) => invItem.id === collectedItem.id)))
                 .forEach(collectedItem => {
                     collectedItem.id = 'DELETE';
                 });
@@ -133,8 +139,8 @@ export class ItemTransferService {
 
             // If the primary item is in one of the inventories, remove it from inventory.
             // It will be moved to the main inventory of the target creature instead.
-            inventories.filter(inv => inv[primaryItem.type].some(invItem => invItem.id === primaryItem.id)).forEach(inv => {
-                inv[primaryItem.type] = inv[primaryItem.type].filter(invItem => invItem.id !== primaryItem.id);
+            inventories.filter(inv => inv[primaryItem.type].some((invItem: Item) => invItem.id === primaryItem.id)).forEach(inv => {
+                inv[primaryItem.type] = inv[primaryItem.type].filter((invItem: Item) => invItem.id !== primaryItem.id);
             });
         }
 
@@ -206,7 +212,7 @@ export class ItemTransferService {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
 
             //Only move the item locally if the item still exists in the inventory.
-            if (inventory?.[item.type]?.some(invItem => invItem === item)) {
+            if (inventory?.[item.type]?.some((invItem: Item) => invItem === item)) {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 //The item does need to be copied so we don't just move a reference.
@@ -234,18 +240,21 @@ export class ItemTransferService {
                     item.amount -= amount;
                 }
 
-                if (movedItem instanceof Equipment && movedItem.equipped) {
-                    this._characterService.equipItem(creature, inventory, movedItem as Equipment, false);
+                if (movedItem.isEquipment() && movedItem.equipped) {
+                    this._creatureEquipmentService.equipItem(creature, inventory, movedItem, false);
                 }
 
-                if (movedItem instanceof Equipment && movedItem.invested) {
-                    this._characterService.investItem(creature, inventory, movedItem as Equipment, false);
+                if (movedItem.isEquipment() && movedItem.invested) {
+                    this._creatureEquipmentService.investItem(creature, inventory, movedItem, false);
                 }
 
                 //Move all granted items as well.
                 if (including) {
                     this._moveItemsGrantedByThisItem(creature, movedItem, targetInventory, inventory);
                 }
+
+                inventory.touched = true;
+                targetInventory.touched = true;
 
                 this._refreshService.prepareChangesByItem(creature, movedItem);
             }
@@ -286,7 +295,7 @@ export class ItemTransferService {
                     const newLength = targetInventory[includedItem.type].push(movedItem);
                     const newItem = targetInventory[includedItem.type][newLength - 1];
 
-                    this._characterService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
+                    this._inventoryItemProcessingService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
                 }
             });
             //Add included inventories and process all items inside them.
@@ -295,13 +304,13 @@ export class ItemTransferService {
                 const newInventory = toCreature.inventories[newLength - 1];
 
                 newInventory.allItems().forEach(invItem => {
-                    this._characterService.processGrantedItem(toCreature, invItem, newInventory, true, false, true, true);
+                    this._inventoryItemProcessingService.processGrantedItem(toCreature, invItem, newInventory, true, false, true, true);
                 });
             });
 
             //If the item still exists on the inventory, drop it with all its contents.
             if (inventory?.[item.type]?.some(invItem => invItem === item)) {
-                this._characterService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
+                this._inventoryService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
             }
 
             this._refreshService.prepareDetailToChange(toCreature.type, 'inventory');

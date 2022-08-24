@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Health } from 'src/app/classes/Health';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -27,6 +28,7 @@ export class HealthService {
         private readonly _refreshService: RefreshService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _settingsService: SettingsService,
     ) { }
 
     public calculate(health: Health, creature: Creature): CalculatedHealth {
@@ -149,7 +151,7 @@ export class HealthService {
         let hasRemovedUnconscious = false;
 
         //Don't process conditions in manual mode.
-        if (!this._characterService.isManualMode) {
+        if (!this._settingsService.isManualMode) {
             //Then, if you have reached 0 HP with lethal damage, get dying 1+wounded
             //Dying and maxDying are compared in the Conditions service when Dying is added
             if (!nonlethal && currentHP === 0) {
@@ -220,7 +222,7 @@ export class HealthService {
         let hasRemovedUnconscious = false;
 
         //Don't process conditions in manual mode.
-        if (!this._characterService.isManualMode) {
+        if (!this._settingsService.isManualMode) {
             //Recover from Dying and get Wounded++
             if (this.currentHP(health, creature).result > 0 && dying > 0) {
                 this._creatureConditionsService

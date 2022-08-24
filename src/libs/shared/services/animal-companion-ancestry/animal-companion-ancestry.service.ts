@@ -5,6 +5,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
+import { InventoryService } from '../inventory/inventory.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
 
 @Injectable({
@@ -16,6 +17,7 @@ export class AnimalCompanionAncestryService {
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _characterService: CharacterService,
         private readonly _itemGrantingService: ItemGrantingService,
+        private readonly _inventoryService: InventoryService,
     ) { }
 
     public restoreAncestryFromSave(ancestry: AnimalCompanionAncestry): AnimalCompanionAncestry {
@@ -79,7 +81,7 @@ export class AnimalCompanionAncestryService {
                             .filter((item: Equipment) => item.id === freeItem.grantedItemID);
 
                     items.forEach(item => {
-                        this._characterService.dropInventoryItem(
+                        this._inventoryService.dropInventoryItem(
                             companion,
                             companion.inventories[0],
                             item,

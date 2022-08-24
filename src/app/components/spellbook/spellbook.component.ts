@@ -35,6 +35,7 @@ import { SpellsDataService } from 'src/app/core/services/data/spells-data.servic
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -120,6 +121,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _durationsService: DurationsService,
         private readonly _menuService: MenuService,
+        private readonly _settingsService: SettingsService,
         public trackers: Trackers,
     ) { }
 
@@ -132,7 +134,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode;
+        return this._settingsService.isManualMode;
     }
 
     public get stillLoading(): boolean {

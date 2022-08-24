@@ -80,6 +80,8 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { AppStateService } from 'src/app/core/services/app-state/app-state.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -151,6 +153,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _appStateService: AppStateService,
         private readonly _menuService: MenuService,
+        private readonly _settingsService: SettingsService,
+        private readonly _itemsDataService: ItemsDataService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -164,7 +168,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public get isGMMode(): boolean {
-        return this._characterService.isGMMode;
+        return this._settingsService.isGMMode;
     }
 
     public get isTileMode(): boolean {
@@ -472,7 +476,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public isBlankCharacter(): boolean {
-        return this._characterService.isBlankCharacter();
+        return this.character.isBlankCharacter();
     }
 
     public alignments(): Array<string> {
@@ -1053,7 +1057,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public blessedBloodDeitySpells(): Array<Spell> {
-        const deity = this._characterService.currentCharacterDeities(this.character)[0];
+        const deity = this._characterDeitiesService.currentCharacterDeities(this.character)[0];
 
         if (deity) {
             return deity.clericSpells
@@ -1107,7 +1111,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
 
         if (deityName) {
-            const deity = this._characterService.deities(deityName)[0];
+            const deity = this._deitiesDataService.deities(deityName)[0];
 
             if (deity) {
                 return ([] as Array<{ title: string; type: number; domain: Domain }>)
@@ -1168,7 +1172,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 const deityName = this.character.class.deity;
 
                 if (deityName) {
-                    const deity = this._characterService.deities(deityName)[0];
+                    const deity = this._deitiesDataService.deities(deityName)[0];
 
                     if (deity) {
                         deity.clearTemporaryDomains();
@@ -1181,7 +1185,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 const deityName = this.character.class.deity;
 
                 if (deityName) {
-                    const deity = this._characterService.deities(deityName)[0];
+                    const deity = this._deitiesDataService.deities(deityName)[0];
 
                     if (deity) {
                         deity.clearTemporaryDomains();
@@ -1479,7 +1483,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public availableDeities(name = '', filterForSyncretism = false, charLevel: number = this.character.level): Array<Deity> {
         const character = this.character;
-        const currentDeities = this._characterService.currentCharacterDeities(character, '', charLevel);
+        const currentDeities = this._characterDeitiesService.currentCharacterDeities(character, '', charLevel);
         const shouldShowOtherOptions = this.character.settings.showOtherOptions;
         const wordFilter = this.deityWordFilter.toLowerCase();
 
@@ -1528,9 +1532,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (isChecked) {
             if (this.character.settings.autoCloseChoices) { this.toggleShownList(); }
 
-            this._characterService.changeDeity(deity);
+            this._characterDeitiesService.changeDeity(deity);
         } else {
-            this._characterService.changeDeity(new Deity());
+            this._characterDeitiesService.changeDeity(new Deity());
         }
 
         this._refreshService.processPreparedChanges();
@@ -1793,7 +1797,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             .filter(gain => !gain.type || gain.type === 'weapons')
             .map(gain =>
                 //This is a simplified version of the method in ItemGain. It can't find "special" ItemGains, which aren't needed here.
-                this._characterService.cleanItems().weapons.find(weapon => gain.isMatchingItem(weapon)),
+                this._itemsDataService.cleanItems().weapons.find(weapon => gain.isMatchingItem(weapon)),
             );
     }
 

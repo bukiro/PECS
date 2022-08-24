@@ -4,6 +4,7 @@ import { Shield } from 'src/app/classes/Shield';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
+import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +14,7 @@ export class ShieldPropertiesService {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
     ) { }
 
     public updateModifiers(shield: Shield, creature: Creature): void {
@@ -59,7 +61,7 @@ export class ShieldPropertiesService {
                 ea.emblazonDivinity ||
                 (
                     creature.isCharacter() &&
-                    this._characterService
+                    this._characterDeitiesService
                         .currentCharacterDeities(creature)
                         .some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
                 )

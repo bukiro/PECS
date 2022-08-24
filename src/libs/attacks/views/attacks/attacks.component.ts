@@ -42,6 +42,8 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -82,6 +84,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _settingsService: SettingsService,
+        private readonly _inventoryService: InventoryService,
         public trackers: Trackers,
     ) { }
 
@@ -92,7 +96,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     public get isManualMode(): boolean {
-        return this._characterService.isManualMode;
+        return this._settingsService.isManualMode;
     }
 
     public get stillLoading(): boolean {
@@ -268,7 +272,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             this._refreshService.prepareDetailToChange(this.creature, 'attacks');
             this._refreshService.processPreparedChanges();
         } else {
-            this._characterService.dropInventoryItem(this._currentCreature, inv, item, true);
+            this._inventoryService.dropInventoryItem(this._currentCreature, inv, item, true);
         }
     }
 
@@ -643,7 +647,10 @@ export class AttacksComponent implements OnInit, OnDestroy {
             }
 
             if (this._characterService.characterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
-                favoredWeapons.push(...this._characterService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon || []);
+                favoredWeapons.push(
+                    ...this._characterDeitiesService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon ||
+                    [],
+                );
             }
 
             return favoredWeapons;

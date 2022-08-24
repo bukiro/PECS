@@ -5,6 +5,8 @@ import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Item } from './Item';
 import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Equipment } from './Equipment';
+import { Rune } from './Rune';
 
 export class Oil extends Consumable {
     //Oils should be type "oils" to be found in the database
@@ -47,6 +49,8 @@ export class Oil extends Consumable {
 
         return this;
     }
+
+    public hasHints(): this is Equipment | Rune | Oil { return true; }
 
     public clone(itemsDataService: ItemsDataService): Oil {
         return Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);

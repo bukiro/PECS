@@ -10,6 +10,7 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 
 const emblazonArmament = 'emblazonArmament';
 const emblazonEnergy = 'emblazonEnergy';
@@ -51,6 +52,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
         public trackers: Trackers,
     ) { }
 
@@ -127,7 +129,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         switch (type) {
             case emblazonArmament:
                 if (this.emblazonArmamentActivated) {
-                    const deity = this._characterService.currentCharacterDeities(character)[0];
+                    const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
 
                     this.item.emblazonArmament = [{
                         type,
@@ -157,7 +159,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 break;
             case emblazonEnergy:
                 if (this.emblazonEnergyActivated) {
-                    const deity = this._characterService.currentCharacterDeities(character)[0];
+                    const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
 
                     this.item.emblazonArmament = [{
                         type,
@@ -230,7 +232,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 break;
             case emblazonAntimagic:
                 if (this.emblazonAntimagicActivated) {
-                    const deity = this._characterService.currentCharacterDeities(character)[0];
+                    const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
 
                     this.item.emblazonArmament = [{
                         type,

@@ -22,6 +22,7 @@ import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { attackRuneSource } from '../../util/attackRuneSource';
 import { DamageResult } from '../attacks/attacks.service';
+import { ItemSpecializationsDataService } from 'src/app/core/services/data/item-specializations-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -35,6 +36,7 @@ export class DamageService {
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsDataService: TraitsDataService,
+        private readonly _itemSpecializationsDataService: ItemSpecializationsDataService,
     ) { }
 
     /**
@@ -684,7 +686,7 @@ export class DamageService {
                 });
             SpecializationGains.forEach(critSpec => {
                 const specs: Array<Specialization> =
-                    this._characterService.itemGroupSpecializations(weapon.group)
+                    this._itemSpecializationsDataService.specializations(weapon.group)
                         .map(spec => Object.assign(new Specialization(), spec).recast());
 
                 specs.forEach(spec => {

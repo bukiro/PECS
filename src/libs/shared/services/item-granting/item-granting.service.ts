@@ -8,6 +8,8 @@ import { Weapon } from 'src/app/classes/Weapon';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
+import { CharacterDeitiesService } from '../character-deities/character-deities.service';
+import { InventoryService } from '../inventory/inventory.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,6 +20,8 @@ export class ItemGrantingService {
         private readonly _characterService: CharacterService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _toastService: ToastService,
+        private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _inventoryService: InventoryService,
     ) { }
 
     public grantGrantedItem(
@@ -41,7 +45,7 @@ export class ItemGrantingService {
                 if (newItem.canStack()) {
                     //For stackables, add the appropriate amount and don't track them.
                     const grantedItem =
-                        this._characterService.grantInventoryItem(
+                        this._inventoryService.grantInventoryItem(
                             newItem,
                             {
                                 creature,
@@ -75,7 +79,7 @@ export class ItemGrantingService {
                     }
 
                     const grantedItem =
-                        this._characterService.grantInventoryItem(
+                        this._inventoryService.grantInventoryItem(
                             newItem,
                             {
                                 creature,
@@ -160,7 +164,7 @@ export class ItemGrantingService {
                                 const amountToRemove = Math.min(remainingAmount, item.amount);
 
                                 remainingAmount -= amountToRemove;
-                                this._characterService.dropInventoryItem(creature, inv, item, false, true, true, amountToRemove, true);
+                                this._inventoryService.dropInventoryItem(creature, inv, item, false, true, true, amountToRemove, true);
 
                                 if (remainingAmount <= 0) {
                                     hasUsedAmount = true;
@@ -179,11 +183,11 @@ export class ItemGrantingService {
         context: { sourceName?: string; grantingItem?: Item } = {},
     ): void {
         const character = this._characterService.character;
-        const deities = this._characterService.currentCharacterDeities(character);
+        const deities = this._characterDeitiesService.currentCharacterDeities(character);
 
         if (deities.length) {
             const favoredWeaponNames: Array<string> = [];
-            const deity = this._characterService.currentCharacterDeities(character)[0];
+            const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
 
             if (deity && deity.favoredWeapon.length) {
                 favoredWeaponNames.push(...deity.favoredWeapon);
@@ -198,7 +202,7 @@ export class ItemGrantingService {
             ) {
                 favoredWeaponNames.push(
                     ...(
-                        this._characterService.currentCharacterDeities(character, 'syncretism')[0]?.favoredWeapon ||
+                        this._characterDeitiesService.currentCharacterDeities(character, 'syncretism')[0]?.favoredWeapon ||
                         []
                     ),
                 );

@@ -199,7 +199,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
         if (shield.currentHitPoints() < shield.effectiveBrokenThreshold()) {
             shield.broken = true;
-            this._characterService.equipItem(
+            this._creatureEquipmentService.equipItem(
                 this._currentCreature as Character | AnimalCompanion,
                 this._currentCreature.inventories[0],
                 shield,

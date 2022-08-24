@@ -13,6 +13,7 @@ import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +27,7 @@ export class ItemsTimeService {
         private readonly _characterService: CharacterService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _creatureFeatsService: CreatureFeatsService,
+        private readonly _inventoryService: InventoryService,
     ) { }
 
     public restItems(creature: Creature): void {
@@ -34,7 +36,7 @@ export class ItemsTimeService {
 
             //TO-DO: Verify that this still works without the while loop.
             itemsToDrop.forEach(item => {
-                this._characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
+                this._inventoryService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
             this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
@@ -56,7 +58,7 @@ export class ItemsTimeService {
             if (this._characterService.characterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
                 creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
-                        this._characterService.grantInventoryItem(
+                        this._inventoryService.grantInventoryItem(
                             scroll,
                             { creature, inventory: creature.inventories[0] },
                             { resetRunes: false, changeAfter: false, equipAfter: false },
@@ -122,7 +124,7 @@ export class ItemsTimeService {
             const itemsToDrop = inv.allItems().filter(item => item.expiration === TimePeriods.UntilRefocus);
 
             itemsToDrop.forEach(item => {
-                this._characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
+                this._inventoryService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
             this._refreshService.prepareDetailToChange(creature.type, 'inventory');
         });
@@ -181,7 +183,7 @@ export class ItemsTimeService {
             });
 
             itemsToDrop.forEach(item => {
-                this._characterService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
+                this._inventoryService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
             this._refreshService.prepareDetailToChange(creature.type, 'inventory');
 
