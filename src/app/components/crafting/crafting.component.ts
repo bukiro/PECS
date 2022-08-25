@@ -232,21 +232,21 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
         if (
             item.traits.includes('Alchemical') &&
-            !this._characterService.characterHasFeat('Alchemical Crafting')
+            !this._characterFeatsService.characterHasFeat('Alchemical Crafting')
         ) {
             reasons.push('You need the Alchemical Crafting skill feat to create alchemical items.');
         }
 
         if (
             item.traits.includes('Magical') &&
-            !this._characterService.characterHasFeat('Magical Crafting')
+            !this._characterFeatsService.characterHasFeat('Magical Crafting')
         ) {
             reasons.push('You need the Magical Crafting skill feat to create magic items.');
         }
 
         if (
             item.traits.includes('Snare') &&
-            !this._characterService.characterHasFeat('Snare Crafting')
+            !this._characterFeatsService.characterHasFeat('Snare Crafting')
         ) {
             reasons.push('You need the Snare Crafting skill feat to create snares.');
         }
@@ -285,7 +285,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     public snareSpecialistParameters(snares: Array<Snare>): { available: number; prepared: number; snares: Array<Snare> } {
-        if (this._characterHasFeat('Snare Specialist')) {
+        if (this._characterFeatsService._characterHasFeat('Snare Specialist')) {
             const prepared: number = this._learnedFormulas().reduce((sum, current) => sum + current.snareSpecialistPrepared, 0);
             let available = 0;
             const character = this._character;
@@ -306,7 +306,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
                 default: break;
             }
 
-            if (this._characterHasFeat('Ubiquitous Snares')) {
+            if (this._characterFeatsService._characterHasFeat('Ubiquitous Snares')) {
                 available *= ubiquitousSnaresMultiplier;
             }
 
@@ -390,9 +390,5 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
     private _learnedFormulas(id = '', source = ''): Array<FormulaLearned> {
         return this._character.class.learnedFormulas(id, source);
-    }
-
-    private _characterHasFeat(name: string): boolean {
-        return this._characterService.characterHasFeat(name);
     }
 }

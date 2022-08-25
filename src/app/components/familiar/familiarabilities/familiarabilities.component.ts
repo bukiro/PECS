@@ -5,6 +5,7 @@ import { Familiar } from 'src/app/classes/Familiar';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Component({
     selector: 'app-familiarabilities',
@@ -23,6 +24,7 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
 
     public get character(): Character {
@@ -30,7 +32,7 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
     }
 
     public get isFamiliarAvailable(): boolean {
-        return this._characterService.isFamiliarAvailable();
+        return this._creatureAvailabilityService.isFamiliarAvailable();
     }
 
     public get familiar(): Familiar {

@@ -10,6 +10,7 @@ import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;
@@ -26,6 +27,7 @@ export class CreatureEffectsGenerationService {
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public creatureEffectsGenerationObjects(creature: Creature): CreatureEffectsGenerationObjects {
@@ -70,9 +72,9 @@ export class CreatureEffectsGenerationService {
         const feats: Array<Feat> = [];
         const hintSets: Array<HintEffectsObject> = [];
 
-        this._characterService.characterFeatsTaken(0, character.level)
+        this._characterFeatsService.characterFeatsTaken(0, character.level)
             .map(gain => this._characterService.featsAndFeatures(gain.name)[0])
-            .filter(feat => feat && this._characterService.characterHasFeat(feat.name))
+            .filter(feat => feat && this._characterFeatsService.characterHasFeat(feat.name))
             .forEach(feat => {
                 feats.push(feat);
                 feat.hints?.forEach(hint => {

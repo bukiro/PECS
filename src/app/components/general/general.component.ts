@@ -23,6 +23,7 @@ import { DeityDomainsService } from 'src/libs/shared/services/deity-domains/deit
 import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Component({
     selector: 'app-general',
@@ -55,6 +56,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         private readonly _deityDomainsService: DeityDomainsService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
         public trackers: Trackers,
     ) { }
 
@@ -139,10 +141,10 @@ export class GeneralComponent implements OnInit, OnDestroy {
             const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
 
             if (deity) {
-                const domainFeats = this._characterService.characterFeatsAndFeatures()
+                const domainFeats = this._characterFeatsService.characterFeatsAndFeatures()
                     .filter(feat =>
                         feat.gainDomains?.length &&
-                        this._characterService.characterHasFeat(feat.name),
+                        this._characterFeatsService.characterHasFeat(feat.name),
                     );
                 const domains = this._deityDomainsService.effectiveDomains(deity, character)
                     .concat(...(domainFeats.map(feat => feat.gainDomains)));
@@ -158,8 +160,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     public tenets(): Array<string> {
         //Collect tenets from all feats and features you have that include them.
-        return [].concat(...this._characterService.characterFeatsAndFeatures()
-            .filter(feat => feat.tenets?.length && this._characterService.characterHasFeat(feat.name))
+        return [].concat(...this._characterFeatsService.characterFeatsAndFeatures()
+            .filter(feat => feat.tenets?.length && this._characterFeatsService.characterHasFeat(feat.name))
             .map(feat => feat.tenets),
         );
     }
@@ -198,8 +200,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
         }
 
         //Add anathema from all feats and features you have that include them.
-        return character.class.anathema.concat(...this._characterService.characterFeatsAndFeatures()
-            .filter(feat => feat.anathema?.length && this._characterService.characterHasFeat(feat.name))
+        return character.class.anathema.concat(...this._characterFeatsService.characterFeatsAndFeatures()
+            .filter(feat => feat.anathema?.length && this._characterFeatsService.characterHasFeat(feat.name))
             .map(feat => feat.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1))))
             .concat((deityAnathema));
     }
@@ -216,7 +218,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
     public differentWorldsData(): Array<FeatData> {
         const character = this.character;
 
-        if (this._characterService.characterFeatsTaken(1, character.level, { featName: 'Different Worlds' }).length) {
+        if (this._characterFeatsService.characterFeatsTaken(1, character.level, { featName: 'Different Worlds' }).length) {
             return character.class.filteredFeatData(0, character.level, 'Different Worlds');
         }
     }
@@ -272,7 +274,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         let traits: Array<string> = JSON.parse(JSON.stringify(character.class.ancestry.traits));
 
         //Verdant Metamorphosis adds the Plant trait and removes the Humanoid, Animal or Fungus trait.
-        if (this._characterService.characterFeatsTaken(1, character.level, { featName: 'Verdant Metamorphosis' }).length) {
+        if (this._characterFeatsService.characterFeatsTaken(1, character.level, { featName: 'Verdant Metamorphosis' }).length) {
             traits = ['Plant'].concat(traits.filter(trait => !['Humanoid', 'Animal', 'Fungus'].includes(trait)));
         }
 
@@ -314,10 +316,10 @@ export class GeneralComponent implements OnInit, OnDestroy {
     }
 
     private _archetypeFeats(): Array<Feat> {
-        return this._characterService.characterFeatsAndFeatures()
+        return this._characterFeatsService.characterFeatsAndFeatures()
             .filter(feat =>
                 feat.traits.includes('Dedication') &&
-                this._characterService.characterHasFeat(feat.name),
+                this._characterFeatsService.characterHasFeat(feat.name),
             );
     }
 

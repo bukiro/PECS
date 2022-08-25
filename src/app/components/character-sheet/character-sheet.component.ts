@@ -8,6 +8,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 const slideInOutTrigger = trigger('slideInOut', [
     state('in', style({
@@ -64,6 +65,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _menuService: MenuService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public trackers: Trackers,
     ) { }
 
@@ -192,11 +194,11 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     public companionAvailable(): boolean {
-        return this._characterService.isCompanionAvailable();
+        return this._creatureAvailabilityService.isCompanionAvailable();
     }
 
     public familiarAvailable(): boolean {
-        return this._characterService.isFamiliarAvailable();
+        return this._creatureAvailabilityService.isFamiliarAvailable();
     }
 
     public attacksAndSpellsOrder(fightingStyle: 'attacks' | 'spells'): number {

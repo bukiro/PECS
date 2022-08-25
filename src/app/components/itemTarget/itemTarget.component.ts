@@ -14,6 +14,7 @@ import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-p
 import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Component({
     selector: 'app-itemTarget',
@@ -44,6 +45,7 @@ export class ItemTargetComponent implements OnInit {
         private readonly _modalService: NgbModal,
         private readonly _itemTransferService: ItemTransferService,
         private readonly _settingsService: SettingsService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -91,7 +93,7 @@ export class ItemTargetComponent implements OnInit {
         targets.push(...creature.inventories.filter(inv => inv.itemId !== this.item.id));
 
         if (!this.excluding) {
-            this._characterService.allAvailableCreatures().filter(otherCreature => otherCreature !== creature)
+            this._creatureAvailabilityService.allAvailableCreatures().filter(otherCreature => otherCreature !== creature)
                 .forEach(otherCreature => {
                     targets.push(
                         Object.assign(

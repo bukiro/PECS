@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Creature } from 'src/app/classes/Creature';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,7 +14,7 @@ export class TimeBlockingService {
         private readonly _effectsService: CreatureEffectsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _characterService: CharacterService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
 
     public waitingDescription(
@@ -49,7 +49,7 @@ export class TimeBlockingService {
         const RestingBlockingEffectsActive = (creature: Creature): boolean =>
             this._effectsService.effectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
 
-        this._characterService.allAvailableCreatures().forEach(creature => {
+        this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
             if (AfflictionOnsetsWithinDuration(creature)) {
                 result =
                     `One or more conditions${ creature.isCharacter()

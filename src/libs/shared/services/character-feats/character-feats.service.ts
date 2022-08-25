@@ -3,7 +3,6 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { CharacterService } from 'src/app/services/character.service';
 import { Character } from 'src/app/classes/Character';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
-import { Creature } from 'src/app/classes/Creature';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 
 
@@ -38,7 +37,14 @@ export class CharacterFeatsService {
         });
     }
 
-    public characterFeats(customFeats: Array<Feat>, name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
+    public characterFeatsAndFeatures(
+        name = '',
+        type = '',
+        includeSubTypes = false,
+        includeCountAs = false,
+    ): Array<Feat> {
+        const customFeats = this._characterService.character.customFeats;
+
         // If a name is given and includeSubTypes and includeCountAs are false,
         // we can get the feat or feature from the customFeats or the map more quickly.
         if (name && !includeSubTypes && !includeCountAs) {
@@ -91,52 +97,47 @@ export class CharacterFeatsService {
     }
 
     public characterFeatsTaken(
-        minLevel = 0,
-        maxLevel = 0,
-        name = '',
-        source = '',
-        sourceId = '',
-        locked: boolean = undefined,
-        includeCountAs = false,
-        automatic: boolean = undefined,
-    ): Array<FeatTaken> {
-        return this.characterFeatsTakenWithLevel(
-            minLevel,
-            maxLevel,
-            name,
-            source,
-            sourceId,
-            locked,
-            includeCountAs,
-            automatic,
-        ).map(taken => taken.gain);
-    }
-
-    public have(
-        feat: Feat,
-        context: { creature: Creature },
-        filter: { charLevel?: number; minLevel?: number } = {},
+        minLevelNumber = 0,
+        maxLevelNumber?: number,
+        filter: { featName?: string; source?: string; sourceId?: string; locked?: boolean; automatic?: boolean } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
-    ): number {
-        if (this._characterService?.stillLoading) { return 0; }
-
+    ): Array<FeatTaken> {
         filter = {
-            charLevel: this._characterService.character.level,
-            minLevel: 1,
+            locked: undefined,
+            automatic: undefined,
             ...filter,
         };
 
-        if (context.creature.isCharacter()) {
-            return this._characterService.characterFeatsTaken(
-                filter.minLevel,
-                filter.charLevel,
-                { featName: feat.name },
-                options,
-            )?.length || 0;
-        } else if (context.creature.isFamiliar()) {
-            return context.creature.abilities.feats.filter(gain => gain.name.toLowerCase() === feat.name.toLowerCase())?.length || 0;
+        const character = this._characterService.character;
+
+        maxLevelNumber = maxLevelNumber || character.level;
+
+        // If the feat choice is not needed (i.e. if excludeTemporary is not given),
+        // we can get the taken feats quicker from the featsService.
+        // CharacterService.get_CharacterFeatsTaken should be preferred over Character.takenFeats for this reason.
+        if (!options.excludeTemporary) {
+            return this.characterFeatsTakenWithLevel(
+                minLevelNumber,
+                maxLevelNumber,
+                filter.featName,
+                filter.source,
+                filter.sourceId,
+                filter.locked,
+                options.includeCountAs,
+                filter.automatic,
+            ).map(taken => taken.gain);
         } else {
-            return 0;
+            return character.takenFeats(
+                minLevelNumber,
+                maxLevelNumber,
+                filter.featName,
+                filter.source,
+                filter.sourceId,
+                filter.locked,
+                options.excludeTemporary,
+                options.includeCountAs,
+                filter.automatic,
+            );
         }
     }
 
@@ -170,7 +171,7 @@ export class CharacterFeatsService {
             a.splice(a.indexOf(takenFeat), 1);
 
             //Remove a feat from the character feats only if it is no longer taken by the character on any level.
-            if (!this.characterFeatsTaken(0, 0, feat.name).length) {
+            if (!this.characterFeatsTaken(0, 0, { featName: feat.name }).length) {
                 if (this._$characterFeats.has(feat.name)) {
                     this._$characterFeats.delete(feat.name);
                 }
@@ -182,6 +183,14 @@ export class CharacterFeatsService {
         //Clear the character feats whenever a character is loaded.
         this._$characterFeats.clear();
         this._$characterFeatsTaken.length = 0;
+    }
+
+    public characterHasFeat(name: string, levelNumber?: number): boolean {
+        const character = this._characterService.character;
+
+        levelNumber = levelNumber || character.level;
+
+        return !!this.characterFeatsTaken(0, levelNumber, { featName: name }, { includeCountAs: true }).length;
     }
 
 }

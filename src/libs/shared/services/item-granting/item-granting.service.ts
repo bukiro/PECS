@@ -9,6 +9,7 @@ import { ItemsDataService } from 'src/app/core/services/data/items-data.service'
 import { CharacterService } from 'src/app/services/character.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { InventoryService } from '../inventory/inventory.service';
 
 @Injectable({
@@ -22,6 +23,7 @@ export class ItemGrantingService {
         private readonly _toastService: ToastService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _inventoryService: InventoryService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public grantGrantedItem(
@@ -194,7 +196,7 @@ export class ItemGrantingService {
             }
 
             if (
-                this._characterService.characterFeatsTaken(
+                this._characterFeatsService.characterFeatsTaken(
                     1,
                     creature.level,
                     { featName: 'Favored Weapon (Syncretism)' },

@@ -23,6 +23,7 @@ import { SpellLearningMethods } from 'src/libs/shared/definitions/spellLearningM
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 const itemsPerPage = 40;
 const showAllLists = -2;
@@ -64,6 +65,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         private readonly _traitsDataService: TraitsDataService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _menuService: MenuService,
+        private readonly _characterFeatsService: CharacterFeatsService,
         public trackers: Trackers,
     ) { }
 
@@ -217,7 +219,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public wizardSchool(): string {
-        return this._characterService
+        return this._characterFeatsService
             .characterFeatsTaken(1, this._character.level)
             .find(taken =>
                 [
@@ -789,7 +791,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     private _characterHasFeat(name: string): boolean {
-        return this._characterService.characterHasFeat(name);
+        return this._characterFeatsService.characterHasFeat(name);
     }
 
     private _isEsotericPolymathAllowedForTradition(tradition: SpellTraditions | ''): boolean {

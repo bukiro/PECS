@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Deity } from 'src/app/classes/Deity';
 import { CharacterService } from 'src/app/services/character.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -10,6 +11,7 @@ export class DeityDomainsService {
 
     constructor(
         private readonly _characterService: CharacterService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public effectiveDomains(deity: Deity, character: Character): Array<string> {
@@ -20,7 +22,7 @@ export class DeityDomainsService {
             if (character.class.deity === deity.name) {
                 // If you have taken the Splinter Faith feat, your domains are replaced.
                 // It's not necessary to filter by level, because Splinter Faith changes domains retroactively.
-                const splinterFaithFeat = this._characterService.characterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
+                const splinterFaithFeat = this._characterFeatsService.characterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
 
                 if (splinterFaithFeat) {
                     character.class.filteredFeatData(0, 0, 'Splinter Faith').forEach(data => {
@@ -54,7 +56,7 @@ export class DeityDomainsService {
             if (character.class.deity === deity.name) {
                 // If you have taken the Splinter Faith feat, your alternate domains are replaced.
                 // It's not necessary to filter by level, because Splinter Faith changes domains retroactively.
-                const splinterFaithFeat = this._characterService.characterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
+                const splinterFaithFeat = this._characterFeatsService.characterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
 
                 if (splinterFaithFeat) {
                     const splinterFaithDomains: Array<string> = []

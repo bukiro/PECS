@@ -5,6 +5,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,6 +16,7 @@ export class ShieldPropertiesService {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public updateModifiers(shield: Shield, creature: Creature): void {
@@ -37,7 +39,7 @@ export class ShieldPropertiesService {
 
     private _cacheEffectiveShoddy(shield: Shield, creature: Creature): void {
         //Shoddy items have a -2 penalty to AC, unless you have the Junk Tinker feat and have crafted the item yourself.
-        if (shield.shoddy && shield.crafted && creature.isCharacter() && this._characterService.characterHasFeat('Junk Tinker')) {
+        if (shield.shoddy && shield.crafted && creature.isCharacter() && this._characterFeatsService.characterHasFeat('Junk Tinker')) {
             shield.$shoddy = ShoddyPenalties.NotShoddy;
         } else if (shield.shoddy) {
             shield.$shoddy = ShoddyPenalties.Shoddy;
@@ -50,7 +52,7 @@ export class ShieldPropertiesService {
         shield.$shieldAlly =
             shield.equipped &&
             creature.isCharacter() &&
-            !!this._characterService.characterHasFeat('Divine Ally: Shield Ally');
+            !!this._characterFeatsService.characterHasFeat('Divine Ally: Shield Ally');
     }
 
     private _cacheEmblazonArmamentActive(shield: Shield, creature: Creature): void {

@@ -9,6 +9,7 @@ import { Character } from 'src/app/classes/Character';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Component({
     selector: 'app-animal-companion',
@@ -31,6 +32,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _menuService: MenuService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
 
     public get isMinimized(): boolean {
@@ -50,7 +52,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     public get isCompanionAvailable(): boolean {
-        return this._characterService.isCompanionAvailable();
+        return this._creatureAvailabilityService.isCompanionAvailable();
     }
 
     @HostListener('window:resize', ['$event'])

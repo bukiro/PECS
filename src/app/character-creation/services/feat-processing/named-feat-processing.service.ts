@@ -4,6 +4,7 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Feat } from '../../definitions/models/Feat';
@@ -19,6 +20,7 @@ export class NamedFeatProcessingService {
         private readonly _refreshService: RefreshService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public processNamedFeats(
@@ -126,7 +128,7 @@ export class NamedFeatProcessingService {
                     newSpellChoice.castingType = spellCasting.castingType;
                     newSpellChoice.source = `Feat: ${ feat.name }`;
 
-                    const familiarLevel = this._characterService.characterFeatsAndFeatures()
+                    const familiarLevel = this._characterFeatsService.characterFeatsAndFeatures()
                         .filter(characterFeat =>
                             characterFeat.gainFamiliar,
                             //TO-DO: Removed characterHasFeat() here, check if it still works.
@@ -170,7 +172,7 @@ export class NamedFeatProcessingService {
                     newSpellChoice.castingType = spellCasting.castingType;
                     newSpellChoice.source = `Feat: ${ feat.name }`;
 
-                    const familiarLevel = this._characterService.characterFeatsAndFeatures()
+                    const familiarLevel = this._characterFeatsService.characterFeatsAndFeatures()
                         .filter(characterFeat =>
                             characterFeat.gainFamiliar,
                             //TO-DO: Removed characterHasFeat() here, check if it still works.
@@ -207,7 +209,7 @@ export class NamedFeatProcessingService {
                     .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')
                     .forEach(casting => {
                         const superiorBond =
-                            this._characterService.characterHasFeat('Superior Bond') ? 1 : 0;
+                            this._characterFeatsService.characterHasFeat('Superior Bond') ? 1 : 0;
 
                         if (feat.name === 'Universalist Wizard') {
                             casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];

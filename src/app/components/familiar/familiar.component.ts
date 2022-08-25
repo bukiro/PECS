@@ -11,6 +11,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Component({
     selector: 'app-familiar',
@@ -34,6 +35,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _menuService: MenuService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -53,7 +55,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     public get isFamiliarAvailable(): boolean {
-        return this._characterService.isFamiliarAvailable();
+        return this._creatureAvailabilityService.isFamiliarAvailable();
     }
 
     public get familiar(): Familiar {

@@ -25,6 +25,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 interface SpellSet {
     spell: Spell;
@@ -120,6 +121,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
         public trackers: Trackers,
     ) { }
 
@@ -227,10 +229,10 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         ) {
             const signatureSpellGains: Array<SignatureSpellGain> = [];
 
-            this._characterService.characterFeatsAndFeatures()
+            this._characterFeatsService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.allowSignatureSpells.length &&
-                    this._characterService.characterHasFeat(feat.name),
+                    this._characterFeatsService.characterHasFeat(feat.name),
                 )
                 .forEach(feat => {
                     signatureSpellGains.push(...feat.allowSignatureSpells.filter(gain => gain.className === this.spellCasting.className));
@@ -1296,7 +1298,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     private _characterHasFeat(name: string): boolean {
-        return this._characterService.characterHasFeat(name);
+        return this._characterFeatsService.characterHasFeat(name);
     }
 
     private _dynamicSpellLevel(choice: SpellChoice = this.choice): number {
@@ -1314,7 +1316,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
 
         //Return number of times you have the feat. The number is needed for calculations; boolean is not enough.
         const Has_Feat = (name: string): number =>
-            this._characterService.characterFeatsTaken(0, this._character.level, { featName: name }, { includeCountAs: true }).length;
+            this._characterFeatsService.characterFeatsTaken(0, this._character.level, { featName: name }, { includeCountAs: true }).length;
         const Used_For_Spell_Blending = (): number => this._amountOfSlotsTradedInForSpellBlendingFromThis();
         const Used_For_Infinite_Possibilities = (): number => this._amountOfSlotsTradedInForInfinitePossibilitiesFromThis();
         /* eslint-enable @typescript-eslint/no-unused-vars */

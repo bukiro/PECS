@@ -7,6 +7,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -17,6 +18,7 @@ export class AnimalCompanionLevelsService {
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public restoreLevelsFromSave($class: AnimalCompanionClass): AnimalCompanionClass {
@@ -74,10 +76,10 @@ export class AnimalCompanionLevelsService {
             advancedLevel,
             Math.max(
                 1,
-                ...this._characterService.characterFeatsAndFeatures()
+                ...this._characterFeatsService.characterFeatsAndFeatures()
                     .filter(feat =>
                         feat.gainAnimalCompanion &&
-                        this._characterService.characterHasFeat(feat.name),
+                        this._characterFeatsService.characterHasFeat(feat.name),
                     )
                     .map(feat => {
                         switch (feat.gainAnimalCompanion) {

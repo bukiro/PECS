@@ -11,6 +11,8 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TimePeriods } from '../../definitions/timePeriods';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 
 @Injectable({
@@ -22,6 +24,8 @@ export class SpellActivityProcessingSharedService {
         private readonly _characterService: CharacterService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     /**
@@ -209,11 +213,11 @@ export class SpellActivityProcessingSharedService {
             // set the choice to that feat's subType as long as it's a valid choice for the condition.
             const subType =
                 (
-                    this._characterService
+                    this._characterFeatsService
                         .characterFeatsAndFeatures(newConditionGain.choiceBySubType, '', true, true)
                         .find(feat =>
                             feat.superType === newConditionGain.choiceBySubType &&
-                            this._characterService.characterHasFeat(feat.name),
+                            this._characterFeatsService.characterHasFeat(feat.name),
                         )
                 );
 
@@ -306,7 +310,7 @@ export class SpellActivityProcessingSharedService {
         });
 
         //Apply to any non-creature targets whose ID matches your own creatures.
-        const creatures = this._characterService.allAvailableCreatures();
+        const creatures = this._creatureAvailabilityService.allAvailableCreatures();
 
         conditionTargets
             .filter(target => target instanceof SpellTarget && creatures.some(listCreature => listCreature.id === target.id))

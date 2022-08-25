@@ -44,6 +44,7 @@ import { SpellProcessingService } from 'src/libs/shared/services/spell-processin
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -86,6 +87,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _settingsService: SettingsService,
         private readonly _inventoryService: InventoryService,
+        private readonly _characterFeatsService: CharacterFeatsService,
         public trackers: Trackers,
     ) { }
 
@@ -334,7 +336,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         if (
             weapon.traits.includes('Monk') &&
             this.creature === CreatureTypes.Character &&
-            this._characterService.characterFeatsTaken(0, this._character.level, { featName: 'Monastic Weaponry' })
+            this._characterFeatsService.characterFeatsTaken(0, this._character.level, { featName: 'Monastic Weaponry' })
         ) {
             specialNames.push('Unarmed Attacks');
         }
@@ -411,12 +413,12 @@ export class AttacksComponent implements OnInit, OnDestroy {
             creature === character ||
             (
                 creature.isAnimalCompanion() &&
-                this._characterService.characterHasFeat('Animal Companion (Ranger)')
+                this._characterFeatsService.characterHasFeat('Animal Companion (Ranger)')
             )
         ) {
             return (
                 (
-                    this._characterService.characterHasFeat('Flurry') &&
+                    this._characterFeatsService.characterHasFeat('Flurry') &&
                     hasCondition('Hunt Prey')
                 ) ||
                 hasCondition('Hunt Prey: Flurry')
@@ -646,7 +648,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                 favoredWeapons.push(...deity.favoredWeapon);
             }
 
-            if (this._characterService.characterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
+            if (this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
                 favoredWeapons.push(
                     ...this._characterDeitiesService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon ||
                     [],

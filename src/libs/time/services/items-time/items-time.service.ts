@@ -55,7 +55,7 @@ export class ItemsTimeService {
 
         if (creature.isCharacter()) {
             //If you have Scroll Savant, get a copy of each prepared scroll that lasts until the next rest.
-            if (this._characterService.characterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
+            if (this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Scroll Savant' }).length) {
                 creature.class.spellCasting.filter(casting => casting.scrollSavant.length).forEach(casting => {
                     casting.scrollSavant.forEach(scroll => {
                         this._inventoryService.grantInventoryItem(
@@ -68,7 +68,7 @@ export class ItemsTimeService {
             }
 
             //If you have Battleforger, all your battleforged items are reset.
-            if (this._characterService.characterHasFeat('Battleforger')) {
+            if (this._characterFeatsService.characterHasFeat('Battleforger')) {
                 let shouldAttacksRefresh = false;
                 let shouldDefenseRefresh = false;
 
@@ -106,7 +106,7 @@ export class ItemsTimeService {
             }
 
             //For feats that grant you an item on rest, grant these here and set an expiration until the next rest.
-            this._characterFeatsService.characterFeats(creature.customFeats)
+            this._characterFeatsService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.gainItems.some(gain => gain.on === 'rest') &&
                     this._creatureFeatsService.creatureHasFeat(feat, { creature }),

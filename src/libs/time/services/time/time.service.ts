@@ -19,6 +19,8 @@ import { ConditionsTimeService } from 'src/libs/time/services/conditions-time/co
 import { SpellsTimeService } from 'src/libs/time/services/spells-time/spells-time.service';
 import { AbilitiesDataService } from '../../../../app/core/services/data/abilities-data.service';
 import { ItemsTimeService } from '../items-time/items-time.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -43,6 +45,8 @@ export class TimeService {
         private readonly _spellsTimeService: SpellsTimeService,
         private readonly _characterService: CharacterService,
         private readonly _itemsTimeService: ItemsTimeService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -61,7 +65,7 @@ export class TimeService {
         const character = this._characterService.character;
 
         if (!character.settings.manualMode) {
-            this._characterService.allAvailableCreatures().forEach(creature => {
+            this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
 
                 this._effectsService.absoluteEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
                     fastHealing = parseInt(effect.setValue, 10);
@@ -111,7 +115,7 @@ export class TimeService {
         const charLevel: number = this._characterService.character.level;
 
         this.tick(TimePeriods.EightHours, false);
-        this._characterService.allAvailableCreatures().forEach(creature => {
+        this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
             this._refreshService.prepareDetailToChange(creature.type, 'health');
             this._refreshService.prepareDetailToChange(creature.type, 'effects');
 
@@ -180,9 +184,9 @@ export class TimeService {
                 character.class.spellCasting
                     .filter(casting => casting.castingType === 'Prepared' && casting.className === 'Wizard')
                     .forEach(casting => {
-                        const superiorBond = this._characterService.characterHasFeat('Superior Bond') ? 1 : 0;
+                        const superiorBond = this._characterFeatsService.characterHasFeat('Superior Bond') ? 1 : 0;
 
-                        if (this._characterService.characterHasFeat('Universalist Wizard')) {
+                        if (this._characterFeatsService.characterHasFeat('Universalist Wizard')) {
                             casting.bondedItemCharges = [superiorBond, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
                         } else {
                             casting.bondedItemCharges = [1 + superiorBond, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -206,7 +210,7 @@ export class TimeService {
         const character = this._characterService.character;
         const maximumFocusPoints = 3;
 
-        this._characterService.allAvailableCreatures().forEach(creature => {
+        this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
             //Reset all "until you refocus" activity cooldowns.
             this._activitiesTimeService.refocusActivities(creature);
             //Reset all conditions that are "until you refocus".
@@ -251,7 +255,7 @@ export class TimeService {
         turns = 10,
         reload = true,
     ): void {
-        this._characterService.allAvailableCreatures().forEach(creature => {
+        this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
             //If any conditions are currently stopping time, process these first before continuing with the rest.
             const timeStopDurations = creature.conditions
                 .filter(gain => gain.apply && this._conditionsDataService.conditionFromName(gain.name).isStoppingTime(gain))

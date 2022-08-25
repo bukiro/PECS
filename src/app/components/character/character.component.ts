@@ -82,6 +82,7 @@ import { AppStateService } from 'src/app/core/services/app-state/app-state.servi
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -155,6 +156,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _menuService: MenuService,
         private readonly _settingsService: SettingsService,
         private readonly _itemsDataService: ItemsDataService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -685,7 +687,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         ) {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
             //or if you have the cantrip connection or spell battery familiar ability.
-        } else if (this._characterService.isFamiliarAvailable()) {
+        } else if (this._creatureAvailabilityService.isFamiliarAvailable()) {
             this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
             this.familiar.abilities.feats.map(gain => this._familiarsDataService.familiarAbilities(gain.name)[0]).filter(feat => feat)
                 .forEach(feat => {
@@ -699,11 +701,11 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 });
         }
 
-        if (this._characterService.isCompanionAvailable()) {
+        if (this._creatureAvailabilityService.isCompanionAvailable()) {
             this._animalCompanionLevelsService.setLevel(this.companion);
         }
 
-        if (this._characterService.isFamiliarAvailable(newLevel)) {
+        if (this._creatureAvailabilityService.isFamiliarAvailable(newLevel)) {
             this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'featchoices');
         }
 
@@ -1039,7 +1041,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public characterFeatsAndFeatures(name = '', type = ''): Array<Feat> {
-        return this._characterFeatsService.characterFeats(this.character.customFeats, name, type);
+        return this._characterFeatsService.characterFeatsAndFeatures(name, type);
     }
 
     public activityFromName(name: string): Activity {
@@ -1047,13 +1049,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public differentWorldsData(levelNumber: number): Array<FeatData> {
-        if (this._characterService.characterHasFeat('Different Worlds', levelNumber)) {
+        if (this._characterFeatsService.characterHasFeat('Different Worlds', levelNumber)) {
             return this.character.class.filteredFeatData(levelNumber, levelNumber, 'Different Worlds');
         }
     }
 
     public isBlessedBloodAvailable(levelNumber: number): boolean {
-        return this._characterService.characterHasFeat('Blessed Blood', levelNumber);
+        return this._characterFeatsService.characterHasFeat('Blessed Blood', levelNumber);
     }
 
     public blessedBloodDeitySpells(): Array<Spell> {
@@ -1090,7 +1092,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public isSplinterFaithAvailable(levelNumber: number): boolean {
-        return this._characterService.characterHasFeat('Splinter Faith', levelNumber);
+        return this._characterFeatsService.characterHasFeat('Splinter Faith', levelNumber);
     }
 
     public splinterFaithDomains(): Readonly<Array<string>> {
@@ -1202,7 +1204,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         //Return all heritages you have gained on this specific level.
         return []
             .concat(
-                ...this._characterService.characterFeatsTaken(levelNumber, levelNumber)
+                ...this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
                     .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
                     .filter(feat =>
                         feat &&
@@ -1298,7 +1300,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public fuseStanceData(levelNumber: number): Array<FeatData> {
-        if (this._characterService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Fuse Stance' }).length) {
+        if (this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Fuse Stance' }).length) {
             return this.character.class.filteredFeatData(levelNumber, levelNumber, 'Fuse Stance');
         }
     }
@@ -1395,7 +1397,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public syncretismData(levelNumber: number): Array<FeatData> {
-        if (this._characterService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Syncretism' }).length) {
+        if (this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Syncretism' }).length) {
             return this.character.class.filteredFeatData(levelNumber, levelNumber, 'Syncretism');
         }
     }
@@ -1424,7 +1426,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     ): Array<FeatTaken> {
         const character = this.character;
 
-        return this._characterService.characterFeatsTaken(levelNumber, levelNumber, { locked: true, automatic: true })
+        return this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber, { locked: true, automatic: true })
             .filter(taken =>
                 (filter === 'feature') === (taken.isFeature(character.class.name)),
             );
@@ -1628,7 +1630,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public hasCompanionBecomeAvailableOnLevel(levelNumber: number): boolean {
         //Return whether you have taken a feat this level that granted you an animal companion.
-        return this._characterService.characterFeatsTaken(levelNumber, levelNumber)
+        return this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
             .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
             .some(feat => feat && feat.gainAnimalCompanion === 'Young');
     }
@@ -1706,7 +1708,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public companionSpecializationsAvailable(levelNumber: number): number {
         //Return how many feats you have taken this level that granted you an animal companion specialization.
-        return this._characterService.characterFeatsTaken(levelNumber, levelNumber)
+        return this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
             .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
             .filter(feat => feat && feat.gainAnimalCompanion === 'Specialized').length;
     }
@@ -1750,7 +1752,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public isFamiliarAvailableOnLevel(levelNumber: number): boolean {
         //Return whether you have taken a feat this level that granted you a familiar.
-        return this._characterService.characterFeatsTaken(levelNumber, levelNumber)
+        return this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
             .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
             .some(feat => feat && feat.gainFamiliar);
     }

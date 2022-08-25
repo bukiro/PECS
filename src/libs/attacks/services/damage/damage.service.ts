@@ -23,6 +23,7 @@ import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { attackRuneSource } from '../../util/attackRuneSource';
 import { DamageResult } from '../attacks/attacks.service';
 import { ItemSpecializationsDataService } from 'src/app/core/services/data/item-specializations-data.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -37,6 +38,7 @@ export class DamageService {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _itemSpecializationsDataService: ItemSpecializationsDataService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     /**
@@ -150,7 +152,7 @@ export class DamageService {
                 const character = this._characterService.character;
 
                 if (
-                    this._characterService.characterFeatsTaken(0, character.level, { featName: 'Diamond Fists' }).length &&
+                    this._characterFeatsService.characterFeatsTaken(0, character.level, { featName: 'Diamond Fists' }).length &&
                     weapon.traits.includes('Forceful')
                 ) {
                     calculatedRelativeDiceNumEffects.push(
@@ -197,7 +199,7 @@ export class DamageService {
                     ) ||
                     weapon.prof === WeaponProficiencies.Simple
                 ) &&
-                this._characterService.characterHasFeat('Deific Weapon')
+                this._characterFeatsService.characterHasFeat('Deific Weapon')
             ) {
                 if (this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) {
                     const newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
@@ -231,7 +233,7 @@ export class DamageService {
                     ) ||
                     weapon.prof === WeaponProficiencies.Simple
                 ) &&
-                this._characterService.characterHasFeat('Deadly Simplicity')
+                this._characterFeatsService.characterHasFeat('Deadly Simplicity')
             ) {
                 if (this._weaponPropertiesService.isFavoredWeapon(weapon, creature)) {
                     let newDicesize = Math.max(Math.min(dicesize + DiceSizeBaseStep, DiceSizes.D12), DiceSizes.D6);
@@ -341,7 +343,7 @@ export class DamageService {
                 //If the weapon is Finesse and you have the Thief Racket, you apply your Dexterity modifier to damage if it is higher.
                 if (traits.includes('Finesse') &&
                     creature.isCharacter() &&
-                    this._characterService.characterFeatsTaken(1, creature.level, { featName: 'Thief Racket' }).length) {
+                    this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Thief Racket' }).length) {
                     //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
                     //The Enfeebled condition affects all Strength damage
                     const strEffects = this._effectsService.relativeEffectsOnThis(creature, 'Strength-based Checks and DCs');
@@ -656,10 +658,10 @@ export class DamageService {
             const runeSource = attackRuneSource(weapon, creature, range);
             const skillLevel = this._weaponPropertiesService.profLevel(weapon, creature, runeSource.propertyRunes);
 
-            this._characterService.characterFeatsAndFeatures()
+            this._characterFeatsService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.gainSpecialization.length &&
-                    this._characterService.characterHasFeat(feat.name),
+                    this._characterFeatsService.characterHasFeat(feat.name),
                 )
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
@@ -680,7 +682,7 @@ export class DamageService {
                         (!spec.skillLevel || skillLevel >= spec.skillLevel) &&
                         (
                             !spec.featreq ||
-                            this._characterService.characterHasFeat(spec.featreq)
+                            this._characterFeatsService.characterHasFeat(spec.featreq)
                         ),
                     ));
                 });

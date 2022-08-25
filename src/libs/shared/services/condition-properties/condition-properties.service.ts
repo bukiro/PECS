@@ -10,6 +10,7 @@ import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +23,7 @@ export class ConditionPropertiesService {
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public isConditionInformational(
@@ -124,7 +126,7 @@ export class ConditionPropertiesService {
                                 requiredFeat = this._familiarsDataService.familiarAbilities(testFeat);
                             } else {
                                 testCreature = character;
-                                requiredFeat = this._characterService.characterFeatsAndFeatures(testFeat, '', true);
+                                requiredFeat = this._characterFeatsService.characterFeatsAndFeatures(testFeat, '', true);
                             }
 
                             if (

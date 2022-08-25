@@ -10,6 +10,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel } from '../../definitions/skillLevels';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 
@@ -24,6 +25,7 @@ export class ArmorPropertiesService {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemSpecializationsDataService: ItemSpecializationsDataService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public effectiveProficiency(armor: Armor, context: { creature: Creature }): string {
@@ -78,10 +80,10 @@ export class ArmorPropertiesService {
             const character = creature as Character;
             const skillLevel = this.profLevel(armor, character);
 
-            this._characterService.characterFeatsAndFeatures()
+            this._characterFeatsService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.gainSpecialization.length &&
-                    this._characterService.characterHasFeat(feat.name),
+                    this._characterFeatsService.characterHasFeat(feat.name),
                 )
                 .forEach(feat => {
                     SpecializationGains.push(...feat.gainSpecialization.filter(spec =>
@@ -95,7 +97,7 @@ export class ArmorPropertiesService {
                         (!spec.skillLevel || skillLevel >= spec.skillLevel) &&
                         (
                             !spec.featreq ||
-                            this._characterService.characterHasFeat(spec.featreq)
+                            this._characterFeatsService.characterHasFeat(spec.featreq)
                         ),
                     ));
                 });
@@ -167,7 +169,7 @@ export class ArmorPropertiesService {
         if (
             armor.shoddy &&
             creature.isCharacter() &&
-            this._characterService.characterHasFeat('Junk Tinker') &&
+            this._characterFeatsService.characterHasFeat('Junk Tinker') &&
             armor.crafted
         ) {
             armor.$shoddy = ShoddyPenalties.NotShoddy;

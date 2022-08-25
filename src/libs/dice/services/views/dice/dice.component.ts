@@ -12,6 +12,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 const defaultDiceNum = 5;
 
@@ -37,6 +38,7 @@ export class DiceComponent implements OnInit, OnDestroy {
         private readonly _integrationsService: FoundryVTTIntegrationService,
         private readonly _healthService: HealthService,
         private readonly _menuService: MenuService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public trackers: Trackers,
     ) { }
 
@@ -72,11 +74,11 @@ export class DiceComponent implements OnInit, OnDestroy {
 
     public creatureFromType(creatureType: CreatureTypes): Creature {
         if (creatureType === CreatureTypes.AnimalCompanion) {
-            return this._characterService.isCompanionAvailable() ? this._characterService.creatureFromType(creatureType) : null;
+            return this._creatureAvailabilityService.isCompanionAvailable() ? this._characterService.creatureFromType(creatureType) : null;
         }
 
         if (creatureType === CreatureTypes.Familiar) {
-            return this._characterService.isFamiliarAvailable() ? this._characterService.creatureFromType(creatureType) : null;
+            return this._creatureAvailabilityService.isFamiliarAvailable() ? this._characterService.creatureFromType(creatureType) : null;
         }
 
         return this._characterService.creatureFromType(creatureType);

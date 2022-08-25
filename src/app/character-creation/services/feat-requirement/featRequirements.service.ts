@@ -20,6 +20,8 @@ import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -36,6 +38,8 @@ export class FeatRequirementsService {
         private readonly _itemsDataService: ItemsDataService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _creatureFeatsService: CreatureFeatsService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public static prof(skillLevel: number): string {
@@ -176,7 +180,7 @@ export class FeatRequirementsService {
 
         if (
             matchingreqs.length &&
-            !!this._characterService.characterFeatsTaken(1, charLevel, { featName: 'Versatile Performance' }).length
+            !!this._characterFeatsService.characterFeatsTaken(1, charLevel, { featName: 'Versatile Performance' }).length
         ) {
             const lowest = Math.min(...matchingreqs.map(requirement => requirement.value));
 
@@ -234,7 +238,7 @@ export class FeatRequirementsService {
                         );
                 } else {
                     testcreature = this._characterService.character;
-                    requiredFeats = this._characterService.characterFeatsAndFeatures(testfeat, '', true, true);
+                    requiredFeats = this._characterFeatsService.characterFeatsAndFeatures(testfeat, '', true, true);
                 }
 
                 if (requiredFeats.length) {
@@ -425,7 +429,7 @@ export class FeatRequirementsService {
                 });
                 complexreq.countFeats?.forEach(featreq => {
                     if (!hasThisRequirementFailed) {
-                        let feats: Array<Feat> = this._characterService.characterFeatsAndFeatures();
+                        let feats: Array<Feat> = this._characterFeatsService.characterFeatsAndFeatures();
 
                         if (featreq.query.havingAllOfTraits) {
                             const traits = SplitNames(featreq.query.havingAllOfTraits);
@@ -618,7 +622,8 @@ export class FeatRequirementsService {
                         }
 
                         if (spellcastingreq.query.beingOfFamiliarsClass) {
-                            const familiar = this._characterService.isFamiliarAvailable() ? this._characterService.familiar : null;
+                            const familiar =
+                                this._creatureAvailabilityService.isFamiliarAvailable() ? this._characterService.familiar : null;
 
                             if (familiar) {
                                 spellCastings = spellCastings
@@ -873,7 +878,7 @@ export class FeatRequirementsService {
 
                 if (complexreq.hasAnimalCompanion && !hasThisRequirementFailed) {
                     const companions: Array<AnimalCompanion> =
-                        this._characterService.isCompanionAvailable() ? [this._characterService.companion] : [];
+                        this._creatureAvailabilityService.isCompanionAvailable() ? [this._characterService.companion] : [];
                     const queryResult = companions.length;
 
                     if (!DoesNumberMatchExpectation(queryResult, complexreq.hasAnimalCompanion)) {
@@ -883,7 +888,7 @@ export class FeatRequirementsService {
 
                 if (complexreq.hasFamiliar && !hasThisRequirementFailed) {
                     const familiars: Array<Familiar> =
-                        this._characterService.isFamiliarAvailable() ? [this._characterService.familiar] : [];
+                        this._creatureAvailabilityService.isFamiliarAvailable() ? [this._characterService.familiar] : [];
                     const queryResult = familiars.length;
 
                     if (!DoesNumberMatchExpectation(queryResult, complexreq.hasFamiliar)) {

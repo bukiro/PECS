@@ -606,7 +606,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
 
     private _characterFeatsAndFeatures(name = '', type = ''): Array<Feat> {
         if (this.creature === CreatureTypes.Character) {
-            return this._characterFeatsService.characterFeats(this._character.customFeats, name, type);
+            return this._characterFeatsService.characterFeatsAndFeatures(name, type);
         } else if (this.creature === CreatureTypes.Familiar) {
             return this._familiarsDataService.familiarAbilities(name);
         }

@@ -30,6 +30,7 @@ import { FeatsDataService } from '../../../../app/core/services/data/feats-data.
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -69,6 +70,7 @@ export class EvaluationService {
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public valueFromFormula(
@@ -89,14 +91,10 @@ export class EvaluationService {
         //This function takes a formula, then evaluates that formula using the variables and functions listed here.
         //Define some values that may be relevant for effect values
         /* eslint-disable @typescript-eslint/no-unused-vars */
-        const effectsService = this._effectsService;
-        const characterService = this._characterService;
-        const abilitiesService = this._abilitiesDataService;
-        const familiarsService = this._familiarsDataService;
         const Creature = context.creature;
-        const Character = characterService.character;
-        const Companion = characterService.companion;
-        const Familiar = characterService.familiar;
+        const Character = this._characterService.character;
+        const Companion = this._characterService.companion;
+        const Familiar = this._characterService.familiar;
         const object = context.object;
         const effect = context.effect;
         const parentItem = context.parentItem;
@@ -189,13 +187,13 @@ export class EvaluationService {
             }
         };
         const Skills_Of_Type = (name: string): Array<SkillModel> => (
-            characterService.skills(Creature, '', { type: name })
+            this._characterService.skills(Creature, '', { type: name })
         );
         const Has_Speed = (name: string): boolean => (
             //This tests if you have a certain speed, either from your ancestry or from absolute effects.
             // Bonuses and penalties are ignored, since you shouldn't get a bonus to a speed you don't have.
             Creature.speeds.some(speed => speed.name === name) ||
-            effectsService.absoluteEffectsOnThis(Creature, name)
+            this._effectsService.absoluteEffectsOnThis(Creature, name)
                 .some(absoluteEffect => !context.effectSourceName || absoluteEffect.source !== context.effectSourceName)
         );
         const Speed = (name: string): number => (
@@ -240,10 +238,10 @@ export class EvaluationService {
         };
         const Has_Feat = (creatureType: string, name: string): number => {
             if (creatureType === 'Familiar') {
-                return familiarsService.familiarAbilities(name)
+                return this._familiarsDataService.familiarAbilities(name)
                     .filter(feat => this._creatureFeatsService.creatureHasFeat(feat, { creature: Familiar }, { charLevel: Level })).length;
             } else if (creatureType === CreatureTypes.Character) {
-                return characterService.characterFeatsTaken(1, Level, { featName: name }).length;
+                return this._characterFeatsService.characterFeatsTaken(1, Level, { featName: name }).length;
             } else {
                 return 0;
             }
@@ -252,12 +250,12 @@ export class EvaluationService {
             if (creatureType === 'Familiar') {
                 return Familiar.abilities.feats
                     .filter(featTaken => {
-                        const feat = familiarsService.familiarAbilities(featTaken.name)[0];
+                        const feat = this._familiarsDataService.familiarAbilities(featTaken.name)[0];
 
                         return feat && this._creatureFeatsService.creatureHasFeat(feat, { creature: Familiar }, { charLevel: Level });
                     });
             } else if (creatureType === CreatureTypes.Character) {
-                return characterService.characterFeatsTaken(1, Level);
+                return this._characterFeatsService.characterFeatsTaken(1, Level);
             } else {
                 return [];
             }

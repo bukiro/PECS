@@ -12,6 +12,7 @@ import { WeaponProficiencies } from '../../definitions/weaponProficiencies';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -25,6 +26,7 @@ export class WeaponPropertiesService {
         private readonly _featsDataService: FeatsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public effectiveProficiency(
@@ -44,7 +46,7 @@ export class WeaponPropertiesService {
         }
 
         if (context.creature.isCharacter()) {
-            this._characterService.characterFeatsAndFeatures()
+            this._characterFeatsService.characterFeatsAndFeatures()
                 .filter(feat =>
                     feat.changeProficiency.length &&
                     this._creatureFeatsService.creatureHasFeat(
@@ -265,7 +267,7 @@ export class WeaponPropertiesService {
 
         if (
             creature.isCharacter() &&
-            this._characterService.characterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
+            this._characterFeatsService.characterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
         ) {
             if (this._characterDeitiesService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon
                 .some(favoredWeapon =>
@@ -288,7 +290,7 @@ export class WeaponPropertiesService {
             weapon.shoddy &&
             weapon.crafted &&
             creature.isCharacter() &&
-            this._characterService.characterHasFeat('Junk Tinker')
+            this._characterFeatsService.characterHasFeat('Junk Tinker')
         ) {
             weapon.$shoddy = ShoddyPenalties.NotShoddy;
         } else if (weapon.shoddy) {

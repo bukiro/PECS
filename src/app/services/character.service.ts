@@ -41,7 +41,6 @@ import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
@@ -83,6 +82,7 @@ import { ItemActivationProcessingService } from 'src/libs/shared/services/item-a
 import { SettingsService } from '../core/services/settings/settings.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { InventoryItemProcessingService } from 'src/libs/shared/services/inventory-item-processing/inventory-item-processing.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -157,6 +157,7 @@ export class CharacterService {
         private readonly _settingsService: SettingsService,
         private readonly _inventoryService: InventoryService,
         private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) {
         popoverConfig.autoClose = 'outside';
         popoverConfig.container = 'body';
@@ -199,42 +200,6 @@ export class CharacterService {
             default:
                 return new Character();
         }
-    }
-
-    public isCompanionAvailable(charLevel: number = this.character.level): boolean {
-        //Return any feat that grants an animal companion that you own.
-        return this.characterFeatsAndFeatures()
-            .some(feat =>
-                feat.gainAnimalCompanion === 'Young' &&
-                this.characterHasFeat(feat.name, charLevel),
-            );
-    }
-
-    public isFamiliarAvailable(charLevel: number = this.character.level): boolean {
-        //Return any feat that grants an animal companion that you own.
-        return this.characterFeatsAndFeatures()
-            .some(feat =>
-                feat.gainFamiliar &&
-                this.characterHasFeat(feat.name, charLevel),
-            );
-    }
-
-    public allAvailableCreatures(
-        companionAvailable: boolean = this.isCompanionAvailable(),
-        familiarAvailable: boolean = this.isFamiliarAvailable(),
-    ): Array<Creature> {
-        if (!this.stillLoading) {
-            if (companionAvailable && familiarAvailable) {
-                return ([] as Array<Creature>).concat(this.character).concat(this.companion)
-                    .concat(this.familiar);
-            } else if (companionAvailable) {
-                return ([] as Array<Creature>).concat(this.character).concat(this.companion);
-            } else if (familiarAvailable) {
-                return ([] as Array<Creature>).concat(this.character).concat(this.familiar);
-            } else {
-                return ([] as Array<Creature>).concat(this.character);
-            }
-        } else { return [new Character()]; }
     }
 
     public addCash(
@@ -365,7 +330,7 @@ export class CharacterService {
     public removeCondition(): boolean { return false; }
 
     public creatureFromMessage(message: PlayerMessage): Creature {
-        return this.allAvailableCreatures().find(creature => creature.id === message.targetId);
+        return this._creatureAvailabilityService.allAvailableCreatures().find(creature => creature.id === message.targetId);
     }
 
     public messageSenderName(message: PlayerMessage): string {
@@ -434,7 +399,7 @@ export class CharacterService {
         )).forEach(senderId => {
             let hasConditionBeenRemoved = false;
 
-            this.allAvailableCreatures().forEach(creature => {
+            this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
                 this._creatureConditionsService.currentCreatureConditions(creature)
                     .filter(existingConditionGain =>
                         existingConditionGain.foreignPlayerId === senderId &&
@@ -473,7 +438,7 @@ export class CharacterService {
             .pipe(
                 switchMap(result => {
                     const timeStamp = result.time;
-                    const creatures = this.allAvailableCreatures();
+                    const creatures = this._creatureAvailabilityService.allAvailableCreatures();
                     const messages: Array<PlayerMessage> = [];
 
                     targets.forEach(target => {
@@ -867,7 +832,7 @@ export class CharacterService {
                 let foundCreature: Creature;
                 let itemName = 'item';
 
-                this.allAvailableCreatures().forEach(creature => {
+                this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
                     creature.inventories.forEach(inventory => {
                         if (!foundItem) {
                             foundItem = inventory.allItems().find(invItem => invItem.id === (message.acceptedItem || message.rejectedItem));
@@ -1258,55 +1223,6 @@ export class CharacterService {
         return this._featsDataService.featsAndFeatures(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
     }
 
-    public characterFeatsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
-        return this._characterFeatsService.characterFeats(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
-    }
-
-    public characterHasFeat(name: string, levelNumber: number = this._character.level): boolean {
-        return !!this.characterFeatsTaken(0, levelNumber, { featName: name }, { includeCountAs: true }).length;
-    }
-
-    public characterFeatsTaken(
-        minLevelNumber = 0,
-        maxLevelNumber = this._character.level,
-        filter: { featName?: string; source?: string; sourceId?: string; locked?: boolean; automatic?: boolean } = {},
-        options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
-    ): Array<FeatTaken> {
-        filter = {
-            locked: undefined,
-            automatic: undefined,
-            ...filter,
-        };
-
-        // If the feat choice is not needed (i.e. if excludeTemporary is not given),
-        // we can get the taken feats quicker from the featsService.
-        // CharacterService.get_CharacterFeatsTaken should be preferred over Character.takenFeats for this reason.
-        if (!options.excludeTemporary) {
-            return this._characterFeatsService.characterFeatsTaken(
-                minLevelNumber,
-                maxLevelNumber,
-                filter.featName,
-                filter.source,
-                filter.sourceId,
-                filter.locked,
-                options.includeCountAs,
-                filter.automatic,
-            );
-        } else {
-            return this.character.takenFeats(
-                minLevelNumber,
-                maxLevelNumber,
-                filter.featName,
-                filter.source,
-                filter.sourceId,
-                filter.locked,
-                options.excludeTemporary,
-                options.includeCountAs,
-                filter.automatic,
-            );
-        }
-    }
-
     public creatureHealth(creature: Creature): Health {
         return creature.health;
     }
@@ -1337,8 +1253,8 @@ export class CharacterService {
                 senses.push(...heritageSenses);
             }
 
-            this.characterFeatsAndFeatures()
-                .filter(feat => feat.senses?.length && this.characterHasFeat(feat.name, charLevel))
+            this._characterFeatsService.characterFeatsAndFeatures()
+                .filter(feat => feat.senses?.length && this._characterFeatsService.characterHasFeat(feat.name, charLevel))
                 .forEach(feat => {
                     senses.push(...feat.senses);
                 });
@@ -1397,7 +1313,7 @@ export class CharacterService {
     }
 
     public characterFeatsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
-        return this.characterFeatsAndFeatures().filter(feat =>
+        return this._characterFeatsService.characterFeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
                 (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                 hint.showon?.split(',').find(showon =>
@@ -1411,7 +1327,7 @@ export class CharacterService {
                         showon.trim().toLowerCase() === 'lore'
                     ),
                 ),
-            ) && this.characterHasFeat(feat.name),
+            ) && this._characterFeatsService.characterHasFeat(feat.name),
         );
     }
 

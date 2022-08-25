@@ -757,14 +757,20 @@ export class FeatProcessingService {
                 //Remove the latest specialization chosen on this level, only if all choices are taken.
                 const specializations = companion.class.specializations.filter(spec => spec.level === context.level.number);
 
-                if (specializations.length) {
-                    if (specializations.length >= this._characterService.characterFeatsTaken(context.level.number, context.level.number)
-                        .map(characterFeatTaken => this._characterService.characterFeatsAndFeatures(characterFeatTaken.name)[0])
-                        .filter(characterFeat => characterFeat.gainAnimalCompanion === 'Specialized').length
-                    ) {
-                        companion.class.specializations = companion.class.specializations
-                            .filter(spec => spec.name !== specializations[specializations.length - 1].name);
-                    }
+                if (specializations.length &&
+                    (specializations.length >=
+                        this._characterFeatsService.characterFeatsTaken(context.level.number, context.level.number)
+                            .map(characterFeatTaken =>
+                                this._characterFeatsService.characterFeatsAndFeatures(
+                                    characterFeatTaken.name,
+                                )[0],
+                            )
+                            .filter(characterFeat => characterFeat.gainAnimalCompanion === 'Specialized')
+                            .length
+                    )
+                ) {
+                    companion.class.specializations = companion.class.specializations
+                        .filter(spec => spec.name !== specializations[specializations.length - 1].name);
                 }
 
                 this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');

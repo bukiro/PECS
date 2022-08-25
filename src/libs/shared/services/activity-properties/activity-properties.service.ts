@@ -8,6 +8,7 @@ import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Defaults } from '../../definitions/defaults';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 
 @Injectable({
@@ -19,6 +20,7 @@ export class ActivityPropertiesService {
         private readonly _characterService: CharacterService,
         private readonly _effectsService: CreatureEffectsService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public allowedTargetNumber(activity: Activity | Spell, levelNumber: number): number {
@@ -43,7 +45,7 @@ export class ActivityPropertiesService {
                             activity.targetNumbers.find(targetNumber =>
                                 (targetNumber.minLevel === remainingLevelNumber) &&
                                 targetNumber.featreq &&
-                                this._characterService.characterHasFeat(targetNumber.featreq),
+                                this._characterFeatsService.characterHasFeat(targetNumber.featreq),
                             );
 
                         if (!targetNumberResult) {
@@ -62,7 +64,7 @@ export class ActivityPropertiesService {
                 targetNumberResult =
                     activity.targetNumbers.find(targetNumber =>
                         targetNumber.featreq &&
-                        this._characterService.characterHasFeat(targetNumber.featreq),
+                        this._characterFeatsService.characterHasFeat(targetNumber.featreq),
                     );
 
                 return targetNumberResult?.number || activity.targetNumbers[0].number;

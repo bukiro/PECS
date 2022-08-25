@@ -3,6 +3,7 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { CharacterService } from 'src/app/services/character.service';
 
 import { Creature } from 'src/app/classes/Creature';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -11,6 +12,7 @@ export class CreatureFeatsService {
 
     constructor(
         private readonly _characterService: CharacterService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public creatureHasFeat(
@@ -28,7 +30,7 @@ export class CreatureFeatsService {
         };
 
         if (context.creature.isCharacter()) {
-            return this._characterService.characterFeatsTaken(
+            return this._characterFeatsService.characterFeatsTaken(
                 filter.minLevel,
                 filter.charLevel,
                 { featName: feat.name },

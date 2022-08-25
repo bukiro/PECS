@@ -13,6 +13,7 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from 'src/libs/shared/definitions/skillLevels';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 export interface CalculatedSkill {
     level: number;
@@ -43,6 +44,7 @@ export class SkillValuesService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public calculate(
@@ -210,7 +212,7 @@ export class SkillValuesService {
                 // (i.e. "Whenever you gain a class feature that grants you expert or greater proficiency in a given weapon or weapons,
                 // you also gain that proficiency in...").
                 // We check whether you meet the minimum proficiency level for the copy by comparing your skillLevel up to this point.
-                this._characterService.characterFeatsAndFeatures()
+                this._characterFeatsService.characterFeatsAndFeatures()
                     .filter(feat =>
                         feat.copyProficiency.length &&
                         this._creatureFeatsService.creatureHasFeat(feat, { creature }, { charLevel }),

@@ -4,6 +4,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ObjectEffectsGenerationService } from '../../effects-generation/services/object-effects-generation/object-effects-generation';
 import { AbilityModFromAbilityValue } from '../../util/abilityUtils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 
 @Injectable({
@@ -16,6 +17,7 @@ export class CharacterLanguagesService {
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _objectEffectsGenerationService: ObjectEffectsGenerationService,
         private readonly _creatureEffectsService: CreatureEffectsService,
+        private readonly _characterFeatsService: CharacterFeatsService,
 
     ) { }
 
@@ -55,7 +57,7 @@ export class CharacterLanguagesService {
             character.class.levels.filter(level => level.number > 0).forEach(level => {
                 //Collect all feats you have that grant extra free languages, then note on which level you have them.
                 //Add the amount that they would grant you on that level by faking a level for the effect.
-                this._characterService.characterFeatsTaken(level.number, level.number).forEach(taken => {
+                this._characterFeatsService.characterFeatsTaken(level.number, level.number).forEach(taken => {
                     const feat = this._characterService.featsAndFeatures(taken.name)[0];
 
                     if (feat) {

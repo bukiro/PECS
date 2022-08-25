@@ -25,6 +25,7 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 interface ComponentParameters {
     bloodMagicTrigger: string;
@@ -105,6 +106,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         private readonly _modalService: NgbModal,
         private readonly _durationsService: DurationsService,
         private readonly _settingsService: SettingsService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -145,11 +147,11 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     private get _isCompanionAvailable(): boolean {
-        return this._characterService.isCompanionAvailable();
+        return this._creatureAvailabilityService.isCompanionAvailable();
     }
 
     private get _isFamiliarAvailable(): boolean {
-        return this._characterService.isFamiliarAvailable();
+        return this._creatureAvailabilityService.isFamiliarAvailable();
     }
 
     private get _isGainActive(): boolean {
@@ -274,7 +276,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         const newTargets: Array<SpellTarget> = [];
         const character = this.character;
 
-        this._characterService.allAvailableCreatures().forEach(creature => {
+        this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
             newTargets.push(
                 Object.assign(
                     new SpellTarget(),

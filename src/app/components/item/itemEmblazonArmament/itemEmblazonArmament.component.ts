@@ -11,6 +11,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 const emblazonArmament = 'emblazonArmament';
 const emblazonEnergy = 'emblazonEnergy';
@@ -53,6 +54,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
+        private readonly _characterFeatsService: CharacterFeatsService,
         public trackers: Trackers,
     ) { }
 
@@ -338,7 +340,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     }
 
     private _characterHasEmblazonDivinity(): boolean {
-        return this._characterService.characterHasFeat('Emblazon Divinity');
+        return this._characterFeatsService.characterHasFeat('Emblazon Divinity');
     }
 
     private _isOptionAvailable(type: string): boolean {
@@ -347,11 +349,11 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         } else {
             switch (type) {
                 case emblazonArmament:
-                    return this._characterService.characterHasFeat('Emblazon Armament');
+                    return this._characterFeatsService.characterHasFeat('Emblazon Armament');
                 case emblazonEnergy:
-                    return this._characterService.characterHasFeat('Emblazon Energy');
+                    return this._characterFeatsService.characterHasFeat('Emblazon Energy');
                 case emblazonAntimagic:
-                    return this._characterService.characterHasFeat('Emblazon Antimagic');
+                    return this._characterFeatsService.characterHasFeat('Emblazon Antimagic');
                 default: return false;
             }
         }

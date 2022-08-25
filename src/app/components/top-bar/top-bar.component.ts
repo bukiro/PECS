@@ -26,6 +26,7 @@ import { DurationsService } from 'src/libs/time/services/durations/durations.ser
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -65,6 +66,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _itemsDataService: ItemsDataService,
         private readonly _menuService: MenuService,
         private readonly _settingsService: SettingsService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -180,11 +182,11 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public isCompanionAvailable(): boolean {
-        return this._characterService.isCompanionAvailable();
+        return this._creatureAvailabilityService.isCompanionAvailable();
     }
 
     public isFamiliarAvailable(): boolean {
-        return this._characterService.isFamiliarAvailable();
+        return this._creatureAvailabilityService.isFamiliarAvailable();
     }
 
     public isBlankCharacter(): boolean {
@@ -303,7 +305,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
                 result => {
                     if (result === 'Apply click') {
                         //Prepare to refresh the effects of all affected creatures;
-                        this._characterService.allAvailableCreatures().forEach(creature => {
+                        this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
                             if (this.cachedNewMessages.some(message => message.id === creature.id)) {
                                 this._refreshService.prepareDetailToChange(creature.type, 'effects');
                             }

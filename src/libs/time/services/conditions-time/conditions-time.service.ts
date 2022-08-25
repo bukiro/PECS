@@ -11,6 +11,7 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +28,7 @@ export class ConditionsTimeService {
         private readonly _effectsService: CreatureEffectsService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _toastService: ToastService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public tickConditions(
@@ -255,7 +257,7 @@ export class ConditionsTimeService {
                     //If you have Fast Recovery or have activated the effect of Forge-Day's Rest, reduce the value by 2 instead of 1.
                     (
                         (creature.isCharacter()) &&
-                        this._characterService.characterFeatsTaken(1, creature.level, { featName: 'Fast Recovery' }).length
+                        this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Fast Recovery' }).length
                     ) ||
                     this._featsDataService.feats([], 'Forge-Day\'s Rest')?.[0]?.hints.some(hint => hint.active)
                 ) {

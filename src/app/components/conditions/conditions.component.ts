@@ -33,6 +33,7 @@ import { EffectPropertiesDataService } from 'src/app/core/services/data/effect-p
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 const itemsPerPage = 40;
 
@@ -105,6 +106,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly _customEffectPropertiesService: EffectPropertiesDataService,
         private readonly _durationsService: DurationsService,
         private readonly _menuService: MenuService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public trackers: Trackers,
     ) { }
 
@@ -133,11 +135,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     private get _isCompanionAvailable(): boolean {
-        return this._characterService.isCompanionAvailable();
+        return this._creatureAvailabilityService.isCompanionAvailable();
     }
 
     private get _isFamiliarAvailable(): boolean {
-        return this._characterService.isFamiliarAvailable();
+        return this._creatureAvailabilityService.isFamiliarAvailable();
     }
 
     public incRange(amount: number): void {
@@ -235,7 +237,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public allAvailableCreatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined): Array<Creature> {
-        return this._characterService.allAvailableCreatures(companionAvailable, familiarAvailable);
+        return this._creatureAvailabilityService.allAvailableCreatures(companionAvailable, familiarAvailable);
     }
 
     public componentParameters(): { isCompanionAvailable: boolean; isFamiliarAvailable: boolean } {

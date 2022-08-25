@@ -54,6 +54,8 @@ import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equi
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -124,6 +126,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _menuService: MenuService,
         private readonly _settingsService: SettingsService,
         private readonly _inventoryService: InventoryService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _characterFeatsService: CharacterFeatsService,
         public trackers: Trackers,
     ) { }
 
@@ -197,11 +201,11 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public isCompanionAvailable(): boolean {
-        return this._characterService.isCompanionAvailable();
+        return this._creatureAvailabilityService.isCompanionAvailable();
     }
 
     public isFamiliarAvailable(): boolean {
-        return this._characterService.isFamiliarAvailable();
+        return this._creatureAvailabilityService.isFamiliarAvailable();
     }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -682,7 +686,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     public creatureHasFeat(name: string): boolean {
         switch (this.creature) {
             case CreatureTypes.Character:
-                return this._characterService.characterHasFeat(name);
+                return this._characterFeatsService.characterHasFeat(name);
             default: return;
         }
     }
@@ -934,7 +938,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     private _allAvailableCreatures(): Array<Creature> {
-        return this._characterService.allAvailableCreatures();
+        return this._creatureAvailabilityService.allAvailableCreatures();
     }
 
     private _containedItemsOfItem(item: Item): number {

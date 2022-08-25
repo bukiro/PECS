@@ -30,6 +30,8 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { EffectsGenerationPreflightService } from '../effects-generation-preflight/effects-generation-preflight.service';
 import { AlwaysShowingEffectNames, AlwaysShowingWildcardEffectNames } from '../../definitions/showingEffects';
 import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Injectable({
     providedIn: 'root',
@@ -51,6 +53,8 @@ export class EffectsGenerationService {
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _effectsGenerationPreflightService: EffectsGenerationPreflightService,
         private readonly _characterLanguagesService: CharacterLanguagesService,
+        private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public initialize(): void {
@@ -66,11 +70,11 @@ export class EffectsGenerationService {
                             } else {
                                 this._updateEffectsAndConditions(CreatureTypes.Character);
 
-                                if (this._characterService.isCompanionAvailable()) {
+                                if (this._creatureAvailabilityService.isCompanionAvailable()) {
                                     this._updateEffectsAndConditions(CreatureTypes.AnimalCompanion);
                                 }
 
-                                if (this._characterService.isFamiliarAvailable()) {
+                                if (this._creatureAvailabilityService.isFamiliarAvailable()) {
                                     this._updateEffectsAndConditions(CreatureTypes.Familiar);
                                 }
                             }
@@ -453,7 +457,7 @@ export class EffectsGenerationService {
             }
 
             //Reflexive Shield adds the same bonus to your reflex save. Only a Character can have it.
-            if (context.creature.isCharacter() && this._characterService.characterHasFeat('Reflexive Shield')) {
+            if (context.creature.isCharacter() && this._characterFeatsService.characterHasFeat('Reflexive Shield')) {
                 addEffect({
                     type: 'circumstance', target: 'Reflex', value: `+${ shieldBonus }`,
                     source: 'Reflexive Shield', penalty: false, apply: undefined,
@@ -506,7 +510,7 @@ export class EffectsGenerationService {
             }
         };
 
-        if (this._characterService.characterHasFeat('Unburdened Iron')) {
+        if (this._characterFeatsService.characterHasFeat('Unburdened Iron')) {
             let hasReducedOnePenalty = false;
 
             //Try global speed penalties first (this is more beneficial to the character).

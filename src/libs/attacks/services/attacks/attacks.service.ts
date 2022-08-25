@@ -15,6 +15,7 @@ import { SignNumber } from 'src/libs/shared/util/numberUtils';
 import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { attackRuneSource } from '../../util/attackRuneSource';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 export interface AttackResult {
     range: string;
@@ -45,6 +46,7 @@ export class AttacksService {
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _itemTraitsService: ItemTraitsService,
         private readonly _traitsDataService: TraitsDataService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public attack(
@@ -250,7 +252,7 @@ export class AttacksService {
         if (weapon.prof === WeaponProficiencies.Unarmed) {
             const character = this._characterService.character;
 
-            if (this._characterService.characterFeatsTaken(0, character.level, { featName: 'Powerful Fist' }).length) {
+            if (this._characterFeatsService.characterFeatsTaken(0, character.level, { featName: 'Powerful Fist' }).length) {
                 hasPowerfulFist = true;
             }
         }

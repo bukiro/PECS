@@ -36,6 +36,7 @@ import { SpellProcessingService } from 'src/libs/shared/services/spell-processin
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -122,6 +123,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _durationsService: DurationsService,
         private readonly _menuService: MenuService,
         private readonly _settingsService: SettingsService,
+        private readonly _characterFeatsService: CharacterFeatsService,
         public trackers: Trackers,
     ) { }
 
@@ -718,9 +720,9 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     private _areSignatureSpellsAllowed(casting: SpellCasting): boolean {
-        return this._characterService.characterFeatsAndFeatures().some(feat =>
+        return this._characterFeatsService.characterFeatsAndFeatures().some(feat =>
             feat.allowSignatureSpells.some(gain => gain.className === casting.className) &&
-            this._characterService.characterHasFeat(feat.name),
+            this._characterFeatsService.characterHasFeat(feat.name),
         );
     }
 
@@ -824,7 +826,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     private _characterHasFeat(name: string): boolean {
-        return this._characterService.characterHasFeat(name);
+        return this._characterFeatsService.characterHasFeat(name);
     }
 
     private _maxSpellSlots(spellLevel: number, casting: SpellCasting, maxSpellLevel: number): number {
@@ -986,8 +988,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     private _bloodMagicFeats(): Array<Feat> {
-        return this._characterService.characterFeatsAndFeatures()
-            .filter(feat => feat.bloodMagic.length && this._characterService.characterHasFeat(feat.name));
+        return this._characterFeatsService.characterFeatsAndFeatures()
+            .filter(feat => feat.bloodMagic.length && this._characterFeatsService.characterHasFeat(feat.name));
     }
 
     private _canCounterspell(casting: SpellCasting): boolean {

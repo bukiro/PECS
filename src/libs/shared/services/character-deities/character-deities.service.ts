@@ -5,6 +5,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { RefreshService } from '../refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
+import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 interface CharacterDeitySet {
     deity: Deity;
@@ -24,6 +25,7 @@ export class CharacterDeitiesService {
         private readonly _characterService: CharacterService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _refreshService: RefreshService,
+        private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public changeDeity(deity: Deity): void {
@@ -50,7 +52,7 @@ export class CharacterDeitiesService {
             if (mainDeity) {
                 this._$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
 
-                const hasSyncretismFeat = this._characterService.characterHasFeat('Syncretism', level);
+                const hasSyncretismFeat = this._characterFeatsService.characterHasFeat('Syncretism', level);
 
                 if (hasSyncretismFeat) {
                     const data = character.class.filteredFeatData(0, 0, 'Syncretism')[0];
