@@ -34,6 +34,7 @@ import { CharacterSkillIncreaseService } from '../character-skill-increase/chara
 import { NamedFeatProcessingService } from './named-feat-processing.service';
 import { FeatProcessingRefreshService } from './feat-processing-refresh';
 import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 
 export interface FeatProcessingContext {
     creature: Character | Familiar;
@@ -66,6 +67,7 @@ export class FeatProcessingService {
         private readonly _featProcessingRefreshService: FeatProcessingRefreshService,
         private readonly _namedFeatProcessingService: NamedFeatProcessingService,
         private readonly _characterLanguagesService: CharacterLanguagesService,
+        private readonly _onceEffectsService: OnceEffectsService,
     ) { }
 
     public processFeat(
@@ -903,7 +905,7 @@ export class FeatProcessingService {
         if (feat.onceEffects) {
             if (taken) {
                 feat.onceEffects.forEach(effect => {
-                    this._characterService.prepareOnceEffect(context.character, effect);
+                    this._onceEffectsService.prepareOnceEffect(context.character, effect);
                 });
             }
         }

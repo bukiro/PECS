@@ -83,6 +83,7 @@ import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -157,6 +158,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _settingsService: SettingsService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _onceEffectsService: OnceEffectsService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -599,7 +601,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 )
                 .forEach(feat => {
                     feat.onceEffects.forEach(effect => {
-                        this._characterService.prepareOnceEffect(character, effect);
+                        this._onceEffectsService.prepareOnceEffect(character, effect);
                     });
                 });
         }

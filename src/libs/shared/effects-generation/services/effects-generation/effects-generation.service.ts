@@ -32,6 +32,7 @@ import { AlwaysShowingEffectNames, AlwaysShowingWildcardEffectNames } from '../.
 import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 
 @Injectable({
     providedIn: 'root',
@@ -55,6 +56,7 @@ export class EffectsGenerationService {
         private readonly _characterLanguagesService: CharacterLanguagesService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _onceEffectsService: OnceEffectsService,
     ) { }
 
     public initialize(): void {
@@ -898,7 +900,7 @@ export class EffectsGenerationService {
         }
 
         //Process all prepared onceEffects.
-        this._characterService.processPreparedOnceEffects();
+        this._onceEffectsService.processPreparedOnceEffects();
         //Process all prepared changes or changes that were skipped previously.
         this._refreshService.processPreparedChanges();
     }

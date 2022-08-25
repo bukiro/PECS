@@ -10,6 +10,7 @@ import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { OnceEffectsService } from '../once-effects/once-effects.service';
 
 @Injectable({
     providedIn: 'root',
@@ -23,6 +24,7 @@ export class ItemActivationProcessingService {
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _characterService: CharacterService,
         private readonly _settingsService: SettingsService,
+        private readonly _onceEffectsService: OnceEffectsService,
     ) { }
 
     public processConsumableActivation(
@@ -36,7 +38,7 @@ export class ItemActivationProcessingService {
             //One time effects
             if (item.onceEffects) {
                 item.onceEffects.forEach(effect => {
-                    this._characterService.processOnceEffect(creature, effect);
+                    this._onceEffectsService.processOnceEffect(creature, effect);
                 });
             }
 

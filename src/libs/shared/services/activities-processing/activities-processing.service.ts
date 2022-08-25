@@ -25,6 +25,7 @@ import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-
 import { SpellActivityProcessingSharedService } from 'src/libs/shared/services/spell-activity-processing-shared/spell-activity-processing-shared.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { MessageSendingService } from '../message-sending/message-sending.service';
+import { OnceEffectsService } from '../once-effects/once-effects.service';
 
 @Injectable({
     providedIn: 'root',
@@ -47,6 +48,7 @@ export class ActivitiesProcessingService {
         private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
         private readonly _settingsService: SettingsService,
         private readonly _messageSendingService: MessageSendingService,
+        private readonly _onceEffectsService: OnceEffectsService,
 
     ) { }
 
@@ -163,7 +165,7 @@ export class ActivitiesProcessingService {
                         effect.source = activity.name;
                     }
 
-                    this._characterService.processOnceEffect(context.creature, effect);
+                    this._onceEffectsService.processOnceEffect(context.creature, effect);
                 });
             }
 

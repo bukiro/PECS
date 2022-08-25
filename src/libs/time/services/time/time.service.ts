@@ -22,6 +22,7 @@ import { ItemsTimeService } from '../items-time/items-time.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 
 @Injectable({
     providedIn: 'root',
@@ -49,6 +50,7 @@ export class TimeService {
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _messageSendingService: MessageSendingService,
+        private readonly _onceEffectsService: OnceEffectsService,
     ) { }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -241,7 +243,7 @@ export class TimeService {
         }
 
         //Regenerate Focus Points by calling a onceEffect (so we don't have the code twice).
-        this._characterService.processOnceEffect(
+        this._onceEffectsService.processOnceEffect(
             character,
             Object.assign(new EffectGain(), { affected: 'Focus Points', value: `+${ finalRecoverPoints }` }),
         );

@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Skill } from 'src/app/classes/Skill';
@@ -13,7 +12,6 @@ import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Equipment } from 'src/app/classes/Equipment';
-import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
@@ -45,7 +43,7 @@ import { AnimalCompanionLevel } from '../classes/AnimalCompanionLevel';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
-import { ArmorClassService, CoverTypes } from 'src/libs/defense/services/armor-class/armor-class.service';
+import { ArmorClassService } from 'src/libs/defense/services/armor-class/armor-class.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
@@ -75,23 +73,6 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { MessageProcessingService } from 'src/libs/shared/services/message-processing/message-processing.service';
 
-interface PreparedOnceEffect {
-    creatureType: CreatureTypes;
-    effectGain: EffectGain;
-    conditionValue: number;
-    conditionHeightened: number;
-    conditionChoice: string;
-    conditionSpellCastingAbility: string;
-}
-
-interface EffectRecipientPhrases {
-    name: string;
-    pronounCap: string;
-    pronoun: string;
-    pronounGenitive: string;
-    verbIs: string;
-    verbHas: string;
-}
 
 @Injectable({
     providedIn: 'root',
@@ -100,7 +81,6 @@ export class CharacterService {
     private _character: Character = new Character();
     private _loading = false;
     private _basicItems: { weapon: Weapon; armor: Armor } = { weapon: null, armor: null };
-    private _preparedOnceEffects: Array<PreparedOnceEffect> = [];
 
     constructor(
         private readonly _configService: ConfigService,
@@ -192,331 +172,6 @@ export class CharacterService {
                 return this.familiar;
             default:
                 return new Character();
-        }
-    }
-
-    public prepareOnceEffect(
-        creature: Creature,
-        effectGain: EffectGain,
-        conditionValue = 0,
-        conditionHeightened = 0,
-        conditionChoice = '',
-        conditionSpellCastingAbility = '',
-    ): void {
-        this._preparedOnceEffects.push({
-            creatureType: creature.type,
-            effectGain,
-            conditionValue,
-            conditionHeightened,
-            conditionChoice,
-            conditionSpellCastingAbility,
-        });
-    }
-
-    public processPreparedOnceEffects(): void {
-        // Make a copy of the prepared OnceEffects and clear the original.
-        // Some OnceEffects can cause effects to be regenerated, which calls this function again,
-        // so we need to clear them to avoid duplicate applications.
-        const preparedOnceEffects = this._preparedOnceEffects.slice();
-
-        this._preparedOnceEffects.length = 0;
-        preparedOnceEffects.forEach(prepared => {
-            this.processOnceEffect(
-                this.creatureFromType(prepared.creatureType),
-                prepared.effectGain,
-                prepared.conditionValue,
-                prepared.conditionHeightened,
-                prepared.conditionChoice,
-                prepared.conditionSpellCastingAbility,
-            );
-        });
-    }
-
-    public effectRecipientPhrases(creature: Creature): EffectRecipientPhrases {
-        const phrases = {
-            name: '',
-            pronounCap: 'It',
-            pronoun: 'it',
-            pronounGenitive: 'its',
-            verbIs: 'is',
-            verbHas: 'is',
-        };
-
-        if (creature.isCharacter()) {
-            phrases.name = 'You';
-            phrases.pronounCap = 'You';
-            phrases.pronoun = 'you';
-            phrases.pronounGenitive = 'your';
-            phrases.verbIs = 'are';
-            phrases.verbHas = 'have';
-        } else if (creature.isAnimalCompanion()) {
-            phrases.name = this.companion.name || 'Your animal companion';
-        } else if (creature.isFamiliar()) {
-            phrases.name = this.familiar.name || 'Your familiar';
-        }
-
-        return phrases;
-    }
-
-    public changeCharacterFocusPointsWithNotification(value: number): void {
-        const maxFocusPoints = this.maxFocusPoints();
-        const character = this.character;
-
-        if (maxFocusPoints === 0) {
-            this._toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
-
-            return;
-        }
-
-        character.class.focusPoints = Math.min(character.class.focusPoints, maxFocusPoints);
-        // We intentionally add the point after we set the limit.
-        // This allows us to gain focus points with feats and raise the current points
-        // before the limit is increased. The focus points are automatically limited in the spellbook component,
-        // where they are displayed, and when casting focus spells.
-        character.class.focusPoints += value;
-
-        if (value >= 0) {
-            this._toastService.show(`You gained ${ value } focus point${ value === 1 ? '' : 's' }.`);
-        } else {
-            this._toastService.show(`You lost ${ value * -1 } focus point${ value === 1 ? '' : 's' }.`);
-        }
-
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
-    }
-
-    public changeCreatureTemporaryHPWithNotification(
-        creature: Creature,
-        value: number,
-        context: { source: string; sourceId: string },
-    ): void {
-        const phrases = this.effectRecipientPhrases(creature);
-
-        // When you get temporary HP, some things to process:
-        // - If you already have temporary HP, add this amount to the selection.
-        //   The player needs to choose one amount; they are not cumulative.
-        // - If you are setting temporary HP manually, or if the current amount is 0,
-        //   skip the selection and remove all the other options.
-        // - If you are losing temporary HP, lose only those that come from the same source.
-        // -- If that's the current effective amount, remove all other options
-        //    (if you are "using" your effective temporary HP, we assume that you have made the choice for this amount).
-        // --- If the current amount is 0 after loss, reset the temporary HP.
-        // -- Remove it if it's not the effective amount.
-        if (value > 0) {
-            if (context.source === 'Manual') {
-                creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: '' };
-                creature.health.temporaryHP.length = 1;
-                this._toastService.show(`${ phrases.name } gained ${ value } temporary HP.`);
-            } else if (creature.health.temporaryHP[0].amount === 0) {
-                creature.health.temporaryHP[0] = { amount: value, source: context.source, sourceId: context.sourceId };
-                creature.health.temporaryHP.length = 1;
-                this._toastService.show(`${ phrases.name } gained ${ value } temporary HP from ${ context.source }.`);
-            } else {
-                creature.health.temporaryHP.push({ amount: value, source: context.source, sourceId: context.sourceId });
-                this._toastService.show(
-                    `${ phrases.name } gained ${ value } temporary HP from ${ context.source }. `
-                    + `${ phrases.name } already had temporary HP and must choose which amount to keep.`,
-                );
-            }
-        } else if (value < 0) {
-            const targetTempHPSet =
-                creature.health.temporaryHP
-                    .find(tempHPSet =>
-                        ((tempHPSet.source === 'Manual') && (context.source === 'Manual')) ||
-                        tempHPSet.sourceId === context.sourceId,
-                    );
-
-            if (targetTempHPSet) {
-                targetTempHPSet.amount += value;
-
-                if (targetTempHPSet === creature.health.temporaryHP[0]) {
-                    creature.health.temporaryHP.length = 1;
-
-                    if (targetTempHPSet.amount <= 0) {
-                        creature.health.temporaryHP[0] = { amount: 0, source: '', sourceId: '' };
-                    }
-
-                    this._toastService.show(`${ phrases.name } lost ${ value * -1 } temporary HP.`);
-                } else {
-                    if (targetTempHPSet.amount <= 0) {
-                        creature.health.temporaryHP.splice(creature.health.temporaryHP.indexOf(targetTempHPSet), 1);
-                    }
-
-                    this._toastService.show(
-                        `${ phrases.name } lost ${ value * -1 } of the temporary HP gained from ${ context.source }. `
-                        + `This is not the set of temporary HP that ${ phrases.pronoun } ${ phrases.verbIs } currently using.`,
-                    );
-                }
-            }
-        }
-
-        this._refreshService.prepareDetailToChange(creature.type, 'health');
-        //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
-    }
-
-    public changeCreatureHPWithNotification(creature: Creature, value: number, context: { source: string }): void {
-        const phrases = this.effectRecipientPhrases(creature);
-
-        if (value > 0) {
-            const result = this._healthService.heal(creature.health, creature, value, true);
-            let results = '';
-
-            if (result.hasRemovedUnconscious) {
-                results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
-            }
-
-            if (result.hasRemovedDying) {
-                results = ` This removed ${ phrases.pronounGenitive } Dying condition.`;
-            }
-
-            this._toastService.show(`${ phrases.name } gained ${ value } HP from ${ context.source }.${ results }`);
-        } else if (value < 0) {
-            const result = this._healthService.takeDamage(creature.health, creature, -value, false);
-            let results = '';
-
-            if (result.hasAddedUnconscious) {
-                results = ` ${ phrases.name } ${ phrases.verbIs } now Unconscious.`;
-            }
-
-            if (result.dyingAddedAmount && context.source !== 'Dead') {
-                results = ` ${ phrases.pronounCap } ${ phrases.verbIs } now Dying ${ result.dyingAddedAmount }.`;
-            }
-
-            if (result.hasRemovedUnconscious) {
-                results = ` This removed ${ phrases.pronounGenitive } Unconscious condition.`;
-            }
-
-            this._toastService.show(`${ phrases.name } lost ${ value * -1 } HP from ${ context.source }.${ results }`);
-        }
-
-        this._refreshService.prepareDetailToChange(creature.type, 'health');
-        this._refreshService.prepareDetailToChange(creature.type, 'effects');
-    }
-
-    public raiseCharacterShieldWithNotification(value: number): void {
-        const equippedShield = this.character.inventories[0].shields.find(shield => shield.equipped);
-
-        if (equippedShield) {
-            if (value > 0) {
-                equippedShield.raised = true;
-                this._toastService.show('Your shield was raised.');
-            } else {
-                equippedShield.raised = false;
-                this._toastService.show('Your shield was lowered.');
-            }
-
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'defense');
-            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
-        }
-    }
-
-    public changeCreatureCoverWithNotification(creature: Creature, value: number): void {
-        const phrases = this.effectRecipientPhrases(creature);
-
-        this._armorClassService.setCover(creature, value, null);
-
-        switch (value) {
-            case CoverTypes.NoCover:
-                this._toastService.show(`${ phrases.name } ${ phrases.verbIs } no longer taking cover.`);
-                break;
-            case CoverTypes.LesserCover:
-                this._toastService.show(`${ phrases.name } now ${ phrases.verbHas } lesser cover.`);
-                break;
-            case CoverTypes.Cover:
-                this._toastService.show(`${ phrases.name } now ${ phrases.verbHas } standard cover.`);
-                break;
-            case CoverTypes.GreaterCover:
-                this._toastService.show(`${ phrases.name } now ${ phrases.verbHas } greater cover.`);
-                break;
-            default: break;
-        }
-    }
-
-    public processOnceEffect(
-        creature: Creature,
-        effectGain: EffectGain,
-        conditionValue = 0,
-        conditionHeightened = 0,
-        conditionChoice = '',
-        conditionSpellCastingAbility = '',
-    ): void {
-        let value = 0;
-
-        try {
-            // We eval the effect value by sending it to the evaluationService
-            // with some additional attributes and receive the resulting effect.
-            if (effectGain.value) {
-                const testObject = {
-                    spellSource: effectGain.spellSource,
-                    value: conditionValue,
-                    heightened: conditionHeightened,
-                    choice: conditionChoice,
-                    spellCastingAbility: conditionSpellCastingAbility,
-                };
-                const validationResult =
-                    this._evaluationService.valueFromFormula(
-                        effectGain.value,
-                        { creature, object: testObject, effect: effectGain },
-                    );
-
-                if (validationResult && typeof validationResult === 'number') {
-                    value = validationResult;
-                }
-            }
-        } catch (error) {
-            value = 0;
-        }
-
-        const phrases = {
-            name: '',
-            pronounCap: 'It',
-            pronoun: 'it',
-            pronounGenitive: 'its',
-            verbIs: 'is',
-            verbHas: 'is',
-        };
-
-        if (creature.isCharacter()) {
-            phrases.name = 'You';
-            phrases.pronounCap = 'You';
-            phrases.pronoun = 'you';
-            phrases.pronounGenitive = 'your';
-            phrases.verbIs = 'are';
-            phrases.verbHas = 'have';
-        } else if (creature.isAnimalCompanion()) {
-            phrases.name = this.companion.name || 'Your animal companion';
-        } else if (creature.isFamiliar()) {
-            phrases.name = this.familiar.name || 'Your familiar';
-        }
-
-        switch (effectGain.affected) {
-            case 'Focus Points':
-                this.changeCharacterFocusPointsWithNotification(value);
-
-                break;
-            case 'Temporary HP':
-                this.changeCreatureTemporaryHPWithNotification(
-                    creature,
-                    value,
-                    { source: effectGain.source, sourceId: effectGain.sourceId },
-                );
-
-                break;
-            case 'HP':
-                this.changeCreatureHPWithNotification(creature, value, { source: effectGain.source });
-
-                break;
-            case 'Raise Shield': {
-                this.raiseCharacterShieldWithNotification(value);
-
-                break;
-            }
-            case 'Cover':
-                this.changeCreatureCoverWithNotification(creature, value);
-
-                break;
-            default: break;
         }
     }
 

@@ -37,6 +37,7 @@ import { DurationsService } from 'src/libs/time/services/durations/durations.ser
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -124,6 +125,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _menuService: MenuService,
         private readonly _settingsService: SettingsService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _onceEffectsService: OnceEffectsService,
         public trackers: Trackers,
     ) { }
 
@@ -603,7 +605,10 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'effects');
 
         if (this._characterHasFeat('Linked Focus')) {
-            this._characterService.processOnceEffect(character, Object.assign(new EffectGain(), { affected: 'Focus Points', value: '+1' }));
+            this._onceEffectsService.processOnceEffect(
+                character,
+                Object.assign(new EffectGain(), { affected: 'Focus Points', value: '+1' }),
+            );
         }
 
         const bondedItemCharges = this._effectsService.effectsOnThis(character, 'Free Bonded Item Charge');

@@ -22,6 +22,7 @@ import { ItemGrantingService } from '../item-granting/item-granting.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from '../spell-processing/spell-processing.service';
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
+import { OnceEffectsService } from '../once-effects/once-effects.service';
 
 @Injectable({
     providedIn: 'root',
@@ -44,6 +45,7 @@ export class ConditionProcessingService {
         private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _onceEffectsService: OnceEffectsService,
     ) { }
 
     public processCondition(
@@ -161,7 +163,7 @@ export class ConditionProcessingService {
                 tempEffect.spellSource = gain.spellSource;
             }
 
-            this._characterService.prepareOnceEffect(
+            this._onceEffectsService.prepareOnceEffect(
                 creature,
                 tempEffect,
                 gain.value,
