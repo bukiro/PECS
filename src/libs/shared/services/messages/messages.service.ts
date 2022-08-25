@@ -11,6 +11,7 @@ import { Creature } from '../../../../app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { MessageProcessingService } from '../message-processing/message-processing.service';
 
 const ignoredMessageTTL = 60;
 
@@ -31,6 +32,7 @@ export class MessagesService {
         private readonly _refreshService: RefreshService,
         private readonly _characterService: CharacterService,
         private readonly _settingsService: SettingsService,
+        private readonly _messageProcessingService: MessageProcessingService,
     ) { }
 
     public newMessages(): Array<PlayerMessage> {
@@ -133,8 +135,10 @@ export class MessagesService {
 
         //Apply turn change messages automatically, then invalidate these messages and return the rest.
         if (newMessages.length) {
-            this._characterService.applyTurnChangeMessage(newMessages.filter(message => message.turnChange));
-            this._characterService.applyItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
+            this._messageProcessingService
+                .applyTurnChangeMessage(newMessages.filter(message => message.turnChange));
+            this._messageProcessingService
+                .applyItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
             this._refreshService.processPreparedChanges();
             newMessages.filter(message => message.turnChange).forEach(message => {
                 this.markMessageAsIgnored(message);
@@ -207,7 +211,7 @@ export class MessagesService {
     }
 
     private _creatureFromMessage(message: PlayerMessage): Creature {
-        return this._characterService.creatureFromMessage(message);
+        return this._messageProcessingService.creatureFromMessage(message);
     }
 
     private _startMessageProcessingLoop(): void {
@@ -320,8 +324,8 @@ export class MessagesService {
         messages.forEach(message => {
             message.selected = true;
         });
-        this._characterService.applyMessageConditions(messages.filter(message => message.gainCondition.length));
-        this._characterService.applyMessageItems(messages.filter(message => message.offeredItem.length));
+        this._messageProcessingService.applyMessageConditions(messages.filter(message => message.gainCondition.length));
+        this._messageProcessingService.applyMessageItems(messages.filter(message => message.offeredItem.length));
         messages.forEach(message => {
             this.markMessageAsIgnored(message);
         });

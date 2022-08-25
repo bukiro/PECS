@@ -24,6 +24,7 @@ import { SpellProcessingService } from 'src/libs/shared/services/spell-processin
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
 import { SpellActivityProcessingSharedService } from 'src/libs/shared/services/spell-activity-processing-shared/spell-activity-processing-shared.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { MessageSendingService } from '../message-sending/message-sending.service';
 
 @Injectable({
     providedIn: 'root',
@@ -45,6 +46,7 @@ export class ActivitiesProcessingService {
         private readonly _spellTargetService: SpellTargetService,
         private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
         private readonly _settingsService: SettingsService,
+        private readonly _messageSendingService: MessageSendingService,
 
     ) { }
 
@@ -559,7 +561,7 @@ export class ActivitiesProcessingService {
                                     this._creatureConditionsService.removeCondition(target, existingConditionGain, false);
                                 });
                         });
-                    this._characterService.sendConditionToPlayers(
+                    this._messageSendingService.sendConditionToPlayers(
                         conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>, conditionGain, false,
                     );
                 });

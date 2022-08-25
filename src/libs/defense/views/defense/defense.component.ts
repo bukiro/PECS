@@ -25,6 +25,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ArmorClassService, CalculatedAC, CoverTypes } from '../../services/armor-class/armor-class.service';
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -59,6 +60,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         private readonly _armorClassService: ArmorClassService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _itemActivationService: ItemActivationService,
         public trackers: Trackers,
     ) { }
 
@@ -232,7 +234,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     public onTalismanUse(item: Armor | Shield | WornItem, talisman: Talisman, index: number, preserve = false): void {
         this._refreshService.prepareDetailToChange(this.creature, 'defense');
-        this._characterService.useConsumable(this._currentCreature as Character | AnimalCompanion, talisman, preserve);
+        this._itemActivationService.useConsumable(this._currentCreature as Character | AnimalCompanion, talisman, preserve);
 
         if (!preserve) {
             item.talismans.splice(index, 1);

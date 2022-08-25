@@ -36,6 +36,7 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 
 @Component({
     selector: 'app-item',
@@ -75,6 +76,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         private readonly _effectsService: CreatureEffectsService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _itemTraitsService: ItemTraitsService,
+        private readonly _itemActivationService: ItemActivationService,
         public trackers: Trackers,
     ) { }
 
@@ -124,7 +126,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     public onActivateTalisman(itemRoles: ItemRoles, talisman: Talisman, index: number, options: { preserve?: boolean } = {}): void {
-        this._characterService.useConsumable(this._currentCreature, talisman, options.preserve);
+        this._itemActivationService.useConsumable(this._currentCreature, talisman, options.preserve);
 
         if (!options.preserve) {
             itemRoles.asEquipment?.talismans.splice(index, 1);
@@ -142,7 +144,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     public onActivatePoison(weapon: Weapon, poison: AlchemicalPoison): void {
-        this._characterService.useConsumable(this._currentCreature, poison);
+        this._itemActivationService.useConsumable(this._currentCreature, poison);
 
         weapon.poisonsApplied.length = 0;
         this._refreshService.prepareDetailToChange(this.creature, 'attacks');

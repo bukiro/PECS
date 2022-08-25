@@ -27,6 +27,7 @@ import { ItemsDataService } from 'src/app/core/services/data/items-data.service'
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { MessageProcessingService } from 'src/libs/shared/services/message-processing/message-processing.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -67,6 +68,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _menuService: MenuService,
         private readonly _settingsService: SettingsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _messageProcessingService: MessageProcessingService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -267,11 +269,11 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public creatureFromMessage(message: PlayerMessage): Creature {
-        return this._characterService.creatureFromMessage(message);
+        return this._messageProcessingService.creatureFromMessage(message);
     }
 
     public messageSenderName(message: PlayerMessage): string {
-        return this._characterService.messageSenderName(message);
+        return this._messageProcessingService.messageSenderName(message);
     }
 
     public itemMessageIncludedAmount(message: PlayerMessage): string {
@@ -310,9 +312,9 @@ export class TopBarComponent implements OnInit, OnDestroy {
                                 this._refreshService.prepareDetailToChange(creature.type, 'effects');
                             }
                         });
-                        this._characterService
+                        this._messageProcessingService
                             .applyMessageConditions(this.cachedNewMessages.filter(message => message.gainCondition.length));
-                        this._characterService
+                        this._messageProcessingService
                             .applyMessageItems(this.cachedNewMessages.filter(message => message.offeredItem.length));
                         this.cachedNewMessages.length = 0;
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');

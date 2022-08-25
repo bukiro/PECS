@@ -48,6 +48,7 @@ import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -116,6 +117,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _inventoryService: InventoryService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _currencyService: CurrencyService,
         public trackers: Trackers,
     ) { }
 
@@ -780,7 +782,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     private _changeCash(multiplier: 1 | -1 = 1, sum = 0, changeafter = false): void {
-        this._characterService.addCash(multiplier, sum);
+        this._currencyService.addCash(multiplier, sum);
 
         if (changeafter) {
             this._refreshService.setComponentChanged('inventory');

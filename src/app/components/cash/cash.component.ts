@@ -3,7 +3,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CopperAmounts } from 'src/libs/shared/definitions/currency';
-import { CopperAmountFromCashObject } from 'src/libs/shared/util/currencyUtils';
+import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
 
 @Component({
     selector: 'app-cash',
@@ -25,6 +25,7 @@ export class CashComponent {
     constructor(
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
+        private readonly _currencyService: CurrencyService,
     ) { }
 
     public positiveNumbersOnly(event: KeyboardEvent): boolean {
@@ -37,22 +38,16 @@ export class CashComponent {
         + (this.cash.silver * CopperAmounts.CopperInSilver)
         + (this.cash.copper)
     )): boolean {
-        const character = this._characterService.character;
-        const funds = CopperAmountFromCashObject(character.cash);
-
-        return sum <= funds;
+        return this._currencyService.hasFunds(sum);
     }
 
     public isCashInvalid(): boolean {
         return this.cash.platinum < 0 || this.cash.gold < 0 || this.cash.silver < 0 || this.cash.copper < 0;
     }
 
-    public addCash(multiplier = 1, sum = 0, changeafter = false): void {
-        this._characterService.addCash(multiplier, sum, this.cash);
-
-        if (changeafter) {
-            this._refreshService.setComponentChanged('inventory');
-        }
+    public addCash(multiplier: 1 | -1 = 1): void {
+        this._currencyService.addCash(multiplier, 0, this.cash);
+        this._refreshService.processPreparedChanges();
     }
 
 

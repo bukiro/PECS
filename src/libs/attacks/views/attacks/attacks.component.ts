@@ -45,6 +45,7 @@ import { CharacterDeitiesService } from 'src/libs/shared/services/character-deit
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -88,6 +89,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _settingsService: SettingsService,
         private readonly _inventoryService: InventoryService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _itemActivationService: ItemActivationService,
         public trackers: Trackers,
     ) { }
 
@@ -187,7 +189,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     public onTalismanUse(weapon: Weapon, talisman: Talisman, index: number, preserve = false): void {
         this._refreshService.prepareDetailToChange(this.creature, 'attacks');
-        this._characterService.useConsumable(this._currentCreature, talisman, preserve);
+        this._itemActivationService.useConsumable(this._currentCreature, talisman, preserve);
 
         if (!preserve) {
             weapon.talismans.splice(index, 1);
@@ -198,7 +200,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     public onPoisonUse(weapon: Weapon, poison: AlchemicalPoison): void {
         this._refreshService.prepareDetailToChange(this.creature, 'attacks');
-        this._characterService.useConsumable(this._currentCreature, poison);
+        this._itemActivationService.useConsumable(this._currentCreature, poison);
         weapon.poisonsApplied.length = 0;
         this._refreshService.processPreparedChanges();
     }
@@ -268,7 +270,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             }
         }
 
-        this._characterService.useConsumable(this._currentCreature, item as Consumable);
+        this._itemActivationService.useConsumable(this._currentCreature, item as Consumable);
 
         if (item.canStack()) {
             this._refreshService.prepareDetailToChange(this.creature, 'attacks');
@@ -406,7 +408,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const character = this._character;
 
         const hasCondition = (name: string): boolean => (
-            this._characterService.creatureHasCondition(creature, name)
+            !!this._creatureConditionsService.currentCreatureConditions(creature, { name }, { readonly: true }).length
         );
 
         if (

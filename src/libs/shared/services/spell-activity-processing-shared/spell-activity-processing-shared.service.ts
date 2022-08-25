@@ -14,6 +14,7 @@ import { TimePeriods } from '../../definitions/timePeriods';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { MessageSendingService } from '../message-sending/message-sending.service';
 
 @Injectable({
     providedIn: 'root',
@@ -26,6 +27,7 @@ export class SpellActivityProcessingSharedService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _messageSendingService: MessageSendingService,
     ) { }
 
     /**
@@ -338,7 +340,7 @@ export class SpellActivityProcessingSharedService {
                 newConditionGain.duration += TimePeriods.UntilOtherCharactersTurn;
             }
 
-            this._characterService.sendConditionToPlayers(
+            this._messageSendingService.sendConditionToPlayers(
                 conditionTargets.filter(target =>
                     target instanceof SpellTarget &&
                     !creatures.some(listCreature => listCreature.id === target.id),

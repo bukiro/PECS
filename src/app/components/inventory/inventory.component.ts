@@ -56,6 +56,9 @@ import { SettingsService } from 'src/app/core/services/settings/settings.service
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
+import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
+import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -128,6 +131,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _inventoryService: InventoryService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _currencyService: CurrencyService,
+        private readonly _itemActivationService: ItemActivationService,
+        private readonly _messageSendingService: MessageSendingService,
         public trackers: Trackers,
     ) { }
 
@@ -227,7 +233,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public sortCash(): void {
-        this._characterService.sortCash();
+        this._currencyService.sortCash();
     }
 
     public sortItemSet(itemSet: Array<Item>): Array<Item> {
@@ -372,7 +378,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                     amount,
                 );
             } else {
-                this._characterService.sendItemsToPlayer(this.currentCreature, target, item, amount);
+                this._messageSendingService.sendItemsToPlayer(this.currentCreature, target, item, amount);
             }
 
             this.toggleShownItem();
@@ -632,7 +638,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public onUseConsumable(item: Consumable, creature: CreatureTypes, inventory: ItemCollection): void {
-        this._characterService.useConsumable(this._characterService.creatureFromType(creature), item);
+        this._itemActivationService.useConsumable(this._characterService.creatureFromType(creature), item);
 
         if (this.canDropItem(item) && !item.canStack()) {
             this.dropInventoryItem(item, inventory, false);
@@ -676,7 +682,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public changeCash(multiplier: 1 | -1 = 1, sum = 0, changeafter = false): void {
-        this._characterService.addCash(multiplier, sum);
+        this._currencyService.addCash(multiplier, sum);
 
         if (changeafter) {
             this._refreshService.processPreparedChanges();

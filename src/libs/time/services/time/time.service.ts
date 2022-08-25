@@ -21,6 +21,7 @@ import { AbilitiesDataService } from '../../../../app/core/services/data/abiliti
 import { ItemsTimeService } from '../items-time/items-time.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 
 @Injectable({
     providedIn: 'root',
@@ -47,6 +48,7 @@ export class TimeService {
         private readonly _itemsTimeService: ItemsTimeService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _messageSendingService: MessageSendingService,
     ) { }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -94,7 +96,7 @@ export class TimeService {
 
         //If the character is in a party and sendTurnStartMessage is set, send a turn end event to all your party members.
         if (character.partyName && character.settings.sendTurnStartMessage && !character.settings.sendTurnEndMessage) {
-            this._characterService.sendTurnChangeToPlayers();
+            this._messageSendingService.sendTurnChangeToPlayers();
         }
 
         this._refreshService.processPreparedChanges();
@@ -107,7 +109,7 @@ export class TimeService {
         const character = this._characterService.character;
 
         if (character.partyName && character.settings.sendTurnStartMessage && character.settings.sendTurnEndMessage) {
-            this._characterService.sendTurnChangeToPlayers();
+            this._messageSendingService.sendTurnChangeToPlayers();
         }
     }
 

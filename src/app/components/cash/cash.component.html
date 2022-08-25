@@ -12,10 +12,10 @@
     </div>
     <div class="newrow">
         <span>
-            <button (click)="addCash(1, 0, true)" [disabled]="isCashInvalid()">Gain</button>
+            <button (click)="addCash(1)" [disabled]="isCashInvalid()">Gain</button>
         </span>
         <span>
-            <button (click)="addCash(-1, 0, true)" [disabled]="isCashInvalid()" [disabled]="!hasFunds()">Spend</button>
+            <button (click)="addCash(-1)" [disabled]="isCashInvalid()" [disabled]="!hasFunds()">Spend</button>
         </span>
     </div>
 </div>
