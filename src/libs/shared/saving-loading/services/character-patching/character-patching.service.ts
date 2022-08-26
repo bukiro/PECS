@@ -651,7 +651,7 @@ export class CharacterPatchingService {
                         ?.find(choice => choice.id === '7-Path to Perfection-Monk-2') || null;
 
                 if (!firstPathChoice?.feats.length) {
-                    const firstPathFeat = this._characterService.feats(`Path to Perfection: ${ firstPath }`)[0];
+                    const firstPathFeat = this._featsDataService.feats([], `Path to Perfection: ${ firstPath }`)[0];
 
                     if (firstPathFeat) {
                         this._featTakingService.takeFeat(character, firstPathFeat, firstPathFeat.name, true, firstPathChoice, false);
@@ -665,7 +665,7 @@ export class CharacterPatchingService {
                         ?.find(choice => choice.id === '11-Second Path to Perfection-Monk-0') || null;
 
                 if (!secondChoice?.feats.length) {
-                    const secondPathFeat = this._characterService.feats(`Second Path to Perfection: ${ secondPath }`)[0];
+                    const secondPathFeat = this._featsDataService.feats([], `Second Path to Perfection: ${ secondPath }`)[0];
 
                     if (secondPathFeat) {
                         this._featTakingService.takeFeat(character, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
@@ -679,7 +679,7 @@ export class CharacterPatchingService {
                         ?.find(choice => choice.id === '15-Third Path to Perfection-Monk-2') || null;
 
                 if (!thirdPathChoice?.feats.length) {
-                    const thirdPathFeat = this._characterService.feats(`Third Path to Perfection: ${ thirdPath }`)[0];
+                    const thirdPathFeat = this._featsDataService.feats([], `Third Path to Perfection: ${ thirdPath }`)[0];
 
                     if (thirdPathFeat) {
                         this._featTakingService.takeFeat(character, thirdPathFeat, thirdPathFeat.name, true, thirdPathChoice, false);
@@ -777,7 +777,7 @@ export class CharacterPatchingService {
                 data: Array<FeatData>;
             }
 
-            const baseFeats = this._characterService.feats().filter(feat => feat.lorebase || feat.weaponfeatbase)
+            const baseFeats = this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase || feat.weaponfeatbase)
                 .map(feat => feat.name.toLowerCase());
 
             this._characterFeatsService.buildCharacterFeats(character);

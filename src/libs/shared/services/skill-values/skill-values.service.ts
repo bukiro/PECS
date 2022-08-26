@@ -192,7 +192,7 @@ export class SkillValuesService {
                 // apply the best of these proficiencies to your innate spells, too.
                 if (skill.name.includes('Innate') && skill.name.includes('Spell DC')) {
                     const spellDCs =
-                        this._characterService.skills(creature)
+                        this._skillsDataService.skills(creature.customSkills)
                             .filter(creatureSkill =>
                                 creatureSkill !== skill &&
                                 creatureSkill.name.includes('Spell DC') &&

@@ -46,6 +46,7 @@ import { SettingsService } from 'src/app/core/services/settings/settings.service
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -90,6 +91,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _inventoryService: InventoryService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _itemActivationService: ItemActivationService,
+        private readonly _skillsDataService: SkillsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -281,7 +283,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     public skillsOfType(type: string): Array<Skill> {
-        return this._characterService.skills(this._currentCreature, '', { type });
+        return this._skillsDataService.skills(this._currentCreature.customSkills, '', { type });
     }
 
     public traitFromName(traitName: string): Trait {

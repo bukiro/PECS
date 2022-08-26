@@ -73,8 +73,8 @@ export class CreatureEffectsGenerationService {
         const hintSets: Array<HintEffectsObject> = [];
 
         this._characterFeatsService.characterFeatsTaken(0, character.level)
-            .map(gain => this._characterService.featsAndFeatures(gain.name)[0])
-            .filter(feat => feat && this._characterFeatsService.characterHasFeat(feat.name))
+            .map(gain => this._featsDataService.featOrFeatureFromName(character.customFeats, gain.name))
+            .filter(feat => feat)
             .forEach(feat => {
                 feats.push(feat);
                 feat.hints?.forEach(hint => {

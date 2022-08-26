@@ -17,6 +17,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 
 interface ActivitySet {
     name: string;
@@ -59,6 +60,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _skillsDataService: SkillsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -74,6 +76,10 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     public get stillLoading(): boolean {
         return this._activitiesDataService.stillLoading || this._characterService.stillLoading;
+    }
+
+    public get currentCreature(): Creature {
+        return this._characterService.creatureFromType(this.creature);
     }
 
     private get _character(): Character {
@@ -114,13 +120,9 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
-    public currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
-    }
-
     public activityParameters(): Array<ActivityParameter> {
         return this._ownedActivities().map(gainSet => {
-            const creature = this.currentCreature();
+            const creature = this.currentCreature;
 
             this._activityPropertiesService.cacheMaxCharges(gainSet.activity, { creature });
 
@@ -138,17 +140,17 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public classDCs(): Array<Skill> {
-        return this._characterService
-            .skills(this.currentCreature(), '', { type: 'Class DC' })
-            .filter(skill => this._skillValuesService.level(skill, this.currentCreature()) > 0);
+        return this._skillsDataService
+            .skills(this.currentCreature.customSkills, '', { type: 'Class DC' })
+            .filter(skill => this._skillValuesService.level(skill, this.currentCreature) > 0);
     }
 
     public temporaryFeatChoices(): Array<FeatChoice> {
         const choices: Array<FeatChoice> = [];
 
         if (this.creature === CreatureTypes.Character) {
-            (this.currentCreature() as Character).class.levels
-                .filter(level => level.number <= this.currentCreature().level)
+            (this.currentCreature as Character).class.levels
+                .filter(level => level.number <= this.currentCreature.level)
                 .forEach(level => {
                     choices.push(...level.featChoices.filter(choice => choice.showOnSheet));
                 });
@@ -216,10 +218,10 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
             }
         };
 
-        this._creatureActivitiesService.creatureOwnedActivities(this.currentCreature()).forEach(gain => {
+        this._creatureActivitiesService.creatureOwnedActivities(this.currentCreature).forEach(gain => {
             const activity = this._activityGainPropertyService.originalActivity(gain);
 
-            this._activityPropertiesService.cacheEffectiveCooldown(activity, { creature: this.currentCreature() });
+            this._activityPropertiesService.cacheEffectiveCooldown(activity, { creature: this.currentCreature });
 
             if (!unique.includes(gain.name) || gain instanceof ItemActivity) {
                 unique.push(gain.name);

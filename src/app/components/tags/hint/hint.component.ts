@@ -22,6 +22,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trait } from 'src/app/classes/Trait';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 
 type HintObject =
     Feat | Activity | ConditionSet | Equipment | Oil | WornItem | ArmorRune | WeaponRune | Material | { desc?: string; hints: Array<Hint> };
@@ -55,6 +56,7 @@ export class HintComponent {
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
+        private readonly _featsDataService: FeatsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -156,7 +158,8 @@ export class HintComponent {
             if (replaceSource.source) {
                 switch (replaceSource.type) {
                     case 'feat':
-                        return this._characterService.featsAndFeatures(replaceSource.source)[0] || this.object;
+                        return this._featsDataService.featOrFeatureFromName(this.character.customFeats, replaceSource.source)
+                            || this.object;
                     default: break;
                 }
             }

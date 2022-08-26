@@ -101,7 +101,7 @@
             <app-featchoice *ngFor="let choice of temporaryFeatChoices(); trackBy:trackers.trackByIndex;"
                 (showFeatChoiceMessage)="receiveShownFeatChoiceMessage($event.name)"
                 (showFeatMessage)="receiveShownFeatMessage($event)" [choice]="choice"
-                [levelNumber]="currentCreature().level" [showFeat]="shownItem()" [showChoice]="shownFeatChoice()">
+                [levelNumber]="currentCreature.level" [showFeat]="shownItem()" [showChoice]="shownFeatChoice()">
             </app-featchoice>
         </div>
     </ng-container>

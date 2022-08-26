@@ -30,6 +30,9 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { ItemPropertiesDataService } from 'src/app/core/services/data/item-properties-data.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -62,6 +65,9 @@ export class NewItemPropertyComponent {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _evaluationService: EvaluationService,
         private readonly _conditionsDataService: ConditionsDataService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
+        private readonly _skillsDataService: SkillsDataService,
+        private readonly _featsDataService: FeatsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -333,17 +339,21 @@ export class NewItemPropertyComponent {
         const wayfinderOptionsLength = 3;
         const talismancordOptionsLength = 4;
 
+        const character = this._character;
+
         switch (this.propertyData.examples) {
             case 'prof':
                 switch (parent.type) {
                     case 'weapons':
                         examples =
-                            this._characterService.skills(this._character, '', { type: 'Weapon Proficiency' }).map(item => item.name);
+                            this._skillsDataService
+                                .skills(this._character.customSkills, '', { type: 'Weapon Proficiency' }).map(item => item.name);
                         examples.push('Advanced Weapons');
                         break;
                     case 'armors':
                         examples =
-                            this._characterService.skills(this._character, '', { type: 'Armor Proficiency' }).map(item => item.name);
+                            this._skillsDataService
+                                .skills(this._character.customSkills, '', { type: 'Armor Proficiency' }).map(item => item.name);
                         examples.push('Light Barding');
                         examples.push('Heavy Barding');
                         break;
@@ -411,7 +421,7 @@ export class NewItemPropertyComponent {
                 break;
             case 'onceEffects affected':
                 examples.push(...['Focus', 'HP', 'Temporary HP']);
-                this._characterService.featsAndFeatures()
+                this._featsDataService.featsAndFeatures(character.customFeats)
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.affected));
@@ -442,7 +452,7 @@ export class NewItemPropertyComponent {
                     });
                 break;
             case 'onceEffects value':
-                this._characterService.featsAndFeatures()
+                this._featsDataService.featsAndFeatures(character.customFeats)
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.value));
@@ -473,9 +483,9 @@ export class NewItemPropertyComponent {
                     });
                 break;
             case 'effects affected':
-                examples.push(...this._characterService.skills(this._character).map(skill => skill.name));
-                examples.push(...this._characterService.abilities().map(ability => ability.name));
-                this._characterService.featsAndFeatures()
+                examples.push(...this._skillsDataService.skills(this._character.customSkills).map(skill => skill.name));
+                examples.push(...this._abilitiesDataService.abilities().map(ability => ability.name));
+                this._featsDataService.featsAndFeatures(character.customFeats)
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.affected));
@@ -487,12 +497,12 @@ export class NewItemPropertyComponent {
                     });
                 break;
             case 'effects value':
-                this._characterService.featsAndFeatures()
+                this._featsDataService.featsAndFeatures(character.customFeats)
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.value));
                     });
-                this._characterService.featsAndFeatures()
+                this._featsDataService.featsAndFeatures(character.customFeats)
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.value));
@@ -534,12 +544,12 @@ export class NewItemPropertyComponent {
                 );
                 break;
             case 'effects setvalue':
-                this._characterService.featsAndFeatures()
+                this._featsDataService.featsAndFeatures(character.customFeats)
                     .filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.setValue));
                     });
-                this._characterService.featsAndFeatures()
+                this._featsDataService.featsAndFeatures(character.customFeats)
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.setValue));
@@ -582,7 +592,7 @@ export class NewItemPropertyComponent {
                     );
                 break;
             case 'effects title':
-                this._characterService.featsAndFeatures()
+                this._featsDataService.featsAndFeatures(character.customFeats)
                     .filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.title));
@@ -619,9 +629,9 @@ export class NewItemPropertyComponent {
                 examples.push(...this._activitiesDataService.activities().map(activity => activity.name));
                 break;
             case 'showon':
-                examples.push(...this._characterService.skills(this._character).map(skill => skill.name));
-                examples.push(...this._characterService.abilities().map(ability => ability.name));
-                this._characterService.featsAndFeatures()
+                examples.push(...this._skillsDataService.skills(this._character.customSkills).map(skill => skill.name));
+                examples.push(...this._abilitiesDataService.abilities().map(ability => ability.name));
+                this._featsDataService.featsAndFeatures(character.customFeats)
                     .filter(feat => feat.hints.length)
                     .forEach(feat => {
                         examples.push(...feat.hints.filter(hint => hint.showon.length).map(hint => hint.showon));

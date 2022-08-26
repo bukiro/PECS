@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { ObjectEffectsGenerationService } from '../../effects-generation/services/object-effects-generation/object-effects-generation';
 import { AbilityModFromAbilityValue } from '../../util/abilityUtils';
@@ -18,6 +19,7 @@ export class CharacterLanguagesService {
         private readonly _objectEffectsGenerationService: ObjectEffectsGenerationService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _featsDataService: FeatsDataService,
 
     ) { }
 
@@ -58,7 +60,7 @@ export class CharacterLanguagesService {
                 //Collect all feats you have that grant extra free languages, then note on which level you have them.
                 //Add the amount that they would grant you on that level by faking a level for the effect.
                 this._characterFeatsService.characterFeatsTaken(level.number, level.number).forEach(taken => {
-                    const feat = this._characterService.featsAndFeatures(taken.name)[0];
+                    const feat = this._featsDataService.featOrFeatureFromName(character.customFeats, taken.name);
 
                     if (feat) {
                         if (feat.effects.some(effect => effect.affected === 'Max Languages')) {

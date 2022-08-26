@@ -34,6 +34,9 @@ import { DurationsService } from 'src/libs/time/services/durations/durations.ser
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 
 const itemsPerPage = 40;
 
@@ -107,6 +110,9 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         private readonly _durationsService: DurationsService,
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
+        private readonly _skillsDataService: SkillsDataService,
+        private readonly _featsDataService: FeatsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -537,11 +543,13 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     public effectPropertyExamples(propertyData: ItemProperty): Array<string> {
         let examples: Array<string> = [''];
 
+        const character = this.character;
+
         switch (propertyData.examples) {
             case 'effects affected':
-                examples.push(...this._characterService.skills(this.character).map((skill: Skill) => skill.name));
-                examples.push(...this._characterService.abilities().map((ability: Ability) => ability.name));
-                this._characterService.featsAndFeatures().filter(feat => feat.effects.length)
+                examples.push(...this._skillsDataService.skills(character.customSkills).map((skill: Skill) => skill.name));
+                examples.push(...this._abilitiesDataService.abilities().map((ability: Ability) => ability.name));
+                this._featsDataService.featsAndFeatures(character.customFeats).filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.affected));
                     });
@@ -551,11 +559,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                     });
                 break;
             case 'effects value':
-                this._characterService.featsAndFeatures().filter(feat => feat.onceEffects.length)
+                this._featsDataService.featsAndFeatures(character.customFeats).filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.value));
                     });
-                this._characterService.featsAndFeatures().filter(feat => feat.effects.length)
+                this._featsDataService.featsAndFeatures(character.customFeats).filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.value));
                     });
@@ -593,11 +601,11 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                 );
                 break;
             case 'effects setvalue':
-                this._characterService.featsAndFeatures().filter(feat => feat.onceEffects.length)
+                this._featsDataService.featsAndFeatures(character.customFeats).filter(feat => feat.onceEffects.length)
                     .forEach(feat => {
                         examples.push(...feat.onceEffects.map(effect => effect.setValue));
                     });
-                this._characterService.featsAndFeatures().filter(feat => feat.effects.length)
+                this._featsDataService.featsAndFeatures(character.customFeats).filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.setValue));
                     });
@@ -635,7 +643,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                 );
                 break;
             case 'effects title':
-                this._characterService.featsAndFeatures().filter(feat => feat.effects.length)
+                this._featsDataService.featsAndFeatures(character.customFeats).filter(feat => feat.effects.length)
                     .forEach(feat => {
                         examples.push(...feat.effects.map(effect => effect.title));
                     });

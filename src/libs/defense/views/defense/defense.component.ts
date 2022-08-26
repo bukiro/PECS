@@ -26,6 +26,7 @@ import { ArmorClassService, CalculatedAC, CoverTypes } from '../../services/armo
 import { ArmorPropertiesService } from 'src/libs/shared/services/armor-properties/armor-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -61,6 +62,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         private readonly _armorPropertiesService: ArmorPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemActivationService: ItemActivationService,
+        private readonly _skillsDataService: SkillsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -220,7 +222,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public skillsOfType(type: string): Array<Skill> {
-        return this._characterService.skills(this._currentCreature, '', { type })
+        return this._skillsDataService.skills(this._currentCreature.customSkills, '', { type })
             .sort((a, b) => SortAlphaNum(a.name, b.name));
     }
 

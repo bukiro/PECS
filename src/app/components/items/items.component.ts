@@ -49,6 +49,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -118,6 +119,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _currencyService: CurrencyService,
+        private readonly _skillsDataService: SkillsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -670,7 +672,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     public scrollSavantSpellDCLevel(): number {
         const character = this._character;
 
-        return Math.max(...this._characterService.skills(character)
+        return Math.max(...this._skillsDataService.skills(character.customSkills)
             .filter(skill => skill.name.includes('Arcane Spell DC'))
             .map(skill => this._skillValuesService.level(skill, character, character.level)), 0);
     }

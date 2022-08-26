@@ -9,6 +9,7 @@ import { ExtensionsService } from 'src/app/core/services/data/extensions.service
 export class AbilitiesDataService {
     private _abilities: Array<Ability> = [];
     private _initialized = false;
+    private readonly _abilitiesMap = new Map<string, Ability>();
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
@@ -16,6 +17,11 @@ export class AbilitiesDataService {
 
     public get stillLoading(): boolean {
         return !this._initialized;
+    }
+
+    public abilityFromName(name: string): Ability {
+        //Returns a named activity from the map.
+        return this._abilitiesMap.get(name.toLowerCase()) || this._replacementAbility(name);
     }
 
     public abilities(name = ''): Array<Ability> {
@@ -27,11 +33,11 @@ export class AbilitiesDataService {
     }
 
     public initialize(): void {
-        //Initialize only once.
-        if (!this._abilities.length) {
-            this._abilities = this._loadAbilities();
-            this._initialized = true;
-        }
+        this._abilities = this._loadAbilities();
+        this._abilities.forEach(ability => {
+            this._abilitiesMap.set(ability.name.toLowerCase(), ability);
+        });
+        this._initialized = true;
     }
 
     private _loadAbilities(): Array<Ability> {
@@ -45,5 +51,14 @@ export class AbilitiesDataService {
         abilities = this._extensionsService.cleanupDuplicates(abilities, 'name', 'abilities') as Array<Ability>;
 
         return abilities;
+    }
+
+    private _replacementAbility(name?: string): Ability {
+        return Object.assign(
+            new Ability(),
+            {
+                name: `${ name ? name : 'Ability' } not found`,
+            },
+        );
     }
 }

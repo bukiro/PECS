@@ -3,6 +3,7 @@ import { Background } from 'src/app/classes/Background';
 import { Character } from 'src/app/classes/Character';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
@@ -19,6 +20,7 @@ export class CharacterBackgroundChangeService {
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _featProcessingService: FeatProcessingService,
+        private readonly _skillsDataService: SkillsDataService,
     ) { }
 
     public changeBackground(background?: Background): void {
@@ -102,8 +104,8 @@ export class CharacterBackgroundChangeService {
             });
 
             if (background.loreChoices[0].loreName) {
-                if (this._characterService.skills(
-                    character,
+                if (this._skillsDataService.skills(
+                    character.customSkills,
                     `Lore: ${ background.loreChoices[0].loreName }`,
                     {},
                     { noSubstitutions: true },

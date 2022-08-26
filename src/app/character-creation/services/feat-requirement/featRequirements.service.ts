@@ -22,6 +22,9 @@ import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/cr
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
 
 @Injectable({
     providedIn: 'root',
@@ -40,6 +43,9 @@ export class FeatRequirementsService {
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _abilitiesDataService: AbilitiesDataService,
+        private readonly _skillsDataService: SkillsDataService,
+        private readonly _creatureSensesService: CreatureSensesService,
     ) { }
 
     public static prof(skillLevel: number): string {
@@ -142,17 +148,15 @@ export class FeatRequirementsService {
 
         if (feat.abilityreq.length) {
             feat.abilityreq.forEach(requirement => {
-                const requiredAbility: Array<Ability> = this._characterService.abilities(requirement.ability);
+                const requiredAbility: Ability = this._abilitiesDataService.abilityFromName(requirement.ability);
                 const expected: number = requirement.value;
 
-                if (requiredAbility.length) {
-                    requiredAbility.forEach(ability => {
-                        if (this._abilityValuesService.baseValue(ability, character, charLevel).result >= expected) {
-                            result.push({ met: true, desc: `${ ability.name } ${ expected }` });
-                        } else {
-                            result.push({ met: false, desc: `${ ability.name } ${ expected }` });
-                        }
-                    });
+                if (requiredAbility) {
+                    if (this._abilityValuesService.baseValue(requiredAbility, character, charLevel).result >= expected) {
+                        result.push({ met: true, desc: `${ requiredAbility.name } ${ expected }` });
+                    } else {
+                        result.push({ met: false, desc: `${ requiredAbility.name } ${ expected }` });
+                    }
                 }
             });
         } else {
@@ -191,7 +195,7 @@ export class FeatRequirementsService {
             skillreq.forEach(requirement => {
                 const requiredSkillName: string = requirement.skill;
                 const requiredSkill: Array<Skill> =
-                    this._characterService.skills(character, requiredSkillName, {}, { noSubstitutions: true });
+                    this._skillsDataService.skills(character.customSkills, requiredSkillName, {}, { noSubstitutions: true });
                 const expected: number = requirement.value;
 
                 if (requiredSkill.length) {
@@ -570,7 +574,7 @@ export class FeatRequirementsService {
                 });
                 complexreq.countSenses?.forEach(sensereq => {
                     if (!hasThisRequirementFailed) {
-                        const allSenses = this._characterService.creatureSenses(creature, charLevel, false);
+                        const allSenses = this._creatureSensesService.creatureSenses(creature, charLevel, false);
                         const queryResult = ApplyDefaultQuery(sensereq.query, allSenses);
 
                         if (!DoesNumberMatchExpectation(queryResult, sensereq.expected)) {
@@ -838,19 +842,19 @@ export class FeatRequirementsService {
 
                         if (types.length) {
                             types.forEach(type => {
-                                allSkills.push(...this._characterService.skills(creature, '', { type }));
+                                allSkills.push(...this._skillsDataService.skills(creature.customSkills, '', { type }));
                             });
                         } else if (skillreq.query.allOfNames) {
                             SplitNames(skillreq.query.allOfNames).forEach(name => {
-                                allSkills.push(...this._characterService.skills(creature, name));
+                                allSkills.push(...this._skillsDataService.skills(creature.customSkills, name));
                             });
                         } else if (skillreq.query.anyOfNames) {
                             SplitNames(skillreq.query.anyOfNames).forEach(name => {
-                                allSkills.push(...this._characterService.skills(creature, name));
+                                allSkills.push(...this._skillsDataService.skills(creature.customSkills, name));
                             });
                         } else {
                             //The default is 'any'.
-                            allSkills.push(...this._characterService.skills(creature, ''));
+                            allSkills.push(...this._skillsDataService.skills(creature.customSkills, ''));
                         }
 
                         if (skillreq.query.matchingDivineSkill) {

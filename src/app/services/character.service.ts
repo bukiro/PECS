@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
-import { Skill } from 'src/app/classes/Skill';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { Armor } from 'src/app/classes/Armor';
@@ -37,9 +36,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Specialization } from '../classes/Specialization';
-import { Ability } from '../classes/Ability';
-import { Health } from '../classes/Health';
-import { AnimalCompanionLevel } from '../classes/AnimalCompanionLevel';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingItem';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -173,117 +169,6 @@ export class CharacterService {
             default:
                 return new Character();
         }
-    }
-
-    public abilities(name = ''): Array<Ability> {
-        return this._abilitiesDataService.abilities(name);
-    }
-
-    public skills(
-        creature: Creature,
-        name = '',
-        filter: { type?: string; locked?: boolean } = {},
-        options: { noSubstitutions?: boolean } = {},
-    ): Array<Skill> {
-        return this._skillsDataService.skills(creature.customSkills, name, filter, options);
-    }
-
-    public feats(name = '', type = ''): Array<Feat> {
-        return this._featsDataService.feats(this.character.customFeats, name, type);
-    }
-
-    public featsAndFeatures(name = '', type = '', includeSubTypes = false, includeCountAs = false): Array<Feat> {
-        //Use this function very sparingly! See get_All() for details.
-        return this._featsDataService.featsAndFeatures(this.character.customFeats, name, type, includeSubTypes, includeCountAs);
-    }
-
-    public creatureHealth(creature: Creature): Health {
-        return creature.health;
-    }
-
-    public animalCompanionLevels(): Array<AnimalCompanionLevel> {
-        return this._animalCompanionsDataService.companionLevels();
-    }
-
-    public creatureSenses(creature: Creature, charLevel: number = this.character.level, allowTemporary = false): Array<string> {
-        let senses: Array<string> = [];
-
-        let ancestrySenses: Array<string>;
-
-        if (creature.isFamiliar()) {
-            ancestrySenses = creature.senses;
-        } else {
-            ancestrySenses = (creature as AnimalCompanion | Character).class?.ancestry?.senses;
-        }
-
-        if (ancestrySenses.length) {
-            senses.push(...ancestrySenses);
-        }
-
-        if (creature.isCharacter()) {
-            const heritageSenses = creature.class.heritage.senses;
-
-            if (heritageSenses.length) {
-                senses.push(...heritageSenses);
-            }
-
-            this._characterFeatsService.characterFeatsAndFeatures()
-                .filter(feat => feat.senses?.length && this._characterFeatsService.characterHasFeat(feat.name, charLevel))
-                .forEach(feat => {
-                    senses.push(...feat.senses);
-                });
-        }
-
-        if (creature.isFamiliar()) {
-            creature.abilities.feats
-                .map(gain => this._familiarsDataService.familiarAbilities(gain.name)[0])
-                .filter(ability => ability?.senses.length)
-                .forEach(ability => {
-                    senses.push(...ability.senses);
-                });
-        }
-
-        if (allowTemporary) {
-            senses.push(...this.sensesGrantedByEquipment(creature));
-            this._creatureConditionsService.currentCreatureConditions(creature)
-                .filter(gain => gain.apply)
-                .forEach(gain => {
-                    const condition = this._conditionsDataService.conditionFromName(gain.name);
-
-                    if (condition?.senses.length) {
-                        //Add all non-excluding senses.
-                        senses.push(
-                            ...condition.senses
-                                .filter(sense =>
-                                    !sense.excluding &&
-                                    (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice)))
-                                .map(sense => sense.name),
-                        );
-                        //Remove all excluding senses.
-                        condition.senses
-                            .filter(sense =>
-                                sense.excluding &&
-                                (!sense.conditionChoiceFilter.length || sense.conditionChoiceFilter.includes(gain.choice)),
-                            )
-                            .forEach(sense => {
-                                senses = senses.filter(existingSense => existingSense !== sense.name);
-                            });
-                    }
-                });
-        }
-
-        return Array.from(new Set(senses));
-    }
-
-    public sensesGrantedByEquipment(creature: Creature): Array<string> {
-        const senses: Array<string> = [];
-
-        creature.inventories[0].allEquipment().filter(equipment => equipment.gainSenses.length && equipment.investedOrEquipped())
-            .forEach(equipment => {
-                senses.push(...equipment.gainSenses);
-            });
-
-        return senses;
     }
 
     public characterFeatsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
@@ -559,7 +444,7 @@ export class CharacterService {
 
             const companion = character.class.animalCompanion;
 
-            companion.class.levels = this.animalCompanionLevels();
+            companion.class.levels = this._animalCompanionsDataService.companionLevels();
             this.equipBasicItems(companion);
             this._animalCompanionLevelsService.setLevel(companion);
         }

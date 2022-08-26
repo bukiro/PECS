@@ -6,6 +6,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { ItemSpecializationsDataService } from 'src/app/core/services/data/item-specializations-data.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
@@ -26,6 +27,7 @@ export class ArmorPropertiesService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemSpecializationsDataService: ItemSpecializationsDataService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _skillsDataService: SkillsDataService,
     ) { }
 
     public effectiveProficiency(armor: Armor, context: { creature: Creature }): string {
@@ -54,7 +56,7 @@ export class ArmorPropertiesService {
         let skillLevel = 0;
         const armorLevel =
             this._skillValuesService.level(
-                this._characterService.skills(creature, armor.name, { type: 'Specific Weapon Proficiency' })[0],
+                this._skillsDataService.skills(creature.customSkills, armor.name, { type: 'Specific Weapon Proficiency' })[0],
                 creature,
                 charLevel,
             );

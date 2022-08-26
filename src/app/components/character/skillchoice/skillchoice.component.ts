@@ -14,6 +14,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { CharacterSkillIncreaseService } from 'src/app/character-creation/services/character-skill-increase/character-skill-increase.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 
 interface SkillChoiceParameters {
     listId: string;
@@ -67,6 +68,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
+        private readonly _skillsDataService: SkillsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -300,7 +302,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
             locked: undefined, ...filter,
         };
 
-        return this._characterService.skills(this.character, name, filter);
+        return this._skillsDataService.skills(this.character.customSkills, name, filter);
     }
 
     private _buttonTitle(allowedIncreases: number): string {

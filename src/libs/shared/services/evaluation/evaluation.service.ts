@@ -31,6 +31,7 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 
 interface FormulaObject {
     effects: Array<EffectGain>;
@@ -71,6 +72,7 @@ export class EvaluationService {
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _skillsDataService: SkillsDataService,
     ) { }
 
     public valueFromFormula(
@@ -187,7 +189,7 @@ export class EvaluationService {
             }
         };
         const Skills_Of_Type = (name: string): Array<SkillModel> => (
-            this._characterService.skills(Creature, '', { type: name })
+            this._skillsDataService.skills(Creature.customSkills, '', { type: name })
         );
         const Has_Speed = (name: string): boolean => (
             //This tests if you have a certain speed, either from your ancestry or from absolute effects.

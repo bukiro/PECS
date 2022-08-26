@@ -13,6 +13,7 @@ import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +28,7 @@ export class WeaponPropertiesService {
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _skillsDataService: SkillsDataService,
     ) { }
 
     public effectiveProficiency(
@@ -105,12 +107,13 @@ export class WeaponPropertiesService {
         //If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency.
         if (weapon.useHighestAttackProficiency) {
             const highestProficiencySkill =
-                this._characterService.skills(creature, 'Highest Attack Proficiency', { type: 'Specific Weapon Proficiency' });
+                this._skillsDataService
+                    .skills(creature.customSkills, 'Highest Attack Proficiency', { type: 'Specific Weapon Proficiency' });
 
             levels.push(
                 this._skillValuesService.level(
                     (
-                        this._characterService.skills(creature, weapon.name)[0] ||
+                        this._skillsDataService.skills(creature.customSkills, weapon.name)[0] ||
                         highestProficiencySkill[0]
                     ),
                     creature
@@ -123,7 +126,7 @@ export class WeaponPropertiesService {
         //Weapon name, e.g. Demon Sword.
         levels.push(
             this._skillValuesService.level(
-                this._characterService.skills(creature, weapon.name, { type: 'Specific Weapon Proficiency' })[0],
+                this._skillsDataService.skills(creature.customSkills, weapon.name, { type: 'Specific Weapon Proficiency' })[0],
                 creature,
                 charLevel,
             ) ||
@@ -133,7 +136,7 @@ export class WeaponPropertiesService {
         levels.push(
             weapon.weaponBase
                 ? this._skillValuesService.level(
-                    this._characterService.skills(creature, weapon.weaponBase, { type: 'Specific Weapon Proficiency' })[0],
+                    this._skillsDataService.skills(creature.customSkills, weapon.weaponBase, { type: 'Specific Weapon Proficiency' })[0],
                     creature,
                     charLevel,
                 )
@@ -146,7 +149,7 @@ export class WeaponPropertiesService {
 
         levels.push(
             this._skillValuesService.level(
-                this._characterService.skills(creature, profAndGroup, { type: 'Specific Weapon Proficiency' })[0],
+                this._skillsDataService.skills(creature.customSkills, profAndGroup, { type: 'Specific Weapon Proficiency' })[0],
                 creature,
                 charLevel,
             ) ||
@@ -160,7 +163,7 @@ export class WeaponPropertiesService {
             ...weapon.traits
                 .map(trait =>
                     this._skillValuesService.level(
-                        this._characterService.skills(creature, trait, { type: 'Specific Weapon Proficiency' })[0],
+                        this._skillsDataService.skills(creature.customSkills, trait, { type: 'Specific Weapon Proficiency' })[0],
                         creature,
                         charLevel,
                     ) ||
@@ -172,7 +175,8 @@ export class WeaponPropertiesService {
                 .filter(trait => trait.includes(' '))
                 .map(trait =>
                     this._skillValuesService.level(
-                        this._characterService.skills(creature, trait.split(' ')[0], { type: 'Specific Weapon Proficiency' })[0],
+                        this._skillsDataService
+                            .skills(creature.customSkills, trait.split(' ')[0], { type: 'Specific Weapon Proficiency' })[0],
                         creature,
                         charLevel,
                     ) ||
@@ -183,7 +187,7 @@ export class WeaponPropertiesService {
         levels.push(
             this.isFavoredWeapon(weapon, creature)
                 ? this._skillValuesService.level(
-                    this._characterService.skills(creature, 'Favored Weapon', { type: 'Favored Weapon' })[0],
+                    this._skillsDataService.skills(creature.customSkills, 'Favored Weapon', { type: 'Favored Weapon' })[0],
                     creature,
                     charLevel,
                 )
@@ -199,11 +203,11 @@ export class WeaponPropertiesService {
         if (runeSource.propertyRunes.some(rune => rune.name === 'Ancestral Echoing')) {
             // First, we get all the weapon proficiencies...
             const skills: Array<number> =
-                this._characterService.skills(creature, '', { type: 'Weapon Proficiency' })
+                this._skillsDataService.skills(creature.customSkills, '', { type: 'Weapon Proficiency' })
                     .map(skill => this._skillValuesService.level(skill, creature, charLevel));
 
             skills.push(
-                ...this._characterService.skills(creature, '', { type: 'Specific Weapon Proficiency' })
+                ...this._skillsDataService.skills(creature.customSkills, '', { type: 'Specific Weapon Proficiency' })
                     .map(skill => this._skillValuesService.level(skill, creature, charLevel)),
             );
             //Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
@@ -215,11 +219,11 @@ export class WeaponPropertiesService {
         if (weapon.oilsApplied.some(oil => oil.runeEffect && oil.runeEffect.name === 'Ancestral Echoing')) {
             // First, we get all the weapon proficiencies...
             const skills: Array<number> =
-                this._characterService.skills(creature, '', { type: 'Weapon Proficiency' })
+                this._skillsDataService.skills(creature.customSkills, '', { type: 'Weapon Proficiency' })
                     .map(skill => this._skillValuesService.level(skill, creature, charLevel));
 
             skills.push(
-                ...this._characterService.skills(creature, '', { type: 'Specific Weapon Proficiency' })
+                ...this._skillsDataService.skills(creature.customSkills, '', { type: 'Specific Weapon Proficiency' })
                     .map(skill => this._skillValuesService.level(skill, creature, charLevel)));
             // Then we set this skill level to either this level +2 or the highest of the found proficiencies - whichever is lower.
             bestSkillLevel = Math.min(skillLevel + skillLevelBaseStep, Math.max(...skills));

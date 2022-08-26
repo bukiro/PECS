@@ -20,6 +20,7 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
 
 interface SpeedParameters {
     name: string;
@@ -58,6 +59,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
         private readonly _speedValuesService: SpeedValuesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _creatureSensesService: CreatureSensesService,
         public trackers: Trackers,
     ) { }
 
@@ -125,7 +127,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     public skillsOfType(type: string): Array<Skill> {
         const creature = this._currentCreature;
 
-        return this._characterService.skills(creature, '', { type })
+        return this._skillsDataService.skills(creature.customSkills, '', { type })
             .filter(skill =>
                 skill.name.includes('Lore') ?
                     this._skillValuesService.level(skill, creature, creature.level) :
@@ -167,7 +169,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     public senses(): Array<string> {
-        return this._characterService.creatureSenses(this._currentCreature, undefined, true);
+        return this._creatureSensesService.creatureSenses(this._currentCreature, this._character.level, true);
     }
 
     public speedParameters(): Array<SpeedParameters> {

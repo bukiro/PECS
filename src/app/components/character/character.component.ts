@@ -84,6 +84,7 @@ import { SettingsService } from 'src/app/core/services/settings/settings.service
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -159,6 +160,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _itemsDataService: ItemsDataService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _onceEffectsService: OnceEffectsService,
+        private readonly _skillsDataService: SkillsDataService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -985,7 +987,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             locked: undefined, ...filter,
         };
 
-        return this._characterService.skills(this.character, name, filter, options);
+        return this._skillsDataService.skills(this.character.customSkills, name, filter, options);
     }
 
     public size(size: number): string {
@@ -1808,7 +1810,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     public animalCompanionAbilities(type: AnimalCompanionAncestry): Array<{ name: string; modifier: string }> {
         const abilities: [{ name: string; modifier: string }] = [{ name: '', modifier: '' }];
 
-        this._characterService.abilities().forEach(ability => {
+        this._abilitiesDataService.abilities().forEach(ability => {
             const name = ability.modifierName;
             let modifier = 0;
             const classboosts = this.companion.class.levels[1].abilityChoices[0].boosts.filter(boost => boost.name === ability.name);

@@ -38,6 +38,7 @@ import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -126,6 +127,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _settingsService: SettingsService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _onceEffectsService: OnceEffectsService,
+        private readonly _skillsDataService: SkillsDataService,
         public trackers: Trackers,
     ) { }
 
@@ -203,8 +205,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     public spellDCs(): Array<Skill> {
         const character = this._character;
 
-        return this._characterService
-            .skills(this._character, '', { type: 'Spell DC' })
+        return this._skillsDataService
+            .skills(this._character.customSkills, '', { type: 'Spell DC' })
             .filter(skill => this._skillValuesService.level(skill, character, character.level) > 0);
     }
 
