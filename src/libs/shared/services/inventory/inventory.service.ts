@@ -5,6 +5,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Rune } from 'src/app/classes/Rune';
 import { CharacterService } from 'src/app/services/character.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
+import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
 import { InventoryItemProcessingService } from '../inventory-item-processing/inventory-item-processing.service';
 import { ItemInitializationService } from '../item-initialization/item-initialization.service';
 import { RefreshService } from '../refresh/refresh.service';
@@ -19,6 +20,7 @@ export class InventoryService {
         private readonly _refreshService: RefreshService,
         private readonly _itemInitializationService: ItemInitializationService,
         private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
+        private readonly _basicEquipmentService: BasicEquipmentService,
     ) { }
 
     public grantInventoryItem(
@@ -143,7 +145,7 @@ export class InventoryService {
             inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item);
 
             if (equipBasicItems) {
-                this._characterService.equipBasicItems(creature);
+                this._basicEquipmentService.equipBasicItems(creature);
             }
         }
 

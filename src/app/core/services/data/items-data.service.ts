@@ -47,6 +47,7 @@ import * as json_weaponrunes from 'src/assets/json/items/weaponrunes';
 import * as json_weapons from 'src/assets/json/items/weapons';
 import * as json_wornitems from 'src/assets/json/items/wornitems';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
+import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 
 
 type AnyItemType =
@@ -67,6 +68,7 @@ export class ItemsDataService {
     constructor(
         private readonly _extensionsService: ExtensionsService,
         private readonly _itemInitializationService: ItemInitializationService,
+        private readonly _basicEquipmentService: BasicEquipmentService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -169,6 +171,8 @@ export class ItemsDataService {
         this._storeItems = this._cleanItems.clone(this);
         this._craftingItems = this._cleanItems.clone(this);
 
+        this._setBasicItems();
+
         this._initialized = true;
     }
 
@@ -176,6 +180,15 @@ export class ItemsDataService {
         //Reset items and crafting items from clean items.
         this._storeItems = this._cleanItems.clone(this);
         this._craftingItems = this._cleanItems.clone(this);
+    }
+
+    private _setBasicItems(): void {
+        // One Fist to fall back on if you drop all other weapons;
+        const newBasicWeapon: Weapon = this.cleanItemFromID('08693211-8daa-11ea-abca-ffb46fbada73') as Weapon;
+        // One Unarmored to fall back on if you drop all other armors;
+        const newBasicArmor: Armor = this.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723') as Armor;
+
+        this._basicEquipmentService.setBasicItems(newBasicWeapon, newBasicArmor);
     }
 
     private _loadItemType<T extends AnyItemType>(

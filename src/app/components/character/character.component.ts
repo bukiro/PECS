@@ -85,6 +85,8 @@ import { ItemsDataService } from 'src/app/core/services/data/items-data.service'
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
+import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -161,6 +163,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _animalCompanionService: AnimalCompanionService,
+        private readonly _familiarService: FamiliarService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -1655,7 +1659,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
             if (specializations.length) { character.class.animalCompanion.class.specializations = specializations; }
 
-            this._characterService.initializeAnimalCompanion();
+            this._animalCompanionService.initializeAnimalCompanion();
             this._refreshService.processPreparedChanges();
         }
     }
@@ -1768,14 +1772,14 @@ export class CharacterComponent implements OnInit, OnDestroy {
             const originClass = character.class.familiar.originClass;
             const previousId = character.class.familiar.id;
 
-            this._characterService.removeAllFamiliarAbilities();
+            this._familiarService.removeAllFamiliarAbilities();
             character.class.familiar = new Familiar();
 
             if (originClass) { character.class.familiar.originClass = originClass; }
 
             if (previousId) { character.class.familiar.id = previousId; }
 
-            this._characterService.initializeFamiliar();
+            this._familiarService.initializeFamiliar();
             this._refreshService.processPreparedChanges();
         }
     }

@@ -32,6 +32,7 @@ import { SpellsDataService } from 'src/app/core/services/data/spells-data.servic
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
 
 interface ActivityParameters {
     maxCharges: number;
@@ -89,6 +90,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _settingsService: SettingsService,
+        private readonly _hintShowingObjectsService: HintShowingObjectsService,
         public trackers: Trackers,
     ) { }
 
@@ -169,7 +171,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public characterFeatsShowingHintsOnThis(activityName: string): Array<Feat> {
         if (activityName) {
-            return this._characterService.characterFeatsShowingHintsOnThis(activityName)
+            return this._hintShowingObjectsService.characterFeatsShowingHintsOnThis(activityName)
                 .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];
@@ -178,7 +180,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public conditionsShowingHintsOnThis(activityName: string): Array<{ gain: ConditionGain; condition: Condition }> {
         if (activityName) {
-            return this._characterService.creatureConditionsShowingHintsOnThis(this._currentCreature(), activityName)
+            return this._hintShowingObjectsService.creatureConditionsShowingHintsOnThis(this._currentCreature(), activityName)
                 .sort((a, b) => SortAlphaNum(a.condition.name, b.condition.name));
         } else {
             return [];

@@ -19,6 +19,7 @@ import { HintShowingItem } from 'src/libs/shared/definitions/Types/hintShowingIt
 import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
+import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
 
 interface TagCollection {
     count: number;
@@ -73,6 +74,7 @@ export class TagsComponent implements OnInit, OnDestroy {
         private readonly _effectsService: CreatureEffectsService,
         private readonly _timeService: TimeService,
         private readonly _durationsService: DurationsService,
+        private readonly _hintShowingObjectsService: HintShowingObjectsService,
         public trackers: Trackers,
     ) { }
 
@@ -189,7 +191,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     private _featsShowingHintsOnThis(name: string, show: boolean): Array<Feat> {
         if (show && name && this.creature === CreatureTypes.Character) {
-            return this._characterService.characterFeatsShowingHintsOnThis(name)
+            return this._hintShowingObjectsService.characterFeatsShowingHintsOnThis(name)
                 .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];
@@ -201,7 +203,7 @@ export class TagsComponent implements OnInit, OnDestroy {
         show: boolean,
     ): Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat> {
         if (show && name && this.creature === CreatureTypes.AnimalCompanion) {
-            return this._characterService.companionElementsShowingHintsOnThis(name)
+            return this._hintShowingObjectsService.companionElementsShowingHintsOnThis(name)
                 .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];
@@ -210,7 +212,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     private _familiarElementsShowingHintsOnThis(name: string, show: boolean): Array<Feat> {
         if (show && name && this.creature === CreatureTypes.Familiar) {
-            return this._characterService.familiarElementsShowingHintsOnThis(name)
+            return this._hintShowingObjectsService.familiarElementsShowingHintsOnThis(name)
                 .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];
@@ -229,7 +231,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     private _conditionsShowingHintsOnThis(name: string): Array<ConditionSet> {
         if (this.showConditions && name) {
-            return this._characterService.creatureConditionsShowingHintsOnThis(this.currentCreature, name)
+            return this._hintShowingObjectsService.creatureConditionsShowingHintsOnThis(this.currentCreature, name)
                 .sort((a, b) => SortAlphaNum(a.condition.name, b.condition.name));
         } else {
             return [];
@@ -238,7 +240,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     private _activitiesShowingHintsOnThis(name: string): Array<Activity> {
         if (this.showActivities && name) {
-            return this._characterService.creatureActivitiesShowingHintsOnThis(this.currentCreature, name)
+            return this._hintShowingObjectsService.creatureActivitiesShowingHintsOnThis(this.currentCreature, name)
                 .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];
@@ -247,7 +249,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     private _itemsShowingHintsOnThis(name: string): Array<HintShowingItem> {
         if (this.showItems && name) {
-            return this._characterService.creatureItemsShowingHintsOnThis(this.currentCreature, name)
+            return this._hintShowingObjectsService.creatureItemsShowingHintsOnThis(this.currentCreature, name)
                 .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];
@@ -256,7 +258,7 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     private _specializationsShowingHintsOnThis(name: string): Array<Specialization> {
         if (this.showItems && name) {
-            return this._characterService.creatureArmorSpecializationsShowingHintsOnThis(this.currentCreature, name)
+            return this._hintShowingObjectsService.creatureArmorSpecializationsShowingHintsOnThis(this.currentCreature, name)
                 .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];

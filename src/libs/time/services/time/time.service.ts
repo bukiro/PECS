@@ -23,6 +23,7 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
 
 @Injectable({
     providedIn: 'root',
@@ -51,6 +52,7 @@ export class TimeService {
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _onceEffectsService: OnceEffectsService,
+        private readonly _spellCastingPrerequisitesService: SpellCastingPrerequisitesService,
     ) { }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -176,7 +178,7 @@ export class TimeService {
                 });
 
                 //Refocus and reset all "until you refocus" spell cooldowns.
-                const maxFocusPoints = this._characterService.maxFocusPoints();
+                const maxFocusPoints = this._spellCastingPrerequisitesService.maxFocusPoints();
 
                 this.refocus(maxFocusPoints, false, false);
                 //Regenerate Snare Specialist formulas.

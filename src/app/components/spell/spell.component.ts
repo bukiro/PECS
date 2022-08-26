@@ -10,6 +10,7 @@ import { Trait } from 'src/app/classes/Trait';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
 
 @Component({
     selector: 'app-spell',
@@ -38,6 +39,7 @@ export class SpellComponent implements OnInit, OnDestroy {
         private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
+        private readonly _hintShowingObjectsService: HintShowingObjectsService,
         public trackers: Trackers,
     ) { }
 
@@ -46,7 +48,7 @@ export class SpellComponent implements OnInit, OnDestroy {
     }
 
     public characterFeatsShowingHintsOnThis(spellName: string): Array<Feat> {
-        return this._characterService.characterFeatsShowingHintsOnThis(spellName);
+        return this._hintShowingObjectsService.characterFeatsShowingHintsOnThis(spellName);
     }
 
     public spellLevelFromBaseLevel(spell: Spell, baseLevel: number): number {

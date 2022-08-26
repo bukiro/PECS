@@ -7,6 +7,7 @@ import { CreatureTypes } from '../../definitions/creatureTypes';
 import { EvaluationService } from '../evaluation/evaluation.service';
 import { HealthService } from '../health/health.service';
 import { RefreshService } from '../refresh/refresh.service';
+import { SpellCastingPrerequisitesService } from '../spell-casting-prerequisites/spell-casting-prerequisites.service';
 import { ToastService } from '../toast/toast.service';
 
 interface PreparedOnceEffect {
@@ -41,6 +42,7 @@ export class OnceEffectsService {
         private readonly _refreshService: RefreshService,
         private readonly _armorClassService: ArmorClassService,
         private readonly _healthService: HealthService,
+        private readonly _spellCastingPrerequisitesService: SpellCastingPrerequisitesService,
     ) { }
 
     public prepareOnceEffect(
@@ -194,7 +196,7 @@ export class OnceEffectsService {
     }
 
     private _changeCharacterFocusPointsWithNotification(value: number): void {
-        const maxFocusPoints = this._characterService.maxFocusPoints();
+        const maxFocusPoints = this._spellCastingPrerequisitesService.maxFocusPoints();
         const character = this._characterService.character;
 
         if (maxFocusPoints === 0) {

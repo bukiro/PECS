@@ -17,6 +17,7 @@ import { CharacterService } from 'src/app/services/character.service';
 import { ArmorClassService } from 'src/libs/defense/services/armor-class/armor-class.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { ActivitiesProcessingService } from '../activities-processing/activities-processing.service';
+import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
 import { CharacterLoreService } from '../character-lore/character-lore.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
@@ -45,6 +46,7 @@ export class InventoryItemProcessingService {
         private readonly _toastService: ToastService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _armorClassService: ArmorClassService,
+        private readonly _basicEquipmentService: BasicEquipmentService,
     ) { }
 
     public processGrantedItem(
@@ -176,7 +178,7 @@ export class InventoryItemProcessingService {
         const character = this._characterService.character;
 
         if (equipBasicItems) {
-            this._characterService.equipBasicItems(creature);
+            this._basicEquipmentService.equipBasicItems(creature);
         }
 
         //If you are unequipping a shield, you should also be lowering it and losing cover

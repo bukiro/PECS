@@ -39,6 +39,7 @@ import { SettingsService } from 'src/app/core/services/settings/settings.service
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -128,6 +129,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _spellCastingPrerequisitesService: SpellCastingPrerequisitesService,
         public trackers: Trackers,
     ) { }
 
@@ -790,7 +792,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     private _focusPoints(): { now: number; max: number } {
-        const maxFocusPoints = this._characterService.maxFocusPoints();
+        const maxFocusPoints = this._spellCastingPrerequisitesService.maxFocusPoints();
 
         return { now: Math.min(this._character.class.focusPoints, maxFocusPoints), max: maxFocusPoints };
     }

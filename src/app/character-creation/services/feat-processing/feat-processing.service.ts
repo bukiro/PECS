@@ -35,6 +35,8 @@ import { NamedFeatProcessingService } from './named-feat-processing.service';
 import { FeatProcessingRefreshService } from './feat-processing-refresh';
 import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
+import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
 
 export interface FeatProcessingContext {
     creature: Character | Familiar;
@@ -68,6 +70,8 @@ export class FeatProcessingService {
         private readonly _namedFeatProcessingService: NamedFeatProcessingService,
         private readonly _characterLanguagesService: CharacterLanguagesService,
         private readonly _onceEffectsService: OnceEffectsService,
+        private readonly _animalCompanionService: AnimalCompanionService,
+        private readonly _familiarService: FamiliarService,
     ) { }
 
     public processFeat(
@@ -712,7 +716,7 @@ export class FeatProcessingService {
                 }
             } else {
                 //Reset the familiar
-                this._characterService.removeAllFamiliarAbilities();
+                this._familiarService.removeAllFamiliarAbilities();
                 context.character.class.familiar = new Familiar();
             }
 
@@ -733,7 +737,7 @@ export class FeatProcessingService {
             context.character.class.animalCompanion.class = new AnimalCompanionClass();
 
             if (taken) {
-                this._characterService.initializeAnimalCompanion();
+                this._animalCompanionService.initializeAnimalCompanion();
             }
 
             this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
