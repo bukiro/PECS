@@ -1,6 +1,5 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { CreatureService } from 'src/app/services/character.service';
@@ -42,24 +41,24 @@ export class CharacterSkillIncreaseService {
     }
 
     public processSkillIncrease(skillName: string, train: boolean, choice: SkillChoice): void {
-        const character = CreatureService.character;
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
 
         if (train) {
-            this._processSkillIncreaseTaken(skillName, choice, character, levelNumber);
+            this._processSkillIncreaseTaken(skillName, choice, levelNumber);
         } else {
-            this._processSkillIncreaseLost(skillName, choice, character, levelNumber);
+            this._processSkillIncreaseLost(skillName, choice, levelNumber);
         }
 
-        this._prepareChangesFromSkillIncrease(skillName, character);
+        this._prepareChangesFromSkillIncrease(skillName);
     }
 
     private _processSkillIncreaseTaken(
         skillName: string,
         choice: SkillChoice,
-        character: Character,
         levelNumber: number,
     ): void {
+        const character = CreatureService.character;
+
         // If you are getting trained in a skill you don't already know, it's usually a weapon proficiency or a class/spell DC.
         // We have to create that skill here in that case.
         if (!this._skillsDataService.skills(character.customSkills, skillName, {}, { noSubstitutions: true }).length) {
@@ -191,9 +190,10 @@ export class CharacterSkillIncreaseService {
     private _processSkillIncreaseLost(
         skillName: string,
         choice: SkillChoice,
-        character: Character,
         levelNumber: number,
     ): void {
+        const character = CreatureService.character;
+
         // If you are deselecting a skill that you increased with Skilled Heritage at level 1,
         // you also lose the skill increase at level 5.
         const skilledHeritageExtraIncreaseLevel = 5;
@@ -228,7 +228,9 @@ export class CharacterSkillIncreaseService {
         }
     }
 
-    private _prepareChangesFromSkillIncrease(skillName: string, character: Character): void {
+    private _prepareChangesFromSkillIncrease(skillName: string): void {
+        const character = CreatureService.character;
+
         //Set components to update according to the skill type.
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'individualskills', skillName);
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'skillchoices', skillName);

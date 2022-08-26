@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
-import { Character } from 'src/app/classes/Character';
 import { Heritage } from 'src/app/classes/Heritage';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
@@ -35,7 +34,7 @@ export class CharacterHeritageChangeService {
         const character = CreatureService.character;
         const characterClass = character.class;
 
-        this._processRemovingOldHeritage(character, index);
+        this._processRemovingOldHeritage(index);
 
         if (index === -1) {
             if (heritage) {
@@ -66,11 +65,12 @@ export class CharacterHeritageChangeService {
         }
 
         if (heritage) {
-            this._processNewHeritage(character, index);
+            this._processNewHeritage(index);
         }
     }
 
-    private _processRemovingOldHeritage(character: Character, index = -1): void {
+    private _processRemovingOldHeritage(index = -1): void {
+        const character = CreatureService.character;
         const characterClass = character.class;
         const ancestry = characterClass?.ancestry;
 
@@ -164,7 +164,8 @@ export class CharacterHeritageChangeService {
         }
     }
 
-    private _processNewHeritage(character: Character, index = -1): void {
+    private _processNewHeritage(index = -1): void {
+        const character = CreatureService.character;
         const characterClass = character.class;
         const ancestry = characterClass?.ancestry;
 

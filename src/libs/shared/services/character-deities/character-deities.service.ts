@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Deity } from 'src/app/classes/Deity';
-import { Character } from 'src/app/classes/Character';
 import { CreatureService } from 'src/app/services/character.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { RefreshService } from '../refresh/refresh.service';
@@ -40,10 +39,13 @@ export class CharacterDeitiesService {
     }
 
     public currentCharacterDeities(
-        character: Character,
         source = '',
-        level: number = character.level,
+        level?: number,
     ): Array<Deity> {
+        const character = CreatureService.character;
+
+        level = level || character.level;
+
         if (!this._$characterDeities.length && character.class.deity) {
             //Recreate the character deities list from the main deity and the Syncretism feat data.
             const mainDeity = this._deitiesDataService.deityFromName(character.class.deity);

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
@@ -21,7 +20,6 @@ export class SpellsTakenService {
     ) { }
 
     public takenSpells(
-        character: Character,
         minLevelNumber: number,
         maxLevelNumber: number,
         filter: {
@@ -51,6 +49,8 @@ export class SpellsTakenService {
         filter.classNames = filter.classNames.map(name => name.toLowerCase());
         filter.spellName = filter.spellName?.toLowerCase();
         filter.source = filter.source?.toLowerCase();
+
+        const character = CreatureService.character;
 
         const dynamicLevel = (choice: SpellChoice, casting: SpellCasting): number => (
             this._spellsService.dynamicSpellLevel(casting, choice)

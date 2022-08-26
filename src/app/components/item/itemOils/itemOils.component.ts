@@ -107,7 +107,7 @@ export class ItemOilsComponent {
 
             //Add RuneLore if the oil's Rune Effect includes one
             if (item.oilsApplied[newLength - 1].runeEffect && item.oilsApplied[newLength - 1].runeEffect.loreChoices.length) {
-                this._characterLoreService.addRuneLore(this._character, item.oilsApplied[newLength - 1].runeEffect);
+                this._characterLoreService.addRuneLore(item.oilsApplied[newLength - 1].runeEffect);
             }
 
             this.newOil = { oil: new Oil(), inv: null };
@@ -121,7 +121,7 @@ export class ItemOilsComponent {
     public onRemoveOil(index: number): void {
         //Remove RuneLore if applicable.
         if (this.item.oilsApplied[index].runeEffect && this.item.oilsApplied[index].runeEffect.loreChoices.length) {
-            this._characterLoreService.removeRuneLore(this._character, this.item.oilsApplied[index].runeEffect);
+            this._characterLoreService.removeRuneLore(this.item.oilsApplied[index].runeEffect);
         }
 
         this.item.oilsApplied.splice(index, 1);

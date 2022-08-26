@@ -62,7 +62,7 @@ export class ShieldPropertiesService {
                 (
                     creature.isCharacter() &&
                     this._characterDeitiesService
-                        .currentCharacterDeities(creature)
+                        .currentCharacterDeities()
                         .some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
                 )
             ) {

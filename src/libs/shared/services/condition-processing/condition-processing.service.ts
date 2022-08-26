@@ -363,7 +363,7 @@ export class ConditionProcessingService {
                 .some(conditionGain => conditionGain !== gain && conditionGain.sourceGainID === gain.sourceGainID)
         ) {
             this._spellsTakenService
-                .takenSpells(character, 0, Defaults.maxCharacterLevel)
+                .takenSpells(0, Defaults.maxCharacterLevel)
                 .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
                 .filter(takenSpell => takenSpell.gain.id === gain.sourceGainID && takenSpell.gain.active)
                 .forEach(takenSpell => {

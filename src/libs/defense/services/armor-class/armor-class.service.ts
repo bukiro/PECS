@@ -119,9 +119,8 @@ export class ArmorClassService {
     public calculate(
         creature: Creature,
     ): CalculatedAC {
-        const character = CreatureService.character;
         const absolutes: Array<Effect> = this._absolutes(creature);
-        const relatives: Array<Effect> = this._relatives(creature, character);
+        const relatives: Array<Effect> = this._relatives(creature);
 
         const result = {
             absolutes,
@@ -146,7 +145,9 @@ export class ArmorClassService {
         return this._creatureEffectsService.absoluteEffectsOnThese(creature, this._namesList());
     }
 
-    private _relatives(creature: Creature, character: Character): Array<Effect> {
+    private _relatives(creature: Creature): Array<Effect> {
+        const character = CreatureService.character;
+
         //Familiars get the Character's AC without status and circumstance effects, and add their own of those.
         if (creature.isFamiliar()) {
             const effects =
@@ -215,7 +216,7 @@ export class ArmorClassService {
         let clonedRelatives: Array<Effect>;
 
         if (relatives === undefined) {
-            clonedRelatives = this._relatives(creature, character)
+            clonedRelatives = this._relatives(creature)
                 .map(relative => relative.clone());
         } else {
             //Reassign the effects to unchain them from the calling function.

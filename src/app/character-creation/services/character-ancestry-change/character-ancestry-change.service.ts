@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Ancestry } from 'src/app/classes/Ancestry';
-import { Character } from 'src/app/classes/Character';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -29,12 +28,12 @@ export class CharacterAncestryChangeService {
         const character = CreatureService.character;
 
         this._characterHeritageChangeService.changeHeritage();
-        this._processRemovingOldAncestry(character);
+        this._processRemovingOldAncestry();
 
         if (newAncestry) {
             character.class.ancestry = newAncestry.clone();
 
-            this._processNewAncestry(character);
+            this._processNewAncestry();
         } else {
             character.class.ancestry = new Ancestry();
         }
@@ -42,7 +41,8 @@ export class CharacterAncestryChangeService {
         this._characterLanguagesService.updateLanguageList();
     }
 
-    private _processRemovingOldAncestry(character: Character): void {
+    private _processRemovingOldAncestry(): void {
+        const character = CreatureService.character;
         const characterClass = character.class;
         const ancestry = characterClass?.ancestry;
 
@@ -71,7 +71,7 @@ export class CharacterAncestryChangeService {
             characterClass.levels.forEach(classLevel => {
                 classLevel.featChoices.forEach(choice => {
                     choice.feats.filter(gain => gain.name.includes('Adopted Ancestry')).forEach(gain => {
-                        this._featProcessingService.processFeat(undefined, false, { creature: character, character, gain, choice, level });
+                        this._featProcessingService.processFeat(undefined, false, { creature: character, gain, choice, level });
                     });
 
                     choice.feats = choice.feats.filter(gain => !gain.name.includes('Adopted Ancestry'));
@@ -80,7 +80,8 @@ export class CharacterAncestryChangeService {
         }
     }
 
-    private _processNewAncestry(character: Character): void {
+    private _processNewAncestry(): void {
+        const character = CreatureService.character;
         const characterClass = character.class;
         const ancestry = characterClass?.ancestry;
 

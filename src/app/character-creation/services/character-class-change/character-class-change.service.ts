@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
 import { Class } from 'src/app/classes/Class';
 import { Skill } from 'src/app/classes/Skill';
 import { CreatureService } from 'src/app/services/character.service';
@@ -32,22 +31,23 @@ export class CharacterClassChangeService {
 
         this._characterAncestryChangeService.changeAncestry();
         this._characterBackgroundChangeService.changeBackground();
-        this._processRemovingOldClass(character);
+        this._processRemovingOldClass();
 
         if (newClass) {
             character.class = newClass.clone(this._itemsDataService);
 
-            this._processNewClass(character);
+            this._processNewClass();
         } else {
             character.class = new Class();
         }
 
-        this._processNewClass(character);
+        this._processNewClass();
         this._characterDeitiesService.clearCharacterDeities();
         this._refreshService.setComponentChanged();
     }
 
-    private _processRemovingOldClass(character: Character): void {
+    private _processRemovingOldClass(): void {
+        const character = CreatureService.character;
         const characterClass = character.class;
 
         //Of each granted Item, find the item with the stored id and drop it.
@@ -60,7 +60,7 @@ export class CharacterClassChangeService {
         characterClass.levels.forEach(level => {
             level.featChoices.filter(choice => choice.available).forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featProcessingService.processFeat(undefined, false, { creature: character, character, gain, choice, level });
+                    this._featProcessingService.processFeat(undefined, false, { creature: character, gain, choice, level });
                 });
 
                 choice.feats.length = 0;
@@ -72,7 +72,8 @@ export class CharacterClassChangeService {
         character.customSkills = character.customSkills.filter(characterSkill => !classCustomSkillNames.includes(characterSkill.name));
     }
 
-    private _processNewClass(character: Character): void {
+    private _processNewClass(): void {
+        const character = CreatureService.character;
         const characterClass = character.class;
 
         if (characterClass.name) {
@@ -86,7 +87,7 @@ export class CharacterClassChangeService {
             characterClass.levels.forEach(level => {
                 level.featChoices.forEach(choice => {
                     choice.feats.forEach(gain => {
-                        this._featProcessingService.processFeat(undefined, true, { creature: character, character, gain, choice, level });
+                        this._featProcessingService.processFeat(undefined, true, { creature: character, gain, choice, level });
                     });
                 });
             });

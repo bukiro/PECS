@@ -254,7 +254,7 @@ export class WeaponPropertiesService {
         }
 
         if (creature.isCharacter() && creature.class.deity) {
-            if (this._characterDeitiesService.currentCharacterDeities(creature)[0]?.favoredWeapon
+            if (this._characterDeitiesService.currentCharacterDeities()[0]?.favoredWeapon
                 .some(favoredWeapon =>
                     [
                         weapon.name.toLowerCase(),
@@ -271,7 +271,7 @@ export class WeaponPropertiesService {
             creature.isCharacter() &&
             this._characterFeatsService.characterFeatsTaken(0, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length
         ) {
-            if (this._characterDeitiesService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon
+            if (this._characterDeitiesService.currentCharacterDeities('syncretism')[0]?.favoredWeapon
                 .some(favoredWeapon =>
                     [
                         weapon.name.toLowerCase(),
@@ -310,7 +310,7 @@ export class WeaponPropertiesService {
                 ea.emblazonDivinity ||
                 (
                     creature.isCharacter() &&
-                    this._characterDeitiesService.currentCharacterDeities(creature)
+                    this._characterDeitiesService.currentCharacterDeities()
                         .some(deity => deity.name.toLowerCase() === ea.deity.toLowerCase())
                 )
             ) {

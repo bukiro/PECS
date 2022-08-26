@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { CreatureService } from 'src/app/services/character.service';
-import { Character } from 'src/app/classes/Character';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { Character } from 'src/app/classes/Character';
 
 
 @Injectable({
@@ -26,7 +26,6 @@ export class CharacterFeatsService {
             level.featChoices.forEach(choice => {
                 choice.feats.forEach(takenFeat => {
                     this.addCharacterFeat(
-                        character,
                         this._featsDataService.featOrFeatureFromName([], takenFeat.name),
                         takenFeat,
                         level.number,
@@ -140,7 +139,9 @@ export class CharacterFeatsService {
         }
     }
 
-    public addCharacterFeat(character: Character, feat: Feat, gain: FeatTaken, level: number): void {
+    public addCharacterFeat(feat: Feat, gain: FeatTaken, level: number): void {
+        const character = CreatureService.character;
+
         //Add the feat to $characterFeats, unless it is among the custom feats.
         const customFeats = character.customFeats;
 

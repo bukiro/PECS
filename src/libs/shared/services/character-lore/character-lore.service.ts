@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CharacterSkillIncreaseService } from 'src/app/character-creation/services/character-skill-increase/character-skill-increase.service';
-import { Character } from 'src/app/classes/Character';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Rune } from 'src/app/classes/Rune';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { SkillLevels } from '../../definitions/skillLevels';
@@ -20,7 +20,9 @@ export class CharacterLoreService {
         private readonly _refreshService: RefreshService,
     ) { }
 
-    public addLore(character: Character, source: LoreChoice): void {
+    public addLore(source: LoreChoice): void {
+        const character = CreatureService.character;
+
         //Create the skill on the character. Lore can be increased, so it's locked:false.
         character.addCustomSkill(`Lore: ${ source.loreName }`, 'Skill', 'Intelligence', false);
 
@@ -233,10 +235,12 @@ export class CharacterLoreService {
             }
         }
 
-        this._addLoreFeats(character, source.loreName);
+        this._addLoreFeats(source.loreName);
     }
 
-    public addRuneLore(character: Character, rune: Rune): void {
+    public addRuneLore(rune: Rune): void {
+        const character = CreatureService.character;
+
         //Go through all the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             // Check if only one (=this) item's rune has this lore
@@ -254,12 +258,14 @@ export class CharacterLoreService {
                             .some(otherchoice => otherchoice.loreName === choice.loreName),
                         ),
                     ).length === 1) {
-                this.addLore(character, choice);
+                this.addLore(choice);
             }
         });
     }
 
-    public removeRuneLore(character: Character, rune: Rune): void {
+    public removeRuneLore(rune: Rune): void {
+        const character = CreatureService.character;
+
         //Iterate through the loreChoices (usually only one)
         rune.loreChoices.forEach(choice => {
             //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
@@ -277,12 +283,14 @@ export class CharacterLoreService {
                             .length)
                         .length)
                     .length === 1) {
-                this.removeLore(character, choice);
+                this.removeLore(choice);
             }
         });
     }
 
-    public removeLore(character: Character, source: LoreChoice): void {
+    public removeLore(source: LoreChoice): void {
+        const character = CreatureService.character;
+
         //Remove the original Lore training
         for (let increase = 0; increase < source.initialIncreases; increase++) {
             this._characterSkillIncreaseService.increaseSkill(`Lore: ${ source.loreName }`, false, source, true);
@@ -320,10 +328,12 @@ export class CharacterLoreService {
             character.removeCustomSkill(loreSkill);
         }
 
-        this._removeLoreFeats(character, source.loreName);
+        this._removeLoreFeats(source.loreName);
     }
 
-    private _addLoreFeats(character: Character, loreName: string): void {
+    private _addLoreFeats(loreName: string): void {
+        const character = CreatureService.character;
+
         // There are particular feats that need to be cloned for every individual lore skill (mainly Assurance).
         // They are marked as lorebase==true.
         this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase === 'Lore')
@@ -348,7 +358,9 @@ export class CharacterLoreService {
             });
     }
 
-    private _removeLoreFeats(character: Character, loreName: string): void {
+    private _removeLoreFeats(loreName: string): void {
+        const character = CreatureService.character;
+
         //If we find any custom feat that has lorebase == "Lore: "+lorename,
         //  That feat was created when the lore was assigned, and can be removed.
         //We build our own reference array first, because otherwise the forEach-index would get messed up while we remove feats.

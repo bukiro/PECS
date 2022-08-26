@@ -119,7 +119,7 @@ export class InventoryItemProcessingService {
         }
 
         item.oilsApplied.filter((oil: Oil) => oil.runeEffect.loreChoices.length).forEach((oil: Oil) => {
-            this._characterLoreService.removeRuneLore(character, oil.runeEffect);
+            this._characterLoreService.removeRuneLore(oil.runeEffect);
         });
 
         if (item.isWeapon()) {
@@ -311,7 +311,7 @@ export class InventoryItemProcessingService {
         }
 
         item.propertyRunes.filter(rune => rune.loreChoices?.length).forEach(rune => {
-            this._characterLoreService.addRuneLore(character, rune);
+            this._characterLoreService.addRuneLore(rune);
         });
 
         if (!skipGainedInventories) {
@@ -349,8 +349,6 @@ export class InventoryItemProcessingService {
         including = true,
         keepInventoryContent = false,
     ): void {
-        const character = CreatureService.character;
-
         if (item.equipped) {
             this._creatureEquipmentService.equipItem(creature, inventory, item, false, false);
         } else if (item.invested && item.canInvest()) {
@@ -361,7 +359,7 @@ export class InventoryItemProcessingService {
 
 
         item.propertyRunes.filter((rune: Rune) => rune.loreChoices.length).forEach((rune: Rune) => {
-            this._characterLoreService.removeRuneLore(character, rune);
+            this._characterLoreService.removeRuneLore(rune);
         });
 
         item.gainActivities.forEach(gain => {

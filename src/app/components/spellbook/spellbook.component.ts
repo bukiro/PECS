@@ -454,7 +454,6 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             const divineFontSpell =
                 this._spellsTakenService
                     .takenSpells(
-                        character,
                         1,
                         character.level,
                         { spellName: 'Heal', source: 'Divine Font' },
@@ -744,7 +743,6 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             if (spellCastingParameters.casting.castingType === 'Focus') {
                 return this._spellsTakenService
                     .takenSpells(
-                        character,
                         1,
                         character.level,
                         {
@@ -761,7 +759,6 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         } else {
             return this._spellsTakenService
                 .takenSpells(
-                    character,
                     1,
                     character.level,
                     {

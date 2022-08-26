@@ -94,6 +94,10 @@ export class SpellsComponent implements OnInit, OnDestroy {
         return StatusService.isLoadingCharacter;
     }
 
+    public get spellsMenuState(): string {
+        return this._menuService.spellsMenuState;
+    }
+
     public minimize(): void {
         CreatureService.character.settings.spellsMinimized = !CreatureService.character.settings.spellsMinimized;
     }
@@ -106,10 +110,6 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     public toggleSpellMenu(): void {
         this._menuService.toggleMenu(MenuNames.SpellsMenu);
-    }
-
-    public spellsMenuState(): string {
-        return this._menuService.spellsMenuState;
     }
 
     public toggleShownSpell(name: string): void {
@@ -385,7 +385,6 @@ export class SpellsComponent implements OnInit, OnDestroy {
             if (spellCastingParameters.casting.castingType === 'Focus') {
                 return this._spellsTakenService
                     .takenSpells(
-                        character,
                         1,
                         character.level,
                         {
@@ -403,7 +402,6 @@ export class SpellsComponent implements OnInit, OnDestroy {
         } else {
             return this._spellsTakenService
                 .takenSpells(
-                    character,
                     1,
                     character.level,
                     {

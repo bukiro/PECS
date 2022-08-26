@@ -828,7 +828,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                     // also include all spells that are on the spell list regardless of their tradition.
                     // For main class clerics, include all spells that are on your deity's cleric spell list
                     const deity = character.class.deity
-                        ? this._characterDeitiesService.currentCharacterDeities(character)[0]
+                        ? this._characterDeitiesService.currentCharacterDeities()[0]
                         : null;
 
                     if (!choice.tradition && this.spellCasting.tradition) {

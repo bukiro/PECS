@@ -138,7 +138,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             this._archetypeFeats().some(feat => this._classesDataService.classFromName(feat.archetype).deityFocused);
 
         if (character.class.deityFocused || isArchetypesDeityFocused) {
-            const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
+            const deity = this._characterDeitiesService.currentCharacterDeities()[0];
 
             if (deity) {
                 const domainFeats = this._characterFeatsService.characterFeatsAndFeatures()
@@ -146,7 +146,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
                         feat.gainDomains?.length &&
                         this._characterFeatsService.characterHasFeat(feat.name),
                     );
-                const domains = this._deityDomainsService.effectiveDomains(deity, character)
+                const domains = this._deityDomainsService.effectiveDomains(deity)
                     .concat(...(domainFeats.map(feat => feat.gainDomains)));
 
                 return domains.map(domain => this._deitiesDataService.domains(domain)[0] || new Domain());
@@ -175,7 +175,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             //Collect edicts from all deities you have (usually one);
             const deityEdicts: Array<string> = [];
 
-            this._characterDeitiesService.currentCharacterDeities(character).forEach(deity => {
+            this._characterDeitiesService.currentCharacterDeities().forEach(deity => {
                 deityEdicts.push(...deity.edicts.map(edict => edict[0].toUpperCase() + edict.substr(1)));
             });
 
@@ -194,7 +194,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
         if (character.class.showDeityAnathema || doArchetypesShowDeityAnathema) {
             //If your Collect anathema from all deities you have (usually one);
-            this._characterDeitiesService.currentCharacterDeities(character).forEach(deity => {
+            this._characterDeitiesService.currentCharacterDeities().forEach(deity => {
                 deityAnathema.push(...deity.anathema.map(anathema => anathema[0].toUpperCase() + anathema.substr(1)));
             });
         }

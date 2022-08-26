@@ -688,7 +688,6 @@ export class FeatRequirementsService {
                                 [];
                         const allSpells =
                             this._spellsTakenService.takenSpells(
-                                character,
                                 1,
                                 charLevel,
                                 {
@@ -718,7 +717,7 @@ export class FeatRequirementsService {
                 complexreq.countDeities?.forEach(deityreq => {
                     if (!hasThisRequirementFailed) {
                         const allDeities: Array<Deity> =
-                            this._characterDeitiesService.currentCharacterDeities(character, '', charLevel);
+                            this._characterDeitiesService.currentCharacterDeities('', charLevel);
                         let deities: Array<Deity> = (!deityreq.query.secondOnly ? [allDeities[0]] : [])
                             .concat(!deityreq.query.firstOnly ? [allDeities[1]] : [])
                             .filter(deity => !!deity);
@@ -759,8 +758,8 @@ export class FeatRequirementsService {
 
                             deities = deities
                                 .filter(deity => {
-                                    const deityDomains = this._deityDomainsService.effectiveDomains(deity, character)
-                                        .concat(this._deityDomainsService.effectiveAlternateDomains(deity, character))
+                                    const deityDomains = this._deityDomainsService.effectiveDomains(deity)
+                                        .concat(this._deityDomainsService.effectiveAlternateDomains(deity))
                                         .map(domain => domain.toLowerCase());
 
                                     return domains.some(domain => deityDomains.includes(domain));
@@ -772,7 +771,7 @@ export class FeatRequirementsService {
 
                             deities = deities
                                 .filter(deity => {
-                                    const deityDomains = this._deityDomainsService.effectiveDomains(deity, character)
+                                    const deityDomains = this._deityDomainsService.effectiveDomains(deity)
                                         .map(domain => domain.toLowerCase());
 
                                     return domains.some(domain => deityDomains.includes(domain));
@@ -784,7 +783,7 @@ export class FeatRequirementsService {
 
                             deities = deities
                                 .filter(deity => {
-                                    const deityDomains = this._deityDomainsService.effectiveAlternateDomains(deity, character)
+                                    const deityDomains = this._deityDomainsService.effectiveAlternateDomains(deity)
                                         .map(domain => domain.toLowerCase());
 
                                     return domains.some(domain => deityDomains.includes(domain));
@@ -801,7 +800,7 @@ export class FeatRequirementsService {
                 complexreq.countFavoredWeapons?.forEach(favoredweaponreq => {
                     if (!hasThisRequirementFailed) {
                         const allDeities: Array<Deity> =
-                            this._characterDeitiesService.currentCharacterDeities(character, '', charLevel);
+                            this._characterDeitiesService.currentCharacterDeities('', charLevel);
                         let favoredWeapons: Array<string> = [].concat(...allDeities.map(deity => deity.favoredWeapon));
 
                         if (favoredweaponreq.query.havingAnyOfProficiencies) {
@@ -858,7 +857,7 @@ export class FeatRequirementsService {
                         }
 
                         if (skillreq.query.matchingDivineSkill) {
-                            const deity = this._characterDeitiesService.currentCharacterDeities(character, '', charLevel)[0];
+                            const deity = this._characterDeitiesService.currentCharacterDeities('', charLevel)[0];
 
                             if (!deity) {
                                 allSkills = [];

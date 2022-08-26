@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Background } from 'src/app/classes/Background';
-import { Character } from 'src/app/classes/Character';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
@@ -25,18 +24,19 @@ export class CharacterBackgroundChangeService {
     public changeBackground(background?: Background): void {
         const character = CreatureService.character;
 
-        this._processRemovingOldBackground(character);
+        this._processRemovingOldBackground();
 
         if (background) {
             character.class.background = background.clone();
 
-            this._processNewBackground(character);
+            this._processNewBackground();
         } else {
             character.class.background = new Background();
         }
     }
 
-    private _processRemovingOldBackground(character: Character): void {
+    private _processRemovingOldBackground(): void {
+        const character = CreatureService.character;
         const characterClass = character.class;
         const background = characterClass?.background;
 
@@ -50,7 +50,7 @@ export class CharacterBackgroundChangeService {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featProcessingService.processFeat(undefined, false, { creature: character, character, gain, choice, level });
+                    this._featProcessingService.processFeat(undefined, false, { creature: character, gain, choice, level });
                 });
             });
             level.featChoices = level.featChoices.filter(choice => choice.source !== 'Background');
@@ -60,7 +60,7 @@ export class CharacterBackgroundChangeService {
             const oldChoice = oldChoices[oldChoices.length - 1];
 
             if (oldChoice.increases.length) {
-                this._characterLoreService.removeLore(character, oldChoice);
+                this._characterLoreService.removeLore(oldChoice);
             }
 
             level.loreChoices = level.loreChoices.filter(choice => choice.source !== 'Background');
@@ -74,7 +74,8 @@ export class CharacterBackgroundChangeService {
         }
     }
 
-    private _processNewBackground(character: Character): void {
+    private _processNewBackground(): void {
+        const character = CreatureService.character;
         const characterClass = character.class;
         const background = characterClass?.background;
 
@@ -91,7 +92,7 @@ export class CharacterBackgroundChangeService {
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featProcessingService.processFeat(undefined, true, { creature: character, character, gain, choice, level });
+                    this._featProcessingService.processFeat(undefined, true, { creature: character, gain, choice, level });
                 });
             });
 
@@ -123,12 +124,12 @@ export class CharacterBackgroundChangeService {
                         const oldChoice = character.class.getLoreChoiceBySourceId(increases[0].sourceId);
 
                         if (oldChoice.available === 1) {
-                            this._characterLoreService.removeLore(character, oldChoice);
+                            this._characterLoreService.removeLore(oldChoice);
                         }
                     }
                 }
 
-                this._characterLoreService.addLore(character, background.loreChoices[0]);
+                this._characterLoreService.addLore(background.loreChoices[0]);
             }
 
             if (background.skillChoices[0].increases.length) {

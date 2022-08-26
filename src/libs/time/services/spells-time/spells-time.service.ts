@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Character } from 'src/app/classes/Character';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -9,6 +8,7 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
+import { CreatureService } from 'src/app/services/character.service';
 
 @Injectable({
     providedIn: 'root',
@@ -23,11 +23,13 @@ export class SpellsTimeService {
         private readonly _equipmentSpellsService: EquipmentSpellsService,
     ) { }
 
-    public restSpells(character: Character): void {
+    public restSpells(): void {
+        const character = CreatureService.character;
+
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is exactly one day or until rest (-2), the spell gain's cooldown is reset.
         this._spellsTakenService
-            .takenSpells(character, 0, Defaults.maxCharacterLevel)
+            .takenSpells(0, Defaults.maxCharacterLevel)
             .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
@@ -58,11 +60,13 @@ export class SpellsTimeService {
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
     }
 
-    public refocusSpells(character: Character): void {
+    public refocusSpells(): void {
+        const character = CreatureService.character;
+
         //Get all owned spell gains that have a cooldown active.
         //If its cooldown is until refocus (-3), the spell gain's cooldown is reset.
         this._spellsTakenService
-            .takenSpells(character, 0, Defaults.maxCharacterLevel)
+            .takenSpells(0, Defaults.maxCharacterLevel)
             .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
             .filter(taken => taken.gain.activeCooldown)
             .forEach(taken => {
@@ -75,11 +79,12 @@ export class SpellsTimeService {
     }
 
     public tickSpells(
-        character: Character,
         turns = 10,
     ): void {
+        const character = CreatureService.character;
+
         this._spellsTakenService
-            .takenSpells(character, 0, Defaults.maxCharacterLevel)
+            .takenSpells(0, Defaults.maxCharacterLevel)
             .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
             .filter(taken => taken.gain.activeCooldown || taken.gain.duration)
             .forEach(taken => {

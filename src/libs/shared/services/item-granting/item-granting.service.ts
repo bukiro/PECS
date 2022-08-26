@@ -6,7 +6,6 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
-import { CreatureService } from 'src/app/services/character.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
@@ -183,12 +182,11 @@ export class ItemGrantingService {
         creature: Creature,
         context: { sourceName?: string; grantingItem?: Item } = {},
     ): void {
-        const character = CreatureService.character;
-        const deities = this._characterDeitiesService.currentCharacterDeities(character);
+        const deities = this._characterDeitiesService.currentCharacterDeities();
 
         if (deities.length) {
             const favoredWeaponNames: Array<string> = [];
-            const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
+            const deity = this._characterDeitiesService.currentCharacterDeities()[0];
 
             if (deity && deity.favoredWeapon.length) {
                 favoredWeaponNames.push(...deity.favoredWeapon);
@@ -203,7 +201,7 @@ export class ItemGrantingService {
             ) {
                 favoredWeaponNames.push(
                     ...(
-                        this._characterDeitiesService.currentCharacterDeities(character, 'syncretism')[0]?.favoredWeapon ||
+                        this._characterDeitiesService.currentCharacterDeities('syncretism')[0]?.favoredWeapon ||
                         []
                     ),
                 );

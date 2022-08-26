@@ -283,10 +283,10 @@ export class EvaluationService {
             return allHeritages.includes(name);
         };
         const Deities = (): Array<DeityModel> => (
-            this._characterDeitiesService.currentCharacterDeities(Character)
+            this._characterDeitiesService.currentCharacterDeities()
         );
         const Deity = (): DeityModel => (
-            this._characterDeitiesService.currentCharacterDeities(Character)[0]
+            this._characterDeitiesService.currentCharacterDeities()[0]
         );
         /* eslint-enable @typescript-eslint/no-unused-vars */
         /* eslint-enable @typescript-eslint/naming-convention */

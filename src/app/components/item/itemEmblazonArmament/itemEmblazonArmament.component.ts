@@ -130,7 +130,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         switch (type) {
             case emblazonArmament:
                 if (this.emblazonArmamentActivated) {
-                    const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
+                    const deity = this._characterDeitiesService.currentCharacterDeities()[0];
 
                     this.item.emblazonArmament = [{
                         type,
@@ -160,7 +160,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 break;
             case emblazonEnergy:
                 if (this.emblazonEnergyActivated) {
-                    const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
+                    const deity = this._characterDeitiesService.currentCharacterDeities()[0];
 
                     this.item.emblazonArmament = [{
                         type,
@@ -233,7 +233,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                 break;
             case emblazonAntimagic:
                 if (this.emblazonAntimagicActivated) {
-                    const deity = this._characterDeitiesService.currentCharacterDeities(character)[0];
+                    const deity = this._characterDeitiesService.currentCharacterDeities()[0];
 
                     this.item.emblazonArmament = [{
                         type,

@@ -640,7 +640,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const creature = this._currentCreature;
 
         if (creature.isCharacter() && creature.class?.deity && creature.class.deityFocused) {
-            const deity = this._characterDeitiesService.currentCharacterDeities(creature)[0];
+            const deity = this._characterDeitiesService.currentCharacterDeities()[0];
             const favoredWeapons: Array<string> = [];
 
             if (deity && deity.favoredWeapon.length) {
@@ -649,7 +649,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
             if (this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Favored Weapon (Syncretism)' }).length) {
                 favoredWeapons.push(
-                    ...this._characterDeitiesService.currentCharacterDeities(creature, 'syncretism')[0]?.favoredWeapon ||
+                    ...this._characterDeitiesService.currentCharacterDeities('syncretism')[0]?.favoredWeapon ||
                     [],
                 );
             }

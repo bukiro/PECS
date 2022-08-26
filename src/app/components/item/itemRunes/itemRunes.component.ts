@@ -278,7 +278,7 @@ export class ItemRunesComponent implements OnInit {
                     this._inventoryService.dropInventoryItem(this._character, inv, rune, false, false, false, 1);
 
                     if ((item.propertyRunes[newLength - 1]).loreChoices.length) {
-                        this._characterLoreService.addRuneLore(this._character, item.propertyRunes[newLength - 1]);
+                        this._characterLoreService.addRuneLore(item.propertyRunes[newLength - 1]);
                     }
                 }
             }
@@ -822,7 +822,7 @@ export class ItemRunesComponent implements OnInit {
 
         // Remove any granted lore if applicable.
         if (oldRune.loreChoices.length) {
-            this._characterLoreService.removeRuneLore(this._character, oldRune);
+            this._characterLoreService.removeRuneLore(oldRune);
         }
 
         this._updateItem();

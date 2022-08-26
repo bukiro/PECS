@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
-import { Familiar } from 'src/app/classes/Familiar';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureService } from 'src/app/services/character.service';
 
 interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;
@@ -30,15 +28,15 @@ export class CreatureEffectsGenerationService {
 
     public creatureEffectsGenerationObjects(creature: Creature): CreatureEffectsGenerationObjects {
         if (creature.isAnimalCompanion()) {
-            return this._animalCompanionEffectsGenerationObjects(creature);
+            return this._animalCompanionEffectsGenerationObjects();
         }
 
         if (creature.isCharacter()) {
-            return this._characterEffectsGenerationObjects(creature);
+            return this._characterEffectsGenerationObjects();
         }
 
         if (creature.isFamiliar()) {
-            return this._familiarEffectsGenerationObjects(creature);
+            return this._familiarEffectsGenerationObjects();
         }
 
         return {
@@ -47,7 +45,9 @@ export class CreatureEffectsGenerationService {
         };
     }
 
-    private _animalCompanionEffectsGenerationObjects(companion: AnimalCompanion): CreatureEffectsGenerationObjects {
+    private _animalCompanionEffectsGenerationObjects(): CreatureEffectsGenerationObjects {
+        const companion = CreatureService.companion;
+
         //Return the Companion, its Ancestry's Hints and its Specializations and their Hints for effect generation.
         const feats: Array<AnimalCompanionSpecialization> = [];
         const hintSets: Array<HintEffectsObject> = [];
@@ -65,7 +65,9 @@ export class CreatureEffectsGenerationService {
         return { feats, hintSets };
     }
 
-    private _characterEffectsGenerationObjects(character: Character): CreatureEffectsGenerationObjects {
+    private _characterEffectsGenerationObjects(): CreatureEffectsGenerationObjects {
+        const character = CreatureService.character;
+
         //Return the Character, its Feats and their Hints for effect generation.
         const feats: Array<Feat> = [];
         const hintSets: Array<HintEffectsObject> = [];
@@ -83,7 +85,9 @@ export class CreatureEffectsGenerationService {
         return { feats, hintSets };
     }
 
-    private _familiarEffectsGenerationObjects(familiar: Familiar): CreatureEffectsGenerationObjects {
+    private _familiarEffectsGenerationObjects(): CreatureEffectsGenerationObjects {
+        const familiar = CreatureService.familiar;
+
         //Return the Familiar, its Feats and their hints for effect generation.
         const feats: Array<Feat> = [];
         const hintSets: Array<HintEffectsObject> = [];

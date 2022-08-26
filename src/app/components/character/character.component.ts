@@ -685,10 +685,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
         if (character.class.learnedSpells().some(learned => learned.level >= lowerLevel && learned.level <= higherLevel)) {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
             //if spells were taken between the levels,
-        } else if (this._spellsTakenService.takenSpells(character, lowerLevel, higherLevel).length) {
+        } else if (this._spellsTakenService.takenSpells(lowerLevel, higherLevel).length) {
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'spellbook');
             //if any spells have a dynamic level dependent on the character level,
-        } else if (this._spellsTakenService.takenSpells(character, 0, Defaults.maxCharacterLevel)
+        } else if (this._spellsTakenService.takenSpells(0, Defaults.maxCharacterLevel)
             .concat(this._equipmentSpellsService.allGrantedEquipmentSpells(character))
             .some(taken => taken.choice.dynamicLevel.toLowerCase().includes('level'))
         ) {
@@ -1034,9 +1034,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
                 this.toggleShownList();
             }
 
-            this._characterLoreService.addLore(this.character, choice);
+            this._characterLoreService.addLore(choice);
         } else {
-            this._characterLoreService.removeLore(this.character, choice);
+            this._characterLoreService.removeLore(choice);
         }
 
         this._refreshService.processPreparedChanges();
@@ -1066,7 +1066,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public blessedBloodDeitySpells(): Array<Spell> {
-        const deity = this._characterDeitiesService.currentCharacterDeities(this.character)[0];
+        const deity = this._characterDeitiesService.currentCharacterDeities()[0];
 
         if (deity) {
             return deity.clericSpells
@@ -1280,12 +1280,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
                             const oldChoice = character.class.getLoreChoiceBySourceId(increases[0].sourceId);
 
                             if (oldChoice.available === 1) {
-                                this._characterLoreService.removeLore(character, oldChoice);
+                                this._characterLoreService.removeLore(oldChoice);
                             }
                         }
                     }
 
-                    this._characterLoreService.addLore(character, newChoice);
+                    this._characterLoreService.addLore(newChoice);
                 }
             });
         } else {
@@ -1296,7 +1296,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             //Remove the lore granted by Different Worlds.
             if (oldChoice) {
                 if (oldChoice.increases.length) {
-                    this._characterLoreService.removeLore(character, oldChoice);
+                    this._characterLoreService.removeLore(oldChoice);
                 }
 
                 level.removeLoreChoice(oldChoice);
@@ -1492,7 +1492,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public availableDeities(name = '', filterForSyncretism = false, charLevel: number = this.character.level): Array<Deity> {
         const character = this.character;
-        const currentDeities = this._characterDeitiesService.currentCharacterDeities(character, '', charLevel);
+        const currentDeities = this._characterDeitiesService.currentCharacterDeities('', charLevel);
         const shouldShowOtherOptions = this.character.settings.showOtherOptions;
         const wordFilter = this.deityWordFilter.toLowerCase();
 
@@ -1904,7 +1904,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const level = character.classLevelFromNumber(levelNumber);
 
         if (choice.loreName) {
-            this._characterLoreService.removeLore(character, choice);
+            this._characterLoreService.removeLore(choice);
         }
 
         level.removeLoreChoice(choice);
