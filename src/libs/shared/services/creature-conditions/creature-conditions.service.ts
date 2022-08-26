@@ -36,7 +36,7 @@ export class CreatureConditionsService {
      */
     public currentCreatureConditions(
         creature: Creature,
-        filter: { name?: Lowercase<string>; source?: Lowercase<string> } = {},
+        filter: { name?: string; source?: string } = {},
         options: { readonly?: boolean } = {},
     ): Array<ConditionGain> {
         const activeConditions = creature.conditions;
@@ -54,8 +54,8 @@ export class CreatureConditionsService {
 
         return activeConditions
             .filter(condition =>
-                (!filter.name || condition.name.toLowerCase() === filter.name) &&
-                (!filter.source || condition.source.toLowerCase() === filter.source),
+                (!filter.name.toLowerCase() || condition.name.toLowerCase() === filter.name) &&
+                (!filter.source.toLowerCase() || condition.source.toLowerCase() === filter.source),
             )
             .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id));
     }

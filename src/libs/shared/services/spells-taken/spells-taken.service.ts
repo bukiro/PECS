@@ -25,7 +25,7 @@ export class SpellsTakenService {
             spellLevel?: number;
             spellName?: string;
             spellCasting?: SpellCasting;
-            classNames?: Array<Lowercase<string>>;
+            classNames?: Array<string>;
             traditions?: Array<SpellTraditions | ''>;
             castingTypes?: Array<SpellCastingTypes>;
             source?: string;
