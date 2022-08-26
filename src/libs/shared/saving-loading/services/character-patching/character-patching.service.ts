@@ -4,7 +4,6 @@ import { Character } from 'src/app/classes/Character';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
 import { Skill } from 'src/app/classes/Skill';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { CharacterService } from 'src/app/services/character.service';
 import { Hint } from 'src/app/classes/Hint';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
@@ -27,7 +26,6 @@ export class CharacterPatchingService {
     constructor(
         private readonly _featsDataService: FeatsDataService,
         private readonly _featTakingService: FeatTakingService,
-        private readonly _characterService: CharacterService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _inventoryService: InventoryService,

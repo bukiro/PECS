@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
@@ -34,7 +34,6 @@ export class ObjectEffectsGenerationService {
 
     constructor(
         private readonly _evaluationService: EvaluationService,
-        private readonly _characterService: CharacterService,
     ) { }
 
     public effectsFromEffectObject(
@@ -234,17 +233,17 @@ export class ObjectEffectsGenerationService {
         let targetValue: string = effectGain.affected;
 
         if (effectGain.affected.includes('Character:')) {
-            targetCreature = this._characterService.character.id || '';
+            targetCreature = CreatureService.character.id || '';
             targetValue = effectGain.affected.replace('Character:', '');
         }
 
         if (effectGain.affected.includes('Companion:')) {
-            targetCreature = this._characterService.companion?.id || '';
+            targetCreature = CreatureService.companion?.id || '';
             targetValue = effectGain.affected.replace('Companion:', '');
         }
 
         if (effectGain.affected.includes('Familiar:')) {
-            targetCreature = this._characterService.familiar?.id || '';
+            targetCreature = CreatureService.familiar?.id || '';
             targetValue = effectGain.affected.replace('Familiar:', '');
         }
 

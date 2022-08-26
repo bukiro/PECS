@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Condition } from 'src/app/classes/Condition';
 import { TimeService } from 'src/libs/time/services/time/time.service';
@@ -37,6 +37,7 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 const itemsPerPage = 40;
 
@@ -98,7 +99,6 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _conditionsDataService: ConditionsDataService,
@@ -121,19 +121,19 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._conditionsDataService.stillLoading || this._characterService.stillLoading;
+        return this._conditionsDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get companion(): AnimalCompanion {
-        return this._characterService.companion;
+        return CreatureService.companion;
     }
 
     public get familiar(): Familiar {
-        return this._characterService.familiar;
+        return CreatureService.familiar;
     }
 
     public get conditionsMenuState(): MenuState {

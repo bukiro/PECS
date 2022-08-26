@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { Creature } from 'src/app/classes/Creature';
@@ -16,14 +16,13 @@ export class SpellPropertiesService {
 
     constructor(
         private readonly _skillValuesService: SkillValuesService,
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
     ) { }
 
     public dynamicSpellLevel(casting: SpellCasting, choice: SpellChoice): number {
         //highestSpellLevel is used in the eval() process.
         let highestSpellLevel = 1;
-        const Character = this._characterService.character;
+        const Character = CreatureService.character;
 
         /* eslint-disable @typescript-eslint/no-unused-vars */
         /* eslint-disable @typescript-eslint/naming-convention */
@@ -61,7 +60,7 @@ export class SpellPropertiesService {
         let level = context.baseLevel;
 
         //If needed, calculate the dynamic effective spell level.
-        const Character = this._characterService.character;
+        const Character = CreatureService.character;
 
         if (context.gain.dynamicEffectiveSpellLevel) {
             try {
@@ -92,12 +91,12 @@ export class SpellPropertiesService {
                 list.push('Cantrip Spell Levels');
             }
 
-            this._effectsService.absoluteEffectsOnThese(context.creature, list).forEach(effect => {
+            this._creatureEffectsService.absoluteEffectsOnThese(context.creature, list).forEach(effect => {
                 if (parseInt(effect.setValue, 10)) {
                     level = parseInt(effect.setValue, 10);
                 }
             });
-            this._effectsService.relativeEffectsOnThese(context.creature, list).forEach(effect => {
+            this._creatureEffectsService.relativeEffectsOnThese(context.creature, list).forEach(effect => {
                 if (parseInt(effect.value, 10)) {
                     level += parseInt(effect.value, 10);
                 }

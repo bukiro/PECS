@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
-import { TimeService } from 'src/libs/time/services/time/time.service';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
@@ -68,18 +67,16 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _effectsService: CreatureEffectsService,
-        private readonly _timeService: TimeService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _durationsService: DurationsService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
         public trackers: Trackers,
     ) { }
 
     public get currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public collectAllTags(): TagCollection {
@@ -221,8 +218,8 @@ export class TagsComponent implements OnInit, OnDestroy {
 
     private _effectsShowingHintsOnThis(name: string): Array<Effect> {
         if (this.showEffects && name) {
-            return this._effectsService.absoluteEffectsOnThis(this.currentCreature, name)
-                .concat(this._effectsService.relativeEffectsOnThis(this.currentCreature, name))
+            return this._creatureEffectsService.absoluteEffectsOnThis(this.currentCreature, name)
+                .concat(this._creatureEffectsService.relativeEffectsOnThis(this.currentCreature, name))
                 .sort((a, b) => SortAlphaNum(a.source, b.source));
         } else {
             return [];

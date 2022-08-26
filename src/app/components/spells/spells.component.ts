@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
@@ -19,6 +19,7 @@ import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface ComponentParameters {
     allowSwitchingPreparedSpells: boolean;
@@ -63,11 +64,10 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _menuService: MenuService,
@@ -79,23 +79,23 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public get isMinimized(): boolean {
-        return this._characterService.character.settings.spellsMinimized;
+        return CreatureService.character.settings.spellsMinimized;
     }
 
     public get isTileMode(): boolean {
-        return this._characterService.character.settings.spellsTileMode;
+        return CreatureService.character.settings.spellsTileMode;
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public minimize(): void {
-        this._characterService.character.settings.spellsMinimized = !this._characterService.character.settings.spellsMinimized;
+        CreatureService.character.settings.spellsMinimized = !CreatureService.character.settings.spellsMinimized;
     }
 
     public toggleTileMode(): void {
@@ -308,7 +308,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     private _canPreparedSpellsBeSwitched(): boolean {
-        return !!this._effectsService.toggledEffectsOnThis(this.character, 'Allow Switching Prepared Spells').length;
+        return !!this._creatureEffectsService.toggledEffectsOnThis(this.character, 'Allow Switching Prepared Spells').length;
     }
 
     private _allSpellCastings(): Array<SpellCasting> {

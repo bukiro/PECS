@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { DisplayService } from 'src/app/core/services/display/display.service';
@@ -9,6 +9,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 const slideInOutTrigger = trigger('slideInOut', [
     state('in', style({
@@ -61,7 +62,6 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     private _viewChangeSubscription: Subscription;
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _menuService: MenuService,
@@ -70,71 +70,71 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     ) { }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public get characterMinimized(): boolean {
-        return this._characterService.character.settings.characterMinimized;
+        return CreatureService.character.settings.characterMinimized;
     }
 
     public get companionMinimized(): boolean {
-        return this._characterService.character.settings.companionMinimized;
+        return CreatureService.character.settings.companionMinimized;
     }
 
     public get familiarMinimized(): boolean {
-        return this._characterService.character.settings.familiarMinimized;
+        return CreatureService.character.settings.familiarMinimized;
     }
 
     public get spellsMinimized(): boolean {
-        return this._characterService.character.settings.spellsMinimized;
+        return CreatureService.character.settings.spellsMinimized;
     }
 
     public get spellLibraryMinimized(): boolean {
-        return this._characterService.character.settings.spelllibraryMinimized;
+        return CreatureService.character.settings.spelllibraryMinimized;
     }
 
     public get generalMinimized(): boolean {
-        return this._characterService.character.settings.generalMinimized;
+        return CreatureService.character.settings.generalMinimized;
     }
 
     public get effectsMinimized(): boolean {
-        return this._characterService.character.settings.effectsMinimized;
+        return CreatureService.character.settings.effectsMinimized;
     }
 
     public get abilitiesMinimized(): boolean {
-        return this._characterService.character.settings.abilitiesMinimized;
+        return CreatureService.character.settings.abilitiesMinimized;
     }
 
     public get healthMinimized(): boolean {
-        return this._characterService.character.settings.healthMinimized;
+        return CreatureService.character.settings.healthMinimized;
     }
 
     public get defenseMinimized(): boolean {
-        return this._characterService.character.settings.defenseMinimized;
+        return CreatureService.character.settings.defenseMinimized;
     }
 
     public get attacksMinimized(): boolean {
-        return this._characterService.character.settings.attacksMinimized;
+        return CreatureService.character.settings.attacksMinimized;
     }
 
     public get skillsMinimized(): boolean {
-        return this._characterService.character.settings.skillsMinimized;
+        return CreatureService.character.settings.skillsMinimized;
     }
 
     public get inventoryMinimized(): boolean {
-        return this._characterService.character.settings.inventoryMinimized;
+        return CreatureService.character.settings.inventoryMinimized;
     }
 
     public get activitiesMinimized(): boolean {
-        return this._characterService.character.settings.activitiesMinimized;
+        return CreatureService.character.settings.activitiesMinimized;
     }
 
     public get spellbookMinimized(): boolean {
-        return this._characterService.character.settings.spellbookMinimized;
+        return CreatureService.character.settings.spellbookMinimized;
     }
 
     public get timeMinimized(): boolean {
-        return this._characterService.character.settings.timeMinimized;
+        return CreatureService.character.settings.timeMinimized;
     }
 
     public get itemsMenuState(): MenuState {
@@ -204,7 +204,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     public attacksAndSpellsOrder(fightingStyle: 'attacks' | 'spells'): number {
         //Returns whether the fightingStyle (attacks or spells) should be first or second for this class (0 or 1).
         //This checks whether you have a primary spellcasting for your class from level 1, and if so, spells should be first.
-        if (this._characterService.character.class.defaultSpellcasting()?.charLevelAvailable === 1) {
+        if (CreatureService.character.class.defaultSpellcasting()?.charLevelAvailable === 1) {
             return fightingStyle === 'attacks' ? 1 : 0;
         } else {
             return fightingStyle === 'spells' ? 1 : 0;
@@ -222,7 +222,7 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     private _subscribeToChanges(): void {
-        if (this._characterService.stillLoading) {
+        if (this.stillLoading) {
             setTimeout(() => this._subscribeToChanges(), Defaults.waitForServiceDelay);
         } else {
             this._changeSubscription = this._refreshService.componentChanged$

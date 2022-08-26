@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -29,15 +28,13 @@ export class ObjectEffectsComponent {
     public creature: CreatureTypes = CreatureTypes.Character;
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _effectsService: CreatureEffectsService,
         private readonly _evaluationService: EvaluationService,
         public trackers: Trackers,
     ) { }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public validate(effect: EffectGain): void {

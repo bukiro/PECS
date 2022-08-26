@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -32,7 +32,6 @@ export class ItemAeonStonesComponent implements OnInit {
     public newAeonStone: Array<AeonStoneSet>;
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
@@ -42,7 +41,7 @@ export class ItemAeonStonesComponent implements OnInit {
     ) { }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public availableSlots(): Array<number> {

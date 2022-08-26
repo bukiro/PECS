@@ -1,6 +1,6 @@
 //TO-DO: See if this still works
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -88,7 +88,6 @@ export class ItemRunesComponent implements OnInit {
     private _itemRoles?: ItemRoles;
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
@@ -109,7 +108,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures

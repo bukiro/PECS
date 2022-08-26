@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Toast, ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-toast-container',
@@ -18,7 +18,6 @@ export class ToastContainerComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _toastService: ToastService,
         public trackers: Trackers,
@@ -43,7 +42,7 @@ export class ToastContainerComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         const waitForCharacterService = setInterval(() => {
-            if (!this._characterService.stillLoading) {
+            if (!StatusService.isLoadingCharacter) {
                 clearInterval(waitForCharacterService);
 
                 this._changeSubscription = this._refreshService.componentChanged$

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ObjectEffectsGenerationService } from '../../effects-generation/services/object-effects-generation/object-effects-generation';
 import { AbilityModFromAbilityValue } from '../../util/abilityUtils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
@@ -14,7 +14,6 @@ import { CreatureEffectsService } from '../creature-effects/creature-effects.ser
 export class CharacterLanguagesService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _objectEffectsGenerationService: ObjectEffectsGenerationService,
         private readonly _creatureEffectsService: CreatureEffectsService,
@@ -29,7 +28,7 @@ export class CharacterLanguagesService {
         // so that new languages aren't thrown out before the effects are generated.
         // Don't call this function in situations where effects are going to change,
         // but haven't been generated yet - or you may lose languages.
-        const character = this._characterService.character;
+        const character = CreatureService.character;
         const noLevel = -1;
         const temporarySourceLevel = -2;
 

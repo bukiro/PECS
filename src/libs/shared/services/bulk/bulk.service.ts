@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
-import { CharacterService } from 'src/app/services/character.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureSizes } from '../../definitions/creatureSizes';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
@@ -32,8 +32,7 @@ const defaultBulkLimitBase = 10;
 export class BulkService {
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
@@ -63,19 +62,19 @@ export class BulkService {
     }
 
     private _absolutes(creature: Creature, name: string): Array<Effect> {
-        return this._effectsService.absoluteEffectsOnThis(creature, name);
+        return this._creatureEffectsService.absoluteEffectsOnThis(creature, name);
     }
 
     private _relatives(creature: Creature, name: string): Array<Effect> {
-        return this._effectsService.relativeEffectsOnThis(creature, name);
+        return this._creatureEffectsService.relativeEffectsOnThis(creature, name);
     }
 
     private _bonuses(creature: Creature, name: string): boolean {
-        return this._effectsService.doBonusEffectsExistOnThis(creature, name);
+        return this._creatureEffectsService.doBonusEffectsExistOnThis(creature, name);
     }
 
     private _penalties(creature: Creature, name: string): boolean {
-        return this._effectsService.doPenaltyEffectsExistOnThis(creature, name);
+        return this._creatureEffectsService.doPenaltyEffectsExistOnThis(creature, name);
     }
 
     private _current(
@@ -85,7 +84,7 @@ export class BulkService {
         const inventories = creature.inventories;
         const result: { value: number; explain: string } = { value: 0, explain: '' };
 
-        if (this._characterService.stillLoading) { return result; }
+        if (StatusService.isLoadingCharacter) { return result; }
 
         inventories.forEach(inventory => {
             const decimal = 10;
@@ -119,7 +118,7 @@ export class BulkService {
             explain: `Base limit: ${ defaultEncumberedLimitBase }`,
         };
 
-        if (this._characterService.stillLoading) { return result; }
+        if (StatusService.isLoadingCharacter) { return result; }
 
         const str = this._abilityValuesService.mod('Strength', creature).result;
 
@@ -149,7 +148,7 @@ export class BulkService {
         const result: { value: number; explain: string } =
             { value: defaultBulkLimitBase, explain: `Base limit: ${ defaultBulkLimitBase }` };
 
-        if (this._characterService.stillLoading) { return result; }
+        if (StatusService.isLoadingCharacter) { return result; }
 
         if (absolutes.length) {
             absolutes.forEach(effect => {

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { Shield } from 'src/app/classes/Shield';
-import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
@@ -13,7 +12,6 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 export class ShieldPropertiesService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,

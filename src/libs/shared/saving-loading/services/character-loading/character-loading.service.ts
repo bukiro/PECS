@@ -16,11 +16,12 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AppInitService } from 'src/app/core/services/app-init/app-init.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { DocumentStyleService } from 'src/app/core/services/document-style/document-style.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -45,14 +46,16 @@ export class CharacterLoadingService {
         private readonly _refreshService: RefreshService,
         private readonly _appInitService: AppInitService,
         private readonly _toastService: ToastService,
-        private readonly _characterService: CharacterService,
+        private readonly _characterService: CreatureService,
         private readonly _documentStyleService: DocumentStyleService,
         private readonly _timeService: TimeService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _basicEquipmentService: BasicEquipmentService,
     ) { }
 
     public loadOrResetCharacter(id = '', loadAsGM = false): void {
         this._appInitService.reset();
+        this._statusService.setLoadingCharacter(true);
         this._statusService.setLoadingStatus('Resetting character');
         this._refreshService.setComponentChanged('charactersheet');
 
@@ -93,10 +96,18 @@ export class CharacterLoadingService {
 
     public finishLoading(newCharacter: Character, loadAsGM = false): void {
         this._statusService.setLoadingStatus('Initializing character');
-        //Assign the loaded character.
-        this._characterService.loadNewCharacter(newCharacter, loadAsGM);
+        // Assign the loaded character.
+        CreatureService.setNewCharacter(newCharacter);
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
+
+        character.GMMode = loadAsGM;
+
+        // Disable the loading status so things can depend on the character again.
+        this._statusService.setLoadingCharacter(false);
+
+        //Grant and equip basic items
+        this._basicEquipmentService.equipBasicItems(character, false);
 
         // Set your turn state according to the saved state.
         this._timeService.yourTurn = character.yourTurn;
@@ -110,17 +121,19 @@ export class CharacterLoadingService {
     }
 
     private _cancelLoading(): void {
-        this._characterService.cancelLoadingNewCharacter();
+        const character = CreatureService.character;
 
-        const character = this._characterService.character;
+        this._statusService.setLoadingCharacter(false);
 
         // Fill a runtime variable with all the feats the character has taken,
         // and another with the level at which they were taken. These were cleared when trying to load.
         this._characterFeatsService.buildCharacterFeats(character);
+
         this._refreshAfterLoading();
     }
 
     private _refreshAfterLoading(): void {
+
         //Update everything once, then effects, and then the player can take over.
         this._refreshService.setComponentChanged();
         this._statusService.setLoadingStatus('Loading', false);

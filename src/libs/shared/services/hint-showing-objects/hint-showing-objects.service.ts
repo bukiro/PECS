@@ -27,7 +27,7 @@ import { CreatureActivitiesService } from '../creature-activities/creature-activ
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 
 @Injectable({
     providedIn: 'root',
@@ -35,7 +35,6 @@ import { CharacterService } from 'src/app/services/character.service';
 export class HintShowingObjectsService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
@@ -71,7 +70,7 @@ export class HintShowingObjectsService {
     }
 
     public characterFeatsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         return this._characterFeatsService.characterFeatsAndFeatures().filter(feat =>
             feat.hints.find(hint =>
@@ -92,8 +91,8 @@ export class HintShowingObjectsService {
     }
 
     public companionElementsShowingHintsOnThis(objectName = 'all'): Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat> {
-        const character = this._characterService.character;
-        const companion = this._characterService.companion;
+        const character = CreatureService.character;
+        const companion = CreatureService.companion;
 
         //Get showon elements from Companion Ancestry and Specialization
         return []
@@ -132,8 +131,8 @@ export class HintShowingObjectsService {
     }
 
     public familiarElementsShowingHintsOnThis(objectName = 'all'): Array<Feat> {
-        const character = this._characterService.character;
-        const familiar = this._characterService.familiar;
+        const character = CreatureService.character;
+        const familiar = CreatureService.familiar;
 
         //Get showon elements from Familiar Abilities
         return this._familiarsDataService.familiarAbilities().filter(feat =>
@@ -157,7 +156,7 @@ export class HintShowingObjectsService {
     }
 
     public creatureConditionsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<ConditionSet> {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         return this._creatureConditionsService.currentCreatureConditions(creature)
             .filter(conditionGain => conditionGain.apply)

@@ -3,7 +3,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { Effect } from 'src/app/classes/Effect';
 import { Weapon } from 'src/app/classes/Weapon';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
@@ -40,8 +40,7 @@ export interface DamageResult {
 export class AttacksService {
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _itemTraitsService: ItemTraitsService,
@@ -56,7 +55,7 @@ export class AttacksService {
     ): AttackResult {
         //Calculates the attack bonus for a melee or ranged attack with weapon weapon.
         let explain = '';
-        const charLevel = this._characterService.character.level;
+        const charLevel = CreatureService.character.level;
         const str = this._abilityValuesService.mod('Strength', creature).result;
         const dex = this._abilityValuesService.mod('Dexterity', creature).result;
         const runeSource = attackRuneSource(weapon, creature, range);
@@ -83,7 +82,10 @@ export class AttacksService {
         //Calculate dexterity and strength penalties for the decision on which to use. They are not immediately applied.
         //The Clumsy condition affects all Dexterity attacks.
         const dexEffects =
-            this._effectsService.relativeEffectsOnThese(creature, ['Dexterity-based Checks and DCs', 'Dexterity-based Attack Rolls']);
+            this._creatureEffectsService.relativeEffectsOnThese(
+                creature,
+                ['Dexterity-based Checks and DCs', 'Dexterity-based Attack Rolls'],
+            );
         const dexPenalty: Array<Effect> = [];
         let dexPenaltySum = 0;
 
@@ -99,7 +101,10 @@ export class AttacksService {
 
         //The Enfeebled condition affects all Strength attacks
         const strEffects =
-            this._effectsService.relativeEffectsOnThese(creature, ['Strength-based Checks and DCs', 'Strength-based Attack Rolls']);
+            this._creatureEffectsService.relativeEffectsOnThese(
+                creature,
+                ['Strength-based Checks and DCs', 'Strength-based Attack Rolls'],
+            );
         const strPenalty: Array<Effect> = [];
         let strPenaltySum = 0;
 
@@ -188,10 +193,10 @@ export class AttacksService {
             traitEffects.push(...realTrait.objectBoundEffects(activation, ['Attack']));
         });
         //Add absolute effects
-        this._effectsService.reduceEffectsByType(
+        this._creatureEffectsService.reduceEffectsByType(
             traitEffects
                 .filter(effect => effect.setValue)
-                .concat(this._effectsService.absoluteEffectsOnThese(creature, effectsListAttackRolls)),
+                .concat(this._creatureEffectsService.absoluteEffectsOnThese(creature, effectsListAttackRolls)),
             { absolutes: true },
         )
             .forEach(effect => {
@@ -250,7 +255,7 @@ export class AttacksService {
         let hasPowerfulFist = false;
 
         if (weapon.prof === WeaponProficiencies.Unarmed) {
-            const character = this._characterService.character;
+            const character = CreatureService.character;
 
             if (this._characterFeatsService.characterFeatsTaken(0, character.level, { featName: 'Powerful Fist' }).length) {
                 hasPowerfulFist = true;
@@ -279,11 +284,11 @@ export class AttacksService {
 
         // Because of the Potency and Shoddy Effects, we need to filter the types a second time,
         // even though get_RelativesOnThese comes pre-filtered.
-        this._effectsService.reduceEffectsByType(
+        this._creatureEffectsService.reduceEffectsByType(
             calculatedEffects
                 .concat(
                     traitEffects.filter(effect => effect.value !== '0'),
-                    this._effectsService.relativeEffectsOnThese(creature, effectsListAttackRolls),
+                    this._creatureEffectsService.relativeEffectsOnThese(creature, effectsListAttackRolls),
                 ),
         )
             .forEach(effect => {

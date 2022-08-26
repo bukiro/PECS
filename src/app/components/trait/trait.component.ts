@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Trait } from 'src/app/classes/Trait';
 import { Item, TraitActivation } from 'src/app/classes/Item';
@@ -27,13 +27,12 @@ export class TraitComponent {
     public extraDescription: string;
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         public trackers: Trackers,
     ) { }
 
     public currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public onActivateEffect(): void {

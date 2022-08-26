@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Skill } from 'src/app/classes/Skill';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -64,7 +64,6 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _abilityValuesService: AbilityValuesService,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
@@ -77,7 +76,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public toggleShownList(name = ''): void {

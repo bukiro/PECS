@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Defaults } from '../../definitions/defaults';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 
@@ -9,17 +9,16 @@ import { CreatureEffectsService } from '../creature-effects/creature-effects.ser
 export class SpellCastingPrerequisitesService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _creatureEffectsService: CreatureEffectsService,
     ) { }
 
     public maxFocusPoints(): number {
         let focusPoints = 0;
 
-        this._creatureEffectsService.absoluteEffectsOnThis(this._characterService.character, 'Focus Pool').forEach(effect => {
+        this._creatureEffectsService.absoluteEffectsOnThis(CreatureService.character, 'Focus Pool').forEach(effect => {
             focusPoints = parseInt(effect.setValue, 10);
         });
-        this._creatureEffectsService.relativeEffectsOnThis(this._characterService.character, 'Focus Pool').forEach(effect => {
+        this._creatureEffectsService.relativeEffectsOnThis(CreatureService.character, 'Focus Pool').forEach(effect => {
             focusPoints += parseInt(effect.value, 10);
         });
 

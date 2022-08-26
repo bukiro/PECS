@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { Character } from 'src/app/classes/Character';
@@ -36,7 +36,7 @@ export class TimeService {
     constructor(
         private readonly _activitiesTimeService: ActivitiesTimeService,
         private readonly _customEffectsTimeService: CustomEffectsTimeService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _abilitiesDataService: AbilitiesDataService,
@@ -46,7 +46,6 @@ export class TimeService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _conditionsTimeService: ConditionsTimeService,
         private readonly _spellsTimeService: SpellsTimeService,
-        private readonly _characterService: CharacterService,
         private readonly _itemsTimeService: ItemsTimeService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -68,19 +67,19 @@ export class TimeService {
         //Apply Fast Healing.
         let fastHealing = 0;
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         if (!character.settings.manualMode) {
             this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
 
-                this._effectsService.absoluteEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
+                this._creatureEffectsService.absoluteEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
                     fastHealing = parseInt(effect.setValue, 10);
                 });
-                this._effectsService.relativeEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
+                this._creatureEffectsService.relativeEffectsOnThis(creature, 'Fast Healing').forEach((effect: Effect) => {
                     fastHealing += parseInt(effect.value, 10);
                 });
 
-                if (!this._effectsService.effectsOnThis(creature, 'Time Stop').length) {
+                if (!this._creatureEffectsService.effectsOnThis(creature, 'Time Stop').length) {
                     if (fastHealing && this._healthService.currentHP(creature.health, creature).result > 0) {
                         this._refreshService.prepareDetailToChange(creature.type, 'health');
                         this._healthService.heal(creature.health, creature, fastHealing);
@@ -110,7 +109,7 @@ export class TimeService {
         this.tick(TimePeriods.HalfTurn);
 
         //If the character is in a party and sendTurnEndMessage is set, send a turn end event to all your party members.
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         if (character.partyName && character.settings.sendTurnStartMessage && character.settings.sendTurnEndMessage) {
             this._messageSendingService.sendTurnChangeToPlayers();
@@ -118,7 +117,7 @@ export class TimeService {
     }
 
     public rest(): void {
-        const charLevel: number = this._characterService.character.level;
+        const charLevel: number = CreatureService.character.level;
 
         this.tick(TimePeriods.EightHours, false);
         this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
@@ -136,19 +135,19 @@ export class TimeService {
 
             let heal: number = con * charLevel;
 
-            this._effectsService.absoluteEffectsOnThis(creature, 'Resting HP Gain').forEach(effect => {
+            this._creatureEffectsService.absoluteEffectsOnThis(creature, 'Resting HP Gain').forEach(effect => {
                 heal = parseInt(effect.setValue, 10);
             });
-            this._effectsService.relativeEffectsOnThis(creature, 'Resting HP Gain').forEach(effect => {
+            this._creatureEffectsService.relativeEffectsOnThis(creature, 'Resting HP Gain').forEach(effect => {
                 heal += parseInt(effect.value, 10);
             });
 
             let multiplier = 1;
 
-            this._effectsService.absoluteEffectsOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
+            this._creatureEffectsService.absoluteEffectsOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
                 multiplier = parseInt(effect.setValue, 10);
             });
-            this._effectsService.relativeEffectsOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
+            this._creatureEffectsService.relativeEffectsOnThis(creature, 'Resting HP Multiplier').forEach(effect => {
                 multiplier += parseInt(effect.value, 10);
             });
             multiplier = Math.max(1, multiplier);
@@ -213,7 +212,7 @@ export class TimeService {
             this.tick(TimePeriods.TenMinutes, false);
         }
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
         const maximumFocusPoints = 3;
 
         this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
@@ -235,7 +234,7 @@ export class TimeService {
         if (finalRecoverPoints < maximumFocusPoints) {
             // Several feats recover more focus points if you spent at least that amount since the last time refocusing.
             // Those feats all have an effect setting "Refocus Bonus Points" to the amount you get.
-            this._effectsService.absoluteEffectsOnThis(character, 'Refocus Bonus Points').forEach(effect => {
+            this._creatureEffectsService.absoluteEffectsOnThis(character, 'Refocus Bonus Points').forEach(effect => {
                 const points = parseInt(effect.setValue, 10);
 
                 if (focusPointsLast - focusPoints >= points) {

@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostList
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { DisplayService } from 'src/app/core/services/display/display.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
@@ -12,6 +12,7 @@ import { MenuNames } from 'src/libs/shared/definitions/menuNames';
 import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-familiar',
@@ -30,20 +31,19 @@ export class FamiliarComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _familiarsDataService: FamiliarsDataService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
 
     public get stillLoading(): boolean {
-        return (this._characterService.stillLoading || this._familiarsDataService.stillLoading);
+        return (StatusService.isLoadingCharacter || this._familiarsDataService.stillLoading);
     }
 
     public get isMinimized(): boolean {
-        return this._characterService.character.settings.familiarMinimized;
+        return CreatureService.character.settings.familiarMinimized;
     }
 
     public get familiarMenuState(): MenuState {
@@ -51,7 +51,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get isFamiliarAvailable(): boolean {
@@ -59,7 +59,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     public get familiar(): Familiar {
-        return this._characterService.familiar;
+        return CreatureService.familiar;
     }
 
     @HostListener('window:resize', ['$event'])
@@ -73,7 +73,7 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     }
 
     public minimize(): void {
-        this._characterService.character.settings.familiarMinimized = !this._characterService.character.settings.familiarMinimized;
+        CreatureService.character.settings.familiarMinimized = !CreatureService.character.settings.familiarMinimized;
         this._refreshService.setComponentChanged('Familiar');
     }
 
@@ -93,10 +93,10 @@ export class FamiliarComponent implements OnInit, OnDestroy {
         const choice = this.familiar.abilities;
         let available = choice.available;
 
-        this._effectsService.absoluteEffectsOnThis(this.character, 'Familiar Abilities').forEach(effect => {
+        this._creatureEffectsService.absoluteEffectsOnThis(this.character, 'Familiar Abilities').forEach(effect => {
             available = parseInt(effect.setValue, 10);
         });
-        this._effectsService.relativeEffectsOnThis(this.character, 'Familiar Abilities').forEach(effect => {
+        this._creatureEffectsService.relativeEffectsOnThis(this.character, 'Familiar Abilities').forEach(effect => {
             available += parseInt(effect.value, 10);
         });
 

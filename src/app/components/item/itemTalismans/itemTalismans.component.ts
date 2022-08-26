@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Talisman } from 'src/app/classes/Talisman';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -39,7 +39,6 @@ export class ItemTalismansComponent implements OnInit {
     public newTalisman: Array<TalismanOption>;
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
@@ -48,7 +47,7 @@ export class ItemTalismansComponent implements OnInit {
     ) { }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public availableSlots(): Array<number> {

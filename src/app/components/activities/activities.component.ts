@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Character } from 'src/app/classes/Character';
@@ -18,6 +18,7 @@ import { ActivityPropertiesService } from 'src/libs/shared/services/activity-pro
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface ActivitySet {
     name: string;
@@ -53,7 +54,6 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _skillValuesService: SkillValuesService,
@@ -66,8 +66,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
 
     public get isMinimized(): boolean {
         return this.creature === CreatureTypes.AnimalCompanion
-            ? this._characterService.character.settings.companionMinimized
-            : this._characterService.character.settings.abilitiesMinimized;
+            ? CreatureService.character.settings.companionMinimized
+            : CreatureService.character.settings.abilitiesMinimized;
     }
 
     public get isTileMode(): boolean {
@@ -75,19 +75,19 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._activitiesDataService.stillLoading || this._characterService.stillLoading;
+        return this._activitiesDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     public get currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public minimize(): void {
-        this._characterService.character.settings.activitiesMinimized = !this._characterService.character.settings.activitiesMinimized;
+        CreatureService.character.settings.activitiesMinimized = !CreatureService.character.settings.activitiesMinimized;
     }
 
     public toggleShownActivity(id: string): void {

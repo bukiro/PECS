@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -32,7 +32,6 @@ export class ItemPoisonsComponent {
     public newPropertyRuneName: Array<string> = ['', '', ''];
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryService: InventoryService,
@@ -40,7 +39,7 @@ export class ItemPoisonsComponent {
     ) { }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public availablePoisons(): Array<PoisonSet> {

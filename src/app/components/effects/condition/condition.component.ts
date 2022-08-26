@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Condition, OtherConditionSelection } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
@@ -53,7 +53,6 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
@@ -67,7 +66,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
     ) { }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public toggleShownItem(name: string): void {

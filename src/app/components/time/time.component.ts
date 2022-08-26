@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-time',
@@ -26,7 +27,6 @@ export class TimeComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _timeService: TimeService,
         private readonly _durationsService: DurationsService,
@@ -35,11 +35,11 @@ export class TimeComponent implements OnInit, OnDestroy {
     ) { }
 
     public get isMinimized(): boolean {
-        return this._characterService.character.settings.timeMinimized;
+        return CreatureService.character.settings.timeMinimized;
     }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public get yourTurn(): TimePeriods.NoTurn | TimePeriods.HalfTurn {
@@ -47,7 +47,7 @@ export class TimeComponent implements OnInit, OnDestroy {
     }
 
     public minimize(): void {
-        this._characterService.character.settings.timeMinimized = !this._characterService.character.settings.timeMinimized;
+        CreatureService.character.settings.timeMinimized = !CreatureService.character.settings.timeMinimized;
     }
 
     public durationDescription(duration: number, includeTurnState = true, short = false): string {

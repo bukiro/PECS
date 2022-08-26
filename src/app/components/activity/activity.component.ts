@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
@@ -77,7 +77,6 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _spellsDataService: SpellsDataService,
@@ -89,13 +88,12 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
-        private readonly _settingsService: SettingsService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
         public trackers: Trackers,
     ) { }
 
     public get isManualMode(): boolean {
-        return this._settingsService.isManualMode;
+        return SettingsService.isManualMode;
     }
 
     public get isResonant(): boolean {
@@ -103,7 +101,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public activityParameters(): ActivityParameters {
@@ -294,7 +292,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     private _currentCreature(creature: CreatureTypes = this.creature): Creature {
-        return this._characterService.creatureFromType(creature);
+        return CreatureService.creatureFromType(creature);
     }
 
     private _activitySpell(): ActivitySpellSet {

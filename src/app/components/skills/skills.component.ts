@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, Input, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { Character } from 'src/app/classes/Character';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
@@ -21,6 +21,7 @@ import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface SpeedParameters {
     name: string;
@@ -50,11 +51,10 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _skillValuesService: SkillValuesService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
         private readonly _speedValuesService: SpeedValuesService,
@@ -66,11 +66,11 @@ export class SkillsComponent implements OnInit, OnDestroy {
     public get isMinimized(): boolean {
         switch (this.creature) {
             case CreatureTypes.AnimalCompanion:
-                return this._characterService.character.settings.companionMinimized;
+                return CreatureService.character.settings.companionMinimized;
             case CreatureTypes.Familiar:
-                return this._characterService.character.settings.familiarMinimized;
+                return CreatureService.character.settings.familiarMinimized;
             default:
-                return this._characterService.character.settings.skillsMinimized;
+                return CreatureService.character.settings.skillsMinimized;
         }
     }
 
@@ -79,19 +79,19 @@ export class SkillsComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._skillsDataService.stillLoading || this._characterService.stillLoading;
+        return this._skillsDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public minimize(): void {
-        this._characterService.character.settings.skillsMinimized = !this._characterService.character.settings.skillsMinimized;
+        CreatureService.character.settings.skillsMinimized = !CreatureService.character.settings.skillsMinimized;
     }
 
     public toggleShownList(name: string): void {
@@ -191,7 +191,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         // Since we pick up every effect that includes "Speed",
         // but we don't want "Ignore Circumstance Penalties To Speed" to show up, we filter out "Ignore".
         // Also skip those that are exactly "Speed", which should affect all speeds.
-        const speedEffects = this._effectsService.effects(this.creature).all
+        const speedEffects = this._creatureEffectsService.effects(this.creature).all
             .filter(effect =>
                 effect.apply &&
                 !effect.toggle &&

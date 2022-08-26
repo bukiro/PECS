@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { MenuNames } from 'src/libs/shared/definitions/menuNames';
@@ -15,7 +14,6 @@ export class DiceService {
 
     constructor(
         private readonly _refreshService: RefreshService,
-        private readonly _characterService: CharacterService,
         private readonly _menuService: MenuService,
     ) { }
 

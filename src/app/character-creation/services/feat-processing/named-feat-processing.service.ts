@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -16,7 +16,6 @@ import { FeatProcessingContext } from './feat-processing.service';
 export class NamedFeatProcessingService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
@@ -116,7 +115,7 @@ export class NamedFeatProcessingService {
         //Cantrip Connection
         if (feat.name === 'Cantrip Connection') {
             const spellCasting = context.character.class.spellCasting
-                .find(casting => casting.className === this._characterService.familiar.originClass && casting.castingType !== 'Focus');
+                .find(casting => casting.className === CreatureService.familiar.originClass && casting.castingType !== 'Focus');
 
             if (taken) {
                 if (spellCasting) {
@@ -160,7 +159,7 @@ export class NamedFeatProcessingService {
         //Spell Battery
         if (feat.name === 'Spell Battery') {
             const spellCasting = context.character.class.spellCasting
-                .find(casting => casting.className === this._characterService.familiar.originClass && casting.castingType !== 'Focus');
+                .find(casting => casting.className === CreatureService.familiar.originClass && casting.castingType !== 'Focus');
 
             if (taken) {
                 if (spellCasting) {

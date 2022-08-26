@@ -14,7 +14,7 @@ import { ActivitiesDataService } from 'src/app/core/services/data/activities-dat
 import { ClassesDataService } from 'src/app/core/services/data/classes-data.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
@@ -52,7 +52,6 @@ export interface FeatProcessingContext {
 export class FeatProcessingService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
@@ -443,7 +442,7 @@ export class FeatProcessingService {
                             if (classNames.includes(context.choice.type)) {
                                 insertSpellChoice.className = context.choice.type;
                             } else {
-                                insertSpellChoice.className = this._characterService.character.class.name;
+                                insertSpellChoice.className = CreatureService.character.class.name;
                             }
                         }
 
@@ -749,7 +748,7 @@ export class FeatProcessingService {
             feat.gainAnimalCompanion &&
             !['Young', 'Specialized'].includes(feat.gainAnimalCompanion)
         ) {
-            const companion = this._characterService.companion;
+            const companion = CreatureService.companion;
 
             this._animalCompanionLevelsService.setLevel(companion);
             this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
@@ -757,7 +756,7 @@ export class FeatProcessingService {
 
         //Feats that grant an animal companion specialization.
         if (feat.gainAnimalCompanion === 'Specialized') {
-            const companion = this._characterService.companion;
+            const companion = CreatureService.companion;
 
             if (!taken) {
                 //Remove the latest specialization chosen on this level, only if all choices are taken.

@@ -6,7 +6,7 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
@@ -18,7 +18,6 @@ import { InventoryService } from '../inventory/inventory.service';
 export class ItemGrantingService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _toastService: ToastService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
@@ -184,7 +183,7 @@ export class ItemGrantingService {
         creature: Creature,
         context: { sourceName?: string; grantingItem?: Item } = {},
     ): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
         const deities = this._characterDeitiesService.currentCharacterDeities(character);
 
         if (deities.length) {

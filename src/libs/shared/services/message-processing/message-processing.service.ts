@@ -25,7 +25,6 @@ export class MessageProcessingService {
     constructor(
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _savegamesService: SavegamesService,
-        private readonly _settingsService: SettingsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
@@ -46,7 +45,7 @@ export class MessageProcessingService {
 
     public applyTurnChangeMessage(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this._settingsService.isManualMode) {
+        if (SettingsService.isManualMode) {
             return;
         }
 
@@ -89,7 +88,7 @@ export class MessageProcessingService {
 
     public applyMessageConditions(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this._settingsService.isManualMode) {
+        if (SettingsService.isManualMode) {
             return;
         }
 
@@ -152,7 +151,7 @@ export class MessageProcessingService {
 
     public applyMessageItems(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this._settingsService.isManualMode) {
+        if (SettingsService.isManualMode) {
             return;
         }
 
@@ -286,7 +285,7 @@ export class MessageProcessingService {
 
     public applyItemAcceptedMessages(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
-        if (this._settingsService.isManualMode) {
+        if (SettingsService.isManualMode) {
             return;
         }
 

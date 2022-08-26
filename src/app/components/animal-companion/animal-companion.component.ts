@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, HostListener, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { MenuState } from 'src/libs/shared/definitions/Types/menuState';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-animal-companion',
@@ -28,7 +29,6 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _menuService: MenuService,
@@ -36,15 +36,15 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     ) { }
 
     public get isMinimized(): boolean {
-        return this._characterService.character.settings.companionMinimized;
+        return CreatureService.character.settings.companionMinimized;
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get stillLoading(): boolean {
-        return (this._characterService.stillLoading || this._animalCompanionsDataService.stillLoading);
+        return (StatusService.isLoadingCharacter || this._animalCompanionsDataService.stillLoading);
     }
 
     public get companionMenuState(): MenuState {
@@ -66,7 +66,7 @@ export class AnimalCompanionComponent implements OnInit, OnDestroy {
     }
 
     public minimize(): void {
-        this._characterService.character.settings.companionMinimized = !this._characterService.character.settings.companionMinimized;
+        CreatureService.character.settings.companionMinimized = !CreatureService.character.settings.companionMinimized;
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'companion');
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'abilities');
         this._refreshService.processPreparedChanges();

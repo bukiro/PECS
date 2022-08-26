@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -16,7 +16,6 @@ import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 export class CharacterSkillIncreaseService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _featsDataService: FeatsDataService,
@@ -43,7 +42,7 @@ export class CharacterSkillIncreaseService {
     }
 
     public processSkillIncrease(skillName: string, train: boolean, choice: SkillChoice): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
 
         if (train) {

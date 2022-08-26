@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, O
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { Armor } from 'src/app/classes/Armor';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Talisman } from 'src/app/classes/Talisman';
@@ -27,6 +27,7 @@ import { ArmorPropertiesService } from 'src/libs/shared/services/armor-propertie
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface ComponentParameters {
     calculatedAC: CalculatedAC;
@@ -53,7 +54,6 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _traitsDataService: TraitsDataService,
@@ -67,30 +67,30 @@ export class DefenseComponent implements OnInit, OnDestroy {
     ) { }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public get isMinimized(): boolean {
         switch (this.creature) {
             case CreatureTypes.AnimalCompanion:
-                return this._characterService.character.settings.companionMinimized;
+                return CreatureService.character.settings.companionMinimized;
             case CreatureTypes.Familiar:
-                return this._characterService.character.settings.familiarMinimized;
+                return CreatureService.character.settings.familiarMinimized;
             default:
-                return this._characterService.character.settings.defenseMinimized;
+                return CreatureService.character.settings.defenseMinimized;
         }
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public minimize(): void {
-        this._characterService.character.settings.defenseMinimized = !this._characterService.character.settings.defenseMinimized;
+        CreatureService.character.settings.defenseMinimized = !CreatureService.character.settings.defenseMinimized;
     }
 
     public armorSpecialization(armor: Armor | WornItem): Array<Specialization> {

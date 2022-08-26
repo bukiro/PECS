@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ArmorClassService, CoverTypes } from 'src/libs/defense/services/armor-class/armor-class.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { EvaluationService } from '../evaluation/evaluation.service';
@@ -36,7 +36,6 @@ export class OnceEffectsService {
     private _preparedOnceEffects: Array<PreparedOnceEffect> = [];
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _toastService: ToastService,
         private readonly _evaluationService: EvaluationService,
         private readonly _refreshService: RefreshService,
@@ -72,7 +71,7 @@ export class OnceEffectsService {
         this._preparedOnceEffects.length = 0;
         preparedOnceEffects.forEach(prepared => {
             this.processOnceEffect(
-                this._characterService.creatureFromType(prepared.creatureType),
+                CreatureService.creatureFromType(prepared.creatureType),
                 prepared.effectGain,
                 prepared.conditionValue,
                 prepared.conditionHeightened,
@@ -197,7 +196,7 @@ export class OnceEffectsService {
 
     private _changeCharacterFocusPointsWithNotification(value: number): void {
         const maxFocusPoints = this._spellCastingPrerequisitesService.maxFocusPoints();
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         if (maxFocusPoints === 0) {
             this._toastService.show('Your focus points were not changed because you don\'t have a focus pool.');
@@ -332,7 +331,7 @@ export class OnceEffectsService {
     }
 
     private _raiseCharacterShieldWithNotification(value: number): void {
-        const equippedShield = this._characterService.character.inventories[0].shields.find(shield => shield.equipped);
+        const equippedShield = CreatureService.character.inventories[0].shields.find(shield => shield.equipped);
 
         if (equippedShield) {
             if (value > 0) {

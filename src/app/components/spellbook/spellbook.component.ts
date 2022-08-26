@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
@@ -40,6 +40,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface ComponentParameters {
     bloodMagicFeats: Array<Feat>;
@@ -109,12 +110,11 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _timeService: TimeService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
@@ -125,7 +125,6 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _durationsService: DurationsService,
         private readonly _menuService: MenuService,
-        private readonly _settingsService: SettingsService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _skillsDataService: SkillsDataService,
@@ -134,7 +133,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     ) { }
 
     public get isMinimized(): boolean {
-        return this._characterService.character.settings.spellbookMinimized;
+        return CreatureService.character.settings.spellbookMinimized;
     }
 
     public get isTileMode(): boolean {
@@ -142,19 +141,19 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public get isManualMode(): boolean {
-        return this._settingsService.isManualMode;
+        return SettingsService.isManualMode;
     }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public minimize(): void {
-        this._characterService.character.settings.spellbookMinimized = !this._characterService.character.settings.spellbookMinimized;
+        CreatureService.character.settings.spellbookMinimized = !CreatureService.character.settings.spellbookMinimized;
     }
 
     public toggleShownSpell(id = ''): void {
@@ -433,19 +432,19 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         // These conditions are assumed to apply to "the next spell you cast".
         const conditionsToRemove: Array<string> = [];
 
-        this._effectsService.absoluteEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
+        this._creatureEffectsService.absoluteEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
             highestSpellPreservationLevel = parseInt(effect.setValue, 10);
             conditionsToRemove.push(effect.source);
         });
-        this._effectsService.relativeEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
+        this._creatureEffectsService.relativeEffectsOnThis(character, 'Spell Slot Preservation').forEach(effect => {
             highestSpellPreservationLevel += parseInt(effect.value, 10);
             conditionsToRemove.push(effect.source);
         });
-        this._effectsService.absoluteEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
+        this._creatureEffectsService.absoluteEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
             highestNoDurationSpellPreservationLevel = parseInt(effect.setValue, 10);
             conditionsToRemove.push(effect.source);
         });
-        this._effectsService.relativeEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
+        this._creatureEffectsService.relativeEffectsOnThis(character, 'No-Duration Spell Slot Preservation').forEach(effect => {
             highestNoDurationSpellPreservationLevel += parseInt(effect.value, 10);
             conditionsToRemove.push(effect.source);
         });
@@ -615,7 +614,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             );
         }
 
-        const bondedItemCharges = this._effectsService.effectsOnThis(character, 'Free Bonded Item Charge');
+        const bondedItemCharges = this._creatureEffectsService.effectsOnThis(character, 'Free Bonded Item Charge');
 
         if (bondedItemCharges.length) {
             bondedItemCharges.forEach(effect => {
@@ -892,7 +891,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             }
 
             if (casting.className) {
-                this._effectsService
+                this._creatureEffectsService
                     .relativeEffectsOnThis(
                         this._character,
                         `${ casting.className } ${ casting.castingType } Level ${ spellLevel } Spell Slots`,
@@ -914,8 +913,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
 
     private _spellDisabledByEffect(spell: Spell, choice: SpellChoice): boolean {
         return !!(
-            this._effectsService.effectsOnThis(this._character, `${ spell.name } Disabled`).length
-            + this._effectsService.effectsOnThis(this._character, `${ choice.source.replace('Feat: ', '') } Disabled`).length
+            this._creatureEffectsService.effectsOnThis(this._character, `${ spell.name } Disabled`).length
+            + this._creatureEffectsService.effectsOnThis(this._character, `${ choice.source.replace('Feat: ', '') } Disabled`).length
         );
     }
 
@@ -1031,7 +1030,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         hasSuperiorBond: boolean,
     ): boolean {
         // True if you have the "Free Bonded Item Charge" effect (usually from Bond Conversation)
-        if (this._effectsService.effectsOnThis(this._character, 'Free Bonded Item Charge').length) {
+        if (this._creatureEffectsService.effectsOnThis(this._character, 'Free Bonded Item Charge').length) {
             return true;
         }
 

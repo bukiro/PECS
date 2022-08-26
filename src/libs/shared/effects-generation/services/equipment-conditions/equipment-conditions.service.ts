@@ -4,7 +4,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Equipment } from 'src/app/classes/Equipment';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { WornItem } from 'src/app/classes/WornItem';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { BulkService } from 'src/libs/shared/services/bulk/bulk.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
@@ -20,9 +20,7 @@ export class EquipmentConditionsService {
         private readonly _evaluationService: EvaluationService,
         private readonly _bulkService: BulkService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _characterService: CharacterService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
-        private readonly _settingsService: SettingsService,
 
     ) { }
 
@@ -31,11 +29,11 @@ export class EquipmentConditionsService {
     ): void {
         //Calculate whether any items should grant a condition under the given circumstances and add or remove conditions accordingly.
         //Conditions caused by equipment are not calculated in manual mode.
-        if (this._settingsService.isManualMode) {
+        if (SettingsService.isManualMode) {
             return;
         }
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         let hasFoundSpeedRune = false;
         let shouldApplyAlignmentRunePenalty = false;
@@ -189,7 +187,7 @@ export class EquipmentConditionsService {
     public generateBulkConditions(creature: Creature): void {
         //Calculate whether the creature is encumbered and add or remove the condition.
         //Encumbered conditions are not calculated in manual mode.
-        if (!this._settingsService.isManualMode) {
+        if (!SettingsService.isManualMode) {
             const calculatedBulk = this._bulkService.calculate(creature);
 
             if (

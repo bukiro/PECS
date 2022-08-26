@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Skill } from 'src/app/classes/Skill';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Trackers } from 'src/libs/shared/util/trackers';
@@ -52,9 +51,7 @@ export class SkillComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
@@ -62,7 +59,7 @@ export class SkillComponent implements OnInit, OnDestroy {
     ) { }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get isTileMode(): boolean {
@@ -70,7 +67,7 @@ export class SkillComponent implements OnInit, OnDestroy {
     }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public toggleShownAction(id: string): void {

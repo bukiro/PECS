@@ -4,7 +4,7 @@ import { Character } from 'src/app/classes/Character';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
@@ -16,7 +16,6 @@ import { FeatProcessingService } from '../feat-processing/feat-processing.servic
 export class CharacterBackgroundChangeService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _featProcessingService: FeatProcessingService,
@@ -24,7 +23,7 @@ export class CharacterBackgroundChangeService {
     ) { }
 
     public changeBackground(background?: Background): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         this._processRemovingOldBackground(character);
 

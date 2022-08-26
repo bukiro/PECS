@@ -15,7 +15,6 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { WornItem } from 'src/app/classes/WornItem';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
@@ -42,11 +41,9 @@ export class ActivitiesProcessingService {
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellTargetService: SpellTargetService,
         private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
-        private readonly _settingsService: SettingsService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _onceEffectsService: OnceEffectsService,
 
@@ -156,7 +153,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!this._settingsService.isManualMode) {
+        if (!SettingsService.isManualMode) {
 
             //One time effects
             if (activity.onceEffects) {
@@ -329,13 +326,13 @@ export class ActivitiesProcessingService {
         if (activity.maxDuration) {
             context.gain.duration = activity.maxDuration;
             //If an effect changes the duration of this activitiy, change the duration here.
-            this._effectsService
+            this._creatureEffectsService
                 .absoluteEffectsOnThis(context.creature, `${ activity.name } Duration`)
                 .forEach(effect => {
                     context.gain.duration = parseInt(effect.setValue, 10);
                     conditionsToRemove.push(effect.source);
                 });
-            this._effectsService
+            this._creatureEffectsService
                 .relativeEffectsOnThis(context.creature, `${ activity.name } Duration`)
                 .forEach(effect => {
                     context.gain.duration += parseInt(effect.value, 10);
@@ -542,7 +539,7 @@ export class ActivitiesProcessingService {
         }
 
         //In manual mode, targets, conditions, one time effects and spells are not processed.
-        if (!this._settingsService.isManualMode) {
+        if (!SettingsService.isManualMode) {
 
             //Remove applied conditions.
             //The condition source is the activity name.

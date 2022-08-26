@@ -3,7 +3,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
-import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
@@ -16,7 +15,6 @@ export class AnimalCompanionLevelsService {
 
     constructor(
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }

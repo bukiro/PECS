@@ -5,8 +5,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { CharacterService } from 'src/app/services/character.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
@@ -27,8 +25,6 @@ export class CreatureConditionsService {
     constructor(
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _evaluationService: EvaluationService,
-        private readonly _effectsService: CreatureEffectsService,
-        private readonly _characterService: CharacterService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _conditionProcessingService: ConditionProcessingService,

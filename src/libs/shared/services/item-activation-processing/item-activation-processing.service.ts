@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Consumable } from 'src/app/classes/Consumable';
 import { Creature } from 'src/app/classes/Creature';
@@ -22,8 +22,7 @@ export class ItemActivationProcessingService {
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
-        private readonly _characterService: CharacterService,
-        private readonly _settingsService: SettingsService,
+        private readonly _characterService: CreatureService,
         private readonly _onceEffectsService: OnceEffectsService,
     ) { }
 
@@ -33,7 +32,7 @@ export class ItemActivationProcessingService {
     ): void {
 
         //Consumables don't do anything in manual mode, except be used up.
-        if (!this._settingsService.isManualMode) {
+        if (!SettingsService.isManualMode) {
 
             //One time effects
             if (item.onceEffects) {

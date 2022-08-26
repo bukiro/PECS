@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
@@ -11,6 +11,7 @@ import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-spell',
@@ -36,7 +37,6 @@ export class SpellComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
@@ -55,7 +55,7 @@ export class SpellComponent implements OnInit, OnDestroy {
         let levelNumber = baseLevel;
 
         if ((!levelNumber && (spell.traits.includes('Cantrip'))) || levelNumber === -1) {
-            levelNumber = this._characterService.character.maxSpellLevel();
+            levelNumber = CreatureService.character.maxSpellLevel();
         }
 
         levelNumber = Math.max(levelNumber, (spell.levelreq || 0));
@@ -65,7 +65,7 @@ export class SpellComponent implements OnInit, OnDestroy {
 
     public ngOnInit(): void {
         const waitForCharacterService = setInterval(() => {
-            if (!this._characterService.stillLoading) {
+            if (!StatusService.isLoadingCharacter) {
                 clearInterval(waitForCharacterService);
 
                 this._changeSubscription = this._refreshService.componentChanged$

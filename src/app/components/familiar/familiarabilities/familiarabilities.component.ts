@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestro
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
@@ -22,13 +22,12 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
     ) { }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get isFamiliarAvailable(): boolean {
@@ -36,7 +35,7 @@ export class FamiliarabilitiesComponent implements OnInit, OnDestroy {
     }
 
     public get familiar(): Familiar {
-        return this._characterService.familiar;
+        return CreatureService.familiar;
     }
 
     public ngOnInit(): void {

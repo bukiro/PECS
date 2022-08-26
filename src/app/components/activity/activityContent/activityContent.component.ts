@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Condition } from 'src/app/classes/Condition';
@@ -48,25 +47,22 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _timeService: TimeService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _durationsService: DurationsService,
-        private readonly _settingsService: SettingsService,
         public trackers: Trackers,
     ) { }
 
     public get isManualMode(): boolean {
-        return this._settingsService.isManualMode;
+        return SettingsService.isManualMode;
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public traitFromName(traitName: string): Trait {

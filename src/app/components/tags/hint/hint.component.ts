@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Hint } from 'src/app/classes/Hint';
@@ -9,7 +9,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Shield } from 'src/app/classes/Shield';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { WornItem } from 'src/app/classes/WornItem';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Character } from 'src/app/classes/Character';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -51,8 +50,6 @@ export class HintComponent {
     public color = '';
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
@@ -61,11 +58,11 @@ export class HintComponent {
     ) { }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public hints(): Array<Hint> {
@@ -236,7 +233,7 @@ export class HintComponent {
         if (this.object instanceof ConditionSet && this.object.condition.minLevel) {
             return hint.heightenedText(hint.desc, this.object.gain.heightened);
         } else {
-            return hint.heightenedText(hint.desc, this._characterService.character.level);
+            return hint.heightenedText(hint.desc, CreatureService.character.level);
         }
     }
 

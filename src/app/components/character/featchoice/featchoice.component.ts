@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
@@ -83,12 +83,11 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _featRequirementsService: FeatRequirementsService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -101,11 +100,11 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     }
 
     private get _character(): CharacterModel {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     private get _currentCreature(): CharacterModel | Familiar {
-        return this._characterService.creatureFromType(this.creature) as CharacterModel | Familiar;
+        return CreatureService.creatureFromType(this.creature) as CharacterModel | Familiar;
     }
 
     public toggleShownFeat(name: string): void {
@@ -221,10 +220,10 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
         if (this.creature === 'Familiar') {
             let allowed = choice.available;
 
-            this._effectsService.absoluteEffectsOnThis(this._character, 'Familiar Abilities').forEach(effect => {
+            this._creatureEffectsService.absoluteEffectsOnThis(this._character, 'Familiar Abilities').forEach(effect => {
                 allowed = parseInt(effect.setValue, 10);
             });
-            this._effectsService.relativeEffectsOnThis(this._character, 'Familiar Abilities').forEach(effect => {
+            this._creatureEffectsService.relativeEffectsOnThis(this._character, 'Familiar Abilities').forEach(effect => {
                 allowed += parseInt(effect.value, 10);
             });
 
@@ -506,7 +505,7 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     public isFeatAlreadyTaken(feat: Feat): boolean {
         // Return whether this feat or a feat that counts as this feat has been taken at all up to this level
         // - unless it's unlimited or its limit is not reached yet.
-        const taken = this._characterService.characterFeatsTaken(
+        const taken = this._characterFeatsService.characterFeatsTaken(
             1,
             this.levelNumber,
             { featName: feat.name },

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -38,13 +38,11 @@ export class ItemTargetComponent implements OnInit {
     public excluding = false;
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _savegamesService: SavegamesService,
         private readonly _itemBulkService: ItemBulkService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _modalService: NgbModal,
         private readonly _itemTransferService: ItemTransferService,
-        private readonly _settingsService: SettingsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
@@ -63,11 +61,11 @@ export class ItemTargetComponent implements OnInit {
     }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public onMove(): void {
@@ -110,7 +108,7 @@ export class ItemTargetComponent implements OnInit {
                 });
         }
 
-        if (character.partyName && !this.excluding && !this._settingsService.isGMMode && !this._settingsService.isManualMode) {
+        if (character.partyName && !this.excluding && !SettingsService.isGMMode && !SettingsService.isManualMode) {
             //Only allow selecting other players if you are in a party.
             this._savegamesService.savegames()
                 .filter(savegame => savegame.partyName === character.partyName && savegame.id !== character.id)

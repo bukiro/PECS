@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Item } from 'src/app/classes/Item';
 import { Character } from 'src/app/classes/Character';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
@@ -26,6 +26,8 @@ import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 const itemsPerPage = 40;
 
@@ -57,7 +59,6 @@ export class CraftingComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _itemsDataService: ItemsDataService,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _skillValuesService: SkillValuesService,
@@ -67,15 +68,16 @@ export class CraftingComponent implements OnInit, OnDestroy {
         private readonly _itemPriceService: ItemPriceService,
         private readonly _menuService: MenuService,
         private readonly _inventoryService: InventoryService,
+        private readonly _characterFeatsService: CharacterFeatsService,
         public trackers: Trackers,
     ) { }
 
     public get stillLoading(): boolean {
-        return this._itemsDataService.stillLoading || this._characterService.stillLoading;
+        return this._itemsDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     public get isInventoryMinimized(): boolean {
-        return this._characterService.character.settings.inventoryMinimized;
+        return CreatureService.character.settings.inventoryMinimized;
     }
 
     public get isTileMode(): boolean {
@@ -87,7 +89,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     //TO-DO: create list and pagination component for these lists
@@ -279,13 +281,13 @@ export class CraftingComponent implements OnInit, OnDestroy {
         item.crafted = true;
         this._inventoryService.grantInventoryItem(
             item,
-            { creature: this._characterService.character, inventory: this._characterService.character.inventories[0], amount },
+            { creature: CreatureService.character, inventory: CreatureService.character.inventories[0], amount },
             { resetRunes: false },
         );
     }
 
     public snareSpecialistParameters(snares: Array<Snare>): { available: number; prepared: number; snares: Array<Snare> } {
-        if (this._characterFeatsService._characterHasFeat('Snare Specialist')) {
+        if (this._characterFeatsService.characterHasFeat('Snare Specialist')) {
             const prepared: number = this._learnedFormulas().reduce((sum, current) => sum + current.snareSpecialistPrepared, 0);
             let available = 0;
             const character = this._character;
@@ -306,7 +308,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
                 default: break;
             }
 
-            if (this._characterFeatsService._characterHasFeat('Ubiquitous Snares')) {
+            if (this._characterFeatsService.characterHasFeat('Ubiquitous Snares')) {
                 available *= ubiquitousSnaresMultiplier;
             }
 

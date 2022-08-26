@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
@@ -50,7 +50,6 @@ export class ItemMaterialWeaponComponent implements OnInit {
     public inventories: Array<string> = [];
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _skillValuesService: SkillValuesService,
@@ -68,7 +67,7 @@ export class ItemMaterialWeaponComponent implements OnInit {
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public initialMaterials(): Array<WeaponMaterialSet> {

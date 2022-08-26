@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
-import { CharacterService } from 'src/app/services/character.service';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { DisplayService } from 'src/app/core/services/display/display.service';
@@ -25,6 +24,8 @@ import { ItemsDataService } from '../data/items-data.service';
 import { ItemMaterialsDataService } from '../data/item-materials-data.service';
 import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
 import { ItemPropertiesDataService } from '../data/item-properties-data.service';
+import { StatusService } from '../status/status.service';
+import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable({
     providedIn: 'root',
@@ -32,7 +33,6 @@ import { ItemPropertiesDataService } from '../data/item-properties-data.service'
 export class AppInitService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _extensionsService: ExtensionsService,
         private readonly _configService: ConfigService,
         private readonly _traitsDataService: TraitsDataService,
@@ -57,12 +57,26 @@ export class AppInitService {
         private readonly _effectsPropertiesDataService: EffectPropertiesDataService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _statusService: StatusService,
+        popoverConfig: NgbPopoverConfig,
+        tooltipConfig: NgbTooltipConfig,
     ) {
+        popoverConfig.autoClose = 'outside';
+        popoverConfig.container = 'body';
+        popoverConfig.openDelay = Defaults.tooltipDelay;
+        popoverConfig.placement = 'auto';
+        popoverConfig.popoverClass = 'list-item sublist';
+        popoverConfig.triggers = 'hover:click';
+        tooltipConfig.placement = 'auto';
+        tooltipConfig.container = 'body';
+        tooltipConfig.openDelay = Defaults.tooltipDelay;
+        tooltipConfig.triggers = 'hover:click';
+
         this.init();
     }
 
     public init(): void {
-        this._characterService.initialize();
+        this._statusService.setLoadingStatus('Loading extensions');
         this._extensionsService.initialize();
         this._configService.initialize();
         DisplayService.setPageHeight();
@@ -70,6 +84,7 @@ export class AppInitService {
         const waitForFileServices = setInterval(() => {
             if (!this._extensionsService.stillLoading && !this._configService.stillLoading) {
                 clearInterval(waitForFileServices);
+                this._statusService.setLoadingStatus('Initializing content');
                 this._abilitiesDataService.initialize();
                 this._activitiesDataService.initialize();
                 this._animalCompanionsDataService.initialize();
@@ -95,7 +110,6 @@ export class AppInitService {
     }
 
     public reset(): void {
-        this._characterService.reset();
         this._traitsDataService.reset();
         this._activitiesDataService.reset();
         this._featsDataService.reset();

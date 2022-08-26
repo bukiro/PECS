@@ -2,14 +2,13 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
-import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
@@ -112,12 +111,10 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _deitiesDataService: DeitiesDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
@@ -130,7 +127,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public toggleShownSpell(name: string): void {

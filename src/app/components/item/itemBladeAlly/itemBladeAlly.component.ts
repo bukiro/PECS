@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Rune } from 'src/app/classes/Rune';
@@ -33,7 +33,6 @@ export class ItemBladeAllyComponent implements OnInit {
     public newPropertyRune: RuneSet;
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
@@ -41,7 +40,7 @@ export class ItemBladeAllyComponent implements OnInit {
     ) { }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public initialPropertyRunes(): Array<RuneSet> {

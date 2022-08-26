@@ -1,7 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { CharacterService } from 'src/app/services/character.service';
-import { TimeService } from 'src/libs/time/services/time/time.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Effect } from 'src/app/classes/Effect';
 import { Condition } from 'src/app/classes/Condition';
@@ -18,6 +17,7 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface ComponentParameters {
     effects: Array<Effect>;
@@ -53,39 +53,36 @@ export class EffectsComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _effectsService: CreatureEffectsService,
-        private readonly _characterService: CharacterService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _refreshService: RefreshService,
-        private readonly _timeService: TimeService,
         private readonly _durationsService: DurationsService,
-        private readonly _settingsService: SettingsService,
         public trackers: Trackers,
     ) { }
 
     public get isMinimized(): boolean {
         switch (this.creature) {
             case CreatureTypes.AnimalCompanion:
-                return this._characterService.character.settings.companionMinimized;
+                return CreatureService.character.settings.companionMinimized;
             case CreatureTypes.Familiar:
-                return this._characterService.character.settings.familiarMinimized;
+                return CreatureService.character.settings.familiarMinimized;
             default:
-                return this._characterService.character.settings.effectsMinimized;
+                return CreatureService.character.settings.effectsMinimized;
         }
     }
 
     public get isManualMode(): boolean {
-        return this._settingsService.isManualMode;
+        return SettingsService.isManualMode;
     }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public minimize(): void {
-        this._characterService.character.settings.effectsMinimized = !this._characterService.character.settings.effectsMinimized;
+        CreatureService.character.settings.effectsMinimized = !CreatureService.character.settings.effectsMinimized;
     }
 
     public toggleShownItem(name: string): void {
@@ -231,7 +228,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
 
     private _subscribeToChanges(): void {
         const waitForCharacterService = setInterval(() => {
-            if (!this._characterService.stillLoading) {
+            if (!StatusService.isLoadingCharacter) {
                 clearInterval(waitForCharacterService);
 
                 this._changeSubscription = this._refreshService.componentChanged$
@@ -254,7 +251,7 @@ export class EffectsComponent implements OnInit, OnDestroy {
     }
 
     private _creatureEffects(): EffectCollection {
-        return this._effectsService.effects(this.creature);
+        return this._creatureEffectsService.effects(this.creature);
     }
 
     private _isTimeStopped(conditions: Array<ConditionGain>): boolean {

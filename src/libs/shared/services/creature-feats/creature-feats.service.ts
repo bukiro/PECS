@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { CharacterService } from 'src/app/services/character.service';
-
+import { CreatureService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Injectable({
     providedIn: 'root',
@@ -11,7 +11,6 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 export class CreatureFeatsService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
@@ -21,10 +20,10 @@ export class CreatureFeatsService {
         filter: { charLevel?: number; minLevel?: number } = {},
         options: { excludeTemporary?: boolean; includeCountAs?: boolean } = {},
     ): number {
-        if (this._characterService?.stillLoading) { return 0; }
+        if (StatusService.isLoadingCharacter) { return 0; }
 
         filter = {
-            charLevel: this._characterService.character.level,
+            charLevel: CreatureService.character.level,
             minLevel: 1,
             ...filter,
         };

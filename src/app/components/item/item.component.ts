@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { AdventuringGear } from 'src/app/classes/AdventuringGear';
@@ -18,7 +18,6 @@ import { RingOfWizardrySlot, WornItem } from 'src/app/classes/WornItem';
 import { Subscription } from 'rxjs';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
@@ -66,14 +65,12 @@ export class ItemComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
-        private readonly _effectsService: CreatureEffectsService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _itemTraitsService: ItemTraitsService,
         private readonly _itemActivationService: ItemActivationService,
@@ -81,11 +78,11 @@ export class ItemComponent implements OnInit, OnDestroy {
     ) { }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public itemTraits(): Array<string> {

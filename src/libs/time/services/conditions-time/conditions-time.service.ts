@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { CharacterService } from 'src/app/services/character.service';
 import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
@@ -23,9 +22,8 @@ export class ConditionsTimeService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _conditionPropertiesService: ConditionPropertiesService,
         private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
-        private readonly _characterService: CharacterService,
         private readonly _itemsDataService: ItemsDataService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _toastService: ToastService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -212,7 +210,7 @@ export class ConditionsTimeService {
         // - all poisons and diseases of 19th level or lower.
         const verdantMetamorphosisMaxAfflictionLevel = 19;
 
-        if (this._effectsService.effectsOnThis(creature, 'Verdant Metamorphosis').length) {
+        if (this._creatureEffectsService.effectsOnThis(creature, 'Verdant Metamorphosis').length) {
             creature.conditions
                 .filter(gain =>
                     gain.duration !== -1 &&
@@ -270,7 +268,7 @@ export class ConditionsTimeService {
             });
 
         //If an effect with "X After Rest" is active, the condition is added.
-        this._effectsService.effects(creature.type).all
+        this._creatureEffectsService.effects(creature.type).all
             .filter(effect => !effect.ignored && effect.apply && effect.target.toLowerCase().includes(' after rest'))
             .forEach(effect => {
                 const regex = new RegExp(' after rest', 'ig');

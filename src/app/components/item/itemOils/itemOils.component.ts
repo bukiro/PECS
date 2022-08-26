@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Item } from 'src/app/classes/Item';
 import { Oil } from 'src/app/classes/Oil';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
@@ -35,7 +35,6 @@ export class ItemOilsComponent {
     public newPropertyRuneName: Array<string> = ['', '', ''];
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _durationsService: DurationsService,
@@ -45,7 +44,7 @@ export class ItemOilsComponent {
     ) { }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public durationDescription(turns: number): string {

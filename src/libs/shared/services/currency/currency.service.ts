@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { CopperAmounts, CurrencyIndices } from '../../definitions/currency';
 import { CopperAmountFromCashObject } from '../../util/currencyUtils';
@@ -12,7 +12,6 @@ import { RefreshService } from '../refresh/refresh.service';
 export class CurrencyService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
     ) { }
 
@@ -29,7 +28,7 @@ export class CurrencyService {
             ...amounts,
         };
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         const platIn100Plat = 100;
         const decimal = 10;
@@ -111,7 +110,7 @@ export class CurrencyService {
     }
 
     public sortCash(): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         const sum =
             (character.cash[CurrencyIndices.Platinum] * CopperAmounts.CopperInPlatinum)
@@ -124,7 +123,7 @@ export class CurrencyService {
     }
 
     public hasFunds(sum: number): boolean {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
         const funds = CopperAmountFromCashObject(character.cash);
 
         return sum <= funds;

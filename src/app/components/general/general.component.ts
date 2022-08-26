@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -24,6 +24,7 @@ import { ClassesDataService } from 'src/app/core/services/data/classes-data.serv
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-general',
@@ -45,9 +46,8 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _deitiesDataService: DeitiesDataService,
@@ -63,36 +63,36 @@ export class GeneralComponent implements OnInit, OnDestroy {
     public get isMinimized(): boolean {
         switch (this.creature) {
             case CreatureTypes.AnimalCompanion:
-                return this._characterService.character.settings.companionMinimized;
+                return CreatureService.character.settings.companionMinimized;
             case CreatureTypes.Familiar:
-                return this._characterService.character.settings.familiarMinimized;
+                return CreatureService.character.settings.familiarMinimized;
             default:
-                return this._characterService.character.settings.generalMinimized;
+                return CreatureService.character.settings.generalMinimized;
         }
     }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get companion(): AnimalCompanion {
-        return this._characterService.companion;
+        return CreatureService.companion;
     }
 
     public get familiar(): Familiar {
-        return this._characterService.familiar;
+        return CreatureService.familiar;
     }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public minimize(): void {
-        this._characterService.character.settings.generalMinimized = !this._characterService.character.settings.generalMinimized;
+        CreatureService.character.settings.generalMinimized = !CreatureService.character.settings.generalMinimized;
     }
 
     public familiarAbilityFromName(name: string): Feat {
@@ -278,7 +278,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             traits = ['Plant'].concat(traits.filter(trait => !['Humanoid', 'Animal', 'Fungus'].includes(trait)));
         }
 
-        this._effectsService.toggledEffectsOnThese(character, ['Character Gain Trait', 'Character Lose Trait'])
+        this._creatureEffectsService.toggledEffectsOnThese(character, ['Character Gain Trait', 'Character Lose Trait'])
             .filter(effect => effect.title)
             .forEach(effect => {
                 if (effect.target.toLowerCase().includes('gain trait')) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -22,7 +22,6 @@ export class FoundryVTTIntegrationService {
 
     constructor(
         private readonly _toastService: ToastService,
-        private readonly _characterService: CharacterService,
     ) { }
 
     public sendRollToFoundry(
@@ -30,7 +29,7 @@ export class FoundryVTTIntegrationService {
         diceString = '',
         diceResults: Array<DiceResult> = [],
     ): void {
-        let foundryVTTUrl = this._characterService.character.settings.foundryVTTUrl;
+        let foundryVTTUrl = CreatureService.character.settings.foundryVTTUrl;
 
         //Remove trailing slashes.
         foundryVTTUrl = foundryVTTUrl.replace(/\/+$/, '');
@@ -43,15 +42,15 @@ export class FoundryVTTIntegrationService {
                     roll = '0';
                 }
 
-                const foundryVTTTimeout = this._characterService.character.settings.foundryVTTTimeout;
+                const foundryVTTTimeout = CreatureService.character.settings.foundryVTTTimeout;
                 //Open the foundry URL in a small window, then close it after the configured timeout.
-                const roller = this._characterService.creatureFromType(creature);
+                const roller = CreatureService.creatureFromType(creature);
                 let alias = '';
 
                 if (creature === CreatureTypes.Character) {
                     alias = roller.name || '';
                 } else {
-                    alias = roller.name || `${ roller.type } of ${ this._characterService.character.name }`;
+                    alias = roller.name || `${ roller.type } of ${ CreatureService.character.name }`;
                 }
 
                 let foundryWindow: Window;

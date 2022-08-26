@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { Speed } from 'src/app/classes/Speed';
-import { CharacterService } from 'src/app/services/character.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 
 interface CalculatedSpeed {
@@ -22,8 +22,7 @@ const minimumLoweredSpeed = 5;
 export class SpeedValuesService {
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
     ) { }
 
     public calculate(speed: Speed, creature: Creature): CalculatedSpeed {
@@ -62,39 +61,39 @@ export class SpeedValuesService {
 
     private _relatives(creature: Creature, name: string, both = false): Array<Effect> {
         if (both && name !== 'Speed') {
-            return this._effectsService.relativeEffectsOnThese(creature, [name, 'Speed']);
+            return this._creatureEffectsService.relativeEffectsOnThese(creature, [name, 'Speed']);
         } else {
-            return this._effectsService.relativeEffectsOnThis(creature, name);
+            return this._creatureEffectsService.relativeEffectsOnThis(creature, name);
         }
     }
 
     private _absolutes(creature: Creature, name: string, both = false): Array<Effect> {
         if (both && name !== 'Speed') {
-            return this._effectsService.absoluteEffectsOnThese(creature, [name, 'Speed']);
+            return this._creatureEffectsService.absoluteEffectsOnThese(creature, [name, 'Speed']);
         } else {
-            return this._effectsService.absoluteEffectsOnThis(creature, name);
+            return this._creatureEffectsService.absoluteEffectsOnThis(creature, name);
         }
     }
 
     private _showBonuses(creature: Creature, name: string, both = false): boolean {
         if (both && name !== 'Speed') {
-            return this._effectsService.doBonusEffectsExistOnThese(creature, [name, 'Speed']);
+            return this._creatureEffectsService.doBonusEffectsExistOnThese(creature, [name, 'Speed']);
         } else {
-            return this._effectsService.doBonusEffectsExistOnThis(creature, name);
+            return this._creatureEffectsService.doBonusEffectsExistOnThis(creature, name);
         }
     }
 
     private _showPenalties(creature: Creature, name: string, both = false): boolean {
         if (both && name !== 'Speed') {
-            return this._effectsService.doPenaltyEffectsExistOnThese(creature, [name, 'Speed']);
+            return this._creatureEffectsService.doPenaltyEffectsExistOnThese(creature, [name, 'Speed']);
         } else {
-            return this._effectsService.doPenaltyEffectsExistOnThis(creature, name);
+            return this._creatureEffectsService.doPenaltyEffectsExistOnThis(creature, name);
         }
     }
 
     private _baseValue(speed: Speed, creature: Creature): { result: number; explain: string } {
         //Gets the basic speed and adds all effects
-        if (this._characterService.stillLoading) { return { result: 0, explain: '' }; }
+        if (StatusService.isLoadingCharacter) { return { result: 0, explain: '' }; }
 
         //Get the base speed from the ancestry.
         const baseValue = creature.baseSpeed(speed.name);

@@ -13,7 +13,7 @@ import { Rune } from 'src/app/classes/Rune';
 import { Snare } from 'src/app/classes/Snare';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ArmorClassService } from 'src/libs/defense/services/armor-class/armor-class.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { ActivitiesProcessingService } from '../activities-processing/activities-processing.service';
@@ -33,7 +33,6 @@ import { ToastService } from '../toast/toast.service';
 export class InventoryItemProcessingService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _itemGrantingService: ItemGrantingService,
@@ -90,7 +89,7 @@ export class InventoryItemProcessingService {
         including = true,
         keepInventoryContent = false,
     ): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         if ((item instanceof Equipment) || (item instanceof Rune) || (item instanceof Oil)) {
             this._refreshService.prepareChangesByHints(creature, item.hints);
@@ -175,7 +174,7 @@ export class InventoryItemProcessingService {
         item: Equipment,
         equipBasicItems = true,
     ): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         if (equipBasicItems) {
             this._basicEquipmentService.equipBasicItems(creature);
@@ -278,7 +277,7 @@ export class InventoryItemProcessingService {
         skipGrantedItems = false,
         skipGainedInventories = false,
     ): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         if (item.gainActivities?.length) {
             item.gainActivities.forEach(gain => {
@@ -350,7 +349,7 @@ export class InventoryItemProcessingService {
         including = true,
         keepInventoryContent = false,
     ): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         if (item.equipped) {
             this._creatureEquipmentService.equipItem(creature, inventory, item, false, false);

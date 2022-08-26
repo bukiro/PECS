@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Rune } from 'src/app/classes/Rune';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Shield } from 'src/app/classes/Shield';
@@ -51,7 +51,6 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     public newPropertyRune: { rune: Rune; disabled?: boolean };
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -59,7 +58,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
     ) { }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public componentParameters(): ComponentParameters {

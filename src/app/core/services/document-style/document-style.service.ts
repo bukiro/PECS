@@ -1,24 +1,20 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { SettingsService } from '../settings/settings.service';
+import { StatusService } from '../status/status.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class DocumentStyleService {
 
-    constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _settingsService: SettingsService,
-    ) { }
-
     public setAccent(): void {
         document.documentElement.style.setProperty('--accent', this._rgbAccent());
     }
 
     public setDarkmode(): void {
-        if (this._settingsService.isDarkmode) {
+        if (SettingsService.isDarkmode) {
             document.body.classList.add('darkmode');
         } else {
             document.body.classList.remove('darkmode');
@@ -54,8 +50,8 @@ export class DocumentStyleService {
             }
         };
 
-        if (!this._characterService.stillLoading) {
-            const original = this._characterService.character.settings.accent;
+        if (!StatusService.isLoadingCharacter) {
+            const original = CreatureService.character.settings.accent;
 
             if (original.length === rgbLength || original.length === rrggbbLength) {
                 try {

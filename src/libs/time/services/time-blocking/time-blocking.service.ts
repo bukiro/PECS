@@ -11,7 +11,7 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 export class TimeBlockingService {
 
     constructor(
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
@@ -47,7 +47,7 @@ export class TimeBlockingService {
         const MultipleTempHPAvailable = (creature: Creature): boolean =>
             creature.health.temporaryHP.length > 1;
         const RestingBlockingEffectsActive = (creature: Creature): boolean =>
-            this._effectsService.effectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
+            this._creatureEffectsService.effectsOnThis(creature, 'Resting Blocked').some(effect => !effect.ignored);
 
         this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
             if (AfflictionOnsetsWithinDuration(creature)) {

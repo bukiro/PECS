@@ -3,12 +3,12 @@ import { Subscription } from 'rxjs';
 import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { CharacterService } from 'src/app/services/character.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService, CalculatedAbility } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-abilities',
@@ -28,28 +28,26 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _ablityValuesService: AbilityValuesService,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _effectsService: CreatureEffectsService,
         public trackers: Trackers,
     ) { }
 
     public get isMinimized(): boolean {
         return this.creature === CreatureTypes.AnimalCompanion
-            ? this._characterService.character.settings.companionMinimized
-            : this._characterService.character.settings.abilitiesMinimized;
+            ? CreatureService.character.settings.companionMinimized
+            : CreatureService.character.settings.abilitiesMinimized;
     }
 
     public get stillLoading(): boolean {
-        return this._abilitiesDataService.stillLoading || this._characterService.stillLoading;
+        return this._abilitiesDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public minimize(): void {
-        this._characterService.character.settings.abilitiesMinimized = !this._characterService.character.settings.abilitiesMinimized;
+        CreatureService.character.settings.abilitiesMinimized = !CreatureService.character.settings.abilitiesMinimized;
     }
 
     public abilities(subset = 0): Array<Ability> {

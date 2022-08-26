@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
@@ -30,8 +30,6 @@ export class MessagesService {
         private readonly _toastService: ToastService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _refreshService: RefreshService,
-        private readonly _characterService: CharacterService,
-        private readonly _settingsService: SettingsService,
         private readonly _messageProcessingService: MessageProcessingService,
     ) { }
 
@@ -45,7 +43,7 @@ export class MessagesService {
     }
 
     public markMessageAsIgnored(message: PlayerMessage): void {
-        this._characterService.character.ignoredMessages.push({ id: message.id, ttl: ignoredMessageTTL });
+        CreatureService.character.ignoredMessages.push({ id: message.id, ttl: ignoredMessageTTL });
     }
 
     public initialize(): void {
@@ -123,7 +121,7 @@ export class MessagesService {
             }
         });
         //Remove all ignored messages that don't match a new message, as you don't need them anymore.
-        this._characterService.character.ignoredMessages = this._ignoredMessages().filter(message =>
+        CreatureService.character.ignoredMessages = this._ignoredMessages().filter(message =>
             newMessages.some(newMessage => newMessage.id === message.id) ||
             this._newMessages.some(newMessage => newMessage.id === message.id),
         );
@@ -223,8 +221,8 @@ export class MessagesService {
         setInterval(() => {
 
             if (
-                this._settingsService.settings.checkMessagesAutomatically &&
-                !this._settingsService.isManualMode &&
+                SettingsService.settings.checkMessagesAutomatically &&
+                !SettingsService.isManualMode &&
                 this._configService.isLoggedIn
             ) {
                 minuteTimer--;
@@ -257,7 +255,7 @@ export class MessagesService {
     }
 
     private _ignoredMessages(): Array<{ id: string; ttl: number }> {
-        return this._characterService.character.ignoredMessages;
+        return CreatureService.character.ignoredMessages;
     }
 
     private _deleteMessageFromConnector(message: PlayerMessage): Observable<Array<string>> {
@@ -271,11 +269,11 @@ export class MessagesService {
 
     private _checkForNewMessages(): void {
         //Don't check for new messages if you don't have a party or if you are not logged in, or if you are currently checking.
-        if (!this._characterService.character.partyName || !this._configService.isLoggedIn || this._checkingMessages) {
+        if (!CreatureService.character.partyName || !this._configService.isLoggedIn || this._checkingMessages) {
             return;
         }
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         this._checkingMessages = true;
         this.loadMessagesFromConnector(character.id)

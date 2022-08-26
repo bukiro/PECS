@@ -10,7 +10,7 @@ import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { SavegamesService } from '../../saving-loading/services/savegames/savegames.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
@@ -25,7 +25,6 @@ import { ToastService } from '../toast/toast.service';
 export class MessageSendingService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _configService: ConfigService,
         private readonly _savegamesService: SavegamesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
@@ -33,18 +32,17 @@ export class MessageSendingService {
         private readonly _messagesService: MessagesService,
         private readonly _toastService: ToastService,
         private readonly _itemTransferService: ItemTransferService,
-        private readonly _settingsService: SettingsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _messageProcessingService: MessageProcessingService,
     ) { }
 
     public sendTurnChangeToPlayers(): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this._settingsService.isGMMode || this._settingsService.isManualMode || !this._configService.isLoggedIn) {
+        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isLoggedIn) {
             return;
         }
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         this._messagesService.timeFromConnector()
             .pipe(
@@ -89,11 +87,11 @@ export class MessageSendingService {
 
     public sendConditionToPlayers(targets: Array<SpellTarget>, conditionGain: ConditionGain, activate = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this._settingsService.isGMMode || this._settingsService.isManualMode || !this._configService.isLoggedIn) {
+        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isLoggedIn) {
             return;
         }
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         this._messagesService.timeFromConnector()
             .pipe(
@@ -106,7 +104,7 @@ export class MessageSendingService {
                         if (creatures.some(creature => creature.id === target.id)) {
                             //Catch any messages that go to your own creatures
                             this._creatureConditionsService
-                                .addCondition(this._characterService.creatureFromType(target.type), conditionGain);
+                                .addCondition(CreatureService.creatureFromType(target.type), conditionGain);
                         } else {
                             // Build a message to the correct player and creature,
                             // with the timestamp just received from the database connector.
@@ -162,11 +160,11 @@ export class MessageSendingService {
 
     public sendItemsToPlayer(sender: Creature, target: SpellTarget, item: Item, amount = 0): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this._settingsService.isGMMode || this._settingsService.isManualMode || !this._configService.isLoggedIn) {
+        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isLoggedIn) {
             return;
         }
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         this._messagesService.timeFromConnector()
             .pipe(
@@ -225,11 +223,11 @@ export class MessageSendingService {
 
     public sendItemAcceptedMessage(message: PlayerMessage, accepted = true): void {
         //Don't send messages in GM mode or manual mode, or if not logged in.
-        if (this._settingsService.isGMMode || this._settingsService.isManualMode || !this._configService.isLoggedIn) {
+        if (SettingsService.isGMMode || SettingsService.isManualMode || !this._configService.isLoggedIn) {
             return;
         }
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         this._messagesService.timeFromConnector()
             .pipe(

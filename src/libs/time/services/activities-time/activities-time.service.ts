@@ -7,7 +7,6 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Creature } from 'src/app/classes/Creature';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivitiesProcessingService } from '../../../shared/services/activities-processing/activities-processing.service';
-import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 
@@ -21,7 +20,6 @@ export class ActivitiesTimeService {
         private readonly _refreshService: RefreshService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
-        private readonly _characterService: CharacterService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
     ) { }
 

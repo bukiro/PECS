@@ -3,7 +3,6 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { Equipment } from 'src/app/classes/Equipment';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
-import { CharacterService } from 'src/app/services/character.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
@@ -15,7 +14,6 @@ export class AnimalCompanionAncestryService {
 
     constructor(
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
-        private readonly _characterService: CharacterService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _inventoryService: InventoryService,
     ) { }

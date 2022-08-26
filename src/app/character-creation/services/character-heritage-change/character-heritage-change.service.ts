@@ -5,7 +5,7 @@ import { Character } from 'src/app/classes/Character';
 import { Heritage } from 'src/app/classes/Heritage';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
@@ -22,7 +22,6 @@ import { FeatsDataService } from 'src/app/core/services/data/feats-data.service'
 export class CharacterHeritageChangeService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featTakingService: FeatTakingService,
@@ -33,7 +32,7 @@ export class CharacterHeritageChangeService {
     ) { }
 
     public changeHeritage(heritage?: Heritage, index = -1): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
         const characterClass = character.class;
 
         this._processRemovingOldHeritage(character, index);

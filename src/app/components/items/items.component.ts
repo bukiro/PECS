@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
@@ -50,6 +50,7 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -106,7 +107,6 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _itemsDataService: ItemsDataService,
         private readonly _itemPropertiesDataService: ItemPropertiesDataService,
         private readonly _itemInitializationService: ItemInitializationService,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _skillValuesService: SkillValuesService,
@@ -124,11 +124,11 @@ export class ItemsComponent implements OnInit, OnDestroy {
     ) { }
 
     public get stillLoading(): boolean {
-        return this._itemsDataService.stillLoading || this._characterService.stillLoading;
+        return this._itemsDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     public get isInventoryMinimized(): boolean {
-        return this._characterService.character.settings.inventoryMinimized;
+        return CreatureService.character.settings.inventoryMinimized;
     }
 
     public get isTileMode(): boolean {
@@ -140,7 +140,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     //TO-DO: create list and pagination component for these lists
@@ -326,7 +326,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         const items =
             ([] as Array<Equipment | Consumable>)
                 .concat(
-                    ...this._characterService.character.inventories.map(inventory => inventory[type]),
+                    ...CreatureService.character.inventories.map(inventory => inventory[type]),
                 );
 
         return items
@@ -393,7 +393,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             amount = item.stack;
         }
 
-        const target: Creature = this._characterService.creatureFromType(creature);
+        const target: Creature = CreatureService.creatureFromType(creature);
 
         this._inventoryService.grantInventoryItem(
             item,
@@ -720,7 +720,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         const newScroll =
             this._inventoryService.grantInventoryItem(
                 scroll,
-                { creature: this._characterService.character, inventory: tempInv, amount: 1 },
+                { creature: CreatureService.character, inventory: tempInv, amount: 1 },
                 { resetRunes: false, changeAfter: false, equipAfter: false },
             );
 

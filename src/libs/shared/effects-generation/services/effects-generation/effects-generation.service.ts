@@ -3,7 +3,7 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Armor } from 'src/app/classes/Armor';
 import { Character as CharacterModel } from 'src/app/classes/Character';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
@@ -33,6 +33,7 @@ import { CharacterLanguagesService } from 'src/libs/shared/services/character-la
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Injectable({
     providedIn: 'root',
@@ -40,7 +41,7 @@ import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-e
 export class EffectsGenerationService {
 
     constructor(
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _refreshService: RefreshService,
         private readonly _abilitiesDataService: AbilitiesDataService,
@@ -49,7 +50,6 @@ export class EffectsGenerationService {
         private readonly _itemTraitsService: ItemTraitsService,
         private readonly _itemEffectsGenerationService: ItemEffectsGenerationService,
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _characterService: CharacterService,
         private readonly _objectEffectsGenerationService: ObjectEffectsGenerationService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _effectsGenerationPreflightService: EffectsGenerationPreflightService,
@@ -62,7 +62,7 @@ export class EffectsGenerationService {
     public initialize(): void {
         //Only start subscribing to effects refreshing commands after the character has finished loading.
         const waitForCharacterService = setInterval(() => {
-            if (!this._characterService.stillLoading) {
+            if (!StatusService.isLoadingCharacter) {
                 clearInterval(waitForCharacterService);
                 this._refreshService.componentChanged$
                     .subscribe(target => {
@@ -100,7 +100,7 @@ export class EffectsGenerationService {
             .filter(otherCreatureType => otherCreatureType !== creature.type)
             .forEach(otherCreatureType => {
                 foreignEffects.push(
-                    ...this._effectsService.effects(otherCreatureType).all.filter(effect => effect.creature === creature.id),
+                    ...this._creatureEffectsService.effects(otherCreatureType).all.filter(effect => effect.creature === creature.id),
                 );
             });
 
@@ -593,7 +593,7 @@ export class EffectsGenerationService {
         targets.forEach(target => {
             //Apply all untyped relative effects, but only the highest bonus and lowest penalty for each type for this target.
             //We only apply effects if the decision hasn't already been made (that is, if apply == undefined)
-            this._effectsService
+            this._creatureEffectsService
                 .reduceEffectsByType(
                     effects.filter(effect =>
                         effect.target === target &&
@@ -606,7 +606,7 @@ export class EffectsGenerationService {
                 });
             //Apply only the highest absolute effect for each type for this target.
             // (There aren't any absolute penalties, and absolute effects are usually untyped.)
-            this._effectsService
+            this._creatureEffectsService
                 .reduceEffectsByType(effects
                     .filter(effect =>
                         effect.target === target &&
@@ -790,7 +790,7 @@ export class EffectsGenerationService {
 
         options = { secondRun: false, ...options };
 
-        const creature: Creature = this._characterService.creatureFromType(creatureType);
+        const creature: Creature = CreatureService.creatureFromType(creatureType);
 
         let effects: Array<Effect> = [];
 
@@ -865,14 +865,14 @@ export class EffectsGenerationService {
         //When the effects are unchanged after the second or any subsequent run, the generation is finished.
 
         const areEffectsChanged = (
-            (JSON.stringify(this._effectsService.effects(context.creature.type).all)) !== (JSON.stringify(effects))
+            (JSON.stringify(this._creatureEffectsService.effects(context.creature.type).all)) !== (JSON.stringify(effects))
         );
 
         if (areEffectsChanged) {
-            this._refreshService.prepareChangesByEffects(effects, this._effectsService.effects(context.creature.type).all, context);
-            this._effectsService.replaceCreatureEffects(context.creature.type, effects);
+            this._refreshService.prepareChangesByEffects(effects, this._creatureEffectsService.effects(context.creature.type).all, context);
+            this._creatureEffectsService.replaceCreatureEffects(context.creature.type, effects);
 
-            if (!this._characterService.stillLoading) {
+            if (!StatusService.isLoadingCharacter) {
                 return this._generateEffects(context.creature.type, { secondRun: true });
             } else {
                 return false;
@@ -886,7 +886,7 @@ export class EffectsGenerationService {
     }
 
     private _updateEffectsAndConditions(creatureType: CreatureTypes): void {
-        const creature: Creature = this._characterService.creatureFromType(creatureType);
+        const creature: Creature = CreatureService.creatureFromType(creatureType);
 
         //Run certain non-effect updates that influence later effect generation.
         this._effectsGenerationPreflightService.runEffectGenerationPreflightUpdates(creature);

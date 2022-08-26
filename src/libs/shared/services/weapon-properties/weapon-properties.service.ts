@@ -3,8 +3,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
-import { CharacterService } from 'src/app/services/character.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel, skillLevelBaseStep } from '../../definitions/skillLevels';
@@ -14,6 +13,7 @@ import { SkillValuesService } from '../skill-values/skill-values.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,10 +21,8 @@ import { SkillsDataService } from 'src/app/core/services/data/skills-data.servic
 export class WeaponPropertiesService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
-        private readonly _featsDataService: FeatsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -35,7 +33,7 @@ export class WeaponPropertiesService {
         weapon: Weapon,
         context: { creature: Creature; charLevel?: number },
     ): string {
-        const charLevel = context.charLevel || this._characterService.character.level;
+        const charLevel = context.charLevel || CreatureService.character.level;
 
         let proficiency = weapon.prof;
         // Some feats allow you to apply another proficiency to certain weapons, e.g.:
@@ -93,10 +91,10 @@ export class WeaponPropertiesService {
         weapon: Weapon,
         creature: Creature,
         runeSource: Weapon | WornItem,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
         options: { preparedProficiency?: string } = {},
     ): number {
-        if (this._characterService.stillLoading || creature.isFamiliar()) { return 0; }
+        if (StatusService.isLoadingCharacter || creature.isFamiliar()) { return 0; }
 
         let skillLevel = 0;
         const prof = options.preparedProficiency || this.effectiveProficiency(weapon, { creature, charLevel });

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Deity } from 'src/app/classes/Deity';
 import { Character } from 'src/app/classes/Character';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { RefreshService } from '../refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
@@ -22,14 +22,13 @@ export class CharacterDeitiesService {
     private _$characterDeities: Array<CharacterDeitySet> = [];
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _deitiesDataService: DeitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
     public changeDeity(deity: Deity): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         character.class.deity = deity.name;
         this.clearCharacterDeities();

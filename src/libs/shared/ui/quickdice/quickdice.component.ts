@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { DiceService } from 'src/libs/dice/services/dice.service';
 import { FoundryVTTIntegrationService } from 'src/app/core/services/foundry-vtt-integration/foundry-vtt-integration.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 
@@ -32,8 +31,6 @@ export class QuickdiceComponent {
     public creature: CreatureTypes = CreatureTypes.Character;
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
         private readonly _refreshService: RefreshService,
         private readonly _diceService: DiceService,
         private readonly _integrationsService: FoundryVTTIntegrationService,
@@ -165,9 +162,9 @@ export class QuickdiceComponent {
     }
 
     private _canRollInFoundryVTT(): boolean {
-        return this._characterService.character.settings.foundryVTTSendRolls &&
-            this._characterService.character.settings.foundryVTTUrl &&
-            this._characterService.character.settings.foundryVTTRollDirectly;
+        return CreatureService.character.settings.foundryVTTSendRolls &&
+            CreatureService.character.settings.foundryVTTUrl &&
+            CreatureService.character.settings.foundryVTTRollDirectly;
     }
 
     private _cleanDiceString(diceString: string): string {
@@ -195,7 +192,7 @@ export class QuickdiceComponent {
             return diceString
                 .split(' ').map(part => {
                     if (part.toLowerCase() === 'charlevel') {
-                        return this._characterService.character.level;
+                        return CreatureService.character.level;
                     } else {
                         return part;
                     }
@@ -240,7 +237,7 @@ export class QuickdiceComponent {
                     }
 
                     if (abilityName) {
-                        const character = this._characterService.character;
+                        const character = CreatureService.character;
 
                         return this._abilityValuesService.mod(
                             abilityName,

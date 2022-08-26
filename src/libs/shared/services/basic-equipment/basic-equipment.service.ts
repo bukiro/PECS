@@ -3,7 +3,6 @@ import { Armor } from 'src/app/classes/Armor';
 import { Creature } from 'src/app/classes/Creature';
 import { Weapon } from 'src/app/classes/Weapon';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
-import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 import { InventoryService } from '../inventory/inventory.service';
 
@@ -15,7 +14,6 @@ export class BasicEquipmentService {
     private _basicItems: { weapon: Weapon; armor: Armor } = { weapon: null, armor: null };
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryService: InventoryService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
@@ -44,23 +42,28 @@ export class BasicEquipmentService {
             }
 
             if (!creature.inventories[0].weapons.some(weapon => weapon.equipped === true)) {
-                if (creature.inventories[0].weapons.some(weapon => !weapon.broken)) {
+                const firstAvailableWeapon = creature.inventories[0].weapons.find(weapon => !weapon.broken);
+
+                if (firstAvailableWeapon) {
                     this._creatureEquipmentService.equipItem(
                         creature,
                         creature.inventories[0],
-                        creature.inventories[0].weapons.find(weapon => !weapon.broken),
+                        firstAvailableWeapon,
                         true,
                         changeAfter,
                     );
                 }
+
             }
 
             if (!creature.inventories[0].armors.some(armor => armor.equipped === true)) {
-                if (creature.inventories[0].weapons.some(armor => !armor.broken)) {
+                const firstAvailableArmor = creature.inventories[0].armors.find(armor => !armor.broken);
+
+                if (firstAvailableArmor) {
                     this._creatureEquipmentService.equipItem(
                         creature,
                         creature.inventories[0],
-                        creature.inventories[0].armors.find(armor => !armor.broken),
+                        firstAvailableArmor,
                         true,
                         changeAfter,
                     );

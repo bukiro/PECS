@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { Consumable } from 'src/app/classes/Consumable';
@@ -59,6 +59,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -107,10 +108,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _itemRolesService: ItemRolesService,
@@ -127,7 +127,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _itemTransferService: ItemTransferService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _menuService: MenuService,
-        private readonly _settingsService: SettingsService,
         private readonly _inventoryService: InventoryService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -140,16 +139,16 @@ export class InventoryComponent implements OnInit, OnDestroy {
     public get isMinimized(): boolean {
         switch (this.creature) {
             case CreatureTypes.AnimalCompanion:
-                return this._characterService.character.settings.companionMinimized;
+                return CreatureService.character.settings.companionMinimized;
             case CreatureTypes.Familiar:
-                return this._characterService.character.settings.familiarMinimized;
+                return CreatureService.character.settings.familiarMinimized;
             default:
-                return this._characterService.character.settings.inventoryMinimized;
+                return CreatureService.character.settings.inventoryMinimized;
         }
     }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public get isTileMode(): boolean {
@@ -157,19 +156,19 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public get isManualMode(): boolean {
-        return this._settingsService.isManualMode;
+        return SettingsService.isManualMode;
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public minimize(): void {
-        this._characterService.character.settings.inventoryMinimized = !this._characterService.character.settings.inventoryMinimized;
+        CreatureService.character.settings.inventoryMinimized = !CreatureService.character.settings.inventoryMinimized;
     }
 
     public setItemsMenuTarget(target: CreatureTypes): void {
@@ -491,13 +490,13 @@ export class InventoryComponent implements OnInit, OnDestroy {
             explain = 'Base limit: 2';
         }
 
-        this._effectsService.absoluteEffectsOnThis(this.currentCreature, 'Max Invested').forEach(effect => {
+        this._creatureEffectsService.absoluteEffectsOnThis(this.currentCreature, 'Max Invested').forEach(effect => {
             maxInvest = parseInt(effect.setValue, 10);
             explain = `${ effect.source }: ${ effect.setValue }`;
             hasAbsolutes = true;
             effects.push(effect);
         });
-        this._effectsService.relativeEffectsOnThis(this.currentCreature, 'Max Invested').forEach(effect => {
+        this._creatureEffectsService.relativeEffectsOnThis(this.currentCreature, 'Max Invested').forEach(effect => {
             maxInvest += parseInt(effect.value, 10);
             explain += `\n${ effect.source }: ${ effect.value }`;
 
@@ -638,7 +637,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public onUseConsumable(item: Consumable, creature: CreatureTypes, inventory: ItemCollection): void {
-        this._itemActivationService.useConsumable(this._characterService.creatureFromType(creature), item);
+        this._itemActivationService.useConsumable(CreatureService.creatureFromType(creature), item);
 
         if (this.canDropItem(item) && !item.canStack()) {
             this.dropInventoryItem(item, inventory, false);
@@ -785,7 +784,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
         this._inventoryService.grantInventoryItem(
             item,
-            { creature: this._characterService.character, inventory: this._characterService.character.inventories[0], amount },
+            { creature: CreatureService.character, inventory: CreatureService.character.inventories[0], amount },
             { resetRunes: false },
         );
 
@@ -832,7 +831,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             item.prof !== 'Unarmed Attacks' &&
             (
                 this.creatureHasFeat('Titan Mauler') ||
-                !!this._effectsService.effectsOnThis(this.currentCreature, 'Use Large Weapons').length
+                !!this._creatureEffectsService.effectsOnThis(this.currentCreature, 'Use Large Weapons').length
             )
         );
     }
@@ -877,7 +876,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     public isBattleforgedAllowed(item: Item): boolean {
         return (
             this.creatureHasFeat('Battleforger') ||
-            this._effectsService.effectsOnThis(this.character, 'Allow Battleforger').length
+            this._creatureEffectsService.effectsOnThis(this.character, 'Allow Battleforger').length
         ) &&
             (
                 (

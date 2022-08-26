@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
@@ -59,7 +59,6 @@ export class NewItemPropertyComponent {
     constructor(
         private readonly _itemsDataService: ItemsDataService,
         private readonly _itemPropertiesDataService: ItemPropertiesDataService,
-        private readonly _characterService: CharacterService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _spellsDataService: SpellsDataService,
@@ -72,7 +71,7 @@ export class NewItemPropertyComponent {
     ) { }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public parent(): Item {

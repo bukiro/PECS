@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { TimeService } from 'src/libs/time/services/time/time.service';
@@ -15,6 +15,8 @@ import { CalculatedHealth, HealthService } from 'src/libs/shared/services/health
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { TimeBlockingService } from 'src/libs/time/services/time-blocking/time-blocking.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Component({
     selector: 'app-health',
@@ -42,45 +44,44 @@ export class HealthComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _timeService: TimeService,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _healthService: HealthService,
         private readonly _timeBlockingService: TimeBlockingService,
-        private readonly _settingsService: SettingsService,
+        private readonly _characterFeatsService: CharacterFeatsService,
         public trackers: Trackers,
     ) { }
 
     public get isMinimized(): boolean {
         switch (this.creature) {
             case CreatureTypes.AnimalCompanion:
-                return this._characterService.character.settings.companionMinimized;
+                return CreatureService.character.settings.companionMinimized;
             case CreatureTypes.Familiar:
-                return this._characterService.character.settings.familiarMinimized;
+                return CreatureService.character.settings.familiarMinimized;
             default:
-                return this._characterService.character.settings.healthMinimized;
+                return CreatureService.character.settings.healthMinimized;
         }
     }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get isManualMode(): boolean {
-        return this._settingsService.isManualMode;
+        return SettingsService.isManualMode;
     }
 
     private get _currentCreature(): Creature {
-        return this._characterService.creatureFromType(this.creature);
+        return CreatureService.creatureFromType(this.creature);
     }
 
     public minimize(): void {
-        this._characterService.character.settings.healthMinimized = !this._characterService.character.settings.healthMinimized;
+        CreatureService.character.settings.healthMinimized = !CreatureService.character.settings.healthMinimized;
     }
 
     public absolute(number: number): number {
@@ -110,7 +111,7 @@ export class HealthComponent implements OnInit, OnDestroy {
         const calculatedHealth = this._healthService.calculate(this.creatureHealth(), this._currentCreature);
 
         //Don't do anything about your dying status in manual mode.
-        if (!this._settingsService.isManualMode) {
+        if (!SettingsService.isManualMode) {
             if (calculatedHealth.dying >= calculatedHealth.maxDying) {
                 if (
                     this._creatureConditionsService
@@ -187,7 +188,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     public isNumbToDeathAvailable(): boolean {
         if (this._currentCreature.isCharacter()) {
-            return !!this._characterService.characterFeatsTaken(0, this.character.level, { featName: 'Numb to Death' }).length;
+            return !!this._characterFeatsService.characterHasFeat('Numb to Death');
         } else {
             return false;
         }
@@ -234,7 +235,7 @@ export class HealthComponent implements OnInit, OnDestroy {
 
     public resistances(): Array<{ target: string; value: number; source: string }> {
         //There should be no absolutes in resistances. If there are, they will be treated as relatives here.
-        const effects = this._effectsService.effects(this.creature).all.filter(effect =>
+        const effects = this._creatureEffectsService.effects(this.creature).all.filter(effect =>
             effect.creature === this._currentCreature.id && (effect.target.toLowerCase().includes('resistance') ||
                 effect.target.toLowerCase().includes('hardness')) && effect.apply && !effect.ignored);
         const resistances: Array<{ target: string; value: number; source: string }> = [];
@@ -273,7 +274,7 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public immunities(): Array<{ target: string; source: string }> {
-        const effects = this._effectsService.effects(this.creature).all.filter(effect =>
+        const effects = this._creatureEffectsService.effects(this.creature).all.filter(effect =>
             effect.creature === this._currentCreature.id && (effect.target.toLowerCase().includes('immunity')));
         const immunities: Array<{ target: string; source: string }> = [];
 
@@ -291,15 +292,15 @@ export class HealthComponent implements OnInit, OnDestroy {
     }
 
     public doAbsoluteEffectsExistOnThis(name: string): boolean {
-        return !!this._effectsService.absoluteEffectsOnThis(this._currentCreature, name).length;
+        return !!this._creatureEffectsService.absoluteEffectsOnThis(this._currentCreature, name).length;
     }
 
     public doBonusEffectsExistOnThis(name: string): boolean {
-        return this._effectsService.doBonusEffectsExistOnThis(this._currentCreature, name);
+        return this._creatureEffectsService.doBonusEffectsExistOnThis(this._currentCreature, name);
     }
 
     public doPenaltyEffectsExistOnThis(name: string): boolean {
-        return this._effectsService.doPenaltyEffectsExistOnThis(this._currentCreature, name);
+        return this._creatureEffectsService.doPenaltyEffectsExistOnThis(this._currentCreature, name);
     }
 
     public ngOnInit(): void {

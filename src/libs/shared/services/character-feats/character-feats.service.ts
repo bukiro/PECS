@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Character } from 'src/app/classes/Character';
 import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
@@ -14,7 +14,6 @@ export class CharacterFeatsService {
     private _$characterFeatsTaken: Array<{ level: number; gain: FeatTaken }> = [];
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _featsDataService: FeatsDataService,
     ) { }
 
@@ -43,7 +42,7 @@ export class CharacterFeatsService {
         includeSubTypes = false,
         includeCountAs = false,
     ): Array<Feat> {
-        const customFeats = this._characterService.character.customFeats;
+        const customFeats = CreatureService.character.customFeats;
 
         // If a name is given and includeSubTypes and includeCountAs are false,
         // we can get the feat or feature from the customFeats or the map more quickly.
@@ -108,7 +107,7 @@ export class CharacterFeatsService {
             ...filter,
         };
 
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         maxLevelNumber = maxLevelNumber || character.level;
 
@@ -186,7 +185,7 @@ export class CharacterFeatsService {
     }
 
     public characterHasFeat(name: string, levelNumber?: number): boolean {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         levelNumber = levelNumber || character.level;
 

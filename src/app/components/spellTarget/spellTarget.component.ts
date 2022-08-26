@@ -2,9 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -13,7 +12,6 @@ import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { TimeService } from 'src/libs/time/services/time/time.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -96,16 +94,12 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _conditionGainPropertiesService: ConditionGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _timeService: TimeService,
         private readonly _savegamesService: SavegamesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _modalService: NgbModal,
         private readonly _durationsService: DurationsService,
-        private readonly _settingsService: SettingsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
@@ -124,19 +118,19 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get companion(): AnimalCompanion {
-        return this._characterService.companion;
+        return CreatureService.companion;
     }
 
     public get familiar(): Familiar {
-        return this._characterService.familiar;
+        return CreatureService.familiar;
     }
 
     public get isManualMode(): boolean {
-        return this._settingsService.isManualMode;
+        return SettingsService.isManualMode;
     }
 
     private get _target(): string {

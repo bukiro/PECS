@@ -11,7 +11,7 @@ import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
@@ -31,8 +31,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 export class DamageService {
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _weaponPropertiesService: WeaponPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
@@ -82,11 +81,11 @@ export class DamageService {
             let dicenumMultiplier = 1;
             const effectPhrasesDiceNumberMult = effectPhrases('Dice Number Multiplier');
 
-            this._effectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
+            this._creatureEffectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
                 dicenumMultiplier = parseInt(effect.setValue, 10);
                 diceExplain += `\n${ effect.source }: Dice number multiplier ${ dicenumMultiplier }`;
             });
-            this._effectsService.relativeEffectsOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
+            this._creatureEffectsService.relativeEffectsOnThese(creature, effectPhrasesDiceNumberMult).forEach(effect => {
                 dicenumMultiplier += parseInt(effect.value, 10);
                 diceExplain +=
                     `\n${ effect.source }: Dice number multiplier ${ parseInt(effect.value, 10) >= 0 ? '+' : '' }`
@@ -132,11 +131,11 @@ export class DamageService {
 
                 traitEffects.push(...realTrait.objectBoundEffects(activation, ['Dice Number']));
             });
-            this._effectsService.reduceEffectsByType(
+            this._creatureEffectsService.reduceEffectsByType(
                 calculatedAbsoluteDiceNumEffects
                     .concat(
                         traitEffects.filter(effect => effect.setValue),
-                        this._effectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceNumber),
+                        this._creatureEffectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceNumber),
                     ),
                 { absolutes: true },
             )
@@ -149,7 +148,7 @@ export class DamageService {
 
             //Diamond Fists adds the forceful trait to your unarmed attacks, but if one already has the trait, it gains one damage die.
             if (weapon.prof === WeaponProficiencies.Unarmed) {
-                const character = this._characterService.character;
+                const character = CreatureService.character;
 
                 if (
                     this._characterFeatsService.characterFeatsTaken(0, character.level, { featName: 'Diamond Fists' }).length &&
@@ -171,10 +170,10 @@ export class DamageService {
                 }
             }
 
-            this._effectsService.reduceEffectsByType(
+            this._creatureEffectsService.reduceEffectsByType(
                 calculatedRelativeDiceNumEffects
                     .concat(traitEffects.filter(effect => effect.value !== '0'))
-                    .concat(this._effectsService.relativeEffectsOnThese(creature, effectPhrasesDiceNumber)),
+                    .concat(this._creatureEffectsService.relativeEffectsOnThese(creature, effectPhrasesDiceNumber)),
             )
                 .forEach(effect => {
                     dicenum += parseInt(effect.value, 10);
@@ -274,18 +273,18 @@ export class DamageService {
             //Apply dice size effects.
             const effectPhrasesDiceSize = effectPhrases('Dice Size');
 
-            this._effectsService.reduceEffectsByType(
+            this._creatureEffectsService.reduceEffectsByType(
                 calculatedAbsoluteDiceSizeEffects
                     .concat(traitEffects.filter(effect => effect.setValue))
-                    .concat(this._effectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceSize)),
+                    .concat(this._creatureEffectsService.absoluteEffectsOnThese(creature, effectPhrasesDiceSize)),
                 { absolutes: true })
                 .forEach(effect => {
                     dicesize = parseInt(effect.setValue, 10);
                     diceExplain += `\n${ effect.source }: Dice size d${ dicesize }`;
                 });
-            this._effectsService.reduceEffectsByType(
+            this._creatureEffectsService.reduceEffectsByType(
                 traitEffects.filter(effect => effect.value !== '0')
-                    .concat(this._effectsService.relativeEffectsOnThese(creature, effectPhrasesDiceSize)),
+                    .concat(this._creatureEffectsService.relativeEffectsOnThese(creature, effectPhrasesDiceSize)),
             )
                 .forEach(effect => {
                     dicesize += parseInt(effect.value, 10);
@@ -346,7 +345,7 @@ export class DamageService {
                     this._characterFeatsService.characterFeatsTaken(1, creature.level, { featName: 'Thief Racket' }).length) {
                     //Check if dex or str would give you more damage by comparing your modifiers and any penalties and bonuses.
                     //The Enfeebled condition affects all Strength damage
-                    const strEffects = this._effectsService.relativeEffectsOnThis(creature, 'Strength-based Checks and DCs');
+                    const strEffects = this._creatureEffectsService.relativeEffectsOnThis(creature, 'Strength-based Checks and DCs');
                     let strPenaltySum = 0;
 
                     strEffects.forEach(effect => {
@@ -354,7 +353,7 @@ export class DamageService {
                     });
 
                     //The Clumsy condition affects all Dexterity damage
-                    const dexEffects = this._effectsService.relativeEffectsOnThis(creature, 'Dexterity-based Checks and DCs');
+                    const dexEffects = this._creatureEffectsService.relativeEffectsOnThis(creature, 'Dexterity-based Checks and DCs');
                     let dexPenaltySum = 0;
 
                     dexEffects.forEach(effect => {
@@ -498,7 +497,7 @@ export class DamageService {
             );
         }
 
-        this._effectsService.absoluteEffectsOnThese(creature, effectPhrasesDamage)
+        this._creatureEffectsService.absoluteEffectsOnThese(creature, effectPhrasesDamage)
             .forEach(effect => {
                 if (effect.show) {
                     absolutes.push(
@@ -513,7 +512,7 @@ export class DamageService {
                 bonusExplain = `\n${ effect.source }: Bonus damage ${ parseInt(effect.setValue, 10) }`;
             });
 
-        if (!this._effectsService.effectsOnThis(creature, `Ignore Bonus Damage on ${ weapon.name }`).length) {
+        if (!this._creatureEffectsService.effectsOnThis(creature, `Ignore Bonus Damage on ${ weapon.name }`).length) {
             let effectBonus = 0;
             let abilityName = '';
 
@@ -569,7 +568,7 @@ export class DamageService {
             // All "...Damage per Die" effects are converted to just "...Damage" (by multiplying with the dice number)
             // and then re-processed with the rest of the damage effects.
             traitEffects.filter(effect => effect.value !== '0')
-                .concat(this._effectsService.relativeEffectsOnThese(creature, perDieList))
+                .concat(this._creatureEffectsService.relativeEffectsOnThese(creature, perDieList))
                 .forEach(effect => {
                     const effectValue = parseInt(effect.value, 10) * dicenum;
                     const newEffect = effect.clone();
@@ -579,9 +578,9 @@ export class DamageService {
                     calculatedDamageEffects.push(newEffect);
                 });
             //Now collect and apply the type-filtered effects on this weapon's damage, including the pregenerated ones.
-            this._effectsService.reduceEffectsByType(
+            this._creatureEffectsService.reduceEffectsByType(
                 calculatedDamageEffects
-                    .concat(this._effectsService.relativeEffectsOnThese(creature, effectPhrasesDamage)),
+                    .concat(this._creatureEffectsService.relativeEffectsOnThese(creature, effectPhrasesDamage)),
             )
                 .forEach(effect => {
                     if (effect.show) {
@@ -791,7 +790,7 @@ export class DamageService {
             effectPhrasesExtraDamage.push(`${ agile } Thrown Weapon Extra Damage`);
         }
 
-        this._effectsService.toggledEffectsOnThese(creature, effectPhrasesExtraDamage).filter(effect => effect.title)
+        this._creatureEffectsService.toggledEffectsOnThese(creature, effectPhrasesExtraDamage).filter(effect => effect.title)
             .forEach(effect => {
                 extraDamage += `\n${ !['+', '-'].includes(effect.title.substr(0, 1)) ? '+' : '' }${ effect.title }`;
             });

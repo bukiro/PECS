@@ -17,7 +17,7 @@ import { TraitsDataService } from 'src/app/core/services/data/traits-data.servic
 export class ItemTraitsService {
 
     constructor(
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _refreshService: RefreshService,
@@ -66,7 +66,7 @@ export class ItemTraitsService {
 
         if (weapon.melee) {
             //Find and apply effects that give this weapon reach.
-            const effectsService = this._effectsService;
+            const effectsService = this._creatureEffectsService;
             const noReach = 5;
             const typicalReach = 10;
             let reach = noReach;
@@ -137,7 +137,7 @@ export class ItemTraitsService {
         }
 
         namesList.push(...namesList.map(name => name.replace('Gain Trait', 'Lose Trait')));
-        this._effectsService.toggledEffectsOnThese(context.creature, namesList).filter(effect => effect.title)
+        this._creatureEffectsService.toggledEffectsOnThese(context.creature, namesList).filter(effect => effect.title)
             .forEach(effect => {
                 if (effect.target.toLowerCase().includes('gain trait')) {
                     traits.push(effect.title);

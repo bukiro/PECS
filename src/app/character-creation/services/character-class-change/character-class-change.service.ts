@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Class } from 'src/app/classes/Class';
 import { Skill } from 'src/app/classes/Skill';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterAncestryChangeService } from '../character-ancestry-change/character-ancestry-change.service';
@@ -17,7 +17,6 @@ import { ItemsDataService } from 'src/app/core/services/data/items-data.service'
 export class CharacterClassChangeService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _characterAncestryChangeService: CharacterAncestryChangeService,
         private readonly _characterBackgroundChangeService: CharacterBackgroundChangeService,
@@ -29,7 +28,7 @@ export class CharacterClassChangeService {
 
     public changeClass(newClass?: Class): void {
         //Cleanup Heritage, Ancestry, Background and class skills
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         this._characterAncestryChangeService.changeAncestry();
         this._characterBackgroundChangeService.changeBackground();

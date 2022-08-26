@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -20,7 +20,6 @@ export class ItemTransferService {
 
     constructor(
         private readonly _refreshService: RefreshService,
-        private readonly _characterService: CharacterService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _itemBulkService: ItemBulkService,
         private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
@@ -272,7 +271,7 @@ export class ItemTransferService {
             this.updateGrantingItemBeforeTransfer(creature, item);
 
             const included = this.packGrantingItemForTransfer(creature, item);
-            const toCreature = this._characterService.creatureFromType(targetCreature.type);
+            const toCreature = CreatureService.creatureFromType(targetCreature.type);
             const targetInventory = toCreature.inventories[0];
 
             //Iterate through the main item and all its granted items and inventories.

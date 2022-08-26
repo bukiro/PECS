@@ -3,7 +3,8 @@ import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Defaults } from '../../definitions/defaults';
 import { AbilityModFromAbilityValue } from '../../util/abilityUtils';
@@ -30,15 +31,14 @@ export interface CalculatedAbility {
 export class AbilityValuesService {
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _abilitiesDataService: AbilitiesDataService,
     ) { }
 
     public calculate(
         ability: Ability,
         creature: Creature,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
     ): CalculatedAbility {
         const result = {
             absolutes: !!this._absolutes(creature, ability.name).length,
@@ -58,12 +58,12 @@ export class AbilityValuesService {
     public baseValue(
         abilityOrName: Ability | string,
         creature: Creature,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
     ): { result: number; explain: string } {
         if (creature.isFamiliar()) {
             return { result: 0, explain: '' };
         } else {
-            if (this._characterService.stillLoading) {
+            if (StatusService.isLoadingCharacter) {
                 return { result: Defaults.abilityBaseValue, explain: 'Base value: 10' };
             }
 
@@ -109,7 +109,7 @@ export class AbilityValuesService {
     public value(
         abilityOrName: Ability | string,
         creature: Creature,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
     ): { result: number; explain: string } {
         //Calculates the ability with all active effects
         if (creature.isFamiliar()) {
@@ -139,7 +139,7 @@ export class AbilityValuesService {
     public mod(
         abilityOrName: Ability | string,
         creature: Creature,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
     ): { result: number; explain: string } {
         if (creature.isFamiliar()) {
             return { result: 0, explain: '' };
@@ -168,19 +168,19 @@ export class AbilityValuesService {
     }
 
     private _absolutes(creature: Creature, name: string): Array<Effect> {
-        return this._effectsService.absoluteEffectsOnThis(creature, name);
+        return this._creatureEffectsService.absoluteEffectsOnThis(creature, name);
     }
 
     private _relatives(creature: Creature, name: string): Array<Effect> {
-        return this._effectsService.relativeEffectsOnThis(creature, name);
+        return this._creatureEffectsService.relativeEffectsOnThis(creature, name);
     }
 
     private _bonuses(creature: Creature, name: string): boolean {
-        return this._effectsService.doBonusEffectsExistOnThis(creature, name);
+        return this._creatureEffectsService.doBonusEffectsExistOnThis(creature, name);
     }
 
     private _penalties(creature: Creature, name: string): boolean {
-        return this._effectsService.doPenaltyEffectsExistOnThis(creature, name);
+        return this._creatureEffectsService.doPenaltyEffectsExistOnThis(creature, name);
     }
 
     private _normalizeAbilityOrName(abilityOrName: Ability | string): Ability {

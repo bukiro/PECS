@@ -2,7 +2,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef, Input } from '@angular/core';
 import { Weapon } from 'src/app/classes/Weapon';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
@@ -19,10 +19,8 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Hint } from 'src/app/classes/Hint';
-import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { AttackRestriction } from 'src/app/classes/AttackRestriction';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Specialization } from 'src/app/classes/Specialization';
@@ -47,6 +45,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -75,10 +74,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _deitiesDataService: DeitiesDataService,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
-        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _attacksService: AttacksService,
@@ -87,7 +83,6 @@ export class AttacksComponent implements OnInit, OnDestroy {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
-        private readonly _settingsService: SettingsService,
         private readonly _inventoryService: InventoryService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _itemActivationService: ItemActivationService,
@@ -97,16 +92,16 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     public get isMinimized(): boolean {
         return this.creature === CreatureTypes.AnimalCompanion
-            ? this._characterService.character.settings.companionMinimized
-            : this._characterService.character.settings.attacksMinimized;
+            ? CreatureService.character.settings.companionMinimized
+            : CreatureService.character.settings.attacksMinimized;
     }
 
     public get isManualMode(): boolean {
-        return this._settingsService.isManualMode;
+        return SettingsService.isManualMode;
     }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public get isInventoryTileMode(): boolean {
@@ -114,15 +109,15 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     private get _currentCreature(): Character | AnimalCompanion {
-        return this._characterService.creatureFromType(this.creature) as Character | AnimalCompanion;
+        return CreatureService.creatureFromType(this.creature) as Character | AnimalCompanion;
     }
 
     public minimize(): void {
-        this._characterService.character.settings.attacksMinimized = !this._characterService.character.settings.attacksMinimized;
+        CreatureService.character.settings.attacksMinimized = !CreatureService.character.settings.attacksMinimized;
     }
 
     public toggleShownList(name: string): void {

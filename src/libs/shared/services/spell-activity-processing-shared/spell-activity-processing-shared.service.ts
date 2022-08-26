@@ -8,7 +8,7 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TimePeriods } from '../../definitions/timePeriods';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
@@ -22,8 +22,7 @@ import { MessageSendingService } from '../message-sending/message-sending.servic
 export class SpellActivityProcessingSharedService {
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _characterFeatsService: CharacterFeatsService,
@@ -70,8 +69,8 @@ export class SpellActivityProcessingSharedService {
                 (
                     (
                         source.isHostile() ?
-                            this._characterService.character.settings.noHostileCasterConditions :
-                            this._characterService.character.settings.noFriendlyCasterConditions
+                            CreatureService.character.settings.noHostileCasterConditions :
+                            CreatureService.character.settings.noFriendlyCasterConditions
                     ) &&
                     (
                         !condition.hasEffects() &&
@@ -134,7 +133,7 @@ export class SpellActivityProcessingSharedService {
                 : [],
             );
 
-            this._effectsService
+            this._creatureEffectsService
                 .absoluteEffectsOnThese(
                     context.creature,
                     effectNames,
@@ -145,7 +144,7 @@ export class SpellActivityProcessingSharedService {
                 });
 
             if (effectDuration > 0) {
-                this._effectsService
+                this._creatureEffectsService
                     .relativeEffectsOnThese(
                         context.creature,
                         effectNames,
@@ -246,14 +245,14 @@ export class SpellActivityProcessingSharedService {
 
         const conditionsToRemove: Array<string> = [];
 
-        this._effectsService
+        this._creatureEffectsService
             .absoluteEffectsOnThis(context.creature, `${ condition.name } Value`)
             .forEach(effect => {
                 effectValue = parseInt(effect.setValue, 10);
                 conditionsToRemove.push(effect.source);
             });
 
-        this._effectsService
+        this._creatureEffectsService
             .relativeEffectsOnThis(context.creature, `${ condition.name } Value`)
             .forEach(effect => {
                 effectValue += parseInt(effect.value, 10);
@@ -318,7 +317,7 @@ export class SpellActivityProcessingSharedService {
             .filter(target => target instanceof SpellTarget && creatures.some(listCreature => listCreature.id === target.id))
             .forEach(target => {
                 this._creatureConditionsService.addCondition(
-                    this._characterService.creatureFromType(target.type),
+                    CreatureService.creatureFromType(target.type),
                     newConditionGain,
                     {},
                     { noReload: true },

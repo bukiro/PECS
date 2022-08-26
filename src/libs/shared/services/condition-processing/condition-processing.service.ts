@@ -7,7 +7,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
@@ -30,7 +30,6 @@ import { OnceEffectsService } from '../once-effects/once-effects.service';
 export class ConditionProcessingService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _conditionsDataService: ConditionsDataService,
@@ -356,7 +355,7 @@ export class ConditionProcessingService {
     }
 
     private _endSourceSpellsAndActivities(creature: Creature, gain: ConditionGain): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         //If no other conditions have this ConditionGain's sourceGainID, find the matching SpellGain or ActivityGain and disable it.
         if (

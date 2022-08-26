@@ -5,7 +5,6 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
-import { CharacterService } from 'src/app/services/character.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
@@ -23,7 +22,6 @@ interface CreatureEffectsGenerationObjects {
 export class CreatureEffectsGenerationService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,

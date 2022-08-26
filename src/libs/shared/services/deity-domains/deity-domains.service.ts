@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Deity } from 'src/app/classes/Deity';
-import { CharacterService } from 'src/app/services/character.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 
 @Injectable({
@@ -10,7 +9,6 @@ import { CharacterFeatsService } from '../character-feats/character-feats.servic
 export class DeityDomainsService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 

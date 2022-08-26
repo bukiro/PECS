@@ -5,7 +5,6 @@ import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
-import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Defaults } from '../../definitions/defaults';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
@@ -17,8 +16,7 @@ import { CreatureActivitiesService } from '../creature-activities/creature-activ
 export class ActivityPropertiesService {
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
@@ -88,11 +86,11 @@ export class ActivityPropertiesService {
             charges = 1;
         }
 
-        this._effectsService.absoluteEffectsOnThis(context.creature, `${ activity.name } Charges`)
+        this._creatureEffectsService.absoluteEffectsOnThis(context.creature, `${ activity.name } Charges`)
             .forEach(effect => {
                 charges = parseInt(effect.setValue, 10);
             });
-        this._effectsService.relativeEffectsOnThis(context.creature, `${ activity.name } Charges`)
+        this._creatureEffectsService.relativeEffectsOnThis(context.creature, `${ activity.name } Charges`)
             .forEach(effect => {
                 charges += parseInt(effect.value, 10);
             });
@@ -109,13 +107,13 @@ export class ActivityPropertiesService {
         let cooldown = activity.cooldown;
 
         //Use get_AbsolutesOnThese() because it allows to prefer lower values. We still sort the effects in descending setValue.
-        this._effectsService.absoluteEffectsOnThese(context.creature, [`${ activity.name } Cooldown`], { lowerIsBetter: true })
+        this._creatureEffectsService.absoluteEffectsOnThese(context.creature, [`${ activity.name } Cooldown`], { lowerIsBetter: true })
             .sort((a, b) => parseInt(b.setValue, 10) - parseInt(a.setValue, 10))
             .forEach(effect => {
                 cooldown = parseInt(effect.setValue, 10);
             });
         //Use get_RelativesOnThese() because it allows to prefer lower values. We still sort the effects in descending value.
-        this._effectsService.relativeEffectsOnThese(context.creature, [`${ activity.name } Cooldown`], { lowerIsBetter: true })
+        this._creatureEffectsService.relativeEffectsOnThese(context.creature, [`${ activity.name } Cooldown`], { lowerIsBetter: true })
             .sort((a, b) => parseInt(b.value, 10) - parseInt(a.value, 10))
             .forEach(effect => {
                 cooldown += parseInt(effect.value, 10);

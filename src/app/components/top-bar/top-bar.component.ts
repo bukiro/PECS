@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
@@ -54,7 +54,6 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _configService: ConfigService,
         private readonly _savegamesService: SavegamesService,
@@ -62,11 +61,9 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _toastService: ToastService,
         private readonly _modalService: NgbModal,
         private readonly _characterSavingService: CharacterSavingService,
-        private readonly _statusService: StatusService,
         private readonly _durationsService: DurationsService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _menuService: MenuService,
-        private readonly _settingsService: SettingsService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _messageProcessingService: MessageProcessingService,
         public modal: NgbActiveModal,
@@ -94,7 +91,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public get loadingButtonTitle(): string {
-        return this._statusService.loadingStatus;
+        return StatusService.loadingStatus;
     }
 
     public get areSavegamesInitializing(): boolean {
@@ -102,27 +99,27 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get isGMMode(): boolean {
-        return this._settingsService.isGMMode;
+        return SettingsService.isGMMode;
     }
 
     public get isManualMode(): boolean {
-        return this._settingsService.isManualMode;
+        return SettingsService.isManualMode;
     }
 
     public get companion(): AnimalCompanion {
-        return this._characterService.companion;
+        return CreatureService.companion;
     }
 
     public get familiar(): Familiar {
-        return this._characterService.familiar;
+        return CreatureService.familiar;
     }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public get itemsMenuState(): MenuState {
@@ -230,7 +227,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
             this._messagesService.cleanupMessagesOnConnector()
                 .subscribe({
                     next: () => {
-                        this._messagesService.loadMessagesFromConnector(this._characterService.character.id)
+                        this._messagesService.loadMessagesFromConnector(CreatureService.character.id)
                             .subscribe({
                                 next: (results: Array<string>) => {
                                     //Get any new messages.

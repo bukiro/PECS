@@ -7,7 +7,8 @@ import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { ItemSpecializationsDataService } from 'src/app/core/services/data/item-specializations-data.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel } from '../../definitions/skillLevels';
@@ -21,7 +22,6 @@ import { SkillValuesService } from '../skill-values/skill-values.service';
 export class ArmorPropertiesService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _skillValuesService: SkillValuesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
@@ -46,10 +46,10 @@ export class ArmorPropertiesService {
     public profLevel(
         armor: Armor,
         creature: Creature,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
         options: { itemStore?: boolean } = {},
     ): number {
-        if (this._characterService.stillLoading || creature.isFamiliar()) { return 0; }
+        if (StatusService.isLoadingCharacter || creature.isFamiliar()) { return 0; }
 
         this._cacheArmoredSkirt(armor, creature, options);
 

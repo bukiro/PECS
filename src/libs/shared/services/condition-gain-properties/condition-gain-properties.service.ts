@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -20,7 +19,6 @@ export class ConditionGainPropertiesService {
         private readonly _refreshService: RefreshService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _characterService: CharacterService,
         private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
     ) { }

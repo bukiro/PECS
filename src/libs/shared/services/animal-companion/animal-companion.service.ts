@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { AnimalCompanionLevelsService } from '../animal-companion-level/animal-companion-level.service';
 import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
 
@@ -12,7 +12,6 @@ import { BasicEquipmentService } from '../basic-equipment/basic-equipment.servic
 export class AnimalCompanionService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _itemsDataService: ItemsDataService,
@@ -20,7 +19,7 @@ export class AnimalCompanionService {
     ) { }
 
     public initializeAnimalCompanion(): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         if (character.class.animalCompanion) {
             character.class.animalCompanion =

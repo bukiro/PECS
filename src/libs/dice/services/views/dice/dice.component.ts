@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { DiceService } from 'src/libs/dice/services/dice.service';
 import { DiceResult } from 'src/app/classes/DiceResult';
@@ -32,7 +32,6 @@ export class DiceComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _diceService: DiceService,
         private readonly _integrationsService: FoundryVTTIntegrationService,
@@ -59,7 +58,7 @@ export class DiceComponent implements OnInit, OnDestroy {
     }
 
     public canSendRollsToFoundryVTT(): boolean {
-        return this._characterService.character.settings.foundryVTTSendRolls && !!this._characterService.character.settings.foundryVTTUrl;
+        return CreatureService.character.settings.foundryVTTSendRolls && !!CreatureService.character.settings.foundryVTTUrl;
     }
 
     public roll(amount: number, size: number): void {
@@ -74,14 +73,14 @@ export class DiceComponent implements OnInit, OnDestroy {
 
     public creatureFromType(creatureType: CreatureTypes): Creature {
         if (creatureType === CreatureTypes.AnimalCompanion) {
-            return this._creatureAvailabilityService.isCompanionAvailable() ? this._characterService.creatureFromType(creatureType) : null;
+            return this._creatureAvailabilityService.isCompanionAvailable() ? CreatureService.creatureFromType(creatureType) : null;
         }
 
         if (creatureType === CreatureTypes.Familiar) {
-            return this._creatureAvailabilityService.isFamiliarAvailable() ? this._characterService.creatureFromType(creatureType) : null;
+            return this._creatureAvailabilityService.isFamiliarAvailable() ? CreatureService.creatureFromType(creatureType) : null;
         }
 
-        return this._characterService.creatureFromType(creatureType);
+        return CreatureService.creatureFromType(creatureType);
     }
 
     public onHeal(creature: Creature): void {

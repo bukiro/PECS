@@ -7,7 +7,6 @@ import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { Ammunition } from 'src/app/classes/Ammunition';
 import { Armor } from 'src/app/classes/Armor';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
-import { CharacterService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -47,7 +46,6 @@ export class RefreshService {
     constructor(
         private readonly _traitsDataService: TraitsDataService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
-        private readonly _characterService: CharacterService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _characterLanguagesService: CharacterLanguagesService,
 

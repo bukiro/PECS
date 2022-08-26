@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature as CreatureModel } from 'src/app/classes/Creature';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
@@ -26,7 +25,6 @@ import { CreatureConditionsService } from 'src/libs/shared/services/creature-con
 import { CreatureSizeName } from 'src/libs/shared/util/creatureUtils';
 import { CreaturePropertiesService } from 'src/libs/shared/services/creature-properties/creature-properties.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
-import { FeatsDataService } from '../../../../app/core/services/data/feats-data.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
@@ -57,7 +55,6 @@ interface FormulaOptions {
 export class EvaluationService {
 
     constructor(
-        private readonly _abilitiesDataService: AbilitiesDataService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillValuesService: SkillValuesService,
@@ -65,9 +62,7 @@ export class EvaluationService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creaturePropertiesService: CreaturePropertiesService,
         private readonly _speedValuesService: SpeedValuesService,
-        private readonly _featsDataService: FeatsDataService,
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
@@ -94,9 +89,9 @@ export class EvaluationService {
         //Define some values that may be relevant for effect values
         /* eslint-disable @typescript-eslint/no-unused-vars */
         const Creature = context.creature;
-        const Character = this._characterService.character;
-        const Companion = this._characterService.companion;
-        const Familiar = this._characterService.familiar;
+        const Character = CreatureService.character;
+        const Companion = CreatureService.companion;
+        const Familiar = CreatureService.familiar;
         const object = context.object;
         const effect = context.effect;
         const parentItem = context.parentItem;
@@ -195,7 +190,7 @@ export class EvaluationService {
             //This tests if you have a certain speed, either from your ancestry or from absolute effects.
             // Bonuses and penalties are ignored, since you shouldn't get a bonus to a speed you don't have.
             Creature.speeds.some(speed => speed.name === name) ||
-            this._effectsService.absoluteEffectsOnThis(Creature, name)
+            this._creatureEffectsService.absoluteEffectsOnThis(Creature, name)
                 .some(absoluteEffect => !context.effectSourceName || absoluteEffect.source !== context.effectSourceName)
         );
         const Speed = (name: string): number => (

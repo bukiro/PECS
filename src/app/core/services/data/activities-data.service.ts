@@ -5,7 +5,6 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Creature } from 'src/app/classes/Creature';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Armor } from 'src/app/classes/Armor';
 import { Rune } from 'src/app/classes/Rune';
@@ -22,7 +21,6 @@ export class ActivitiesDataService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
-        private readonly _refreshService: RefreshService,
     ) { }
 
     public get stillLoading(): boolean {

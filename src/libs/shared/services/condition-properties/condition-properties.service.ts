@@ -5,9 +5,8 @@ import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
@@ -19,9 +18,7 @@ export class ConditionPropertiesService {
 
     constructor(
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _characterService: CharacterService,
         private readonly _familiarsDataService: FamiliarsDataService,
-        private readonly _featsDataService: FeatsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
@@ -105,7 +102,7 @@ export class ConditionPropertiesService {
             if (choice.name === condition.choice) {
                 choices.push(choice.name);
             } else {
-                const character = this._characterService.character;
+                const character = CreatureService.character;
 
                 //If the choice has a featreq, check if you meet that (or a feat that has this supertype).
                 //Requirements like "Aggressive Block or Brutish Shove" are split in get_CharacterFeatsAndFeatures().
@@ -121,7 +118,7 @@ export class ConditionPropertiesService {
                             let testFeat = featreq;
 
                             if (featreq.includes('Familiar:')) {
-                                testCreature = this._characterService.familiar;
+                                testCreature = CreatureService.familiar;
                                 testFeat = featreq.split('Familiar:')[1].trim();
                                 requiredFeat = this._familiarsDataService.familiarAbilities(testFeat);
                             } else {

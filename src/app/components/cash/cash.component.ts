@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CopperAmounts } from 'src/libs/shared/definitions/currency';
@@ -23,7 +22,6 @@ export class CashComponent {
     };
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _currencyService: CurrencyService,
     ) { }

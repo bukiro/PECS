@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
@@ -24,6 +24,7 @@ import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 const itemsPerPage = 40;
 const showAllLists = -2;
@@ -60,7 +61,6 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _skillValuesService: SkillValuesService,
@@ -78,11 +78,11 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._spellsDataService.stillLoading || this._characterService.stillLoading;
+        return this._spellsDataService.stillLoading || StatusService.isLoadingCharacter;
     }
 
     private get _character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public incRange(amount: number): void {
@@ -165,7 +165,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public isSpellbookMinimized(): boolean {
-        return this._characterService.character.settings.spellbookMinimized;
+        return CreatureService.character.settings.spellbookMinimized;
     }
 
     public componentParameters(): ComponentParameters {

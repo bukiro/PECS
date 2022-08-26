@@ -3,7 +3,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Rune } from 'src/app/classes/Rune';
-import { CharacterService } from 'src/app/services/character.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
 import { InventoryItemProcessingService } from '../inventory-item-processing/inventory-item-processing.service';
@@ -16,7 +15,6 @@ import { RefreshService } from '../refresh/refresh.service';
 export class InventoryService {
 
     constructor(
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _itemInitializationService: ItemInitializationService,
         private readonly _inventoryItemProcessingService: InventoryItemProcessingService,

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Armor } from 'src/app/classes/Armor';
 import { Creature } from 'src/app/classes/Creature';
@@ -24,7 +23,6 @@ export class ItemsTimeService {
         private readonly _itemTransferService: ItemTransferService,
         private readonly _refreshService: RefreshService,
         private readonly _itemGrantingService: ItemGrantingService,
-        private readonly _characterService: CharacterService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _inventoryService: InventoryService,

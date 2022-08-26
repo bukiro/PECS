@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
@@ -8,12 +7,13 @@ import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
 import { Skill } from 'src/app/classes/Skill';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from 'src/libs/shared/definitions/skillLevels';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 export interface CalculatedSkill {
     level: number;
@@ -39,8 +39,7 @@ export interface SkillBaseValue {
 export class SkillValuesService {
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _skillsDataService: SkillsDataService,
         private readonly _creatureFeatsService: CreatureFeatsService,
@@ -50,7 +49,7 @@ export class SkillValuesService {
     public calculate(
         skillOrName: Skill | string,
         creature: Creature,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
         isDC = false,
     ): CalculatedSkill {
         const skill = this._normalizeSkillOrName(skillOrName, creature);
@@ -118,10 +117,10 @@ export class SkillValuesService {
     public level(
         skillOrName: Skill | string,
         creature: Creature,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
         excludeTemporary = false,
     ): number {
-        if (this._characterService.stillLoading) { return 0; }
+        if (StatusService.isLoadingCharacter) { return 0; }
 
         const skill = this._normalizeSkillOrName(skillOrName, creature);
 
@@ -158,7 +157,7 @@ export class SkillValuesService {
                 default: break;
             }
 
-            const absoluteEffects = excludeTemporary ? [] : this._effectsService.absoluteEffectsOnThese(creature, effectTargetList);
+            const absoluteEffects = excludeTemporary ? [] : this._creatureEffectsService.absoluteEffectsOnThese(creature, effectTargetList);
 
             if (absoluteEffects.length) {
                 //If the skill is set by an effect, we can skip every other calculation.
@@ -252,7 +251,7 @@ export class SkillValuesService {
             }
 
             //Add any relative proficiency level bonuses.
-            const relativeEffects = excludeTemporary ? [] : this._effectsService.relativeEffectsOnThese(creature, effectTargetList);
+            const relativeEffects = excludeTemporary ? [] : this._creatureEffectsService.relativeEffectsOnThese(creature, effectTargetList);
 
             relativeEffects.forEach(effect => {
                 if ([
@@ -276,7 +275,7 @@ export class SkillValuesService {
     public baseValue(
         skillOrName: Skill | string,
         creature: Creature,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
         skillLevel: number = this.level(skillOrName, (creature as AnimalCompanion | Character), charLevel),
     ): SkillBaseValue {
         const skill = this._normalizeSkillOrName(skillOrName, creature);
@@ -285,13 +284,13 @@ export class SkillValuesService {
         let explain = '';
         let ability = '';
 
-        if (!this._characterService.stillLoading) {
+        if (!StatusService.isLoadingCharacter) {
             if (creature.isFamiliar()) {
                 //Familiars have special rules:
                 //- Saves are equal to the character's before applying circumstance or status effects.
                 //- Perception, Acrobatics and Stealth are equal to the character level plus spellcasting modifier (or Charisma).
                 //- All others (including attacks) are equal to the character level.
-                const character = this._characterService.character;
+                const character = CreatureService.character;
 
                 if (['Fortitude', 'Reflex', 'Will'].includes(skill.name)) {
                     const charBaseValue = this.baseValue(skill, character, charLevel);
@@ -352,30 +351,30 @@ export class SkillValuesService {
     private _absolutes(skill: Skill, creature: Creature, isDC = false, level = 0, ability = ''): Array<Effect> {
         const namesList = this._effectNamesList(skill, creature, isDC, level, ability);
 
-        return this._effectsService.absoluteEffectsOnThese(creature, namesList);
+        return this._creatureEffectsService.absoluteEffectsOnThese(creature, namesList);
     }
 
     private _relatives(skill: Skill, creature: Creature, isDC = false, level = 0, ability = ''): Array<Effect> {
         const namesList = this._effectNamesList(skill, creature, isDC, level, ability);
 
-        return this._effectsService.relativeEffectsOnThese(creature, namesList);
+        return this._creatureEffectsService.relativeEffectsOnThese(creature, namesList);
     }
 
     private _showBonuses(skill: Skill, creature: Creature, isDC = false, level = 0, ability = ''): boolean {
         const namesList = this._effectNamesList(skill, creature, isDC, level, ability);
 
-        return this._effectsService.doBonusEffectsExistOnThese(creature, namesList);
+        return this._creatureEffectsService.doBonusEffectsExistOnThese(creature, namesList);
     }
 
     private _showPenalties(skill: Skill, creature: Creature, isDC = false, level = 0, ability = ''): boolean {
         const namesList = this._effectNamesList(skill, creature, isDC, level, ability);
 
-        return this._effectsService.doPenaltyEffectsExistOnThese(creature, namesList);
+        return this._creatureEffectsService.doPenaltyEffectsExistOnThese(creature, namesList);
     }
 
     private _modifierAbility(skill: Skill, creature: Creature): string {
         if (creature.isFamiliar()) {
-            const character = this._characterService.character;
+            const character = CreatureService.character;
 
             // For Familiars, get the correct ability by identifying the non-innate spellcasting
             // with the same class name as the Familiar's originClass and retrieving its key ability.
@@ -388,7 +387,7 @@ export class SkillValuesService {
             if (skill.ability) {
                 return skill.ability;
             } else {
-                const character = this._characterService.character;
+                const character = CreatureService.character;
 
                 // Get the correct ability by finding the first key ability boost for the main class or the archetype class.
                 // Some effects ask for your Unarmed Attacks modifier without any weapon, so we need to apply your strength modifier.
@@ -452,14 +451,14 @@ export class SkillValuesService {
     private _value(
         skill: Skill,
         creature: Creature,
-        charLevel: number = this._characterService.character.level,
+        charLevel: number = CreatureService.character.level,
         isDC = false,
         baseValue: SkillBaseValue = this.baseValue(skill, creature, charLevel),
     ): { result: number; explain: string } {
         let result = 0;
         let explain = '';
 
-        if (!this._characterService.stillLoading) {
+        if (!StatusService.isLoadingCharacter) {
             result = baseValue.result;
             explain = baseValue.explain;
 
@@ -483,7 +482,7 @@ export class SkillValuesService {
             //Familiars apply the characters skill value (before circumstance and status effects) on saves
             //We get this by calculating the skill's baseValue and adding effects that aren't circumstance or status effects.
             if (creature.isFamiliar()) {
-                const character = this._characterService.character;
+                const character = CreatureService.character;
 
                 if (['Fortitude', 'Reflex', 'Will'].includes(skill.name)) {
                     this._absolutes(skill, character, isDC, baseValue.skillLevel, baseValue.ability)

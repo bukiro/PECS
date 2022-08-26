@@ -3,7 +3,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Health } from 'src/app/classes/Health';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
@@ -23,12 +23,10 @@ export interface CalculatedHealth {
 export class HealthService {
 
     constructor(
-        private readonly _characterService: CharacterService,
-        private readonly _effectsService: CreatureEffectsService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _refreshService: RefreshService,
         private readonly _abilityValuesService: AbilityValuesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _settingsService: SettingsService,
     ) { }
 
     public calculate(health: Health, creature: Creature): CalculatedHealth {
@@ -42,18 +40,18 @@ export class HealthService {
     }
 
     public maxHP(creature: Creature): { result: number; explain: string } {
-        const charLevel = this._characterService.character.level;
+        const charLevel = CreatureService.character.level;
         const conModifier = creature.requiresConForHP
             ? this._abilityValuesService.baseValue('Constitution', creature, charLevel).result
             : 0;
         const baseHP = creature.baseHP(charLevel, conModifier);
         let effectsSum = 0;
 
-        this._effectsService.absoluteEffectsOnThis(creature, 'Max HP').forEach(effect => {
+        this._creatureEffectsService.absoluteEffectsOnThis(creature, 'Max HP').forEach(effect => {
             effectsSum = parseInt(effect.setValue, 10);
             baseHP.explain = `${ effect.source }: ${ effect.setValue }`;
         });
-        this._effectsService.relativeEffectsOnThis(creature, 'Max HP').forEach(effect => {
+        this._creatureEffectsService.relativeEffectsOnThis(creature, 'Max HP').forEach(effect => {
             effectsSum += parseInt(effect.value, 10);
             baseHP.explain += `\n${ effect.source }: ${ effect.value }`;
         });
@@ -112,10 +110,10 @@ export class HealthService {
         const defaultMaxDying = 4;
         let effectsSum = 0;
 
-        this._effectsService.absoluteEffectsOnThis(creature, 'Max Dying').forEach(effect => {
+        this._creatureEffectsService.absoluteEffectsOnThis(creature, 'Max Dying').forEach(effect => {
             effectsSum = parseInt(effect.value, 10);
         });
-        this._effectsService.relativeEffectsOnThis(creature, 'Max Dying').forEach(effect => {
+        this._creatureEffectsService.relativeEffectsOnThis(creature, 'Max Dying').forEach(effect => {
             effectsSum += parseInt(effect.value, 10);
         });
 
@@ -151,7 +149,7 @@ export class HealthService {
         let hasRemovedUnconscious = false;
 
         //Don't process conditions in manual mode.
-        if (!this._settingsService.isManualMode) {
+        if (!SettingsService.isManualMode) {
             //Then, if you have reached 0 HP with lethal damage, get dying 1+wounded
             //Dying and maxDying are compared in the Conditions service when Dying is added
             if (!nonlethal && currentHP === 0) {
@@ -222,7 +220,7 @@ export class HealthService {
         let hasRemovedUnconscious = false;
 
         //Don't process conditions in manual mode.
-        if (!this._settingsService.isManualMode) {
+        if (!SettingsService.isManualMode) {
             //Recover from Dying and get Wounded++
             if (this.currentHP(health, creature).result > 0 && dying > 0) {
                 this._creatureConditionsService

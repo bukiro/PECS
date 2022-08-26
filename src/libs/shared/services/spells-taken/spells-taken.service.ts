@@ -4,7 +4,7 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellCastingTypes } from '../../definitions/spellCastingTypes';
 import { SpellTraditions } from '../../definitions/spellTraditions';
@@ -15,7 +15,7 @@ import { SpellTraditions } from '../../definitions/spellTraditions';
 export class SpellsTakenService {
 
     constructor(
-        private readonly _characterService: CharacterService,
+        private readonly _characterService: CreatureService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
     ) { }

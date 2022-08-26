@@ -10,7 +10,7 @@ import { AnimalCompanionSpecializationsService } from 'src/libs/shared/services/
 import { ClassSavingLoadingService } from 'src/libs/shared/saving-loading/services/class-saving-loading/class-saving-loading.service';
 import { HistorySavingLoadingService } from 'src/libs/shared/saving-loading/services/history-saving-loading/history-saving-loading.service';
 import { Item } from 'src/app/classes/Item';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { SavegamesService } from '../savegames/savegames.service';
@@ -36,14 +36,13 @@ export class CharacterSavingService {
         private readonly _classSavingLoadingService: ClassSavingLoadingService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _historySavingLoadingService: HistorySavingLoadingService,
-        private readonly _characterService: CharacterService,
         private readonly _timeService: TimeService,
         private readonly _toastService: ToastService,
         private readonly _savegamesService: SavegamesService,
     ) { }
 
     public saveCharacter(): void {
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         character.yourTurn = this._timeService.yourTurn;
         this._toastService.show('Saving...');

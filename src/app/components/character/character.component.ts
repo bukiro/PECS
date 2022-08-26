@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Class } from 'src/app/classes/Class';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
@@ -87,6 +87,7 @@ import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-e
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 type ShowContent = FeatChoice | SkillChoice | AbilityChoice | LoreChoice | { id: string; source?: string };
 
@@ -121,7 +122,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
-        private readonly _characterService: CharacterService,
         private readonly _refreshService: RefreshService,
         private readonly _configService: ConfigService,
         private readonly _classesDataService: ClassesDataService,
@@ -158,7 +158,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _creatureFeatsService: CreatureFeatsService,
         private readonly _appStateService: AppStateService,
         private readonly _menuService: MenuService,
-        private readonly _settingsService: SettingsService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _onceEffectsService: OnceEffectsService,
@@ -170,7 +169,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     ) { }
 
     public get isMinimized(): boolean {
-        return this._characterService.character.settings.characterMinimized;
+        return CreatureService.character.settings.characterMinimized;
     }
 
     public get isMobile(): boolean {
@@ -178,7 +177,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public get isGMMode(): boolean {
-        return this._settingsService.isGMMode;
+        return SettingsService.isGMMode;
     }
 
     public get isTileMode(): boolean {
@@ -186,7 +185,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public get stillLoading(): boolean {
-        return this._characterService.stillLoading;
+        return StatusService.isLoadingCharacter;
     }
 
     public get areSavegamesInitializing(): boolean {
@@ -210,15 +209,15 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public get character(): Character {
-        return this._characterService.character;
+        return CreatureService.character;
     }
 
     public get companion(): AnimalCompanion {
-        return this._characterService.character.class.animalCompanion;
+        return CreatureService.character.class.animalCompanion;
     }
 
     public get familiar(): Familiar {
-        return this._characterService.character.class.familiar;
+        return CreatureService.character.class.familiar;
     }
 
     public get characterMenuState(): MenuState {
@@ -226,7 +225,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public minimize(): void {
-        this._characterService.character.settings.characterMinimized = !this._characterService.character.settings.characterMinimized;
+        CreatureService.character.settings.characterMinimized = !CreatureService.character.settings.characterMinimized;
     }
 
     public toggleCharacterMenu(): void {
@@ -1644,8 +1643,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public onResetCompanion(): void {
-        if (this._characterService.character.class.animalCompanion) {
-            const character = this._characterService.character;
+        if (CreatureService.character.class.animalCompanion) {
+            const character = CreatureService.character;
 
             // Keep the specializations and ID; When the animal companion is reset,
             // any later feats and specializations still remain, and foreign effects still need to apply.
@@ -1767,7 +1766,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public onResetFamiliar(): void {
         if (this.character.class.familiar) {
-            const character = this._characterService.character;
+            const character = CreatureService.character;
             //Preserve the origin class and set it again after resetting. Also preserve the ID so that old foreign effects still match.
             const originClass = character.class.familiar.originClass;
             const previousId = character.class.familiar.id;

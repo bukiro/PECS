@@ -5,7 +5,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { TimeService } from 'src/libs/time/services/time/time.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 
 @Injectable({
@@ -14,8 +13,7 @@ import { DurationsService } from 'src/libs/time/services/durations/durations.ser
 export class ActivityGainPropertiesService {
 
     constructor(
-        private readonly _effectsService: CreatureEffectsService,
-        private readonly _timeService: TimeService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _durationsService: DurationsService,
     ) { }
@@ -46,7 +44,7 @@ export class ActivityGainPropertiesService {
             }
         }
 
-        const disablingEffects = this._effectsService.effectsOnThis(context.creature, `${ gain.name } Disabled`);
+        const disablingEffects = this._creatureEffectsService.effectsOnThis(context.creature, `${ gain.name } Disabled`);
 
         if (disablingEffects.length) {
             return `Disabled by: ${ disablingEffects.map(effect => effect.source).join(', ') } `;

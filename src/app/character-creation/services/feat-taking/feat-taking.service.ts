@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
-import { CharacterService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/app/services/character.service';
 import { Feat } from '../../definitions/models/Feat';
 import { FeatChoice } from '../../definitions/models/FeatChoice';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
@@ -14,7 +14,6 @@ export class FeatTakingService {
 
     constructor(
         private readonly _featProcessingService: FeatProcessingService,
-        private readonly _characterService: CharacterService,
     ) { }
 
     public takeFeat(
@@ -28,7 +27,7 @@ export class FeatTakingService {
     ): void {
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
         const level = creature.isCharacter() ? creature.classLevelFromNumber(levelNumber) : null;
-        const character = this._characterService.character;
+        const character = CreatureService.character;
 
         if (taken) {
             const newLength =

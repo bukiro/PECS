@@ -8,7 +8,6 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { CharacterService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
@@ -30,11 +29,9 @@ export class SpellProcessingService {
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _spellsService: SpellPropertiesService,
-        private readonly _effectsService: CreatureEffectsService,
-        private readonly _characterService: CharacterService,
+        private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellTargetService: SpellTargetService,
         private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
-        private readonly _settingsService: SettingsService,
         private readonly _messageSendingService: MessageSendingService,
     ) { }
 
@@ -99,7 +96,7 @@ export class SpellProcessingService {
 
 
         //Apply conditions unless in manual mode or if the spell was only expended.
-        if (!options.expendOnly && !this._settingsService.isManualMode) {
+        if (!options.expendOnly && !SettingsService.isManualMode) {
 
             //Find out who needs to gain or lose conditions. If no targets are set, conditions will not be applied.
             const targets = this._spellTargetService.determineTargetsFromSpellTarget(context.target, context);
@@ -150,13 +147,13 @@ export class SpellProcessingService {
 
         context.gain.active = true;
         //If an effect changes the duration of this spell, change the duration here only if it is sustained.
-        this._effectsService
+        this._creatureEffectsService
             .absoluteEffectsOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`])
             .forEach(effect => {
                 customDuration = parseInt(effect.setValue, 10);
                 conditionsToRemove.push(effect.source);
             });
-        this._effectsService
+        this._creatureEffectsService
             .relativeEffectsOnThese(context.creature, ['Next Spell Duration', `${ spell.name } Duration`])
             .forEach(effect => {
                 customDuration += parseInt(effect.value, 10);
