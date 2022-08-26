@@ -46,7 +46,6 @@ export class CharacterLoadingService {
         private readonly _refreshService: RefreshService,
         private readonly _appInitService: AppInitService,
         private readonly _toastService: ToastService,
-        private readonly _characterService: CreatureService,
         private readonly _documentStyleService: DocumentStyleService,
         private readonly _timeService: TimeService,
         private readonly _characterFeatsService: CharacterFeatsService,

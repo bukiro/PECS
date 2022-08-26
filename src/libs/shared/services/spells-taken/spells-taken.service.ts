@@ -14,7 +14,6 @@ import { SpellTraditions } from '../../definitions/spellTraditions';
 export class SpellsTakenService {
 
     constructor(
-        private readonly _characterService: CreatureService,
         private readonly _spellsService: SpellPropertiesService,
         private readonly _spellsDataService: SpellsDataService,
     ) { }

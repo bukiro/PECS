@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/app/services/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Consumable } from 'src/app/classes/Consumable';
 import { Creature } from 'src/app/classes/Creature';
@@ -22,7 +21,6 @@ export class ItemActivationProcessingService {
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
-        private readonly _characterService: CreatureService,
         private readonly _onceEffectsService: OnceEffectsService,
     ) { }
 
