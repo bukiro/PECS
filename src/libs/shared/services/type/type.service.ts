@@ -94,7 +94,7 @@ import { ItemsDataService } from 'src/app/core/services/data/items-data.service'
 })
 export class TypeService {
 
-    public static classCast(obj: any, className: string): any {
+    public static classCast<T>(obj: T, className: string): T {
         //This function tries to cast an object according to the given class name.
         switch (className) {
             case 'AbilityChoice': return Object.assign(new AbilityChoice(), obj);
@@ -172,7 +172,7 @@ export class TypeService {
             case 'Speed': return Object.assign(new Speed(), obj);
             case 'Spell': return Object.assign(new Spell(), obj);
             case 'SpellCast': return Object.assign(new SpellCast(), obj);
-            case 'SpellCasting': return Object.assign(new SpellCasting(obj.castingType), obj);
+            case 'SpellCasting': return Object.assign(new SpellCasting((obj as unknown as SpellCasting).castingType), obj);
             case 'SpellChoice': return Object.assign(new SpellChoice(), obj);
             case 'SpellGain': return Object.assign(new SpellGain(), obj);
             case 'SpellTargetNumber': return Object.assign(new SpellTargetNumber(), obj);
@@ -187,7 +187,7 @@ export class TypeService {
         }
     }
 
-    public static castItemByType(item: Item, type: string = item.type): Item {
+    public static castItemByType<T extends Item>(item: T, type: string = item.type): T {
         if (type) {
             switch (type) {
                 case 'adventuringgear':
@@ -243,7 +243,7 @@ export class TypeService {
     }
 
     public static merge<T>(target: T, source: Partial<T>): T {
-        const output = Object.assign(new (target.constructor as any)(), JSON.parse(JSON.stringify(target)));
+        const output = Object.assign(new (target.constructor as any)() as T, JSON.parse(JSON.stringify(target)));
 
         if (Array.isArray(source)) {
             source.forEach((obj: unknown, index) => {
@@ -270,16 +270,16 @@ export class TypeService {
         return output;
     }
 
-    public static restoreItem(object: Item, itemsDataService: ItemsDataService): Item {
+    public static restoreItem<T extends Item>(object: T, itemsDataService: ItemsDataService): T {
         if (object.refId && !object.restoredFromSave) {
-            const libraryItem = itemsDataService.cleanItemFromID(object.refId);
+            const libraryItem = itemsDataService.cleanItemFromID(object.refId) as T;
             let mergedObject = object;
 
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    mergedObject = TypeService.merge(libraryItem, mergedObject) as typeof libraryItem;
-                    mergedObject = TypeService.castItemByType(mergedObject, libraryItem.type);
+                    mergedObject = TypeService.merge<T>(libraryItem, mergedObject) as T;
+                    mergedObject = TypeService.castItemByType<T>(mergedObject, libraryItem.type);
 
                     //Disable any active hint effects when loading an item.
                     if (mergedObject instanceof Equipment) {
