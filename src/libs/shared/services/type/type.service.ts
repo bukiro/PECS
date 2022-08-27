@@ -242,32 +242,41 @@ export class TypeService {
         }
     }
 
-    public static merge<T>(target: T, source: Partial<T>): T {
-        const output = Object.assign(new (target.constructor as any)() as T, JSON.parse(JSON.stringify(target)));
+    public static mergeArray<T>(target: Array<T> | undefined, source: Array<T>): Array<T> {
+        const output: Array<T> = target
+            ? JSON.parse(JSON.stringify(target)) as Array<T>
+            : [] as Array<T>;
 
-        if (Array.isArray(source)) {
-            source.forEach((obj: unknown, index) => {
-                if (!output[index]) {
-                    Object.assign(output, { [index]: JSON.parse(JSON.stringify(source[index])) });
-                } else {
-                    output[index] = TypeService.merge(target[index], source[index]);
-                }
-            });
-        } else {
-            Object.keys(source).forEach(key => {
-                if (typeof source === 'object') {
-                    if (!Object.prototype.hasOwnProperty.call(target, key)) {
-                        Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
-                    } else {
-                        output[key] = TypeService.merge(target[key], source[key]);
-                    }
-                } else {
-                    Object.assign(output, { [key]: JSON.parse(JSON.stringify(source[key])) });
-                }
-            });
-        }
+        source.forEach((obj: unknown, index) => {
+            output[index] = this.mergeProperty(target[index], source[index]) as T;
+        });
 
         return output;
+    }
+
+    public static mergeObject<T>(target: T | undefined, source: Partial<T>): T {
+        const output = target
+            ? Object.assign(new (target.constructor as any)() as T, JSON.parse(JSON.stringify(target)))
+            : {};
+
+        Object.keys(source).forEach(key => {
+            output[key] = this.mergeProperty(target[key], source[key]);
+        });
+
+        return output;
+    }
+
+    public static mergeProperty<T>(target: T | Array<T> | undefined, source: T | Partial<T> | Array<T> | undefined): T | Array<T> {
+        if (Array.isArray(source)) {
+            // Merging arrays means merging all of their members.
+            return this.mergeArray(target as Array<T>, source);
+        } else if (typeof source === 'object') {
+            // Merging objects means merging all of their properties.
+            return this.mergeObject(target, source);
+        } else {
+            // Merging literals means just accepting the source value over the target value.
+            return JSON.parse(JSON.stringify(source));
+        }
     }
 
     public static restoreItem<T extends Item>(object: T, itemsDataService: ItemsDataService): T {
@@ -278,7 +287,7 @@ export class TypeService {
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    mergedObject = TypeService.merge<T>(libraryItem, mergedObject) as T;
+                    mergedObject = TypeService.mergeObject<T>(libraryItem, mergedObject) as T;
                     mergedObject = TypeService.castItemByType<T>(mergedObject, libraryItem.type);
 
                     //Disable any active hint effects when loading an item.

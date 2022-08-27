@@ -22,7 +22,7 @@ export class AnimalCompanionSpecializationsService {
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredSpecialization = TypeService.merge(libraryObject, spec);
+                    restoredSpecialization = TypeService.mergeObject(libraryObject, spec);
                 } catch (e) {
                     console.error(`Failed restoring animal companion specialization: ${ e }`);
                 }

@@ -23,7 +23,7 @@ export class HistorySavingLoadingService {
             if (libraryObject.name === ancestry.name) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredAncestry = TypeService.merge(libraryObject, ancestry);
+                    restoredAncestry = TypeService.mergeObject(libraryObject, ancestry);
                 } catch (e) {
                     console.error(`Failed restoring ancestry: ${ e }`);
                 }
@@ -64,7 +64,7 @@ export class HistorySavingLoadingService {
             if (libraryObject.name === heritage.name) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredHeritage = TypeService.merge(libraryObject, heritage);
+                    restoredHeritage = TypeService.mergeObject(libraryObject, heritage);
                 } catch (e) {
                     console.error(`Failed restoring heritage: ${ e }`);
                 }
@@ -105,7 +105,7 @@ export class HistorySavingLoadingService {
             if (libraryObject.name === background.name) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    mergedBackground = TypeService.merge(libraryObject, background);
+                    mergedBackground = TypeService.mergeObject(libraryObject, background);
                 } catch (e) {
                     console.error(`Failed restoring background: ${ e }`);
                 }

@@ -23,7 +23,7 @@ export class ClassSavingLoadingService {
                 //Make a safe copy of the library object.
                 //Then map the restored object onto the copy and keep that.
                 try {
-                    restoredClass = TypeService.merge(libraryObject, classObj);
+                    restoredClass = TypeService.mergeObject(libraryObject, classObj);
                 } catch (e) {
                     console.error(`Failed restoring class: ${ e }`);
                 }

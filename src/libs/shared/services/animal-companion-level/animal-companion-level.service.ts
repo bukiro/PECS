@@ -25,7 +25,7 @@ export class AnimalCompanionLevelsService {
 
             if (libraryObject) {
                 try {
-                    $class.levels = TypeService.merge<Array<AnimalCompanionLevel>>(libraryObject, $class.levels);
+                    $class.levels = TypeService.mergeArray(libraryObject, $class.levels);
                 } catch (e) {
                     console.error(`Failed restoring animal companion levels: ${ e }`);
                 }

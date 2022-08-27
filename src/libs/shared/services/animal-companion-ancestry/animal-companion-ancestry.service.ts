@@ -27,7 +27,7 @@ export class AnimalCompanionAncestryService {
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredAncestry = TypeService.merge<AnimalCompanionAncestry>(libraryObject, ancestry);
+                    restoredAncestry = TypeService.mergeObject(libraryObject, ancestry);
                 } catch (e) {
                     console.error(`Failed restoring animal companion ancestry: ${ e }`);
                 }
