@@ -14,9 +14,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --disable-host-check --live-reload=false",
-    "build": "ng build --configuration=production --outputPath=./build",
-    "build-demo": "ng build --configuration=production --outputPath=../build/docs --baseHref=/PECS-Demo/",
-    "publish": "ng build --configuration=production --outputPath=./publish/src",
+    "build": "ng build --configuration=production --output-path=./build",
+    "build-demo": "ng build --configuration=production --output-path=../build/docs --base-href=/PECS-Demo/",
+    "publish": "ng build --configuration=production --output-path=./publish/src",
     "publish-win": "cd publish && nexe ./pecs.js -t win-x64 --build && cd ..",
     "publish-linux": "cd publish && nexe ./pecs.js -t linux-x64 --build && cd ..",
     "test": "ng test",
