@@ -71,7 +71,7 @@ export class ItemTransferService {
 
                         toPack -= moved;
 
-                        const newItem = invItem.clone(this._itemsDataService);
+                        const newItem = invItem.clone(this._itemsDataService.restoreItem);
 
                         newItem.amount = moved;
                         items.push(newItem);
@@ -90,7 +90,7 @@ export class ItemTransferService {
             inventories.push(
                 ...creature.inventories
                     .filter(inventory => inventory.itemId === item.id)
-                    .map(inventory => inventory.clone(this._itemsDataService)),
+                    .map(inventory => inventory.clone(this._itemsDataService.restoreItem)),
             );
         }
 
@@ -117,7 +117,7 @@ export class ItemTransferService {
                                 if (newInventories.length) {
                                     hasFoundNewInventoriesToCheck = true;
                                     inventories.push(
-                                        ...newInventories.map(inventory => inventory.clone(this._itemsDataService)),
+                                        ...newInventories.map(inventory => inventory.clone(this._itemsDataService.restoreItem)),
                                     );
                                 }
                             });
@@ -215,7 +215,7 @@ export class ItemTransferService {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 //The item does need to be copied so we don't just move a reference.
-                const movedItem = item.clone(this._itemsDataService);
+                const movedItem = item.clone(this._itemsDataService.restoreItem);
 
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
                 if (movedItem.canStack()) {
@@ -290,7 +290,7 @@ export class ItemTransferService {
                     //Update the item's gridicon to reflect its changed amount.
                     this._refreshService.setComponentChanged(existingItems[0].id);
                 } else {
-                    const movedItem = includedItem.clone(this._itemsDataService);
+                    const movedItem = includedItem.clone(this._itemsDataService.restoreItem);
                     const newLength = targetInventory[includedItem.type].push(movedItem);
                     const newItem = targetInventory[includedItem.type][newLength - 1];
 

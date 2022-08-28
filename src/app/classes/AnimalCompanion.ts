@@ -7,7 +7,7 @@ import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { SkillIncrease } from './SkillIncrease';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
@@ -21,17 +21,17 @@ export class AnimalCompanion extends Creature {
 
     public get requiresConForHP(): boolean { return true; }
 
-    public recast(itemsDataService: ItemsDataService): AnimalCompanion {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): AnimalCompanion {
+        super.recast(restoreFn);
         this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): AnimalCompanion {
+    public clone(restoreFn: <T extends Item>(obj: T) => T): AnimalCompanion {
         return Object.assign<AnimalCompanion, AnimalCompanion>(
             new AnimalCompanion(), JSON.parse(JSON.stringify(this)),
-        ).recast(itemsDataService);
+        ).recast(restoreFn);
     }
 
     public isAnimalCompanion(): this is AnimalCompanion {

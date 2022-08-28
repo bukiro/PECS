@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class Wand extends Equipment {
     //Wands should be type "wands" to be found in the database
@@ -15,14 +15,14 @@ export class Wand extends Equipment {
         + 'Roll a DC 10 flat check. On a failure, drop the wand as it is destroyed. '
         + 'If you overcharge the wand when it\'s already been overcharged that day, '
         + 'the wand is automatically destroyed and dropped (even if it had been repaired) and no spell is cast.';
-    public recast(itemsDataService: ItemsDataService): Wand {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Wand {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Wand {
-        return Object.assign<Wand, Wand>(new Wand(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Wand {
+        return Object.assign<Wand, Wand>(new Wand(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isWand(): this is Wand { return true; }

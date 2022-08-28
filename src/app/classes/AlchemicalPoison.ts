@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class AlchemicalPoison extends Consumable {
     //Alchemical Poisons should be type "alchemicalpoisons" to be found in the database
@@ -11,15 +11,15 @@ export class AlchemicalPoison extends Consumable {
      */
     public stages: Array<string> = [];
 
-    public recast(itemsDataService: ItemsDataService): AlchemicalPoison {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): AlchemicalPoison {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): AlchemicalPoison {
+    public clone(restoreFn: <T extends Item>(obj: T) => T): AlchemicalPoison {
         return Object.assign<AlchemicalPoison, AlchemicalPoison>(
             new AlchemicalPoison(), JSON.parse(JSON.stringify(this)),
-        ).recast(itemsDataService);
+        ).recast(restoreFn);
     }
 }

@@ -16,7 +16,6 @@ import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { Oil } from './Oil';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -110,8 +109,8 @@ export class Equipment extends Item {
         return;
     }
 
-    public recast(itemsDataService: ItemsDataService): Equipment {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Equipment {
+        super.recast(restoreFn);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.activities.forEach(activity => { activity.source = this.id; });
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
@@ -141,23 +140,23 @@ export class Equipment extends Item {
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
         this.propertyRunes =
             this.propertyRunes.map(obj =>
-                Object.assign(new Rune(), TypeService.restoreItem(obj, itemsDataService)).recast(itemsDataService),
+                Object.assign(new Rune(), restoreFn(obj)).recast(restoreFn),
             );
         this.bladeAllyRunes =
             this.bladeAllyRunes.map(obj =>
-                Object.assign(new WeaponRune(), TypeService.restoreItem(obj, itemsDataService)).recast(itemsDataService));
+                Object.assign(new WeaponRune(), restoreFn(obj)).recast(restoreFn));
         this.talismans =
             this.talismans.map(obj =>
                 Object.assign(
                     new Talisman(),
-                    TypeService.restoreItem(obj, itemsDataService),
-                ).recast(itemsDataService),
+                    restoreFn(obj),
+                ).recast(restoreFn),
             );
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
         this.talismanCords =
             this.talismanCords.map(obj =>
-                (TypeService.classCast(TypeService.restoreItem(obj, itemsDataService), 'WornItem') as WornItem)
-                    .recast(itemsDataService),
+                (TypeService.classCast(restoreFn(obj), 'WornItem') as WornItem)
+                    .recast(restoreFn),
             );
 
         if (this.choices.length && !this.choices.includes(this.choice)) {
@@ -167,8 +166,8 @@ export class Equipment extends Item {
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Equipment {
-        return Object.assign<Equipment, Equipment>(new Equipment(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Equipment {
+        return Object.assign<Equipment, Equipment>(new Equipment(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isEquipment(): this is Equipment { return true; }

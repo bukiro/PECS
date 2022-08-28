@@ -94,7 +94,7 @@ export class ItemInitializationService {
                 .find(weaponRune => weaponRune.name === (newItem as Oil).runeEffect.name);
 
             if (rune) {
-                newItem.runeEffect = rune.clone(this._itemsDataService);
+                newItem.runeEffect = rune.clone(this._itemsDataService.restoreItem);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += ` (${ newItem.name })`; });
             }
         }
@@ -183,7 +183,7 @@ export class ItemInitializationService {
             newItem.material = newMaterials;
         }
 
-        newItem = newItem.recast(this._itemsDataService);
+        newItem = newItem.recast(this._itemsDataService.restoreItem);
 
         //Disable all hints.
         if (newItem instanceof Equipment) {

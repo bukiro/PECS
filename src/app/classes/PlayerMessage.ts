@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class PlayerMessage {
     public id = uuidv4();
@@ -40,17 +39,17 @@ export class PlayerMessage {
     public turnChange = false;
     public ttl = Defaults.playerMessageTTL;
 
-    public recast(itemsDataService: ItemsDataService): PlayerMessage {
+    public recast(restoreFn: <T extends Item>(obj: T) => T): PlayerMessage {
         this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
-        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(itemsDataService));
-        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(itemsDataService));
+        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(restoreFn));
+        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(restoreFn));
         this.includedInventories =
-            this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(itemsDataService));
+            this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(restoreFn));
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): PlayerMessage {
-        return Object.assign<PlayerMessage, PlayerMessage>(new PlayerMessage(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): PlayerMessage {
+        return Object.assign<PlayerMessage, PlayerMessage>(new PlayerMessage(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 }

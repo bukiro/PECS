@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from './Item';
 
 export class AdventuringGear extends Equipment {
     //Adventuring Gear should be type "adventuringgear" to be found in the database
@@ -16,16 +16,16 @@ export class AdventuringGear extends Equipment {
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage = '';
 
-    public recast(itemsDataService: ItemsDataService): AdventuringGear {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): AdventuringGear {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): AdventuringGear {
+    public clone(restoreFn: <T extends Item>(obj: T) => T): AdventuringGear {
         return Object.assign<AdventuringGear, AdventuringGear>(
             new AdventuringGear(), JSON.parse(JSON.stringify(this)),
-        ).recast(itemsDataService);
+        ).recast(restoreFn);
     }
 
     public canStack(): boolean {

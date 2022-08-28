@@ -12,8 +12,8 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 import { Weapon } from './Weapon';
+import { Item } from './Item';
 
 export class Character extends Creature {
     public readonly type = CreatureTypes.Character;
@@ -37,17 +37,17 @@ export class Character extends Creature {
     public yourTurn = 0;
     public get requiresConForHP(): boolean { return true; }
 
-    public recast(itemsDataService: ItemsDataService): Character {
-        super.recast(itemsDataService);
-        this.class = Object.assign(new Class(), this.class).recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Character {
+        super.recast(restoreFn);
+        this.class = Object.assign(new Class(), this.class).recast(restoreFn);
         this.customFeats = this.customFeats.map(obj => Object.assign(new Feat(), obj).recast());
         this.settings = Object.assign(new Settings(), this.settings);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Character {
-        return Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Character {
+        return Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isCharacter(): this is Character {

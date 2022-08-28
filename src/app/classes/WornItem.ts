@@ -1,5 +1,4 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Item } from './Item';
 import { LanguageGain } from './LanguageGain';
@@ -8,7 +7,6 @@ import { MaxSpellLevel } from 'src/libs/shared/definitions/spellLevels';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export interface RingOfWizardrySlot {
     tradition: string;
@@ -64,21 +62,21 @@ export class WornItem extends Equipment {
         this.strikingRune = value;
     }
 
-    public recast(itemsDataService: ItemsDataService): WornItem {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): WornItem {
+        super.recast(restoreFn);
         this.aeonStones =
             this.aeonStones.map(obj =>
                 Object.assign<WornItem, Item>(
                     new WornItem(),
-                    TypeService.restoreItem(obj, itemsDataService),
-                ).recast(itemsDataService),
+                    restoreFn(obj),
+                ).recast(restoreFn),
             );
         this.propertyRunes =
             this.propertyRunes.map(obj =>
                 Object.assign<WeaponRune, Item>(
                     new WeaponRune(),
-                    TypeService.restoreItem(obj, itemsDataService),
-                ).recast(itemsDataService),
+                    restoreFn(obj),
+                ).recast(restoreFn),
             );
 
         const goldRingIndex = 0;
@@ -122,8 +120,8 @@ export class WornItem extends Equipment {
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): WornItem {
-        return Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): WornItem {
+        return Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isWornItem(): this is WornItem { return true; }

@@ -12,7 +12,7 @@ import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { AbilityBoost } from './AbilityBoost';
 import { SkillIncrease } from './SkillIncrease';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from './Item';
 
 export interface SkillNotes {
     name: string;
@@ -38,12 +38,12 @@ export abstract class Creature {
     public skillNotes: Array<SkillNotes> = [];
     public get requiresConForHP(): boolean { return false; }
 
-    public recast(itemsDataService: ItemsDataService): Creature {
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Creature {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.health = Object.assign(new Health(), this.health).recast();
         this.conditions = this.conditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.inventories = this.inventories.map(obj => Object.assign(new ItemCollection(), obj).recast(itemsDataService));
+        this.inventories = this.inventories.map(obj => Object.assign(new ItemCollection(), obj).recast(restoreFn));
         this.speeds = this.speeds.map(obj => Object.assign(new Speed(), obj).recast());
 
         return this;
@@ -61,7 +61,7 @@ export abstract class Creature {
         return false;
     }
 
-    public abstract clone(itemsDataService: ItemsDataService): Creature;
+    public abstract clone(restoreFn: <T extends Item>(obj: T) => T): Creature;
 
     public abstract baseSize(): number;
 

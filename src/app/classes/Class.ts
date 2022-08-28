@@ -19,7 +19,6 @@ import { LoreChoice } from './LoreChoice';
 import { SpellChoice } from './SpellChoice';
 import { Item } from './Item';
 import { Spell } from './Spell';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Class {
     public disabled = '';
@@ -52,14 +51,14 @@ export class Class {
     public spellList: Array<SpellLearned> = [];
     public formulaBook: Array<FormulaLearned> = [];
 
-    public recast(itemsDataService: ItemsDataService): Class {
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Class {
         this.activities = this.activities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.ancestry = Object.assign(new Ancestry(), this.ancestry).recast();
-        this.animalCompanion = Object.assign(new AnimalCompanion(), this.animalCompanion).recast(itemsDataService);
+        this.animalCompanion = Object.assign(new AnimalCompanion(), this.animalCompanion).recast(restoreFn);
         this.background = Object.assign(new Background(), this.background).recast();
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.featData = this.featData.map(obj => Object.assign(new FeatData(obj.level, obj.featName, obj.sourceId), obj).recast());
-        this.familiar = Object.assign(new Familiar(), this.familiar).recast(itemsDataService);
+        this.familiar = Object.assign(new Familiar(), this.familiar).recast(restoreFn);
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.heritage = Object.assign(new Heritage(), this.heritage).recast();
         this.additionalHeritages = this.additionalHeritages.map(obj => Object.assign(new AdditionalHeritage(), obj).recast());
@@ -71,8 +70,8 @@ export class Class {
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Class {
-        return Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Class {
+        return Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public filteredFeatData(minLevel = 0, maxLevel = 0, featName: string, sourceId = ''): Array<FeatData> {

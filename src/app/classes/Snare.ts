@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class Snare extends Consumable {
     //Snares should be type "snares" to be found in the database
@@ -11,14 +11,14 @@ export class Snare extends Consumable {
     public tradeable = false;
     public actions = '1 minute';
 
-    public recast(itemsDataService: ItemsDataService): Snare {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Snare {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Snare {
-        return Object.assign<Snare, Snare>(new Snare(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Snare {
+        return Object.assign<Snare, Snare>(new Snare(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public canStack(): boolean {

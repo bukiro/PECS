@@ -23,7 +23,7 @@ export class AnimalCompanionService {
 
         if (character.class.animalCompanion) {
             character.class.animalCompanion =
-                Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._itemsDataService);
+                Object.assign(new AnimalCompanion(), character.class.animalCompanion).recast(this._itemsDataService.restoreItem);
 
             const companion = character.class.animalCompanion;
 

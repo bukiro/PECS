@@ -1,7 +1,6 @@
 import { Equipment } from 'src/app/classes/Equipment';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Item } from './Item';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
@@ -9,7 +8,6 @@ import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficien
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 
 interface EmblazonArmamentSet {
     type: string;
@@ -91,26 +89,26 @@ export class Weapon extends Equipment {
         this.strikingRune = value;
     }
 
-    public recast(itemsDataService: ItemsDataService): Weapon {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Weapon {
+        super.recast(restoreFn);
         this.poisonsApplied =
             this.poisonsApplied.map(obj =>
                 Object.assign<AlchemicalPoison, Item>(
                     new AlchemicalPoison(),
-                    TypeService.restoreItem(obj, itemsDataService),
-                ).recast(itemsDataService));
+                    restoreFn(obj),
+                ).recast(restoreFn));
         this.material = this.material.map(obj => Object.assign(new WeaponMaterial(), obj).recast());
         this.propertyRunes =
             this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(
                 new WeaponRune(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Weapon {
-        return Object.assign<Weapon, Weapon>(new Weapon(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Weapon {
+        return Object.assign<Weapon, Weapon>(new Weapon(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isWeapon(): this is Weapon { return true; }

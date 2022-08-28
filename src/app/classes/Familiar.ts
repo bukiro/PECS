@@ -6,7 +6,7 @@ import { CreatureSizes } from 'src/libs/shared/definitions/creatureSizes';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityBoost } from './AbilityBoost';
 import { SkillIncrease } from './SkillIncrease';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from './Item';
 
 export class Familiar extends Creature {
     public readonly type = CreatureTypes.Familiar;
@@ -26,15 +26,15 @@ export class Familiar extends Creature {
     public traits: Array<string> = ['Minion'];
     public get requiresConForHP(): boolean { return false; }
 
-    public recast(itemsDataService: ItemsDataService): Familiar {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Familiar {
+        super.recast(restoreFn);
         this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Familiar {
-        return Object.assign<Familiar, Familiar>(new Familiar(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Familiar {
+        return Object.assign<Familiar, Familiar>(new Familiar(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isFamiliar(): this is Familiar {

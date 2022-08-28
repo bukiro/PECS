@@ -1,7 +1,6 @@
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Item } from 'src/app/classes/Item';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Consumable extends Item {
     //Allow changing of "equippable" by custom item creation.
@@ -25,16 +24,16 @@ export class Consumable extends Item {
      */
     public stack = 1;
 
-    public recast(itemsDataService: ItemsDataService): Consumable {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Consumable {
+        super.recast(restoreFn);
         this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
         this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Consumable {
-        return Object.assign<Consumable, Consumable>(new Consumable(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Consumable {
+        return Object.assign<Consumable, Consumable>(new Consumable(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isConsumable(): this is Consumable { return true; }

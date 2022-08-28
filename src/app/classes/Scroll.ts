@@ -1,18 +1,18 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class Scroll extends Consumable {
     //Scrolls should be type "scrolls" to be found in the database
     public readonly type = 'scrolls';
 
-    public recast(itemsDataService: ItemsDataService): Scroll {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Scroll {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Scroll {
-        return Object.assign<Scroll, Scroll>(new Scroll(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Scroll {
+        return Object.assign<Scroll, Scroll>(new Scroll(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isScroll(): this is Scroll { return true; }

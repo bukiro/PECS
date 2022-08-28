@@ -12,7 +12,6 @@ import { Wand } from './Wand';
 import { Consumable } from './Consumable';
 import { Scroll } from './Scroll';
 import { Shield } from './Shield';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 import { Rune } from './Rune';
 
 export interface TraitActivation {
@@ -141,12 +140,12 @@ export class Item {
         return this.level.toString().padStart(twoDigits, '0');
     }
 
-    public recast(itemsDataService: ItemsDataService): Item {
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
         this.oilsApplied =
             this.oilsApplied.map(obj =>
-                (TypeService.classCast(TypeService.restoreItem(obj, itemsDataService), 'Oil') as Oil).recast(itemsDataService),
+                (TypeService.classCast(restoreFn(obj), 'Oil') as Oil).recast(restoreFn),
             );
         this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.storedSpells.forEach((choice: SpellChoice, index) => {
@@ -161,8 +160,8 @@ export class Item {
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Item {
-        return Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Item {
+        return Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isConsumable(): this is Consumable { return false; }

@@ -126,7 +126,7 @@ export class ItemAeonStonesComponent implements OnInit {
                 //Add a copy of the stone to the item
                 const newLength =
                     item.aeonStones.push(
-                        stone.clone(this._itemsDataService),
+                        stone.clone(this._itemsDataService.restoreItem),
                     );
                 const newStone = item.aeonStones[newLength - 1];
 

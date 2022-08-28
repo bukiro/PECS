@@ -91,7 +91,7 @@ export class MessagesService {
         const loadedMessages = results;
 
         let newMessages = loadedMessages
-            .map(message => Object.assign(new PlayerMessage(), message).recast(this._itemsDataService));
+            .map(message => Object.assign(new PlayerMessage(), message).recast(this._itemsDataService.restoreItem));
 
         newMessages.forEach(message => {
             //Cut off the time zone.

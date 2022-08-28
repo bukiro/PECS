@@ -190,7 +190,7 @@ export class MessageSendingService {
 
                     message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     message.timeStamp = timeStamp;
-                    message.offeredItem.push(item.clone(this._itemsDataService),
+                    message.offeredItem.push(item.clone(this._itemsDataService.restoreItem),
                     );
                     message.itemAmount = amount;
                     message.includedItems = included.items;

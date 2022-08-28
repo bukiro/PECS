@@ -1,6 +1,5 @@
 //TO-DO: Resolve private properties either not matching JSON import or not having an underscore, then use private properties.
 
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { Creature } from 'src/app/classes/Creature';
@@ -10,7 +9,6 @@ import { AdventuringGear } from './AdventuringGear';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -62,21 +60,22 @@ export class Armor extends Equipment {
         this.resilientRune = value;
     }
 
-    public recast(itemsDataService: ItemsDataService): Armor {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Armor {
+        super.recast(restoreFn);
         this.propertyRunes =
-            this.propertyRunes.map(obj =>
-                Object.assign<ArmorRune, Item>(
+            this.propertyRunes.map((obj: ArmorRune) =>
+                Object.assign<ArmorRune, Partial<ArmorRune>>(
                     new ArmorRune(),
-                    TypeService.restoreItem(obj, itemsDataService)).recast(itemsDataService),
+                    restoreFn(obj),
+                ).recast(restoreFn),
             );
         this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Armor {
-        return Object.assign<Armor, Armor>(new Armor(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Armor {
+        return Object.assign<Armor, Armor>(new Armor(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isArmor(): this is Armor { return true; }

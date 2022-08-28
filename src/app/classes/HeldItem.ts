@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class HeldItem extends Equipment {
     // Worn Items cannot be equipped or unequipped
@@ -9,13 +9,13 @@ export class HeldItem extends Equipment {
     /** How is this item held when used? Example: "held in one hand" */
     public usage = '';
 
-    public recast(itemsDataService: ItemsDataService): HeldItem {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): HeldItem {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): HeldItem {
-        return Object.assign<HeldItem, HeldItem>(new HeldItem(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): HeldItem {
+        return Object.assign<HeldItem, HeldItem>(new HeldItem(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 }

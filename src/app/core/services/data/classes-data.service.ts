@@ -62,7 +62,7 @@ export class ClassesDataService {
         Object.keys(data).forEach(key => {
             this._classes.push(
                 ...data[key].map((obj: Class) =>
-                    Object.assign(new Class(), obj).recast(this._itemsDataService),
+                    Object.assign(new Class(), obj).recast(this._itemsDataService.restoreItem),
                 ),
             );
         });

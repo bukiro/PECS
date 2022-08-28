@@ -34,7 +34,7 @@ export class CharacterClassChangeService {
         this._processRemovingOldClass();
 
         if (newClass) {
-            character.class = newClass.clone(this._itemsDataService);
+            character.class = newClass.clone(this._itemsDataService.restoreItem);
 
             this._processNewClass();
         } else {

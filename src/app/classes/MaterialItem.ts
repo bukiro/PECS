@@ -1,17 +1,16 @@
-import { ItemsDataService } from '../core/services/data/items-data.service';
-import { Item } from './Item';
+import { Item } from 'src/app/classes/Item';
 
 export class MaterialItem extends Item {
     //Material Items should be type "materialitems" to be found in the database
     public readonly type = 'materialitems';
 
-    public recast(itemsDataService: ItemsDataService): MaterialItem {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): MaterialItem {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): MaterialItem {
-        return Object.assign<MaterialItem, MaterialItem>(new MaterialItem(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): MaterialItem {
+        return Object.assign<MaterialItem, MaterialItem>(new MaterialItem(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 }

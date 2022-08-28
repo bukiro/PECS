@@ -1,10 +1,8 @@
 import { Consumable } from 'src/app/classes/Consumable';
 import { Hint } from 'src/app/classes/Hint';
 import { SpellCast } from 'src/app/classes/SpellCast';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { Item } from './Item';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 import { Equipment } from './Equipment';
 import { Rune } from './Rune';
 
@@ -36,15 +34,15 @@ export class Oil extends Consumable {
     public targets: Array<string> = [];
     public weightLimit = 0;
 
-    public recast(itemsDataService: ItemsDataService): Oil {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Oil {
+        super.recast(restoreFn);
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.runeEffect = this.runeEffect
             ? Object.assign<WeaponRune, Item>(
                 new WeaponRune(),
-                TypeService.restoreItem(this.runeEffect, itemsDataService),
-            ).recast(itemsDataService)
+                restoreFn(this.runeEffect),
+            ).recast(restoreFn)
             : null;
 
         return this;
@@ -52,7 +50,7 @@ export class Oil extends Consumable {
 
     public hasHints(): this is Equipment | Rune | Oil { return true; }
 
-    public clone(itemsDataService: ItemsDataService): Oil {
-        return Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Oil {
+        return Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 }

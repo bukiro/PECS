@@ -3,7 +3,6 @@ import { Item } from 'src/app/classes/Item';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Hint } from 'src/app/classes/Hint';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 import { Equipment } from './Equipment';
 import { Oil } from './Oil';
 
@@ -32,8 +31,8 @@ export class Rune extends Item {
 
     public hasHints(): this is Equipment | Rune | Oil { return true; }
 
-    public recast(itemsDataService: ItemsDataService): Rune {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Rune {
+        super.recast(restoreFn);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());
@@ -41,8 +40,8 @@ export class Rune extends Item {
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Rune {
-        return Object.assign<Rune, Rune>(new Rune(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Rune {
+        return Object.assign<Rune, Rune>(new Rune(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public canStack(): boolean {

@@ -77,7 +77,7 @@ export class CharacterSavingService {
     private _prepareCharacterForSaving(character: Character): Partial<Character> {
 
         //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
-        const savegame = character.clone(this._itemsDataService);
+        const savegame = character.clone(this._itemsDataService.restoreItem);
 
         const versionString: string = package_json.version;
 

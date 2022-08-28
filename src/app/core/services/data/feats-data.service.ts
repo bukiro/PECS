@@ -97,7 +97,7 @@ export class FeatsDataService {
 
                 featString = featString.replace(regex, weapon.name);
 
-                const newFeat = Object.assign<Feat, Feat>(new Feat(), JSON.parse(featString)).recast();
+                const newFeat = Object.assign<Feat, Partial<Feat>>(new Feat(), JSON.parse(featString)).recast();
 
                 newFeat.hide = false;
                 newFeat.weaponfeatbase = false;

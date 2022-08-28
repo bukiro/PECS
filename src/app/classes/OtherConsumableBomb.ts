@@ -1,19 +1,19 @@
 import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class OtherConsumableBomb extends AlchemicalBomb {
     //Other Consumables (Bombs) should be type "otherconsumablesbombs" to be found in the database
     public readonly type = 'otherconsumablesbombs';
 
-    public recast(itemsDataService: ItemsDataService): OtherConsumableBomb {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): OtherConsumableBomb {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): OtherConsumableBomb {
+    public clone(restoreFn: <T extends Item>(obj: T) => T): OtherConsumableBomb {
         return Object.assign<OtherConsumableBomb, OtherConsumableBomb>(
             new OtherConsumableBomb(), JSON.parse(JSON.stringify(this)),
-        ).recast(itemsDataService);
+        ).recast(restoreFn);
     }
 }

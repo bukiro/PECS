@@ -79,12 +79,12 @@ export class BasicEquipmentService {
             Object.assign(
                 new Weapon(),
                 weapon,
-            ).recast(this._itemsDataService);
+            ).recast(this._itemsDataService.restoreItem);
         const newBasicArmor: Armor =
             Object.assign(
                 new Armor(),
                 armor,
-            ).recast(this._itemsDataService);
+            ).recast(this._itemsDataService.restoreItem);
 
         this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
     }

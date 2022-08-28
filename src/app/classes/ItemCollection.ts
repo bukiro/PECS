@@ -27,7 +27,6 @@ import { Wand } from 'src/app/classes/Wand';
 import { Rune } from 'src/app/classes/Rune';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { MaterialItem } from './MaterialItem';
-import { ItemsDataService } from '../core/services/data/items-data.service';
 
 export class ItemCollection {
     //This is the amount of bulk that can be ignored when weighing this inventory.
@@ -90,134 +89,134 @@ export class ItemCollection {
     ) { }
 
     //TO-DO: See if items still need to be cast blindly after refactoring.
-    public recast(itemsDataService: ItemsDataService): ItemCollection {
+    public recast(restoreFn: <T extends Item>(obj: T) => T): ItemCollection {
         this.adventuringgear =
             this.adventuringgear.map(obj => Object.assign<AdventuringGear, Item>(
                 new AdventuringGear(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         //Alchemical Bombs need to be cast blindly to avoid circular dependency warnings.
         this.alchemicalbombs = this.alchemicalbombs.map(obj =>
             (TypeService.classCast(
-                TypeService.restoreItem(obj, itemsDataService),
+                restoreFn(obj),
                 'AlchemicalBomb',
-            ) as AlchemicalBomb).recast(itemsDataService));
+            ) as AlchemicalBomb).recast(restoreFn));
         this.alchemicalelixirs =
             this.alchemicalelixirs.map(obj => Object.assign<AlchemicalElixir, Item>(
                 new AlchemicalElixir(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.alchemicalpoisons =
             this.alchemicalpoisons.map(obj => Object.assign<AlchemicalPoison, Item>(
                 new AlchemicalPoison(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.alchemicaltools =
             this.alchemicaltools.map(obj => Object.assign<AlchemicalTool, Item>(
                 new AlchemicalTool(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.ammunition =
             this.ammunition.map(obj => Object.assign<Ammunition, Item>(
                 new Ammunition(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.armorrunes =
             this.armorrunes.map(obj => Object.assign<ArmorRune, Item>(
                 new ArmorRune(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.armors =
             this.armors.map(obj => Object.assign<Armor, Item>(
                 new Armor(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.helditems =
             this.helditems.map(obj => Object.assign<HeldItem, Item>(
                 new HeldItem(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.materialitems =
             this.materialitems.map(obj => Object.assign<MaterialItem, Item>(
                 new MaterialItem(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.oils =
             this.oils.map(obj => Object.assign<Oil, Item>(
                 new Oil(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.otherconsumables =
             this.otherconsumables.map(obj => Object.assign<OtherConsumable, Item>(
                 new OtherConsumable(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         //Consumable Bombs need to be cast blindly to avoid circular dependency warnings.
         this.otherconsumablesbombs =
             this.otherconsumablesbombs.map(obj => (TypeService.classCast(
-                TypeService.restoreItem(obj, itemsDataService),
+                restoreFn(obj),
                 'OtherConsumableBomb',
-            ) as OtherConsumableBomb).recast(itemsDataService));
+            ) as OtherConsumableBomb).recast(restoreFn));
         this.otheritems =
-            this.otheritems.map(obj => Object.assign<OtherItem, OtherItem>(
+            this.otheritems.map(obj => Object.assign<OtherItem, Partial<OtherItem>>(
                 new OtherItem(),
                 obj,
             ).recast());
         this.potions =
             this.potions.map(obj => Object.assign<Potion, Item>(
                 new Potion(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.scrolls =
             this.scrolls.map(obj => Object.assign<Scroll, Item>(
                 new Scroll(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         //Shields need to be cast blindly to avoid circular dependency warnings.
         this.shields =
             this.shields.map(obj => (TypeService.classCast(
-                TypeService.restoreItem(obj, itemsDataService),
+                restoreFn(obj),
                 'Shield',
-            ) as Shield).recast(itemsDataService));
+            ) as Shield).recast(restoreFn));
         this.snares =
             this.snares.map(obj => Object.assign<Snare, Item>(
                 new Snare(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.talismans =
             this.talismans.map(obj => Object.assign<Talisman, Item>(
                 new Talisman(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.wands =
             this.wands.map(obj => Object.assign<Wand, Item>(
                 new Wand(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         this.weaponrunes =
             this.weaponrunes.map(obj => Object.assign<WeaponRune, Item>(
                 new WeaponRune(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
         //Weapons need to be cast blindly to avoid circular dependency warnings.
         this.weapons =
             this.weapons.map(obj => (TypeService.classCast(
-                TypeService.restoreItem(obj, itemsDataService),
+                restoreFn(obj),
                 'Weapon',
-            ) as Weapon).recast(itemsDataService));
+            ) as Weapon).recast(restoreFn));
         this.wornitems =
             this.wornitems.map(obj => Object.assign<WornItem, Item>(
                 new WornItem(),
-                TypeService.restoreItem(obj, itemsDataService),
-            ).recast(itemsDataService));
+                restoreFn(obj),
+            ).recast(restoreFn));
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): ItemCollection {
+    public clone(restoreFn: <T extends Item>(obj: T) => T): ItemCollection {
         return Object.assign<ItemCollection, ItemCollection>(
             new ItemCollection(), JSON.parse(JSON.stringify(this)),
-        ).recast(itemsDataService);
+        ).recast(restoreFn);
     }
 
     public allEquipment(): Array<Equipment> {

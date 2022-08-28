@@ -152,7 +152,7 @@ export class ItemBladeAllyComponent implements OnInit {
             //Then add the new rune to the item.
             if (rune.name !== '') {
                 //Add a copy of the rune to the item
-                weapon.bladeAllyRunes[0] = rune.clone(this._itemsDataService);
+                weapon.bladeAllyRunes[0] = rune.clone(this._itemsDataService.restoreItem);
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }

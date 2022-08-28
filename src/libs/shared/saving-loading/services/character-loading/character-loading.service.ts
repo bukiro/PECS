@@ -150,14 +150,14 @@ export class CharacterLoadingService {
         loader: Partial<Character & DatabaseCharacter>,
     ): Character {
         //Make a copy of the character before restoration. This will be used in patching.
-        const savedCharacter = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(loader)));
+        const savedCharacter = Object.assign<Character, Partial<Character>>(new Character(), JSON.parse(JSON.stringify(loader)));
 
         //Remove the database id so it isn't saved over.
         if (loader._id) {
             delete loader._id;
         }
 
-        const character = Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(loader)));
+        const character = Object.assign<Character, Partial<Character>>(new Character(), JSON.parse(JSON.stringify(loader)));
 
         // We restore a few things individually before we restore the class,
         // allowing us to patch them before any issues would be created by new changes to the class.
@@ -215,7 +215,7 @@ export class CharacterLoadingService {
             character.class = this._classSavingLoadingService.restoreClassFromSave(character.class);
         }
 
-        character.recast(this._itemsDataService);
+        character.recast(this._itemsDataService.restoreItem);
 
         //Apply any patches that need to be done after the class is restored.
         this._characterPatchingService.patchCompleteCharacter(savedCharacter, character);

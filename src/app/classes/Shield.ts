@@ -1,6 +1,6 @@
 import { Equipment } from 'src/app/classes/Equipment';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 enum ShoddyPenalties {
     NotShoddy = 0,
@@ -50,15 +50,15 @@ export class Shield extends Equipment {
     /** Shoddy shields take a -2 penalty to AC. */
     public $shoddy: ShoddyPenalties.NotShoddy | ShoddyPenalties.Shoddy = ShoddyPenalties.NotShoddy;
 
-    public recast(itemsDataService: ItemsDataService): Shield {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Shield {
+        super.recast(restoreFn);
         this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Shield {
-        return Object.assign<Shield, Shield>(new Shield(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Shield {
+        return Object.assign<Shield, Shield>(new Shield(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isShield(): this is Shield { return true; }

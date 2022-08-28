@@ -197,7 +197,7 @@ export class MessageProcessingService {
                                 this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
                                 this._refreshService.setComponentChanged(existingItems[0].id);
                             } else {
-                                typedItem.recast(this._itemsDataService);
+                                typedItem.recast(this._itemsDataService.restoreItem);
 
                                 const newLength = targetInventory[typedItem.type].push(typedItem);
                                 const addedItem = targetInventory[typedItem.type][newLength - 1];

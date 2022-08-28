@@ -48,6 +48,7 @@ import * as json_weapons from 'src/assets/json/items/weapons';
 import * as json_wornitems from 'src/assets/json/items/wornitems';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 
 
 type AnyItemType =
@@ -119,6 +120,14 @@ export class ItemsDataService {
         } else { return []; }
     }
 
+    /**
+     * Call TypeService.restoreItem() while passing the ItemsDataService.
+     * This is not usually called directly, but passed to recast() and clone() methods.
+     */
+    public restoreItem<T extends Item>(obj: T): T {
+        return TypeService.restoreItem(obj, this);
+    }
+
     public initialize(): void {
         //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
         //Runes need to load before other items, because their content is copied into items that bear them.
@@ -168,8 +177,8 @@ export class ItemsDataService {
             this._loadItemType(json_wornitems, 'wornitems', new WornItem(), 'worn items');
 
         //Make a copy of clean items for shop items and crafting items.
-        this._storeItems = this._cleanItems.clone(this);
-        this._craftingItems = this._cleanItems.clone(this);
+        this._storeItems = this._cleanItems.clone(this.restoreItem);
+        this._craftingItems = this._cleanItems.clone(this.restoreItem);
 
         this._setBasicItems();
 
@@ -178,8 +187,8 @@ export class ItemsDataService {
 
     public reset(): void {
         //Reset items and crafting items from clean items.
-        this._storeItems = this._cleanItems.clone(this);
-        this._craftingItems = this._cleanItems.clone(this);
+        this._storeItems = this._cleanItems.clone(this.restoreItem);
+        this._craftingItems = this._cleanItems.clone(this.restoreItem);
     }
 
     private _setBasicItems(): void {

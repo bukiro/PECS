@@ -1,5 +1,5 @@
 import { Rune } from 'src/app/classes/Rune';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class WeaponRune extends Rune {
     //Weapon Runes should be type "weaponrunes" to be found in the database
@@ -28,13 +28,13 @@ export class WeaponRune extends Rune {
         return this.striking;
     }
 
-    public recast(itemsDataService: ItemsDataService): WeaponRune {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): WeaponRune {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): WeaponRune {
-        return Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): WeaponRune {
+        return Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 }

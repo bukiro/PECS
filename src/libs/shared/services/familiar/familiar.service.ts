@@ -21,7 +21,7 @@ export class FamiliarService {
         const character = CreatureService.character;
 
         if (character.class.familiar) {
-            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._itemsDataService);
+            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._itemsDataService.restoreItem);
             this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
         }
     }

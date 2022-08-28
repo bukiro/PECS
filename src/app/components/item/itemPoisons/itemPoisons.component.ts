@@ -71,7 +71,7 @@ export class ItemPoisonsComponent {
             const item = this.item;
 
             item.poisonsApplied.length = 0;
-            item.poisonsApplied.push(this.newPoison.poison.clone(this._itemsDataService));
+            item.poisonsApplied.push(this.newPoison.poison.clone(this._itemsDataService.restoreItem));
 
             if (this.newPoison.inv) {
                 this._inventoryService.dropInventoryItem(

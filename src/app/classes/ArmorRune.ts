@@ -1,7 +1,7 @@
 import { Rune } from 'src/app/classes/Rune';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class ArmorRune extends Rune {
     //Armor Runes should be type "armorrunes" to be found in the database
@@ -15,15 +15,15 @@ export class ArmorRune extends Rune {
         return this.resilient;
     }
 
-    public recast(itemsDataService: ItemsDataService): ArmorRune {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): ArmorRune {
+        super.recast(restoreFn);
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): ArmorRune {
-        return Object.assign<ArmorRune, ArmorRune>(new ArmorRune(), JSON.parse(JSON.stringify(this))).recast(itemsDataService);
+    public clone(restoreFn: <T extends Item>(obj: T) => T): ArmorRune {
+        return Object.assign<ArmorRune, ArmorRune>(new ArmorRune(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public effectsGenerationHints(): Array<HintEffectsObject> {

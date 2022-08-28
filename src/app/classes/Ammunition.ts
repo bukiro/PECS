@@ -1,6 +1,6 @@
 import { Consumable } from 'src/app/classes/Consumable';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class Ammunition extends Consumable {
     //Ammunition should be type "ammunition" to be found in the database
@@ -13,17 +13,17 @@ export class Ammunition extends Consumable {
      */
     public ammunition = '';
 
-    public recast(itemsDataService: ItemsDataService): Ammunition {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): Ammunition {
+        super.recast(restoreFn);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): Ammunition {
+    public clone(restoreFn: <T extends Item>(obj: T) => T): Ammunition {
         return Object.assign<Ammunition, Ammunition>(
             new Ammunition(), JSON.parse(JSON.stringify(this)),
-        ).recast(itemsDataService);
+        ).recast(restoreFn);
     }
 
     public effectiveName(): string {

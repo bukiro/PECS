@@ -1,5 +1,5 @@
 import { Weapon } from 'src/app/classes/Weapon';
-import { ItemsDataService } from '../core/services/data/items-data.service';
+import { Item } from 'src/app/classes/Item';
 
 export class AlchemicalBomb extends Weapon {
     //Alchemical bombs should be type "alchemicalbombs" to be found in the database
@@ -16,16 +16,16 @@ export class AlchemicalBomb extends Weapon {
     public readonly weaponBase: string = 'Alchemical Bomb';
     public readonly equippable = false;
 
-    public recast(itemsDataService: ItemsDataService): AlchemicalBomb {
-        super.recast(itemsDataService);
+    public recast(restoreFn: <T extends Item>(obj: T) => T): AlchemicalBomb {
+        super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(itemsDataService: ItemsDataService): AlchemicalBomb {
+    public clone(restoreFn: <T extends Item>(obj: T) => T): AlchemicalBomb {
         return Object.assign<AlchemicalBomb, AlchemicalBomb>(
             new AlchemicalBomb(), JSON.parse(JSON.stringify(this)),
-        ).recast(itemsDataService);
+        ).recast(restoreFn);
     }
 
     public effectiveName(): string {
