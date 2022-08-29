@@ -9,9 +9,8 @@
 <app-itemContent [item]="item"></app-itemContent>
 <!-- Item activities -->
 <ng-container *ngIf="itemParameters() as itemParameters">
-    <ng-container *ngIf="itemParameters.asHavingItemActivities.activities">
-        <div class="list-item left-aligned"
-            *ngFor="let activity of itemParameters.asHavingItemActivities.activities; trackBy:trackers.trackByIndex;">
+    <ng-container *ngIf="itemParameters.asHavingItemActivities?.activities as activities">
+        <div class="list-item left-aligned" *ngFor="let activity of activities; trackBy:trackers.trackByIndex;">
             <header class="spellHeader" *ngIf="activity.name">
                 {{activity.name}}
                 <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">
@@ -33,9 +32,8 @@
         </div>
     </ng-container>
     <!-- Common activities -->
-    <ng-container *ngIf="itemParameters.asGrantingActivities.gainActivities">
-        <ng-container
-            *ngFor="let gain of itemParameters.asGrantingActivities.gainActivities; trackBy:trackers.trackByIndex;">
+    <ng-container *ngIf="itemParameters.asGrantingActivities?.gainActivities as gainedActivities">
+        <ng-container *ngFor="let gain of gainedActivities; trackBy:trackers.trackByIndex;">
             <div class="list-item left-aligned" *ngIf="activityFromName(gain.name) as activity">
                 <header class="spellHeader">
                     {{activity.name}}

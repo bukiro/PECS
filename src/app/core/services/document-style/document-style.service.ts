@@ -28,8 +28,8 @@ export class DocumentStyleService {
         const greenIndex = 1;
         const blueIndex = 2;
 
-        const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
-            let result: RegExpExecArray;
+        const hexToRgb = (hex: string): { r: number; g: number; b: number } | undefined => {
+            let result: RegExpExecArray | null;
 
             if (hex.length === rgbLength) {
                 result = /^#?([a-f\d]{1})([a-f\d]{1})([a-f\d]{1})$/i.exec(hex);
@@ -38,7 +38,7 @@ export class DocumentStyleService {
                     r: parseInt(`${ result[redIndex] }${ result[redIndex] }`, 16),
                     g: parseInt(`${ result[greenIndex] }${ result[greenIndex] }`, 16),
                     b: parseInt(`${ result[blueIndex] }${ result[blueIndex] }`, 16),
-                } : null;
+                } : undefined;
             } else if (hex.length === rrggbbLength) {
                 result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
 
@@ -46,7 +46,9 @@ export class DocumentStyleService {
                     r: parseInt(result[redIndex], 16),
                     g: parseInt(result[greenIndex], 16),
                     b: parseInt(result[blueIndex], 16),
-                } : null;
+                } : undefined;
+            } else {
+                return undefined;
             }
         };
 

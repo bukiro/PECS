@@ -27,8 +27,8 @@ export class DiceComponent implements OnInit, OnDestroy {
     public diceNum = defaultDiceNum;
     public bonus = 0;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -71,13 +71,13 @@ export class DiceComponent implements OnInit, OnDestroy {
         return bonus > 0 ? `+ ${ bonus }` : `- ${ bonus * -1 }`;
     }
 
-    public creatureFromType(creatureType: CreatureTypes): Creature {
+    public creatureFromType(creatureType: CreatureTypes): Creature | undefined {
         if (creatureType === CreatureTypes.AnimalCompanion) {
-            return this._creatureAvailabilityService.isCompanionAvailable() ? CreatureService.creatureFromType(creatureType) : null;
+            return this._creatureAvailabilityService.isCompanionAvailable() ? CreatureService.creatureFromType(creatureType) : undefined;
         }
 
         if (creatureType === CreatureTypes.Familiar) {
-            return this._creatureAvailabilityService.isFamiliarAvailable() ? CreatureService.creatureFromType(creatureType) : null;
+            return this._creatureAvailabilityService.isFamiliarAvailable() ? CreatureService.creatureFromType(creatureType) : undefined;
         }
 
         return CreatureService.creatureFromType(creatureType);

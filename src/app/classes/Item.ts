@@ -21,7 +21,7 @@ export interface TraitActivation {
     active3: boolean;
 }
 
-export class Item {
+export abstract class Item {
     public readonly save: Array<string> = [
         'refId',
     ];
@@ -30,7 +30,7 @@ export class Item {
     ];
     public access = '';
     /** Allow changing of "equippable" by custom item creation */
-    public allowEquippable: boolean;
+    public allowEquippable = false;
     /**
      * Number of items of this kind in your inventory.
      * Items that can't be stacked will always remain at amount 1; Adding another item of that id will add a separate item to the inventory.
@@ -56,7 +56,7 @@ export class Item {
     /** If this name is set, always show it instead of the expanded base name */
     public displayName = '';
     /** Can this item be equipped (and apply its effect only then). */
-    public equippable: boolean;
+    public equippable = false;
     /** Should this item be hidden in the item store */
     public hide = false;
     /** List ItemGain for every Item that you receive when you get, equip or use this item (specified in the ItemGain) */
@@ -88,10 +88,10 @@ export class Item {
     public showNotes = false;
     public sourceBook = '';
     /**
-     * This bulk is only valid while in the item store.
+     * This bulk is only displayed in the item store.
      * This is for items like the Adventurer's Pack that is immediately unpacked into its parts and doesn't weigh anything in the inventory.
      */
-    public storeBulk = '';
+    public storeBulk: string | number = '';
     /**
      * What spells are stored in this item, or can be?
      * Only the first spell will be cast when using the item.
@@ -117,8 +117,6 @@ export class Item {
     public $traits: Array<string> = [];
     /** Items can store whether they have activated effects on any of their trait's hints here. */
     public traitActivations: Array<{ trait: string; active: boolean; active2: boolean; active3: boolean }> = [];
-    /** Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item */
-    public type: string;
     /**
      * For items with the same id (from different source files for example), higher overridePriority wins.
      * If two have the same priority, the first in the list wins.
@@ -133,6 +131,9 @@ export class Item {
     public restoredFromSave = false;
     public PFSnote = '';
     public inputRequired = '';
+
+    /** Type of item - very important. Must be set by the specific Item class and decides which database is searched for the item */
+    public abstract type: string;
 
     public get sortLevel(): string {
         const twoDigits = 2;
@@ -158,10 +159,6 @@ export class Item {
         }
 
         return this;
-    }
-
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Item {
-        return Object.assign<Item, Item>(new Item(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isConsumable(): this is Consumable { return false; }
@@ -248,4 +245,6 @@ export class Item {
     public investedOrEquipped(): boolean {
         return false;
     }
+
+    public abstract clone(restoreFn: <T extends Item>(obj: T) => T): Item;
 }

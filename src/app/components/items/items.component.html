@@ -200,7 +200,7 @@
                                                                         *ngIf="!isTileMode && itemParameters.canUse === false"
                                                                         [ngbTooltip]="'You are not trained with this item.'"></i>
                                                                     <i class="value bi-check2 bonus"
-                                                                        *ngIf="!isTileMode && itemParameters.canUse"
+                                                                        *ngIf="!isTileMode && itemParameters.canUse === true"
                                                                         [ngbTooltip]="'You are trained with this item.'"></i>
                                                                     {{itemParameters.item.effectiveName()}}
                                                                 </span>
@@ -254,7 +254,8 @@
                                                                     <button class="newrow center-aligned"
                                                                         (click)="grantItem(creature, itemParameters.item)">
                                                                         Gift
-                                                                        {{itemParameters.stack > 1 ?
+                                                                        {{(itemParameters.stack && itemParameters.stack
+                                                                        > 1) ?
                                                                         itemParameters.stack :
                                                                         ""}}
                                                                         to {{creature}}
@@ -264,7 +265,8 @@
                                                                         [disabled]="!itemParameters.item.tradeable || !characterHasFunds(effectivePrice)"
                                                                         *ngIf="itemSet.name !== 'Snares' && effectivePrice(itemParameters.item) as effectivePrice">
                                                                         Buy
-                                                                        {{itemParameters.stack > 1 ?
+                                                                        {{(itemParameters.stack && itemParameters.stack
+                                                                        > 1) ?
                                                                         itemParameters.stack :
                                                                         ""}}
                                                                         for {{creature}}
@@ -289,8 +291,9 @@
                                                                 <ng-container
                                                                     *ngIf="selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character">
                                                                     <button class="newrow center-aligned"
+                                                                        *ngIf="scrollSavantSpellCasting() as scrollSavantCasting"
                                                                         (click)="prepareScroll(itemParameters.item)"
-                                                                        [disabled]="scrollSavantSpellCasting().scrollSavant.length >= scrollSavantSpellDCLevel() / 2">
+                                                                        [disabled]="(scrollSavantCasting?.scrollSavant?.length || 0) >= scrollSavantSpellDCLevel() / 2">
                                                                         Select scroll for daily creation
                                                                     </button>
                                                                 </ng-container>
@@ -367,7 +370,7 @@
                                                                             [ngClass]="{'fancy-button':selectedPurpose()==='formulas' && shownCreature()===creatureTypesEnum.Character && learnedFormulas(itemParameters.item.id).length, 'penalty': itemParameters.canUse === false, 'bonus': itemParameters.canUse}"
                                                                             [ngbTooltip]="ItemTooltipTemplate"
                                                                             [title]="itemParameters.item.gridIconTitle()"
-                                                                            [superTitle]="itemParameters.stack > 1 ? itemParameters.stack.toString() : ''"
+                                                                            [superTitle]="itemParameters.stack && itemParameters.stack > 1 ? itemParameters.stack.toString() : ''"
                                                                             [detail]="'noparse|' + (itemParameters.item.traits.includes('Rare') ? 'R' : (itemParameters.item.traits.includes('Uncommon') ? 'U' : (itemParameters.item.traits.includes('Unique') ? 'Q' : ''))) + (itemParameters.item.level ? itemParameters.item.level.toString() : '')"
                                                                             [item]="itemParameters.item"
                                                                             [itemStore]="true">

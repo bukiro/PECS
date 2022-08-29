@@ -11,8 +11,8 @@ export class Effect {
     public title = '';
     public source = '';
     public penalty = false;
-    public apply: boolean = undefined;
-    public show: boolean = undefined;
+    public apply?: boolean;
+    public show?: boolean;
     public duration = 0;
     public maxDuration = 0;
     /** If the effect has a type, cumulative lists all effect sources (of the same type) that it is cumulative with. */

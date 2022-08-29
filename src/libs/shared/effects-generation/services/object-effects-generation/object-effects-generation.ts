@@ -42,14 +42,13 @@ export class ObjectEffectsGenerationService {
         options: EffectOptions = {},
     ): Array<Effect> {
         context = {
-            creature: null,
             object,
-            parentConditionGain: null,
-            parentItem: null, ...context,
+            ...context,
         };
         options = {
             name: '',
-            pretendCharacterLevel: 0, ...options,
+            pretendCharacterLevel: 0,
+            ...options,
         };
 
         //If an object has a simple instruction in effects, such as "affected":"Athletics" and "value":"+2", turn it into an Effect here,
@@ -59,7 +58,7 @@ export class ObjectEffectsGenerationService {
         //Return an array of Effect objects
         const objectEffects: Array<Effect> = [];
         //Get the object name unless a name is enforced.
-        let source: string = options.name ? options.name : (object.effectiveName ? object.effectiveName() : object.name);
+        let source: string = options.name ? options.name : (object.effectiveName ? object.effectiveName() : object.name) || '';
 
         //EffectGains come with values that contain a statement.
         //This statement is evaluated by the EvaluationService and then validated here in order to build a working Effect.
@@ -100,7 +99,7 @@ export class ObjectEffectsGenerationService {
                                 effectGain.conditionalToggle,
                                 { ...context, effect: effectGain, effectSourceName: source },
                                 options,
-                            ).toString();
+                            );
                     } catch (error) {
                         isToggledEffect = false;
                     }
@@ -189,11 +188,15 @@ export class ObjectEffectsGenerationService {
 
         if (effectGain.setValue) {
             try {
-                setValue = this._evaluationService.valueFromFormula(
+                const evalResult = this._evaluationService.valueFromFormula(
                     effectGain.setValue,
                     { ...context, effect: effectGain, effectSourceName: source },
                     options,
-                ).toString();
+                );
+
+                setValue = (evalResult !== null)
+                    ? evalResult.toString()
+                    : '';
             } catch (error) {
                 setValue = '';
             }
@@ -270,7 +273,7 @@ export class ObjectEffectsGenerationService {
                     testTitle,
                     { ...context, effect: effectGain, effectSourceName: context.source },
                     options,
-                ).toString();
+                )?.toString() || '';
             } catch (error) {
                 title = '';
             }

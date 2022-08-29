@@ -26,8 +26,8 @@ export class FamiliarComponent implements OnInit, OnDestroy {
     public creatureTypesEnum = CreatureTypes;
 
     private _showMode = '';
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

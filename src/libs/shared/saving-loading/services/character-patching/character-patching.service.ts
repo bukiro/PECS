@@ -17,6 +17,7 @@ import { Item } from 'src/app/classes/Item';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { DeitiesDataService } from 'src/app/core/services/data/deities-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { SpellCasting } from 'src/app/classes/SpellCasting';
 
 @Injectable({
     providedIn: 'root',
@@ -149,37 +150,38 @@ export class CharacterPatchingService {
             creatures.forEach(creature => {
                 creature?.inventories?.forEach(inventory => {
                     Object.keys(inventory).forEach(key => {
-                        if (Array.isArray(inventory[key])) {
-                            inventory[key].forEach((item: Equipment) => {
-                                //For each inventory, for each array property, recast all hints of the listed items.
-                                if (item.hints?.length) {
-                                    item.hints = item.hints.map(hint => Object.assign(new Hint(), hint));
-                                }
+                        if (Array.isArray(inventory[key as keyof ItemCollection])) {
+                            (inventory[key as keyof ItemCollection] as Array<Equipment>)
+                                .forEach(item => {
+                                    //For each inventory, for each array property, recast all hints of the listed items.
+                                    if (item.hints?.length) {
+                                        item.hints = item.hints.map(hint => Object.assign(new Hint(), hint));
+                                    }
 
-                                if (item.propertyRunes?.length) {
-                                    item.propertyRunes.forEach(rune => {
-                                        if (rune.hints?.length) {
-                                            rune.hints = rune.hints.map(hint => Object.assign(new Hint(), hint));
-                                        }
-                                    });
-                                }
+                                    if (item.propertyRunes?.length) {
+                                        item.propertyRunes.forEach(rune => {
+                                            if (rune.hints?.length) {
+                                                rune.hints = rune.hints.map(hint => Object.assign(new Hint(), hint));
+                                            }
+                                        });
+                                    }
 
-                                if (item.oilsApplied?.length) {
-                                    item.oilsApplied.forEach(oil => {
-                                        if (oil.hints?.length) {
-                                            oil.hints = oil.hints.map(hint => Object.assign(new Hint(), hint));
-                                        }
-                                    });
-                                }
+                                    if (item.oilsApplied?.length) {
+                                        item.oilsApplied.forEach(oil => {
+                                            if (oil.hints?.length) {
+                                                oil.hints = oil.hints.map(hint => Object.assign(new Hint(), hint));
+                                            }
+                                        });
+                                    }
 
-                                if (item.material?.length) {
-                                    item.material.forEach(material => {
-                                        if (material.hints?.length) {
-                                            material.hints = material.hints.map(hint => Object.assign(new Hint(), hint));
-                                        }
-                                    });
-                                }
-                            });
+                                    if (item.material?.length) {
+                                        item.material.forEach(material => {
+                                            if (material.hints?.length) {
+                                                material.hints = material.hints.map(hint => Object.assign(new Hint(), hint));
+                                            }
+                                        });
+                                    }
+                                });
                         }
                     });
                 });
@@ -245,16 +247,17 @@ export class CharacterPatchingService {
             creatures.forEach(creature => {
                 creature?.inventories?.forEach(inv => {
                     Object.keys(inv).forEach(key => {
-                        if (Array.isArray(inv[key])) {
-                            inv[key].forEach((item: Item & { moddable?: string | boolean }) => {
-                                if (Object.prototype.hasOwnProperty.call(item, 'moddable')) {
-                                    if (item.moddable === '-') {
-                                        item.moddable = false;
-                                    } else if (item.moddable !== false) {
-                                        item.moddable = true;
+                        if (Array.isArray(inv[key as keyof ItemCollection])) {
+                            (inv[key as keyof ItemCollection] as Array<Item>)
+                                .forEach((item: Item & { moddable?: string | boolean }) => {
+                                    if (Object.prototype.hasOwnProperty.call(item, 'moddable')) {
+                                        if (item.moddable === '-') {
+                                            item.moddable = false;
+                                        } else if (item.moddable !== false) {
+                                            item.moddable = true;
+                                        }
                                     }
-                                }
-                            });
+                                });
                         }
                     });
                 });
@@ -339,18 +342,20 @@ export class CharacterPatchingService {
                 character.class.levels[1].featChoices.splice(insertIndex, 0, newChoice);
             }
 
-            // If it doesn't exist add a skill gain for the Favored Weapon at the eighth position
+            // If it doesn't exist, add a skill gain for the Favored Weapon at the eighth position
             // of the first skill choice of level 1, so it matches the class object for merging.
             if (
                 character.class.levels[1]?.skillChoices &&
                 !character.class.levels[1]?.skillChoices
-                    ?.find(choice => choice.id === '1-Any-Class-0').increases.some(increase => increase.name === 'Favored Weapon')
+                    ?.find(choice => choice.id === '1-Any-Class-0')
+                    ?.increases
+                    .some(increase => increase.name === 'Favored Weapon')
             ) {
                 const insertIndex = 7;
 
                 character.class.levels[1].skillChoices
                     .find(choice => choice.id === '1-Any-Class-0')
-                    .increases
+                    ?.increases
                     .splice(
                         insertIndex,
                         0,
@@ -539,14 +544,14 @@ export class CharacterPatchingService {
                     const spellCastingName = `${ className } Spellcasting`;
 
                     //Sort spellcastings: Innate first, then the default class spellcasting, then the rest.
-                    character.class.spellCasting = []
+                    character.class.spellCasting = ([] as Array<SpellCasting>)
                         .concat(
                             character.class.spellCasting
-                                .find(casting => casting.castingType === 'Innate' && casting.source === 'Innate'),
+                                .find(casting => casting.castingType === 'Innate' && casting.source === 'Innate') || [],
                         )
                         .concat(
                             character.class.spellCasting
-                                .find(casting => casting.castingType === 'Prepared' && casting.source === spellCastingName),
+                                .find(casting => casting.castingType === 'Prepared' && casting.source === spellCastingName) || [],
                         )
                         .concat(...character.class.spellCasting.filter(casting =>
                             !(casting.castingType === 'Innate' && casting.source === 'Innate') &&
@@ -646,9 +651,9 @@ export class CharacterPatchingService {
             if (firstPath) {
                 const firstPathChoice =
                     character.class?.levels?.[firstPathLevel]?.featChoices
-                        ?.find(choice => choice.id === '7-Path to Perfection-Monk-2') || null;
+                        ?.find(choice => choice.id === '7-Path to Perfection-Monk-2') || undefined;
 
-                if (!firstPathChoice?.feats.length) {
+                if (firstPathChoice && !firstPathChoice?.feats.length) {
                     const firstPathFeat = this._featsDataService.feats([], `Path to Perfection: ${ firstPath }`)[0];
 
                     if (firstPathFeat) {
@@ -658,15 +663,15 @@ export class CharacterPatchingService {
             }
 
             if (secondPath) {
-                const secondChoice =
+                const secondPathChoice =
                     character.class?.levels?.[secondPathLevel]?.featChoices
-                        ?.find(choice => choice.id === '11-Second Path to Perfection-Monk-0') || null;
+                        ?.find(choice => choice.id === '11-Second Path to Perfection-Monk-0') || undefined;
 
-                if (!secondChoice?.feats.length) {
+                if (secondPathChoice && !secondPathChoice?.feats.length) {
                     const secondPathFeat = this._featsDataService.feats([], `Second Path to Perfection: ${ secondPath }`)[0];
 
                     if (secondPathFeat) {
-                        this._featTakingService.takeFeat(character, secondPathFeat, secondPathFeat.name, true, secondChoice, false);
+                        this._featTakingService.takeFeat(character, secondPathFeat, secondPathFeat.name, true, secondPathChoice, false);
                     }
                 }
             }
@@ -674,9 +679,9 @@ export class CharacterPatchingService {
             if (thirdPath) {
                 const thirdPathChoice =
                     character.class?.levels?.[thirdPathLevel]?.featChoices
-                        ?.find(choice => choice.id === '15-Third Path to Perfection-Monk-2') || null;
+                        ?.find(choice => choice.id === '15-Third Path to Perfection-Monk-2') || undefined;
 
-                if (!thirdPathChoice?.feats.length) {
+                if (thirdPathChoice && !thirdPathChoice?.feats.length) {
                     const thirdPathFeat = this._featsDataService.feats([], `Third Path to Perfection: ${ thirdPath }`)[0];
 
                     if (thirdPathFeat) {
@@ -771,22 +776,22 @@ export class CharacterPatchingService {
         // Feats do not have data after 1.0.12, so all custom feats' data has to be moved to class.featData.
         // These custom feats can be removed afterwards.
         if (character.appVersionMajor <= 1 && character.appVersion <= 0 && character.appVersionMinor < minorVersionTwelve) {
-            interface OldFeatWithData {
+            type OldFeatWithData = Feat & {
                 data: Array<FeatData>;
-            }
+            };
 
             const baseFeats = this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase || feat.weaponfeatbase)
                 .map(feat => feat.name.toLowerCase());
 
             this._characterFeatsService.buildCharacterFeats(character);
             // Only proceed with feats that were not generated from lore or weapon feat bases, and that have data.
-            character.customFeats
-                .filter((feat: Feat & OldFeatWithData) =>
+            (character.customFeats as Array<OldFeatWithData>)
+                .filter(feat =>
                     !baseFeats.includes(feat.name.toLowerCase()) &&
                     feat.data &&
                     Object.keys(feat.data).length,
                 )
-                .forEach((feat: Feat & OldFeatWithData) => {
+                .forEach(feat => {
                     //For each time you have this feat (should be exactly one), add its data to the class object.
                     this._characterFeatsService
                         .characterFeatsTakenWithLevel(0, 0, feat.name, '', '', undefined, false, false)
@@ -908,9 +913,12 @@ export class CharacterPatchingService {
                     level.featChoices.forEach(choice => {
                         choice.feats.forEach(taken => {
                             if (sources.includes(taken.name)) {
-                                unsortedAdditionalHeritages
-                                    .find(extraHeritage => extraHeritage.source === taken.name && !extraHeritage.charLevelAvailable)
-                                    .charLevelAvailable = level.number;
+                                const matchingAdditionalHeritage = unsortedAdditionalHeritages
+                                    .find(extraHeritage => extraHeritage.source === taken.name && !extraHeritage.charLevelAvailable);
+
+                                if (matchingAdditionalHeritage) {
+                                    matchingAdditionalHeritage.charLevelAvailable = level.number;
+                                }
                             }
                         });
 

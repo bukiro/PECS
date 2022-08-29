@@ -31,7 +31,7 @@ export class FamiliarService {
         const abilityNames = familiar.abilities.feats.map(gain => gain.name);
 
         abilityNames.forEach(abilityName => {
-            this._featTakingService.takeFeat(familiar, undefined, abilityName, false, familiar.abilities, undefined);
+            this._featTakingService.takeFeat(familiar, undefined, abilityName, false, familiar.abilities);
         });
     }
 

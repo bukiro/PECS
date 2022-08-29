@@ -46,7 +46,7 @@ export class AbilitiesDataService {
         const extendedData = this._extensionsService.extend(json_abilities, 'abilities');
 
         Object.keys(extendedData).forEach(key => {
-            abilities.push(...extendedData[key].map((obj: Ability) => Object.assign(new Ability(), obj)));
+            abilities.push(...extendedData[key].map(obj => Object.assign(new Ability(), obj)));
         });
         abilities = this._extensionsService.cleanupDuplicates(abilities, 'name', 'abilities') as Array<Ability>;
 

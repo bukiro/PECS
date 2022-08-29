@@ -95,7 +95,7 @@ export class HintShowingObjectsService {
         const companion = CreatureService.companion;
 
         //Get showon elements from Companion Ancestry and Specialization
-        return []
+        return ([] as Array<AnimalCompanionAncestry | AnimalCompanionSpecialization | Feat>)
             .concat(
                 [companion.class.ancestry]
                     .filter(ancestry =>

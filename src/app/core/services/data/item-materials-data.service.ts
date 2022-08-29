@@ -6,6 +6,7 @@ import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import * as json_armormaterials from 'src/assets/json/armormaterials';
 import * as json_shieldmaterials from 'src/assets/json/shieldmaterials';
 import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';
+import { JsonImportedObjectFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -70,7 +71,7 @@ export class ItemMaterialsDataService {
     }
 
     private _loadMaterial<T extends ArmorMaterial | ShieldMaterial | WeaponMaterial>(
-        data: { [fileContent: string]: Array<unknown> },
+        data: JsonImportedObjectFileList<T>,
         target: string,
         prototype: T,
     ): Array<T> {

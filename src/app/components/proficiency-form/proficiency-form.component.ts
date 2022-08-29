@@ -11,7 +11,7 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 export class ProficiencyFormComponent {
 
     @Input()
-    public skillLevel: number;
+    public skillLevel!: number;
 
     public levels = [
         { value: SkillLevels.Trained, key: 'T', title: 'Trained' },

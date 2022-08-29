@@ -113,12 +113,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
     private _showItem = '';
     private _showList = '';
     private _showLevelFilter = false;
-    private _showContent: ShowContent = null;
+    private _showContent: ShowContent | undefined;
     private _showContentLevelNumber = 0;
     private _showFixedChangesLevelNumber = 0;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -244,7 +244,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this._showItem = this._showItem === name ? '' : name;
     }
 
-    public toggleShownList(name: string = '', levelNumber = 0, content: ShowContent = null): void {
+    public toggleShownList(name: string = '', levelNumber = 0, content?: ShowContent): void {
         // Set the currently shown list name, level number and content so that the correct choice
         // with the correct data can be shown in the choice area.
         if (
@@ -254,7 +254,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         ) {
             this._showList = '';
             this._showContentLevelNumber = 0;
-            this._showContent = null;
+            this._showContent = content;
         } else {
             this._showList = name;
             this._showContentLevelNumber = levelNumber;
@@ -267,7 +267,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this._showLevelFilter = !this._showLevelFilter;
     }
 
-    public receiveChoiceMessage(message: { name: string; levelNumber: number; choice: SkillChoice | FeatChoice }): void {
+    public receiveChoiceMessage(message: { name: string; levelNumber: number; choice?: SkillChoice | FeatChoice }): void {
         this.toggleShownList(message.name, message.levelNumber, message.choice);
     }
 
@@ -291,15 +291,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this._showLevelFilter;
     }
 
-    public activeChoiceContent(choiceType = ''): { name: string; levelNumber: number; choice: ShowContent } {
+    public activeChoiceContent(choiceType = ''): { name: string; levelNumber: number; choice?: ShowContent } | undefined {
         // For choices that have a class of their own (AbilityChoice, SkillChoice, FeatChoice),
         // get the currently shown content with levelNumber if it is of that same class.
         // Also get the currently shown list name for compatibility.
         if (this._showContent?.constructor.name === choiceType) {
             return { name: this.shownList(), levelNumber: this.shownContentLevelNumber(), choice: this.shownContent() };
         }
-
-        return null;
     }
 
     public activeAbilityChoiceContent(): { name: string; levelNumber: number; choice: AbilityChoice } {
@@ -318,7 +316,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.activeChoiceContent('LoreChoice') as { name: string; levelNumber: number; choice: LoreChoice };
     }
 
-    public activeSpecialChoiceShown(choiceType = ''): { name: string; levelNumber: number; choice: ShowContent } {
+    public activeSpecialChoiceShown(choiceType = ''): { name: string; levelNumber: number; choice: ShowContent } | undefined {
         if (this.shownList() === choiceType) {
             // For choices that don't have a class and can only show up once per level,
             // get the currently shown list name with levelNumber if the list name matches the choice type.
@@ -337,7 +335,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
     }
 
-    public shownContent(): ShowContent {
+    public shownContent(): ShowContent | undefined {
         return this._showContent;
     }
 
@@ -403,7 +401,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this._configService.login('');
     }
 
-    public savegames(): Array<Savegame> {
+    public savegames(): Array<Savegame> | undefined {
         if (!this._savegamesService.loadingError()) {
             return this._savegamesService.savegames()
                 .sort((a, b) => {
@@ -417,8 +415,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
                     return SortAlphaNum(a.partyName + a.name, b.partyName + b.name);
                 });
-        } else {
-            return null;
         }
     }
 
@@ -454,8 +450,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return title;
     }
 
-    public partyNames(): Array<string> {
-        return Array.from(new Set(this.savegames().map(savegame => savegame.partyName)));
+    public partyNames(): Array<string> | undefined {
+        const savegames = this.savegames();
+
+        if (savegames) {
+            return Array.from(new Set(savegames.map(savegame => savegame.partyName)));
+        }
     }
 
     public loadCharacterFromDB(savegame: Savegame): void {
@@ -468,7 +468,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this._characterSavingService.saveCharacter();
     }
 
-    public openCharacterDeleteModal(content, savegame: Savegame): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public openCharacterDeleteModal(content: any, savegame: Savegame): void {
         this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
             if (result === 'Ok click') {
                 this._deleteCharacterFromDB(savegame);
@@ -489,7 +490,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
     }
 
     public alignments(): Array<string> {
-        const deity: Deity = this.character.class?.deity ? this._deitiesDataService.deities(this.character.class.deity)[0] : null;
+        const deity: Deity | undefined =
+            this.character.class?.deity ? this._deitiesDataService.deities(this.character.class.deity)[0] : undefined;
         const alignments = [
             '',
             ...Object.values(Alignments),
@@ -827,7 +829,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this._abilityValuesService.baseValue(ability, this.character, levelNumber);
     }
 
-    public availableAbilities(choice: AbilityChoice, levelNumber: number): Array<Ability> {
+    public availableAbilities(choice: AbilityChoice, levelNumber: number): Array<Ability> | undefined {
         let abilities = this.abilities('');
 
         if (choice.filter.length) {
@@ -951,7 +953,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         type = '',
         source = '',
         sourceId = '',
-        locked: boolean = undefined,
+        locked?: boolean,
     ): Array<AbilityBoost> {
         return this.character.abilityBoosts(levelNumber, levelNumber, abilityName, type, source, sourceId, locked);
     }
@@ -979,7 +981,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         skillName: string,
         source = '',
         sourceId = '',
-        locked: boolean = undefined,
+        locked?: boolean,
     ): Array<SkillIncrease> {
         return this.character.skillIncreases(levelNumber, levelNumber, skillName, source, sourceId, locked);
     }
@@ -1011,7 +1013,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             .filter(choice => !choice.showOnSheet && (choice.available + this.skillBonusFromIntOnLevel(choice, level.number) > 0));
     }
 
-    public featChoicesOnLevel(level: ClassLevel, specialChoices: boolean = undefined): Array<FeatChoice> {
+    public featChoicesOnLevel(level: ClassLevel, specialChoices?: boolean): Array<FeatChoice> {
         const ancestry = this.character.class.ancestry?.name || '';
 
         return level.featChoices
@@ -1055,7 +1057,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this._activitiesDataService.activityFromName(name);
     }
 
-    public differentWorldsData(levelNumber: number): Array<FeatData> {
+    public differentWorldsData(levelNumber: number): Array<FeatData> | undefined {
         if (this._characterFeatsService.characterHasFeat('Different Worlds', levelNumber)) {
             return this.character.class.filteredFeatData(levelNumber, levelNumber, 'Different Worlds');
         }
@@ -1065,7 +1067,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this._characterFeatsService.characterHasFeat('Blessed Blood', levelNumber);
     }
 
-    public blessedBloodDeitySpells(): Array<Spell> {
+    public blessedBloodDeitySpells(): Array<Spell> | undefined {
         const deity = this._characterDeitiesService.currentCharacterDeities()[0];
 
         if (deity) {
@@ -1209,7 +1211,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public additionalHeritagesAvailable(levelNumber: number): Array<HeritageGain> {
         //Return all heritages you have gained on this specific level.
-        return []
+        return ([] as Array<HeritageGain>)
             .concat(
                 ...this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
                     .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
@@ -1240,7 +1242,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
             this._characterHeritageChangeService.changeHeritage(heritage, index);
         } else {
-            this._characterHeritageChangeService.changeHeritage(null, index);
+            this._characterHeritageChangeService.changeHeritage(undefined, index);
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'all');
@@ -1306,7 +1308,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
-    public fuseStanceData(levelNumber: number): Array<FeatData> {
+    public fuseStanceData(levelNumber: number): Array<FeatData> | undefined {
         if (this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Fuse Stance' }).length) {
             return this.character.class.filteredFeatData(levelNumber, levelNumber, 'Fuse Stance');
         }
@@ -1318,7 +1320,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const stances = fuseStanceData.valueAsStringArray('stances');
 
         if (finished && name) {
-            result += `: ${ name } (${ stances.join(', ') })`;
+            result += `: ${ name }${ stances ? ` (${ stances.join(', ') })` : '' }`;
         }
 
         return result;
@@ -1343,8 +1345,12 @@ export class CharacterComponent implements OnInit, OnDestroy {
         const takenStances = fuseStanceData.valueAsStringArray('stances');
         const maxStances = 2;
 
-        takenStances.forEach(stance => {
-            existingStances.push(activities.find(example => example.name === stance));
+        takenStances?.forEach(stance => {
+            const activity = activities.find(example => example.name === stance);
+
+            if (activity) {
+                existingStances.push(activity);
+            }
         });
 
         const areAnyRestrictedStancesFound =
@@ -1352,29 +1358,35 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
         this._creatureActivitiesService.creatureOwnedActivities(this.character, levelNumber)
             .map(activity => activities.find(example => example.name === activity.name))
-            .filter(activity => activity && activity.name !== 'Fused Stance')
+            .filter(activity => activity !== undefined && activity.name !== 'Fused Stance')
             .forEach(activity => {
-                const isStanceTaken = takenStances.includes(activity.name);
+                if (activity) {
+                    const isStanceTaken = takenStances?.includes(activity.name);
 
-                if (
-                    !unique.includes(activity.name) &&
-                    (shouldShowOtherOptions || takenStances.length < maxStances || isStanceTaken)
-                ) {
-                    const isStanceRestricted = activity.gainConditions.some(gain => conditionsWithAttackRestrictions.includes(gain.name));
+                    if (
+                        !unique.includes(activity.name) &&
+                        (shouldShowOtherOptions || (takenStances?.length || 0) < maxStances || isStanceTaken)
+                    ) {
+                        const isStanceRestricted =
+                            activity.gainConditions.some(gain => conditionsWithAttackRestrictions.includes(gain.name));
 
-                    if (isStanceRestricted && areAnyRestrictedStancesFound && !isStanceTaken) {
-                        unique.push(activity.name);
-                        availableStances.push({ activity, restricted: isStanceRestricted, reason: 'Incompatible restrictions.' });
-                    } else {
-                        unique.push(activity.name);
-                        availableStances.push({ activity, restricted: isStanceRestricted, reason: '' });
+                        if (isStanceRestricted && areAnyRestrictedStancesFound && !isStanceTaken) {
+                            unique.push(activity.name);
+                            availableStances.push({ activity, restricted: isStanceRestricted, reason: 'Incompatible restrictions.' });
+                        } else {
+                            unique.push(activity.name);
+                            availableStances.push({ activity, restricted: isStanceRestricted, reason: '' });
+                        }
                     }
                 }
+
             });
 
         //Remove any taken stance that you don't have anymore at this point.
         const realStances =
-            takenStances.filter((existingStance: string) => availableStances.map(stance => stance.activity.name).includes(existingStance));
+            takenStances?.filter(existingStance =>
+                availableStances.map(stance => stance.activity.name).includes(existingStance),
+            ) || [];
 
         fuseStanceData.setValue('stances', realStances);
 
@@ -1388,7 +1400,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public onFuseStanceStanceChange(data: FeatData, stance: string, checkedEvent: Event): void {
         const isChecked = (checkedEvent.target as HTMLInputElement).checked;
-        const stances = Array.from(data.valueAsStringArray('stances'));
+        const stances = Array.from(data.valueAsStringArray('stances') || []);
 
         if (isChecked) {
             if (this.character.settings.autoCloseChoices && stances.length === 1 && data.getValue('name')) { this.toggleShownList(); }
@@ -1403,7 +1415,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
-    public syncretismData(levelNumber: number): Array<FeatData> {
+    public syncretismData(levelNumber: number): Array<FeatData> | undefined {
         if (this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber, { featName: 'Syncretism' }).length) {
             return this.character.class.filteredFeatData(levelNumber, levelNumber, 'Syncretism');
         }
@@ -1681,7 +1693,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
             this._animalCompanionAncestryService.changeAncestry(companion, type);
         } else {
-            this._animalCompanionAncestryService.changeAncestry(companion, null);
+            this._animalCompanionAncestryService.changeAncestry(companion, undefined);
         }
 
         this._refreshService.prepareDetailToChange(CreatureTypes.AnimalCompanion, 'all');
@@ -1807,7 +1819,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
             .map(gain =>
                 //This is a simplified version of the method in ItemGain. It can't find "special" ItemGains, which aren't needed here.
                 this._itemsDataService.cleanItems().weapons.find(weapon => gain.isMatchingItem(weapon)),
-            );
+            )
+            .filter((weapon): weapon is Weapon => !!weapon);
     }
 
     public animalCompanionAbilities(type: AnimalCompanionAncestry): Array<{ name: string; modifier: string }> {
@@ -1941,7 +1954,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
         // where you can switch between choices without closing the first,
         // and it would cause the top bar to scroll away in mobile mode.
         if (!DisplayService.isMobile) {
-            document.getElementById('character-choiceArea-top').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('character-choiceArea-top')?.scrollIntoView({ behavior: 'smooth' });
         }
     }
 

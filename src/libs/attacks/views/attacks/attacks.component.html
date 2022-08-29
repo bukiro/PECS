@@ -114,7 +114,7 @@
                             ({{handwraps.get_Name()}})
                         </strong>
                         <button style="flex-basis:auto" [disabled]="!weaponParameters.asBomb.amount"
-                            (click)="onConsumableUse(weaponParameters.asBomb, null)" *ngIf="weaponParameters.asBomb">
+                            (click)="onConsumableUse(weaponParameters.asBomb)" *ngIf="weaponParameters.asBomb">
                             <span [ngbTooltip]="'Melee'" *ngIf="attack.range === 'melee'"><i
                                     class='ra ra-sword'></i>&nbsp;</span>
                             <span [ngbTooltip]="'Ranged ' + weaponParameters.asBomb.ranged + ' feet'"
@@ -257,7 +257,8 @@
                         </span>
                     </button>
                 </div>
-                <div class="fullsize-only list-item newrow" *ngIf="weaponParameters.asBomb?.hitEffect">
+                <div class="fullsize-only list-item newrow"
+                    *ngIf="weaponParameters.asBomb && weaponParameters.asBomb?.hitEffect">
                     <button class="newrow sublist-toggle fancy-button"
                         (click)="toggleShownItem(weaponParameters.weapon.id+attack.range+'hiteffects')">
                         Hit effects
@@ -312,8 +313,9 @@
                             *ngIf="shownItem()===weaponParameters.weapon.id+attack.range+'criticalHint'">
                             <div class="list-item lower newrow left-aligned">
                                 <app-description [text]="rune.criticalHint" [oneLiner]="true"></app-description>
-                                <app-description *ngIf="rune.name==='Grievous'"
-                                    [text]="matchingGrievousRuneData(weaponParameters.weapon, rune)" [oneLiner]="true">
+                                <app-description
+                                    *ngIf="rune.name==='Grievous' && matchingGrievousRuneData(weaponParameters.weapon, rune) as grievousData"
+                                    [text]="grievousData" [oneLiner]="true">
                                 </app-description>
                                 <div class="newrow gap-text left-aligned" *ngIf="rune.critsuccess">
                                     <strong>Critical Success</strong>
@@ -385,7 +387,8 @@
                         </ng-template>
                         <ng-container *ngIf="!isInventoryTileMode">
                             <div class="list-item">
-                                <button class="newrow sublist-toggle" (click)="toggleShownItem(snare.item.id+snareIndex)">
+                                <button class="newrow sublist-toggle"
+                                    (click)="toggleShownItem(snare.item.id+snareIndex)">
                                     <ng-container *ngTemplateOutlet="SnareTitleTemplate">
                                     </ng-container>
                                 </button>

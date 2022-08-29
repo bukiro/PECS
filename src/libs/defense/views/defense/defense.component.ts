@@ -49,8 +49,8 @@ export class DefenseComponent implements OnInit, OnDestroy {
 
     public shieldDamage = 0;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -119,7 +119,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         return this._armorClassService.calculate(this._currentCreature);
     }
 
-    public onSetCover(cover: number, shield: Shield = null): void {
+    public onSetCover(cover: number, shield?: Shield): void {
         this._armorClassService.setCover(this._currentCreature, cover, shield);
     }
 
@@ -176,7 +176,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public equippedArmor(): Array<Armor | WornItem> {
-        return []
+        return ([] as Array<Armor | WornItem>)
             .concat(this._creatureEquipmentService.equippedCreatureArmor(this._currentCreature))
             .concat(this._creatureEquipmentService.equippedCreatureBracersOfArmor(this._currentCreature));
     }
@@ -185,7 +185,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         //Return all runes and rune-emulating oil effects that have a hint to show
         const runes: Array<ArmorRune> = [];
 
-        runes.push(...armor.propertyRunes.filter((rune: ArmorRune) => rune.hints.length) as Array<ArmorRune>);
+        runes.push(...armor.propertyRunes.filter(rune => rune.hints.length) as Array<ArmorRune>);
 
         return runes;
     }
@@ -245,14 +245,14 @@ export class DefenseComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
-    public specialShowOnNames(item: Armor | Shield | WornItem, savingThrows = false): Array<string> {
+    public specialShowOnNames(item?: Armor | Shield | WornItem, savingThrows = false): Array<string> {
         //Under certain circumstances, some Feats apply to Armnor, Shield or Saving Throws independently of their name.
         //Return names that get_FeatsShowingOn should run on.
         const specialNames: Array<string> = [];
 
-        if (item instanceof Shield) {
+        if (item?.isShield()) {
             //Shields with Emblazon Armament get tagged as "Emblazon Armament Shield".
-            if (item instanceof Shield && item.$emblazonArmament) {
+            if (item.$emblazonArmament) {
                 item.emblazonArmament.forEach(ea => {
                     if (ea.type === 'emblazonArmament') {
                         specialNames.push('Emblazon Armament Shield');
@@ -261,7 +261,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             }
 
             //Shields with Emblazon Energy get tagged as "Emblazon Energy Shield <Choice>".
-            if (item instanceof Shield && item.$emblazonEnergy) {
+            if (item.$emblazonEnergy) {
                 item.emblazonArmament.forEach(ea => {
                     if (ea.type === 'emblazonEnergy') {
                         specialNames.push(`Emblazon Energy Shield ${ ea.choice }`);
@@ -270,7 +270,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
             }
 
             //Shields with Emblazon Antimagic get tagged as "Emblazon Antimagic Shield".
-            if (item instanceof Shield && item.$emblazonAntimagic) {
+            if (item.$emblazonAntimagic) {
                 item.emblazonArmament.forEach(ea => {
                     if (ea.type === 'emblazonAntimagic') {
                         specialNames.push('Emblazon Antimagic Shield');

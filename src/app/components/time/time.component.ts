@@ -22,8 +22,8 @@ export class TimeComponent implements OnInit, OnDestroy {
     @Input()
     public showTime = true;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

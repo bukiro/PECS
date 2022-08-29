@@ -14,7 +14,7 @@ export class AnimalCompanionSpecializationsService {
     ) { }
 
     public restoreSpecializationFromSave(spec: AnimalCompanionSpecialization): AnimalCompanionSpecialization {
-        let restoredSpecialization: AnimalCompanionSpecialization;
+        let restoredSpecialization: AnimalCompanionSpecialization | undefined;
 
         if (spec.name) {
             const libraryObject = this._animalCompanionsDataService.companionSpecializations(spec.name)[0];
@@ -37,7 +37,7 @@ export class AnimalCompanionSpecializationsService {
             const libraryObject = this._animalCompanionsDataService.companionSpecializations(spec.name)[0];
 
             if (libraryObject) {
-                Object.keys(spec).forEach(key => {
+                (Object.keys(spec) as Array<keyof AnimalCompanionSpecialization>).forEach(key => {
                     if (key !== 'name') {
                         // If the Object has a name, and a library item can be found with that name,
                         // compare the property with the library item.

@@ -45,7 +45,7 @@ export class SpellsTakenService {
             cantripAllowed: true,
             ...filter,
         };
-        filter.classNames = filter.classNames.map(name => name.toLowerCase());
+        filter.classNames = filter.classNames?.map(name => name.toLowerCase());
         filter.spellName = filter.spellName?.toLowerCase();
         filter.source = filter.source?.toLowerCase();
 
@@ -65,9 +65,9 @@ export class SpellsTakenService {
         );
 
         const signatureSpellLevelMatches = (choice: SpellChoice): boolean => (
-            filter.signatureAllowed &&
+            !!filter.signatureAllowed &&
             choice.spells.some(spell => spell.signatureSpell) &&
-            ![0, -1].includes(filter.spellLevel)
+            ![0, -1].includes(filter.spellLevel || -1)
         );
 
         const spellMatches = (choice: SpellChoice, gain: SpellGain): boolean => (
@@ -77,7 +77,7 @@ export class SpellsTakenService {
             ((filter.locked === undefined) || gain.locked === filter.locked) &&
             (
                 !(filter.signatureAllowed && gain.signatureSpell) ||
-                (filter.spellLevel >= this._spellsDataService.spellFromName(gain.name)?.levelreq)
+                ((filter.spellLevel || -1) >= this._spellsDataService.spellFromName(gain.name)?.levelreq)
             ) &&
             (filter.cantripAllowed || (!this._spellsDataService.spellFromName(gain.name)?.traits.includes('Cantrip')))
         );
@@ -90,9 +90,9 @@ export class SpellsTakenService {
                 //Castings that have become available on a previous level can still gain spells on this level.
                 //(casting.charLevelAvailable >= minLevelNumber) &&
                 (casting.charLevelAvailable <= maxLevelNumber) &&
-                (filter.classNames.length ? filter.classNames.includes(casting.className) : true) &&
-                (filter.traditions.length ? filter.traditions.includes(casting.tradition) : true) &&
-                (filter.castingTypes.length ? filter.castingTypes.includes(casting.castingType) : true),
+                (filter.classNames?.length ? filter.classNames.includes(casting.className) : true) &&
+                (filter.traditions?.length ? filter.traditions.includes(casting.tradition) : true) &&
+                (filter.castingTypes?.length ? filter.castingTypes.includes(casting.castingType) : true),
             ).forEach(casting => {
                 casting.spellChoices
                     .filter(choice =>

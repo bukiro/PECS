@@ -37,7 +37,7 @@ export class HintComponent {
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    public object: HintObject = null;
+    public object?: HintObject;
     @Input()
     public objectName = '';
     @Input()
@@ -67,13 +67,13 @@ export class HintComponent {
 
     public hints(): Array<Hint> {
         if (this.noFilter) {
-            return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints);
+            return (this.object instanceof ConditionSet ? this.object.condition.hints : (this.object?.hints || []));
         }
 
         const isSlottedAeonStone = this.object instanceof WornItem && this.object.isSlottedAeonStone;
         const isEmblazonArmamentShield = (this.object instanceof Shield && this.object.emblazonArmament.length) ? this.object : null;
 
-        return (this.object instanceof ConditionSet ? this.object.condition.hints : this.object.hints)
+        return (this.object instanceof ConditionSet ? this.object.condition.hints : (this.object?.hints || []))
             .filter((hint: Hint) =>
                 (hint.minLevel ? this.character.level >= hint.minLevel : true) &&
                 (
@@ -125,7 +125,7 @@ export class HintComponent {
             if (this.object instanceof ConditionSet) {
                 return this.object.condition.heightenedText(this.object.condition.desc, this.object.gain.heightened);
             } else {
-                return this.object.desc || '';
+                return this.object?.desc || '';
             }
         }
     }
@@ -148,7 +148,7 @@ export class HintComponent {
         return this._traitsDataService.traitFromName(traitName);
     }
 
-    public hintSource(hint: Hint): HintObject {
+    public hintSource(hint: Hint): HintObject | undefined {
         if (hint.replaceSource.length) {
             const replaceSource = hint.replaceSource[0];
 
@@ -175,7 +175,7 @@ export class HintComponent {
         );
     }
 
-    public objectAsNamedObject(object: HintObject): Feat | Activity | Item | Condition {
+    public objectAsNamedObject(object: HintObject): Feat | Activity | Item | Condition | undefined {
         if (
             object instanceof Feat ||
             object instanceof Activity ||
@@ -190,35 +190,35 @@ export class HintComponent {
             return object.condition;
         }
 
-        return null;
+        return undefined;
     }
 
-    public objectAsFeat(object: HintObject): Feat {
-        return object instanceof Feat ? object : null;
+    public objectAsFeat(object: HintObject): Feat | undefined {
+        return object instanceof Feat ? object : undefined;
     }
 
-    public objectAsActivity(object: HintObject): Activity {
-        return object instanceof Activity ? object : null;
+    public objectAsActivity(object: HintObject): Activity | undefined {
+        return object instanceof Activity ? object : undefined;
     }
 
-    public objectAsConditionSet(object: HintObject): ConditionSet {
-        return object instanceof ConditionSet ? object : null;
+    public objectAsConditionSet(object: HintObject): ConditionSet | undefined {
+        return object instanceof ConditionSet ? object : undefined;
     }
 
-    public objectAsItem(object: HintObject): Item {
-        return object instanceof Item ? object : null;
+    public objectAsItem(object: HintObject): Item | undefined {
+        return object instanceof Item ? object : undefined;
     }
 
-    public objectAsDescOnly(object: HintObject): { desc: string } {
+    public objectAsDescOnly(object: HintObject): { desc: string } | undefined {
         if (
             !this.objectAsFeat(object) &&
             !this.objectAsActivity(object) &&
             !this.objectAsConditionSet(object) &&
             !this.objectAsItem(object)
         ) {
-            return Object.prototype.hasOwnProperty.call(object, 'desc') ? object as { desc: string } : null;
+            return Object.prototype.hasOwnProperty.call(object, 'desc') ? object as { desc: string } : undefined;
         } else {
-            return null;
+            return undefined;
         }
     }
 

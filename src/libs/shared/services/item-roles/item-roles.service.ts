@@ -56,15 +56,15 @@ export class ItemRolesService {
         };
     }
 
-    private _itemAsConsumable(item: Item): Consumable {
-        return item instanceof Consumable ? item : null;
+    private _itemAsConsumable(item: Item): Consumable | undefined {
+        return item instanceof Consumable ? item : undefined;
     }
 
-    private _itemAsEquipment(item: Item): Equipment {
-        return item instanceof Equipment ? item : null;
+    private _itemAsEquipment(item: Item): Equipment | undefined {
+        return item instanceof Equipment ? item : undefined;
     }
 
-    private _itemAsGenericConsumable(item: Item): Consumable {
+    private _itemAsGenericConsumable(item: Item): Consumable | undefined {
         return (
             item instanceof Consumable &&
             !(
@@ -76,14 +76,14 @@ export class ItemRolesService {
             )
         )
             ? item
-            : null;
+            : undefined;
     }
 
-    private _itemAsDrinkableConsumable(item: Item): Consumable {
-        return (item instanceof AlchemicalElixir || item instanceof Potion) ? item : null;
+    private _itemAsDrinkableConsumable(item: Item): Consumable | undefined {
+        return (item instanceof AlchemicalElixir || item instanceof Potion) ? item : undefined;
     }
 
-    private _itemAsImmediateStoredSpellItem(item: Item): Item {
+    private _itemAsImmediateStoredSpellItem(item: Item): Item | undefined {
         return (
             item.storedSpells.length &&
             !(
@@ -93,62 +93,62 @@ export class ItemRolesService {
             )
         )
             ? item
-            : null;
+            : undefined;
     }
 
-    private _itemAsActivityBearing(item: Item): Equipment | Ammunition | Rune {
+    private _itemAsActivityBearing(item: Item): Equipment | Ammunition | Rune | undefined {
         return (
             item instanceof Equipment ||
             item instanceof Ammunition ||
             item instanceof Rune
         )
             ? item
-            : null;
+            : undefined;
     }
 
-    private _itemAsArmor(item: Item): Armor {
-        return item instanceof Armor ? item : null;
+    private _itemAsArmor(item: Item): Armor | undefined {
+        return item instanceof Armor ? item : undefined;
     }
 
-    private _itemAsOil(item: Item): Oil {
-        return item instanceof Oil ? item : null;
+    private _itemAsOil(item: Item): Oil | undefined {
+        return item instanceof Oil ? item : undefined;
     }
 
-    private _itemAsTalisman(item: Item): Talisman {
-        return item instanceof Talisman ? item : null;
+    private _itemAsTalisman(item: Item): Talisman | undefined {
+        return item instanceof Talisman ? item : undefined;
     }
 
-    private _itemAsWeapon(item: Item): Weapon {
-        return item instanceof Weapon ? item : null;
+    private _itemAsWeapon(item: Item): Weapon | undefined {
+        return item instanceof Weapon ? item : undefined;
     }
 
-    private _itemAsWornItem(item: Item): WornItem {
-        return item instanceof WornItem ? item : null;
+    private _itemAsWornItem(item: Item): WornItem | undefined {
+        return item instanceof WornItem ? item : undefined;
     }
 
-    private _itemAsShield(item: Item): Shield {
-        return item instanceof Shield ? item : null;
+    private _itemAsShield(item: Item): Shield | undefined {
+        return item instanceof Shield ? item : undefined;
     }
 
-    private _itemAsWand(item: Item): Wand {
-        return item instanceof Wand ? item : null;
+    private _itemAsWand(item: Item): Wand | undefined {
+        return item instanceof Wand ? item : undefined;
     }
 
-    private _itemAsMaterialChangeable(item: Item): Armor | Shield | Weapon {
-        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon) ? item : null;
+    private _itemAsMaterialChangeable(item: Item): Armor | Shield | Weapon | undefined {
+        return (item instanceof Armor || item instanceof Shield || item instanceof Weapon) ? item : undefined;
     }
 
-    private _itemAsRuneChangeable(item: Item): Armor | Weapon | WornItem {
+    private _itemAsRuneChangeable(item: Item): Armor | Weapon | WornItem | undefined {
         return (
             item instanceof Armor ||
             item instanceof Weapon ||
             (item instanceof WornItem && item.isHandwrapsOfMightyBlows)
         )
             ? item
-            : null;
+            : undefined;
     }
 
-    private _itemAsTalismanChangeable(item: Item): Armor | Shield | Weapon | WornItem {
+    private _itemAsTalismanChangeable(item: Item): Armor | Shield | Weapon | WornItem | undefined {
         return (
             item instanceof Armor ||
             item instanceof Shield ||
@@ -156,27 +156,29 @@ export class ItemRolesService {
             (item instanceof WornItem && (item.isBracersOfArmor || item.isHandwrapsOfMightyBlows))
         )
             ? item
-            : null;
+            : undefined;
     }
 
-    private _itemAsStatusChangeable(item: Item): Equipment {
-        return (item instanceof Equipment && !['Fist', 'Unarmored'].includes(item.name)) ? item : null;
+    private _itemAsStatusChangeable(item: Item): Equipment | undefined {
+        return (item instanceof Equipment && !['Fist', 'Unarmored'].includes(item.name)) ? item : undefined;
     }
 
-    private _itemAsStackable(item: Item): Item {
-        return item.canStack() ? item : null;
+    private _itemAsStackable(item: Item): Item | undefined {
+        return item.canStack() ? item : undefined;
     }
 
-    private _itemAsEmblazonArmamentChangeable(item: Item): Shield | Weapon {
-        return (item instanceof Shield || item instanceof Weapon) ? item : null;
+    private _itemAsEmblazonArmamentChangeable(item: Item): Shield | Weapon | undefined {
+        return (item instanceof Shield || item instanceof Weapon) ? item : undefined;
     }
 
     private _itemHasEmblazonArmament(item: Item): boolean {
         return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type === 'emblazonArmament');
     }
 
-    private _itemEmblazonEnergyChoice(item: Item): string {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.find(ea => ea.type === 'emblazonEnergy')?.choice;
+    private _itemEmblazonEnergyChoice(item: Item): string | undefined {
+        return (item instanceof Weapon || item instanceof Shield)
+            ? item.emblazonArmament.find(ea => ea.type === 'emblazonEnergy')?.choice
+            : undefined;
     }
 
     private _itemHasEmblazonAntimagic(item: Item): boolean {

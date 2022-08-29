@@ -1,4 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    Output,
+    EventEmitter,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    OnDestroy,
+    TemplateRef,
+} from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -46,27 +56,27 @@ interface ComponentParameters {
 export class SpellTargetComponent implements OnInit, OnDestroy {
 
     @Input()
-    public creature: CreatureTypes;
+    public creature!: CreatureTypes;
     @Input()
-    public spell: Spell;
+    public spell!: Spell;
     @Input()
-    public activity: Activity | ItemActivity;
+    public activity!: Activity | ItemActivity;
     @Input()
-    public gain: SpellGain | ActivityGain | ItemActivity;
+    public gain!: SpellGain | ActivityGain | ItemActivity;
     @Input()
-    public parentActivity: Activity | ItemActivity;
+    public parentActivity?: Activity | ItemActivity;
     @Input()
-    public parentActivityGain: ActivityGain | ItemActivity = null;
+    public parentActivityGain?: ActivityGain | ItemActivity;
     @Input()
-    public spellCast: SpellCast = null;
+    public spellCast?: SpellCast;
     @Input()
-    public casting: SpellCasting = null;
+    public casting?: SpellCasting;
     @Input()
-    public cannotCast = '';
+    public cannotCast?: string;
     @Input()
-    public cannotExpend = '';
+    public cannotExpend?: string;
     @Input()
-    public showExpend = false;
+    public showExpend?: boolean;
     @Input()
     public effectiveSpellLevel = 0;
     @Input()
@@ -74,11 +84,11 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     @Input()
     public phrase = 'Cast';
     @Input()
-    public showActions = false;
+    public showActions?: boolean;
     @Input()
-    public showDismiss = false;
+    public showDismiss?: boolean;
     @Input()
-    public dismissPhrase = '';
+    public dismissPhrase?: string;
 
     @Output()
     public readonly castMessage = new EventEmitter<{
@@ -89,8 +99,8 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     public creatureTypesEnum = CreatureTypes;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -166,7 +176,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
                 : 0;
 
         const target = this._target;
-        const shouldBloodMagicApply = bloodMagicTrigger && !this.asSpellGain()?.ignoreBloodMagicTrigger;
+        const shouldBloodMagicApply = !!bloodMagicTrigger && !this.asSpellGain()?.ignoreBloodMagicTrigger;
         const bloodMagicWarningWithTarget =
             shouldBloodMagicApply
                 ? `Casting this spell will trigger ${ bloodMagicTrigger }.`
@@ -201,8 +211,8 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         };
     }
 
-    public asSpellGain(): SpellGain {
-        return this.gain instanceof SpellGain ? this.gain : null;
+    public asSpellGain(): SpellGain | undefined {
+        return this.gain instanceof SpellGain ? this.gain : undefined;
     }
 
     public canTargetSelf(): boolean {
@@ -252,7 +262,8 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         );
     }
 
-    public onOpenSpellTargetModal(content): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public onOpenSpellTargetModal(content: TemplateRef<any>): void {
         this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
             if (result === 'Cast click') {
                 this.onCast('Selected', true);
@@ -355,7 +366,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
         }
     }
 
-    public areAllTargetsSelected(targetNumber): boolean {
+    public areAllTargetsSelected(targetNumber: number): boolean {
         if (targetNumber === -1) {
             return (
                 this.gain.targets.filter(target => target.selected).length >=
@@ -497,7 +508,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
     }
 
     private _canCasterNotBeTargeted(): boolean {
-        return (
+        return !!(
             this._target !== 'self' &&
             (
                 this.action.cannotTargetCaster ||

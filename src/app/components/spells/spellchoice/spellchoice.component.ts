@@ -62,6 +62,16 @@ interface SignatureSpellParameters {
     cannotBeSignatureSpell: string;
 }
 
+interface SpellBlendingParameters {
+    isUnlockedForCantrips: number;
+    isUnlockedForOneLevelHigher: number;
+    isUnlockedForTwoLevelsHigher: number;
+    slotsTradedInFromThisForCantrips: number;
+    slotsTradedInFromThisForOneLevelHigher: number;
+    slotsTradedInFromThisForTwoLevelsHigher: number;
+    areNoSlotsTradedInFromThis: boolean;
+}
+
 
 @Component({
     selector: 'app-spellchoice',
@@ -72,9 +82,9 @@ interface SignatureSpellParameters {
 export class SpellchoiceComponent implements OnInit, OnDestroy {
 
     @Input()
-    public spellCasting: SpellCasting = undefined;
+    public spellCasting!: SpellCasting;
     @Input()
-    public choice: SpellChoice;
+    public choice!: SpellChoice;
     @Input()
     public showHeightened = false;
     @Input()
@@ -84,7 +94,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     @Input()
     public showSpell = '';
     @Input()
-    public level: number;
+    public level!: number;
     @Input()
     public itemSpell = false;
     //Is the spell prepared after you choose it?
@@ -106,8 +116,8 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     @Output()
     public readonly shownSpellMessage = new EventEmitter<string>();
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -150,7 +160,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         return this.showChoice;
     }
 
-    public componentParameters(): ComponentParameters {
+    public componentParameters(): ComponentParameters | undefined {
         const spellSlotsTradedAway =
             this._amountOfSlotsTradedInForSpellBlendingFromThis()
             + this._amountOfSlotsTradedInForInfinitePossibilitiesFromThis()
@@ -179,8 +189,6 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 gridIconSubTitle: this.isTileMode ? this._gridIconSubTitle(availableSpellSlots, signatureSpellsAllowed) : '',
                 cannotTakeSome: this._cannotTakeSome(),
             };
-        } else {
-            return null;
         }
     }
 
@@ -220,7 +228,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         if (
             this.spellCasting &&
             this.choice.level > 0 &&
-            this.spellCasting?.castingType === 'Spontaneous' &&
+            this.spellCasting.castingType === 'Spontaneous' &&
             this.choice.source.includes(`${ this.spellCasting.className } Spellcasting`) &&
             !this.choice.showOnSheet
         ) {
@@ -250,12 +258,12 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         if (level === 0) {
             return this.spellCasting.spellChoices.filter(choice =>
                 choice.spells.some(gain => gain.signatureSpell),
-            ).length;
+            ).length || 0;
         } else {
             return this.spellCasting.spellChoices.filter(choice =>
                 choice.level === level &&
                 choice.spells.some(gain => gain.signatureSpell),
-            ).length;
+            ).length || 0;
         }
     }
 
@@ -268,7 +276,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     }
 
     public isSignatureSpellChosen(signatureSpellsAllowed: number): boolean {
-        return signatureSpellsAllowed && this.choice.spells.some(gain => gain.signatureSpell);
+        return !!signatureSpellsAllowed && this.choice.spells.some(gain => gain.signatureSpell);
     }
 
     public canSpellNotBeSignatureSpell(signatureSpellsAllowed: number, gain: SpellGain): string {
@@ -291,15 +299,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
-    public spellBlendingParameters(): {
-        isUnlockedForCantrips: number;
-        isUnlockedForOneLevelHigher: number;
-        isUnlockedForTwoLevelsHigher: number;
-        slotsTradedInFromThisForCantrips: number;
-        slotsTradedInFromThisForOneLevelHigher: number;
-        slotsTradedInFromThisForTwoLevelsHigher: number;
-        areNoSlotsTradedInFromThis: boolean;
-    } {
+    public spellBlendingParameters(): SpellBlendingParameters | undefined {
         if (this._isSpellBlendingAllowed()) {
             const oneLevelHigher = 1;
             const twoLevelsHigher = 2;
@@ -326,8 +326,6 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 slotsTradedInFromThisForTwoLevelsHigher,
                 areNoSlotsTradedInFromThis,
             };
-        } else {
-            return null;
         }
     }
 
@@ -340,14 +338,12 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     public infinitePossibilitiesParameters(): {
         isUnlocked: number;
         areSlotsTradedInFromThis: boolean;
-    } {
+    } | undefined {
         if (this._isInfinitePossibilitiesAllowed()) {
             return {
                 isUnlocked: this.isInfinitePossibilitiesUnlockedForThisLevel(),
                 areSlotsTradedInFromThis: !!this._amountOfSlotsTradedInForInfinitePossibilitiesFromThis(),
             };
-        } else {
-            return null;
         }
     }
 
@@ -375,14 +371,12 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     public adaptedCantripParameters(): {
         isUnlocked: number;
         areSlotsTradedInFromThis: boolean;
-    } {
+    } | undefined {
         if (this._isAdaptedCantripAllowed()) {
             return {
                 isUnlocked: this._isAdaptedCantripUnlocked(),
                 areSlotsTradedInFromThis: !!this._amountOfSlotsTradedInForAdaptedCantripFromThis(),
             };
-        } else {
-            return null;
         }
     }
 
@@ -395,14 +389,12 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
     public adaptiveAdeptParameters(): {
         isUnlocked: number;
         areSlotsTradedInFromThis: boolean;
-    } {
+    } | undefined {
         if (this._isAdaptiveAdeptAllowed()) {
             return {
                 isUnlocked: this._isAdaptiveAdeptUnlocked(),
                 areSlotsTradedInFromThis: !!this._amountOfSlotsTradedInForAdaptiveAdeptFromThis(),
             };
-        } else {
-            return null;
         }
     }
 
@@ -418,7 +410,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
 
         if (
             this.choice.level > 0 &&
-            this.spellCasting?.className === 'Sorcerer' &&
+            this.spellCasting.className === 'Sorcerer' &&
             this.spellCasting.castingType === 'Spontaneous' &&
             this._characterHasFeat('Crossblooded Evolution') &&
             this.choice.source.includes('Sorcerer Spellcasting') &&
@@ -495,7 +487,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 const shouldSecondSpellCombinationSpellBeDisabled =
                     !!cannotTake.length ||
                     (
-                        choice.spells[0]?.combinationSpellName &&
+                        !!choice.spells[0]?.combinationSpellName &&
                         componentParameters.availableSpellSlots <= choice.spells.length
                     );
 
@@ -561,7 +553,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         if (['Feat: Esoteric Polymath', 'Feat: Arcane Evolution'].includes(choice.source)) {
             if (isTaken) {
                 if (
-                    this.spellCasting.spellChoices.find(otherChoice =>
+                    this.spellCasting.spellChoices.some(otherChoice =>
                         otherChoice !== choice &&
                         this._numberOfUnlockedSpellInstancesInChoice(spellName, otherChoice),
                     )
@@ -721,7 +713,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             character.class.spellBook.find((learned: SpellLearned) => learned.name === spell.name),
         );
 
-        if (this.spellCasting?.spellBookOnly) {
+        if (this.spellCasting.spellBookOnly) {
             if (this.allowBorrow) {
                 allSpells = this._spellsDataService.spells()
                     .map(spell =>
@@ -778,7 +770,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
                 } else if (choice.source.includes('Feat: Adaptive Adept')) {
                     //With Adaptive Adept, you can choose spells of the same tradition(s) as with Adapted Cantrip, but not your own.
                     const adaptedcantrip =
-                        this.spellCasting.spellChoices.find(otherChoice => otherChoice.source === 'Feat: Adapted Cantrip').spells[0];
+                        this.spellCasting.spellChoices.find(otherChoice => otherChoice.source === 'Feat: Adapted Cantrip')?.spells[0];
 
                     if (adaptedcantrip) {
                         const originalSpell = this._spellsDataService.spellFromName(adaptedcantrip.name);
@@ -1180,7 +1172,7 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         return (
             !choice.spellBookOnly &&
             !choice.cooldown &&
-            this.spellCasting?.castingType === 'Spontaneous' &&
+            this.spellCasting.castingType === 'Spontaneous' &&
             !this.itemSpell &&
             this.spellCasting.spellChoices.some(otherChoice =>
                 (choice.dynamicLevel ? this._dynamicSpellLevel(choice) : choice.level) === spellLevel &&
@@ -1206,11 +1198,11 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             title += ` ${ this.choice.tradition } `;
         }
 
-        if (this.isAdaptedCantripSpellChoice()) {
+        if (this.spellCasting && this.isAdaptedCantripSpellChoice()) {
             title += ` non - ${ this.spellCasting.tradition } `;
         }
 
-        if (this.isAdaptiveAdeptSpellChoice()) {
+        if (this.spellCasting && this.isAdaptiveAdeptSpellChoice()) {
             title += ` non - ${ this.spellCasting.tradition } `;
         }
 
@@ -1469,6 +1461,8 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
             // If the targeted spell level is not available, return -1 so there is a result, but it does not grant any spells.
             return -1;
         }
+
+        return -1;
     }
 
     private _isInfinitePossibilitiesAllowed(): boolean {
@@ -1490,8 +1484,13 @@ export class SpellchoiceComponent implements OnInit, OnDestroy {
         );
     }
 
-    private _isEsotericPolymathAllowed(casting: SpellCasting, tradition: string): boolean {
-        if (casting.className === 'Bard' && casting.castingType === 'Spontaneous' && this._characterHasFeat('Esoteric Polymath')) {
+    private _isEsotericPolymathAllowed(casting: SpellCasting | undefined, tradition: string): boolean {
+        if (
+            casting &&
+            casting.className === 'Bard' &&
+            casting.castingType === 'Spontaneous' &&
+            this._characterHasFeat('Esoteric Polymath')
+        ) {
             if (['', 'Occult'].includes(tradition)) {
                 return true;
             } else if (this._characterHasFeat('Impossible Polymath')) {

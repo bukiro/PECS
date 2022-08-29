@@ -1,6 +1,6 @@
 import { HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { switchMap, tap } from 'rxjs';
+import { of, switchMap, tap } from 'rxjs';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
@@ -70,6 +70,8 @@ export class MessageSendingService {
 
                     if (messages.length) {
                         return this._messagesService.sendMessagesToConnector(messages);
+                    } else {
+                        return of([]);
                     }
                 }),
             )
@@ -139,6 +141,8 @@ export class MessageSendingService {
                                     },
                                 }),
                             );
+                    } else {
+                        return of([]);
                     }
                 }),
             )

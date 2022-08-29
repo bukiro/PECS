@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { Equipment } from 'src/app/classes/Equipment';
+import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { InventoryService } from '../inventory/inventory.service';
@@ -19,7 +20,7 @@ export class AnimalCompanionAncestryService {
     ) { }
 
     public restoreAncestryFromSave(ancestry: AnimalCompanionAncestry): AnimalCompanionAncestry {
-        let restoredAncestry: AnimalCompanionAncestry;
+        let restoredAncestry: AnimalCompanionAncestry | undefined;
 
         if (ancestry.name) {
             const libraryObject = this._animalCompanionsDataService.companionTypes(ancestry.name)[0];
@@ -42,7 +43,7 @@ export class AnimalCompanionAncestryService {
             const libraryObject = this._animalCompanionsDataService.companionTypes(ancestry.name)[0];
 
             if (libraryObject) {
-                Object.keys(ancestry).forEach(key => {
+                (Object.keys(ancestry) as Array<keyof AnimalCompanionAncestry>).forEach(key => {
                     if (key !== 'name') {
                         // If the Object has a name, and a library item can be found with that name,
                         // compare the property with the library item.
@@ -57,7 +58,7 @@ export class AnimalCompanionAncestryService {
         }
     }
 
-    public changeAncestry(companion: AnimalCompanion, type: AnimalCompanionAncestry): void {
+    public changeAncestry(companion: AnimalCompanion, type?: AnimalCompanionAncestry): void {
         this.processRemovingOldAncestry(companion);
 
         if (type) {
@@ -75,8 +76,8 @@ export class AnimalCompanionAncestryService {
             if (_class.ancestry.gainItems.length) {
                 _class.ancestry.gainItems.forEach(freeItem => {
                     const items: Array<Equipment> =
-                        companion.inventories[0][freeItem.type]
-                            .filter((item: Equipment) => item.id === freeItem.grantedItemID);
+                        (companion.inventories[0][freeItem.type as keyof ItemCollection] as Array<Equipment>)
+                            ?.filter((item: Equipment) => item.id === freeItem.grantedItemID) || [];
 
                     items.forEach(item => {
                         this._inventoryService.dropInventoryItem(

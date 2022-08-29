@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CreatureService } from 'src/app/services/character.service';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -25,16 +25,16 @@ import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-a
 export class ItemTargetComponent implements OnInit {
 
     @Input()
-    public creature: CreatureTypes;
+    public creature!: CreatureTypes;
     @Input()
-    public item: Item;
+    public item!: Item;
     @Input()
-    public inventory: ItemCollection;
+    public inventory!: ItemCollection;
     @Output()
-    public readonly moveMessage = new EventEmitter<{ target: ItemCollection | SpellTarget; amount: number; including: boolean }>();
+    public readonly moveMessage = new EventEmitter<{ target?: ItemCollection | SpellTarget; amount: number; including: boolean }>();
 
-    public selectedTarget: ItemCollection | SpellTarget = null;
-    public selectedAmount: number;
+    public selectedTarget?: ItemCollection | SpellTarget;
+    public selectedAmount = 1;
     public excluding = false;
 
     constructor(
@@ -72,7 +72,8 @@ export class ItemTargetComponent implements OnInit {
         this.moveMessage.emit({ target: this.selectedTarget, amount: this.selectedAmount, including: !this.excluding });
     }
 
-    public openItemTargetModal(content): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public openItemTargetModal(content: TemplateRef<any>): void {
         this._updateSelectedAmount();
         this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
             if (result === 'Move click') {
@@ -178,7 +179,7 @@ export class ItemTargetComponent implements OnInit {
     public containedBulkString(item: Item): string {
         const decimal = 10;
 
-        const containedBulk = this._itemBulkService.totalItemBulk(this._currentCreature, item, null, true);
+        const containedBulk = this._itemBulkService.totalItemBulk(this._currentCreature, item, undefined, true);
         const fullBulk = Math.floor(containedBulk);
         const lightBulk = (containedBulk * decimal - fullBulk * decimal);
 

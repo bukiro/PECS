@@ -58,7 +58,7 @@ export class SpellsDataService {
         const data = this._extensionsService.extend(json_spells, 'spells');
 
         Object.keys(data).forEach(key => {
-            this._spells.push(...data[key].map((obj: Spell) => Object.assign(new Spell(), obj).recast()));
+            this._spells.push(...data[key].map(obj => Object.assign(new Spell(), obj).recast()));
         });
         this._spells = this._extensionsService.cleanupDuplicates(this._spells, 'id', 'spells') as Array<Spell>;
     }

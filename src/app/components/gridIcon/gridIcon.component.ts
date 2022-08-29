@@ -67,8 +67,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
     @Input()
     public updateId: string;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _refreshService: RefreshService,

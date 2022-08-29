@@ -7,33 +7,34 @@
             <strong [ngbPopover]="propertyData.desc">{{propertyData.name}}</strong>
         </div>
     </ng-container>
-    <ng-container *ngIf="isPropertyAnObject(parent[propertyKey]) && parent[propertyKey]!==null">
-        <button (click)="addNewItemObject()">
-            Add
-        </button>
-        <div class="list-item"
-            *ngFor="let object of parent[propertyKey]; let i = index; trackBy:trackers.trackByIndex;">
-            <span>
-                {{i+1}}
-            </span>
-            <span>
-                <button (click)="removeNewItemObject(i)">
-                    Remove
-                </button>
-            </span>
-            <ng-container *ngIf="isPropertyAnObject(object)">
-                <ng-container *ngFor="let subProperty of subProperties(object); trackBy:trackers.trackByIndex;">
-                    <app-newItemProperty [propertyData]=subProperty [propertyKey]=subProperty.key
-                        [parents]=parents.concat(propertyKey,i.toString()) [newItem]=newItem>
-                    </app-newItemProperty>
+    <ng-container *ngIf="parent[propertyKey] as property">
+        <ng-container *ngIf="property !== null && isPropertyAnArray(property)">
+            <button (click)="addNewItemObject()">
+                Add
+            </button>
+            <div class="list-item" *ngFor="let object of property; let i = index; trackBy:trackers.trackByIndex;">
+                <span>
+                    {{i+1}}
+                </span>
+                <span>
+                    <button (click)="removeNewItemObject(i)">
+                        Remove
+                    </button>
+                </span>
+                <ng-container *ngIf="isPropertyAnObject(object); else LiteralArrayTemplate">
+                    <ng-container *ngFor="let subProperty of subProperties(object); trackBy:trackers.trackByIndex;">
+                        <app-newItemProperty [propertyData]=subProperty [propertyKey]=subProperty.key
+                            [parents]=parents.concat(propertyKey,i.toString()) [newItem]=newItem>
+                        </app-newItemProperty>
+                    </ng-container>
                 </ng-container>
-            </ng-container>
-            <ng-container *ngIf="!isPropertyAnObject(object)">
-                <app-newItemProperty class="newrow" [propertyData]=propertyData [propertyKey]="i.toString()"
-                    [parents]=parents.concat(propertyKey) [noTitle]=true [newItem]=newItem>
-                </app-newItemProperty>
-            </ng-container>
-        </div>
+                <ng-template #LiteralArrayTemplate>
+                    <app-newItemProperty class="newrow" [propertyData]=propertyData [propertyKey]="indexToKey(i)"
+                        [parents]=parents.concat(propertyKey) [noTitle]=true [newItem]=newItem>
+                    </app-newItemProperty>
+                </ng-template>
+            </div>
+        </ng-container>
     </ng-container>
     <ng-container *ngIf="!isPropertyAnObject(parent[propertyKey]) || parent[propertyKey]===null">
         <div class="newrow">

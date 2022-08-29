@@ -178,8 +178,8 @@ export class Armor extends Equipment {
         return currentProficiency !== this.prof;
     }
 
-    public armoredSkirt(creature: Creature, options: { itemStore?: boolean } = {}): AdventuringGear {
-        if (options.itemStore) { return null; }
+    public armoredSkirt(creature: Creature, options: { itemStore?: boolean } = {}): AdventuringGear | undefined {
+        if (options.itemStore) { return undefined; }
 
         const armoredSkirt =
             creature.inventories
@@ -189,7 +189,7 @@ export class Armor extends Equipment {
         if (armoredSkirt?.length) {
             return armoredSkirt[0];
         } else {
-            return null;
+            return undefined;
         }
     }
 

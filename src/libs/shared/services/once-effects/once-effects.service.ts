@@ -350,7 +350,7 @@ export class OnceEffectsService {
     private _changeCreatureCoverWithNotification(creature: Creature, value: number): void {
         const phrases = this._effectRecipientPhrases(creature);
 
-        this._armorClassService.setCover(creature, value, null);
+        this._armorClassService.setCover(creature, value);
 
         switch (value) {
             case CoverTypes.NoCover:

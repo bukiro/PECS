@@ -18,13 +18,13 @@ export class TraitComponent {
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    public trait: Trait;
+    public trait!: Trait;
     @Input()
-    public name: string;
+    public name?: string;
     @Input()
-    public item: Item = null;
+    public item?: Item;
     @Input()
-    public extraDescription: string;
+    public extraDescription?: string;
 
     constructor(
         private readonly _refreshService: RefreshService,

@@ -26,7 +26,7 @@ export class QuickdiceComponent {
     @Input()
     public diceString = '';
     @Input()
-    public casting: SpellCasting = null;
+    public casting?: SpellCasting;
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
 
@@ -158,12 +158,14 @@ export class QuickdiceComponent {
             }
 
             return description;
+        } else {
+            return '';
         }
     }
 
     private _canRollInFoundryVTT(): boolean {
         return CreatureService.character.settings.foundryVTTSendRolls &&
-            CreatureService.character.settings.foundryVTTUrl &&
+            !!CreatureService.character.settings.foundryVTTUrl &&
             CreatureService.character.settings.foundryVTTRollDirectly;
     }
 

@@ -23,16 +23,16 @@
                 </option>
             </select>
         </span>
-        <span class="hlist" *ngIf="effectValueParameters(effect) as effectValueParameters" [ngSwitch]="effectValueParameters.displayType">
+        <span class="hlist" *ngIf="effectValueParameters(effect) as effectValueParameters"
+            [ngSwitch]="effectValueParameters.displayType">
             <strong class="no-shadow">Value</strong>
             <ng-container *ngSwitchCase="'Formula'">
                 <span>
                     <span class="value"
-                        [ngClass]="{'absolute':effectValueParameters.formulaValue[0]==='=', 'bonus':effectValueParameters.formulaValue[0]==='+', 'penalty':effectValueParameters.formulaValue[0]==='-'}">
+                        [ngClass]="{'absolute':effectValueParameters.formulaValue?.[0]==='=', 'bonus':effectValueParameters.formulaValue?.[0]==='+', 'penalty':effectValueParameters.formulaValue?.[0]==='-'}">
                         {{effectValueParameters.formulaValue}}
                     </span>
-                    <i [ngbPopover]="FormulaTemplate" *ngIf="effectValueParameters.isFormula"
-                        class="bi-calculator"></i>
+                    <i [ngbPopover]="FormulaTemplate" *ngIf="effectValueParameters.isFormula" class="bi-calculator"></i>
                 </span>
             </ng-container>
             <ng-container *ngSwitchCase="'Toggle'">

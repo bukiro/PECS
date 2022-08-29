@@ -27,7 +27,7 @@ export class ActivityPropertiesService {
             return -1;
         }
 
-        let targetNumberResult: SpellTargetNumber;
+        let targetNumberResult: SpellTargetNumber | undefined;
 
         // This descends from levelnumber downwards and returns the first available targetNumber that has the required feat (if any).
         // Prefer targetNumbers with required feats over those without.
@@ -147,8 +147,10 @@ export class ActivityPropertiesService {
             let remainingLevelNumber = levelNumber;
 
             for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
-                if (activity.heightenedDescs.some(descSet => descSet.level === remainingLevelNumber)) {
-                    return activity.heightenedDescs.find(descSet => descSet.level === remainingLevelNumber);
+                const foundDescSet = activity.heightenedDescs.find(descSet => descSet.level === remainingLevelNumber);
+
+                if (foundDescSet) {
+                    return foundDescSet;
                 }
             }
         }

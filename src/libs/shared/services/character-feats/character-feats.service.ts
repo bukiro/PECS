@@ -76,9 +76,9 @@ export class CharacterFeatsService {
         name = '',
         source = '',
         sourceId = '',
-        locked: boolean = undefined,
-        includeCountAs = false,
-        automatic: boolean = undefined,
+        locked?: boolean,
+        includeCountAs?: boolean,
+        automatic?: boolean,
     ): Array<{ level: number; gain: FeatTaken }> {
         return this._$characterFeatsTaken.filter(taken =>
             (!minLevel || (taken.level >= minLevel)) &&

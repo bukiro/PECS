@@ -16,11 +16,11 @@ import { SpellsDataService } from 'src/app/core/services/data/spells-data.servic
 export class SpellContentComponent {
 
     @Input()
-    public spell: Spell;
+    public spell!: Spell;
     @Input()
-    public spellLevel: number;
+    public spellLevel!: number;
     @Input()
-    public casting: SpellCasting = null;
+    public casting?: SpellCasting;
 
     public spellTraditionsEnum = SpellTraditions;
 

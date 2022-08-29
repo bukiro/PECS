@@ -382,7 +382,7 @@ export class SkillValuesService {
                 .find(spellcasting =>
                     spellcasting.className === creature.originClass &&
                     spellcasting.castingType !== 'Innate',
-                ).ability || 'Charisma';
+                )?.ability || 'Charisma';
         } else {
             if (skill.ability) {
                 return skill.ability;
@@ -512,9 +512,9 @@ export class SkillValuesService {
         return { result, explain: explain.trim() };
     }
 
-    private _normalizeSkillOrName(skillOrName: Skill | string, creature: Creature): Skill | undefined {
+    private _normalizeSkillOrName(skillOrName: Skill | string, creature: Creature): Skill {
         if (typeof skillOrName === 'string') {
-            return this._skillsDataService.skills(creature.customSkills, skillOrName)[0];
+            return this._skillsDataService.skillFromName(skillOrName, creature.customSkills);
         } else {
             return skillOrName;
         }

@@ -6,9 +6,7 @@ import { ConfigService } from 'src/app/core/services/config/config.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Observable } from 'rxjs';
 
-interface DatabaseCharacter {
-    _id: string;
-}
+type DatabaseCharacter = Partial<Character> & { _id: string; id: string };
 
 @Injectable({
     providedIn: 'root',
@@ -47,7 +45,7 @@ export class SavegamesService {
         if (this._configService.hasDBConnectionURL && this._configService.isLoggedIn) {
             this._loadAllCharactersFromDatabase()
                 .subscribe({
-                    next: (results: Array<Partial<Character & DatabaseCharacter>>) => {
+                    next: (results: Array<DatabaseCharacter>) => {
                         this._finishLoading(results);
                     },
                     error: error => {
@@ -74,16 +72,16 @@ export class SavegamesService {
         }
     }
 
-    private _loadAllCharactersFromDatabase(): Observable<Array<Partial<Character>>> {
+    private _loadAllCharactersFromDatabase(): Observable<Array<DatabaseCharacter>> {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        return this._http.get<Array<Partial<Character>>>(
+        return this._http.get<Array<DatabaseCharacter>>(
             `${ this._configService.dBConnectionURL }/listCharacters`,
             // eslint-disable-next-line @typescript-eslint/naming-convention
             { headers: new HttpHeaders({ 'x-access-Token': this._configService.xAccessToken }) },
         );
     }
 
-    private _finishLoading(loader: Array<Partial<Character & DatabaseCharacter>>): void {
+    private _finishLoading(loader: Array<DatabaseCharacter>): void {
         if (loader) {
             this._savegames = [];
             loader.forEach(savegame => {
@@ -107,7 +105,7 @@ export class SavegamesService {
                                 !choice.autoSelectIfPossible &&
                                 choice.feats?.length === 1 &&
                                 choice.available === 1 &&
-                                choice.source === savegame.class.name,
+                                choice.source === savegame.class?.name,
                             )
                             .forEach(choice => {
                                 let choiceName = choice.feats[0].name.split(':')[0];

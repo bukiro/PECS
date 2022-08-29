@@ -54,8 +54,8 @@ export class CreatureConditionsService {
 
         return activeConditions
             .filter(condition =>
-                (!filter.name.toLowerCase() || condition.name.toLowerCase() === filter.name) &&
-                (!filter.source.toLowerCase() || condition.source.toLowerCase() === filter.source),
+                (!filter.name?.toLowerCase() || condition.name.toLowerCase() === filter.name) &&
+                (!filter.source?.toLowerCase() || condition.source.toLowerCase() === filter.source),
             )
             .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id));
     }
@@ -184,7 +184,7 @@ export class CreatureConditionsService {
         // -- Try finding one that has the exact same attributes.
         // -- If none is found, find one that has the same duration.
         // - If none is found or the list has only one, take the first.
-        let oldConditionGain: ConditionGain = creature.conditions.find(gain => gain === conditionGain);
+        let oldConditionGain: ConditionGain | undefined = creature.conditions.find(gain => gain === conditionGain);
 
         if (!oldConditionGain) {
             const oldConditionGains: Array<ConditionGain> =
@@ -222,7 +222,7 @@ export class CreatureConditionsService {
             this._removeLockedByParentFromMatchingConditions(creature, oldConditionGain.id);
             this.currentCreatureConditions(creature, { source: oldConditionGain.name }, { readonly: true })
                 .filter(gain =>
-                    gain.parentID === oldConditionGain.id,
+                    gain.parentID === oldConditionGain?.id,
                 )
                 .forEach(extraCondition => {
                     if (!(keepPersistent && extraCondition.persistent)) {
@@ -377,18 +377,20 @@ export class CreatureConditionsService {
         });
 
         // Remove all conditions that were marked for deletion by setting their value to -1.
-        // We use while so we don't mess up the index and skip some.
+        // We clone the list so it isn't affected by the removal.
         // Ignore anything that would stop the condition from being removed (i.e. lockedByParent), or we will get stuck in this loop.
-        while (activeConditions.some(gain => gain.value === -1)) {
+        const remainingConditions = activeConditions.map(activeCondition => activeCondition.clone());
+
+        remainingConditions.forEach(remainingCondition =>
             this.removeCondition(
                 creature,
-                activeConditions.find(gain => gain.value === -1),
+                remainingCondition,
                 false,
                 undefined,
                 undefined,
                 true,
-            );
-        }
+            ),
+        );
 
         // Cleanup overrides, first iteration:
         // If any override comes from a condition that was removed
@@ -420,11 +422,12 @@ export class CreatureConditionsService {
         activeConditions
             .map(gain => {
                 let depth = 0;
-                let testGain = gain;
+                let testGain: ConditionGain | undefined = gain;
 
+                // Find the parent until there is no parent left.
                 while (testGain?.parentID) {
                     depth++;
-                    testGain = activeConditions.find(parent => parent.id === testGain.parentID);
+                    testGain = activeConditions.find(parent => parent.id === testGain?.parentID);
                 }
 
                 return { depth, gain };
@@ -496,7 +499,7 @@ export class CreatureConditionsService {
         // -- Try finding one that has the exact same attributes.
         // -- If none is found, find one that has the same duration.
         // - If none is found or the list has only one, take the first.
-        let oldConditionGain: ConditionGain;
+        let oldConditionGain: ConditionGain | undefined;
         const oldConditionGains: Array<ConditionGain> =
             creature.conditions
                 .filter(gain => gain.name === conditionGain.name && gain.source === conditionGain.source && gain.persistent);
@@ -609,7 +612,7 @@ export class CreatureConditionsService {
 
         conditionGain.decreasingValue = originalCondition.decreasingValue;
         conditionGain.notes = originalCondition.notes;
-        conditionGain.showNotes = conditionGain.notes && true;
+        conditionGain.showNotes = !!conditionGain.notes && true;
     }
 
     private _updateExistingConditions(existingConditions: Array<ConditionGain>, conditionGain: ConditionGain): void {

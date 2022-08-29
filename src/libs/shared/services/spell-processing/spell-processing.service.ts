@@ -49,7 +49,7 @@ export class SpellProcessingService {
         },
         options: { manual?: boolean; expendOnly?: boolean } = {},
     ): void {
-        context = { target: '', ...context };
+        context.target = context.target || '';
 
         //Cantrips and Focus spells are automatically heightened to your maximum available spell level.
         //If a spell is cast with a lower level than its minimum, the level is raised to the minimum.
@@ -141,6 +141,8 @@ export class SpellProcessingService {
         spell: Spell,
         context: { gain: SpellGain; creature: Creature; target?: SpellTargetSelection; activityGain?: ActivityGain },
     ): Array<string> {
+        context.target = context.target || '';
+
         const conditionsToRemove: Array<string> = [];
 
         let customDuration: number = context.gain.duration || spell.sustained || 0;
@@ -161,6 +163,7 @@ export class SpellProcessingService {
             });
         context.gain.duration = customDuration || spell.sustained;
         this._refreshService.prepareDetailToChange(context.creature.type, 'spellbook');
+
         context.gain.selectedTarget = context.target;
 
         return conditionsToRemove;
@@ -278,15 +281,18 @@ export class SpellProcessingService {
 
             conditionTargets
                 .filter(target => !(target instanceof SpellTarget))
-                .forEach((target: Creature) => {
-                    this._creatureConditionsService.currentCreatureConditions(target, { name: conditionGain.name })
-                        .filter(existingConditionGain =>
-                            existingConditionGain.source === conditionGain.source &&
-                            existingConditionGain.sourceGainID === (context.gain?.id || ''),
-                        )
-                        .forEach(existingConditionGain => {
-                            this._creatureConditionsService.removeCondition(target as Creature, existingConditionGain, false);
-                        });
+                .forEach(target => {
+                    if (!(target instanceof SpellTarget)) {
+                        this._creatureConditionsService.currentCreatureConditions(target, { name: conditionGain.name })
+                            .filter(existingConditionGain =>
+                                existingConditionGain.source === conditionGain.source &&
+                                existingConditionGain.sourceGainID === (context.gain?.id || ''),
+                            )
+                            .forEach(existingConditionGain => {
+                                this._creatureConditionsService.removeCondition(target as Creature, existingConditionGain, false);
+                            });
+                    }
+
                 });
             this._messageSendingService
                 .sendConditionToPlayers(

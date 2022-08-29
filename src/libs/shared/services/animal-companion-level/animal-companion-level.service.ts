@@ -19,29 +19,29 @@ export class AnimalCompanionLevelsService {
         private readonly _characterFeatsService: CharacterFeatsService,
     ) { }
 
-    public restoreLevelsFromSave($class: AnimalCompanionClass): AnimalCompanionClass {
-        if ($class.levels) {
+    public restoreLevelsFromSave(classObject: AnimalCompanionClass): AnimalCompanionClass {
+        if (classObject.levels) {
             const libraryObject = this._animalCompanionsDataService.companionLevels();
 
             if (libraryObject) {
                 try {
-                    $class.levels = TypeService.mergeArray(libraryObject, $class.levels);
+                    classObject.levels = TypeService.mergeArray(libraryObject, classObject.levels);
                 } catch (e) {
                     console.error(`Failed restoring animal companion levels: ${ e }`);
                 }
             }
         }
 
-        return $class;
+        return classObject;
     }
 
-    public cleanLevelsForSave($class: AnimalCompanionClass): void {
-        if ($class.levels) {
+    public cleanLevelsForSave(classObject: AnimalCompanionClass): void {
+        if (classObject.levels) {
             const libraryObject = this._animalCompanionsDataService.companionLevels();
 
             if (libraryObject) {
-                $class.levels.forEach(level => {
-                    Object.keys(level).forEach((key, index) => {
+                classObject.levels.forEach(level => {
+                    (Object.keys(level) as Array<keyof AnimalCompanionLevel>).forEach((key, index) => {
                         if (key !== 'name') {
                             // If the Object has a name, and a library item can be found with that name,
                             // compare the property with the library item.

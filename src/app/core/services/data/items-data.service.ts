@@ -49,6 +49,7 @@ import * as json_wornitems from 'src/assets/json/items/wornitems';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
+import { JsonImportedObjectFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
 
 
 type AnyItemType =
@@ -94,29 +95,30 @@ export class ItemsDataService {
         } else { return new ItemCollection(); }
     }
 
-    public storeItemFromID(id: string): Item {
+    public storeItemFromID(id: string): Item | undefined {
         if (!this.stillLoading) {
             return this._storeItems.allItems().find(item => item.id === id);
-        } else { return null; }
+        } else { return undefined; }
     }
 
-    public cleanItemFromID(id: string): Item {
+    public cleanItemFromID(id: string): Item | undefined {
         if (!this.stillLoading) {
             return this._cleanItems.allItems().find(item => item.id === id);
-        } else { return null; }
+        } else { return undefined; }
     }
 
-    public craftingItemFromID(id: string): Item {
+    public craftingItemFromID(id: string): Item | undefined {
         if (!this.stillLoading) {
             return this._craftingItems.allItems().find(item => item.id === id);
-        } else { return null; }
+        } else { return undefined; }
     }
 
-    public cleanItemsOfType<T extends AnyItemType>(type: string, name = ''): Array<T> {
+    public cleanItemsOfType<T extends AnyItemType>(type: keyof ItemCollection, name = ''): Array<T> {
         if (!this.stillLoading) {
-            return this._cleanItems[type].filter((item: Item) =>
-                !name || item.name.toLowerCase() === name.toLowerCase(),
-            );
+            return (this._cleanItems[type] as Array<T>)
+                .filter(item =>
+                    !name || item.name.toLowerCase() === name.toLowerCase(),
+                );
         } else { return []; }
     }
 
@@ -132,19 +134,26 @@ export class ItemsDataService {
         //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
         //Runes need to load before other items, because their content is copied into items that bear them.
         this._cleanItems.armorrunes =
-            this._loadItemType(json_armorrunes, 'armorrunes', new ArmorRune(), 'armor runes');
-        this._cleanItems.weaponrunes = this._loadItemType(json_weaponrunes, 'weaponrunes', new WeaponRune(), 'weapon runes');
+            this._loadItemType(json_armorrunes as JsonImportedObjectFileList<ArmorRune>, 'armorrunes', new ArmorRune(), 'armor runes');
+        this._cleanItems.weaponrunes =
+            this._loadItemType(json_weaponrunes as JsonImportedObjectFileList<WeaponRune>, 'weaponrunes', new WeaponRune(), 'weapon runes');
         //Oils need to load after WeaponRunes, because they have to copy some of them.
         this._cleanItems.oils = this._loadItemType(json_oils, 'oils', new Oil(), 'oils');
 
         this._cleanItems.adventuringgear =
             this._loadItemType(json_adventuringgear, 'adventuringgear', new AdventuringGear(), 'adventuring gear');
         this._cleanItems.alchemicalbombs =
-            this._loadItemType(json_alchemicalbombs, 'alchemicalbombs', new AlchemicalBomb(), 'alchemical bombs');
+            this._loadItemType(
+                json_alchemicalbombs as JsonImportedObjectFileList<AlchemicalBomb>,
+                'alchemicalbombs',
+                new AlchemicalBomb(),
+                'alchemical bombs',
+            );
         this._cleanItems.alchemicalelixirs =
             this._loadItemType(json_alchemicalelixirs, 'alchemicalelixirs', new AlchemicalElixir(), 'alchemical elixirs');
         this._cleanItems.alchemicalpoisons =
-            this._loadItemType(json_alchemicalpoisons, 'alchemicalpoisons', new AlchemicalPoison(), 'alchemical poisons');
+            this._loadItemType(json_alchemicalpoisons, 'alchemicalpoisons', new AlchemicalPoison(), 'alchemical poisons',
+            );
         this._cleanItems.alchemicaltools =
             this._loadItemType(json_alchemicaltools, 'alchemicaltools', new AlchemicalTool(), 'alchemical tools');
         this._cleanItems.ammunition =
@@ -152,19 +161,24 @@ export class ItemsDataService {
         this._cleanItems.armors =
             this._loadItemType(json_armors, 'armors', new Armor(), 'armors');
         this._cleanItems.helditems =
-            this._loadItemType(json_helditems, 'helditems', new HeldItem(), 'held items');
+            this._loadItemType(json_helditems as JsonImportedObjectFileList<HeldItem>, 'helditems', new HeldItem(), 'held items');
         this._cleanItems.materialitems =
             this._loadItemType(json_materialitems, 'materialitems', new MaterialItem(), 'materials');
         this._cleanItems.otherconsumables =
             this._loadItemType(json_otherconsumables, 'otherconsumables', new OtherConsumable(), 'other consumables');
         this._cleanItems.otherconsumablesbombs =
-            this._loadItemType(json_otherconsumablesbombs, 'otherconsumablesbombs', new OtherConsumableBomb(), 'other consumables (bombs)');
+            this._loadItemType(
+                json_otherconsumablesbombs as JsonImportedObjectFileList<OtherConsumableBomb>,
+                'otherconsumablesbombs',
+                new OtherConsumableBomb(),
+                'other consumables (bombs)',
+            );
         this._cleanItems.potions =
             this._loadItemType(json_potions, 'potions', new Potion(), 'potions');
         this._cleanItems.scrolls =
             this._loadItemType(json_scrolls, 'scrolls', new Scroll(), 'scrolls');
         this._cleanItems.shields =
-            this._loadItemType(json_shields, 'shields', new Shield(), 'shields');
+            this._loadItemType(json_shields as JsonImportedObjectFileList<Shield>, 'shields', new Shield(), 'shields');
         this._cleanItems.snares =
             this._loadItemType(json_snares, 'snares', new Snare(), 'snares');
         this._cleanItems.talismans =
@@ -172,9 +186,9 @@ export class ItemsDataService {
         this._cleanItems.wands =
             this._loadItemType(json_wands, 'wands', new Wand(), 'wands');
         this._cleanItems.weapons =
-            this._loadItemType(json_weapons, 'weapons', new Weapon(), 'weapons');
+            this._loadItemType(json_weapons as JsonImportedObjectFileList<Weapon>, 'weapons', new Weapon(), 'weapons');
         this._cleanItems.wornitems =
-            this._loadItemType(json_wornitems, 'wornitems', new WornItem(), 'worn items');
+            this._loadItemType(json_wornitems as JsonImportedObjectFileList<WornItem>, 'wornitems', new WornItem(), 'worn items');
 
         //Make a copy of clean items for shop items and crafting items.
         this._storeItems = this._cleanItems.clone(this.restoreItem);
@@ -201,19 +215,19 @@ export class ItemsDataService {
     }
 
     private _loadItemType<T extends AnyItemType>(
-        data: { [fileContent: string]: Array<unknown> },
+        data: JsonImportedObjectFileList<T>,
         target: string,
         prototype: T,
         listName = '',
     ): Array<T> {
         let resultingData: Array<T> = [];
 
-        const extendedData = data = this._extensionsService.extend(data, `items_${ target }`);
+        const extendedData = this._extensionsService.extend<T>(data, `items_${ target }`);
 
         //Initialize all clean items. Recasting happens in the initialization,
         // and the store and crafting items will be copied and recast afterwards.
         Object.keys(extendedData).forEach(key => {
-            resultingData.push(...data[key].map(entry =>
+            resultingData.push(...extendedData[key].map(entry =>
                 this._itemInitializationService.initializeItem(
                     Object.assign(Object.create(prototype), entry),
                     { preassigned: true, newId: false, resetPropertyRunes: true },

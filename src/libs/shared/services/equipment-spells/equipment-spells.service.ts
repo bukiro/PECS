@@ -73,7 +73,7 @@ export class EquipmentSpellsService {
                             });
 
                         if (options.emptyChoiceAllowed && !choice.spells.length) {
-                            spellsGranted.push({ choice, gain: null });
+                            spellsGranted.push({ choice, gain: new SpellGain() });
                         }
                     });
 
@@ -92,7 +92,7 @@ export class EquipmentSpellsService {
                                         });
 
                                     if (options.emptyChoiceAllowed && !choice.spells.length) {
-                                        spellsGranted.push({ choice, gain: null });
+                                        spellsGranted.push({ choice, gain: new SpellGain() });
                                     }
                                 });
                         });

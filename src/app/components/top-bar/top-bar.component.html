@@ -35,7 +35,7 @@
             (click)="toggleMenu(MenuNamesEnum.SpellLibraryMenu)">Spell Library</button>
         <button [ngClass]="{'fancy-button':conditionsMenuState==='out'}"
             (click)="toggleMenu(MenuNamesEnum.ConditionsMenu)">Conditions</button>
-        <button [ngClass]="{'fancy-button':diceMenuState==='out'}" [ngbTooltip]="'Dice'"
+        <button title="Dice" [ngClass]="{'fancy-button':diceMenuState==='out'}" [ngbTooltip]="'Dice'"
             (click)="toggleMenu(MenuNamesEnum.DiceMenu)">
             <app-diceIcons-D20></app-diceIcons-D20>
         </button>
@@ -114,8 +114,8 @@
         </div>
         <div class="fullsize-scroll-box vlist" style="max-height: 50vh;">
             <ng-container *ngFor="let message of cachedNewMessages; trackBy:trackers.trackByIndex">
-                <ng-container *ngFor="let creature of [creatureFromMessage(message)]; trackBy:trackers.trackByIndex">
-                    <ng-container *ngFor="let sender of [messageSenderName(message)]; trackBy:trackers.trackByIndex">
+                <ng-container *ngIf="creatureFromMessage(message) as creature">
+                    <ng-container *ngIf="messageSenderName(message) as sender">
                         <ng-container *ngIf="creature && (message.gainCondition.length || message.offeredItem.length)">
                             <div class="list-item gridicon-fullsizebox">
                                 <input id="message{{message.id}}" class="character-choice" type="checkbox"

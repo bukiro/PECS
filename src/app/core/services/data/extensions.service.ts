@@ -2,18 +2,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { switchMap, tap } from 'rxjs';
+import { JsonImportedObjectFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
 
-interface OverrideType {
+type SingleIdentifier = 'id' | 'name';
+
+type MultipleIdentifiers = Array<'parent' | 'key' | 'name' | 'itemFilter' | 'group'>;
+
+type OverrideType<T> = T & {
     overridePriority?: number;
     _extensionFileName?: string;
-}
+} & {
+    id?: string;
+    name?: string;
+};
+
+type OverrideTypeMultipleIdentifiers<T> = T & {
+    overridePriority?: number;
+    _extensionFileName?: string;
+} & {
+    parent?: string;
+    key?: string;
+    name?: string;
+    itemFilter?: Array<string> | string;
+    group?: string;
+};
 
 @Injectable({
     providedIn: 'root',
 })
 export class ExtensionsService {
 
-    public extensions: { [list: string]: { [fileContent: string]: Array<Partial<unknown>> } };
+    public extensions: { [list: string]: { [fileName: string]: Array<Partial<unknown>> } } = {};
     private _remainingToLoad = 0;
     private _finishedLoading = 0;
 
@@ -81,17 +100,20 @@ export class ExtensionsService {
         this._finishedLoading++;
     }
 
-    public extend(data: { [fileContent: string]: Array<unknown> }, name: string): { [key: string]: Array<unknown> } {
+    public extend<T>(
+        data: JsonImportedObjectFileList<T>,
+        name: string,
+    ): JsonImportedObjectFileList<T> {
         if (this.extensions[name]) {
             Object.keys(this.extensions[name]).forEach(key => {
-                data[key] = this.extensions[name][key];
+                data[key] = this.extensions[name][key] as Array<Partial<T>>;
             });
         }
 
         return data;
     }
 
-    public cleanupDuplicates<T>(data: Array<T & OverrideType>, identifier: string, listName: string): Array<T> {
+    public cleanupDuplicates<T>(data: Array<OverrideType<T>>, identifier: SingleIdentifier, listName: string): Array<T> {
         const oldcount = data.length;
         const duplicates: Array<string> = Array.from(new Set(
             data
@@ -99,20 +121,27 @@ export class ExtensionsService {
                     data.filter(otherItem =>
                         otherItem[identifier] === item[identifier],
                     ).length > 1,
-                ).map(item => item[identifier]),
+                ).map(item => item[identifier] || ''),
         ));
         const winners: Array<{ object: string; winner: string }> = [];
 
         duplicates.forEach(duplicate => {
             const highestPriority = Math.max(
                 ...data
-                    .filter(item => item[identifier] === duplicate)
+                    .filter(item => item[identifier as keyof OverrideType<T>] === duplicate)
                     .map(item => item.overridePriority || 0),
             ) || 0;
             const highestItem = data.find(item => item[identifier] === duplicate && (item.overridePriority || 0) === highestPriority);
 
-            data.filter(item => (item[identifier] === duplicate && item !== highestItem)).forEach(item => { item[identifier] = 'DELETE'; });
-            winners.push({ object: duplicate, winner: highestItem._extensionFileName || 'core' });
+            if (highestItem) {
+
+                //TO-DO: Check if this still works when using 'as' a lot.
+                data
+                    .filter(item => (item[identifier] === duplicate && item !== highestItem))
+                    .forEach(item => { item[identifier] = 'DELETE'; });
+
+                winners.push({ object: duplicate, winner: highestItem._extensionFileName || 'core' });
+            }
         });
 
         const newcount = data.length;
@@ -126,8 +155,8 @@ export class ExtensionsService {
     }
 
     public cleanupDuplicatesWithMultipleIdentifiers<T>(
-        data: Array<T & OverrideType>,
-        identifiers: Array<string>,
+        data: Array<OverrideTypeMultipleIdentifiers<T>>,
+        identifiers: MultipleIdentifiers,
         listName: string,
     ): Array<T> {
         const oldcount = data.length;
@@ -166,13 +195,17 @@ export class ExtensionsService {
                         .some(result => !result) && item !== highestItem,
                 )
                 .forEach(item => { item[identifiers[0]] = 'DELETE'; });
-            winners.push(
-                {
-                    identifiers: identifiers.join('; '),
-                    object: identifiers.map(identifier => highestItem[identifier]).join('; '),
-                    winner: highestItem._extensionFileName || 'core',
-                },
-            );
+
+            if (highestItem) {
+                winners.push(
+                    {
+                        identifiers: identifiers.join('; '),
+                        object: identifiers.map(identifier => highestItem[identifier]).join('; '),
+                        winner: highestItem._extensionFileName || 'core',
+                    },
+                );
+            }
+
         });
 
         const newcount = data.length;
@@ -222,14 +255,14 @@ export class ExtensionsService {
 
     private _loadFile(path: string, filename: string, target: string, key: string): void {
         this._remainingToLoad++;
-        this._httpClient.get(`${ path }/${ filename }`)
-            .subscribe((data: Array<OverrideType>) => {
+        this._httpClient.get<Array<OverrideType<object>>>(`${ path }/${ filename }`)
+            .subscribe(data => {
                 if (!this.extensions[target]) {
                     this.extensions[target] = {};
                 }
 
                 this.extensions[target][key] = data;
-                this.extensions[target][key].forEach((obj: OverrideType) => { obj._extensionFileName = filename; });
+                this.extensions[target][key].forEach((obj: OverrideType<object>) => { obj._extensionFileName = filename; });
                 this._finishedLoading++;
             });
     }

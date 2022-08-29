@@ -34,10 +34,10 @@
                 <ng-container *ngIf="objectAsActivity(source) as activity">
                     <div class="newrow left-aligned">
                         <app-trait *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;" [name]="trait"
-                            [trait]="traitFromName(trait)[0]">
+                            [trait]="traitFromName(trait)">
                         </app-trait>
                         <app-trait *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;"
-                            [name]="trait" [trait]="traitFromName(trait)[0]"
+                            [name]="trait" [trait]="traitFromName(trait)"
                             [extraDescription]="'(This trait was derived from the action components.)'">
                         </app-trait>
                     </div>
@@ -54,7 +54,7 @@
         </ng-template>
         <cite class="{{color}}">
             <span #fullDetailPopover="ngbPopover" [ngbPopover]="HintContent" triggers="click">
-                <span [ngbPopover]="!fullDetailPopover.isOpen() && SimpleHintContent" triggers="hover">
+                <span [ngbPopover]="(!fullDetailPopover.isOpen() && SimpleHintContent) || undefined" triggers="hover">
                     {{hint.replaceTitle || description}}{{hintChoice(hint)}}
                 </span>
             </span>

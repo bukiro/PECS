@@ -32,7 +32,7 @@ export class SkillComponent implements OnInit, OnDestroy {
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    public skill: Skill;
+    public skill!: Skill;
     @Input()
     public showValue = true;
     @Input()
@@ -46,8 +46,8 @@ export class SkillComponent implements OnInit, OnDestroy {
     @Output()
     public readonly showActionMessage = new EventEmitter<string>();
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -92,18 +92,19 @@ export class SkillComponent implements OnInit, OnDestroy {
     public skillNotes(skill: Skill): SkillNotes {
         const foundCustomSkill = this._currentCreature.customSkills.find(customSkill => customSkill.name === skill.name);
 
+
         if (foundCustomSkill) {
             return foundCustomSkill;
+        }
+
+        const foundSkillNotes = this._currentCreature.skillNotes.find(note => note.name === skill.name);
+
+        if (foundSkillNotes) {
+            return foundSkillNotes;
         } else {
-            const foundSkillNotes = this._currentCreature.skillNotes.find(note => note.name === skill.name);
+            const newLength = this._currentCreature.skillNotes.push({ name: skill.name, showNotes: false, notes: '' });
 
-            if (foundSkillNotes) {
-                return foundSkillNotes;
-            } else {
-                this._currentCreature.skillNotes.push({ name: skill.name, showNotes: false, notes: '' });
-
-                return this._currentCreature.skillNotes.find(note => note.name === skill.name);
-            }
+            return this._currentCreature.skillNotes[newLength - 1];
         }
     }
 

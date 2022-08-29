@@ -7,6 +7,7 @@ import * as json_ancestries from 'src/assets/json/ancestries';
 import * as json_backgrounds from 'src/assets/json/backgrounds';
 import * as json_heritages from 'src/assets/json/heritages';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
+import { JsonImportedObjectFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -42,17 +43,21 @@ export class HistoryDataService {
                 (!name || heritage.name.toLowerCase() === name.toLowerCase()) &&
                 (!ancestryName || this.ancestryFromName(ancestryName).heritages.includes(heritage.name)),
             );
-        } else { return [new Heritage()]; }
+        } else {
+            return [new Heritage()];
+        }
     }
 
     public heritagesAndSubtypes(name = ''): Array<Heritage> {
         if (this._initialized) {
-            ([] as Array<Heritage>)
+            return ([] as Array<Heritage>)
                 .concat(
                     ...this._heritages.map(heritage => [heritage, ...heritage.subTypes]),
                 )
                 .filter(heritage => !name || heritage.name.toLowerCase() === name.toLowerCase());
-        } else { return [new Heritage()]; }
+        } else {
+            return [new Heritage()];
+        }
     }
 
     public heritageFromName(name: string): Heritage {
@@ -74,7 +79,7 @@ export class HistoryDataService {
     public initialize(): void {
         this._ancestries = this._load(json_ancestries, 'ancestries', Ancestry.prototype);
         this._backgrounds = this._load(json_backgrounds, 'backgrounds', Background.prototype);
-        this._heritages = this._load(json_heritages, 'heritages', Heritage.prototype);
+        this._heritages = this._load(json_heritages as JsonImportedObjectFileList<Heritage>, 'heritages', Heritage.prototype);
 
         this._initialized = true;
     }
@@ -110,7 +115,7 @@ export class HistoryDataService {
     }
 
     private _load<T extends Ancestry | Background | Heritage>(
-        data: { [fileContent: string]: Array<unknown> },
+        data: JsonImportedObjectFileList<T>,
         target: 'ancestries' | 'backgrounds' | 'heritages',
         prototype: T,
     ): Array<T> {

@@ -21,13 +21,13 @@ import { SpellsDataService } from 'src/app/core/services/data/spells-data.servic
 export class FeatComponent {
 
     @Input()
-    public feat: Feat;
+    public feat!: Feat;
     @Input()
-    public choice: FeatChoice;
+    public choice?: FeatChoice;
     @Input()
-    public levelNumber: number;
+    public levelNumber!: number;
     @Input()
-    public featLevel: number;
+    public featLevel?: number;
     public spellLevelFromCharLevel = SpellLevelFromCharLevel;
 
     constructor(

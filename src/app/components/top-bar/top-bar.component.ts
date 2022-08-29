@@ -38,9 +38,9 @@ import { MessageProcessingService } from 'src/libs/shared/services/message-proce
 export class TopBarComponent implements OnInit, OnDestroy {
 
     @ViewChild('NewMessagesModal', { static: false })
-    private readonly _newMessagesModal: HTMLElement;
+    private readonly _newMessagesModal?: HTMLElement;
     @ViewChild('LoginModal', { static: false })
-    private readonly _loginModal: HTMLElement;
+    private readonly _loginModal?: HTMLElement;
 
     public cachedNewMessages: Array<PlayerMessage> = [];
     public modalOpen = false;
@@ -49,8 +49,8 @@ export class TopBarComponent implements OnInit, OnDestroy {
     public passwordFailed = false;
     public MenuNamesEnum = MenuNames;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -162,9 +162,9 @@ export class TopBarComponent implements OnInit, OnDestroy {
         return this._messagesService.newMessages();
     }
 
-    public savegames(): Array<Savegame> {
+    public savegames(): Array<Savegame> | undefined {
         if (this._savegamesService.loadingError() || this.areSavegamesInitializing) {
-            return null;
+            return undefined;
         } else {
             return this._savegamesService.savegames();
         }
@@ -265,8 +265,8 @@ export class TopBarComponent implements OnInit, OnDestroy {
         }
     }
 
-    public creatureFromMessage(message: PlayerMessage): Creature {
-        return this._messageProcessingService.creatureFromMessage(message);
+    public creatureFromMessage(message: PlayerMessage): Creature | undefined {
+        return this._messageProcessingService.creatureFromMessage(message) || undefined;
     }
 
     public messageSenderName(message: PlayerMessage): string {

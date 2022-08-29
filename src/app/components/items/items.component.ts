@@ -60,7 +60,7 @@ type SortingOption = 'sortLevel' | 'name';
 type PurposeOption = 'items' | 'formulas' | 'scrollsavant' | 'createcustomitem';
 
 interface ItemParameters extends ItemRoles {
-    canUse: boolean;
+    canUse?: boolean;
 }
 
 interface AvailableForLearningParameters {
@@ -91,12 +91,12 @@ export class ItemsComponent implements OnInit, OnDestroy {
     public range = 0;
 
     public creatureTypesEnum = CreatureTypes;
-    public newItemType = '';
+    public newItemType?: keyof ItemCollection;
     //TO-DO: Make new Item creation a separate component (a wizard would be nice)
-    public newItem: Equipment | Consumable = null;
+    public newItem: Equipment | Consumable | null = null;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     private _showList = '';
     private _showItem = '';
@@ -184,7 +184,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         return this._purpose;
     }
 
-    public toggleShownCreature(type): void {
+    public toggleShownCreature(type: CreatureTypes): void {
         this.creature = type;
         this._menuService.setItemsMenuTarget(this.creature);
     }
@@ -218,7 +218,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         );
     }
 
-    public otherCreaturesAvailable(): { companion: boolean; familiar: boolean } {
+    public otherCreaturesAvailable(): { companion: boolean; familiar: boolean } | undefined {
         this.creature = this._menuService.itemsMenuTarget();
 
         const isCompanionAvailable = this._creatureAvailabilityService.isCompanionAvailable();
@@ -270,9 +270,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
             const itemRoles = this._itemRolesService.getItemRoles(item);
             const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)
                 ? this._equipmentPropertiesService.effectiveProficiency(
-                    (itemRoles.asArmor || itemRoles.asWeapon),
+                    (itemRoles.asArmor || itemRoles.asWeapon) as Equipment,
                     { creature: character, charLevel: character.level },
-                )
+                ) || ''
                 : '';
 
             return {
@@ -282,20 +282,20 @@ export class ItemsComponent implements OnInit, OnDestroy {
         });
     }
 
-    public itemAsMaterialChangeable(item: Item): Armor | Shield | Weapon {
+    public itemAsMaterialChangeable(item: Item): Armor | Shield | Weapon | undefined {
         return (
             item instanceof Armor ||
             item instanceof Shield ||
             item instanceof Weapon
-        ) ? item : null;
+        ) ? item : undefined;
     }
 
-    public itemAsRuneChangeable(item: Item): Armor | Weapon | WornItem {
+    public itemAsRuneChangeable(item: Item): Armor | Weapon | WornItem | undefined {
         return (
             item instanceof Armor ||
             item instanceof Weapon ||
             (item instanceof WornItem && item.isHandwrapsOfMightyBlows)
-        ) ? item : null;
+        ) ? item : undefined;
     }
 
     public effectivePrice(item: Item): number {
@@ -316,17 +316,19 @@ export class ItemsComponent implements OnInit, OnDestroy {
         }
     }
 
-    public itemsToCopy(type: string): Array<Equipment | Consumable> {
-        return this._itemsDataService.cleanItems()[type]
-            .filter((item: Equipment | Consumable) => !item.hide)
-            .sort((a: Equipment | Consumable, b: Equipment | Consumable) => SortAlphaNum(a.name + a.id, b.name + b.id));
+    public itemsToCopy(type?: keyof ItemCollection): Array<Equipment | Consumable> {
+        return type
+            ? (this._itemsDataService.cleanItems()[type] as Array<Equipment | Consumable>)
+                .filter(item => !item.hide)
+                .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id))
+            : [];
     }
 
-    public inventoryItems(type: string): Array<Equipment | Consumable> {
+    public inventoryItems(type?: keyof ItemCollection): Array<Equipment | Consumable> {
         const items =
             ([] as Array<Equipment | Consumable>)
                 .concat(
-                    ...CreatureService.character.inventories.map(inventory => inventory[type]),
+                    ...type ? CreatureService.character.inventories.map(inventory => inventory[type] as Array<Equipment | Consumable>) : [],
                 );
 
         return items
@@ -334,8 +336,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
             .sort((a: Equipment | Consumable, b: Equipment | Consumable) => SortAlphaNum(a.name + a.id, b.name + b.id));
     }
 
-    public visibleItems(items: Array<Item>, creatureType = ''): Array<Item> {
-        let casting: SpellCasting;
+    public visibleItems(items: ItemCollection[keyof ItemCollection], creatureType = ''): Array<Item> {
+        let casting: SpellCasting | undefined;
         const character = this._character;
 
         if (this._purpose === 'scrollsavant') {
@@ -344,8 +346,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
         const twoDigits = 2;
 
-        return items
-            .filter((item: Item) =>
+        return (items as Array<Item>)
+            .filter(item =>
                 (
                     //Show companion items in the companion list and not in the character list.
                     ((creatureType === CreatureTypes.Character) === !item.traits.includes('Companion'))
@@ -466,14 +468,16 @@ export class ItemsComponent implements OnInit, OnDestroy {
         }
     }
 
-    public newItemProperties(): Array<ItemProperty> {
-        const ItemPropertyFromKey = (key: string): ItemProperty =>
+    public newItemProperties(): Array<ItemProperty<Item>> {
+        const ItemPropertyFromKey = (key: string): ItemProperty<Item> | undefined =>
             this._itemPropertiesDataService.itemProperties().find(property => !property.parent && property.key === key);
 
-        return Object.keys(this.newItem)
-            .map(key => ItemPropertyFromKey(key))
-            .filter(property => property !== undefined)
-            .sort((a, b) => SortAlphaNum(a.group + a.priority, b.group + b.priority));
+        return this.newItem
+            ? Object.keys(this.newItem)
+                .map(key => ItemPropertyFromKey(key))
+                .filter((property): property is ItemProperty<Item> => property !== undefined)
+                .sort((a, b) => SortAlphaNum(a.group + a.priority, b.group + b.priority))
+            : [];
     }
 
     public copyItemForCustomItem(item: Equipment | Consumable): void {
@@ -655,7 +659,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         };
     }
 
-    public scrollSavantSpellCasting(): SpellCasting {
+    public scrollSavantSpellCasting(): SpellCasting | undefined {
         return this._character.class.spellCasting
             .find(casting =>
                 casting.castingType === SpellCastingTypes.Prepared &&
@@ -677,7 +681,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             .map(skill => this._skillValuesService.level(skill, character, character.level)), 0);
     }
 
-    public scrollSavantDescription(): string {
+    public scrollSavantDescription(): string | undefined {
         const casting = this.scrollSavantSpellCasting();
         const character = this._character;
         const half = .5;
@@ -730,7 +734,10 @@ export class ItemsComponent implements OnInit, OnDestroy {
             spell.spellBookOnly = true;
             spell.spells.length = 0;
         });
-        casting.scrollSavant.push(Object.assign(new Scroll(), newScroll));
+
+        if (casting) {
+            casting.scrollSavant.push(Object.assign(new Scroll(), newScroll));
+        }
     }
 
     public unprepareScroll(scroll: Item, casting: SpellCasting): void {
@@ -757,7 +764,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         this._viewChangeSubscription?.unsubscribe();
     }
 
-    private _canUseItem(itemRoles: ItemRoles, proficiency: string): boolean {
+    private _canUseItem(itemRoles: ItemRoles, proficiency: string): boolean | undefined {
         const character = this._character;
 
         if (itemRoles.asWeapon) {

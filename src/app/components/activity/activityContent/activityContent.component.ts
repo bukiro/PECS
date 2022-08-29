@@ -42,8 +42,8 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     @Input()
     public maxCharges = 0;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

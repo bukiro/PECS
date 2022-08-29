@@ -28,7 +28,7 @@ import { TraitsDataService } from '../../../../../app/core/services/data/traits-
 import { ObjectEffectsGenerationService } from 'src/libs/shared/effects-generation/services/object-effects-generation/object-effects-generation';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { EffectsGenerationPreflightService } from '../effects-generation-preflight/effects-generation-preflight.service';
-import { AlwaysShowingEffectNames, AlwaysShowingWildcardEffectNames } from '../../definitions/showingEffects';
+import { AlwaysShowingEffectNames, AlwaysShowingWildcardEffectNames } from '../../definitions/ShowingEffects';
 import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -231,7 +231,7 @@ export class EffectsGenerationService {
                 value: string;
                 source: string;
                 penalty: boolean;
-                apply: boolean;
+                apply?: boolean;
             },
         ): void => {
             itemEffects.push(Object.assign(new Effect(),
@@ -422,7 +422,7 @@ export class EffectsGenerationService {
                 value: string;
                 source: string;
                 penalty: boolean;
-                apply: boolean;
+                apply?: boolean;
             }): void => {
             itemEffects.push(
                 Object.assign(

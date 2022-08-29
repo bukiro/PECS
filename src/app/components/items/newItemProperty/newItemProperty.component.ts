@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// To-Do: Rework this entire thing to make it work with strict mode and have fewer exceptions;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
@@ -40,16 +45,16 @@ import { FeatsDataService } from 'src/app/core/services/data/feats-data.service'
     styleUrls: ['./newItemProperty.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NewItemPropertyComponent {
+export class NewItemPropertyComponent<T extends Item | object> {
 
     @Input()
-    public propertyKey: string;
+    public propertyKey!: keyof T;
     @Input()
-    public parents: Array<string> = [];
+    public parents: Array<string | keyof T> = [];
     @Input()
-    public newItem: Item;
+    public newItem!: Item;
     @Input()
-    public propertyData: ItemProperty;
+    public propertyData!: ItemProperty;
     @Input()
     public noTitle = false;
 
@@ -74,7 +79,11 @@ export class NewItemPropertyComponent {
         return CreatureService.character;
     }
 
-    public parent(): Item {
+    public indexToKey(index: number): keyof T {
+        return index as keyof T;
+    }
+
+    public parent(): T {
         let item = this.newItem;
 
         this.parents.forEach(parent => {
@@ -212,7 +221,11 @@ export class NewItemPropertyComponent {
         }
     }
 
-    public isPropertyAnObject(property): boolean {
+    public isPropertyAnArray(property: any): property is Array<object | string | number> {
+        return (typeof property === 'object');
+    }
+
+    public isPropertyAnObject(property: any): property is object {
         return (typeof property === 'object');
     }
 
@@ -286,7 +299,7 @@ export class NewItemPropertyComponent {
         this.parent()[this.propertyKey].splice(index, 1);
     }
 
-    public subProperties(object: object): Array<ItemProperty> {
+    public subProperties(object: object): Array<ItemProperty<T>> {
         return Object.keys(object)
             .map(key =>
                 this._itemPropertiesDataService.itemProperties()

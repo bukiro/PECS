@@ -6,7 +6,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Equipment } from './Equipment';
 import { Oil } from './Oil';
 
-export class Rune extends Item {
+export abstract class Rune extends Item {
     public activities: Array<ItemActivity> = [];
     public desc = '';
     /**
@@ -40,10 +40,6 @@ export class Rune extends Item {
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Rune {
-        return Object.assign<Rune, Rune>(new Rune(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
-    }
-
     public canStack(): boolean {
         //Additionally to the usual considerations, runes can't stack if they add any activities.
         return (
@@ -51,4 +47,6 @@ export class Rune extends Item {
             !this.activities.filter((activity: ItemActivity) => !activity.displayOnly).length
         );
     }
+
+    public abstract clone(restoreFn: <T extends Item>(obj: T) => T): Rune;
 }

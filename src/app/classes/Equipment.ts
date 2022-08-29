@@ -17,7 +17,7 @@ import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { Oil } from './Oil';
 
-export class Equipment extends Item {
+export abstract class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
     public allowEquippable = true;
     //Equipment can normally be equipped.
@@ -81,7 +81,7 @@ export class Equipment extends Item {
     public choices: Array<string> = [];
     public choice = '';
 
-    public readonly secondaryRuneTitleFunction: ((secondary: number) => string);
+    public abstract readonly secondaryRuneTitleFunction: ((secondary: number) => string);
 
     /** Amount of propertyRunes you can still apply */
     public get freePropertyRunes(): number {
@@ -164,10 +164,6 @@ export class Equipment extends Item {
         }
 
         return this;
-    }
-
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Equipment {
-        return Object.assign<Equipment, Equipment>(new Equipment(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
     public isEquipment(): this is Equipment { return true; }
@@ -362,4 +358,6 @@ export class Equipment extends Item {
         //Weapons have their own version of this method.
         return [];
     }
+
+    public abstract clone(restoreFn: <T extends Item>(obj: T) => T): Equipment;
 }

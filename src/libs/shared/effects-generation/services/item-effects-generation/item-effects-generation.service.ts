@@ -29,7 +29,7 @@ export class ItemEffectsGenerationService {
 
         const doItemEffectsApply = (item: Equipment): boolean => (
             item.investedOrEquipped() &&
-            item.amount &&
+            !!item.amount &&
             !item.broken
         );
 

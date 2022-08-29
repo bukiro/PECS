@@ -62,8 +62,8 @@ export class TagsComponent implements OnInit, OnDestroy {
     @Input()
     public specialEffects: Array<Effect> = [];
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

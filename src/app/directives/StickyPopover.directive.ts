@@ -36,14 +36,12 @@ export class StickyPopoverDirective extends NgbPopover implements OnInit, OnDest
     // If absolutely necessary, use ignorePopoverKeepalive=true to ignore the keepalive and only respect open modals.
 
     @Input()
-    public stickyPopover: TemplateRef<unknown>;
+    public stickyPopover!: TemplateRef<unknown>;
     @Input()
     public ignorePopoverKeepalive = false;
-    @Input()
-    public ngpPopover: TemplateRef<unknown>;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _refreshService: RefreshService,

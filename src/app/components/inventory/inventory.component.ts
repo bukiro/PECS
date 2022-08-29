@@ -103,8 +103,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
     private _showItem = '';
     private _showList = '';
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

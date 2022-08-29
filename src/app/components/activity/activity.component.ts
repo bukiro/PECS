@@ -38,7 +38,7 @@ interface ActivityParameters {
     maxCharges: number;
     cooldown: number;
     disabled: string;
-    activitySpell: ActivitySpellSet;
+    activitySpell?: ActivitySpellSet;
     tooManySlottedAeonStones: boolean;
     resonantAllowed: boolean;
 }
@@ -60,9 +60,9 @@ export class ActivityComponent implements OnInit, OnDestroy {
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    public activity: Activity | ItemActivity;
+    public activity!: Activity | ItemActivity;
     @Input()
-    public gain: ActivityGain | ItemActivity;
+    public gain!: ActivityGain | ItemActivity;
     @Input()
     public allowActivate = false;
     @Input()
@@ -70,10 +70,10 @@ export class ActivityComponent implements OnInit, OnDestroy {
     @Input()
     public closeAfterActivation = false;
 
-    public item: Equipment | Rune;
+    public item?: Equipment | Rune;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -90,7 +90,9 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
         public trackers: Trackers,
-    ) { }
+    ) {
+        this.item = this._activitiesDataService.itemFromActivityGain(this._currentCreature(), this.gain);
+    }
 
     public get isManualMode(): boolean {
         return SettingsService.isManualMode;
@@ -117,7 +119,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
                 this._creatureEquipmentService.hasTooManySlottedAeonStones(this._currentCreature())
             );
         const isResonantAllowed =
-            (this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !hasTooManySlottedAeonStones);
+            !!(this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !hasTooManySlottedAeonStones);
 
         this._activityPropertiesService.cacheEffectiveCooldown(this.activity, { creature });
 
@@ -261,8 +263,8 @@ export class ActivityComponent implements OnInit, OnDestroy {
         context: { tooManySlottedAeonStones: boolean; resonantAllowed: boolean },
     ): boolean {
         return this.allowActivate &&
-            conditionSet.condition &&
-            conditionSet.condition.$choices.length &&
+            !!conditionSet.condition &&
+            !!conditionSet.condition.$choices.length &&
             !conditionSet.gain.choiceBySubType &&
             !conditionSet.gain.choiceLocked &&
             !conditionSet.gain.copyChoiceFrom &&
@@ -282,7 +284,6 @@ export class ActivityComponent implements OnInit, OnDestroy {
             this.allowActivate = false;
         }
 
-        this.item = this._activitiesDataService.itemFromActivityGain(this._currentCreature(), this.gain);
         this._subscribeToChanges();
     }
 
@@ -295,17 +296,17 @@ export class ActivityComponent implements OnInit, OnDestroy {
         return CreatureService.creatureFromType(creature);
     }
 
-    private _activitySpell(): ActivitySpellSet {
+    private _activitySpell(): ActivitySpellSet | undefined {
         if (this.activity.castSpells.length) {
-            const spell = this._spellFromName(this.activity.castSpells[0].name)[0];
+            const spell = this._spellFromName(this.activity.castSpells[0].name);
 
             if (spell) {
                 return { spell, gain: this.activity.castSpells[0].spellGain, cast: this.activity.castSpells[0] };
             } else {
-                return null;
+                return undefined;
             }
         } else {
-            return null;
+            return undefined;
         }
     }
 

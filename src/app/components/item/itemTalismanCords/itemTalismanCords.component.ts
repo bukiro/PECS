@@ -17,7 +17,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 
 interface TalismanCordSet {
     talismanCord: WornItem;
-    inv: ItemCollection;
+    inv?: ItemCollection;
 }
 
 @Component({
@@ -29,9 +29,9 @@ interface TalismanCordSet {
 export class ItemTalismanCordsComponent implements OnInit {
 
     @Input()
-    public item: Equipment;
+    public item!: Equipment;
 
-    public newTalismanCord: TalismanCordSet;
+    public newTalismanCord?: TalismanCordSet;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -56,12 +56,12 @@ export class ItemTalismanCordsComponent implements OnInit {
     public initialTalismanCords(): Array<TalismanCordSet> {
         const item = this.item;
         //Start with one empty cord to select nothing.
-        const allCords: Array<TalismanCordSet> = [{ talismanCord: new WornItem(), inv: null }];
+        const allCords: Array<TalismanCordSet> = [{ talismanCord: new WornItem(), inv: undefined }];
 
         allCords[0].talismanCord.name = '';
 
         //Add the current choice, if the item has a cord at that index.
-        if (item.talismanCords) {
+        if (item.talismanCords && this.newTalismanCord) {
             allCords.push(this.newTalismanCord);
         }
 
@@ -94,10 +94,10 @@ export class ItemTalismanCordsComponent implements OnInit {
     public onSelectTalismanCord(): void {
         const index = 0;
         const item: Equipment = this.item;
-        const cord: WornItem = this.newTalismanCord[index].talismanCord;
-        const inv: ItemCollection = this.newTalismanCord[index].inv;
+        const cord: WornItem | undefined = this.newTalismanCord?.talismanCord;
+        const inv: ItemCollection | undefined = this.newTalismanCord?.inv;
 
-        if (!item.talismanCords[index] || cord !== item.talismanCords[index]) {
+        if (inv && cord && (!item.talismanCords[index] || cord !== item.talismanCords[index])) {
             // If there is an Talisman Cord in this slot, return the old cord to the inventory,
             // unless we are in the item store. Then remove it from the item.
             if (item.talismanCords[index]) {
@@ -158,10 +158,10 @@ export class ItemTalismanCordsComponent implements OnInit {
             this.item.talismanCords
                 ? (
                     this.item.talismanCords[0]
-                        ? { talismanCord: this.item.talismanCords[0], inv: null }
-                        : { talismanCord: new WornItem(), inv: null }
+                        ? { talismanCord: this.item.talismanCords[0], inv: undefined }
+                        : { talismanCord: new WornItem(), inv: undefined }
                 )
-                : { talismanCord: new WornItem(), inv: null };
+                : { talismanCord: new WornItem(), inv: undefined };
 
         if (this.newTalismanCord.talismanCord.name === 'New Item') {
             this.newTalismanCord.talismanCord.name = '';

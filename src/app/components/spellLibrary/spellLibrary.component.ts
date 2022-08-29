@@ -30,9 +30,9 @@ const itemsPerPage = 40;
 const showAllLists = -2;
 
 interface ComponentParameters {
-    wizardCasting: SpellCasting | null;
-    bardCasting: SpellCasting | null;
-    sorcererCasting: SpellCasting | null;
+    wizardCasting?: SpellCasting;
+    bardCasting?: SpellCasting;
+    sorcererCasting?: SpellCasting;
 }
 
 @Component({
@@ -55,8 +55,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     private _showList = -1;
     private _showItem = '';
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -239,7 +239,11 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     //TO-DO: There is some duplicate code between this and _canSpellBeLearned.
     // Can the calculations be run once and the result reused?
     // Generally the spell learning could stand to be more abstracted and reusable.
-    public availableForLearningDescription(wizardCasting: SpellCasting, bardCasting: SpellCasting, sorcererCasting: SpellCasting): string {
+    public availableForLearningDescription(
+        wizardCasting?: SpellCasting,
+        bardCasting?: SpellCasting,
+        sorcererCasting?: SpellCasting,
+    ): string {
         if (
             wizardCasting &&
             (!this.traditionFilter || this.traditionFilter === SpellTraditions.Arcane)
@@ -249,125 +253,125 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             const charLevel: number = this._character.level;
             let overdraw = 0;
 
-            // eslint-disable-next-line complexity
-            Object.values(SpellLevels).forEach((level: number) => {
-                if (level === SpellLevels.Focus) {
-                    return;
-                }
-
-                let wizardLearned: number = this._learnedSpells('wizard', level).length;
-
-                wizardLearned += overdraw;
-                overdraw = 0;
-
-                const schoolLearned: number = this._learnedSpells('school', level).length;
-                let wizardAvailable = 0;
-                let schoolAvailable = 0;
-                let adaptedCantripAvailable = 0;
-                let adaptiveAdeptCantripAvailable = 0;
-                let adaptiveAdept1stLevelAvailable = 0;
-
-                if (level === SpellLevels.Cantrip) {
-                    wizardAvailable = wizardCasting.spellBookSlots[level];
-                    adaptedCantripAvailable = this._characterHasFeat('Adapted Cantrip') ? 1 : 0;
-                    adaptiveAdeptCantripAvailable = this._characterHasFeat('Adaptive Adept: Cantrip') ? 1 : 0;
-                } else {
-                    const SpellLevelToCharLevelFactor = 2;
-                    const minimumSpellbookSlot = level * SpellLevelToCharLevelFactor - 1;
-                    const maximumSpellbookSlot = Math.min(charLevel, level * SpellLevelToCharLevelFactor);
-
-                    for (let index = minimumSpellbookSlot; index <= maximumSpellbookSlot; index++) {
-                        wizardAvailable += wizardCasting.spellBookSlots[index];
+            Object.values(SpellLevels)
+                .filter((level: SpellLevels | string): level is SpellLevels => level in SpellLevels)
+                // eslint-disable-next-line complexity
+                .forEach((level: SpellLevels) => {
+                    if (level === SpellLevels.Focus) {
+                        return;
                     }
-                }
 
-                if (level === SpellLevels.FirstLevel && school) {
-                    if (school === 'Universalist Wizard') {
-                        wizardAvailable += 1;
+                    let wizardLearned: number = this._learnedSpells('wizard', level).length;
+
+                    wizardLearned += overdraw;
+                    overdraw = 0;
+
+                    const schoolLearned: number = this._learnedSpells('school', level).length;
+                    let wizardAvailable = 0;
+                    let schoolAvailable = 0;
+                    let adaptedCantripAvailable = 0;
+                    let adaptiveAdeptCantripAvailable = 0;
+                    let adaptiveAdept1stLevelAvailable = 0;
+
+                    if (level === SpellLevels.Cantrip) {
+                        wizardAvailable = wizardCasting.spellBookSlots[level];
+                        adaptedCantripAvailable = this._characterHasFeat('Adapted Cantrip') ? 1 : 0;
+                        adaptiveAdeptCantripAvailable = this._characterHasFeat('Adaptive Adept: Cantrip') ? 1 : 0;
                     } else {
-                        schoolAvailable = 1;
+                        const SpellLevelToCharLevelFactor = 2;
+                        const minimumSpellbookSlot = level * SpellLevelToCharLevelFactor - 1;
+                        const maximumSpellbookSlot = Math.min(charLevel, level * SpellLevelToCharLevelFactor);
+
+                        for (let index = minimumSpellbookSlot; index <= maximumSpellbookSlot; index++) {
+                            wizardAvailable += wizardCasting.spellBookSlots[index];
+                        }
                     }
-                }
 
-                if (level === SpellLevels.FirstLevel) {
-                    adaptiveAdept1stLevelAvailable = this._characterHasFeat('Adaptive Adept: 1st-Level Spell') ? 1 : 0;
-                }
+                    if (level === SpellLevels.FirstLevel && school) {
+                        if (school === 'Universalist Wizard') {
+                            wizardAvailable += 1;
+                        } else {
+                            schoolAvailable = 1;
+                        }
+                    }
 
-                if (wizardAvailable < wizardLearned) {
-                    overdraw += wizardLearned - wizardAvailable;
-                    wizardLearned = wizardAvailable;
-                }
+                    if (level === SpellLevels.FirstLevel) {
+                        adaptiveAdept1stLevelAvailable = this._characterHasFeat('Adaptive Adept: 1st-Level Spell') ? 1 : 0;
+                    }
 
-                if (wizardAvailable || schoolAvailable) {
-                    result +=
-                        `\n${ wizardAvailable
-                        - wizardLearned
-                        - adaptedCantripAvailable
-                        - adaptiveAdeptCantripAvailable
-                        - adaptiveAdept1stLevelAvailable
-                        } of ${ wizardAvailable
-                        - adaptedCantripAvailable
-                        - adaptiveAdeptCantripAvailable
-                        - adaptiveAdept1stLevelAvailable
-                        }${ level === SpellLevels.Cantrip
-                            ? ' Arcane Cantrips'
-                            : ` Arcane spell(s) up to level ${ level }`
-                        }`;
+                    if (wizardAvailable < wizardLearned) {
+                        overdraw += wizardLearned - wizardAvailable;
+                        wizardLearned = wizardAvailable;
+                    }
 
-                    if (schoolAvailable) {
+                    if (wizardAvailable || schoolAvailable) {
                         result +=
-                            `\n${ schoolAvailable
-                            - schoolLearned
-                            } of ${ schoolAvailable
-                            } Arcane spell(s) of the ${ school.toLowerCase()
-                            } up to level ${ level
+                            `\n${ wizardAvailable
+                            - wizardLearned
+                            - adaptedCantripAvailable
+                            - adaptiveAdeptCantripAvailable
+                            - adaptiveAdept1stLevelAvailable
+                            } of ${ wizardAvailable
+                            - adaptedCantripAvailable
+                            - adaptiveAdeptCantripAvailable
+                            - adaptiveAdept1stLevelAvailable
+                            }${ level === SpellLevels.Cantrip
+                                ? ' Arcane Cantrips'
+                                : ` Arcane spell(s) up to level ${ level }`
                             }`;
-                    }
-                }
 
-                if (adaptedCantripAvailable) {
-                    const adaptedCantripLearned: number = this._learnedSpells('adaptedcantrip').length;
-
-                    result += `\n${ 1 - adaptedCantripLearned } of ${ 1 } non-Arcane Cantrips via Adapted Cantrip`;
-                }
-
-                if (adaptiveAdeptCantripAvailable) {
-                    const adaptedcantrip = this._learnedSpells('adaptedcantrip')[0];
-
-                    if (adaptedcantrip) {
-                        const originalSpell = this._spellFromName(adaptedcantrip.name);
-
-                        if (originalSpell) {
-                            const adaptiveAdeptLearned: number = this._learnedSpells('adaptiveadept').length;
-
+                        if (schoolAvailable) {
                             result +=
-                                `\n${ 1 - adaptiveAdeptLearned
-                                } of ${ 1
-                                } non-Arcane Cantrips of the following traditions via Adaptive Adept: ${ originalSpell.traditions.join(', ')
+                                `\n${ schoolAvailable
+                                - schoolLearned
+                                } of ${ schoolAvailable
+                                } Arcane spell(s) of the ${ school.toLowerCase()
+                                } up to level ${ level
                                 }`;
                         }
                     }
-                }
 
-                if (adaptiveAdept1stLevelAvailable) {
-                    const adaptedcantrip = this._learnedSpells('adaptedcantrip')[0];
+                    if (adaptedCantripAvailable) {
+                        const adaptedCantripLearned: number = this._learnedSpells('adaptedcantrip').length;
 
-                    if (adaptedcantrip) {
-                        const originalSpell = this._spellFromName(adaptedcantrip.name);
+                        result += `\n${ 1 - adaptedCantripLearned } of ${ 1 } non-Arcane Cantrips via Adapted Cantrip`;
+                    }
 
-                        if (originalSpell) {
-                            const adaptiveAdeptLearned: number = this._learnedSpells('adaptiveadept').length;
+                    if (adaptiveAdeptCantripAvailable) {
+                        const adaptedcantrip = this._learnedSpells('adaptedcantrip')[0];
 
-                            result +=
-                                `\n${ 1 - adaptiveAdeptLearned
-                                } of ${ 1
-                                } non-Arcane 1st-level spell of the following traditions `
-                                + `via Adaptive Adept: ${ originalSpell.traditions.join(', ')
-                                }`;
+                        if (adaptedcantrip) {
+                            const originalSpell = this._spellFromName(adaptedcantrip.name);
+
+                            if (originalSpell) {
+                                const adaptiveAdeptLearned: number = this._learnedSpells('adaptiveadept').length;
+
+                                result +=
+                                    `\n${ 1 - adaptiveAdeptLearned } of ${ 1 } non-Arcane Cantrips of the following ` +
+                                    `traditions via Adaptive Adept: ${ originalSpell.traditions.join(', ') }`;
+                            }
                         }
                     }
-                }
-            });
+
+                    if (adaptiveAdept1stLevelAvailable) {
+                        const adaptedcantrip = this._learnedSpells('adaptedcantrip')[0];
+
+                        if (adaptedcantrip) {
+                            const originalSpell = this._spellFromName(adaptedcantrip.name);
+
+                            if (originalSpell) {
+                                const adaptiveAdeptLearned: number = this._learnedSpells('adaptiveadept').length;
+
+                                result +=
+                                    `\n${ 1 - adaptiveAdeptLearned
+                                    } of ${ 1
+                                    } non-Arcane 1st-level spell of the following traditions `
+                                    + `via Adaptive Adept: ${ originalSpell.traditions.join(', ')
+                                    }`;
+                            }
+                        }
+                    }
+                });
 
             return result || '';
         } else if (
@@ -403,9 +407,9 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     public availableSpellLearningOptions(
         spell: Spell,
         level: number,
-        wizardCasting: SpellCasting,
-        bardCasting: SpellCasting,
-        sorcererCasting: SpellCasting,
+        wizardCasting?: SpellCasting,
+        bardCasting?: SpellCasting,
+        sorcererCasting?: SpellCasting,
     ): Array<{ key: string; title: string; disabled: boolean }> {
         const options: Array<{ key: string; title: string; disabled: boolean }> = [];
 
@@ -510,7 +514,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         options.push({
             key: learnAsSpellKey,
             title: 'Learn using Learn A Spell activity',
-            disabled: !this._canSpellBeLearned(sorcererCasting, level, spell, learnAsSpellKey),
+            disabled: false,
         });
 
         return options;
@@ -554,7 +558,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         }
     }
 
-    public spellMasteryAvailableDescription(wizardCasting: SpellCasting): string {
+    public spellMasteryAvailableDescription(wizardCasting?: SpellCasting): string {
         if (
             wizardCasting &&
             this.traditionFilter !== SpellTraditions.Focus
@@ -602,20 +606,20 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         );
     }
 
-    public isSpellSelectedForSpellMastery(wizardSpellCasting: SpellCasting, spell: Spell): boolean {
-        return wizardSpellCasting.spellChoices
+    public isSpellSelectedForSpellMastery(wizardSpellCasting: SpellCasting | undefined, spell: Spell): boolean {
+        return wizardSpellCasting?.spellChoices
             .some(choice =>
                 choice.source === 'Feat: Spell Mastery' &&
                 choice.spells.find(spellTaken => spellTaken.name === spell.name),
-            );
+            ) || false;
     }
 
-    public availableSpellChoicesForSpellMastery(wizardSpellCasting: SpellCasting): Array<SpellChoice> {
-        return wizardSpellCasting.spellChoices
+    public availableSpellChoicesForSpellMastery(wizardSpellCasting?: SpellCasting): Array<SpellChoice> {
+        return wizardSpellCasting?.spellChoices
             .filter(choice =>
                 choice.source === 'Feat: Spell Mastery' &&
                 choice.spells.length,
-            );
+            ) || [];
     }
 
     public isSpellMasteryAllowedForSpell(casting: SpellCasting, levelNumber: number, spell: Spell): boolean {
@@ -652,7 +656,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     }
 
     public removeSpellFromSpellMastery(casting: SpellCasting, spell: Spell): void {
-        const oldChoice: SpellChoice =
+        const oldChoice: SpellChoice | undefined =
             casting.spellChoices.find(choice =>
                 choice.source === 'Feat: Spell Mastery' &&
                 choice.spells.find(spellTaken => spellTaken.name === spell.name),
@@ -784,9 +788,11 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                 return originalSpell && spell.traditions.some(tradition => originalSpell.traditions.includes(tradition));
             }
         }
+
+        return false;
     }
 
-    private _learnedSpells(source = '', level = -1): Array<SpellLearned> {
+    private _learnedSpells(source: string = '', level: SpellLevels = -1): Array<SpellLearned> {
         return this._character.class?.learnedSpells('', source, level) || [];
     }
 
@@ -827,46 +833,46 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         return this._characterHasFeat('Arcane Evolution') && tradition === SpellTraditions.Arcane;
     }
 
-    private _wizardSpellCasting(): SpellCasting {
-        const wizardCasting: SpellCasting =
+    private _wizardSpellCasting(): SpellCasting | undefined {
+        const wizardCasting: SpellCasting | undefined =
             this._character.class?.spellCasting.find(casting =>
                 casting.className === 'Wizard' &&
                 casting.castingType === SpellCastingTypes.Prepared &&
                 casting.charLevelAvailable <= this._character.level,
             );
 
-        return wizardCasting || null;
+        return wizardCasting || undefined;
     }
 
-    private _bardSpellCastingForEsotericPolymath(): SpellCasting {
+    private _bardSpellCastingForEsotericPolymath(): SpellCasting | undefined {
         if (this._characterHasFeat('Esoteric Polymath')) {
             const character = this._character;
-            const bardCasting: SpellCasting =
+            const bardCasting: SpellCasting | undefined =
                 character.class?.spellCasting.find(casting =>
                     casting.className === 'Bard' &&
                     casting.castingType === SpellCastingTypes.Spontaneous &&
                     casting.charLevelAvailable <= character.level,
                 );
 
-            return bardCasting || null;
+            return bardCasting || undefined;
         } else {
-            return null;
+            return undefined;
         }
     }
 
-    private _sorcererSpellCastingForArcaneEvolution(): SpellCasting {
+    private _sorcererSpellCastingForArcaneEvolution(): SpellCasting | undefined {
         if (this._characterHasFeat('Arcane Evolution')) {
             const character = this._character;
-            const sorcererCasting: SpellCasting =
+            const sorcererCasting: SpellCasting | undefined =
                 character.class?.spellCasting.find(casting =>
                     casting.className === 'Sorcerer' &&
                     casting.castingType === SpellCastingTypes.Spontaneous &&
                     casting.charLevelAvailable <= character.level,
                 );
 
-            return sorcererCasting || null;
+            return sorcererCasting || undefined;
         } else {
-            return null;
+            return undefined;
         }
     }
 

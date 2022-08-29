@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
+import { CreatureService } from 'src/app/services/character.service';
 import { Feat } from '../../definitions/models/Feat';
 import { FeatChoice } from '../../definitions/models/FeatChoice';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
@@ -17,15 +18,20 @@ export class FeatTakingService {
 
     public takeFeat(
         creature: Character | Familiar,
-        feat: Feat,
+        feat: Feat | undefined,
         featName: string,
         taken: boolean,
         choice: FeatChoice,
-        locked: boolean,
-        automatic = false,
+        locked?: boolean,
+        automatic?: boolean,
     ): void {
         const levelNumber = parseInt(choice.id.split('-')[0], 10);
-        const level = creature.isCharacter() ? creature.classLevelFromNumber(levelNumber) : null;
+        const level =
+            creature.isCharacter()
+                ? creature.classLevelFromNumber(levelNumber)
+                // If the creature is not the character, the level is never needed.
+                // This fallback is just to ensure that the feat processing doesn't complain about the level being undefined.
+                : CreatureService.character.classLevelFromNumber(CreatureService.character.level);
 
         if (taken) {
             const newLength =
@@ -47,11 +53,14 @@ export class FeatTakingService {
             const choiceFeats = choice.feats;
             const gain = choiceFeats.find(existingFeat =>
                 existingFeat.name === featName &&
-                existingFeat.locked === locked,
+                (locked !== undefined ? existingFeat.locked === locked : true),
             );
 
-            this._featProcessingService.processFeat(feat, taken, { creature, gain, choice, level });
-            choiceFeats.splice(choiceFeats.indexOf(gain, 1));
+            if (gain) {
+                this._featProcessingService.processFeat(feat, taken, { creature, gain, choice, level });
+                choiceFeats.splice(choiceFeats.indexOf(gain, 1));
+            }
+
         }
     }
 

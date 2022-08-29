@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpRequest, HttpResponse, HttpStatusCode } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest, HttpEvent, HttpStatusCode, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
 import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
@@ -18,7 +18,7 @@ interface LoginToken {
 })
 export class ConfigService {
 
-    private _dataServiceURL: string;
+    private _dataServiceURL?: string;
     private _localDataService = false;
     private _initialized = false;
     private _xAccessToken = 'testtoken';
@@ -147,8 +147,9 @@ export class ConfigService {
 
         this._httpClient.request(new HttpRequest('HEAD', 'assets/config.json', headers))
             .pipe(
-                switchMap((response: HttpResponse<unknown>) => {
-                    if (response.status) {
+                switchMap((response: HttpEvent<unknown>) => {
+                    //To-Do: Check if this still works or the response is something other than a ResponseHeader.
+                    if (response.type === HttpEventType.ResponseHeader && response.status) {
                         if (response.status === HttpStatusCode.Ok) {
                             return this._httpClient.get('assets/config.json', { headers });
                         } else {
@@ -157,6 +158,8 @@ export class ConfigService {
                             return of(undefined);
                         }
                     }
+
+                    return of(undefined);
                 }),
                 map((data: object | undefined) => {
                     if (data) {
@@ -187,7 +190,7 @@ export class ConfigService {
             .subscribe({
                 next: response => {
                     const cvs = package_json.version.split('.').map(version => parseInt(version, 10));
-                    const availableVersion = JSON.parse(JSON.stringify(response)).tag_name?.replace('v', '') || 'n/a';
+                    const availableVersion: string = JSON.parse(JSON.stringify(response)).tag_name?.replace('v', '') || 'n/a';
 
                     if (availableVersion !== 'n/a') {
                         const avs = availableVersion.split('.').map(version => parseInt(version, 10));

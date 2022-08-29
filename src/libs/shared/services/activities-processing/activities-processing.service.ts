@@ -59,7 +59,7 @@ export class ActivitiesProcessingService {
         },
     ): void {
         // Find item, if it exists.
-        const item: Equipment | Rune = this._activitiesDataService.itemFromActivityGain(context.creature, context.gain);
+        const item: Equipment | Rune | undefined = this._activitiesDataService.itemFromActivityGain(context.creature, context.gain);
 
         if (item) { this._refreshService.prepareDetailToChange(context.creature.type, 'inventory'); }
 
@@ -70,7 +70,8 @@ export class ActivitiesProcessingService {
         this._refreshService.prepareDetailToChange(context.creature.type, 'activities');
         this._refreshService.prepareDetailToChange(context.creature.type, context.gain.id);
 
-        const targets: Array<Creature | SpellTarget> = this._spellTargetService.determineTargetsFromSpellTarget(context.target, context);
+        const targets: Array<Creature | SpellTarget> =
+            this._spellTargetService.determineTargetsFromSpellTarget(context.target || '', context);
 
         if (activated) {
             this._activateActivity(
@@ -99,7 +100,7 @@ export class ActivitiesProcessingService {
             target?: SpellTargetSelection;
             gain: ActivityGain | ItemActivity;
             targets: Array<Creature | SpellTarget>;
-            item: Equipment | Rune;
+            item?: Equipment | Rune;
         },
     ): void {
         if (activity.hints.length) {
@@ -219,7 +220,7 @@ export class ActivitiesProcessingService {
                             cast.spellGain.duration = cast.duration;
                         }
 
-                        cast.spellGain.selectedTarget = context.target;
+                        cast.spellGain.selectedTarget = context.target || '';
 
                         this._spellProcessingService.processSpell(
                             librarySpell,
@@ -254,7 +255,7 @@ export class ActivitiesProcessingService {
         context: {
             creature: Creature;
             gain: ActivityGain | ItemActivity;
-            item: Equipment | Rune;
+            item?: Equipment | Rune;
         },
     ): void {
         // Use charges
@@ -340,7 +341,7 @@ export class ActivitiesProcessingService {
                 });
         }
 
-        context.gain.selectedTarget = context.target;
+        context.gain.selectedTarget = context.target || '';
 
         return conditionsToRemove;
     }
@@ -351,7 +352,7 @@ export class ActivitiesProcessingService {
         context: {
             creature: Creature;
             gain: ActivityGain | ItemActivity;
-            item: Equipment | Rune;
+            item?: Equipment | Rune;
             targets: Array<Creature | SpellTarget>;
         },
     ): { conditionsToRemove: Array<string>; shouldClosePopupsAfterActivation: boolean } {
@@ -455,14 +456,14 @@ export class ActivitiesProcessingService {
         context: {
             creature: Creature;
             gain: ActivityGain | ItemActivity;
-            item: Equipment | Rune;
+            item?: Equipment | Rune;
         },
     ): void {
         // Exclusive activity activation:
         // If you activate one activity of an Item that has an exclusiveActivityID,
         // deactivate the other active activities on it that have the same ID.
         if (context.item && activity.toggle && context.gain.exclusiveActivityID) {
-            if (context.item.activities.length + (context.item instanceof Equipment && context.item.gainActivities).length > 1) {
+            if (context.item.activities.length + (context.item instanceof Equipment ? context.item.gainActivities : []).length > 1) {
                 context.item instanceof Equipment &&
                     context.item.gainActivities
                         .filter((activityGain: ActivityGain) =>
@@ -549,8 +550,8 @@ export class ActivitiesProcessingService {
                         (conditionGain.targetFilter === 'caster' ? [context.creature] : context.targets);
 
                     conditionTargets
-                        .filter(target => !(target instanceof SpellTarget))
-                        .forEach((target: Creature) => {
+                        .filter((target): target is Creature => target instanceof Creature)
+                        .forEach(target => {
                             this._creatureConditionsService.currentCreatureConditions(target, { name: conditionGain.name })
                                 .filter(existingConditionGain =>
                                     existingConditionGain.source === conditionGain.source &&

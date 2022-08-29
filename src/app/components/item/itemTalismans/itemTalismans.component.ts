@@ -19,7 +19,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 
 interface TalismanOption {
     talisman: Talisman;
-    inv: ItemCollection;
+    inv?: ItemCollection;
     talismanCordCompatible: boolean;
 }
 
@@ -32,11 +32,11 @@ interface TalismanOption {
 export class ItemTalismansComponent implements OnInit {
 
     @Input()
-    public item: Equipment;
+    public item!: Equipment;
     @Input()
-    public itemStore = false;
+    public itemStore?: boolean;
 
-    public newTalisman: Array<TalismanOption>;
+    public newTalisman!: Array<TalismanOption>;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -82,7 +82,7 @@ export class ItemTalismansComponent implements OnInit {
     public initialTalismans(index: number): Array<TalismanOption> {
         const item = this.item;
         //Start with one empty talisman to select nothing.
-        const allTalismans: Array<TalismanOption> = [{ talisman: new Talisman(), inv: null, talismanCordCompatible: false }];
+        const allTalismans: Array<TalismanOption> = [{ talisman: new Talisman(), inv: undefined, talismanCordCompatible: false }];
 
         allTalismans[0].talisman.name = '';
 
@@ -105,7 +105,7 @@ export class ItemTalismansComponent implements OnInit {
         return inv.talismans.filter(talisman => talisman.targets.length && talisman.amount)
             .map(talisman => ({
                 talisman,
-                inv: (this.itemStore ? null : inv),
+                inv: (this.itemStore ? undefined : inv),
                 talismanCordCompatible: this._isTalismanCompatibleWithTalismanCord(talisman),
             }))
             .filter(talisman =>
@@ -135,7 +135,7 @@ export class ItemTalismansComponent implements OnInit {
     public onSelectTalisman(index: number): void {
         const item: Equipment = this.item;
         const talisman: Talisman = this.newTalisman[index].talisman;
-        const inv: ItemCollection = this.newTalisman[index].inv;
+        const inv: ItemCollection | undefined = this.newTalisman[index].inv;
 
         if (!item.talismans[index] || talisman !== item.talismans[index]) {
             // If there is a Talisman in this slot, return the old one to the inventory,
@@ -158,7 +158,7 @@ export class ItemTalismansComponent implements OnInit {
 
                 // If we are not in the item store, remove the inserted Talisman from the inventory,
                 // either by decreasing the amount or by dropping the item.
-                if (!this.itemStore) {
+                if (!this.itemStore && inv) {
                     this._inventoryService.dropInventoryItem(this._character, inv, talisman, false, false, false, 1);
                 }
             }
@@ -208,11 +208,11 @@ export class ItemTalismansComponent implements OnInit {
             this.newTalisman =
                 this.item.talismans.map(talisman => ({
                     talisman,
-                    inv: null,
+                    inv: undefined,
                     talismanCordCompatible: this._isTalismanCompatibleWithTalismanCord(talisman),
                 }));
         } else {
-            this.newTalisman = [{ talisman: new Talisman(), inv: null, talismanCordCompatible: false }];
+            this.newTalisman = [{ talisman: new Talisman(), inv: undefined, talismanCordCompatible: false }];
         }
 
         this.newTalisman

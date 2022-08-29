@@ -35,12 +35,12 @@ export class MessageProcessingService {
         private readonly _inventoryService: InventoryService,
     ) { }
 
-    public creatureFromMessage(message: PlayerMessage): Creature {
+    public creatureFromMessage(message: PlayerMessage): Creature | undefined {
         return this._creatureAvailabilityService.allAvailableCreatures().find(creature => creature.id === message.targetId);
     }
 
     public messageSenderName(message: PlayerMessage): string {
-        return this._savegamesService.savegames().find(savegame => savegame.id === message.senderId)?.name;
+        return this._savegamesService.savegames().find(savegame => savegame.id === message.senderId)?.name || message.senderId;
     }
 
     public applyTurnChangeMessage(messages: Array<PlayerMessage>): void {
@@ -168,7 +168,7 @@ export class MessageProcessingService {
                     // We have to process the item directly here.
                     if (targetCreature.isCharacter() || targetCreature.isAnimalCompanion()) {
                         const targetInventory = targetCreature.inventories[0];
-                        let addedPrimaryItem: Item;
+                        let addedPrimaryItem: Item | undefined;
 
                         message.offeredItem.concat(message.includedItems).forEach(item => {
                             if (item === message.offeredItem[0]) {
@@ -176,13 +176,17 @@ export class MessageProcessingService {
                             }
 
                             const typedItem = TypeService.castItemByType(item);
+
+                            //TO-DO: Test if this still works now, after caching the type array.
+                            const targetItemTypes = (targetInventory[typedItem.type as keyof ItemCollection] as Array<Item>);
+
                             const existingItems =
-                                targetInventory[typedItem.type]
-                                    .filter((existing: Item) =>
+                                targetItemTypes
+                                    ?.filter(existing =>
                                         existing.name === typedItem.name &&
                                         existing.canStack() &&
                                         !typedItem.expiration,
-                                    );
+                                    ) || [];
 
                             // If any existing, stackable items are found, add this item's amount on top and finish.
                             // If no items are found, add the new item to the inventory
@@ -196,11 +200,11 @@ export class MessageProcessingService {
 
                                 this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
                                 this._refreshService.setComponentChanged(existingItems[0].id);
-                            } else {
+                            } else if (targetItemTypes) {
                                 typedItem.recast(this._itemsDataService.restoreItem);
 
-                                const newLength = targetInventory[typedItem.type].push(typedItem);
-                                const addedItem = targetInventory[typedItem.type][newLength - 1];
+                                const newLength = targetItemTypes.push(typedItem);
+                                const addedItem = targetItemTypes[newLength - 1];
 
                                 this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
 
@@ -294,9 +298,9 @@ export class MessageProcessingService {
             const sender = this.messageSenderName(message) || 'The player ';
 
             if (message.acceptedItem || message.rejectedItem) {
-                let foundItem: Item;
-                let foundInventory: ItemCollection;
-                let foundCreature: Creature;
+                let foundItem: Item | undefined;
+                let foundInventory: ItemCollection | undefined;
+                let foundCreature: Creature | undefined;
                 let itemName = 'item';
 
                 this._creatureAvailabilityService.allAvailableCreatures().forEach(creature => {
@@ -319,7 +323,7 @@ export class MessageProcessingService {
                         + `${ itemName }</strong>. The item is dropped from your inventory.`,
                     );
 
-                    if (foundItem) {
+                    if (foundItem && foundCreature && foundInventory) {
                         this._inventoryService.dropInventoryItem(
                             foundCreature,
                             foundInventory,

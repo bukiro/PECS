@@ -176,7 +176,7 @@ export class Trait {
         // The dynamic value is usually a dice size.
         // Return the value of a dynamic trait, reduced to only the first number.
         if (this.dynamic && traitName.toLowerCase() !== this.name.toLowerCase()) {
-            const value = traitName.replace(this.name, '').match(/(\d+)/)[0];
+            const value = traitName.replace(this.name, '').match(/(\d+)/)?.[0];
 
             if (value && !isNaN(parseInt(value, 10))) {
                 return parseInt(value, 10);

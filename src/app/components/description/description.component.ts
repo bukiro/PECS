@@ -13,7 +13,7 @@ export class DescriptionComponent {
     @Input()
     public text = '';
     @Input()
-    public casting: SpellCasting = null;
+    public casting?: SpellCasting;
     @Input()
     public oneLiner = false;
 

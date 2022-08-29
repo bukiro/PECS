@@ -49,7 +49,7 @@ import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
-    asBomb: AlchemicalBomb | OtherConsumableBomb;
+    asBomb?: AlchemicalBomb | OtherConsumableBomb;
     isAllowed: boolean;
 }
 
@@ -68,8 +68,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public showRestricted = false;
     private _showItem = '';
     private _showList = '';
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -238,7 +238,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
 
     public onConsumableUse(
         item: Ammunition | AlchemicalBomb | OtherConsumableBomb | Snare,
-        inv: ItemCollection,
+        inv?: ItemCollection,
     ): void {
         if (item.storedSpells.length) {
             const spellName = item.storedSpells[0]?.spells[0]?.name || '';
@@ -272,7 +272,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         if (item.canStack()) {
             this._refreshService.prepareDetailToChange(this.creature, 'attacks');
             this._refreshService.processPreparedChanges();
-        } else {
+        } else if (inv) {
             this._inventoryService.dropInventoryItem(this._currentCreature, inv, item, true);
         }
     }
@@ -313,17 +313,17 @@ export class AttacksComponent implements OnInit, OnDestroy {
         return runes;
     }
 
-    public applyingHandwrapsOfMightyBlows(weapon: Weapon): WornItem {
+    public applyingHandwrapsOfMightyBlows(weapon: Weapon): WornItem | undefined {
         if (weapon.traits.includes('Unarmed')) {
             return this._currentCreature.inventories[0].wornitems
                 .find(wornItem => wornItem.isHandwrapsOfMightyBlows && wornItem.invested);
         } else {
-            return null;
+            return undefined;
         }
     }
 
-    public matchingGrievousRuneData(weapon: Weapon, rune: WeaponRune): string {
-        return rune.data.find(data => data.name === weapon.group)?.value as string || null;
+    public matchingGrievousRuneData(weapon: Weapon, rune: WeaponRune): string | undefined {
+        return rune.data.find(data => data.name === weapon.group)?.value as string || undefined;
     }
 
     public specialShowOnNames(weapon: Weapon, range: string): Array<string> {
@@ -657,7 +657,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
             return favoredWeapons;
         }
 
-        return null;
+        return [];
     }
 
     public ngOnInit(): void {
@@ -715,8 +715,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
-    private _weaponAsBomb(weapon: Weapon): AlchemicalBomb | OtherConsumableBomb {
-        return (weapon instanceof AlchemicalBomb || weapon instanceof OtherConsumableBomb) ? weapon : null;
+    private _weaponAsBomb(weapon: Weapon): AlchemicalBomb | OtherConsumableBomb | undefined {
+        return (weapon instanceof AlchemicalBomb || weapon instanceof OtherConsumableBomb) ? weapon : undefined;
     }
 
     private _isWeaponAllowed(weapon: Weapon): boolean {

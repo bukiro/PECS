@@ -55,12 +55,12 @@ export class SpellsComponent implements OnInit, OnDestroy {
 
     private _showSpell = '';
     private _showChoice = '';
-    private _showContent: SpellChoice = null;
-    private _showSpellCasting: SpellCasting = null;
+    private _showContent?: SpellChoice;
+    private _showSpellCasting?: SpellCasting;
     private _showContentLevelNumber = 0;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -116,7 +116,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
         this._showSpell = this._showSpell === name ? '' : name;
     }
 
-    public toggleShownChoice(name: string, levelNumber = 0, content: SpellChoice = null, casting: SpellCasting = null): void {
+    public toggleShownChoice(name: string, levelNumber = 0, content?: SpellChoice, casting?: SpellCasting): void {
         // Set the currently shown list name, level number and content
         // so that the correct choice with the correct data can be shown in the choice area.
         if (this._showChoice === name &&
@@ -125,8 +125,8 @@ export class SpellsComponent implements OnInit, OnDestroy {
         ) {
             this._showChoice = '';
             this._showContentLevelNumber = 0;
-            this._showContent = null;
-            this._showSpellCasting = null;
+            this._showContent = undefined;
+            this._showSpellCasting = undefined;
         } else {
             this._showChoice = name;
             this._showContentLevelNumber = levelNumber;
@@ -152,14 +152,20 @@ export class SpellsComponent implements OnInit, OnDestroy {
         return this._showSpell;
     }
 
-    public shownContent(): SpellChoice {
+    public shownContent(): SpellChoice | undefined {
         return this._showContent;
     }
 
-    public activeChoiceContent(): { name: string; id: string; levelNumber: number; choice: SpellChoice; casting: SpellCasting } {
+    public activeChoiceContent(): {
+        name: string;
+        id: string;
+        levelNumber: number;
+        choice: SpellChoice;
+        casting?: SpellCasting;
+    } | undefined {
         //Get the currently shown spell choice with levelNumber and spellcasting.
         //Also get the currently shown list name for compatibility.
-        if (this.shownContent()) {
+        if (this._showContent) {
             return {
                 name: this.shownChoice(),
                 id: this._showContent.id,
@@ -168,7 +174,7 @@ export class SpellsComponent implements OnInit, OnDestroy {
                 casting: this._showSpellCasting,
             };
         } else {
-            return null;
+            return undefined;
         }
     }
 
@@ -180,31 +186,29 @@ export class SpellsComponent implements OnInit, OnDestroy {
     }
 
     public spellCastingParameters(): Array<SpellCastingParameters> {
-        return this._allSpellCastings().map(casting => {
-            const equipmentSpells =
-                this._equipmentSpellsService.filteredGrantedEquipmentSpells(
-                    this.character,
-                    casting,
-                    { cantripAllowed: true, emptyChoiceAllowed: true },
-                );
-            //Don't list castings that have no spells available.
-            const castingAvailable = (
-                casting.charLevelAvailable &&
-                casting.charLevelAvailable <= this.character.level
-            ) || equipmentSpells.length;
+        return this._allSpellCastings()
+            .map(casting => {
+                const equipmentSpells =
+                    this._equipmentSpellsService.filteredGrantedEquipmentSpells(
+                        this.character,
+                        casting,
+                        { cantripAllowed: true, emptyChoiceAllowed: true },
+                    );
+                //Don't list castings that have no spells available.
+                const castingAvailable = (
+                    casting.charLevelAvailable &&
+                    casting.charLevelAvailable <= this.character.level
+                ) || equipmentSpells.length;
 
-            if (!castingAvailable) {
-                return null;
-            }
-
-            return {
+                return { casting, castingAvailable, equipmentSpells };
+            })
+            .filter(({ castingAvailable }) => !!castingAvailable)
+            .map(({ casting, equipmentSpells }) => ({
                 casting,
                 equipmentSpells,
                 needSpellBook: this._doesCastingNeedSpellbook(casting),
                 maxSpellLevel: this._maxSpellLevelOfCasting(casting, equipmentSpells),
-            };
-        })
-            .filter(castingParameters => castingParameters);
+            }));
     }
 
     public spellCastingLevelParameters(spellCastingParameters: SpellCastingParameters): Array<SpellCastingLevelParameters> {
@@ -214,33 +218,29 @@ export class SpellsComponent implements OnInit, OnDestroy {
                 const availableSpellChoices = this._availableSpellChoicesAtThisLevel(spellCastingParameters, level);
                 const fixedSpellSets = this._fixedSpellsAtThisLevel(spellCastingParameters, level);
 
-                if (!(availableSpellChoices.length + fixedSpellSets.length)) {
-                    return null;
-                }
-
-                return {
-                    level,
-                    availableSpellChoices,
-                    fixedSpellSets,
-                };
+                return { level, availableSpellChoices, fixedSpellSets };
             })
-            .filter(spellCastingLevelParameters => spellCastingLevelParameters);
+            .filter(({ availableSpellChoices, fixedSpellSets }) => (availableSpellChoices.length + fixedSpellSets.length))
+            .map(({ level, availableSpellChoices, fixedSpellSets }) => ({
+                level,
+                availableSpellChoices,
+                fixedSpellSets,
+            }));
     }
 
     public fixedSpellParameters(spellCastingLevelParameters: SpellCastingLevelParameters): Array<SpellParameters> {
-        return spellCastingLevelParameters.fixedSpellSets.map(spellSet => {
-            const spell = this._spellsDataService.spellFromName(spellSet.gain.name);
+        return spellCastingLevelParameters.fixedSpellSets
+            .map(spellSet => {
+                const spell = this._spellsDataService.spellFromName(spellSet.gain.name);
 
-            if (!spell) {
-                return null;
-            }
-
-            return {
+                return { spellSet, spell };
+            })
+            .filter(({ spell }) => spell)
+            .map(({ spellSet, spell }) => ({
                 spell,
                 choice: spellSet.choice,
                 gain: spellSet.gain,
-            };
-        }).filter(spellParameter => spellParameter);
+            }));
     }
 
     public ngOnInit(): void {

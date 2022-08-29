@@ -141,7 +141,7 @@ export class CharacterSavingService {
     /* eslint-disable @typescript-eslint/no-explicit-any */
     /* eslint-disable @typescript-eslint/no-dynamic-delete */
     private _trimForSaving(object: any): void {
-        //Only cleanup objects that have Classes (= aren't object Object)
+        //Only cleanup objects that have a class (= are an object of another type than Object)
         if (typeof object === 'object' && object.constructor !== Object) {
             //If the object is an array, iterate over its elements
             if (Array.isArray(object)) {

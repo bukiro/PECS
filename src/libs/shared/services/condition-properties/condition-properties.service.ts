@@ -26,7 +26,7 @@ export class ConditionPropertiesService {
     public isConditionInformational(
         creature: Creature,
         condition: Condition,
-        conditionGain: ConditionGain = null,
+        conditionGain?: ConditionGain,
     ): boolean {
         //Return whether the condition has any effects beyond showing text, and if it causes or overrides any currently existing conditions.
         return !(

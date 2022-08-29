@@ -21,6 +21,8 @@ export class Wand extends Equipment {
         return this;
     }
 
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = secondary => secondary.toString();
+
     public clone(restoreFn: <T extends Item>(obj: T) => T): Wand {
         return Object.assign<Wand, Wand>(new Wand(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }

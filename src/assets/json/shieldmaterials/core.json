@@ -7,7 +7,7 @@
         "level": 2,
         "price": 3000,
         "brokenThreshold": 6,
-        "craftingRequirement": "at least 15 sp of cold iron",
+        "craftRequirement": "at least 15 sp of cold iron",
         "hardness": 3,
         "hitpoints": 12,
         "hints": [
@@ -28,7 +28,7 @@
         "level": 2,
         "price": 3000,
         "brokenThreshold": 2,
-        "craftingRequirement": "at least 15 sp of silver",
+        "craftRequirement": "at least 15 sp of silver",
         "hardness": 1,
         "hitpoints": 4,
         "hints": [
@@ -49,7 +49,7 @@
         "level": 2,
         "price": 3400,
         "brokenThreshold": 10,
-        "craftingRequirement": "at least 17 sp of cold iron",
+        "craftRequirement": "at least 17 sp of cold iron",
         "hardness": 5,
         "hitpoints": 20,
         "hints": [
@@ -70,7 +70,7 @@
         "level": 2,
         "price": 3400,
         "brokenThreshold": 6,
-        "craftingRequirement": "at least 17 sp of silver",
+        "craftRequirement": "at least 17 sp of silver",
         "hardness": 3,
         "hitpoints": 12,
         "hints": [
@@ -91,7 +91,7 @@
         "level": 7,
         "price": 30000,
         "brokenThreshold": 10,
-        "craftingRequirement": "at least 375 sp of cold iron",
+        "craftRequirement": "at least 375 sp of cold iron",
         "hardness": 5,
         "hitpoints": 20,
         "hints": [
@@ -112,7 +112,7 @@
         "level": 7,
         "price": 30000,
         "brokenThreshold": 6,
-        "craftingRequirement": "at least 375 sp of silver",
+        "craftRequirement": "at least 375 sp of silver",
         "hardness": 3,
         "hitpoints": 12,
         "hints": [
@@ -133,7 +133,7 @@
         "level": 7,
         "price": 34000,
         "brokenThreshold": 14,
-        "craftingRequirement": "at least 425 sp of cold iron",
+        "craftRequirement": "at least 425 sp of cold iron",
         "hardness": 7,
         "hitpoints": 28,
         "hints": [
@@ -154,7 +154,7 @@
         "level": 7,
         "price": 34000,
         "brokenThreshold": 10,
-        "craftingRequirement": "at least 425 sp of silver",
+        "craftRequirement": "at least 425 sp of silver",
         "hardness": 5,
         "hitpoints": 20,
         "hints": [
@@ -178,7 +178,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 16,
-        "craftingRequirement": "at least 50 gp of adamantine",
+        "craftRequirement": "at least 50 gp of adamantine",
         "hardness": 8,
         "hitpoints": 32,
         "hints": [
@@ -203,7 +203,7 @@
         ],
         "brokenThreshold": 6,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 50 gp of darkwood",
+        "craftRequirement": "at least 50 gp of darkwood",
         "hardness": 3,
         "hitpoints": 12,
         "itemFilter": [
@@ -221,7 +221,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 4,
-        "craftingRequirement": "at least 50 gp of dragonhide",
+        "craftRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
         "hints": [
@@ -245,7 +245,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 4,
-        "craftingRequirement": "at least 50 gp of dragonhide",
+        "craftRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
         "hints": [
@@ -269,7 +269,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 4,
-        "craftingRequirement": "at least 50 gp of dragonhide",
+        "craftRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
         "hints": [
@@ -293,7 +293,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 4,
-        "craftingRequirement": "at least 50 gp of dragonhide",
+        "craftRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
         "hints": [
@@ -317,7 +317,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 4,
-        "craftingRequirement": "at least 50 gp of dragonhide",
+        "craftRequirement": "at least 50 gp of dragonhide",
         "hardness": 2,
         "hitpoints": 8,
         "hints": [
@@ -342,7 +342,7 @@
         ],
         "brokenThreshold": 6,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 50 gp of mithral",
+        "craftRequirement": "at least 50 gp of mithral",
         "hardness": 3,
         "hitpoints": 12,
         "hints": [
@@ -366,7 +366,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 20,
-        "craftingRequirement": "at least 55 gp of adamantine",
+        "craftRequirement": "at least 55 gp of adamantine",
         "hardness": 10,
         "hitpoints": 40,
         "hints": [
@@ -391,7 +391,7 @@
         ],
         "brokenThreshold": 10,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 55 gp of darkwood",
+        "craftRequirement": "at least 55 gp of darkwood",
         "hardness": 5,
         "hitpoints": 20,
         "itemFilter": [
@@ -409,7 +409,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 8,
-        "craftingRequirement": "at least 55 gp of dragonhide",
+        "craftRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
         "hints": [
@@ -433,7 +433,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 8,
-        "craftingRequirement": "at least 55 gp of dragonhide",
+        "craftRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
         "hints": [
@@ -457,7 +457,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 8,
-        "craftingRequirement": "at least 55 gp of dragonhide",
+        "craftRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
         "hints": [
@@ -481,7 +481,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 8,
-        "craftingRequirement": "at least 55 gp of dragonhide",
+        "craftRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
         "hints": [
@@ -505,7 +505,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 8,
-        "craftingRequirement": "at least 55 gp of dragonhide",
+        "craftRequirement": "at least 55 gp of dragonhide",
         "hardness": 4,
         "hitpoints": 16,
         "hints": [
@@ -530,7 +530,7 @@
         ],
         "brokenThreshold": 10,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 55 gp of mithral",
+        "craftRequirement": "at least 55 gp of mithral",
         "hardness": 5,
         "hitpoints": 20,
         "hints": [
@@ -555,7 +555,7 @@
         ],
         "brokenThreshold": 10,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 70 gp of darkwood",
+        "craftRequirement": "at least 70 gp of darkwood",
         "hardness": 5,
         "hitpoints": 20,
         "itemFilter": [
@@ -570,7 +570,7 @@
         "level": 15,
         "price": 500000,
         "brokenThreshold": 16,
-        "craftingRequirement": "at least 2,500 gp of cold iron",
+        "craftRequirement": "at least 2,500 gp of cold iron",
         "hardness": 8,
         "hitpoints": 32,
         "hints": [
@@ -591,7 +591,7 @@
         "level": 15,
         "price": 500000,
         "brokenThreshold": 12,
-        "craftingRequirement": "at least 2,500 gp of silver",
+        "craftRequirement": "at least 2,500 gp of silver",
         "hardness": 6,
         "hitpoints": 24,
         "hints": [
@@ -612,7 +612,7 @@
         "level": 15,
         "price": 550000,
         "brokenThreshold": 20,
-        "craftingRequirement": "at least 2,750 gp of cold iron",
+        "craftRequirement": "at least 2,750 gp of cold iron",
         "hardness": 10,
         "hitpoints": 40,
         "hints": [
@@ -633,7 +633,7 @@
         "level": 15,
         "price": 550000,
         "brokenThreshold": 16,
-        "craftingRequirement": "at least 2,750 gp of silver",
+        "craftRequirement": "at least 2,750 gp of silver",
         "hardness": 8,
         "hitpoints": 32,
         "hints": [
@@ -657,7 +657,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 22,
-        "craftingRequirement": "at least 4,000 gp of adamantine",
+        "craftRequirement": "at least 4,000 gp of adamantine",
         "hardness": 11,
         "hitpoints": 44,
         "hints": [
@@ -682,7 +682,7 @@
         ],
         "brokenThreshold": 12,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 4,000 gp of darkwood",
+        "craftRequirement": "at least 4,000 gp of darkwood",
         "hardness": 6,
         "hitpoints": 24,
         "itemFilter": [
@@ -700,7 +700,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 10,
-        "craftingRequirement": "at least 4,000 gp of dragonhide",
+        "craftRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
         "hints": [
@@ -724,7 +724,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 10,
-        "craftingRequirement": "at least 4,000 gp of dragonhide",
+        "craftRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
         "hints": [
@@ -748,7 +748,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 10,
-        "craftingRequirement": "at least 4,000 gp of dragonhide",
+        "craftRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
         "hints": [
@@ -772,7 +772,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 10,
-        "craftingRequirement": "at least 4,000 gp of dragonhide",
+        "craftRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
         "hints": [
@@ -796,7 +796,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 10,
-        "craftingRequirement": "at least 4,000 gp of dragonhide",
+        "craftRequirement": "at least 4,000 gp of dragonhide",
         "hardness": 5,
         "hitpoints": 20,
         "hints": [
@@ -821,7 +821,7 @@
         ],
         "brokenThreshold": 12,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 4,000 gp of mithral",
+        "craftRequirement": "at least 4,000 gp of mithral",
         "hardness": 6,
         "hitpoints": 24,
         "hints": [
@@ -845,7 +845,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 26,
-        "craftingRequirement": "at least 4,400 gp of adamantine",
+        "craftRequirement": "at least 4,400 gp of adamantine",
         "hardness": 13,
         "hitpoints": 52,
         "hints": [
@@ -870,7 +870,7 @@
         ],
         "brokenThreshold": 16,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 4,400 gp of darkwood",
+        "craftRequirement": "at least 4,400 gp of darkwood",
         "hardness": 8,
         "hitpoints": 32,
         "itemFilter": [
@@ -888,7 +888,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 14,
-        "craftingRequirement": "at least 4,400 gp of dragonhide",
+        "craftRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
         "hints": [
@@ -912,7 +912,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 14,
-        "craftingRequirement": "at least 4,400 gp of dragonhide",
+        "craftRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
         "hints": [
@@ -936,7 +936,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 14,
-        "craftingRequirement": "at least 4,400 gp of dragonhide",
+        "craftRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
         "hints": [
@@ -960,7 +960,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 14,
-        "craftingRequirement": "at least 4,400 gp of dragonhide",
+        "craftRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
         "hints": [
@@ -984,7 +984,7 @@
             "Uncommon"
         ],
         "brokenThreshold": 14,
-        "craftingRequirement": "at least 4,400 gp of dragonhide",
+        "craftRequirement": "at least 4,400 gp of dragonhide",
         "hardness": 7,
         "hitpoints": 28,
         "hints": [
@@ -1009,7 +1009,7 @@
         ],
         "brokenThreshold": 16,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 4,400 gp of mithral",
+        "craftRequirement": "at least 4,400 gp of mithral",
         "hardness": 8,
         "hitpoints": 32,
         "hints": [
@@ -1034,7 +1034,7 @@
         ],
         "brokenThreshold": 16,
         "bulkModifier": -1,
-        "craftingRequirement": "at least 5,600 gp of darkwood",
+        "craftRequirement": "at least 5,600 gp of darkwood",
         "hardness": 8,
         "hitpoints": 32,
         "itemFilter": [
@@ -1052,7 +1052,7 @@
             "Rare"
         ],
         "brokenThreshold": 28,
-        "craftingRequirement": "at least 6,000 gp of orichalcum",
+        "craftRequirement": "at least 6,000 gp of orichalcum",
         "hardness": 14,
         "hitpoints": 56,
         "hints": [
@@ -1076,7 +1076,7 @@
             "Rare"
         ],
         "brokenThreshold": 32,
-        "craftingRequirement": "at least 6,600 gp of orichalcum",
+        "craftRequirement": "at least 6,600 gp of orichalcum",
         "hardness": 16,
         "hitpoints": 64,
         "hints": [

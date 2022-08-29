@@ -72,14 +72,9 @@ export class EvaluationService {
 
     public valueFromFormula(
         formula: string,
-        context: FormulaContext, options: FormulaOptions = {},
+        context: FormulaContext,
+        options: FormulaOptions = {},
     ): number | string | null {
-        context = {
-            creature: context.creature,
-            object: null,
-            parentConditionGain: null,
-            parentItem: null, ...context,
-        };
         options = {
             name: '',
             pretendCharacterLevel: 0, ...options,
@@ -99,13 +94,13 @@ export class EvaluationService {
         // would be on a certain character level other than the current.
         const Level: number = options.pretendCharacterLevel || Character.level;
         //Some values specific to conditions for effect values
-        let Duration: number = (object as Partial<ConditionGain>)?.duration || null;
-        let Value: number = (object as Partial<ConditionGain>)?.value || null;
-        let Heightened: number = (object as Partial<ConditionGain>)?.heightened || null;
-        let Choice: string = (object as Partial<ConditionGain>)?.choice || null;
-        let SpellCastingAbility: string = (object as Partial<ConditionGain>)?.spellCastingAbility || null;
-        const SpellSource: string = (object as Partial<ConditionGain>)?.spellSource || null;
-        const ItemChoice: string = (parentItem instanceof Equipment) ? parentItem?.choice || null : null;
+        let Duration: number | undefined = (object as Partial<ConditionGain>)?.duration || undefined;
+        let Value: number | undefined = (object as Partial<ConditionGain>)?.value || undefined;
+        let Heightened: number | undefined = (object as Partial<ConditionGain>)?.heightened || undefined;
+        let Choice: string | undefined = (object as Partial<ConditionGain>)?.choice || undefined;
+        let SpellCastingAbility: string | undefined = (object as Partial<ConditionGain>)?.spellCastingAbility || undefined;
+        const SpellSource: string | undefined = (object as Partial<ConditionGain>)?.spellSource || undefined;
+        const ItemChoice: string | undefined = (parentItem instanceof Equipment) ? parentItem?.choice || undefined : undefined;
         //Hint effects of conditions pass their conditionGain for these values.
         //Conditions pass their own gain as parentConditionGain for effects.
         //Conditions that are caused by conditions also pass the original conditionGain for the evaluation of their activationPrerequisite.
@@ -137,9 +132,9 @@ export class EvaluationService {
         /* eslint-disable @typescript-eslint/naming-convention */
         const Temporary_HP = (source = '', sourceId = ''): number => {
             if (sourceId) {
-                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.sourceId === sourceId).amount;
+                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.sourceId === sourceId)?.amount || 0;
             } else if (source) {
-                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.source === source).amount;
+                return Creature.health.temporaryHP.find(tempHPSet => tempHPSet.source === source)?.amount || 0;
             } else {
                 return Creature.health.temporaryHP[0].amount;
             }
@@ -180,7 +175,7 @@ export class EvaluationService {
             if (Creature === Familiar) {
                 return 0;
             } else {
-                this._skillValuesService.level(name, Creature, Level);
+                return this._skillValuesService.level(name, Creature, Level);
             }
         };
         const Skills_Of_Type = (name: string): Array<SkillModel> => (
@@ -205,30 +200,30 @@ export class EvaluationService {
         const Owned_Activities = (name: string): Array<ActivityGain> => (
             this._creatureActivitiesService.creatureOwnedActivities(Creature).filter(gain => gain.name === name)
         );
-        const Armor = (): ArmorModel => {
+        const Armor = (): ArmorModel | undefined => {
             if (Creature === Familiar) {
-                return null;
+                return undefined;
             } else {
                 return Creature.inventories[0].armors.find(armor => armor.equipped);
             }
         };
-        const Shield = (): ShieldModel => {
+        const Shield = (): ShieldModel | undefined => {
             if (Creature === Familiar) {
-                return null;
+                return undefined;
             } else {
                 return Creature.inventories[0].shields.find(shield => shield.equipped);
             }
         };
-        const Weapons = (): Array<Weapon> => {
+        const Weapons = (): Array<Weapon> | undefined => {
             if (Creature === Familiar) {
-                return null;
+                return undefined;
             } else {
                 return Creature.inventories[0].weapons.filter(weapon => weapon.equipped);
             }
         };
-        const WornItems = (): Array<WornItem> => {
+        const WornItems = (): Array<WornItem> | undefined => {
             if (Creature === Familiar) {
-                return null;
+                return undefined;
             } else {
                 return Creature.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped());
             }
@@ -303,9 +298,9 @@ export class EvaluationService {
 
         try {
             // eslint-disable-next-line no-eval
-            const result: number | string | null = eval(cleanupLeadingZeroes(formula));
+            const result: number | string | null | undefined = eval(cleanupLeadingZeroes(formula));
 
-            if (result == null || typeof result === 'string' || typeof result === 'number') {
+            if (typeof result === 'string' || typeof result === 'number') {
                 return result;
             } else {
                 return null;

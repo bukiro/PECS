@@ -45,12 +45,12 @@ export class ActivitiesDataService {
         }
     }
 
-    public itemFromActivityGain(creature: Creature, gain: ActivityGain | ItemActivity): Equipment | Rune {
+    public itemFromActivityGain(creature: Creature, gain?: ActivityGain | ItemActivity): Equipment | Rune | undefined {
         if (!gain) {
-            return null;
+            return undefined;
         }
 
-        let item: Equipment | Rune = null;
+        let item: Equipment | Rune | undefined;
 
         creature.inventories.forEach(inventory => {
             inventory.allEquipment().forEach(equipment => {
@@ -119,7 +119,7 @@ export class ActivitiesDataService {
         const data = this._extensionsService.extend(json_activities, 'activities');
 
         Object.keys(data).forEach(key => {
-            this._activities.push(...data[key].map((obj: Activity) => Object.assign(new Activity(), obj).recast()));
+            this._activities.push(...data[key].map(obj => Object.assign(new Activity(), obj).recast()));
         });
         this._activities = this._extensionsService.cleanupDuplicates(this._activities, 'name', 'activities') as Array<Activity>;
     }

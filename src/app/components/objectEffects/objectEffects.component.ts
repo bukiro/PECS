@@ -9,9 +9,9 @@ import { Creature } from 'src/app/classes/Creature';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
 
 interface EffectValueParameters {
-    displayType: 'Formula' | 'Toggle' | 'Value';
+    displayType?: 'Formula' | 'Toggle' | 'Value';
     isFormula: boolean;
-    formulaValue: string;
+    formulaValue: string | null;
 }
 
 @Component({
@@ -79,7 +79,7 @@ export class ObjectEffectsComponent {
         };
     }
 
-    private _effectDisplayType(effect: EffectGain, isFormula: boolean): 'Formula' | 'Toggle' | 'Value' {
+    private _effectDisplayType(effect: EffectGain, isFormula: boolean): 'Formula' | 'Toggle' | 'Value' | undefined {
         if (effect.setValue || (effect.value && isFormula)) {
             return 'Formula';
         }
@@ -115,7 +115,7 @@ export class ObjectEffectsComponent {
 
     private _isFormula(value: string): boolean {
         if (isNaN(parseInt(value, 10))) {
-            if (!value.match('^[0-9-]*$').length) {
+            if (!value.match('^[0-9-]*$')?.length) {
                 return true;
             }
         }

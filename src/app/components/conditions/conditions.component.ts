@@ -94,8 +94,8 @@ export class ConditionsComponent implements OnInit, OnDestroy {
     private _showItem = '';
     private _showCreature: CreatureTypes = CreatureTypes.Character;
     private _showPurpose: 'conditions' | 'customeffects' = 'conditions';
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -530,8 +530,8 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         }
     }
 
-    public customEffectProperties(): Array<ItemProperty> {
-        const propertyData = (key: string): ItemProperty =>
+    public customEffectProperties(): Array<ItemProperty<EffectGain>> {
+        const propertyData = (key: string): ItemProperty<EffectGain> =>
             this._customEffectPropertiesService.effectProperties.find(property => property.key === key);
 
         return Object.keys(this.newEffect)
@@ -540,7 +540,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
             .sort((a, b) => SortAlphaNum(a.group + a.priority, b.group + b.priority));
     }
 
-    public effectPropertyExamples(propertyData: ItemProperty): Array<string> {
+    public effectPropertyExamples(propertyData: ItemProperty<EffectGain>): Array<string> {
         let examples: Array<string> = [''];
 
         const character = this.character;

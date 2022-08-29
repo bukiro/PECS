@@ -162,7 +162,8 @@
                     <div id="spells-choiceArea-top" style="margin-top:-.3em;"></div>
                     <!--Spell Choice content-->
                     <ng-container *ngIf="activeChoiceContent() as choiceContent">
-                        <app-spellchoice (shownChoiceMessage)="receiveShowChoiceMessage($event)"
+                        <app-spellchoice *ngIf="choiceContent.casting"
+                            (shownChoiceMessage)="receiveShowChoiceMessage($event)"
                             (shownSpellMessage)="receiveShowSpellMessage($event)" [spellCasting]="choiceContent.casting"
                             [choice]="choiceContent.choice" [showHeightened]="character.settings.showHeightenedSpells"
                             [allowBorrow]="allowBorrow" [showChoice]="choiceContent.name" [showSpell]="shownSpell()"

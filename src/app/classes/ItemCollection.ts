@@ -59,7 +59,7 @@ export class ItemCollection {
     public weaponrunes: Array<WeaponRune> = [];
     public weapons: Array<Weapon> = [];
     public wornitems: Array<WornItem> = [];
-    public readonly names: Array<{ name: string; key: string }> = [
+    public readonly names: Array<{ name: string; key: keyof ItemCollection }> = [
         { name: 'Weapons', key: 'weapons' },
         { name: 'Armors', key: 'armors' },
         { name: 'Shields', key: 'shields' },
@@ -95,12 +95,11 @@ export class ItemCollection {
                 new AdventuringGear(),
                 restoreFn(obj),
             ).recast(restoreFn));
-        //Alchemical Bombs need to be cast blindly to avoid circular dependency warnings.
-        this.alchemicalbombs = this.alchemicalbombs.map(obj =>
-            (TypeService.classCast(
+        this.alchemicalbombs =
+            this.alchemicalbombs.map(obj => Object.assign<AlchemicalBomb, Item>(
+                new AlchemicalBomb(),
                 restoreFn(obj),
-                'AlchemicalBomb',
-            ) as AlchemicalBomb).recast(restoreFn));
+            ).recast(restoreFn));
         this.alchemicalelixirs =
             this.alchemicalelixirs.map(obj => Object.assign<AlchemicalElixir, Item>(
                 new AlchemicalElixir(),
@@ -151,12 +150,11 @@ export class ItemCollection {
                 new OtherConsumable(),
                 restoreFn(obj),
             ).recast(restoreFn));
-        //Consumable Bombs need to be cast blindly to avoid circular dependency warnings.
         this.otherconsumablesbombs =
-            this.otherconsumablesbombs.map(obj => (TypeService.classCast(
+            this.otherconsumablesbombs.map(obj => Object.assign<OtherConsumableBomb, Item>(
+                new OtherConsumableBomb(),
                 restoreFn(obj),
-                'OtherConsumableBomb',
-            ) as OtherConsumableBomb).recast(restoreFn));
+            ).recast(restoreFn));
         this.otheritems =
             this.otheritems.map(obj => Object.assign<OtherItem, Partial<OtherItem>>(
                 new OtherItem(),
@@ -174,10 +172,10 @@ export class ItemCollection {
             ).recast(restoreFn));
         //Shields need to be cast blindly to avoid circular dependency warnings.
         this.shields =
-            this.shields.map(obj => (TypeService.classCast(
+            this.shields.map(obj => Object.assign<Shield, Item>(
+                new Shield(),
                 restoreFn(obj),
-                'Shield',
-            ) as Shield).recast(restoreFn));
+            ).recast(restoreFn));
         this.snares =
             this.snares.map(obj => Object.assign<Snare, Item>(
                 new Snare(),
@@ -220,54 +218,59 @@ export class ItemCollection {
     }
 
     public allEquipment(): Array<Equipment> {
-        return [].concat(
-            this.adventuringgear,
-            this.alchemicalbombs,
-            this.armors,
-            this.helditems,
-            this.otherconsumablesbombs,
-            this.shields,
-            this.wands,
-            this.weapons,
-            this.wornitems,
-        );
+        return ([] as Array<Equipment>)
+            .concat(
+                this.adventuringgear,
+                this.alchemicalbombs,
+                this.armors,
+                this.helditems,
+                this.otherconsumablesbombs,
+                this.shields,
+                this.wands,
+                this.weapons,
+                this.wornitems,
+            );
     }
 
     public allConsumables(): Array<Consumable> {
-        return [].concat(
-            this.alchemicalelixirs,
-            this.alchemicalpoisons,
-            this.alchemicaltools,
-            this.ammunition,
-            this.oils,
-            this.otherconsumables,
-            this.potions,
-            this.scrolls,
-            this.snares,
-            this.talismans,
-        );
+        return ([] as Array<Consumable>)
+            .concat(
+                this.alchemicalelixirs,
+                this.alchemicalpoisons,
+                this.alchemicaltools,
+                this.ammunition,
+                this.oils,
+                this.otherconsumables,
+                this.potions,
+                this.scrolls,
+                this.snares,
+                this.talismans,
+            );
     }
 
     public allRunes(): Array<Rune> {
-        return [].concat(
-            this.armorrunes,
-            this.weaponrunes,
-        );
+        return ([] as Array<Rune>)
+            .concat(
+                this.armorrunes,
+                this.weaponrunes,
+            );
     }
 
     public allOther(): Array<Item> {
-        return [].concat(
-            this.materialitems,
-        );
+        return ([] as Array<Item>)
+            .concat(
+                this.materialitems,
+            );
     }
 
     public allItems(): Array<Item> {
-        return [].concat(
-            this.allConsumables(),
-            this.allEquipment(),
-            this.allRunes(),
-            this.allOther(),
-        );
+        return ([] as Array<Item>)
+            .concat(
+                this.allConsumables(),
+                this.allEquipment(),
+                this.allRunes(),
+                this.allOther(),
+            );
     }
 
     public totalBulk(rounded = true, reduced = false): number {

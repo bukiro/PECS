@@ -17,7 +17,6 @@ import { FeatsDataService } from 'src/app/core/services/data/feats-data.service'
 import { CreatureService } from 'src/app/services/character.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
@@ -37,6 +36,7 @@ import { CharacterLanguagesService } from 'src/libs/shared/services/character-la
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
+import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
 
 export interface FeatProcessingContext {
     creature: Character | Familiar;
@@ -73,7 +73,7 @@ export class FeatProcessingService {
     ) { }
 
     public processFeat(
-        featOrNothing: Feat,
+        featOrNothing: Feat | undefined,
         taken: boolean,
         context: FeatProcessingContext,
     ): void {
@@ -151,7 +151,7 @@ export class FeatProcessingService {
         }
     }
 
-    private _determineFeat(feat: Feat, featName: string, context: { creature: Character | Familiar }): Feat {
+    private _determineFeat(feat: Feat | undefined, featName: string, context: { creature: Character | Familiar }): Feat {
         if (feat) {
             return feat;
         }
@@ -235,7 +235,7 @@ export class FeatProcessingService {
 
                         //If the feat choice got applied on a certain level, it needs to be removed from that level.
                         const insertLevel =
-                            (oldFeatChoice.insertLevel && character.classLevelFromNumber[oldFeatChoice.insertLevel]) ||
+                            (oldFeatChoice.insertLevel && character.classLevelFromNumber(oldFeatChoice.insertLevel)) ||
                             context.level;
 
                         const levelChoices: Array<FeatChoice> = insertLevel.featChoices;
@@ -243,7 +243,7 @@ export class FeatProcessingService {
                         if (levelChoices.length) {
                             // You might have taken this feat multiple times on the same level,
                             // so we are only removing one instance of each of its featChoices.
-                            const choiceToRemove: FeatChoice =
+                            const choiceToRemove: FeatChoice | undefined =
                                 levelChoices.find(levelChoice => levelChoice.source === oldFeatChoice.source);
 
                             //Feats must explicitly be un-taken instead of just removed from the array, in case they made fixed changes
@@ -308,7 +308,6 @@ export class FeatProcessingService {
             if (taken) {
                 feat.gainSkillChoice.forEach(newSkillChoice => {
                     const insertSkillChoice: SkillChoice = newSkillChoice.clone();
-                    let newChoice: SkillChoice;
 
                     //Check if the skill choice has a class requirement, and if so, only apply it if you have that class.
                     if (
@@ -356,7 +355,7 @@ export class FeatProcessingService {
                             (insertSkillChoice.insertLevel && character.classLevelFromNumber(insertSkillChoice.insertLevel)) ||
                             context.level;
 
-                        insertLevel.addSkillChoice(insertSkillChoice);
+                        const newChoice = insertLevel.addSkillChoice(insertSkillChoice);
 
                         //Apply any included Skill increases
                         newChoice.increases.forEach(increase => {
@@ -367,6 +366,7 @@ export class FeatProcessingService {
                         if (newChoice.showOnSheet) {
                             this._refreshService.prepareDetailToChange(context.creature.type, 'skills');
                         }
+
                     }
                 });
             } else {
@@ -464,9 +464,7 @@ export class FeatProcessingService {
                                 insertSpellChoice.tradition === 'Primal' &&
                                 feat.traits.includes('Gnome')
                             ) {
-                                insertSpellChoice.tradition =
-                                    Object.values(SpellTraditions)
-                                        .find(tradition => tradition === character.class.heritage.subType);
+                                insertSpellChoice.tradition = SpellTraditionFromString(character.class.heritage.subType);
                             }
                         }
 
@@ -709,9 +707,12 @@ export class FeatProcessingService {
                             heritage.source === feat.name &&
                             heritage.charLevelAvailable === context.level.number,
                         );
-                    const heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
 
-                    this._characterHeritageChangeService.changeHeritage(null, heritageIndex);
+                    if (oldHeritage) {
+                        const heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
+
+                        this._characterHeritageChangeService.changeHeritage(undefined, heritageIndex);
+                    }
                 });
             }
         }
@@ -858,13 +859,13 @@ export class FeatProcessingService {
                 });
             } else {
                 feat.gainLanguages.forEach(languageGain => {
-                    const langIndex = character.class.languages.indexOf(
-                        character.class.languages.find(lang =>
-                            (!lang.locked || lang.name === languageGain.name) &&
-                            lang.source === languageGain.source &&
-                            lang.level === context.level.number,
-                        ),
+                    const oldLanguage = character.class.languages.find(lang =>
+                        (!lang.locked || lang.name === languageGain.name) &&
+                        lang.source === languageGain.source &&
+                        lang.level === context.level.number,
                     );
+
+                    const langIndex = oldLanguage ? character.class.languages.indexOf(oldLanguage) : -1;
 
                     if (langIndex !== -1) {
                         character.class.languages.splice(langIndex, 1);

@@ -5,7 +5,7 @@ export function heightenedTextFromDescSets(text: string, levelNumber: number, de
     // For an arbitrary text (usually the condition description),
     // retrieve the appropriate description set for this level and replace the variables with the included strings.
     let heightenedTextResult = text;
-    let foundDescSet: HeightenedDescSet;
+    let foundDescSet: HeightenedDescSet | undefined;
 
     if (descSets.length) {
         for (let levelNumberToTry = levelNumber; levelNumberToTry > 0; levelNumberToTry--) {

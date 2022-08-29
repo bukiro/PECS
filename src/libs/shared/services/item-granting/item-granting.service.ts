@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Armor } from 'src/app/classes/Armor';
 import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
+import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
@@ -38,8 +39,9 @@ export class ItemGrantingService {
                 default: break;
             }
         } else {
-            const newItem: Item =
-                this._itemsDataService.cleanItems()[itemGain.type.toLowerCase()].find((item: Item) => itemGain.isMatchingItem(item));
+            const newItem: Item | undefined =
+                (this._itemsDataService.cleanItems()[itemGain.type.toLowerCase() as keyof ItemCollection] as Array<Item>)
+                    .find(item => itemGain.isMatchingItem(item));
 
             if (newItem) {
                 if (newItem.canStack()) {
@@ -153,13 +155,13 @@ export class ItemGrantingService {
         } else {
             creature.inventories.forEach(inv => {
                 if (!hasUsedAmount) {
-                    inv[itemGain.type]
-                        .filter((item: Item) =>
+                    (inv[itemGain.type as keyof ItemCollection] as Array<Item>)
+                        .filter(item =>
                             options.requireGrantedItemID
                                 ? itemGain.isMatchingExistingItem(item)
                                 : itemGain.isMatchingItem(item),
                         )
-                        .forEach((item: Item) => {
+                        .forEach(item => {
                             if (!hasUsedAmount) {
                                 const amountToRemove = Math.min(remainingAmount, item.amount);
 

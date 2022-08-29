@@ -61,9 +61,7 @@ export class ClassesDataService {
 
         Object.keys(data).forEach(key => {
             this._classes.push(
-                ...data[key].map((obj: Class) =>
-                    Object.assign(new Class(), obj).recast(this._itemsDataService.restoreItem),
-                ),
+                ...data[key].map(obj => Object.assign(new Class(), obj).recast(this._itemsDataService.restoreItem)),
             );
         });
         this._classes = this._extensionsService.cleanupDuplicates(this._classes, 'name', 'classes') as Array<Class>;

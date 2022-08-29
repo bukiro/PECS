@@ -7,7 +7,7 @@ export class AdventuringGear extends Equipment {
     //Adventuring Gear can usually not be equipped or invested, but with exceptions.
     public equippable = false;
     //How many hands need to be free to use this item?
-    public hands = '';
+    public hands: string | number = '';
     //Does this item count for the "Armored Skirt" functionality?
     public isArmoredSkirt = false;
     //Some Items get bought in stacks. Stack defines how many you buy at once,

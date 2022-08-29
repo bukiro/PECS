@@ -11,7 +11,7 @@ import { InventoryService } from '../inventory/inventory.service';
 })
 export class BasicEquipmentService {
 
-    private _basicItems: { weapon: Weapon; armor: Armor } = { weapon: null, armor: null };
+    private _basicItems: { weapon?: Weapon; armor?: Armor } = {};
 
     constructor(
         private readonly _itemsDataService: ItemsDataService,

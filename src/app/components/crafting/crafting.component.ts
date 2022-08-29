@@ -50,8 +50,8 @@ export class CraftingComponent implements OnInit, OnDestroy {
     public creature: CreatureTypes = CreatureTypes.Character;
     public range = 0;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     private _showList = '';
     private _showItem = '';

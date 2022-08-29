@@ -48,7 +48,7 @@ export class ItemInitializationService {
         };
 
         //If the item is modified with propertyRunes, the runes need to be filled.
-        if (options.newPropertyRunes.length) {
+        if (options.newPropertyRunes?.length) {
             options.resetPropertyRunes = true;
         }
 
@@ -100,7 +100,7 @@ export class ItemInitializationService {
         }
 
         //Apply any new property runes here.
-        if (options.newPropertyRunes.length) {
+        if (options.newPropertyRunes?.length) {
             newItem = Object.assign(newItem, { propertyRunes: options.newPropertyRunes });
         }
 
@@ -115,12 +115,13 @@ export class ItemInitializationService {
         ) {
             const newRunes: Array<WeaponRune> = [];
 
-            newItem.propertyRunes.forEach((rune: WeaponRune) => {
-                const libraryItem = this._itemsDataService.cleanItems().weaponrunes
+            newItem.propertyRunes.forEach(rune => {
+                const libraryItem = this._itemsDataService
+                    .cleanItems().weaponrunes
                     .find(newrune => newrune.name === rune.name);
 
                 if (libraryItem) {
-                    newRunes.push(TypeService.mergeObject(libraryItem, rune));
+                    newRunes.push(TypeService.mergeObject(libraryItem, rune as WeaponRune));
                 }
             });
             newItem.propertyRunes = newRunes;
@@ -129,12 +130,12 @@ export class ItemInitializationService {
         if (options.resetPropertyRunes && newItem instanceof Armor && newItem.propertyRunes?.length) {
             const newRunes: Array<ArmorRune> = [];
 
-            newItem.propertyRunes.forEach((rune: ArmorRune) => {
+            newItem.propertyRunes.forEach(rune => {
                 const libraryItem = this._itemsDataService.cleanItems().armorrunes
                     .find(newrune => newrune.name === rune.name);
 
                 if (libraryItem) {
-                    newRunes.push(TypeService.mergeObject(libraryItem, rune));
+                    newRunes.push(TypeService.mergeObject(libraryItem, rune as ArmorRune));
                 }
             });
             newItem.propertyRunes = newRunes;
@@ -144,12 +145,12 @@ export class ItemInitializationService {
         if (options.resetPropertyRunes && newItem instanceof Weapon && newItem.material?.length) {
             const newMaterials: Array<WeaponMaterial> = [];
 
-            newItem.material.forEach((material: WeaponMaterial) => {
+            newItem.material.forEach(material => {
                 const libraryItem =
                     this._itemMaterialsDataService.weaponMaterials().find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(TypeService.mergeObject(libraryItem, material));
+                    newMaterials.push(TypeService.mergeObject(libraryItem, material as WeaponMaterial));
                 }
             });
             newItem.material = newMaterials;
@@ -158,12 +159,12 @@ export class ItemInitializationService {
         if (options.resetPropertyRunes && newItem instanceof Armor && newItem.material?.length) {
             const newMaterials: Array<ArmorMaterial> = [];
 
-            newItem.material.forEach((material: ArmorMaterial) => {
+            newItem.material.forEach(material => {
                 const libraryItem =
                     this._itemMaterialsDataService.armorMaterials().find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(TypeService.mergeObject(libraryItem, material));
+                    newMaterials.push(TypeService.mergeObject(libraryItem, material as ArmorMaterial));
                 }
             });
             newItem.material = newMaterials;
@@ -172,12 +173,12 @@ export class ItemInitializationService {
         if (options.resetPropertyRunes && newItem instanceof Shield && newItem.material?.length) {
             const newMaterials: Array<ShieldMaterial> = [];
 
-            newItem.material.forEach((material: ShieldMaterial) => {
+            newItem.material.forEach(material => {
                 const libraryItem =
                     this._itemMaterialsDataService.shieldMaterials().find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(TypeService.mergeObject(libraryItem, material));
+                    newMaterials.push(TypeService.mergeObject(libraryItem, material as ShieldMaterial));
                 }
             });
             newItem.material = newMaterials;

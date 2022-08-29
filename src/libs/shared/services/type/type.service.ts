@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { AbilityChoice } from 'src/app/classes/AbilityChoice';
@@ -28,11 +29,9 @@ import { Condition } from 'src/app/classes/Condition';
 import { ConditionChoice } from 'src/app/classes/ConditionChoice';
 import { ConditionDuration } from 'src/app/classes/ConditionDuration';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { Consumable } from 'src/app/classes/Consumable';
 import { Deity } from 'src/app/classes/Deity';
 import { Effect } from 'src/app/classes/Effect';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { Equipment } from 'src/app/classes/Equipment';
 import { Familiar } from 'src/app/classes/Familiar';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
@@ -61,7 +60,6 @@ import { OtherItem } from 'src/app/classes/OtherItem';
 import { Potion } from 'src/app/classes/Potion';
 import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
 import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
-import { Rune } from 'src/app/classes/Rune';
 import { Scroll } from 'src/app/classes/Scroll';
 import { SenseGain } from 'src/app/classes/SenseGain';
 import { Settings } from 'src/app/classes/Settings';
@@ -124,11 +122,9 @@ export class TypeService {
             case 'ConditionChoice': return Object.assign(new ConditionChoice(), obj);
             case 'ConditionDuration': return Object.assign(new ConditionDuration(), obj);
             case 'ConditionGain': return Object.assign(new ConditionGain(), obj);
-            case 'Consumable': return Object.assign(new Consumable(), obj);
             case 'Deity': return Object.assign(new Deity(), obj);
             case 'Effect': return Object.assign(new Effect(), obj);
             case 'EffectGain': return Object.assign(new EffectGain(), obj);
-            case 'Equipment': return Object.assign(new Equipment(), obj);
             case 'Familiar': return Object.assign(new Familiar(), obj);
             case 'Feat': return Object.assign(new Feat(), obj);
             case 'FeatChoice': return Object.assign(new FeatChoice(), obj);
@@ -141,7 +137,6 @@ export class TypeService {
             case 'HeritageGain': return Object.assign(new HeritageGain(), obj);
             case 'Hint': return Object.assign(new Hint(), obj);
             case 'InventoryGain': return Object.assign(new InventoryGain(), obj);
-            case 'Item': return Object.assign(new Item(), obj);
             case 'ItemActivity': return Object.assign(new ItemActivity(), obj);
             case 'ItemCollection': return Object.assign(new ItemCollection(), obj);
             case 'ItemGain': return Object.assign(new ItemGain(), obj);
@@ -157,7 +152,6 @@ export class TypeService {
             case 'Potion': return Object.assign(new Potion(), obj);
             case 'ProficiencyChange': return Object.assign(new ProficiencyChange(), obj);
             case 'ProficiencyCopy': return Object.assign(new ProficiencyCopy(), obj);
-            case 'Rune': return Object.assign(new Rune(), obj);
             case 'Scroll': return Object.assign(new Scroll(), obj);
             case 'SenseGain': return Object.assign(new SenseGain(), obj);
             case 'Settings': return Object.assign(new Settings(), obj);
@@ -247,20 +241,20 @@ export class TypeService {
             ? JSON.parse(JSON.stringify(target)) as Array<T>
             : [] as Array<T>;
 
-        source.forEach((obj: unknown, index) => {
-            output[index] = this.mergeProperty(target[index], source[index]) as T;
+        source.forEach((member, index) => {
+            output[index] = this.mergeProperty(target?.[index], member) as T;
         });
 
         return output;
     }
 
-    public static mergeObject<T>(target: T | undefined, source: Partial<T>): T {
+    public static mergeObject<T extends { constructor: any }>(target: T | undefined, source: Partial<T>): T {
         const output = target
             ? Object.assign(new (target.constructor as any)() as T, JSON.parse(JSON.stringify(target)))
             : {};
 
-        Object.keys(source).forEach(key => {
-            output[key] = this.mergeProperty(target[key], source[key]);
+        (Object.keys(source) as Array<keyof T>).forEach(key => {
+            output[key] = this.mergeProperty(target?.[key], source[key]);
         });
 
         return output;
@@ -291,7 +285,7 @@ export class TypeService {
                     mergedObject = TypeService.castItemByType<T>(mergedObject, libraryItem.type);
 
                     //Disable any active hint effects when loading an item.
-                    if (mergedObject instanceof Equipment) {
+                    if (mergedObject.isEquipment()) {
                         mergedObject.hints.forEach(hint => hint.deactivateAll());
                     }
 

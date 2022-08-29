@@ -75,11 +75,11 @@ export class ItemPriceService {
 
         if (armor.moddable) {
             if (armor.potencyRune) {
-                price += this._itemsDataService.cleanItems().armorrunes.find(rune => rune.potency === armor.potencyRune).price;
+                price += this._itemsDataService.cleanItems().armorrunes.find(rune => rune.potency === armor.potencyRune)?.price || 0;
             }
 
             if (armor.resilientRune) {
-                price += this._itemsDataService.cleanItems().armorrunes.find(rune => rune.resilient === armor.resilientRune).price;
+                price += this._itemsDataService.cleanItems().armorrunes.find(rune => rune.resilient === armor.resilientRune)?.price || 0;
             }
         }
 
@@ -91,11 +91,11 @@ export class ItemPriceService {
 
         if (weapon.moddable) {
             if (weapon.potencyRune) {
-                price += this._itemsDataService.cleanItems().weaponrunes.find(rune => rune.potency === weapon.potencyRune).price;
+                price += this._itemsDataService.cleanItems().weaponrunes.find(rune => rune.potency === weapon.potencyRune)?.price || 0;
             }
 
             if (weapon.strikingRune) {
-                price += this._itemsDataService.cleanItems().weaponrunes.find(rune => rune.striking === weapon.strikingRune).price;
+                price += this._itemsDataService.cleanItems().weaponrunes.find(rune => rune.striking === weapon.strikingRune)?.price || 0;
             }
         }
 

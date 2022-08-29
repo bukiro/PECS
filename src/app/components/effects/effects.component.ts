@@ -48,8 +48,8 @@ export class EffectsComponent implements OnInit, OnDestroy {
     public showHidden = false;
     public showItem = '';
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { Specialization } from 'src/app/classes/Specialization';
 import * as json_specializations from 'src/assets/json/specializations';
+import { DeepPartial } from 'src/libs/shared/definitions/Types/deepPartial';
 
 @Injectable({
     providedIn: 'root',
@@ -48,7 +49,7 @@ export class ItemSpecializationsDataService {
     }
 
     private _loadSpecializations(
-        data: { [fileContent: string]: Array<unknown> },
+        data: { [fileName: string]: Array<DeepPartial<Specialization>> },
     ): Array<Specialization> {
         const resultingData: Array<Specialization> = [];
 

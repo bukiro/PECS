@@ -40,11 +40,11 @@ export class CharacterDeitiesService {
 
     public currentCharacterDeities(
         source = '',
-        level?: number,
+        levelNumber?: number,
     ): Array<Deity> {
         const character = CreatureService.character;
 
-        level = level || character.level;
+        const safeLevelNumber = levelNumber || character.level;
 
         if (!this._$characterDeities.length && character.class.deity) {
             //Recreate the character deities list from the main deity and the Syncretism feat data.
@@ -53,18 +53,18 @@ export class CharacterDeitiesService {
             if (mainDeity) {
                 this._$characterDeities.push({ deity: mainDeity, source: 'main', level: 1 });
 
-                const hasSyncretismFeat = this._characterFeatsService.characterHasFeat('Syncretism', level);
+                const hasSyncretismFeat = this._characterFeatsService.characterHasFeat('Syncretism', safeLevelNumber);
 
                 if (hasSyncretismFeat) {
                     const data = character.class.filteredFeatData(0, 0, 'Syncretism')[0];
                     const syncretismDeity = data.valueAsString('deity');
 
                     if (syncretismDeity) {
-                        const levelNumber = data.level;
+                        const syncretismLevelNumber = data.level;
                         const secondDeity = this._deitiesDataService.deityFromName(syncretismDeity);
 
                         if (secondDeity) {
-                            this._$characterDeities.push({ deity: secondDeity, source: 'syncretism', level: levelNumber });
+                            this._$characterDeities.push({ deity: secondDeity, source: 'syncretism', level: syncretismLevelNumber });
                         }
                     }
                 }
@@ -72,7 +72,7 @@ export class CharacterDeitiesService {
         }
 
         return this._$characterDeities
-            .filter(deitySet => deitySet.level <= level && (!source || deitySet.source === source))
+            .filter(deitySet => deitySet.level <= safeLevelNumber && (!source || deitySet.source === source))
             .map(deitySet => deitySet.deity);
     }
 

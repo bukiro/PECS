@@ -38,8 +38,8 @@ export class ItemContentComponent implements OnInit, OnDestroy {
     @Input()
     public item: Item;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

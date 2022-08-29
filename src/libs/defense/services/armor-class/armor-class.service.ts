@@ -46,7 +46,7 @@ export class ArmorClassService {
     public setCover(
         creature: Creature,
         cover: number,
-        shield: Shield = null,
+        shield?: Shield,
     ): void {
         const conditions: Array<ConditionGain> =
             this._creatureConditionsService
@@ -200,8 +200,8 @@ export class ArmorClassService {
 
     private _value(
         creature: Creature,
-        absolutes: Array<Effect> = undefined,
-        relatives: Array<Effect> = undefined,
+        absolutes?: Array<Effect>,
+        relatives?: Array<Effect>,
     ): { result: number; explain: string } {
         if (StatusService.isLoadingCharacter) { return { result: 0, explain: '' }; }
 

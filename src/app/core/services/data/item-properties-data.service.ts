@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import * as json_itemproperties from 'src/assets/json/itemproperties';
+import { Item } from 'src/app/classes/Item';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ItemPropertiesDataService {
 
-    private _itemProperties: Array<ItemProperty> = [];
+    private _itemProperties: Array<ItemProperty<Item | object>> = [];
     private _initialized = false;
 
     constructor(
@@ -19,7 +20,7 @@ export class ItemPropertiesDataService {
         return !this._initialized;
     }
 
-    public itemProperties(): Array<ItemProperty> {
+    public itemProperties(): Array<ItemProperty<Item | object>> {
         if (!this.stillLoading) {
             return this._itemProperties;
         } else { return [new ItemProperty()]; }
@@ -27,31 +28,29 @@ export class ItemPropertiesDataService {
 
     public initialize(): void {
         //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
-        this._itemProperties = this._loadItemProperties(json_itemproperties);
-        this._itemProperties =
-            this._extensionsService.cleanupDuplicatesWithMultipleIdentifiers(
-                this._itemProperties,
-                ['group', 'parent', 'key'],
-                'custom item properties',
-            ) as Array<ItemProperty>;
-
+        this._itemProperties = this._loadItemProperties();
         this._initialized = true;
     }
 
-    private _loadItemProperties(
-        data: { [fileContent: string]: Array<unknown> },
-    ): Array<ItemProperty> {
-        const resultingData: Array<ItemProperty> = [];
+    private _loadItemProperties(): Array<ItemProperty<Item | object>> {
+        let itemProperties: Array<ItemProperty<Item | object>> = [];
 
-        const extendedData = this._extensionsService.extend(data, 'itemProperties');
+        const extendedData = this._extensionsService.extend(json_itemproperties, 'itemProperties');
 
         Object.keys(extendedData).forEach(filecontent => {
-            resultingData.push(...extendedData[filecontent].map(entry =>
+            itemProperties.push(...extendedData[filecontent].map(entry =>
                 Object.assign(new ItemProperty(), entry).recast(),
             ));
         });
 
-        return resultingData;
+        itemProperties =
+            this._extensionsService.cleanupDuplicatesWithMultipleIdentifiers(
+                itemProperties,
+                ['group', 'parent', 'key'],
+                'custom item properties',
+            );
+
+        return itemProperties;
     }
 
 }

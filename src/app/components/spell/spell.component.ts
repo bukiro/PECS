@@ -22,18 +22,18 @@ import { StatusService } from 'src/app/core/services/status/status.service';
 export class SpellComponent implements OnInit, OnDestroy {
 
     @Input()
-    public spell: Spell;
+    public spell!: Spell;
     @Input()
-    public spellLevel: number;
+    public spellLevel!: number;
     @Input()
-    public source = '';
+    public source?: string;
     @Input()
-    public casting: SpellCasting = null;
+    public casting?: SpellCasting;
 
     public creatureTypesEnum = CreatureTypes;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

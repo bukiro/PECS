@@ -105,8 +105,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     private _showSpell = '';
     private _showList = '';
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -220,44 +220,44 @@ export class SpellbookComponent implements OnInit, OnDestroy {
     }
 
     public spellCastingParameters(): Array<SpellCastingParameters> {
-        return this._allSpellCastings().map(casting => {
-            const equipmentSpells =
-                this._equipmentSpellsService.filteredGrantedEquipmentSpells(
-                    this._character,
+        return this._allSpellCastings()
+            .map(casting => {
+                const equipmentSpells =
+                    this._equipmentSpellsService.filteredGrantedEquipmentSpells(
+                        this._character,
+                        casting,
+                        { cantripAllowed: true },
+                    );
+                //Don't list castings that have no spells available.
+                const castingAvailable = (
+                    casting.charLevelAvailable &&
+                    casting.charLevelAvailable <= this._character.level
+                ) || equipmentSpells.length;
+
+                return { casting, castingAvailable, equipmentSpells };
+            })
+            .filter(({ castingAvailable }) => !!castingAvailable)
+            .map(({ casting, equipmentSpells }) => {
+                const firstGreaterEvolutionSpellLevel = 11;
+                const secondGreaterEvolutionSpellLevel = 12;
+
+                const maxSpellLevel = this._maxSpellLevelOfCasting(casting, equipmentSpells);
+                const maxGreaterVitalEvolutionSlot = this._maxSpellSlots(firstGreaterEvolutionSpellLevel, casting, maxSpellLevel);
+
+                return {
                     casting,
-                    { cantripAllowed: true },
-                );
-            //Don't list castings that have no spells available.
-            const castingAvailable = (
-                casting.charLevelAvailable &&
-                casting.charLevelAvailable <= this._character.level
-            ) || equipmentSpells.length;
-
-            if (!castingAvailable) {
-                return null;
-            }
-
-            const firstGreaterEvolutionSpellLevel = 11;
-            const secondGreaterEvolutionSpellLevel = 12;
-
-            const maxSpellLevel = this._maxSpellLevelOfCasting(casting, equipmentSpells);
-            const maxGreaterVitalEvolutionSlot = this._maxSpellSlots(firstGreaterEvolutionSpellLevel, casting, maxSpellLevel);
-
-            return {
-                casting,
-                equipmentSpells,
-                maxStudiousCapacitySlots: this._maxSpellSlots(0, casting, maxSpellLevel),
-                usedStudiousCapacitySlots: this._usedSpellSlots(0, casting),
-                maxFirstGreaterVitalEvolutionSlot: maxGreaterVitalEvolutionSlot,
-                usedFirstGreaterVitalEvolutionSlot: this._usedSpellSlots(firstGreaterEvolutionSpellLevel, casting),
-                maxSecondGreaterVitalEvolutionSlot: maxGreaterVitalEvolutionSlot,
-                usedSecondGreaterVitalEvolutionSlot: this._usedSpellSlots(secondGreaterEvolutionSpellLevel, casting),
-                maxSpellLevel,
-                canCounterSpell: this._canCounterspell(casting),
-                signatureSpellsAllowed: this._areSignatureSpellsAllowed(casting),
-            };
-        })
-            .filter(castingParameters => castingParameters);
+                    equipmentSpells,
+                    maxStudiousCapacitySlots: this._maxSpellSlots(0, casting, maxSpellLevel),
+                    usedStudiousCapacitySlots: this._usedSpellSlots(0, casting),
+                    maxFirstGreaterVitalEvolutionSlot: maxGreaterVitalEvolutionSlot,
+                    usedFirstGreaterVitalEvolutionSlot: this._usedSpellSlots(firstGreaterEvolutionSpellLevel, casting),
+                    maxSecondGreaterVitalEvolutionSlot: maxGreaterVitalEvolutionSlot,
+                    usedSecondGreaterVitalEvolutionSlot: this._usedSpellSlots(secondGreaterEvolutionSpellLevel, casting),
+                    maxSpellLevel,
+                    canCounterSpell: this._canCounterspell(casting),
+                    signatureSpellsAllowed: this._areSignatureSpellsAllowed(casting),
+                };
+            });
     }
 
     public spellCastingLevelParameters(
@@ -308,7 +308,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
         return spellCastingLevelParameters.spellTakenList.map(spellTaken => {
             const choice = spellTaken.choice;
             const gain = spellTaken.gain;
-            const spell = this.spellFromName(gain.name);
+            const spell = this.spellFromName(gain.name || '');
             const isSpellDisabledByEffect = this._spellDisabledByEffect(spell, choice);
             const shouldShowRestoreWithBondedItemOption =
                 spellCastingParameters.casting.castingType === 'Prepared' &&
@@ -322,7 +322,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 choice,
                 gain,
                 maxCharges: choice.charges,
-                usedCharges: gain.chargesUsed,
+                usedCharges: gain.chargesUsed || 0,
                 disabledByEffect: isSpellDisabledByEffect,
                 effectiveSpellLevel: this._effectiveSpellLevel(spell, { baseLevel: spellCastingLevelParameters.level, gain }),
                 cannotCast: this._cannotCastSpell(
@@ -546,7 +546,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                         bloodMagic.sourceTrigger.some(sourceTrigger =>
                             [
                                 context.spellCastingParameters.casting?.source.toLowerCase() || '',
-                                context.spellParameters.gain?.source.toLowerCase() || '',
+                                context.spellParameters.gain.source.toLowerCase() || '',
                             ].includes(sourceTrigger.toLowerCase()),
                         )) {
                         const conditionGain = new ConditionGain();
@@ -757,7 +757,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 return [];
             }
         } else {
-            return this._spellsTakenService
+            return (this._spellsTakenService
                 .takenSpells(
                     1,
                     character.level,
@@ -766,7 +766,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                         spellCasting: spellCastingParameters.casting,
                         signatureAllowed: spellCastingParameters.signatureSpellsAllowed,
                         cantripAllowed: true,
-                    })
+                    }) as Array<{ choice: SpellChoice; gain: SpellGain }>)
                 .concat(
                     ...spellCastingParameters.equipmentSpells.filter(spellSet =>
                         (
@@ -776,7 +776,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                         ) === levelNumber,
                     ),
                 )
-                .sort((a, b) => SortAlphaNum(a.gain.name, b.gain.name));
+                .sort((a, b) => SortAlphaNum(a.gain.name || '', b.gain.name || ''));
         }
     }
 
@@ -1018,6 +1018,8 @@ export class SpellbookComponent implements OnInit, OnDestroy {
             return this._characterHasFeat('Swift Banishment');
         } else if (level >= minLevelForImprovedSwiftBanishment && casting.castingType === SpellCastingTypes.Prepared) {
             return this._characterHasFeat('Improved Swift Banishment');
+        } else {
+            return false;
         }
     }
 

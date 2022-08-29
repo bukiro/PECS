@@ -34,11 +34,11 @@ export class Weapon extends Equipment {
     /** What is the damage type? Usually S, B or P, but may include combinations". */
     public dmgType = '';
     /** Some weapons add additional damage like +1d4F. Use get_ExtraDamage() to read. */
-    public readonly extraDamage = '';
+    public extraDamage = '';
     /** The weapon group, needed for critical specialization effects. */
     public group = '';
     /** How many hands are needed to wield this weapon? */
-    public hands = '';
+    public hands: string | number = '';
     /** Melee range in ft: 5 or 10 for weapons with Reach trait. */
     public melee = 0;
     /** Store any poisons applied to this item. There should be only one poison at a time. */

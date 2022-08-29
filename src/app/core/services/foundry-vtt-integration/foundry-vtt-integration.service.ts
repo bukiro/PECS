@@ -53,7 +53,7 @@ export class FoundryVTTIntegrationService {
                     alias = roller.name || `${ roller.type } of ${ CreatureService.character.name }`;
                 }
 
-                let foundryWindow: Window;
+                let foundryWindow: Window | null;
 
                 if (alias) {
                     foundryWindow = window.open(
@@ -69,10 +69,10 @@ export class FoundryVTTIntegrationService {
                     );
                 }
 
-                foundryWindow.blur();
+                foundryWindow?.blur();
                 window.self.focus();
                 setTimeout(() => {
-                    foundryWindow.close();
+                    foundryWindow?.close();
                 }, foundryVTTTimeout);
                 this._toastService.show('Dice roll sent to Foundry VTT.');
             }
@@ -134,7 +134,12 @@ export class FoundryVTTIntegrationService {
             if (results.length) {
                 results.reverse();
 
-                const rollObject = { formula: '', terms: [], results: [], _total: 0 };
+                const rollObject = {
+                    formula: '',
+                    terms: [] as Array<object>,
+                    results: [] as Array<string | number>,
+                    _total: 0,
+                };
 
                 results.forEach((result: DiceResult, index: number) => {
                     if (index > 0 && ((result.diceNum && result.diceSize) || result.bonus >= 0)) {
@@ -151,7 +156,12 @@ export class FoundryVTTIntegrationService {
                     // then add the sum to the Roll's results.
                     if (result.diceNum && result.diceSize) {
                         const die =
-                            { number: result.diceNum, faces: result.diceSize, results: [], options: { flavor: result.type.trim() } };
+                        {
+                            number: result.diceNum,
+                            faces: result.diceSize,
+                            results: [] as Array<object>,
+                            options: { flavor: result.type.trim() },
+                        };
 
                         die.results = result.rolls.map(resultRoll => ({ result: resultRoll, active: true }));
                         rollObject.terms.push(die);

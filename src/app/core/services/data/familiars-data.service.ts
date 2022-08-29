@@ -58,7 +58,7 @@ export class FamiliarsDataService {
         const data = this._extensionsService.extend(json_abilities, 'familiarAbilities');
 
         Object.keys(data).forEach(key => {
-            this._familiarAbilities.push(...data[key].map((obj: Feat) => Object.assign(new Feat(), obj).recast()));
+            this._familiarAbilities.push(...data[key].map(obj => Object.assign(new Feat(), obj).recast()));
         });
         this._familiarAbilities =
             this._extensionsService.cleanupDuplicates(this._familiarAbilities, 'name', 'familiar abilities') as Array<Feat>;

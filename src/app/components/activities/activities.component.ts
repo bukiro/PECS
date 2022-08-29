@@ -49,8 +49,8 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
     private _showActivity = '';
     private _showItem = '';
     private _showFeatChoice = '';
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

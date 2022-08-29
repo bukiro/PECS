@@ -48,8 +48,8 @@ export class ConditionComponent implements OnInit, OnDestroy {
     @Output()
     public readonly showItemMessage = new EventEmitter<string>();
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

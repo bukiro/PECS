@@ -32,7 +32,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "craftRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
         "storedSpells": [
@@ -75,7 +75,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "craftRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
         "storedSpells": [
@@ -123,7 +123,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "craftRequirement": "Supply a casting of fireball of the appropriate level.",
         "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=1d6 Persistent Fire| persistent fire damage.",
         "storedSpells": [
             {
@@ -150,7 +150,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "craftRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
         "storedSpells": [
@@ -193,7 +193,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "craftRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
         "storedSpells": [
@@ -241,7 +241,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "craftRequirement": "Supply a casting of fireball of the appropriate level.",
         "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=2d6 Persistent Fire| persistent fire damage.",
         "storedSpells": [
             {
@@ -268,7 +268,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "craftRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
         "storedSpells": [
@@ -311,7 +311,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "craftRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
         "storedSpells": [
@@ -359,7 +359,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "craftRequirement": "Supply a casting of fireball of the appropriate level.",
         "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=3d6 Persistent Fire| persistent fire damage.",
         "storedSpells": [
             {
@@ -386,7 +386,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "craftRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
         "storedSpells": [
@@ -429,7 +429,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "craftRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
         "storedSpells": [
@@ -477,7 +477,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of fireball of the appropriate level.",
+        "craftRequirement": "Supply a casting of fireball of the appropriate level.",
         "effect": "You cast fireball of the indicated level. Each creature that fails its save takes |dice=4d6 Persistent Fire| persistent fire damage.",
         "storedSpells": [
             {
@@ -505,7 +505,7 @@
             "Wand"
         ],
         "activationType": "Cast a Spell",
-        "craftingRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
+        "craftRequirement": "Supply a casting of a spell of the appropriate level. The spell must have a casting time of one action or two actions, can't have a duration, and must have an area of burst (10 feet or more), cone, or line.",
         "effect": "You Cast the Spell, and increase its area. Add 5 feet to the radius of a burst that normally has a radius of at least 10 feet; add 5 feet to the length of a cone or line that is normally 15 feet long or smaller; or add 10 feet to the length of a larger cone or line.",
         "frequency": "once per day, plus overcharge; This activation takes two actions if the spell normally takes one action to cast, or three actions if the spell normally takes two actions",
         "storedSpells": [

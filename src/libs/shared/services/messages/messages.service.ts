@@ -208,7 +208,7 @@ export class MessagesService {
         this._newMessages = this._newMessages.filter(message => message.ttl > 0);
     }
 
-    private _creatureFromMessage(message: PlayerMessage): Creature {
+    private _creatureFromMessage(message: PlayerMessage): Creature | undefined {
         return this._messageProcessingService.creatureFromMessage(message);
     }
 

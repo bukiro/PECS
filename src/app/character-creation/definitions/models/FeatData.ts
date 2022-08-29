@@ -1,7 +1,7 @@
 //TO-DO: Resolve private properties either not matching JSON import or not having an underscore
 /* eslint-disable @typescript-eslint/naming-convention */
 
-type FeatDataValue = string | number | boolean | Array<string> | Array<number>;
+type FeatDataValue = string | number | boolean | Array<string> | Array<number> | null;
 
 export class FeatData {
     private data: { [key: string]: FeatDataValue } = {};
@@ -37,19 +37,19 @@ export class FeatData {
         return this.data[key];
     }
 
-    public valueAsString(key: string): Readonly<string> {
+    public valueAsString(key: string): Readonly<string | null> {
         return typeof this.data[key] === 'string' ? this.data[key] as string : null;
     }
 
-    public valueAsNumber(key: string): Readonly<number> {
+    public valueAsNumber(key: string): Readonly<number | null> {
         return typeof this.data[key] === 'number' ? this.data[key] as number : null;
     }
 
-    public valueAsBoolean(key: string): Readonly<boolean> {
+    public valueAsBoolean(key: string): Readonly<boolean | null> {
         return typeof this.data[key] === 'boolean' ? this.data[key] as boolean : null;
     }
 
-    public valueAsStringArray(key: string): ReadonlyArray<string> {
+    public valueAsStringArray(key: string): ReadonlyArray<string> | null {
         if (this.data[key] && Array.isArray(this.data[key])) {
             return this.data[key] as Array<string>;
         } else {
@@ -57,7 +57,7 @@ export class FeatData {
         }
     }
 
-    public valueAsNumberArray(key: string): ReadonlyArray<number> {
+    public valueAsNumberArray(key: string): ReadonlyArray<number> | null {
         if (this.data[key] && Array.isArray(this.data[key])) {
             return this.data[key] as Array<number>;
         } else {

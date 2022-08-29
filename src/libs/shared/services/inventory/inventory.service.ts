@@ -33,10 +33,7 @@ export class InventoryService {
             newPropertyRunes?: Array<Partial<Rune>>;
         } = {},
     ): Item {
-        context = {
-            amount: 1,
-            ...context,
-        };
+        context.amount = context.amount || 1;
         options = {
             resetRunes: true,
             changeAfter: true,
@@ -58,9 +55,11 @@ export class InventoryService {
         let existingItems: Array<Item> = [];
 
         if (!options.expiration && newInventoryItem.canStack()) {
-            existingItems = context.inventory[item.type].filter((existing: Item) =>
-                existing.name === newInventoryItem.name && newInventoryItem.canStack() && !item.expiration,
-            );
+            existingItems =
+                (context.inventory[item.type as keyof ItemCollection] as Array<Item>)
+                    .filter((existing: Item) =>
+                        existing.name === newInventoryItem.name && newInventoryItem.canStack() && !item.expiration,
+                    );
         }
 
         // If any existing, stackable items are found, try parsing the amount (set it to 1 if failed),
@@ -82,9 +81,12 @@ export class InventoryService {
             //Update gridicons of the expanded item.
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, returnedItem.id);
         } else {
-            const newInventoryLength = context.inventory[newInventoryItem.type].push(newInventoryItem);
+            const targetTypes = context.inventory[newInventoryItem.type as keyof ItemCollection] as Array<Item>;
 
-            returnedItem = context.inventory[newInventoryItem.type][newInventoryLength - 1];
+            const newInventoryLength =
+                targetTypes.push(newInventoryItem);
+
+            returnedItem = targetTypes[newInventoryLength - 1];
 
             if (context.amount > 1) {
                 returnedItem.amount = context.amount;
@@ -140,7 +142,8 @@ export class InventoryService {
             this._inventoryItemProcessingService.processDroppingItem(creature, inventory, item, including, keepInventoryContent);
 
             //The item is deleted here.
-            inventory[item.type] = inventory[item.type].filter((inventoryItem: Item) => inventoryItem !== item);
+            (inventory[item.type as keyof ItemCollection] as Array<Item>) =
+                (inventory[item.type as keyof ItemCollection] as Array<Item>).filter((inventoryItem: Item) => inventoryItem !== item);
 
             if (equipBasicItems) {
                 this._basicEquipmentService.equipBasicItems(creature);

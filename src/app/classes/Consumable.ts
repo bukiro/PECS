@@ -2,7 +2,7 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Item } from 'src/app/classes/Item';
 import { EffectGain } from 'src/app/classes/EffectGain';
 
-export class Consumable extends Item {
+export abstract class Consumable extends Item {
     //Allow changing of "equippable" by custom item creation.
     public readonly allowEquippable = false;
     //Consumables can not be equipped.
@@ -32,9 +32,7 @@ export class Consumable extends Item {
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Consumable {
-        return Object.assign<Consumable, Consumable>(new Consumable(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
-    }
-
     public isConsumable(): this is Consumable { return true; }
+
+    public abstract clone(restoreFn: <T extends Item>(obj: T) => T): Consumable;
 }

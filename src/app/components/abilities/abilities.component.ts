@@ -21,8 +21,8 @@ export class AbilitiesComponent implements OnInit, OnDestroy {
     @Input()
     public creature: CreatureTypes.Character | CreatureTypes.AnimalCompanion = CreatureTypes.Character;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

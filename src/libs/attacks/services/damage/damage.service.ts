@@ -124,7 +124,7 @@ export class DamageService {
 
             // For any activated traits of this weapon, check if any effects on Dice Number apply.
             // These need to be calculated in the effects service.
-            const traitEffects = [];
+            const traitEffects: Array<Effect> = [];
 
             weapon.activatedTraitsActivations().forEach(activation => {
                 const realTrait = this._traitsDataService.traits(activation.trait)[0];
@@ -262,7 +262,7 @@ export class DamageService {
 
             // For any activated traits of this weapon, check if any effects on Dice Size apply.
             // These need to be calculated in the effects service.
-            const traitEffects = [];
+            const traitEffects: Array<Effect> = [];
 
             weapon.activatedTraitsActivations().forEach(activation => {
                 const realTrait = this._traitsDataService.traits(activation.trait)[0];
@@ -542,7 +542,7 @@ export class DamageService {
             // Pre-create Effects based on "Damage per Die" effects.
             // For any activated traits of this weapon, check if any effects on Dice Size apply.
             // These need to be calculated in the effects service.
-            const traitEffects = [];
+            const traitEffects: Array<Effect> = [];
 
             weapon.activatedTraitsActivations().forEach(activation => {
                 const realTrait = this._traitsDataService.traits(activation.trait)[0];
@@ -720,9 +720,9 @@ export class DamageService {
 
         const runeSource = attackRuneSource(weapon, creature, range);
 
-        runeSource.propertyRunes.propertyRunes
-            .filter((weaponRune: WeaponRune) => weaponRune.extraDamage)
-            .forEach((weaponRune: WeaponRune) => {
+        (runeSource.propertyRunes.propertyRunes as Array<WeaponRune>)
+            .filter(weaponRune => weaponRune.extraDamage)
+            .forEach(weaponRune => {
                 extraDamage += `\n${ weaponRune.extraDamage }`;
             });
         weapon.oilsApplied
@@ -732,9 +732,9 @@ export class DamageService {
             });
 
         if (runeSource.propertyRunes.bladeAlly) {
-            runeSource.propertyRunes.bladeAllyRunes
-                .filter((weaponRune: WeaponRune) => weaponRune.extraDamage)
-                .forEach((weaponRune: WeaponRune) => {
+            (runeSource.propertyRunes.bladeAllyRunes as Array<WeaponRune>)
+                .filter(weaponRune => weaponRune.extraDamage)
+                .forEach(weaponRune => {
                     extraDamage += `\n${ weaponRune.extraDamage }`;
                 });
         }

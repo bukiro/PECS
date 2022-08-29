@@ -46,8 +46,8 @@ export class SkillsComponent implements OnInit, OnDestroy {
     private _showList = '';
     private _showAction = '';
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -219,7 +219,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         );
     }
 
-    public skillChoices(): Array<SkillChoice> {
+    public skillChoices(): Array<SkillChoice> | undefined {
         if (this.creature === CreatureTypes.Character) {
             const character = (this._currentCreature as Character);
             const choices: Array<SkillChoice> = [];

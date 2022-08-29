@@ -18,8 +18,8 @@ import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-tra
 
 interface ItemParameters {
     item: Item;
-    asGrantingActivities: Equipment;
-    asHavingItemActivities: Equipment | Rune;
+    asGrantingActivities?: Equipment;
+    asHavingItemActivities?: Equipment | Rune;
 }
 
 @Component({
@@ -33,10 +33,10 @@ export class HintItemComponent implements OnInit, OnDestroy {
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    public item: Item;
+    public item!: Item;
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

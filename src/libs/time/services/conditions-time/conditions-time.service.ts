@@ -37,7 +37,7 @@ export class ConditionsTimeService {
         const creatureConditions = creature.conditions;
         //If any conditions are currently stopping time, these are the only ones processed.
         const IsConditionStoppingTime = (gain: ConditionGain): boolean =>
-            gain.duration && this._conditionsDataService.conditionFromName(gain.name).isStoppingTime(gain);
+            !!gain.duration && this._conditionsDataService.conditionFromName(gain.name).isStoppingTime(gain);
 
         const timeStoppingConditions = creatureConditions.filter(gain => IsConditionStoppingTime(gain));
 
@@ -96,7 +96,7 @@ export class ConditionsTimeService {
                 )
             ) {
                 //Get the first condition that will run out.
-                let first: number;
+                let first: number | undefined;
 
                 // If any condition has a decreasing Value per round, that is not locked by a parent
                 // step 5 (to the end of the Turn) if it is your Turn or 10 (1 turn) at most.
@@ -119,20 +119,26 @@ export class ConditionsTimeService {
                     }
                 } else {
                     if (includedConditions.some(gain => (gain.duration > 0 && gain.choice !== 'Onset') || gain.nextStage > 0)) {
-                        const firstObject: ConditionGain =
+                        const firstObject: ConditionGain | undefined =
                             SortByShortestDuration(includedConditions).find(gain => gain.duration > 0 || gain.nextStage > 0);
                         const durations: Array<number> = [];
 
-                        if (firstObject.duration > 0 && firstObject.choice !== 'Onset') { durations.push(firstObject.duration); }
+                        if (firstObject) {
+                            if (firstObject.duration > 0 && firstObject.choice !== 'Onset') { durations.push(firstObject.duration); }
 
-                        if (firstObject.nextStage > 0) { durations.push(firstObject.nextStage); }
+                            if (firstObject.nextStage > 0) { durations.push(firstObject.nextStage); }
+                        }
 
-                        first = Math.min(...durations);
+                        if (durations.length) {
+                            first = Math.min(...durations);
+                        }
                     }
                 }
 
                 //Either step to the next condition to run out or decrease their value or step the given turns, whichever comes first.
-                const step = Math.min(first, remainingTurns);
+                const step = first
+                    ? Math.min(first, remainingTurns)
+                    : remainingTurns;
 
                 includedConditions.filter(gain => gain.duration > 0 && gain.choice !== 'Onset').forEach(gain => {
                     gain.duration -= step;

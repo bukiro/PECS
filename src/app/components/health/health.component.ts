@@ -38,8 +38,8 @@ export class HealthComponent implements OnInit, OnDestroy {
     public setTempHP = 0;
     public selectedTempHP: { amount: number; source: string; sourceId: string };
 
-    private _changeSubscription: Subscription;
-    private _viewChangeSubscription: Subscription;
+    private _changeSubscription?: Subscription;
+    private _viewChangeSubscription?: Subscription;
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,

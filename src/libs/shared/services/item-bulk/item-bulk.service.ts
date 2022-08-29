@@ -4,6 +4,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
+import { OtherConsumable } from 'src/app/classes/OtherConsumable';
 import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
 
 @Injectable({
@@ -11,7 +12,7 @@ import { CutOffDecimals } from 'src/libs/shared/util/numberUtils';
 })
 export class ItemBulkService {
 
-    public totalItemBulk(creature: Creature, item: Item, targetInventory: ItemCollection = null, including = true): number {
+    public totalItemBulk(creature: Creature, item: Item, targetInventory?: ItemCollection, including = true): number {
         // Sum up all the bulk of an item, including items granted by it and inventories it contains (or they contain).
         // If this item has granted other items, sum up the bulk of each of them.
         // If a targetInventory is given, don't count items in that inventory,
@@ -26,9 +27,9 @@ export class ItemBulkService {
 
                 creature.inventories.filter(inventory => !targetInventory || inventory !== targetInventory).forEach(inventory => {
                     //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
-                    inventory[itemGain.type]
-                        .filter((invItem: Item) => itemGain.isMatchingExistingItem(invItem))
-                        .forEach((invItem: Item) => {
+                    (inventory[itemGain.type as keyof ItemCollection] as Array<Item>)
+                        .filter(invItem => itemGain.isMatchingExistingItem(invItem))
+                        .forEach(invItem => {
                             if (invItem.canStack()) {
                                 found += invItem.amount;
                                 stackBulk = (invItem as Equipment).carryingBulk || invItem.bulk;
@@ -43,7 +44,7 @@ export class ItemBulkService {
 
                 if (found && stackBulk && stackSize) {
                     //If one ore more stacked items were found, calculate the stack bulk accordingly.
-                    const testItem = new Consumable();
+                    const testItem = new OtherConsumable();
 
                     testItem.bulk = stackBulk;
                     testItem.amount = Math.min(itemGain.amount, found);

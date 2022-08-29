@@ -98,7 +98,7 @@ export class ItemTraitsService {
                 if (newReach === noReach || newReach === 0) {
                     traits = traits.filter(trait => !trait.includes('Reach'));
                 } else {
-                    const reachString: string = traits.find(trait => trait.includes('Reach'));
+                    const reachString: string | undefined = traits.find(trait => trait.includes('Reach'));
 
                     if (reachString) {
                         traits[traits.indexOf(reachString)] = `Reach ${ newReach } feet`;

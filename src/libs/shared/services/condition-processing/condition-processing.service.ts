@@ -438,7 +438,7 @@ export class ConditionProcessingService {
         }
     }
 
-    private _namedConditionEffects(creature, condition: Condition, gain: ConditionGain, taken: boolean): boolean {
+    private _namedConditionEffects(creature: Creature, condition: Condition, gain: ConditionGain, taken: boolean): boolean {
         let didNamedConditionsDoAnything = false;
 
         //Leave cover behind shield if the Cover condition is removed.

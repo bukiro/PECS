@@ -208,7 +208,7 @@ export class SpellActivityProcessingSharedService {
                     .find(overrideChoice =>
                         overrideChoice.condition === condition.name &&
                         condition.$choices.includes(overrideChoice.choice),
-                    ).choice;
+                    )?.choice || newConditionGain.choice;
         } else if (newConditionGain.choiceBySubType) {
             // If there is a choiceBySubType value, and you have a feat with superType == choiceBySubType,
             // set the choice to that feat's subType as long as it's a valid choice for the condition.

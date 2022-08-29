@@ -15,7 +15,7 @@ export class HistorySavingLoadingService {
     ) { }
 
     public restoreAncestryFromSave(ancestry: Ancestry): Ancestry {
-        let restoredAncestry: Ancestry;
+        let restoredAncestry: Ancestry | undefined;
 
         if (ancestry.name) {
             const libraryObject = this._historyDataService.ancestryFromName(ancestry.name);
@@ -38,7 +38,7 @@ export class HistorySavingLoadingService {
             const libraryObject = this._historyDataService.ancestryFromName(ancestry.name);
 
             if (libraryObject.name === ancestry.name) {
-                Object.keys(ancestry).forEach(key => {
+                (Object.keys(ancestry) as Array<keyof Ancestry>).forEach(key => {
                     if (key !== 'name') {
                         // If the Object has a name, and a library item can be found with that name,
                         // compare the property with the library item
@@ -56,7 +56,7 @@ export class HistorySavingLoadingService {
     }
 
     public restoreHeritageFromSave(heritage: Heritage): Heritage {
-        let restoredHeritage: Heritage;
+        let restoredHeritage: Heritage | undefined;
 
         if (heritage.name) {
             const libraryObject = this._historyDataService.heritageFromName(heritage.name);
@@ -79,7 +79,7 @@ export class HistorySavingLoadingService {
             const libraryObject = this._historyDataService.heritageFromName(heritage.name);
 
             if (libraryObject.name === heritage.name) {
-                Object.keys(heritage).forEach(key => {
+                (Object.keys(heritage) as Array<keyof Heritage>).forEach(key => {
                     if (key !== 'name') {
                         // If the Object has a name, and a library item can be found with that name,
                         // compare the property with the library item
@@ -97,7 +97,7 @@ export class HistorySavingLoadingService {
     }
 
     public restoreBackgroundFromSave(background: Background): Background {
-        let mergedBackground: Background;
+        let mergedBackground: Background | undefined;
 
         if (background.name) {
             const libraryObject = this._historyDataService.backgroundFromName(background.name);
@@ -120,7 +120,7 @@ export class HistorySavingLoadingService {
             const libraryObject = this._historyDataService.backgroundFromName(background.name);
 
             if (libraryObject.name === background.name) {
-                Object.keys(background).forEach(key => {
+                (Object.keys(background) as Array<keyof Background>).forEach(key => {
                     if (key !== 'name') {
                         // If the Object has a name, and a library item can be found with that name,
                         // compare the property with the library item
