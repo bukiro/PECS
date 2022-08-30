@@ -40,13 +40,13 @@ interface ArmorMaterialSet {
 export class ItemMaterialArmorComponent implements OnInit {
 
     @Input()
-    public item: Armor;
+    public item!: Armor;
     @Input()
-    public craftingStation = false;
+    public craftingStation?: boolean;
     @Input()
-    public customItemStore = false;
+    public customItemStore?: boolean;
 
-    public newMaterial: Array<ArmorMaterialSet>;
+    public newMaterial: Array<ArmorMaterialSet> = [];
     public inventories: Array<string> = [];
 
     constructor(
@@ -61,7 +61,7 @@ export class ItemMaterialArmorComponent implements OnInit {
             !!this.item.material &&
             (
                 (this.item.moddable && !this.isItemUnarmored()) ||
-                this.customItemStore
+                !!this.customItemStore
             )
         );
     }
@@ -200,7 +200,7 @@ export class ItemMaterialArmorComponent implements OnInit {
         this._updateItem();
     }
 
-    public materialTitle(material: Material): string {
+    public materialTitle(material: Material): string | undefined {
         //In the item store, return the extra price.
         if (!this.craftingStation && material.price) {
             return `Price ${ this._priceText(material.price) }`

@@ -37,4 +37,6 @@ export class WeaponRune extends Rune {
     public clone(restoreFn: <T extends Item>(obj: T) => T): WeaponRune {
         return Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
+
+    public hasSuccessResults(): this is WeaponRune { return true; }
 }

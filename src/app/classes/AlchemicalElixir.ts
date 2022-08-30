@@ -26,4 +26,6 @@ export class AlchemicalElixir extends Consumable {
             new AlchemicalElixir(), JSON.parse(JSON.stringify(this)),
         ).recast(restoreFn);
     }
+
+    public isAlchemicalElixir(): this is AlchemicalElixir { return true; }
 }

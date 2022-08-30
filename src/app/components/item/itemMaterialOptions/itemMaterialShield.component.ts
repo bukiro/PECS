@@ -26,13 +26,13 @@ interface ShieldMaterialSet {
 export class ItemMaterialShieldComponent implements OnInit {
 
     @Input()
-    public item: Shield;
+    public item!: Shield;
     @Input()
-    public craftingStation = false;
+    public craftingStation?: boolean;
     @Input()
-    public customItemStore = false;
+    public customItemStore?: boolean;
 
-    public newMaterial: Array<ShieldMaterialSet>;
+    public newMaterial: Array<ShieldMaterialSet> = [];
     public inventories: Array<string> = [];
 
     constructor(
@@ -47,7 +47,7 @@ export class ItemMaterialShieldComponent implements OnInit {
             !!this.item.material &&
             (
                 this.item.moddable ||
-                this.customItemStore
+                !!this.customItemStore
             )
         );
     }
@@ -168,7 +168,7 @@ export class ItemMaterialShieldComponent implements OnInit {
         this._updateItem();
     }
 
-    public materialTitle(material: Material): string {
+    public materialTitle(material: Material): string | undefined {
         //In the item store, return the extra price.
         if (!this.craftingStation && material.price) {
             return `Price ${ this._priceText(material.price) }`

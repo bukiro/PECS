@@ -64,11 +64,11 @@ export class ActivityComponent implements OnInit, OnDestroy {
     @Input()
     public gain!: ActivityGain | ItemActivity;
     @Input()
-    public allowActivate = false;
+    public allowActivate?: boolean;
     @Input()
-    public isSubItem = false;
+    public isSubItem?: boolean;
     @Input()
-    public closeAfterActivation = false;
+    public closeAfterActivation?: boolean;
 
     public item?: Equipment | Rune;
 
@@ -262,7 +262,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         conditionSet: { gain: ConditionGain; condition: Condition },
         context: { tooManySlottedAeonStones: boolean; resonantAllowed: boolean },
     ): boolean {
-        return this.allowActivate &&
+        return !!this.allowActivate &&
             !!conditionSet.condition &&
             !!conditionSet.condition.$choices.length &&
             !conditionSet.gain.choiceBySubType &&

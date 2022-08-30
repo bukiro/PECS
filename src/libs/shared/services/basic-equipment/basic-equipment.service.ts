@@ -11,13 +11,21 @@ import { InventoryService } from '../inventory/inventory.service';
 })
 export class BasicEquipmentService {
 
-    private _basicItems: { weapon?: Weapon; armor?: Armor } = {};
+    private _basicItems: { weapon: Weapon; armor: Armor } = { weapon: new Weapon(), armor: new Armor() };
 
     constructor(
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryService: InventoryService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
     ) { }
+
+    public get fist(): Weapon {
+        return this._basicItems.weapon;
+    }
+
+    public get unarmored(): Armor {
+        return this._basicItems.armor;
+    }
 
     public equipBasicItems(creature: Creature, changeAfter = true): void {
         if (this._basicItems.weapon && this._basicItems.armor && !(creature.isFamiliar())) {

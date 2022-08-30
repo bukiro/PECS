@@ -99,7 +99,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         return this._familiarsDataService.familiarAbilityFromName(name);
     }
 
-    public companionSpecies(): string {
+    public companionSpecies(): string | undefined {
         const companion: AnimalCompanion = this.companion;
 
         if (companion.level && companion.class.levels.length) {
@@ -115,7 +115,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
         }
     }
 
-    public companionSpecializations(): string {
+    public companionSpecializations(): string | undefined {
         const companion: AnimalCompanion = this.companion;
 
         if (companion.level && companion.class.specializations.length) {
@@ -160,10 +160,11 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     public tenets(): Array<string> {
         //Collect tenets from all feats and features you have that include them.
-        return [].concat(...this._characterFeatsService.characterFeatsAndFeatures()
-            .filter(feat => feat.tenets?.length && this._characterFeatsService.characterHasFeat(feat.name))
-            .map(feat => feat.tenets),
-        );
+        return ([] as Array<string>)
+            .concat(...this._characterFeatsService.characterFeatsAndFeatures()
+                .filter(feat => feat.tenets?.length && this._characterFeatsService.characterHasFeat(feat.name))
+                .map(feat => feat.tenets),
+            );
     }
 
     public edicts(): Array<string> {
@@ -215,7 +216,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
             .join(', ');
     }
 
-    public differentWorldsData(): Array<FeatData> {
+    public differentWorldsData(): Array<FeatData> | undefined {
         const character = this.character;
 
         if (this._characterFeatsService.characterFeatsTaken(1, character.level, { featName: 'Different Worlds' }).length) {

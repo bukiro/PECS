@@ -13,6 +13,7 @@ import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 
 interface RuneSet {
     rune: WeaponRune;
@@ -28,14 +29,15 @@ interface RuneSet {
 export class ItemBladeAllyComponent implements OnInit {
 
     @Input()
-    public item: Equipment;
+    public item!: Weapon | WornItem;
 
-    public newPropertyRune: RuneSet;
+    public newPropertyRune: RuneSet = { rune: new WeaponRune() };
 
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
+        private readonly _basicEquipemntService: BasicEquipmentService,
         public trackers: Trackers,
     ) { }
 
@@ -60,14 +62,15 @@ export class ItemBladeAllyComponent implements OnInit {
 
     public availableWeaponPropertyRunes(): Array<RuneSet> {
         const weapon = this.item;
+        let runeRequirementWeapon: Weapon;
 
         // In the case of Handwraps of Mighty Blows, we need to compare the rune's requirements with the Fist weapon,
         // but its potency rune requirements with the Handwraps.
         // For this purpose, we use two different "weapon"s.
-        let weapon2 = this.item;
-
-        if ((weapon as WornItem).isHandwrapsOfMightyBlows) {
-            weapon2 = this._cleanItems().weapons.find(cleanWeapon => cleanWeapon.name === 'Fist');
+        if (weapon.isWornItem()) {
+            runeRequirementWeapon = this._basicEquipemntService.fist;
+        } else {
+            runeRequirementWeapon = weapon;
         }
 
         const allRunes: Array<RuneSet> = [];
@@ -101,23 +104,23 @@ export class ItemBladeAllyComponent implements OnInit {
                 (
                     //Show runes that require a trait if that trait is present on the weapon.
                     runeSet.rune.traitreq ?
-                        weapon2?.traits
+                        runeRequirementWeapon.traits
                             .filter(trait => trait.includes(runeSet.rune.traitreq)).length
                         : true
                 ) && (
                     //Show runes that require a range if the weapon has a value for that range.
                     runeSet.rune.rangereq ?
-                        weapon2?.[runeSet.rune.rangereq] > 0
+                        runeRequirementWeapon[runeSet.rune.rangereq] > 0
                         : true
                 ) && (
                     //Show runes that require a damage type if the weapon's dmgType contains either of the letters in the requirement.
                     runeSet.rune.damagereq ?
                         (
-                            (weapon2 as Weapon)?.dmgType &&
+                            runeRequirementWeapon.dmgType &&
                             (
                                 runeSet.rune.damagereq.split('')
-                                    .filter(req => (weapon2 as Weapon).dmgType.includes(req)).length ||
-                                (weapon2 as Weapon)?.dmgType === 'modular'
+                                    .filter(req => runeRequirementWeapon.dmgType.includes(req)).length ||
+                                runeRequirementWeapon.dmgType === 'modular'
                             )
                         )
                         : true

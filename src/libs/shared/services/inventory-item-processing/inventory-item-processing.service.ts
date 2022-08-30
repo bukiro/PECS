@@ -118,7 +118,7 @@ export class InventoryItemProcessingService {
             this._processDroppingEquipment(creature, inventory, item, including, keepInventoryContent);
         }
 
-        item.oilsApplied.filter((oil: Oil) => oil.runeEffect.loreChoices.length).forEach((oil: Oil) => {
+        item.oilsApplied.filter(oil => oil.runeEffect?.loreChoices.length).forEach((oil: Oil) => {
             this._characterLoreService.removeRuneLore(oil.runeEffect);
         });
 

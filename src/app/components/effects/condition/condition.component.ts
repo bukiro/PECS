@@ -36,9 +36,9 @@ interface ActivityParameters {
 export class ConditionComponent implements OnInit, OnDestroy {
 
     @Input()
-    public conditionGain: ConditionGain;
+    public conditionGain?: ConditionGain;
     @Input()
-    public condition: Condition;
+    public condition!: Condition;
     @Input()
     public showItem = '';
     @Input()
@@ -219,9 +219,11 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     public conditionActivitiesParameters(): Array<ActivityParameters> {
         if (this.conditionGain) {
+            const heightened = this.conditionGain.heightened;
+
             return this.conditionGain.gainActivities.map(gain => {
 
-                gain.heightened = this.conditionGain.heightened;
+                gain.heightened = heightened;
 
                 const originalActivity = this._activityGainPropertyService.originalActivity(gain);
 
@@ -288,7 +290,7 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     private _updateCondition(): void {
         //This updates any gridicon that has this condition gain's id set as its update id.
-        if (this.conditionGain.id) {
+        if (this.conditionGain?.id) {
             this._refreshService.setComponentChanged(this.conditionGain.id);
         }
     }

@@ -14,11 +14,11 @@ import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles
 export class ItemMaterialComponent {
 
     @Input()
-    public item: Weapon | Armor | Shield;
+    public item!: Weapon | Armor | Shield;
     @Input()
-    public craftingStation = false;
+    public craftingStation?: boolean;
     @Input()
-    public customItemStore = false;
+    public customItemStore?: boolean;
 
     private _itemRoles?: ItemRoles;
 

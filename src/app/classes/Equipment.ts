@@ -16,6 +16,7 @@ import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { Oil } from './Oil';
+import { ArmorRune } from './ArmorRune';
 
 export abstract class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -140,7 +141,7 @@ export abstract class Equipment extends Item {
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
         this.propertyRunes =
             this.propertyRunes.map(obj =>
-                Object.assign(new Rune(), restoreFn(obj)).recast(restoreFn),
+                Object.assign(this.isArmor() ? new ArmorRune() : new WeaponRune(), restoreFn(obj)).recast(restoreFn),
             );
         this.bladeAllyRunes =
             this.bladeAllyRunes.map(obj =>

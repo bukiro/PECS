@@ -40,7 +40,7 @@
                     <header class="subsectionHeader">Change Currency</header>
                     <app-cash></app-cash>
                     <ng-container *ngIf="craftingItems() as items">
-                        <ng-container *ngIf="snareSpecialistParameters(items.snares) as snareSpecialistParameters">
+                        <ng-container *ngIf="snareSpecialistParameters(items) as snareSpecialistParameters">
                             <header class="sectionHeader">Snare Specialist</header>
                             <div class="list-item">
                                 You can prepare {{snareSpecialistParameters.available -
@@ -141,7 +141,7 @@
                         <ng-container
                             *ngFor="let itemSet of items.names; let index = index; trackBy:trackers.trackByIndex;">
                             <ng-container *ngIf="''+(index*1000+1000) as listID">
-                                <ng-container *ngIf="visibleItems(items[itemSet.key]) as visibleItems">
+                                <ng-container *ngIf="visibleItems(items, itemSet.key) as visibleItems">
                                     <button class="list-item"
                                         [ngStyle]="{'display':!visibleItems.length ? 'none' : 'flex' }"
                                         (click)="toggleShownList(listID)">
@@ -218,13 +218,15 @@
                                                             <button class=" newrow center-aligned"
                                                                 (click)="craftItem(itemParameters.item)"
                                                                 [disabled]="cannotCraftReason.length">
-                                                                Craft {{itemParameters.stack > 1 ?
-                                                                itemParameters.stack+" "
-                                                                : ""}}using Craft activity
+                                                                Craft
+                                                                {{(itemParameters?.stack || 0) > 1 ?
+                                                                itemParameters.stack: ""}}
+                                                                using Craft activity
                                                             </button>
                                                         </div>
                                                     </ng-container>
                                                     <app-itemMaterial class="newrow"
+                                                        *ngIf="itemParameters.asMaterialChangeable"
                                                         [item]="itemParameters.asMaterialChangeable"
                                                         [itemRoles]="itemParameters" [craftingStation]="true">
                                                     </app-itemMaterial>

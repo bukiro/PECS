@@ -18,10 +18,10 @@
             {{calculatedPriceText}}
             {{itemRoles.stack && itemRoles.stack > 1 ? "per "+itemRoles.stack : ""}}
         </span>
-        <span *ngIf="itemRoles.asWeapon.dicenum">
+        <span *ngIf="itemRoles.asWeapon?.dicenum">
             <strong>Damage</strong>
-            {{itemRoles.asWeapon.dicenum}}d{{itemRoles.asWeapon.dicesize}}
-            {{itemRoles.asWeapon.dmgType}}
+            {{itemRoles.asWeapon?.dicenum}}d{{itemRoles.asWeapon?.dicesize}}
+            {{itemRoles.asWeapon?.dmgType}}
         </span>
         <span *ngIf="acBonusParameters(itemRoles) as acBonusParameters">
             <strong>AC Bonus</strong>
@@ -56,24 +56,27 @@
                 {{strenthRequirementParameters.effective}}
             </span>
         </span>
-        <span *ngIf="doesItemHaveValue('usage')">
+        <span *ngIf="uncertainItemLiteralValue('usage') as usage">
             <strong>Usage</strong>
-            {{item['usage']}}
+            {{usage}}
         </span>
         <span *ngIf="item.storeBulk">
             <strong>Bulk</strong>
             {{item.storeBulk}}
         </span>
         <span *ngIf="bulkParameters(item) as bulkParameters">
-            <strong>Bulk{{itemRoles.asEquipment.carryingBulk && !itemRoles.asEquipment.equipped ? " (unequipped)" :
-                ""}}</strong>
+            <strong>
+                Bulk
+                {{(itemRoles.asEquipment?.carryingBulk && !itemRoles.asEquipment?.equipped) ? "(unequipped)" :
+                ""}}
+            </strong>
             <span [ngClass]="{'penalty':bulkParameters.penalty, 'bonus':bulkParameters.bonus}">
                 {{bulkParameters.effective || 0}}
             </span>
         </span>
-        <span *ngIf="itemRoles.asEquipment.carryingBulk && itemRoles.asEquipment.equipped">
-            <strong>Bulk (unequipped)</strong>
-            {{itemRoles.asEquipment.carryingBulk}}
+        <span *ngIf="itemRoles.asEquipment?.carryingBulk && itemRoles.asEquipment?.equipped">
+            <strong>Unequipped bulk</strong>
+            {{itemRoles.asEquipment?.carryingBulk}}
         </span>
         <span *ngIf="hardnessParameters(itemRoles) as hardnessParameters">
             <strong>Hardness</strong>
@@ -92,18 +95,18 @@
             </span>
         </span>
     </div>
-    <div class="newrow left-aligned" *ngIf="itemRoles.asWeapon || doesItemHaveValue('hands')">
-        <span *ngIf="doesItemHaveValue('hands')">
+    <div class="newrow left-aligned" *ngIf="itemRoles.asWeapon || uncertainItemLiteralValue('hands') as hands">
+        <span>
             <strong>Hands</strong>
-            {{item['hands']}}
+            {{hands}}
         </span>
-        <span *ngIf="itemRoles.asWeapon.ranged">
+        <span *ngIf="itemRoles.asWeapon?.ranged">
             <strong>Range</strong>
-            {{itemRoles.asWeapon.ranged}} ft.
+            {{itemRoles.asWeapon?.ranged}} ft.
         </span>
-        <span *ngIf="itemRoles.asWeapon.reload">
+        <span *ngIf="itemRoles.asWeapon?.reload">
             <strong>Reload</strong>
-            {{itemRoles.asWeapon.reload}}
+            {{itemRoles.asWeapon?.reload}}
         </span>
     </div>
     <div class="newrow left-aligned" *ngIf="item.access">
@@ -115,36 +118,43 @@
     <!--Activation text for activated standalone items, such as wands (identified by not having a trigger or requirements)-->
     <div class="newrow gap-text left-aligned" *ngIf="shouldShowActivations()">
         <strong>Activate</strong>
-        <app-actionIcons *ngIf="doesItemHaveValue('actions')" [actionString]="item['actions']"></app-actionIcons>
-        <span *ngIf="doesItemHaveValue('activationType')">{{item['activationType']}}</span>
-        <ng-container *ngIf="doesItemHaveValue('frequency')">
+        <app-actionIcons *ngIf="uncertainItemLiteralValue('actions') as actions" [actionString]="actions.toString()">
+        </app-actionIcons>
+        <span *ngIf="uncertainItemLiteralValue('activationType') as activationType">
+            {{activationType}}
+        </span>
+        <ng-container *ngIf="uncertainItemLiteralValue('frequency') as frequency">
             <strong>Frequency</strong>
-            <span>{{item['frequency']}}</span>
+            <span>
+                {{frequency}}
+            </span>
         </ng-container>
-        <ng-container *ngIf="doesItemHaveValue('effect')">
+        <ng-container *ngIf="uncertainItemLiteralValue('effect') as effect">
             <strong>Effect</strong>
-            <app-description [text]="item['effect']" [oneLiner]="true"></app-description>
+            <app-description [text]="effect.toString()" [oneLiner]="true"></app-description>
         </ng-container>
     </div>
     <div class="newrow left-aligned">
-        <span *ngIf="doesItemHaveValue('ammunition')">
+        <span *ngIf="uncertainItemLiteralValue('ammunition') as ammunition">
             <strong>Ammunition</strong>
-            {{item['ammunition']}}
+            {{ammunition}}
         </span>
     </div>
     <!--Activation text for talismans (identified by having a trigger or requirements, but no effect)-->
     <div class="newrow left-aligned" *ngIf="shouldShowTalismans()">
         <strong>Activate</strong>
-        <app-actionIcons *ngIf="doesItemHaveValue('actions')" [actionString]="item['actions']">
+        <app-actionIcons *ngIf="uncertainItemLiteralValue('actions') as actions" [actionString]="actions.toString()">
         </app-actionIcons>
-        <span *ngIf="doesItemHaveValue('activationType')">{{item['activationType']}}</span>
-        <span *ngIf="doesItemHaveValue('trigger')">
-            <strong>Trigger</strong>
-            {{item['trigger']}}
+        <span *ngIf="uncertainItemLiteralValue('activationType') as activationType">
+            {{activationType}}
         </span>
-        <span *ngIf="doesItemHaveValue('requirements')">
+        <span *ngIf="uncertainItemLiteralValue('trigger') as trigger">
+            <strong>Trigger</strong>
+            {{trigger}}
+        </span>
+        <span *ngIf="uncertainItemLiteralValue('requirements') as requirements">
             <strong>Requirements</strong>
-            {{item['requirements']}}
+            {{requirements}}
         </span>
     </div>
     <div class="newrow left-aligned">
@@ -221,31 +231,30 @@
         <p *ngIf="item.craftRequirement">
             <strong>Craft Requirement</strong> {{item.craftRequirement}}
         </p>
-        <ng-container
-            *ngIf="doesItemHaveValue('critsuccess') || doesItemHaveValue('success') || doesItemHaveValue('failure') || doesItemHaveValue('critfailure')">
+        <ng-container *ngIf="item.hasSuccessResults()">
             <ul>
                 <li *ngIf="doesItemHaveValue('critsuccess')">
                     <span class="gap-text">
                         <strong>Critical Success</strong>
-                        <app-description [text]="item['critsuccess']" [oneLiner]="true"></app-description>
+                        <app-description [text]="item.critsuccess" [oneLiner]="true"></app-description>
                     </span>
                 </li>
                 <li *ngIf="doesItemHaveValue('success')">
                     <span class="gap-text">
                         <strong>Success</strong>
-                        <app-description [text]="item['success']" [oneLiner]="true"></app-description>
+                        <app-description [text]="item.success" [oneLiner]="true"></app-description>
                     </span>
                 </li>
                 <li *ngIf="doesItemHaveValue('failure')">
                     <span class="gap-text">
                         <strong>Failure</strong>
-                        <app-description [text]="item['failure']" [oneLiner]="true"></app-description>
+                        <app-description [text]="item.failure" [oneLiner]="true"></app-description>
                     </span>
                 </li>
                 <li *ngIf="doesItemHaveValue('critfailure')">
                     <span class="gap-text">
                         <strong>Critical Failure</strong>
-                        <app-description [text]="item['critfailure']" [oneLiner]="true"></app-description>
+                        <app-description [text]="item.critfailure" [oneLiner]="true"></app-description>
                     </span>
                 </li>
             </ul>

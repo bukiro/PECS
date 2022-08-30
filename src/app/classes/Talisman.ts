@@ -26,4 +26,6 @@ export class Talisman extends Consumable {
     public clone(restoreFn: <T extends Item>(obj: T) => T): Talisman {
         return Object.assign<Talisman, Talisman>(new Talisman(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
+
+    public hasSuccessResults(): this is Talisman { return true; }
 }

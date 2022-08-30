@@ -40,13 +40,13 @@ interface WeaponMaterialSet {
 export class ItemMaterialWeaponComponent implements OnInit {
 
     @Input()
-    public item: Weapon;
+    public item!: Weapon;
     @Input()
-    public craftingStation = false;
+    public craftingStation?: boolean;
     @Input()
-    public customItemStore = false;
+    public customItemStore?: boolean;
 
-    public newMaterial: Array<WeaponMaterialSet>;
+    public newMaterial: Array<WeaponMaterialSet> = [];
     public inventories: Array<string> = [];
 
     constructor(
@@ -61,7 +61,7 @@ export class ItemMaterialWeaponComponent implements OnInit {
             !!this.item.material &&
             (
                 this.item.moddable ||
-                this.customItemStore
+                !!this.customItemStore
             )
         );
     }
@@ -195,7 +195,7 @@ export class ItemMaterialWeaponComponent implements OnInit {
         this._updateItem();
     }
 
-    public materialTitle(material: Material): string {
+    public materialTitle(material: Material): string | undefined {
         //In the item store, return the extra price.
         if (!this.craftingStation && material.price) {
             return `Price ${ this._priceText(material.price) }`

@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Input, OnDestroy, TemplateRef } from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
@@ -64,13 +64,13 @@ import { StatusService } from 'src/app/core/services/status/status.service';
 interface ItemParameters extends ItemRoles {
     id: string;
     proficiency: string;
-    asBattleforgedChangeable: Armor | Weapon | WornItem;
-    asBladeAllyChangeable: Weapon | WornItem;
-    asEmblazonArmamentChangeable: Shield | Weapon;
+    asBattleforgedChangeable?: Armor | Weapon | WornItem;
+    asBladeAllyChangeable?: Weapon | WornItem;
+    asEmblazonArmamentChangeable?: Shield | Weapon;
     hasEmblazonArmament: boolean;
     hasEmblazonAntimagic: boolean;
-    emblazonEnergyChoice: string;
-    canUse: boolean;
+    emblazonEnergyChoice?: string;
+    canUse: boolean | undefined;
     containedItemsAmount: number;
 }
 
@@ -235,9 +235,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
         this._currencyService.sortCash();
     }
 
-    public sortItemSet(itemSet: Array<Item>): Array<Item> {
+    public sortItemSet(inventory: ItemCollection, key: keyof ItemCollection): Array<Item> {
         //Sorting just by name can lead to jumping in the list.
-        return itemSet
+        return (inventory[key] as Array<Item>)
             .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id));
     }
 
@@ -246,12 +246,15 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
         return itemList.map(item => {
             const itemRoles = this._itemRolesService.getItemRoles(item);
+
+            const armorOrWeapon = (itemRoles.asArmor || itemRoles.asWeapon);
+
             const proficiency = (
                 !(creature.isFamiliar()) &&
-                (itemRoles.asArmor || itemRoles.asWeapon)
+                armorOrWeapon
             )
                 ? this._equipmentPropertiesService.effectiveProficiency(
-                    (itemRoles.asArmor || itemRoles.asWeapon),
+                    armorOrWeapon,
                     { creature, charLevel: this.character.level },
                 )
                 : '';
@@ -308,7 +311,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
         return item.gainItems && item.gainItems.some(gain => gain.on === ItemGainOnOptions.Grant);
     }
 
-    public openGrantingOrContainerItemDropModal(content, item: Item, inventory: ItemCollection): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    public openGrantingOrContainerItemDropModal(content: TemplateRef<any>, item: Item, inventory: ItemCollection): void {
         this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
             if (result === 'Drop all') {
                 this.dropInventoryItem(item, inventory);
@@ -360,7 +364,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
     public moveInventoryItem(
         item: Item,
         inventory: ItemCollection,
-        target: ItemCollection | SpellTarget,
+        target: ItemCollection | SpellTarget | undefined,
         amount: number,
         including: boolean,
         reload = true,
@@ -400,8 +404,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
             const source = this.currentCreature.inventories.find(inv => inv.id === sourceID);
             const targetId = event.container.id.split('|')[0];
             const target = this.currentCreature.inventories.find(inv => inv.id === targetId);
-            const itemKey = event.previousContainer.id.split('|')[1];
-            const item = source[itemKey][event.previousIndex];
+            const itemKey = event.previousContainer.id.split('|')[1] as keyof ItemCollection;
+            const item = (source?.[itemKey] as Array<Item>)?.[event.previousIndex];
 
             if (source && target && item && this.canDropItem(item)) {
                 const cannotMove = this._itemTransferService.cannotMoveItem(this.currentCreature, item, target);
@@ -464,8 +468,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
         inventory.otheritems.splice(inventory.otheritems.indexOf(item), 1);
     }
 
-    public durationDescription(turns: number): string {
-        return this._durationsService.durationDescription(turns);
+    public durationDescription(turns?: number): string | undefined {
+        return !!turns && this._durationsService.durationDescription(turns) || undefined;
     }
 
     public calculatedCreatureBulk(): CalculatedBulk {
@@ -583,7 +587,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         const spellChoice = item.storedSpells[0];
 
         if (spellChoice && spellName) {
-            const spell = this._spellFromName(spellName)[0];
+            const spell = this._spellFromName(spellName);
 
             if (spell && (!(item instanceof Wand && item.overcharged) || this.isManualMode)) {
                 this._spellProcessingService.processSpell(
@@ -662,9 +666,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     public itemHasBlockedSlottedAeonStones(item: WornItem): boolean {
         return (
-            item &&
-            item.isWayfinder &&
-            item.aeonStones.length &&
+            !!item &&
+            !!item.isWayfinder &&
+            !!item.aeonStones.length &&
             item.investedOrEquipped() &&
             this._creatureEquipmentService.hasTooManySlottedAeonStones(this.currentCreature)
         );
@@ -688,7 +692,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    public creatureHasFeat(name: string): boolean {
+    public creatureHasFeat(name: string): boolean | undefined {
         switch (this.creature) {
             case CreatureTypes.Character:
                 return this._characterFeatsService.characterHasFeat(name);
@@ -696,7 +700,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    public quickCraftingParameters(): { quickAlchemy: boolean; snareSpecialist: boolean } {
+    public quickCraftingParameters(): { quickAlchemy?: boolean; snareSpecialist?: boolean } | undefined {
         const hasQuickAlchemy = this.creatureHasFeat('Quick Alchemy');
         const hasSnareSpecialist = this.creatureHasFeat('Snare Specialist');
 
@@ -849,7 +853,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                     item.isHandwrapsOfMightyBlows
                 )
             ) &&
-            this.creatureHasFeat('Divine Ally: Blade Ally')
+            !!this.creatureHasFeat('Divine Ally: Blade Ally')
         );
     }
 
@@ -860,7 +864,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 item instanceof Weapon ||
                 item instanceof Shield
             ) &&
-            this.creatureHasFeat('Emblazon Armament')
+            !!this.creatureHasFeat('Emblazon Armament')
         );
     }
 
@@ -876,16 +880,16 @@ export class InventoryComponent implements OnInit, OnDestroy {
     public isBattleforgedAllowed(item: Item): boolean {
         return (
             this.creatureHasFeat('Battleforger') ||
-            this._creatureEffectsService.effectsOnThis(this.character, 'Allow Battleforger').length
-        ) &&
-            (
+            !!this._creatureEffectsService.effectsOnThis(this.character, 'Allow Battleforger').length
+        )
+            && (
                 (
-                    item instanceof Weapon &&
+                    item.isWeapon() &&
                     item.prof !== 'Unarmed Attacks'
                 ) ||
-                item instanceof Armor ||
+                item.isArmor() ||
                 (
-                    item instanceof WornItem &&
+                    item.isWornItem() &&
                     item.isHandwrapsOfMightyBlows
                 )
             );
@@ -963,40 +967,42 @@ export class InventoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    private _itemAsBattleforgedChangeable(item: Item): Armor | Weapon | WornItem {
+    private _itemAsBattleforgedChangeable(item: Item): Armor | Weapon | WornItem | undefined {
         return this.creature === CreatureTypes.Character &&
             (
                 item instanceof Armor ||
                 (item instanceof Weapon && item.prof !== 'Unarmed Attacks') ||
                 (item instanceof WornItem && item.isHandwrapsOfMightyBlows)
-            ) ? item : null;
+            ) ? item : undefined;
     }
 
-    private _itemAsBladeAllyChangeable(item: Item): Weapon | WornItem {
+    private _itemAsBladeAllyChangeable(item: Item): Weapon | WornItem | undefined {
         return this.creature === CreatureTypes.Character &&
             (
                 item instanceof Weapon ||
                 (item instanceof WornItem && item.isHandwrapsOfMightyBlows)
-            ) ? item : null;
+            ) ? item : undefined;
     }
 
-    private _itemAsEmblazonArmamentChangeable(item: Item): Shield | Weapon {
-        return (item instanceof Shield || item instanceof Weapon) ? item : null;
+    private _itemAsEmblazonArmamentChangeable(item: Item): Shield | Weapon | undefined {
+        return (item instanceof Shield || item instanceof Weapon) ? item : undefined;
     }
 
     private _itemHasEmblazonArmament(item: Item): boolean {
         return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type === 'emblazonArmament');
     }
 
-    private _itemEmblazonEnergyChoice(item: Item): string {
-        return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.find(ea => ea.type === 'emblazonEnergy')?.choice;
+    private _itemEmblazonEnergyChoice(item: Item): string | undefined {
+        return (item instanceof Weapon || item instanceof Shield)
+            ? item.emblazonArmament.find(ea => ea.type === 'emblazonEnergy')?.choice
+            : undefined;
     }
 
     private _itemHasEmblazonAntimagic(item: Item): boolean {
         return (item instanceof Weapon || item instanceof Shield) && item.emblazonArmament.some(ea => ea.type === 'emblazonAntimagic');
     }
 
-    private _hasProficiencyWithItem(itemRoles: ItemRoles, proficiency: string): boolean {
+    private _hasProficiencyWithItem(itemRoles: ItemRoles, proficiency: string): boolean | undefined {
         const creature = this.currentCreature;
 
         if (!(creature.isFamiliar())) {
@@ -1015,8 +1021,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
                 return this._armorPropertiesService.profLevel(itemRoles.asArmor, creature) > 0;
             }
         }
-
-        return undefined;
     }
 
     private _refreshItem(item: Item): void {

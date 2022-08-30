@@ -13,7 +13,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 
 interface AeonStoneSet {
     aeonStone: WornItem;
-    inv: ItemCollection;
+    inv?: ItemCollection;
 }
 
 @Component({
@@ -25,11 +25,11 @@ interface AeonStoneSet {
 export class ItemAeonStonesComponent implements OnInit {
 
     @Input()
-    public item: WornItem;
+    public item!: WornItem;
     @Input()
-    public itemStore = false;
+    public itemStore?: boolean;
 
-    public newAeonStone: Array<AeonStoneSet>;
+    public newAeonStone: Array<AeonStoneSet> = [];
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -69,7 +69,7 @@ export class ItemAeonStonesComponent implements OnInit {
     public initialAeonStones(index: number): Array<AeonStoneSet> {
         const item = this.item;
         //Start with one empty stone to select nothing.
-        const allStones: Array<AeonStoneSet> = [{ aeonStone: new WornItem(), inv: null }];
+        const allStones: Array<AeonStoneSet> = [{ aeonStone: new WornItem() }];
 
         allStones[0].aeonStone.name = '';
 
@@ -83,7 +83,7 @@ export class ItemAeonStonesComponent implements OnInit {
 
     public availableAeonStones(inv: ItemCollection): Array<AeonStoneSet> {
         if (this.itemStore) {
-            return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone, inv: null }));
+            return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone }));
         } else {
             return inv.wornitems.filter(wornItem => wornItem.isAeonStone).map(aeonStone => ({ aeonStone, inv }));
         }
@@ -108,7 +108,7 @@ export class ItemAeonStonesComponent implements OnInit {
     public onSelectAeonStone(index: number): void {
         const item: WornItem = this.item;
         const stone: WornItem = this.newAeonStone[index].aeonStone;
-        const inv: ItemCollection = this.newAeonStone[index].inv;
+        const inv: ItemCollection | undefined = this.newAeonStone[index].inv;
 
         if (!item.aeonStones[index] || stone !== item.aeonStones[index]) {
             // If there is an Aeon Stone in this slot, return the old stone to the inventory, unless we are in the item store.
@@ -135,7 +135,7 @@ export class ItemAeonStonesComponent implements OnInit {
 
                 // If we are not in the item store, remove the inserted Aeon Stone from the inventory,
                 // either by decreasing the amount or by dropping the item.
-                if (!this.itemStore) {
+                if (!this.itemStore && inv) {
                     this._inventoryService.dropInventoryItem(this._character, inv, stone, false, false, false, 1);
                 }
             }
@@ -146,7 +146,7 @@ export class ItemAeonStonesComponent implements OnInit {
         this._refreshService.processPreparedChanges();
     }
 
-    public hint(stone: WornItem): string {
+    public hint(stone: WornItem): string | undefined {
         if (this.itemStore && stone.price) {
             return `Price ${ this._priceText(stone) }`;
         }
@@ -190,9 +190,9 @@ export class ItemAeonStonesComponent implements OnInit {
     private _setAeonStoneNames(): void {
         this.newAeonStone =
             (this.item.aeonStones ? [
-                (this.item.aeonStones[0] ? { aeonStone: this.item.aeonStones[0], inv: null } : { aeonStone: new WornItem(), inv: null }),
-                (this.item.aeonStones[1] ? { aeonStone: this.item.aeonStones[1], inv: null } : { aeonStone: new WornItem(), inv: null }),
-            ] : [{ aeonStone: new WornItem(), inv: null }, { aeonStone: new WornItem(), inv: null }]);
+                (this.item.aeonStones[0] ? { aeonStone: this.item.aeonStones[0] } : { aeonStone: new WornItem() }),
+                (this.item.aeonStones[1] ? { aeonStone: this.item.aeonStones[1] } : { aeonStone: new WornItem() }),
+            ] : [{ aeonStone: new WornItem() }, { aeonStone: new WornItem() }]);
         this.newAeonStone.filter(stone => stone.aeonStone.name === 'New Item').forEach(stone => {
             stone.aeonStone.name = '';
         });

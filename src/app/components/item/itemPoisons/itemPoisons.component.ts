@@ -12,7 +12,7 @@ import { InventoryService } from 'src/libs/shared/services/inventory/inventory.s
 
 interface PoisonSet {
     poison: AlchemicalPoison;
-    inv: ItemCollection;
+    inv?: ItemCollection;
 }
 
 @Component({
@@ -24,10 +24,10 @@ interface PoisonSet {
 export class ItemPoisonsComponent {
 
     @Input()
-    public item: Weapon;
+    public item!: Weapon;
     @Input()
-    public itemStore = false;
-    public newPoison: PoisonSet = { poison: new AlchemicalPoison(), inv: null };
+    public itemStore?: boolean;
+    public newPoison: PoisonSet = { poison: new AlchemicalPoison() };
 
     public newPropertyRuneName: Array<string> = ['', '', ''];
 
@@ -43,7 +43,7 @@ export class ItemPoisonsComponent {
     }
 
     public availablePoisons(): Array<PoisonSet> {
-        const allPoisons: Array<PoisonSet> = [{ poison: new AlchemicalPoison(), inv: null }];
+        const allPoisons: Array<PoisonSet> = [{ poison: new AlchemicalPoison() }];
 
         allPoisons[0].poison.name = '';
 
@@ -51,7 +51,7 @@ export class ItemPoisonsComponent {
             allPoisons.push(
                 ...this._itemsDataService.cleanItems().alchemicalpoisons
                     .filter(poison => poison.traits.includes('Injury'))
-                    .map(poison => ({ poison, inv: null })),
+                    .map(poison => ({ poison })),
             );
         } else {
             this._character.inventories.forEach(inv => {
@@ -85,7 +85,7 @@ export class ItemPoisonsComponent {
                 );
             }
 
-            this.newPoison = { poison: new AlchemicalPoison(), inv: null };
+            this.newPoison = { poison: new AlchemicalPoison() };
             this.newPoison.poison.name = '';
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
             this._refreshService.prepareChangesByItem(

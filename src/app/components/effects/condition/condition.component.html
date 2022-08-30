@@ -292,7 +292,7 @@
         </div>
     </ng-container>
 </ng-container>
-<div [ngbCollapse]="fullDisplay && shownItem()!==conditionGain.id+'description'">
+<div [ngbCollapse]="fullDisplay && shownItem()!==conditionGain?.id+'description'">
     <div class="newrow lower left-aligned" *ngIf="condition.sourceBook">
         <strong>Source</strong>
         <i>{{condition.sourceBook}}</i>

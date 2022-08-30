@@ -46,26 +46,26 @@ export class GridIconComponent implements OnInit, OnDestroy {
     @Input()
     public shortDesc = '';
     @Input()
-    public condition: ConditionGain = null;
+    public condition?: ConditionGain;
     @Input()
-    public originalCondition: Condition = null;
+    public originalCondition?: Condition;
     @Input()
-    public feat: Feat = null;
+    public feat?: Feat;
     @Input()
-    public effect: Effect = null;
+    public effect?: Effect;
     @Input()
-    public spell: Spell = null;
+    public spell?: Spell;
     @Input()
-    public activity: Activity = null;
+    public activity?: Activity;
     @Input()
-    public activityGain: ActivityGain | ItemActivity = null;
+    public activityGain?: ActivityGain | ItemActivity;
     @Input()
-    public item: Item = null;
+    public item?: Item;
     @Input()
-    public itemStore = false;
+    public itemStore?: boolean;
     //The gridicon will refresh if this ID is updated by this.refreshService.set_Changed().
     @Input()
-    public updateId: string;
+    public updateId?: string;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -432,11 +432,11 @@ export class GridIconComponent implements OnInit, OnDestroy {
             } else {
                 return this.condition.value.toString();
             }
-        } else if (this.effect?.title?.length > minIconValueLength) {
+        } else if (!!this.effect?.title && (this.effect?.title?.length || 0) > minIconValueLength) {
             return this.effect.title.split(' (')[0].split(':')[0].substring(0, maxIconValueLength);
-        } else if (this.effect?.setValue?.length > minIconValueLength) {
+        } else if (!!this.effect?.setValue && this.effect?.setValue?.length > minIconValueLength) {
             return this.effect.setValue.substring(0, maxIconValueLength);
-        } else if (this.effect?.value?.length > minIconValueLength) {
+        } else if (!!this.effect?.setValue && this.effect?.value?.length > minIconValueLength) {
             return this.effect.value.substring(0, maxIconValueLength);
         }
 
@@ -502,8 +502,8 @@ export class GridIconComponent implements OnInit, OnDestroy {
             const percent = 100;
             const half = 50;
 
-            const duration = (this.condition || this.effect).duration || 0;
-            const maxDuration = (this.condition || this.effect).maxDuration || 0;
+            const duration = (this.condition || this.effect)?.duration || 0;
+            const maxDuration = (this.condition || this.effect)?.maxDuration || 0;
             const percentage = percent - Math.floor((duration / maxDuration) * percent);
 
             if (percentage > half) {

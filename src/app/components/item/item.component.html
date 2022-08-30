@@ -12,7 +12,7 @@
 </div>
 <ng-container *ngIf="itemRoles() as itemRoles">
     <div class="newrow"
-        *ngIf="itemRoles.asEquipment?.choices.length && (itemStore ? true : itemRoles.asEquipment.showChoicesInInventory)">
+        *ngIf="itemRoles.asEquipment && itemRoles.asEquipment.choices?.length && (itemStore ? true : itemRoles.asEquipment.showChoicesInInventory)">
         <span>Variation:
             <select [(ngModel)]="itemRoles.asEquipment.choice" (ngModelChange)="onSelectVariation()">
                 <option *ngFor="let choice of itemRoles.asEquipment.choices; trackBy:trackers.trackByIndex;"
@@ -98,8 +98,8 @@
             {{(activity.activationType) ? activity.activationType : ""}}
         </header>
         <app-activity [creature]="creature" [activity]=activity [gain]=activity
-            [allowActivate]="allowActivate && !(itemRoles.asEquipment?.broken) && (activity.resonant ? isSubItem : true)"
-            [isSubItem]=isSubItem>
+            [allowActivate]="allowActivate && !(itemRoles.asEquipment?.broken) && !!(activity.resonant ? isSubItem : true)"
+            [isSubItem]="isSubItem">
         </app-activity>
     </div>
     <!-- Known activities -->
@@ -111,8 +111,9 @@
                 </app-actionIcons>
                 {{(activity.activationType) ? activity.activationType : ""}}
             </header>
-            <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]=allowActivate
-                [isSubItem]=isSubItem></app-activity>
+            <app-activity [creature]="creature" [activity]=activity [gain]=gain [allowActivate]="allowActivate"
+                [isSubItem]="isSubItem">
+            </app-activity>
         </div>
     </ng-container>
     <!-- Shown/related activities (Talismans only) -->
@@ -125,8 +126,7 @@
                 </app-actionIcons>
                 {{(activity.activationType) ? activity.activationType : ""}}
             </header>
-            <app-activity [creature]="creature" [activity]=activity [gain]=null [allowActivate]=false
-                [isSubItem]=isSubItem>
+            <app-activity [creature]="creature" [activity]=activity [allowActivate]=false [isSubItem]="isSubItem">
             </app-activity>
         </div>
     </ng-container>
@@ -218,8 +218,8 @@
     <div class="list-item left-aligned"
         *ngFor="let poison of itemRoles.asWeapon?.poisonsApplied || []; trackBy:trackers.trackByIndex;">
         <header class="spellHeader">{{poison.name}}</header>
-        <button class="newrow left-aligned" (click)="onActivatePoison(itemRoles.asWeapon, poison)"
-            *ngIf="allowActivate">
+        <button class="newrow left-aligned" *ngIf="allowActivate && itemRoles.asWeapon"
+            (click)="onActivatePoison(itemRoles.asWeapon, poison)">
             <span>Spend/Remove</span>
         </button>
         <app-item [creature]="creature" [item]=poison [allowActivate]=allowActivate [isSubItem]=true></app-item>
@@ -252,7 +252,7 @@
         </ng-container>
     </ng-container>
     <!-- Emulated rune descriptions (oils) -->
-    <div class="list-item left-aligned" *ngIf="itemRoles.asOil?.runeEffect">
+    <div class="list-item left-aligned" *ngIf="!!itemRoles.asOil && !!itemRoles.asOil.runeEffect">
         <header class="spellHeader">Rune Effect: {{itemRoles.asOil.runeEffect.name}}</header>
         <app-item [creature]="creature" [item]="itemRoles.asOil.runeEffect" [allowActivate]=allowActivate
             [isSubItem]=isSubItem>
@@ -295,7 +295,7 @@
             </span>
         </button>
         <button class="newrow left-aligned" (click)="onActivateTalisman(itemRoles, talisman, index, {preserve: true})"
-            *ngIf="allowActivate && hasMatchingTalismanCord(itemRoles.asEquipment, talisman)">
+            *ngIf="allowActivate && itemRoles.asEquipment && hasMatchingTalismanCord(itemRoles.asEquipment, talisman)">
             <span>
                 Activate and preserve with talisman cord
                 <app-actionIcons *ngIf="talisman.actions" [actionString]="talisman.actions">

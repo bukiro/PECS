@@ -32,7 +32,7 @@
                     character.class.heritage.name : ""}}</span>
                 <div class="newrow left-aligned" *ngIf="character.class.ancestry.traits.length">
                     <app-trait *ngFor="let trait of characterTraits(); trackBy:trackers.trackByIndex;" [name]="trait"
-                        [trait]="traitFromName(trait)[0]">
+                        [trait]="traitFromName(trait)">
                     </app-trait>
                 </div>
                 <app-tags [creature]="creature" [objectName]="'Ancestry'" [showTraits]=true [showFeats]=true
@@ -132,7 +132,7 @@
         <ng-container *ngIf="creature==='Companion'">
             <div class="newrow left-aligned tags" *ngIf="companion.class.ancestry.name">
                 <app-trait *ngFor="let trait of companion.class.ancestry.traits; trackBy:trackers.trackByIndex;"
-                    [name]="trait" [trait]="traitFromName(trait)[0]">
+                    [name]="trait" [trait]="traitFromName(trait)">
                 </app-trait>
             </div>
             <app-tags [creature]="creatureTypesEnum.Character" [objectName]="'Animal Companion'" [showTraits]=true
@@ -164,7 +164,7 @@
         <ng-container *ngIf="creature==='Familiar'">
             <div class="newrow left-aligned tags">
                 <app-trait *ngFor="let trait of familiar.traits; trackBy:trackers.trackByIndex;" [name]="trait"
-                    [trait]="traitFromName(trait)[0]">
+                    [trait]="traitFromName(trait)">
                 </app-trait>
             </div>
             <app-tags [creature]="creatureTypesEnum.Character" [objectName]="'Familiar'" [showTraits]=true
@@ -190,12 +190,12 @@
                     <strong>{{ability.name}}</strong>
                     <div class="newrow left-aligned tags">
                         <app-trait
-                            *ngFor="let trait of familiarAbilityFromName(ability.name)[0].traits; trackBy:trackers.trackByIndex;"
-                            [name]="trait" [trait]="traitFromName(trait)[0]">
+                            *ngFor="let trait of familiarAbilityFromName(ability.name).traits; trackBy:trackers.trackByIndex;"
+                            [name]="trait" [trait]="traitFromName(trait)">
                         </app-trait>
                     </div>
                     <div class="newrow left-aligned">
-                        {{familiarAbilityFromName(ability.name)[0].desc}}
+                        {{familiarAbilityFromName(ability.name).desc}}
                     </div>
                 </div>
             </div>

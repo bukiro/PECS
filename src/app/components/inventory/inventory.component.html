@@ -233,21 +233,20 @@
                         [ngStyle]="{'min-height': isTileMode ? null : '2em', 'display': isTileMode ? null : 'flex'}">
                     </div>
                     <ng-container *ngFor="let itemSet of inventory.names; trackBy:trackers.trackByIndex;">
-                        <ng-container *ngIf="sortItemSet(inventory[itemSet.key]) as itemList">
-                            <header class="subsectionHeader newrow" *ngIf="inventory[itemSet.key].length">
+                        <ng-container *ngIf="sortItemSet(inventory, itemSet.key) as itemList">
+                            <header class="subsectionHeader newrow" *ngIf="itemList.length">
                                 {{itemSet.name}}
                             </header>
                             <div cdkDropList id="{{inventory.id}}|{{itemSet.key}}"
                                 (cdkDropListDropped)="dragdropInventoryItem($event)"
                                 [ngClass]="{'icon-list':isTileMode, 'vlist fullwidth':!isTileMode}"
-                                *ngIf="inventory[itemSet.key].length"
-                                [ngStyle]="{'min-height': isTileMode ? null : '2em'}">
+                                *ngIf="itemList.length" [ngStyle]="{'min-height': isTileMode ? null : '2em'}">
                                 <ng-container
                                     *ngFor="let itemParameters of itemParameters(itemList); trackBy:trackers.trackByObjectId;">
 
                                     <ng-template #ItemIconsTemplate>
-                                        <span [ngbTooltip]="itemParameters.asEquipment?.material[0]?.name"
-                                            *ngIf="itemParameters.asEquipment?.material?.length">
+                                        <span [ngbTooltip]="material && material?.name"
+                                            *ngIf="itemParameters.asEquipment?.material?.[0] as material">
                                             <i class='ra ra-diamond'></i>
                                         </span>
                                         <span [ngbTooltip]="'Broken'" *ngIf="itemParameters.asEquipment?.broken">
@@ -365,9 +364,9 @@
                                             <ng-container
                                                 *ngFor="let itemSpell of itemStoredSpell(itemParameters.item); trackBy:trackers.trackByIndex;">
                                                 <app-spellTarget class="newrow vlist" [creature]="creature"
-                                                    [phrase]="(itemParameters.asWand?.cooldown) ? 'Overcharge (Cooldown ' + durationDescription(itemParameters.asWand.cooldown) + ') and cast' : 'Cast'"
+                                                    [phrase]="!!itemParameters.asWand?.cooldown ? 'Overcharge (Cooldown ' + durationDescription(itemParameters.asWand?.cooldown) + ') and cast' : 'Cast'"
                                                     [showActions]="true" [spell]="itemSpell.spell"
-                                                    [gain]="itemSpell.gain" [casting]="null"
+                                                    [gain]="itemSpell.gain"
                                                     [cannotCast]="itemParameters.asEquipment?.broken ? 'The item is broken and cannot be used.' : ''"
                                                     [effectiveSpellLevel]="itemSpell.choice.level"
                                                     (castMessage)="onUseSpellCastingItem(itemParameters.item, $event.target, inventory)">
@@ -389,7 +388,8 @@
                                                     itemParameters.asConsumable.activationType : ""}}
                                                 </span>
                                             </button>
-                                            <ng-container *ngIf="itemParameters.asDrinkableConsumable?.actions">
+                                            <ng-container
+                                                *ngIf="!!itemParameters.asDrinkableConsumable && itemParameters.asDrinkableConsumable?.actions">
                                                 <button class="newrow center-aligned"
                                                     *ngIf="!isManualMode && isCompanionAvailable()"
                                                     [disabled]="!itemParameters.asDrinkableConsumable.amount"
@@ -596,17 +596,17 @@
                                         <!-- Lower row of buttons -->
                                         <div class="newrow"
                                             *ngIf="itemParameters.item.tradeable && effectivePrice(itemParameters.item) as effectivePrice">
-                                            <span class="gap-text" *ngIf="itemParameters.asStackable; else CannotStack">
+                                            <span class="gap-text"
+                                                *ngIf="itemParameters.stack && itemParameters.asStackable as stackable; else CannotStack">
                                                 <span
-                                                    [ngbTooltip]="(itemParameters.asStackable.amount <= itemParameters.stack) ? 'Use the sell button to sell the last item of a stack' : 'Sell at half price'">
+                                                    [ngbTooltip]="(stackable.amount <= itemParameters.stack) ? 'Use the sell button to sell the last item of a stack' : 'Sell at half price'">
                                                     <button
-                                                        (click)="onAmountChange(itemParameters.asStackable, -itemParameters.stack, true)"
-                                                        [disabled]="itemParameters.asStackable.amount <= itemParameters.stack">
+                                                        (click)="onAmountChange(stackable, -itemParameters.stack, true)"
+                                                        [disabled]="stackable.amount <= itemParameters.stack">
                                                         Sell {{itemParameters.stack}}
                                                     </button>
                                                 </span>
-                                                <button
-                                                    (click)="onAmountChange(itemParameters.asStackable, itemParameters.stack, true)"
+                                                <button (click)="onAmountChange(stackable, itemParameters.stack, true)"
                                                     [disabled]="!characterHasFunds(effectivePrice)">
                                                     Buy {{itemParameters.stack}}
                                                 </button>
@@ -689,7 +689,7 @@
 
                                             <!--Changing Name-->
                                             <div class="list-item newrow left-aligned"
-                                                [ngbCollapse]="!itemParameters.asEquipment?.showName"
+                                                [ngbCollapse]="!itemParameters.asEquipment.showName"
                                                 *ngIf="itemParameters.asEquipment">
                                                 <span>
                                                     Name
@@ -716,13 +716,13 @@
                                             </app-itemRunes>
                                             <!--Changing Status-->
                                             <div class="list-item newrow left-aligned"
-                                                [ngbCollapse]="!(itemParameters.asStatusChangeable.showStatus || itemParameters.asEquipment.broken || itemParameters.asEquipment.shoddy)"
+                                                [ngbCollapse]="!(itemParameters.asStatusChangeable?.showStatus || itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy)"
                                                 *ngIf="itemParameters.asStatusChangeable || itemParameters.asEquipment?.broken || itemParameters.asEquipment?.shoddy">
                                                 <span>
                                                     Status
                                                 </span>
                                                 <div class="newrow"
-                                                    *ngIf="{ allowed: isRepairAllowed(itemParameters.asEquipment) } as repairAllowedStatus">
+                                                    *ngIf="itemParameters.asEquipment && { allowed: isRepairAllowed(itemParameters.asEquipment) } as repairAllowedStatus">
                                                     <span
                                                         [ngbPopover]="!repairAllowedStatus.allowed ? 'To repair a broken shield, restore its hit points above the Broken Threshold.' : ''">
                                                         <input id="{{itemParameters.item.id}}broken" type="checkbox"
@@ -753,7 +753,7 @@
                                                             [ngbPopover]="BrokenDescTemplate"></i>
                                                     </span>
                                                 </div>
-                                                <div class="newrow">
+                                                <div class="newrow" *ngIf="itemParameters.asEquipment">
                                                     <span>
                                                         <input id="{{itemParameters.asEquipment.id}}shoddy"
                                                             type="checkbox"
@@ -783,7 +783,7 @@
                                                 </div>
                                             </div>
                                             <div class="list-item newrow"
-                                                *ngIf="isLargeWeaponAllowed(itemParameters.item) || itemParameters.asWeapon?.large">
+                                                *ngIf="itemParameters.asWeapon && (isLargeWeaponAllowed(itemParameters.item) || itemParameters.asWeapon?.large)">
                                                 <span>
                                                     <input id="{{itemParameters.asWeapon.id}}large" type="checkbox"
                                                         [(ngModel)]="itemParameters.asWeapon.large"
@@ -808,7 +808,7 @@
                                                 </span>
                                             </div>
                                             <div class="list-item newrow"
-                                                *ngIf="(itemParameters.asBladeAllyChangeable?.bladeAlly || isBladeAllyAllowed(itemParameters.item)) && { used: isBladeAllyUsed() } as bladeAllyStatus">
+                                                *ngIf="itemParameters.asBladeAllyChangeable && (itemParameters.asBladeAllyChangeable?.bladeAlly || isBladeAllyAllowed(itemParameters.item)) && { used: isBladeAllyUsed() } as bladeAllyStatus">
                                                 <div class="newrow">
                                                     <span
                                                         [ngbPopover]="(!itemParameters.asBladeAllyChangeable.bladeAlly && bladeAllyStatus.used) ? 'Another item is already designated as your blade ally.' : ''">
@@ -846,10 +846,10 @@
                                             </div>
                                             <app-itemEmblazonArmament class="fullwidth"
                                                 [item]=itemParameters.asEmblazonArmamentChangeable
-                                                *ngIf="itemParameters.asEmblazonArmamentChangeable?.emblazonArmament?.length || isEmblazonArmamentAllowed(itemParameters.item)">
+                                                *ngIf="itemParameters.asEmblazonArmamentChangeable && (itemParameters.asEmblazonArmamentChangeable?.emblazonArmament?.length || isEmblazonArmamentAllowed(itemParameters.item))">
                                             </app-itemEmblazonArmament>
                                             <div class="list-item newrow"
-                                                *ngIf="itemParameters.asBattleforgedChangeable?.battleforged || isBattleforgedAllowed(itemParameters.item)">
+                                                *ngIf="itemParameters.asBattleforgedChangeable && (itemParameters.asBattleforgedChangeable?.battleforged || isBattleforgedAllowed(itemParameters.item))">
                                                 <span>
                                                     <input id="{{itemParameters.item.id}}battleforged" type="checkbox"
                                                         [(ngModel)]="itemParameters.asBattleforgedChangeable.battleforged"
@@ -889,12 +889,12 @@
                                                 *ngIf="itemParameters.asTalismanChangeable && canApplyTalismanCords(itemParameters.asTalismanChangeable)">
                                             </app-itemTalismanCords>
                                             <app-itemAeonStones class="list-item hide-empty"
-                                                [item]=itemParameters.asWornItem [itemStore]=false
-                                                *ngIf="itemParameters.asWornItem?.isWayfinder">
+                                                [item]="itemParameters.asWornItem" [itemStore]=false
+                                                *ngIf="itemParameters.asWornItem && itemParameters.asWornItem?.isWayfinder">
                                             </app-itemAeonStones>
                                             <!-- Too many slotted Aeon Stones warning -->
                                             <div class="newrow list-item problem"
-                                                *ngIf="itemHasBlockedSlottedAeonStones(itemParameters.asWornItem)">
+                                                *ngIf="itemParameters.asWornItem && itemHasBlockedSlottedAeonStones(itemParameters.asWornItem)">
                                                 You have invested too many wayfinders with aeon stones slotted
                                                 in them. All effects of these aeon stones are disabled.
                                             </div>
@@ -954,7 +954,7 @@
                                         </div>
                                         <app-item class="lower" [creature]="creature" [item]=itemParameters.item
                                             [allowActivate]="itemParameters.item.investedOrEquipped()"
-                                            [armoredSkirt]="itemParameters.asArmor?.armoredSkirt(currentCreature) || null">
+                                            [armoredSkirt]="itemParameters.asArmor?.armoredSkirt(currentCreature)">
                                         </app-item>
                                     </ng-template>
                                     <ng-container *ngFor="itemParameters.item.id as inventoryID">

@@ -36,7 +36,7 @@ interface ComparedStringValue {
 export class ItemContentComponent implements OnInit, OnDestroy {
 
     @Input()
-    public item: Item;
+    public item!: Item;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -61,7 +61,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         return '';
     }
 
-    public acBonusParameters(itemRoles: ItemRoles): ComparedValue {
+    public acBonusParameters(itemRoles: ItemRoles): ComparedValue | undefined {
         const acItem = itemRoles.asArmor || itemRoles.asShield;
 
         if (acItem) {
@@ -76,11 +76,9 @@ export class ItemContentComponent implements OnInit, OnDestroy {
                 };
             }
         }
-
-        return null;
     }
 
-    public dexCapParameters(itemRoles: ItemRoles): ComparedValue {
+    public dexCapParameters(itemRoles: ItemRoles): ComparedValue | undefined {
         const armorItem = itemRoles.asArmor;
 
         if (armorItem) {
@@ -104,11 +102,9 @@ export class ItemContentComponent implements OnInit, OnDestroy {
                 };
             }
         }
-
-        return null;
     }
 
-    public skillPenaltyParameters(itemRoles: ItemRoles): ComparedValue {
+    public skillPenaltyParameters(itemRoles: ItemRoles): ComparedValue | undefined {
         const armorItem = itemRoles.asArmor;
 
         if (armorItem) {
@@ -123,11 +119,9 @@ export class ItemContentComponent implements OnInit, OnDestroy {
                 };
             }
         }
-
-        return null;
     }
 
-    public speedPenaltyParameters(itemRoles: ItemRoles): ComparedValue {
+    public speedPenaltyParameters(itemRoles: ItemRoles): ComparedValue | undefined {
         const speedPenaltyItem = itemRoles.asArmor || itemRoles.asShield;
 
         if (speedPenaltyItem) {
@@ -142,11 +136,9 @@ export class ItemContentComponent implements OnInit, OnDestroy {
                 };
             }
         }
-
-        return null;
     }
 
-    public strengthRequirementParameters(itemRoles: ItemRoles): ComparedValue {
+    public strengthRequirementParameters(itemRoles: ItemRoles): ComparedValue | undefined {
         const armorItem = itemRoles.asArmor;
 
         if (armorItem) {
@@ -161,11 +153,9 @@ export class ItemContentComponent implements OnInit, OnDestroy {
                 };
             }
         }
-
-        return null;
     }
 
-    public bulkParameters(item: Item): ComparedStringValue {
+    public bulkParameters(item: Item): ComparedStringValue | undefined {
         const effective = item.effectiveBulk();
 
         if (effective || item.bulk) {
@@ -178,11 +168,9 @@ export class ItemContentComponent implements OnInit, OnDestroy {
                 bonus: bulkDifference < 0,
             };
         }
-
-        return null;
     }
 
-    public hardnessParameters(itemRoles: ItemRoles): ComparedValue {
+    public hardnessParameters(itemRoles: ItemRoles): ComparedValue | undefined {
         const hardnessItem = itemRoles.asShield;
 
         if (hardnessItem) {
@@ -197,11 +185,9 @@ export class ItemContentComponent implements OnInit, OnDestroy {
                 };
             }
         }
-
-        return null;
     }
 
-    public hitpointParameters(itemRoles: ItemRoles): { maxHP: ComparedValue; brokenThreshold: ComparedValue } {
+    public hitpointParameters(itemRoles: ItemRoles): { maxHP: ComparedValue; brokenThreshold?: ComparedValue } | undefined {
         const hitpointItem = itemRoles.asShield;
 
         if (hitpointItem) {
@@ -216,7 +202,7 @@ export class ItemContentComponent implements OnInit, OnDestroy {
                 };
 
                 const effectiveBrokenThreshold = hitpointItem.effectiveBrokenThreshold();
-                let brokenThreshold: ComparedValue = null;
+                let brokenThreshold: ComparedValue | undefined;
 
                 if (effectiveBrokenThreshold || hitpointItem.brokenThreshold) {
                     brokenThreshold = {
@@ -233,8 +219,6 @@ export class ItemContentComponent implements OnInit, OnDestroy {
                 };
             }
         }
-
-        return null;
     }
 
     public shouldShowActivations(): boolean {
@@ -271,9 +255,20 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         );
     }
 
-    public doesItemHaveValue(key: string): boolean {
-        if (Object.keys(this.item).includes(key) && this.item[key]) {
+    public doesItemHaveValue(key: string): key is keyof Item {
+        if (Object.prototype.hasOwnProperty.call(this.item, key) && this.item[key as keyof Item] !== undefined) {
             return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Return this item's key property if the item has it.
+     */
+    public uncertainItemLiteralValue(key: string): string | number | undefined {
+        if (this.doesItemHaveValue(key)) {
+            return this.item[key] as unknown as string | number;
         }
     }
 
@@ -294,12 +289,12 @@ export class ItemContentComponent implements OnInit, OnDestroy {
         return this.item.data?.some(data => data.show);
     }
 
-    public asAlchemicalElixir(): AlchemicalElixir {
-        return this.item instanceof AlchemicalElixir ? this.item : null;
+    public asAlchemicalElixir(): AlchemicalElixir | undefined {
+        return this.item.isAlchemicalElixir() ? this.item : undefined;
     }
 
-    public asAlchemicalPoison(): AlchemicalPoison {
-        return this.item instanceof AlchemicalPoison ? this.item : null;
+    public asAlchemicalPoison(): AlchemicalPoison | undefined {
+        return this.item.isAlchemicalPoison() ? this.item : undefined;
     }
 
     public ngOnInit(): void {

@@ -728,7 +728,7 @@ export class DamageService {
         weapon.oilsApplied
             .filter((oil: Oil) => oil.runeEffect && oil.runeEffect.extraDamage)
             .forEach((oil: Oil) => {
-                extraDamage += `\n${ oil.runeEffect.extraDamage }`;
+                extraDamage += `\n${ oil.runeEffect?.extraDamage }`;
             });
 
         if (runeSource.propertyRunes.bladeAlly) {

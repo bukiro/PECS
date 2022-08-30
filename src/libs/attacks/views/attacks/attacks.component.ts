@@ -46,6 +46,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
+import { Oil } from 'src/app/classes/Oil';
 
 interface WeaponParameters {
     weapon: Weapon | AlchemicalBomb | OtherConsumableBomb;
@@ -290,7 +291,11 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const runeSource = attackRuneSource(weapon, this._currentCreature, range);
 
         return (runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as Array<WeaponRune>)
-            .concat(weapon.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.hints.length).map(oil => oil.runeEffect))
+            .concat(
+                weapon.oilsApplied
+                    .filter((oil): oil is Oil & { runeEffect: WeaponRune } =>
+                        !!oil.runeEffect && !!oil.runeEffect.hints.length,
+                    ).map(oil => oil.runeEffect))
             .concat(
                 runeSource.propertyRunes.bladeAlly ?
                     runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) as Array<WeaponRune> :
@@ -304,7 +309,10 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const runeSource = attackRuneSource(weapon, this._currentCreature, range);
 
         runes.push(...runeSource.propertyRunes.propertyRunes as Array<WeaponRune>);
-        runes.push(...weapon.oilsApplied.filter(oil => oil.runeEffect).map(oil => oil.runeEffect));
+        runes.push(
+            ...weapon.oilsApplied
+                .filter((oil): oil is Oil & { runeEffect: WeaponRune } => !!oil.runeEffect)
+                .map(oil => oil.runeEffect));
 
         if (runeSource.propertyRunes.bladeAlly) {
             runes.push(...runeSource.propertyRunes.bladeAllyRunes as Array<WeaponRune>);

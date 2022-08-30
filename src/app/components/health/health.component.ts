@@ -34,9 +34,9 @@ export class HealthComponent implements OnInit, OnDestroy {
     public damageSliderMax = 1;
 
     public damage = 0;
-    public nonlethal = false;
+    public nonlethal?: boolean;
     public setTempHP = 0;
-    public selectedTempHP: { amount: number; source: string; sourceId: string };
+    public selectedTempHP?: { amount: number; source: string; sourceId: string };
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -222,15 +222,17 @@ export class HealthComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
-    public onSelectTemporaryHPSet(tempSet: { amount: number; source: string; sourceId: string }): void {
-        this.creatureHealth().temporaryHP[0] = tempSet;
-        this.creatureHealth().temporaryHP.length = 1;
-        this._refreshService.prepareDetailToChange(this.creature, 'health');
-        this._refreshService.prepareDetailToChange(this.creature, 'effects');
-        //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
-        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
-        this._refreshService.processPreparedChanges();
+    public onSelectTemporaryHPSet(tempSet?: { amount: number; source: string; sourceId: string }): void {
+        if (tempSet) {
+            this.creatureHealth().temporaryHP[0] = tempSet;
+            this.creatureHealth().temporaryHP.length = 1;
+            this._refreshService.prepareDetailToChange(this.creature, 'health');
+            this._refreshService.prepareDetailToChange(this.creature, 'effects');
+            //Update Health and Time because having multiple temporary HP keeps you from ticking time and resting.
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'health');
+            this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'time');
+            this._refreshService.processPreparedChanges();
+        }
     }
 
     public resistances(): Array<{ target: string; value: number; source: string }> {

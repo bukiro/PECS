@@ -22,4 +22,6 @@ export class AlchemicalPoison extends Consumable {
             new AlchemicalPoison(), JSON.parse(JSON.stringify(this)),
         ).recast(restoreFn);
     }
+
+    public isAlchemicalPoison(): this is AlchemicalPoison { return true; }
 }

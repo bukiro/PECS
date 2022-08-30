@@ -88,7 +88,7 @@ export class CreatureActivitiesService {
                     //Get activities from Oils emulating runes.
                     if (item.oilsApplied) {
                         item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
-                            activities.push(...oil.runeEffect.activities);
+                            activities.push(...(oil.runeEffect?.activities || []));
                         });
                     }
 
@@ -148,7 +148,7 @@ export class CreatureActivitiesService {
                     //Get activities from oils emulating runes.
                     if (item.oilsApplied) {
                         item.oilsApplied.filter(oil => oil.runeEffect && oil.runeEffect.activities).forEach(oil => {
-                            activities.push(...oil.runeEffect.activities);
+                            activities.push(...(oil.runeEffect?.activities || []));
                         });
                     }
 

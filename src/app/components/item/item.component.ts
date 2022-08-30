@@ -48,15 +48,15 @@ export class ItemComponent implements OnInit, OnDestroy {
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    public item: Item;
+    public item!: Item;
     @Input()
-    public allowActivate = false;
+    public allowActivate?: boolean;
     @Input()
-    public armoredSkirt: AdventuringGear;
+    public armoredSkirt?: AdventuringGear;
     @Input()
-    public itemStore = false;
+    public itemStore?: boolean;
     @Input()
-    public isSubItem = false;
+    public isSubItem?: boolean;
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
@@ -190,7 +190,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         return `${ (wizardrySlot.tradition ? `${ wizardrySlot.tradition } ` : '') + spellLevels[wizardrySlot.level] } slot`;
     }
 
-    public ringOfWizardryOptions(wizardrySlot: RingOfWizardrySlot): Array<string> {
+    public ringOfWizardryOptions(wizardrySlot: RingOfWizardrySlot): Array<string> | undefined {
         if (this._character.class) {
             return ['no spellcasting selected']
                 .concat(this._character.class?.spellCasting
@@ -276,13 +276,9 @@ export class ItemComponent implements OnInit, OnDestroy {
         );
     }
 
-    public runeStoredSpell(rune: Rune): Spell {
+    public runeStoredSpell(rune: Rune): Spell | undefined {
         if (rune.storedSpells.length && rune.storedSpells[0].spells.length) {
-            const spell = this.spellFromName(rune.storedSpells[0].spells[0].name);
-
-            if (spell) {
-                return spell;
-            }
+            return this.spellFromName(rune.storedSpells[0].spells[0].name);
         }
     }
 
@@ -336,7 +332,7 @@ export class ItemComponent implements OnInit, OnDestroy {
         const spellChoice = rune.storedSpells[0];
 
         if (spellChoice && spellName) {
-            const spell = this.spellFromName(rune.storedSpells[0]?.spells[0]?.name)[0];
+            const spell = this.spellFromName(rune.storedSpells[0]?.spells[0]?.name);
             let target: SpellTargetSelection = '';
 
             if (spell.target === 'self') {

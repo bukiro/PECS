@@ -13,6 +13,11 @@ import { Consumable } from './Consumable';
 import { Scroll } from './Scroll';
 import { Shield } from './Shield';
 import { Rune } from './Rune';
+import { AlchemicalPoison } from './AlchemicalPoison';
+import { AlchemicalElixir } from './AlchemicalElixir';
+import { Snare } from './Snare';
+import { Talisman } from './Talisman';
+import { WeaponRune } from './WeaponRune';
 
 export interface TraitActivation {
     trait: string;
@@ -161,6 +166,10 @@ export abstract class Item {
         return this;
     }
 
+    public isAlchemicalPoison(): this is AlchemicalPoison { return false; }
+
+    public isAlchemicalElixir(): this is AlchemicalElixir { return false; }
+
     public isConsumable(): this is Consumable { return false; }
 
     public isEquipment(): this is Equipment { return false; }
@@ -177,9 +186,13 @@ export abstract class Item {
 
     public isWand(): this is Wand { return false; }
 
+    public isOil(): this is Oil { return false; }
+
     public hasActivities(): this is Equipment | Rune { return false; }
 
     public hasHints(): this is Equipment | Rune | Oil { return false; }
+
+    public hasSuccessResults(): this is Oil | Snare | Talisman | WeaponRune { return false; }
 
     public gridIconTitle(): string {
         return this.displayName.replace(`(${ this.subType })`, '') || this.name.replace(`(${ this.subType })`, '');

@@ -263,11 +263,11 @@ export class CharacterLoreService {
         });
     }
 
-    public removeRuneLore(rune: Rune): void {
+    public removeRuneLore(rune?: Rune): void {
         const character = CreatureService.character;
 
         //Iterate through the loreChoices (usually only one)
-        rune.loreChoices.forEach(choice => {
+        rune?.loreChoices.forEach(choice => {
             //Check if only one item's rune has this lore (and therefore no other rune still needs it created), and if so, remove it.
             if (character.inventories[0]?.allEquipment()
                 .filter(item => item.propertyRunes

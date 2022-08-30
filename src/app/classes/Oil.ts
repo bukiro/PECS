@@ -28,7 +28,7 @@ export class Oil extends Consumable {
      * The rune with this name will be loaded into the oil at initialization,
      * and its effects will be applied on a weapon to which the oil is applied.
      */
-    public runeEffect: WeaponRune = null;
+    public runeEffect?: WeaponRune;
     public success = '';
     /** You can only choose this oil for an item if its type or "items" is in the targets list */
     public targets: Array<string> = [];
@@ -43,14 +43,18 @@ export class Oil extends Consumable {
                 new WeaponRune(),
                 restoreFn(this.runeEffect),
             ).recast(restoreFn)
-            : null;
+            : undefined;
 
         return this;
     }
 
-    public hasHints(): this is Equipment | Rune | Oil { return true; }
-
     public clone(restoreFn: <T extends Item>(obj: T) => T): Oil {
         return Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
+
+    public isOil(): this is Oil { return true; }
+
+    public hasHints(): this is Equipment | Rune | Oil { return true; }
+
+    public hasSuccessResults(): this is Oil { return false; }
 }

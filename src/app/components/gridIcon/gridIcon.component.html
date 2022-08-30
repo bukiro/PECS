@@ -64,7 +64,7 @@
         </span>
     </ng-template>
 </ng-container>
-<ng-container *ngIf="condition?.maxDuration > 0 || effect?.duration > 0">
+<ng-container *ngIf="(condition?.maxDuration || 0) > 0 || (effect?.duration || 0 > 0)">
     <ng-container *ngFor="let overlay of durationOverlays(); trackBy:trackers.trackByIndex;">
         <div class="gridicon-time-overlay" [style.--offset]="overlay.offset" [style.--percentage]="overlay.percentage"
             [style.--over50]="overlay.over50" [ngClass]="{'transition5':!overlay.over50}"></div>

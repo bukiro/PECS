@@ -15,7 +15,7 @@ import { CharacterLoreService } from 'src/libs/shared/services/character-lore/ch
 
 interface OilSet {
     oil: Oil;
-    inv: ItemCollection;
+    inv?: ItemCollection;
 }
 
 @Component({
@@ -27,10 +27,10 @@ interface OilSet {
 export class ItemOilsComponent {
 
     @Input()
-    public item: Item;
+    public item!: Item;
     @Input()
-    public itemStore = false;
-    public newOil: OilSet = { oil: new Oil(), inv: null };
+    public itemStore?: boolean = false;
+    public newOil: OilSet = { oil: new Oil() };
 
     public newPropertyRuneName: Array<string> = ['', '', ''];
 
@@ -53,12 +53,12 @@ export class ItemOilsComponent {
 
     public availableOils(): Array<OilSet> {
         const item = this.item;
-        const allOils: Array<OilSet> = [{ oil: new Oil(), inv: null }];
+        const allOils: Array<OilSet> = [{ oil: new Oil() }];
 
         allOils[0].oil.name = '';
 
         if (this.itemStore) {
-            allOils.push(...this._itemsDataService.cleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil, inv: null })));
+            allOils.push(...this._itemsDataService.cleanItems().oils.filter(oil => oil.targets.length).map(oil => ({ oil })));
         } else {
             this._character.inventories.forEach(inv => {
                 allOils.push(...inv.oils.filter(oil => oil.targets.length && oil.amount).map(oil => ({ oil, inv })));
@@ -77,8 +77,8 @@ export class ItemOilsComponent {
                             ? !parseInt(item.bulk, 10) || (item.bulk && parseInt(item.bulk, 10) <= oil.oil.weightLimit)
                             : true
                     ) && (
-                        oil.oil.rangereq
-                            ? item[oil.oil.rangereq]
+                        oil.oil.rangereq && item.isWeapon()
+                            ? item[oil.oil.rangereq as keyof Weapon]
                             : true
                     ) && (
                         oil.oil.damagereq
@@ -106,11 +106,13 @@ export class ItemOilsComponent {
             }
 
             //Add RuneLore if the oil's Rune Effect includes one
-            if (item.oilsApplied[newLength - 1].runeEffect && item.oilsApplied[newLength - 1].runeEffect.loreChoices.length) {
-                this._characterLoreService.addRuneLore(item.oilsApplied[newLength - 1].runeEffect);
+            const newOil = item.oilsApplied[newLength - 1];
+
+            if (newOil.runeEffect && newOil.runeEffect.loreChoices.length) {
+                this._characterLoreService.addRuneLore(newOil.runeEffect);
             }
 
-            this.newOil = { oil: new Oil(), inv: null };
+            this.newOil = { oil: new Oil() };
             this.newOil.oil.name = '';
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'inventory');
             this._refreshService.prepareChangesByItem(this._character, this.item);
@@ -120,8 +122,10 @@ export class ItemOilsComponent {
 
     public onRemoveOil(index: number): void {
         //Remove RuneLore if applicable.
-        if (this.item.oilsApplied[index].runeEffect && this.item.oilsApplied[index].runeEffect.loreChoices.length) {
-            this._characterLoreService.removeRuneLore(this.item.oilsApplied[index].runeEffect);
+        const oil = this.item.oilsApplied[index];
+
+        if (oil.runeEffect && oil.runeEffect.loreChoices.length) {
+            this._characterLoreService.removeRuneLore(oil.runeEffect);
         }
 
         this.item.oilsApplied.splice(index, 1);

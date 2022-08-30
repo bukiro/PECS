@@ -34,7 +34,7 @@ const itemsPerPage = 40;
 type SortingOption = 'sortLevel' | 'name';
 
 interface ItemParameters extends ItemRoles {
-    canUse: boolean;
+    canUse?: boolean;
 }
 
 @Component({
@@ -177,9 +177,10 @@ export class CraftingComponent implements OnInit, OnDestroy {
 
         return itemList.map(item => {
             const itemRoles = this._itemRolesService.getItemRoles(item);
-            const proficiency = (itemRoles.asArmor || itemRoles.asWeapon)
+            const armorOrWeapon = (itemRoles.asArmor || itemRoles.asWeapon);
+            const proficiency = armorOrWeapon
                 ? this._equipmentPropertiesService.effectiveProficiency(
-                    (itemRoles.asArmor || itemRoles.asWeapon),
+                    armorOrWeapon,
                     { creature: character, charLevel: character.level },
                 )
                 : '';
@@ -199,12 +200,12 @@ export class CraftingComponent implements OnInit, OnDestroy {
         return this._itemsDataService.craftingItems();
     }
 
-    public visibleItems(items: Array<Item>): Array<Item> {
+    public visibleItems(inventory: ItemCollection, key: keyof ItemCollection): Array<Item> {
         const hasCraftingBook =
             this._character.inventories.find(inv => inv.adventuringgear.find(gear => gear.name === 'Basic Crafter\'s Book'));
 
-        return items
-            .filter((item: Item) =>
+        return (inventory[key] as Array<Item>)
+            .filter(item =>
                 (
                     this._learnedFormulas(item.id).length ||
                     (
@@ -286,7 +287,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         );
     }
 
-    public snareSpecialistParameters(snares: Array<Snare>): { available: number; prepared: number; snares: Array<Snare> } {
+    public snareSpecialistParameters(inventory: ItemCollection): { available: number; prepared: number; snares: Array<Snare> } | undefined {
         if (this._characterFeatsService.characterHasFeat('Snare Specialist')) {
             const prepared: number = this._learnedFormulas().reduce((sum, current) => sum + current.snareSpecialistPrepared, 0);
             let available = 0;
@@ -312,7 +313,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
                 available *= ubiquitousSnaresMultiplier;
             }
 
-            return { available, prepared, snares: this.visibleItems(snares) as Array<Snare> };
+            return { available, prepared, snares: this.visibleItems(inventory, 'snares') as Array<Snare> };
         }
     }
 
@@ -364,7 +365,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
         this._viewChangeSubscription?.unsubscribe();
     }
 
-    private _canUseItem(itemRoles: ItemRoles, proficiency: string): boolean {
+    private _canUseItem(itemRoles: ItemRoles, proficiency: string): boolean | undefined {
         const character = this._character;
 
         if (itemRoles.asWeapon) {

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';
-import { Rune } from 'src/app/classes/Rune';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Shield } from 'src/app/classes/Shield';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -36,19 +35,17 @@ interface ComponentParameters {
 export class ItemEmblazonArmamentComponent implements OnInit {
 
     @Input()
-    public item: Weapon | Shield;
+    public item!: Weapon | Shield;
 
-    public emblazonArmamentActivated = false;
-    public emblazonEnergyActivated = false;
+    public emblazonArmamentActivated?: boolean;
+    public emblazonEnergyActivated?: boolean;
     public emblazonEnergyChoice = 'Acid';
     public emblazonEnergyChoices: Array<string> = ['Acid', 'Cold', 'Electricity', 'Fire', 'Sonic'];
-    public emblazonAntimagicActivated = false;
+    public emblazonAntimagicActivated?: boolean;
 
     public emblazonArmament = emblazonArmament;
     public emblazonEnergy = emblazonEnergy;
     public emblazonAntimagic = emblazonAntimagic;
-
-    public newPropertyRune: { rune: Rune; disabled?: boolean };
 
     constructor(
         private readonly _refreshService: RefreshService,

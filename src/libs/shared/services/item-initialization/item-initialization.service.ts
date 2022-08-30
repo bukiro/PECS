@@ -69,7 +69,7 @@ export class ItemInitializationService {
         if (options.newId) {
             newItem.id = uuidv4();
 
-            if (newItem instanceof Equipment || newItem instanceof Rune) {
+            if (newItem.hasActivities()) {
                 newItem.activities?.forEach((activity: ItemActivity) => {
                     activity.castSpells?.forEach(cast => {
                         if (cast.spellGain) {
@@ -79,7 +79,7 @@ export class ItemInitializationService {
                 });
             }
 
-            if (newItem instanceof Equipment) {
+            if (newItem.isEquipment()) {
                 newItem.gainSpells?.forEach((choice: SpellChoice) => {
                     choice.id = uuidv4();
                 });
@@ -89,9 +89,9 @@ export class ItemInitializationService {
         //Perform any merging before the item is recast.
 
         //For items (oils) that apply the same effect as a rune, load the rune into the item here.
-        if (newItem instanceof Oil && newItem.runeEffect?.name) {
+        if (newItem.isOil() && !!newItem.runeEffect?.name) {
             const rune = this._itemsDataService.cleanItems().weaponrunes
-                .find(weaponRune => weaponRune.name === (newItem as Oil).runeEffect.name);
+                .find(weaponRune => weaponRune.name === (newItem as Oil).runeEffect?.name);
 
             if (rune) {
                 newItem.runeEffect = rune.clone(this._itemsDataService.restoreItem);
