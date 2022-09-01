@@ -17,7 +17,7 @@ export class SpellCasting {
     /** The level where you learn to spell casts using this method. */
     public charLevelAvailable = 0;
     public tradition: SpellTraditions | '' = '';
-    public traditionAvailable: 0;
+    public traditionAvailable = 0;
     public traditionFilter: Array<SpellTraditions> = [];
     public spellChoices: Array<SpellChoice> = [];
     public spellBookOnly = false;

@@ -49,6 +49,8 @@ export class Armor extends Equipment {
     public skillpenalty = 0;
     /** The strength requirement (strength, not STR) to overcome skill and speed penalties. */
     public strength = 0;
+    public propertyRunes: Array<ArmorRune> = [];
+    public material: Array<ArmorMaterial> = [];
 
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = ResilientTitleFromLevel;
 
@@ -123,7 +125,7 @@ export class Armor extends Equipment {
                 this.skillpenalty -
                 this.$affectedByArmoredSkirt +
                 this.$shoddy +
-                this.material.map(material => (material as ArmorMaterial).skillPenaltyModifier).reduce((a, b) => a + b, 0)
+                this.material.map(material => material.skillPenaltyModifier).reduce((a, b) => a + b, 0)
             ),
         );
     }
@@ -133,7 +135,7 @@ export class Armor extends Equipment {
             0,
             (
                 this.speedpenalty +
-                this.material.map(material => (material as ArmorMaterial).speedPenaltyModifier).reduce((a, b) => a + b, 0)
+                this.material.map(material => material.speedPenaltyModifier).reduce((a, b) => a + b, 0)
             ),
         );
     }
@@ -154,7 +156,7 @@ export class Armor extends Equipment {
         const fortificationFactor =
             this.propertyRunes.filter(rune => rune.name.includes('Fortification')).length ? fortificationIncrease : 0;
         //Some materials lower the required strength
-        const materialFactor = this.material.map(material => (material as ArmorMaterial).strengthScoreModifier).reduce((a, b) => a + b, 0);
+        const materialFactor = this.material.map(material => material.strengthScoreModifier).reduce((a, b) => a + b, 0);
 
         return this.strength + (this.$affectedByArmoredSkirt * armoredSkirtMultiplier) + fortificationFactor + materialFactor;
     }

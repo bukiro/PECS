@@ -32,6 +32,7 @@ export class Shield extends Equipment {
     /** What kind of shield is this based on? */
     public shieldBase = '';
     public $shieldAlly = false;
+    public material: Array<ShieldMaterial> = [];
     /**
      * A Cleric with the Emblazon Armament feat can give a bonus to a shield or weapon that only works for followers of the same deity.
      * Subsequent feats can change options and restrictions of the functionality.

@@ -89,7 +89,7 @@ export class AnimalCompanion extends Creature {
         type = '',
         source = '',
         sourceId = '',
-        locked: boolean = undefined,
+        locked: boolean | undefined = undefined,
     ): Array<AbilityBoost> {
         if (this.class) {
             const boosts: Array<AbilityBoost> = [];
@@ -147,7 +147,7 @@ export class AnimalCompanion extends Creature {
         skillName = '',
         source = '',
         sourceId = '',
-        locked: boolean = undefined,
+        locked: boolean | undefined = undefined,
     ): Array<SkillIncrease> {
         if (this.class) {
             // When animal companion species and levels are checked for skill increases,
@@ -204,6 +204,8 @@ export class AnimalCompanion extends Creature {
             });
 
             return increases;
+        } else {
+            return [];
         }
     }
 }

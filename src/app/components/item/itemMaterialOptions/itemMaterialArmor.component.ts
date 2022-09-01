@@ -234,7 +234,7 @@ export class ItemMaterialArmorComponent implements OnInit {
             this.item.material
                 ? [
                     this.item.material[0]
-                        ? { material: this.item.material[0] as ArmorMaterial }
+                        ? { material: this.item.material[0] }
                         : { material: new ArmorMaterial() },
                 ]
                 : [

@@ -16,4 +16,6 @@ export class OtherConsumableBomb extends AlchemicalBomb {
             new OtherConsumableBomb(), JSON.parse(JSON.stringify(this)),
         ).recast(restoreFn);
     }
+
+    public isOtherConsumableBomb(): this is OtherConsumableBomb { return true; }
 }

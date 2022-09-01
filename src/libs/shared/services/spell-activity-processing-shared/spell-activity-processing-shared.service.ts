@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -120,62 +121,15 @@ export class SpellActivityProcessingSharedService {
             } else if (newConditionGain.durationIsDynamic) {
                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
                 newConditionGain.duration =
-                    condition.defaultDuration(newConditionGain.choice, newConditionGain.heightened).duration;
+                    condition.defaultDuration(newConditionGain.choice, newConditionGain.heightened)?.duration;
             }
 
-            //Check if an effect changes the duration of this condition.
-            let effectDuration: number = newConditionGain.duration || 0;
+            const effectConditionDuration =
+                this._determineEffectConditionDuration(newConditionGain.duration, condition, { ...context, conditionsToRemove });
 
-            const effectNames: Array<string> = [
-                `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`,
-            ].concat((context.source instanceof Spell)
-                ? ['Next Spell Duration']
-                : [],
-            );
+            conditionsToRemove.push(...effectConditionDuration.conditionsToRemove);
+            newConditionGain.duration = effectConditionDuration.duration;
 
-            this._creatureEffectsService
-                .absoluteEffectsOnThese(
-                    context.creature,
-                    effectNames,
-                )
-                .forEach(effect => {
-                    effectDuration = parseInt(effect.setValue, 10);
-                    conditionsToRemove.push(effect.source);
-                });
-
-            if (effectDuration > 0) {
-                this._creatureEffectsService
-                    .relativeEffectsOnThese(
-                        context.creature,
-                        effectNames,
-                    ).forEach(effect => {
-                        effectDuration += parseInt(effect.value, 10);
-                        conditionsToRemove.push(effect.source);
-                    });
-            }
-
-            // If an effect has changed the duration,
-            // use the effect duration unless it is shorter than the current duration.
-            if (effectDuration) {
-                if (effectDuration === TimePeriods.Permanent) {
-                    //Unlimited is longer than anything.
-                    newConditionGain.duration = TimePeriods.Permanent;
-                } else if (newConditionGain.duration !== TimePeriods.Permanent) {
-                    //Anything is shorter than unlimited.
-                    if (
-                        effectDuration < TimePeriods.Permanent &&
-                        newConditionGain.duration > TimePeriods.NoTurn &&
-                        newConditionGain.duration < TimePeriods.Day
-                    ) {
-                        //Until Rest and Until Refocus are usually longer than anything below a day.
-                        newConditionGain.duration = effectDuration;
-                    } else if (effectDuration > newConditionGain.duration) {
-                        // If neither are unlimited and the above is not true,
-                        // a higher value is longer than a lower value.
-                        newConditionGain.duration = effectDuration;
-                    }
-                }
-            }
         }
 
         return conditionsToRemove;
@@ -360,6 +314,73 @@ export class SpellActivityProcessingSharedService {
                     this._creatureConditionsService.removeCondition(context.creature, conditionGain, false);
                 });
         }
+    }
+
+    private _determineEffectConditionDuration(
+        duration: number,
+        condition: Condition,
+        context: {
+            source: Activity | Spell;
+            creature: Creature;
+            conditionsToRemove: Array<string>;
+        },
+    ): { conditionsToRemove: Array<string>; duration: number } {
+        //Check if an effect changes the duration of this condition.
+        let effectDuration: number = duration || 0;
+        const conditionsToRemove = context.conditionsToRemove;
+
+        const effectNames: Array<string> = [
+            `${ condition.name.replace(' (Originator)', '').replace(' (Caster)', '') } Duration`,
+        ].concat((context.source instanceof Spell)
+            ? ['Next Spell Duration']
+            : [],
+        );
+
+        this._creatureEffectsService
+            .absoluteEffectsOnThese(
+                context.creature,
+                effectNames,
+            )
+            .forEach(effect => {
+                effectDuration = parseInt(effect.setValue, 10);
+                context.conditionsToRemove.push(effect.source);
+            });
+
+        if (effectDuration > 0) {
+            this._creatureEffectsService
+                .relativeEffectsOnThese(
+                    context.creature,
+                    effectNames,
+                ).forEach(effect => {
+                    effectDuration += parseInt(effect.value, 10);
+                    context.conditionsToRemove.push(effect.source);
+                });
+        }
+
+        // If an effect has changed the duration,
+        // use the effect duration unless it is shorter than the current duration.
+        if (effectDuration) {
+            if (effectDuration === TimePeriods.Permanent) {
+                //Unlimited is longer than anything.
+                duration = TimePeriods.Permanent;
+            } else if (duration !== TimePeriods.Permanent) {
+                //Anything is shorter than unlimited.
+                if (
+                    effectDuration < TimePeriods.Permanent &&
+                    duration > TimePeriods.NoTurn &&
+                    duration < TimePeriods.Day
+                ) {
+                    //Until Rest and Until Refocus are usually longer than anything below a day.
+                    duration = effectDuration;
+                } else if (effectDuration > duration) {
+                    // If neither are unlimited and the above is not true,
+                    // a higher value is longer than a lower value.
+                    duration = effectDuration;
+                }
+            }
+        }
+
+        return { conditionsToRemove, duration };
     }
 
 }

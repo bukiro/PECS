@@ -83,7 +83,7 @@ export class Class {
         );
     }
 
-    public defaultSpellcasting(): SpellCasting {
+    public defaultSpellcasting(): SpellCasting | undefined {
         // Return the spellcasting that is assigned to this class, named "<class> Spellcasting" and neither focus not innate.
         // Useful for feat requirements and assigning spell choices to the default spellcasting.
         return this.spellCasting.find(casting =>
@@ -93,13 +93,13 @@ export class Class {
         );
     }
 
-    public getSkillChoiceBySourceId(sourceId: string): SkillChoice {
+    public getSkillChoiceBySourceId(sourceId: string): SkillChoice | undefined {
         const levelNumber = parseInt(sourceId.split('-')[0], 10);
 
         return this.levels[levelNumber].skillChoices.find(choice => choice.id === sourceId);
     }
 
-    public getLoreChoiceBySourceId(sourceId: string): LoreChoice {
+    public getLoreChoiceBySourceId(sourceId: string): LoreChoice | undefined {
         const levelNumber = parseInt(sourceId.split('-')[0], 10);
 
         return this.levels[levelNumber].loreChoices.find(choice => choice.id === sourceId);
@@ -131,7 +131,7 @@ export class Class {
         }
     }
 
-    public addSpellChoice(levelNumber: number, newChoice: SpellChoice): SpellChoice {
+    public addSpellChoice(levelNumber: number, newChoice: SpellChoice): SpellChoice | undefined {
         const insertChoice = newChoice.clone();
 
         if (insertChoice.className === 'Default') {
@@ -139,7 +139,7 @@ export class Class {
         }
 
         if (insertChoice.castingType === 'Default') {
-            insertChoice.castingType = this.defaultSpellcasting()?.castingType;
+            insertChoice.castingType = this.defaultSpellcasting()?.castingType || SpellCastingTypes.Innate;
         }
 
         const spellCasting = this.spellCasting

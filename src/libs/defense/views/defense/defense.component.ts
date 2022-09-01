@@ -94,7 +94,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public armorSpecialization(armor: Armor | WornItem): Array<Specialization> {
-        if (armor instanceof Armor) {
+        if (armor.isArmor()) {
             return this._armorPropertiesService.armorSpecializations(armor, this._currentCreature);
         }
 
@@ -185,7 +185,9 @@ export class DefenseComponent implements OnInit, OnDestroy {
         //Return all runes and rune-emulating oil effects that have a hint to show
         const runes: Array<ArmorRune> = [];
 
-        runes.push(...armor.propertyRunes.filter(rune => rune.hints.length) as Array<ArmorRune>);
+        if (armor.isArmor()) {
+            runes.push(...armor.propertyRunes.filter(rune => rune.hints.length) as Array<ArmorRune>);
+        }
 
         return runes;
     }

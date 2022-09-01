@@ -145,10 +145,14 @@ export class NamedFeatProcessingService {
                             ),
                         )[0];
 
-                    character.class.addSpellChoice(familiarLevel.number, newSpellChoice);
+                    if (familiarLevel) {
+                        character.class.addSpellChoice(familiarLevel.number, newSpellChoice);
+                    }
+
+
                 }
             } else {
-                const oldSpellChoice = spellCasting.spellChoices.find(spellChoice => spellChoice.source === `Feat: ${ feat.name }`);
+                const oldSpellChoice = spellCasting?.spellChoices.find(spellChoice => spellChoice.source === `Feat: ${ feat.name }`);
 
                 if (oldSpellChoice) {
                     character.class.removeSpellChoice(oldSpellChoice);
@@ -191,10 +195,12 @@ export class NamedFeatProcessingService {
                             ),
                         )[0];
 
-                    character.class.addSpellChoice(familiarLevel.number, newSpellChoice);
+                    if (familiarLevel) {
+                        character.class.addSpellChoice(familiarLevel.number, newSpellChoice);
+                    }
                 }
             } else {
-                const oldSpellChoice = spellCasting.spellChoices.find(spellChoice => spellChoice.source === `Feat: ${ feat.name }`);
+                const oldSpellChoice = spellCasting?.spellChoices.find(spellChoice => spellChoice.source === `Feat: ${ feat.name }`);
 
                 if (oldSpellChoice) {
                     character.class.removeSpellChoice(oldSpellChoice);
@@ -349,9 +355,12 @@ export class NamedFeatProcessingService {
                         const lastSpellCombinationLevel = 10;
 
                         for (let spellLevel = firstSpellCombinationLevel; spellLevel <= lastSpellCombinationLevel; spellLevel++) {
-                            casting.spellChoices
-                                .find(spellChoice => spellChoice.level === spellLevel && spellChoice.available === 1)
-                                .spellCombinationAllowed = true;
+                            const targetSpellChoice = casting.spellChoices
+                                .find(spellChoice => spellChoice.level === spellLevel && spellChoice.available === 1);
+
+                            if (targetSpellChoice) {
+                                targetSpellChoice.spellCombinationAllowed = true;
+                            }
                         }
                     });
                 this._refreshService.prepareDetailToChange(context.creature.type, 'spells');

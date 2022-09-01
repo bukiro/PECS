@@ -121,7 +121,7 @@ export class ItemInitializationService {
                     .find(newrune => newrune.name === rune.name);
 
                 if (libraryItem) {
-                    newRunes.push(TypeService.mergeObject(libraryItem, rune as WeaponRune));
+                    newRunes.push(TypeService.mergeObject(libraryItem, rune));
                 }
             });
             newItem.propertyRunes = newRunes;
@@ -135,7 +135,7 @@ export class ItemInitializationService {
                     .find(newrune => newrune.name === rune.name);
 
                 if (libraryItem) {
-                    newRunes.push(TypeService.mergeObject(libraryItem, rune as ArmorRune));
+                    newRunes.push(TypeService.mergeObject(libraryItem, rune));
                 }
             });
             newItem.propertyRunes = newRunes;
@@ -150,7 +150,7 @@ export class ItemInitializationService {
                     this._itemMaterialsDataService.weaponMaterials().find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(TypeService.mergeObject(libraryItem, material as WeaponMaterial));
+                    newMaterials.push(TypeService.mergeObject(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
@@ -164,7 +164,7 @@ export class ItemInitializationService {
                     this._itemMaterialsDataService.armorMaterials().find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(TypeService.mergeObject(libraryItem, material as ArmorMaterial));
+                    newMaterials.push(TypeService.mergeObject(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
@@ -178,7 +178,7 @@ export class ItemInitializationService {
                     this._itemMaterialsDataService.shieldMaterials().find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(TypeService.mergeObject(libraryItem, material as ShieldMaterial));
+                    newMaterials.push(TypeService.mergeObject(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;

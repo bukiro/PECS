@@ -38,6 +38,7 @@ import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
+import { ObjectPropertyAccessor } from './models/object-property-accessor';
 
 const itemsPerPage = 40;
 
@@ -242,7 +243,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         this._menuService.toggleMenu(MenuNames.ConditionsMenu);
     }
 
-    public allAvailableCreatures(companionAvailable: boolean = undefined, familiarAvailable: boolean = undefined): Array<Creature> {
+    public allAvailableCreatures(companionAvailable?: boolean, familiarAvailable?: boolean): Array<Creature> {
         return this._creatureAvailabilityService.allAvailableCreatures(companionAvailable, familiarAvailable);
     }
 
@@ -367,9 +368,9 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         this._creatureConditionsService.addCondition(creature, newGain);
     }
 
-    public effectiveEffectValue(creature: Creature, effect: EffectGain): { value: string | number; penalty: boolean } {
+    public effectiveEffectValue(creature: Creature, effect: EffectGain): { value: string | number | null; penalty: boolean } {
         //Send the effect's setValue or value to the EvaluationService to get its result.
-        let result: string | number = null;
+        let result: string | number | null = null;
         let isPenalty = false;
 
         if (effect.setValue) {
@@ -380,7 +381,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
             result =
                 this._evaluationService.valueFromFormula(effect.value, { creature, effect });
 
-            if (!isNaN(result as number)) {
+            if (!isNaN(result as number) && result !== null) {
                 isPenalty = (result < 0) === (effect.affected !== 'Bulk');
             } else {
                 result = null;
@@ -400,7 +401,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         return false;
     }
 
-    public isEffectInvalid(): string {
+    public isEffectInvalid(): string | undefined {
         if (!this.newEffect.affected || (!this.newEffect.toggle && !this.newEffect.setValue && this.newEffect.value === '0')) {
             return 'This effect will not do anything.';
         }
@@ -443,6 +444,10 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
+    public objectPropertyAccessor(key: keyof EffectGain): ObjectPropertyAccessor<EffectGain> {
+        return new ObjectPropertyAccessor(this.newEffect, key);
+    }
+
     public validate(creature: Creature, effect: EffectGain): void {
         if (this.isValueFormula(effect.value)) {
             effect.value = '0';
@@ -451,7 +456,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         this.refreshEffects(creature);
     }
 
-    public validateAdvancedEffect(propertyData: ItemProperty, index: number): void {
+    public validateAdvancedEffect(propertyData: ItemProperty<EffectGain>, index: number): void {
         this.validationError[index] = '';
         this.validationResult[index] = '';
 
@@ -460,7 +465,7 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         if (propertyData.key === 'value' && propertyData.parent === 'effects') {
             if (value && value !== '0') {
                 const validationResult =
-                    this._evaluationService.valueFromFormula(value, { creature: this.character })?.toString() || '0';
+                    this._evaluationService.valueFromFormula(value.toString(), { creature: this.character })?.toString() || '0';
 
                 if (validationResult && validationResult !== '0' && (parseInt(validationResult, 10) || parseFloat(validationResult))) {
                     if (parseFloat(validationResult) === parseInt(validationResult, 10)) {
@@ -480,15 +485,17 @@ export class ConditionsComponent implements OnInit, OnDestroy {
         } else if (propertyData.key === 'setValue' && propertyData.parent === 'effects') {
             if (value && value !== '0') {
                 const validationResult =
-                    this._evaluationService.valueFromFormula(value, { creature: this.character })?.toString() || null;
+                    this._evaluationService.valueFromFormula(value.toString(), { creature: this.character })?.toString();
 
                 if (
-                    validationResult &&
+                    !!validationResult &&
                     (
-                        parseInt(validationResult, 10) ||
-                        parseFloat(validationResult)
-                    ) ||
-                    parseInt(validationResult, 10) === 0
+                        (
+                            parseInt(validationResult, 10) ||
+                            parseFloat(validationResult)
+                        ) ||
+                        parseInt(validationResult, 10) === 0
+                    )
                 ) {
                     if (parseFloat(validationResult) === parseInt(validationResult, 10)) {
                         this.validationError[index] = '';
@@ -500,43 +507,43 @@ export class ConditionsComponent implements OnInit, OnDestroy {
                 } else {
                     this.validationError[index] =
                         'This may result in an invalid value. Absolute effects with an invalid value will not be applied.';
-                    this.validationResult[index] = parseInt(validationResult, 10).toString();
+                    this.validationResult[index] = parseInt(validationResult as string, 10).toString();
                 }
             }
         } else if (propertyData.validation === '1plus') {
-            if (parseInt(value, 10) >= 1) {
+            if (parseInt(value as string, 10) >= 1) {
                 //Do nothing if the validation is successful.
             } else {
-                this.newEffect[propertyData.key] = 1;
+                this._setEffectPropertyValue(propertyData.key, 1);
             }
         } else if (propertyData.validation === '0plus') {
-            if (parseInt(value, 10) >= 0) {
+            if (parseInt(value as string, 10) >= 0) {
                 //Do nothing if the validation is successful.
             } else {
-                this.newEffect[propertyData.key] = 0;
+                this._setEffectPropertyValue(propertyData.key, 0);
             }
         } else if (propertyData.validation === '=1plus') {
-            if (parseInt(value, 10) >= -1) {
+            if (parseInt(value as string, 10) >= -1) {
                 //Do nothing if the validation is successful.
             } else {
-                this.newEffect[propertyData.key] = -1;
+                this._setEffectPropertyValue(propertyData.key, -1);
             }
         } else if (propertyData.validation === '0minus') {
-            if (parseInt(value, 10) <= 0) {
+            if (parseInt(value as string, 10) <= 0) {
                 //Do nothing if the validation is successful.
             } else {
-                this.newEffect[propertyData.key] = 0;
+                this._setEffectPropertyValue(propertyData.key, 0);
             }
         }
     }
 
     public customEffectProperties(): Array<ItemProperty<EffectGain>> {
-        const propertyData = (key: string): ItemProperty<EffectGain> =>
+        const propertyData = (key: keyof EffectGain): ItemProperty<EffectGain> | undefined =>
             this._customEffectPropertiesService.effectProperties.find(property => property.key === key);
 
         return Object.keys(this.newEffect)
-            .map(key => propertyData(key))
-            .filter(property => property !== undefined)
+            .map(key => propertyData(key as keyof EffectGain))
+            .filter((property): property is ItemProperty<EffectGain> => property !== undefined)
             .sort((a, b) => SortAlphaNum(a.group + a.priority, b.group + b.priority));
     }
 
@@ -700,6 +707,10 @@ export class ConditionsComponent implements OnInit, OnDestroy {
 
     private _characterInventories(): Array<ItemCollection> {
         return this.character.inventories;
+    }
+
+    private _setEffectPropertyValue(key: keyof EffectGain, value: number): void {
+        Object.assign(this.newEffect, { [key]: value });
     }
 
 }

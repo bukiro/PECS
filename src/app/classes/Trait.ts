@@ -100,7 +100,7 @@ export class Trait {
                 /* eslint-enable @typescript-eslint/no-unused-vars */
                 /* eslint-enable @typescript-eslint/naming-convention */
                 effects.forEach(effect => {
-                    const shouldBeDisplayed: boolean = effect.show;
+                    const shouldBeDisplayed: boolean | undefined = effect.show;
                     let type = 'untyped';
                     let isPenaltyEffect = false;
                     let value = '0';

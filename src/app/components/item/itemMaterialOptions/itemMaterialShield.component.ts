@@ -202,7 +202,7 @@ export class ItemMaterialShieldComponent implements OnInit {
             this.item.material
                 ? [
                     this.item.material[0]
-                        ? { material: this.item.material[0] as ShieldMaterial }
+                        ? { material: this.item.material[0] }
                         : { material: new ShieldMaterial() },
                 ]
                 : [

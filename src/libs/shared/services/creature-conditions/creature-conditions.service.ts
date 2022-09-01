@@ -8,7 +8,6 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
-import { TimePeriods } from '../../definitions/timePeriods';
 import { CreatureTypeIDFromType } from '../../util/creatureUtils';
 import { SortAlphaNum } from '../../util/sortUtils';
 import { ConditionProcessingService } from '../condition-processing/condition-processing.service';
@@ -582,8 +581,9 @@ export class CreatureConditionsService {
 
     private _prepareNewCondition(conditionGain: ConditionGain, originalCondition: Condition): void {
         // If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
-        if (conditionGain.duration === TimePeriods.Default) {
-            conditionGain.duration = originalCondition.defaultDuration(conditionGain.choice, conditionGain.heightened).duration;
+        if (conditionGain.durationIsDynamic) {
+            conditionGain.duration =
+                originalCondition.defaultDuration(conditionGain.choice, conditionGain.heightened)?.duration;
         }
 
         // If there are choices, and the choice is not set by the gain, take the default or the first choice.

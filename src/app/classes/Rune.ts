@@ -40,6 +40,8 @@ export abstract class Rune extends Item {
         return this;
     }
 
+    public isRune(): this is Rune { return true; }
+
     public canStack(): boolean {
         //Additionally to the usual considerations, runes can't stack if they add any activities.
         return (

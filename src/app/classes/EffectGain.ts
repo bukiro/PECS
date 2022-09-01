@@ -22,7 +22,7 @@ export class EffectGain {
      * Effects will be displayed on top of the character sheet if show = true, not shown if show = false,
      * or otherwise shown if they match a certain list of effects that should always show.
      */
-    public show: boolean = undefined;
+    public show?: boolean;
     public type = '';
     public duration = 0;
     public maxDuration = 0;

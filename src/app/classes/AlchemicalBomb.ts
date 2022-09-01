@@ -28,6 +28,8 @@ export class AlchemicalBomb extends Weapon {
         ).recast(restoreFn);
     }
 
+    public isAlchemicalBomb(): this is AlchemicalBomb { return true; }
+
     public effectiveName(): string {
         return this.displayName || this.name;
     }

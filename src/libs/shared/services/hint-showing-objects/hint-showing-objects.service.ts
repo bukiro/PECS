@@ -7,16 +7,10 @@ import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
-import { Armor } from 'src/app/classes/Armor';
-import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
-import { Equipment } from 'src/app/classes/Equipment';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Shield } from 'src/app/classes/Shield';
 import { Specialization } from 'src/app/classes/Specialization';
-import { Weapon } from 'src/app/classes/Weapon';
-import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { WornItem } from 'src/app/classes/WornItem';
 import { HintShowingItem } from '../../definitions/Types/hintShowingItem';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
@@ -161,13 +155,10 @@ export class HintShowingObjectsService {
         return this._creatureConditionsService.currentCreatureConditions(creature)
             .filter(conditionGain => conditionGain.apply)
             .map(conditionGain =>
-                Object.assign(
-                    new ConditionSet(),
-                    { gain: conditionGain, condition: this._conditionsDataService.conditionFromName(conditionGain.name) },
-                ),
+                new ConditionSet(this._conditionsDataService.conditionFromName(conditionGain.name), conditionGain),
             )
             .filter(conditionSet =>
-                conditionSet.condition?.hints.find(hint =>
+                conditionSet.condition.hints.find(hint =>
                     (hint.minLevel ? character.level >= hint.minLevel : true) &&
                     hint.showon?.split(',').find(showon =>
                         objectName.trim().toLowerCase() === 'all' ||
@@ -267,25 +258,25 @@ export class HintShowingObjectsService {
                         addItemIfHintsMatch(oil, false);
                     });
 
-                    if (!hasTooManySlottedAeonStones && item instanceof WornItem) {
+                    if (!hasTooManySlottedAeonStones && item.isWornItem()) {
                         item.aeonStones.forEach(stone => {
                             addItemIfHintsMatch(stone, true);
                         });
                     }
 
-                    if ((item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) && item.propertyRunes) {
+                    if ((item.isWeapon() || (item.isWornItem() && item.isHandwrapsOfMightyBlows)) && item.propertyRunes) {
                         item.propertyRunes.forEach(rune => {
-                            addItemIfHintsMatch(rune as WeaponRune, false);
+                            addItemIfHintsMatch(rune, false);
                         });
                     }
 
-                    if (item instanceof Armor && item.propertyRunes) {
-                        (item as Equipment).propertyRunes.forEach(rune => {
-                            addItemIfHintsMatch(rune as ArmorRune, false);
+                    if (item.isArmor() && item.propertyRunes) {
+                        item.propertyRunes.forEach(rune => {
+                            addItemIfHintsMatch(rune, false);
                         });
                     }
 
-                    if (item instanceof Equipment && item.moddable && item.material) {
+                    if (item.isEquipment() && item.moddable && item.material) {
                         item.material.forEach(material => {
                             addItemIfHintsMatch(material, false);
                         });

@@ -114,7 +114,7 @@ export class SkillsComponent implements OnInit, OnDestroy {
         this.toggleShownAction(id);
     }
 
-    public receiveShowChoiceMessage(message: { name: string; levelNumber: number; choice: SkillChoice }): void {
+    public receiveShowChoiceMessage(message: { name: string; levelNumber: number; choice?: SkillChoice }): void {
         this.toggleShownList(message.name);
     }
 

@@ -38,7 +38,7 @@ export class FeatComponent {
         public trackers: Trackers,
     ) { }
 
-    public featRequirements(choice: FeatChoice, feat: Feat): Array<FeatRequirements.FeatRequirementResult> {
+    public featRequirements(choice: FeatChoice | undefined, feat: Feat): Array<FeatRequirements.FeatRequirementResult> {
         const ignoreRequirementsList: Array<string> =
             this._featRequirementsService.createIgnoreRequirementList(feat, this.levelNumber, choice);
         const result: Array<FeatRequirements.FeatRequirementResult> = [];

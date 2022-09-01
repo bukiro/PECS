@@ -93,6 +93,10 @@ export class NewItemPropertyComponent<T extends Item | object> {
         return item;
     }
 
+    public objectPropertyAccessor(object: T, key: keyof T): ObjectPropertyAccessor<T> {
+        return new ObjectPropertyAccessor(object, key);
+    }
+
     // eslint-disable-next-line complexity
     public validate(): void {
         this.validationError = '';

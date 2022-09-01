@@ -82,8 +82,6 @@ export abstract class Equipment extends Item {
     public choices: Array<string> = [];
     public choice = '';
 
-    public abstract readonly secondaryRuneTitleFunction: ((secondary: number) => string);
-
     /** Amount of propertyRunes you can still apply */
     public get freePropertyRunes(): number {
         //You can apply as many property runes as the level of your potency rune. Each rune with the Saggorak trait counts double.
@@ -109,6 +107,8 @@ export abstract class Equipment extends Item {
     public set secondaryRune(value: BasicRuneLevels) {
         return;
     }
+
+    public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = secondary => secondary.toString();
 
     public recast(restoreFn: <T extends Item>(obj: T) => T): Equipment {
         super.recast(restoreFn);

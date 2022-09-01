@@ -1,6 +1,6 @@
 export class ConditionChoice {
     public name = '';
-    public defaultDuration: number = null;
+    public defaultDuration?: number;
     public nextStage = 0;
     /**
      * All featreqs must be fulfilled for the choice to be available.

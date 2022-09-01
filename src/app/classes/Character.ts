@@ -119,7 +119,7 @@ export class Character extends Creature {
         type = '',
         source = '',
         sourceId = '',
-        locked: boolean = undefined,
+        locked: boolean | undefined = undefined,
     ): Array<AbilityBoost> {
         if (this.class) {
             const boosts: Array<AbilityBoost> = [];
@@ -151,7 +151,7 @@ export class Character extends Creature {
         skillName = '',
         source = '',
         sourceId = '',
-        locked: boolean = undefined,
+        locked: boolean | undefined = undefined,
         excludeTemporary = false,
     ): Array<SkillIncrease> {
         if (this.class) {
@@ -188,7 +188,7 @@ export class Character extends Creature {
                         item.oilsApplied
                             .filter(oil => oil.runeEffect && oil.runeEffect.loreChoices && oil.runeEffect.loreChoices.length)
                             .forEach(oil => {
-                                choices.push(...oil.runeEffect.loreChoices);
+                                choices.push(...(oil.runeEffect?.loreChoices || []));
                             });
                     });
             });
@@ -234,10 +234,10 @@ export class Character extends Creature {
         featName = '',
         source = '',
         sourceId = '',
-        locked: boolean = undefined,
+        locked: boolean | undefined = undefined,
         excludeTemporary = false,
         includeCountAs = false,
-        automatic: boolean = undefined,
+        automatic: boolean | undefined = undefined,
     ): Array<FeatTaken> {
         if (this.class) {
             const featsTaken: Array<FeatTaken> = [];
@@ -270,6 +270,8 @@ export class Character extends Creature {
             });
 
             return featsTaken;
+        } else {
+            return [];
         }
     }
 
@@ -293,7 +295,7 @@ export class Character extends Creature {
         //If there are no weapons left of this name in any inventory, find any custom feat that has it as its subType.
         //These feats are not useful anymore, but the player may wish to keep them.
         //They are marked with canDelete, and the player can decide whether to delete them.
-        const remainingWeapons: Array<string> = []
+        const remainingWeapons: Array<Weapon> = ([] as Array<Weapon>)
             .concat(
                 ...this.inventories
                     .concat(

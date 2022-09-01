@@ -362,15 +362,17 @@
                                         <strong [ngbPopover]="property.desc" triggers="hover:click">{{property.name}} <i
                                                 class="bi-question-circle"></i></strong>
                                     </div>
-                                    <div class="newrow">
-                                        <input class="newrow" type="text" [(ngModel)]="newEffect[property.key]"
+                                    <div class="newrow" *ngIf="property.key">
+                                        <input class="newrow" type="text"
+                                            [(ngModel)]="objectPropertyAccessor(property.key).value"
                                             (blur)="validateAdvancedEffect(property, index)"
                                             *ngIf="!property.type && !property.locked">
-                                        <textarea class="newrow" rows=3 [(ngModel)]="newEffect[property.key]"
+                                        <textarea class="newrow" rows=3
+                                            [(ngModel)]="objectPropertyAccessor(property.key).value"
                                             *ngIf="property.type==='textarea'"></textarea>
-                                        <input type="checkbox" [(ngModel)]="newEffect[property.key]"
+                                        <input type="checkbox" [(ngModel)]="objectPropertyAccessor(property.key).value"
                                             *ngIf="property.type==='checkbox'">
-                                        <input type="number" [(ngModel)]="newEffect[property.key]"
+                                        <input type="number" [(ngModel)]="objectPropertyAccessor(property.key).value"
                                             (blur)="validateAdvancedEffect(property, index)"
                                             *ngIf="property.type==='number'">
                                     </div>
@@ -382,7 +384,8 @@
                                     </div>
                                     <div class="list-item" style="margin: initial 0"
                                         *ngIf="property.type!=='textarea' && property.type!=='checkbox'">
-                                        <select class="newrow left-aligned" [(ngModel)]="newEffect[property.key]"
+                                        <select class="newrow left-aligned"
+                                            [(ngModel)]="objectPropertyAccessor(property.key).value"
                                             [disabled]="!effectPropertyExamples(property).length"
                                             (ngModelChange)="validateAdvancedEffect(property, index)">
                                             <option

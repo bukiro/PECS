@@ -29,7 +29,7 @@ export class AboutComponent implements OnInit {
         public trackers: Trackers,
     ) { }
 
-    public versionShown(): ChangeLog {
+    public versionShown(): ChangeLog | undefined {
         return this.changelog.find(versionChange => versionChange.version === this.version);
     }
 

@@ -1281,7 +1281,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
                         if (increases.length) {
                             const oldChoice = character.class.getLoreChoiceBySourceId(increases[0].sourceId);
 
-                            if (oldChoice.available === 1) {
+                            if (oldChoice?.available === 1) {
                                 this._characterLoreService.removeLore(oldChoice);
                             }
                         }

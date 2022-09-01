@@ -75,6 +75,8 @@ export class Weapon extends Equipment {
     public dexterityBased = false;
     /** If useHighestAttackProficiency is true, the proficiency level will be copied from your highest unarmed or weapon proficiency. */
     public useHighestAttackProficiency = false;
+    public propertyRunes: Array<WeaponRune> = [];
+    public material: Array<WeaponMaterial> = [];
     public $traits: Array<string> = [];
     /** Shoddy weapons take a -2 penalty to attacks. */
     public $shoddy: ShoddyPenalties = ShoddyPenalties.NotShoddy;

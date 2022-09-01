@@ -123,7 +123,7 @@ export class CharacterBackgroundChangeService {
                     if (increases.length) {
                         const oldChoice = character.class.getLoreChoiceBySourceId(increases[0].sourceId);
 
-                        if (oldChoice.available === 1) {
+                        if (oldChoice?.available === 1) {
                             this._characterLoreService.removeLore(oldChoice);
                         }
                     }
@@ -138,13 +138,13 @@ export class CharacterBackgroundChangeService {
 
                 if (existingIncreases.length) {
                     const existingIncrease = existingIncreases[0];
-                    const existingSkillChoice: SkillChoice = characterClass.getSkillChoiceBySourceId(existingIncrease.sourceId);
+                    const existingSkillChoice: SkillChoice | undefined = characterClass.getSkillChoiceBySourceId(existingIncrease.sourceId);
 
                     // If you have already trained this skill from another source:
                     // Check if it is a free training (not locked). If so, remove it and reimburse the skill point,
                     // then replace it with the background's.
                     // If it is locked, we better not replace it. Instead, you get a free Background skill increase.
-                    if (existingSkillChoice !== background.skillChoices[0]) {
+                    if (existingSkillChoice && existingSkillChoice !== background.skillChoices[0]) {
                         if (!existingIncrease.locked) {
                             this._characterSkillIncreaseService.increaseSkill(existingIncrease.name, false, existingSkillChoice, false);
                         } else {

@@ -17,7 +17,6 @@ import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { Hint } from 'src/app/classes/Hint';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
@@ -149,8 +148,8 @@ export class AttacksComponent implements OnInit, OnDestroy {
         }
 
         weapon.material.forEach(material => {
-            if ((material as WeaponMaterial).criticalHint) {
-                hints.push((material as WeaponMaterial).criticalHint);
+            if (material.criticalHint) {
+                hints.push(material.criticalHint);
             }
         });
 

@@ -1,5 +1,5 @@
 export class ConditionDuration {
-    public duration: number = null;
+    public duration?: number;
     public minLevel = 0;
 
     public recast(): ConditionDuration {

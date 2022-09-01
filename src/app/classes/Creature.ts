@@ -87,5 +87,5 @@ export abstract class Creature {
         sourceId?: string,
         locked?: boolean,
         excludeTemporary?: boolean,
-    ): Array<SkillIncrease>;
+    ): Array<SkillIncrease> | undefined;
 }

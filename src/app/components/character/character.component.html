@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/conditional-complexity -->
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
 <div class="window-button-container">
     <button class="minimizebutton lower"
@@ -311,7 +312,7 @@
                     <!--Available Ancestry Feats-->
                     <div class="list-item fullsize-only" *ngIf="character.class.ancestry.name">
                         <strong>Available Ancestry Feats</strong>
-                        <div class="newrow left-aligned" *ngIf="character.class.ancestry?.ancestries.length">
+                        <div class="newrow left-aligned" *ngIf="character.class.ancestry?.ancestries?.length">
                             <cite class="trait"
                                 *ngFor="let ancestry of character.class.ancestry.ancestries; trackBy:trackers.trackByIndex;">
                                 {{ancestry}}
@@ -526,7 +527,7 @@
                                 <div class="newrow center-aligned">
                                     <button class="featchoice center-aligned"
                                         (click)="addBonusFeatChoice(level, 'Ancestry')"
-                                        [disabled]="!this.character.class.ancestry?.name">
+                                        [disabled]="!this.character.class.ancestry.name">
                                         Ancestry<br>Feat
                                     </button>
                                     <button class="featchoice center-aligned"
@@ -645,7 +646,7 @@
                                                 #FixedAbilityPopover="ngbPopover"
                                                 [ngbPopover]="FixedAbilityBoostContent" triggers="click">
                                                 <app-gridIcon class="abilityboost"
-                                                    [ngbTooltip]="!FixedAbilityPopover.isOpen() && ((boost.type === 'Flaw' ? 'Flaw: ' : 'Boost: ') + boost.name)"
+                                                    [ngbTooltip]="!FixedAbilityPopover.isOpen() && ((boost.type === 'Flaw' ? 'Flaw: ' : 'Boost: ') + boost.name) || undefined"
                                                     [title]="boost.name" [superTitle]="'icon-bi-lock-fill'"
                                                     [detail]="(boost.type === 'Flaw' ? 'Flaw' : 'Boost')">
                                                 </app-gridIcon>
@@ -724,7 +725,7 @@
                                                 #FixedSkillPopover="ngbPopover" [ngbPopover]="FixedSkillIncreaseContent"
                                                 triggers="click">
                                                 <app-gridIcon class="skillincrease"
-                                                    [ngbTooltip]="!FixedSkillPopover.isOpen() && skillIncrease.name"
+                                                    [ngbTooltip]="!FixedSkillPopover.isOpen() && skillIncrease.name || undefined"
                                                     [title]="skillIncrease.name" [superTitle]="'icon-bi-lock-fill'">
                                                 </app-gridIcon>
                                             </button>
@@ -792,7 +793,7 @@
                                                     #FixedFeatPopover="ngbPopover" [ngbPopover]="FixedFeatContent"
                                                     triggers="click">
                                                     <app-gridIcon class="featchoice"
-                                                        [ngbTooltip]="!FixedFeatPopover.isOpen() && (libraryFeat.displayName || feat.name)"
+                                                        [ngbTooltip]="!FixedFeatPopover.isOpen() && (libraryFeat.displayName || feat.name) || undefined"
                                                         [title]="(libraryFeat.displayName || feat.name).split(': ')[0]"
                                                         [detail]="(libraryFeat.displayName || feat.name).split(': ')[1] || ''"
                                                         [superTitle]="'icon-bi-lock-fill'">
@@ -870,7 +871,7 @@
                                                     #FixedFeaturePopover="ngbPopover" [ngbPopover]="FixedFeatureContent"
                                                     triggers="click">
                                                     <app-gridIcon class="specialchoice"
-                                                        [ngbTooltip]="!FixedFeaturePopover.isOpen() && (libraryFeature.displayName || feature.name)"
+                                                        [ngbTooltip]="!FixedFeaturePopover.isOpen() && (libraryFeature.displayName || feature.name) || undefined"
                                                         [title]="(libraryFeature.displayName || feature.name).split(': ')[0]"
                                                         [detail]="(libraryFeature.displayName || feature.name).split(': ')[1] || ''"
                                                         [superTitle]="'icon-bi-lock-fill'">
@@ -1019,7 +1020,7 @@
                                                 <app-gridIcon class="specialchoice"
                                                     [ngClass]="{'fancy-button':finished}"
                                                     [ngbTooltip]="'Different Worlds' + (differentWorldsData.getValue('background') ? ': ' + differentWorldsData.getValue('background') : '')"
-                                                    [title]="differentWorldsData.valueAsString('background')"
+                                                    [title]="differentWorldsData.valueAsString('background') || ''"
                                                     [superTitle]="'icon-ra ra-arcane-mask'">
                                                 </app-gridIcon>
                                             </button>
@@ -1114,7 +1115,7 @@
                                     <ng-container
                                         *ngFor="let fuseStanceData of fuseStanceData(level.number); trackBy:trackers.trackByIndex;">
                                         <ng-container
-                                            *ngFor="let finished of [fuseStanceData.valueAsStringArray('stances').length === 2 && !!fuseStanceData.getValue('name')]; trackBy:trackers.trackByIndex">
+                                            *ngFor="let finished of [fuseStanceData.valueAsStringArray('stances')?.length === 2 && !!fuseStanceData.getValue('name')]; trackBy:trackers.trackByIndex">
                                             <div class="list-item" *ngIf="!isTileMode"
                                                 [ngClass]="{'fullsize-only':finished}">
                                                 <button class="newrow specialchoice"
@@ -1122,7 +1123,8 @@
                                                     (click)="toggleShownList('fusestance', level.number)">
                                                     Fuse Stance{{(finished) ? ": "+
                                                     fuseStanceData.getValue('name') + " (" +
-                                                    fuseStanceData.valueAsStringArray('stances').join(', ') + ")" :
+                                                    fuseStanceData.valueAsStringArray('stances')?.join(', ') || '' + ")"
+                                                    :
                                                     ""}}
                                                 </button>
                                             </div>
@@ -1131,8 +1133,8 @@
                                                 (click)="toggleShownList('fusestance', level.number)">
                                                 <app-gridIcon class="specialchoice"
                                                     [ngClass]="{'fancy-button':finished}"
-                                                    [ngbTooltip]="'Fuse Stance' + (finished ? ': ' + fuseStanceData.getValue('name') + ' (' + fuseStanceData.valueAsStringArray('stances').join(', ') + ')' : '')"
-                                                    [title]="finished ? fuseStanceData.valueAsString('name') : 'Fuse Stance'"
+                                                    [ngbTooltip]="'Fuse Stance' + (finished ? ': ' + fuseStanceData.getValue('name') + ' (' + fuseStanceData.valueAsStringArray('stances')?.join(', ') || '' + ')' : '')"
+                                                    [title]="finished ? fuseStanceData.valueAsString('name') || '' : 'Fuse Stance'"
                                                     [superTitle]="'icon-ra ra-double-team'">
                                                 </app-gridIcon>
                                             </button>
@@ -1158,7 +1160,7 @@
                                                 <app-gridIcon class="specialchoice"
                                                     [ngClass]="{'fancy-button':finished}"
                                                     [ngbTooltip]="'Second Deity' + (finished ? ': ' + syncretismData.getValue('deity') : '')"
-                                                    [title]="finished ? syncretismData.valueAsString('deity') : 'D E I T'"
+                                                    [title]="finished ? syncretismData.valueAsString('deity') || '' : 'D E I T'"
                                                     [superTitle]="'icon-ra ra-sunbeams'">
                                                 </app-gridIcon>
                                             </button>
@@ -2897,7 +2899,7 @@
                 <ng-container
                     *ngFor="let fuseStanceData of fuseStanceData(fuseStanceContent.levelNumber); trackBy:trackers.trackByIndex">
                     <ng-container
-                        *ngFor="let finished of [fuseStanceData.valueAsStringArray('stances').length === 2]; trackBy:trackers.trackByIndex">
+                        *ngFor="let finished of [fuseStanceData.valueAsStringArray('stances')?.length === 2]; trackBy:trackers.trackByIndex">
                         <div class="newrow list-item padding-8 center-aligned">
                             <header class="box-header sectionHeader">
                                 {{fuseStanceChoiceTitle(finished, fuseStanceData)}}
@@ -2942,11 +2944,11 @@
                                     </app-activity>
                                 </ng-template>
                                 <div class="list-item gridicon-fullsizebox"
-                                    [ngClass]="{'unavailable':stance.reason, 'selected':fuseStanceData.valueAsStringArray('stances').includes(stance.activity.name)}">
+                                    [ngClass]="{'unavailable':stance.reason, 'selected':fuseStanceData.valueAsStringArray('stances')?.includes(stance.activity.name)}">
                                     <input id="{{stance.activity.name}}" type="checkbox" class="character-choice"
                                         (change)="onFuseStanceStanceChange(fuseStanceData, stance.activity.name, $event)"
-                                        [checked]="fuseStanceData.valueAsStringArray('stances').includes(stance.activity.name)"
-                                        [disabled]="(finished || stance.reason) && !fuseStanceData.valueAsStringArray('stances').includes(stance.activity.name)">
+                                        [checked]="fuseStanceData.valueAsStringArray('stances')?.includes(stance.activity.name)"
+                                        [disabled]="(finished || stance.reason) && !fuseStanceData.valueAsStringArray('stances')?.includes(stance.activity.name)">
                                     <div class="gridicon-fullsizebox" [ngbPopover]="FuseStanceChoiceDetailsPopover"
                                         triggers="click">
                                         <app-gridIcon [title]="stance.activity.name"

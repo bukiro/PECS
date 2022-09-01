@@ -195,13 +195,11 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         }
     }
 
-    private _fuseStanceName(): string {
+    private _fuseStanceName(): string | undefined {
         const data = this._character.class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (data) {
             return data.valueAsString('name') || 'Fused Stance';
-        } else {
-            return null;
         }
     }
 

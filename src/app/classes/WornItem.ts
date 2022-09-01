@@ -53,6 +53,7 @@ export class WornItem extends Equipment {
     /** Is this a pair of Bracers of Armor and lets you attach talismans like a light armor? */
     public isBracersOfArmor = false;
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = StrikingTitleFromLevel;
+    public propertyRunes: Array<WeaponRune> = [];
 
     public get secondaryRune(): BasicRuneLevels {
         return this.strikingRune;

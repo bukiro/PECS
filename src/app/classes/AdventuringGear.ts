@@ -28,6 +28,8 @@ export class AdventuringGear extends Equipment {
         ).recast(restoreFn);
     }
 
+    public isAdventuringGear(): this is AdventuringGear { return true; }
+
     public canStack(): boolean {
         //Some AdventuringGear can stack. This is an expanded version of Item.can_Stack().
         return (

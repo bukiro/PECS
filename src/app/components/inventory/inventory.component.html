@@ -72,9 +72,9 @@
                         Bulk
                     </strong>
                     <span>
-                        <div class="value" [ngbPopover]="calculatedBulk.current?.explain"
-                            [ngClass]="{'penalty':calculatedBulk.currentpenalties, 'bonus':calculatedBulk.currentbonuses, 'absolute':calculatedBulk.currentabsolutes?.length}">
-                            {{calculatedBulk.current?.value}}
+                        <div class="value" [ngbPopover]="calculatedBulk.current.explain"
+                            [ngClass]="{'penalty':calculatedBulk.currentpenalties, 'bonus':calculatedBulk.currentbonuses, 'absolute':calculatedBulk.currentabsolutes.length}">
+                            {{calculatedBulk.current.value}}
                         </div>
                     </span>
                 </div>
@@ -99,9 +99,9 @@
                         </strong>
                     </span>
                     <span>
-                        <div class="value" [ngbPopover]="calculatedBulk.encumbered?.explain"
-                            [ngClass]="{'penalty':calculatedBulk.encumberedpenalties, 'bonus':calculatedBulk.encumberedbonuses, 'absolute':calculatedBulk.encumberedabsolutes?.length}">
-                            {{calculatedBulk.encumbered?.value}}
+                        <div class="value" [ngbPopover]="calculatedBulk.encumbered.explain"
+                            [ngClass]="{'penalty':calculatedBulk.encumberedpenalties, 'bonus':calculatedBulk.encumberedbonuses, 'absolute':calculatedBulk.encumberedabsolutes.length}">
+                            {{calculatedBulk.encumbered.value}}
                         </div>
                     </span>
                 </div>
@@ -126,9 +126,9 @@
                         </strong>
                     </span>
                     <span>
-                        <div class="value" [ngbPopover]="calculatedBulk.max?.explain"
-                            [ngClass]="{'penalty':calculatedBulk.maxpenalties, 'bonus':calculatedBulk.maxbonuses, 'absolute':calculatedBulk.maxabsolutes?.length}">
-                            {{calculatedBulk.max?.value}}
+                        <div class="value" [ngbPopover]="calculatedBulk.max.explain"
+                            [ngClass]="{'penalty':calculatedBulk.maxpenalties, 'bonus':calculatedBulk.maxbonuses, 'absolute':calculatedBulk.maxabsolutes.length}">
+                            {{calculatedBulk.max.value}}
                         </div>
                     </span>
                 </div>

@@ -32,8 +32,8 @@ export interface ConditionOverride {
 
 export interface OtherConditionSelection {
     title?: string;
-    nameFilter: Array<string>;
-    typeFilter: Array<string>;
+    nameFilter?: Array<string>;
+    typeFilter?: Array<string>;
 }
 
 export class Condition {
@@ -61,7 +61,7 @@ export class Condition {
      * Each selectCondition offers a select box that can be used to select one other active condition for later use.
      * The selected condition can be referenced in overrideConditions and pauseConditions as "selectedCondition|0" (or other index).
      */
-    public selectOtherConditions: Array<{ title: string; nameFilter: Array<string>; typeFilter: Array<string> }> = [];
+    public selectOtherConditions: Array<{ title?: string; nameFilter?: Array<string>; typeFilter?: Array<string> }> = [];
     public denyConditions: Array<string> = [];
     public endConditions: Array<ConditionEnd> = [];
     /**
@@ -147,24 +147,24 @@ export class Condition {
         return Object.assign<Condition, Condition>(new Condition(), JSON.parse(JSON.stringify(this))).recast();
     }
 
-    public conditionOverrides(gain: ConditionGain = null): Array<ConditionOverride> {
+    public conditionOverrides(gain?: ConditionGain): Array<ConditionOverride> {
         return this.overrideConditions.map(override => {
             let overrideName = override.name;
 
             if (gain && override.name.toLowerCase().includes('selectedcondition|')) {
-                overrideName = gain.selectedOtherConditions[override.name.toLowerCase().split('|')[1] || 0] || overrideName;
+                overrideName = gain.selectedOtherConditions[parseInt(override.name.toLowerCase().split('|')[1], 10) || 0] || overrideName;
             }
 
             return { name: overrideName, conditionChoiceFilter: override.conditionChoiceFilter };
         });
     }
 
-    public conditionPauses(gain: ConditionGain = null): Array<ConditionOverride> {
+    public conditionPauses(gain?: ConditionGain): Array<ConditionOverride> {
         return this.pauseConditions.map(pause => {
             let pauseName = pause.name;
 
             if (gain && pause.name.toLowerCase().includes('selectedcondition|')) {
-                pauseName = gain.selectedOtherConditions[pause.name.toLowerCase().split('|')[1] || 0] || pauseName;
+                pauseName = gain.selectedOtherConditions[parseInt(pause.name.toLowerCase().split('|')[1], 10) || 0] || pauseName;
             }
 
             return { name: pauseName, conditionChoiceFilter: pause.conditionChoiceFilter };
@@ -202,7 +202,7 @@ export class Condition {
         return this.hasValue || this.allowRadiusChange;
     }
 
-    public isStoppingTime(conditionGain: ConditionGain = null): boolean {
+    public isStoppingTime(conditionGain?: ConditionGain): boolean {
         return this.stopTimeChoiceFilter.some(filter => ['All', (conditionGain?.choice || 'All')].includes(filter));
     }
 
@@ -247,7 +247,7 @@ export class Condition {
             return { duration: this.defaultDurations[0].duration, source: 'Default' };
         }
 
-        return null;
+        return { duration: 0, source: 'No default duration' };
     }
 
     public heightenedItemGains(levelNumber: number): Array<ItemGain> {

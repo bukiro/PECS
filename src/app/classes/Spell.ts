@@ -102,7 +102,7 @@ export class Spell {
     }
 
     public activationTraits(): Array<string> {
-        return Array.from(new Set([].concat(...this.castType.split(',')
+        return Array.from(new Set(([] as Array<string>).concat(...this.castType.split(',')
             .map(castType => {
                 const trimmedType = castType.trim().toLowerCase();
 
@@ -132,7 +132,7 @@ export class Spell {
         // If there are no ConditionGains with a heightenedFilter, return all.
         if (!this.gainConditions.length || !this.gainConditions.some(gain => gain.heightenedFilter)) {
             return this.gainConditions;
-        } else if (this.gainConditions.length) {
+        } else {
             for (let remainingLevelNumber = levelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
                 if (this.gainConditions.some(gain => gain.heightenedFilter === remainingLevelNumber)) {
                     return this.gainConditions.filter(gain => !gain.heightenedFilter || gain.heightenedFilter === remainingLevelNumber);

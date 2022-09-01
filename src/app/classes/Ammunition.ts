@@ -26,6 +26,8 @@ export class Ammunition extends Consumable {
         ).recast(restoreFn);
     }
 
+    public isAmmunition(): this is Ammunition { return true; }
+
     public effectiveName(): string {
         if (this.displayName) {
             return this.displayName;

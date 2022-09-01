@@ -40,13 +40,13 @@ interface SkillParameters {
 export class SkillchoiceComponent implements OnInit, OnDestroy {
 
     @Input()
-    public choice: SkillChoice;
+    public choice!: SkillChoice;
     @Input()
     public showChoice = '';
     @Input()
     public levelNumber = 0;
     @Input()
-    public excludeTemporary = false;
+    public excludeTemporary?: boolean;
     @Input()
     public showTitle = true;
     @Input()
@@ -54,7 +54,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     @Input()
     public tileMode = false;
     @Output()
-    public readonly showSkillChoiceMessage = new EventEmitter<{ name: string; levelNumber: number; choice: SkillChoice }>();
+    public readonly showSkillChoiceMessage = new EventEmitter<{ name: string; levelNumber: number; choice?: SkillChoice }>();
 
     public areAnyIncreasesIllegal = false;
 
@@ -82,7 +82,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
     public toggleShownList(name = ''): void {
         if (!name || this.showChoice === name) {
             this.showChoice = '';
-            this.showSkillChoiceMessage.emit({ name: this.showChoice, levelNumber: 0, choice: null });
+            this.showSkillChoiceMessage.emit({ name: this.showChoice, levelNumber: 0 });
         } else {
             this.showChoice = name;
             this.showSkillChoiceMessage.emit({ name: this.showChoice, levelNumber: this.levelNumber, choice: this.choice });
@@ -125,11 +125,15 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         };
     }
 
-    public availableSkillsParameters(choice: SkillChoice, levelNumber: number, allowedIncreases: number): Array<SkillParameters> {
+    public availableSkillsParameters(
+        choice: SkillChoice,
+        levelNumber: number,
+        allowedIncreases: number,
+    ): Array<SkillParameters> | undefined {
         const character = this.character;
 
         return this._availableSkills(choice, levelNumber, allowedIncreases)
-            .map(skill => {
+            ?.map(skill => {
                 const isIncreasedByThisChoice = this._skillIncreasedByThisChoice(skill, choice);
                 const skillLevel = this._skillValuesService.level(skill, character, this.levelNumber, true);
                 const shouldBeChecked = isIncreasedByThisChoice || (skillLevel >= choice.maxRank);
@@ -378,7 +382,7 @@ export class SkillchoiceComponent implements OnInit, OnDestroy {
         this.areAnyIncreasesIllegal = areAnyLockedIncreasesIllegal;
     }
 
-    private _availableSkills(choice: SkillChoice, levelNumber: number, maxAvailable: number): Array<Skill> {
+    private _availableSkills(choice: SkillChoice, levelNumber: number, maxAvailable: number): Array<Skill> | undefined {
         let skills = this._skills('', { type: choice.type, locked: false });
 
         if (choice.filter.length) {

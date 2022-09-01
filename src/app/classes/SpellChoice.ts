@@ -53,7 +53,7 @@ export class SpellChoice {
      */
     public charLevelAvailable = 0;
     /** The CastingType is mostly there to identify the proper SpellCasting to sort this into if it comes from a feat. */
-    public castingType: SpellCastingTypes | 'Default';
+    public castingType: SpellCastingTypes | 'Default' = 'Default';
     /** Spell Combination is for wizards and designates this spell choice as one that fits two spells in one spell slot. */
     public spellCombinationAllowed = false;
     /** You can choose to use a combination slot for a spell combination, which changes the available spells. */
@@ -143,6 +143,8 @@ export class SpellChoice {
     ): void {
         const oldGain = this.spells.find(gain => gain.name === spellName);
 
-        this.spells.splice(this.spells.indexOf(oldGain), 1);
+        if (oldGain) {
+            this.spells.splice(this.spells.indexOf(oldGain), 1);
+        }
     }
 }

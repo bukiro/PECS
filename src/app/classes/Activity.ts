@@ -153,23 +153,26 @@ export class Activity {
     }
 
     public activationTraits(): Array<string> {
-        return Array.from(new Set([].concat(...this.activationType.split(',')
-            .map(activationType => {
-                const trimmedType = activationType.trim().toLowerCase();
+        return Array.from(new Set(
+            ([] as Array<string>)
+                .concat(...this.activationType.split(',')
+                    .map(activationType => {
+                        const trimmedType = activationType.trim().toLowerCase();
 
-                if (trimmedType.includes('command')) {
-                    return ['Auditory', 'Concentrate'];
-                } else if (trimmedType.includes('envision')) {
-                    return ['Concentrate'];
-                } else if (trimmedType.includes('interact')) {
-                    return ['Manipulate'];
-                } else if (trimmedType.includes('concentrate')) {
-                    return ['Concentrate'];
-                } else {
-                    return [];
-                }
-            }))),
-        );
+                        if (trimmedType.includes('command')) {
+                            return ['Auditory', 'Concentrate'];
+                        } else if (trimmedType.includes('envision')) {
+                            return ['Concentrate'];
+                        } else if (trimmedType.includes('interact')) {
+                            return ['Manipulate'];
+                        } else if (trimmedType.includes('concentrate')) {
+                            return ['Concentrate'];
+                        } else {
+                            return [];
+                        }
+                    }),
+                ),
+        ));
     }
 
     public canActivate(): boolean {
@@ -230,8 +233,10 @@ export class Activity {
             let remainingLevelNumber = levelNumber;
 
             for (remainingLevelNumber; remainingLevelNumber > 0; remainingLevelNumber--) {
-                if (this.heightenedDescs.some(descSet => descSet.level === remainingLevelNumber)) {
-                    return this.heightenedDescs.find(descSet => descSet.level === remainingLevelNumber);
+                const foundDesc = this.heightenedDescs.find(descSet => descSet.level === remainingLevelNumber);
+
+                if (foundDesc) {
+                    return foundDesc;
                 }
             }
         }

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 
 export class PlayerMessage {
     public id = uuidv4();
@@ -41,8 +42,8 @@ export class PlayerMessage {
 
     public recast(restoreFn: <T extends Item>(obj: T) => T): PlayerMessage {
         this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
-        this.offeredItem = this.offeredItem.map(obj => Object.assign(new Item(), obj).recast(restoreFn));
-        this.includedItems = this.includedItems.map(obj => Object.assign(new Item(), obj).recast(restoreFn));
+        this.offeredItem = this.offeredItem.map(obj => TypeService.castItemByType(obj).recast(restoreFn));
+        this.includedItems = this.includedItems.map(obj => TypeService.castItemByType(obj).recast(restoreFn));
         this.includedInventories =
             this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(restoreFn));
 

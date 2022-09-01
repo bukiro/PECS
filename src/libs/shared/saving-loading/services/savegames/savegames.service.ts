@@ -86,14 +86,15 @@ export class SavegamesService {
             this._savegames = [];
             loader.forEach(savegame => {
                 //Build some informational attributes on each save game description from the character's properties.
-                const newLength = this._savegames.push(new Savegame());
+                const newLength = this._savegames.push(
+                    Object.assign(new Savegame(savegame.id), {
+                        dbId: savegame._id || '',
+                        level: savegame.level || 1,
+                        name: savegame.name || 'Unnamed',
+                        partyName: savegame.partyName || 'No Party',
+                    }),
+                );
                 const newSavegame = this._savegames[newLength - 1];
-
-                newSavegame.id = savegame.id;
-                newSavegame.dbId = savegame._id || '';
-                newSavegame.level = savegame.level || 1;
-                newSavegame.name = savegame.name || 'Unnamed';
-                newSavegame.partyName = savegame.partyName || 'No Party';
 
                 if (savegame.class) {
                     newSavegame.class = savegame.class.name || '';

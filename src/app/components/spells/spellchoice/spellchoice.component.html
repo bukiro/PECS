@@ -470,7 +470,7 @@
                             <span
                                 [ngbTooltip]="(!SpellChoiceDetailPopover.isOpen()) ? spellParameters.spell.shortDesc : ''"
                                 triggers="hover" [openDelay]=100>
-                                {{(spellCasting?.castingType === 'Prepared' && spellParameters.amountTaken) ? " " +
+                                {{(spellCasting.castingType === 'Prepared' && spellParameters.amountTaken) ? " " +
                                 spellParameters.amountTaken + " " : ""}}{{spellParameters.spell.name}}
                             </span>
                             <cite>

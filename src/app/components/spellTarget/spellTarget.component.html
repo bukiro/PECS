@@ -15,7 +15,7 @@
             <span *ngIf="showActions">
                 <app-actionIcons *ngIf="(spell || activity).actions" [actionString]="(spell || activity).actions">
                 </app-actionIcons>
-                {{(spell?.castType || activity?.activationType) ? (spell?.castType || activity?.activationType) :
+                {{(spell.castType || activity.activationType) ? (spell.castType || activity.activationType) :
                 ""}}
             </span>
             <i class='bi-peace' *ngIf="!canActivate"></i>

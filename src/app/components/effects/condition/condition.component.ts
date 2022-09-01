@@ -165,8 +165,8 @@ export class ConditionComponent implements OnInit, OnDestroy {
 
     public selectOtherConditionOptions(selection: OtherConditionSelection, gain: ConditionGain, index: number): Array<string> {
         const creature = this._currentCreature;
-        const typeFilter = selection.typeFilter.map(filter => filter.toLowerCase());
-        const nameFilter = selection.nameFilter.map(filter => filter.toLowerCase());
+        const typeFilter = selection.typeFilter?.map(filter => filter.toLowerCase()) || [];
+        const nameFilter = selection.nameFilter?.map(filter => filter.toLowerCase()) || [];
         const filteredConditions = this._conditionsDataService.conditions().filter(libraryCondition =>
             (typeFilter.length ? typeFilter.includes(libraryCondition.type.toLowerCase()) : true) &&
             (nameFilter.length ? nameFilter.includes(libraryCondition.name.toLowerCase()) : true),

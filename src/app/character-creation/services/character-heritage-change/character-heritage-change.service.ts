@@ -153,7 +153,7 @@ export class CharacterHeritageChangeService {
                     .map(feat => feat.name);
 
                 characterClass.spellCasting.find(casting => casting.castingType === SpellCastingTypes.Innate)
-                    .spellChoices.filter(choice => feats.includes(choice.source.replace('Feat: ', ''))).forEach(choice => {
+                    ?.spellChoices.filter(choice => feats.includes(choice.source.replace('Feat: ', ''))).forEach(choice => {
                         choice.tradition = SpellTraditions.Primal;
 
                         if (choice.available || choice.dynamicAvailable) {
@@ -208,7 +208,7 @@ export class CharacterHeritageChangeService {
                     const existingIncrease = existingIncreases[0];
                     const existingSkillChoice = characterClass.getSkillChoiceBySourceId(existingIncrease.sourceId);
 
-                    if (existingSkillChoice !== heritage.skillChoices[0]) {
+                    if (existingSkillChoice && existingSkillChoice !== heritage.skillChoices[0]) {
                         if (!existingIncrease.locked) {
                             this._characterSkillIncreaseService.increaseSkill(existingIncrease.name, false, existingSkillChoice, false);
                         } else {
@@ -249,7 +249,7 @@ export class CharacterHeritageChangeService {
                     .map(feat => feat.name);
 
                 characterClass.spellCasting.find(casting => casting.castingType === SpellCastingTypes.Innate)
-                    .spellChoices.filter(choice => feats.includes(choice.source.replace('Feat: ', ''))).forEach(choice => {
+                    ?.spellChoices.filter(choice => feats.includes(choice.source.replace('Feat: ', ''))).forEach(choice => {
                         choice.tradition = SpellTraditionFromString(heritage.subType);
 
                         if (choice.available || choice.dynamicAvailable) {

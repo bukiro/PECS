@@ -32,11 +32,11 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     @Input()
     public creature: CreatureTypes = CreatureTypes.Character;
     @Input()
-    public activity: Activity | ItemActivity;
+    public activity!: Activity | ItemActivity;
     @Input()
-    public gain: ActivityGain | ItemActivity;
+    public gain!: ActivityGain | ItemActivity;
     @Input()
-    public allowActivate = false;
+    public allowActivate?: boolean;
     @Input()
     public cooldown = 0;
     @Input()

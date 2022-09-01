@@ -18,6 +18,10 @@ import { AlchemicalElixir } from './AlchemicalElixir';
 import { Snare } from './Snare';
 import { Talisman } from './Talisman';
 import { WeaponRune } from './WeaponRune';
+import { AdventuringGear } from './AdventuringGear';
+import { AlchemicalBomb } from './AlchemicalBomb';
+import { OtherConsumableBomb } from './OtherConsumableBomb';
+import { Ammunition } from './Ammunition';
 
 export interface TraitActivation {
     trait: string;
@@ -166,33 +170,45 @@ export abstract class Item {
         return this;
     }
 
-    public isAlchemicalPoison(): this is AlchemicalPoison { return false; }
-
-    public isAlchemicalElixir(): this is AlchemicalElixir { return false; }
-
-    public isConsumable(): this is Consumable { return false; }
-
-    public isEquipment(): this is Equipment { return false; }
-
-    public isArmor(): this is Armor { return false; }
-
-    public isShield(): this is Shield { return false; }
-
-    public isWeapon(): this is Weapon { return false; }
-
-    public isWornItem(): this is WornItem { return false; }
-
-    public isScroll(): this is Scroll { return false; }
-
-    public isWand(): this is Wand { return false; }
-
-    public isOil(): this is Oil { return false; }
-
     public hasActivities(): this is Equipment | Rune { return false; }
 
     public hasHints(): this is Equipment | Rune | Oil { return false; }
 
     public hasSuccessResults(): this is Oil | Snare | Talisman | WeaponRune { return false; }
+
+    public isAdventuringGear(): this is AdventuringGear { return false; }
+
+    public isAlchemicalBomb(): this is AlchemicalBomb { return false; }
+
+    public isAlchemicalPoison(): this is AlchemicalPoison { return false; }
+
+    public isAlchemicalElixir(): this is AlchemicalElixir { return false; }
+
+    public isAmmunition(): this is Ammunition { return false; }
+
+    public isArmor(): this is Armor { return false; }
+
+    public isConsumable(): this is Consumable { return false; }
+
+    public isEquipment(): this is Equipment { return false; }
+
+    public isOil(): this is Oil { return false; }
+
+    public isOtherConsumableBomb(): this is OtherConsumableBomb { return false; }
+
+    public isRune(): this is Rune { return false; }
+
+    public isScroll(): this is Scroll { return false; }
+
+    public isShield(): this is Shield { return false; }
+
+    public isSnare(): this is Snare { return false; }
+
+    public isWand(): this is Wand { return false; }
+
+    public isWeapon(): this is Weapon { return false; }
+
+    public isWornItem(): this is WornItem { return false; }
 
     public gridIconTitle(): string {
         return this.displayName.replace(`(${ this.subType })`, '') || this.name.replace(`(${ this.subType })`, '');

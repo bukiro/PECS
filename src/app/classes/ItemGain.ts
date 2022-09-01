@@ -64,6 +64,8 @@ export class ItemGain {
         } else if (this.name) {
             return item.name.toLowerCase() === this.name.toLowerCase();
         }
+
+        return false;
     }
 
     public isMatchingExistingItem(item: Item): boolean {

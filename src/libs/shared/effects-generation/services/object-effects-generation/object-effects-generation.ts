@@ -68,7 +68,7 @@ export class ObjectEffectsGenerationService {
                     ? (object instanceof WornItem && object.isSlottedAeonStone)
                     : true,
             ).forEach((effectGain: EffectGain) => {
-                let shouldShowEffect: boolean = effectGain.show;
+                let shouldShowEffect: boolean | undefined = effectGain.show;
                 let type: string = BonusTypes.Untyped;
                 let isPenalty = false;
 

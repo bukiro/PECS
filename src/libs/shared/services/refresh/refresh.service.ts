@@ -1,25 +1,13 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { AdventuringGear } from 'src/app/classes/AdventuringGear';
-import { AlchemicalBomb } from 'src/app/classes/AlchemicalBomb';
-import { AlchemicalPoison } from 'src/app/classes/AlchemicalPoison';
-import { Ammunition } from 'src/app/classes/Ammunition';
-import { Armor } from 'src/app/classes/Armor';
-import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
-import { Oil } from 'src/app/classes/Oil';
-import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Rune } from 'src/app/classes/Rune';
-import { Shield } from 'src/app/classes/Shield';
-import { Snare } from 'src/app/classes/Snare';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
-import { Weapon } from 'src/app/classes/Weapon';
-import { WornItem } from 'src/app/classes/WornItem';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
@@ -187,24 +175,24 @@ export class RefreshService {
 
         //TO-DO: Group these weapons with an item method, something like 'affectsAttackComponent'.
         if (
-            item instanceof AlchemicalBomb ||
-            item instanceof OtherConsumableBomb ||
-            item instanceof AlchemicalPoison ||
-            item instanceof Ammunition ||
-            item instanceof Snare
+            item.isAlchemicalBomb() ||
+            item.isOtherConsumableBomb() ||
+            item.isAlchemicalPoison() ||
+            item.isAmmunition() ||
+            item.isSnare()
         ) {
             this.prepareDetailToChange(creature.type, 'attacks');
         }
 
-        if (item instanceof Oil) {
+        if (item.isOil()) {
             this.prepareChangesByHints(creature, item.hints);
         }
 
-        if (item instanceof Rune) {
+        if (item.isRune()) {
             this._prepareChangesByRune(creature, item);
         }
 
-        if (item instanceof Equipment) {
+        if (item.isEquipment()) {
             this._prepareChangesByEquipment(creature, item as Equipment);
             this.prepareChangesByHints(creature, item.hints);
         }
@@ -442,14 +430,14 @@ export class RefreshService {
         item: Equipment,
     ): void {
         //Prepare refresh list according to the item's properties.
-        if (item instanceof Shield || item instanceof Armor || item instanceof Weapon) {
+        if (item.isShield() || item.isArmor() || item.isWeapon()) {
             this.prepareDetailToChange(creature.type, 'defense');
             //There are effects that are based on your currently equipped armor and shield.
             //That means we have to check the effects whenever we equip or unequip one of those.
             this.prepareDetailToChange(creature.type, 'effects');
         }
 
-        if (item instanceof Weapon || (item instanceof WornItem && item.isHandwrapsOfMightyBlows)) {
+        if (item.isWeapon() || (item.isWornItem() && item.isHandwrapsOfMightyBlows)) {
             this.prepareDetailToChange(creature.type, 'attacks');
             //There are effects that are based on your currently weapons.
             //That means we have to check the effects whenever we equip or unequip one of those.
@@ -494,10 +482,10 @@ export class RefreshService {
         }
 
         item.propertyRunes.forEach(rune => {
-            if (item instanceof Armor) {
+            if (item.isArmor()) {
                 this.prepareChangesByHints(creature, rune.hints);
 
-                if ((rune as ArmorRune).effects?.length) {
+                if (rune.effects?.length) {
                     this.prepareDetailToChange(creature.type, 'effects');
                 }
             }
@@ -513,14 +501,14 @@ export class RefreshService {
             }
         });
 
-        if (item instanceof AdventuringGear) {
+        if (item.isAdventuringGear()) {
             if (item.isArmoredSkirt) {
                 this.prepareDetailToChange(creature.type, 'inventory');
                 this.prepareDetailToChange(creature.type, 'defense');
             }
         }
 
-        if (item instanceof WornItem) {
+        if (item.isWornItem()) {
             if (item.isDoublingRings) {
                 this.prepareDetailToChange(creature.type, 'inventory');
                 this.prepareDetailToChange(creature.type, 'attacks');

@@ -344,7 +344,7 @@ export class FeatRequirementsService {
             } else if (query.allOfNames) {
                 const names = SplitNames(query.allOfNames);
 
-                return names.every(name => lowercaseList.includes(name)) && lowercaseList.length;
+                return names.every(name => lowercaseList.includes(name)) && lowercaseList.length || 0;
             } else if (query.anyOfNames) {
                 const names = SplitNames(query.anyOfNames);
 
@@ -353,7 +353,7 @@ export class FeatRequirementsService {
                 return lowercaseList.length;
             }
         };
-        const DoesNumberMatchExpectation = (number: number, expectation: FeatRequirements.RequirementExpectation): boolean => {
+        const DoesNumberMatchExpectation = (number: number, expectation?: FeatRequirements.RequirementExpectation): boolean => {
             if (!expectation) {
                 return !!number;
             }
@@ -383,8 +383,16 @@ export class FeatRequirementsService {
                 (expectation.isTrue ? operator.call(numberList, (number: number) => !!number) : true) &&
                 (expectation.isFalse ? operator.call(numberList, (number: number) => !number) : true) &&
                 (expectation.isEqual ? operator.call(numberList, (number: number) => number === expectation.isEqual) : true) &&
-                (expectation.isGreaterThan ? operator.call(numberList, (number: number) => number > expectation.isGreaterThan) : true) &&
-                (expectation.isLesserThan ? operator.call(numberList, (number: number) => number < expectation.isLesserThan) : true)
+                (
+                    expectation.isGreaterThan
+                        ? operator.call(numberList, (number: number) => expectation.isGreaterThan && number > expectation.isGreaterThan)
+                        : true
+                ) &&
+                (
+                    expectation.isLesserThan
+                        ? operator.call(numberList, (number: number) => expectation.isLesserThan && number < expectation.isLesserThan)
+                        : true
+                )
             );
         };
 
@@ -597,12 +605,16 @@ export class FeatRequirementsService {
                         //You can only have one class.
                         let classes = character.class ? [character.class] : [];
 
-                        if (classreq.query.havingLessHitpointsThan) {
-                            classes = classes.filter(_class => _class.hitPoints < classreq.query.havingLessHitpointsThan);
+                        const havingLessHitpointsThan = classreq.query.havingLessHitpointsThan;
+
+                        if (havingLessHitpointsThan) {
+                            classes = classes.filter(_class => _class.hitPoints < havingLessHitpointsThan);
                         }
 
-                        if (classreq.query.havingMoreHitpointsThan) {
-                            classes = classes.filter(_class => _class.hitPoints > classreq.query.havingMoreHitpointsThan);
+                        const havingMoreHitpointsThan = classreq.query.havingMoreHitpointsThan;
+
+                        if (havingMoreHitpointsThan) {
+                            classes = classes.filter(_class => _class.hitPoints > havingMoreHitpointsThan);
                         }
 
                         const queryResult = ApplyDefaultQuery(classreq.query, classes.map(_class => _class.name.toLowerCase()));
@@ -660,7 +672,7 @@ export class FeatRequirementsService {
                                 .filter(casting => (
                                     casting.spellChoices.some(choice => (
                                         choice.charLevelAvailable <= charLevel &&
-                                        choice.level >= spellcastingreq.query.havingSpellsOfLevelGreaterOrEqual
+                                        choice.level >= (spellcastingreq?.query?.havingSpellsOfLevelGreaterOrEqual || 0)
                                     ))
                                 ));
                         }
@@ -728,7 +740,7 @@ export class FeatRequirementsService {
 
                         if (deityreq.query.matchingAlignment) {
                             deities = deities.filter(deity =>
-                                deity.alignment.toLowerCase().includes(deityreq.query.matchingAlignment.toLowerCase()),
+                                deity.alignment.toLowerCase().includes(deityreq?.query?.matchingAlignment?.toLowerCase() || ''),
                             );
                         }
 
@@ -801,7 +813,8 @@ export class FeatRequirementsService {
                     if (!hasThisRequirementFailed) {
                         const allDeities: Array<Deity> =
                             this._characterDeitiesService.currentCharacterDeities('', charLevel);
-                        let favoredWeapons: Array<string> = [].concat(...allDeities.map(deity => deity.favoredWeapon));
+                        let favoredWeapons: Array<string> =
+                            ([] as Array<string>).concat(...allDeities.map(deity => deity.favoredWeapon));
 
                         if (favoredweaponreq.query.havingAnyOfProficiencies) {
                             const proficiencies = SplitNames(favoredweaponreq.query.havingAnyOfProficiencies);
@@ -935,7 +948,7 @@ export class FeatRequirementsService {
         // CharLevel is the level the character is at when the feat is taken (so the level extracted from choice.id).
         // ChoiceLevel is choice.level and may differ, for example when you take a 1st-level general feat at 8th level via General Training.
         // It is only used for the level requirement.
-        if (isNaN(context.charLevel)) {
+        if (!context.charLevel || isNaN(context.charLevel)) {
             context.charLevel = context.choiceLevel;
         }
 
@@ -943,35 +956,35 @@ export class FeatRequirementsService {
 
         //Don't check the level if skipLevel is set. This is used for subFeats, where the superFeat's levelreq is enough.
         const isLevelreqMet: boolean =
-            options.ignoreRequirementsList.includes('levelreq') ||
+            options.ignoreRequirementsList?.includes('levelreq') ||
             options.skipLevel ||
             this.meetsLevelReq(feat, context.choiceLevel).met;
         //Check the ability reqs. True if ALL are true.
         const abilityreqs = this.meetsAbilityReq(feat, context.charLevel);
         const isAbilityreqMet: boolean =
-            options.ignoreRequirementsList.includes('abilityreq') ||
+            options.ignoreRequirementsList?.includes('abilityreq') ||
             abilityreqs.every(req => req.met === true);
         //Check the skill reqs. True if ANY is true.
         const skillreqs = this.meetsSkillReq(feat, context.charLevel);
         const isSkillreqMet: boolean =
-            options.ignoreRequirementsList.includes('skillreq') ||
+            options.ignoreRequirementsList?.includes('skillreq') ||
             skillreqs.some(req => req.met === true);
         //Check the feat reqs. True if ALL are true.
         const featreqs = this.meetsFeatReq(feat, context.charLevel);
         const isFeatreqMet: boolean =
-            options.ignoreRequirementsList.includes('featreq') ||
+            options.ignoreRequirementsList?.includes('featreq') ||
             featreqs.every(req => req.met === true);
         //Check the heritage reqs. True if ALL are true. (There is only one.)
         const heritagereqs = this.meetsHeritageReq(feat, context.charLevel);
         const isHeritagereqMet: boolean =
-            options.ignoreRequirementsList.includes('heritagereq') ||
+            options.ignoreRequirementsList?.includes('heritagereq') ||
             heritagereqs.every(req => req.met === true);
 
         //If any of the previous requirements are already not fulfilled, skip the complexreq, as it is the most performance intensive.
         if (isLevelreqMet && isAbilityreqMet && isSkillreqMet && isFeatreqMet && isHeritagereqMet) {
             //Check the complex req. True if returns true.
             const isComplexreqMet: boolean =
-                options.ignoreRequirementsList.includes('complexreq') ||
+                options.ignoreRequirementsList?.includes('complexreq') ||
                 this.meetsComplexReq(feat.complexreq, { feat, desc: feat.complexreqdesc }, { charLevel: context.charLevel }).met;
 
             //Return true if complexreq is met, since all others are met before this point.

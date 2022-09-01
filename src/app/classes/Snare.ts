@@ -21,6 +21,8 @@ export class Snare extends Consumable {
         return Object.assign<Snare, Snare>(new Snare(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 
+    public isSnare(): this is Snare { return true; }
+
     public hasSuccessResults(): this is Snare { return true; }
 
     public canStack(): boolean {
