@@ -36,7 +36,7 @@
                 ],
                 "linebreak-style": [
                     "error",
-                    "windows"
+                    "unix"
                 ],
                 "prefer-template": "error",
                 "@typescript-eslint/object-curly-spacing": [
