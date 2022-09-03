@@ -49,13 +49,7 @@ import * as json_wornitems from 'src/assets/json/items/wornitems';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
-import { JsonImportedObjectFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
-
-
-type AnyItemType =
-    ArmorRune | WeaponRune | Oil | AdventuringGear | AlchemicalBomb | AlchemicalElixir | AlchemicalPoison
-    | AlchemicalTool | Ammunition | Armor | HeldItem | MaterialItem | OtherConsumable
-    | OtherConsumableBomb | Potion | Scroll | Shield | Snare | Talisman | Wand | Weapon | WornItem;
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -71,6 +65,7 @@ export class ItemsDataService {
         private readonly _extensionsService: ExtensionsService,
         private readonly _itemInitializationService: ItemInitializationService,
         private readonly _basicEquipmentService: BasicEquipmentService,
+        private readonly _typeService: TypeService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -113,7 +108,7 @@ export class ItemsDataService {
         } else { return undefined; }
     }
 
-    public cleanItemsOfType<T extends AnyItemType>(type: keyof ItemCollection, name = ''): Array<T> {
+    public cleanItemsOfType<T extends Item>(type: keyof ItemCollection, name = ''): Array<T> {
         if (!this.stillLoading) {
             return (this._cleanItems[type] as Array<T>)
                 .filter(item =>
@@ -127,68 +122,146 @@ export class ItemsDataService {
      * This is not usually called directly, but passed to recast() and clone() methods.
      */
     public restoreItem<T extends Item>(obj: T): T {
-        return TypeService.restoreItem(obj, this);
+        return this._typeService.restoreItem(obj, this);
     }
 
     public initialize(): void {
         //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
         //Runes need to load before other items, because their content is copied into items that bear them.
+        const armorRune = new ArmorRune();
+
         this._cleanItems.armorrunes =
-            this._loadItemType(json_armorrunes as JsonImportedObjectFileList<ArmorRune>, 'armorrunes', new ArmorRune(), 'armor runes');
+            this._loadItemType(json_armorrunes as ImportedJsonFileList<ArmorRune>, armorRune, 'armor runes');
+        this._typeService.registerItemCasting(armorRune);
+
+        const weaponRune = new WeaponRune();
+
         this._cleanItems.weaponrunes =
-            this._loadItemType(json_weaponrunes as JsonImportedObjectFileList<WeaponRune>, 'weaponrunes', new WeaponRune(), 'weapon runes');
+            this._loadItemType(json_weaponrunes as ImportedJsonFileList<WeaponRune>, new WeaponRune(), 'weapon runes');
+        this._typeService.registerItemCasting(weaponRune);
+
+        const oil = new Oil();
+
         //Oils need to load after WeaponRunes, because they have to copy some of them.
-        this._cleanItems.oils = this._loadItemType(json_oils, 'oils', new Oil(), 'oils');
+        this._cleanItems.oils =
+            this._loadItemType(json_oils, oil, 'oils');
+        this._typeService.registerItemCasting(oil);
+
+        const adventuringGear = new AdventuringGear();
 
         this._cleanItems.adventuringgear =
-            this._loadItemType(json_adventuringgear, 'adventuringgear', new AdventuringGear(), 'adventuring gear');
+            this._loadItemType(json_adventuringgear, adventuringGear, 'adventuring gear');
+        this._typeService.registerItemCasting(adventuringGear);
+
+        const alchemicalBomb = new AlchemicalBomb();
+
         this._cleanItems.alchemicalbombs =
-            this._loadItemType(
-                json_alchemicalbombs as JsonImportedObjectFileList<AlchemicalBomb>,
-                'alchemicalbombs',
-                new AlchemicalBomb(),
-                'alchemical bombs',
-            );
+            this._loadItemType(json_alchemicalbombs as ImportedJsonFileList<AlchemicalBomb>, alchemicalBomb, 'alchemical bombs');
+        this._typeService.registerItemCasting(alchemicalBomb);
+
+        const alchemicalElixir = new AlchemicalElixir();
+
         this._cleanItems.alchemicalelixirs =
-            this._loadItemType(json_alchemicalelixirs, 'alchemicalelixirs', new AlchemicalElixir(), 'alchemical elixirs');
+            this._loadItemType(json_alchemicalelixirs, alchemicalElixir, 'alchemical elixirs');
+        this._typeService.registerItemCasting(alchemicalElixir);
+
+        const alchemicalPoison = new AlchemicalPoison();
+
         this._cleanItems.alchemicalpoisons =
-            this._loadItemType(json_alchemicalpoisons, 'alchemicalpoisons', new AlchemicalPoison(), 'alchemical poisons',
-            );
+            this._loadItemType(json_alchemicalpoisons, alchemicalPoison, 'alchemical poisons');
+        this._typeService.registerItemCasting(alchemicalPoison);
+
+        const alchemicalTool = new AlchemicalTool();
+
         this._cleanItems.alchemicaltools =
-            this._loadItemType(json_alchemicaltools, 'alchemicaltools', new AlchemicalTool(), 'alchemical tools');
+            this._loadItemType(json_alchemicaltools, alchemicalTool, 'alchemical tools');
+        this._typeService.registerItemCasting(alchemicalTool);
+
+        const ammunition = new Ammunition();
+
         this._cleanItems.ammunition =
-            this._loadItemType(json_ammunition, 'ammunition', new Ammunition(), 'ammunition');
+            this._loadItemType(json_ammunition, ammunition, 'ammunition');
+        this._typeService.registerItemCasting(ammunition);
+
+        const armor = new Armor();
+
         this._cleanItems.armors =
-            this._loadItemType(json_armors, 'armors', new Armor(), 'armors');
+            this._loadItemType(json_armors, armor, 'armors');
+        this._typeService.registerItemCasting(armor);
+
+        const heldItem = new HeldItem();
+
         this._cleanItems.helditems =
-            this._loadItemType(json_helditems as JsonImportedObjectFileList<HeldItem>, 'helditems', new HeldItem(), 'held items');
+            this._loadItemType(json_helditems as ImportedJsonFileList<HeldItem>, heldItem, 'held items');
+        this._typeService.registerItemCasting(heldItem);
+
+        const materialItem = new MaterialItem();
+
         this._cleanItems.materialitems =
-            this._loadItemType(json_materialitems, 'materialitems', new MaterialItem(), 'materials');
+            this._loadItemType(json_materialitems, materialItem, 'materials');
+        this._typeService.registerItemCasting(materialItem);
+
+        const otherConsumable = new OtherConsumable();
+
         this._cleanItems.otherconsumables =
-            this._loadItemType(json_otherconsumables, 'otherconsumables', new OtherConsumable(), 'other consumables');
+            this._loadItemType(json_otherconsumables, otherConsumable, 'other consumables');
+        this._typeService.registerItemCasting(otherConsumable);
+
+        const otherConsumableBomb = new OtherConsumableBomb();
+
         this._cleanItems.otherconsumablesbombs =
             this._loadItemType(
-                json_otherconsumablesbombs as JsonImportedObjectFileList<OtherConsumableBomb>,
-                'otherconsumablesbombs',
-                new OtherConsumableBomb(),
-                'other consumables (bombs)',
+                json_otherconsumablesbombs as ImportedJsonFileList<OtherConsumableBomb>, otherConsumableBomb, 'other consumables (bombs)',
             );
+        this._typeService.registerItemCasting(otherConsumableBomb);
+
+        const potion = new Potion();
+
         this._cleanItems.potions =
-            this._loadItemType(json_potions, 'potions', new Potion(), 'potions');
+            this._loadItemType(json_potions, potion, 'potions');
+        this._typeService.registerItemCasting(potion);
+
+        const scroll = new Scroll();
+
         this._cleanItems.scrolls =
-            this._loadItemType(json_scrolls, 'scrolls', new Scroll(), 'scrolls');
+            this._loadItemType(json_scrolls, scroll, 'scrolls');
+        this._typeService.registerItemCasting(scroll);
+
+        const shield = new Shield();
+
         this._cleanItems.shields =
-            this._loadItemType(json_shields as JsonImportedObjectFileList<Shield>, 'shields', new Shield(), 'shields');
+            this._loadItemType(json_shields as ImportedJsonFileList<Shield>, shield, 'shields');
+        this._typeService.registerItemCasting(shield);
+
+        const snare = new Snare();
+
         this._cleanItems.snares =
-            this._loadItemType(json_snares, 'snares', new Snare(), 'snares');
+            this._loadItemType(json_snares, snare, 'snares');
+        this._typeService.registerItemCasting(snare);
+
+        const talisman = new Talisman();
+
         this._cleanItems.talismans =
-            this._loadItemType(json_talismans, 'talismans', new Talisman(), 'talismans');
+            this._loadItemType(json_talismans, talisman, 'talismans');
+        this._typeService.registerItemCasting(talisman);
+
+        const wand = new Wand();
+
         this._cleanItems.wands =
-            this._loadItemType(json_wands, 'wands', new Wand(), 'wands');
+            this._loadItemType(json_wands, wand, 'wands');
+        this._typeService.registerItemCasting(wand);
+
+        const weapon = new Weapon();
+
         this._cleanItems.weapons =
-            this._loadItemType(json_weapons as JsonImportedObjectFileList<Weapon>, 'weapons', new Weapon(), 'weapons');
+            this._loadItemType(json_weapons as ImportedJsonFileList<Weapon>, weapon, 'weapons');
+        this._typeService.registerItemCasting(weapon);
+
+        const wornItem = new WornItem();
+
         this._cleanItems.wornitems =
-            this._loadItemType(json_wornitems as JsonImportedObjectFileList<WornItem>, 'wornitems', new WornItem(), 'worn items');
+            this._loadItemType(json_wornitems as ImportedJsonFileList<WornItem>, wornItem, 'worn items');
+        this._typeService.registerItemCasting(wornItem);
 
         //Make a copy of clean items for shop items and crafting items.
         this._storeItems = this._cleanItems.clone(this.restoreItem);
@@ -214,15 +287,14 @@ export class ItemsDataService {
         this._basicEquipmentService.setBasicItems(newBasicWeapon, newBasicArmor);
     }
 
-    private _loadItemType<T extends AnyItemType>(
-        data: JsonImportedObjectFileList<T>,
-        target: string,
+    private _loadItemType<T extends Item>(
+        data: ImportedJsonFileList<T>,
         prototype: T,
         listName = '',
     ): Array<T> {
         let resultingData: Array<T> = [];
 
-        const extendedData = this._extensionsService.extend<T>(data, `items_${ target }`);
+        const extendedData = this._extensionsService.extend<T>(data, `items_${ prototype.type }`);
 
         //Initialize all clean items. Recasting happens in the initialization,
         // and the store and crafting items will be copied and recast afterwards.

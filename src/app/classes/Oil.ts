@@ -3,8 +3,6 @@ import { Hint } from 'src/app/classes/Hint';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { Item } from 'src/app/classes/Item';
-import { Equipment } from './Equipment';
-import { Rune } from './Rune';
 
 export class Oil extends Consumable {
     //Oils should be type "oils" to be found in the database
@@ -39,7 +37,7 @@ export class Oil extends Consumable {
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.runeEffect = this.runeEffect
-            ? Object.assign<WeaponRune, Item>(
+            ? Object.assign(
                 new WeaponRune(),
                 restoreFn(this.runeEffect),
             ).recast(restoreFn)
@@ -54,7 +52,7 @@ export class Oil extends Consumable {
 
     public isOil(): this is Oil { return true; }
 
-    public hasHints(): this is Equipment | Rune | Oil { return true; }
+    public hasHints(): this is Oil { return true; }
 
     public hasSuccessResults(): this is Oil { return false; }
 }

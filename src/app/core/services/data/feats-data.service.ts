@@ -9,7 +9,7 @@ import { HistoryDataService } from './history-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { ItemsDataService } from './items-data.service';
-import { JsonImportedObjectFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -169,7 +169,7 @@ export class FeatsDataService {
             if (!this._itemsDataService.stillLoading) {
                 clearInterval(waitForItemsDataService);
 
-                this._feats = this._load(json_feats as JsonImportedObjectFileList<Feat>, 'feats');
+                this._feats = this._load(json_feats as ImportedJsonFileList<Feat>, 'feats');
 
                 // Create feats that are based on weapons in the store.
                 const customFeats = this.createWeaponFeats();
@@ -181,7 +181,7 @@ export class FeatsDataService {
                     this._featsMap.set(feat.name.toLowerCase(), feat);
                 });
 
-                this._features = this._load(json_features as JsonImportedObjectFileList<Feat>, 'features');
+                this._features = this._load(json_features as ImportedJsonFileList<Feat>, 'features');
                 this._featuresMap.clear();
                 // Add all features to the features map, including custom feats.
                 this._features.forEach(feature => {
@@ -227,7 +227,7 @@ export class FeatsDataService {
     }
 
     private _load(
-        data: JsonImportedObjectFileList<Feat>,
+        data: ImportedJsonFileList<Feat>,
         target: 'features' | 'feats',
     ): Array<Feat> {
         let resultingData: Array<Feat> = [];

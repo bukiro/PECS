@@ -25,7 +25,6 @@ import { Snare } from 'src/app/classes/Snare';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Wand } from 'src/app/classes/Wand';
 import { Rune } from 'src/app/classes/Rune';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { MaterialItem } from './MaterialItem';
 
 export class ItemCollection {
@@ -198,10 +197,10 @@ export class ItemCollection {
             ).recast(restoreFn));
         //Weapons need to be cast blindly to avoid circular dependency warnings.
         this.weapons =
-            this.weapons.map(obj => (TypeService.classCast(
+            this.weapons.map(obj => Object.assign<Weapon, Item>(
+                new Weapon(),
                 restoreFn(obj),
-                'Weapon',
-            ) as Weapon).recast(restoreFn));
+            ).recast(restoreFn));
         this.wornitems =
             this.wornitems.map(obj => Object.assign<WornItem, Item>(
                 new WornItem(),

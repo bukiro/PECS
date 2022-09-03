@@ -30,6 +30,10 @@ export class Material {
         return Object.assign<Material, Material>(new Material(), JSON.parse(JSON.stringify(this))).recast();
     }
 
+    public hasHints(): this is Material {
+        return true;
+    }
+
     public effectiveName(): string {
         return this.name.split('(')[0].trim();
     }

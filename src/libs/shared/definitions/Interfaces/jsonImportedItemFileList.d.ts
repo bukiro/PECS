@@ -1,3 +1,3 @@
 import { DeepPartial } from '../Types/deepPartial';
 
-export interface JsonImportedObjectFileList<T> { [fileName: string]: Array<DeepPartial<T>> }
+export interface ImportedJsonFileList<T> { [fileName: string]: Array<DeepPartial<T>> }

@@ -7,7 +7,7 @@ import * as json_ancestries from 'src/assets/json/ancestries';
 import * as json_backgrounds from 'src/assets/json/backgrounds';
 import * as json_heritages from 'src/assets/json/heritages';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { JsonImportedObjectFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -79,7 +79,7 @@ export class HistoryDataService {
     public initialize(): void {
         this._ancestries = this._load(json_ancestries, 'ancestries', Ancestry.prototype);
         this._backgrounds = this._load(json_backgrounds, 'backgrounds', Background.prototype);
-        this._heritages = this._load(json_heritages as JsonImportedObjectFileList<Heritage>, 'heritages', Heritage.prototype);
+        this._heritages = this._load(json_heritages as ImportedJsonFileList<Heritage>, 'heritages', Heritage.prototype);
 
         this._initialized = true;
     }
@@ -115,7 +115,7 @@ export class HistoryDataService {
     }
 
     private _load<T extends Ancestry | Background | Heritage>(
-        data: JsonImportedObjectFileList<T>,
+        data: ImportedJsonFileList<T>,
         target: 'ancestries' | 'backgrounds' | 'heritages',
         prototype: T,
     ): Array<T> {

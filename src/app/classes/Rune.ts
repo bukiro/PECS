@@ -3,8 +3,6 @@ import { Item } from 'src/app/classes/Item';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Hint } from 'src/app/classes/Hint';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { Equipment } from './Equipment';
-import { Oil } from './Oil';
 
 export abstract class Rune extends Item {
     public activities: Array<ItemActivity> = [];
@@ -27,9 +25,9 @@ export abstract class Rune extends Item {
         return 0;
     }
 
-    public hasActivities(): this is Equipment | Rune { return true; }
+    public hasActivities(): this is Rune { return true; }
 
-    public hasHints(): this is Equipment | Rune | Oil { return true; }
+    public hasHints(): this is Rune { return true; }
 
     public recast(restoreFn: <T extends Item>(obj: T) => T): Rune {
         super.recast(restoreFn);

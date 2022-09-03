@@ -138,58 +138,68 @@ export class CharacterSavingService {
         return savegame;
     }
 
-    /* eslint-disable @typescript-eslint/no-explicit-any */
+    private _isClassObject<T>(object: T): object is T & { [key in keyof T]: T[keyof T] } {
+        return (typeof object === 'object') && (object as unknown as object)?.constructor !== Object;
+    }
+
     /* eslint-disable @typescript-eslint/no-dynamic-delete */
-    private _trimForSaving(object: any): void {
+    private _trimForSaving<T>(objectToTrim: T | Array<T>): void {
         //Only cleanup objects that have a class (= are an object of another type than Object)
-        if (typeof object === 'object' && object.constructor !== Object) {
+        if (this._isClassObject(objectToTrim)) {
             //If the object is an array, iterate over its elements
-            if (Array.isArray(object)) {
-                object.forEach((obj: unknown) => this._trimForSaving(obj));
+            if (Array.isArray(objectToTrim)) {
+                objectToTrim.forEach(obj => this._trimForSaving<T>(obj as T));
             } else {
-                let blank: any;
+                let blank: T | undefined;
 
                 //For items with a refId, don't compare them with blank items, but with their reference item if it exists.
                 //If none can be found, the reference item is a blank item of the same class.
-                if (object instanceof Item && object.refId) {
-                    blank = this._itemsDataService.cleanItemFromID(object.refId);
+                if (objectToTrim instanceof Item && objectToTrim.refId) {
+                    blank = this._itemsDataService.cleanItemFromID(objectToTrim.refId) as unknown as T;
                 }
 
                 if (!blank) {
-                    blank = new (object.constructor as any)();
+                    blank = Object.create(objectToTrim as unknown as object);
                 }
 
-                Object.keys(object).forEach(key => {
-                    //Delete attributes that are in the "neversave" list, if it exists.
-                    if (object.neversave?.includes(key)) {
-                        delete object[key];
-                        // Don't cleanup the neversave list, the save list, any attributes that are in the save list,
-                        // or any that start with "_" (which is done further down).
-                    } else if (key !== 'save' && key !== 'neversave' && !object.save?.includes(key) && (key.substring(0, 1) !== '$')) {
-                        //If the attribute has the same value as the default, delete it from the object.
-                        if (JSON.stringify(object[key]) === JSON.stringify(blank[key])) {
-                            delete object[key];
-                        } else {
-                            this._trimForSaving(object[key]);
+                if (blank) {
+                    (Object.keys(objectToTrim) as Array<keyof T & string>).forEach(key => {
+                        //Delete attributes that are in the "neversave" list, if it exists.
+                        if (
+                            (objectToTrim as { neversave?: Array<keyof T> }).neversave?.includes(key)
+                        ) {
+                            delete objectToTrim[key];
+                            // Don't cleanup the neversave list, the save list, any attributes that are in the save list,
+                            // or any that start with "_" (which is done further down).
+                        } else if (
+                            key !== 'save' &&
+                            key !== 'neversave' &&
+                            !(objectToTrim as { save?: Array<keyof T> }).save?.includes(key) &&
+                            (key.substring(0, 1) !== '_')) {
+                            //If the attribute has the same value as the default, delete it from the object.
+                            if (JSON.stringify(objectToTrim[key]) === JSON.stringify((blank as T)[key])) {
+                                delete objectToTrim[key];
+                            } else {
+                                this._trimForSaving<T[keyof T]>(objectToTrim[key]);
+                            }
+                            //Cleanup attributes that start with _.
+                        } else if (key.substring(0, 1) === '_') {
+                            delete objectToTrim[key];
                         }
-                        //Cleanup attributes that start with _.
-                    } else if (key.substring(0, 1) === '$') {
-                        delete object[key];
-                    }
-                });
+                    });
+                }
 
                 //Delete the "save" and "neversave" lists last so they can be referenced during the cleanup, but still updated when loading.
-                if (object.save) {
-                    delete object.save;
+                if ((objectToTrim as { save?: Array<keyof T> }).save) {
+                    delete (objectToTrim as { save?: Array<keyof T> }).save;
                 }
 
-                if (object.neversave) {
-                    delete object.neversave;
+                if ((objectToTrim as { neversave?: Array<keyof T> }).neversave) {
+                    delete (objectToTrim as { neversave?: Array<keyof T> }).neversave;
                 }
             }
         }
     }
-    /* eslint-enable @typescript-eslint/no-explicit-any */
     /* eslint-enable @typescript-eslint/no-dynamic-delete */
 
     private _saveCharacterToDatabase(savegame: Partial<Character>): Observable<SaveCharacterResponse> {

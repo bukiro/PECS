@@ -66,7 +66,7 @@ export class Armor extends Equipment {
         super.recast(restoreFn);
         this.propertyRunes =
             this.propertyRunes.map((obj: ArmorRune) =>
-                Object.assign<ArmorRune, Partial<ArmorRune>>(
+                Object.assign(
                     new ArmorRune(),
                     restoreFn(obj),
                 ).recast(restoreFn),

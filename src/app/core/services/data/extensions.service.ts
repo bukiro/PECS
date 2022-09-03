@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { switchMap, tap } from 'rxjs';
-import { JsonImportedObjectFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
 
 type SingleIdentifier = 'id' | 'name';
 
@@ -101,9 +101,9 @@ export class ExtensionsService {
     }
 
     public extend<T>(
-        data: JsonImportedObjectFileList<T>,
+        data: ImportedJsonFileList<T>,
         name: string,
-    ): JsonImportedObjectFileList<T> {
+    ): ImportedJsonFileList<T> {
         if (this.extensions[name]) {
             Object.keys(this.extensions[name]).forEach(key => {
                 data[key] = this.extensions[name][key] as Array<Partial<T>>;

@@ -7,7 +7,7 @@ import * as json_ancestries from 'src/assets/json/animalcompanions';
 import * as json_levels from 'src/assets/json/animalcompanionlevels';
 import * as json_specializations from 'src/assets/json/animalcompanionspecializations';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { JsonImportedObjectFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -73,7 +73,7 @@ export class AnimalCompanionsDataService {
     }
 
     private _load<T extends AnimalCompanionAncestry | AnimalCompanionLevel | AnimalCompanionSpecialization>(
-        data: JsonImportedObjectFileList<T>,
+        data: ImportedJsonFileList<T>,
         target: string,
         prototype: T,
     ): Array<T> {

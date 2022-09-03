@@ -10,13 +10,12 @@ import { Hint } from 'src/app/classes/Hint';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { WornItem } from 'src/app/classes/WornItem';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
-import { Oil } from './Oil';
 import { ArmorRune } from './ArmorRune';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
 
 export abstract class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -156,8 +155,7 @@ export abstract class Equipment extends Item {
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
         this.talismanCords =
             this.talismanCords.map(obj =>
-                (TypeService.classCast(restoreFn(obj), 'WornItem') as WornItem)
-                    .recast(restoreFn),
+                TypeService.castItemByType<WornItem>(restoreFn(obj)).recast(restoreFn),
             );
 
         if (this.choices.length && !this.choices.includes(this.choice)) {
@@ -169,9 +167,9 @@ export abstract class Equipment extends Item {
 
     public isEquipment(): this is Equipment { return true; }
 
-    public hasActivities(): this is Equipment | Rune { return true; }
+    public hasActivities(): this is Equipment { return true; }
 
-    public hasHints(): this is Equipment | Rune | Oil { return true; }
+    public hasHints(): this is Equipment { return true; }
 
     public gridIconValue(): string {
         const parts: Array<string> = [];
@@ -340,8 +338,8 @@ export abstract class Equipment extends Item {
     }
 
     public effectsGenerationHints(): Array<HintEffectsObject> {
-        const extractHintEffectsObject = (hintItem: Equipment | Oil | Material | Rune): Array<HintEffectsObject> =>
-            hintItem.hints.map(hint => ({ hint, parentItem: hintItem, objectName: hintItem.effectiveName() }));
+        const extractHintEffectsObject = (hintItem: Item | Material): Array<HintEffectsObject> =>
+            hintItem.hasHints() ? hintItem.hints.map(hint => ({ hint, parentItem: hintItem, objectName: hintItem.effectiveName() })) : [];
 
         return extractHintEffectsObject(this)
             .concat(...this.oilsApplied.map(oil => extractHintEffectsObject(oil)))

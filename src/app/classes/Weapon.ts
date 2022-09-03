@@ -93,18 +93,9 @@ export class Weapon extends Equipment {
 
     public recast(restoreFn: <T extends Item>(obj: T) => T): Weapon {
         super.recast(restoreFn);
-        this.poisonsApplied =
-            this.poisonsApplied.map(obj =>
-                Object.assign<AlchemicalPoison, Item>(
-                    new AlchemicalPoison(),
-                    restoreFn(obj),
-                ).recast(restoreFn));
+        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign(new AlchemicalPoison(), restoreFn(obj)).recast(restoreFn));
         this.material = this.material.map(obj => Object.assign(new WeaponMaterial(), obj).recast());
-        this.propertyRunes =
-            this.propertyRunes.map(obj => Object.assign<WeaponRune, Item>(
-                new WeaponRune(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign(new WeaponRune(), restoreFn(obj)).recast(restoreFn));
 
         return this;
     }

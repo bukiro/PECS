@@ -5,7 +5,7 @@ import { Item } from 'src/app/classes/Item';
 
 export class ArmorRune extends Rune {
     //Armor Runes should be type "armorrunes" to be found in the database
-    public readonly type = 'armorrunes';
+    public readonly type: string = 'armorrunes';
     public resilient = 0;
     /** If sit, the armor rune can only be applied to an armor with this proficiency. */
     public profreq: Array<string> = [];

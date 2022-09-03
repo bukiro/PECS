@@ -60,7 +60,7 @@ export class ItemInitializationService {
         if (options.preassigned) {
             //Any is required because the incoming item's class is unknown in the code.
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            newItem = Object.assign(new (item.constructor as any)(), newItem);
+            newItem = Object.assign(Object.create(item), newItem);
         } else {
             newItem = TypeService.castItemByType(newItem);
         }

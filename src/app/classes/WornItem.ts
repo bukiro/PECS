@@ -67,18 +67,21 @@ export class WornItem extends Equipment {
         super.recast(restoreFn);
         this.aeonStones =
             this.aeonStones.map(obj =>
-                Object.assign<WornItem, Item>(
+                Object.assign(
                     new WornItem(),
                     restoreFn(obj),
                 ).recast(restoreFn),
             );
         this.propertyRunes =
             this.propertyRunes.map(obj =>
-                Object.assign<WeaponRune, Item>(
+                Object.assign(
                     new WeaponRune(),
                     restoreFn(obj),
                 ).recast(restoreFn),
             );
+        this.gainLanguages =
+            this.gainLanguages.map(obj =>
+                Object.assign(new LanguageGain(), obj).recast());
 
         const goldRingIndex = 0;
         const ironRingIndex = 1;

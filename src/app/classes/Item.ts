@@ -155,7 +155,7 @@ export abstract class Item {
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
         this.oilsApplied =
             this.oilsApplied.map(obj =>
-                (TypeService.classCast(restoreFn(obj), 'Oil') as Oil).recast(restoreFn),
+                (TypeService.castItemByType(restoreFn(obj)) as Oil).recast(restoreFn),
             );
         this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.storedSpells.forEach((choice: SpellChoice, index) => {
