@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { Item } from 'src/app/classes/Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class Wand extends Equipment {
     //Wands should be type "wands" to be found in the database
@@ -15,13 +15,13 @@ export class Wand extends Equipment {
         + 'Roll a DC 10 flat check. On a failure, drop the wand as it is destroyed. '
         + 'If you overcharge the wand when it\'s already been overcharged that day, '
         + 'the wand is automatically destroyed and dropped (even if it had been repaired) and no spell is cast.';
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Wand {
+    public recast(restoreFn: ItemRestoreFn): Wand {
         super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Wand {
+    public clone(restoreFn: ItemRestoreFn): Wand {
         return Object.assign<Wand, Wand>(new Wand(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 

@@ -1,12 +1,12 @@
 import { Equipment } from 'src/app/classes/Equipment';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { Item } from './Item';
 import { LanguageGain } from './LanguageGain';
 import { Talisman } from './Talisman';
 import { MaxSpellLevel } from 'src/libs/shared/definitions/spellLevels';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export interface RingOfWizardrySlot {
     tradition: string;
@@ -63,7 +63,7 @@ export class WornItem extends Equipment {
         this.strikingRune = value;
     }
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): WornItem {
+    public recast(restoreFn: ItemRestoreFn): WornItem {
         super.recast(restoreFn);
         this.aeonStones =
             this.aeonStones.map(obj =>
@@ -124,7 +124,7 @@ export class WornItem extends Equipment {
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): WornItem {
+    public clone(restoreFn: ItemRestoreFn): WornItem {
         return Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 

@@ -1,5 +1,5 @@
 import { Rune } from 'src/app/classes/Rune';
-import { Item } from 'src/app/classes/Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class WeaponRune extends Rune {
     //Weapon Runes should be type "weaponrunes" to be found in the database
@@ -28,13 +28,13 @@ export class WeaponRune extends Rune {
         return this.striking;
     }
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): WeaponRune {
+    public recast(restoreFn: ItemRestoreFn): WeaponRune {
         super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): WeaponRune {
+    public clone(restoreFn: ItemRestoreFn): WeaponRune {
         return Object.assign<WeaponRune, WeaponRune>(new WeaponRune(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 

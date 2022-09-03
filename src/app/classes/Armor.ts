@@ -4,11 +4,11 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { Creature } from 'src/app/classes/Creature';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
-import { Item } from './Item';
 import { AdventuringGear } from './AdventuringGear';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -62,7 +62,7 @@ export class Armor extends Equipment {
         this.resilientRune = value;
     }
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Armor {
+    public recast(restoreFn: ItemRestoreFn): Armor {
         super.recast(restoreFn);
         this.propertyRunes =
             this.propertyRunes.map((obj: ArmorRune) =>
@@ -76,7 +76,7 @@ export class Armor extends Equipment {
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Armor {
+    public clone(restoreFn: ItemRestoreFn): Armor {
         return Object.assign<Armor, Armor>(new Armor(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 

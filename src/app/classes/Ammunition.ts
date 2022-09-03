@@ -1,6 +1,6 @@
 import { Consumable } from 'src/app/classes/Consumable';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { Item } from 'src/app/classes/Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class Ammunition extends Consumable {
     //Ammunition should be type "ammunition" to be found in the database
@@ -13,14 +13,14 @@ export class Ammunition extends Consumable {
      */
     public ammunition = '';
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Ammunition {
+    public recast(restoreFn: ItemRestoreFn): Ammunition {
         super.recast(restoreFn);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
 
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Ammunition {
+    public clone(restoreFn: ItemRestoreFn): Ammunition {
         return Object.assign<Ammunition, Ammunition>(
             new Ammunition(), JSON.parse(JSON.stringify(this)),
         ).recast(restoreFn);

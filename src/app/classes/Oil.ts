@@ -2,7 +2,7 @@ import { Consumable } from 'src/app/classes/Consumable';
 import { Hint } from 'src/app/classes/Hint';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { Item } from 'src/app/classes/Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class Oil extends Consumable {
     //Oils should be type "oils" to be found in the database
@@ -32,7 +32,7 @@ export class Oil extends Consumable {
     public targets: Array<string> = [];
     public weightLimit = 0;
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Oil {
+    public recast(restoreFn: ItemRestoreFn): Oil {
         super.recast(restoreFn);
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
@@ -46,7 +46,7 @@ export class Oil extends Consumable {
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Oil {
+    public clone(restoreFn: ItemRestoreFn): Oil {
         return Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 

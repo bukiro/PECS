@@ -19,6 +19,7 @@ import { LoreChoice } from './LoreChoice';
 import { SpellChoice } from './SpellChoice';
 import { Item } from './Item';
 import { Spell } from './Spell';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class Class {
     public disabled = '';
@@ -51,7 +52,7 @@ export class Class {
     public spellList: Array<SpellLearned> = [];
     public formulaBook: Array<FormulaLearned> = [];
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Class {
+    public recast(restoreFn: ItemRestoreFn): Class {
         this.activities = this.activities.map(obj => Object.assign(new ActivityGain(), obj).recast());
         this.ancestry = Object.assign(new Ancestry(), this.ancestry).recast();
         this.animalCompanion = Object.assign(new AnimalCompanion(), this.animalCompanion).recast(restoreFn);
@@ -70,7 +71,7 @@ export class Class {
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Class {
+    public clone(restoreFn: ItemRestoreFn): Class {
         return Object.assign<Class, Class>(new Class(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 

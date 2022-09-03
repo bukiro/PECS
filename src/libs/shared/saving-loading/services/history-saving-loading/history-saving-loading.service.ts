@@ -12,6 +12,7 @@ import { HistoryDataService } from 'src/app/core/services/data/history-data.serv
 export class HistorySavingLoadingService {
     constructor(
         private readonly _historyDataService: HistoryDataService,
+        private readonly _typeService: TypeService,
     ) { }
 
     public restoreAncestryFromSave(ancestry: Ancestry): Ancestry {
@@ -23,7 +24,7 @@ export class HistorySavingLoadingService {
             if (libraryObject.name === ancestry.name) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredAncestry = TypeService.mergeObject(libraryObject, ancestry);
+                    restoredAncestry = this._typeService.mergeObject(libraryObject, ancestry);
                 } catch (e) {
                     console.error(`Failed restoring ancestry: ${ e }`);
                 }
@@ -64,7 +65,7 @@ export class HistorySavingLoadingService {
             if (libraryObject.name === heritage.name) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredHeritage = TypeService.mergeObject(libraryObject, heritage);
+                    restoredHeritage = this._typeService.mergeObject(libraryObject, heritage);
                 } catch (e) {
                     console.error(`Failed restoring heritage: ${ e }`);
                 }
@@ -105,7 +106,7 @@ export class HistorySavingLoadingService {
             if (libraryObject.name === background.name) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    mergedBackground = TypeService.mergeObject(libraryObject, background);
+                    mergedBackground = this._typeService.mergeObject(libraryObject, background);
                 } catch (e) {
                     console.error(`Failed restoring background: ${ e }`);
                 }

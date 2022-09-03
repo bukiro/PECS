@@ -461,10 +461,10 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
         if (this.newItem) {
             this.newItem =
-                this._itemInitializationService.initializeItem(
+                this._itemInitializationService.initializeItem<Equipment | Consumable>(
                     this.newItem,
                     { preassigned: true, newId: false, resetPropertyRunes: false },
-                ) as Equipment | Consumable;
+                );
         }
     }
 
@@ -481,7 +481,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
     }
 
     public copyItemForCustomItem(item: Equipment | Consumable): void {
-        this.newItem = this._itemInitializationService.initializeItem(item) as Equipment | Consumable;
+        this.newItem = this._itemInitializationService.initializeItem<Equipment | Consumable>(item);
         this.toggleShownItem();
     }
 

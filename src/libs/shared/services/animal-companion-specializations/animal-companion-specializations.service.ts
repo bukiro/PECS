@@ -11,6 +11,7 @@ export class AnimalCompanionSpecializationsService {
 
     constructor(
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
+        private readonly _typeService: TypeService,
     ) { }
 
     public restoreSpecializationFromSave(spec: AnimalCompanionSpecialization): AnimalCompanionSpecialization {
@@ -22,7 +23,7 @@ export class AnimalCompanionSpecializationsService {
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredSpecialization = TypeService.mergeObject(libraryObject, spec);
+                    restoredSpecialization = this._typeService.mergeObject(libraryObject, spec);
                 } catch (e) {
                     console.error(`Failed restoring animal companion specialization: ${ e }`);
                 }

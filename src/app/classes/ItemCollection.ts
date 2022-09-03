@@ -26,6 +26,7 @@ import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Wand } from 'src/app/classes/Wand';
 import { Rune } from 'src/app/classes/Rune';
 import { MaterialItem } from './MaterialItem';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class ItemCollection {
     //This is the amount of bulk that can be ignored when weighing this inventory.
@@ -88,7 +89,7 @@ export class ItemCollection {
     ) { }
 
     //TO-DO: See if items still need to be cast blindly after refactoring.
-    public recast(restoreFn: <T extends Item>(obj: T) => T): ItemCollection {
+    public recast(restoreFn: ItemRestoreFn): ItemCollection {
         this.adventuringgear =
             this.adventuringgear.map(obj => Object.assign<AdventuringGear, Item>(
                 new AdventuringGear(),
@@ -210,7 +211,7 @@ export class ItemCollection {
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): ItemCollection {
+    public clone(restoreFn: ItemRestoreFn): ItemCollection {
         return Object.assign<ItemCollection, ItemCollection>(
             new ItemCollection(), JSON.parse(JSON.stringify(this)),
         ).recast(restoreFn);

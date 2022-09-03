@@ -2,7 +2,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { Oil } from 'src/app/classes/Oil';
 import { ItemGain } from 'src/app/classes/ItemGain';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { ItemGainOnOptions } from 'src/libs/shared/definitions/itemGainOptions';
 import { Equipment } from './Equipment';
 import { Armor } from './Armor';
@@ -22,6 +21,7 @@ import { AdventuringGear } from './AdventuringGear';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Ammunition } from './Ammunition';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export interface TraitActivation {
     trait: string;
@@ -150,13 +150,10 @@ export abstract class Item {
         return this.level.toString().padStart(twoDigits, '0');
     }
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Item {
+    public recast(restoreFn: ItemRestoreFn): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
-        this.oilsApplied =
-            this.oilsApplied.map(obj =>
-                (TypeService.castItemByType(restoreFn(obj)) as Oil).recast(restoreFn),
-            );
+        this.oilsApplied = this.oilsApplied.map(obj => (restoreFn(obj, { type: 'oils' })).recast(restoreFn));
         this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.storedSpells.forEach((choice: SpellChoice, index) => {
             choice.source = this.id;
@@ -275,5 +272,5 @@ export abstract class Item {
         return false;
     }
 
-    public abstract clone(restoreFn: <T extends Item>(obj: T) => T): Item;
+    public abstract clone(restoreFn: ItemRestoreFn): Item;
 }

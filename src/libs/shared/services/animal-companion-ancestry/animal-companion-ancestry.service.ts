@@ -17,6 +17,7 @@ export class AnimalCompanionAncestryService {
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _inventoryService: InventoryService,
+        private readonly _typeService: TypeService,
     ) { }
 
     public restoreAncestryFromSave(ancestry: AnimalCompanionAncestry): AnimalCompanionAncestry {
@@ -28,7 +29,7 @@ export class AnimalCompanionAncestryService {
             if (libraryObject) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    restoredAncestry = TypeService.mergeObject(libraryObject, ancestry);
+                    restoredAncestry = this._typeService.mergeObject(libraryObject, ancestry);
                 } catch (e) {
                     console.error(`Failed restoring animal companion ancestry: ${ e }`);
                 }

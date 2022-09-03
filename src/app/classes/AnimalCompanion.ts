@@ -7,7 +7,7 @@ import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { SkillIncrease } from './SkillIncrease';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { Item } from 'src/app/classes/Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();
@@ -21,14 +21,14 @@ export class AnimalCompanion extends Creature {
 
     public get requiresConForHP(): boolean { return true; }
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): AnimalCompanion {
+    public recast(restoreFn: ItemRestoreFn): AnimalCompanion {
         super.recast(restoreFn);
         this.class = Object.assign(new AnimalCompanionClass(), this.class).recast();
 
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): AnimalCompanion {
+    public clone(restoreFn: ItemRestoreFn): AnimalCompanion {
         return Object.assign<AnimalCompanion, AnimalCompanion>(
             new AnimalCompanion(), JSON.parse(JSON.stringify(this)),
         ).recast(restoreFn);

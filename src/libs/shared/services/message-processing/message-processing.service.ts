@@ -33,6 +33,7 @@ export class MessageProcessingService {
         private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _inventoryService: InventoryService,
+        private readonly _typeService: TypeService,
     ) { }
 
     public creatureFromMessage(message: PlayerMessage): Creature | undefined {
@@ -175,7 +176,7 @@ export class MessageProcessingService {
                                 item.amount = message.itemAmount;
                             }
 
-                            const typedItem = TypeService.castItemByType(item);
+                            const typedItem = this._typeService.castItemByType(item);
 
                             //TO-DO: Test if this still works now, after caching the type array.
                             const targetItemTypes = (targetInventory[typedItem.type as keyof ItemCollection] as Array<Item>);

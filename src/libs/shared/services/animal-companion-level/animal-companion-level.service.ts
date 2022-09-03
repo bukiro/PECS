@@ -17,6 +17,7 @@ export class AnimalCompanionLevelsService {
         private readonly _animalCompanionsDataService: AnimalCompanionsDataService,
         private readonly _refreshService: RefreshService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _typeService: TypeService,
     ) { }
 
     public restoreLevelsFromSave(classObject: AnimalCompanionClass): AnimalCompanionClass {
@@ -25,7 +26,7 @@ export class AnimalCompanionLevelsService {
 
             if (libraryObject) {
                 try {
-                    classObject.levels = TypeService.mergeArray(libraryObject, classObject.levels);
+                    classObject.levels = this._typeService.mergeArray(libraryObject, classObject.levels);
                 } catch (e) {
                     console.error(`Failed restoring animal companion levels: ${ e }`);
                 }

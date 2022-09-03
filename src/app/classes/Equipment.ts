@@ -15,7 +15,7 @@ import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { ArmorRune } from './ArmorRune';
-import { TypeService } from 'src/libs/shared/services/type/type.service';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export abstract class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -109,7 +109,7 @@ export abstract class Equipment extends Item {
 
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = secondary => secondary.toString();
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Equipment {
+    public recast(restoreFn: ItemRestoreFn): Equipment {
         super.recast(restoreFn);
         this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
         this.activities.forEach(activity => { activity.source = this.id; });
@@ -154,9 +154,7 @@ export abstract class Equipment extends Item {
             );
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
         this.talismanCords =
-            this.talismanCords.map(obj =>
-                TypeService.castItemByType<WornItem>(restoreFn(obj)).recast(restoreFn),
-            );
+            this.talismanCords.map(obj => restoreFn(obj, { type: 'wornitems' }).recast(restoreFn));
 
         if (this.choices.length && !this.choices.includes(this.choice)) {
             this.choice = this.choices[0];
@@ -358,5 +356,5 @@ export abstract class Equipment extends Item {
         return [];
     }
 
-    public abstract clone(restoreFn: <T extends Item>(obj: T) => T): Equipment;
+    public abstract clone(restoreFn: ItemRestoreFn): Equipment;
 }

@@ -6,7 +6,7 @@ import { CreatureSizes } from 'src/libs/shared/definitions/creatureSizes';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityBoost } from './AbilityBoost';
 import { SkillIncrease } from './SkillIncrease';
-import { Item } from './Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class Familiar extends Creature {
     public readonly type = CreatureTypes.Familiar;
@@ -26,14 +26,14 @@ export class Familiar extends Creature {
     public traits: Array<string> = ['Minion'];
     public get requiresConForHP(): boolean { return false; }
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Familiar {
+    public recast(restoreFn: ItemRestoreFn): Familiar {
         super.recast(restoreFn);
         this.abilities = Object.assign(new FeatChoice(), this.abilities).recast();
 
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Familiar {
+    public clone(restoreFn: ItemRestoreFn): Familiar {
         return Object.assign<Familiar, Familiar>(new Familiar(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 

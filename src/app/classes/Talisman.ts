@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { Item } from 'src/app/classes/Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class Talisman extends Consumable {
     //Other Consumables should be type "talismans" to be found in the database
@@ -17,13 +17,13 @@ export class Talisman extends Consumable {
     public targets: Array<string> = [];
     public trigger = '';
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Talisman {
+    public recast(restoreFn: ItemRestoreFn): Talisman {
         super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): Talisman {
+    public clone(restoreFn: ItemRestoreFn): Talisman {
         return Object.assign<Talisman, Talisman>(new Talisman(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
     }
 

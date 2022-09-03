@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { Item } from './Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class AdventuringGear extends Equipment {
     //Adventuring Gear should be type "adventuringgear" to be found in the database
@@ -16,13 +16,13 @@ export class AdventuringGear extends Equipment {
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage = '';
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): AdventuringGear {
+    public recast(restoreFn: ItemRestoreFn): AdventuringGear {
         super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): AdventuringGear {
+    public clone(restoreFn: ItemRestoreFn): AdventuringGear {
         return Object.assign<AdventuringGear, AdventuringGear>(
             new AdventuringGear(), JSON.parse(JSON.stringify(this)),
         ).recast(restoreFn);

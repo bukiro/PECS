@@ -12,7 +12,7 @@ import { Familiar } from './Familiar';
 import { Character } from './Character';
 import { AbilityBoost } from './AbilityBoost';
 import { SkillIncrease } from './SkillIncrease';
-import { Item } from './Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export interface SkillNotes {
     name: string;
@@ -38,7 +38,7 @@ export abstract class Creature {
     public skillNotes: Array<SkillNotes> = [];
     public get requiresConForHP(): boolean { return false; }
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): Creature {
+    public recast(restoreFn: ItemRestoreFn): Creature {
         this.customSkills = this.customSkills.map(obj => Object.assign(new Skill(), obj).recast());
         this.health = Object.assign(new Health(), this.health).recast();
         this.conditions = this.conditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
@@ -61,7 +61,7 @@ export abstract class Creature {
         return false;
     }
 
-    public abstract clone(restoreFn: <T extends Item>(obj: T) => T): Creature;
+    public abstract clone(restoreFn: ItemRestoreFn): Creature;
 
     public abstract baseSize(): number;
 

@@ -12,6 +12,7 @@ export class ClassSavingLoadingService {
 
     constructor(
         private readonly _classesDataService: ClassesDataService,
+        private readonly _typeService: TypeService,
     ) { }
 
     public restoreClassFromSave(classObject: Class): Class {
@@ -24,7 +25,7 @@ export class ClassSavingLoadingService {
                 //Make a safe copy of the library object.
                 //Then map the restored object onto the copy and keep that.
                 try {
-                    restoredClass = TypeService.mergeObject(libraryObject, classObject);
+                    restoredClass = this._typeService.mergeObject(libraryObject, classObject);
                 } catch (e) {
                     console.error(`Failed restoring class: ${ e }`);
                 }

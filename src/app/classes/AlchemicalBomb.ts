@@ -1,5 +1,5 @@
 import { Weapon } from 'src/app/classes/Weapon';
-import { Item } from 'src/app/classes/Item';
+import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
 
 export class AlchemicalBomb extends Weapon {
     //Alchemical bombs should be type "alchemicalbombs" to be found in the database
@@ -16,13 +16,13 @@ export class AlchemicalBomb extends Weapon {
     public readonly weaponBase: string = 'Alchemical Bomb';
     public readonly equippable = false;
 
-    public recast(restoreFn: <T extends Item>(obj: T) => T): AlchemicalBomb {
+    public recast(restoreFn: ItemRestoreFn): AlchemicalBomb {
         super.recast(restoreFn);
 
         return this;
     }
 
-    public clone(restoreFn: <T extends Item>(obj: T) => T): AlchemicalBomb {
+    public clone(restoreFn: ItemRestoreFn): AlchemicalBomb {
         return Object.assign<AlchemicalBomb, AlchemicalBomb>(
             new AlchemicalBomb(), JSON.parse(JSON.stringify(this)),
         ).recast(restoreFn);

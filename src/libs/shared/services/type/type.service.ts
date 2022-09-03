@@ -12,9 +12,20 @@ type CastFn<T> = (object: Partial<T>) => T;
 })
 export class TypeService {
 
-    private static readonly _itemTypeCastings: Map<string, CastFn<any>> = new Map();
+    private readonly _itemTypeCastings: Map<string, CastFn<any>> = new Map();
 
-    public static mergeArray<T>(target: Array<T> | undefined, source: Array<Partial<T>>): Array<T> {
+    public castItemByType<T extends Item>(item: Partial<T>, type?: string): T {
+        //This function tries to cast an item according to its type name.
+        type = type || item.type;
+
+        if (type) {
+            return this._itemTypeCastings.get(type)?.(item) || (item as T);
+        }
+
+        return item as T;
+    }
+
+    public mergeArray<T>(target: Array<T> | undefined, source: Array<Partial<T>>): Array<T> {
         const output: Array<T> = target
             ? JSON.parse(JSON.stringify(target)) as Array<T>
             : [] as Array<T>;
@@ -26,7 +37,7 @@ export class TypeService {
         return output;
     }
 
-    public static mergeObject<T extends object>(target: T | undefined, source: Partial<T>): T {
+    public mergeObject<T extends object>(target: T | undefined, source: Partial<T>): T {
         const output = target
             ? Object.assign(Object.create(target), JSON.parse(JSON.stringify(target)))
             : {};
@@ -38,7 +49,7 @@ export class TypeService {
         return output;
     }
 
-    public static mergeProperty<T>(target: T | Array<T> | undefined, source: Partial<T> | Array<Partial<T>>): T | Array<T> {
+    public mergeProperty<T>(target: T | Array<T> | undefined, source: Partial<T> | Array<Partial<T>>): T | Array<T> {
         if (Array.isArray(source)) {
             // Merging arrays means merging all of their members.
             return this.mergeArray(target as Array<T>, source);
@@ -51,18 +62,11 @@ export class TypeService {
         }
     }
 
-    public static castItemByType<T extends Item>(item: Partial<T>, type?: string): T {
-        //This function tries to cast an item according to its type name.
-        type = type || item.type;
-
-        if (type) {
-            return TypeService._itemTypeCastings.get(type)?.(item) || (item as T);
-        }
-
-        return item as T;
-    }
-
-    public restoreItem<T extends Item>(object: T, itemsDataService: ItemsDataService): T {
+    public restoreItem<T extends Item>(
+        object: T,
+        itemsDataService: ItemsDataService,
+        options: { type?: string; skipMerge?: boolean } = {},
+    ): T {
         if (object.refId && !object.restoredFromSave) {
             const libraryItem = itemsDataService.cleanItemFromID(object.refId) as T;
             let mergedObject = object;
@@ -70,8 +74,8 @@ export class TypeService {
             if (libraryItem) {
                 //Map the restored object onto the library object and keep the result.
                 try {
-                    mergedObject = TypeService.mergeObject<T>(libraryItem, mergedObject) as T;
-                    mergedObject = TypeService.castItemByType<T>(mergedObject, libraryItem.type);
+                    mergedObject = this.mergeObject<T>(libraryItem, mergedObject) as T;
+                    mergedObject = this.castItemByType<T>(mergedObject, options.type || libraryItem.type);
 
                     //Disable any active hint effects when loading an item.
                     if (mergedObject.isEquipment()) {
@@ -87,13 +91,17 @@ export class TypeService {
             return mergedObject;
         }
 
+        if (options.type) {
+            return this.castItemByType<T>(object, options.type);
+        }
+
         return object;
     }
 
     public registerItemCasting<T extends Item>(prototype: T): void {
         const castFn = (object: Partial<T>): T => Object.assign(Object.create(prototype), object);
 
-        TypeService._itemTypeCastings.set(prototype.type, castFn);
+        this._itemTypeCastings.set(prototype.type, castFn);
     }
 
 }

@@ -5,6 +5,12 @@ import { TypeService } from './type.service';
 
 describe('TypeService', () => {
 
+    let service: TypeService;
+
+    beforeEach(() => {
+        service = new TypeService();
+    });
+
     describe('mergeObject', () => {
         it('should deep merge two objects and their properties', () => {
             const feat1 = new Feat();
@@ -48,7 +54,7 @@ describe('TypeService', () => {
                 'Trait4',
             ];
 
-            const mergedFeat = TypeService.mergeObject(feat1, feat2);
+            const mergedFeat = service.mergeObject(feat1, feat2);
 
             mergedFeat.recast();
 

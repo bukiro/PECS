@@ -121,8 +121,8 @@ export class ItemsDataService {
      * Call TypeService.restoreItem() while passing the ItemsDataService.
      * This is not usually called directly, but passed to recast() and clone() methods.
      */
-    public restoreItem<T extends Item>(obj: T): T {
-        return this._typeService.restoreItem(obj, this);
+    public restoreItem<T extends Item>(obj: T, options: { type?: string; skipMerge?: boolean } = {}): T {
+        return this._typeService.restoreItem(obj, this, options);
     }
 
     public initialize(): void {

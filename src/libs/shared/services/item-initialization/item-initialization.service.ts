@@ -1,21 +1,16 @@
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
-import { Armor } from 'src/app/classes/Armor';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
-import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Oil } from 'src/app/classes/Oil';
 import { Rune } from 'src/app/classes/Rune';
-import { Shield } from 'src/app/classes/Shield';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
-import { Weapon } from 'src/app/classes/Weapon';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { WornItem } from 'src/app/classes/WornItem';
 import { v4 as uuidv4 } from 'uuid';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { ItemMaterialsDataService } from 'src/app/core/services/data/item-materials-data.service';
@@ -28,17 +23,18 @@ export class ItemInitializationService {
     constructor(
         private readonly _itemsDataService: ItemsDataService,
         private readonly _itemMaterialsDataService: ItemMaterialsDataService,
+        private readonly _typeService: TypeService,
     ) { }
 
-    public initializeItem(
-        item: Partial<Item>,
+    public initializeItem<T extends Item>(
+        item: Partial<T>,
         options: {
             preassigned?: boolean;
             newId?: boolean;
             resetPropertyRunes?: boolean;
             newPropertyRunes?: Array<Partial<Rune>>;
         } = {},
-    ): Item {
+    ): T {
         options = {
             preassigned: false,
             newId: true,
@@ -62,7 +58,7 @@ export class ItemInitializationService {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newItem = Object.assign(Object.create(item), newItem);
         } else {
-            newItem = TypeService.castItemByType(newItem);
+            newItem = this._typeService.castItemByType(newItem);
         }
 
         //Optionally, a new ID is assigned and updated on the item's activities and their spell gains.
@@ -108,8 +104,8 @@ export class ItemInitializationService {
         if (
             options.resetPropertyRunes &&
             (
-                newItem instanceof Weapon ||
-                (newItem instanceof WornItem && newItem.isHandwrapsOfMightyBlows)
+                newItem.isWeapon() ||
+                (newItem.isWornItem() && newItem.isHandwrapsOfMightyBlows)
             ) &&
             newItem.propertyRunes?.length
         ) {
@@ -121,13 +117,13 @@ export class ItemInitializationService {
                     .find(newrune => newrune.name === rune.name);
 
                 if (libraryItem) {
-                    newRunes.push(TypeService.mergeObject(libraryItem, rune));
+                    newRunes.push(this._typeService.mergeObject(libraryItem, rune));
                 }
             });
             newItem.propertyRunes = newRunes;
         }
 
-        if (options.resetPropertyRunes && newItem instanceof Armor && newItem.propertyRunes?.length) {
+        if (options.resetPropertyRunes && newItem.isArmor() && newItem.propertyRunes?.length) {
             const newRunes: Array<ArmorRune> = [];
 
             newItem.propertyRunes.forEach(rune => {
@@ -135,14 +131,14 @@ export class ItemInitializationService {
                     .find(newrune => newrune.name === rune.name);
 
                 if (libraryItem) {
-                    newRunes.push(TypeService.mergeObject(libraryItem, rune));
+                    newRunes.push(this._typeService.mergeObject(libraryItem, rune));
                 }
             });
             newItem.propertyRunes = newRunes;
         }
 
         //For base items that come with material with name only, load the material into the item here.
-        if (options.resetPropertyRunes && newItem instanceof Weapon && newItem.material?.length) {
+        if (options.resetPropertyRunes && newItem.isWeapon() && newItem.material?.length) {
             const newMaterials: Array<WeaponMaterial> = [];
 
             newItem.material.forEach(material => {
@@ -150,13 +146,13 @@ export class ItemInitializationService {
                     this._itemMaterialsDataService.weaponMaterials().find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(TypeService.mergeObject(libraryItem, material));
+                    newMaterials.push(this._typeService.mergeObject(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
         }
 
-        if (options.resetPropertyRunes && newItem instanceof Armor && newItem.material?.length) {
+        if (options.resetPropertyRunes && newItem.isArmor() && newItem.material?.length) {
             const newMaterials: Array<ArmorMaterial> = [];
 
             newItem.material.forEach(material => {
@@ -164,13 +160,13 @@ export class ItemInitializationService {
                     this._itemMaterialsDataService.armorMaterials().find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(TypeService.mergeObject(libraryItem, material));
+                    newMaterials.push(this._typeService.mergeObject(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
         }
 
-        if (options.resetPropertyRunes && newItem instanceof Shield && newItem.material?.length) {
+        if (options.resetPropertyRunes && newItem.isShield() && newItem.material?.length) {
             const newMaterials: Array<ShieldMaterial> = [];
 
             newItem.material.forEach(material => {
@@ -178,7 +174,7 @@ export class ItemInitializationService {
                     this._itemMaterialsDataService.shieldMaterials().find(newMaterial => newMaterial.name === material.name);
 
                 if (libraryItem) {
-                    newMaterials.push(TypeService.mergeObject(libraryItem, material));
+                    newMaterials.push(this._typeService.mergeObject(libraryItem, material));
                 }
             });
             newItem.material = newMaterials;
@@ -187,7 +183,7 @@ export class ItemInitializationService {
         newItem = newItem.recast(this._itemsDataService.restoreItem);
 
         //Disable all hints.
-        if (newItem instanceof Equipment) {
+        if (newItem.isEquipment()) {
             newItem.hints.forEach(hint => hint.deactivateAll());
             newItem.propertyRunes.forEach(rune => {
                 rune.hints.forEach(hint => hint.deactivateAll());
@@ -200,7 +196,7 @@ export class ItemInitializationService {
             });
         }
 
-        return newItem;
+        return newItem as T;
     }
 
 }
