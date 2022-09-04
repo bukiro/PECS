@@ -4,7 +4,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { SavegamesService } from '../../saving-loading/services/savegames/savegames.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
@@ -14,6 +13,7 @@ import { InventoryService } from '../inventory/inventory.service';
 import { MessageSendingService } from '../message-sending/message-sending.service';
 import { MessagesService } from '../messages/messages.service';
 import { RefreshService } from '../refresh/refresh.service';
+import { RecastService } from '../recast/recast.service';
 import { ToastService } from '../toast/toast.service';
 import { TypeService } from '../type/type.service';
 
@@ -29,11 +29,11 @@ export class MessageProcessingService {
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _messagesService: MessagesService,
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _inventoryService: InventoryService,
         private readonly _typeService: TypeService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public creatureFromMessage(message: PlayerMessage): Creature | undefined {
@@ -202,7 +202,7 @@ export class MessageProcessingService {
                                 this._refreshService.prepareDetailToChange(targetCreature.type, 'inventory');
                                 this._refreshService.setComponentChanged(existingItems[0].id);
                             } else if (targetItemTypes) {
-                                typedItem.recast(this._itemsDataService.restoreItem);
+                                typedItem.recast(this._recastService.restoreFns);
 
                                 const newLength = targetItemTypes.push(typedItem);
                                 const addedItem = targetItemTypes[newLength - 1];

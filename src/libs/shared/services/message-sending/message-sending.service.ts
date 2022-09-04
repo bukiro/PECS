@@ -8,7 +8,6 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { ConfigService } from 'src/app/core/services/config/config.service';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { CreatureService } from 'src/app/services/character.service';
 import { SavegamesService } from '../../saving-loading/services/savegames/savegames.service';
@@ -17,6 +16,7 @@ import { CreatureConditionsService } from '../creature-conditions/creature-condi
 import { ItemTransferService } from '../item-transfer/item-transfer.service';
 import { MessageProcessingService } from '../message-processing/message-processing.service';
 import { MessagesService } from '../messages/messages.service';
+import { RecastService } from '../recast/recast.service';
 import { ToastService } from '../toast/toast.service';
 
 @Injectable({
@@ -28,12 +28,12 @@ export class MessageSendingService {
         private readonly _configService: ConfigService,
         private readonly _savegamesService: SavegamesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _messagesService: MessagesService,
         private readonly _toastService: ToastService,
         private readonly _itemTransferService: ItemTransferService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _messageProcessingService: MessageProcessingService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public sendTurnChangeToPlayers(): void {
@@ -65,6 +65,9 @@ export class MessageSendingService {
                         message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                         message.timeStamp = timeStamp;
                         message.turnChange = true;
+
+                        message.recast(this._recastService.cleanForSaveFns);
+
                         messages.push(message);
                     });
 
@@ -120,13 +123,16 @@ export class MessageSendingService {
 
                             message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                             message.timeStamp = timeStamp;
-                            message.gainCondition.push(conditionGain.clone());
+                            message.gainCondition.push(conditionGain);
 
                             if (message.gainCondition.length) {
                                 message.gainCondition[0].foreignPlayerId = message.senderId;
                             }
 
                             message.activateCondition = activate;
+
+                            message.recast(this._recastService.cleanForSaveFns);
+
                             messages.push(message);
                         }
                     });
@@ -194,11 +200,12 @@ export class MessageSendingService {
 
                     message.time = `${ date.getHours() }:${ date.getMinutes() }`;
                     message.timeStamp = timeStamp;
-                    message.offeredItem.push(item.clone(this._itemsDataService.restoreItem),
-                    );
+                    message.offeredItem.push(item);
                     message.itemAmount = amount;
                     message.includedItems = included.items;
                     message.includedInventories = included.inventories;
+
+                    message.recast(this._recastService.cleanForSaveFns);
 
                     return this._messagesService.sendMessagesToConnector([message])
                         .pipe(
@@ -256,6 +263,8 @@ export class MessageSendingService {
                     } else {
                         response.rejectedItem = message.offeredItem[0].id;
                     }
+
+                    message.recast(this._recastService.cleanForSaveFns);
 
                     return this._messagesService.sendMessagesToConnector([response])
                         .pipe(

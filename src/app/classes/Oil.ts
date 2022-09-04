@@ -2,7 +2,7 @@ import { Consumable } from 'src/app/classes/Consumable';
 import { Hint } from 'src/app/classes/Hint';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class Oil extends Consumable {
     //Oils should be type "oils" to be found in the database
@@ -32,22 +32,22 @@ export class Oil extends Consumable {
     public targets: Array<string> = [];
     public weightLimit = 0;
 
-    public recast(restoreFn: ItemRestoreFn): Oil {
-        super.recast(restoreFn);
+    public recast(recastFns: RecastFns): Oil {
+        super.recast(recastFns);
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.runeEffect = this.runeEffect
             ? Object.assign(
                 new WeaponRune(),
-                restoreFn(this.runeEffect),
-            ).recast(restoreFn)
+                recastFns.item(this.runeEffect),
+            ).recast(recastFns)
             : undefined;
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): Oil {
-        return Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
+    public clone(recastFns: RecastFns): Oil {
+        return Object.assign<Oil, Oil>(new Oil(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public isOil(): this is Oil { return true; }

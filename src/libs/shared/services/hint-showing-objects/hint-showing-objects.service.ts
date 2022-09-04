@@ -4,17 +4,14 @@ import { Creature } from 'src/app/classes/Creature';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Activity } from 'src/app/classes/Activity';
-import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Shield } from 'src/app/classes/Shield';
 import { Specialization } from 'src/app/classes/Specialization';
 import { HintShowingItem } from '../../definitions/Types/hintShowingItem';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
-import { ActivityGainPropertiesService } from '../activity-gain-properties/activity-gain-properties.service';
 import { ArmorPropertiesService } from '../armor-properties/armor-properties.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
@@ -34,7 +31,6 @@ export class HintShowingObjectsService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _familiarsDataService: FamiliarsDataService,
         private readonly _armorPropertiesService: ArmorPropertiesService,
-        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _creatureFeatsService: CreatureFeatsService,
@@ -177,19 +173,10 @@ export class HintShowingObjectsService {
 
     public creatureActivitiesShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<Activity> {
         return this._creatureActivitiesService.creatureOwnedActivities(creature)
-            //Conflate ActivityGains and their respective Activities into one object...
-            .map(gain => ({ gain, activity: this._activityGainPropertyService.originalActivity(gain) }))
-            //...so that we can find the activities where the gain is active or the activity doesn't need to be toggled...
-            .filter((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) =>
-                gainAndActivity.activity &&
-                (
-                    gainAndActivity.gain.active || !gainAndActivity.activity.toggle
-                ),
-            )
-            //...and then keep only the activities.
-            .map((gainAndActivity: { gain: ActivityGain | ItemActivity; activity: Activity }) => gainAndActivity.activity)
-            .filter(activity =>
-                activity?.hints.find(hint =>
+            //Find the activities where the gain is active or the activity doesn't need to be toggled.
+            .filter(gain =>
+                (gain.active || !gain.originalActivity.toggle) &&
+                gain.originalActivity?.hints.find(hint =>
                     hint.showon?.split(',').find(showon =>
                         objectName.trim().toLowerCase() === 'all' ||
                         showon.trim().toLowerCase() === objectName.toLowerCase() ||
@@ -202,7 +189,8 @@ export class HintShowingObjectsService {
                         ),
                     ),
                 ),
-            );
+            )
+            .map(gain => gain.originalActivity);
     }
 
     public creatureItemsShowingHintsOnThis(creature: Creature, objectName = 'all'): Array<HintShowingItem> {

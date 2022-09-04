@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
-import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
@@ -19,7 +18,6 @@ export class ActivitiesTimeService {
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _refreshService: RefreshService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
-        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
     ) { }
 
@@ -31,7 +29,7 @@ export class ActivitiesTimeService {
             .creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => gain.activeCooldown !== 0 || gain.duration === TimePeriods.UntilRest)
             .forEach(gain => {
-                const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(gain);
+                const activity: Activity | ItemActivity = gain.originalActivity;
 
                 if (gain.duration === TimePeriods.UntilRest && activity) {
                     this._activitiesProcessingService.activateActivity(
@@ -68,11 +66,11 @@ export class ActivitiesTimeService {
             .creatureOwnedActivities(creature)
             .filter((gain: ActivityGain | ItemActivity) => [gain.activeCooldown, gain.duration].includes(TimePeriods.UntilRefocus))
             .forEach(gain => {
-                const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(gain);
+                const activity: Activity | ItemActivity = gain.originalActivity;
 
-                if (gain.duration === TimePeriods.UntilRefocus && activity) {
+                if (gain.duration === TimePeriods.UntilRefocus) {
                     this._activitiesProcessingService.activateActivity(
-                        activity,
+                        gain.originalActivity,
                         false,
                         {
                             creature,
@@ -102,7 +100,7 @@ export class ActivitiesTimeService {
             .filter(gain => gain.activeCooldown || gain.duration)
             .forEach(gain => {
                 //Tick down the duration and the cooldown by the amount of turns.
-                const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(gain);
+                const activity: Activity | ItemActivity = gain.originalActivity;
                 // Reduce the turns by the amount you took from the duration, then apply the rest to the cooldown.
                 let remainingTurns = turns;
 
@@ -115,17 +113,15 @@ export class ActivitiesTimeService {
                     remainingTurns -= difference;
 
                     if (gain.duration === 0) {
-                        if (activity) {
-                            this._activitiesProcessingService.activateActivity(
-                                activity,
-                                false,
-                                {
-                                    creature,
-                                    target: creature.type,
-                                    gain,
-                                },
-                            );
-                        }
+                        this._activitiesProcessingService.activateActivity(
+                            activity,
+                            false,
+                            {
+                                creature,
+                                target: creature.type,
+                                gain,
+                            },
+                        );
                     }
                 }
 

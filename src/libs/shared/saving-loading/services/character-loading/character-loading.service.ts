@@ -20,8 +20,8 @@ import { CreatureService } from 'src/app/services/character.service';
 import { DocumentStyleService } from 'src/app/core/services/document-style/document-style.service';
 import { TimeService } from 'src/libs/time/services/time/time.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface DatabaseCharacter {
     _id: string;
@@ -39,7 +39,6 @@ export class CharacterLoadingService {
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
         private readonly _animalCompanionSpecializationsService: AnimalCompanionSpecializationsService,
         private readonly _classSavingLoadingService: ClassSavingLoadingService,
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _historySavingLoadingService: HistorySavingLoadingService,
         private readonly _characterPatchingService: CharacterPatchingService,
         private readonly _statusService: StatusService,
@@ -50,6 +49,7 @@ export class CharacterLoadingService {
         private readonly _timeService: TimeService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _basicEquipmentService: BasicEquipmentService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public loadOrResetCharacter(id = '', loadAsGM = false): void {
@@ -215,7 +215,7 @@ export class CharacterLoadingService {
             character.class = this._classSavingLoadingService.restoreClassFromSave(character.class);
         }
 
-        character.recast(this._itemsDataService.restoreItem);
+        character.recast(this._recastService.restoreFns);
 
         //Apply any patches that need to be done after the class is restored.
         this._characterPatchingService.patchCompleteCharacter(savedCharacter, character);

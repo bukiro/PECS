@@ -113,28 +113,32 @@
                 </div>
             </div>
             <div class="list-item newrow left-aligned"
-                *ngFor="let activitySet of activitiesShowingHintsOnThis(activity.name); trackBy:trackers.trackByIndex;">
+                *ngFor="let activityGain of activitiesShowingHintsOnThis(activity.name); trackBy:trackers.trackByIndex;">
                 <header class="spellHeader">
-                    {{activitySet.activity.name}}
-                    <app-actionIcons *ngIf="activitySet.activity.actions" [actionString]="activitySet.activity.actions">
+                    {{activityGain.originalActivity.name}}
+                    <app-actionIcons *ngIf="activityGain.originalActivity.actions"
+                        [actionString]="activityGain.originalActivity.actions">
                     </app-actionIcons>
-                    {{(activitySet.activity.activationType) ? activitySet.activity.activationType : ""}}
+                    {{(activityGain.originalActivity.activationType) ? activityGain.originalActivity.activationType :
+                    ""}}
                 </header>
-                <app-activity [creature]="creature" [activity]="activitySet.activity" [gain]="activitySet.gain"
+                <app-activity [creature]="creature" [activity]="activityGain.originalActivity" [gain]="activityGain"
                     [allowActivate]=true>
                 </app-activity>
             </div>
             <ng-container *ngIf="gain.name === 'Fused Stance'">
                 <div class="list-item newrow left-aligned"
-                    *ngFor="let fusedSet of fusedStances(); trackBy:trackers.trackByIndex;">
+                    *ngFor="let fusedStanceGain of fusedStances(); trackBy:trackers.trackByIndex;">
                     <header class="spellHeader">
-                        {{fusedSet.activity.name}}
-                        <app-actionIcons *ngIf="fusedSet.activity.actions" [actionString]="fusedSet.activity.actions">
+                        {{fusedStanceGain.originalActivity.name}}
+                        <app-actionIcons *ngIf="fusedStanceGain.originalActivity.actions"
+                            [actionString]="fusedStanceGain.originalActivity.actions">
                         </app-actionIcons>
-                        {{(fusedSet.activity.activationType) ? fusedSet.activity.activationType : ""}}
+                        {{(fusedStanceGain.originalActivity.activationType) ?
+                        fusedStanceGain.originalActivity.activationType : ""}}
                     </header>
-                    <app-activity [creature]="creature" [activity]="fusedSet.activity" [gain]="fusedSet.gain"
-                        [allowActivate]="false">
+                    <app-activity [creature]="creature" [activity]="fusedStanceGain.originalActivity"
+                        [gain]="fusedStanceGain" [allowActivate]="false">
                     </app-activity>
                 </div>
             </ng-container>

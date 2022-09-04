@@ -8,6 +8,7 @@ import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { SkillLevels } from '../../definitions/skillLevels';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,6 +19,7 @@ export class CharacterLoreService {
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _refreshService: RefreshService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public addLore(source: LoreChoice): void {
@@ -338,7 +340,7 @@ export class CharacterLoreService {
         // They are marked as lorebase==true.
         this._featsDataService.feats(character.customFeats).filter(feat => feat.lorebase === 'Lore')
             .forEach(lorebaseFeat => {
-                const newFeat = lorebaseFeat.clone();
+                const newFeat = lorebaseFeat.clone(this._recastService.recastOnlyFns);
 
                 newFeat.name = newFeat.name.replace('Lore', `Lore: ${ loreName }`);
                 newFeat.subType = newFeat.subType.replace('Lore', `Lore: ${ loreName }`);

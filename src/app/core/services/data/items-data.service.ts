@@ -50,6 +50,7 @@ import { ItemInitializationService } from 'src/libs/shared/services/item-initial
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -66,6 +67,7 @@ export class ItemsDataService {
         private readonly _itemInitializationService: ItemInitializationService,
         private readonly _basicEquipmentService: BasicEquipmentService,
         private readonly _typeService: TypeService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -117,16 +119,9 @@ export class ItemsDataService {
         } else { return []; }
     }
 
-    /**
-     * Call TypeService.restoreItem() while passing the ItemsDataService.
-     * This is not usually called directly, but passed to recast() and clone() methods.
-     */
-    public restoreItem<T extends Item>(obj: T, options: { type?: string; skipMerge?: boolean } = {}): T {
-        return this._typeService.restoreItem(obj, this, options);
-    }
-
     public initialize(): void {
-        //Initialize items once, but cleanup specialization effects and reset store and crafting items everytime thereafter.
+        this._registerrecastFns();
+
         //Runes need to load before other items, because their content is copied into items that bear them.
         const armorRune = new ArmorRune();
 
@@ -264,8 +259,8 @@ export class ItemsDataService {
         this._typeService.registerItemCasting(wornItem);
 
         //Make a copy of clean items for shop items and crafting items.
-        this._storeItems = this._cleanItems.clone(this.restoreItem);
-        this._craftingItems = this._cleanItems.clone(this.restoreItem);
+        this._storeItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
+        this._craftingItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
 
         this._setBasicItems();
 
@@ -274,8 +269,8 @@ export class ItemsDataService {
 
     public reset(): void {
         //Reset items and crafting items from clean items.
-        this._storeItems = this._cleanItems.clone(this.restoreItem);
-        this._craftingItems = this._cleanItems.clone(this.restoreItem);
+        this._storeItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
+        this._craftingItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
     }
 
     private _setBasicItems(): void {
@@ -285,6 +280,18 @@ export class ItemsDataService {
         const newBasicArmor: Armor = this.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723') as Armor;
 
         this._basicEquipmentService.setBasicItems(newBasicWeapon, newBasicArmor);
+    }
+
+    private _registerrecastFns(): void {
+        const itemRestoreFn =
+            <T extends Item>(obj: T, options: { type?: string; skipMerge?: boolean } = {}): T =>
+                this._typeService.restoreItem(obj, this, options);
+
+        const itemRecastFn =
+            <T extends Item>(obj: T, options: { type?: string; skipMerge?: boolean } = {}): T =>
+                this._typeService.castItemByType<T>(obj, options.type);
+
+        this._recastService.registerItemrecastFns(itemRestoreFn, itemRecastFn);
     }
 
     private _loadItemType<T extends Item>(

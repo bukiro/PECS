@@ -14,6 +14,7 @@ import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { v4 as uuidv4 } from 'uuid';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { ItemMaterialsDataService } from 'src/app/core/services/data/item-materials-data.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -24,6 +25,7 @@ export class ItemInitializationService {
         private readonly _itemsDataService: ItemsDataService,
         private readonly _itemMaterialsDataService: ItemMaterialsDataService,
         private readonly _typeService: TypeService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public initializeItem<T extends Item>(
@@ -90,7 +92,7 @@ export class ItemInitializationService {
                 .find(weaponRune => weaponRune.name === (newItem as Oil).runeEffect?.name);
 
             if (rune) {
-                newItem.runeEffect = rune.clone(this._itemsDataService.restoreItem);
+                newItem.runeEffect = rune.clone(this._recastService.recastOnlyFns);
                 newItem.runeEffect.activities.forEach((activity: ItemActivity) => { activity.name += ` (${ newItem.name })`; });
             }
         }
@@ -180,7 +182,7 @@ export class ItemInitializationService {
             newItem.material = newMaterials;
         }
 
-        newItem = newItem.recast(this._itemsDataService.restoreItem);
+        newItem = newItem.recast(this._recastService.recastOnlyFns);
 
         //Disable all hints.
         if (newItem.isEquipment()) {

@@ -18,6 +18,7 @@ import { SignatureSpellGain } from 'src/app/classes/SignatureSpellGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { FeatRequirements } from 'src/app/character-creation/definitions/models/featRequirements';
 import { FeatIgnoreRequirements } from './featIgnoreRequirements';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class Feat {
     public abilityreq: Array<FeatRequirements.AbilityRequirement> = [];
@@ -109,14 +110,14 @@ export class Feat {
     public allowSignatureSpells: Array<SignatureSpellGain> = [];
     public PFSnote = '';
 
-    public recast(): Feat {
+    public recast(recastFns: RecastFns): Feat {
         this.changeProficiency = this.changeProficiency.map(obj => Object.assign(new ProficiencyChange(), obj).recast());
         this.copyProficiency = this.copyProficiency.map(obj => Object.assign(new ProficiencyCopy(), obj).recast());
         this.bloodMagic = this.bloodMagic.map(obj => Object.assign(new BloodMagic(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.gainAbilityChoice = this.gainAbilityChoice.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.gainSpecialization = this.gainSpecialization.map(obj => Object.assign(new SpecializationGain(), obj).recast());
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
         this.gainFeatChoice = this.gainFeatChoice.map(obj => Object.assign(new FeatChoice(), obj).recast());
         this.gainFormulaChoice = this.gainFormulaChoice.map(obj => Object.assign(new FormulaChoice(), obj).recast());
         this.gainHeritage = this.gainHeritage.map(obj => Object.assign(new HeritageGain(), obj).recast());
@@ -143,7 +144,7 @@ export class Feat {
         return this;
     }
 
-    public clone(): Feat {
-        return Object.assign<Feat, Feat>(new Feat(), JSON.parse(JSON.stringify(this))).recast();
+    public clone(recastFns: RecastFns): Feat {
+        return Object.assign<Feat, Feat>(new Feat(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 }

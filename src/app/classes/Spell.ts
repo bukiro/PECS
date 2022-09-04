@@ -6,6 +6,7 @@ import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { ActivityTargetOptions } from './Activity';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class Spell {
     public actions = '1A';
@@ -84,9 +85,9 @@ export class Spell {
      */
     public targetNumbers: Array<SpellTargetNumber> = [];
 
-    public recast(): Spell {
+    public recast(recastFns: RecastFns): Spell {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
         this.gainConditions.forEach(conditionGain => {
             conditionGain.source = this.name;
         });
@@ -97,8 +98,8 @@ export class Spell {
         return this;
     }
 
-    public clone(): Spell {
-        return Object.assign<Spell, Spell>(new Spell(), JSON.parse(JSON.stringify(this))).recast();
+    public clone(recastFns: RecastFns): Spell {
+        return Object.assign<Spell, Spell>(new Spell(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public activationTraits(): Array<string> {

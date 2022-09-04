@@ -12,6 +12,7 @@ import { ConditionChoice } from 'src/app/classes/ConditionChoice';
 import { ConditionDuration } from 'src/app/classes/ConditionDuration';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 interface ConditionEnd {
     name: string;
@@ -102,24 +103,24 @@ export class Condition {
     /** Paused conditions don't tick. If you want to stop -and- hide a condition, you need to override it as well. */
     public pauseConditions: Array<ConditionOverride> = [];
 
-    public recast(): Condition {
+    public recast(recastFns: RecastFns): Condition {
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.endEffects = this.endEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+        this.gainActivities = this.gainActivities.map(obj => recastFns.activityGain(obj).recast(recastFns));
         this.gainActivities.forEach(activityGain => {
             activityGain.source = this.name;
         });
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
         this.gainConditions.forEach(conditionGain => {
             conditionGain.source = this.name;
         });
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.attackRestrictions = this.attackRestrictions.map(obj => Object.assign(new AttackRestriction(), obj).recast());
         this.senses = this.senses.map(obj => Object.assign(new SenseGain(), obj).recast());
-        this.nextCondition = this.nextCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.nextCondition = this.nextCondition.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
         this.defaultDurations = this.defaultDurations.map(obj => Object.assign(new ConditionDuration(), obj).recast());
         this.choices = this.choices.map(obj => Object.assign(new ConditionChoice(), obj).recast());
 
@@ -143,8 +144,8 @@ export class Condition {
         return this;
     }
 
-    public clone(): Condition {
-        return Object.assign<Condition, Condition>(new Condition(), JSON.parse(JSON.stringify(this))).recast();
+    public clone(recastFns: RecastFns): Condition {
+        return Object.assign<Condition, Condition>(new Condition(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public conditionOverrides(gain?: ConditionGain): Array<ConditionOverride> {

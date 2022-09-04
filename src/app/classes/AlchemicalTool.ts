@@ -1,19 +1,19 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class AlchemicalTool extends Consumable {
     //Alchemical tools should be type "alchemicaltools" to be found in the database
     public readonly type = 'alchemicaltools';
 
-    public recast(restoreFn: ItemRestoreFn): AlchemicalTool {
-        super.recast(restoreFn);
+    public recast(recastFns: RecastFns): AlchemicalTool {
+        super.recast(recastFns);
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): AlchemicalTool {
+    public clone(recastFns: RecastFns): AlchemicalTool {
         return Object.assign<AlchemicalTool, AlchemicalTool>(
             new AlchemicalTool(), JSON.parse(JSON.stringify(this)),
-        ).recast(restoreFn);
+        ).recast(recastFns);
     }
 }

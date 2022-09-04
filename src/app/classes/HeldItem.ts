@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class HeldItem extends Equipment {
     // Worn Items cannot be equipped or unequipped
@@ -9,13 +9,13 @@ export class HeldItem extends Equipment {
     /** How is this item held when used? Example: "held in one hand" */
     public usage = '';
 
-    public recast(restoreFn: ItemRestoreFn): HeldItem {
-        super.recast(restoreFn);
+    public recast(recastFns: RecastFns): HeldItem {
+        super.recast(recastFns);
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): HeldItem {
-        return Object.assign<HeldItem, HeldItem>(new HeldItem(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
+    public clone(recastFns: RecastFns): HeldItem {
+        return Object.assign<HeldItem, HeldItem>(new HeldItem(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 }

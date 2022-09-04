@@ -8,7 +8,7 @@ import { AdventuringGear } from './AdventuringGear';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -62,22 +62,22 @@ export class Armor extends Equipment {
         this.resilientRune = value;
     }
 
-    public recast(restoreFn: ItemRestoreFn): Armor {
-        super.recast(restoreFn);
+    public recast(recastFns: RecastFns): Armor {
+        super.recast(recastFns);
         this.propertyRunes =
             this.propertyRunes.map((obj: ArmorRune) =>
                 Object.assign(
                     new ArmorRune(),
-                    restoreFn(obj),
-                ).recast(restoreFn),
+                    recastFns.item(obj),
+                ).recast(recastFns),
             );
         this.material = this.material.map(obj => Object.assign(new ArmorMaterial(), obj).recast());
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): Armor {
-        return Object.assign<Armor, Armor>(new Armor(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
+    public clone(recastFns: RecastFns): Armor {
+        return Object.assign<Armor, Armor>(new Armor(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public isArmor(): this is Armor { return true; }

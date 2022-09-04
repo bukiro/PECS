@@ -15,6 +15,7 @@ import { TimeService } from 'src/libs/time/services/time/time.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { SavegamesService } from '../savegames/savegames.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 
 interface SaveCharacterResponse {
@@ -39,6 +40,7 @@ export class CharacterSavingService {
         private readonly _timeService: TimeService,
         private readonly _toastService: ToastService,
         private readonly _savegamesService: SavegamesService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public saveCharacter(): void {
@@ -77,7 +79,7 @@ export class CharacterSavingService {
     private _prepareCharacterForSaving(character: Character): Partial<Character> {
 
         //Copy the character into a savegame, then go through all its elements and make sure that they have the correct class.
-        const savegame = character.clone(this._itemsDataService.restoreItem);
+        const savegame = character.clone(this._recastService.recastOnlyFns);
 
         const versionString: string = package_json.version;
 

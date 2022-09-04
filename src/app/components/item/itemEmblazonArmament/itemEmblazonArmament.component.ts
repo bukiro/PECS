@@ -11,6 +11,7 @@ import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 
 const emblazonArmament = 'emblazonArmament';
 const emblazonEnergy = 'emblazonEnergy';
@@ -51,6 +52,7 @@ export class ItemEmblazonArmamentComponent implements OnInit {
         private readonly _refreshService: RefreshService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
+        private readonly _activitiesDataService: ActivitiesDataService,
         public trackers: Trackers,
     ) { }
 
@@ -169,7 +171,8 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                     }];
 
                     if (this.item instanceof Shield) {
-                        const newActivityGain: ActivityGain = new ActivityGain();
+                        const newActivityGain: ActivityGain =
+                            new ActivityGain(this._activitiesDataService.activityFromName('Shield Block'));
 
                         newActivityGain.name = 'Shield Block';
                         newActivityGain.source = 'Emblazon Energy';
@@ -242,7 +245,8 @@ export class ItemEmblazonArmamentComponent implements OnInit {
                     }];
 
                     if (this.item instanceof Shield) {
-                        const newActivityGain: ActivityGain = new ActivityGain();
+                        const newActivityGain: ActivityGain =
+                            new ActivityGain(this._activitiesDataService.activityFromName('Shield Block'));
 
                         newActivityGain.name = 'Shield Block';
                         newActivityGain.source = 'Emblazon Antimagic';

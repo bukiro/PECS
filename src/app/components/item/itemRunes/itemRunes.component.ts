@@ -25,6 +25,7 @@ import { ItemsDataService } from 'src/app/core/services/data/items-data.service'
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface RuneItemType {
     armor: boolean;
@@ -96,6 +97,7 @@ export class ItemRunesComponent implements OnInit {
         private readonly _inventoryService: InventoryService,
         private readonly _characterLoreService: CharacterLoreService,
         private readonly _basicEquipmentService: BasicEquipmentService,
+        private readonly _recastService: RecastService,
         public trackers: Trackers,
     ) { }
 
@@ -264,7 +266,7 @@ export class ItemRunesComponent implements OnInit {
             if (rune) {
                 // Add a copy of the rune to the item
                 const newLength =
-                    item.propertyRunes.push(rune.clone(this._itemsDataService.restoreItem));
+                    item.propertyRunes.push(rune.clone(this._recastService.recastOnlyFns));
                 const newRune = item.propertyRunes[newLength - 1];
 
                 newRune.amount = 1;

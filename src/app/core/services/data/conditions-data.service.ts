@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Condition } from 'src/app/classes/Condition';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import * as json_conditions from 'src/assets/json/conditions';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,6 +15,7 @@ export class ConditionsDataService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -65,7 +67,7 @@ export class ConditionsDataService {
         const data = this._extensionsService.extend(json_conditions, 'conditions');
 
         Object.keys(data).forEach(key => {
-            this._conditions.push(...data[key].map(obj => Object.assign(new Condition(), obj).recast()));
+            this._conditions.push(...data[key].map(obj => Object.assign(new Condition(), obj).recast(this._recastService.restoreFns)));
         });
         this._conditions = this._extensionsService.cleanupDuplicates(this._conditions, 'name', 'conditions') as Array<Condition>;
     }

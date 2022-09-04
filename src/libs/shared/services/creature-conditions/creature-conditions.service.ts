@@ -13,6 +13,7 @@ import { SortAlphaNum } from '../../util/sortUtils';
 import { ConditionProcessingService } from '../condition-processing/condition-processing.service';
 import { ConditionEffectsObject } from 'src/app/classes/ConditionEffectsObject';
 import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -27,6 +28,7 @@ export class CreatureConditionsService {
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _conditionProcessingService: ConditionProcessingService,
+        private readonly _recastService: RecastService,
     ) { }
 
     /**
@@ -65,7 +67,7 @@ export class CreatureConditionsService {
         context: { parentItem?: Item; parentConditionGain?: ConditionGain } = {},
         options: { noReload?: boolean } = {},
     ): boolean {
-        const workingGain: ConditionGain = gain.clone();
+        const workingGain: ConditionGain = gain.clone(this._recastService.recastOnlyFns);
         const originalCondition = this._conditionsDataService.conditionFromName(workingGain.name);
 
         if (originalCondition) {
@@ -378,7 +380,7 @@ export class CreatureConditionsService {
         // Remove all conditions that were marked for deletion by setting their value to -1.
         // We clone the list so it isn't affected by the removal.
         // Ignore anything that would stop the condition from being removed (i.e. lockedByParent), or we will get stuck in this loop.
-        const remainingConditions = activeConditions.map(activeCondition => activeCondition.clone());
+        const remainingConditions = activeConditions.map(activeCondition => activeCondition.clone(this._recastService.recastOnlyFns));
 
         remainingConditions.forEach(remainingCondition =>
             this.removeCondition(
@@ -486,7 +488,7 @@ export class CreatureConditionsService {
             });
         //The currentCreatureConditions are cached here for readonly calls.
         this._previousCreatureConditionsState[creatureIndex] =
-            activeConditions.map(gain => gain.clone());
+            activeConditions.map(gain => gain.clone(this._recastService.recastOnlyFns));
     }
 
     /**

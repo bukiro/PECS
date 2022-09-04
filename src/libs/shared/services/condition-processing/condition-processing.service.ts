@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Activity } from 'src/app/classes/Activity';
 import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { CreatureService } from 'src/app/services/character.service';
@@ -13,7 +11,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { Defaults } from '../../definitions/defaults';
-import { ActivityGainPropertiesService } from '../activity-gain-properties/activity-gain-properties.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { EquipmentSpellsService } from '../equipment-spells/equipment-spells.service';
 import { HealthService } from '../health/health.service';
@@ -23,6 +20,7 @@ import { SpellsDataService } from 'src/app/core/services/data/spells-data.servic
 import { SpellProcessingService } from '../spell-processing/spell-processing.service';
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 import { OnceEffectsService } from '../once-effects/once-effects.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -38,13 +36,13 @@ export class ConditionProcessingService {
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
-        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _onceEffectsService: OnceEffectsService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public processCondition(
@@ -67,7 +65,7 @@ export class ConditionProcessingService {
 
         //Copy the condition's ActivityGains to the ConditionGain so we can track its duration, cooldown etc.
         gain.gainActivities = condition.gainActivities
-            .map(activityGain => activityGain.clone());
+            .map(activityGain => activityGain.clone(this._recastService.recastOnlyFns));
 
         //Process adding or removing other conditions.
         if (taken) {
@@ -209,7 +207,7 @@ export class ConditionProcessingService {
                 this._conditionsDataService.conditionFromName(conditionGain.name).endsWithConditions
                     .some(endsWith => endsWith.name === condition.name && (!endsWith.source || gain.source === endsWith.source)),
             )
-            .map(conditionGain => conditionGain.clone())
+            .map(conditionGain => conditionGain.clone(this._recastService.recastOnlyFns))
             .forEach(conditionGain => {
                 areEndsWithConditionsProcessed = true;
                 this._creatureConditionsService.removeCondition(creature, conditionGain, false);
@@ -249,7 +247,7 @@ export class ConditionProcessingService {
             .forEach(extraCondition => {
                 areGainConditionsProcessed = true;
 
-                const addCondition = extraCondition.clone();
+                const addCondition = extraCondition.clone(this._recastService.recastOnlyFns);
 
                 if (!addCondition.heightened) {
                     addCondition.heightened = gain.heightened;
@@ -308,7 +306,8 @@ export class ConditionProcessingService {
                 if (!this._creatureConditionsService.currentCreatureConditions(creature, { name: 'Dead' }).length) {
                     this._creatureConditionsService.addCondition(
                         creature,
-                        Object.assign(new ConditionGain(), { name: 'Dead', source: 'Dying value too high' }).recast(),
+                        Object.assign(new ConditionGain(), { name: 'Dead', source: 'Dying value too high' })
+                            .recast(this._recastService.recastOnlyFns),
                         {},
                         { noReload: true },
                     );
@@ -326,7 +325,8 @@ export class ConditionProcessingService {
                     } else {
                         this._creatureConditionsService.addCondition(
                             creature,
-                            Object.assign(new ConditionGain(), { name: 'Wounded', value: 1, source: 'Recovered from Dying' }).recast(),
+                            Object.assign(new ConditionGain(), { name: 'Wounded', value: 1, source: 'Recovered from Dying' })
+                                .recast(this._recastService.recastOnlyFns),
                             {},
                             { noReload: true },
                         );
@@ -344,7 +344,8 @@ export class ConditionProcessingService {
                     ) {
                         this._creatureConditionsService.addCondition(
                             creature,
-                            Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' }).recast(),
+                            Object.assign(new ConditionGain(), { name: 'Unconscious', source: '0 Hit Points' })
+                                .recast(this._recastService.recastOnlyFns),
                             {},
                             { noReload: true },
                         );
@@ -383,7 +384,7 @@ export class ConditionProcessingService {
             this._creatureActivitiesService.creatureOwnedActivities(creature, Defaults.maxCharacterLevel, true)
                 .filter(activityGain => activityGain.id === gain.sourceGainID && activityGain.active)
                 .forEach(activityGain => {
-                    const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(activityGain);
+                    const activity = activityGain.originalActivity;
 
                     if (activity) {
                         this._activitiesProcessingService.activateActivity(

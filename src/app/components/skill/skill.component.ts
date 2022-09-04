@@ -114,7 +114,7 @@ export class SkillComponent implements OnInit, OnDestroy {
 
     public relatedActivityParameters(): Array<ActivityParameters> {
         return this.relatedActivityGains.map(gain => {
-            const activity = this._activityGainPropertiesService.originalActivity(gain);
+            const activity = gain.originalActivity;
 
             this._activityPropertiesService.cacheMaxCharges(activity, { creature: this._currentCreature });
 

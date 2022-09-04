@@ -217,7 +217,7 @@ export class ActivitiesComponent implements OnInit, OnDestroy {
         };
 
         this._creatureActivitiesService.creatureOwnedActivities(this.currentCreature).forEach(gain => {
-            const activity = this._activityGainPropertyService.originalActivity(gain);
+            const activity = gain.originalActivity;
 
             this._activityPropertiesService.cacheEffectiveCooldown(activity, { creature: this.currentCreature });
 

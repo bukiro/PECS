@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { Activity } from './Activity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class ActivityGain {
     public active = false;
@@ -51,8 +52,26 @@ export class ActivityGain {
      */
     public id = uuidv4();
     public data: Array<{ name: string; value: string }> = [];
+    public $originalActivity?: Activity;
+    constructor(
+        originalActivity: Activity | undefined,
+    ) {
+        this.$originalActivity = originalActivity;
+    }
 
-    public recast(): ActivityGain {
+    public get originalActivity(): Activity {
+        return this.$originalActivity ||
+            Object.assign(
+                new Activity(),
+                {
+                    name: 'Activity not available',
+                    desc: `${ this.name } is not cached. This is an error and should not happen.`,
+                },
+            );
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public recast(recastFns: RecastFns): ActivityGain {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
@@ -60,8 +79,11 @@ export class ActivityGain {
         return this;
     }
 
-    public clone(): ActivityGain {
-        return Object.assign<ActivityGain, ActivityGain>(new ActivityGain(), JSON.parse(JSON.stringify(this))).recast();
+    public clone(recastFns: RecastFns): ActivityGain {
+        return Object.assign<ActivityGain, ActivityGain>(
+            new ActivityGain(this.$originalActivity),
+            JSON.parse(JSON.stringify(this)),
+        ).recast(recastFns);
     }
 
     public isOwnActivity(): this is Activity {

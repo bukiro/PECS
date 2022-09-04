@@ -8,7 +8,7 @@ import { CharacterAncestryChangeService } from '../character-ancestry-change/cha
 import { CharacterBackgroundChangeService } from '../character-background-change/character-background-change.service';
 import { CharacterDeitiesService } from 'src/libs/shared/services/character-deities/character-deities.service';
 import { FeatProcessingService } from '../feat-processing/feat-processing.service';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,7 +22,7 @@ export class CharacterClassChangeService {
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _featProcessingService: FeatProcessingService,
-        private readonly _itemsDataService: ItemsDataService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public changeClass(newClass?: Class): void {
@@ -34,7 +34,7 @@ export class CharacterClassChangeService {
         this._processRemovingOldClass();
 
         if (newClass) {
-            character.class = newClass.clone(this._itemsDataService.restoreItem);
+            character.class = newClass.clone(this._recastService.recastOnlyFns);
 
             this._processNewClass();
         } else {

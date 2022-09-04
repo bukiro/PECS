@@ -7,6 +7,7 @@ import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-c
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -18,6 +19,7 @@ export class AnimalCompanionAncestryService {
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _inventoryService: InventoryService,
         private readonly _typeService: TypeService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public restoreAncestryFromSave(ancestry: AnimalCompanionAncestry): AnimalCompanionAncestry {
@@ -63,7 +65,7 @@ export class AnimalCompanionAncestryService {
         this.processRemovingOldAncestry(companion);
 
         if (type) {
-            companion.class.ancestry = type.clone();
+            companion.class.ancestry = type.clone(this._recastService.recastOnlyFns);
             this.processNewAncestry(companion);
         } else {
             companion.class.ancestry = new AnimalCompanionAncestry();

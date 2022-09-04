@@ -15,7 +15,7 @@ import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { ArmorRune } from './ArmorRune';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export abstract class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -109,15 +109,15 @@ export abstract class Equipment extends Item {
 
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = secondary => secondary.toString();
 
-    public recast(restoreFn: ItemRestoreFn): Equipment {
-        super.recast(restoreFn);
-        this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
+    public recast(recastFns: RecastFns): Equipment {
+        super.recast(recastFns);
+        this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast(recastFns));
         this.activities.forEach(activity => { activity.source = this.id; });
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
-        this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+        this.gainActivities = this.gainActivities.map(obj => recastFns.activityGain(obj).recast(recastFns));
         this.gainActivities.forEach(gain => { gain.source = this.id; });
         this.gainInventory = this.gainInventory.map(obj => Object.assign(new InventoryGain(), obj).recast());
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
         this.gainConditions.forEach(conditionGain => {
             if (!conditionGain.source) {
                 conditionGain.source = this.name;
@@ -140,21 +140,21 @@ export abstract class Equipment extends Item {
         this.material = this.material.map(obj => Object.assign(new Material(), obj).recast());
         this.propertyRunes =
             this.propertyRunes.map(obj =>
-                Object.assign(this.isArmor() ? new ArmorRune() : new WeaponRune(), restoreFn(obj)).recast(restoreFn),
+                Object.assign(this.isArmor() ? new ArmorRune() : new WeaponRune(), recastFns.item(obj)).recast(recastFns),
             );
         this.bladeAllyRunes =
             this.bladeAllyRunes.map(obj =>
-                Object.assign(new WeaponRune(), restoreFn(obj)).recast(restoreFn));
+                Object.assign(new WeaponRune(), recastFns.item(obj)).recast(recastFns));
         this.talismans =
             this.talismans.map(obj =>
                 Object.assign(
                     new Talisman(),
-                    restoreFn(obj),
-                ).recast(restoreFn),
+                    recastFns.item(obj),
+                ).recast(recastFns),
             );
         //Talisman Cords need to be cast blindly to avoid circular dependency warnings.
         this.talismanCords =
-            this.talismanCords.map(obj => restoreFn(obj, { type: 'wornitems' }).recast(restoreFn));
+            this.talismanCords.map(obj => recastFns.item(obj, { type: 'wornitems' }).recast(recastFns));
 
         if (this.choices.length && !this.choices.includes(this.choice)) {
             this.choice = this.choices[0];
@@ -356,5 +356,5 @@ export abstract class Equipment extends Item {
         return [];
     }
 
-    public abstract clone(restoreFn: ItemRestoreFn): Equipment;
+    public abstract clone(recastFns: RecastFns): Equipment;
 }

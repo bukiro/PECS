@@ -16,6 +16,7 @@ import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface TalismanOption {
     talisman: Talisman;
@@ -43,6 +44,7 @@ export class ItemTalismansComponent implements OnInit {
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _inventoryService: InventoryService,
+        private readonly _recastService: RecastService,
         public trackers: Trackers,
     ) { }
 
@@ -151,7 +153,7 @@ export class ItemTalismansComponent implements OnInit {
             //Then add the new Talisman to the item and (unless we are in the item store) remove it from the inventory.
             if (talisman.name !== '') {
                 //Add a copy of Talisman to the item
-                const newLength = item.talismans.push(talisman.clone(this._itemsDataService.restoreItem));
+                const newLength = item.talismans.push(talisman.clone(this._recastService.recastOnlyFns));
                 const newTalisman = item.talismans[newLength - 1];
 
                 newTalisman.amount = 1;

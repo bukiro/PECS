@@ -23,11 +23,11 @@ import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CharacterSavingService } from 'src/libs/shared/saving-loading/services/character-saving/character-saving.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { MessageProcessingService } from 'src/libs/shared/services/message-processing/message-processing.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -62,10 +62,10 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _modalService: NgbModal,
         private readonly _characterSavingService: CharacterSavingService,
         private readonly _durationsService: DurationsService,
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _menuService: MenuService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _messageProcessingService: MessageProcessingService,
+        private readonly _recastService: RecastService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -295,7 +295,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         this.modalOpen = true;
         //Freeze the new messages by cloning them so that the modal doesn't change while it's open.
         this.cachedNewMessages = this.newMessagesFromService()
-            .map(message => message.clone(this._itemsDataService.restoreItem));
+            .map(message => message.clone(this._recastService.recastOnlyFns));
 
         this._modalService
             .open(this._newMessagesModal, { centered: true, ariaLabelledBy: 'modal-title' })

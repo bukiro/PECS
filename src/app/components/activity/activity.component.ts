@@ -189,12 +189,11 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     public activitiesShowingHintsOnThis(
         objectName: string,
-    ): Array<{ gain: ActivityGain | ItemActivity; activity: Activity | ItemActivity }> {
+    ): Array<ActivityGain | ItemActivity> {
         if (objectName) {
             return this._creatureActivitiesService.creatureOwnedActivities(this._currentCreature())
-                .map(gain => ({ gain, activity: this._activityGainPropertyService.originalActivity(gain) }))
-                .filter(set =>
-                    set.activity?.hints
+                .filter(gain =>
+                    gain.originalActivity.hints
                         .some(hint =>
                             hint.showon.split(',')
                                 .some(showon =>
@@ -202,19 +201,18 @@ export class ActivityComponent implements OnInit, OnDestroy {
                                 ),
                         ),
                 )
-                .sort((a, b) => SortAlphaNum(a.activity.name, b.activity.name));
+                .sort((a, b) => SortAlphaNum(a.name, b.name));
         } else {
             return [];
         }
     }
 
-    public fusedStances(): Array<{ gain: ItemActivity | ActivityGain; activity: Activity }> {
+    public fusedStances(): Array<ItemActivity | ActivityGain> {
         const featData = this.character.class.filteredFeatData(0, 0, 'Fuse Stance')[0];
 
         if (featData) {
             return this._creatureActivitiesService.creatureOwnedActivities(this._currentCreature())
-                .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name))
-                .map(gain => ({ gain, activity: this._activityGainPropertyService.originalActivity(gain) }));
+                .filter(gain => featData.valueAsStringArray('stances')?.includes(gain.name));
         } else {
             return [];
         }
@@ -312,15 +310,15 @@ export class ActivityComponent implements OnInit, OnDestroy {
 
     private _onActivateFuseStance(activated: boolean): void {
         this.gain.active = activated;
-        this.fusedStances().forEach(set => {
-            if (set.gain && set.activity && activated !== set.gain.active) {
+        this.fusedStances().forEach(gain => {
+            if (gain && gain.originalActivity && activated !== gain.active) {
                 this._activitiesProcessingService.activateActivity(
-                    set.activity,
+                    gain.originalActivity,
                     activated,
                     {
                         creature: this._currentCreature(),
                         target: CreatureTypes.Character,
-                        gain: set.gain,
+                        gain,
                     },
                 );
             }

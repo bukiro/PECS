@@ -9,7 +9,6 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
 import { SortAlphaNum } from '../../util/sortUtils';
-import { ActivityGainPropertiesService } from '../activity-gain-properties/activity-gain-properties.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 
@@ -19,7 +18,6 @@ import { CreatureEquipmentService } from '../creature-equipment/creature-equipme
 export class CreatureActivitiesService {
 
     constructor(
-        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _traitsDataService: TraitsDataService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
@@ -177,7 +175,7 @@ export class CreatureActivitiesService {
 
         this.creatureOwnedActivities(creature, creature.level, true).filter(activity => activity.active)
             .forEach(gain => {
-                this._activityGainPropertyService.originalActivity(gain)?.hints?.forEach(hint => {
+                gain.originalActivity.hints?.forEach(hint => {
                     hintSets.push({ hint, objectName: gain.name });
                 });
             });

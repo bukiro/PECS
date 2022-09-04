@@ -10,6 +10,7 @@ import { SpellsDataService } from 'src/app/core/services/data/spells-data.servic
 import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { OnceEffectsService } from '../once-effects/once-effects.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +23,7 @@ export class ItemActivationProcessingService {
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _onceEffectsService: OnceEffectsService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public processConsumableActivation(
@@ -41,7 +43,7 @@ export class ItemActivationProcessingService {
 
             //Apply conditions
             item.gainConditions.forEach(gain => {
-                const newConditionGain = Object.assign(new ConditionGain(), gain).recast();
+                const newConditionGain = Object.assign(new ConditionGain(), gain).recast(this._recastService.recastOnlyFns);
 
                 this._creatureConditionsService.addCondition(creature, newConditionGain, {}, { noReload: true });
             });

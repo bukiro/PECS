@@ -12,6 +12,7 @@ import { DurationsService } from 'src/libs/time/services/durations/durations.ser
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface OilSet {
     oil: Oil;
@@ -40,6 +41,7 @@ export class ItemOilsComponent {
         private readonly _durationsService: DurationsService,
         private readonly _inventoryService: InventoryService,
         private readonly _characterLoreService: CharacterLoreService,
+        private readonly _recastService: RecastService,
         public trackers: Trackers,
     ) { }
 
@@ -99,7 +101,7 @@ export class ItemOilsComponent {
     public onSelectOil(): void {
         if (this.newOil.oil.name) {
             const item = this.item;
-            const newLength = item.oilsApplied.push(this.newOil.oil.clone(this._itemsDataService.restoreItem));
+            const newLength = item.oilsApplied.push(this.newOil.oil.clone(this._recastService.recastOnlyFns));
 
             if (this.newOil.inv) {
                 this._inventoryService.dropInventoryItem(this._character, this.newOil.inv, this.newOil.oil, false, false, false, 1);

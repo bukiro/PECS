@@ -6,7 +6,7 @@ import { MaxSpellLevel } from 'src/libs/shared/definitions/spellLevels';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export interface RingOfWizardrySlot {
     tradition: string;
@@ -63,21 +63,21 @@ export class WornItem extends Equipment {
         this.strikingRune = value;
     }
 
-    public recast(restoreFn: ItemRestoreFn): WornItem {
-        super.recast(restoreFn);
+    public recast(recastFns: RecastFns): WornItem {
+        super.recast(recastFns);
         this.aeonStones =
             this.aeonStones.map(obj =>
                 Object.assign(
                     new WornItem(),
-                    restoreFn(obj),
-                ).recast(restoreFn),
+                    recastFns.item(obj),
+                ).recast(recastFns),
             );
         this.propertyRunes =
             this.propertyRunes.map(obj =>
                 Object.assign(
                     new WeaponRune(),
-                    restoreFn(obj),
-                ).recast(restoreFn),
+                    recastFns.item(obj),
+                ).recast(recastFns),
             );
         this.gainLanguages =
             this.gainLanguages.map(obj =>
@@ -124,8 +124,8 @@ export class WornItem extends Equipment {
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): WornItem {
-        return Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
+    public clone(recastFns: RecastFns): WornItem {
+        return Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public isWornItem(): this is WornItem { return true; }

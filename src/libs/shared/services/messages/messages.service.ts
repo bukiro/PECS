@@ -9,9 +9,9 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { Creature } from '../../../../app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { MessageProcessingService } from '../message-processing/message-processing.service';
+import { RecastService } from '../recast/recast.service';
 
 const ignoredMessageTTL = 60;
 
@@ -28,9 +28,9 @@ export class MessagesService {
         private readonly _http: HttpClient,
         private readonly _configService: ConfigService,
         private readonly _toastService: ToastService,
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _refreshService: RefreshService,
         private readonly _messageProcessingService: MessageProcessingService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public newMessages(): Array<PlayerMessage> {
@@ -91,13 +91,14 @@ export class MessagesService {
         const loadedMessages = results;
 
         let newMessages = loadedMessages
-            .map(message => Object.assign(new PlayerMessage(), message).recast(this._itemsDataService.restoreItem));
+            .map(message => Object.assign(new PlayerMessage(), message).recast(this._recastService.restoreFns));
 
         newMessages.forEach(message => {
             //Cut off the time zone.
             message.time = message.time.split('(')[0].trim();
             //Reassign gainCondition.
-            message.gainCondition = message.gainCondition.map(gain => Object.assign(new ConditionGain(), gain).recast());
+            message.gainCondition =
+                message.gainCondition.map(gain => Object.assign(new ConditionGain(), gain).recast(this._recastService.restoreFns));
         });
 
         newMessages.sort((a, b) => {

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { CreatureService } from 'src/app/services/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
@@ -41,7 +40,6 @@ export class HintItemComponent implements OnInit, OnDestroy {
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _itemRolesService: ItemRolesService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
@@ -71,10 +69,6 @@ export class HintItemComponent implements OnInit, OnDestroy {
 
     public traitFromName(name: string): Trait {
         return this._traitsDataService.traitFromName(name);
-    }
-
-    public activityFromName(name: string): Activity {
-        return this._activitiesDataService.activityFromName(name);
     }
 
     public activityCooldown(activity: Activity): number {

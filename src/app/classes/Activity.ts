@@ -6,6 +6,7 @@ import { Hint } from 'src/app/classes/Hint';
 import { SpellTargetNumber } from 'src/app/classes/SpellTargetNumber';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { HeightenedDesc } from 'src/app/classes/HeightenedDesc';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export enum ActivityTargetOptions {
     Companion = 'companion',
@@ -122,10 +123,10 @@ export class Activity {
     //Set displayOnly if the activity should not be used, but displayed for information, e.g. for ammunition
     public displayOnly = false;
 
-    public recast(): Activity {
+    public recast(recastFns: RecastFns): Activity {
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.heightenedDescs = this.heightenedDescs.map(obj => Object.assign(new HeightenedDescSet(), obj).recast());
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
         this.gainConditions.forEach(conditionGain => {
             conditionGain.source = this.name;
         });
@@ -148,8 +149,8 @@ export class Activity {
         return this;
     }
 
-    public clone(): Activity {
-        return Object.assign<Activity, Activity>(new Activity(), JSON.parse(JSON.stringify(this))).recast();
+    public clone(recastFns: RecastFns): Activity {
+        return Object.assign<Activity, Activity>(new Activity(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public activationTraits(): Array<string> {

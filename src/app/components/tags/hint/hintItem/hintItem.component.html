@@ -34,7 +34,7 @@
     <!-- Common activities -->
     <ng-container *ngIf="itemParameters.asGrantingActivities?.gainActivities as gainedActivities">
         <ng-container *ngFor="let gain of gainedActivities; trackBy:trackers.trackByIndex;">
-            <div class="list-item left-aligned" *ngIf="activityFromName(gain.name) as activity">
+            <div class="list-item left-aligned" *ngIf="gain.originalActivity as activity">
                 <header class="spellHeader">
                     {{activity.name}}
                     <app-actionIcons *ngIf="activity.actions" [actionString]="activity.actions">

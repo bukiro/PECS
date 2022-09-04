@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class Snare extends Consumable {
     //Snares should be type "snares" to be found in the database
@@ -11,14 +11,14 @@ export class Snare extends Consumable {
     public tradeable = false;
     public actions = '1 minute';
 
-    public recast(restoreFn: ItemRestoreFn): Snare {
-        super.recast(restoreFn);
+    public recast(recastFns: RecastFns): Snare {
+        super.recast(recastFns);
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): Snare {
-        return Object.assign<Snare, Snare>(new Snare(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
+    public clone(recastFns: RecastFns): Snare {
+        return Object.assign<Snare, Snare>(new Snare(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public isSnare(): this is Snare { return true; }

@@ -21,7 +21,7 @@ import { AdventuringGear } from './AdventuringGear';
 import { AlchemicalBomb } from './AlchemicalBomb';
 import { OtherConsumableBomb } from './OtherConsumableBomb';
 import { Ammunition } from './Ammunition';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export interface TraitActivation {
     trait: string;
@@ -150,10 +150,10 @@ export abstract class Item {
         return this.level.toString().padStart(twoDigits, '0');
     }
 
-    public recast(restoreFn: ItemRestoreFn): Item {
+    public recast(recastFns: RecastFns): Item {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         //Oils need to be cast blindly in order to avoid circular dependency warnings.
-        this.oilsApplied = this.oilsApplied.map(obj => (restoreFn(obj, { type: 'oils' })).recast(restoreFn));
+        this.oilsApplied = this.oilsApplied.map(obj => (recastFns.item(obj, { type: 'oils' })).recast(recastFns));
         this.storedSpells = this.storedSpells.map(obj => Object.assign(new SpellChoice(), obj).recast());
         this.storedSpells.forEach((choice: SpellChoice, index) => {
             choice.source = this.id;
@@ -272,5 +272,5 @@ export abstract class Item {
         return false;
     }
 
-    public abstract clone(restoreFn: ItemRestoreFn): Item;
+    public abstract clone(recastFns: RecastFns): Item;
 }

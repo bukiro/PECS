@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
-import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { Activity } from 'src/app/classes/Activity';
@@ -25,6 +24,7 @@ import { SpellActivityProcessingSharedService } from 'src/libs/shared/services/s
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { MessageSendingService } from '../message-sending/message-sending.service';
 import { OnceEffectsService } from '../once-effects/once-effects.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -35,7 +35,6 @@ export class ActivitiesProcessingService {
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
-        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _conditionsDataService: ConditionsDataService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemGrantingService: ItemGrantingService,
@@ -46,7 +45,7 @@ export class ActivitiesProcessingService {
         private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _onceEffectsService: OnceEffectsService,
-
+        private readonly _recastService: RecastService,
     ) { }
 
     public activateActivity(
@@ -283,7 +282,7 @@ export class ActivitiesProcessingService {
                 context.item instanceof Equipment && context.item.gainActivities
                     .filter(gain => gain.sharedChargesID === context.gain.sharedChargesID)
                     .forEach(gain => {
-                        const originalActivity = this._activityGainPropertyService.originalActivity(gain);
+                        const originalActivity = gain.originalActivity;
 
                         if (originalActivity.name === gain.name) {
                             this._activityPropertiesService.cacheMaxCharges(originalActivity, context);
@@ -369,7 +368,7 @@ export class ActivitiesProcessingService {
             Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length === 1;
 
         conditions.forEach((conditionGain, conditionIndex) => {
-            const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
+            const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast(this._recastService.recastOnlyFns);
             const condition = this._conditionsDataService.conditionFromName(conditionGain.name);
 
             if (
@@ -473,7 +472,7 @@ export class ActivitiesProcessingService {
                         )
                         .forEach((activityGain: ActivityGain) => {
                             this.activateActivity(
-                                this._activitiesDataService.activityFromName(activityGain.name),
+                                activityGain.originalActivity,
                                 false,
                                 {
                                     ...context,

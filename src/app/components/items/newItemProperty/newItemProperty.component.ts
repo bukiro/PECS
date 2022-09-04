@@ -38,6 +38,7 @@ import { ItemPropertiesDataService } from 'src/app/core/services/data/item-prope
 import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { Activity } from 'src/app/classes/Activity';
 
 @Component({
     selector: 'app-newItemProperty',
@@ -242,7 +243,7 @@ export class NewItemPropertyComponent<T extends Item | object> {
                 this.parent()[this.propertyKey][index - 1].source = this.parent().id;
                 break;
             case 'gainActivities':
-                index = this.parent()[this.propertyKey].push(new ActivityGain());
+                index = this.parent()[this.propertyKey].push(new ActivityGain(new Activity()));
                 this.parent()[this.propertyKey][index - 1].source = this.parent().id;
                 break;
             case 'gainItems':

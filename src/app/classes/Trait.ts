@@ -5,6 +5,7 @@ import { EffectGain } from 'src/app/classes/EffectGain';
 import { Effect } from 'src/app/classes/Effect';
 import { ActivityGain } from './ActivityGain';
 import { DiceSizes } from 'src/libs/shared/definitions/diceSizes';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class Trait {
     public desc = '';
@@ -32,16 +33,16 @@ export class Trait {
     public extraActivations = 0;
     public sourceBook = '';
 
-    public recast(): Trait {
-        this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+    public recast(recastFns: RecastFns): Trait {
+        this.gainActivities = this.gainActivities.map(obj => recastFns.activityGain(obj).recast(recastFns));
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.objectEffects = this.objectEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
 
         return this;
     }
 
-    public clone(): Trait {
-        return Object.assign<Trait, Trait>(new Trait(), JSON.parse(JSON.stringify(this))).recast();
+    public clone(recastFns: RecastFns): Trait {
+        return Object.assign<Trait, Trait>(new Trait(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     /**

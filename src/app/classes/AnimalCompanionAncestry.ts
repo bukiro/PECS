@@ -3,6 +3,7 @@ import { AbilityChoice } from 'src/app/classes/AbilityChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Hint } from 'src/app/classes/Hint';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class AnimalCompanionAncestry {
     public abilityChoices: Array<AbilityChoice> = [];
@@ -21,9 +22,9 @@ export class AnimalCompanionAncestry {
     public supportBenefit = '';
     public traits: Array<string> = [];
 
-    public recast(): AnimalCompanionAncestry {
+    public recast(recastFns: RecastFns): AnimalCompanionAncestry {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
-        this.activities = this.activities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+        this.activities = this.activities.map(obj => recastFns.activityGain(obj).recast(recastFns));
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
@@ -31,9 +32,9 @@ export class AnimalCompanionAncestry {
         return this;
     }
 
-    public clone(): AnimalCompanionAncestry {
+    public clone(recastFns: RecastFns): AnimalCompanionAncestry {
         return Object.assign<AnimalCompanionAncestry, AnimalCompanionAncestry>(
             new AnimalCompanionAncestry(), JSON.parse(JSON.stringify(this)),
-        ).recast();
+        ).recast(recastFns);
     }
 }

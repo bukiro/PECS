@@ -2,6 +2,7 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { v4 as uuidv4 } from 'uuid';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class ConditionGain {
     public addValue = 0;
@@ -160,14 +161,14 @@ export class ConditionGain {
         return [TimePeriods.UntilOtherCharactersTurn, TimePeriods.UntilResolvedAndOtherCharactersTurn].includes(this.duration);
     }
 
-    public recast(): ConditionGain {
-        this.gainActivities = this.gainActivities.map(obj => Object.assign(new ActivityGain(), obj).recast());
+    public recast(recastFns: RecastFns): ConditionGain {
+        this.gainActivities = this.gainActivities.map(obj => recastFns.activityGain(obj).recast(recastFns));
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
 
         return this;
     }
 
-    public clone(): ConditionGain {
-        return Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(this))).recast();
+    public clone(recastFns: RecastFns): ConditionGain {
+        return Object.assign<ConditionGain, ConditionGain>(new ConditionGain(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 }

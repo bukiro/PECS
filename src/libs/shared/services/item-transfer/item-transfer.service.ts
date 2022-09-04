@@ -12,6 +12,7 @@ import { ItemBulkService } from '../item-bulk/item-bulk.service';
 import { InventoryItemProcessingService } from '../inventory-item-processing/inventory-item-processing.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -25,6 +26,7 @@ export class ItemTransferService {
         private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
         private readonly _inventoryService: InventoryService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public updateGrantingItemBeforeTransfer(creature: Creature, item: Item): void {
@@ -75,7 +77,7 @@ export class ItemTransferService {
 
                             toPack -= moved;
 
-                            const newItem = invItem.clone(this._itemsDataService.restoreItem);
+                            const newItem = invItem.clone(this._recastService.recastOnlyFns);
 
                             newItem.amount = moved;
                             items.push(newItem);
@@ -94,7 +96,7 @@ export class ItemTransferService {
             inventories.push(
                 ...creature.inventories
                     .filter(inventory => inventory.itemId === item.id)
-                    .map(inventory => inventory.clone(this._itemsDataService.restoreItem)),
+                    .map(inventory => inventory.clone(this._recastService.recastOnlyFns)),
             );
         }
 
@@ -121,7 +123,7 @@ export class ItemTransferService {
                                 if (newInventories.length) {
                                     hasFoundNewInventoriesToCheck = true;
                                     inventories.push(
-                                        ...newInventories.map(inventory => inventory.clone(this._itemsDataService.restoreItem)),
+                                        ...newInventories.map(inventory => inventory.clone(this._recastService.recastOnlyFns)),
                                     );
                                 }
                             });
@@ -234,7 +236,7 @@ export class ItemTransferService {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
                 //Just push it to the new inventory and remove it from the old, but unequip it either way.
                 //The item does need to be copied so we don't just move a reference.
-                const movedItem = item.clone(this._itemsDataService.restoreItem);
+                const movedItem = item.clone(this._recastService.recastOnlyFns);
 
                 const targetTypes = (targetInventory[item.type as keyof ItemCollection] as Array<Item>);
 
@@ -317,7 +319,7 @@ export class ItemTransferService {
                 } else {
                     const targetItems = (targetInventory[includedItem.type as keyof ItemCollection] as Array<Item>);
 
-                    const movedItem = includedItem.clone(this._itemsDataService.restoreItem);
+                    const movedItem = includedItem.clone(this._recastService.recastOnlyFns);
                     const newLength = targetItems.push(movedItem);
                     const newItem = targetItems[newLength - 1];
 

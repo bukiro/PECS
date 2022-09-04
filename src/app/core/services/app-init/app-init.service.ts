@@ -85,8 +85,13 @@ export class AppInitService {
             if (!this._extensionsService.stillLoading && !this._configService.stillLoading) {
                 clearInterval(waitForFileServices);
                 this._statusService.setLoadingStatus('Initializing content');
-                this._abilitiesDataService.initialize();
+
+                // Initialize itemsDataService and activitiesDataService first.
+                // They provide restoration functions for other services.
+                this._itemsDataService.initialize();
                 this._activitiesDataService.initialize();
+
+                this._abilitiesDataService.initialize();
                 this._animalCompanionsDataService.initialize();
                 this._classesDataService.initialize();
                 this._conditionsDataService.initialize();
@@ -98,7 +103,6 @@ export class AppInitService {
                 this._itemMaterialsDataService.initialize();
                 this._itemPropertiesDataService.initialize();
                 this._itemSpecializationsDataService.initialize();
-                this._itemsDataService.initialize();
                 this._skillsDataService.initialize();
                 this._spellsDataService.initialize();
                 this._traitsDataService.initialize();

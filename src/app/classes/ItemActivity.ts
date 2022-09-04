@@ -2,6 +2,7 @@ import { Activity, ActivityTargetOptions } from 'src/app/classes/Activity';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { v4 as uuidv4 } from 'uuid';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 /**
  * ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.
@@ -63,16 +64,19 @@ export class ItemActivity extends Activity {
     //Condition gains save this id so they can be found and removed when the activity ends, or end the activity when the condition ends.
     public id = uuidv4();
     public data: Array<{ name: string; value: string }> = [];
+    public get originalActivity(): Activity {
+        return this;
+    }
 
-    public recast(): ItemActivity {
-        super.recast();
+    public recast(recastFns: RecastFns): ItemActivity {
+        super.recast(recastFns);
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
 
         return this;
     }
 
-    public clone(): ItemActivity {
-        return Object.assign<ItemActivity, ItemActivity>(new ItemActivity(), JSON.parse(JSON.stringify(this))).recast();
+    public clone(recastFns: RecastFns): ItemActivity {
+        return Object.assign<ItemActivity, ItemActivity>(new ItemActivity(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public isOwnActivity(): this is Activity {

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Class } from 'src/app/classes/Class';
 import * as json_classes from 'src/assets/json/classes';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { ItemsDataService } from './items-data.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,8 +15,8 @@ export class ClassesDataService {
     private readonly _classesMap = new Map<string, Class>();
 
     constructor(
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _extensionsService: ExtensionsService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -61,7 +61,7 @@ export class ClassesDataService {
 
         Object.keys(data).forEach(key => {
             this._classes.push(
-                ...data[key].map(obj => Object.assign(new Class(), obj).recast(this._itemsDataService.restoreItem)),
+                ...data[key].map(obj => Object.assign(new Class(), obj).recast(this._recastService.restoreFns)),
             );
         });
         this._classes = this._extensionsService.cleanupDuplicates(this._classes, 'name', 'classes') as Array<Class>;

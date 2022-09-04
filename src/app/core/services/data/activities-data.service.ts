@@ -9,6 +9,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { Armor } from 'src/app/classes/Armor';
 import { Rune } from 'src/app/classes/Rune';
 import * as json_activities from 'src/assets/json/activities';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +22,7 @@ export class ActivitiesDataService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -86,6 +88,7 @@ export class ActivitiesDataService {
     }
 
     public initialize(): void {
+        this._registerRestoreFn();
         this._loadActivities();
         this._activities.forEach(activity => {
             this._activitiesMap.set(activity.name.toLowerCase(), activity);
@@ -113,13 +116,23 @@ export class ActivitiesDataService {
         );
     }
 
+    private _registerRestoreFn(): void {
+        const activityGainRestoreFn =
+            (obj: ActivityGain): ActivityGain => Object.assign(new ActivityGain(this.activityFromName(obj.name)), obj);
+
+        const activityGainRecastFn =
+            (obj: ActivityGain): ActivityGain => Object.assign(new ActivityGain(obj.originalActivity), obj);
+
+        this._recastService.registerActivityGainrecastFns(activityGainRestoreFn, activityGainRecastFn);
+    }
+
     private _loadActivities(): void {
         this._activities = [];
 
         const data = this._extensionsService.extend(json_activities, 'activities');
 
         Object.keys(data).forEach(key => {
-            this._activities.push(...data[key].map(obj => Object.assign(new Activity(), obj).recast()));
+            this._activities.push(...data[key].map(obj => Object.assign(new Activity(), obj).recast(this._recastService.restoreFns)));
         });
         this._activities = this._extensionsService.cleanupDuplicates(this._activities, 'name', 'activities') as Array<Activity>;
     }

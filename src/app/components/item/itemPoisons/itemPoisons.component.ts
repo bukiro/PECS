@@ -9,6 +9,7 @@ import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface PoisonSet {
     poison: AlchemicalPoison;
@@ -35,6 +36,7 @@ export class ItemPoisonsComponent {
         private readonly _refreshService: RefreshService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryService: InventoryService,
+        private readonly _recastService: RecastService,
         public trackers: Trackers,
     ) { }
 
@@ -71,7 +73,7 @@ export class ItemPoisonsComponent {
             const item = this.item;
 
             item.poisonsApplied.length = 0;
-            item.poisonsApplied.push(this.newPoison.poison.clone(this._itemsDataService.restoreItem));
+            item.poisonsApplied.push(this.newPoison.poison.clone(this._recastService.recastOnlyFns));
 
             if (this.newPoison.inv) {
                 this._inventoryService.dropInventoryItem(

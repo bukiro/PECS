@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class AlchemicalPoison extends Consumable {
     //Alchemical Poisons should be type "alchemicalpoisons" to be found in the database
@@ -11,16 +11,16 @@ export class AlchemicalPoison extends Consumable {
      */
     public stages: Array<string> = [];
 
-    public recast(restoreFn: ItemRestoreFn): AlchemicalPoison {
-        super.recast(restoreFn);
+    public recast(recastFns: RecastFns): AlchemicalPoison {
+        super.recast(recastFns);
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): AlchemicalPoison {
+    public clone(recastFns: RecastFns): AlchemicalPoison {
         return Object.assign<AlchemicalPoison, AlchemicalPoison>(
             new AlchemicalPoison(), JSON.parse(JSON.stringify(this)),
-        ).recast(restoreFn);
+        ).recast(recastFns);
     }
 
     public isAlchemicalPoison(): this is AlchemicalPoison { return true; }

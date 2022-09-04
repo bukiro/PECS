@@ -51,6 +51,7 @@ import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/
 import { CurrencyService } from 'src/libs/shared/services/currency/currency.service';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 const itemsPerPage = 40;
 const scrollSavantMaxLevelDifference = 2;
@@ -120,6 +121,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _currencyService: CurrencyService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _recastService: RecastService,
         public trackers: Trackers,
     ) { }
 
@@ -499,6 +501,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
                 }
             }
 
+            // Completely restore the item in order to restore any data that
+            // doesn't match up anymore after you arbitrarily change attributes.
+            this.newItem.recast(this._recastService.restoreFns);
             this.grantItem(creature, this.newItem);
         }
     }

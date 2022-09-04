@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class PlayerMessage {
     public id = uuidv4();
@@ -40,17 +40,17 @@ export class PlayerMessage {
     public turnChange = false;
     public ttl = Defaults.playerMessageTTL;
 
-    public recast(restoreFn: ItemRestoreFn): PlayerMessage {
-        this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast());
-        this.offeredItem = this.offeredItem.map(obj => restoreFn(obj, { skipMerge: true }).recast(restoreFn));
-        this.includedItems = this.includedItems.map(obj => restoreFn(obj, { skipMerge: true }).recast(restoreFn));
+    public recast(recastFns: RecastFns): PlayerMessage {
+        this.gainCondition = this.gainCondition.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
+        this.offeredItem = this.offeredItem.map(obj => recastFns.item(obj).recast(recastFns));
+        this.includedItems = this.includedItems.map(obj => recastFns.item(obj).recast(recastFns));
         this.includedInventories =
-            this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(restoreFn));
+            this.includedInventories.map(obj => Object.assign(new ItemCollection(), obj).recast(recastFns));
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): PlayerMessage {
-        return Object.assign<PlayerMessage, PlayerMessage>(new PlayerMessage(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
+    public clone(recastFns: RecastFns): PlayerMessage {
+        return Object.assign<PlayerMessage, PlayerMessage>(new PlayerMessage(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 }

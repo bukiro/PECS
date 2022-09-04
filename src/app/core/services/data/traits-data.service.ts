@@ -3,6 +3,7 @@ import { Trait } from 'src/app/classes/Trait';
 import * as json_traits from 'src/assets/json/traits';
 import { Creature } from 'src/app/classes/Creature';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,6 +16,7 @@ export class TraitsDataService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -100,7 +102,7 @@ export class TraitsDataService {
         const data = this._extensionsService.extend(json_traits, 'traits');
 
         Object.keys(data).forEach(key => {
-            this._traits.push(...data[key].map(obj => Object.assign(new Trait(), obj).recast()));
+            this._traits.push(...data[key].map(obj => Object.assign(new Trait(), obj).recast(this._recastService.restoreFns)));
         });
         this._traits = this._extensionsService.cleanupDuplicates(this._traits, 'name', 'traits') as Array<Trait>;
     }

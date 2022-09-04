@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import * as json_abilities from 'src/assets/json/familiarabilities';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +14,7 @@ export class FamiliarsDataService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -58,7 +60,7 @@ export class FamiliarsDataService {
         const data = this._extensionsService.extend(json_abilities, 'familiarAbilities');
 
         Object.keys(data).forEach(key => {
-            this._familiarAbilities.push(...data[key].map(obj => Object.assign(new Feat(), obj).recast()));
+            this._familiarAbilities.push(...data[key].map(obj => Object.assign(new Feat(), obj).recast(this._recastService.restoreFns)));
         });
         this._familiarAbilities =
             this._extensionsService.cleanupDuplicates(this._familiarAbilities, 'name', 'familiar abilities') as Array<Feat>;

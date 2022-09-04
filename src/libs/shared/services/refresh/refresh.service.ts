@@ -9,7 +9,6 @@ import { Item } from 'src/app/classes/Item';
 import { Rune } from 'src/app/classes/Rune';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CharacterLanguagesService } from '../character-languages/character-languages.service';
 
@@ -33,7 +32,6 @@ export class RefreshService {
 
     constructor(
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _characterLanguagesService: CharacterLanguagesService,
 
@@ -465,7 +463,7 @@ export class RefreshService {
         if (item.gainActivities?.length) {
             this.prepareDetailToChange(creature.type, 'activities');
             item.gainActivities.forEach(gain => {
-                this._activityGainPropertyService.originalActivity(gain)?.showonSkill?.split(',').forEach(skillName => {
+                gain.originalActivity.showonSkill?.split(',').forEach(skillName => {
                     this.prepareDetailToChange(creature.type, 'skills');
                     this.prepareDetailToChange(creature.type, 'individualskills', skillName.trim());
                 });

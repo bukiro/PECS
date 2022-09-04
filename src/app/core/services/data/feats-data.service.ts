@@ -10,6 +10,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { ItemsDataService } from './items-data.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -25,6 +26,7 @@ export class FeatsDataService {
         private readonly _extensionsService: ExtensionsService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _historyDataService: HistoryDataService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -98,7 +100,8 @@ export class FeatsDataService {
 
                 featString = featString.replace(regex, weapon.name);
 
-                const newFeat = Object.assign<Feat, Partial<Feat>>(new Feat(), JSON.parse(featString)).recast();
+                const newFeat =
+                    Object.assign<Feat, Partial<Feat>>(new Feat(), JSON.parse(featString)).recast(this._recastService.recastOnlyFns);
 
                 newFeat.hide = false;
                 newFeat.weaponfeatbase = false;

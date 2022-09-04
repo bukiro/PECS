@@ -7,7 +7,7 @@ import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficien
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 interface EmblazonArmamentSet {
     type: string;
@@ -91,17 +91,17 @@ export class Weapon extends Equipment {
         this.strikingRune = value;
     }
 
-    public recast(restoreFn: ItemRestoreFn): Weapon {
-        super.recast(restoreFn);
-        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign(new AlchemicalPoison(), restoreFn(obj)).recast(restoreFn));
+    public recast(recastFns: RecastFns): Weapon {
+        super.recast(recastFns);
+        this.poisonsApplied = this.poisonsApplied.map(obj => Object.assign(new AlchemicalPoison(), recastFns.item(obj)).recast(recastFns));
         this.material = this.material.map(obj => Object.assign(new WeaponMaterial(), obj).recast());
-        this.propertyRunes = this.propertyRunes.map(obj => Object.assign(new WeaponRune(), restoreFn(obj)).recast(restoreFn));
+        this.propertyRunes = this.propertyRunes.map(obj => Object.assign(new WeaponRune(), recastFns.item(obj)).recast(recastFns));
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): Weapon {
-        return Object.assign<Weapon, Weapon>(new Weapon(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
+    public clone(recastFns: RecastFns): Weapon {
+        return Object.assign<Weapon, Weapon>(new Weapon(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public isWeapon(): this is Weapon { return true; }

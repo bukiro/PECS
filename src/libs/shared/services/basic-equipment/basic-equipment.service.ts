@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Armor } from 'src/app/classes/Armor';
 import { Creature } from 'src/app/classes/Creature';
 import { Weapon } from 'src/app/classes/Weapon';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 import { InventoryService } from '../inventory/inventory.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,9 +14,9 @@ export class BasicEquipmentService {
     private _basicItems: { weapon: Weapon; armor: Armor } = { weapon: new Weapon(), armor: new Armor() };
 
     constructor(
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryService: InventoryService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public get fist(): Weapon {
@@ -83,16 +83,8 @@ export class BasicEquipmentService {
     }
 
     public setBasicItems(weapon: Weapon, armor: Armor): void {
-        const newBasicWeapon: Weapon =
-            Object.assign(
-                new Weapon(),
-                weapon,
-            ).recast(this._itemsDataService.restoreItem);
-        const newBasicArmor: Armor =
-            Object.assign(
-                new Armor(),
-                armor,
-            ).recast(this._itemsDataService.restoreItem);
+        const newBasicWeapon: Weapon = weapon.clone(this._recastService.recastOnlyFns);
+        const newBasicArmor: Armor = armor.clone(this._recastService.recastOnlyFns);
 
         this._basicItems = { weapon: newBasicWeapon, armor: newBasicArmor };
     }

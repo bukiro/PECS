@@ -1,7 +1,7 @@
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Item } from 'src/app/classes/Item';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export abstract class Consumable extends Item {
     //Allow changing of "equippable" by custom item creation.
@@ -25,9 +25,9 @@ export abstract class Consumable extends Item {
      */
     public stack = 1;
 
-    public recast(restoreFn: ItemRestoreFn): Consumable {
-        super.recast(restoreFn);
-        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast());
+    public recast(recastFns: RecastFns): Consumable {
+        super.recast(recastFns);
+        this.gainConditions = this.gainConditions.map(obj => Object.assign(new ConditionGain(), obj).recast(recastFns));
         this.onceEffects = this.onceEffects.map(obj => Object.assign(new EffectGain(), obj).recast());
 
         return this;
@@ -35,5 +35,5 @@ export abstract class Consumable extends Item {
 
     public isConsumable(): this is Consumable { return true; }
 
-    public abstract clone(restoreFn: ItemRestoreFn): Consumable;
+    public abstract clone(recastFns: RecastFns): Consumable;
 }

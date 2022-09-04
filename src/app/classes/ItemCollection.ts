@@ -26,7 +26,7 @@ import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Wand } from 'src/app/classes/Wand';
 import { Rune } from 'src/app/classes/Rune';
 import { MaterialItem } from './MaterialItem';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class ItemCollection {
     //This is the amount of bulk that can be ignored when weighing this inventory.
@@ -88,133 +88,130 @@ export class ItemCollection {
         public bulkLimit: number = 0,
     ) { }
 
-    //TO-DO: See if items still need to be cast blindly after refactoring.
-    public recast(restoreFn: ItemRestoreFn): ItemCollection {
+    public recast(recastFns: RecastFns): ItemCollection {
         this.adventuringgear =
-            this.adventuringgear.map(obj => Object.assign<AdventuringGear, Item>(
+            this.adventuringgear.map(obj => Object.assign<AdventuringGear, AdventuringGear>(
                 new AdventuringGear(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.alchemicalbombs =
-            this.alchemicalbombs.map(obj => Object.assign<AlchemicalBomb, Item>(
+            this.alchemicalbombs.map(obj => Object.assign<AlchemicalBomb, AlchemicalBomb>(
                 new AlchemicalBomb(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.alchemicalelixirs =
-            this.alchemicalelixirs.map(obj => Object.assign<AlchemicalElixir, Item>(
+            this.alchemicalelixirs.map(obj => Object.assign<AlchemicalElixir, AlchemicalElixir>(
                 new AlchemicalElixir(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.alchemicalpoisons =
-            this.alchemicalpoisons.map(obj => Object.assign<AlchemicalPoison, Item>(
+            this.alchemicalpoisons.map(obj => Object.assign<AlchemicalPoison, AlchemicalPoison>(
                 new AlchemicalPoison(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.alchemicaltools =
-            this.alchemicaltools.map(obj => Object.assign<AlchemicalTool, Item>(
+            this.alchemicaltools.map(obj => Object.assign<AlchemicalTool, AlchemicalTool>(
                 new AlchemicalTool(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.ammunition =
-            this.ammunition.map(obj => Object.assign<Ammunition, Item>(
+            this.ammunition.map(obj => Object.assign<Ammunition, Ammunition>(
                 new Ammunition(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.armorrunes =
-            this.armorrunes.map(obj => Object.assign<ArmorRune, Item>(
+            this.armorrunes.map(obj => Object.assign<ArmorRune, ArmorRune>(
                 new ArmorRune(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.armors =
-            this.armors.map(obj => Object.assign<Armor, Item>(
+            this.armors.map(obj => Object.assign<Armor, Armor>(
                 new Armor(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.helditems =
-            this.helditems.map(obj => Object.assign<HeldItem, Item>(
+            this.helditems.map(obj => Object.assign<HeldItem, HeldItem>(
                 new HeldItem(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.materialitems =
-            this.materialitems.map(obj => Object.assign<MaterialItem, Item>(
+            this.materialitems.map(obj => Object.assign<MaterialItem, MaterialItem>(
                 new MaterialItem(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.oils =
-            this.oils.map(obj => Object.assign<Oil, Item>(
+            this.oils.map(obj => Object.assign<Oil, Oil>(
                 new Oil(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.otherconsumables =
-            this.otherconsumables.map(obj => Object.assign<OtherConsumable, Item>(
+            this.otherconsumables.map(obj => Object.assign<OtherConsumable, OtherConsumable>(
                 new OtherConsumable(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.otherconsumablesbombs =
-            this.otherconsumablesbombs.map(obj => Object.assign<OtherConsumableBomb, Item>(
+            this.otherconsumablesbombs.map(obj => Object.assign<OtherConsumableBomb, OtherConsumableBomb>(
                 new OtherConsumableBomb(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.otheritems =
             this.otheritems.map(obj => Object.assign<OtherItem, Partial<OtherItem>>(
                 new OtherItem(),
                 obj,
             ).recast());
         this.potions =
-            this.potions.map(obj => Object.assign<Potion, Item>(
+            this.potions.map(obj => Object.assign<Potion, Potion>(
                 new Potion(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.scrolls =
-            this.scrolls.map(obj => Object.assign<Scroll, Item>(
+            this.scrolls.map(obj => Object.assign<Scroll, Scroll>(
                 new Scroll(),
-                restoreFn(obj),
-            ).recast(restoreFn));
-        //Shields need to be cast blindly to avoid circular dependency warnings.
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.shields =
-            this.shields.map(obj => Object.assign<Shield, Item>(
+            this.shields.map(obj => Object.assign<Shield, Shield>(
                 new Shield(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.snares =
-            this.snares.map(obj => Object.assign<Snare, Item>(
+            this.snares.map(obj => Object.assign<Snare, Snare>(
                 new Snare(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.talismans =
-            this.talismans.map(obj => Object.assign<Talisman, Item>(
+            this.talismans.map(obj => Object.assign<Talisman, Talisman>(
                 new Talisman(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.wands =
-            this.wands.map(obj => Object.assign<Wand, Item>(
+            this.wands.map(obj => Object.assign<Wand, Wand>(
                 new Wand(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.weaponrunes =
-            this.weaponrunes.map(obj => Object.assign<WeaponRune, Item>(
+            this.weaponrunes.map(obj => Object.assign<WeaponRune, WeaponRune>(
                 new WeaponRune(),
-                restoreFn(obj),
-            ).recast(restoreFn));
-        //Weapons need to be cast blindly to avoid circular dependency warnings.
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.weapons =
-            this.weapons.map(obj => Object.assign<Weapon, Item>(
+            this.weapons.map(obj => Object.assign<Weapon, Weapon>(
                 new Weapon(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
         this.wornitems =
-            this.wornitems.map(obj => Object.assign<WornItem, Item>(
+            this.wornitems.map(obj => Object.assign<WornItem, WornItem>(
                 new WornItem(),
-                restoreFn(obj),
-            ).recast(restoreFn));
+                recastFns.item(obj),
+            ).recast(recastFns));
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): ItemCollection {
+    public clone(recastFns: RecastFns): ItemCollection {
         return Object.assign<ItemCollection, ItemCollection>(
             new ItemCollection(), JSON.parse(JSON.stringify(this)),
-        ).recast(restoreFn);
+        ).recast(recastFns);
     }
 
     public allEquipment(): Array<Equipment> {

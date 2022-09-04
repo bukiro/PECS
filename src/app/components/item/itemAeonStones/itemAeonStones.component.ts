@@ -10,6 +10,7 @@ import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-p
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface AeonStoneSet {
     aeonStone: WornItem;
@@ -37,6 +38,7 @@ export class ItemAeonStonesComponent implements OnInit {
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
         private readonly _durationsService: DurationsService,
         private readonly _inventoryService: InventoryService,
+        private readonly _recastService: RecastService,
         public trackers: Trackers,
     ) { }
 
@@ -126,7 +128,7 @@ export class ItemAeonStonesComponent implements OnInit {
                 //Add a copy of the stone to the item
                 const newLength =
                     item.aeonStones.push(
-                        stone.clone(this._itemsDataService.restoreItem),
+                        stone.clone(this._recastService.recastOnlyFns),
                     );
                 const newStone = item.aeonStones[newLength - 1];
 

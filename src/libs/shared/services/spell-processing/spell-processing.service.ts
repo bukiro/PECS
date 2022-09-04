@@ -18,6 +18,7 @@ import { SpellTargetService } from '../spell-target/spell-target.service';
 import { SpellActivityProcessingSharedService } from '../spell-activity-processing-shared/spell-activity-processing-shared.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { MessageSendingService } from '../message-sending/message-sending.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -33,6 +34,7 @@ export class SpellProcessingService {
         private readonly _spellTargetService: SpellTargetService,
         private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
         private readonly _messageSendingService: MessageSendingService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public processSpell(
@@ -195,7 +197,7 @@ export class SpellProcessingService {
             Array.from(new Set(conditions.map(conditionGain => conditionGain.name))).length === 1;
 
         conditions.forEach((conditionGain, conditionIndex) => {
-            const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast();
+            const newConditionGain = Object.assign(new ConditionGain(), conditionGain).recast(this._recastService.restoreFns);
             const condition = this._conditionsDataService.conditionFromName(conditionGain.name);
 
             //Under certain circumstances, don't grant a condition.

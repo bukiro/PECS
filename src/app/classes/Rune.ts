@@ -3,7 +3,7 @@ import { Item } from 'src/app/classes/Item';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { Hint } from 'src/app/classes/Hint';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export abstract class Rune extends Item {
     public activities: Array<ItemActivity> = [];
@@ -30,9 +30,9 @@ export abstract class Rune extends Item {
 
     public hasHints(): this is Rune { return true; }
 
-    public recast(restoreFn: ItemRestoreFn): Rune {
-        super.recast(restoreFn);
-        this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast());
+    public recast(recastFns: RecastFns): Rune {
+        super.recast(recastFns);
+        this.activities = this.activities.map(obj => Object.assign(new ItemActivity(), obj).recast(recastFns));
         this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
         this.loreChoices = this.loreChoices.map(obj => Object.assign(new LoreChoice(), obj).recast());
 
@@ -49,5 +49,5 @@ export abstract class Rune extends Item {
         );
     }
 
-    public abstract clone(restoreFn: ItemRestoreFn): Rune;
+    public abstract clone(recastFns: RecastFns): Rune;
 }

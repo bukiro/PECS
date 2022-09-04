@@ -14,6 +14,7 @@ import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface RuneSet {
     rune: WeaponRune;
@@ -38,6 +39,7 @@ export class ItemBladeAllyComponent implements OnInit {
         private readonly _itemsDataService: ItemsDataService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _basicEquipemntService: BasicEquipmentService,
+        private readonly _recastService: RecastService,
         public trackers: Trackers,
     ) { }
 
@@ -155,7 +157,7 @@ export class ItemBladeAllyComponent implements OnInit {
             //Then add the new rune to the item.
             if (rune.name !== '') {
                 //Add a copy of the rune to the item
-                weapon.bladeAllyRunes[0] = rune.clone(this._itemsDataService.restoreItem);
+                weapon.bladeAllyRunes[0] = rune.clone(this._recastService.recastOnlyFns);
                 weapon.bladeAllyRunes[0].amount = 1;
             }
         }

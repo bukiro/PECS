@@ -14,6 +14,7 @@ import { CharacterSkillIncreaseService } from '../character-skill-increase/chara
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -28,6 +29,7 @@ export class CharacterHeritageChangeService {
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _featsDataService: FeatsDataService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public changeHeritage(heritage?: Heritage, index = -1): void {
@@ -125,7 +127,7 @@ export class CharacterHeritageChangeService {
                 if (oldGain) {
                     if (oldGain.active) {
                         this._activitiesProcessingService.activateActivity(
-                            this._activitiesDataService.activityFromName(oldGain.name),
+                            oldGain.originalActivity,
                             false,
                             { creature: character, gain: oldGain },
                         );
@@ -221,7 +223,10 @@ export class CharacterHeritageChangeService {
 
             heritage.gainActivities.forEach((gainActivity: string) => {
                 characterClass.gainActivity(
-                    Object.assign(new ActivityGain(), { name: gainActivity, source: heritage.name }).recast(),
+                    Object.assign(
+                        new ActivityGain(this._activitiesDataService.activityFromName(gainActivity)),
+                        { name: gainActivity, source: heritage.name },
+                    ).recast(this._recastService.recastOnlyFns),
                     1,
                 );
 

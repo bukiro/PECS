@@ -546,7 +546,7 @@ export class FeatProcessingService {
                     if (feat.name === 'Trickster\'s Ace') {
                         character.class.gainActivity(
                             Object.assign(
-                                new ActivityGain(),
+                                new ActivityGain(this._activitiesDataService.activityFromName(gainActivity)),
                                 //TO-DO: Does this trigger show in the activity at all?
                                 { name: gainActivity, source: feat.name, data: [{ name: 'Trigger', value: '' }] },
                             ),
@@ -554,7 +554,8 @@ export class FeatProcessingService {
                     } else {
                         character.class.gainActivity(
                             Object.assign(
-                                new ActivityGain(),
+                                new ActivityGain(this._activitiesDataService.activityFromName(gainActivity)),
+                                //TO-DO: Does this trigger show in the activity at all?
                                 { name: gainActivity, source: feat.name },
                             ),
                             context.level.number);

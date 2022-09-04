@@ -150,11 +150,9 @@ export class SkillsComponent implements OnInit, OnDestroy {
         }
 
         activities
-            .map(activity => this._activityGainPropertiesService.originalActivity(activity))
-            .filter(originalActivity => !!originalActivity)
-            .forEach(originalActivity => {
+            .forEach(gain => {
                 // Calculate the current cooldown for each activity, which is stored in a temporary variable.
-                this._activityPropertiesService.cacheEffectiveCooldown(originalActivity, { creature: this._currentCreature });
+                this._activityPropertiesService.cacheEffectiveCooldown(gain.originalActivity, { creature: this._currentCreature });
             });
 
         return activities;
@@ -162,8 +160,8 @@ export class SkillsComponent implements OnInit, OnDestroy {
 
     public skillMatchingActivities(activities: Array<ActivityGain | ItemActivity>, skillName: string): Array<ActivityGain | ItemActivity> {
         //Filter activities whose showonSkill or whose original activity's showonSkill includes this skill's name.
-        return activities.filter(activity =>
-            (this._activityGainPropertiesService.originalActivity(activity)?.showonSkill || '')
+        return activities.filter(gain =>
+            (gain.originalActivity.showonSkill || '')
                 .toLowerCase().includes(skillName.toLowerCase()),
         );
     }

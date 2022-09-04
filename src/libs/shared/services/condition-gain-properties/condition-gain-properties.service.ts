@@ -9,6 +9,7 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
+import { RecastService } from '../recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -21,6 +22,7 @@ export class ConditionGainPropertiesService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public changeConditionChoice(
@@ -59,7 +61,7 @@ export class ConditionGainPropertiesService {
                 condition.gainConditions
                     .filter(extraCondition => extraCondition.conditionChoiceFilter.includes(oldChoice))
                     .forEach(extraCondition => {
-                        const conditionToAdd = extraCondition.clone();
+                        const conditionToAdd = extraCondition.clone(this._recastService.recastOnlyFns);
 
                         conditionToAdd.source = gain.name;
 
@@ -84,7 +86,7 @@ export class ConditionGainPropertiesService {
                     .forEach(extraCondition => {
                         didConditionDoAnything = true;
 
-                        const conditionToAdd = extraCondition.clone();
+                        const conditionToAdd = extraCondition.clone(this._recastService.recastOnlyFns);
 
                         if (!conditionToAdd.heightened) {
                             conditionToAdd.heightened = gain.heightened;

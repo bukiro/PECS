@@ -1,6 +1,6 @@
 import { Equipment } from 'src/app/classes/Equipment';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 enum ShoddyPenalties {
     NotShoddy = 0,
@@ -51,15 +51,15 @@ export class Shield extends Equipment {
     /** Shoddy shields take a -2 penalty to AC. */
     public $shoddy: ShoddyPenalties.NotShoddy | ShoddyPenalties.Shoddy = ShoddyPenalties.NotShoddy;
 
-    public recast(restoreFn: ItemRestoreFn): Shield {
-        super.recast(restoreFn);
+    public recast(recastFns: RecastFns): Shield {
+        super.recast(recastFns);
         this.material = this.material.map(obj => Object.assign(new ShieldMaterial(), obj).recast());
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): Shield {
-        return Object.assign<Shield, Shield>(new Shield(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
+    public clone(recastFns: RecastFns): Shield {
+        return Object.assign<Shield, Shield>(new Shield(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public isShield(): this is Shield { return true; }

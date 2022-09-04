@@ -12,8 +12,8 @@ import { Character } from 'src/app/classes/Character';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 interface TalismanCordSet {
     talismanCord: WornItem;
@@ -36,8 +36,8 @@ export class ItemTalismanCordsComponent implements OnInit {
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _inventoryPropertiesService: InventoryPropertiesService,
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _inventoryService: InventoryService,
+        private readonly _recastService: RecastService,
         public trackers: Trackers,
     ) { }
 
@@ -108,7 +108,7 @@ export class ItemTalismanCordsComponent implements OnInit {
             // Then add the new Talisman Cord to the item and (unless we are in the item store) remove it from the inventory.
             if (cord.name !== '') {
                 //Add a copy of the cord to the item
-                const newLength = item.talismanCords.push(cord.clone(this._itemsDataService.restoreItem));
+                const newLength = item.talismanCords.push(cord.clone(this._recastService.recastOnlyFns));
                 const newCord = item.talismanCords[newLength - 1];
 
                 newCord.amount = 1;

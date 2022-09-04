@@ -13,7 +13,7 @@ import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { Weapon } from './Weapon';
-import { ItemRestoreFn } from 'src/libs/shared/definitions/Types/itemRestoreFn';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
 
 export class Character extends Creature {
     public readonly type = CreatureTypes.Character;
@@ -37,17 +37,17 @@ export class Character extends Creature {
     public yourTurn = 0;
     public get requiresConForHP(): boolean { return true; }
 
-    public recast(restoreFn: ItemRestoreFn): Character {
-        super.recast(restoreFn);
-        this.class = Object.assign(new Class(), this.class).recast(restoreFn);
-        this.customFeats = this.customFeats.map(obj => Object.assign(new Feat(), obj).recast());
+    public recast(recastFns: RecastFns): Character {
+        super.recast(recastFns);
+        this.class = Object.assign(new Class(), this.class).recast(recastFns);
+        this.customFeats = this.customFeats.map(obj => Object.assign(new Feat(), obj).recast(recastFns));
         this.settings = Object.assign(new Settings(), this.settings);
 
         return this;
     }
 
-    public clone(restoreFn: ItemRestoreFn): Character {
-        return Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this))).recast(restoreFn);
+    public clone(recastFns: RecastFns): Character {
+        return Object.assign<Character, Character>(new Character(), JSON.parse(JSON.stringify(this))).recast(recastFns);
     }
 
     public isCharacter(): this is Character {

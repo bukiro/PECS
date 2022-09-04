@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FeatTakingService } from 'src/app/character-creation/services/feat-taking/feat-taking.service';
-import { Familiar } from 'src/app/classes/Familiar';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { CreatureService } from 'src/app/services/character.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { RefreshService } from '../refresh/refresh.service';
@@ -12,7 +10,6 @@ import { RefreshService } from '../refresh/refresh.service';
 export class FamiliarService {
 
     constructor(
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _refreshService: RefreshService,
         private readonly _featTakingService: FeatTakingService,
     ) { }
@@ -21,7 +18,6 @@ export class FamiliarService {
         const character = CreatureService.character;
 
         if (character.class.familiar) {
-            character.class.familiar = Object.assign(new Familiar(), character.class.familiar).recast(this._itemsDataService.restoreItem);
             this._refreshService.prepareDetailToChange(CreatureTypes.Familiar, 'all');
         }
     }
