@@ -230,7 +230,7 @@ export class HintShowingObjectsService {
             }
         };
 
-        const hasTooManySlottedAeonStones = this._creatureEquipmentService.hasTooManySlottedAeonStones(creature);
+        const hasTooManySlottedAeonStones = creature.isCharacter() && creature.hasTooManySlottedAeonStones();
 
         creature.inventories.forEach(inventory => {
             inventory.allEquipment()

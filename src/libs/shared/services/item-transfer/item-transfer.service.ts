@@ -7,7 +7,6 @@ import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { ItemBulkService } from '../item-bulk/item-bulk.service';
 import { InventoryItemProcessingService } from '../inventory-item-processing/inventory-item-processing.service';
 import { InventoryService } from '../inventory/inventory.service';
@@ -21,9 +20,7 @@ export class ItemTransferService {
 
     constructor(
         private readonly _refreshService: RefreshService,
-        private readonly _itemsDataService: ItemsDataService,
         private readonly _itemBulkService: ItemBulkService,
-        private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
         private readonly _inventoryService: InventoryService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _recastService: RecastService,
@@ -292,6 +289,7 @@ export class ItemTransferService {
         item: Item,
         inventory: ItemCollection,
         amount = item.amount,
+        inventoryItemProcessingService: InventoryItemProcessingService,
     ): void {
         if (creature.type !== targetCreature.type) {
             this.updateGrantingItemBeforeTransfer(creature, item);
@@ -323,7 +321,7 @@ export class ItemTransferService {
                     const newLength = targetItems.push(movedItem);
                     const newItem = targetItems[newLength - 1];
 
-                    this._inventoryItemProcessingService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
+                    inventoryItemProcessingService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
                 }
             });
             //Add included inventories and process all items inside them.
@@ -332,7 +330,7 @@ export class ItemTransferService {
                 const newInventory = toCreature.inventories[newLength - 1];
 
                 newInventory.allItems().forEach(invItem => {
-                    this._inventoryItemProcessingService.processGrantedItem(toCreature, invItem, newInventory, true, false, true, true);
+                    inventoryItemProcessingService.processGrantedItem(toCreature, invItem, newInventory, true, false, true, true);
                 });
             });
 

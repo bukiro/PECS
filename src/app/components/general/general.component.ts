@@ -326,7 +326,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     private _languagesFromEquipment(): Array<string> {
         let languages: Array<string> = [];
-        const hasTooManySlottedAeonStones = this._creatureEquipmentService.hasTooManySlottedAeonStones(this.character);
+        const hasTooManySlottedAeonStones = this.character.hasTooManySlottedAeonStones();
 
         this.character.inventories[0].wornitems.filter(wornItem => wornItem.investedOrEquipped()).forEach(wornItem => {
             languages = languages.concat(wornItem.gainLanguages.filter(language => language.name).map(language => language.name));

@@ -41,7 +41,6 @@ export class InventoryItemProcessingService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemTransferService: ItemTransferService,
-        private readonly _inventoryService: InventoryService,
         private readonly _toastService: ToastService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _armorClassService: ArmorClassService,
@@ -88,6 +87,7 @@ export class InventoryItemProcessingService {
         item: Item,
         including = true,
         keepInventoryContent = false,
+        inventoryService: InventoryService,
     ): void {
         const character = CreatureService.character;
 
@@ -115,7 +115,7 @@ export class InventoryItemProcessingService {
         }
 
         if (item.isEquipment()) {
-            this._processDroppingEquipment(creature, inventory, item, including, keepInventoryContent);
+            this._processDroppingEquipment(creature, inventory, item, including, keepInventoryContent, inventoryService);
         }
 
         item.oilsApplied.filter(oil => oil.runeEffect?.loreChoices.length).forEach((oil: Oil) => {
@@ -348,6 +348,7 @@ export class InventoryItemProcessingService {
         item: Equipment,
         including = true,
         keepInventoryContent = false,
+        inventoryService: InventoryService,
     ): void {
         if (item.equipped) {
             this._creatureEquipmentService.equipItem(creature, inventory, item, false, false);
@@ -381,7 +382,7 @@ export class InventoryItemProcessingService {
             } else {
                 creature.inventories.filter(existingInventory => existingInventory.itemId === item.id).forEach(gainedInventory => {
                     gainedInventory.allItems().forEach(inventoryItem => {
-                        this._inventoryService.dropInventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
+                        inventoryService.dropInventoryItem(creature, gainedInventory, inventoryItem, false, false, including);
                     });
                 });
             }

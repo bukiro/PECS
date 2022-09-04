@@ -116,7 +116,8 @@ export class ActivityComponent implements OnInit, OnDestroy {
             (
                 this.item instanceof WornItem &&
                 this.item.isSlottedAeonStone &&
-                this._creatureEquipmentService.hasTooManySlottedAeonStones(this._currentCreature())
+                creature.isCharacter() &&
+                creature.hasTooManySlottedAeonStones()
             );
         const isResonantAllowed =
             !!(this.item && this.item instanceof WornItem && this.item.isSlottedAeonStone && !hasTooManySlottedAeonStones);

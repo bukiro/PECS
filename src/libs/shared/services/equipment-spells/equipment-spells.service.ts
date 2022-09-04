@@ -58,7 +58,7 @@ export class EquipmentSpellsService {
             (options.cantripAllowed || (!this._spellsDataService.spellFromName(gain.name)?.traits.includes('Cantrip')))
         );
 
-        const hasTooManySlottedAeonStones = this._creatureEquipmentService.hasTooManySlottedAeonStones(creature);
+        const hasTooManySlottedAeonStones = creature.isCharacter() && creature.hasTooManySlottedAeonStones();
 
         creature.inventories[0].allEquipment()
             .filter(equipment => equipment.investedOrEquipped())

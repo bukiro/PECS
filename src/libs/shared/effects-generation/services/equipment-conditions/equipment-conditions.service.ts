@@ -16,8 +16,9 @@ import { SettingsService } from 'src/app/core/services/settings/settings.service
 })
 export class EquipmentConditionsService {
 
+    private _evaluationService?: EvaluationService;
+
     constructor(
-        private readonly _evaluationService: EvaluationService,
         private readonly _bulkService: BulkService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
@@ -151,7 +152,7 @@ export class EquipmentConditionsService {
                         this._creatureConditionsService.removeCondition(creature, gain, false);
                     } else {
                         if (gain.activationPrerequisite) {
-                            const testResult = this._evaluationService.valueFromFormula(
+                            const testResult = this._evaluationService?.valueFromFormula(
                                 gain.activationPrerequisite,
                                 { creature, object: gain, parentItem: item },
                             );
@@ -175,7 +176,7 @@ export class EquipmentConditionsService {
                 refreshPermanentConditions(item, item);
             });
 
-        if (this._creatureEquipmentService.hasTooManySlottedAeonStones(creature)) {
+        if (creature.isCharacter() && creature.hasTooManySlottedAeonStones()) {
             creature.inventories[0].wornitems.filter(item => item.isWayfinder).forEach(item => {
                 item.aeonStones.forEach(stone => {
                     refreshPermanentConditions(stone, item);
@@ -213,6 +214,10 @@ export class EquipmentConditionsService {
                 );
             }
         }
+    }
+
+    public initialize(evaluationService: EvaluationService): void {
+        this._evaluationService = evaluationService;
     }
 
 }

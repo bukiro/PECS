@@ -30,6 +30,15 @@ import { ItemInitializationService } from 'src/libs/shared/services/item-initial
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { ConditionProcessingService } from 'src/libs/shared/services/condition-processing/condition-processing.service';
+import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
+import { EquipmentConditionsService } from 'src/libs/shared/effects-generation/services/equipment-conditions/equipment-conditions.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { MessageProcessingService } from 'src/libs/shared/services/message-processing/message-processing.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { InventoryItemProcessingService } from 'src/libs/shared/services/inventory-item-processing/inventory-item-processing.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 
 @Injectable({
     providedIn: 'root',
@@ -66,6 +75,15 @@ export class AppInitService {
         private readonly _refreshService: RefreshService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _basicEquipmentService: BasicEquipmentService,
+        private readonly _creatureConditionsService: CreatureConditionsService,
+        private readonly _conditionProcessingService: ConditionProcessingService,
+        private readonly _messageProcessingService: MessageProcessingService,
+        private readonly _equipmentConditionsService: EquipmentConditionsService,
+        private readonly _onceEffectsService: OnceEffectsService,
+        private readonly _evaluationService: EvaluationService,
+        private readonly _inventoryService: InventoryService,
+        private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
+        private readonly _creatureEquipmentService: CreatureEquipmentService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -117,10 +135,23 @@ export class AppInitService {
                 this._skillsDataService.initialize();
                 this._spellsDataService.initialize();
                 this._traitsDataService.initialize();
-                this._messagesService.initialize();
+                this._messagesService.initialize(this._messageProcessingService);
                 this._customEffectPropertiesService.initialize();
                 this._effectsGenerationService.initialize();
+
+                // Pass some services to other services that shouldn't have them in their dependency injection.
                 this._refreshService.initialize(this._creatureActivitiesService);
+                this._creatureConditionsService.initialize(
+                    this._conditionProcessingService,
+                    this._evaluationService,
+                );
+                this._equipmentConditionsService.initialize(this._evaluationService);
+                this._onceEffectsService.initialize(this._evaluationService);
+                this._inventoryService.initialize(
+                    this._inventoryItemProcessingService,
+                    this._basicEquipmentService,
+                );
+                this._creatureEquipmentService.initialize(this._inventoryItemProcessingService);
             }
         }, Defaults.waitForServiceDelay);
     }

@@ -44,7 +44,7 @@ export class ItemEffectsGenerationService {
         });
 
         //If too many wayfinders are invested with slotted aeon stones, all aeon stone effects are ignored.
-        if (this._creatureEquipmentService.hasTooManySlottedAeonStones(creature)) {
+        if (creature.isCharacter() && creature.hasTooManySlottedAeonStones()) {
             objects = objects.filter(object => !(object instanceof WornItem && object.isSlottedAeonStone));
             hintSets = hintSets.filter(set => !(set.parentItem && set.parentItem instanceof WornItem && set.parentItem.isSlottedAeonStone));
         }

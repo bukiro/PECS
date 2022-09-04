@@ -3,7 +3,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { Armor } from 'src/app/classes/Armor';
 import { Shield } from 'src/app/classes/Shield';
 import { WornItem } from 'src/app/classes/WornItem';
-import { Defaults } from '../../definitions/defaults';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { RefreshService } from '../refresh/refresh.service';
@@ -14,9 +13,10 @@ import { InventoryItemProcessingService } from '../inventory-item-processing/inv
 })
 export class CreatureEquipmentService {
 
+    private _inventoryItemProcessingService?: InventoryItemProcessingService;
+
     constructor(
         private readonly _refreshService: RefreshService,
-        private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
     ) { }
 
     public equippedCreatureArmor(creature: Creature): Array<Armor> {
@@ -29,13 +29,6 @@ export class CreatureEquipmentService {
 
     public equippedCreatureShield(creature: Creature): Array<Shield> {
         return creature.inventories[0].shields.filter(shield => shield.equipped && !shield.broken);
-    }
-
-    public hasTooManySlottedAeonStones(creature: Creature): boolean {
-        //If more than one wayfinder with slotted aeon stones is invested, you do not gain the benefits of any of them.
-        return creature.inventories[0].wornitems
-            .filter(item => item.isWayfinder && item.investedOrEquipped() && item.aeonStones.length)
-            .length > Defaults.maxInvestedAeonStones;
     }
 
     public investedCreatureEquipment(creature: Creature): Array<Equipment> {
@@ -71,9 +64,9 @@ export class CreatureEquipmentService {
         this._refreshService.prepareChangesByItem(creature, item);
 
         if (!isEquippedAtBeginning && item.equipped) {
-            this._inventoryItemProcessingService.processEquippingItem(creature, inventory, item);
+            this._inventoryItemProcessingService?.processEquippingItem(creature, inventory, item);
         } else if (isEquippedAtBeginning && !item.equipped) {
-            this._inventoryItemProcessingService.processUnequippingItem(creature, inventory, item, equipBasicItems);
+            this._inventoryItemProcessingService?.processUnequippingItem(creature, inventory, item, equipBasicItems);
         }
 
         if (changeAfter) {
@@ -98,9 +91,9 @@ export class CreatureEquipmentService {
 
         //Items are automatically equipped if they are invested.
         if (item.invested) {
-            this._inventoryItemProcessingService.processInvestingItem(creature, inventory, item);
+            this._inventoryItemProcessingService?.processInvestingItem(creature, inventory, item);
         } else {
-            this._inventoryItemProcessingService.processUninvestingItem(creature, item);
+            this._inventoryItemProcessingService?.processUninvestingItem(creature, item);
         }
 
         // If a wayfinder is invested or uninvested, all other invested wayfinders need to run updates as well,
@@ -116,6 +109,10 @@ export class CreatureEquipmentService {
         if (changeAfter) {
             this._refreshService.processPreparedChanges();
         }
+    }
+
+    public initialize(inventoryItemProcessingService: InventoryItemProcessingService): void {
+        this._inventoryItemProcessingService = inventoryItemProcessingService;
     }
 
 }

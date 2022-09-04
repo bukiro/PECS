@@ -60,6 +60,7 @@ import { CurrencyService } from 'src/libs/shared/services/currency/currency.serv
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
+import { InventoryItemProcessingService } from 'src/libs/shared/services/inventory-item-processing/inventory-item-processing.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -133,6 +134,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _currencyService: CurrencyService,
         private readonly _itemActivationService: ItemActivationService,
         private readonly _messageSendingService: MessageSendingService,
+        private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
         public trackers: Trackers,
     ) { }
 
@@ -379,6 +381,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
                     item,
                     inventory,
                     amount,
+                    this._inventoryItemProcessingService,
                 );
             } else {
                 this._messageSendingService.sendItemsToPlayer(this.currentCreature, target, item, amount);
@@ -665,12 +668,15 @@ export class InventoryComponent implements OnInit, OnDestroy {
     }
 
     public itemHasBlockedSlottedAeonStones(item: WornItem): boolean {
+        const creature = this.currentCreature;
+
         return (
             !!item &&
             !!item.isWayfinder &&
             !!item.aeonStones.length &&
             item.investedOrEquipped() &&
-            this._creatureEquipmentService.hasTooManySlottedAeonStones(this.currentCreature)
+            creature.isCharacter() &&
+            creature.hasTooManySlottedAeonStones()
         );
     }
 

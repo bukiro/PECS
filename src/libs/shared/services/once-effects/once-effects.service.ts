@@ -34,10 +34,10 @@ interface EffectRecipientPhrases {
 export class OnceEffectsService {
 
     private _preparedOnceEffects: Array<PreparedOnceEffect> = [];
+    private _evaluationService?: EvaluationService;
 
     constructor(
         private readonly _toastService: ToastService,
-        private readonly _evaluationService: EvaluationService,
         private readonly _refreshService: RefreshService,
         private readonly _armorClassService: ArmorClassService,
         private readonly _healthService: HealthService,
@@ -103,7 +103,7 @@ export class OnceEffectsService {
                     spellCastingAbility: conditionSpellCastingAbility,
                 };
                 const validationResult =
-                    this._evaluationService.valueFromFormula(
+                    this._evaluationService?.valueFromFormula(
                         effectGain.value,
                         { creature, object: testObject, effect: effectGain },
                     );
@@ -166,6 +166,10 @@ export class OnceEffectsService {
                 break;
             default: break;
         }
+    }
+
+    public initialize(evaluationService: EvaluationService): void {
+        this._evaluationService = evaluationService;
     }
 
     private _effectRecipientPhrases(creature: Creature): EffectRecipientPhrases {

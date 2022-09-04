@@ -14,11 +14,12 @@ import { RefreshService } from '../refresh/refresh.service';
 })
 export class InventoryService {
 
+    private _inventoryItemProcessingService?: InventoryItemProcessingService;
+    private _basicEquipmentService?: BasicEquipmentService;
+
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _itemInitializationService: ItemInitializationService,
-        private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
-        private readonly _basicEquipmentService: BasicEquipmentService,
     ) { }
 
     public grantInventoryItem(
@@ -96,7 +97,7 @@ export class InventoryService {
                 returnedItem.expiration = options.expiration;
             }
 
-            this._inventoryItemProcessingService.processGrantedItem(
+            this._inventoryItemProcessingService?.processGrantedItem(
                 context.creature,
                 returnedItem,
                 context.inventory,
@@ -139,14 +140,14 @@ export class InventoryService {
             item.amount -= amount;
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
         } else {
-            this._inventoryItemProcessingService.processDroppingItem(creature, inventory, item, including, keepInventoryContent);
+            this._inventoryItemProcessingService?.processDroppingItem(creature, inventory, item, including, keepInventoryContent, this);
 
             //The item is deleted here.
             (inventory[item.type as keyof ItemCollection] as Array<Item>) =
                 (inventory[item.type as keyof ItemCollection] as Array<Item>).filter((inventoryItem: Item) => inventoryItem !== item);
 
             if (equipBasicItems) {
-                this._basicEquipmentService.equipBasicItems(creature);
+                this._basicEquipmentService?.equipBasicItems(creature);
             }
         }
 
@@ -160,6 +161,14 @@ export class InventoryService {
         }
 
         this._refreshService.setComponentChanged(item.id);
+    }
+
+    public initialize(
+        inventoryItemProcessingService: InventoryItemProcessingService,
+        basicEquipmentService: BasicEquipmentService,
+    ): void {
+        this._inventoryItemProcessingService = inventoryItemProcessingService;
+        this._basicEquipmentService = basicEquipmentService;
     }
 
 }

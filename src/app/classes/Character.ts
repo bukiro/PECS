@@ -320,4 +320,11 @@ export class Character extends Creature {
     public classLevelFromNumber(number: number): ClassLevel {
         return this.class.levels[number];
     }
+
+    public hasTooManySlottedAeonStones(): boolean {
+        //If more than one wayfinder with slotted aeon stones is invested, you do not gain the benefits of any of them.
+        return this.inventories[0].wornitems
+            .filter(item => item.isWayfinder && item.investedOrEquipped() && item.aeonStones.length)
+            .length > Defaults.maxInvestedAeonStones;
+    }
 }

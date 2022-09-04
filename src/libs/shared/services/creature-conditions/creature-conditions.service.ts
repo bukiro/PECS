@@ -22,12 +22,13 @@ export class CreatureConditionsService {
 
     private readonly _previousCreatureConditionsState: Array<Array<ConditionGain>> = [[], [], []];
 
+    private _conditionProcessingService?: ConditionProcessingService;
+    private _evaluationService?: EvaluationService;
+
     constructor(
         private readonly _conditionsDataService: ConditionsDataService,
-        private readonly _evaluationService: EvaluationService,
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
-        private readonly _conditionProcessingService: ConditionProcessingService,
         private readonly _recastService: RecastService,
     ) { }
 
@@ -140,7 +141,7 @@ export class CreatureConditionsService {
             }
 
             if (hasConditionBeenAdded) {
-                this._conditionProcessingService.processCondition(
+                this._conditionProcessingService?.processCondition(
                     creature,
                     workingGain,
                     this._conditionsDataService.conditionFromName(workingGain.name),
@@ -244,7 +245,7 @@ export class CreatureConditionsService {
                     }
                 });
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1);
-            this._conditionProcessingService.processCondition(
+            this._conditionProcessingService?.processCondition(
                 creature,
                 oldConditionGain,
                 originalCondition,
@@ -323,6 +324,14 @@ export class CreatureConditionsService {
         });
 
         return { conditions, hintSets };
+    }
+
+    public initialize(
+        conditionProcessingService: ConditionProcessingService,
+        evaluationService: EvaluationService,
+    ): void {
+        this._conditionProcessingService = conditionProcessingService;
+        this._evaluationService = evaluationService;
     }
 
     private _updateCreatureConditions(creature: Creature, activeConditions: Array<ConditionGain>, creatureIndex: number): void {
@@ -540,7 +549,7 @@ export class CreatureConditionsService {
         //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
         if (conditionGain.activationPrerequisite) {
             const activationValue =
-                this._evaluationService.valueFromFormula(
+                this._evaluationService?.valueFromFormula(
                     conditionGain.activationPrerequisite,
                     { creature, parentConditionGain: context.parentConditionGain, parentItem: context.parentItem, object: conditionGain },
                 );
