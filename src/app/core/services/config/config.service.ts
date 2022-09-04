@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpRequest, HttpEvent, HttpStatusCode, HttpEventType } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
-import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { map, Observable, of, switchMap } from 'rxjs';
@@ -32,7 +31,6 @@ export class ConfigService {
     constructor(
         private readonly _httpClient: HttpClient,
         private readonly _refreshService: RefreshService,
-        private readonly _savegamesService: SavegamesService,
         private readonly _toastService: ToastService,
         private readonly _statusService: StatusService,
     ) { }
@@ -99,8 +97,8 @@ export class ConfigService {
                         this._loggedOutMessage = '';
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'charactersheet');
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
+                        this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'reset-savegames');
                         this._refreshService.processPreparedChanges();
-                        this._savegamesService.reset();
                     } else {
                         this._loggedIn = false;
                         this._loggingIn = false;

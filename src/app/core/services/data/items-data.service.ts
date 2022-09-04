@@ -62,10 +62,10 @@ export class ItemsDataService {
     private _craftingItems: ItemCollection = new ItemCollection();
     private _initialized = false;
     private _itemInitializationService?: ItemInitializationService;
+    private _basicEquipmentService?: BasicEquipmentService;
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
-        private readonly _basicEquipmentService: BasicEquipmentService,
         private readonly _typeService: TypeService,
         private readonly _recastService: RecastService,
     ) { }
@@ -119,8 +119,12 @@ export class ItemsDataService {
         } else { return []; }
     }
 
-    public initialize(itemInitializationService: ItemInitializationService): void {
+    public initialize(
+        itemInitializationService: ItemInitializationService,
+        basicEquipmentService: BasicEquipmentService,
+    ): void {
         this._itemInitializationService = itemInitializationService;
+        this._basicEquipmentService = basicEquipmentService;
         this._registerrecastFns();
 
         //Runes need to load before other items, because their content is copied into items that bear them.
@@ -280,7 +284,7 @@ export class ItemsDataService {
         // One Unarmored to fall back on if you drop all other armors;
         const newBasicArmor: Armor = this.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723') as Armor;
 
-        this._basicEquipmentService.setBasicItems(newBasicWeapon, newBasicArmor);
+        this._basicEquipmentService?.setBasicItems(newBasicWeapon, newBasicArmor);
     }
 
     private _registerrecastFns(): void {

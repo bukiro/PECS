@@ -7,6 +7,7 @@ import { AbilityModFromAbilityValue } from '../../util/abilityUtils';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',
@@ -19,8 +20,10 @@ export class CharacterLanguagesService {
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _featsDataService: FeatsDataService,
-
-    ) { }
+        private readonly _refreshService: RefreshService,
+    ) {
+        this._subscribeToChanges();
+    }
 
     public updateLanguageList(): void {
         // Ensure that the language list is always as long as ancestry languages + INT + any relevant feats and bonuses.
@@ -237,6 +240,21 @@ export class CharacterLanguagesService {
                     return 0;
                 });
         }
+    }
+
+    private _subscribeToChanges(): void {
+        this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (target === 'update-languages') {
+                    this.updateLanguageList();
+                }
+            });
+        this._refreshService.detailChanged$
+            .subscribe(target => {
+                if (target.target === 'update-languages') {
+                    this.updateLanguageList();
+                }
+            });
     }
 
 }

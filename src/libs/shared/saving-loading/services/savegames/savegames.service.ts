@@ -21,7 +21,9 @@ export class SavegamesService {
         private readonly _http: HttpClient,
         private readonly _configService: ConfigService,
         private readonly _refreshService: RefreshService,
-    ) { }
+    ) {
+        this._subscribeToChanges();
+    }
 
     public get stillLoading(): boolean {
         return this._loading;
@@ -149,6 +151,21 @@ export class SavegamesService {
         this._refreshService.setComponentChanged('top-bar');
         //Also update the charactersheet that the character builder is attached to, so it is properly displayed after loading the page.
         this._refreshService.setComponentChanged('character-sheet');
+    }
+
+    private _subscribeToChanges(): void {
+        this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (target === 'reload-savegames') {
+                    this.reset();
+                }
+            });
+        this._refreshService.detailChanged$
+            .subscribe(target => {
+                if (target.target === 'reload-savegames') {
+                    this.reset();
+                }
+            });
     }
 
 }

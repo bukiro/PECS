@@ -10,7 +10,6 @@ import { Rune } from 'src/app/classes/Rune';
 import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
-import { CharacterLanguagesService } from '../character-languages/character-languages.service';
 
 interface DetailToChange {
     creature: CreatureTypes | '';
@@ -29,12 +28,10 @@ export class RefreshService {
     private readonly _componentChanged = new BehaviorSubject<string>('');
     private readonly _detailChanged =
         new BehaviorSubject<DetailToChange>({ target: '', creature: '', subtarget: '' });
+    private _creatureActivitiesService?: CreatureActivitiesService;
 
     constructor(
         private readonly _traitsDataService: TraitsDataService,
-        private readonly _creatureActivitiesService: CreatureActivitiesService,
-        private readonly _characterLanguagesService: CharacterLanguagesService,
-
     ) {
         //Prepare the update variables that everything subscribes to.
         this._componentChanged$ = this._componentChanged.asObservable();
@@ -91,8 +88,9 @@ export class RefreshService {
 
     public prepareChangesByHints(creature: Creature, hints: Array<Hint> = []): void {
         const affectedActivities = (targetName: string): boolean =>
-            this._creatureActivitiesService.creatureOwnedActivities(creature, creature.level)
-                .some(activity => targetName.includes(activity.name));
+            this._creatureActivitiesService?.creatureOwnedActivities(creature, creature.level)
+                .some(activity => targetName.includes(activity.name))
+            || false;
 
         hints.forEach(hint => {
             //Update the tags for every element that is named here.
@@ -161,7 +159,7 @@ export class RefreshService {
 
         if (ability === 'Intelligence') {
             this.prepareDetailToChange(CreatureTypes.Character, 'skillchoices');
-            this._characterLanguagesService.updateLanguageList();
+            this.prepareDetailToChange(CreatureTypes.Character, 'update-languages');
         }
     }
 
@@ -259,6 +257,10 @@ export class RefreshService {
         ) {
             this.prepareDetailToChange(context.creature.type, 'defense');
         }
+    }
+
+    public initialize(creatureActivitiesService: CreatureActivitiesService): void {
+        this._creatureActivitiesService = creatureActivitiesService;
     }
 
     private _prepareChangesByEffectTargets(targets: Array<string>, context: { creature: Creature }): void {
@@ -530,6 +532,7 @@ export class RefreshService {
 
             if (item.gainLanguages.length) {
                 this.prepareDetailToChange(creature.type, 'general');
+                this.prepareDetailToChange(creature.type, 'update-languages');
             }
 
             item.aeonStones.forEach(aeonStone => {

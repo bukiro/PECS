@@ -27,6 +27,9 @@ import { ItemPropertiesDataService } from '../data/item-properties-data.service'
 import { StatusService } from '../status/status.service';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 
 @Injectable({
     providedIn: 'root',
@@ -60,6 +63,9 @@ export class AppInitService {
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _statusService: StatusService,
         private readonly _itemInitializationService: ItemInitializationService,
+        private readonly _refreshService: RefreshService,
+        private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _basicEquipmentService: BasicEquipmentService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -90,7 +96,10 @@ export class AppInitService {
 
                 // Initialize itemsDataService and activitiesDataService first.
                 // They provide restoration functions for other services.
-                this._itemsDataService.initialize(this._itemInitializationService);
+                this._itemsDataService.initialize(
+                    this._itemInitializationService,
+                    this._basicEquipmentService,
+                );
                 this._activitiesDataService.initialize();
 
                 this._abilitiesDataService.initialize();
@@ -111,6 +120,7 @@ export class AppInitService {
                 this._messagesService.initialize();
                 this._customEffectPropertiesService.initialize();
                 this._effectsGenerationService.initialize();
+                this._refreshService.initialize(this._creatureActivitiesService);
             }
         }, Defaults.waitForServiceDelay);
     }
