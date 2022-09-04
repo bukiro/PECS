@@ -484,6 +484,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     public copyItemForCustomItem(item: Equipment | Consumable): void {
         this.newItem = this._itemInitializationService.initializeItem<Equipment | Consumable>(item);
+        // Throw away the refId; Custom items should not be merged with the original item.
+        this.newItem.refId = '';
         this.toggleShownItem();
     }
 

@@ -125,7 +125,8 @@ export class ItemsDataService {
     ): void {
         this._itemInitializationService = itemInitializationService;
         this._basicEquipmentService = basicEquipmentService;
-        this._registerrecastFns();
+
+        this._registerRecastFns();
 
         //Runes need to load before other items, because their content is copied into items that bear them.
         const armorRune = new ArmorRune();
@@ -287,7 +288,7 @@ export class ItemsDataService {
         this._basicEquipmentService?.setBasicItems(newBasicWeapon, newBasicArmor);
     }
 
-    private _registerrecastFns(): void {
+    private _registerRecastFns(): void {
         const itemRestoreFn =
             <T extends Item>(obj: T, options: { type?: string; skipMerge?: boolean } = {}): T =>
                 this._typeService.restoreItem(obj, this, options);
