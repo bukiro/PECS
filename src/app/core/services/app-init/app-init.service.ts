@@ -26,6 +26,7 @@ import { ItemSpecializationsDataService } from '../data/item-specializations-dat
 import { ItemPropertiesDataService } from '../data/item-properties-data.service';
 import { StatusService } from '../status/status.service';
 import { NgbPopoverConfig, NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
 
 @Injectable({
     providedIn: 'root',
@@ -58,6 +59,7 @@ export class AppInitService {
         private readonly _characterDeitiesService: CharacterDeitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _statusService: StatusService,
+        private readonly _itemInitializationService: ItemInitializationService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -88,7 +90,7 @@ export class AppInitService {
 
                 // Initialize itemsDataService and activitiesDataService first.
                 // They provide restoration functions for other services.
-                this._itemsDataService.initialize();
+                this._itemsDataService.initialize(this._itemInitializationService);
                 this._activitiesDataService.initialize();
 
                 this._abilitiesDataService.initialize();

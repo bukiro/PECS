@@ -61,10 +61,10 @@ export class ItemsDataService {
     private _storeItems: ItemCollection = new ItemCollection();
     private _craftingItems: ItemCollection = new ItemCollection();
     private _initialized = false;
+    private _itemInitializationService?: ItemInitializationService;
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
-        private readonly _itemInitializationService: ItemInitializationService,
         private readonly _basicEquipmentService: BasicEquipmentService,
         private readonly _typeService: TypeService,
         private readonly _recastService: RecastService,
@@ -119,7 +119,8 @@ export class ItemsDataService {
         } else { return []; }
     }
 
-    public initialize(): void {
+    public initialize(itemInitializationService: ItemInitializationService): void {
+        this._itemInitializationService = itemInitializationService;
         this._registerrecastFns();
 
         //Runes need to load before other items, because their content is copied into items that bear them.
@@ -307,7 +308,7 @@ export class ItemsDataService {
         // and the store and crafting items will be copied and recast afterwards.
         Object.keys(extendedData).forEach(key => {
             resultingData.push(...extendedData[key].map(entry =>
-                this._itemInitializationService.initializeItem(
+                this._itemInitializationService?.initializeItem(
                     Object.assign(Object.create(prototype), entry),
                     { preassigned: true, newId: false, resetPropertyRunes: true },
                 ) as T,
