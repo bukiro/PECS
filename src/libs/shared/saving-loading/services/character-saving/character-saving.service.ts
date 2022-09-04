@@ -169,22 +169,21 @@ export class CharacterSavingService {
                             (objectToTrim as { neversave?: Array<keyof T> }).neversave?.includes(key)
                         ) {
                             delete objectToTrim[key];
-                            // Don't cleanup the neversave list, the save list, any attributes that are in the save list,
-                            // or any that start with "_" (which is done further down).
+                        } else if (key.substring(0, 1) === '$') {
+                            //Cleanup temporary attributes (starting with $).
+                            delete objectToTrim[key];
                         } else if (
+                            // Don't cleanup the neversave list, the save list or any attributes that are in the save list.
                             key !== 'save' &&
                             key !== 'neversave' &&
-                            !(objectToTrim as { save?: Array<keyof T> }).save?.includes(key) &&
-                            (key.substring(0, 1) !== '_')) {
+                            !(objectToTrim as { save?: Array<keyof T> }).save?.includes(key)
+                        ) {
                             //If the attribute has the same value as the default, delete it from the object.
                             if (JSON.stringify(objectToTrim[key]) === JSON.stringify((blank as T)[key])) {
                                 delete objectToTrim[key];
                             } else {
                                 this._trimForSaving<T[keyof T]>(objectToTrim[key]);
                             }
-                            //Cleanup attributes that start with _.
-                        } else if (key.substring(0, 1) === '_') {
-                            delete objectToTrim[key];
                         }
                     });
                 }
