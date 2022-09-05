@@ -237,9 +237,11 @@ export class FeatsDataService {
 
         const extendedData = this._extensionsService.extend(data, target);
 
+        const feat = new Feat();
+
         Object.keys(extendedData).forEach(filecontent => {
             resultingData.push(...extendedData[filecontent].map(entry =>
-                Object.assign(Object.create(Feat), entry).recast(),
+                Object.assign(Object.create(feat), entry).recast(),
             ));
         });
 

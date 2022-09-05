@@ -202,7 +202,7 @@ export class SpellProcessingService {
 
             //Under certain circumstances, don't grant a condition.
             if (
-                this._spellActivityProcessingSharedService._shouldGainCondition(
+                this._spellActivityProcessingSharedService.shouldGainCondition(
                     spell,
                     newConditionGain,
                     condition,

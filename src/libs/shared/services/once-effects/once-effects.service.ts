@@ -102,6 +102,9 @@ export class OnceEffectsService {
                     choice: conditionChoice,
                     spellCastingAbility: conditionSpellCastingAbility,
                 };
+
+                if (!this._evaluationService) { console.error('evaluationService missing!'); }
+
                 const validationResult =
                     this._evaluationService?.valueFromFormula(
                         effectGain.value,

@@ -32,6 +32,8 @@ interface DatabaseCharacter {
 })
 export class CharacterLoadingService {
 
+    private _appInitService?: AppInitService;
+
     constructor(
         private readonly _http: HttpClient,
         private readonly _configService: ConfigService,
@@ -43,7 +45,6 @@ export class CharacterLoadingService {
         private readonly _characterPatchingService: CharacterPatchingService,
         private readonly _statusService: StatusService,
         private readonly _refreshService: RefreshService,
-        private readonly _appInitService: AppInitService,
         private readonly _toastService: ToastService,
         private readonly _documentStyleService: DocumentStyleService,
         private readonly _timeService: TimeService,
@@ -53,7 +54,9 @@ export class CharacterLoadingService {
     ) { }
 
     public loadOrResetCharacter(id = '', loadAsGM = false): void {
-        this._appInitService.reset();
+        if (!this._appInitService) { console.error('appInitService missing!'); }
+
+        this._appInitService?.reset();
         this._statusService.setLoadingCharacter(true);
         this._statusService.setLoadingStatus('Resetting character');
         this._refreshService.setComponentChanged('charactersheet');
@@ -117,6 +120,10 @@ export class CharacterLoadingService {
         this._documentStyleService.setDarkmode();
 
         this._refreshAfterLoading();
+    }
+
+    public initialize(appInitService: AppInitService): void {
+        this._appInitService = appInitService;
     }
 
     private _cancelLoading(): void {

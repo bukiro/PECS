@@ -5,7 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CharacterSheetComponent } from 'src/app/components/character-sheet/character-sheet.component';
 
 const routes: Routes = [
-    { path: '', component: CharacterSheetComponent },
+    { path: '**', component: CharacterSheetComponent },
 ];
 
 @NgModule({

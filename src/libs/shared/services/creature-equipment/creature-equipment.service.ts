@@ -63,6 +63,8 @@ export class CreatureEquipmentService {
         this._refreshService.prepareDetailToChange(creature.type, 'inventory');
         this._refreshService.prepareChangesByItem(creature, item);
 
+        if (!this._inventoryItemProcessingService) { console.error('inventoryItemProcessingService missing!'); }
+
         if (!isEquippedAtBeginning && item.equipped) {
             this._inventoryItemProcessingService?.processEquippingItem(creature, inventory, item);
         } else if (isEquippedAtBeginning && !item.equipped) {
@@ -88,6 +90,8 @@ export class CreatureEquipmentService {
         if (item.gainSpells.length) {
             this._refreshService.prepareDetailToChange(creature.type, 'spellbook');
         }
+
+        if (!this._inventoryItemProcessingService) { console.error('inventoryItemProcessingService missing!'); }
 
         //Items are automatically equipped if they are invested.
         if (item.invested) {

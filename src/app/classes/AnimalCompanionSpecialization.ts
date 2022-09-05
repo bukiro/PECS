@@ -17,6 +17,7 @@ export class AnimalCompanionSpecialization {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
+        this.hints = this.hints.map(obj => Object.assign(new Hint(), obj).recast());
 
         return this;
     }

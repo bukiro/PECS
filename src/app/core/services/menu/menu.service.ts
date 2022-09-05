@@ -93,8 +93,6 @@ export class MenuService {
                     this._refreshService.setComponentChanged(this._menuMatchingComponent[menu]);
                 }, refreshDelay);
             }
-
-            this._menuState[menu] = (this._menuState[menu] === 'out') ? 'in' : 'out';
         }
 
         Object.values(MenuNames).forEach(menuName => {

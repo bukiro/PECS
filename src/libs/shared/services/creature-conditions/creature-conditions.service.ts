@@ -141,6 +141,8 @@ export class CreatureConditionsService {
             }
 
             if (hasConditionBeenAdded) {
+                if (!this._conditionProcessingService) { console.error('conditionProcessingService missing!'); }
+
                 this._conditionProcessingService?.processCondition(
                     creature,
                     workingGain,
@@ -245,6 +247,9 @@ export class CreatureConditionsService {
                     }
                 });
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1);
+
+            if (!this._conditionProcessingService) { console.error('conditionProcessingService missing!'); }
+
             this._conditionProcessingService?.processCondition(
                 creature,
                 oldConditionGain,
@@ -548,6 +553,8 @@ export class CreatureConditionsService {
     ): boolean {
         //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
         if (conditionGain.activationPrerequisite) {
+            if (!this._evaluationService) { console.error('evaluationService missing!'); }
+
             const activationValue =
                 this._evaluationService?.valueFromFormula(
                     conditionGain.activationPrerequisite,

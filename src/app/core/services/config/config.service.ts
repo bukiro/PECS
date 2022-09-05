@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Md5 } from 'ts-md5';
 import { default as package_json } from 'package.json';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { map, Observable, of, switchMap } from 'rxjs';
+import { filter, map, Observable, of, switchMap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ToastService } from '../../../../libs/shared/services/toast/toast.service';
-import { StatusService } from '../status/status.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
+import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface LoginToken {
     token: string | false;
@@ -140,14 +140,16 @@ export class ConfigService {
     }
 
     public initialize(): void {
-        const headers = new HttpHeaders().set('Cache-Control', 'no-cache')
+        const headers = new HttpHeaders()
+            .set('Cache-Control', 'no-cache')
             .set('Pragma', 'no-cache');
 
-        this._httpClient.request(new HttpRequest('HEAD', 'assets/config.json', headers))
+        this._httpClient.request(new HttpRequest('HEAD', '/assets/config.json', headers))
             .pipe(
+                filter((response: HttpEvent<unknown>) => (response.type !== HttpEventType.Sent)),
                 switchMap((response: HttpEvent<unknown>) => {
                     //To-Do: Check if this still works or the response is something other than a ResponseHeader.
-                    if (response.type === HttpEventType.ResponseHeader && response.status) {
+                    if (response.type === HttpEventType.Response && response.status) {
                         if (response.status === HttpStatusCode.Ok) {
                             return this._httpClient.get('assets/config.json', { headers });
                         } else {
@@ -170,6 +172,8 @@ export class ConfigService {
                     //Establish a connection to the data service and do a dummy login to check whether login is required.
                     this.login('');
                     this._initialized = true;
+
+                    return data;
                 }),
             )
             .subscribe({

@@ -31,6 +31,9 @@ import { RecastService } from '../recast/recast.service';
 })
 export class ActivitiesProcessingService {
 
+    private _spellProcessingService?: SpellProcessingService;
+    private _spellActivityProcessingSharedService?: SpellActivityProcessingSharedService;
+
     constructor(
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _refreshService: RefreshService,
@@ -39,10 +42,8 @@ export class ActivitiesProcessingService {
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _spellProcessingService: SpellProcessingService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellTargetService: SpellTargetService,
-        private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _recastService: RecastService,
@@ -90,6 +91,13 @@ export class ActivitiesProcessingService {
                 },
             );
         }
+    }
+
+    public initialize(
+        spellProcessingService: SpellProcessingService,
+        spellActivityProcessingSharedService: SpellActivityProcessingSharedService): void {
+        this._spellProcessingService = spellProcessingService;
+        this._spellActivityProcessingSharedService = spellActivityProcessingSharedService;
     }
 
     private _activateActivity(
@@ -221,7 +229,9 @@ export class ActivitiesProcessingService {
 
                         cast.spellGain.selectedTarget = context.target || '';
 
-                        this._spellProcessingService.processSpell(
+                        if (!this._spellProcessingService) { console.error('spellProcessingService missing!'); }
+
+                        this._spellProcessingService?.processSpell(
                             librarySpell,
                             true,
                             {
@@ -241,8 +251,10 @@ export class ActivitiesProcessingService {
 
         this._deactivateExclusiveActivities(activity, context);
 
+        if (!this._spellActivityProcessingSharedService) { console.error('spellActivityProcessingSharedService missing!'); }
+
         //All Conditions that have affected the duration of this activity or its conditions are now removed.
-        this._spellActivityProcessingSharedService.removeConditionsToRemove(conditionsToRemove, context);
+        this._spellActivityProcessingSharedService?.removeConditionsToRemove(conditionsToRemove, context);
 
         if (shouldClosePopupsAfterActivation) {
             this._refreshService.prepareDetailToChange(context.creature.type, 'close-popovers');
@@ -386,9 +398,11 @@ export class ActivitiesProcessingService {
                 newConditionGain.source = activity.name;
             }
 
+            if (!this._spellActivityProcessingSharedService) { console.error('spellActivityProcessingSharedService missing!'); }
+
             //Under certain circumstances, don't grant a condition.
             if (
-                this._spellActivityProcessingSharedService._shouldGainCondition(
+                this._spellActivityProcessingSharedService?.shouldGainCondition(
                     activity,
                     newConditionGain,
                     condition,
@@ -581,7 +595,9 @@ export class ActivitiesProcessingService {
                             cast.spellGain.duration = cast.duration;
                         }
 
-                        this._spellProcessingService.processSpell(
+                        if (!this._spellProcessingService) { console.error('spellProcessingService missing!'); }
+
+                        this._spellProcessingService?.processSpell(
                             librarySpell,
                             false,
                             {

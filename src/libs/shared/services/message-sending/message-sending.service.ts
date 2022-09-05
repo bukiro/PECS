@@ -14,7 +14,7 @@ import { SavegamesService } from '../../saving-loading/services/savegames/savega
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { ItemTransferService } from '../item-transfer/item-transfer.service';
-import { MessageProcessingService } from '../message-processing/message-processing.service';
+import { MessagePropertiesService } from '../message-properties/message-properties.service';
 import { MessagesService } from '../messages/messages.service';
 import { RecastService } from '../recast/recast.service';
 import { ToastService } from '../toast/toast.service';
@@ -32,8 +32,8 @@ export class MessageSendingService {
         private readonly _toastService: ToastService,
         private readonly _itemTransferService: ItemTransferService,
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
-        private readonly _messageProcessingService: MessageProcessingService,
         private readonly _recastService: RecastService,
+        private readonly _messagePropertiesService: MessagePropertiesService,
     ) { }
 
     public sendTurnChangeToPlayers(): void {
@@ -251,7 +251,7 @@ export class MessageSendingService {
                     response.senderId = character.id;
                     response.targetId = message.senderId;
 
-                    const target = this._messageProcessingService.messageSenderName(message) || 'sender';
+                    const target = this._messagePropertiesService.messageSenderName(message) || 'sender';
                     const date = new Date();
 
                     response.time = `${ date.getHours() }:${ date.getMinutes() }`;

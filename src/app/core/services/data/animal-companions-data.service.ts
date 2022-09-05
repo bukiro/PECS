@@ -8,6 +8,8 @@ import * as json_levels from 'src/assets/json/animalcompanionlevels';
 import * as json_specializations from 'src/assets/json/animalcompanionspecializations';
 import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
+import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -23,6 +25,7 @@ export class AnimalCompanionsDataService {
 
     constructor(
         private readonly _extensionsService: ExtensionsService,
+        private readonly _recastService: RecastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -48,16 +51,23 @@ export class AnimalCompanionsDataService {
     }
 
     public initialize(): void {
-        this._companionAncestries = this._load(json_ancestries, 'companionAncestries', AnimalCompanionAncestry.prototype);
+        const animalCompanionAncestry = new AnimalCompanionAncestry();
+
+        this._companionAncestries =
+            this._load(json_ancestries, 'companionAncestries', animalCompanionAncestry, [this._recastService.restoreFns]);
         this._ancestriesInitialized = true;
 
-        this._companionLevels = this._load(json_levels, 'companionLevels', AnimalCompanionLevel.prototype);
+        const animalCompanionLevel = new AnimalCompanionLevel();
+
+        this._companionLevels = this._load(json_levels, 'companionLevels', animalCompanionLevel, []);
         //Sort levels by level number, after it may have got out of order with duplicates.
         this._companionLevels.sort((a, b) => a.number - b.number);
         this._levelsInitialized = true;
 
+        const animalCompanionSpecialization = new AnimalCompanionSpecialization();
+
         this._companionSpecializations =
-            this._load(json_specializations, 'companionSpecializations', AnimalCompanionSpecialization.prototype);
+            this._load(json_specializations, 'companionSpecializations', animalCompanionSpecialization, []);
         this._specializationsInitialized = true;
     }
 
@@ -76,6 +86,7 @@ export class AnimalCompanionsDataService {
         data: ImportedJsonFileList<T>,
         target: string,
         prototype: T,
+        recastFns: Array<RecastFns>,
     ): Array<T> {
         let resultingData: Array<T> = [];
 
@@ -83,7 +94,7 @@ export class AnimalCompanionsDataService {
 
         Object.keys(extendedData).forEach(filecontent => {
             resultingData.push(...extendedData[filecontent].map(entry =>
-                Object.assign(Object.create(prototype), entry).recast(),
+                Object.assign(Object.create(prototype), entry).recast(...recastFns),
             ));
         });
 

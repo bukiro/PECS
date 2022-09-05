@@ -78,8 +78,7 @@
                         </div>
                         <ng-container
                             *ngFor="let level of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy:trackers.trackByIndex;">
-                            <ng-container
-                                *ngif="visibleSpellsofLevel(level) as visibleSpells">
+                            <ng-container *ngIf="visibleSpellsOfLevel(level) as visibleSpells">
                                 <button class="list-item" (click)="toggleShownList(level)"
                                     [ngClass]="{'fancy-button':[-2,level].includes(shownList())}"
                                     *ngIf="visibleSpells.length">
@@ -214,8 +213,7 @@
                                     <div class="newrow list-item"
                                         *ngIf="visibleSpells.length >= 80 && shownList()!==-2">
                                         <button class="center-aligned"
-                                            [disabled]="(range + 1) * 40 >= visibleSpells.length"
-                                            (click)="incRange(1)">
+                                            [disabled]="(range + 1) * 40 >= visibleSpells.length" (click)="incRange(1)">
                                             Next 40
                                         </button>
                                     </div>

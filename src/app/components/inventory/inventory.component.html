@@ -957,7 +957,7 @@
                                             [armoredSkirt]="itemParameters.asArmor?.armoredSkirt(currentCreature)">
                                         </app-item>
                                     </ng-template>
-                                    <ng-container *ngFor="itemParameters.item.id as inventoryID">
+                                    <ng-container *ngIf="itemParameters.item.id as inventoryID">
                                         <ng-container *ngIf="!isTileMode">
                                             <div class="list-item" cdkDrag [cdkDragData]="itemParameters.item"
                                                 [cdkDragDisabled]="!canDropItem(itemParameters.item)">

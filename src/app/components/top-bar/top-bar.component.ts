@@ -28,6 +28,7 @@ import { SettingsService } from 'src/app/core/services/settings/settings.service
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { MessageProcessingService } from 'src/libs/shared/services/message-processing/message-processing.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
 
 @Component({
     selector: 'app-top-bar',
@@ -66,6 +67,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         private readonly _creatureAvailabilityService: CreatureAvailabilityService,
         private readonly _messageProcessingService: MessageProcessingService,
         private readonly _recastService: RecastService,
+        private readonly _messagePropertiesService: MessagePropertiesService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
     ) { }
@@ -266,11 +268,11 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public creatureFromMessage(message: PlayerMessage): Creature | undefined {
-        return this._messageProcessingService.creatureFromMessage(message) || undefined;
+        return this._messagePropertiesService.creatureFromMessage(message) || undefined;
     }
 
     public messageSenderName(message: PlayerMessage): string {
-        return this._messageProcessingService.messageSenderName(message);
+        return this._messagePropertiesService.messageSenderName(message);
     }
 
     public itemMessageIncludedAmount(message: PlayerMessage): string {

@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-    <div [ngbCollapse]="!!diceResults.length">
+    <div [ngbCollapse]="!diceResults.length">
         <div class="list-item center-aligned vlist">
             <header class="sectionHeader box-header dice-result" style="font-size: 3em;">
                 {{totalDiceSum()}}
@@ -135,8 +135,7 @@
             </div>
             <header class="sectionHeader">Health Operations</header>
             <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackers.trackByIndex">
-                <div class="newrow center-aligned"
-                    *ngIf="creatureFromType(creatureType) as creature">
+                <div class="newrow center-aligned" *ngIf="creatureFromType(creatureType) as creature">
                     <button class="center-aligned" (click)="onHeal(creature)">
                         <span class="mobile-hide">Heal {{creature.name || creatureType}}</span>
                         <i class="ra ra-health desktop-hide"></i>

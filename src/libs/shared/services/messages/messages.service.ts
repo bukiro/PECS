@@ -12,6 +12,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { MessageProcessingService } from '../message-processing/message-processing.service';
 import { RecastService } from '../recast/recast.service';
+import { MessagePropertiesService } from '../message-properties/message-properties.service';
 
 const ignoredMessageTTL = 60;
 
@@ -32,6 +33,7 @@ export class MessagesService {
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _recastService: RecastService,
+        private readonly _messagePropertiesService: MessagePropertiesService,
     ) { }
 
     public newMessages(): Array<PlayerMessage> {
@@ -212,7 +214,7 @@ export class MessagesService {
     }
 
     private _creatureFromMessage(message: PlayerMessage): Creature | undefined {
-        return this._messageProcessingService?.creatureFromMessage(message);
+        return this._messagePropertiesService.creatureFromMessage(message);
     }
 
     private _startMessageProcessingLoop(): void {
@@ -325,6 +327,9 @@ export class MessagesService {
         messages.forEach(message => {
             message.selected = true;
         });
+
+        if (!this._messageProcessingService) { console.error('messageProcessingService missing!'); }
+
         this._messageProcessingService?.applyMessageConditions(messages.filter(message => message.gainCondition.length));
         this._messageProcessingService?.applyMessageItems(messages.filter(message => message.offeredItem.length));
         messages.forEach(message => {

@@ -145,7 +145,7 @@
     <!-- Spells that you gain from equipping/investing the item -->
     <ng-container *ngFor="let choice of itemRoles.asEquipment?.gainSpells || []; trackBy:trackers.trackByIndex;">
         <div class="list-item left-aligned" *ngFor="let gain of choice.spells; trackBy:trackers.trackByIndex;">
-            <div *ngFor="spellFromName(gain.name) as spell">
+            <div *ngIf="spellFromName(gain.name) as spell">
                 <header class="spellHeader">{{spell.name}}
                     <app-actionIcons *ngIf="spell.actions" [actionString]="spell.actions">
                     </app-actionIcons>
@@ -228,7 +228,7 @@
     <div class="list-item left-aligned"
         *ngFor="let rune of itemRoles.asEquipment?.propertyRunes || []; trackBy:trackers.trackByIndex;">
         <header class="spellHeader">{{rune.name}} Rune</header>
-        <ng-container *ngFor="runeStoredSpell(rune) as spell">
+        <ng-container *ngIf="runeStoredSpell(rune) as spell">
             <button class="newrow center-aligned" (click)="onActivateSpellRune(rune)">
                 <span>
                     Use

@@ -268,9 +268,9 @@ export class ItemsDataService {
         this._storeItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
         this._craftingItems = this._cleanItems.clone(this._recastService.recastOnlyFns);
 
-        this._setBasicItems();
-
         this._initialized = true;
+
+        this._setBasicItems();
     }
 
     public reset(): void {
@@ -284,6 +284,8 @@ export class ItemsDataService {
         const newBasicWeapon: Weapon = this.cleanItemFromID('08693211-8daa-11ea-abca-ffb46fbada73') as Weapon;
         // One Unarmored to fall back on if you drop all other armors;
         const newBasicArmor: Armor = this.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723') as Armor;
+
+        if (!this._basicEquipmentService) { console.error('basicEquipmentService missing!'); }
 
         this._basicEquipmentService?.setBasicItems(newBasicWeapon, newBasicArmor);
     }
@@ -308,6 +310,8 @@ export class ItemsDataService {
         let resultingData: Array<T> = [];
 
         const extendedData = this._extensionsService.extend<T>(data, `items_${ prototype.type }`);
+
+        if (!this._itemInitializationService) { console.error('itemInitializationService missing!'); }
 
         //Initialize all clean items. Recasting happens in the initialization,
         // and the store and crafting items will be copied and recast afterwards.

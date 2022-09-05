@@ -39,6 +39,13 @@ import { MessageProcessingService } from 'src/libs/shared/services/message-proce
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { InventoryItemProcessingService } from 'src/libs/shared/services/inventory-item-processing/inventory-item-processing.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
+import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { SpellActivityProcessingSharedService } from 'src/libs/shared/services/spell-activity-processing-shared/spell-activity-processing-shared.service';
+import { CharacterLoadingService } from 'src/libs/shared/saving-loading/services/character-loading/character-loading.service';
+import { FeatProcessingService } from 'src/app/character-creation/services/feat-processing/feat-processing.service';
+import { CharacterHeritageChangeService } from 'src/app/character-creation/services/character-heritage-change/character-heritage-change.service';
+import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
 
 @Injectable({
     providedIn: 'root',
@@ -84,6 +91,13 @@ export class AppInitService {
         private readonly _inventoryService: InventoryService,
         private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
+        private readonly _activitiesProcessingService: ActivitiesProcessingService,
+        private readonly _spellProcessingService: SpellProcessingService,
+        private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
+        private readonly _characterLoadingService: CharacterLoadingService,
+        private readonly _featProcessingService: FeatProcessingService,
+        private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
+        private readonly _familiarService: FamiliarService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -141,10 +155,6 @@ export class AppInitService {
 
                 // Pass some services to other services that shouldn't have them in their dependency injection.
                 this._refreshService.initialize(this._creatureActivitiesService);
-                this._creatureConditionsService.initialize(
-                    this._conditionProcessingService,
-                    this._evaluationService,
-                );
                 this._equipmentConditionsService.initialize(this._evaluationService);
                 this._onceEffectsService.initialize(this._evaluationService);
                 this._inventoryService.initialize(
@@ -152,6 +162,21 @@ export class AppInitService {
                     this._basicEquipmentService,
                 );
                 this._creatureEquipmentService.initialize(this._inventoryItemProcessingService);
+                this._activitiesProcessingService.initialize(
+                    this._spellProcessingService,
+                    this._spellActivityProcessingSharedService,
+                );
+                this._conditionProcessingService.initialize(this._activitiesProcessingService);
+                this._creatureConditionsService.initialize(
+                    this._conditionProcessingService,
+                    this._evaluationService,
+                );
+                this._featProcessingService.initialize(
+                    this._characterHeritageChangeService,
+                    this._familiarService,
+                );
+                this._characterLoadingService.initialize(this);
+                this._characterLoadingService.loadOrResetCharacter();
             }
         }, Defaults.waitForServiceDelay);
     }

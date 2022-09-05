@@ -222,22 +222,24 @@ export class CharacterSheetComponent implements OnInit, OnDestroy {
     }
 
     private _subscribeToChanges(): void {
-        if (this.stillLoading) {
-            setTimeout(() => this._subscribeToChanges(), Defaults.waitForServiceDelay);
-        } else {
-            this._changeSubscription = this._refreshService.componentChanged$
-                .subscribe(target => {
-                    if (['character-sheet', 'all', 'character'].includes(target.toLowerCase())) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-            this._viewChangeSubscription = this._refreshService.detailChanged$
-                .subscribe(view => {
-                    if (view.creature.toLowerCase() === 'character' && ['character-sheet', 'all'].includes(view.target.toLowerCase())) {
-                        this._changeDetector.detectChanges();
-                    }
-                });
-        }
+        const waitForServicesInterval = setInterval(() => {
+            if (!this.stillLoading) {
+                clearInterval(waitForServicesInterval);
+                this._changeSubscription = this._refreshService.componentChanged$
+                    .subscribe(target => {
+                        if (['character-sheet', 'all', 'character'].includes(target.toLowerCase())) {
+                            this._changeDetector.detectChanges();
+                        }
+                    });
+                this._viewChangeSubscription = this._refreshService.detailChanged$
+                    .subscribe(view => {
+                        if (view.creature.toLowerCase() === 'character' && ['character-sheet', 'all'].includes(view.target.toLowerCase())) {
+                            this._changeDetector.detectChanges();
+                        }
+                    });
+            }
+        }, Defaults.waitForServiceDelay);
+
     }
 
     private _setMobile(): void {

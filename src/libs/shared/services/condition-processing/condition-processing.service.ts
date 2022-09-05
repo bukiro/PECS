@@ -27,6 +27,8 @@ import { RecastService } from '../recast/recast.service';
 })
 export class ConditionProcessingService {
 
+    private _activitiesProcessingService?: ActivitiesProcessingService;
+
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _creatureConditionsService: CreatureConditionsService,
@@ -36,7 +38,6 @@ export class ConditionProcessingService {
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _spellsDataService: SpellsDataService,
         private readonly _spellProcessingService: SpellProcessingService,
-        private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
@@ -136,6 +137,10 @@ export class ConditionProcessingService {
         //Show a notification if a new condition has no duration and did nothing, because it will be removed in the next cycle.
         this._notifyOnUselessCondition(gain, taken, didConditionDoAnything);
 
+    }
+
+    public initialize(activitiesProcessingService: ActivitiesProcessingService): void {
+        this._activitiesProcessingService = activitiesProcessingService;
     }
 
     private _prepareConditionOneTimeEffects(
@@ -387,7 +392,9 @@ export class ConditionProcessingService {
                     const activity = activityGain.originalActivity;
 
                     if (activity) {
-                        this._activitiesProcessingService.activateActivity(
+                        if (!this._activitiesProcessingService) { console.error('activitiesProcessingService missing!'); }
+
+                        this._activitiesProcessingService?.activateActivity(
                             activity,
                             false,
                             {

@@ -81,7 +81,8 @@
                                             </app-item>
                                         </ng-template>
                                         <ng-container *ngIf="!isTileMode">
-                                            <div class="list-item" *ngif="[listID+item.id] as inventoryID">
+                                            <div class="list-item"
+                                                *ngIf="listID+snareParameters.snare.id as inventoryID">
                                                 <button class="newrow sublist-toggle"
                                                     [ngClass]="{'fancy-button':snareParameters.preparedAmount}"
                                                     (click)="toggleShownItem(inventoryID)">
@@ -97,7 +98,7 @@
                                                 </button>
                                                 <div class="list-item sublist lower"
                                                     [ngClass]="{'fancy-list':snareParameters.preparedAmount}"
-                                                    *ngIf=" shownItem()===inventoryID">
+                                                    *ngIf="shownItem()===inventoryID">
                                                     <ng-container *ngTemplateOutlet="SnareTemplate">
                                                     </ng-container>
                                                 </div>

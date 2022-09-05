@@ -33,7 +33,7 @@ export class SpellActivityProcessingSharedService {
     /**
      * Determine whether a condition gained from an activity or a spell should apply.
      */
-    public _shouldGainCondition(
+    public shouldGainCondition(
         source: Activity | Spell,
         newConditionGain: ConditionGain,
         condition: Condition,

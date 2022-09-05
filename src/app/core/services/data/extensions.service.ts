@@ -43,7 +43,7 @@ export class ExtensionsService {
     public get stillLoading(): boolean {
         return (
             this._finishedLoading === 0 ||
-            (this._remainingToLoad - this._finishedLoading !== 0)
+            (this._remainingToLoad - this._finishedLoading > 0)
         );
     }
 
@@ -237,11 +237,12 @@ export class ExtensionsService {
                         JSON.parse(JSON.stringify(data)).forEach((extension: { name: string; filename: string }) => {
                             this._loadFile(path, extension.filename, target, extension.name);
                         });
+                        //console.clear();
                         this._finishedLoading++;
                     },
                     error: error => {
                         if (error.status === HttpStatusCode.NotFound) {
-                            console.clear();
+                            //console.clear();
                         } else {
                             console.log(`Error loading extension file: ${ error.message }`);
                         }

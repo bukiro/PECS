@@ -97,6 +97,8 @@ export class InventoryService {
                 returnedItem.expiration = options.expiration;
             }
 
+            if (!this._inventoryItemProcessingService) { console.error('inventoryItemProcessingService missing!'); }
+
             this._inventoryItemProcessingService?.processGrantedItem(
                 context.creature,
                 returnedItem,
@@ -140,13 +142,18 @@ export class InventoryService {
             item.amount -= amount;
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
         } else {
+            if (!this._inventoryItemProcessingService) { console.error('inventoryItemProcessingService missing!'); }
+
             this._inventoryItemProcessingService?.processDroppingItem(creature, inventory, item, including, keepInventoryContent, this);
 
             //The item is deleted here.
             (inventory[item.type as keyof ItemCollection] as Array<Item>) =
                 (inventory[item.type as keyof ItemCollection] as Array<Item>).filter((inventoryItem: Item) => inventoryItem !== item);
 
+
             if (equipBasicItems) {
+                if (!this._basicEquipmentService) { console.error('basicEquipmentService missing!'); }
+
                 this._basicEquipmentService?.equipBasicItems(creature);
             }
         }

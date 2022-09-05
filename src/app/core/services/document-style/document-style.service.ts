@@ -24,9 +24,9 @@ export class DocumentStyleService {
     private _rgbAccent(): string {
         const rgbLength = 4;
         const rrggbbLength = 7;
-        const redIndex = 0;
-        const greenIndex = 1;
-        const blueIndex = 2;
+        const redIndex = 1;
+        const greenIndex = 2;
+        const blueIndex = 3;
 
         const hexToRgb = (hex: string): { r: number; g: number; b: number } | undefined => {
             let result: RegExpExecArray | null;

@@ -77,9 +77,17 @@ export class HistoryDataService {
     }
 
     public initialize(): void {
-        this._ancestries = this._load(json_ancestries, 'ancestries', Ancestry.prototype);
-        this._backgrounds = this._load(json_backgrounds, 'backgrounds', Background.prototype);
-        this._heritages = this._load(json_heritages as ImportedJsonFileList<Heritage>, 'heritages', Heritage.prototype);
+        const ancestry = new Ancestry();
+
+        this._ancestries = this._load(json_ancestries, 'ancestries', ancestry);
+
+        const background = new Background();
+
+        this._backgrounds = this._load(json_backgrounds, 'backgrounds', background);
+
+        const heritage = new Heritage();
+
+        this._heritages = this._load(json_heritages as ImportedJsonFileList<Heritage>, 'heritages', heritage);
 
         this._initialized = true;
     }

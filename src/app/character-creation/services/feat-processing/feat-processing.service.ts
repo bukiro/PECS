@@ -50,10 +50,12 @@ export interface FeatProcessingContext {
 })
 export class FeatProcessingService {
 
+    private _characterHeritageChangeService?: CharacterHeritageChangeService;
+    private _familiarService?: FamiliarService;
+
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
-        private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -69,7 +71,6 @@ export class FeatProcessingService {
         private readonly _characterLanguagesService: CharacterLanguagesService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _animalCompanionService: AnimalCompanionService,
-        private readonly _familiarService: FamiliarService,
     ) { }
 
     public processFeat(
@@ -149,6 +150,13 @@ export class FeatProcessingService {
             this._featProcessingRefreshService.processFeatRefreshing(feat, context);
 
         }
+    }
+
+    public initialize(
+        characterHeritageChangeService: CharacterHeritageChangeService,
+        familiarService: FamiliarService): void {
+        this._characterHeritageChangeService = characterHeritageChangeService;
+        this._familiarService = familiarService;
     }
 
     private _determineFeat(feat: Feat | undefined, featName: string, context: { creature: Character | Familiar }): Feat {
@@ -712,7 +720,9 @@ export class FeatProcessingService {
                     if (oldHeritage) {
                         const heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
 
-                        this._characterHeritageChangeService.changeHeritage(undefined, heritageIndex);
+                        if (!this._characterHeritageChangeService) { console.error('characterHeritageChangeService missing!'); }
+
+                        this._characterHeritageChangeService?.changeHeritage(undefined, heritageIndex);
                     }
                 });
             }
@@ -737,8 +747,10 @@ export class FeatProcessingService {
                     character.class.familiar.originClass = context.choice.type;
                 }
             } else {
+                if (!this._familiarService) { console.error('familiarService missing!'); }
+
                 //Reset the familiar
-                this._familiarService.removeAllFamiliarAbilities();
+                this._familiarService?.removeAllFamiliarAbilities();
                 character.class.familiar = new Familiar();
             }
 

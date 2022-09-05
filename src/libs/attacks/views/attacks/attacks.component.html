@@ -110,8 +110,8 @@
                                 *ngIf="attack.range === 'ranged'"><i class='ra ra-target-arrows'></i></span>
                             {{weaponParameters.weapon.effectiveName()}}
                         </strong>
-                        <strong *ngif="applyingHandwrapsOfMightyBlows(weaponParameters.weapon) as handwraps">
-                            ({{handwraps.get_Name()}})
+                        <strong *ngIf="applyingHandwrapsOfMightyBlows(weaponParameters.weapon) as handwraps">
+                            ({{handwraps.effectiveName()}})
                         </strong>
                         <button style="flex-basis:auto" [disabled]="!weaponParameters.asBomb.amount"
                             (click)="onConsumableUse(weaponParameters.asBomb)" *ngIf="weaponParameters.asBomb">

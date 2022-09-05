@@ -16,6 +16,7 @@ import { RefreshService } from '../refresh/refresh.service';
 import { RecastService } from '../recast/recast.service';
 import { ToastService } from '../toast/toast.service';
 import { TypeService } from '../type/type.service';
+import { MessagePropertiesService } from '../message-properties/message-properties.service';
 
 @Injectable({
     providedIn: 'root',
@@ -34,15 +35,8 @@ export class MessageProcessingService {
         private readonly _inventoryService: InventoryService,
         private readonly _typeService: TypeService,
         private readonly _recastService: RecastService,
+        private readonly _messagePropertiesService: MessagePropertiesService,
     ) { }
-
-    public creatureFromMessage(message: PlayerMessage): Creature | undefined {
-        return this._creatureAvailabilityService.allAvailableCreatures().find(creature => creature.id === message.targetId);
-    }
-
-    public messageSenderName(message: PlayerMessage): string {
-        return this._savegamesService.savegames().find(savegame => savegame.id === message.senderId)?.name || message.senderId;
-    }
 
     public applyTurnChangeMessage(messages: Array<PlayerMessage>): void {
         //Don't receive messages in manual mode.
@@ -98,7 +92,7 @@ export class MessageProcessingService {
         // The ConditionGains have a foreignPlayerId that allows us to recognize that they came from this player.
         messages.forEach(message => {
             if (message.selected) {
-                const targetCreature = this.creatureFromMessage(message);
+                const targetCreature = this._messagePropertiesService.creatureFromMessage(message);
 
                 if (message.activateCondition) {
                     if (targetCreature && message.gainCondition.length) {
@@ -107,7 +101,7 @@ export class MessageProcessingService {
                             this._creatureConditionsService.addCondition(targetCreature, conditionGain, {}, { noReload: true });
 
                         if (hasConditionBeenAdded) {
-                            const senderName = this.messageSenderName(message);
+                            const senderName = this._messagePropertiesService.messageSenderName(message);
 
                             //If a condition was created, send a toast to inform the user.
                             this._toastService.show(
@@ -133,7 +127,7 @@ export class MessageProcessingService {
                             });
 
                         if (hasConditionBeenRemoved) {
-                            const senderName = this.messageSenderName(message);
+                            const senderName = this._messagePropertiesService.messageSenderName(message);
 
                             //If a condition was removed, send a toast to inform the user.
                             this._toastService.show(
@@ -158,10 +152,10 @@ export class MessageProcessingService {
 
         //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.
         messages.forEach(message => {
-            const targetCreature = this.creatureFromMessage(message);
+            const targetCreature = this._messagePropertiesService.creatureFromMessage(message);
 
             if (message.selected) {
-                const sender = this.messageSenderName(message);
+                const sender = this._messagePropertiesService.messageSenderName(message);
 
                 if (targetCreature && message.offeredItem.length) {
                     // We can't use grant_InventoryItem,
@@ -296,7 +290,7 @@ export class MessageProcessingService {
 
         //Iterate through all messages that have an offeredItem (only one per message will be applied) and add the items.
         messages.forEach(message => {
-            const sender = this.messageSenderName(message) || 'The player ';
+            const sender = this._messagePropertiesService.messageSenderName(message) || 'The player ';
 
             if (message.acceptedItem || message.rejectedItem) {
                 let foundItem: Item | undefined;
