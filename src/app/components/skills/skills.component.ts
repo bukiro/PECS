@@ -17,7 +17,6 @@ import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
-import { ActivityGainPropertiesService } from 'src/libs/shared/services/activity-gain-properties/activity-gain-properties.service';
 import { SpeedValuesService } from 'src/libs/shared/services/speed-values/speed-values.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { CreatureSensesService } from 'src/libs/shared/services/creature-senses/creature-senses.service';
@@ -56,7 +55,6 @@ export class SkillsComponent implements OnInit, OnDestroy {
         private readonly _skillValuesService: SkillValuesService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
-        private readonly _activityGainPropertiesService: ActivityGainPropertiesService,
         private readonly _speedValuesService: SpeedValuesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _creatureSensesService: CreatureSensesService,

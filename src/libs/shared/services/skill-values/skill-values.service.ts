@@ -272,6 +272,7 @@ export class SkillValuesService {
             return skillLevel;
         }
     }
+
     public baseValue(
         skillOrName: Skill | string,
         creature: Creature,

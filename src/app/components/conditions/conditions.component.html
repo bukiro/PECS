@@ -321,7 +321,7 @@
                                                         *ngIf="!effect.toggle && (effect.setValue || (effect.value && isValueFormula(effect.value)))">
                                                         <span>
                                                             <span class="value"
-                                                                *ngIf="effectiveEffectValue(creature, effect) as effectiveValue; trackBy:trackers.trackByIndex;"
+                                                                *ngIf="effectiveEffectValue(creature, effect) as effectiveValue"
                                                                 [ngClass]="{'absolute':effect.setValue, 'bonus':!effect.setValue && !effectiveValue.penalty, 'penalty':!effect.setValue && effectiveValue.penalty}">
                                                                 {{effectiveValue.value}}
                                                             </span>

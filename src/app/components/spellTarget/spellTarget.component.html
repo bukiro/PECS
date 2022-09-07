@@ -1,5 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
-<ng-container *ngIf="componentParameters() as parameters; trackBy:trackers.trackByIndex">
+<ng-container *ngIf="componentParameters() as parameters">
     <div class="newrow list-item" *ngIf="parameters.bloodMagicTrigger && asSpellGain() as spellGain">
         <strong class="gap-text">
             <input id="ignoreBloodMagicTrigger" type="checkbox" [(ngModel)]="spellGain.ignoreBloodMagicTrigger">

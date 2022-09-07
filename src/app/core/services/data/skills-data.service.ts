@@ -77,7 +77,7 @@ export class SkillsDataService {
 
     public initialize(): void {
         this._loadSkills();
-        this._initialized = false;
+        this._initialized = true;
     }
 
     public reset(): void {
