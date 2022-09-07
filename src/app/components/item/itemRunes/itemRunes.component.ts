@@ -10,7 +10,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Weapon } from 'src/app/classes/Weapon';
 import { Armor } from 'src/app/classes/Armor';
-import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';

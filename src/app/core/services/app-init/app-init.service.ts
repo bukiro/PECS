@@ -31,21 +31,20 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { ConditionProcessingService } from 'src/libs/shared/services/condition-processing/condition-processing.service';
+import { ConditionProcessingService } from 'src/libs/shared/processing/services/condition-processing/condition-processing.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { EquipmentConditionsService } from 'src/libs/shared/effects-generation/services/equipment-conditions/equipment-conditions.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
-import { MessageProcessingService } from 'src/libs/shared/services/message-processing/message-processing.service';
+import { MessageProcessingService } from 'src/libs/shared/processing/services/message-processing/message-processing.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
-import { InventoryItemProcessingService } from 'src/libs/shared/services/inventory-item-processing/inventory-item-processing.service';
-import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
-import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
-import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
-import { SpellActivityProcessingSharedService } from 'src/libs/shared/services/spell-activity-processing-shared/spell-activity-processing-shared.service';
+import { InventoryItemProcessingService } from 'src/libs/shared/processing/services/inventory-item-processing/inventory-item-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
+import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
+import { SpellActivityProcessingSharedService } from 'src/libs/shared/processing/services/spell-activity-processing-shared/spell-activity-processing-shared.service';
 import { CharacterLoadingService } from 'src/libs/shared/saving-loading/services/character-loading/character-loading.service';
 import { FeatProcessingService } from 'src/app/character-creation/services/feat-processing/feat-processing.service';
-import { CharacterHeritageChangeService } from 'src/app/character-creation/services/character-heritage-change/character-heritage-change.service';
-import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
+import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
+import { ItemActivationProcessingService } from 'src/libs/shared/processing/services/item-activation-processing/item-activation-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -90,14 +89,13 @@ export class AppInitService {
         private readonly _evaluationService: EvaluationService,
         private readonly _inventoryService: InventoryService,
         private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
-        private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _spellProcessingService: SpellProcessingService,
         private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
         private readonly _characterLoadingService: CharacterLoadingService,
         private readonly _featProcessingService: FeatProcessingService,
-        private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
-        private readonly _familiarService: FamiliarService,
+        private readonly _processingServiceProvider: ProcessingServiceProvider,
+        private readonly _itemActivationProcessingService: ItemActivationProcessingService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -119,6 +117,16 @@ export class AppInitService {
         this._statusService.setLoadingStatus('Loading extensions');
         this._extensionsService.initialize();
         this._configService.initialize();
+        this._processingServiceProvider.registerServices(
+            this._activitiesProcessingService,
+            this._conditionProcessingService,
+            this._featProcessingService,
+            this._inventoryItemProcessingService,
+            this._itemActivationProcessingService,
+            this._messageProcessingService,
+            this._spellActivityProcessingSharedService,
+            this._spellProcessingService,
+        );
         DisplayService.setPageHeight();
 
         const waitForFileServices = setInterval(() => {
@@ -149,7 +157,7 @@ export class AppInitService {
                 this._skillsDataService.initialize();
                 this._spellsDataService.initialize();
                 this._traitsDataService.initialize();
-                this._messagesService.initialize(this._messageProcessingService);
+                this._messagesService.initialize();
                 this._customEffectPropertiesService.initialize();
                 this._effectsGenerationService.initialize();
 
@@ -158,22 +166,10 @@ export class AppInitService {
                 this._equipmentConditionsService.initialize(this._evaluationService);
                 this._onceEffectsService.initialize(this._evaluationService);
                 this._inventoryService.initialize(
-                    this._inventoryItemProcessingService,
                     this._basicEquipmentService,
                 );
-                this._creatureEquipmentService.initialize(this._inventoryItemProcessingService);
-                this._activitiesProcessingService.initialize(
-                    this._spellProcessingService,
-                    this._spellActivityProcessingSharedService,
-                );
-                this._conditionProcessingService.initialize(this._activitiesProcessingService);
                 this._creatureConditionsService.initialize(
-                    this._conditionProcessingService,
                     this._evaluationService,
-                );
-                this._featProcessingService.initialize(
-                    this._characterHeritageChangeService,
-                    this._familiarService,
                 );
                 this._characterLoadingService.initialize(this);
                 this._characterLoadingService.loadOrResetCharacter();

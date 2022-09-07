@@ -7,11 +7,11 @@ import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ItemBulkService } from '../item-bulk/item-bulk.service';
-import { InventoryItemProcessingService } from '../inventory-item-processing/inventory-item-processing.service';
-import { InventoryService } from '../inventory/inventory.service';
-import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
-import { RecastService } from '../recast/recast.service';
+import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
@@ -24,6 +24,7 @@ export class ItemTransferService {
         private readonly _inventoryService: InventoryService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _recastService: RecastService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public updateGrantingItemBeforeTransfer(creature: Creature, item: Item): void {
@@ -289,7 +290,6 @@ export class ItemTransferService {
         item: Item,
         inventory: ItemCollection,
         amount = item.amount,
-        inventoryItemProcessingService: InventoryItemProcessingService,
     ): void {
         if (creature.type !== targetCreature.type) {
             this.updateGrantingItemBeforeTransfer(creature, item);
@@ -321,7 +321,15 @@ export class ItemTransferService {
                     const newLength = targetItems.push(movedItem);
                     const newItem = targetItems[newLength - 1];
 
-                    inventoryItemProcessingService.processGrantedItem(toCreature, newItem, targetInventory, true, false, true, true);
+                    this._psp.inventoryItemProcessingService?.processGrantedItem(
+                        toCreature,
+                        newItem,
+                        targetInventory,
+                        true,
+                        false,
+                        true,
+                        true,
+                    );
                 }
             });
             //Add included inventories and process all items inside them.
@@ -330,7 +338,15 @@ export class ItemTransferService {
                 const newInventory = toCreature.inventories[newLength - 1];
 
                 newInventory.allItems().forEach(invItem => {
-                    inventoryItemProcessingService.processGrantedItem(toCreature, invItem, newInventory, true, false, true, true);
+                    this._psp.inventoryItemProcessingService?.processGrantedItem(
+                        toCreature,
+                        invItem,
+                        newInventory,
+                        true,
+                        false,
+                        true,
+                        true,
+                    );
                 });
             });
 

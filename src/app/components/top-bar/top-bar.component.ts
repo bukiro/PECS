@@ -26,7 +26,7 @@ import { DurationsService } from 'src/libs/time/services/durations/durations.ser
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
-import { MessageProcessingService } from 'src/libs/shared/services/message-processing/message-processing.service';
+import { MessageProcessingService } from 'src/libs/shared/processing/services/message-processing/message-processing.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
 import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
 

@@ -5,18 +5,18 @@ import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { SavegamesService } from '../../saving-loading/services/savegames/savegames.service';
-import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
-import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
-import { InventoryItemProcessingService } from '../inventory-item-processing/inventory-item-processing.service';
-import { InventoryService } from '../inventory/inventory.service';
-import { MessageSendingService } from '../message-sending/message-sending.service';
-import { MessagesService } from '../messages/messages.service';
-import { RefreshService } from '../refresh/refresh.service';
-import { RecastService } from '../recast/recast.service';
-import { ToastService } from '../toast/toast.service';
-import { TypeService } from '../type/type.service';
-import { MessagePropertiesService } from '../message-properties/message-properties.service';
+import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
+import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
+import { TypeService } from 'src/libs/shared/services/type/type.service';
+import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
@@ -30,12 +30,12 @@ export class MessageProcessingService {
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _messagesService: MessagesService,
-        private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _inventoryService: InventoryService,
         private readonly _typeService: TypeService,
         private readonly _recastService: RecastService,
         private readonly _messagePropertiesService: MessagePropertiesService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public applyTurnChangeMessage(messages: Array<PlayerMessage>): void {
@@ -207,7 +207,7 @@ export class MessageProcessingService {
                                     addedPrimaryItem = addedItem;
                                 }
 
-                                this._inventoryItemProcessingService.processGrantedItem(
+                                this._psp.inventoryItemProcessingService?.processGrantedItem(
                                     targetCreature,
                                     addedItem,
                                     targetInventory,
@@ -224,7 +224,7 @@ export class MessageProcessingService {
                             const newInventory = targetCreature.inventories[newLength - 1];
 
                             newInventory.allItems().forEach(invItem => {
-                                this._inventoryItemProcessingService.processGrantedItem(
+                                this._psp.inventoryItemProcessingService?.processGrantedItem(
                                     targetCreature,
                                     invItem,
                                     newInventory,

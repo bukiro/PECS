@@ -11,14 +11,14 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
-import { CreatureTypes } from '../../definitions/creatureTypes';
-import { SpellTargetSelection } from '../../definitions/Types/spellTargetSelection';
-import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
-import { SpellTargetService } from '../spell-target/spell-target.service';
-import { SpellActivityProcessingSharedService } from '../spell-activity-processing-shared/spell-activity-processing-shared.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { MessageSendingService } from '../message-sending/message-sending.service';
-import { RecastService } from '../recast/recast.service';
+import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
@@ -32,9 +32,9 @@ export class SpellProcessingService {
         private readonly _spellsService: SpellPropertiesService,
         private readonly _creatureEffectsService: CreatureEffectsService,
         private readonly _spellTargetService: SpellTargetService,
-        private readonly _spellActivityProcessingSharedService: SpellActivityProcessingSharedService,
         private readonly _messageSendingService: MessageSendingService,
         private readonly _recastService: RecastService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public processSpell(
@@ -125,7 +125,7 @@ export class SpellProcessingService {
         }
 
         //All Conditions that have affected the duration of this spell or its conditions are now removed.
-        this._spellActivityProcessingSharedService.removeConditionsToRemove(conditionsToRemove, context);
+        this._psp.spellActivityProcessingSharedService?.removeConditionsToRemove(conditionsToRemove, context);
 
         //The Heal Spell from the Divine Font should update effects, because Channeled Succor depends on it.
         if (spell.name === 'Heal' && context.choice?.source === 'Divine Font') {
@@ -202,7 +202,7 @@ export class SpellProcessingService {
 
             //Under certain circumstances, don't grant a condition.
             if (
-                this._spellActivityProcessingSharedService.shouldGainCondition(
+                this._psp.spellActivityProcessingSharedService?.shouldGainCondition(
                     spell,
                     newConditionGain,
                     condition,
@@ -225,7 +225,7 @@ export class SpellProcessingService {
 
                 //Unless the conditionGain has a choice set, try to set it by various factors.
                 if (!conditionGain.choice) {
-                    this._spellActivityProcessingSharedService.determineGainedConditionChoice(
+                    this._psp.spellActivityProcessingSharedService.determineGainedConditionChoice(
                         newConditionGain,
                         conditionIndex,
                         condition,
@@ -235,7 +235,7 @@ export class SpellProcessingService {
 
                 //Determine the condition's duration and save the names of the conditions that influenced it.
                 conditionsToRemove.push(
-                    ...this._spellActivityProcessingSharedService.determineGainedConditionDuration(
+                    ...this._psp.spellActivityProcessingSharedService.determineGainedConditionDuration(
                         newConditionGain,
                         condition,
                         { ...context, source: spell },
@@ -246,7 +246,7 @@ export class SpellProcessingService {
                 if (condition.hasValue) {
                     //Determine the condition's value and save the names of the conditions that influenced it.
                     conditionsToRemove.push(
-                        ...this._spellActivityProcessingSharedService.determineGainedConditionValue(
+                        ...this._psp.spellActivityProcessingSharedService.determineGainedConditionValue(
                             newConditionGain,
                             condition,
                             context,
@@ -254,12 +254,12 @@ export class SpellProcessingService {
                     );
                 }
 
-                const conditionTargets = this._spellActivityProcessingSharedService.determineConditionTargets(
+                const conditionTargets = this._psp.spellActivityProcessingSharedService.determineConditionTargets(
                     newConditionGain,
                     { ...context, source: spell },
                 );
 
-                this._spellActivityProcessingSharedService.distributeGainingConditions(
+                this._psp.spellActivityProcessingSharedService.distributeGainingConditions(
                     newConditionGain,
                     conditionTargets,
                     spell,

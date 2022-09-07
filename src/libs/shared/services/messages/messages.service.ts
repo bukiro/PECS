@@ -7,12 +7,12 @@ import { ConfigService } from 'src/app/core/services/config/config.service';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
-import { Creature } from '../../../../app/classes/Creature';
+import { Creature } from 'src/app/classes/Creature';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { MessageProcessingService } from '../message-processing/message-processing.service';
-import { RecastService } from '../recast/recast.service';
-import { MessagePropertiesService } from '../message-properties/message-properties.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 const ignoredMessageTTL = 60;
 
@@ -25,8 +25,6 @@ export class MessagesService {
     private _checkingMessages = false;
     private _cleaningUpIgnoredMessages = false;
 
-    private _messageProcessingService?: MessageProcessingService;
-
     constructor(
         private readonly _http: HttpClient,
         private readonly _configService: ConfigService,
@@ -34,6 +32,7 @@ export class MessagesService {
         private readonly _refreshService: RefreshService,
         private readonly _recastService: RecastService,
         private readonly _messagePropertiesService: MessagePropertiesService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public newMessages(): Array<PlayerMessage> {
@@ -49,8 +48,7 @@ export class MessagesService {
         CreatureService.character.ignoredMessages.push({ id: message.id, ttl: ignoredMessageTTL });
     }
 
-    public initialize(messageProcessingService: MessageProcessingService): void {
-        this._messageProcessingService = messageProcessingService;
+    public initialize(): void {
         this._startMessageProcessingLoop();
     }
 
@@ -138,9 +136,9 @@ export class MessagesService {
 
         //Apply turn change messages automatically, then invalidate these messages and return the rest.
         if (newMessages.length) {
-            this._messageProcessingService
+            this._psp.messageProcessingService
                 ?.applyTurnChangeMessage(newMessages.filter(message => message.turnChange));
-            this._messageProcessingService
+            this._psp.messageProcessingService
                 ?.applyItemAcceptedMessages(newMessages.filter(message => message.acceptedItem || message.rejectedItem));
             this._refreshService.processPreparedChanges();
             newMessages.filter(message => message.turnChange).forEach(message => {
@@ -328,10 +326,8 @@ export class MessagesService {
             message.selected = true;
         });
 
-        if (!this._messageProcessingService) { console.error('messageProcessingService missing!'); }
-
-        this._messageProcessingService?.applyMessageConditions(messages.filter(message => message.gainCondition.length));
-        this._messageProcessingService?.applyMessageItems(messages.filter(message => message.offeredItem.length));
+        this._psp.messageProcessingService?.applyMessageConditions(messages.filter(message => message.gainCondition.length));
+        this._psp.messageProcessingService?.applyMessageItems(messages.filter(message => message.offeredItem.length));
         messages.forEach(message => {
             this.markMessageAsIgnored(message);
         });

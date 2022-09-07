@@ -13,19 +13,19 @@ import { Rune } from 'src/app/classes/Rune';
 import { Snare } from 'src/app/classes/Snare';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 import { CreatureService } from 'src/app/services/character.service';
 import { ArmorClassService } from 'src/libs/defense/services/armor-class/armor-class.service';
-import { CreatureTypes } from '../../definitions/creatureTypes';
-import { ActivitiesProcessingService } from '../activities-processing/activities-processing.service';
-import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
-import { CharacterLoreService } from '../character-lore/character-lore.service';
-import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
-import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
-import { InventoryService } from '../inventory/inventory.service';
-import { ItemGrantingService } from '../item-granting/item-granting.service';
-import { ItemTransferService } from '../item-transfer/item-transfer.service';
-import { RefreshService } from '../refresh/refresh.service';
-import { ToastService } from '../toast/toast.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
+import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 
 @Injectable({
     providedIn: 'root',
@@ -37,7 +37,6 @@ export class InventoryItemProcessingService {
         private readonly _featsDataService: FeatsDataService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _characterLoreService: CharacterLoreService,
-        private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _itemTransferService: ItemTransferService,
@@ -45,6 +44,7 @@ export class InventoryItemProcessingService {
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _armorClassService: ArmorClassService,
         private readonly _basicEquipmentService: BasicEquipmentService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public processGrantedItem(
@@ -102,7 +102,7 @@ export class InventoryItemProcessingService {
         if (item.hasActivities()) {
             item.activities.forEach(activity => {
                 if (activity.active) {
-                    this._activitiesProcessingService.activateActivity(
+                    this._psp.activitiesProcessingService?.activateActivity(
                         activity,
                         false,
                         {
@@ -208,7 +208,7 @@ export class InventoryItemProcessingService {
         item.propertyRunes?.forEach(rune => {
             //Deactivate any active toggled activities of inserted runes.
             rune.activities.filter(activity => activity.toggle && activity.active).forEach(activity => {
-                this._activitiesProcessingService.activateActivity(
+                this._psp.activitiesProcessingService?.activateActivity(
                     activity,
                     false,
                     {
@@ -241,7 +241,7 @@ export class InventoryItemProcessingService {
             const libraryActivity = this._activitiesDataService.activities(gainActivity.name)[0];
 
             if (libraryActivity) {
-                this._activitiesProcessingService.activateActivity(
+                this._psp.activitiesProcessingService?.activateActivity(
                     libraryActivity,
                     false,
                     {
@@ -252,7 +252,7 @@ export class InventoryItemProcessingService {
             }
         });
         item.activities.filter(itemActivity => itemActivity.active).forEach((itemActivity: ItemActivity) => {
-            this._activitiesProcessingService.activateActivity(
+            this._psp.activitiesProcessingService?.activateActivity(
                 itemActivity,
                 false,
                 {
@@ -365,7 +365,7 @@ export class InventoryItemProcessingService {
 
         item.gainActivities.forEach(gain => {
             if (gain.active) {
-                this._activitiesProcessingService.activateActivity(
+                this._psp.activitiesProcessingService?.activateActivity(
                     this._activitiesDataService.activities(gain.name)[0],
                     false,
                     {

@@ -19,7 +19,7 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { Spell } from 'src/app/classes/Spell';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Trait } from 'src/app/classes/Trait';
-import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -30,7 +30,6 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
-import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
 
@@ -87,7 +86,6 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _activityGainPropertyService: ActivityGainPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
-        private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
         public trackers: Trackers,
     ) {

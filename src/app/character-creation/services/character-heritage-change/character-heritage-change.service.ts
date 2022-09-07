@@ -3,7 +3,6 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { AdditionalHeritage } from 'src/app/classes/AdditionalHeritage';
 import { Heritage } from 'src/app/classes/Heritage';
 import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
@@ -15,6 +14,7 @@ import { FeatTakingService } from '../feat-taking/feat-taking.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
@@ -25,11 +25,11 @@ export class CharacterHeritageChangeService {
         private readonly _refreshService: RefreshService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _featTakingService: FeatTakingService,
-        private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _featsDataService: FeatsDataService,
         private readonly _recastService: RecastService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public changeHeritage(heritage?: Heritage, index = -1): void {
@@ -126,7 +126,7 @@ export class CharacterHeritageChangeService {
 
                 if (oldGain) {
                     if (oldGain.active) {
-                        this._activitiesProcessingService.activateActivity(
+                        this._psp.activitiesProcessingService?.activateActivity(
                             oldGain.originalActivity,
                             false,
                             { creature: character, gain: oldGain },

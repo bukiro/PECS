@@ -34,7 +34,7 @@ import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-tra
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 
 @Component({

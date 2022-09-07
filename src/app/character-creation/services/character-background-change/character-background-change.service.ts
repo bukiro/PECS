@@ -3,11 +3,11 @@ import { Background } from 'src/app/classes/Background';
 import { LoreChoice } from 'src/app/classes/LoreChoice';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 import { CreatureService } from 'src/app/services/character.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
-import { FeatProcessingService } from '../feat-processing/feat-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -17,8 +17,8 @@ export class CharacterBackgroundChangeService {
     constructor(
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
         private readonly _characterLoreService: CharacterLoreService,
-        private readonly _featProcessingService: FeatProcessingService,
         private readonly _skillsDataService: SkillsDataService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public changeBackground(background?: Background): void {
@@ -50,7 +50,7 @@ export class CharacterBackgroundChangeService {
             //We can't just delete these feats, but must specifically un-take them to undo their effects.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featProcessingService.processFeat(undefined, false, { creature: character, gain, choice, level });
+                    this._psp.featProcessingService?.processFeat(undefined, false, { creature: character, gain, choice, level });
                 });
             });
             level.featChoices = level.featChoices.filter(choice => choice.source !== 'Background');
@@ -92,7 +92,7 @@ export class CharacterBackgroundChangeService {
             //So we remove them and then "take" them again.
             level.featChoices.filter(choice => choice.source === 'Background').forEach(choice => {
                 choice.feats.forEach(gain => {
-                    this._featProcessingService.processFeat(undefined, true, { creature: character, gain, choice, level });
+                    this._psp.featProcessingService?.processFeat(undefined, true, { creature: character, gain, choice, level });
                 });
             });
 

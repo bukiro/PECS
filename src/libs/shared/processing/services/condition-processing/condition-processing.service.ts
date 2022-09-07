@@ -4,30 +4,27 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
-import { CreatureTypes } from '../../definitions/creatureTypes';
-import { Defaults } from '../../definitions/defaults';
-import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
-import { EquipmentSpellsService } from '../equipment-spells/equipment-spells.service';
-import { HealthService } from '../health/health.service';
-import { SpellsTakenService } from '../spells-taken/spells-taken.service';
-import { ItemGrantingService } from '../item-granting/item-granting.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { Defaults } from 'src/libs/shared/definitions/defaults';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
+import { HealthService } from 'src/libs/shared/services/health/health.service';
+import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { SpellProcessingService } from '../spell-processing/spell-processing.service';
-import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
-import { OnceEffectsService } from '../once-effects/once-effects.service';
-import { RecastService } from '../recast/recast.service';
+import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ConditionProcessingService {
-
-    private _activitiesProcessingService?: ActivitiesProcessingService;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -37,13 +34,13 @@ export class ConditionProcessingService {
         private readonly _equipmentSpellsService: EquipmentSpellsService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _spellProcessingService: SpellProcessingService,
         private readonly _creatureEquipmentService: CreatureEquipmentService,
         private readonly _toastService: ToastService,
         private readonly _itemGrantingService: ItemGrantingService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _recastService: RecastService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public processCondition(
@@ -137,10 +134,6 @@ export class ConditionProcessingService {
         //Show a notification if a new condition has no duration and did nothing, because it will be removed in the next cycle.
         this._notifyOnUselessCondition(gain, taken, didConditionDoAnything);
 
-    }
-
-    public initialize(activitiesProcessingService: ActivitiesProcessingService): void {
-        this._activitiesProcessingService = activitiesProcessingService;
     }
 
     private _prepareConditionOneTimeEffects(
@@ -376,7 +369,7 @@ export class ConditionProcessingService {
                     const spell = this._spellsDataService.spellFromName(takenSpell.gain.name);
 
                     if (spell) {
-                        this._spellProcessingService.processSpell(
+                        this._psp.spellProcessingService?.processSpell(
                             spell,
                             false,
                             { creature, target: takenSpell.gain.selectedTarget, gain: takenSpell.gain, level: 0 },
@@ -392,9 +385,7 @@ export class ConditionProcessingService {
                     const activity = activityGain.originalActivity;
 
                     if (activity) {
-                        if (!this._activitiesProcessingService) { console.error('activitiesProcessingService missing!'); }
-
-                        this._activitiesProcessingService?.activateActivity(
+                        this._psp.activitiesProcessingService?.activateActivity(
                             activity,
                             false,
                             {

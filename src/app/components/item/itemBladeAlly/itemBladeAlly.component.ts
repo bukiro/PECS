@@ -7,7 +7,7 @@ import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Weapon } from 'src/app/classes/Weapon';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
+import { ActivitiesProcessingService } from 'src/libs/shared/processing/services/activities-processing/activities-processing.service';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';

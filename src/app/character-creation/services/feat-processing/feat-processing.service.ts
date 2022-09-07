@@ -17,26 +17,26 @@ import { FeatsDataService } from 'src/app/core/services/data/feats-data.service'
 import { CreatureService } from 'src/app/services/character.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
-import { ActivitiesProcessingService } from 'src/libs/shared/services/activities-processing/activities-processing.service';
 import { AnimalCompanionLevelsService } from 'src/libs/shared/services/animal-companion-level/animal-companion-level.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Feat } from '../../definitions/models/Feat';
-import { FeatChoice } from '../../definitions/models/FeatChoice';
-import { FeatData } from '../../definitions/models/FeatData';
-import { FeatTaken } from '../../definitions/models/FeatTaken';
-import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
-import { CharacterSkillIncreaseService } from '../character-skill-increase/character-skill-increase.service';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { FeatChoice } from 'src/app/character-creation/definitions/models/FeatChoice';
+import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
+import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
+import { CharacterHeritageChangeService } from 'src/app/character-creation/services/character-heritage-change/character-heritage-change.service';
+import { CharacterSkillIncreaseService } from 'src/app/character-creation/services/character-skill-increase/character-skill-increase.service';
 import { NamedFeatProcessingService } from './named-feat-processing.service';
-import { FeatProcessingRefreshService } from './feat-processing-refresh';
+import { FeatProcessingRefreshService } from './feat-processing-refresh.service';
 import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { AnimalCompanionService } from 'src/libs/shared/services/animal-companion/animal-companion.service';
 import { FamiliarService } from 'src/libs/shared/services/familiar/familiar.service';
 import { SpellTraditionFromString } from 'src/libs/shared/util/spellUtils';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 export interface FeatProcessingContext {
     creature: Character | Familiar;
@@ -50,13 +50,9 @@ export interface FeatProcessingContext {
 })
 export class FeatProcessingService {
 
-    private _characterHeritageChangeService?: CharacterHeritageChangeService;
-    private _familiarService?: FamiliarService;
-
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _animalCompanionLevelsService: AnimalCompanionLevelsService,
-        private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _creatureConditionsService: CreatureConditionsService,
         private readonly _activitiesDataService: ActivitiesDataService,
         private readonly _characterSkillIncreaseService: CharacterSkillIncreaseService,
@@ -71,6 +67,9 @@ export class FeatProcessingService {
         private readonly _characterLanguagesService: CharacterLanguagesService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _animalCompanionService: AnimalCompanionService,
+        private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
+        private readonly _familiarService: FamiliarService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public processFeat(
@@ -150,13 +149,6 @@ export class FeatProcessingService {
             this._featProcessingRefreshService.processFeatRefreshing(feat, context);
 
         }
-    }
-
-    public initialize(
-        characterHeritageChangeService: CharacterHeritageChangeService,
-        familiarService: FamiliarService): void {
-        this._characterHeritageChangeService = characterHeritageChangeService;
-        this._familiarService = familiarService;
     }
 
     private _determineFeat(feat: Feat | undefined, featName: string, context: { creature: Character | Familiar }): Feat {
@@ -578,7 +570,7 @@ export class FeatProcessingService {
 
                     if (oldGain) {
                         if (oldGain.active) {
-                            this._activitiesProcessingService.activateActivity(
+                            this._psp.activitiesProcessingService?.activateActivity(
                                 this._activitiesDataService.activityFromName(oldGain.name),
                                 false,
                                 {

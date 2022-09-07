@@ -3,23 +3,23 @@ import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Rune } from 'src/app/classes/Rune';
-import { CreatureTypes } from '../../definitions/creatureTypes';
-import { BasicEquipmentService } from '../basic-equipment/basic-equipment.service';
-import { InventoryItemProcessingService } from '../inventory-item-processing/inventory-item-processing.service';
-import { ItemInitializationService } from '../item-initialization/item-initialization.service';
-import { RefreshService } from '../refresh/refresh.service';
+import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
+import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
+import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class InventoryService {
 
-    private _inventoryItemProcessingService?: InventoryItemProcessingService;
     private _basicEquipmentService?: BasicEquipmentService;
 
     constructor(
         private readonly _refreshService: RefreshService,
         private readonly _itemInitializationService: ItemInitializationService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public grantInventoryItem(
@@ -97,9 +97,7 @@ export class InventoryService {
                 returnedItem.expiration = options.expiration;
             }
 
-            if (!this._inventoryItemProcessingService) { console.error('inventoryItemProcessingService missing!'); }
-
-            this._inventoryItemProcessingService?.processGrantedItem(
+            this._psp.inventoryItemProcessingService?.processGrantedItem(
                 context.creature,
                 returnedItem,
                 context.inventory,
@@ -142,9 +140,7 @@ export class InventoryService {
             item.amount -= amount;
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, item.id);
         } else {
-            if (!this._inventoryItemProcessingService) { console.error('inventoryItemProcessingService missing!'); }
-
-            this._inventoryItemProcessingService?.processDroppingItem(creature, inventory, item, including, keepInventoryContent, this);
+            this._psp.inventoryItemProcessingService?.processDroppingItem(creature, inventory, item, including, keepInventoryContent, this);
 
             //The item is deleted here.
             (inventory[item.type as keyof ItemCollection] as Array<Item>) =
@@ -171,10 +167,8 @@ export class InventoryService {
     }
 
     public initialize(
-        inventoryItemProcessingService: InventoryItemProcessingService,
         basicEquipmentService: BasicEquipmentService,
     ): void {
-        this._inventoryItemProcessingService = inventoryItemProcessingService;
         this._basicEquipmentService = basicEquipmentService;
     }
 

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Character } from 'src/app/classes/Character';
 import { Familiar } from 'src/app/classes/Familiar';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 import { CreatureService } from 'src/app/services/character.service';
 import { Feat } from '../../definitions/models/Feat';
 import { FeatChoice } from '../../definitions/models/FeatChoice';
 import { FeatTaken } from '../../definitions/models/FeatTaken';
-import { FeatProcessingService } from '../feat-processing/feat-processing.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +13,7 @@ import { FeatProcessingService } from '../feat-processing/feat-processing.servic
 export class FeatTakingService {
 
     constructor(
-        private readonly _featProcessingService: FeatProcessingService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public takeFeat(
@@ -48,7 +48,7 @@ export class FeatTakingService {
                 ));
             const gain = choice.feats[newLength - 1];
 
-            this._featProcessingService.processFeat(feat, taken, { creature, gain, choice, level });
+            this._psp.featProcessingService?.processFeat(feat, taken, { creature, gain, choice, level });
         } else {
             const choiceFeats = choice.feats;
             const gain = choiceFeats.find(existingFeat =>
@@ -57,7 +57,7 @@ export class FeatTakingService {
             );
 
             if (gain) {
-                this._featProcessingService.processFeat(feat, taken, { creature, gain, choice, level });
+                this._psp.featProcessingService?.processFeat(feat, taken, { creature, gain, choice, level });
                 choiceFeats.splice(choiceFeats.indexOf(gain, 1));
             }
 

@@ -6,9 +6,9 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { EquipmentSpellsService } from 'src/libs/shared/services/equipment-spells/equipment-spells.service';
-import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { SpellsTakenService } from 'src/libs/shared/services/spells-taken/spells-taken.service';
 import { CreatureService } from 'src/app/services/character.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
@@ -19,8 +19,8 @@ export class SpellsTimeService {
         private readonly _refreshService: RefreshService,
         private readonly _spellsTakenService: SpellsTakenService,
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _spellProcessingService: SpellProcessingService,
         private readonly _equipmentSpellsService: EquipmentSpellsService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public restSpells(): void {
@@ -96,7 +96,7 @@ export class SpellsTimeService {
                         const spell: Spell = this._spellsDataService.spellFromName(taken.gain.name);
 
                         if (spell) {
-                            this._spellProcessingService.processSpell(spell, false,
+                            this._psp.spellProcessingService?.processSpell(spell, false,
                                 { creature: character, target: taken.gain.selectedTarget, gain: taken.gain, level: 0 },
                             );
                         }

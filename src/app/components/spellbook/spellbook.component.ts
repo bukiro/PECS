@@ -32,7 +32,7 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { MenuService } from 'src/app/core/services/menu/menu.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';

@@ -5,9 +5,9 @@ import { Activity } from 'src/app/classes/Activity';
 import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Creature } from 'src/app/classes/Creature';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { ActivitiesProcessingService } from '../../../shared/services/activities-processing/activities-processing.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,10 +15,10 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 export class ActivitiesTimeService {
 
     constructor(
-        private readonly _activitiesProcessingService: ActivitiesProcessingService,
         private readonly _refreshService: RefreshService,
         private readonly _activityPropertiesService: ActivityPropertiesService,
         private readonly _creatureActivitiesService: CreatureActivitiesService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public restActivities(creature: Creature): void {
@@ -32,7 +32,7 @@ export class ActivitiesTimeService {
                 const activity: Activity | ItemActivity = gain.originalActivity;
 
                 if (gain.duration === TimePeriods.UntilRest && activity) {
-                    this._activitiesProcessingService.activateActivity(
+                    this._psp.activitiesProcessingService?.activateActivity(
                         activity,
                         false,
                         {
@@ -69,7 +69,7 @@ export class ActivitiesTimeService {
                 const activity: Activity | ItemActivity = gain.originalActivity;
 
                 if (gain.duration === TimePeriods.UntilRefocus) {
-                    this._activitiesProcessingService.activateActivity(
+                    this._psp.activitiesProcessingService?.activateActivity(
                         gain.originalActivity,
                         false,
                         {
@@ -113,7 +113,7 @@ export class ActivitiesTimeService {
                     remainingTurns -= difference;
 
                     if (gain.duration === 0) {
-                        this._activitiesProcessingService.activateActivity(
+                        this._psp.activitiesProcessingService?.activateActivity(
                             activity,
                             false,
                             {

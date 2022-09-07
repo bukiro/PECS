@@ -46,7 +46,7 @@ import { EquipmentPropertiesService } from 'src/libs/shared/services/equipment-p
 import { ItemPriceService } from 'src/libs/shared/services/item-price/item-price.service';
 import { InventoryPropertiesService } from 'src/libs/shared/services/inventory-properties/inventory-properties.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
+import { SpellProcessingService } from 'src/libs/shared/processing/services/spell-processing/spell-processing.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
@@ -60,7 +60,6 @@ import { CurrencyService } from 'src/libs/shared/services/currency/currency.serv
 import { ItemActivationService } from 'src/libs/shared/services/item-activation/item-activation.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
-import { InventoryItemProcessingService } from 'src/libs/shared/services/inventory-item-processing/inventory-item-processing.service';
 
 interface ItemParameters extends ItemRoles {
     id: string;
@@ -134,7 +133,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
         private readonly _currencyService: CurrencyService,
         private readonly _itemActivationService: ItemActivationService,
         private readonly _messageSendingService: MessageSendingService,
-        private readonly _inventoryItemProcessingService: InventoryItemProcessingService,
         public trackers: Trackers,
     ) { }
 
@@ -381,7 +379,6 @@ export class InventoryComponent implements OnInit, OnDestroy {
                     item,
                     inventory,
                     amount,
-                    this._inventoryItemProcessingService,
                 );
             } else {
                 this._messageSendingService.sendItemsToPlayer(this.currentCreature, target, item, amount);

@@ -8,12 +8,12 @@ import { ConditionsDataService } from 'src/app/core/services/data/conditions-dat
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
-import { CreatureTypeIDFromType } from '../../util/creatureUtils';
-import { SortAlphaNum } from '../../util/sortUtils';
-import { ConditionProcessingService } from '../condition-processing/condition-processing.service';
+import { CreatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
+import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ConditionEffectsObject } from 'src/app/classes/ConditionEffectsObject';
-import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
+import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { RecastService } from '../recast/recast.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,7 +22,6 @@ export class CreatureConditionsService {
 
     private readonly _previousCreatureConditionsState: Array<Array<ConditionGain>> = [[], [], []];
 
-    private _conditionProcessingService?: ConditionProcessingService;
     private _evaluationService?: EvaluationService;
 
     constructor(
@@ -30,6 +29,7 @@ export class CreatureConditionsService {
         private readonly _toastService: ToastService,
         private readonly _refreshService: RefreshService,
         private readonly _recastService: RecastService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     /**
@@ -141,9 +141,7 @@ export class CreatureConditionsService {
             }
 
             if (hasConditionBeenAdded) {
-                if (!this._conditionProcessingService) { console.error('conditionProcessingService missing!'); }
-
-                this._conditionProcessingService?.processCondition(
+                this._psp.conditionProcessingService?.processCondition(
                     creature,
                     workingGain,
                     this._conditionsDataService.conditionFromName(workingGain.name),
@@ -248,9 +246,7 @@ export class CreatureConditionsService {
                 });
             creature.conditions.splice(creature.conditions.indexOf(oldConditionGain), 1);
 
-            if (!this._conditionProcessingService) { console.error('conditionProcessingService missing!'); }
-
-            this._conditionProcessingService?.processCondition(
+            this._psp.conditionProcessingService?.processCondition(
                 creature,
                 oldConditionGain,
                 originalCondition,
@@ -332,10 +328,8 @@ export class CreatureConditionsService {
     }
 
     public initialize(
-        conditionProcessingService: ConditionProcessingService,
         evaluationService: EvaluationService,
     ): void {
-        this._conditionProcessingService = conditionProcessingService;
         this._evaluationService = evaluationService;
     }
 

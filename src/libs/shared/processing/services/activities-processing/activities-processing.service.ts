@@ -18,21 +18,17 @@ import { CreatureEffectsService } from 'src/libs/shared/services/creature-effect
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { SpellProcessingService } from 'src/libs/shared/services/spell-processing/spell-processing.service';
 import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
-import { SpellActivityProcessingSharedService } from 'src/libs/shared/services/spell-activity-processing-shared/spell-activity-processing-shared.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { MessageSendingService } from '../message-sending/message-sending.service';
-import { OnceEffectsService } from '../once-effects/once-effects.service';
-import { RecastService } from '../recast/recast.service';
+import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
+import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ActivitiesProcessingService {
-
-    private _spellProcessingService?: SpellProcessingService;
-    private _spellActivityProcessingSharedService?: SpellActivityProcessingSharedService;
 
     constructor(
         private readonly _activitiesDataService: ActivitiesDataService,
@@ -47,6 +43,7 @@ export class ActivitiesProcessingService {
         private readonly _messageSendingService: MessageSendingService,
         private readonly _onceEffectsService: OnceEffectsService,
         private readonly _recastService: RecastService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public activateActivity(
@@ -91,13 +88,6 @@ export class ActivitiesProcessingService {
                 },
             );
         }
-    }
-
-    public initialize(
-        spellProcessingService: SpellProcessingService,
-        spellActivityProcessingSharedService: SpellActivityProcessingSharedService): void {
-        this._spellProcessingService = spellProcessingService;
-        this._spellActivityProcessingSharedService = spellActivityProcessingSharedService;
     }
 
     private _activateActivity(
@@ -229,9 +219,7 @@ export class ActivitiesProcessingService {
 
                         cast.spellGain.selectedTarget = context.target || '';
 
-                        if (!this._spellProcessingService) { console.error('spellProcessingService missing!'); }
-
-                        this._spellProcessingService?.processSpell(
+                        this._psp.spellProcessingService?.processSpell(
                             librarySpell,
                             true,
                             {
@@ -251,10 +239,8 @@ export class ActivitiesProcessingService {
 
         this._deactivateExclusiveActivities(activity, context);
 
-        if (!this._spellActivityProcessingSharedService) { console.error('spellActivityProcessingSharedService missing!'); }
-
         //All Conditions that have affected the duration of this activity or its conditions are now removed.
-        this._spellActivityProcessingSharedService?.removeConditionsToRemove(conditionsToRemove, context);
+        this._psp.spellActivityProcessingSharedService?.removeConditionsToRemove(conditionsToRemove, context);
 
         if (shouldClosePopupsAfterActivation) {
             this._refreshService.prepareDetailToChange(context.creature.type, 'close-popovers');
@@ -398,11 +384,9 @@ export class ActivitiesProcessingService {
                 newConditionGain.source = activity.name;
             }
 
-            if (!this._spellActivityProcessingSharedService) { console.error('spellActivityProcessingSharedService missing!'); }
-
             //Under certain circumstances, don't grant a condition.
             if (
-                this._spellActivityProcessingSharedService?.shouldGainCondition(
+                this._psp.spellActivityProcessingSharedService?.shouldGainCondition(
                     activity,
                     newConditionGain,
                     condition,
@@ -419,7 +403,7 @@ export class ActivitiesProcessingService {
 
                 //Unless the conditionGain has a choice set, try to set it by various factors.
                 if (!newConditionGain.choice) {
-                    this._spellActivityProcessingSharedService.determineGainedConditionChoice(
+                    this._psp.spellActivityProcessingSharedService.determineGainedConditionChoice(
                         newConditionGain,
                         conditionIndex,
                         condition,
@@ -429,7 +413,7 @@ export class ActivitiesProcessingService {
 
                 //Determine the condition's duration and save the names of the conditions that influenced it.
                 conditionsToRemove.push(
-                    ...this._spellActivityProcessingSharedService.determineGainedConditionDuration(
+                    ...this._psp.spellActivityProcessingSharedService.determineGainedConditionDuration(
                         newConditionGain,
                         condition,
                         { ...context, source: activity },
@@ -440,7 +424,7 @@ export class ActivitiesProcessingService {
                 if (condition.hasValue) {
                     conditionsToRemove.push(
                         //Determine the condition's value and save the names of the conditions that influenced it.
-                        ...this._spellActivityProcessingSharedService.determineGainedConditionValue(
+                        ...this._psp.spellActivityProcessingSharedService.determineGainedConditionValue(
                             newConditionGain,
                             condition,
                             context,
@@ -448,12 +432,12 @@ export class ActivitiesProcessingService {
                     );
                 }
 
-                const conditionTargets = this._spellActivityProcessingSharedService.determineConditionTargets(
+                const conditionTargets = this._psp.spellActivityProcessingSharedService.determineConditionTargets(
                     newConditionGain,
                     { ...context, source: activity },
                 );
 
-                this._spellActivityProcessingSharedService.distributeGainingConditions(
+                this._psp.spellActivityProcessingSharedService.distributeGainingConditions(
                     newConditionGain,
                     conditionTargets,
                     activity,
@@ -595,9 +579,7 @@ export class ActivitiesProcessingService {
                             cast.spellGain.duration = cast.duration;
                         }
 
-                        if (!this._spellProcessingService) { console.error('spellProcessingService missing!'); }
-
-                        this._spellProcessingService?.processSpell(
+                        this._psp.spellProcessingService?.processSpell(
                             librarySpell,
                             false,
                             {

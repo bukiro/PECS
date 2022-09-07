@@ -7,8 +7,8 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterHeritageChangeService } from '../character-heritage-change/character-heritage-change.service';
 import { FeatTakingService } from '../feat-taking/feat-taking.service';
-import { FeatProcessingService } from '../feat-processing/feat-processing.service';
 import { CharacterLanguagesService } from 'src/libs/shared/services/character-languages/character-languages.service';
+import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',
@@ -20,8 +20,8 @@ export class CharacterAncestryChangeService {
         private readonly _characterHeritageChangeService: CharacterHeritageChangeService,
         private readonly _featTakingService: FeatTakingService,
         private readonly _itemGrantingService: ItemGrantingService,
-        private readonly _featProcessingService: FeatProcessingService,
         private readonly _characterLanguagesService: CharacterLanguagesService,
+        private readonly _psp: ProcessingServiceProvider,
     ) { }
 
     public changeAncestry(newAncestry?: Ancestry): void {
@@ -71,7 +71,7 @@ export class CharacterAncestryChangeService {
             characterClass.levels.forEach(classLevel => {
                 classLevel.featChoices.forEach(choice => {
                     choice.feats.filter(gain => gain.name.includes('Adopted Ancestry')).forEach(gain => {
-                        this._featProcessingService.processFeat(undefined, false, { creature: character, gain, choice, level });
+                        this._psp.featProcessingService?.processFeat(undefined, false, { creature: character, gain, choice, level });
                     });
 
                     choice.feats = choice.feats.filter(gain => !gain.name.includes('Adopted Ancestry'));

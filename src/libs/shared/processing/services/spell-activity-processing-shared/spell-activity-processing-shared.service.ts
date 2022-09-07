@@ -11,11 +11,11 @@ import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { TimePeriods } from '../../definitions/timePeriods';
-import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
-import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
-import { MessageSendingService } from '../message-sending/message-sending.service';
+import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 
 @Injectable({
     providedIn: 'root',

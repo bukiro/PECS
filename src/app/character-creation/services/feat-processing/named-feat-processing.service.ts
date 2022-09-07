@@ -7,7 +7,7 @@ import { CharacterDeitiesService } from 'src/libs/shared/services/character-deit
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Feat } from '../../definitions/models/Feat';
+import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { FeatProcessingContext } from './feat-processing.service';
 
 @Injectable({
