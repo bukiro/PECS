@@ -387,10 +387,12 @@ export class CreatureConditionsService {
 
         // Remove all conditions that were marked for deletion by setting their value to -1.
         // We clone the list so it isn't affected by the removal.
-        // Ignore anything that would stop the condition from being removed (i.e. lockedByParent), or we will get stuck in this loop.
-        const remainingConditions = activeConditions.map(activeCondition => activeCondition.clone(this._recastService.recastOnlyFns));
+        // Ignore anything that would stop the condition from being removed (i.e. lockedByParent).
+        const conditionsToRemove = activeConditions
+            .filter(activeCondition => activeCondition.value === -1)
+            .map(activeCondition => activeCondition.clone(this._recastService.recastOnlyFns));
 
-        remainingConditions.forEach(remainingCondition =>
+        conditionsToRemove.forEach(remainingCondition =>
             this.removeCondition(
                 creature,
                 remainingCondition,
@@ -400,6 +402,8 @@ export class CreatureConditionsService {
                 true,
             ),
         );
+
+        activeConditions = activeConditions.filter(activeCondition => activeCondition.value !== -1);
 
         // Cleanup overrides, first iteration:
         // If any override comes from a condition that was removed
@@ -447,50 +451,47 @@ export class CreatureConditionsService {
                 const condition = this._conditionsDataService.conditionFromName(gain.name);
 
                 if (condition.name === gain.name) {
-                    //Only process the conditions that haven't been marked for deletion.
-                    if (gain.value !== -1) {
-                        const parentGain = activeConditions.find(otherGain => otherGain.id === gain.parentID);
+                    const parentGain = activeConditions.find(otherGain => otherGain.id === gain.parentID);
 
-                        gain.paused = doesPauseExistForCondition(gain);
+                    gain.paused = doesPauseExistForCondition(gain);
 
-                        if (doesOverrideExistForCondition(gain)) {
-                            //If any remaining condition override applies to this or all, disable this.
-                            gain.apply = false;
-                        } else if (parentGain && !parentGain.apply) {
-                            //If the parent of this condition is disabled, disable this unless it is the source of the override.
-                            gain.apply = false;
-                        } else {
-                            // If the condition has not been overridden, we compare it condition with all others
-                            // that have the same name and deactivate it under certain circumstances.
-                            // Are there any other conditions with this name and value that have not been deactivated yet?
-                            activeConditions.filter(otherGain =>
-                                (otherGain !== gain) &&
-                                (otherGain.name === gain.name) &&
-                                (otherGain.apply),
-                            ).forEach(otherGain => {
-                                // Unlimited conditions and higher value conditions remain,
-                                // same persistent damage value conditions are exclusive.
-                                if (condition.unlimited) {
-                                    gain.apply = true;
-                                } else if (otherGain.value + otherGain.heightened > gain.value + gain.heightened) {
+                    if (doesOverrideExistForCondition(gain)) {
+                        //If any remaining condition override applies to this or all, disable this.
+                        gain.apply = false;
+                    } else if (parentGain && !parentGain.apply) {
+                        //If the parent of this condition is disabled, disable this unless it is the source of the override.
+                        gain.apply = false;
+                    } else {
+                        // If the condition has not been overridden, we compare it condition with all others
+                        // that have the same name and deactivate it under certain circumstances.
+                        // Are there any other conditions with this name and value that have not been deactivated yet?
+                        activeConditions.filter(otherGain =>
+                            (otherGain !== gain) &&
+                            (otherGain.name === gain.name) &&
+                            (otherGain.apply),
+                        ).forEach(otherGain => {
+                            // Unlimited conditions and higher value conditions remain,
+                            // same persistent damage value conditions are exclusive.
+                            if (condition.unlimited) {
+                                gain.apply = true;
+                            } else if (otherGain.value + otherGain.heightened > gain.value + gain.heightened) {
+                                gain.apply = false;
+                            } else if (otherGain.choice > gain.choice) {
+                                gain.apply = false;
+                            } else if (
+                                otherGain.value === gain.value &&
+                                otherGain.heightened === gain.heightened
+                            ) {
+                                // If the value and choice is the same:
+                                // Deactivate this condition if the other one has a longer duration
+                                // (and this one is not permanent), or is permanent (no matter if this one is).
+                                // The other condition will not be deactivated because it only gets compared
+                                // to the ones that aren't deactivated yet.
+                                if (otherGain.durationIsPermanent || (gain.duration >= 0 && otherGain.duration >= gain.duration)) {
                                     gain.apply = false;
-                                } else if (otherGain.choice > gain.choice) {
-                                    gain.apply = false;
-                                } else if (
-                                    otherGain.value === gain.value &&
-                                    otherGain.heightened === gain.heightened
-                                ) {
-                                    // If the value and choice is the same:
-                                    // Deactivate this condition if the other one has a longer duration
-                                    // (and this one is not permanent), or is permanent (no matter if this one is).
-                                    // The other condition will not be deactivated because it only gets compared
-                                    // to the ones that aren't deactivated yet.
-                                    if (otherGain.durationIsPermanent || (gain.duration >= 0 && otherGain.duration >= gain.duration)) {
-                                        gain.apply = false;
-                                    }
                                 }
-                            });
-                        }
+                            }
+                        });
                     }
                 }
             });
