@@ -865,7 +865,15 @@ export class EffectsGenerationService {
         //When the effects are unchanged after the second or any subsequent run, the generation is finished.
 
         const areEffectsChanged = (
-            (JSON.stringify(this._creatureEffectsService.effects(context.creature.type).all)) !== (JSON.stringify(effects))
+            (
+                JSON.stringify(
+                    this._creatureEffectsService.effects(context.creature.type).all.map(effect => ({ ...effect, id: undefined })),
+                )
+            ) !== (
+                JSON.stringify(
+                    effects.map(effect => ({ ...effect, id: undefined })),
+                )
+            )
         );
 
         if (areEffectsChanged) {
