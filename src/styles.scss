@@ -705,26 +705,31 @@ select option {
 }
 
 .action1A {
+    -webkit-mask-image: url(assets/img/1A.svg);
     mask-image: url(assets/img/1A.svg);
     width: 1em;
 }
 
 .action2A {
+    -webkit-mask-image: url(assets/img/2A.svg);
     mask-image: url(assets/img/2A.svg);
     width: 1.6em;
 }
 
 .action3A {
+    -webkit-mask-image: url(assets/img/3A.svg);
     mask-image: url(assets/img/3A.svg);
     width: 2.1em;
 }
 
 .actionFree {
+    -webkit-mask-image: url(assets/img/Free.svg);
     mask-image: url(assets/img/Free.svg);
     width: 1em;
 }
 
 .actionReaction {
+    -webkit-mask-image: url(assets/img/Reaction.svg);
     mask-image: url(assets/img/Reaction.svg);
     width: 1em;
 }
@@ -1519,7 +1524,7 @@ ngb-popover-window.list-item.sublist {
     background-color: #303030;
 }
 
-.popover .arrow {
+.popover .popover-arrow {
     display: none;
 }
 
