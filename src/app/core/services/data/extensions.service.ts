@@ -237,12 +237,12 @@ export class ExtensionsService {
                         JSON.parse(JSON.stringify(data)).forEach((extension: { name: string; filename: string }) => {
                             this._loadFile(path, extension.filename, target, extension.name);
                         });
-                        //console.clear();
                         this._finishedLoading++;
+                        console.clear();
                     },
                     error: error => {
                         if (error.status === HttpStatusCode.NotFound) {
-                            //console.clear();
+                            console.clear();
                         } else {
                             console.log(`Error loading extension file: ${ error.message }`);
                         }
