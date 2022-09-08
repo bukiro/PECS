@@ -436,7 +436,7 @@ export class GridIconComponent implements OnInit, OnDestroy {
             return this.effect.title.split(' (')[0].split(':')[0].substring(0, maxIconValueLength);
         } else if (!!this.effect?.setValue && this.effect?.setValue?.length > minIconValueLength) {
             return this.effect.setValue.substring(0, maxIconValueLength);
-        } else if (!!this.effect?.setValue && this.effect?.value?.length > minIconValueLength) {
+        } else if (!!this.effect?.value && this.effect?.value?.length > minIconValueLength) {
             return this.effect.value.substring(0, maxIconValueLength);
         }
 
