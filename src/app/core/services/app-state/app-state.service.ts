@@ -9,11 +9,11 @@ export class AppStateService {
     private _characterLoadedOrCreated = false;
 
     public wasCharacterMenuClosedOnce(): boolean {
-        return !this._characterMenuClosedOnce;
+        return this._characterMenuClosedOnce;
     }
 
-    public setCharacterMenuClosedOnce(): boolean {
-        return this._characterMenuClosedOnce = true;
+    public setCharacterMenuClosedOnce(): void {
+        this._characterMenuClosedOnce = true;
     }
 
     public wasCharacterLoadedOrCreated(): boolean {
