@@ -7,6 +7,7 @@ import { filter, map, Observable, of, switchMap } from 'rxjs';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { StatusService } from 'src/app/core/services/status/status.service';
+import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 
 interface LoginToken {
     token: string | false;
@@ -27,6 +28,8 @@ export class ConfigService {
     private _loggedOutMessage = '';
     private _updateAvailable = '';
     private readonly _updateURL = 'http://api.github.com/repos/bukiro/PECS/releases/latest';
+
+    private _savegamesService?: SavegamesService;
 
     constructor(
         private readonly _httpClient: HttpClient,
@@ -99,6 +102,7 @@ export class ConfigService {
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'top-bar');
                         this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'reset-savegames');
                         this._refreshService.processPreparedChanges();
+                        this._savegamesService?.reset();
                     } else {
                         this._loggedIn = false;
                         this._loggingIn = false;
@@ -139,7 +143,9 @@ export class ConfigService {
         this._refreshService.processPreparedChanges();
     }
 
-    public initialize(): void {
+    public initialize(savegamesService: SavegamesService): void {
+        this._savegamesService = savegamesService;
+
         const headers = new HttpHeaders()
             .set('Cache-Control', 'no-cache')
             .set('Pragma', 'no-cache');

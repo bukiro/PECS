@@ -45,6 +45,7 @@ import { CharacterLoadingService } from 'src/libs/shared/saving-loading/services
 import { FeatProcessingService } from 'src/app/character-creation/services/feat-processing/feat-processing.service';
 import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 import { ItemActivationProcessingService } from 'src/libs/shared/processing/services/item-activation-processing/item-activation-processing.service';
+import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 
 @Injectable({
     providedIn: 'root',
@@ -96,6 +97,7 @@ export class AppInitService {
         private readonly _featProcessingService: FeatProcessingService,
         private readonly _processingServiceProvider: ProcessingServiceProvider,
         private readonly _itemActivationProcessingService: ItemActivationProcessingService,
+        private readonly _savegamesService: SavegamesService,
         popoverConfig: NgbPopoverConfig,
         tooltipConfig: NgbTooltipConfig,
     ) {
@@ -116,7 +118,7 @@ export class AppInitService {
     public init(): void {
         this._statusService.setLoadingStatus('Loading extensions');
         this._extensionsService.initialize();
-        this._configService.initialize();
+        this._configService.initialize(this._savegamesService);
         this._processingServiceProvider.registerServices(
             this._activitiesProcessingService,
             this._conditionProcessingService,
