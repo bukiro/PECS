@@ -56,8 +56,8 @@ export class CreatureConditionsService {
 
         return activeConditions
             .filter(condition =>
-                (!filter.name?.toLowerCase() || condition.name.toLowerCase() === filter.name) &&
-                (!filter.source?.toLowerCase() || condition.source.toLowerCase() === filter.source),
+                (!filter.name?.toLowerCase() || condition.name.toLowerCase() === filter.name.toLowerCase()) &&
+                (!filter.source?.toLowerCase() || condition.source.toLowerCase() === filter.source.toLowerCase()),
             )
             .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id));
     }
