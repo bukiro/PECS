@@ -112,12 +112,14 @@ export class ConditionGainPropertiesService {
             // If the current duration is the default duration of the previous choice,
             // then set the default duration for the current choice.
             // This lets users change the choice directly after adding the condition if they made a mistake.
-            if (gain.duration === condition.defaultDuration(oldChoice, gain.heightened).duration) {
-                gain.duration = condition.defaultDuration(gain.choice, gain.heightened).duration;
+            const defaultDuration = condition.defaultDuration(oldChoice, gain.heightened)?.duration || 0;
+
+            if (gain.duration === defaultDuration) {
+                gain.duration = defaultDuration;
                 //Also set the maxDuration to the new value as we have effectively restarted the counter.
                 gain.maxDuration = gain.duration;
             } else if (
-                gain.duration === condition.defaultDuration(oldChoice, gain.heightened).duration + TimePeriods.UntilOtherCharactersTurn
+                gain.duration === (defaultDuration + TimePeriods.UntilOtherCharactersTurn)
             ) {
                 // If the current duration is the default duration of the previous choice PLUS 2,
                 // then set the default duration for the current choice, plus 2.
@@ -128,7 +130,7 @@ export class ConditionGainPropertiesService {
                     addition = TimePeriods.UntilOtherCharactersTurn;
                 }
 
-                gain.duration = condition.defaultDuration(gain.choice, gain.heightened).duration + addition;
+                gain.duration = defaultDuration + addition;
                 //Also set the maxDuration to the new value as we have effectively restarted the counter.
                 gain.maxDuration = gain.duration;
             }

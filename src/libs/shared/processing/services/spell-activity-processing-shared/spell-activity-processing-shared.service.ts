@@ -121,7 +121,7 @@ export class SpellActivityProcessingSharedService {
             } else if (newConditionGain.durationIsDynamic) {
                 //If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
                 newConditionGain.duration =
-                    condition.defaultDuration(newConditionGain.choice, newConditionGain.heightened)?.duration;
+                    condition.defaultDuration(newConditionGain.choice, newConditionGain.heightened)?.duration || 0;
             }
 
             const effectConditionDuration =

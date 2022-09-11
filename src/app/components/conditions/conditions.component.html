@@ -166,34 +166,32 @@
                                                         </span>
                                                     </div>
                                                     <ng-container *ngIf="!condition.restricted">
-                                                        <ng-container
+                                                        <div class="newrow"
                                                             *ngIf="condition.defaultDuration(condition.choice, heightened) as defaultDuration">
-                                                            <div class="newrow" *ngIf="!condition.restricted">
-                                                                <strong style="margin-bottom:0;">
-                                                                    Add
-                                                                    {{durationDescription(defaultDuration.duration,
-                                                                    true)}}
-                                                                    ({{defaultDuration.source}})
-                                                                </strong>
-                                                                <div class="newrow">
-                                                                    <button
-                                                                        (click)="onAddCondition(character, condition, defaultDuration.duration, false)">
-                                                                        to {{character.name || "Character"}}
-                                                                    </button>
-                                                                    <button
-                                                                        (click)="onAddCondition(companion, condition, defaultDuration.duration, false)"
-                                                                        *ngIf="componentParameters.isCompanionAvailable">
-                                                                        to {{companion.name || "Animal Companion"}}
-                                                                    </button>
-                                                                    <button
-                                                                        (click)="onAddCondition(familiar, condition, defaultDuration.duration, false)"
-                                                                        *ngIf="componentParameters.isFamiliarAvailable">
-                                                                        to {{familiar.name || "Familiar"}}
-                                                                    </button>
-                                                                </div>
+                                                            <strong style="margin-bottom:0;">
+                                                                Add
+                                                                {{durationDescription(defaultDuration.duration,
+                                                                true)}}
+                                                                ({{defaultDuration.source}})
+                                                            </strong>
+                                                            <div class="newrow">
+                                                                <button
+                                                                    (click)="onAddCondition(character, condition, defaultDuration.duration, false)">
+                                                                    to {{character.name || "Character"}}
+                                                                </button>
+                                                                <button
+                                                                    (click)="onAddCondition(companion, condition, defaultDuration.duration, false)"
+                                                                    *ngIf="componentParameters.isCompanionAvailable">
+                                                                    to {{companion.name || "Animal Companion"}}
+                                                                </button>
+                                                                <button
+                                                                    (click)="onAddCondition(familiar, condition, defaultDuration.duration, false)"
+                                                                    *ngIf="componentParameters.isFamiliarAvailable">
+                                                                    to {{familiar.name || "Familiar"}}
+                                                                </button>
                                                             </div>
-                                                        </ng-container>
-                                                        <div class="newrow" *ngIf="!condition.restricted">
+                                                        </div>
+                                                        <div class="newrow">
                                                             <strong style="margin-bottom:0;">
                                                                 Add
                                                                 {{durationDescription(effectiveDuration(), true)}}

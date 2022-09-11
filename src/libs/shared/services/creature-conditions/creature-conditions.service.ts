@@ -596,7 +596,7 @@ export class CreatureConditionsService {
         // If the conditionGain has duration -5, use the default duration depending on spell level and effect choice.
         if (conditionGain.durationIsDynamic) {
             conditionGain.duration =
-                originalCondition.defaultDuration(conditionGain.choice, conditionGain.heightened)?.duration;
+                originalCondition.defaultDuration(conditionGain.choice, conditionGain.heightened)?.duration || 0;
         }
 
         // If there are choices, and the choice is not set by the gain, take the default or the first choice.

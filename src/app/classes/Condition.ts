@@ -215,7 +215,7 @@ export class Condition {
         return this.choices.find(choice => choice.name === choiceName)?.nextStage || 0;
     }
 
-    public defaultDuration(choiceName = '', spellLevel = 0): { duration: number; source: string } {
+    public defaultDuration(choiceName = '', spellLevel = 0): { duration: number; source: string } | undefined {
         //Suggest a default duration for a condition in this order:
         // 1. The default duration of the current condition choice, if one exists
         // 2. If the condition has a minLevel (== is a spell), the default duration with the appropriate minLevel value, if one exists
@@ -247,8 +247,6 @@ export class Condition {
         if (this.defaultDurations[0]?.duration != null) {
             return { duration: this.defaultDurations[0].duration, source: 'Default' };
         }
-
-        return { duration: 0, source: 'No default duration' };
     }
 
     public heightenedItemGains(levelNumber: number): Array<ItemGain> {
