@@ -1607,10 +1607,13 @@ ngb-popover-window.list-item.sublist {
 /* Bootstrap toast overrides */
 
 app-toast-container.ngb-toasts {
-    position: absolute;
+    position: fixed;
+    right: 0;
+    z-index: 2000;
 }
 
 app-toast-container .toast {
+    margin: .5rem;
     border-width: 4px;
     border-style: solid;
     border-color: #465A8C;
