@@ -105,7 +105,7 @@ export class AppInitService {
         popoverConfig.container = 'body';
         popoverConfig.openDelay = Defaults.tooltipDelay;
         popoverConfig.placement = 'auto';
-        popoverConfig.popoverClass = 'list-item sublist';
+        popoverConfig.popoverClass = 'pecs-popover';
         popoverConfig.triggers = 'hover:click';
         tooltipConfig.placement = 'auto';
         tooltipConfig.container = 'body';

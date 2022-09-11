@@ -1536,28 +1536,16 @@ ngb-popover-window.list-item.sublist {
     width: 100%;
 }
 
-.bs-popover-auto[x-placement^=top],
-.bs-popover-top {
-    margin-bottom: 0;
-}
-
-.bs-popover-auto[x-placement^=bottom],
-.bs-popover-bottom {
-    margin-top: 0;
-}
-
-.bs-popover-auto[x-placement^=left],
-.bs-popover-left {
-    margin-right: 0;
-}
-
-.bs-popover-auto[x-placement^=right],
-.bs-popover-right {
-    margin-left: 0;
-}
-
 .popover.popup-slider {
     width: 400px;
+}
+
+.popover.popup-slider .popover-body {
+    padding: .3rem;
+}
+
+.pecs-popover,
+.popover.popup-slider {
     border-width: 4px;
     border-style: solid;
     border-color: #465A8C;
@@ -1565,10 +1553,6 @@ ngb-popover-window.list-item.sublist {
     border-radius: .15rem;
     background-clip: border-box;
     box-shadow: 0 .15rem .35rem;
-}
-
-.popover.popup-slider .popover-body {
-    padding: .3rem;
 }
 
 /* Bootstrap modal overrides */
