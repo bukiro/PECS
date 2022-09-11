@@ -2,6 +2,7 @@
 
 /* eslint-disable complexity */
 import { Injectable } from '@angular/core';
+import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 
@@ -77,9 +78,10 @@ export class TypeService {
                     mergedObject = this.mergeObject<T>(libraryItem, mergedObject) as T;
                     mergedObject = this.castItemByType<T>(mergedObject, options.type || libraryItem.type);
 
-                    //Disable any active hint effects when loading an item.
+                    // Disable any active hint effects when loading an item.
+                    // The item is not reassigned at this point, so the hints have to use the prototype.
                     if (mergedObject.isEquipment()) {
-                        mergedObject.hints.forEach(hint => hint.deactivateAll());
+                        mergedObject.hints.forEach(hint => Hint.prototype.deactivateAll.call(hint));
                     }
 
                     mergedObject.restoredFromSave = true;
