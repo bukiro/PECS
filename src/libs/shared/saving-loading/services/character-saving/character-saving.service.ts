@@ -140,7 +140,7 @@ export class CharacterSavingService {
         return savegame;
     }
 
-    private _isClassObject<T>(object: T): object is T & { [key in keyof T]: T[keyof T] } {
+    private _isClassObject<T>(object: T): object is T & { [key in keyof T]: T[keyof T] } & { constructor: { new: () => T } } {
         return (typeof object === 'object') && (object as unknown as object)?.constructor !== Object;
     }
 
@@ -160,8 +160,8 @@ export class CharacterSavingService {
                     blank = this._itemsDataService.cleanItemFromID(objectToTrim.refId) as unknown as T;
                 }
 
-                if (!blank) {
-                    blank = Object.create(objectToTrim as unknown as object);
+                if (!blank && objectToTrim.constructor) {
+                    blank = new (objectToTrim.constructor as unknown as (new () => T))();
                 }
 
                 if (blank) {

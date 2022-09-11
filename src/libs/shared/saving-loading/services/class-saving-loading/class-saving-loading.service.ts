@@ -52,7 +52,7 @@ export class ClassSavingLoadingService {
                 });
 
                 //Perform the same step for each level.
-                classObject.levels.forEach((level, index) => {
+                classObject.levels?.forEach((level, index) => {
                     (Object.keys(level) as Array<keyof ClassLevel>).forEach(key => {
                         if (key !== 'number') {
                             if (JSON.stringify(level[key]) === JSON.stringify(libraryObject.levels[index][key])) {
