@@ -285,7 +285,7 @@ export class ItemsDataService {
         // One Unarmored to fall back on if you drop all other armors;
         const newBasicArmor: Armor = this.cleanItemFromID('89c1a2c2-8e09-11ea-9fab-e92c63c14723') as Armor;
 
-        if (!this._basicEquipmentService) { console.error('basicEquipmentService missing!'); }
+        if (!this._basicEquipmentService) { console.error('BasicEquipmentService missing in ItemsDataService!'); }
 
         this._basicEquipmentService?.setBasicItems(newBasicWeapon, newBasicArmor);
     }
@@ -311,7 +311,7 @@ export class ItemsDataService {
 
         const extendedData = this._extensionsService.extend<T>(data, `items_${ prototype.type }`);
 
-        if (!this._itemInitializationService) { console.error('itemInitializationService missing!'); }
+        if (!this._itemInitializationService) { console.error('ItemInitializationService is missing in ItemsDataService!'); }
 
         //Initialize all clean items. Recasting happens in the initialization,
         // and the store and crafting items will be copied and recast afterwards.

@@ -152,7 +152,7 @@ export class EquipmentConditionsService {
                         this._creatureConditionsService.removeCondition(creature, gain, false);
                     } else {
                         if (gain.activationPrerequisite) {
-                            if (!this._evaluationService) { console.error('evaluationService missing!'); }
+                            if (!this._evaluationService) { console.error('EvaluationService missing in EquipmentConditionsService!'); }
 
                             const testResult = this._evaluationService?.valueFromFormula(
                                 gain.activationPrerequisite,

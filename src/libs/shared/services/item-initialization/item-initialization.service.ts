@@ -56,8 +56,6 @@ export class ItemInitializationService {
 
         //Set preassigned if you have already given the item a Class. Otherwise it will be determined by the item's type.
         if (options.preassigned) {
-            //Any is required because the incoming item's class is unknown in the code.
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             newItem = Object.assign(Object.create(item), newItem);
         } else {
             newItem = this._typeService.castItemByType(newItem);

@@ -548,7 +548,7 @@ export class CreatureConditionsService {
     ): boolean {
         //If the condition has an activationPrerequisite, test that first and only activate if it evaluates to a nonzero number.
         if (conditionGain.activationPrerequisite) {
-            if (!this._evaluationService) { console.error('evaluationService missing!'); }
+            if (!this._evaluationService) { console.error('EvaluationService missing in CreatureConditionsService!'); }
 
             const activationValue =
                 this._evaluationService?.valueFromFormula(

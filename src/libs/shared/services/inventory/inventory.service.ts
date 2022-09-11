@@ -148,7 +148,7 @@ export class InventoryService {
 
 
             if (equipBasicItems) {
-                if (!this._basicEquipmentService) { console.error('basicEquipmentService missing!'); }
+                if (!this._basicEquipmentService) { console.error('BasicEquipmentService missing in InventoryService!'); }
 
                 this._basicEquipmentService?.equipBasicItems(creature);
             }

@@ -54,7 +54,7 @@ export class CharacterLoadingService {
     ) { }
 
     public loadOrResetCharacter(id = '', loadAsGM = false): void {
-        if (!this._appInitService) { console.error('appInitService missing!'); }
+        if (!this._appInitService) { console.error('AppInitService missing in CharacterLoadingService!'); }
 
         this._appInitService?.reset();
         this._statusService.setLoadingCharacter(true);

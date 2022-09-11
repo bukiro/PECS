@@ -87,7 +87,7 @@ export class RefreshService {
     }
 
     public prepareChangesByHints(creature: Creature, hints: Array<Hint> = []): void {
-        if (!this._creatureActivitiesService) { console.error('creatureActivitiesService missing!'); }
+        if (!this._creatureActivitiesService) { console.error('CreatureActivitiesService missing in RefreshService!'); }
 
         const affectedActivities = (targetName: string): boolean =>
             this._creatureActivitiesService?.creatureOwnedActivities(creature, creature.level)

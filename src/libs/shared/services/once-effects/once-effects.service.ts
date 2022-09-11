@@ -103,7 +103,7 @@ export class OnceEffectsService {
                     spellCastingAbility: conditionSpellCastingAbility,
                 };
 
-                if (!this._evaluationService) { console.error('evaluationService missing!'); }
+                if (!this._evaluationService) { console.error('EvaluationService missing in OnceEffectService!'); }
 
                 const validationResult =
                     this._evaluationService?.valueFromFormula(

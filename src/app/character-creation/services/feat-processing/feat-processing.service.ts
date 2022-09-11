@@ -712,7 +712,9 @@ export class FeatProcessingService {
                     if (oldHeritage) {
                         const heritageIndex = character.class.additionalHeritages.indexOf(oldHeritage);
 
-                        if (!this._characterHeritageChangeService) { console.error('characterHeritageChangeService missing!'); }
+                        if (!this._characterHeritageChangeService) {
+                            console.error('CharacterHeritageChangeService missing in FeatProcessingService!');
+                        }
 
                         this._characterHeritageChangeService?.changeHeritage(undefined, heritageIndex);
                     }
@@ -739,7 +741,7 @@ export class FeatProcessingService {
                     character.class.familiar.originClass = context.choice.type;
                 }
             } else {
-                if (!this._familiarService) { console.error('familiarService missing!'); }
+                if (!this._familiarService) { console.error('FamiliarService missing in FeatProcessingService!'); }
 
                 //Reset the familiar
                 this._familiarService?.removeAllFamiliarAbilities();
