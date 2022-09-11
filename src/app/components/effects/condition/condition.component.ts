@@ -103,8 +103,12 @@ export class ConditionComponent implements OnInit, OnDestroy {
         this._updateCondition();
     }
 
-    public setConditionValue(gain: ConditionGain, set: number): void {
-        this.incConditionValue(gain, set - gain.value);
+    public setConditionValue(gain: ConditionGain, event: Event): void {
+        const set = parseInt((event.target as HTMLSelectElement).value, 10);
+
+        if (!isNaN(set)) {
+            this.incConditionValue(gain, set - gain.value);
+        }
     }
 
     public incConditionValue(gain: ConditionGain, change: number): void {
@@ -138,7 +142,8 @@ export class ConditionComponent implements OnInit, OnDestroy {
         return condition.unfilteredChoices();
     }
 
-    public changeConditionChoice(gain: ConditionGain, condition: Condition, newChoice: string): void {
+    public changeConditionChoice(gain: ConditionGain, condition: Condition, event: Event): void {
+        const newChoice = (event.target as HTMLSelectElement).value;
         const oldChoice = gain.choice;
 
         gain.choice = newChoice;

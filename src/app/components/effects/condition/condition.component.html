@@ -29,10 +29,9 @@
                         <app-quickdice *ngIf="conditionGain.name === 'Persistent Damage' && conditionGain.choice"
                             [diceString]="conditionGain.choice"></app-quickdice>
                         <span *ngIf="conditionGain.showChoices && choices.length && !conditionGain.choiceLocked">
-                            <select [ngModel]="conditionGain.choice">
-                                <option *ngFor="let choice of choices; trackBy:trackers.trackByIndex;"
-                                    [ngValue]="choice"
-                                    (select)="changeConditionChoice(conditionGain, condition, choice)">
+                            <select [ngModel]="conditionGain.choice"
+                                (change)="changeConditionChoice(conditionGain, condition, $event)">
+                                <option *ngFor="let choice of choices; trackBy:trackers.trackByIndex;" [value]="choice">
                                     {{choice}}
                                 </option>
                             </select>
@@ -57,12 +56,12 @@
                                         -1
                                     </button>
                                 </span>
-                                <select [ngModel]="conditionGain.value">
+                                <select [ngModel]="conditionGain.value"
+                                    (change)="setConditionValue(conditionGain, $event)">
                                     <option
                                         *ngFor="let valueOption of [0,1,2,3,4,5,6,7,8,9,10]; trackBy:trackers.trackByIndex;"
-                                        [ngValue]="valueOption"
-                                        [disabled]="valueOption === 0 && conditionGain.lockedByParent && conditionGain.parentID"
-                                        (select)="setConditionValue(conditionGain, valueOption)">
+                                        [value]="valueOption"
+                                        [disabled]="valueOption === 0 && conditionGain.lockedByParent && conditionGain.parentID">
                                         {{valueOption}}
                                     </option>
                                 </select>
