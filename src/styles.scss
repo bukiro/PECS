@@ -1557,6 +1557,14 @@ ngb-popover-window.list-item.sublist {
 
 /* Bootstrap modal overrides */
 
+ngb-modal-window {
+    z-index: calc(var(--bs-modal-zindex) + 1000) !important;
+}
+
+.modal-backdrop {
+    z-index: 2000 !important;
+}
+
 .modal-content {
     background-color: #E0E0E0;
     border-width: 4px;
@@ -1609,7 +1617,7 @@ ngb-popover-window.list-item.sublist {
 app-toast-container.ngb-toasts {
     position: fixed;
     right: 0;
-    z-index: 2000;
+    z-index: 2010;
 }
 
 app-toast-container .toast {
