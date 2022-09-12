@@ -40,7 +40,7 @@ export class TypeService {
 
     public mergeObject<T extends object>(target: T | undefined, source: Partial<T>): T {
         const output = target
-            ? Object.assign(Object.create(target), JSON.parse(JSON.stringify(target)))
+            ? Object.assign(new (target.constructor as (new () => T))(), JSON.parse(JSON.stringify(target)))
             : {};
 
         (Object.keys(source) as Array<keyof T>).forEach(key => {
@@ -101,7 +101,7 @@ export class TypeService {
     }
 
     public registerItemCasting<T extends Item>(prototype: T): void {
-        const castFn = (object: Partial<T>): T => Object.assign(Object.create(prototype), object);
+        const castFn = (object: Partial<T>): T => Object.assign(new (prototype.constructor as (new () => T))(), object);
 
         this._itemTypeCastings.set(prototype.type, castFn);
     }

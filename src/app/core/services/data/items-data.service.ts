@@ -318,7 +318,7 @@ export class ItemsDataService {
         Object.keys(extendedData).forEach(key => {
             resultingData.push(...extendedData[key].map(entry =>
                 this._itemInitializationService?.initializeItem(
-                    Object.assign(Object.create(prototype), entry),
+                    Object.assign(new (prototype.constructor as (new () => T))(), entry) as T,
                     { preassigned: true, newId: false, resetPropertyRunes: true },
                 ) as T,
             ));

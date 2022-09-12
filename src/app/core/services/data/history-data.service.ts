@@ -133,7 +133,7 @@ export class HistoryDataService {
 
         Object.keys(extendedData).forEach(filecontent => {
             resultingData.push(...extendedData[filecontent].map(entry =>
-                Object.assign(Object.create(prototype), entry).recast(),
+                Object.assign(new (prototype.constructor as (new () => T))(), entry).recast() as T,
             ));
         });
 

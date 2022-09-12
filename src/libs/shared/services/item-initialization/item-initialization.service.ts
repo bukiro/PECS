@@ -56,9 +56,9 @@ export class ItemInitializationService {
 
         //Set preassigned if you have already given the item a Class. Otherwise it will be determined by the item's type.
         if (options.preassigned) {
-            newItem = Object.assign(Object.create(item), newItem);
+            newItem = Object.assign(new (item.constructor as (new () => T))(), newItem);
         } else {
-            newItem = this._typeService.castItemByType(newItem);
+            newItem = this._typeService.castItemByType(newItem, item.type);
         }
 
         //Optionally, a new ID is assigned and updated on the item's activities and their spell gains.
