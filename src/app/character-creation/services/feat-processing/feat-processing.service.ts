@@ -547,7 +547,6 @@ export class FeatProcessingService {
                         character.class.gainActivity(
                             Object.assign(
                                 new ActivityGain(this._activitiesDataService.activityFromName(gainActivity)),
-                                //TO-DO: Does this trigger show in the activity at all?
                                 { name: gainActivity, source: feat.name, data: [{ name: 'Trigger', value: '' }] },
                             ),
                             context.level.number);
@@ -555,7 +554,6 @@ export class FeatProcessingService {
                         character.class.gainActivity(
                             Object.assign(
                                 new ActivityGain(this._activitiesDataService.activityFromName(gainActivity)),
-                                //TO-DO: Does this trigger show in the activity at all?
                                 { name: gainActivity, source: feat.name },
                             ),
                             context.level.number);

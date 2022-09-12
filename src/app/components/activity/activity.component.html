@@ -68,6 +68,12 @@
         <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </div>
+    <div class="newrow list-item" *ngFor="let data of gain.data; trackBy:trackers.trackByIndex">
+        <strong>
+            {{data.name}}
+        </strong>
+        <input class="left-aligned" type="text" [(ngModel)]="data.value">
+    </div>
     <ng-container
         *ngFor="let conditionSet of activityConditions(); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
         <div class="newrow list-item left-aligned"
