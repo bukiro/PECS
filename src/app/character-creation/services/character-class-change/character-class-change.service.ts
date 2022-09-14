@@ -41,7 +41,6 @@ export class CharacterClassChangeService {
             character.class = new Class();
         }
 
-        this._processNewClass();
         this._characterDeitiesService.clearCharacterDeities();
         this._refreshService.setComponentChanged();
     }
