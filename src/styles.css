@@ -39,7 +39,7 @@ body {
     background-clip: border-box;
     /* swiping to navigate is prohibited */
     overscroll-behavior-x: none;
-    
+
 }
 
 i {
@@ -1510,7 +1510,7 @@ ngb-popover-window.list-item.sublist {
     background-color: #303030;
 }
 
-.popover .arrow {
+.popover .popover-arrow {
     display: none;
 }
 
