@@ -264,7 +264,7 @@ export class Condition {
 
         //TO-DO: Test if this still works after switching from switch() to for.
         if (this.gainItems.some(gain => gain.heightenedFilter)) {
-            for (let levelNumberToTry = levelNumber; levelNumber > 0; levelNumber--) {
+            for (let levelNumberToTry = levelNumber; levelNumberToTry > 0; levelNumberToTry--) {
                 const foundItemGains = this.gainItems.filter(gain => gain.heightenedFilter === levelNumberToTry);
 
                 if (foundItemGains.length) {
