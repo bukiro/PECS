@@ -18,10 +18,15 @@
             {{calculatedPriceText}}
             {{itemRoles.stack && itemRoles.stack > 1 ? "per "+itemRoles.stack : ""}}
         </span>
-        <span *ngIf="itemRoles.asWeapon?.dicenum">
+        <span *ngIf="itemRoles.asWeapon?.dicenum || itemRoles.asWeapon?.extraDamage">
             <strong>Damage</strong>
-            {{itemRoles.asWeapon?.dicenum}}d{{itemRoles.asWeapon?.dicesize}}
-            {{itemRoles.asWeapon?.dmgType}}
+            <ng-container *ngIf="itemRoles.asWeapon?.dicenum">
+                {{itemRoles.asWeapon?.dicenum}}d{{itemRoles.asWeapon?.dicesize}}
+                {{itemRoles.asWeapon?.dmgType}}
+            </ng-container>
+            <ng-container *ngIf="itemRoles.asWeapon?.extraDamage">
+                {{itemRoles.asWeapon?.extraDamage?.replace('\n', ' ')}}
+            </ng-container>
         </span>
         <span *ngIf="acBonusParameters(itemRoles) as acBonusParameters">
             <strong>AC Bonus</strong>
@@ -95,8 +100,8 @@
             </span>
         </span>
     </div>
-    <div class="newrow left-aligned" *ngIf="itemRoles.asWeapon || uncertainItemLiteralValue('hands') as hands">
-        <span>
+    <div class="newrow left-aligned" *ngIf="itemRoles.asWeapon || uncertainItemLiteralValue('hands')">
+        <span *ngIf="(itemRoles.asWeapon?.hands || uncertainItemLiteralValue('hands')) as hands">
             <strong>Hands</strong>
             {{hands}}
         </span>
