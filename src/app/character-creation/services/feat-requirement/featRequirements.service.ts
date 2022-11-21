@@ -367,7 +367,6 @@ export class FeatRequirementsService {
             );
         };
 
-        //TO-DO: Does this actually work with the exchangable operator?
         const DoesNumberListMatchExpectation = (
             numberList: Array<number>,
             query: FeatRequirements.RequirementBasicQuery,

@@ -135,7 +135,6 @@ export class NamedFeatProcessingService {
                     const familiarLevel = this._characterFeatsService.characterFeatsAndFeatures()
                         .filter(characterFeat =>
                             characterFeat.gainFamiliar,
-                            //TO-DO: Removed characterHasFeat() here, check if it still works.
                         )
                         .map(characterFeat => character.class.levels
                             .find(classLevel => classLevel.featChoices
@@ -185,7 +184,6 @@ export class NamedFeatProcessingService {
                     const familiarLevel = this._characterFeatsService.characterFeatsAndFeatures()
                         .filter(characterFeat =>
                             characterFeat.gainFamiliar,
-                            //TO-DO: Removed characterHasFeat() here, check if it still works.
                         )
                         .map(characterFeat => character.class.levels
                             .find(classLevel => classLevel.featChoices
