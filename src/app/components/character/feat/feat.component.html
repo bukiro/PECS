@@ -67,8 +67,7 @@
                         [trait]="traitFromName(trait)">
                     </app-trait>
                 </div>
-                <!--//TO-DO: does this show every spell at the max spell level? What about spells you receive at a specific level?-->
-                <app-spellContent class="vlist fullwidth" [spell]="spell" [spellLevel]="spellLevelFromCharLevel(levelNumber)">
+                <app-spellContent class="vlist fullwidth" [spell]="spell" [spellLevel]="spellLevelFromSpell(spell, spellChoice)">
                 </app-spellContent>
             </ng-container>
         </ng-container>
@@ -84,7 +83,7 @@
                     [trait]="traitFromName(trait)">
                 </app-trait>
             </div>
-            <app-spellContent class="vlist fullwidth" [spell]="spell" [spellLevel]="spellLevelFromCharLevel(levelNumber)">
+            <app-spellContent class="vlist fullwidth" [spell]="spell" [spellLevel]="spellLevelFromSpell(spell)">
             </app-spellContent>
         </ng-container>
     </ng-container>

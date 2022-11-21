@@ -1969,7 +1969,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return AbilityModFromAbilityValue(intelligence);
     }
 
-    //TO-DO: Check if this still works.
     private _featChoicesShownOnCurrentLevel(level: ClassLevel): Array<FeatChoice> {
         if (this.character.level === level.number) {
             return ([] as Array<FeatChoice>)

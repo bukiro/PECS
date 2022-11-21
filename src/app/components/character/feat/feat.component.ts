@@ -11,6 +11,7 @@ import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { Activity } from 'src/app/classes/Activity';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
+import { SpellChoice } from 'src/app/classes/SpellChoice';
 
 @Component({
     selector: 'app-feat',
@@ -111,6 +112,16 @@ export class FeatComponent {
 
     public traitFromName(traitName: string): Trait {
         return this._traitsDataService.traitFromName(traitName);
+    }
+
+    public spellLevelFromSpell(spell: Spell, choice?: SpellChoice): number {
+        if (!choice) {
+            return spell.levelreq;
+        } else if (!choice.level || choice.level < 1) {
+            return Math.max(this.spellLevelFromCharLevel(this.levelNumber), spell.levelreq);
+        } else {
+            return Math.max(choice.level, spell.levelreq);
+        }
     }
 
 }
