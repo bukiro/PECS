@@ -1832,15 +1832,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
             const classboosts = this.companion.class.levels[1].abilityChoices[0].boosts.filter(boost => boost.name === ability.name);
             const ancestryboosts = type.abilityChoices[0].boosts.filter(boost => boost.name === ability.name);
 
-            /* modifier =
-                ancestryboosts
-                    .concat(classboosts)
-                    .filter(boost => boost.type === 'Boost').length
-                - ancestryboosts
-                    .concat(classboosts)
-                    .filter(boost => boost.type === 'Flaw').length;*/
-
-            //TO-DO: Does this work the same way?
             modifier = ancestryboosts
                 .concat(classboosts)
                 .reduce((prev, current) => {

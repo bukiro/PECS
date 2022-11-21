@@ -99,7 +99,7 @@
             </app-actionIcons>
             {{spell.castType.toString()}}
         </header>
-        <ng-container *ngIf="allowActivate">
+        <ng-container *ngIf="gain && allowActivate">
             <ng-container
                 *ngFor="let conditionSet of spellConditions(cast, spellCastIndex); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
                 <div class="newrow list-item left-aligned"

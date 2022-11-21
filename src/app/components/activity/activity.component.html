@@ -2,7 +2,7 @@
 <ng-container *ngIf="activityParameters() as activityParameters">
     <div class="newrow" *ngIf="allowActivate">
         <!-- Buttons if the activity does anything, including activating a cooldown or toggling the activity status. -->
-        <ng-container *ngIf="activity.canActivate()">
+        <ng-container *ngIf="gain && activity.canActivate()">
             <!-- Spell targets if a spell is cast by this activity. -->
             <ng-container *ngIf="activityParameters.activitySpell">
                 <app-spellTarget class="newrow vlist" [creature]="creature"
@@ -46,13 +46,13 @@
     </div>
     <ng-container *ngIf="isManualMode && allowActivate">
         <!-- End cooldown and restore charges button in manual mode-->
-        <ng-container *ngIf="gain.activeCooldown">
+        <ng-container *ngIf="gain?.activeCooldown">
             <button class="center-aligned" (click)="onManualEndCooldown()">
                 <span>End cooldown</span>
             </button>
         </ng-container>
         <!-- Restore charges button in manual mode-->
-        <ng-container *ngIf="gain.chargesUsed">
+        <ng-container *ngIf="gain?.chargesUsed">
             <button class="center-aligned" (click)="onManualRestoreCharge()">
                 <span>Restore charge</span>
             </button>
@@ -68,7 +68,7 @@
         <app-tags [creature]="creature" [objectName]="activity.name" [showTraits]=true [showFeats]=true [showItems]=true
             [showActivities]=true [showConditions]=true [showEffects]=true></app-tags>
     </div>
-    <div class="newrow list-item" *ngFor="let data of gain.data; trackBy:trackers.trackByIndex">
+    <div class="newrow list-item" *ngFor="let data of gain?.data; trackBy:trackers.trackByIndex">
         <strong>
             {{data.name}}
         </strong>
@@ -77,7 +77,7 @@
     <ng-container
         *ngFor="let conditionSet of activityConditions(); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
         <div class="newrow list-item left-aligned"
-            *ngIf="shownConditionChoice(conditionSet, {tooManySlottedAeonStones: activityParameters.tooManySlottedAeonStones, resonantAllowed: activityParameters.resonantAllowed})">
+            *ngIf="gain && shownConditionChoice(conditionSet, {tooManySlottedAeonStones: activityParameters.tooManySlottedAeonStones, resonantAllowed: activityParameters.resonantAllowed})">
             <span>{{conditionSet.condition.name}} effect selection:
                 <select [(ngModel)]="gain.effectChoices[conditionSetIndex].choice"
                     (ngModelChange)="onEffectChoiceChange()">
@@ -132,7 +132,7 @@
                     [allowActivate]=true>
                 </app-activity>
             </div>
-            <ng-container *ngIf="gain.name === 'Fused Stance'">
+            <ng-container *ngIf="gain?.name === 'Fused Stance'">
                 <div class="list-item newrow left-aligned"
                     *ngFor="let fusedStanceGain of fusedStances(); trackBy:trackers.trackByIndex;">
                     <header class="spellHeader">

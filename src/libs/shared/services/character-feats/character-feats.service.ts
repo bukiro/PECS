@@ -147,7 +147,7 @@ export class CharacterFeatsService {
 
         if (!customFeats.some(takenFeat => takenFeat.name.toLowerCase() === feat.name.toLowerCase())) {
             if (feat?.name && !this._$characterFeats.has(feat.name)) {
-                this._$characterFeats.set(feat.name, feat);
+                this._$characterFeats.set(feat.name.toLowerCase(), feat);
             }
         }
 

@@ -1,6 +1,3 @@
-//TO-DO: Resolve private properties either not matching JSON import or not having an underscore
-/* eslint-disable @typescript-eslint/naming-convention */
-
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { ActivityGain } from 'src/app/classes/ActivityGain';

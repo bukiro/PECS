@@ -96,7 +96,7 @@ export class AnimalCompanionLevelsService {
 
         if (
             advancedOption &&
-            (companion.class.levels[advancedLevel].name !== advancedOption)
+            (companion.class.levels[advancedLevel]?.name !== advancedOption)
         ) {
             companion.class.levels[advancedLevel] =
                 Object.assign(
@@ -106,7 +106,7 @@ export class AnimalCompanionLevelsService {
             companion.class.levels[advancedLevel].number = advancedLevel;
         } else if (
             !advancedOption &&
-            (companion.class.levels[advancedLevel].name !== 'Placeholder')
+            (companion.class.levels[advancedLevel]?.name !== 'Placeholder')
         ) {
             companion.class.levels[advancedLevel] = new AnimalCompanionLevel();
             companion.class.levels[advancedLevel].number = advancedLevel;

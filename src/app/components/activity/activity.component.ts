@@ -61,7 +61,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
     @Input()
     public activity!: Activity | ItemActivity;
     @Input()
-    public gain!: ActivityGain | ItemActivity;
+    public gain?: ActivityGain | ItemActivity;
     @Input()
     public allowActivate?: boolean;
     @Input()
@@ -88,9 +88,7 @@ export class ActivityComponent implements OnInit, OnDestroy {
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _hintShowingObjectsService: HintShowingObjectsService,
         public trackers: Trackers,
-    ) {
-        this.item = this._activitiesDataService.itemFromActivityGain(this._currentCreature(), this.gain);
-    }
+    ) { }
 
     public get isManualMode(): boolean {
         return SettingsService.isManualMode;
@@ -152,16 +150,20 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     public onManualRestoreCharge(): void {
-        this.gain.chargesUsed = Math.max(this.gain.chargesUsed - 1, 0);
+        if (this.gain) {
+            this.gain.chargesUsed = Math.max(this.gain.chargesUsed - 1, 0);
 
-        if (this.gain.chargesUsed === 0) {
-            this.gain.activeCooldown = 0;
+            if (this.gain.chargesUsed === 0) {
+                this.gain.activeCooldown = 0;
+            }
         }
     }
 
     public onManualEndCooldown(): void {
-        this.gain.activeCooldown = 0;
-        this.gain.chargesUsed = 0;
+        if (this.gain) {
+            this.gain.activeCooldown = 0;
+            this.gain.chargesUsed = 0;
+        }
     }
 
     public traitFromName(traitName: string): Trait {
@@ -281,6 +283,8 @@ export class ActivityComponent implements OnInit, OnDestroy {
             this.allowActivate = false;
         }
 
+        this.item = this._activitiesDataService.itemFromActivityGain(this._currentCreature(), this.gain);
+
         this._subscribeToChanges();
     }
 
@@ -308,7 +312,10 @@ export class ActivityComponent implements OnInit, OnDestroy {
     }
 
     private _onActivateFuseStance(activated: boolean): void {
-        this.gain.active = activated;
+        if (this.gain) {
+            this.gain.active = activated;
+        }
+
         this.fusedStances().forEach(gain => {
             if (gain && gain.originalActivity && activated !== gain.active) {
                 this._activitiesProcessingService.activateActivity(

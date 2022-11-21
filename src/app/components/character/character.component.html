@@ -2486,7 +2486,7 @@
                                             </p>
                                         </div>
                                         <ng-container
-                                            *ngFor="let gain of [type.activities[1]]; trackBy:trackers.trackByIndex;">
+                                            *ngIf="type.activities[1] as gain;">
                                             <div class="newrow left-aligned"
                                                 *ngIf="activityFromName(gain.name) as activity">
                                                 <header class="spellHeader left-aligned">
@@ -2496,7 +2496,7 @@
                                                     </app-actionIcons>
                                                     {{(activity.activationType) ? activity.activationType : ""}}
                                                 </header>
-                                                <app-activity class="newrow" [activity]=activity [allowActivate]=false>
+                                                <app-activity class="newrow" [activity]="activity" [allowActivate]="false">
                                                 </app-activity>
                                             </div>
                                         </ng-container>

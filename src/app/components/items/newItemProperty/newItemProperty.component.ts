@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// To-Do: Rework this entire thing to make it work with strict mode and have fewer exceptions;
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
+//TO-DO: Rework this entire thing to make it work with strict mode and have fewer exceptions;
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';

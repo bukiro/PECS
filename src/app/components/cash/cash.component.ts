@@ -11,7 +11,6 @@ import { CurrencyService } from 'src/libs/shared/services/currency/currency.serv
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-//TO-DO: Probably needs change detection at the moment. See if it updates if you sell something from the inventory.
 export class CashComponent {
 
     public cash = {

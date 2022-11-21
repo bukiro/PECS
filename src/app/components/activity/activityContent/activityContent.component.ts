@@ -34,7 +34,7 @@ export class ActivityContentComponent implements OnInit, OnDestroy {
     @Input()
     public activity!: Activity | ItemActivity;
     @Input()
-    public gain!: ActivityGain | ItemActivity;
+    public gain?: ActivityGain | ItemActivity;
     @Input()
     public allowActivate?: boolean;
     @Input()
