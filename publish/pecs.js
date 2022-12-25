@@ -72,9 +72,6 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
 
         var app = express();
 
-        dataDir = __dirname + "/src";
-        app.use(express.static(dataDir));
-
         //Attempt to login with a password.
         app.post('/login', bodyParser.json(), function (req, res) {
             var query = req.body;
@@ -118,7 +115,7 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
 
         if (MongoDBConnectionURL && MongoDBDatabase) {
 
-            MongoClient.connect(MongoDBConnectionURL, function (err, client) {
+            MongoClient.connect(MongoDBConnectionURL, async function (err, client) {
                 if (err) {
                     log("Failed to connect to the database!");
                     log(err, true, true);
@@ -148,13 +145,13 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                         } else {
                             var localDB = new JsonDB(new Config(process.env.HOME + "/.kironet_pecs/characters", true, true, '/'));
                         }
-                        characters.find().toArray(function (err, result) {
+                        characters.find().toArray(async function (err, result) {
                             if (err) {
                                 log("Unable to load characters from MongoDB: ")
                                 log(err, true, true);
                             } else {
-                                result.forEach(char => {
-                                    localDB.push("/" + char.id, char);
+                                result.forEach(char => async function() {
+                                    await localDB.push("/" + char.id, char);
                                 })
                                 log("All characters have been converted. MongoDB is still the connected database. Please remove the database parameters from the config file now and restart the application.", true, false, true);
                             }
@@ -321,9 +318,10 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
             }
 
             //Returns all savegames.
-            app.get('/listCharacters', cors(), function (req, res) {
+            app.get('/listCharacters', cors(), async function (req, res) {
                 if (verify_Login(req.headers['x-access-token'])) {
-                    var characterResults = db.getData("/");
+                    var characterResults = await db.getData("/");
+
                     if (Object.keys(characterResults).length) {
                         result = Object.keys(characterResults).map(key => characterResults[key]);
                         res.send(result);
@@ -336,10 +334,10 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
             })
 
             //Returns a savegame by ID.
-            app.get('/loadCharacter/:query', cors(), function (req, res) {
+            app.get('/loadCharacter/:query', cors(), async function (req, res) {
                 if (verify_Login(req.headers['x-access-token'])) {
                     var query = req.params.query;
-                    var result = db.getData("/" + query);
+                    var result = await db.getData("/" + query);
                     res.send(result);
                 } else {
                     res.status(401).json({ message: 'Unauthorized Access' })
@@ -347,17 +345,17 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
             })
 
             //Inserts or overwrites a savegame identified by its MongoDB _id, which is set to its own id.
-            app.post('/saveCharacter', bodyParser.json(), function (req, res) {
+            app.post('/saveCharacter', bodyParser.json(), async function (req, res) {
                 if (verify_Login(req.headers['x-access-token'])) {
                     var query = req.body;
                     query._id = query.id;
                     try {
-                        var exists = db.getData("/" + query.id) ? true : false;
+                        var exists = await db.getData("/" + query.id) ? true : false;
                     } catch (error) {
                         var exists = false;
                     };
 
-                    db.push("/" + query.id, query);
+                    await db.push("/" + query.id, query);
 
                     if (exists) {
                         result = { result: { n: 1, ok: 1 }, lastErrorObject: { updatedExisting: 1 } };
@@ -371,11 +369,11 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
             })
 
             //Deletes a savegame by ID.
-            app.post('/deleteCharacter', bodyParser.json(), function (req, res) {
+            app.post('/deleteCharacter', bodyParser.json(), async function (req, res) {
                 if (verify_Login(req.headers['x-access-token'])) {
                     var query = req.body;
 
-                    db.delete("/" + query.id);
+                    await db.delete("/" + query.id);
                     result = { result: { n: 1, ok: 1 } };
                     res.send(result);
                 } else {
@@ -448,6 +446,9 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                 res.status(401).json({ message: 'Unauthorized Access' })
             }
         })
+
+        dataDir = __dirname + "/src";
+        app.use(express.static(dataDir));
 
         if (!(MongoDBConnectionURL && MongoDBDatabase && ConvertMongoDBToLocal)) {
 
