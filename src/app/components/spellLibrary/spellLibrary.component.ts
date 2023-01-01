@@ -413,7 +413,10 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     ): Array<{ key: string; title: string; disabled: boolean }> {
         const options: Array<{ key: string; title: string; disabled: boolean }> = [];
 
-        if (this._learnedSpells(spell.name).length || this.traditionFilter === SpellTraditions.Focus) {
+        if (
+            this._learnedSpells().some(learnedSpell => learnedSpell.name === spell.name)
+            || this.traditionFilter === SpellTraditions.Focus
+        ) {
             return [];
         }
 
@@ -479,7 +482,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         if (
             bardCasting &&
             (
-                !spell.traditions.includes(SpellTraditions.Occult) ||
+                spell.traditions.includes(SpellTraditions.Occult) ||
                 !!this._character.class.getSpellsFromSpellList(spell.name).length
             )
         ) {
@@ -610,7 +613,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         return wizardSpellCasting?.spellChoices
             .some(choice =>
                 choice.source === 'Feat: Spell Mastery' &&
-                choice.spells.find(spellTaken => spellTaken.name === spell.name),
+                choice.spells.some(spellTaken => spellTaken.name === spell.name),
             ) || false;
     }
 

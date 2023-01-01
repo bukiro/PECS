@@ -198,7 +198,7 @@ export class Class {
     }
 
     public learnSpell(spell: Spell, source: string): void {
-        if (this.spellBook.find(learned => learned.name === spell.name)) {
+        if (!this.spellBook.some(learned => learned.name === spell.name)) {
             const level: number = spell.traits.includes('Cantrip') ? 0 : spell.levelreq;
 
             this.spellBook.push({ name: spell.name, source, level });
