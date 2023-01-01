@@ -162,7 +162,7 @@ export class ItemRunesComponent implements OnInit {
             return this._availableResilientRunes();
         }
 
-        if (runeItemType.armor) {
+        if (runeItemType.weapon) {
             return this._availableStrikingRunes();
         }
 
@@ -511,7 +511,7 @@ export class ItemRunesComponent implements OnInit {
                 ) && (
                     // Show runes that require a range if the weapon has a value for that range.
                     runeSet.rune.rangereq ?
-                        runeRequirementWeapon?.[runeSet.rune.rangereq as keyof Equipment] > 0
+                        (runeRequirementWeapon?.[runeSet.rune.rangereq as keyof Equipment] || 0) > 0
                         : true
                 ) && (
                     // Show runes that require a damage type if the weapon's dmgType contains either of the letters in the requirement.
@@ -854,7 +854,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     private _updateItem(): void {
-        this.item.runesChanged$.next(true);
+        this.item.runesChanged$?.next(true);
         this._refreshService.setComponentChanged(this.item.id);
     }
 

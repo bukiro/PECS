@@ -16,6 +16,8 @@ export class AdventuringGear extends Equipment {
     //How is this item used/worn/applied? Example: held in 1 hand
     public usage = '';
 
+    public runesChanged$ = null;
+
     public recast(recastFns: RecastFns): AdventuringGear {
         super.recast(recastFns);
 

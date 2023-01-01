@@ -465,7 +465,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             this.newItem =
                 this._itemInitializationService.initializeItem<Equipment | Consumable>(
                     this.newItem,
-                    { preassigned: true, newId: false, resetPropertyRunes: false },
+                    { preassigned: true, newId: false, restoreRunesAndMaterials: false },
                 );
         }
     }

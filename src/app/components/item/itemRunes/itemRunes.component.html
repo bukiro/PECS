@@ -55,7 +55,7 @@
                                 <option *ngFor="let runeSet of availablePropertyRunes; trackBy:trackers.trackByIndex;"
                                     [ngValue]="runeSet" [disabled]="runeSet.disabled"
                                     title="{{runeTitle(runeSet.rune)}}">
-                                    {{runeSet.rune?.amount || 0 > 1 ? runeSet.rune?.amount : ""}}
+                                    {{(runeSet.rune?.amount || 0) > 1 ? runeSet.rune?.amount : ""}}
                                     {{runeSet.rune?.name}}
                                     {{runeCooldownText(runeSet.rune)}}
                                 </option>

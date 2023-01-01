@@ -319,7 +319,7 @@ export class ItemsDataService {
             resultingData.push(...extendedData[key].map(entry =>
                 this._itemInitializationService?.initializeItem(
                     Object.assign(new (prototype.constructor as (new () => T))(), entry) as T,
-                    { preassigned: true, newId: false, resetPropertyRunes: true },
+                    { preassigned: true, newId: false, restoreRunesAndMaterials: true },
                 ) as T,
             ));
         });

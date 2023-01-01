@@ -74,7 +74,6 @@ export class ItemMaterialShieldComponent implements OnInit, OnChanges {
         return allShieldMaterials;
     }
 
-    //TO-DO: Check if this still works with the rune requirement arrays.
     public availableMaterials(): Array<ShieldMaterialSet> {
         const allMaterials: Array<ShieldMaterialSet> = [];
 

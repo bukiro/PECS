@@ -7,6 +7,7 @@ import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { BehaviorSubject } from 'rxjs';
 
 export interface RingOfWizardrySlot {
     tradition: string;
@@ -54,6 +55,8 @@ export class WornItem extends Equipment {
     public isBracersOfArmor = false;
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = StrikingTitleFromLevel;
     public propertyRunes: Array<WeaponRune> = [];
+
+    public runesChanged$ = new BehaviorSubject<true>(true);
 
     public get secondaryRune(): BasicRuneLevels {
         return this.strikingRune;
@@ -125,7 +128,10 @@ export class WornItem extends Equipment {
     }
 
     public clone(recastFns: RecastFns): WornItem {
-        return Object.assign<WornItem, WornItem>(new WornItem(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Object.assign<WornItem, WornItem>(
+            new WornItem(),
+            JSON.parse(JSON.stringify({ ...this, runesChanged$: null })),
+        ).recast(recastFns);
     }
 
     public isWornItem(): this is WornItem { return true; }

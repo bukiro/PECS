@@ -8,6 +8,7 @@ import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { BehaviorSubject } from 'rxjs';
 
 interface EmblazonArmamentSet {
     type: string;
@@ -81,6 +82,8 @@ export class Weapon extends Equipment {
     /** Shoddy weapons take a -2 penalty to attacks. */
     public $shoddy: ShoddyPenalties = ShoddyPenalties.NotShoddy;
 
+    public runesChanged$ = new BehaviorSubject<true>(true);
+
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = StrikingTitleFromLevel;
 
     public get secondaryRune(): BasicRuneLevels {
@@ -101,7 +104,7 @@ export class Weapon extends Equipment {
     }
 
     public clone(recastFns: RecastFns): Weapon {
-        return Object.assign<Weapon, Weapon>(new Weapon(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Object.assign<Weapon, Weapon>(new Weapon(), JSON.parse(JSON.stringify({ ...this, runesChanged$: null }))).recast(recastFns);
     }
 
     public isWeapon(): this is Weapon { return true; }

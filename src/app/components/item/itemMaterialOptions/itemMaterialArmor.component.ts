@@ -230,9 +230,10 @@ export class ItemMaterialArmorComponent implements OnInit, OnChanges {
 
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.item) {
-            this.availableMaterials$ = this.item.runesChanged$.pipe(
-                map(() => this.availableMaterials()),
-            );
+            this.availableMaterials$ = this.item.runesChanged$
+                ?.pipe(
+                    map(() => this.availableMaterials()),
+                );
         }
     }
 

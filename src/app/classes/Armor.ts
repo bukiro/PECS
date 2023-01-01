@@ -7,6 +7,7 @@ import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { BehaviorSubject } from 'rxjs';
 
 export class Armor extends Equipment {
     //Armor should be type "armors" to be found in the database
@@ -50,6 +51,8 @@ export class Armor extends Equipment {
     public propertyRunes: Array<ArmorRune> = [];
     public material: Array<ArmorMaterial> = [];
 
+    public runesChanged$ = new BehaviorSubject<true>(true);
+
     public readonly secondaryRuneTitleFunction: ((secondary: number) => string) = ResilientTitleFromLevel;
 
     public get secondaryRune(): BasicRuneLevels {
@@ -75,7 +78,7 @@ export class Armor extends Equipment {
     }
 
     public clone(recastFns: RecastFns): Armor {
-        return Object.assign<Armor, Armor>(new Armor(), JSON.parse(JSON.stringify(this))).recast(recastFns);
+        return Object.assign<Armor, Armor>(new Armor(), JSON.parse(JSON.stringify({ ...this, runesChanged$: null }))).recast(recastFns);
     }
 
     public isArmor(): this is Armor { return true; }

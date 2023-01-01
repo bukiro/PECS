@@ -33,32 +33,30 @@ export class ItemInitializationService {
         options: {
             preassigned?: boolean;
             newId?: boolean;
-            resetPropertyRunes?: boolean;
+            restoreRunesAndMaterials?: boolean;
             newPropertyRunes?: Array<Partial<Rune>>;
         } = {},
     ): T {
         options = {
             preassigned: false,
             newId: true,
-            resetPropertyRunes: false,
+            restoreRunesAndMaterials: false,
             newPropertyRunes: [],
             ...options,
         };
 
         //If the item is modified with propertyRunes, the runes need to be filled.
         if (options.newPropertyRunes?.length) {
-            options.resetPropertyRunes = true;
+            options.restoreRunesAndMaterials = true;
         }
 
-        //Every new item has to be re-assigned its class and iterate over its objects to reassign them as well.
-        //Typescript does not seem to have the option to keep object properties' classes when assigning.
-        let newItem: Item = JSON.parse(JSON.stringify(item));
+        let newItem: T;
 
-        //Set preassigned if you have already given the item a Class. Otherwise it will be determined by the item's type.
+        //Clone the item into a new item to lose all references; If it hasn't been cast yet, it is cast by its type.
         if (options.preassigned) {
-            newItem = Object.assign(new (item.constructor as (new () => T))(), newItem);
+            newItem = (item as T).clone(this._recastService.recastOnlyFns) as T;
         } else {
-            newItem = this._typeService.castItemByType(newItem, item.type);
+            newItem = this._typeService.castItemByType<T>(item, item.type).clone(this._recastService.recastOnlyFns) as T;
         }
 
         //Optionally, a new ID is assigned and updated on the item's activities and their spell gains.
@@ -82,12 +80,39 @@ export class ItemInitializationService {
             }
         }
 
-        //Perform any merging before the item is recast.
+        //Apply any new property runes here. These are usually only names and need to be restored to full runes in the next step.
+        if (options.newPropertyRunes?.length) {
+            newItem = Object.assign(newItem, { propertyRunes: options.newPropertyRunes });
+        }
 
+        if (options.restoreRunesAndMaterials) {
+            this._restoreRunesAndMaterials(newItem);
+        }
+
+        newItem = newItem.recast(this._recastService.recastOnlyFns) as T;
+
+        //Disable all hints.
+        if (newItem.isEquipment()) {
+            newItem.hints.forEach(hint => hint.deactivateAll());
+            newItem.propertyRunes.forEach(rune => {
+                rune.hints.forEach(hint => hint.deactivateAll());
+            });
+            newItem.oilsApplied.forEach(oil => {
+                oil.hints.forEach(hint => hint.deactivateAll());
+            });
+            newItem.material.forEach(material => {
+                material.hints.forEach(hint => hint.deactivateAll());
+            });
+        }
+
+        return newItem;
+    }
+
+    private _restoreRunesAndMaterials<T extends Item>(newItem: T): void {
         //For items (oils) that apply the same effect as a rune, load the rune into the item here.
         if (newItem.isOil() && !!newItem.runeEffect?.name) {
             const rune = this._itemsDataService.cleanItems().weaponrunes
-                .find(weaponRune => weaponRune.name === (newItem as Oil).runeEffect?.name);
+                .find(weaponRune => weaponRune.name === (newItem as unknown as Oil).runeEffect?.name);
 
             if (rune) {
                 newItem.runeEffect = rune.clone(this._recastService.recastOnlyFns);
@@ -95,14 +120,8 @@ export class ItemInitializationService {
             }
         }
 
-        //Apply any new property runes here.
-        if (options.newPropertyRunes?.length) {
-            newItem = Object.assign(newItem, { propertyRunes: options.newPropertyRunes });
-        }
-
         //For base items that come with property Runes with name only, load the rune into the item here.
         if (
-            options.resetPropertyRunes &&
             (
                 newItem.isWeapon() ||
                 (newItem.isWornItem() && newItem.isHandwrapsOfMightyBlows)
@@ -123,7 +142,7 @@ export class ItemInitializationService {
             newItem.propertyRunes = newRunes;
         }
 
-        if (options.resetPropertyRunes && newItem.isArmor() && newItem.propertyRunes?.length) {
+        if (newItem.isArmor() && newItem.propertyRunes?.length) {
             const newRunes: Array<ArmorRune> = [];
 
             newItem.propertyRunes.forEach(rune => {
@@ -138,7 +157,7 @@ export class ItemInitializationService {
         }
 
         //For base items that come with material with name only, load the material into the item here.
-        if (options.resetPropertyRunes && newItem.isWeapon() && newItem.material?.length) {
+        if (newItem.isWeapon() && newItem.material?.length) {
             const newMaterials: Array<WeaponMaterial> = [];
 
             newItem.material.forEach(material => {
@@ -152,7 +171,7 @@ export class ItemInitializationService {
             newItem.material = newMaterials;
         }
 
-        if (options.resetPropertyRunes && newItem.isArmor() && newItem.material?.length) {
+        if (newItem.isArmor() && newItem.material?.length) {
             const newMaterials: Array<ArmorMaterial> = [];
 
             newItem.material.forEach(material => {
@@ -166,7 +185,7 @@ export class ItemInitializationService {
             newItem.material = newMaterials;
         }
 
-        if (options.resetPropertyRunes && newItem.isShield() && newItem.material?.length) {
+        if (newItem.isShield() && newItem.material?.length) {
             const newMaterials: Array<ShieldMaterial> = [];
 
             newItem.material.forEach(material => {
@@ -179,24 +198,6 @@ export class ItemInitializationService {
             });
             newItem.material = newMaterials;
         }
-
-        newItem = newItem.recast(this._recastService.recastOnlyFns);
-
-        //Disable all hints.
-        if (newItem.isEquipment()) {
-            newItem.hints.forEach(hint => hint.deactivateAll());
-            newItem.propertyRunes.forEach(rune => {
-                rune.hints.forEach(hint => hint.deactivateAll());
-            });
-            newItem.oilsApplied.forEach(oil => {
-                oil.hints.forEach(hint => hint.deactivateAll());
-            });
-            newItem.material.forEach(material => {
-                material.hints.forEach(hint => hint.deactivateAll());
-            });
-        }
-
-        return newItem as T;
     }
 
 }

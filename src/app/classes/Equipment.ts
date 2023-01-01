@@ -82,7 +82,7 @@ export abstract class Equipment extends Item {
     public choices: Array<string> = [];
     public choice = '';
 
-    public runesChanged$: BehaviorSubject<true> = new BehaviorSubject<true>(true);
+    public runesChanged$: BehaviorSubject<true> | null = null;
 
     /** Amount of propertyRunes you can still apply */
     public get freePropertyRunes(): number {
