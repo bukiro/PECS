@@ -1,5 +1,5 @@
 /* eslint-disable complexity */
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
@@ -37,7 +37,7 @@ interface FeatParameters {
     styleUrls: ['./featchoice.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FeatchoiceComponent implements OnInit, OnDestroy {
+export class FeatchoiceComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     public choice!: FeatChoice;
@@ -129,7 +129,6 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
             this._uncollapseSubFeat = '';
         } else {
             this._showSubFeat = name;
-            //TO-DO: Check if this uncollapses properly.
             setTimeout(() => {
                 this._uncollapseSubFeat = name;
             });
@@ -575,7 +574,6 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.featLevel = this._choiceLevel(this.choice);
         this._changeSubscription = this._refreshService.componentChanged$
             .subscribe(target => {
                 if (['featchoices', 'all', this.creature.toLowerCase()].includes(target.toLowerCase())) {
@@ -593,6 +591,10 @@ export class FeatchoiceComponent implements OnInit, OnDestroy {
                     this._changeDetector.detectChanges();
                 }
             });
+    }
+
+    public ngOnChanges(): void {
+        this.featLevel = this._choiceLevel(this.choice);
     }
 
     public ngOnDestroy(): void {

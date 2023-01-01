@@ -35,7 +35,7 @@ import { ConfigService } from 'src/app/core/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, filter, Observable, Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { DisplayService } from 'src/app/core/services/display/display.service';
@@ -109,6 +109,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
     public versionString: string = package_json.version;
     public creatureTypesEnum = CreatureTypes;
 
+
+    public activeAbilityChoiceContent$: Observable<{ name: string; levelNumber: number; choice: AbilityChoice } | undefined>;
+    public activeSkillChoiceContent$: Observable<{ name: string; levelNumber: number; choice: SkillChoice } | undefined>;
+    public activeFeatChoiceContent$: Observable<{ name: string; levelNumber: number; choice: FeatChoice } | undefined>;
+    public activeLoreChoiceContent$: Observable<{ name: string; levelNumber: number; choice: LoreChoice } | undefined>;
+
+
     private _showLevel = 0;
     private _showItem = '';
     private _showList = '';
@@ -119,6 +126,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     private _changeSubscription?: Subscription;
     private _viewChangeSubscription?: Subscription;
+
+    private readonly _activeChoiceContent$
+        = new BehaviorSubject<{ name: string; levelNumber: number; choice?: ShowContent } | undefined>(undefined);
 
     constructor(
         private readonly _changeDetector: ChangeDetectorRef,
@@ -166,7 +176,35 @@ export class CharacterComponent implements OnInit, OnDestroy {
         private readonly _familiarService: FamiliarService,
         public modal: NgbActiveModal,
         public trackers: Trackers,
-    ) { }
+    ) {
+        this.activeAbilityChoiceContent$ = this._activeChoiceContent$
+            .pipe(
+                filter((content): content is { name: string; levelNumber: number; choice: AbilityChoice } | undefined =>
+                    content === undefined || content.choice instanceof AbilityChoice,
+                ),
+            );
+
+        this.activeSkillChoiceContent$ = this._activeChoiceContent$
+            .pipe(
+                filter((content): content is { name: string; levelNumber: number; choice: SkillChoice } | undefined =>
+                    content === undefined || content.choice instanceof SkillChoice,
+                ),
+            );
+
+        this.activeFeatChoiceContent$ = this._activeChoiceContent$
+            .pipe(
+                filter((content): content is { name: string; levelNumber: number; choice: FeatChoice } | undefined =>
+                    content === undefined || content.choice instanceof FeatChoice,
+                ),
+            );
+
+        this.activeLoreChoiceContent$ = this._activeChoiceContent$
+            .pipe(
+                filter((content): content is { name: string; levelNumber: number; choice: LoreChoice } | undefined =>
+                    content === undefined || content.choice instanceof LoreChoice,
+                ),
+            );
+    }
 
     public get isMinimized(): boolean {
         return CreatureService.character.settings.characterMinimized;
@@ -261,6 +299,10 @@ export class CharacterComponent implements OnInit, OnDestroy {
             this._showContent = content;
             this._resetChoiceArea();
         }
+
+        this._activeChoiceContent$.next(
+            { name: this.shownList(), levelNumber: this.shownContentLevelNumber(), choice: this.shownContent() },
+        );
     }
 
     public toggleLevelFilter(): void {
@@ -289,31 +331,6 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public isLevelFilterShown(): boolean {
         return this._showLevelFilter;
-    }
-
-    public activeChoiceContent(choiceType = ''): { name: string; levelNumber: number; choice?: ShowContent } | undefined {
-        // For choices that have a class of their own (AbilityChoice, SkillChoice, FeatChoice),
-        // get the currently shown content with levelNumber if it is of that same class.
-        // Also get the currently shown list name for compatibility.
-        if (this._showContent?.constructor.name === choiceType) {
-            return { name: this.shownList(), levelNumber: this.shownContentLevelNumber(), choice: this.shownContent() };
-        }
-    }
-
-    public activeAbilityChoiceContent(): { name: string; levelNumber: number; choice: AbilityChoice } {
-        return this.activeChoiceContent('AbilityChoice') as { name: string; levelNumber: number; choice: AbilityChoice };
-    }
-
-    public activeSkillChoiceContent(): { name: string; levelNumber: number; choice: SkillChoice } {
-        return this.activeChoiceContent('SkillChoice') as { name: string; levelNumber: number; choice: SkillChoice };
-    }
-
-    public activeFeatChoiceContent(): { name: string; levelNumber: number; choice: FeatChoice } {
-        return this.activeChoiceContent('FeatChoice') as { name: string; levelNumber: number; choice: FeatChoice };
-    }
-
-    public activeLoreChoiceContent(): { name: string; levelNumber: number; choice: LoreChoice } {
-        return this.activeChoiceContent('LoreChoice') as { name: string; levelNumber: number; choice: LoreChoice };
     }
 
     public activeSpecialChoiceShown(choiceType = ''): { name: string; levelNumber: number; choice: ShowContent } | undefined {
@@ -836,8 +853,8 @@ export class CharacterComponent implements OnInit, OnDestroy {
             //If there is a filter, we need to find out if any of the filtered Abilities can actually be boosted.
             let cannotBoost = 0;
 
-            choice.filter.forEach(filter => {
-                if (this.cannotBoostAbility(this.abilities(filter)[0], levelNumber, choice).length) {
+            choice.filter.forEach(filterEntry => {
+                if (this.cannotBoostAbility(this.abilities(filterEntry)[0], levelNumber, choice).length) {
                     cannotBoost += 1;
                 }
             });
@@ -986,13 +1003,17 @@ export class CharacterComponent implements OnInit, OnDestroy {
         return this.character.skillIncreases(levelNumber, levelNumber, skillName, source, sourceId, locked);
     }
 
-    public skills(name = '', filter: { type?: string; locked?: boolean } = {}, options: { noSubstitutions?: boolean } = {}): Array<Skill> {
-        filter = {
+    public skills(
+        name = '',
+        filterObj: { type?: string; locked?: boolean } = {},
+        options: { noSubstitutions?: boolean } = {},
+    ): Array<Skill> {
+        filterObj = {
             type: '',
-            locked: undefined, ...filter,
+            locked: undefined, ...filterObj,
         };
 
-        return this._skillsDataService.skills(this.character.customSkills, name, filter, options);
+        return this._skillsDataService.skills(this.character.customSkills, name, filterObj, options);
     }
 
     public size(size: number): string {
@@ -1441,13 +1462,13 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public characterFeatsTakenOnLevel(
         levelNumber: number,
-        filter: 'feature' | 'feat',
+        typeFilter: 'feature' | 'feat',
     ): Array<FeatTaken> {
         const character = this.character;
 
         return this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber, { locked: true, automatic: true })
             .filter(taken =>
-                (filter === 'feature') === (taken.isFeature(character.class.name)),
+                (typeFilter === 'feature') === (taken.isFeature(character.class.name)),
             );
     }
 

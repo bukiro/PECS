@@ -2258,7 +2258,7 @@
             </ng-container>
             <!--Level content-->
             <!--Ability Choice Content-->
-            <ng-container *ngIf="activeAbilityChoiceContent() as abilityContent">
+            <ng-container *ngIf="activeAbilityChoiceContent$ | async as abilityContent">
                 <div class="newrow list-item padding-8 center-aligned">
                     <header class="box-header sectionHeader">
                         {{abilityChoiceTitle(abilityContent.choice)}}
@@ -2310,14 +2310,14 @@
                 </div>
             </ng-container>
             <!--Skill Choice Content-->
-            <ng-container *ngIf="activeSkillChoiceContent() as skillContent">
+            <ng-container *ngIf="activeSkillChoiceContent$ | async as skillContent">
                 <app-skillchoice (showSkillChoiceMessage)="receiveChoiceMessage($event)" [choice]="skillContent.choice"
                     [levelNumber]="skillContent.levelNumber" [showTitle]="false" [showChoice]="skillContent.name"
                     [excludeTemporary]="true">
                 </app-skillchoice>
             </ng-container>
             <!--Feat Choice Content-->
-            <ng-container *ngIf="activeFeatChoiceContent() as featContent">
+            <ng-container *ngIf="activeFeatChoiceContent$ | async as featContent">
                 <app-featchoice (showFeatChoiceMessage)="receiveChoiceMessage($event)"
                     (showFeatMessage)="receiveFeatMessage($event)" [choice]="featContent.choice"
                     [levelNumber]="featContent.levelNumber" [showTitle]="false" [showFeat]="shownItem()"
@@ -2328,7 +2328,7 @@
                 </app-featchoice>
             </ng-container>
             <!--Lore Training content-->
-            <ng-container *ngIf="activeLoreChoiceContent() as loreContent">
+            <ng-container *ngIf="activeLoreChoiceContent$ | async as loreContent">
                 <div class="newrow list-item padding-8 center-aligned">
                     <header class="box-header sectionHeader">
                         Lore Training ({{loreContent.choice.source}}){{(loreContent.choice.increases.length) ? ": "+
