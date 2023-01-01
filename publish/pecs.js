@@ -150,10 +150,23 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                                 log("Unable to load characters from MongoDB: ")
                                 log(err, true, true);
                             } else {
+                                await localDB.resetData();
+
+                                var errors = 0;
+
                                 result.forEach(char => async function() {
-                                    await localDB.push("/" + char.id, char);
+                                    try {
+                                        await localDB.push("/" + char.id, char);
+                                    } catch (error) {
+                                        log(err, true, true);
+                                        errors++;
+                                    }
                                 })
-                                log("All characters have been converted. MongoDB is still the connected database. Please remove the database parameters from the config file now and restart the application.", true, false, true);
+                                if (errors.length > 0) {
+                                    log("Not all characters could be converted. Please fix all problems and try again.", true, true, true);
+                                } else {
+                                    log("All characters have been converted. MongoDB is still the connected database. Please remove the database parameters from the config file now and restart the application.", true, false, true);
+                                }
                             }
                         })
                     }
@@ -320,13 +333,17 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
             //Returns all savegames.
             app.get('/listCharacters', cors(), async function (req, res) {
                 if (verify_Login(req.headers['x-access-token'])) {
-                    var characterResults = await db.getData("/");
+                    try {
+                        var characterResults = await db.getData("/");
 
-                    if (Object.keys(characterResults).length) {
-                        result = Object.keys(characterResults).map(key => characterResults[key]);
-                        res.send(result);
-                    } else {
-                        res.send([]);
+                        if (Object.keys(characterResults).length) {
+                            result = Object.keys(characterResults).map(key => characterResults[key]);
+                            res.send(result);
+                        } else {
+                            res.send([]);
+                        }
+                    } catch (error) {
+                        res.status(500).json({ error: error });
                     }
                 } else {
                     res.status(401).json({ message: 'Unauthorized Access' })
@@ -337,8 +354,13 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
             app.get('/loadCharacter/:query', cors(), async function (req, res) {
                 if (verify_Login(req.headers['x-access-token'])) {
                     var query = req.params.query;
-                    var result = await db.getData("/" + query);
-                    res.send(result);
+
+                    try {
+                        var result = await db.getData("/" + query);
+                        res.send(result);
+                    } catch (error) {
+                        res.status(500).json({ error: error });
+                    }
                 } else {
                     res.status(401).json({ message: 'Unauthorized Access' })
                 }
@@ -355,16 +377,21 @@ fs.readFile('./config.json', 'utf8', function (err, data) {
                         var exists = false;
                     };
 
-                    await db.push("/" + query.id, query);
+                    try {
+                        await db.push("/" + query.id, query);
 
-                    if (exists) {
-                        result = { result: { n: 1, ok: 1 }, lastErrorObject: { updatedExisting: 1 } };
-                    } else {
-                        result = { result: { n: 1, ok: 1 } };
+                        if (exists) {
+                            result = { result: { n: 1, ok: 1 }, lastErrorObject: { updatedExisting: 1 } };
+                        } else {
+                            result = { result: { n: 1, ok: 1 } };
+                        }
+
+                        res.send(result);
+                    } catch (error) {
+                        res.status(500).json({ error: error });
                     }
-                    res.send(result);
                 } else {
-                    res.status(401).json({ message: 'Unauthorized Access' })
+                    res.status(401).json({ message: 'Unauthorized Access' });
                 }
             })
 
