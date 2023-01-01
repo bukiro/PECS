@@ -35,7 +35,7 @@ import { ConfigService } from 'src/app/core/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, filter, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { DisplayService } from 'src/app/core/services/display/display.service';
@@ -179,29 +179,37 @@ export class CharacterComponent implements OnInit, OnDestroy {
     ) {
         this.activeAbilityChoiceContent$ = this._activeChoiceContent$
             .pipe(
-                filter((content): content is { name: string; levelNumber: number; choice: AbilityChoice } | undefined =>
-                    content === undefined || content.choice instanceof AbilityChoice,
+                map(content =>
+                    content?.choice instanceof AbilityChoice
+                        ? content as { name: string; levelNumber: number; choice: AbilityChoice }
+                        : undefined,
                 ),
             );
 
         this.activeSkillChoiceContent$ = this._activeChoiceContent$
             .pipe(
-                filter((content): content is { name: string; levelNumber: number; choice: SkillChoice } | undefined =>
-                    content === undefined || content.choice instanceof SkillChoice,
+                map(content =>
+                    content?.choice instanceof SkillChoice
+                        ? content as { name: string; levelNumber: number; choice: SkillChoice }
+                        : undefined,
                 ),
             );
 
         this.activeFeatChoiceContent$ = this._activeChoiceContent$
             .pipe(
-                filter((content): content is { name: string; levelNumber: number; choice: FeatChoice } | undefined =>
-                    content === undefined || content.choice instanceof FeatChoice,
+                map(content =>
+                    content?.choice instanceof FeatChoice
+                        ? content as { name: string; levelNumber: number; choice: FeatChoice }
+                        : undefined,
                 ),
             );
 
         this.activeLoreChoiceContent$ = this._activeChoiceContent$
             .pipe(
-                filter((content): content is { name: string; levelNumber: number; choice: LoreChoice } | undefined =>
-                    content === undefined || content.choice instanceof LoreChoice,
+                map(content =>
+                    content?.choice instanceof LoreChoice
+                        ? content as { name: string; levelNumber: number; choice: LoreChoice }
+                        : undefined,
                 ),
             );
     }
@@ -301,7 +309,9 @@ export class CharacterComponent implements OnInit, OnDestroy {
         }
 
         this._activeChoiceContent$.next(
-            { name: this.shownList(), levelNumber: this.shownContentLevelNumber(), choice: this.shownContent() },
+            (this._showList || this._showContent)
+                ? { name: this._showList, levelNumber: this._showContentLevelNumber, choice: this._showContent }
+                : undefined,
         );
     }
 
