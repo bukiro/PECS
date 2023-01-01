@@ -125,7 +125,7 @@ export abstract class Item {
     /** Some items may recalculate their traits and store them here temporarily for easier access. */
     public $traits: Array<string> = [];
     /** Items can store whether they have activated effects on any of their trait's hints here. */
-    public traitActivations: Array<{ trait: string; active: boolean; active2: boolean; active3: boolean }> = [];
+    public traitActivations: Array<TraitActivation> = [];
     /**
      * For items with the same id (from different source files for example), higher overridePriority wins.
      * If two have the same priority, the first in the list wins.
@@ -227,7 +227,7 @@ export abstract class Item {
             });
     }
 
-    public activatedTraitsActivations(): typeof this.traitActivations {
+    public activatedTraitsActivations(): Array<TraitActivation> {
         return this.traitActivations.filter(activation => activation.active || activation.active2 || activation.active3);
     }
 

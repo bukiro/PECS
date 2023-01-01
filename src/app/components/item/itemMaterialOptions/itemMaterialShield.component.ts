@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Shield } from 'src/app/classes/Shield';
@@ -11,6 +11,7 @@ import { Character } from 'src/app/classes/Character';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/app/core/services/data/item-materials-data.service';
+import { Observable, of } from 'rxjs';
 
 interface ShieldMaterialSet {
     material: ShieldMaterial;
@@ -23,7 +24,7 @@ interface ShieldMaterialSet {
     styleUrls: ['./itemMaterialOption.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemMaterialShieldComponent implements OnInit {
+export class ItemMaterialShieldComponent implements OnInit, OnChanges {
 
     @Input()
     public item!: Shield;
@@ -34,6 +35,8 @@ export class ItemMaterialShieldComponent implements OnInit {
 
     public newMaterial: Array<ShieldMaterialSet> = [];
     public inventories: Array<string> = [];
+
+    public availableMaterials$?: Observable<Array<ShieldMaterialSet>>;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -191,6 +194,12 @@ export class ItemMaterialShieldComponent implements OnInit {
 
     public ngOnInit(): void {
         this._setMaterialNames();
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.item) {
+            this.availableMaterials$ = of(this.availableMaterials());
+        }
     }
 
     private _priceText(price: number): string {

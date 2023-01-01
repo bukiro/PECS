@@ -15,7 +15,7 @@
                     </option>
                 </optgroup>
             </ng-container>
-            <ng-container *ngIf="availableMaterials() as availableMaterials">
+            <ng-container *ngIf="availableMaterials$ | async as availableMaterials">
                 <optgroup label="Available materials" *ngIf="availableMaterials.length">
                     <option *ngFor="let material of availableMaterials; trackBy:trackers.trackByIndex;"
                         [ngValue]="material" [disabled]="material.disabled"

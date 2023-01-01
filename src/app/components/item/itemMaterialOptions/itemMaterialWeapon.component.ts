@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Weapon } from 'src/app/classes/Weapon';
@@ -11,20 +11,29 @@ import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/app/core/services/data/item-materials-data.service';
+import { map, Observable } from 'rxjs';
 
-enum MaterialLevelRequiredForPotency {
-    None = 0,
-    First = 2,
-    Second = 10,
-    Third = 16,
-}
+const materialLevelRequiredForFirstPotency = 2;
+const materialLevelRequiredForSecondPotency = 10;
+const materialLevelRequiredForThirdPotency = 16;
 
-enum MaterialLevelRequiredForStriking {
-    None = 0,
-    First = 4,
-    Second = 12,
-    Third = 19,
-}
+const MaterialLevelRequiredForPotency = [
+    0,
+    materialLevelRequiredForFirstPotency,
+    materialLevelRequiredForSecondPotency,
+    materialLevelRequiredForThirdPotency,
+];
+
+const materialLevelRequiredForFirstStriking = 4;
+const materialLevelRequiredForSecondStriking = 12;
+const materialLevelRequiredForThirdStriking = 19;
+
+const MaterialLevelRequiredForStriking = [
+    0,
+    materialLevelRequiredForFirstStriking,
+    materialLevelRequiredForSecondStriking,
+    materialLevelRequiredForThirdStriking,
+];
 
 interface WeaponMaterialSet {
     material: WeaponMaterial;
@@ -37,7 +46,7 @@ interface WeaponMaterialSet {
     styleUrls: ['./itemMaterialOption.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemMaterialWeaponComponent implements OnInit {
+export class ItemMaterialWeaponComponent implements OnInit, OnChanges {
 
     @Input()
     public item!: Weapon;
@@ -48,6 +57,8 @@ export class ItemMaterialWeaponComponent implements OnInit {
 
     public newMaterial: Array<WeaponMaterialSet> = [];
     public inventories: Array<string> = [];
+
+    public availableMaterials$?: Observable<Array<WeaponMaterialSet>>;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -85,7 +96,6 @@ export class ItemMaterialWeaponComponent implements OnInit {
         return allWeaponMaterials;
     }
 
-    //TO-DO: Check if this still works with the rune requirement arrays.
     public availableMaterials(): Array<WeaponMaterialSet> {
         const item: Weapon = this.item as Weapon;
         const allMaterials: Array<WeaponMaterialSet> = [];
@@ -111,9 +121,6 @@ export class ItemMaterialWeaponComponent implements OnInit {
                 this._skillValuesService.level('Crafting', character, character.level) || 0;
         }
 
-        const MaterialLevelRequiredForPotencyArray = Object.values(MaterialLevelRequiredForPotency) as Array<number>;
-        const MaterialLevelRequiredForStrikingArray = Object.values(MaterialLevelRequiredForStriking) as Array<number>;
-
         //Disable all materials whose requirements are not met.
         allMaterials.filter(materialSet => !(
             (
@@ -127,8 +134,8 @@ export class ItemMaterialWeaponComponent implements OnInit {
                 materialSet.material.runeLimit ?
                     (
                         !this.item.propertyRunes.some(rune => rune.level > materialSet.material.runeLimit) &&
-                        materialSet.material.runeLimit >= (MaterialLevelRequiredForPotencyArray[this.item.potencyRune] || 0) &&
-                        materialSet.material.runeLimit >= (MaterialLevelRequiredForStrikingArray[this.item.resilientRune] || 0)
+                        materialSet.material.runeLimit >= (MaterialLevelRequiredForPotency[this.item.potencyRune] || 0) &&
+                        materialSet.material.runeLimit >= (MaterialLevelRequiredForStriking[this.item.resilientRune] || 0)
                     )
                     : true
             ) &&
@@ -218,6 +225,14 @@ export class ItemMaterialWeaponComponent implements OnInit {
 
     public ngOnInit(): void {
         this._setMaterialNames();
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.item) {
+            this.availableMaterials$ = this.item.runesChanged$.pipe(
+                map(() => this.availableMaterials()),
+            );
+        }
     }
 
     private _priceText(price: number): string {

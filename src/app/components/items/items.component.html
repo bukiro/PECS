@@ -272,21 +272,22 @@
                                                                         for {{creature}}
                                                                     </button>
                                                                     <app-itemMaterial
+                                                                        *ngIf="itemParameters.asMaterialChangeable"
                                                                         [item]="itemParameters.asMaterialChangeable"
-                                                                        [itemRoles]="itemParameters"
                                                                         [craftingStation]="false"
-                                                                        *ngIf="itemParameters.asMaterialChangeable">
-                                                                    </app-itemMaterial>
+                                                                        [itemRoles]="itemParameters"
+                                                                    ></app-itemMaterial>
                                                                     <app-itemRunes
                                                                         *ngIf="itemParameters.asRuneChangeable"
                                                                         [item]="itemParameters.asRuneChangeable"
-                                                                        [itemStore]=true [itemRoles]="itemParameters">
-                                                                    </app-itemRunes>
+                                                                        [itemStore]="true"
+                                                                        [itemRoles]="itemParameters"
+                                                                    ></app-itemRunes>
                                                                     <app-itemTalismans
+                                                                        *ngIf="itemParameters.asTalismanChangeable"
                                                                         [item]="itemParameters.asTalismanChangeable"
-                                                                        [itemStore]=true
-                                                                        *ngIf="itemParameters.asTalismanChangeable">
-                                                                    </app-itemTalismans>
+                                                                        [itemStore]="true"
+                                                                    ></app-itemTalismans>
                                                                 </ng-container>
                                                                 <ng-container
                                                                     *ngIf="selectedPurpose()==='scrollsavant' && shownCreature()===creatureTypesEnum.Character">

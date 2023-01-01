@@ -854,6 +854,7 @@ export class ItemRunesComponent implements OnInit {
     }
 
     private _updateItem(): void {
+        this.item.runesChanged$.next(true);
         this._refreshService.setComponentChanged(this.item.id);
     }
 

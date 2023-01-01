@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, OnChanges, SimpleChanges } from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Armor } from 'src/app/classes/Armor';
@@ -11,20 +11,29 @@ import { SkillLevels } from 'src/libs/shared/definitions/skillLevels';
 import { PriceTextFromCopper } from 'src/libs/shared/util/currencyUtils';
 import { SkillValuesService } from 'src/libs/shared/services/skill-values/skill-values.service';
 import { ItemMaterialsDataService } from 'src/app/core/services/data/item-materials-data.service';
+import { map, Observable } from 'rxjs';
 
-enum MaterialLevelRequiredForPotency {
-    None = 0,
-    First = 5,
-    Second = 11,
-    Third = 18,
-}
+const materialLevelRequiredForFirstPotency = 5;
+const materialLevelRequiredForSecondPotency = 11;
+const materialLevelRequiredForThirdPotency = 18;
 
-enum MaterialLevelRequiredForResilient {
-    None = 0,
-    First = 8,
-    Second = 14,
-    Third = 20,
-}
+const MaterialLevelRequiredForPotency = [
+    0,
+    materialLevelRequiredForFirstPotency,
+    materialLevelRequiredForSecondPotency,
+    materialLevelRequiredForThirdPotency,
+];
+
+const materialLevelRequiredForFirstResilient = 8;
+const materialLevelRequiredForSecondResilient = 14;
+const materialLevelRequiredForThirdResilient = 20;
+
+const MaterialLevelRequiredForResilient = [
+    0,
+    materialLevelRequiredForFirstResilient,
+    materialLevelRequiredForSecondResilient,
+    materialLevelRequiredForThirdResilient,
+];
 
 interface ArmorMaterialSet {
     material: ArmorMaterial;
@@ -37,7 +46,7 @@ interface ArmorMaterialSet {
     styleUrls: ['./itemMaterialOption.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ItemMaterialArmorComponent implements OnInit {
+export class ItemMaterialArmorComponent implements OnInit, OnChanges {
 
     @Input()
     public item!: Armor;
@@ -48,6 +57,8 @@ export class ItemMaterialArmorComponent implements OnInit {
 
     public newMaterial: Array<ArmorMaterialSet> = [];
     public inventories: Array<string> = [];
+
+    public availableMaterials$?: Observable<Array<ArmorMaterialSet>>;
 
     constructor(
         private readonly _refreshService: RefreshService,
@@ -89,13 +100,8 @@ export class ItemMaterialArmorComponent implements OnInit {
         return allArmorMaterials;
     }
 
-    //TO-DO: Check if this still works with the rune requirement arrays.
     public availableMaterials(): Array<ArmorMaterialSet> {
-        const allMaterials: Array<ArmorMaterialSet> = [];
-
-        this._itemMaterialsDataService.armorMaterials().forEach(material => {
-            allMaterials.push({ material });
-        });
+        const allMaterials: Array<ArmorMaterialSet> = this._itemMaterialsDataService.armorMaterials().map(material => ({ material }));
 
         //Set all materials to disabled that have the same name as any that is already equipped.
         allMaterials.forEach(materialSet => {
@@ -115,9 +121,6 @@ export class ItemMaterialArmorComponent implements OnInit {
                 this._skillValuesService.level('Crafting', character, character.level) || 0;
         }
 
-        const MaterialLevelRequiredForPotencyArray = Object.values(MaterialLevelRequiredForPotency) as Array<number>;
-        const MaterialLevelRequiredForResilientArray = Object.values(MaterialLevelRequiredForResilient) as Array<number>;
-
         //Disable all materials whose requirements are not met.
         allMaterials.filter(materialSet => !(
             (
@@ -131,8 +134,8 @@ export class ItemMaterialArmorComponent implements OnInit {
                 materialSet.material.runeLimit ?
                     (
                         !this.item.propertyRunes.some(rune => rune.level > materialSet.material.runeLimit) &&
-                        materialSet.material.runeLimit >= (MaterialLevelRequiredForPotencyArray[this.item.potencyRune] || 0) &&
-                        materialSet.material.runeLimit >= (MaterialLevelRequiredForResilientArray[this.item.resilientRune] || 0)
+                        materialSet.material.runeLimit >= (MaterialLevelRequiredForPotency[this.item.potencyRune] || 0) &&
+                        materialSet.material.runeLimit >= (MaterialLevelRequiredForResilient[this.item.resilientRune] || 0)
                     )
                     : true
             ) &&
@@ -223,6 +226,14 @@ export class ItemMaterialArmorComponent implements OnInit {
 
     public ngOnInit(): void {
         this._setMaterialNames();
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (changes.item) {
+            this.availableMaterials$ = this.item.runesChanged$.pipe(
+                map(() => this.availableMaterials()),
+            );
+        }
     }
 
     private _priceText(price: number): string {

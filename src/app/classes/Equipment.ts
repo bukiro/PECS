@@ -16,6 +16,7 @@ import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { ArmorRune } from './ArmorRune';
 import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { BehaviorSubject } from 'rxjs';
 
 export abstract class Equipment extends Item {
     /** Allow changing of "equippable" by custom item creation */
@@ -80,6 +81,8 @@ export abstract class Equipment extends Item {
     public showChoicesInInventory = false;
     public choices: Array<string> = [];
     public choice = '';
+
+    public runesChanged$: BehaviorSubject<true> = new BehaviorSubject<true>(true);
 
     /** Amount of propertyRunes you can still apply */
     public get freePropertyRunes(): number {
@@ -159,6 +162,8 @@ export abstract class Equipment extends Item {
         if (this.choices.length && !this.choices.includes(this.choice)) {
             this.choice = this.choices[0];
         }
+
+        this.runesChanged$ = new BehaviorSubject<true>(true);
 
         return this;
     }
