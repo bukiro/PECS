@@ -1,4 +1,3 @@
-//TO-DO: See if this still works
 import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
@@ -204,7 +203,7 @@ export class ItemRunesComponent implements OnInit {
     public initialPropertyRunes(index: number): Array<PropertyRuneSet> {
         const item = this.item;
         //Start with one empty rune to select nothing.
-        const allRunes: Array<PropertyRuneSet> = [{ rune: Object.assign(new ArmorRune(), { name: '' }), inv: undefined }];
+        const allRunes: Array<PropertyRuneSet> = [{ rune: undefined, inv: undefined }];
 
         //Add the current choice, if the item has a rune at that index.
         if (item.propertyRunes[index]) {
