@@ -1,5 +1,15 @@
 /* eslint-disable complexity */
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    Output,
+    EventEmitter,
+    ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    OnDestroy,
+    OnChanges,
+} from '@angular/core';
 import { CreatureService } from 'src/app/services/character.service';
 import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';

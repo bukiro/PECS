@@ -11,13 +11,11 @@ import { Trackers } from 'src/libs/shared/util/trackers';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectCollection } from 'src/app/classes/EffectCollection';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { DurationsService } from 'src/libs/time/services/durations/durations.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { StatusService } from 'src/app/core/services/status/status.service';
 
 interface ComponentParameters {
     effects: Array<Effect>;

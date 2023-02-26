@@ -134,8 +134,6 @@ export class ExtensionsService {
             const highestItem = data.find(item => item[identifier] === duplicate && (item.overridePriority || 0) === highestPriority);
 
             if (highestItem) {
-
-                //TO-DO: Check if this still works when using 'as' a lot.
                 data
                     .filter(item => (item[identifier] === duplicate && item !== highestItem))
                     .forEach(item => { item[identifier] = 'DELETE'; });

@@ -8,7 +8,6 @@ import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { ConfigService } from 'src/app/core/services/config/config.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Subscription } from 'rxjs';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Savegame } from 'src/app/classes/Savegame';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';

@@ -13,7 +13,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Rune } from 'src/app/classes/Rune';
 import { Shield } from 'src/app/classes/Shield';
 import { Specialization } from 'src/app/classes/Specialization';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { ConditionEffectsObject } from '../../../../../app/classes/ConditionEffectsObject';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';

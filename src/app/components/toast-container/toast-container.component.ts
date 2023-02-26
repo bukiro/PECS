@@ -4,7 +4,6 @@ import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service
 import { Toast, ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { Trackers } from 'src/libs/shared/util/trackers';
-import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-toast-container',

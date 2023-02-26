@@ -8,10 +8,8 @@ import { Subscription } from 'rxjs';
 import { Trackers } from 'src/libs/shared/util/trackers';
 import { Trait } from 'src/app/classes/Trait';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { HintShowingObjectsService } from 'src/libs/shared/services/hint-showing-objects/hint-showing-objects.service';
-import { StatusService } from 'src/app/core/services/status/status.service';
 
 @Component({
     selector: 'app-spell',

@@ -502,8 +502,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             }
         }
 
-        // The Esoteric Polymath spell allows learning Occult spells and spells from your spell list for free with your Bard Spellcasting,
-        // provided they are in your Spell Repertoire.
+        // The Esoteric Polymath spell allows learning Occult spells and spells from your spell list for free
+        // with your Bard Spellcasting, provided they are in your Spell Repertoire.
         if (
             bardCasting &&
             (
@@ -520,8 +520,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             });
         }
 
-        // The Arcane Evolution spell allows learning Arcane spells and spells from your spell list for free with your Arcane Sorcerer Spellcasting,
-        // provided they are in your Spell Repertoire.
+        // The Arcane Evolution spell allows learning Arcane spells and spells from your spell list for free
+        // with your Arcane Sorcerer Spellcasting, provided they are in your Spell Repertoire.
         if (
             sorcererCasting &&
             (
