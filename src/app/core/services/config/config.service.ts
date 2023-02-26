@@ -186,11 +186,13 @@ export class ConfigService {
                 error: error => {
                     if (error.status === HttpStatusCode.NotFound) {
                         console.error('No config file was found. See assets/config.json.example for more information.');
-                    } else {
-                        throw error;
+                        this._statusService.setLoadingStatus('No config file!');
+                        this._toastService.show('No config file was found. PECS cannot be started.');
+                    } else if (error.message.includes('failure during parsing')) {
+                        console.error('A bad config file was found. See assets/config.json.example for more information.');
+                        this._statusService.setLoadingStatus('Bad config file!');
+                        this._toastService.show('The config file could not be read. PECS cannot be started.');
                     }
-
-                    this._initialized = true;
                 },
             });
 
