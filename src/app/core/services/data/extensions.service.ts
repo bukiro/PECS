@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { switchMap, tap } from 'rxjs';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Interfaces/jsonImportedItemFileList';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
 
 type SingleIdentifier = 'id' | 'name';
 
@@ -32,7 +32,7 @@ type OverrideTypeMultipleIdentifiers<T> = T & {
 })
 export class ExtensionsService {
 
-    public extensions: { [list: string]: { [fileName: string]: Array<Partial<unknown>> } } = {};
+    public extensions: Record<string, ImportedJsonFileList<unknown>> = {};
     private _remainingToLoad = 0;
     private _finishedLoading = 0;
 
@@ -106,7 +106,7 @@ export class ExtensionsService {
     ): ImportedJsonFileList<T> {
         if (this.extensions[name]) {
             Object.keys(this.extensions[name]).forEach(key => {
-                data[key] = this.extensions[name][key] as Array<Partial<T>>;
+                data[key] = this.extensions[name][key];
             });
         }
 
@@ -128,7 +128,7 @@ export class ExtensionsService {
         duplicates.forEach(duplicate => {
             const highestPriority = Math.max(
                 ...data
-                    .filter(item => item[identifier as keyof OverrideType<T>] === duplicate)
+                    .filter(item => item[identifier] === duplicate)
                     .map(item => item.overridePriority || 0),
             ) || 0;
             const highestItem = data.find(item => item[identifier] === duplicate && (item.overridePriority || 0) === highestPriority);

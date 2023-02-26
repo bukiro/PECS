@@ -785,7 +785,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             return schoolAvailable > schoolLearned;
         }
 
-        // To-Do: Either forbid learning cantrips via esoteric polymath,
+        //To-Do: Either forbid learning cantrips via esoteric polymath,
         // or allow adding cantrips learned via esoteric polymath to your repertoire.
         if (source === 'esotericpolymath') {
             if (spell.traditions.find(tradition => this._isEsotericPolymathAllowedForTradition(tradition))) {
@@ -795,7 +795,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             }
         }
 
-        // To-Do: Either forbid learning cantrips via arcane evolution,
+        //To-Do: Either forbid learning cantrips via arcane evolution,
         // or allow adding cantrips learned via arcane evolution to your repertoire.
         if (source === 'arcaneevolution') {
             if (spell.traditions.find(tradition => this._isArcaneEvolutionAllowedForTradition(tradition))) {

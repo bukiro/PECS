@@ -154,7 +154,6 @@ export class ConfigService {
             .pipe(
                 filter((response: HttpEvent<unknown>) => (response.type !== HttpEventType.Sent)),
                 switchMap((response: HttpEvent<unknown>) => {
-                    //To-Do: Check if this still works or the response is something other than a ResponseHeader.
                     if (response.type === HttpEventType.Response && response.status) {
                         if (response.status === HttpStatusCode.Ok) {
                             return this._httpClient.get('assets/config.json', { headers });
@@ -176,7 +175,7 @@ export class ConfigService {
                     }
 
                     //Establish a connection to the data service and do a dummy login to check whether login is required.
-                    this.login('');
+                    this.login();
                     this._initialized = true;
 
                     return data;

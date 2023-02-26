@@ -13,7 +13,7 @@ export class AnimalCompanionSpecialization {
     public skillChoices: Array<SkillChoice> = [];
     public sourceBook = '';
 
-    public recast(): AnimalCompanionSpecialization {
+    public recast(): this {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.skillChoices = this.skillChoices.map(obj => Object.assign(new SkillChoice(), obj).recast());
         this.effects = this.effects.map(obj => Object.assign(new EffectGain(), obj).recast());
@@ -22,8 +22,8 @@ export class AnimalCompanionSpecialization {
         return this;
     }
 
-    public clone(): AnimalCompanionSpecialization {
-        return Object.assign<AnimalCompanionSpecialization, AnimalCompanionSpecialization>(
+    public clone(): this {
+        return Object.assign<AnimalCompanionSpecialization, this>(
             new AnimalCompanionSpecialization(), JSON.parse(JSON.stringify(this)),
         ).recast();
     }

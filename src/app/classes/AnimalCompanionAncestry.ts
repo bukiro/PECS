@@ -22,7 +22,7 @@ export class AnimalCompanionAncestry {
     public supportBenefit = '';
     public traits: Array<string> = [];
 
-    public recast(recastFns: RecastFns): AnimalCompanionAncestry {
+    public recast(recastFns: RecastFns): this {
         this.abilityChoices = this.abilityChoices.map(obj => Object.assign(new AbilityChoice(), obj).recast());
         this.activities = this.activities.map(obj => recastFns.activityGain(obj).recast(recastFns));
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
