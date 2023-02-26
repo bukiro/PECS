@@ -402,7 +402,24 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         }
     }
 
-    //TO-DO: See if these options still work
+    /**
+     * Lists all methods available to Learn the Spell, depending on your Spellcasting and some feats. This includes:
+     * - Wizard Spellcasting
+     * - Wizard Spellcasting (school spell)
+     * - Adapted Cantrip feat
+     * - Adaptive Adept feat
+     * - Esoteric Polymath feat
+     * - Arcane Evolution feat
+     *
+     * The methods will be enabled or disabled depending on whether you fulfill the requirements other than matching Spellcasting.
+     *
+     * @param spell
+     * @param level
+     * @param wizardCasting
+     * @param bardCasting
+     * @param sorcererCasting
+     * @returns
+     */
     // eslint-disable-next-line complexity
     public availableSpellLearningOptions(
         spell: Spell,
@@ -413,6 +430,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
     ): Array<{ key: string; title: string; disabled: boolean }> {
         const options: Array<{ key: string; title: string; disabled: boolean }> = [];
 
+        // No options should be available if the spell is already learned.
+        // Spell learning is not available for focus spells.
         if (
             this._learnedSpells().some(learnedSpell => learnedSpell.name === spell.name)
             || this.traditionFilter === SpellTraditions.Focus
@@ -421,6 +440,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         }
 
         if (wizardCasting) {
+            // Wizard Spellcasting allows learning a number of Arcane spells and spells from your spell list for free.
+            // Wizard Spellcasting also allows learning an additional number of spells of your school for free.
             if (
                 spell.traditions.includes(SpellTraditions.Arcane) ||
                 !!this._character.class.getSpellsFromSpellList(spell.name).length
@@ -442,6 +463,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
                 );
             }
 
+            // The Adapted Cantrip feat allows learning a cantrip from any tradition other than Arcane for free.
+            // The Adaptive Adept feat allows learning either a second cantrip or a 1st-level spell from the same tradition for free.
             if (
                 !spell.traditions.includes(SpellTraditions.Arcane)
             ) {
@@ -479,6 +502,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             }
         }
 
+        // The Esoteric Polymath spell allows learning Occult spells and spells from your spell list for free with your Bard Spellcasting,
+        // provided they are in your Spell Repertoire.
         if (
             bardCasting &&
             (
@@ -495,10 +520,12 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             });
         }
 
+        // The Arcane Evolution spell allows learning Arcane spells and spells from your spell list for free with your Arcane Sorcerer Spellcasting,
+        // provided they are in your Spell Repertoire.
         if (
             sorcererCasting &&
             (
-                !spell.traditions.includes(SpellTraditions.Arcane) ||
+                spell.traditions.includes(SpellTraditions.Arcane) ||
                 !!this._character.class?.getSpellsFromSpellList(spell.name).length
             )
         ) {
@@ -514,6 +541,7 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
 
         const learnAsSpellKey = SpellLearningMethods.LearnASpell;
 
+        // You can always Learn A Spell by paying money.
         options.push({
             key: learnAsSpellKey,
             title: 'Learn using Learn A Spell activity',
@@ -757,6 +785,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             return schoolAvailable > schoolLearned;
         }
 
+        // To-Do: Either forbid learning cantrips via esoteric polymath,
+        // or allow adding cantrips learned via esoteric polymath to your repertoire.
         if (source === 'esotericpolymath') {
             if (spell.traditions.find(tradition => this._isEsotericPolymathAllowedForTradition(tradition))) {
                 // You can learn a spell via esoteric polymath if it is in your spell repertoire,
@@ -765,6 +795,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
             }
         }
 
+        // To-Do: Either forbid learning cantrips via arcane evolution,
+        // or allow adding cantrips learned via arcane evolution to your repertoire.
         if (source === 'arcaneevolution') {
             if (spell.traditions.find(tradition => this._isArcaneEvolutionAllowedForTradition(tradition))) {
                 // You can learn a spell via arcane evolution if it is in your spell repertoire,
@@ -780,9 +812,8 @@ export class SpellLibraryComponent implements OnInit, OnDestroy {
         }
 
         if (source === 'adaptiveadept') {
-            // You can learn a spell via adaptive adept if none of its traditions is your own,
-            // and it matches a tradition of the cantrip learned via adapted adept.
-            // With Adaptive Adept, you can choose spells of the same tradition(s) as with Adapted Cantrip, but not your own.
+            // You can learn a spell via adaptive adept if none of its traditions is your own (this has already been checked at this point),
+            // and it matches a tradition of the cantrip learned via Adapted Cantrip.
             const adaptedcantrip = this._learnedSpells('adaptedcantrip')[0];
 
             if (adaptedcantrip) {
