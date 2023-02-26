@@ -380,14 +380,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        const waitUntilReady = setInterval(() => {
-            //TO-DO: Is this correct? Should we proceed if ConfigService is loading?
-            // If yes, then document why!
-            if (this.hasDBConnectionURL || this._configService.stillLoading) {
-                clearInterval(waitUntilReady);
-                this._subscribeToChanges();
-            }
-        }, Defaults.waitForServiceDelay);
+        this._subscribeToChanges();
     }
 
     public ngOnDestroy(): void {

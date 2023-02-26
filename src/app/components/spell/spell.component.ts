@@ -64,32 +64,26 @@ export class SpellComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        const waitForCharacterService = setInterval(() => {
-            if (!StatusService.isLoadingCharacter) {
-                clearInterval(waitForCharacterService);
-
-                this._changeSubscription = this._refreshService.componentChanged$
-                    .subscribe(target => {
-                        if (['individualspells', 'all', 'character'].includes(target.toLowerCase())) {
-                            this._changeDetector.detectChanges();
-                        }
-                    });
-                this._viewChangeSubscription = this._refreshService.detailChanged$
-                    .subscribe(view => {
-                        if (view.creature.toLowerCase() === 'character' &&
-                            (
-                                view.target.toLowerCase() === 'all' ||
-                                (
-                                    view.target.toLowerCase() === 'individualspells' &&
-                                    [this.spell.name.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase())
-                                )
-                            )
-                        ) {
-                            this._changeDetector.detectChanges();
-                        }
-                    });
-            }
-        }, Defaults.waitForServiceDelay);
+        this._changeSubscription = this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (['individualspells', 'all', 'character'].includes(target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+        this._viewChangeSubscription = this._refreshService.detailChanged$
+            .subscribe(view => {
+                if (view.creature.toLowerCase() === 'character' &&
+                    (
+                        view.target.toLowerCase() === 'all' ||
+                        (
+                            view.target.toLowerCase() === 'individualspells' &&
+                            [this.spell.name.toLowerCase(), 'all'].includes(view.subtarget.toLowerCase())
+                        )
+                    )
+                ) {
+                    this._changeDetector.detectChanges();
+                }
+            });
     }
 
     public ngOnDestroy(): void {

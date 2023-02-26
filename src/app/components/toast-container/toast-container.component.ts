@@ -41,25 +41,18 @@ export class ToastContainerComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        const waitForCharacterService = setInterval(() => {
-            if (!StatusService.isLoadingCharacter) {
-                clearInterval(waitForCharacterService);
-
-                this._changeSubscription = this._refreshService.componentChanged$
-                    .subscribe(target => {
-                        if (['toasts', 'all'].includes(target.toLowerCase())) {
-                            this._changeDetector.detectChanges();
-                        }
-                    });
-                this._viewChangeSubscription = this._refreshService.detailChanged$
-                    .subscribe(view => {
-                        if (['toasts', 'all'].includes(view.target.toLowerCase())) {
-                            this._changeDetector.detectChanges();
-                        }
-                    });
-
-            }
-        });
+        this._changeSubscription = this._refreshService.componentChanged$
+            .subscribe(target => {
+                if (['toasts', 'all'].includes(target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+            });
+        this._viewChangeSubscription = this._refreshService.detailChanged$
+            .subscribe(view => {
+                if (['toasts', 'all'].includes(view.target.toLowerCase())) {
+                    this._changeDetector.detectChanges();
+                }
+            });
     }
 
     public ngOnDestroy(): void {

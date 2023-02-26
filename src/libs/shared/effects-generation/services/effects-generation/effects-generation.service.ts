@@ -60,37 +60,41 @@ export class EffectsGenerationService {
     ) { }
 
     public initialize(): void {
-        //Only start subscribing to effects refreshing commands after the character has finished loading.
-        const waitForCharacterService = setInterval(() => {
-            if (!StatusService.isLoadingCharacter) {
-                clearInterval(waitForCharacterService);
-                this._refreshService.componentChanged$
-                    .subscribe(target => {
-                        if (['effects', 'all', CreatureTypes.Character, 'Companion', 'Familiar'].includes(target)) {
-                            if (target in CreatureTypes) {
-                                this._updateEffectsAndConditions(target as CreatureTypes);
-                            } else {
-                                this._updateEffectsAndConditions(CreatureTypes.Character);
+        this._refreshService.componentChanged$
+            .subscribe(target => {
+                //Only react to effects refreshing commands when a character is not currently being loaded.
+                if (StatusService.isLoadingCharacter) {
+                    return;
+                }
 
-                                if (this._creatureAvailabilityService.isCompanionAvailable()) {
-                                    this._updateEffectsAndConditions(CreatureTypes.AnimalCompanion);
-                                }
+                if (['effects', 'all', CreatureTypes.Character, 'Companion', 'Familiar'].includes(target)) {
+                    if (target in CreatureTypes) {
+                        this._updateEffectsAndConditions(target as CreatureTypes);
+                    } else {
+                        this._updateEffectsAndConditions(CreatureTypes.Character);
 
-                                if (this._creatureAvailabilityService.isFamiliarAvailable()) {
-                                    this._updateEffectsAndConditions(CreatureTypes.Familiar);
-                                }
-                            }
-
+                        if (this._creatureAvailabilityService.isCompanionAvailable()) {
+                            this._updateEffectsAndConditions(CreatureTypes.AnimalCompanion);
                         }
-                    });
-                this._refreshService.detailChanged$
-                    .subscribe(target => {
-                        if (['effects', 'all'].includes(target.target) && target.creature !== '') {
-                            this._updateEffectsAndConditions(target.creature);
+
+                        if (this._creatureAvailabilityService.isFamiliarAvailable()) {
+                            this._updateEffectsAndConditions(CreatureTypes.Familiar);
                         }
-                    });
-            }
-        }, Defaults.waitForServiceDelay);
+                    }
+
+                }
+            });
+        this._refreshService.detailChanged$
+            .subscribe(target => {
+                //Only react to effects refreshing commands when a character is not currently being loaded.
+                if (StatusService.isLoadingCharacter) {
+                    return;
+                }
+
+                if (['effects', 'all'].includes(target.target) && target.creature !== '') {
+                    this._updateEffectsAndConditions(target.creature);
+                }
+            });
     }
 
     private _effectsFromOtherCreatures(creature: Creature): Array<Effect> {
