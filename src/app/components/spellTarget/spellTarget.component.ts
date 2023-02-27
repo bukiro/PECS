@@ -189,7 +189,7 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
             shouldBloodMagicApply
                 ? `Casting this spell will trigger ${ bloodMagicTrigger }.`
                 : (
-                    !canActivateWithoutTarget
+                    canActivateWithoutTarget
                         ? `${ this.spell ? 'Cast' : 'Activate' } with no specific target.`
                         : `The ${ this.spell ? 'spell' : 'activity' } has no automatic effects.`
                 );

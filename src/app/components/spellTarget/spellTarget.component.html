@@ -24,7 +24,7 @@
     </ng-template>
     <ng-container *ngIf="!isManualMode">
         <!-- Button to activate on yourself. -->
-        <div class="newrow" *ngIf="canTargetSelf" [ngbTooltip]="cannotCast">
+        <div class="newrow" *ngIf="canTargetSelf()" [ngbTooltip]="cannotCast">
             <button class="center-aligned" (click)="onCast('self', true)" [disabled]="cannotCast"
                 [ngbTooltip]="parameters.bloodMagicWarningWithTarget">
                 <ng-container
