@@ -318,6 +318,9 @@ export class ItemCollection {
         this.allOther().forEach(item => {
             addup(item);
         });
+        this.otheritems.forEach(item => {
+            addup(item);
+        });
         sum = Math.max(0, sum);
 
         //Either round to int, or else to 1 decimal

@@ -448,8 +448,8 @@ export class InventoryComponent implements OnInit, OnDestroy {
         this._refreshService.processPreparedChanges();
     }
 
-    public bulkOnlyInputValidation(event: KeyboardEvent): boolean {
-        return InputValidationService.bulkOnly(event);
+    public bulkOnlyInputValidation(event: InputEvent, currentBulk: string): boolean {
+        return InputValidationService.bulkOnly(event, currentBulk, event.target as HTMLInputElement);
     }
 
     public validateBulk(item: OtherItem): void {

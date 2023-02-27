@@ -1011,9 +1011,14 @@
                         <strong>
                             Bulk
                         </strong>
-                        <input id="miscellaneousItemBulk{{inventoryIndex}}_{{index}}" class="number2"
-                            [(ngModel)]="item.bulk" (blur)="validateBulk(item)"
-                            (keypress)="bulkOnlyInputValidation($event)">
+                        <input
+                            id="miscellaneousItemBulk{{inventoryIndex}}_{{index}}"
+                            class="number2"
+                            [ngModel]="item.bulk"
+                            (blur)="validateBulk(item)"
+                            (beforeinput)="bulkOnlyInputValidation($event, item.bulk)"
+                            (ngModelChange)="item.bulk = $event.toUpperCase()"
+                        >
                         <button (click)="removeOtherItem(item, inventory)">
                             Drop
                         </button>
