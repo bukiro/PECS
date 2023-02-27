@@ -685,7 +685,7 @@
         ],
         "hitPoints": 6,
         "size": -1,
-        "supportBenefit": "Your wolf tears tendons with each opening. Until the start of your next turn, your Strikes that damage creatures your wolf threatens give the target a '5-foot status penalty to its Speeds for 1 minute ('10 on a critical success).",
+        "supportBenefit": "Your wolf tears tendons with each opening. Until the start of your next turn, your Strikes that damage creatures your wolf threatens give the target a -5-foot status penalty to its Speeds for 1 minute (-10 on a critical success).",
         "abilityChoices": [
             {
                 "boosts": [
