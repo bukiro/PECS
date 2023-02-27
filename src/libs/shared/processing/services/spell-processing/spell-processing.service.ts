@@ -81,8 +81,7 @@ export class SpellProcessingService {
         const conditionsToRemove: Array<string> = [];
 
         if (!options.expendOnly && activated && spell.sustained) {
-            //Determine the spell's sustain duration and save the names of the conditions that influenced it.
-            //TO-DO: Check if this properly changes the gain's attributes.
+            //Determine the spell's sustain duration and save the names of the conditions that influenced it and can be removed.
             conditionsToRemove.push(...this._activateSustainedSpell(spell, context));
         } else if (!options.expendOnly && activated && context.activityGain?.active) {
             //Activate the spellGain if it comes from an activated activity.

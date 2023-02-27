@@ -125,7 +125,6 @@ export class ActivitiesProcessingService {
 
         if (activity.toggle) {
             //Determine the toggled activity's duration and save the names of the conditions that influenced it.
-            //TO-DO: Check if this properly changes the gain's attributes.
             conditionsToRemove.push(...this._activateToggledActivity(activity, context));
         } else {
             context.gain.active = false;

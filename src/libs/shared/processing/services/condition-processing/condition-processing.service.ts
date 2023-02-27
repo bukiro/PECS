@@ -117,7 +117,7 @@ export class ConditionProcessingService {
         }
 
         //End the spell or activity causing this condition if there is one and it is active.
-        if (!taken && gain.sourceGainID || gain.source) {
+        if (!taken && (gain.sourceGainID || gain.source)) {
             this._endSourceSpellsAndActivities(creature, gain);
         }
 
