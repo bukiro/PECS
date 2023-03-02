@@ -176,7 +176,7 @@ export class FeatRequirementsService {
         //Returns an array of [requirement met, requirement description]
         const character = CreatureService.character;
         const result: Array<{ met: boolean; desc: string }> = [];
-        const skillreq = { ...feat.skillreq };
+        const skillreq = [...feat.skillreq];
         // The Versatile Performance feat allows to use Performance instead of Deception,
         // Diplomacy or Intimidation to meet skill requirements for feats.
         // If you have the feat and any of these skills are required, add Performance to the requirements with the lowest required value.
