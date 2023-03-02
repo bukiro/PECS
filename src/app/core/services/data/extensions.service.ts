@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpRequest, HttpStatusCode } from '@angular/common/http';
-import { switchMap, tap } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
 
 type SingleIdentifier = 'id' | 'name';
@@ -225,31 +224,30 @@ export class ExtensionsService {
         const headers = new HttpHeaders().set('Cache-Control', 'no-cache')
             .set('Pragma', 'no-cache');
 
-        this._httpClient.request(new HttpRequest('HEAD', `${ path }/extensions.json`, headers))
-            .pipe(
-                switchMap(() =>
-                    this._httpClient.get(`${ path }/extensions.json`, { headers }),
-                ),
-                tap({
-                    next: data => {
+        this._httpClient.get(`${ path }/extensions.json`, { headers })
+            .subscribe({
+                next: data => {
+                    if (data) {
                         JSON.parse(JSON.stringify(data)).forEach((extension: { name: string; filename: string }) => {
                             this._loadFile(path, extension.filename, target, extension.name);
                         });
-                        this._finishedLoading++;
-                        console.clear();
-                    },
-                    error: error => {
-                        if (error.status === HttpStatusCode.NotFound) {
-                            console.clear();
-                        } else {
-                            console.log(`Error loading extension file: ${ error.message }`);
-                        }
+                    }
 
-                        this._finishedLoading++;
-                    },
-                }),
-            )
-            .subscribe();
+                    this._finishedLoading++;
+                },
+                error: error => {
+                    if (error.status === HttpStatusCode.NotFound) {
+                        console.log(
+                            `No extensions file found for ${ path }. `
+                            + 'This is probably not an error as extensions files are optional.',
+                        );
+                    } else {
+                        console.log(`Error loading extensions file in ${ path }: ${ error.message }`);
+                    }
+
+                    this._finishedLoading++;
+                },
+            });
     }
 
     private _loadFile(path: string, filename: string, target: string, key: string): void {
