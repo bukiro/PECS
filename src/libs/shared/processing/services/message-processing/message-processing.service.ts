@@ -172,13 +172,13 @@ export class MessageProcessingService {
 
                             const typedItem = this._typeService.castItemByType(item);
 
-                            //TO-DO: Test if this still works now, after caching the type array.
                             const targetItemTypes = targetInventory.itemsOfType(typedItem.type);
 
                             const existingItems =
                                 targetItemTypes
                                     ?.filter(existing =>
                                         existing.name === typedItem.name &&
+                                        existing.refId === typedItem.refId &&
                                         existing.canStack() &&
                                         !typedItem.expiration,
                                     ) || [];

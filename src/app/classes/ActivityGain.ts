@@ -70,8 +70,7 @@ export class ActivityGain {
             );
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public recast(recastFns: RecastFns): ActivityGain {
+    public recast(_recastFns: RecastFns): ActivityGain {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());

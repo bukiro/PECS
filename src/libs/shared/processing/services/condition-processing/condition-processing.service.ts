@@ -398,42 +398,6 @@ export class ConditionProcessingService {
 
                     this._refreshService.prepareDetailToChange(CreatureTypes.Character, 'activities');
                 });
-
-            //TO-DO: Test if the matching activity is always ended even without the below code.
-
-            /* const activityGains = this._characterService.creatureOwnedActivities(creature, creature.level, true)
-                .filter(activityGain => activityGain.active && activityGain.name === gain.source);
-
-            if (activityGains.length) {
-                let activityGain: ActivityGain;
-
-                //Try to find the activity with the same duration as the condition. If there isn't one, end the first one.
-                if (activityGains.length > 1) {
-                    activityGain = activityGains.find(existingGain => existingGain.duration === gain.duration);
-                }
-
-                if (!activityGain) {
-                    activityGain = activityGains[0];
-                }
-
-                const activity: Activity | ItemActivity = this._activityGainPropertyService.originalActivity(activityGain);
-
-                if (activity) {
-                    this._activitiesProcessingService
-                        .activateActivity(
-                            creature,
-                            '',
-                            this._characterService,
-                            this._conditionGainPropertiesService,
-                            this._itemsService,
-                            this._spellsService,
-                            activityGain,
-                            activity,
-                            false,
-                            false,
-                        );
-                }
-            } */
         }
     }
 

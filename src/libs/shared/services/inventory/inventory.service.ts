@@ -59,7 +59,10 @@ export class InventoryService {
             existingItems =
                 context.inventory.itemsOfType(item.type)
                     .filter((existing: Item) =>
-                        existing.name === newInventoryItem.name && newInventoryItem.canStack() && !item.expiration,
+                        existing.refId === newInventoryItem.refId
+                        && existing.name === newInventoryItem.name
+                        && newInventoryItem.canStack()
+                        && !item.expiration,
                     );
         }
 

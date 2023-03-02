@@ -90,7 +90,9 @@ export abstract class Item {
     public price = 0;
     /**
      * This is the id of the library item this one is based on.
-     * It is used when loading the character and set when the item is first initialized.
+     * It is used to find items of the same kind and when loading the character.
+     *
+     * Items that are not based on a libary item have their own id as their refId.
      */
     public refId = '';
     /** Is the notes input shown in the inventory */

@@ -5,7 +5,6 @@ import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { ArmorRune } from 'src/app/classes/ArmorRune';
 import { Item } from 'src/app/classes/Item';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { Oil } from 'src/app/classes/Oil';
 import { Rune } from 'src/app/classes/Rune';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
@@ -112,7 +111,7 @@ export class ItemInitializationService {
         //For items (oils) that apply the same effect as a rune, load the rune into the item here.
         if (newItem.isOil() && !!newItem.runeEffect?.name) {
             const rune = this._itemsDataService.cleanItems().weaponrunes
-                .find(weaponRune => weaponRune.name === (newItem as unknown as Oil).runeEffect?.name);
+                .find(weaponRune => weaponRune.name === newItem.runeEffect?.name);
 
             if (rune) {
                 newItem.runeEffect = rune.clone(this._recastService.recastOnlyFns);

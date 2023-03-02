@@ -78,7 +78,7 @@ export class TypeService {
                     mergedObject = this.castItemByType<T>(mergedObject, options.type || libraryItem.type);
 
                     // Disable any active hint effects when loading an item.
-                    // The item is not reassigned at this point, so the hints have to use the prototype.
+                    // The item is not yet recast at this point, so the hints have to use the prototype.
                     if (mergedObject.isEquipment()) {
                         mergedObject.hints.forEach(hint => Hint.prototype.deactivateAll.call(hint));
                     }
