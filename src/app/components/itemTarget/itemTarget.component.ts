@@ -15,6 +15,7 @@ import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.se
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
+import { noop } from 'rxjs';
 
 @Component({
     selector: 'app-itemTarget',
@@ -75,11 +76,16 @@ export class ItemTargetComponent implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public openItemTargetModal(content: TemplateRef<any>): void {
         this._updateSelectedAmount();
-        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
-            if (result === 'Move click') {
-                this.onMove();
-            }
-        });
+        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' })
+            .result
+            .then(
+                result => {
+                    if (result === 'Move click') {
+                        this.onMove();
+                    }
+                },
+                () => noop,
+            );
     }
 
     public itemTargets(): Array<ItemCollection | SpellTarget> {

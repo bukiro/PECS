@@ -47,11 +47,13 @@
                 </div>
                 <ng-container *ngFor="let target of targets; trackBy:trackers.trackByIndex">
                     <div class="list-item newrow">
-                        <span class="hlist" style="font-size: 1.5em;" *ngSwitch="targetType(target)">
-                            <i class="ra ra-hive-emblem" *ngSwitchCase="'Inventory'" style="line-height: 1.5;"></i>
-                            <i class="ra ra-wolf-howl" *ngSwitchCase="'Companion'" style="line-height: 1.5;"></i>
-                            <i class="ra ra-raven" *ngngSwitchCase="'Familiar'" style="line-height: 1.5;"></i>
-                            <i class="ra ra-player" *ngSwitchDefault style="line-height: 1.5;"></i>
+                        <span class="hlist" style="font-size: 1.5em;">
+                            <ng-container *ngSwitch="targetType(target)">
+                                <i class="ra ra-hive-emblem" *ngSwitchCase="'Inventory'" style="line-height: 1.5;"></i>
+                                <i class="ra ra-wolf-howl" *ngSwitchCase="'Companion'" style="line-height: 1.5;"></i>
+                                <i class="ra ra-raven" *ngngSwitchCase="'Familiar'" style="line-height: 1.5;"></i>
+                                <i class="ra ra-player" *ngSwitchDefault style="line-height: 1.5;"></i>
+                            </ng-container>
                             <strong>{{targetName(target)}}</strong>
                             <span>{{containerBulk(target)}}</span>
                         </span>
@@ -67,7 +69,8 @@
                                 style="background-color: rgb(var(--accent))"
                                 (click)="onSetTarget(target); modal.close('Move click')"
                                 [disabled]="cannotMove || (item.amount && !selectedAmount)"
-                                [ngSwitch]="targetType(target)">
+                                [ngSwitch]="targetType(target)"
+                            >
                                 <span *ngSwitchCase="'Inventory'">Move</span>
                                 <span *ngSwitchCase="'Player'">Offer</span>
                                 <span *ngSwitchDefault>Give</span>
