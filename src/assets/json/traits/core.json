@@ -690,7 +690,7 @@
     },
     {
         "name": "Half-orc",
-        "desc": "A creature with this trait is part�human�and part�orc. An ability with this trait can be used or selected only by half-orcs.",
+        "desc": "A creature with this trait is part human and part orc. An ability with this trait can be used or selected only by half-orcs.",
         "sourceBook": "Core Rulebook",
         "_extensionFileName": "core"
     },

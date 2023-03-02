@@ -26567,8 +26567,8 @@
             "Incapacitation",
             "Mental"
         ],
-        "inputRequired": "Choose�the�desired�duration�first�while�casting�the�spell,�then�choose�the�result�of�the�target's�will�save�in�the�received�caster�condition.",
-        "internalNote": "The�caster�duration�condition�starts�the�actual�caster�condition�with�a�duration�fitting�the�choice.",
+        "inputRequired": "Choose the desired duration first while casting the spell, then choose the result of the target's will save in the received caster condition.",
+        "internalNote": "The caster duration condition starts the actual caster condition with a duration fitting the choice.",
         "range": "30 feet",
         "targets": "1 creature",
         "target": "other",
@@ -29367,19 +29367,19 @@
         "desc": "<var>var1</var>You attempt to call forth the dead creature's soul, requiring the creature's body to be present and relatively intact. The creature must have died within the past 3 days. If Pharasma has decided that the creature's time has come (at the GM's discretion), or if the creature doesn't wish to return to life, this spell automatically fails, but the diamonds aren't consumed in the casting.\n\nIf the spell is successful, the creature returns to life with 1 Hit Point, no spells prepared or spell slots available, no points in any pools or any other daily resources, and still with any long-term debilitations of the old body. The time spent in the Boneyard leaves the target temporarily debilitated, making it clumsy 2, drained 2, and enfeebled 2 for 1 week; these conditions can't be removed or reduced by any means until the week has passed. The creature is also permanently changed by its time in the afterlife, such as a slight personality shift, a streak of white in the hair, or a strange new birthmark.",
         "heightened": [
             {
-                "desc": "The maximum level of the target increases to 15. The cost increases to the target's level (minimum 1) � 400 gp.",
+                "desc": "The maximum level of the target increases to 15. The cost increases to the target's level (minimum 1)   400 gp.",
                 "level": "(7th)"
             },
             {
-                "desc": "The maximum level of the target increases to 17. The cost increases to the target's level (minimum 1) � 800 gp.",
+                "desc": "The maximum level of the target increases to 17. The cost increases to the target's level (minimum 1)   800 gp.",
                 "level": "(8th)"
             },
             {
-                "desc": "The maximum level of the target increases to 19. The cost increases to the target's level (minimum 1) � 1,600 gp.",
+                "desc": "The maximum level of the target increases to 19. The cost increases to the target's level (minimum 1)   1,600 gp.",
                 "level": "(9th)"
             },
             {
-                "desc": "The maximum level of the target increases to 21. The cost increases to the target's level (minimum 1) � 3,200 gp.",
+                "desc": "The maximum level of the target increases to 21. The cost increases to the target's level (minimum 1)   3,200 gp.",
                 "level": "(10th)"
             }
         ],
