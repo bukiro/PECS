@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Condition } from 'src/app/classes/Condition';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import * as json_conditions from 'src/assets/json/conditions';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,8 +14,7 @@ export class ConditionsDataService {
     private readonly _conditionsMap = new Map<string, Condition>();
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
-        private readonly _recastService: RecastService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -44,7 +43,12 @@ export class ConditionsDataService {
     }
 
     public initialize(): void {
-        this._loadConditions();
+        this._conditions = this._dataLoadingService.loadRecastable(
+            json_conditions as ImportedJsonFileList<Condition>,
+            'conditions',
+            'name',
+            Condition,
+        );
         this._conditionsMap.clear();
         this._conditions.forEach(condition => {
             this._conditionsMap.set(condition.name.toLowerCase(), condition);
@@ -59,17 +63,6 @@ export class ConditionsDataService {
                 hint.active = false;
             });
         });
-    }
-
-    private _loadConditions(): void {
-        this._conditions = [];
-
-        const data = this._extensionsService.extend(json_conditions, 'conditions');
-
-        Object.keys(data).forEach(key => {
-            this._conditions.push(...data[key].map(obj => Object.assign(new Condition(), obj).recast(this._recastService.restoreFns)));
-        });
-        this._conditions = this._extensionsService.cleanupDuplicates(this._conditions, 'name', 'conditions');
     }
 
     private _replacementCondition(name?: string): Condition {

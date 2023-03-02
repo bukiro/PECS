@@ -123,7 +123,7 @@ export class ActivitiesDataService {
         const activityGainRecastFn =
             (obj: ActivityGain): ActivityGain => Object.assign(new ActivityGain(obj.originalActivity), obj);
 
-        this._recastService.registerActivityGainrecastFns(activityGainRestoreFn, activityGainRecastFn);
+        this._recastService.registerActivityGainRecastFns(activityGainRestoreFn, activityGainRecastFn);
     }
 
     private _loadActivities(): void {

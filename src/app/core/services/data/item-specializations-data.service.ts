@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { Specialization } from 'src/app/classes/Specialization';
 import * as json_specializations from 'src/assets/json/specializations';
-import { DeepPartial } from 'src/libs/shared/definitions/Types/deepPartial';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +12,7 @@ export class ItemSpecializationsDataService {
     private _initialized = false;
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -29,13 +28,12 @@ export class ItemSpecializationsDataService {
     }
 
     public initialize(): void {
-        this._specializations = this._loadSpecializations(json_specializations);
-        this._specializations =
-            this._extensionsService.cleanupDuplicates(
-                this._specializations,
-                'name',
-                'armor and weapon specializations',
-            ) as Array<Specialization>;
+        this._specializations = this._dataLoadingService.loadRecastable(
+            json_specializations,
+            'specializations',
+            'name',
+            Specialization,
+        );
 
         this._initialized = true;
     }
@@ -46,22 +44,6 @@ export class ItemSpecializationsDataService {
             spec.recast();
             spec.hints?.forEach(hint => hint.deactivateAll());
         });
-    }
-
-    private _loadSpecializations(
-        data: { [fileName: string]: Array<DeepPartial<Specialization>> },
-    ): Array<Specialization> {
-        const resultingData: Array<Specialization> = [];
-
-        const extendedData = this._extensionsService.extend(data, 'specializations');
-
-        Object.keys(extendedData).forEach(filecontent => {
-            resultingData.push(...extendedData[filecontent].map(entry =>
-                Object.assign(new Specialization(), entry).recast(),
-            ));
-        });
-
-        return resultingData;
     }
 
 }

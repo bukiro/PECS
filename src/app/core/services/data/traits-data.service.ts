@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Trait } from 'src/app/classes/Trait';
 import * as json_traits from 'src/assets/json/traits';
 import { Creature } from 'src/app/classes/Creature';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -15,8 +14,7 @@ export class TraitsDataService {
     private readonly _traitsMap = new Map<string, Trait>();
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
-        private readonly _recastService: RecastService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -83,7 +81,13 @@ export class TraitsDataService {
     }
 
     public initialize(): void {
-        this._loadTraits();
+        this._traits = this._dataLoadingService.loadRecastable(
+            json_traits,
+            'traits',
+            'name',
+            Trait,
+        );
+
         this._traits.forEach(trait => {
             this._traitsMap.set(trait.name.toLowerCase(), trait);
         });
@@ -94,17 +98,6 @@ export class TraitsDataService {
         this._traits.forEach(trait => {
             trait.hints?.forEach(hint => hint.deactivateAll());
         });
-    }
-
-    private _loadTraits(): void {
-        this._traits = [];
-
-        const data = this._extensionsService.extend(json_traits, 'traits');
-
-        Object.keys(data).forEach(key => {
-            this._traits.push(...data[key].map(obj => Object.assign(new Trait(), obj).recast(this._recastService.restoreFns)));
-        });
-        this._traits = this._extensionsService.cleanupDuplicates(this._traits, 'name', 'traits');
     }
 
     private _replacementTrait(name?: string): Trait {

@@ -53,12 +53,12 @@ export class RecastService {
     };
     /* eslint-enable @typescript-eslint/no-dynamic-delete */
 
-    public registerItemrecastFns(itemRestoreFn: ItemRecastFn, itemRecastFn: ItemRecastFn): void {
+    public registerItemRecastFns(itemRestoreFn: ItemRecastFn, itemRecastFn: ItemRecastFn): void {
         this.restoreFns.item = itemRestoreFn;
         this.recastOnlyFns.item = itemRecastFn;
     }
 
-    public registerActivityGainrecastFns(activityGainRestoreFn: ActivityGainRecastFn, activityGainRecastFn: ActivityGainRecastFn): void {
+    public registerActivityGainRecastFns(activityGainRestoreFn: ActivityGainRecastFn, activityGainRecastFn: ActivityGainRecastFn): void {
         this.restoreFns.activityGain = activityGainRestoreFn;
         this.recastOnlyFns.activityGain = activityGainRecastFn;
     }

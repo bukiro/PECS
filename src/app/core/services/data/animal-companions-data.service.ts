@@ -5,9 +5,7 @@ import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSp
 import * as json_ancestries from 'src/assets/json/animalcompanions';
 import * as json_levels from 'src/assets/json/animalcompanionlevels';
 import * as json_specializations from 'src/assets/json/animalcompanionspecializations';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -22,8 +20,7 @@ export class AnimalCompanionsDataService {
     private _specializationsInitialized = false;
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
-        private readonly _recastService: RecastService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -49,23 +46,33 @@ export class AnimalCompanionsDataService {
     }
 
     public initialize(): void {
-        const animalCompanionAncestry = new AnimalCompanionAncestry();
-
         this._companionAncestries =
-            this._load(json_ancestries, 'companionAncestries', animalCompanionAncestry);
+            this._dataLoadingService.loadRecastable(
+                json_ancestries,
+                'companionAncestries',
+                'name',
+                AnimalCompanionAncestry,
+            );
         this._ancestriesInitialized = true;
 
-        const animalCompanionLevel = new AnimalCompanionLevel();
-
-        this._companionLevels = this._load(json_levels, 'companionLevels', animalCompanionLevel);
+        this._companionLevels =
+            this._dataLoadingService.loadRecastable(
+                json_levels,
+                'companionLevels',
+                'name',
+                AnimalCompanionLevel,
+            );
         //Sort levels by level number, after it may have got out of order with duplicates.
         this._companionLevels.sort((a, b) => a.number - b.number);
         this._levelsInitialized = true;
 
-        const animalCompanionSpecialization = new AnimalCompanionSpecialization();
-
         this._companionSpecializations =
-            this._load(json_specializations, 'companionSpecializations', animalCompanionSpecialization);
+            this._dataLoadingService.loadRecastable(
+                json_specializations,
+                'companionSpecializations',
+                'name',
+                AnimalCompanionSpecialization,
+            );
         this._specializationsInitialized = true;
     }
 
@@ -78,26 +85,6 @@ export class AnimalCompanionsDataService {
         this._companionSpecializations.forEach(spec => {
             spec.hints?.forEach(hint => hint.deactivateAll());
         });
-    }
-
-    private _load<T extends AnimalCompanionAncestry | AnimalCompanionLevel | AnimalCompanionSpecialization>(
-        data: ImportedJsonFileList<T>,
-        target: string,
-        prototype: T,
-    ): Array<T> {
-        let resultingData: Array<T> = [];
-
-        const extendedData = this._extensionsService.extend(data, target);
-
-        Object.keys(extendedData).forEach(filecontent => {
-            resultingData.push(...extendedData[filecontent].map(entry =>
-                Object.assign(new (prototype.constructor as (new () => T))(), entry).recast(this._recastService.restoreFns) as T,
-            ));
-        });
-
-        resultingData = this._extensionsService.cleanupDuplicates(resultingData, 'name', target);
-
-        return resultingData;
     }
 
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Ability } from 'src/app/classes/Ability';
 import * as json_abilities from 'src/assets/json/abilities';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +12,7 @@ export class AbilitiesDataService {
     private readonly _abilitiesMap = new Map<string, Ability>();
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -33,24 +33,11 @@ export class AbilitiesDataService {
     }
 
     public initialize(): void {
-        this._abilities = this._loadAbilities();
+        this._abilities = this._dataLoadingService.loadNonRecastable(json_abilities, 'abilities', 'name', Ability);
         this._abilities.forEach(ability => {
             this._abilitiesMap.set(ability.name.toLowerCase(), ability);
         });
         this._initialized = true;
-    }
-
-    private _loadAbilities(): Array<Ability> {
-        let abilities: Array<Ability> = [];
-
-        const extendedData = this._extensionsService.extend(json_abilities, 'abilities');
-
-        Object.keys(extendedData).forEach(key => {
-            abilities.push(...extendedData[key].map(obj => Object.assign(new Ability(), obj)));
-        });
-        abilities = this._extensionsService.cleanupDuplicates(abilities, 'name', 'abilities');
-
-        return abilities;
     }
 
     private _replacementAbility(name?: string): Ability {

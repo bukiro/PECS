@@ -6,8 +6,8 @@ import { Background } from 'src/app/classes/Background';
 import * as json_ancestries from 'src/assets/json/ancestries';
 import * as json_backgrounds from 'src/assets/json/backgrounds';
 import * as json_heritages from 'src/assets/json/heritages';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -19,7 +19,7 @@ export class HistoryDataService {
     private _initialized = false;
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -77,17 +77,27 @@ export class HistoryDataService {
     }
 
     public initialize(): void {
-        const ancestry = new Ancestry();
+        this._ancestries = this._dataLoadingService.loadRecastable(
+            json_ancestries,
+            'ancestries',
+            'name',
+            Ancestry,
+        );
 
-        this._ancestries = this._load(json_ancestries, 'ancestries', ancestry);
+        this._backgrounds = this._dataLoadingService.loadRecastable(
+            json_backgrounds,
+            'backgrounds',
+            'name',
+            Background,
+        );
 
-        const background = new Background();
+        this._heritages = this._dataLoadingService.loadRecastable(
+            json_heritages as ImportedJsonFileList<Heritage>,
+            'heritages',
+            'name',
+            Heritage,
+        );
 
-        this._backgrounds = this._load(json_backgrounds, 'backgrounds', background);
-
-        const heritage = new Heritage();
-
-        this._heritages = this._load(json_heritages as ImportedJsonFileList<Heritage>, 'heritages', heritage);
 
         this._initialized = true;
     }
@@ -120,26 +130,6 @@ export class HistoryDataService {
                 desc: `${ name ? name : 'The requested background' } does not exist in the background list.`,
             },
         );
-    }
-
-    private _load<T extends Ancestry | Background | Heritage>(
-        data: ImportedJsonFileList<T>,
-        target: 'ancestries' | 'backgrounds' | 'heritages',
-        prototype: T,
-    ): Array<T> {
-        let resultingData: Array<T> = [];
-
-        const extendedData = this._extensionsService.extend(data, target);
-
-        Object.keys(extendedData).forEach(filecontent => {
-            resultingData.push(...extendedData[filecontent].map(entry =>
-                Object.assign(new (prototype.constructor as (new () => T))(), entry).recast() as T,
-            ));
-        });
-
-        resultingData = this._extensionsService.cleanupDuplicates(resultingData, 'name', target);
-
-        return resultingData;
     }
 
 }

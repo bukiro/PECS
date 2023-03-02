@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import * as json_abilities from 'src/assets/json/familiarabilities';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -13,8 +13,7 @@ export class FamiliarsDataService {
     private _initialized = false;
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
-        private readonly _recastService: RecastService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -33,7 +32,13 @@ export class FamiliarsDataService {
     }
 
     public initialize(): void {
-        this._loadAbilities();
+        this._familiarAbilities = this._dataLoadingService.loadRecastable(
+            json_abilities as ImportedJsonFileList<Feat>,
+            'familiarAbilities',
+            'name',
+            Feat,
+        );
+
         this._initialized = true;
     }
 
@@ -52,18 +57,6 @@ export class FamiliarsDataService {
                 desc: `${ name ? name : 'The requested familiar ability' } does not exist in the feat and features lists.`,
             },
         );
-    }
-
-    private _loadAbilities(): void {
-        this._familiarAbilities = [];
-
-        const data = this._extensionsService.extend(json_abilities, 'familiarAbilities');
-
-        Object.keys(data).forEach(key => {
-            this._familiarAbilities.push(...data[key].map(obj => Object.assign(new Feat(), obj).recast(this._recastService.restoreFns)));
-        });
-        this._familiarAbilities =
-            this._extensionsService.cleanupDuplicates(this._familiarAbilities, 'name', 'familiar abilities');
     }
 
 }

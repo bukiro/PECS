@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Deity } from 'src/app/classes/Deity';
 import * as json_deities from 'src/assets/json/deities';
 import * as json_domains from 'src/assets/json/domains';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { Domain } from 'src/app/classes/Domain';
+import { DataLoadingService } from './data-loading.service';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -16,7 +17,7 @@ export class DeitiesDataService {
     private readonly _deitiesMap = new Map<string, Deity>();
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -51,8 +52,20 @@ export class DeitiesDataService {
     }
 
     public initialize(): void {
-        this._loadDeities();
-        this._loadDomains();
+        this._deities = this._dataLoadingService.loadRecastable(
+            json_deities as ImportedJsonFileList<Deity>,
+            'deities',
+            'name',
+            Deity,
+        );
+
+        this._domains = this._dataLoadingService.loadRecastable(
+            json_domains,
+            'domains',
+            'name',
+            Domain,
+        );
+
         this._deitiesMap.clear();
         this._deities.forEach(deity => {
             this._deitiesMap.set(deity.name.toLowerCase(), deity);
@@ -72,28 +85,6 @@ export class DeitiesDataService {
             new Domain(),
             { name: 'Domain not found', desc: `${ name ? name : 'The requested domain' } does not exist in the domains list.` },
         );
-    }
-
-    private _loadDeities(): void {
-        this._deities = [];
-
-        const data = this._extensionsService.extend(json_deities, 'deities');
-
-        Object.keys(data).forEach(key => {
-            this._deities.push(...data[key].map(obj => Object.assign(new Deity(), obj).recast()));
-        });
-        this._deities = this._extensionsService.cleanupDuplicates(this._deities, 'name', 'deities');
-    }
-
-    private _loadDomains(): void {
-        this._domains = [];
-
-        const data = this._extensionsService.extend(json_domains, 'domains');
-
-        Object.keys(data).forEach(key => {
-            this._domains.push(...data[key].map(obj => Object.assign(new Domain(), obj).recast()));
-        });
-        this._domains = this._extensionsService.cleanupDuplicates(this._domains, 'name', 'domains');
     }
 
 }

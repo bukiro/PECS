@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import * as json_feats from 'src/assets/json/feats';
 import * as json_features from 'src/assets/json/features';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { Weapon } from '../../../classes/Weapon';
 import { HistoryDataService } from './history-data.service';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
@@ -11,6 +10,7 @@ import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficien
 import { ItemsDataService } from './items-data.service';
 import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -23,10 +23,10 @@ export class FeatsDataService {
     private readonly _featuresMap = new Map<string, Feat>();
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _dataLoadingService: DataLoadingService,
+        private readonly _recastService: RecastService,
         private readonly _itemsDataService: ItemsDataService,
         private readonly _historyDataService: HistoryDataService,
-        private readonly _recastService: RecastService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -172,7 +172,12 @@ export class FeatsDataService {
             if (!this._itemsDataService.stillLoading) {
                 clearInterval(waitForItemsDataService);
 
-                this._feats = this._load(json_feats as ImportedJsonFileList<Feat>, 'feats');
+                this._feats = this._dataLoadingService.loadRecastable(
+                    json_feats as ImportedJsonFileList<Feat>,
+                    'feats',
+                    'name',
+                    Feat,
+                );
 
                 // Create feats that are based on weapons in the store.
                 const customFeats = this.createWeaponFeats();
@@ -184,9 +189,15 @@ export class FeatsDataService {
                     this._featsMap.set(feat.name.toLowerCase(), feat);
                 });
 
-                this._features = this._load(json_features as ImportedJsonFileList<Feat>, 'features');
+                this._features = this._dataLoadingService.loadRecastable(
+                    json_features as ImportedJsonFileList<Feat>,
+                    'features',
+                    'name',
+                    Feat,
+                );
+
                 this._featuresMap.clear();
-                // Add all features to the features map, including custom feats.
+                // Add all features to the features map.
                 this._features.forEach(feature => {
                     this._featuresMap.set(feature.name.toLowerCase(), feature);
                 });
@@ -227,25 +238,6 @@ export class FeatsDataService {
     private _featureFromName(name: string): Feat {
         //Returns a named feat from the features map;
         return this._featuresMap.get(name.toLowerCase()) || this._replacementFeat(name);
-    }
-
-    private _load(
-        data: ImportedJsonFileList<Feat>,
-        target: 'features' | 'feats',
-    ): Array<Feat> {
-        let resultingData: Array<Feat> = [];
-
-        const extendedData = this._extensionsService.extend(data, target);
-
-        Object.keys(extendedData).forEach(filecontent => {
-            resultingData.push(...extendedData[filecontent].map(entry =>
-                Object.assign(new Feat(), entry).recast(this._recastService.restoreFns),
-            ));
-        });
-
-        resultingData = this._extensionsService.cleanupDuplicates(resultingData, 'name', target);
-
-        return resultingData;
     }
 
 }

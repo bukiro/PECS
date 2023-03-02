@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ItemProperty } from 'src/app/classes/ItemProperty';
 import * as json_effectproperties from 'src/assets/json/effectproperties';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { EffectGain } from 'src/app/classes/EffectGain';
+import { DataLoadingService } from './data-loading.service';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +13,7 @@ export class EffectPropertiesDataService {
     private _effectProperties: Array<ItemProperty<EffectGain>> = [];
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get effectProperties(): Array<ItemProperty<EffectGain>> {
@@ -20,23 +21,12 @@ export class EffectPropertiesDataService {
     }
 
     public initialize(): void {
-        this._loadEffectProperties();
-    }
-
-    private _loadEffectProperties(): void {
-        this._effectProperties = [];
-
-        const data = this._extensionsService.extend(json_effectproperties, 'effectProperties');
-
-        Object.keys(data).forEach(key => {
-            this._effectProperties.push(...data[key].map(obj => Object.assign(new ItemProperty(), obj).recast()));
-        });
-        this._effectProperties =
-            this._extensionsService.cleanupDuplicatesWithMultipleIdentifiers(
-                this._effectProperties,
-                ['parent', 'key'],
-                'custom effect properties',
-            );
+        this._effectProperties = this._dataLoadingService.loadRecastable<ItemProperty<EffectGain>>(
+            json_effectproperties as ImportedJsonFileList<ItemProperty<EffectGain>>,
+            'effectProperties',
+            ['parent', 'key'],
+            ItemProperty,
+        );
     }
 
 }

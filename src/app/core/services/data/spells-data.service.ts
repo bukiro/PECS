@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import * as json_spells from 'src/assets/json/spells';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -15,8 +15,7 @@ export class SpellsDataService {
     private readonly _spellsMap = new Map<string, Spell>();
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
-        private readonly _recastService: RecastService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -46,23 +45,18 @@ export class SpellsDataService {
     }
 
     public initialize(): void {
-        this._loadSpells();
+        this._spells = this._dataLoadingService.loadRecastable(
+            json_spells as ImportedJsonFileList<Spell>,
+            'spells',
+            'id',
+            Spell,
+        );
+
         this._spellsMap.clear();
         this._spells.forEach(spell => {
             this._spellsMap.set(spell.name.toLowerCase(), spell);
         });
         this._initialized = true;
-    }
-
-    private _loadSpells(): void {
-        this._spells = [];
-
-        const data = this._extensionsService.extend(json_spells, 'spells');
-
-        Object.keys(data).forEach(key => {
-            this._spells.push(...data[key].map(obj => Object.assign(new Spell(), obj).recast(this._recastService.restoreFns)));
-        });
-        this._spells = this._extensionsService.cleanupDuplicates(this._spells, 'id', 'spells');
     }
 
     private _replacementSpell(name?: string): Spell {

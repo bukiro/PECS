@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { ArmorMaterial } from 'src/app/classes/ArmorMaterial';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import * as json_armormaterials from 'src/assets/json/armormaterials';
 import * as json_shieldmaterials from 'src/assets/json/shieldmaterials';
 import * as json_weaponmaterials from 'src/assets/json/weaponmaterials';
-import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -19,7 +18,7 @@ export class ItemMaterialsDataService {
     private _initialized = false;
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -45,47 +44,28 @@ export class ItemMaterialsDataService {
     }
 
     public initialize(): void {
-        this._armorMaterials = this._loadMaterial(json_armormaterials, 'armorMaterials', new ArmorMaterial());
-        this._armorMaterials =
-            this._extensionsService.cleanupDuplicates(
-                this._armorMaterials,
-                'name',
-                'armor materials',
-            );
-        this._shieldMaterials = this._loadMaterial(json_shieldmaterials, 'shieldMaterials', new ShieldMaterial());
-        this._shieldMaterials =
-            this._extensionsService.cleanupDuplicatesWithMultipleIdentifiers(
-                this._shieldMaterials,
-                ['name', 'itemFilter'],
-                'shield materials',
-            );
-        this._weaponMaterials = this._loadMaterial(json_weaponmaterials, 'weaponMaterials', new WeaponMaterial());
-        this._weaponMaterials =
-            this._extensionsService.cleanupDuplicates(
-                this._weaponMaterials,
-                'name',
-                'weapon materials',
-            );
+        this._armorMaterials = this._dataLoadingService.loadRecastable(
+            json_armormaterials,
+            'armorMaterials',
+            'name',
+            ArmorMaterial,
+        );
+
+        this._shieldMaterials = this._dataLoadingService.loadRecastable(
+            json_shieldmaterials,
+            'shieldMaterials',
+            ['name', 'itemFilter'],
+            ShieldMaterial,
+        );
+
+        this._weaponMaterials = this._dataLoadingService.loadRecastable(
+            json_weaponmaterials,
+            'weaponMaterials',
+            'name',
+            WeaponMaterial,
+        );
 
         this._initialized = true;
-    }
-
-    private _loadMaterial<T extends ArmorMaterial | ShieldMaterial | WeaponMaterial>(
-        data: ImportedJsonFileList<T>,
-        target: string,
-        prototype: T,
-    ): Array<T> {
-        const resultingData: Array<T> = [];
-
-        const extendedData = this._extensionsService.extend(data, target);
-
-        Object.keys(extendedData).forEach(filecontent => {
-            resultingData.push(...extendedData[filecontent].map(entry =>
-                Object.assign(new (prototype.constructor as (new () => T))(), entry).recast() as T,
-            ));
-        });
-
-        return resultingData;
     }
 
 }

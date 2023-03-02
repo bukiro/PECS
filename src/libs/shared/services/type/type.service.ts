@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { Constructable } from '../../definitions/Interfaces/constructable';
 
 type CastFn<T> = (object: Partial<T>) => T;
 
@@ -100,10 +101,10 @@ export class TypeService {
         return object;
     }
 
-    public registerItemCasting<T extends Item>(prototype: T): void {
-        const castFn = (object: Partial<T>): T => Object.assign(new (prototype.constructor as (new () => T))(), object);
+    public registerItemCasting<T extends Item>(constructor: Constructable<T>): void {
+        const castFn = (object: Partial<T>): T => Object.assign(new constructor(), object);
 
-        this._itemTypeCastings.set(prototype.type, castFn);
+        this._itemTypeCastings.set((new constructor()).type, castFn);
     }
 
 }

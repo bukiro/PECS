@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Skill } from 'src/app/classes/Skill';
 import * as json_skills from 'src/assets/json/skills';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
+import { DataLoadingService } from './data-loading.service';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +12,7 @@ export class SkillsDataService {
     private _initialized = false;
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -76,23 +76,18 @@ export class SkillsDataService {
     }
 
     public initialize(): void {
-        this._loadSkills();
+        this._skills = this._dataLoadingService.loadRecastable(
+            json_skills,
+            'skills',
+            'name',
+            Skill,
+        );
+
         this._initialized = true;
     }
 
     public reset(): void {
         this._tempSkills.length = 0;
-    }
-
-    private _loadSkills(): void {
-        this._skills = [];
-
-        const data = this._extensionsService.extend(json_skills, 'skills');
-
-        Object.keys(data).forEach(key => {
-            this._skills.push(...data[key].map(obj => Object.assign(new Skill(), obj).recast()));
-        });
-        this._skills = this._extensionsService.cleanupDuplicates(this._skills, 'name', 'skills');
     }
 
     private _tempSkill(name = '', filter: { type?: string }): Skill {

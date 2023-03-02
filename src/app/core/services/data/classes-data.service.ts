@@ -2,8 +2,8 @@
 import { Injectable } from '@angular/core';
 import { Class } from 'src/app/classes/Class';
 import * as json_classes from 'src/assets/json/classes';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -15,8 +15,7 @@ export class ClassesDataService {
     private readonly _classesMap = new Map<string, Class>();
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
-        private readonly _recastService: RecastService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -39,7 +38,12 @@ export class ClassesDataService {
     }
 
     public initialize(): void {
-        this._loadClasses();
+        this._classes = this._dataLoadingService.loadRecastable(
+            json_classes as ImportedJsonFileList<Class>,
+            'classes',
+            'name',
+            Class,
+        );
         this._classesMap.clear();
         this._classes.forEach($class => {
             this._classesMap.set($class.name.toLowerCase(), $class);
@@ -52,19 +56,6 @@ export class ClassesDataService {
             new Class(),
             { name: 'Class not found', desc: `${ name ? name : 'The requested class' } does not exist in the class list.` },
         );
-    }
-
-    private _loadClasses(): void {
-        this._classes = [];
-
-        const data = this._extensionsService.extend(json_classes, 'classes');
-
-        Object.keys(data).forEach(key => {
-            this._classes.push(
-                ...data[key].map(obj => Object.assign(new Class(), obj).recast(this._recastService.restoreFns)),
-            );
-        });
-        this._classes = this._extensionsService.cleanupDuplicates(this._classes, 'name', 'classes');
     }
 
 }

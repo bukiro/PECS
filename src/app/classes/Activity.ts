@@ -92,7 +92,7 @@ export class Activity {
      * Any non-hostile activity can still target allies if the target number is nonzero.
      * Hostile activities can target allies if the target number is nonzero and this.overrideHostile is "friendly".
      */
-    public target: ActivityTargetOptions = ActivityTargetOptions.Self;
+    public target: `${ ActivityTargetOptions }` = ActivityTargetOptions.Self;
     /**
      * The target number determines how many allies you can target with a non-hostile activity,
      * or how many enemies you can target with a hostile one (not actually implemented).
