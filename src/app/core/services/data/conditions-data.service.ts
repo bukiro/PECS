@@ -69,7 +69,7 @@ export class ConditionsDataService {
         Object.keys(data).forEach(key => {
             this._conditions.push(...data[key].map(obj => Object.assign(new Condition(), obj).recast(this._recastService.restoreFns)));
         });
-        this._conditions = this._extensionsService.cleanupDuplicates(this._conditions, 'name', 'conditions') as Array<Condition>;
+        this._conditions = this._extensionsService.cleanupDuplicates(this._conditions, 'name', 'conditions');
     }
 
     private _replacementCondition(name?: string): Condition {

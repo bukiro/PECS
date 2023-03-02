@@ -290,14 +290,14 @@ export class SpellProcessingService {
                                 existingConditionGain.sourceGainID === (context.gain?.id || ''),
                             )
                             .forEach(existingConditionGain => {
-                                this._creatureConditionsService.removeCondition(target as Creature, existingConditionGain, false);
+                                this._creatureConditionsService.removeCondition(target, existingConditionGain, false);
                             });
                     }
 
                 });
             this._messageSendingService
                 .sendConditionToPlayers(
-                    conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>,
+                    conditionTargets.filter((target): target is SpellTarget => target instanceof SpellTarget),
                     conditionGain,
                     false,
                 );

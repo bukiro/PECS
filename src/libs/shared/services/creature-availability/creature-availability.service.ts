@@ -42,7 +42,7 @@ export class CreatureAvailabilityService {
         companionAvailable: boolean = this.isCompanionAvailable(),
         familiarAvailable: boolean = this.isFamiliarAvailable(),
     ): Array<Creature> {
-        return ([CreatureService.character] as Array<Creature>)
+        return (new Array<Creature>(CreatureService.character))
             .concat(
                 companionAvailable
                     ? CreatureService.companion

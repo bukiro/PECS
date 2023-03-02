@@ -558,7 +558,7 @@ export class ActivitiesProcessingService {
                                 });
                         });
                     this._messageSendingService.sendConditionToPlayers(
-                        conditionTargets.filter(target => target instanceof SpellTarget) as Array<SpellTarget>, conditionGain, false,
+                        conditionTargets.filter((target): target is SpellTarget => target instanceof SpellTarget), conditionGain, false,
                     );
                 });
             }

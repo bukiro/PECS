@@ -83,6 +83,30 @@ export class ItemCollection {
         { name: 'Wands', key: 'wands' },
         { name: 'Materials', key: 'materialitems' },
     ];
+    public readonly keys: Array<string> = [
+        'adventuringgear',
+        'alchemicalbombs',
+        'alchemicalelixirs',
+        'alchemicalpoisons',
+        'alchemicaltools',
+        'ammunition',
+        'armorrunes',
+        'armors',
+        'helditems',
+        'materialitems',
+        'oils',
+        'otherconsumables',
+        'otherconsumablesbombs',
+        'potions',
+        'scrolls',
+        'shields',
+        'snares',
+        'talismans',
+        'wands',
+        'weaponrunes',
+        'weapons',
+        'wornitems',
+    ];
     constructor(
         /** You cannot add any items to an inventory that would break its bulk limit. */
         public bulkLimit: number = 0,
@@ -215,7 +239,7 @@ export class ItemCollection {
     }
 
     public allEquipment(): Array<Equipment> {
-        return ([] as Array<Equipment>)
+        return new Array<Equipment>()
             .concat(
                 this.adventuringgear,
                 this.alchemicalbombs,
@@ -230,7 +254,7 @@ export class ItemCollection {
     }
 
     public allConsumables(): Array<Consumable> {
-        return ([] as Array<Consumable>)
+        return new Array<Consumable>()
             .concat(
                 this.alchemicalelixirs,
                 this.alchemicalpoisons,
@@ -246,7 +270,7 @@ export class ItemCollection {
     }
 
     public allRunes(): Array<Rune> {
-        return ([] as Array<Rune>)
+        return new Array<Rune>()
             .concat(
                 this.armorrunes,
                 this.weaponrunes,
@@ -254,20 +278,54 @@ export class ItemCollection {
     }
 
     public allOther(): Array<Item> {
-        return ([] as Array<Item>)
+        return new Array<Item>()
             .concat(
                 this.materialitems,
             );
     }
 
     public allItems(): Array<Item> {
-        return ([] as Array<Item>)
+        return new Array<Item>()
             .concat(
                 this.allConsumables(),
                 this.allEquipment(),
                 this.allRunes(),
                 this.allOther(),
             );
+    }
+
+    public itemsOfType<T extends Item>(type: string): Array<T> {
+        const isKey = (key: string): key is keyof ItemCollection => this.keys.includes(key);
+
+        if (isKey(type)) {
+            return this[type] as Array<T>;
+        }
+
+        return [];
+    }
+
+    public removeItem(item: Item): void {
+        if (this._isItemType(item.type)) {
+            (this[item.type] as Array<Item>) = (this[item.type] as Array<Item>).filter(invItem => invItem !== item);
+        }
+    }
+
+    public addItem(item: Item): number | undefined {
+        if (this._isItemType(item.type)) {
+            return (this[item.type] as Array<Item>).push(item);
+        }
+    }
+
+    public getItemById<T extends Item>(type: string, id: string): T | undefined {
+        if (this._isItemType(type)) {
+            return (this[type] as Array<T>).find(item => item.id === id);
+        }
+    }
+
+    public getItemByRefId<T extends Item>(type: string, refId: string): T | undefined {
+        if (this._isItemType(type)) {
+            return (this[type] as Array<T>).find(item => item.refId === refId);
+        }
     }
 
     public totalBulk(rounded = true, reduced = false): number {
@@ -335,5 +393,9 @@ export class ItemCollection {
         }
 
         return sum;
+    }
+
+    private _isItemType(type: string): type is keyof ItemCollection {
+        return this.keys.includes(type);
     }
 }

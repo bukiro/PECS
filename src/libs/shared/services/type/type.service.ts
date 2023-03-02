@@ -29,7 +29,7 @@ export class TypeService {
     public mergeArray<T>(target: Array<T> | undefined, source: Array<Partial<T>>): Array<T> {
         const output: Array<T> = target
             ? JSON.parse(JSON.stringify(target)) as Array<T>
-            : [] as Array<T>;
+            : new Array<T>();
 
         source.forEach((member, index) => {
             output[index] = this.mergeProperty(target?.[index], member) as T;

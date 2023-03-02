@@ -176,7 +176,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
     }
 
     public equippedArmor(): Array<Armor | WornItem> {
-        return ([] as Array<Armor | WornItem>)
+        return new Array<Armor | WornItem>()
             .concat(this._creatureEquipmentService.equippedCreatureArmor(this._currentCreature))
             .concat(this._creatureEquipmentService.equippedCreatureBracersOfArmor(this._currentCreature));
     }
@@ -186,7 +186,7 @@ export class DefenseComponent implements OnInit, OnDestroy {
         const runes: Array<ArmorRune> = [];
 
         if (armor.isArmor()) {
-            runes.push(...armor.propertyRunes.filter(rune => rune.hints.length) as Array<ArmorRune>);
+            runes.push(...armor.propertyRunes.filter(rune => rune.hints.length));
         }
 
         return runes;

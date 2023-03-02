@@ -757,7 +757,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                 return [];
             }
         } else {
-            return (this._spellsTakenService
+            return this._spellsTakenService
                 .takenSpells(
                     1,
                     character.level,
@@ -766,7 +766,7 @@ export class SpellbookComponent implements OnInit, OnDestroy {
                         spellCasting: spellCastingParameters.casting,
                         signatureAllowed: spellCastingParameters.signatureSpellsAllowed,
                         cantripAllowed: true,
-                    }) as Array<{ choice: SpellChoice; gain: SpellGain }>)
+                    })
                 .concat(
                     ...spellCastingParameters.equipmentSpells.filter(spellSet =>
                         (

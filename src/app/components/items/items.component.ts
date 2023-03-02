@@ -318,19 +318,19 @@ export class ItemsComponent implements OnInit, OnDestroy {
         }
     }
 
-    public itemsToCopy(type?: keyof ItemCollection): Array<Equipment | Consumable> {
+    public itemsToCopy<T extends Equipment | Consumable>(type?: keyof ItemCollection): Array<Equipment | Consumable> {
         return type
-            ? (this._itemsDataService.cleanItems()[type] as Array<Equipment | Consumable>)
+            ? this._itemsDataService.cleanItems().itemsOfType<T>(type)
                 .filter(item => !item.hide)
                 .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id))
             : [];
     }
 
-    public inventoryItems(type?: keyof ItemCollection): Array<Equipment | Consumable> {
+    public inventoryItems<T extends Equipment | Consumable>(type?: keyof ItemCollection): Array<T> {
         const items =
-            ([] as Array<Equipment | Consumable>)
+            new Array<T>()
                 .concat(
-                    ...type ? CreatureService.character.inventories.map(inventory => inventory[type] as Array<Equipment | Consumable>) : [],
+                    ...type ? CreatureService.character.inventories.map(inventory => inventory.itemsOfType<T>(type)) : [],
                 );
 
         return items
@@ -338,7 +338,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
             .sort((a: Equipment | Consumable, b: Equipment | Consumable) => SortAlphaNum(a.name + a.id, b.name + b.id));
     }
 
-    public visibleItems(items: ItemCollection[keyof ItemCollection], creatureType = ''): Array<Item> {
+    public visibleItems<T extends Item>(items: ItemCollection[keyof ItemCollection], creatureType = ''): Array<T> {
         let casting: SpellCasting | undefined;
         const character = this._character;
 
@@ -348,7 +348,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
         const twoDigits = 2;
 
-        return (items as Array<Item>)
+        return (items as Array<T>)
             .filter(item =>
                 (
                     //Show companion items in the companion list and not in the character list.
@@ -370,9 +370,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
                     this._purpose === 'scrollsavant' ?
                         (
                             creatureType === CreatureTypes.Character &&
-                            item.type === 'scrolls' &&
-                            (item as Scroll).storedSpells[0]?.level
-                            <= character.maxSpellLevel(character.level) - scrollSavantMaxLevelDifference &&
+                            item.isScroll() &&
+                            item.storedSpells[0]?.level <= character.maxSpellLevel(character.level) - scrollSavantMaxLevelDifference &&
                             casting && !casting.scrollSavant.find(scroll => scroll.refId === item.id)
                         )
                         : true

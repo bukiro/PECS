@@ -61,7 +61,7 @@ export class DeityDomainsService {
                 const splinterFaithFeat = this._characterFeatsService.characterFeatsTaken(0, 0, { featName: 'Splinter Faith' })[0];
 
                 if (splinterFaithFeat) {
-                    const splinterFaithDomains: Array<string> = ([] as Array<string>)
+                    const splinterFaithDomains: Array<string> = new Array<string>()
                         .concat(
                             ...character.class.filteredFeatData(0, 0, 'Splinter Faith')
                                 .map(data => data.valueAsStringArray('domains') || []),

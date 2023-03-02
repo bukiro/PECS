@@ -268,7 +268,7 @@ export class RefreshService {
     private _prepareChangesByEffectTargets(targets: Array<string>, context: { creature: Creature }): void {
         //Setup lists of names and what they should update.
         const general: Array<string> = ['Max Languages', 'Size'].map(name => name.toLowerCase());
-        const generalWildcard: Array<string> = ([] as Array<string>).map(name => name.toLowerCase());
+        const generalWildcard: Array<string> = new Array<string>().map(name => name.toLowerCase());
         const abilities: Array<string> =
             ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'].map(name => name.toLowerCase());
         const abilitiesWildcard: Array<string> =

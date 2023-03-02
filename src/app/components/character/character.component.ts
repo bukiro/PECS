@@ -1156,7 +1156,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
             const deity = this._deitiesDataService.deities(deityName)[0];
 
             if (deity) {
-                return ([] as Array<{ title: string; type: number; domain: Domain }>)
+                return new Array<{ title: string; type: number; domain: Domain }>()
                     .concat(
                         deity.domains
                             .map((domain, index) => ({
@@ -1242,7 +1242,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     public additionalHeritagesAvailable(levelNumber: number): Array<HeritageGain> {
         //Return all heritages you have gained on this specific level.
-        return ([] as Array<HeritageGain>)
+        return new Array<HeritageGain>()
             .concat(
                 ...this._characterFeatsService.characterFeatsTaken(levelNumber, levelNumber)
                     .map(taken => this.characterFeatsAndFeatures(taken.name)[0])
@@ -2002,7 +2002,7 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     private _featChoicesShownOnCurrentLevel(level: ClassLevel): Array<FeatChoice> {
         if (this.character.level === level.number) {
-            return ([] as Array<FeatChoice>)
+            return new Array<FeatChoice>()
                 .concat(
                     ...this.character.class.levels
                         .map(classLevel => classLevel.featChoices.filter(choice => choice.showOnCurrentLevel)),

@@ -150,7 +150,9 @@ export class CharacterPatchingService {
             creatures.forEach(creature => {
                 creature?.inventories?.forEach(inventory => {
                     Object.keys(inventory).forEach(key => {
-                        if (Array.isArray(inventory[key as keyof ItemCollection])) {
+                        if (
+                            Array.isArray(inventory[key as keyof ItemCollection])
+                             && !['names', 'keys', 'otherItems'].includes(key)) {
                             (inventory[key as keyof ItemCollection] as Array<Equipment>)
                                 .forEach(item => {
                                     //For each inventory, for each array property, recast all hints of the listed items.
@@ -544,19 +546,17 @@ export class CharacterPatchingService {
                     const spellCastingName = `${ className } Spellcasting`;
 
                     //Sort spellcastings: Innate first, then the default class spellcasting, then the rest.
-                    character.class.spellCasting = ([] as Array<SpellCasting>)
+                    character.class.spellCasting = new Array<SpellCasting>()
                         .concat(
                             character.class.spellCasting
                                 .find(casting => casting.castingType === 'Innate' && casting.source === 'Innate') || [],
-                        )
-                        .concat(
                             character.class.spellCasting
                                 .find(casting => casting.castingType === 'Prepared' && casting.source === spellCastingName) || [],
-                        )
-                        .concat(...character.class.spellCasting.filter(casting =>
-                            !(casting.castingType === 'Innate' && casting.source === 'Innate') &&
-                            !(casting.castingType === 'Prepared' && casting.source === spellCastingName),
-                        ));
+                            ...character.class.spellCasting.filter(casting =>
+                                !(casting.castingType === 'Innate' && casting.source === 'Innate') &&
+                                !(casting.castingType === 'Prepared' && casting.source === spellCastingName),
+                            ),
+                        );
                     //Remove all default class spellcasting choices from spellcastings that aren't the default one.
                     character.class.spellCasting
                         .filter(casting => casting.source !== spellCastingName && casting.spellChoices)

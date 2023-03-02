@@ -160,7 +160,7 @@ export class GeneralComponent implements OnInit, OnDestroy {
 
     public tenets(): Array<string> {
         //Collect tenets from all feats and features you have that include them.
-        return ([] as Array<string>)
+        return new Array<string>()
             .concat(...this._characterFeatsService.characterFeatsAndFeatures()
                 .filter(feat => feat.tenets?.length && this._characterFeatsService.characterHasFeat(feat.name))
                 .map(feat => feat.tenets),

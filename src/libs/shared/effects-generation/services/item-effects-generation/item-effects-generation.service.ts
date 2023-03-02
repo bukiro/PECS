@@ -63,7 +63,7 @@ export class ItemEffectsGenerationService {
     }
 
     private _armorEffectsGenerationObjects(armor: Armor, context: { creature: Creature }): Array<Equipment | Specialization | Rune> {
-        return ([] as Array<Equipment | Specialization | Rune>)
+        return new Array<Equipment | Specialization | Rune>()
             .concat(armor)
             .concat(...this._armorPropertiesService.armorSpecializations(armor, context.creature))
             .concat(armor.propertyRunes);

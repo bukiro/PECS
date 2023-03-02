@@ -173,7 +173,7 @@ export class MessageProcessingService {
                             const typedItem = this._typeService.castItemByType(item);
 
                             //TO-DO: Test if this still works now, after caching the type array.
-                            const targetItemTypes = (targetInventory[typedItem.type as keyof ItemCollection] as Array<Item>);
+                            const targetItemTypes = targetInventory.itemsOfType(typedItem.type);
 
                             const existingItems =
                                 targetItemTypes

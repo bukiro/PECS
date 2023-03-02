@@ -62,7 +62,7 @@ export class SpellsDataService {
         Object.keys(data).forEach(key => {
             this._spells.push(...data[key].map(obj => Object.assign(new Spell(), obj).recast(this._recastService.restoreFns)));
         });
-        this._spells = this._extensionsService.cleanupDuplicates(this._spells, 'id', 'spells') as Array<Spell>;
+        this._spells = this._extensionsService.cleanupDuplicates(this._spells, 'id', 'spells');
     }
 
     private _replacementSpell(name?: string): Spell {

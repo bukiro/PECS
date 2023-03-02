@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { Equipment } from 'src/app/classes/Equipment';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { InventoryService } from '../inventory/inventory.service';
@@ -79,7 +78,7 @@ export class AnimalCompanionAncestryService {
             if (_class.ancestry.gainItems.length) {
                 _class.ancestry.gainItems.forEach(freeItem => {
                     const items: Array<Equipment> =
-                        (companion.inventories[0][freeItem.type as keyof ItemCollection] as Array<Equipment>)
+                        companion.inventories[0].itemsOfType<Equipment>(freeItem.type)
                             ?.filter((item: Equipment) => item.id === freeItem.grantedItemID) || [];
 
                     items.forEach(item => {

@@ -908,10 +908,10 @@ export class FeatProcessingService {
                             newData.setValue(customData.name, 0);
                             break;
                         case 'stringArray':
-                            newData.setValue(customData.name, [] as Array<string>);
+                            newData.setValue(customData.name, new Array<string>());
                             break;
                         case 'numberArray':
-                            newData.setValue(customData.name, [] as Array<number>);
+                            newData.setValue(customData.name, new Array<number>());
                             break;
                         default:
                             newData.setValue(customData.name, null);

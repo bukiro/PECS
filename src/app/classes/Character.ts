@@ -139,7 +139,7 @@ export class Character extends Creature {
                 });
             });
 
-            return boosts as Array<AbilityBoost>;
+            return boosts;
         }
 
         return [];
@@ -295,7 +295,7 @@ export class Character extends Creature {
         //If there are no weapons left of this name in any inventory, find any custom feat that has it as its subType.
         //These feats are not useful anymore, but the player may wish to keep them.
         //They are marked with canDelete, and the player can decide whether to delete them.
-        const remainingWeapons: Array<Weapon> = ([] as Array<Weapon>)
+        const remainingWeapons: Array<Weapon> = new Array<Weapon>()
             .concat(
                 ...this.inventories
                     .concat(

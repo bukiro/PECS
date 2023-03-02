@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Armor } from 'src/app/classes/Armor';
 import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
-import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
@@ -40,7 +39,7 @@ export class ItemGrantingService {
             }
         } else {
             const newItem: Item | undefined =
-                (this._itemsDataService.cleanItems()[itemGain.type.toLowerCase() as keyof ItemCollection] as Array<Item>)
+                this._itemsDataService.cleanItems().itemsOfType(itemGain.type.toLowerCase())
                     .find(item => itemGain.isMatchingItem(item));
 
             if (newItem) {
@@ -155,7 +154,7 @@ export class ItemGrantingService {
         } else {
             creature.inventories.forEach(inv => {
                 if (!hasUsedAmount) {
-                    (inv[itemGain.type as keyof ItemCollection] as Array<Item>)
+                    inv.itemsOfType(itemGain.type)
                         .filter(item =>
                             options.requireGrantedItemID
                                 ? itemGain.isMatchingExistingItem(item)

@@ -64,7 +64,7 @@ export class ClassesDataService {
                 ...data[key].map(obj => Object.assign(new Class(), obj).recast(this._recastService.restoreFns)),
             );
         });
-        this._classes = this._extensionsService.cleanupDuplicates(this._classes, 'name', 'classes') as Array<Class>;
+        this._classes = this._extensionsService.cleanupDuplicates(this._classes, 'name', 'classes');
     }
 
 }

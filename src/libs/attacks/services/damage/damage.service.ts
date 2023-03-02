@@ -9,7 +9,6 @@ import { Oil } from 'src/app/classes/Oil';
 import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { Weapon } from 'src/app/classes/Weapon';
-import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
 import { CreatureService } from 'src/app/services/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
@@ -720,7 +719,7 @@ export class DamageService {
 
         const runeSource = attackRuneSource(weapon, creature, range);
 
-        (runeSource.propertyRunes.propertyRunes as Array<WeaponRune>)
+        runeSource.propertyRunes.propertyRunes
             .filter(weaponRune => weaponRune.extraDamage)
             .forEach(weaponRune => {
                 extraDamage += `\n${ weaponRune.extraDamage }`;
@@ -732,7 +731,7 @@ export class DamageService {
             });
 
         if (runeSource.propertyRunes.bladeAlly) {
-            (runeSource.propertyRunes.bladeAllyRunes as Array<WeaponRune>)
+            runeSource.propertyRunes.bladeAllyRunes
                 .filter(weaponRune => weaponRune.extraDamage)
                 .forEach(weaponRune => {
                     extraDamage += `\n${ weaponRune.extraDamage }`;

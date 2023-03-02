@@ -92,7 +92,7 @@ export class SkillsDataService {
         Object.keys(data).forEach(key => {
             this._skills.push(...data[key].map(obj => Object.assign(new Skill(), obj).recast()));
         });
-        this._skills = this._extensionsService.cleanupDuplicates(this._skills, 'name', 'skills') as Array<Skill>;
+        this._skills = this._extensionsService.cleanupDuplicates(this._skills, 'name', 'skills');
     }
 
     private _tempSkill(name = '', filter: { type?: string }): Skill {

@@ -104,7 +104,7 @@ export class TraitsDataService {
         Object.keys(data).forEach(key => {
             this._traits.push(...data[key].map(obj => Object.assign(new Trait(), obj).recast(this._recastService.restoreFns)));
         });
-        this._traits = this._extensionsService.cleanupDuplicates(this._traits, 'name', 'traits') as Array<Trait>;
+        this._traits = this._extensionsService.cleanupDuplicates(this._traits, 'name', 'traits');
     }
 
     private _replacementTrait(name?: string): Trait {

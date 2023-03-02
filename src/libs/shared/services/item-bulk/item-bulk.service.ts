@@ -27,7 +27,7 @@ export class ItemBulkService {
 
                 creature.inventories.filter(inventory => !targetInventory || inventory !== targetInventory).forEach(inventory => {
                     //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
-                    (inventory[itemGain.type as keyof ItemCollection] as Array<Item>)
+                    inventory.itemsOfType(itemGain.type)
                         .filter(invItem => itemGain.isMatchingExistingItem(invItem))
                         .forEach(invItem => {
                             if (invItem.canStack()) {

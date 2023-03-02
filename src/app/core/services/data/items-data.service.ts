@@ -112,7 +112,7 @@ export class ItemsDataService {
 
     public cleanItemsOfType<T extends Item>(type: keyof ItemCollection, name = ''): Array<T> {
         if (!this.stillLoading) {
-            return (this._cleanItems[type] as Array<T>)
+            return this._cleanItems.itemsOfType<T>(type)
                 .filter(item =>
                     !name || item.name.toLowerCase() === name.toLowerCase(),
                 );

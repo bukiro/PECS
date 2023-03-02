@@ -103,7 +103,7 @@ export class Spell {
     }
 
     public activationTraits(): Array<string> {
-        return Array.from(new Set(([] as Array<string>).concat(...this.castType.split(',')
+        return Array.from(new Set(new Array<string>().concat(...this.castType.split(',')
             .map(castType => {
                 const trimmedType = castType.trim().toLowerCase();
 

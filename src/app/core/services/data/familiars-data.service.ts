@@ -63,7 +63,7 @@ export class FamiliarsDataService {
             this._familiarAbilities.push(...data[key].map(obj => Object.assign(new Feat(), obj).recast(this._recastService.restoreFns)));
         });
         this._familiarAbilities =
-            this._extensionsService.cleanupDuplicates(this._familiarAbilities, 'name', 'familiar abilities') as Array<Feat>;
+            this._extensionsService.cleanupDuplicates(this._familiarAbilities, 'name', 'familiar abilities');
     }
 
 }

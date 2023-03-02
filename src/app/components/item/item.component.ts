@@ -287,7 +287,7 @@ export class ItemComponent implements OnInit, OnDestroy {
     }
 
     public storedSpellsTaken(item: Item): Array<{ choice: SpellChoice; taken: SpellGain }> {
-        return ([] as Array<{ choice: SpellChoice; taken: SpellGain }>)
+        return new Array<{ choice: SpellChoice; taken: SpellGain }>()
             .concat(
                 ...item.storedSpells
                     .filter(choice => choice.spells.length)

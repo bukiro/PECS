@@ -163,7 +163,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     public equippedWeaponsParameters(): Array<WeaponParameters> {
         this._setAttackRestrictions();
 
-        return ([] as Array<Weapon>)
+        return new Array<Weapon>()
             .concat(this._currentCreature.inventories[0].weapons.filter(weapon => weapon.equipped && weapon.equippable && !weapon.broken))
             .concat(...this._currentCreature.inventories.map(inv => inv.alchemicalbombs))
             .concat(...this._currentCreature.inventories.map(inv => inv.otherconsumablesbombs))
@@ -289,7 +289,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
         //Return all runes and rune-emulating effects that have a hint to show.
         const runeSource = attackRuneSource(weapon, this._currentCreature, range);
 
-        return (runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length) as Array<WeaponRune>)
+        return runeSource.propertyRunes.propertyRunes.filter(rune => rune.hints.length)
             .concat(
                 weapon.oilsApplied
                     .filter((oil): oil is Oil & { runeEffect: WeaponRune } =>
@@ -297,7 +297,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
                     ).map(oil => oil.runeEffect))
             .concat(
                 runeSource.propertyRunes.bladeAlly ?
-                    runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) as Array<WeaponRune> :
+                    runeSource.propertyRunes.bladeAllyRunes.filter(rune => rune.hints.length) :
                     [],
             );
     }
@@ -307,14 +307,14 @@ export class AttacksComponent implements OnInit, OnDestroy {
         const runes: Array<WeaponRune> = [];
         const runeSource = attackRuneSource(weapon, this._currentCreature, range);
 
-        runes.push(...runeSource.propertyRunes.propertyRunes as Array<WeaponRune>);
+        runes.push(...runeSource.propertyRunes.propertyRunes);
         runes.push(
             ...weapon.oilsApplied
                 .filter((oil): oil is Oil & { runeEffect: WeaponRune } => !!oil.runeEffect)
                 .map(oil => oil.runeEffect));
 
         if (runeSource.propertyRunes.bladeAlly) {
-            runes.push(...runeSource.propertyRunes.bladeAllyRunes as Array<WeaponRune>);
+            runes.push(...runeSource.propertyRunes.bladeAllyRunes);
         }
 
         return runes;
@@ -390,7 +390,7 @@ export class AttacksComponent implements OnInit, OnDestroy {
     }
 
     public attacksOfWeapon(weapon: Weapon): Array<AttackResult> {
-        return ([] as Array<AttackResult>)
+        return new Array<AttackResult>()
             .concat(
                 weapon.melee
                     ? [this._attacksService.attack(weapon, this._currentCreature, 'melee')]

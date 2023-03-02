@@ -35,7 +35,7 @@ export class ItemTransferService {
 
             creature.inventories.forEach(inventory => {
                 //Count how many items you have that either have this ItemGain's id or, if stackable, its name.
-                (inventory[itemGain.type as keyof ItemCollection] as Array<Item>)
+                inventory.itemsOfType(itemGain.type)
                     .filter((invItem: Item) => itemGain.isMatchingExistingItem(invItem))
                     .forEach((invItem: Item) => {
                         found += invItem.amount;
@@ -67,7 +67,7 @@ export class ItemTransferService {
             creature.inventories.forEach(inventory => {
                 //Find items that either have this ItemGain's id or, if stackable, its name.
                 //Then add as many of them into the package as the amount demands, and pack their contents as well.
-                (inventory[itemGain.type as keyof ItemCollection] as Array<Item>)
+                inventory.itemsOfType(itemGain.type)
                     .filter((invItem: Item) => itemGain.isMatchingExistingItem(invItem))
                     .forEach((invItem: Item) => {
                         if (toPack) {
@@ -136,7 +136,7 @@ export class ItemTransferService {
                 .filter(collectedItem =>
                     inventories
                         .some(inv =>
-                            (inv[collectedItem.type as keyof ItemCollection] as Array<Item>)
+                            inv.itemsOfType(collectedItem.type)
                                 .some((invItem: Item) => invItem.id === collectedItem.id),
                         ),
                 )
@@ -148,15 +148,7 @@ export class ItemTransferService {
             // If the primary item is in one of the inventories, remove it from inventory.
             // It will be moved to the main inventory of the target creature instead.
             inventories
-                .filter(inv =>
-                    (inv[primaryItem.type as keyof ItemCollection] as Array<Item>)
-                        .some((invItem: Item) => invItem.id === primaryItem.id),
-                )
-                .forEach(inv => {
-                    (inv[primaryItem.type as keyof ItemCollection] as Array<Item>) =
-                        (inv[primaryItem.type as keyof ItemCollection] as Array<Item>)
-                            .filter((invItem: Item) => invItem.id !== primaryItem.id);
-                });
+                .forEach(inv => inv.removeItem(primaryItem));
         }
 
         return { items, inventories };
@@ -228,7 +220,7 @@ export class ItemTransferService {
 
             //Only move the item locally if the item still exists in the inventory.
             if (
-                (inventory[item.type as keyof ItemCollection] as Array<Item>)
+                inventory.itemsOfType(item.type)
                     ?.some((invItem: Item) => invItem === item)
             ) {
                 //If this item is moved between inventories of the same creature, you don't need to drop it explicitly.
@@ -236,28 +228,29 @@ export class ItemTransferService {
                 //The item does need to be copied so we don't just move a reference.
                 const movedItem = item.clone(this._recastService.recastOnlyFns);
 
-                const targetTypes = (targetInventory[item.type as keyof ItemCollection] as Array<Item>);
+                const targetTypes = targetInventory.itemsOfType(item.type);
 
                 //If the item is stackable, and a stack already exists in the target inventory, just add the amount to the stack.
                 if (targetTypes && movedItem.canStack()) {
-                    const targetItem = targetTypes.find((inventoryItem: Item) => inventoryItem.name === movedItem.name);
+                    const targetItem = targetTypes.find((inventoryItem: Item) =>
+                        inventoryItem.name === movedItem.name
+                        && inventoryItem.refId === movedItem.refId,
+                    );
 
                     if (targetItem) {
                         targetItem.amount += amount;
                     } else {
-                        targetTypes.push(movedItem);
+                        targetInventory.addItem(movedItem);
                     }
                 } else {
-                    targetTypes.push(movedItem);
+                    targetInventory.addItem(movedItem);
                 }
 
                 // If the amount is higher or exactly the same, remove the item from the old inventory.
                 // If not, reduce the amount on the old item, then set that amount on the new item.
                 if (amount >= item.amount) {
 
-                    (inventory[item.type as keyof ItemCollection] as Array<Item>) =
-                        (inventory[item.type as keyof ItemCollection] as Array<Item>)
-                            .filter((inventoryItem: Item) => inventoryItem !== item);
+                    inventory.removeItem(item);
                 } else {
                     movedItem.amount = amount;
                     item.amount -= amount;
@@ -306,8 +299,13 @@ export class ItemTransferService {
 
                 if (!includedItem.expiration && includedItem.canStack()) {
                     existingItems =
-                        (targetInventory[includedItem.type as keyof ItemCollection] as Array<Item>)
-                            .filter(existing => existing.name === includedItem.name && existing.canStack() && !includedItem.expiration);
+                        targetInventory.itemsOfType(includedItem.type)
+                            .filter(existing =>
+                                existing.name === includedItem.name
+                                && existing.refId === includedItem.refId
+                                && existing.canStack()
+                                && !includedItem.expiration,
+                            );
                 }
 
                 if (existingItems.length) {
@@ -315,21 +313,25 @@ export class ItemTransferService {
                     //Update the item's gridicon to reflect its changed amount.
                     this._refreshService.setComponentChanged(existingItems[0].id);
                 } else {
-                    const targetItems = (targetInventory[includedItem.type as keyof ItemCollection] as Array<Item>);
+                    const targetItems = targetInventory.itemsOfType(includedItem.type);
 
                     const movedItem = includedItem.clone(this._recastService.recastOnlyFns);
-                    const newLength = targetItems.push(movedItem);
-                    const newItem = targetItems[newLength - 1];
+                    const newLength = targetInventory.addItem(movedItem);
 
-                    this._psp.inventoryItemProcessingService?.processGrantedItem(
-                        toCreature,
-                        newItem,
-                        targetInventory,
-                        true,
-                        false,
-                        true,
-                        true,
-                    );
+                    if (newLength) {
+                        const newItem = targetItems[newLength - 1];
+
+                        this._psp.inventoryItemProcessingService?.processGrantedItem(
+                            toCreature,
+                            newItem,
+                            targetInventory,
+                            true,
+                            false,
+                            true,
+                            true,
+                        );
+                    }
+
                 }
             });
             //Add included inventories and process all items inside them.
@@ -352,8 +354,7 @@ export class ItemTransferService {
 
             //If the item still exists on the inventory, drop it with all its contents.
             if (
-                (inventory[item.type as keyof ItemCollection] as Array<Item>)
-                    ?.some(invItem => invItem === item)
+                (inventory.getItemById(item.type, item.id))
             ) {
                 this._inventoryService.dropInventoryItem(creature, inventory, item, false, true, true, amount);
             }
@@ -408,7 +409,7 @@ export class ItemTransferService {
                 .forEach(inv => {
                     //Find items that either have this ItemGain's id or, if stackable, its name.
                     //Then move as many of them into the new inventory as the amount demands.
-                    (inv[itemGain.type as keyof ItemCollection] as Array<Item>)
+                    inv.itemsOfType(itemGain.type)
                         .filter(invItem => itemGain.isMatchingExistingItem(invItem))
                         .forEach(invItem => {
                             if (toMove) {

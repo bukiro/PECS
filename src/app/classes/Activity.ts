@@ -155,7 +155,7 @@ export class Activity {
 
     public activationTraits(): Array<string> {
         return Array.from(new Set(
-            ([] as Array<string>)
+            new Array<string>()
                 .concat(...this.activationType.split(',')
                     .map(activationType => {
                         const trimmedType = activationType.trim().toLowerCase();

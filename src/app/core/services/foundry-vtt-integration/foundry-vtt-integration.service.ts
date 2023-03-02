@@ -136,8 +136,8 @@ export class FoundryVTTIntegrationService {
 
                 const rollObject = {
                     formula: '',
-                    terms: [] as Array<object>,
-                    results: [] as Array<string | number>,
+                    terms: new Array<object>(),
+                    results: new Array<string | number>(),
                     _total: 0,
                 };
 
@@ -159,7 +159,7 @@ export class FoundryVTTIntegrationService {
                         {
                             number: result.diceNum,
                             faces: result.diceSize,
-                            results: [] as Array<object>,
+                            results: new Array<object>(),
                             options: { flavor: result.type.trim() },
                         };
 

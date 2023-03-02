@@ -235,9 +235,9 @@ export class InventoryComponent implements OnInit, OnDestroy {
         this._currencyService.sortCash();
     }
 
-    public sortItemSet(inventory: ItemCollection, key: keyof ItemCollection): Array<Item> {
+    public sortItemSet<T extends Item>(inventory: ItemCollection, key: keyof ItemCollection): Array<T> {
         //Sorting just by name can lead to jumping in the list.
-        return (inventory[key] as Array<Item>)
+        return inventory.itemsOfType<T>(key)
             .sort((a, b) => SortAlphaNum(a.name + a.id, b.name + b.id));
     }
 
@@ -405,7 +405,7 @@ export class InventoryComponent implements OnInit, OnDestroy {
             const targetId = event.container.id.split('|')[0];
             const target = this.currentCreature.inventories.find(inv => inv.id === targetId);
             const itemKey = event.previousContainer.id.split('|')[1] as keyof ItemCollection;
-            const item = (source?.[itemKey] as Array<Item>)?.[event.previousIndex];
+            const item = source?.itemsOfType(itemKey)?.[event.previousIndex];
 
             if (source && target && item && this.canDropItem(item)) {
                 const cannotMove = this._itemTransferService.cannotMoveItem(this.currentCreature, item, target);

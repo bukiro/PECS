@@ -50,7 +50,7 @@ export class HistoryDataService {
 
     public heritagesAndSubtypes(name = ''): Array<Heritage> {
         if (this._initialized) {
-            return ([] as Array<Heritage>)
+            return new Array<Heritage>()
                 .concat(
                     ...this._heritages.map(heritage => [heritage, ...heritage.subTypes]),
                 )

@@ -294,10 +294,12 @@ export class SpellActivityProcessingSharedService {
             }
 
             this._messageSendingService.sendConditionToPlayers(
-                conditionTargets.filter(target =>
-                    target instanceof SpellTarget &&
-                    !creatures.some(listCreature => listCreature.id === target.id),
-                ) as Array<SpellTarget>, newConditionGain,
+                conditionTargets
+                    .filter((target): target is SpellTarget =>
+                        target instanceof SpellTarget &&
+                        !creatures.some(listCreature => listCreature.id === target.id),
+                    ),
+                newConditionGain,
             );
         }
     }

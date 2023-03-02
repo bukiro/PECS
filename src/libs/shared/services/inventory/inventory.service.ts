@@ -57,7 +57,7 @@ export class InventoryService {
 
         if (!options.expiration && newInventoryItem.canStack()) {
             existingItems =
-                (context.inventory[item.type as keyof ItemCollection] as Array<Item>)
+                context.inventory.itemsOfType(item.type)
                     .filter((existing: Item) =>
                         existing.name === newInventoryItem.name && newInventoryItem.canStack() && !item.expiration,
                     );
@@ -82,7 +82,7 @@ export class InventoryService {
             //Update gridicons of the expanded item.
             this._refreshService.prepareDetailToChange(CreatureTypes.Character, returnedItem.id);
         } else {
-            const targetTypes = context.inventory[newInventoryItem.type as keyof ItemCollection] as Array<Item>;
+            const targetTypes = context.inventory.itemsOfType(newInventoryItem.type);
 
             const newInventoryLength =
                 targetTypes.push(newInventoryItem);
@@ -142,10 +142,7 @@ export class InventoryService {
         } else {
             this._psp.inventoryItemProcessingService?.processDroppingItem(creature, inventory, item, including, keepInventoryContent, this);
 
-            //The item is deleted here.
-            (inventory[item.type as keyof ItemCollection] as Array<Item>) =
-                (inventory[item.type as keyof ItemCollection] as Array<Item>).filter((inventoryItem: Item) => inventoryItem !== item);
-
+            inventory.removeItem(item);
 
             if (equipBasicItems) {
                 if (!this._basicEquipmentService) { console.error('BasicEquipmentService missing in InventoryService!'); }

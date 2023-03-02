@@ -200,11 +200,11 @@ export class CraftingComponent implements OnInit, OnDestroy {
         return this._itemsDataService.craftingItems();
     }
 
-    public visibleItems(inventory: ItemCollection, key: keyof ItemCollection): Array<Item> {
+    public visibleItems<T extends Item>(inventory: ItemCollection, key: keyof ItemCollection): Array<T> {
         const hasCraftingBook =
             this._character.inventories.find(inv => inv.adventuringgear.find(gear => gear.name === 'Basic Crafter\'s Book'));
 
-        return (inventory[key] as Array<Item>)
+        return inventory.itemsOfType<T>(key)
             .filter(item =>
                 (
                     this._learnedFormulas(item.id).length ||
@@ -223,7 +223,8 @@ export class CraftingComponent implements OnInit, OnDestroy {
                         item.traits.filter(trait => trait.toLowerCase().includes(this.wordFilter.toLowerCase())).length
                     )
                 ),
-            ).sort((a, b) => SortAlphaNum(a[this.sorting], b[this.sorting]));
+            )
+            .sort((a, b) => SortAlphaNum(a[this.sorting], b[this.sorting]));
     }
 
     public cannotCraftReason(item: Item): Array<string> {
@@ -313,7 +314,7 @@ export class CraftingComponent implements OnInit, OnDestroy {
                 available *= ubiquitousSnaresMultiplier;
             }
 
-            return { available, prepared, snares: this.visibleItems(inventory, 'snares') as Array<Snare> };
+            return { available, prepared, snares: this.visibleItems<Snare>(inventory, 'snares') };
         }
     }
 
