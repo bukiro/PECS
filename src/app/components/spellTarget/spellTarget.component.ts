@@ -22,7 +22,7 @@ import { Spell } from 'src/app/classes/Spell';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { Subscription } from 'rxjs';
+import { noop, Subscription } from 'rxjs';
 import { Character } from 'src/app/classes/Character';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Familiar } from 'src/app/classes/Familiar';
@@ -264,11 +264,16 @@ export class SpellTargetComponent implements OnInit, OnDestroy {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public onOpenSpellTargetModal(content: TemplateRef<any>): void {
-        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
-            if (result === 'Cast click') {
-                this.onCast('Selected', true);
-            }
-        });
+        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' })
+            .result
+            .then(
+                result => {
+                    if (result === 'Cast click') {
+                        this.onCast('Selected', true);
+                    }
+                },
+                () => noop,
+            );
     }
 
     public spellTargets(): Array<SpellTarget> {

@@ -22,7 +22,7 @@ import { AdventuringGear } from 'src/app/classes/AdventuringGear';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { Subscription } from 'rxjs';
+import { noop, Subscription } from 'rxjs';
 import { ItemRolesService } from 'src/libs/shared/services/item-roles/item-roles.service';
 import { ItemRoles } from 'src/app/classes/ItemRoles';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
@@ -313,15 +313,20 @@ export class InventoryComponent implements OnInit, OnDestroy {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public openGrantingOrContainerItemDropModal(content: TemplateRef<any>, item: Item, inventory: ItemCollection): void {
-        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
-            if (result === 'Drop all') {
-                this.dropInventoryItem(item, inventory);
-            }
+        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' })
+            .result
+            .then(
+                result => {
+                    if (result === 'Drop all') {
+                        this.dropInventoryItem(item, inventory);
+                    }
 
-            if (result === 'Drop one') {
-                this.dropContainerWithoutContent(item, inventory);
-            }
-        });
+                    if (result === 'Drop one') {
+                        this.dropContainerWithoutContent(item, inventory);
+                    }
+                },
+                () => noop,
+            );
     }
 
     public dropInventoryItem(item: Item, inventory: ItemCollection, pay = false): void {

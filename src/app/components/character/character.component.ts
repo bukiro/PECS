@@ -35,7 +35,7 @@ import { ConfigService } from 'src/app/core/services/config/config.service';
 import { default as package_json } from 'package.json';
 import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { BehaviorSubject, map, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, map, noop, Observable, Subscription } from 'rxjs';
 import { HeritageGain } from 'src/app/classes/HeritageGain';
 import { InputValidationService } from 'src/libs/shared/input-validation/input-validation.service';
 import { DisplayService } from 'src/app/core/services/display/display.service';
@@ -497,11 +497,16 @@ export class CharacterComponent implements OnInit, OnDestroy {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     public openCharacterDeleteModal(content: any, savegame: Savegame): void {
-        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' }).result.then(result => {
-            if (result === 'Ok click') {
-                this._deleteCharacterFromDB(savegame);
-            }
-        });
+        this._modalService.open(content, { centered: true, ariaLabelledBy: 'modal-title' })
+            .result
+            .then(
+                result => {
+                    if (result === 'Ok click') {
+                        this._deleteCharacterFromDB(savegame);
+                    }
+                },
+                () => noop,
+            );
     }
 
     public closeButtonTitle(): string {
