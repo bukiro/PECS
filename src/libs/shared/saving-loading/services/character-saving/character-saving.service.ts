@@ -16,6 +16,7 @@ import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { SavegamesService } from '../savegames/savegames.service';
 import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { Constructable } from 'src/libs/shared/definitions/Interfaces/constructable';
 
 
 interface SaveCharacterResponse {
@@ -140,7 +141,7 @@ export class CharacterSavingService {
         return savegame;
     }
 
-    private _isClassObject<T>(object: T): object is T & { [key in keyof T]: T[keyof T] } & { constructor: { new: () => T } } {
+    private _isClassObject<T>(object: T): object is T & { [key in keyof T]: T[keyof T] } & Constructable<T> {
         return (typeof object === 'object') && (object as unknown as object)?.constructor !== Object;
     }
 
@@ -161,7 +162,7 @@ export class CharacterSavingService {
                 }
 
                 if (!blank && objectToTrim.constructor) {
-                    blank = new (objectToTrim.constructor as unknown as (new () => T))();
+                    blank = new (objectToTrim.constructor as Constructable<T>)();
                 }
 
                 if (blank) {

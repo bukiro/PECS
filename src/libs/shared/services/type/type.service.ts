@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-/* eslint-disable complexity */
 import { Injectable } from '@angular/core';
 import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
@@ -41,7 +39,7 @@ export class TypeService {
 
     public mergeObject<T extends object>(target: T | undefined, source: Partial<T>): T {
         const output = target
-            ? Object.assign(new (target.constructor as (new () => T))(), JSON.parse(JSON.stringify(target)))
+            ? Object.assign(new (target.constructor as Constructable<T>)(), JSON.parse(JSON.stringify(target)))
             : {};
 
         (Object.keys(source) as Array<keyof T>).forEach(key => {
