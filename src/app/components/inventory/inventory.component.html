@@ -565,7 +565,7 @@
                                                         (moveMessage)="moveInventoryItem(itemParameters.item, inventory, $event.target, $event.amount, $event.including)">
                                                     </app-itemTarget>
                                                 </span>
-                                                <ng-container *ngSwitch="showDropAllButtons(itemParameters.item)">
+                                                <ng-container [ngSwitch]="showDropAllButtons(itemParameters.item)">
                                                     <span *ngSwitchCase="true">
                                                         <button
                                                             (click)="openGrantingOrContainerItemDropModal(GrantingItemDropModal, itemParameters.item, inventory)"
