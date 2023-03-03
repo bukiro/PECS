@@ -84,7 +84,6 @@ export class CreatureConditionsService {
                 return false;
             }
 
-            //TO-DO: See if workingGain can be transformed this way.
             this._prepareNewCondition(workingGain, originalCondition);
 
             let hasConditionBeenAdded = false;

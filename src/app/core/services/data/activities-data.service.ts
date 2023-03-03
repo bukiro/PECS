@@ -4,12 +4,13 @@ import { ActivityGain } from 'src/app/classes/ActivityGain';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Creature } from 'src/app/classes/Creature';
-import { ExtensionsService } from 'src/app/core/services/data/extensions.service';
 import { WornItem } from 'src/app/classes/WornItem';
 import { Armor } from 'src/app/classes/Armor';
 import { Rune } from 'src/app/classes/Rune';
 import * as json_activities from 'src/assets/json/activities';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
+import { DataLoadingService } from './data-loading.service';
+import { ImportedJsonFileList } from 'src/libs/shared/definitions/Types/jsonImportedItemFileList';
 
 @Injectable({
     providedIn: 'root',
@@ -21,8 +22,8 @@ export class ActivitiesDataService {
     private readonly _activitiesMap = new Map<string, Activity>();
 
     constructor(
-        private readonly _extensionsService: ExtensionsService,
         private readonly _recastService: RecastService,
+        private readonly _dataLoadingService: DataLoadingService,
     ) { }
 
     public get stillLoading(): boolean {
@@ -89,7 +90,15 @@ export class ActivitiesDataService {
 
     public initialize(): void {
         this._registerRestoreFn();
-        this._loadActivities();
+
+        this._activities =
+            this._dataLoadingService.loadRecastable(
+                json_activities as ImportedJsonFileList<Activity>,
+                'activities',
+                'name',
+                Activity,
+            );
+
         this._activities.forEach(activity => {
             this._activitiesMap.set(activity.name.toLowerCase(), activity);
         });
@@ -124,17 +133,6 @@ export class ActivitiesDataService {
             (obj: ActivityGain): ActivityGain => Object.assign(new ActivityGain(obj.originalActivity), obj);
 
         this._recastService.registerActivityGainRecastFns(activityGainRestoreFn, activityGainRecastFn);
-    }
-
-    private _loadActivities(): void {
-        this._activities = [];
-
-        const data = this._extensionsService.extend(json_activities, 'activities');
-
-        Object.keys(data).forEach(key => {
-            this._activities.push(...data[key].map(obj => Object.assign(new Activity(), obj).recast(this._recastService.restoreFns)));
-        });
-        this._activities = this._extensionsService.cleanupDuplicates(this._activities, 'name', 'activities');
     }
 
 }

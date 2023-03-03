@@ -70,10 +70,14 @@ export class ActivityGain {
             );
     }
 
-    public recast(_recastFns: RecastFns): ActivityGain {
+    public recast(recastFns: RecastFns): ActivityGain {
         this.gainItems = this.gainItems.map(obj => Object.assign(new ItemGain(), obj).recast());
         this.castSpells = this.castSpells.map(obj => Object.assign(new SpellCast(), obj).recast());
         this.targets = this.targets.map(obj => Object.assign(new SpellTarget(), obj).recast());
+        this.$originalActivity =
+            this.$originalActivity
+                ? Object.assign(new Activity(), this.$originalActivity).recast(recastFns)
+                : undefined;
 
         return this;
     }
