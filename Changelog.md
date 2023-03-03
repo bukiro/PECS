@@ -79,3 +79,9 @@ This log tracks only major changes, as well as changes that need characters to b
 - Feats' specialreq attribute has been replaced by a complexreq attribute that doesn't require eval(). Specialreq is no longer taken into account.
 - Feats' ignoreRequirements attribute has been treated in a similar way. String-based ignoreRequirements values now always result in success.
 - Some items that previously stacked did not stack anymore in version 1.0.14. This has been fixed.
+
+## 1.1.0
+
+- A big refactoring based around new linting rules and best practices.
+- Likely introduced new bugs, to be considered unstable.
+- Will be the basis for further refactoring, improvements and redesigns that will be accompanied by bugfixes.
