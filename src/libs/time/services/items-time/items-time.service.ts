@@ -32,7 +32,6 @@ export class ItemsTimeService {
         creature.inventories.forEach(inv => {
             const itemsToDrop = inv.allItems().filter(item => item.expiration === TimePeriods.UntilRest);
 
-            //TO-DO: Verify that this still works without the while loop.
             itemsToDrop.forEach(item => {
                 this._inventoryService.dropInventoryItem(creature, inv, item, false, true, true, item.amount);
             });
