@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Ability } from 'src/app/classes/Ability';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
-import { AbilitiesDataService } from 'src/app/core/services/data/abilities-data.service';
-import { StatusService } from 'src/app/core/services/status/status.service';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Defaults } from '../../definitions/defaults';
 import { AbilityModFromAbilityValue } from '../../util/abilityUtils';
+import { AbilitiesDataService } from '../data/abilities-data.service';
+import { StatusService } from '../status/status.service';
 
 const abilityBoostWeightFull = 2;
 const abilityBoostWeightHalf = 1;

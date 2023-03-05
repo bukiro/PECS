@@ -1,0 +1,278 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<div
+    id="{{creature}}-effects-height"
+    class="attributeBox"
+    [ngClass]="{'snug':!fullDisplay}"
+>
+    <ng-container *ngIf="componentParameters() as componentParameters">
+        <ng-template
+            #conditionTemplate
+            let-conditionGain="conditionGain"
+        >
+            <div
+                style="display:flex"
+                [ngClass]="{'attention':(conditionGain.durationIsInstant) || (conditionGain.nextStage === -1)}"
+                *ngIf="conditionParameters(conditionGain, componentParameters.isTimeStopped) as conditionParameters"
+            >
+                <ng-template #conditionContent>
+                    <app-condition
+                        class="newrow"
+                        (showItemMessage)="receiveShownItemMessage($event)"
+                        [creature]="creature"
+                        [conditionGain]="conditionGain"
+                        [condition]="conditionParameters.condition"
+                        [showItem]="shownItem()"
+                        [fullDisplay]="fullDisplay"
+                    ></app-condition>
+                </ng-template>
+
+                <div
+                    [stickyPopover]="conditionContent"
+                    triggers="click"
+                    *ngIf="!fullDisplay"
+                    style="display:flex;"
+                >
+                    <app-grid-icon
+                        [updateId]="conditionGain.id"
+                        class="condition"
+                        [ngClass]="conditionClasses(conditionParameters)"
+                        placement="right bottom top"
+                        [condition]="conditionGain"
+                        [originalCondition]="conditionParameters.condition"
+                        [superTitle]="conditionSuperTitle(conditionGain, conditionParameters.condition)"
+                        [ngbTooltip]="conditionGain.name"
+                        [openDelay]=0
+                    ></app-grid-icon>
+                </div>
+
+                <div
+                    class="list-item gridicon-fullsizebox"
+                    *ngIf="fullDisplay"
+                >
+                    <app-grid-icon
+                        [updateId]="conditionGain.id"
+                        class="condition"
+                        [condition]="conditionGain"
+                        [originalCondition]="conditionParameters.condition"
+                        [superTitle]="conditionSuperTitle(conditionGain, conditionParameters.condition)"
+                        [ngClass]="conditionClasses(conditionParameters)"
+                    ></app-grid-icon>
+
+                    <ng-container *ngTemplateOutlet="conditionContent"></ng-container>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template
+            #effectTemplate
+            let-effect="effect"
+        >
+            <ng-template #effectContent>
+                <div class="newrow">
+                    <span>
+                        <strong
+                            class="no-shadow"
+                            [ngClass]="{'penalty':effect.penalty, 'bonus':(!effect.penalty && !effect.setValue && !effect.toggle), 'absolute':(effect.setValue || effect.toggle)}"
+                        >
+                            {{effect.target}}
+                            {{effect.displayTitle(true)}}
+                        </strong>
+                    </span>
+                </div>
+
+                <div
+                    class="newrow"
+                    *ngIf="effect.ignored"
+                >
+                    <span>
+                        <strong>Ignored</strong>
+                        This effect doesn't apply while it is ignored.
+                    </span>
+                </div>
+
+                <div
+                    class="newrow"
+                    *ngIf="effect.type !== 'untyped' && !effect.toggle && !effect.setValue"
+                >
+                    <span>
+                        <strong>Type</strong>
+                        {{effect.type + " " + (effect.penalty ? 'penalty' : 'bonus')}}
+                    </span>
+                </div>
+
+                <div
+                    class="newrow"
+                    *ngIf="effect.duration"
+                >
+                    <span>
+                        <strong>Duration</strong>
+                        {{effect.duration ? durationDescription(effect.duration) : ''}}
+                    </span>
+                </div>
+
+                <div class="newrow">
+                    <span>
+                        <strong>Granted by</strong>
+                        {{effect.source.includes('conditional, ') ? effect.source.substr(13) : effect.source}}
+                    </span>
+                </div>
+
+                <div
+                    class="newrow"
+                    *ngIf="effect.source.includes('conditional, ')"
+                >
+                    <span>
+                        <strong>Conditional</strong>
+                        This effect only applies for certain actions or under specific circumstances.
+                    </span>
+                </div>
+
+                <span>
+                    <button
+                        type="button"
+                        [ngbTooltip]="'Ignore effects on ' + effect.target + ' from ' + effect.source"
+                        *ngIf="!effect.ignored"
+                        (click)="onIgnoreEffect(effect, true)"
+                    >
+                        Ignore
+                    </button>
+
+                    <button
+                        *ngIf="effect.ignored"
+                        (click)="onIgnoreEffect(effect, false)"
+                    >
+                        Stop ignoring
+                    </button>
+                </span>
+
+            </ng-template>
+
+            <div
+                [ngbPopover]="effectContent"
+                triggers="click"
+                *ngIf="!fullDisplay"
+                style="display:flex;"
+            >
+                <app-grid-icon
+                    class="effect"
+                    [effect]="effect"
+                    placement="left bottom top"
+                    [ngClass]="{'penalty':!effect.toggle && effect.penalty && !effect.ignored, 'bonus':!effect.toggle && !effect.penalty && !effect.setValue && !effect.ignored, 'absolute':(effect.toggle || effect.setValue) && !effect.ignored, 'inactive-button':effect.ignored}"
+                    [ngbTooltip]="effect.target + ' ' + effect.displayTitle(true)"
+                    [openDelay]=0
+                ></app-grid-icon>
+            </div>
+
+            <div
+                class="list-item gridicon-fullsizebox"
+                *ngIf="fullDisplay"
+            >
+                <app-grid-icon
+                    class="effect"
+                    [effect]="effect"
+                    [ngClass]="{'penalty':!effect.toggle && effect.penalty && !effect.ignored, 'bonus':!effect.toggle && !effect.penalty && !effect.setValue && !effect.ignored, 'absolute':(effect.toggle || effect.setValue) && !effect.ignored, 'inactive-button':effect.ignored}"
+                ></app-grid-icon>
+
+                <div class="gridicon-sidebar effect">
+                    <ng-container *ngTemplateOutlet="effectContent"></ng-container>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-container *ngIf="!fullDisplay">
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Effects'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            ></app-tags>
+
+            <div class="charactersheet-column-container padding-8">
+                <div class="icon-list left-aligned dashed-border">
+                    <div
+                        class="icon-list-title"
+                        style="right: 0"
+                    >
+                        <header class="sectionHeader box-header">Conditions</header>
+                    </div>
+
+                    <ng-container *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, true, true); trackBy:trackers.trackByObjectId;">
+                        <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}"></ng-container>
+                    </ng-container>
+                </div>
+
+                <div class="icon-list right-aligned dashed-border">
+                    <div
+                        class="icon-list-title"
+                        style="left: 0"
+                    >
+                        <header class="sectionHeader box-header">Effects</header>
+                    </div>
+
+                    <ng-container *ngFor="let effect of appliedEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
+                        <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="fullDisplay">
+            <header class="sectionHeader">Conditions & Effects</header>
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Effects'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            ></app-tags>
+
+            <div class="vlist">
+                <header class="subsectionHeader">Active Conditions</header>
+
+                <ng-container *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, true); trackBy:trackers.trackByObjectId;">
+                    <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}"></ng-container>
+                </ng-container>
+            </div>
+
+            <div class="vlist">
+                <header class="subsectionHeader">Active Effects</header>
+
+                <ng-container *ngFor="let effect of appliedEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
+                    <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
+                </ng-container>
+            </div>
+
+            <div class="vlist">
+                <header class="subsectionHeader">Inactive Conditions</header>
+
+                <ng-container *ngFor="let conditionGain of appliedConditions(componentParameters.conditions, false); trackBy:trackers.trackByObjectId;">
+                    <ng-container *ngTemplateOutlet="conditionTemplate;context:{conditionGain:conditionGain}"></ng-container>
+                </ng-container>
+            </div>
+
+            <div class="vlist">
+                <header class="subsectionHeader">Inactive Effects</header>
+
+                <ng-container *ngFor="let effect of notAppliedEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
+                    <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
+                </ng-container>
+            </div>
+
+            <div class="vlist">
+                <header class="subsectionHeader">Hidden Effects</header>
+
+                <ng-container *ngFor="let effect of hiddenEffects(componentParameters.effects); trackBy:trackers.trackByObjectId;">
+                    <ng-container *ngTemplateOutlet="effectTemplate;context:{effect:effect}"></ng-container>
+                </ng-container>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>

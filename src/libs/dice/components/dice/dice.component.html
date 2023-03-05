@@ -1,0 +1,364 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<div
+    id="dice"
+    class="diceBox vlist"
+>
+    <button
+        type="button"
+        class="list-item center-aligned"
+        (click)="toggleDiceMenu()"
+    >
+        <header class="sectionHeader">Close</header>
+    </button>
+
+    <div
+        *ngIf="diceMenuState==='in'"
+        class="list-item"
+        style="gap:8px;"
+    >
+        <div>
+            <button
+                aria-label="Roll 1d4"
+                type="button"
+                class="center-aligned"
+                (click)="roll(1, 4)"
+                [ngbTooltip]="'Roll 1d4'"
+            >
+                <app-diceIcons-D4></app-diceIcons-D4>
+            </button>
+
+            <br>
+
+            <button
+                type="button"
+                class="center-aligned newrow"
+                style="margin-top:8px;"
+                (click)="roll(diceNum, 4)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd4'"
+            >
+                {{diceNum}}d4
+            </button>
+        </div>
+        <div>
+            <button
+                aria-label="Roll 1d6"
+                type="button"
+                class="center-aligned"
+                (click)="roll(1, 6)"
+                [ngbTooltip]="'Roll 1d6'"
+            >
+                <app-diceIcons-D6></app-diceIcons-D6>
+            </button>
+
+            <br>
+
+            <button
+                type="button"
+                class="center-aligned newrow"
+                style="margin-top:8px;"
+                (click)="roll(diceNum, 6)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd6'"
+            >
+                {{diceNum}}d6
+            </button>
+        </div>
+        <div>
+            <button
+                type="button"
+                aria-label="Roll 1d8"
+                class="center-aligned"
+                (click)="roll(1, 8)"
+                [ngbTooltip]="'Roll 1d8'"
+            >
+                <app-diceIcons-D8></app-diceIcons-D8>
+            </button>
+
+            <br>
+
+            <button
+                type="button"
+                class="center-aligned newrow"
+                style="margin-top:8px;"
+                (click)="roll(diceNum, 8)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd8'"
+            >
+                {{diceNum}}d8
+            </button>
+        </div>
+        <div>
+            <button
+                type="button"
+                aria-label="Roll 1d10"
+                class="center-aligned"
+                (click)="roll(1, 10)"
+                [ngbTooltip]="'Roll 1d10'"
+            >
+                <app-diceIcons-D10></app-diceIcons-D10>
+            </button>
+
+            <br>
+
+            <button
+                type="button"
+                class="center-aligned newrow"
+                style="margin-top:8px;"
+                (click)="roll(diceNum, 10)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd10'"
+            >
+                {{diceNum}}d10
+            </button>
+        </div>
+        <div>
+            <button
+                type="button"
+                aria-label="Roll 1d12"
+                class="center-aligned"
+                (click)="roll(1, 12)"
+                [ngbTooltip]="'Roll 1d12'"
+            >
+                <app-diceIcons-D12></app-diceIcons-D12>
+            </button>
+
+            <br>
+
+            <button
+                type="button"
+                class="center-aligned newrow"
+                style="margin-top:8px;"
+                (click)="roll(diceNum, 12)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd12'"
+            >
+                {{diceNum}}d12
+            </button>
+        </div>
+        <div>
+            <button
+                type="button"
+                aria-label="Roll 1d20"
+                class="center-aligned"
+                (click)="roll(1, 20)"
+                [ngbTooltip]="'Roll 1d20'"
+            >
+                <app-diceIcons-D20></app-diceIcons-D20>
+            </button>
+            <br>
+
+            <button
+                type="button"
+                class="center-aligned newrow"
+                style="margin-top:8px;"
+                (click)="roll(diceNum, 20)"
+                [ngbTooltip]="'Roll ' + diceNum + 'd20'"
+            >
+                {{diceNum}}d20
+            </button>
+        </div>
+        <div class="newrow">
+            <strong style="flex-basis: 7.5em; flex-grow:0;">Dice number</strong>
+
+            <div class="slider-container">
+                <input
+                    aria-label="Dice number slider"
+                    class="slider"
+                    type="range"
+                    min="1"
+                    max="20"
+                    [(ngModel)]="diceNum"
+                >
+            </div>
+        </div>
+        <div class="newrow">
+            <strong style="flex-basis: 7.5em; flex-grow:0;">
+                Bonus
+                <input
+                    aria-label="Bonus"
+                    type="number"
+                    class="number3"
+                    [(ngModel)]="bonus"
+                >
+            </strong>
+
+            <div class="slider-container">
+                <input
+                    aria-label="Bonus slider"
+                    class="slider"
+                    type="range"
+                    min="-40"
+                    max="40"
+                    [(ngModel)]="bonus"
+                >
+            </div>
+        </div>
+    </div>
+    <div [ngbCollapse]="!diceResults.length">
+        <div class="list-item center-aligned vlist">
+
+            <header
+                class="sectionHeader box-header dice-result"
+                style="font-size: 3em;"
+            >
+                {{totalDiceSum()}}
+            </header>
+
+            <div
+                class="newrow"
+                *ngIf="canSendRollsToFoundryVTT()"
+            >
+                <span class="hlist center-aligned">
+                    <strong>Send roll to Foundry VTT:</strong>
+
+                    <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackers.trackByIndex">
+                        <button
+                            *ngIf="creatureFromType(creatureType) as creature"
+                            aria-label="Send to Foundry VTT"
+                            type="button"
+                            [ngbTooltip]="'Send as ' + (creature.name || creature.type) + '.'"
+                            (click)="sendRollToFoundry(creatureType)"
+                        >
+                            <i
+                                class="ra ra-player"
+                                *ngIf="creature.type === 'Character'"
+                            ></i>
+                            <i
+                                class="ra ra-wolf-howl"
+                                *ngIf="creature.type === 'Companion'"
+                            ></i>
+                            <i
+                                class="ra ra-raven"
+                                *ngIf="creature.type === 'Familiar'"
+                            ></i>
+                        </button>
+                    </ng-container>
+                </span>
+            </div>
+            <div
+                class="fullsize-scroll-box vlist"
+                style="max-height: 30vh;"
+            >
+                <div
+                    class="list-item newrow"
+                    [ngClass]="{'notapplied': !result.included}"
+                    *ngFor="let result of diceResults; trackBy:trackers.trackByIndex"
+                >
+                    <span>{{result.desc}}</span>
+
+                    <strong [ngClass]="{'variable': result.included}">
+                        <input
+                            aria-label="Include in sum"
+                            type="checkbox"
+                            [(ngModel)]="result.included"
+                        >
+                        &nbsp;
+                        {{diceResultSum(result)}}{{result.type ? " " + result.type : ""}}
+                    </strong>
+
+                    <span>
+                        <span *ngFor="let roll of result.rolls; let index = index; trackBy:trackers.trackByIndex">
+                            {{index !== 0 ? "+" : ""}}
+                            <span
+                                class="value"
+                                style="padding: 0 .25em"
+                                [ngClass]="{'penalty': roll === 1, 'bonus': roll === result.diceSize}"
+                            >
+                                {{roll}}
+                            </span>
+                        </span>
+                        <strong *ngIf="result.bonus">{{signedBonus(result.bonus)}}</strong>
+                    </span>
+                </div>
+            </div>
+            <div class="newrow center-aligned">
+                <button
+                    type="button"
+                    class="center-aligned"
+                    (click)="unselectAll()"
+                >
+                    <header class="sectionHeader">New chain</header>
+                </button>
+            </div>
+            <div class="newrow center-aligned">
+                <button
+                    type="button"
+                    class="center-aligned"
+                    (click)="clear()"
+                >
+                    <header class="sectionHeader">Clear all</header>
+                </button>
+            </div>
+            <header class="sectionHeader">Health Operations</header>
+            <ng-container *ngFor="let creatureType of allCreatureTypes; trackBy:trackers.trackByIndex">
+                <div
+                    class="newrow center-aligned"
+                    *ngIf="creatureFromType(creatureType) as creature"
+                >
+                    <button
+                        type="button"
+                        class="center-aligned"
+                        (click)="onHeal(creature)"
+                    >
+                        <span class="mobile-hide">Heal {{creature.name || creatureType}}</span>
+                        <i class="ra ra-health desktop-hide"></i>
+                        <i
+                            class="ra ra-player desktop-hide"
+                            *ngIf="creatureType==='Character'"
+                        ></i>
+                        <i
+                            class="ra ra-wolf-howl desktop-hide"
+                            *ngIf="creatureType==='Companion'"
+                        ></i>
+                        <i
+                            class="ra ra-raven desktop-hide"
+                            *ngIf="creatureType==='Familiar'"
+                        ></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="center-aligned"
+                        (click)="onTakeDamage(creature)"
+                    >
+                        <span class="mobile-hide">
+                            Damage {{creature.name || creatureType}}
+                        </span>
+                        <i class="ra ra-axe-swing desktop-hide"></i>
+                        <i
+                            class="ra ra-player desktop-hide"
+                            *ngIf="creatureType==='Character'"
+                        ></i>
+                        <i
+                            class="ra ra-wolf-howl desktop-hide"
+                            *ngIf="creatureType==='Companion'"
+                        ></i>
+                        <i
+                            class="ra ra-raven desktop-hide"
+                            *ngIf="creatureType==='Familiar'"
+                        ></i>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="center-aligned"
+                        (click)="setTempHP(creature)"
+                    >
+                        <span class="mobile-hide">
+                            Set as Temp HP for {{creature.name || creatureType}}
+                        </span>
+                        <i class="ra ra-health-increase desktop-hide"></i>
+                        <i
+                            class="ra ra-player desktop-hide"
+                            *ngIf="creatureType==='Character'"
+                        ></i>
+                        <i
+                            class="ra ra-wolf-howl desktop-hide"
+                            *ngIf="creatureType==='Companion'"
+                        ></i>
+                        <i
+                            class="ra ra-raven desktop-hide"
+                            *ngIf="creatureType==='Familiar'"
+                        ></i>
+                    </button>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

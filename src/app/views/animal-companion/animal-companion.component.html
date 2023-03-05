@@ -1,0 +1,279 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<button
+    aria-label="Minimize"
+    type="button"
+    class="minimizebutton lower"
+    [ngbTooltip]="isMinimized ? 'Click to show all information.' : 'Click to show compact information.'"
+    [ngClass]="{'fancy-button':isMinimized}"
+    (click)="minimize()"
+>
+    <i
+        class='bi-arrows-collapse'
+        *ngIf="isMinimized"
+    ></i>
+
+    <i
+        class='bi-arrows-expand'
+        *ngIf="!isMinimized"
+    ></i>
+</button>
+
+<div
+    id="animal-companion-height"
+    class="itembox vlist"
+>
+    <button
+        type="button"
+        class="itembox-close-button list-item center-aligned"
+        (click)="toggleCompanionMenu()"
+    >
+        <header class="sectionHeader">Back to Character Sheet</header>
+    </button>
+
+    <div
+        class="loading"
+        *ngIf="stillLoading"
+    >
+        Loading
+    </div>
+
+    <div
+        class="animalcompanion-box"
+        *ngIf="!stillLoading && character.class && isCompanionAvailable && companionMenuState === 'in'"
+    >
+        <!-- Desktop-only view -->
+        <ng-container *ngIf="!isMobile">
+            <app-effects
+                [creature]="creatureTypesEnum.AnimalCompanion"
+                id="Companion-effects"
+                class="charactersheet-app charactersheet-row mobile-hide"
+            >
+            </app-effects>
+
+            <div class="charactersheet-column-container mobile-hide">
+                <div class="charactersheet-column">
+                    <app-general
+                        [creature]="creatureTypesEnum.AnimalCompanion"
+                        id="Companion-general"
+                        class="charactersheet-app"
+                    ></app-general>
+
+                    <app-health
+                        [creature]="creatureTypesEnum.AnimalCompanion"
+                        id="Companion-health"
+                        class="charactersheet-app"
+                    ></app-health>
+
+                    <app-skills
+                        [creature]="creatureTypesEnum.AnimalCompanion"
+                        id="Companion-skills"
+                        class="charactersheet-app"
+                    ></app-skills>
+
+                    <app-activities
+                        [creature]="creatureTypesEnum.AnimalCompanion"
+                        id="Companion-activities"
+                        class="charactersheet-app"
+                    ></app-activities>
+                </div>
+
+                <div class="charactersheet-column">
+                    <app-abilities
+                        [creature]="creatureTypesEnum.AnimalCompanion"
+                        id="Companion-abilities"
+                        class="charactersheet-app"
+                    ></app-abilities>
+
+                    <app-defense
+                        [creature]="creatureTypesEnum.AnimalCompanion"
+                        id="Companion-defense"
+                        class="charactersheet-app"
+                    ></app-defense>
+
+                    <app-attacks
+                        [creature]="creatureTypesEnum.AnimalCompanion"
+                        id="Companion-attacks"
+                        class="charactersheet-app"
+                    ></app-attacks>
+
+                    <app-inventory
+                        [creature]="creatureTypesEnum.AnimalCompanion"
+                        id="Companion-inventory"
+                        class="charactersheet-app"
+                    ></app-inventory>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- Mobile-only buttons and views -->
+        <ng-container *ngIf="isMobile">
+            <div
+                class="charactersheet-app charactersheet-row desktop-hide"
+                id="mobile-tabs"
+            >
+                <button
+                    aria-label="General"
+                    type="button"
+                    [ngClass]="{'fancy-button':showMode()===''}"
+                    (click)="toggleShowMode('')"
+                >
+                    <i class="bi-info-circle-fill"></i>
+                </button>
+
+                <button
+                    aria-label="Health"
+                    type="button"
+                    [ngClass]="{'fancy-button':showMode()==='Health'}"
+                    (click)="toggleShowMode('Health')"
+                >
+                    <i class="ra ra-health"></i>
+                </button>
+
+                <button
+                    aria-label="Defense"
+                    type="button"
+                    [ngClass]="{'fancy-button':showMode()==='Defense'}"
+                    (click)="toggleShowMode('Defense')"
+                >
+                    <i class="ra ra-shield"></i>
+                </button>
+
+                <button
+                    aria-label="Attacks"
+                    type="button"
+                    [ngClass]="{'fancy-button':showMode()==='Attacks'}"
+                    (click)="toggleShowMode('Attacks')"
+                >
+                    <i class="ra ra-sword"></i>
+                </button>
+
+                <button
+                    aria-label="Skills"
+                    type="button"
+                    [ngClass]="{'fancy-button':showMode()==='Skills'}"
+                    (click)="toggleShowMode('Skills')"
+                >
+                    <i class="ra ra-muscle-up"></i>
+                </button>
+
+                <button
+                    aria-label="Actions"
+                    type="button"
+                    [ngClass]="{'fancy-button':showMode()==='Actions'}"
+                    (click)="toggleShowMode('Actions')"
+                >
+                    <app-action-icons
+                        [actionString]="'1A'"
+                        style="margin:.12rem -.16rem -.14rem -.16rem"
+                    ></app-action-icons>
+                </button>
+
+                <button
+                    aria-label="Inventory"
+                    type="button"
+                    [ngClass]="{'fancy-button':showMode()==='Inventory'}"
+                    (click)="toggleShowMode('Inventory')"
+                >
+                    <i class="bi-box"></i>
+                </button>
+
+                <button
+                    aria-label="Conditions and Effects"
+                    type="button"
+                    [ngClass]="{'fancy-button':showMode()==='ConditionsEffects'}"
+                    (click)="toggleShowMode('ConditionsEffects')"
+                >
+                    <i class="ra ra-lightning-bolt"></i>
+                </button>
+            </div>
+
+            <ng-container *ngIf="!stillLoading">
+                <div class="charactersheet-column-container desktop-hide">
+                    <div class="charactersheet-column">
+                        <app-general
+                            if="general"
+                            class="charactersheet-app"
+                            [creature]="creatureTypesEnum.AnimalCompanion"
+                            [ngClass]="{'minimized':(isMinimized)}"
+                            *ngIf="!showMode() || !['Health','Defense','Attacks','Spells','Skills','Actions','Inventory','ConditionsEffects'].includes(showMode())"
+                        >
+                        </app-general>
+
+                        <app-abilities
+                            if="abilities"
+                            class="charactersheet-app"
+                            [creature]="creatureTypesEnum.AnimalCompanion"
+                            [ngClass]="{'minimized':(isMinimized)}"
+                            *ngIf="!showMode()"
+                        >
+                        </app-abilities>
+
+                        <app-health
+                            if="health"
+                            class="charactersheet-app"
+                            [creature]="creatureTypesEnum.AnimalCompanion"
+                            [showMinimizeButton]="(showMode() !== 'Downtime')"
+                            [ngClass]="{'minimized':(isMinimized || (showMode() === 'Downtime'))}"
+                            *ngIf="showMode()==='Health'"
+                        >
+                        </app-health>
+
+                        <app-defense
+                            if="defense"
+                            class="charactersheet-app"
+                            [creature]="creatureTypesEnum.AnimalCompanion"
+                            [ngClass]="{'minimized':(isMinimized)}"
+                            *ngIf="showMode()==='Defense'"
+                        >
+                        </app-defense>
+
+                        <app-attacks
+                            if="attacks"
+                            class="charactersheet-app"
+                            [creature]="creatureTypesEnum.AnimalCompanion"
+                            [ngClass]="{'minimized':(isMinimized)}"
+                            *ngIf="showMode()==='Attacks'"
+                        >
+                        </app-attacks>
+
+                        <app-skills
+                            if="skills"
+                            class="charactersheet-app"
+                            [creature]="creatureTypesEnum.AnimalCompanion"
+                            [ngClass]="{'minimized':(isMinimized)}"
+                            *ngIf="showMode()==='Skills'"
+                        >
+                        </app-skills>
+
+                        <app-activities
+                            if="activities"
+                            class="charactersheet-app"
+                            [creature]="creatureTypesEnum.AnimalCompanion"
+                            [ngClass]="{'minimized':(isMinimized)}"
+                            *ngIf="showMode()==='Actions'"
+                        >
+                        </app-activities>
+
+                        <app-inventory
+                            if="inventory"
+                            class="charactersheet-app"
+                            [creature]="creatureTypesEnum.AnimalCompanion"
+                            [ngClass]="{'minimized':(isMinimized)}"
+                            *ngIf="showMode()==='Inventory'"
+                        >
+                        </app-inventory>
+
+                        <app-effects
+                            if="effects"
+                            class="charactersheet-app"
+                            [creature]="creatureTypesEnum.AnimalCompanion"
+                            [fullDisplay]="true"
+                            *ngIf="showMode()==='ConditionsEffects'"
+                        >
+                        </app-effects>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>

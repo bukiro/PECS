@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { Defaults } from '../../definitions/defaults';
 import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
 

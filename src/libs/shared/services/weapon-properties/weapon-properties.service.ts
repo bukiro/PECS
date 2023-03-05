@@ -3,7 +3,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { ProficiencyChange } from 'src/app/classes/ProficiencyChange';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel, skillLevelBaseStep } from '../../definitions/skillLevels';
@@ -12,8 +12,8 @@ import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { StatusService } from 'src/app/core/services/status/status.service';
+import { SkillsDataService } from '../data/skills-data.service';
+import { StatusService } from '../status/status.service';
 
 @Injectable({
     providedIn: 'root',

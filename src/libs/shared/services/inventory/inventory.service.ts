@@ -7,7 +7,7 @@ import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { ItemInitializationService } from 'src/libs/shared/services/item-initialization/item-initialization.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',

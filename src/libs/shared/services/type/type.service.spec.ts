@@ -1,4 +1,4 @@
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { TypeService } from './type.service';

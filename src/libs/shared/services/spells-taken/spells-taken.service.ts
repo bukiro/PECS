@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
-import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { SpellCastingTypes } from '../../definitions/spellCastingTypes';
 import { SpellTraditions } from '../../definitions/spellTraditions';
+import { SpellsDataService } from '../data/spells-data.service';
 
 @Injectable({
     providedIn: 'root',

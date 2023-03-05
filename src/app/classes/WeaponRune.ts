@@ -1,5 +1,5 @@
 import { Rune } from 'src/app/classes/Rune';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class WeaponRune extends Rune {
     //Weapon Runes should be type "weaponrunes" to be found in the database

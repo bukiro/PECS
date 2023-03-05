@@ -1,0 +1,302 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<div
+    class="newrow left-aligned"
+    *ngIf="activity.sourceBook"
+>
+    <strong>Source</strong>
+
+    <i>{{activity.sourceBook}}</i>
+</div>
+
+<div
+    class="list-item lower newrow problem"
+    *ngIf="activity.inputRequired"
+>
+    <strong>Player input required:</strong>
+
+    <div
+        class="newrow left-aligned"
+        *ngFor="let inputRequired of activity.inputRequired.split('\n\n'); trackBy:trackers.trackByIndex;"
+    >
+        <app-description
+            class="newrow"
+            [text]="inputRequired"
+        ></app-description>
+    </div>
+</div>
+
+<div
+    class="newrow left-aligned"
+    *ngIf="activity.frequency || ((cooldown !== activity.cooldown) && !activity.cooldownAfterEnd)"
+>
+    <span>
+        <strong>Frequency</strong>
+
+        <span *ngIf="cooldown === activity.cooldown">&nbsp;{{activity.frequency}}</span>
+
+        <span
+            class="absolute"
+            *ngIf="cooldown !== activity.cooldown"
+        >
+            &nbsp;{{maxCharges ? maxCharges + "
+            times every " : "once every "}}{{durationDescription(cooldown, false, false)}}
+        </span>
+    </span>
+</div>
+
+<div
+    class="newrow left-aligned"
+    *ngIf="cooldown && activity.cooldownAfterEnd"
+>
+    <span>
+        <strong>Cooldown after use</strong>
+
+        <span [ngClass]="{'absolute':cooldown !== activity.cooldown}">
+            &nbsp;{{durationDescription(cooldown, false,
+            false)}}
+        </span>
+    </span>
+</div>
+
+<div
+    class="newrow left-aligned"
+    *ngIf="activity.cost"
+>
+    <span>
+        <strong>Cost</strong>
+        {{activity.cost}}
+    </span>
+</div>
+
+<div
+    class="newrow left-aligned"
+    *ngIf="activity.trigger"
+>
+    <span>
+        <strong>Trigger</strong>
+        {{activity.trigger}}
+    </span>
+</div>
+
+<div
+    class="newrow left-aligned"
+    *ngIf="activity.requirements"
+>
+    <span>
+        <strong>Requirements</strong>
+        {{activity.requirements}}
+    </span>
+</div>
+
+<div
+    class="newrow left-aligned"
+    *ngFor="let desc of heightenedDescription().split('\n\n'); trackBy:trackers.trackByIndex;"
+>
+    <app-description
+        class="newrow"
+        [text]="desc"
+    ></app-description>
+</div>
+
+<div
+    class="newrow gap-text left-aligned"
+    *ngIf="activity.critsuccess"
+>
+    <strong>Critical Success</strong>
+
+    <app-description
+        [text]="activity.critsuccess"
+        [oneLiner]="true"
+    ></app-description>
+</div>
+
+<div
+    class="newrow gap-text left-aligned"
+    *ngIf="activity.success"
+>
+    <strong>Success</strong>
+
+    <app-description
+        [text]="activity.success"
+        [oneLiner]="true"
+    ></app-description>
+</div>
+
+<div
+    class="newrow gap-text left-aligned"
+    *ngIf="activity.failure"
+>
+    <strong>Failure</strong>
+
+    <app-description
+        [text]="activity.failure"
+        [oneLiner]="true"
+    ></app-description>
+</div>
+
+<div
+    class="newrow gap-text left-aligned"
+    *ngIf="activity.critfailure"
+>
+    <strong>Critical Failure</strong>
+
+    <app-description
+        [text]="activity.critfailure"
+        [oneLiner]="true"
+    ></app-description>
+</div>
+
+<div
+    class="newrow gap-text left-aligned"
+    *ngIf="activity.specialdesc"
+>
+    <strong>Special</strong>
+    {{activity.specialdesc}}
+</div>
+
+<div
+    class="list-item left-aligned"
+    *ngFor="let shownActivityName of activity.showActivities; trackBy:trackers.trackByIndex;"
+>
+    <ng-container *ngFor="let shownActivity of activities(shownActivityName); trackBy:trackers.trackByIndex;">
+        <header class="spellHeader">
+            {{shownActivity.name}}
+            <app-action-icons
+                *ngIf="shownActivity.actions"
+                [actionString]="shownActivity.actions"
+            >
+            </app-action-icons>
+            {{shownActivity.activationType.toString()}}
+        </header>
+
+        <div class="newrow left-aligned">
+            <app-trait
+                *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+                [name]="trait"
+                [trait]="traitFromName(trait)"
+            >
+            </app-trait>
+
+            <app-trait
+                *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;"
+                [name]="trait"
+                [trait]="traitFromName(trait)"
+                [extraDescription]="'(This trait was derived from the action components.)'"
+            >
+            </app-trait>
+        </div>
+
+        <app-activity-content
+            [activity]=shownActivity
+            [allowActivate]="false"
+        >
+        </app-activity-content>
+    </ng-container>
+</div>
+
+<div
+    class="list-item newrow left-aligned"
+    *ngFor="let cast of spellCasts(); let spellCastIndex = index; trackBy:trackers.trackByIndex;"
+>
+    <ng-container *ngIf="spellFromName(cast.name) as spell">
+        <header class="spellHeader">
+            {{spell.name}}
+            <app-action-icons
+                *ngIf="spell.actions"
+                [actionString]="spell.actions"
+            >
+            </app-action-icons>
+            {{spell.castType.toString()}}
+        </header>
+
+        <ng-container *ngIf="gain && allowActivate">
+            <ng-container *ngFor="let conditionSet of spellConditions(cast, spellCastIndex); let conditionSetIndex = index; trackBy:trackers.trackByIndex">
+                <div
+                    class="newrow list-item left-aligned"
+                    *ngIf="!cast.hideChoices.includes(conditionSet.condition.name) && conditionSet.condition.$choices.length && !conditionSet.gain.choiceBySubType && !conditionSet.gain.choiceLocked && !conditionSet.gain.copyChoiceFrom && !conditionSet.gain.hideChoices"
+                >
+                    <span>
+                        {{conditionSet.condition.name}} effect selection:
+                        <select
+                            aria-label="Select condition effect"
+                            [(ngModel)]="gain.spellEffectChoices[spellCastIndex][conditionSetIndex].choice"
+                            (ngModelChange)="onEffectChoiceChange()"
+                        >
+                            <option
+                                *ngFor="let choice of conditionSet.condition.$choices; trackBy:trackers.trackByIndex;"
+                                [ngValue]="choice"
+                            >
+                                {{choice}}
+                            </option>
+                        </select>
+                    </span>
+                </div>
+            </ng-container>
+        </ng-container>
+
+        <div class="newrow left-aligned">
+            <app-trait
+                *ngFor="let trait of spell.traits; trackBy:trackers.trackByIndex;"
+                [name]="trait"
+                [trait]="traitFromName(trait)"
+            >
+            </app-trait>
+
+            <app-trait
+                *ngFor="let trait of spell.activationTraits(); trackBy:trackers.trackByIndex;"
+                [name]="trait"
+                [trait]="traitFromName(trait)"
+                [extraDescription]="'(This trait was derived from the action components.)'"
+            >
+            </app-trait>
+        </div>
+
+        <app-spell-content
+            class="vlist fullwidth"
+            [spell]="spell"
+            [spellLevel]="spellLevelFromBaseLevel(spell, cast.level)"
+        >
+        </app-spell-content>
+    </ng-container>
+</div>
+
+<div
+    class="list-item left-aligned"
+    *ngFor="let shownSpellSet of activity.showSpells; trackBy:trackers.trackByIndex;"
+>
+    <ng-container *ngIf="spellFromName(shownSpellSet.name) as shownSpell">
+        <header class="spellHeader">
+            {{shownSpell.name}}
+            <app-action-icons
+                *ngIf="shownSpell.actions"
+                [actionString]="shownSpell.actions"
+            >
+            </app-action-icons>
+            {{shownSpell.castType.toString()}}
+        </header>
+
+        <div class="newrow left-aligned">
+            <app-trait
+                *ngFor="let trait of shownSpell.traits; trackBy:trackers.trackByIndex;"
+                [name]="trait"
+                [trait]="traitFromName(trait)"
+            >
+            </app-trait>
+
+            <app-trait
+                *ngFor="let trait of shownSpell.activationTraits(); trackBy:trackers.trackByIndex;"
+                [name]="trait"
+                [trait]="traitFromName(trait)"
+                [extraDescription]="'(This trait was derived from the action components.)'"
+            >
+            </app-trait>
+        </div>
+
+        <app-spell-content
+            class="vlist fullwidth"
+            [spell]="shownSpell"
+            [spellLevel]="spellLevelFromBaseLevel(shownSpell, shownSpellSet.level)"
+        >
+        </app-spell-content>
+    </ng-container>
+</div>

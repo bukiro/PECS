@@ -4,16 +4,16 @@ import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
-import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CreatureTypeIDFromType } from 'src/libs/shared/util/creatureUtils';
 import { SortAlphaNum } from 'src/libs/shared/util/sortUtils';
 import { ConditionEffectsObject } from 'src/app/classes/ConditionEffectsObject';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { RecastService } from '../recast/recast.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { ConditionsDataService } from '../data/conditions-data.service';
+import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',

@@ -6,7 +6,7 @@ import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
 import { SpellTraditions } from 'src/libs/shared/definitions/spellTraditions';
 import { ActivityTargetOptions } from './Activity';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Spell {
     public actions = '1A';

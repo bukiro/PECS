@@ -1,0 +1,84 @@
+@mixin text-color-basic {
+    color: $color-text-dark;
+
+    .darkmode & {
+        color: $color-text-light;
+    }
+
+    // Only needed for body, which has the darkmode class.
+    &.darkmode {
+        color: $color-text-light;
+    }
+}
+
+@mixin text-color-penalty {
+    color: $color-penalty-dark;
+
+    .darkmode & {
+        color: $color-penalty-light;
+    }
+}
+
+@mixin text-color-bonus {
+    color: $color-bonus-dark;
+
+    .darkmode & {
+        color: $color-bonus-light;
+    }
+}
+
+@mixin text-color-absolute {
+    color: $color-absolute-dark;
+
+    .darkmode & {
+        color: $color-absolute-light;
+    }
+}
+
+@mixin background-color-penalty {
+    background-color: $color-penalty-light;
+
+    .darkmode & {
+        background-color: $color-penalty-dark;
+    }
+}
+
+@mixin background-color-bonus {
+    background-color: $color-bonus-light;
+
+    .darkmode & {
+        background-color: $color-bonus-dark;
+    }
+}
+
+@mixin background-color-absolute {
+    background-color: $color-absolute-light;
+
+    .darkmode & {
+        background-color: $color-absolute-dark;
+    }
+}
+
+.text-color-penalty {
+    @include text-color-penalty;
+}
+
+.text-color-bonus {
+    @include text-color-penalty;
+}
+
+.text-color-absolute {
+    @include text-color-penalty;
+}
+
+.background-color-penalty {
+    @include background-color-penalty;
+}
+
+.background-color-bonus {
+    @include background-color-bonus;
+}
+
+.background-color-absolute {
+    @include background-color-absolute;
+}

@@ -7,7 +7,7 @@ import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficien
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
 import { StrikingTitleFromLevel } from 'src/libs/shared/util/runeUtils';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
 
 interface EmblazonArmamentSet {

@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class AlchemicalTool extends Consumable {
     //Alchemical tools should be type "alchemicaltools" to be found in the database

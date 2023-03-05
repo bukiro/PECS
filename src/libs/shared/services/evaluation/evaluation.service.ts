@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature as CreatureModel } from 'src/app/classes/Creature';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';
 import { Speed as SpeedModel } from 'src/app/classes/Speed';
-import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
 import { EffectGain } from '../../../../app/classes/EffectGain';
 import { Equipment } from '../../../../app/classes/Equipment';
 import { ActivityGain } from '../../../../app/classes/ActivityGain';
@@ -15,7 +14,6 @@ import { Armor as ArmorModel } from '../../../../app/classes/Armor';
 import { Shield as ShieldModel } from '../../../../app/classes/Shield';
 import { Weapon } from '../../../../app/classes/Weapon';
 import { WornItem } from '../../../../app/classes/WornItem';
-import { FeatTaken } from '../../../../app/character-creation/definitions/models/FeatTaken';
 import { Deity as DeityModel } from '../../../../app/classes/Deity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -29,7 +27,9 @@ import { CreatureActivitiesService } from 'src/libs/shared/services/creature-act
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
+import { FamiliarsDataService } from '../data/familiars-data.service';
+import { SkillsDataService } from '../data/skills-data.service';
+import { FeatTaken } from '../../definitions/models/FeatTaken';
 
 interface FormulaObject {
     effects: Array<EffectGain>;

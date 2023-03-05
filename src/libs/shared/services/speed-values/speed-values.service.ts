@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { Speed } from 'src/app/classes/Speed';
-import { StatusService } from 'src/app/core/services/status/status.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { StatusService } from '../status/status.service';
 
 interface CalculatedSpeed {
     name: string;

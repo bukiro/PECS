@@ -6,10 +6,10 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
-import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { HintEffectsObject } from '../../effects-generation/definitions/interfaces/HintEffectsObject';
 import { SortAlphaNum } from '../../util/sortUtils';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { TraitsDataService } from '../data/traits-data.service';
 
 @Injectable({
     providedIn: 'root',

@@ -9,7 +9,7 @@ import { ConditionChoice } from 'src/app/classes/ConditionChoice';
 import { ConditionDuration } from 'src/app/classes/ConditionDuration';
 import { HeightenedDescSet } from 'src/app/classes/HeightenedDescSet';
 import { heightenedTextFromDescSets } from 'src/libs/shared/util/descriptionUtils';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 interface ConditionEnd {
     name: string;

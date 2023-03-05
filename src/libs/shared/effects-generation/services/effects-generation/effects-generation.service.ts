@@ -3,12 +3,12 @@ import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Armor } from 'src/app/classes/Armor';
 import { Character as CharacterModel } from 'src/app/classes/Character';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Equipment } from 'src/app/classes/Equipment';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Rune } from 'src/app/classes/Rune';
 import { Shield } from 'src/app/classes/Shield';
@@ -16,14 +16,12 @@ import { Specialization } from 'src/app/classes/Specialization';
 import { ConditionEffectsObject } from '../../../../../app/classes/ConditionEffectsObject';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { BonusTypes } from 'src/libs/shared/definitions/bonusTypes';
-import { AbilitiesDataService } from '../../../../../app/core/services/data/abilities-data.service';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureEffectsGenerationService } from 'src/libs/shared/effects-generation/services/creature-effects-generation/creature-effects-generation.service';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { ItemTraitsService } from 'src/libs/shared/services/item-traits/item-traits.service';
 import { ItemEffectsGenerationService } from 'src/libs/shared/effects-generation/services/item-effects-generation/item-effects-generation.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { TraitsDataService } from '../../../../../app/core/services/data/traits-data.service';
 import { ObjectEffectsGenerationService } from 'src/libs/shared/effects-generation/services/object-effects-generation/object-effects-generation';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
 import { EffectsGenerationPreflightService } from '../effects-generation-preflight/effects-generation-preflight.service';
@@ -32,7 +30,9 @@ import { CharacterLanguagesService } from 'src/libs/shared/services/character-la
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
-import { StatusService } from 'src/app/core/services/status/status.service';
+import { StatusService } from 'src/libs/shared/services/status/status.service';
+import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 
 @Injectable({
     providedIn: 'root',

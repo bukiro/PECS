@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { Activity } from './Activity';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class ActivityGain {
     public active = false;

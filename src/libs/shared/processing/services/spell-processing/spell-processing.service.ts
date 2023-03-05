@@ -7,18 +7,18 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
-import { SettingsService } from 'src/app/core/services/settings/settings.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { SpellPropertiesService } from 'src/libs/shared/services/spell-properties/spell-properties.service';
+import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
 
 @Injectable({
     providedIn: 'root',

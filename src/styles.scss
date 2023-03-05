@@ -1,3 +1,5 @@
+@import "src/libs/shared/style";
+
 @import "~bootstrap-icons/font/bootstrap-icons.css";
 @import "~rpg-awesome/css/rpg-awesome.min.css";
 
@@ -12,10 +14,6 @@ html {
     overflow: hidden;
 }
 
-.darkmode {
-    --textcolor: #CCC;
-}
-
 * {
     font-family: 'Roboto', Arial, sans-serif;
     box-sizing: border-box;
@@ -27,14 +25,13 @@ html {
 /* Body */
 
 body {
+    @include text-color-basic;
+
     position: relative;
     margin: 0;
     height: 100%;
     overflow: hidden;
-    --textcolor: #616161;
     background-color: #333333;
-    color: #616161;
-    color: var(--textcolor);
     font-size: 14px;
     background-clip: border-box;
     /* swiping to navigate is prohibited */
@@ -689,66 +686,6 @@ select option {
     max-width: 100%;
 }
 
-/* SVG icons - action icons and dice symbols */
-
-.actionIcon {
-    display: inline-block;
-    height: 1em;
-    margin: 0 .15rem;
-    background-color: currentColor;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-}
-
-.action1A {
-    -webkit-mask-image: url(assets/img/1A.svg);
-    mask-image: url(assets/img/1A.svg);
-    width: 1em;
-}
-
-.action2A {
-    -webkit-mask-image: url(assets/img/2A.svg);
-    mask-image: url(assets/img/2A.svg);
-    width: 1.6em;
-}
-
-.action3A {
-    -webkit-mask-image: url(assets/img/3A.svg);
-    mask-image: url(assets/img/3A.svg);
-    width: 2.1em;
-}
-
-.actionFree {
-    -webkit-mask-image: url(assets/img/Free.svg);
-    mask-image: url(assets/img/Free.svg);
-    width: 1em;
-}
-
-.actionReaction {
-    -webkit-mask-image: url(assets/img/Reaction.svg);
-    mask-image: url(assets/img/Reaction.svg);
-    width: 1em;
-}
-
-app-actionicons {
-    display: inline-block;
-    padding: 0 .15rem;
-}
-
-app-actionicons .actionIcon {
-    margin: 0;
-}
-
-svg,
-svg g {
-    fill: transparent;
-    stroke: currentColor;
-}
-
 /*
 LAYOUT
 */
@@ -905,13 +842,13 @@ app-character-sheet {
 /* Specific character sheet apps */
 
 app-animal-companion,
-app-character,
+app-character-creation,
 app-conditions,
 app-crafting,
 app-familiar,
 app-items,
-app-spellLibrary,
-app-spells {
+app-spell-library,
+app-spell-selection {
     position: absolute;
     top: 0;
     right: auto;
@@ -935,7 +872,7 @@ app-dice {
     max-height: 90%;
 }
 
-app-familiarabilities.charactersheet-app {
+app-familiar-abilities.charactersheet-app {
     overflow: visible;
 }
 
@@ -1442,7 +1379,7 @@ button:hover~.list-item.sublist.specialchoice:not(.fancy-button),
 INNER APPS
 */
 
-app-newItemProperty {
+app-new-item-property {
     flex-basis: 100%;
     margin-bottom: .6rem;
 }
@@ -1451,12 +1388,12 @@ app-tags,
 app-skill,
 app-item,
 app-activity,
-app-itemMaterial,
-app-itemOils,
-app-itemPoisons,
-app-itemRunes,
-app-itemTalismans,
-app-itemAeonStones {
+app-item-material,
+app-item-oils,
+app-item-poisons,
+app-item-runes,
+app-item-talismans,
+app-item-aeonStones {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -1494,65 +1431,6 @@ app-proficiency-form,
 
 #passwordInput {
     font-size: 1.5em;
-}
-
-/*
-BOOTSTRAP OVERRIDES
-*/
-
-/* Bootstrap popover overrides */
-
-ngb-popover-window {
-    max-height: 50vh;
-    overflow-y: auto;
-}
-
-ngb-popover-window.list-item.sublist {
-    max-height: 50vh;
-    width: auto;
-    z-index: 1040;
-}
-
-.popover {
-    white-space: pre-line;
-    max-width: 40rem;
-    font-size: 1rem;
-    background-color: #E0E0E0;
-}
-
-.darkmode .popover {
-    background-color: #303030;
-}
-
-.popover .popover-arrow {
-    display: none;
-}
-
-.popover-body {
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    gap: .3rem;
-    width: 100%;
-}
-
-.popover.popup-slider {
-    width: 400px;
-}
-
-.popover.popup-slider .popover-body {
-    padding: .3rem;
-}
-
-.pecs-popover,
-.popover.popup-slider {
-    border-width: 4px;
-    border-style: solid;
-    border-color: #465A8C;
-    border-color: rgb(var(--accent));
-    border-radius: .15rem;
-    background-clip: border-box;
-    box-shadow: 0 .15rem .35rem;
 }
 
 /* Bootstrap modal overrides */
@@ -1726,7 +1604,7 @@ GRIDICONS
 
 /* Grid Icons: quadratic icons with content generated from assigned parameters */
 
-app-gridicon {
+app-grid-icon {
     height: 4rem;
     width: 4rem;
     font-weight: bold;
@@ -1743,41 +1621,41 @@ app-gridicon {
     color: initial;
 }
 
-app-gridicon.fancy-button {
+app-grid-icon.fancy-button {
     background-color: white;
 }
 
-app-gridicon.inactive-button {
+app-grid-icon.inactive-button {
     border-color: grey;
 }
 
-app-gridicon.condition,
-app-gridicon.effect {
+app-grid-icon.condition,
+app-grid-icon.effect {
     background-color: white;
 }
 
-.darkmode app-gridicon.condition,
-.darkmode app-gridicon.effect {
+.darkmode app-grid-icon.condition,
+.darkmode app-grid-icon.effect {
     background-color: #333333;
 }
 
-.icon-list app-gridicon:not(.fancy-button):not(.condition):not(.effect) {
+.icon-list app-grid-icon:not(.fancy-button):not(.condition):not(.effect) {
     background-color: #CCC;
 }
 
-.darkmode app-gridicon:not(.fancy-button):not(.condition):not(.effect),
-.darkmode .icon-list app-gridicon:not(.fancy-button):not(.condition):not(.effect) {
+.darkmode app-grid-icon:not(.fancy-button):not(.condition):not(.effect),
+.darkmode .icon-list app-grid-icon:not(.fancy-button):not(.condition):not(.effect) {
     background-color: #202020;
 }
 
-.darkmode app-gridicon:not(.fancy-button):not(.condition):not(.effect),
-.darkmode .icon-list :not(.inactive-button)>app-gridicon:not(.fancy-button):not(.condition):not(.effect) {
+.darkmode app-grid-icon:not(.fancy-button):not(.condition):not(.effect),
+.darkmode .icon-list :not(.inactive-button)>app-grid-icon:not(.fancy-button):not(.condition):not(.effect) {
     background-color: #202020;
     color: inherit;
 }
 
 /* top-left small number */
-app-gridicon .iconValue {
+app-grid-icon .iconValue {
     position: absolute;
     color: var(--textcolor);
     top: .15rem;
@@ -1785,7 +1663,7 @@ app-gridicon .iconValue {
 }
 
 /* top-right specification */
-app-gridicon .iconDetail {
+app-grid-icon .iconDetail {
     position: absolute;
     color: var(--textcolor);
     top: .15rem;
@@ -1794,8 +1672,8 @@ app-gridicon .iconDetail {
 
 /* larger centered background title, max 2 characters */
 /* Using height: 100% causes performance issues, so we use height: 4rem.*/
-app-gridicon .iconTitle,
-app-gridicon .iconSuperTitle {
+app-grid-icon .iconTitle,
+app-grid-icon .iconSuperTitle {
     text-align: center;
     margin-top: 0 !important;
     display: flex;
@@ -1805,38 +1683,38 @@ app-gridicon .iconSuperTitle {
 }
 
 /* large centered title, max 4 characters */
-app-gridicon .iconTitle {
+app-grid-icon .iconTitle {
     font-size: 1.5rem;
     line-height: .8em;
     color: var(--textcolor);
 }
 
 /* larger centered overshadowing title, max 2 characters */
-app-gridicon .iconSuperTitle {
+app-grid-icon .iconSuperTitle {
     font-size: 3rem;
     opacity: 30%;
 }
 
-app-gridicon.condition .iconSuperTitle,
-app-gridicon.effect .iconSuperTitle {
+app-grid-icon.condition .iconSuperTitle,
+app-grid-icon.effect .iconSuperTitle {
     opacity: 50%;
 }
 
-app-gridicon.bonus .iconSuperTitle {
+app-grid-icon.bonus .iconSuperTitle {
     opacity: 40%;
 }
 
-app-gridicon.penalty .iconSuperTitle {
+app-grid-icon.penalty .iconSuperTitle {
     opacity: 30%;
 }
 
-.darkmode app-gridicon.bonus .iconSuperTitle,
-.darkmode app-gridicon.penalty .iconSuperTitle {
+.darkmode app-grid-icon.bonus .iconSuperTitle,
+.darkmode app-grid-icon.penalty .iconSuperTitle {
     opacity: 50%;
 }
 
-app-gridicon .iconTitle div,
-app-gridicon .iconSuperTitle div {
+app-grid-icon .iconTitle div,
+app-grid-icon .iconSuperTitle div {
     margin-top: auto;
     margin-bottom: auto;
     text-align: center;
@@ -1844,7 +1722,7 @@ app-gridicon .iconSuperTitle div {
 }
 
 /* bottom-left subtitle with a little more room (5-8 characters) */
-app-gridicon .iconSubTitle {
+app-grid-icon .iconSubTitle {
     position: absolute;
     bottom: .15rem;
     left: .15rem;
@@ -1855,7 +1733,7 @@ app-gridicon .iconSubTitle {
 
 /* Growing conic overlay to represent passing time on conditions and effects with durations */
 
-app-gridicon .gridicon-time-overlay {
+app-grid-icon .gridicon-time-overlay {
     --degrees: calc((var(--offset, 0) / 100) * 360);
     position: absolute;
     top: 0;
@@ -1867,7 +1745,7 @@ app-gridicon .gridicon-time-overlay {
     overflow: hidden;
 }
 
-app-gridicon .gridicon-time-overlay:before {
+app-grid-icon .gridicon-time-overlay:before {
     background: black;
     opacity: 50%;
     position: absolute;
@@ -1878,36 +1756,36 @@ app-gridicon .gridicon-time-overlay:before {
     width: 200%;
 }
 
-app-gridicon .gridicon-time-overlay:before {
+app-grid-icon .gridicon-time-overlay:before {
     --degrees: calc((var(--percentage, 0) / 100) * 360);
     transform: translate(-25%, 50%) rotate(calc(var(--degrees) * 1deg));
     transform-origin: 50% 0;
 }
 
 .transition5,
-app-gridicon .gridicon-time-overlay.transition5:before {
+app-grid-icon .gridicon-time-overlay.transition5:before {
     transition: all .5s ease-out;
 }
 
 /* Colorful gridicons for character development choices */
 
-app-gridicon.abilityboost,
-.darkmode app-gridicon.abilityboost {
+app-grid-icon.abilityboost,
+.darkmode app-grid-icon.abilityboost {
     color: rgb(150, 0, 200);
 }
 
-app-gridicon.skillincrease,
-.darkmode app-gridicon.skillincrease {
+app-grid-icon.skillincrease,
+.darkmode app-grid-icon.skillincrease {
     color: rgb(0, 100, 100);
 }
 
-app-gridicon.featchoice,
-.darkmode app-gridicon.featchoice {
+app-grid-icon.featchoice,
+.darkmode app-grid-icon.featchoice {
     color: rgb(200, 100, 0);
 }
 
-app-gridicon.specialchoice,
-.darkmode app-gridicon.specialchoice {
+app-grid-icon.specialchoice,
+.darkmode app-grid-icon.specialchoice {
     color: rgb(125, 100, 50);
 }
 
@@ -1989,12 +1867,12 @@ button.character-choice,
 
 /* Character app choice area, feat and skill choices */
 
-#character-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-featchoice,
-#character-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-skillchoice,
-#spells-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-spellchoice,
-#character-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-featchoice .featchoice-container,
-#character-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-skillchoice .featchoice-container,
-#spells-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-spellchoice .featchoice-container {
+#character-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-feat-choice,
+#character-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-skill-choice,
+#spells-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-spell-choice,
+#character-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-feat-choice .featchoice-container,
+#character-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-skill-choice .featchoice-container,
+#spells-height>.charactersheet-column-container>.charactersheet-column:not(:first-child) app-spell-choice .featchoice-container {
     height: calc(100% - 1px);
 }
 
@@ -2073,7 +1951,7 @@ SPECIFIC STYLE MODIFIERS
 div.newrow:empty,
 app-tags:empty,
 app-skill:empty,
-app-featchoice:empty {
+app-feat-choice:empty {
     display: none;
 }
 
@@ -2403,16 +2281,6 @@ MEDIA QUERIES
         right: 0;
     }
 
-    ngb-popover-window.list-item.sublist {
-        max-height: 90vh;
-        min-width: 90vw;
-        max-width: 90vw;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        z-index: 1040;
-    }
-
     .itembox {
         padding: 1em 1em;
     }
@@ -2488,11 +2356,6 @@ MEDIA QUERIES
 @media (max-width: 767px) {
     body {
         font-size: 3vw;
-    }
-
-    ngb-popover-window.list-item.sublist {
-        min-width: 90vw;
-        max-width: 90vw;
     }
 }
 

@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Character } from 'src/app/classes/Character';
 import { Condition } from 'src/app/classes/Condition';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Familiar } from 'src/app/classes/Familiar';
-import { CreatureService } from 'src/app/services/character.service';
-import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { FamiliarsDataService } from '../data/familiars-data.service';
 
 @Injectable({
     providedIn: 'root',

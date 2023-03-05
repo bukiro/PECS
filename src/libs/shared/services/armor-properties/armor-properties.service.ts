@@ -5,16 +5,16 @@ import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
 import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
-import { ItemSpecializationsDataService } from 'src/app/core/services/data/item-specializations-data.service';
-import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { StatusService } from 'src/app/core/services/status/status.service';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { ShoddyPenalties } from '../../definitions/shoddyPenalties';
 import { MaxSkillLevel } from '../../definitions/skillLevels';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { ItemSpecializationsDataService } from '../data/item-specializations-data.service';
+import { SkillsDataService } from '../data/skills-data.service';
 import { SkillValuesService } from '../skill-values/skill-values.service';
+import { StatusService } from '../status/status.service';
 
 @Injectable({
     providedIn: 'root',

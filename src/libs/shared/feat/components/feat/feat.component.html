@@ -1,0 +1,161 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<ng-container *ngIf="feat">
+    <div class="newrow left-aligned">
+        <app-trait
+            *ngFor="let trait of feat.traits; trackBy:trackers.trackByIndex;"
+            [name]="trait"
+            [trait]="traitFromName(trait)"
+        >
+        </app-trait>
+    </div>
+
+    <div class="newrow left-aligned">
+        <div
+            class="newrow left-aligned"
+            *ngIf="feat.sourceBook"
+        >
+            <strong>Source</strong>
+
+            <i>{{feat.sourceBook}}</i>
+        </div>
+
+        <div
+            class="newrow left-aligned"
+            *ngIf="feat.access"
+        >
+            <strong>Access</strong>
+            {{feat.access}}
+        </div>
+
+        <ng-container *ngIf="featRequirements(choice, feat) as reqs">
+            <p *ngIf="reqs.length">
+                <strong>Requirements&nbsp;</strong>
+
+                <span
+                    [ngClass]="{'problem':(!req.met), 'disabled':(req.ignored)}"
+                    [ngbPopover]="req.ignored ? 'This requirement is ignored.' : ''"
+                    *ngFor="let req of reqs; trackBy:trackers.trackByIndex;"
+                >
+                    {{req.ignored ? "(" : ''}}{{req.desc}}{{req.ignored
+                    ? ")" : ''}}
+                </span>
+            </p>
+        </ng-container>
+
+        <ng-container *ngFor="let desc of feat.desc.split('\n\n'); trackBy:trackers.trackByIndex;">
+            <app-description
+                class="newrow"
+                [text]="desc"
+            ></app-description>
+        </ng-container>
+
+        <p *ngIf="feat.specialdesc">
+            <strong>Special</strong>
+            {{feat.specialdesc}}
+        </p>
+
+        <p *ngIf="feat.PFSnote">
+            <strong>PFS note</strong>
+            {{feat.PFSnote}}
+        </p>
+
+        <p *ngIf="feat.usageNote">
+            <strong>Usage note&nbsp;</strong>
+
+            <span class="problem">{{feat.usageNote}}</span>
+        </p>
+    </div>
+
+    <ng-container *ngFor="let name of feat.gainActivities; trackBy:trackers.trackByIndex;">
+        <div
+            class="newrow left-aligned"
+            *ngIf="activityFromName(name) as activity"
+        >
+            <header class="spellHeader left-aligned">
+                {{activity.name}}
+                <app-action-icons
+                    *ngIf="activity.actions"
+                    [actionString]="activity.actions"
+                ></app-action-icons>
+                {{(activity.activationType) ? activity.activationType : ""}}
+            </header>
+
+            <div class="newrow left-aligned">
+                <app-trait
+                    *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+                    [name]="trait"
+                    [trait]="traitFromName(trait)"
+                >
+                </app-trait>
+            </div>
+
+            <app-activity-content
+                class="fullwidth vlist lower"
+                [activity]=activity
+                [allowActivate]=false
+                [cooldown]=activity.cooldown
+            >
+            </app-activity-content>
+        </div>
+    </ng-container>
+
+    <ng-container *ngFor="let spellChoice of feat.gainSpellChoice; trackBy:trackers.trackByIndex;">
+        <ng-container *ngFor="let spellGain of spellChoice.spells; trackBy:trackers.trackByIndex;">
+            <ng-container *ngIf="spellFromName(spellGain.name) as spell">
+                <header class="spellHeader left-aligned">
+                    {{spell.name}}
+                    <app-action-icons
+                        *ngIf="spell.actions"
+                        [actionString]="spell.actions"
+                    ></app-action-icons>
+                    {{(spell.castType) ? spell.castType : ""}}
+                </header>
+
+                <div class="newrow left-aligned">
+                    <app-trait
+                        *ngFor="let trait of spell.traits; trackBy:trackers.trackByIndex;"
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                    >
+                    </app-trait>
+                </div>
+
+                <app-spell-content
+                    class="vlist fullwidth"
+                    [spell]="spell"
+                    [spellLevel]="spellLevelFromSpell(spell, spellChoice)"
+                >
+                </app-spell-content>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+
+    <ng-container *ngFor="let spellName of feat.gainSpellListSpells; trackBy:trackers.trackByIndex;">
+        <ng-container *ngIf="spellFromName(spellName) as spell">
+            <header class="spellHeader left-aligned">
+                {{spell.name}}
+                <app-action-icons
+                    *ngIf="spell.actions"
+                    [actionString]="spell.actions"
+                ></app-action-icons>
+                {{(spell.castType) ? spell.castType : ""}}
+            </header>
+
+            <div class="newrow left-aligned">
+                <app-trait
+                    *ngFor="let trait of spell.traits; trackBy:trackers.trackByIndex;"
+                    [name]="trait"
+                    [trait]="traitFromName(trait)"
+                >
+                </app-trait>
+            </div>
+
+            <app-spell-content
+                class="vlist fullwidth"
+                [spell]="spell"
+                [spellLevel]="spellLevelFromSpell(spell)"
+            >
+            </app-spell-content>
+        </ng-container>
+    </ng-container>
+</ng-container>

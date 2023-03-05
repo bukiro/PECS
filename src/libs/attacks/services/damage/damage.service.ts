@@ -9,10 +9,10 @@ import { Oil } from 'src/app/classes/Oil';
 import { Specialization } from 'src/app/classes/Specialization';
 import { SpecializationGain } from 'src/app/classes/SpecializationGain';
 import { Weapon } from 'src/app/classes/Weapon';
-import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { CreatureService } from 'src/app/services/character.service';
+import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
+import { TraitsDataService } from 'src/libs/shared/services/data/traits-data.service';
 import { DiceSizes, DiceSizeBaseStep } from 'src/libs/shared/definitions/diceSizes';
 import { WeaponProficiencies } from 'src/libs/shared/definitions/weaponProficiencies';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
@@ -21,7 +21,7 @@ import { SkillLevelName } from 'src/libs/shared/util/skillUtils';
 import { attackEffectPhrases } from '../../util/attackEffectPhrases';
 import { attackRuneSource } from '../../util/attackRuneSource';
 import { DamageResult } from '../attacks/attacks.service';
-import { ItemSpecializationsDataService } from 'src/app/core/services/data/item-specializations-data.service';
+import { ItemSpecializationsDataService } from 'src/libs/shared/services/data/item-specializations-data.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 
 @Injectable({

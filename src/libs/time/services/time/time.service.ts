@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Effect } from 'src/app/classes/Effect';
 import { Character } from 'src/app/classes/Character';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
-import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { CustomEffectsTimeService } from 'src/libs/time/services/custom-effects-time/custom-effects-time.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
@@ -13,17 +12,18 @@ import { ActivitiesTimeService } from 'src/libs/time/services/activities-time/ac
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { HealthService } from 'src/libs/shared/services/health/health.service';
-import { ConditionsDataService } from '../../../../app/core/services/data/conditions-data.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { ConditionsTimeService } from 'src/libs/time/services/conditions-time/conditions-time.service';
 import { SpellsTimeService } from 'src/libs/time/services/spells-time/spells-time.service';
-import { AbilitiesDataService } from '../../../../app/core/services/data/abilities-data.service';
 import { ItemsTimeService } from '../items-time/items-time.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
 import { SpellCastingPrerequisitesService } from 'src/libs/shared/services/spell-casting-prerequisites/spell-casting-prerequisites.service';
+import { AbilitiesDataService } from 'src/libs/shared/services/data/abilities-data.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({
     providedIn: 'root',

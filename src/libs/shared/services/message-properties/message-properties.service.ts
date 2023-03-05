@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { SavegamesService } from '../../saving-loading/services/savegames/savegames.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
+import { SavegamesService } from '../saving-loading/savegames/savegames.service';
 
 @Injectable({
     providedIn: 'root',

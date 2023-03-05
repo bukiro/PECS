@@ -1,0 +1,31 @@
+@mixin text-large {
+    font-size: $font-size-large;
+}
+
+@mixin text-medium {
+    font-size: $font-size-medium;
+}
+
+@mixin text-small {
+    font-size: $font-size-small;
+}
+
+@mixin text-tiny {
+    font-size: $font-size-tiny;
+}
+
+.text-large {
+    font-size: $font-size-large;
+}
+
+.text-medium {
+    font-size: $font-size-medium;
+}
+
+.text-small {
+    font-size: $font-size-small;
+}
+
+.text-tiny {
+    font-size: $font-size-tiny;
+}

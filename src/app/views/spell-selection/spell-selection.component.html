@@ -1,0 +1,314 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<div class="window-button-container">
+    <button
+        type="button"
+        aria-label="Minimize"
+        class="minimizebutton lower"
+        [ngbTooltip]="isMinimized ? 'Click to show all choices and information.' : 'Click to hide finished choices and show compact information.'"
+        [ngClass]="{'fancy-button':isMinimized}"
+        (click)="minimize()"
+    >
+        <i
+            class='bi-arrows-collapse'
+            *ngIf="isMinimized"
+        ></i>
+
+        <i
+            class='bi-arrows-expand'
+            *ngIf="!isMinimized"
+        ></i>
+    </button>
+
+    <button
+        type="button"
+        aria-label="Switch between list layout and tile layout"
+        class="tilemodebutton"
+        [ngClass]="{'fancy-button':isTileMode}"
+        (click)="toggleTileMode()"
+        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
+    >
+        <!-- Content is css only -->
+        <div>
+            <div></div>
+
+            <div></div>
+
+            <div></div>
+
+            <div></div>
+        </div>
+    </button>
+</div>
+
+<div
+    id="spells-height"
+    class="itembox vlist"
+>
+    <div
+        class="itembox-close-button"
+        *ngIf="!(isMobile && shownContent()); else ListCloseButton"
+    >
+        <button
+            type="button"
+            class="list-item center-aligned"
+            (click)="toggleSpellMenu()"
+        >
+            <header class="sectionHeader">Back to Character Sheet</header>
+        </button>
+    </div>
+
+    <ng-template #ListCloseButton>
+        <div class="itembox-close-button">
+            <button
+                type="button"
+                class="list-item center-aligned"
+                (click)="toggleShownChoice('')"
+            >
+                <header class="sectionHeader">Close</header>
+            </button>
+        </div>
+    </ng-template>
+
+    <div
+        class="loading"
+        *ngIf="stillLoading"
+    >
+        Loading
+    </div>
+
+    <ng-container *ngIf="!stillLoading && character.class && spellsMenuState==='in'">
+        <ng-container *ngIf="componentParameters() as componentParameters">
+            <div class="charactersheet-column-container">
+                <div class="charactersheet-column">
+                    <div class="fullsize-scroll-box vlist">
+                        <div
+                            class="list-item"
+                            *ngIf="componentParameters.hasSpellChoices"
+                        >
+                            <span>
+                                <input
+                                    id="showHeightened"
+                                    type="checkbox"
+                                    [(ngModel)]="character.settings.showHeightenedSpells"
+                                >
+                                <label for="showHeightened">
+                                    <strong>Show heightened spells</strong>
+                                </label>
+                            </span>
+                        </div>
+
+                        <ng-container *ngFor="let spellCastingParameters of spellCastingParameters(); let index = index; trackBy:trackers.trackByIndex;">
+                            <header class="sectionHeader">
+                                {{(spellCastingParameters.casting.className + " " +
+                                spellCastingParameters.casting.tradition + ((spellCastingParameters.casting.castingType
+                                === "Focus") ? (" " + spellCastingParameters.casting.source) : " Spells")).trim()}}
+                                <span
+                                    class="lower"
+                                    *ngIf="['Prepared', 'Spontaneous'].includes(spellCastingParameters.casting.castingType)"
+                                >
+                                    <span class="lower">
+                                        {{spellCastingParameters.casting.castingType}}
+                                    </span>
+                                </span>
+                            </header>
+
+                            <app-tags
+                                [creature]="creatureTypesEnum.Character"
+                                [objectName]="spellCastingParameters.casting.className + ' ' + spellCastingParameters.casting.castingType + ' Spells'"
+                                [showTraits]=true
+                                [showFeats]=true
+                                [showItems]=true
+                                [showActivities]=true
+                                [showConditions]=true
+                                [showEffects]=true
+                            >
+                            </app-tags>
+
+                            <div
+                                class="list-item"
+                                *ngIf="spellCastingParameters.needSpellBook"
+                            >
+                                <span>
+                                    <input
+                                        id="allowBorrow"
+                                        type="checkbox"
+                                        [(ngModel)]="allowBorrow"
+                                    >
+                                    <label for="allowBorrow">
+                                        <strong>Borrow spells</strong>
+                                    </label>
+
+                                    <i
+                                        class="bi-question-circle"
+                                        [ngbPopover]="'Allow selecting spells not in your spellbook, assuming you borrow them from another spellcaster or a different book or scroll.'"
+                                    ></i>
+                                </span>
+                            </div>
+
+                            <ng-container *ngFor="let spellCastingLevelParameters of spellCastingLevelParameters(spellCastingParameters); trackBy:trackers.trackByIndex;">
+                                <header
+                                    class="subsectionHeader"
+                                    *ngIf="spellCastingLevelParameters.level === -1 && spellCastingParameters.casting.castingType === 'Focus'"
+                                >
+                                    Focus Spells
+                                </header>
+
+                                <header
+                                    class="subsectionHeader"
+                                    *ngIf="spellCastingLevelParameters.level === 0 && spellCastingParameters.casting.castingType === 'Focus'"
+                                >
+                                    Focus Cantrips
+                                </header>
+
+                                <header
+                                    class="subsectionHeader"
+                                    *ngIf="spellCastingLevelParameters.level === 0 && spellCastingParameters.casting.castingType !== 'Focus'"
+                                >
+                                    Cantrips
+                                </header>
+
+                                <header
+                                    class="subsectionHeader"
+                                    *ngIf="spellCastingLevelParameters.level > 0 && spellCastingParameters.casting.castingType !== 'Focus'"
+                                >
+                                    {{"Level "+spellCastingLevelParameters.level}}
+                                </header>
+
+                                <div
+                                    [ngClass]="{'icon-list':isTileMode, 'vlist':!isTileMode}"
+                                    style="min-height: auto"
+                                >
+                                    <!-- Fixed Spells gained -->
+                                    <ng-container *ngFor="let spellParameters of fixedSpellParameters(spellCastingLevelParameters); trackBy:trackers.trackByIndex;">
+                                        <ng-template #FixedSpellContent>
+                                            <header
+                                                class="spellHeader left-aligned"
+                                                *ngIf="isTileMode"
+                                            >
+                                                {{spellParameters.gain.name}}
+                                                <app-action-icons
+                                                    *ngIf="spellParameters.spell.actions"
+                                                    [actionString]="spellParameters.spell.actions"
+                                                >
+                                                </app-action-icons>
+                                            </header>
+
+                                            <div
+                                                class="newrow left-aligned"
+                                                *ngIf="spellParameters.gain.source || spellParameters.choice.source"
+                                            >
+                                                <strong>Granted by</strong>
+                                                {{spellParameters.gain.source || spellParameters.choice.source}}
+                                            </div>
+
+                                            <app-spell
+                                                [spell]="spellParameters.spell"
+                                                [spellLevel]="spellCastingLevelParameters.level"
+                                                [source]="spellParameters.gain.source"
+                                            >
+                                            </app-spell>
+                                        </ng-template>
+
+                                        <ng-container *ngIf="!isTileMode">
+                                            <div
+                                                class="list-item fullsize-only"
+                                                *ngIf="'showFixedSpell'+spellParameters.choice.id+spellParameters.gain.name as spellID"
+                                            >
+                                                <button
+                                                    type="button"
+                                                    class="newrow sublist-toggle fancy-button left-aligned"
+                                                    [ngbPopover]="FixedSpellContent"
+                                                    triggers="click"
+                                                >
+                                                    <span [ngbTooltip]="'Fixed spell'">
+                                                        <i class="bi-lock-fill"></i>
+                                                    </span>
+                                                    {{spellParameters.gain.name}}
+                                                    <app-action-icons
+                                                        *ngIf="spellParameters.spell.actions"
+                                                        [actionString]="spellParameters.spell.actions"
+                                                    >
+                                                    </app-action-icons>
+                                                </button>
+                                            </div>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="isTileMode">
+                                            <div class="fullsize-only">
+                                                <button
+                                                    type="button"
+                                                    aria-label="Show fixed spell"
+                                                    class="fullsize-only inactive-button"
+                                                    [ngbPopover]="FixedSpellContent"
+                                                    triggers="click"
+                                                >
+                                                    <app-grid-icon
+                                                        class="fancy-button"
+                                                        [ngbTooltip]="spellParameters.gain.name"
+                                                        [title]="spellParameters.gain.name"
+                                                        [superTitle]="'icon-bi-lock-fill'"
+                                                    >
+                                                    </app-grid-icon>
+                                                </button>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <!-- Spell choices -->
+                                    <ng-container *ngFor="let choice of spellCastingLevelParameters.availableSpellChoices; trackBy:trackers.trackByIndex;">
+                                        <app-spell-choice
+                                            (shownChoiceMessage)="receiveShowChoiceMessage($event)"
+                                            (shownSpellMessage)="receiveShowSpellMessage($event)"
+                                            [spellCasting]="spellCastingParameters.casting"
+                                            [choice]="choice"
+                                            [showHeightened]="character.settings.showHeightenedSpells"
+                                            [allowBorrow]="allowBorrow"
+                                            [showChoice]="shownChoice()"
+                                            [showSpell]="shownSpell()"
+                                            [level]="spellCastingLevelParameters.level"
+                                            [prepared]="componentParameters.allowSwitchingPreparedSpells"
+                                            [spellbook]="true"
+                                            [showContent]="false"
+                                            [tileMode]="isTileMode"
+                                        >
+                                        </app-spell-choice>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <div
+                    class="charactersheet-column"
+                    [ngClass]="{'mobile-hide': shownContent() === null}"
+                >
+                    <div
+                        id="spells-choiceArea-top"
+                        style="margin-top:-.3em;"
+                    ></div>
+
+                    <!-- Spell Choice content -->
+                    <ng-container *ngIf="activeChoiceContent() as choiceContent">
+                        <app-spell-choice
+                            *ngIf="choiceContent.casting"
+                            (shownChoiceMessage)="receiveShowChoiceMessage($event)"
+                            (shownSpellMessage)="receiveShowSpellMessage($event)"
+                            [spellCasting]="choiceContent.casting"
+                            [choice]="choiceContent.choice"
+                            [showHeightened]="character.settings.showHeightenedSpells"
+                            [allowBorrow]="allowBorrow"
+                            [showChoice]="choiceContent.name"
+                            [showSpell]="shownSpell()"
+                            [level]="choiceContent.levelNumber"
+                            [prepared]="componentParameters.allowSwitchingPreparedSpells"
+                            [spellbook]="true"
+                            [showTitle]="false"
+                        >
+                        </app-spell-choice>
+                    </ng-container>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>

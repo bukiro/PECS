@@ -1,6 +1,6 @@
 import { Equipment } from 'src/app/classes/Equipment';
 import { ShieldMaterial } from 'src/app/classes/ShieldMaterial';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 enum ShoddyPenalties {
     NotShoddy = 0,

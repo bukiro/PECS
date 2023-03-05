@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class AdventuringGear extends Equipment {
     //Adventuring Gear should be type "adventuringgear" to be found in the database

@@ -1,19 +1,19 @@
 import { Skill } from 'src/app/classes/Skill';
 import { ClassLevel } from 'src/app/classes/ClassLevel';
 import { Class } from 'src/app/classes/Class';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { SkillChoice } from 'src/app/classes/SkillChoice';
 import { Settings } from 'src/app/classes/Settings';
 import { Creature } from 'src/app/classes/Creature';
 import { AbilityBoost } from 'src/app/classes/AbilityBoost';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
-import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { Defaults } from 'src/libs/shared/definitions/defaults';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { SpellLevelFromCharLevel } from 'src/libs/shared/util/characterUtils';
 import { Weapon } from './Weapon';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { FeatTaken } from 'src/libs/shared/definitions/models/FeatTaken';
 
 export class Character extends Creature {
     public readonly type = CreatureTypes.Character;

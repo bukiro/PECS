@@ -8,11 +8,11 @@ import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
-import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
+import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
 
 @Injectable({
     providedIn: 'root',

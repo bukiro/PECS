@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { Creature } from 'src/app/classes/Creature';
 import { Equipment } from 'src/app/classes/Equipment';
@@ -11,7 +11,7 @@ import { ItemBulkService } from 'src/libs/shared/services/item-bulk/item-bulk.se
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',

@@ -15,7 +15,7 @@ import { WeaponRune } from './WeaponRune';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { HintEffectsObject } from 'src/libs/shared/effects-generation/definitions/interfaces/HintEffectsObject';
 import { ArmorRune } from './ArmorRune';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
 
 export abstract class Equipment extends Item {

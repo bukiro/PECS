@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { Creature } from 'src/app/classes/Creature';
-import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
+import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { HintEffectsObject } from '../../definitions/interfaces/HintEffectsObject';
 import { CreatureFeatsService } from 'src/libs/shared/services/creature-feats/creature-feats.service';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 
 interface CreatureEffectsGenerationObjects {
     feats: Array<Feat | AnimalCompanionSpecialization>;

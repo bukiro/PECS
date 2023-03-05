@@ -1,5 +1,5 @@
 import { Item } from 'src/app/classes/Item';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class MaterialItem extends Item {
     //Material Items should be type "materialitems" to be found in the database

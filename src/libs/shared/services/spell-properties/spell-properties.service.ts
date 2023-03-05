@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Spell } from 'src/app/classes/Spell';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { Creature } from 'src/app/classes/Creature';

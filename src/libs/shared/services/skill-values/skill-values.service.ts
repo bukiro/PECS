@@ -6,14 +6,14 @@ import { Effect } from 'src/app/classes/Effect';
 import { ProficiencyCopy } from 'src/app/classes/ProficiencyCopy';
 import { Skill } from 'src/app/classes/Skill';
 import { SkillIncrease } from 'src/app/classes/SkillIncrease';
-import { SkillsDataService } from 'src/app/core/services/data/skills-data.service';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { SkillLevelMinimumCharacterLevels, SkillLevels, skillLevelBaseStep } from 'src/libs/shared/definitions/skillLevels';
 import { AbilityValuesService } from 'src/libs/shared/services/ability-values/ability-values.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { StatusService } from 'src/app/core/services/status/status.service';
+import { SkillsDataService } from '../data/skills-data.service';
+import { StatusService } from '../status/status.service';
 
 export interface CalculatedSkill {
     level: number;

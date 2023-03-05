@@ -7,7 +7,7 @@ import { Creature } from 'src/app/classes/Creature';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',

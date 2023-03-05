@@ -1,18 +1,18 @@
 import { HttpClient, HttpHeaders, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
-import { ConfigService } from 'src/app/core/services/config/config.service';
-import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { Creature } from 'src/app/classes/Creature';
-import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { PlayerMessage } from 'src/app/classes/PlayerMessage';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { CreatureTypes } from '../../definitions/creatureTypes';
+import { ConfigService } from '../config/config.service';
+import { MessagePropertiesService } from '../message-properties/message-properties.service';
+import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
+import { RecastService } from '../recast/recast.service';
+import { RefreshService } from '../refresh/refresh.service';
+import { SettingsService } from '../settings/settings.service';
 
 const ignoredMessageTTL = 60;
 

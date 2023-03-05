@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { Creature } from 'src/app/classes/Creature';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 
 @Injectable({

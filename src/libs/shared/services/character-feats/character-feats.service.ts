@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { CreatureService } from 'src/app/services/character.service';
-import { FeatTaken } from 'src/app/character-creation/definitions/models/FeatTaken';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { Character } from 'src/app/classes/Character';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { FeatsDataService } from '../data/feats-data.service';
+import { FeatTaken } from '../../definitions/models/FeatTaken';
 
 
 @Injectable({
@@ -11,7 +11,7 @@ import { Character } from 'src/app/classes/Character';
 })
 export class CharacterFeatsService {
     private readonly _$characterFeats = new Map<string, Feat>();
-    private _$characterFeatsTaken: Array<{ level: number; gain: FeatTaken }> = [];
+    private readonly _$characterFeatsTaken: Array<{ level: number; gain: FeatTaken }> = [];
 
     constructor(
         private readonly _featsDataService: FeatsDataService,

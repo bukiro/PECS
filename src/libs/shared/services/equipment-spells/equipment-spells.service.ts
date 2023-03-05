@@ -4,8 +4,7 @@ import { SpellCasting } from 'src/app/classes/SpellCasting';
 import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { WornItem } from 'src/app/classes/WornItem';
-import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { SpellsDataService } from '../data/spells-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -14,7 +13,6 @@ export class EquipmentSpellsService {
 
     constructor(
         private readonly _spellsDataService: SpellsDataService,
-        private readonly _creatureEquipmentService: CreatureEquipmentService,
     ) { }
 
     public allGrantedEquipmentSpells(creature: Creature): Array<{ choice: SpellChoice; gain: SpellGain }> {

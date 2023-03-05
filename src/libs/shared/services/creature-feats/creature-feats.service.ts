@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
-import { CreatureService } from 'src/app/services/character.service';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { Creature } from 'src/app/classes/Creature';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
-import { StatusService } from 'src/app/core/services/status/status.service';
+import { StatusService } from 'src/libs/shared/services/status/status.service';
 
 @Injectable({
     providedIn: 'root',

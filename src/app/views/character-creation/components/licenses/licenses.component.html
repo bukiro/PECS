@@ -1,0 +1,38 @@
+<div class="list-item newrow">
+    <p>{{cup.desc}}</p>
+</div>
+
+<header class="featureHeader">OPEN GAME LICENSE Version 1.0a</header>
+
+<ng-container *ngFor="let paragraph of ogl; let index = index; trackBy: trackers.trackByIndex;">
+    <div class="list-item newrow">
+        <p>
+            <strong *ngIf="paragraph.title">{{paragraph.title}}&nbsp;</strong>
+
+            <span *ngIf="paragraph.desc">{{paragraph.desc}}</span>
+        </p>
+
+        <ng-container *ngIf="index === ogl.length - 1">
+            <ng-container *ngFor="let block of ogl15; trackBy: trackers.trackByIndex;">
+                <div class="newrow left-aligned">
+                    <header
+                        class="spellHeader"
+                        *ngIf="block.header"
+                    >
+                        {{block.header}}
+                    </header>
+
+                    <div
+                        class="newrow left-aligned"
+                        *ngFor="let line of block.lines; trackBy: trackers.trackByIndex;"
+                    >
+                        <span>
+                            <strong>{{line.title}}</strong>
+                            {{line.desc}}
+                        </span>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</ng-container>

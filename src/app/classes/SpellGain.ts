@@ -1,7 +1,7 @@
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { v4 as uuidv4 } from 'uuid';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 
 export class SpellGain {
     /** Set if sustained spell is activated */

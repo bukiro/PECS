@@ -1,4 +1,0 @@
-<ngb-toast *ngFor="let toast of toasts; trackBy:trackers.trackByIndex;" class="toast" [autohide]="true" [delay]="5000"
-    (hidden)="remove(toast)" (click)="onClick(toast)">
-    <div class="left-aligned" [innerHtml]="toast.text"></div>
-</ngb-toast>

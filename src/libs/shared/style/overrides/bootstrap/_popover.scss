@@ -1,0 +1,108 @@
+@import '../../utilities';
+
+.pecs-popover {
+    max-height: 50vh;
+    max-width: 40rem;
+    width: auto;
+    height: auto;
+    z-index: 1040;
+
+    border: .2rem solid $color-accent;
+    border-radius: .15rem;
+
+    padding: 10px;
+
+    white-space: pre-line;
+
+    background-color: $color-background-light;
+}
+
+.popover-body {
+    @include text-medium;
+    @include text-color-basic;
+
+    width: 100%;
+
+    // Because of space left for the arrow, the popover can't scroll.
+    // The body needs to scroll, but to do so, it has to have the same max-height as the popover.
+    // Again, because of space left for the arrow, the body clips through the border if it has the same length.
+    // We subtract twice the padding and once the arrow (10px each) to fix that.
+    // This is independent of where the arrow is placed.
+    max-height: calc(50vh - 30px);
+
+    overflow-y: auto;
+
+    padding: 0;
+}
+
+.darkmode {
+    .pecs-popover {
+        background-color: $color-background-dark;
+    }
+}
+
+// Arrow-color for all directions
+
+$popover-directions: (
+    top: top,
+    end: right,
+    bottom: bottom,
+    start: left,
+);
+
+@each $position, $direction in $popover-directions {
+    .bs-popover-auto[data-popper-placement^=#{$direction}],
+    .bs-popover-#{$position}
+    {
+        > .popover-arrow {
+            &::after {
+                border-#{$direction}-color: $color-accent;
+            }
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .pecs-popover {
+        max-height: 90vh;
+        min-width: 90vw;
+        max-width: 90vw;
+
+        // inset must not be set by ngb, so that our top and left keep working.
+        inset: unset !important;
+
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+
+        z-index: 1040;
+    }
+
+    .popover-body {
+        // We subtract twice the padding and once the arrow (10px each) to prevent overflow.
+        max-height: calc(90vh - 30px);
+    }
+
+    .popover-arrow {
+        display: none !important;
+    }
+}
+
+// .popover.popup-slider {
+//     width: 400px;
+// }
+
+// .popover.popup-slider .popover-body {
+//     padding: .3rem;
+// }
+
+// .pecs-popover,
+// .popover.popup-slider {
+//     border-width: 4px;
+//     border-style: solid;
+//     border-color: #465A8C;
+//     border-color: rgb(var(--accent));
+//     border-radius: .15rem;
+//     background-clip: border-box;
+//     box-shadow: 0 .15rem .35rem;
+// }

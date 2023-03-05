@@ -7,9 +7,9 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Hint } from 'src/app/classes/Hint';
 import { Item } from 'src/app/classes/Item';
 import { Rune } from 'src/app/classes/Rune';
-import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { CreatureActivitiesService } from 'src/libs/shared/services/creature-activities/creature-activities.service';
+import { TraitsDataService } from '../data/traits-data.service';
 
 interface DetailToChange {
     creature: CreatureTypes | '';

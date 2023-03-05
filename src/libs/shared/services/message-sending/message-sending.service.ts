@@ -7,17 +7,17 @@ import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { ConfigService } from 'src/app/core/services/config/config.service';
-import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { CreatureService } from 'src/app/services/character.service';
-import { SavegamesService } from '../../saving-loading/services/savegames/savegames.service';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
+import { CreatureService } from '../character/character.service';
+import { ConfigService } from '../config/config.service';
 import { CreatureAvailabilityService } from '../creature-availability/creature-availability.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 import { ItemTransferService } from '../item-transfer/item-transfer.service';
 import { MessagePropertiesService } from '../message-properties/message-properties.service';
 import { MessagesService } from '../messages/messages.service';
 import { RecastService } from '../recast/recast.service';
-import { ToastService } from '../toast/toast.service';
+import { SavegamesService } from '../saving-loading/savegames/savegames.service';
+import { SettingsService } from '../settings/settings.service';
 
 @Injectable({
     providedIn: 'root',

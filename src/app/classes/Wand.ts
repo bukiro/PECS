@@ -1,5 +1,5 @@
 import { Equipment } from 'src/app/classes/Equipment';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Wand extends Equipment {
     //Wands should be type "wands" to be found in the database

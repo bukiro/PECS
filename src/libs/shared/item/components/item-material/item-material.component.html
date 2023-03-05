@@ -1,0 +1,21 @@
+<!-- Changing Weapon Material -->
+<app-item-material-armor
+    *ngIf="itemRoles.asArmor"
+    [item]="itemRoles.asArmor"
+    [craftingStation]="craftingStation"
+    [customItemStore]="customItemStore"
+></app-item-material-armor>
+
+<app-item-material-shield
+    *ngIf="itemRoles.asShield"
+    [item]="itemRoles.asShield"
+    [craftingStation]="craftingStation"
+    [customItemStore]="customItemStore"
+></app-item-material-shield>
+
+<app-item-material-weapon
+    *ngIf="itemRoles.asWeapon"
+    [item]="itemRoles.asWeapon"
+    [craftingStation]="craftingStation"
+    [customItemStore]="customItemStore"
+></app-item-material-weapon>

@@ -6,10 +6,10 @@ import { Scroll } from 'src/app/classes/Scroll';
 import { Wand } from 'src/app/classes/Wand';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
-import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
+import { CreatureEffectsService } from '../creature-effects/creature-effects.service';
+import { SpellsDataService } from '../data/spells-data.service';
+import { TraitsDataService } from '../data/traits-data.service';
+import { RefreshService } from '../refresh/refresh.service';
 
 @Injectable({
     providedIn: 'root',

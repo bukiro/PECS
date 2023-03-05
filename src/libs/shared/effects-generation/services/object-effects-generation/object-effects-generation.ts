@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Effect } from 'src/app/classes/Effect';
 import { EffectGain } from 'src/app/classes/EffectGain';
 import { EvaluationService } from 'src/libs/shared/services/evaluation/evaluation.service';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
 import { Item } from 'src/app/classes/Item';
 import { Material } from 'src/app/classes/Material';
 import { WornItem } from 'src/app/classes/WornItem';

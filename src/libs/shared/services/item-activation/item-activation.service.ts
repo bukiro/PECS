@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Consumable } from 'src/app/classes/Consumable';
 import { Creature } from 'src/app/classes/Creature';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 
 @Injectable({

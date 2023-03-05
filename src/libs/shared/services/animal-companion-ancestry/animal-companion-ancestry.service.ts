@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { Equipment } from 'src/app/classes/Equipment';
-import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
+import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { InventoryService } from '../inventory/inventory.service';
 import { ItemGrantingService } from '../item-granting/item-granting.service';

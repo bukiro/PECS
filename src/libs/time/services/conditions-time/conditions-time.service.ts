@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
-import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
-import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
-import { ToastService } from 'src/libs/shared/services/toast/toast.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
+import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { ConditionGainPropertiesService } from 'src/libs/shared/services/condition-gain-properties/condition-gain-properties.service';
 import { ConditionPropertiesService } from 'src/libs/shared/services/condition-properties/condition-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
-import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
+import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
+import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
+import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({
     providedIn: 'root',

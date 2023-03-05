@@ -1,0 +1,7 @@
+<span
+    [ngbTooltip]="level.title"
+    *ngFor="let level of levels; trackBy:trackByIndex;"
+    [ngClass]="{'checked':skillLevel === level.value}"
+>
+    {{level.key}}
+</span>

@@ -5,10 +5,10 @@ import { Item } from 'src/app/classes/Item';
 import { ItemGain } from 'src/app/classes/ItemGain';
 import { Shield } from 'src/app/classes/Shield';
 import { Weapon } from 'src/app/classes/Weapon';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
-import { ToastService } from 'src/libs/shared/services/toast/toast.service';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 import { CharacterDeitiesService } from '../character-deities/character-deities.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
+import { ItemsDataService } from '../data/items-data.service';
 import { InventoryService } from '../inventory/inventory.service';
 
 @Injectable({

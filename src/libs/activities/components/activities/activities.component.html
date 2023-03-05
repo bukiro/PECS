@@ -1,0 +1,213 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<div class="window-button-container">
+    <button
+        type="button"
+        aria-label="Minimize"
+        class="minimizebutton lower"
+        [ngbTooltip]="isMinimized ? 'Click to show all choices and information.' : 'Click to hide finished choices and show compact information.'"
+        [ngClass]="{'fancy-button':isMinimized}"
+        (click)="minimize()"
+        *ngIf="creature==='Character'"
+    >
+        <i
+            class='bi-arrows-collapse'
+            *ngIf="isMinimized"
+        ></i>
+
+        <i
+            class='bi-arrows-expand'
+            *ngIf="!isMinimized"
+        ></i>
+    </button>
+
+    <button
+        type="button"
+        aria-label="Switch between list layout and tile layout"
+        class="tilemodebutton"
+        [ngClass]="{'fancy-button':isTileMode}"
+        (click)="toggleTileMode()"
+        [ngbTooltip]="isTileMode ? 'Click to enable list layout' : 'Click to enable tiled layout'"
+    >
+        <!-- Content is css only -->
+        <div>
+            <div></div>
+
+            <div></div>
+
+            <div></div>
+
+            <div></div>
+        </div>
+    </button>
+</div>
+
+<div
+    id="{{creature}}-activities-height"
+    class="attributeBox"
+>
+    <header class="sectionHeader box-header">Actions and Activities</header>
+
+    <div
+        class="loading"
+        *ngIf="stillLoading"
+    >
+        Loading
+    </div>
+
+    <ng-container *ngIf="!stillLoading">
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Activities'"
+            [showTraits]=true
+            [showFeats]=true
+            [showItems]=true
+            [showActivities]=true
+            [showConditions]=true
+            [showEffects]=true
+        ></app-tags>
+
+        <ng-template #EffectsPopoverContent>
+            <div class="fullsize-only newrow">
+                <app-object-effects
+                    [creature]="creature"
+                    [objectName]="'Class DCs'"
+                ></app-object-effects>
+            </div>
+        </ng-template>
+
+        <div class="vlist">
+            <header class="subsectionHeader fullsize-only">
+                <span
+                    class="fullsize-only"
+                    [ngbPopover]="EffectsPopoverContent"
+                    #EffectsPopover="ngbPopover"
+                    triggers="click"
+                >
+                    <i
+                        [ngbTooltip]="!EffectsPopover.isOpen() ? 'Edit effects' : ''"
+                        class='bi-lightning-charge'
+                    ></i>
+                </span>
+                Class DCs
+            </header>
+
+            <app-skill
+                [skill]=skill
+                [isDC]=true
+                *ngFor="let skill of classDCs(); trackBy:trackers.trackByIndex;"
+            >
+            </app-skill>
+        </div>
+
+        <div class="vlist">
+            <header class="subsectionHeader">Actions and Activities</header>
+
+            <ng-container *ngIf="activityParameters() as allActivityParameters">
+                <div
+                    *ngIf="allActivityParameters.length"
+                    [ngClass]="{'icon-list':isTileMode, 'vlist':!isTileMode}"
+                >
+                    <ng-container *ngFor="let activityParameters of allActivityParameters; trackBy:trackers.trackByIndex;">
+                        <ng-template #ActivityTitleTemplate>
+                            <span *ngIf="!isTileMode">
+                                <i
+                                    class="value bi-patch-plus bonus"
+                                    *ngIf="!activityParameters.hostile"
+                                    [ngbTooltip]="'Beneficial activity'"
+                                ></i>
+
+                                <i
+                                    class="value bi-patch-minus-fill penalty"
+                                    *ngIf="activityParameters.hostile"
+                                    [ngbTooltip]="'Hostile activity'"
+                                ></i>
+                            </span>
+                            {{activityParameters.name}}
+                            <app-action-icons
+                                *ngIf="activityParameters.activity.actions"
+                                [actionString]="activityParameters.activity.actions"
+                            >
+                            </app-action-icons>
+                            {{(activityParameters.activity.activationType) ?
+                            activityParameters.activity.activationType : ""}}
+                        </ng-template>
+
+                        <ng-template #ActivityTemplate>
+                            <header
+                                class="spellHeader"
+                                *ngIf="isTileMode"
+                            >
+                                <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                            </header>
+
+                            <app-activity
+                                [creature]="creature"
+                                [activity]=activityParameters.activity
+                                [gain]=activityParameters.gain
+                                [allowActivate]="true"
+                            >
+                            </app-activity>
+                        </ng-template>
+
+                        <ng-container *ngIf="!isTileMode">
+                            <div class="list-item">
+                                <button
+                                    type="button"
+                                    aria-label="Show activity"
+                                    class="newrow left-aligned sublist-toggle"
+                                    [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled}"
+                                    (click)="toggleShownActivity(activityParameters.gain.id)"
+                                >
+                                    <ng-container *ngTemplateOutlet="ActivityTitleTemplate"></ng-container>
+                                </button>
+
+                                <div
+                                    class="list-item sublist lower"
+                                    [ngClass]="{'fancy-list':activityParameters.gain.active, 'inactive-list':activityParameters.disabled}"
+                                    *ngIf="shownActivity()===activityParameters.gain.id"
+                                >
+                                    <ng-container *ngTemplateOutlet="ActivityTemplate"></ng-container>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="isTileMode">
+                            <button
+                                type="button"
+                                aria-label="Show activity"
+                                [stickyPopover]="ActivityTemplate"
+                                triggers="click"
+                                [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled, 'penalty':!activityParameters.disabled && activityParameters.hostile, 'bonus':!activityParameters.disabled && !activityParameters.hostile}"
+                            >
+                                <app-grid-icon
+                                    [ngClass]="{'fancy-button':activityParameters.gain.active, 'inactive-button':activityParameters.disabled, 'penalty':!activityParameters.disabled && activityParameters.hostile, 'bonus':!activityParameters.disabled && !activityParameters.hostile}"
+                                    [ngbTooltip]="ActivityTitleTemplate"
+                                    [title]="activityParameters.name"
+                                    [activity]="activityParameters.activity"
+                                    [activityGain]="activityParameters.gain"
+                                    [updateId]="activityParameters.gain.id"
+                                >
+                                </app-grid-icon>
+                            </button>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </ng-container>
+        </div>
+
+        <div class="vlist">
+            <header class="subsectionHeader box-header">Temporary Feats</header>
+
+            <app-feat-choice
+                *ngFor="let choice of temporaryFeatChoices(); trackBy:trackers.trackByIndex;"
+                (showFeatChoiceMessage)="receiveShownFeatChoiceMessage($event.name)"
+                (showFeatMessage)="receiveShownFeatMessage($event)"
+                [choice]="choice"
+                [levelNumber]="currentCreature.level"
+                [showFeat]="shownItem()"
+                [showChoice]="shownFeatChoice()"
+            >
+            </app-feat-choice>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,481 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<button
+    aria-label="Minimize"
+    type="button"
+    class="minimizebutton lower"
+    [ngbTooltip]="isMinimized ? 'Click to show all information.' : 'Click to show compact information.'"
+    [ngClass]="{'fancy-button':isMinimized}"
+    (click)="minimize()"
+    *ngIf="creature==='Character' && showMinimizeButton"
+>
+    <i
+        class='bi-arrows-collapse'
+        *ngIf="isMinimized"
+    ></i>
+
+    <i
+        class='bi-arrows-expand'
+        *ngIf="!isMinimized"
+    ></i>
+</button>
+
+<div
+    id="{{creature}}-health-height"
+    class="attributeBox"
+>
+
+    <ng-container *ngIf="calculatedHealth() as calculatedHealth">
+        <header class="sectionHeader box-header">
+            Health:
+            <span
+                [ngClass]="{'penalty':(calculatedHealth.currentHP.result <= 0), 'bonus':(calculatedHealth.currentHP.result > calculatedHealth.maxHP.result)}"
+                [ngbPopover]="calculatedHealth.currentHP.explain"
+            >
+                {{calculatedHealth.currentHP.result}}
+            </span>
+            Hit Points
+        </header>
+
+        <ng-container *ngIf="(100 * calculatedHealth.currentHP.result / (calculatedHealth.maxHP.result ? calculatedHealth.maxHP.result : 1)) as healthPercentage">
+            <p>
+                <ngb-progressbar
+                    [type]="healthPercentage > 50 ? 'success' : (healthPercentage <= 10 ? 'danger' : 'warning')"
+                    [value]="healthPercentage"
+                    height=".5rem"
+                >
+                </ngb-progressbar>
+            </p>
+        </ng-container>
+
+        <app-tags
+            [creature]="creature"
+            [objectName]="'Health'"
+            [showTraits]=true
+            [showFeats]=true
+            [showItems]=true
+            [showActivities]=true
+            [showConditions]=true
+            [showEffects]=true
+        ></app-tags>
+
+        <div
+            class="loading"
+            *ngIf="stillLoading"
+        >
+            Loading
+        </div>
+
+        <ng-container *ngIf="!stillLoading">
+            <div [ngbTooltip]="waitingDescription(48000) || 'Rest for 8 hours and make your daily preparations.'">
+                <button
+                    class="list-item center-aligned"
+                    (click)="onRest()"
+                    [disabled]="waitingDescription(48000).length"
+                    *ngIf="creature==='Character'"
+                >
+                    Rest
+                </button>
+            </div>
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Rest'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            ></app-tags>
+
+            <div class="fullsize-only list-item">
+                <div class="newrow">
+                    <strong>Max HP</strong>
+
+                    <span>
+                        <div
+                            class="value"
+                            [ngbPopover]="calculatedHealth.maxHP.explain"
+                            [ngClass]="{'penalty':doPenaltyEffectsExistOnThis('Max HP'), 'bonus':doBonusEffectsExistOnThis('Max HP'), 'absolute':doAbsoluteEffectsExistOnThis('Max HP')}"
+                        >
+                            {{calculatedHealth.maxHP.result}}
+                        </div>
+                    </span>
+
+                    <ng-container *ngIf="creatureHealth().temporaryHP as temporaryHP">
+                        <strong>Temp HP</strong>
+
+                        <span *ngIf="temporaryHP.length > 1">
+                            <select
+                                aria-label="Select temporary HP"
+                                [(ngModel)]="selectedTempHP"
+                                (change)="onSelectTemporaryHPSet(selectedTempHP)"
+                            >
+                                <option
+                                    *ngFor="let tempHPSet of temporaryHP; trackBy:trackers.trackByIndex;"
+                                    [ngValue]="tempHPSet"
+                                >
+                                    {{tempHPSet.amount + (tempHPSet.source ? " (" + tempHPSet.source + ")" : "")}}
+                                </option>
+                            </select>
+                        </span>
+
+                        <span
+                            class="gap-text"
+                            *ngIf="temporaryHP.length === 1"
+                        >
+                            <button
+                                *ngIf="temporaryHP[0].amount > 0"
+                                (click)="onSetTemporaryHP(0)"
+                            >
+                                Remove
+                            </button>
+
+                            <div
+                                class="value"
+                                [ngbPopover]="temporaryHP[0].source ? 'Source: ' + temporaryHP[0].source : ''"
+                                [ngClass]="{'bonus':(temporaryHP[0].amount > 0)}"
+                            >
+                                {{temporaryHP[0].amount}}
+                            </div>
+                        </span>
+                    </ng-container>
+                </div>
+
+                <div class="newrow">
+                    <app-tags
+                        [creature]="creature"
+                        [objectName]="'Max HP'"
+                        [showTraits]=true
+                        [showFeats]=true
+                        [showItems]=true
+                        [showActivities]=true
+                        [showConditions]=true
+                        [showEffects]=true
+                    ></app-tags>
+                </div>
+            </div>
+
+            <div
+                class="list-item"
+                [ngClass]="{'fullsize-only':(calculatedHealth.dying <= 0)}"
+            >
+                <div class="newrow">
+                    <strong>Dying</strong>
+
+                    <span *ngIf="!isManualMode">
+                        <div
+                            class="value"
+                            [ngClass]="{'penalty':(calculatedHealth.dying > 0)}"
+                        >
+                            {{calculatedHealth.dying}}
+                        </div>
+                    </span>
+
+                    <span
+                        class="hlist center-aligned"
+                        *ngIf="isManualMode"
+                    >
+                        <div
+                            class="value"
+                            style="margin-left:0;margin-right:0"
+                            [ngClass]="{'penalty':(creatureHealth().manualDying > 0)}"
+                        >
+                            {{creatureHealth().manualDying}}
+                        </div>
+
+                        <button
+                            (click)="incManualDying(-1)"
+                            [disabled]="creatureHealth().manualDying <= 0"
+                        >
+                            -
+                        </button>
+
+                        <button
+                            (click)="incManualDying(1)"
+                            [disabled]="creatureHealth().manualDying >= calculatedHealth.maxDying"
+                        >
+                            +
+                        </button>
+                    </span>
+
+                    <strong>Max Dying</strong>
+
+                    <span>
+                        <div
+                            class="value"
+                            [ngClass]="{'penalty':doPenaltyEffectsExistOnThis('Max Dying'), 'bonus':doBonusEffectsExistOnThis('Max Dying'), 'absolute':doAbsoluteEffectsExistOnThis('Max Dying')}"
+                        >
+                            {{calculatedHealth.maxDying}}
+                        </div>
+                    </span>
+                </div>
+
+                <div
+                    class="newrow"
+                    *ngIf="calculatedHealth.dying > 0 && !isManualMode"
+                >
+                    <span>
+                        <button (click)="onDyingSave(true, calculatedHealth.maxDying)">Save</button>
+                    </span>
+
+                    <span>
+                        <button (click)="onDyingSave(false, calculatedHealth.maxDying)">Fail Save</button>
+                    </span>
+                </div>
+
+                <div
+                    class="newrow"
+                    *ngIf="calculatedHealth.dying > 0 && creature === 'Character'"
+                    [ngbTooltip]="character.heroPoints ? 'Use all your hero points to stabilize with 0 HP, without raising your wounded value.' : 'You don\'t have any hero points to use for a heroic recovery.'"
+                >
+                    <button
+                        class="center-aligned"
+                        (click)="onHeroPointRecover()"
+                        [disabled]="!character.heroPoints"
+                    >
+                        Heroic Recovery
+                    </button>
+                </div>
+
+                <div class="newrow">
+                    <app-tags
+                        [creature]="creature"
+                        [objectName]="'Max Dying'"
+                        [showTraits]=true
+                        [showFeats]=true
+                        [showItems]=true
+                        [showActivities]=true
+                        [showConditions]=true
+                        [showEffects]=true
+                    ></app-tags>
+                </div>
+            </div>
+
+            <div
+                class="newrow list-item"
+                [ngClass]="{'fullsize-only':(calculatedHealth.wounded <= 0)}"
+            >
+                <strong>Wounded</strong>
+
+                <span *ngIf="!isManualMode">
+                    <div
+                        class="value"
+                        [ngClass]="{'penalty':(calculatedHealth.wounded > 0)}"
+                    >
+                        {{calculatedHealth.wounded}}
+                    </div>
+                </span>
+
+                <span
+                    class="hlist right-aligned"
+                    *ngIf="isManualMode"
+                >
+                    <div
+                        class="value"
+                        style="margin-left:0;margin-right:0"
+                        [ngClass]="{'penalty':(creatureHealth().manualWounded > 0)}"
+                    >
+                        {{creatureHealth().manualWounded}}
+                    </div>
+
+                    <button
+                        (click)="incManualWounded(-1)"
+                        [disabled]="creatureHealth().manualWounded <= 0"
+                    >
+                        -
+                    </button>
+
+                    <button (click)="incManualWounded(1)">+</button>
+                </span>
+
+                <span *ngIf="calculatedHealth.wounded > 0">
+                    <button (click)="onHealWounded()">Heal</button>
+                </span>
+            </div>
+
+            <div class="list-item newrow">
+                <ng-template #DamageSliderTemplate>
+                    <div
+                        class="slider-container"
+                        [style.--name]="'\'Damage / Healing: ' + damage + '\''"
+                        style="min-width:25vw; max-width:100%;"
+                    >
+                        <input
+                            aria-label="Damage amount slider"
+                            class="slider"
+                            type="range"
+                            min="0"
+                            max="{{damageSliderMax}}"
+                            [(ngModel)]="damage"
+                        >
+                    </div>
+                </ng-template>
+
+                <span class="hlist">
+                    <button
+                        type="button"
+                        [disabled]="damage <= 0"
+                        (click)="onTakeDamage(calculatedHealth.wounded, calculatedHealth.dying)"
+                    >
+                        Take Damage
+                    </button>
+
+                    <input
+                        id="nonlethal"
+                        type="checkbox"
+                        [(ngModel)]="nonlethal"
+                    >
+                    <label for="nonlethal">nonlethal</label>
+                </span>
+
+                <span class="hlist center-aligned">
+                    <input
+                        aria-label="Damage amount"
+                        [ngbPopover]="DamageSliderTemplate"
+                        #DamagePopover="ngbPopover"
+                        triggers="manual"
+                        (focus)="DamagePopover.open()"
+                        class="number3"
+                        type="number"
+                        [(ngModel)]="damage"
+                        maxLength="3"
+                        min="0"
+                        max="{{damageSliderMax}}"
+                        (keypress)="positiveNumbersOnly($event)"
+                    >
+                </span>
+
+                <span class="right-aligned">
+                    <button
+                        type="button"
+                        [disabled]="damage <= 0"
+                        (click)="onHealDamage(calculatedHealth.dying)"
+                    >
+                        Heal Damage
+                    </button>
+                </span>
+            </div>
+
+            <div
+                class="list-item newrow"
+                *ngIf="isNumbToDeathAvailable()"
+                [ngClass]="{'fullsize-only':(calculatedHealth.dying <= 0)}"
+            >
+                <span>
+                    <strong>Numb to Death</strong>
+                </span>
+
+                <span>
+                    <button
+                        type="button"
+                        [disabled]="calculatedHealth.dying <= 0"
+                        (click)="onActivateNumbToDeath(calculatedHealth.dying)"
+                    >
+                        Heal
+                        and recover
+                    </button>
+                </span>
+            </div>
+
+            <div class="fullsize-only list-item newrow">
+                <ng-template #TempHPSliderTemplate>
+                    <div
+                        class="slider-container"
+                        [style.--name]="'\'Temporary HP: ' + setTempHP + '\''"
+                        style="min-width:25vw; max-width:100%;"
+                    >
+                        <input
+                            aria-label="Temporary HP amount slider"
+                            class="slider"
+                            type="range"
+                            min="0"
+                            max="100"
+                            [(ngModel)]="setTempHP"
+                        >
+                    </div>
+                </ng-template>
+
+                <span>
+                    <strong>Temporary HP</strong>
+                </span>
+
+                <span class="hlist center-aligned">
+                    <input
+                        aria-label="Temporary HP amount"
+                        [ngbPopover]="TempHPSliderTemplate"
+                        #TempHPPopover="ngbPopover"
+                        triggers="manual"
+                        (focus)="TempHPPopover.open()"
+                        class="number3"
+                        type="number"
+                        [(ngModel)]="setTempHP"
+                        maxLength="3"
+                        min="0"
+                        (keypress)="positiveNumbersOnly($event)"
+                    >
+                </span>
+
+                <span class="right-aligned">
+                    <button
+                        type="button"
+                        [disabled]="setTempHP < 0"
+                        (click)="onSetTemporaryHP(setTempHP)"
+                    >
+                        Set
+                    </button>
+                </span>
+            </div>
+
+            <div class="vlist">
+                <header class="subsectionHeader">Resistances</header>
+
+                <div
+                    class="newrow list-item"
+                    *ngFor="let resistance of resistances(); trackBy:trackers.trackByIndex;"
+                >
+                    <span>
+                        <ng-template #ResistanceSourceTemplate>
+                            <strong>Granted by</strong>
+                            {{resistance.source}}
+                        </ng-template>
+
+                        <span
+                            [ngbPopover]="ResistanceSourceTemplate"
+                            [ngClass]="(resistance.value < 0) ? 'penalty' : 'bonus'"
+                        >
+                            {{resistance.target}}: {{absolute(resistance.value)}}
+                        </span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="vlist">
+                <header class="subsectionHeader">Immunities</header>
+
+                <div
+                    class="newrow list-item"
+                    *ngFor="let immunity of immunities(); trackBy:trackers.trackByIndex;"
+                >
+                    <span
+                        [ngbPopover]="'Source: ' + immunity.source"
+                        class="bonus"
+                    >
+                        {{immunity.target}}
+                    </span>
+                </div>
+            </div>
+
+            <app-tags
+                [creature]="creature"
+                [objectName]="'Resistances'"
+                [showTraits]=true
+                [showFeats]=true
+                [showItems]=true
+                [showActivities]=true
+                [showConditions]=true
+                [showEffects]=true
+            ></app-tags>
+        </ng-container>
+    </ng-container>
+</div>

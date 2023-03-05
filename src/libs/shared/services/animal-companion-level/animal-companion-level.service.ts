@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { AnimalCompanionClass } from 'src/app/classes/AnimalCompanionClass';
 import { AnimalCompanionLevel } from 'src/app/classes/AnimalCompanionLevel';
-import { AnimalCompanionsDataService } from 'src/app/core/services/data/animal-companions-data.service';
+import { AnimalCompanionsDataService } from 'src/libs/shared/services/data/animal-companions-data.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';

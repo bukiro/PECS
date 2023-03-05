@@ -1,0 +1,18 @@
+:host {
+    @include flex-column-left;
+    @include cross-axis-center;
+}
+
+.bonus-description {
+    @include flex-row-left;
+
+    gap: $spacing-m;
+
+    div {
+        @include flex-column-left;
+    }
+
+    &__subline {
+        @include text-tiny;
+    }
+}

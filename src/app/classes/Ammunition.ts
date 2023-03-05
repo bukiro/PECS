@@ -1,6 +1,6 @@
 import { Consumable } from 'src/app/classes/Consumable';
 import { ItemActivity } from 'src/app/classes/ItemActivity';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Ammunition extends Consumable {
     //Ammunition should be type "ammunition" to be found in the database

@@ -2,7 +2,7 @@ import { Consumable } from 'src/app/classes/Consumable';
 import { Hint } from 'src/app/classes/Hint';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Oil extends Consumable {
     //Oils should be type "oils" to be found in the database

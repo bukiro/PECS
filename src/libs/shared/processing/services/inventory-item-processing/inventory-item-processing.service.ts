@@ -11,21 +11,21 @@ import { Oil } from 'src/app/classes/Oil';
 import { OtherConsumableBomb } from 'src/app/classes/OtherConsumableBomb';
 import { Rune } from 'src/app/classes/Rune';
 import { Snare } from 'src/app/classes/Snare';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { FeatsDataService } from 'src/app/core/services/data/feats-data.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
-import { CreatureService } from 'src/app/services/character.service';
-import { ArmorClassService } from 'src/libs/defense/services/armor-class/armor-class.service';
+import { ArmorClassService } from 'src/libs/shared/services/armor-class/armor-class.service';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
 import { BasicEquipmentService } from 'src/libs/shared/services/basic-equipment/basic-equipment.service';
 import { CharacterLoreService } from 'src/libs/shared/services/character-lore/character-lore.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { CreatureEquipmentService } from 'src/libs/shared/services/creature-equipment/creature-equipment.service';
+import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
+import { FeatsDataService } from 'src/libs/shared/services/data/feats-data.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
 import { ItemTransferService } from 'src/libs/shared/services/item-transfer/item-transfer.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ToastService } from 'src/libs/shared/services/toast/toast.service';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({
     providedIn: 'root',

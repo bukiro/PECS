@@ -1,0 +1,18 @@
+<div
+    id="familiarabilities-height"
+    class="attributeBox"
+>
+    <header class="sectionHeader box-header">Familiar Abilities</header>
+
+    <app-feat-choice
+        class="newrow"
+        [creature]="creatureTypesEnum.Familiar"
+        [choice]="familiar.abilities"
+        [levelNumber]="character.level"
+        [showTitle]="true"
+        [showContent]="true"
+        [showChoice]="''"
+        [showFeat]="''"
+    >
+    </app-feat-choice>
+</div>

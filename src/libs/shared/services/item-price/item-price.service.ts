@@ -4,7 +4,7 @@ import { Equipment } from 'src/app/classes/Equipment';
 import { Item } from 'src/app/classes/Item';
 import { Weapon } from 'src/app/classes/Weapon';
 import { WornItem } from 'src/app/classes/WornItem';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
+import { ItemsDataService } from 'src/libs/shared/services/data/items-data.service';
 
 @Injectable({
     providedIn: 'root',

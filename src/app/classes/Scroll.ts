@@ -1,5 +1,5 @@
 import { Consumable } from 'src/app/classes/Consumable';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class Scroll extends Consumable {
     //Scrolls should be type "scrolls" to be found in the database

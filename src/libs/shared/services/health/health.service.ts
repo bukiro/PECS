@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { ConditionGain } from 'src/app/classes/ConditionGain';
 import { Creature } from 'src/app/classes/Creature';
 import { Health } from 'src/app/classes/Health';
-import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
 import { AbilityValuesService } from '../ability-values/ability-values.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
+import { SettingsService } from '../settings/settings.service';
 
 export interface CalculatedHealth {
     maxHP: { result: number; explain: string };

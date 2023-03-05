@@ -2,7 +2,7 @@ import { Activity, ActivityTargetOptions } from 'src/app/classes/Activity';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { v4 as uuidv4 } from 'uuid';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 /**
  * ItemActivity combines Activity and ActivityGain, so that an item can have its own contained activity.

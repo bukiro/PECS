@@ -1,0 +1,37 @@
+<ng-container *ngIf="conditionGain">
+    <div
+        class="newrow"
+        *ngIf="fullDisplay"
+    >
+        <span>
+            <button
+                type="button"
+                (click)="toggleShownItem(conditionGain.id+'description')"
+                [ngClass]="{'fancy-button':shownItem()===conditionGain.id+'description'}"
+            >
+                {{shownItem()===conditionGain.id+'description' ? "Hide" : "Show"}} Description
+            </button>
+        </span>
+    </div>
+
+    <div [ngbCollapse]="fullDisplay && shownItem()!==conditionGain.id+'description'">
+        <div
+            class="newrow lower left-aligned"
+            *ngIf="condition.sourceBook"
+        >
+            <strong>Source</strong>
+
+            <i>{{condition.sourceBook}}</i>
+        </div>
+
+        <div
+            class="newrow lower left-aligned"
+            *ngFor="let desc of heightenedConditionDescription().split('\n\n'); trackBy:trackers.trackByIndex;"
+        >
+            <app-description
+                class="newrow"
+                [text]="desc"
+            ></app-description>
+        </div>
+    </div>
+</ng-container>

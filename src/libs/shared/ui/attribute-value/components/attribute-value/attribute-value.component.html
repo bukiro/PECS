@@ -1,0 +1,89 @@
+<div class="title">
+    <span class="title___title">{{ title }}</span>
+
+    <span
+        *ngIf="subline"
+        class="subline__subline"
+    >
+        {{ subline }}
+    </span>
+</div>
+
+<div
+    class="value"
+    *ngIf="value !== undefined"
+>
+    <!-- Dice roll icon -->
+    <div
+        *ngIf="quickdiceTemplate"
+        class="value__icon value__icon--dice"
+    >
+        <ng-container *ngTemplateOutlet="quickdiceTemplate"></ng-container>
+    </div>
+
+    <ng-template #BonusesTemplate>
+        <app-bonus-list
+            *ngIf="bonuses?.length"
+            [bonuses]="bonuses"
+        ></app-bonus-list>
+    </ng-template>
+
+    <div
+        class="value__value"
+        [ngClass]="{
+            'background-color-penalty': hasPenalties && !hasAbsolutes,
+            'background-color-bonus': hasBonuses && !hasAbsolutes && !hasPenalties,
+            'background-color-absolute': hasAbsolutes
+        }"
+        [ngbPopover]="BonusesTemplate"
+        [disablePopover]="!bonuses?.length"
+    >
+        {{ value }}
+    </div>
+
+    <!-- Notes icon -->
+    <div
+        *ngIf="showNotesIcon"
+        class="value__icon value__icon--notes"
+    >
+        <span (click)="showNotes = !showNotes">
+            <i class='bi-pencil-square'></i>
+        </span>
+    </div>
+
+    <!-- Bonuses icon -->
+    <div
+        *ngIf="bonuses?.length"
+        class="value__icon value__icon--bonuses"
+    >
+        <span [ngbPopover]="BonusesTemplate">
+            <i class='bi-info'></i>
+        </span>
+    </div>
+
+    <!-- Effects icon -->
+    <div
+        *ngIf="effectsTarget"
+        class="value__icon value__icon--effects"
+    >
+        <span
+            [ngbPopover]="EffectsTemplate"
+            [popoverTitle]="'Custom effects on ' + title"
+            #EffectsPopover="ngbPopover"
+            triggers="click"
+        >
+            <i
+                [ngbTooltip]="'Edit effects'"
+                [disableTooltip]="EffectsPopover.isOpen()"
+                class='bi-lightning-charge'
+            ></i>
+        </span>
+
+        <ng-template #EffectsTemplate>
+            <app-object-effects
+                [creature]="effectsTarget.creature"
+                [objectName]="effectsTarget.target"
+            ></app-object-effects>
+        </ng-template>
+    </div>
+</div>

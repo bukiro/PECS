@@ -5,12 +5,12 @@ import { Creature } from 'src/app/classes/Creature';
 import { Oil } from 'src/app/classes/Oil';
 import { SpellCast } from 'src/app/classes/SpellCast';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
+import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
-import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 
 @Injectable({
     providedIn: 'root',

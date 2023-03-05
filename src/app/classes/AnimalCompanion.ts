@@ -7,7 +7,7 @@ import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { SkillIncrease } from './SkillIncrease';
 import { CreatureTypes } from 'src/libs/shared/definitions/creatureTypes';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 
 export class AnimalCompanion extends Creature {
     public class: AnimalCompanionClass = new AnimalCompanionClass();

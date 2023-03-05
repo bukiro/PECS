@@ -1,0 +1,110 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<ng-container *ngIf="itemTraits() as traits">
+    <div
+        class="newrow left-aligned tags"
+        *ngIf="traits.length"
+    >
+        <app-trait
+            *ngFor="let trait of traits; trackBy:trackers.trackByIndex;"
+            [name]="trait"
+            [trait]="traitFromName(trait)"
+        >
+        </app-trait>
+    </div>
+</ng-container>
+
+<app-item-content [item]="item"></app-item-content>
+
+<!-- Item activities -->
+<ng-container *ngIf="itemParameters() as itemParameters">
+    <ng-container *ngIf="itemParameters.asHavingItemActivities?.activities as activities">
+        <div
+            class="list-item left-aligned"
+            *ngFor="let activity of activities; trackBy:trackers.trackByIndex;"
+        >
+            <header
+                class="spellHeader"
+                *ngIf="activity.name"
+            >
+                {{activity.name}}
+                <app-action-icons
+                    *ngIf="activity.actions"
+                    [actionString]="activity.actions"
+                >
+                </app-action-icons>
+                {{(activity.activationType) ? activity.activationType : ""}}
+            </header>
+
+            <div class="newrow left-aligned">
+                <app-trait
+                    *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+                    [name]="trait"
+                    [trait]="traitFromName(trait)"
+                >
+                </app-trait>
+
+                <app-trait
+                    *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;"
+                    [name]="trait"
+                    [trait]="traitFromName(trait)"
+                    [extraDescription]="'(This trait was derived from the action components.)'"
+                >
+                </app-trait>
+            </div>
+
+            <app-activity-content
+                [creature]="creature"
+                [activity]=activity
+                [gain]=activity
+                [allowActivate]="false"
+                [cooldown]="activityCooldown(activity)"
+            >
+            </app-activity-content>
+        </div>
+    </ng-container>
+
+    <!-- Common activities -->
+    <ng-container *ngIf="itemParameters.asGrantingActivities?.gainActivities as gainedActivities">
+        <ng-container *ngFor="let gain of gainedActivities; trackBy:trackers.trackByIndex;">
+            <div
+                class="list-item left-aligned"
+                *ngIf="gain.originalActivity as activity"
+            >
+                <header class="spellHeader">
+                    {{activity.name}}
+                    <app-action-icons
+                        *ngIf="activity.actions"
+                        [actionString]="activity.actions"
+                    >
+                    </app-action-icons>
+                    {{(activity.activationType) ? activity.activationType : ""}}
+                </header>
+
+                <div class="newrow left-aligned">
+                    <app-trait
+                        *ngFor="let trait of activity.traits; trackBy:trackers.trackByIndex;"
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                    >
+                    </app-trait>
+
+                    <app-trait
+                        *ngFor="let trait of activity.activationTraits(); trackBy:trackers.trackByIndex;"
+                        [name]="trait"
+                        [trait]="traitFromName(trait)"
+                        [extraDescription]="'(This trait was derived from the action components.)'"
+                    >
+                    </app-trait>
+                </div>
+
+                <app-activity-content
+                    [creature]="creature"
+                    [activity]=activity
+                    [gain]=gain
+                    [allowActivate]="false"
+                >
+                </app-activity-content>
+            </div>
+        </ng-container>
+    </ng-container>
+</ng-container>

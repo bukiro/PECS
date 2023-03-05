@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SpellTargetSelection } from 'src/libs/shared/definitions/Types/spellTargetSelection';
+import { SpellTargetSelection } from 'src/libs/shared/definitions/types/spellTargetSelection';
 import { ActivityPropertiesService } from 'src/libs/shared/services/activity-properties/activity-properties.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { Activity } from 'src/app/classes/Activity';
@@ -12,18 +12,18 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { Rune } from 'src/app/classes/Rune';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
 import { WornItem } from 'src/app/classes/WornItem';
-import { ActivitiesDataService } from 'src/app/core/services/data/activities-data.service';
-import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { ActivitiesDataService } from 'src/libs/shared/services/data/activities-data.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
+import { SpellsDataService } from 'src/libs/shared/services/data/spells-data.service';
 import { ItemGrantingService } from 'src/libs/shared/services/item-granting/item-granting.service';
-import { SpellsDataService } from 'src/app/core/services/data/spells-data.service';
-import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
-import { SettingsService } from 'src/app/core/services/settings/settings.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { OnceEffectsService } from 'src/libs/shared/services/once-effects/once-effects.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
+import { SpellTargetService } from 'src/libs/shared/services/spell-target/spell-target.service';
 
 @Injectable({
     providedIn: 'root',

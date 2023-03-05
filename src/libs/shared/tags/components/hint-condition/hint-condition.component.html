@@ -1,0 +1,20 @@
+<ng-container *ngIf="conditionGain">
+    <div class="newrow">
+        <strong
+            class="no-shadow"
+            [ngClass]="condition.buff ? 'bonus' : 'penalty'"
+        >
+            {{conditionGain.name}}{{conditionGain.choice ? ": " : ""}}
+
+            <span *ngIf="conditionGain.choice">{{conditionGain.choice}}</span>
+
+            <span *ngIf="conditionGain.value">{{conditionGain.value}}</span>
+        </strong>
+    </div>
+
+    <app-condition-content
+        [conditionGain]="conditionGain"
+        [condition]="condition"
+        [creature]="creature"
+    ></app-condition-content>
+</ng-container>

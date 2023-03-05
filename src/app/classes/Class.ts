@@ -12,14 +12,14 @@ import { ItemGain } from 'src/app/classes/ItemGain';
 import { SpellLearned } from 'src/app/classes/SpellLearned';
 import { FormulaLearned } from 'src/app/classes/FormulaLearned';
 import { LanguageGain } from 'src/app/classes/LanguageGain';
-import { FeatData } from 'src/app/character-creation/definitions/models/FeatData';
 import { AdditionalHeritage } from './AdditionalHeritage';
 import { SpellCastingTypes } from 'src/libs/shared/definitions/spellCastingTypes';
 import { LoreChoice } from './LoreChoice';
 import { SpellChoice } from './SpellChoice';
 import { Item } from './Item';
 import { Spell } from './Spell';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
+import { FeatData } from 'src/libs/shared/definitions/models/FeatData';
 
 export class Class {
     public disabled = '';

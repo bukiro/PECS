@@ -1,0 +1,37 @@
+<!-- eslint-disable @angular-eslint/template/cyclomatic-complexity -->
+<ng-template
+    #Split
+    let-toSplit="toSplit"
+>
+    <ng-container *ngFor="let split of toSplit.split('|'); trackBy:trackers.trackByIndex;">
+        <app-quickdice
+            *ngIf="split.includes('dice=')"
+            [diceString]="split.replace('dice=','')"
+            [casting]="casting"
+        >
+        </app-quickdice>
+
+        <span
+            *ngIf="!split.includes('dice=') && split.includes('<')"
+            [innerHtml]="split.trim()"
+        ></span>
+
+        <span *ngIf="!split.includes('dice=') && !split.includes('<')">{{split.trim()}}</span>
+    </ng-container>
+</ng-template>
+
+<ng-container *ngIf="oneLiner && text">
+    <ng-container *ngTemplateOutlet="Split;context:{toSplit:text}"></ng-container>
+</ng-container>
+
+<ng-container *ngIf="!oneLiner && text">
+    <p *ngIf="text.split('\n').length === 1">
+        <ng-container *ngTemplateOutlet="Split;context:{toSplit:text}"></ng-container>
+    </p>
+
+    <ul *ngIf="text.split('\n').length > 1">
+        <li *ngFor="let line of text.split('\n'); trackBy:trackers.trackByIndex;">
+            <ng-container *ngTemplateOutlet="Split;context:{toSplit:line}"></ng-container>
+        </li>
+    </ul>
+</ng-container>

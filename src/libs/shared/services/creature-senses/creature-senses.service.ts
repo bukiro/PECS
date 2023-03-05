@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { AnimalCompanion } from 'src/app/classes/AnimalCompanion';
 import { Character } from 'src/app/classes/Character';
 import { Creature } from 'src/app/classes/Creature';
-import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
+import { ConditionsDataService } from 'src/libs/shared/services/data/conditions-data.service';
+import { FamiliarsDataService } from 'src/libs/shared/services/data/familiars-data.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
 

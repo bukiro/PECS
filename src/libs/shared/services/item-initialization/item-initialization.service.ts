@@ -11,9 +11,9 @@ import { SpellChoice } from 'src/app/classes/SpellChoice';
 import { WeaponMaterial } from 'src/app/classes/WeaponMaterial';
 import { WeaponRune } from 'src/app/classes/WeaponRune';
 import { v4 as uuidv4 } from 'uuid';
-import { ItemsDataService } from 'src/app/core/services/data/items-data.service';
-import { ItemMaterialsDataService } from 'src/app/core/services/data/item-materials-data.service';
 import { RecastService } from '../recast/recast.service';
+import { ItemMaterialsDataService } from '../data/item-materials-data.service';
+import { ItemsDataService } from '../data/items-data.service';
 
 @Injectable({
     providedIn: 'root',

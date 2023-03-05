@@ -6,7 +6,7 @@ import { WornItem } from 'src/app/classes/WornItem';
 import { Equipment } from 'src/app/classes/Equipment';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { ProcessingServiceProvider } from '../processing-service-provider/processing-service-provider.service';
 
 @Injectable({
     providedIn: 'root',

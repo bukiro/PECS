@@ -6,7 +6,7 @@ import { AdventuringGear } from './AdventuringGear';
 import { BasicRuneLevels } from 'src/libs/shared/definitions/basicRuneLevels';
 import { ResilientTitleFromLevel } from 'src/libs/shared/util/runeUtils';
 import { ShoddyPenalties } from 'src/libs/shared/definitions/shoddyPenalties';
-import { RecastFns } from 'src/libs/shared/definitions/Interfaces/recastFns';
+import { RecastFns } from 'src/libs/shared/definitions/interfaces/recastFns';
 import { BehaviorSubject } from 'rxjs';
 
 export class Armor extends Equipment {

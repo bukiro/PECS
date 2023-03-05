@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Creature } from 'src/app/classes/Creature';
 import { EffectGain } from 'src/app/classes/EffectGain';
-import { CreatureService } from 'src/app/services/character.service';
-import { ArmorClassService, CoverTypes } from 'src/libs/defense/services/armor-class/armor-class.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { ArmorClassService, CoverTypes } from 'src/libs/shared/services/armor-class/armor-class.service';
 import { CreatureTypes } from '../../definitions/creatureTypes';
 import { EvaluationService } from '../evaluation/evaluation.service';
 import { HealthService } from '../health/health.service';
 import { RefreshService } from '../refresh/refresh.service';
 import { SpellCastingPrerequisitesService } from '../spell-casting-prerequisites/spell-casting-prerequisites.service';
-import { ToastService } from '../toast/toast.service';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 interface PreparedOnceEffect {
     creatureType: CreatureTypes;
@@ -33,7 +33,7 @@ interface EffectRecipientPhrases {
 })
 export class OnceEffectsService {
 
-    private _preparedOnceEffects: Array<PreparedOnceEffect> = [];
+    private readonly _preparedOnceEffects: Array<PreparedOnceEffect> = [];
     private _evaluationService?: EvaluationService;
 
     constructor(

@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Trait } from 'src/app/classes/Trait';
 import { Creature } from 'src/app/classes/Creature';
-import { TraitsDataService } from 'src/app/core/services/data/traits-data.service';
-import { Feat } from 'src/app/character-creation/definitions/models/Feat';
 import { Activity } from 'src/app/classes/Activity';
 import { AnimalCompanionAncestry } from 'src/app/classes/AnimalCompanionAncestry';
 import { AnimalCompanionSpecialization } from 'src/app/classes/AnimalCompanionSpecialization';
 import { ConditionSet } from 'src/app/classes/ConditionSet';
 import { Shield } from 'src/app/classes/Shield';
 import { Specialization } from 'src/app/classes/Specialization';
-import { HintShowingItem } from '../../definitions/Types/hintShowingItem';
-import { ConditionsDataService } from 'src/app/core/services/data/conditions-data.service';
-import { FamiliarsDataService } from 'src/app/core/services/data/familiars-data.service';
+import { HintShowingItem } from '../../definitions/types/hintShowingItem';
 import { ArmorPropertiesService } from '../armor-properties/armor-properties.service';
 import { CharacterFeatsService } from '../character-feats/character-feats.service';
 import { CreatureActivitiesService } from '../creature-activities/creature-activities.service';
 import { CreatureConditionsService } from '../creature-conditions/creature-conditions.service';
-import { CreatureEquipmentService } from '../creature-equipment/creature-equipment.service';
 import { CreatureFeatsService } from '../creature-feats/creature-feats.service';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
+import { Feat } from 'src/libs/shared/definitions/models/Feat';
+import { ConditionsDataService } from '../data/conditions-data.service';
+import { FamiliarsDataService } from '../data/familiars-data.service';
+import { TraitsDataService } from '../data/traits-data.service';
 
 @Injectable({
     providedIn: 'root',
@@ -34,7 +33,6 @@ export class HintShowingObjectsService {
         private readonly _creatureActivitiesService: CreatureActivitiesService,
         private readonly _characterFeatsService: CharacterFeatsService,
         private readonly _creatureFeatsService: CreatureFeatsService,
-        private readonly _creatureEquipmentService: CreatureEquipmentService,
     ) { }
 
     public traitsShowingHintsOnThis(creature: Creature, name: string): Array<Trait> {

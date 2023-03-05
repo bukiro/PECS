@@ -4,19 +4,19 @@ import { Creature } from 'src/app/classes/Creature';
 import { Item } from 'src/app/classes/Item';
 import { ItemCollection } from 'src/app/classes/ItemCollection';
 import { PlayerMessage } from 'src/app/classes/PlayerMessage';
-import { SettingsService } from 'src/app/core/services/settings/settings.service';
-import { SavegamesService } from 'src/libs/shared/saving-loading/services/savegames/savegames.service';
 import { CreatureAvailabilityService } from 'src/libs/shared/services/creature-availability/creature-availability.service';
 import { CreatureConditionsService } from 'src/libs/shared/services/creature-conditions/creature-conditions.service';
 import { InventoryService } from 'src/libs/shared/services/inventory/inventory.service';
+import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
 import { MessageSendingService } from 'src/libs/shared/services/message-sending/message-sending.service';
 import { MessagesService } from 'src/libs/shared/services/messages/messages.service';
-import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { ProcessingServiceProvider } from 'src/libs/shared/services/processing-service-provider/processing-service-provider.service';
 import { RecastService } from 'src/libs/shared/services/recast/recast.service';
-import { ToastService } from 'src/libs/shared/services/toast/toast.service';
+import { RefreshService } from 'src/libs/shared/services/refresh/refresh.service';
+import { SavegamesService } from 'src/libs/shared/services/saving-loading/savegames/savegames.service';
+import { SettingsService } from 'src/libs/shared/services/settings/settings.service';
 import { TypeService } from 'src/libs/shared/services/type/type.service';
-import { MessagePropertiesService } from 'src/libs/shared/services/message-properties/message-properties.service';
-import { ProcessingServiceProvider } from 'src/app/core/services/processing-service-provider/processing-service-provider.service';
+import { ToastService } from 'src/libs/toasts/services/toast/toast.service';
 
 @Injectable({
     providedIn: 'root',

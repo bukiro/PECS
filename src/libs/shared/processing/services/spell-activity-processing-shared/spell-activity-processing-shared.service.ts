@@ -9,7 +9,7 @@ import { ItemActivity } from 'src/app/classes/ItemActivity';
 import { Spell } from 'src/app/classes/Spell';
 import { SpellGain } from 'src/app/classes/SpellGain';
 import { SpellTarget } from 'src/app/classes/SpellTarget';
-import { CreatureService } from 'src/app/services/character.service';
+import { CreatureService } from 'src/libs/shared/services/character/character.service';
 import { CreatureEffectsService } from 'src/libs/shared/services/creature-effects/creature-effects.service';
 import { TimePeriods } from 'src/libs/shared/definitions/timePeriods';
 import { CharacterFeatsService } from 'src/libs/shared/services/character-feats/character-feats.service';
